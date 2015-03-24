@@ -18,6 +18,7 @@
     UILabel *sourceTitle_3;
     UILabel *aspect;
     UIView *cutBlock;
+    UIButton *showBtn;
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -63,6 +64,11 @@
         cutBlock = [[UIView alloc] init];
         cutBlock.backgroundColor = [UIColor whiteColor];
         [backgroupView addSubview:cutBlock];
+        
+        showBtn = [[UIButton alloc] init];
+        showBtn.backgroundColor = [UIColor clearColor];
+        [showBtn addTarget:self action:@selector(showBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        [backgroupView addSubview:showBtn];
     }
     
     return self;
@@ -99,6 +105,21 @@
     
     aspect.frame = _headViewFrm.aspectFrm;
     cutBlock.frame = _headViewFrm.cutBlockFrm;
+    showBtn.frame = imgView.frame;
+}
+
+- (void)showBtnClick
+{
+    if ([self.delegate respondsToSelector:@selector(getTextContent:imgUrl:SourceSite:Update:Title:sourceUrl:hasImg:favorNum:)]) {
+        [self.delegate getTextContent:@"4d4716525b6d76e79a657116f318ba2be5ba7068"
+                               imgUrl:@"http://img31.mtime.cn/mg/2015/03/24/163919.94945336.jpg"
+                           SourceSite:@"影像日报"
+                               Update:@"2015-03-24 18:08:45"
+                                Title:@"《速度与激情7》特辑 怀念保罗·沃克"
+                            sourceUrl:@"http://moviesoon.com/news/2015/03/%e3%80%8a%e9%80%9f%e5%ba%a6%e4%b8%8e%e6%bf%80%e6%83%857%e3%80%8b%e7%89%b9%e8%be%91-%e6%80%80%e5%bf%b5%e4%bf%9d%e7%bd%97%c2%b7%e6%b2%83%e5%85%8b/"
+                               hasImg:YES
+                             favorNum:0];
+    }
 }
 
 @end

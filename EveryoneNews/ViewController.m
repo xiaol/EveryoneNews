@@ -8,8 +8,9 @@
 
 #import "ViewController.h"
 #import "HeadViewCell.h"
+#import "ContentViewController.h"
 
-@interface ViewController ()<UITableViewDataSource, UITableViewDelegate>
+@interface ViewController ()<UITableViewDataSource, UITableViewDelegate, HeadViewDelegate>
 {
     UITableView *myTableView;
     NSMutableArray *dataList;
@@ -35,6 +36,8 @@
 //    self.view.backgroundColor = [UIColor greenColor];
 //    self.view.alpha = 0.3;
     [self tableViewInit];
+    
+    
 }
 
 - (void)tableViewInit
@@ -44,8 +47,6 @@
     myTableView.delegate = self;
     myTableView.dataSource = self;
     myTableView.separatorStyle = UITableViewCellSelectionStyleNone;
-//    myTableView.backgroundColor = [UIColor blueColor];
-//    myTableView.alpha = 0.3;
     myTableView.showsVerticalScrollIndicator = NO;
 
     [self.view addSubview:myTableView];
@@ -72,6 +73,7 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         //自定义UITableViewCell选中后的背景颜色和背景图片
         cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
+        cell.delegate = self;
     }
     NSDictionary *dict = nil;
     HeadViewFrame *headViewFrm = [[HeadViewFrame alloc] init];
@@ -79,6 +81,23 @@
 //    cell.headViewFrm.headViewDatasource = [HeadViewDatasource headViewDatasourceWithDict:dict];
     cell.headViewFrm = headViewFrm;
     return cell;
+}
+
+- (void)getTextContent:(NSString *)sourceId imgUrl:(NSString *)imgUrl SourceSite:(NSString *)sourceSite Update:(NSString *)update Title:(NSString *)title sourceUrl:(NSString *)sourceUrl hasImg:(BOOL)hasImg favorNum:(int)favorNum
+{
+
+    ContentViewController *contentVC = [[ContentViewController alloc] init];
+    contentVC.sourceId = sourceId;
+    contentVC.imgStr = imgUrl;
+    contentVC.sourceSite = sourceSite;
+    contentVC.titleStr = title;
+    contentVC.hasImg = hasImg;
+    contentVC.updateTime = update;
+    contentVC.favorNum = favorNum;
+    [self.navigationController pushViewController:contentVC animated:YES];
+    
+    NSLog(@"sourceId:%@", sourceId);
+    NSLog(@"sourceUrl:%@", sourceUrl);
 }
 
 

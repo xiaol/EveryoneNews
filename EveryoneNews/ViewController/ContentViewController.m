@@ -24,16 +24,16 @@
 
 #import "UIImage+GIF.h"
 
-#import "UMSocial.h"
+//#import "UMSocial.h"
 
 
 #define kTitleFont 17.0
 
 @interface ContentViewController ()<UITableViewDataSource, UITableViewDelegate>
 {
-    NSMutableArray *resourceArr;
+    NSMutableArray *resourceArr;    //存储图文详细内容
     UITableView *contentTableView;
-    NSMutableArray *resourceList;
+//    NSMutableArray *resourceList;   //存储相关内容
     YLImageView *gifView;
 //    UIImageView *gifImg;
     
@@ -47,7 +47,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self getContentDetails:self.sourceId];
+    NSString *sourceId = @"4d4716525b6d76e79a657116f318ba2be5ba7068";
+    [self getContentDetails:sourceId];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -73,7 +74,7 @@
 - (void)commonInit
 {
     resourceArr = [[NSMutableArray alloc] init];
-    resourceList = [[NSMutableArray alloc] init];
+//    resourceList = [[NSMutableArray alloc] init];
     
     UIView *backView = [[UIView alloc] initWithFrame:self.view.frame];
     backView.backgroundColor = [UIColor colorFromHexString:@"#EDEDF3"];
@@ -85,10 +86,6 @@
     [backView addSubview:gifView];
     gifView.image = [YLGIFImage imageNamed:@"yazi.gif"];
     
-//    gifImg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 145, 141)];
-//    gifImg.center = CGPointMake(backView.center.x, backView.center.y - 64);
-//    [backView addSubview:gifImg];
-//    gifImg.image = [UIImage sd_animatedGIFNamed:@"yazi.gif"];
     
 }
 - (void)initTableView
@@ -111,13 +108,14 @@
 #pragma mark tabelView delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (resourceList.count > 0) {
-        return resourceArr.count + 2 + resourceList.count;
-    }
-    else
-    {
-        return resourceArr.count + 1;
-    }
+//    if (resourceList.count > 0) {
+//        return resourceArr.count + 2 + resourceList.count;
+//    }
+//    else
+//    {
+//        return resourceArr.count + 1;
+//    }
+    return resourceArr.count;
 }
 
 //- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -140,122 +138,76 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row < resourceArr.count) {
-        NSDictionary *dict = resourceArr[indexPath.row];
-        if ([dict.allKeys[0] isEqualToString:@"img"]) {
-            ContentCellFrame *frm = dict[@"img"];
-            return [frm cellHeight];
-        }
-        else
-        {
-            
-            FTCoreTextCell *cell = (FTCoreTextCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
-            CGFloat height = cell.cellH;
-            return height;
-        }
-        
-    }
-    else if (indexPath.row == resourceArr.count)
-    {
-        if (resourceArr.count == 0) {
-            return 0;
-        }
-        return 32; //like & share Height
-    }
-    else if (indexPath.row == resourceArr.count + 1)
-    {
-        return 40; //相关 Height
-    }
-    else
-    {
-        return [resourceList[indexPath.row - resourceArr.count - 2] cellHeight];
+//    if (indexPath.row < resourceArr.count) {
+//        NSDictionary *dict = resourceArr[indexPath.row];
+//        if ([dict.allKeys[0] isEqualToString:@"img"]) {
+//            ContentCellFrame *frm = dict[@"img"];
+//            return [frm cellHeight];
+//        }
+//        else
+//        {
+//            
+//            FTCoreTextCell *cell = (FTCoreTextCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
+//            CGFloat height = cell.cellH;
+//            return height;
+//        }
+//        
+//    }
+//    else if (indexPath.row == resourceArr.count)
+//    {
+//        if (resourceArr.count == 0) {
+//            return 0;
+//        }
+//        return 32; //like & share Height
+//    }
+//    else if (indexPath.row == resourceArr.count + 1)
+//    {
+//        return 40; //相关 Height
+//    }
+//    else
+//    {
+//        return [resourceList[indexPath.row - resourceArr.count - 2] cellHeight];
+//    }
+    
+    NSDictionary *dict = resourceArr[indexPath.row];
+    if ([dict.allKeys[0] isEqualToString:@"img"]) {
+        ContentCellFrame *frm = dict[@"img"];
+        return [frm cellHeight];
+    } else {
+        FTCoreTextCell *cell = (FTCoreTextCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
+        CGFloat height = cell.cellH;
+        return height;
     }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (resourceList.count > 0) {
-        if (indexPath.row < resourceArr.count) {
-            NSDictionary *dict = resourceArr[indexPath.row];
-            NSString *type = dict.allKeys[0];
-            if ([type isEqualToString:@"img"]) {
-                static NSString *cellId = @"ContentCell";
-                
-                ContentCell *cell = [[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                //自定义UITableViewCell选中后的背景颜色和背景图片
-                cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
-                
-                
-                cell.contentCellFrm = dict[type];
-                return cell;
-            }
-            else
-            {
-                static NSString *cellId = @"FTCell";
 
-                FTCoreTextCell *cell = [[FTCoreTextCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                //自定义UITableViewCell选中后的背景颜色和背景图片
-                cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
-                cell.txtDatasource = dict[type];
-                return cell;
-
-            }
-        }
-        else if (indexPath.row == resourceArr.count && resourceArr.count > 0 && indexPath.row != 0)
-        {
-
-        }
-        else if (indexPath.row == resourceArr.count + 1)
-        {
-
-        }
-        else
-        {
-
-            return nil;
-        }
+    NSDictionary *dict = resourceArr[indexPath.row];
+    NSString *type = dict.allKeys[0];
+    if ([type isEqualToString:@"img"]) {
+        static NSString *cellId = @"ContentCell";
+        
+        ContentCell *cell = [[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        //自定义UITableViewCell选中后的背景颜色和背景图片
+        cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
+        cell.contentCellFrm = dict[type];
+        return cell;
     }
     else
     {
-        if (indexPath.row < resourceArr.count)
-        {
-            NSDictionary *dict = resourceArr[indexPath.row];
-            NSString *type = dict.allKeys[0];
-            if ([type isEqualToString:@"img"]) {
-                static NSString *cellId = @"ContentCell";
-                
-                ContentCell *cell = [[ContentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                //自定义UITableViewCell选中后的背景颜色和背景图片
-                cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
-                
-                cell.contentCellFrm = dict[type];
-                return cell;
-            }
-            else
-            {
-                static NSString *cellId = @"FTCell";
+        static NSString *cellId = @"FTCell";
 
-                FTCoreTextCell *cell = [[FTCoreTextCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                //自定义UITableViewCell选中后的背景颜色和背景图片
-                cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
-                cell.txtDatasource = dict[type];
-                return cell;
-            }
-        }
-        else
-        {
-            if (resourceArr.count > 0 && indexPath.row != 0) {
+        FTCoreTextCell *cell = [[FTCoreTextCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        //自定义UITableViewCell选中后的背景颜色和背景图片
+        cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
+        cell.txtDatasource = dict[type];
+        return cell;
 
-            } else {
-                UITableViewCell *cell = [[UITableViewCell alloc] init];
-                return cell;
-            }
-        }
     }
+
 }
 
 #pragma mark setHeaderView
@@ -503,43 +455,43 @@
     return NO;
 }
 
-- (void)share
-{
-    NSString *shareText = [NSString stringWithFormat:@"%@", self.titleStr];
-
-//    [UMSocialSnsService presentSnsIconSheetView:self
-//                                         appKey:@"550811d8fd98c53b4d00074c"
-//                                      shareText:shareText
-//                                     shareImage:imgView.image
-//                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToTencent,UMShareToRenren,
-//                                                 UMShareToWechatSession,UMShareToWechatTimeline,nil]
-//                                       delegate:self];
-    
-
-    [[UMSocialControllerService defaultControllerService] setShareText:@"分享内嵌文字" shareImage:[UIImage imageNamed:@"icon"] socialUIDelegate:self];        //设置分享内容和回调对象
-    [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToSina].snsClickHandler(self,[UMSocialControllerService defaultControllerService],YES);
-    
-}
-
-- (void)didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response
-{
-    //根据`responseCode`得到发送结果,如果分享成功
-    if(response.responseCode == UMSResponseCodeSuccess)
-    {
-        //得到分享到的微博平台名
-        NSLog(@"share to sns name is %@",[[response.data allKeys] objectAtIndex:0]);
-        
-        [self.navicationController dismissViewControllerAnimated:YES completion:nil];
-    }
-    if(response.responseCode == UMSResponseCodeFaild)
-    {
-        NSLog(@"share failed");
-    }
-    if (response.responseCode == UMSResponseCodeNotLogin) {
-        NSLog(@"未登陆");
-    }
-
-}
+//- (void)share
+//{
+//    NSString *shareText = [NSString stringWithFormat:@"%@", self.titleStr];
+//
+////    [UMSocialSnsService presentSnsIconSheetView:self
+////                                         appKey:@"550811d8fd98c53b4d00074c"
+////                                      shareText:shareText
+////                                     shareImage:imgView.image
+////                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToTencent,UMShareToRenren,
+////                                                 UMShareToWechatSession,UMShareToWechatTimeline,nil]
+////                                       delegate:self];
+//    
+//
+//    [[UMSocialControllerService defaultControllerService] setShareText:@"分享内嵌文字" shareImage:[UIImage imageNamed:@"icon"] socialUIDelegate:self];        //设置分享内容和回调对象
+//    [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToSina].snsClickHandler(self,[UMSocialControllerService defaultControllerService],YES);
+//    
+//}
+//
+//- (void)didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response
+//{
+//    //根据`responseCode`得到发送结果,如果分享成功
+//    if(response.responseCode == UMSResponseCodeSuccess)
+//    {
+//        //得到分享到的微博平台名
+//        NSLog(@"share to sns name is %@",[[response.data allKeys] objectAtIndex:0]);
+//        
+//        [self.navicationController dismissViewControllerAnimated:YES completion:nil];
+//    }
+//    if(response.responseCode == UMSResponseCodeFaild)
+//    {
+//        NSLog(@"share failed");
+//    }
+//    if (response.responseCode == UMSResponseCodeNotLogin) {
+//        NSLog(@"未登陆");
+//    }
+//
+//}
 
 
 @end
