@@ -1,0 +1,76 @@
+PODS:
+  - AFNetworking (2.5.1):
+    - AFNetworking/NSURLConnection (= 2.5.1)
+    - AFNetworking/NSURLSession (= 2.5.1)
+    - AFNetworking/Reachability (= 2.5.1)
+    - AFNetworking/Security (= 2.5.1)
+    - AFNetworking/Serialization (= 2.5.1)
+    - AFNetworking/UIKit (= 2.5.1)
+  - AFNetworking/NSURLConnection (2.5.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.5.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.5.1)
+  - AFNetworking/Security (2.5.1)
+  - AFNetworking/Serialization (2.5.1)
+  - AFNetworking/UIKit (2.5.1):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+  - libwebp (0.4.3):
+    - libwebp/core (= 0.4.3)
+    - libwebp/dec (= 0.4.3)
+    - libwebp/demux (= 0.4.3)
+    - libwebp/dsp (= 0.4.3)
+    - libwebp/enc (= 0.4.3)
+    - libwebp/mux (= 0.4.3)
+    - libwebp/utils (= 0.4.3)
+    - libwebp/webp (= 0.4.3)
+  - libwebp/core (0.4.3):
+    - libwebp/webp
+  - libwebp/dec (0.4.3):
+    - libwebp/core
+  - libwebp/demux (0.4.3):
+    - libwebp/core
+  - libwebp/dsp (0.4.3):
+    - libwebp/core
+  - libwebp/enc (0.4.3):
+    - libwebp/core
+  - libwebp/mux (0.4.3):
+    - libwebp/core
+  - libwebp/utils (0.4.3):
+    - libwebp/core
+  - libwebp/webp (0.4.3)
+  - SDWebImage (3.7.2):
+    - SDWebImage/Core (= 3.7.2)
+  - SDWebImage/Core (3.7.2)
+  - SSKeychain (1.2.2)
+  - SVProgressHUD (1.1.2)
+  - yajl (1.0.12)
+  - YAJL-Entity (1.0.2):
+    - yajl-objc (~> 0.2.27)
+  - yajl-objc (0.2.27):
+    - yajl (~> 1.0.11)
+
+DEPENDENCIES:
+  - AFNetworking (~> 2.0)
+  - libwebp (~> 0.4.2)
+  - SDWebImage (~> 3.7.1)
+  - SSKeychain (~> 1.2.2)
+  - SVProgressHUD (~> 1.0)
+  - YAJL-Entity (~> 1.0.1)
+
+SPEC CHECKSUMS:
+  AFNetworking: 8bee59492a6ff15d69130efa4d0dc67e0094a52a
+  libwebp: 360ed8bc4ec8da413f07f84071e7f5a5c67a285d
+  SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
+  SSKeychain: cc48bd3ad24fcd9125adb9e0d23dd50b8bbd08b9
+  SVProgressHUD: da7a49e789af645d9279ffbca62318945a832438
+  yajl: 8e9ab114ab8e463a34ad5937e31431be6a0be97e
+  YAJL-Entity: a326c9846057b553fda5064693a41e290cd87e7c
+  yajl-objc: 3105751f464121bf2e9003f5ed623d7df4a3684e
+
+COCOAPODS: 0.36.0

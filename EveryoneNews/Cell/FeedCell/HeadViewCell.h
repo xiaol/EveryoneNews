@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "HeadViewFrame.h"
 
 @interface HeadViewCell : UITableViewCell
+
+@property (nonatomic, strong)HeadViewFrame *headViewFrm;
 
 @end
