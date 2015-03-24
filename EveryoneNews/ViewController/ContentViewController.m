@@ -205,44 +205,15 @@
         }
         else if (indexPath.row == resourceArr.count && resourceArr.count > 0 && indexPath.row != 0)
         {
-//            static NSString *cellId = @"LikeNShareCell";
-//            LikeNShareCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-//            if (cell == nil) {
-//                cell = [[LikeNShareCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-//                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//                //自定义UITableViewCell选中后的背景颜色和背景图片
-//                cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
-//            }
-//            cell.delegate = self;
-//            [cell setLikeNum:self.favorNum];
-//            cell.sourceId = self.sourceId;
-//            return cell;
+
         }
         else if (indexPath.row == resourceArr.count + 1)
         {
-//            static NSString *cellId = @"CorrelationCell";
-//            CorrelationCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-//            if (cell == nil) {
-//                cell = [[CorrelationCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-//                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//                //自定义UITableViewCell选中后的背景颜色和背景图片
-//                cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
-//            }
-//            return cell;
+
         }
         else
         {
-//            static NSString *cellId = @"TextCell";
-//            TextCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-//            if (cell == nil) {
-//                cell = [[TextCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-//                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//                //自定义UITableViewCell选中后的背景颜色和背景图片
-//                cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
-//                cell.delegate = self;
-//            }
-//            cell.textCellFrame = resourceList[indexPath.row - resourceArr.count - 2];
-//            return cell;
+
             return nil;
         }
     }
@@ -278,18 +249,7 @@
         else
         {
             if (resourceArr.count > 0 && indexPath.row != 0) {
-//                static NSString *cellId = @"LikeNShareCell";
-//                LikeNShareCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-//                if (cell == nil) {
-//                    cell = [[LikeNShareCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-//                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//                    //自定义UITableViewCell选中后的背景颜色和背景图片
-//                    cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
-//                }
-//                cell.delegate = self;
-//                [cell setLikeNum:self.favorNum];
-//                cell.sourceId = self.sourceId;
-//                return cell;
+
             } else {
                 UITableViewCell *cell = [[UITableViewCell alloc] init];
                 return cell;
