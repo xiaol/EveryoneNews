@@ -30,6 +30,8 @@
 
 @property (nonatomic, assign, readonly) CGRect aspectFrm;
 
+@property (nonatomic, assign, readonly) CGRect bottonView;
+
 @property (nonatomic, assign, readonly) CGRect cutBlockFrm;
 
 @property (nonatomic, assign)CGFloat cellH;

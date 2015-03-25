@@ -28,6 +28,8 @@
     UILabel *sourceName_3;
     
     UILabel *aspect;
+    UIView *aspectView;
+    UIView *bottonView;
     UIView *cutBlock;
     UIButton *showBtn;
 
@@ -107,12 +109,25 @@
         sourceName_3.backgroundColor = [UIColor clearColor];
         [sourceView_3 addSubview:sourceName_3];
         
+        bottonView = [[UIView alloc] init];
+        bottonView.backgroundColor = [UIColor whiteColor];
+        [backgroupView addSubview:bottonView];
+        
+        aspectView = [[UIView alloc] init];
+        aspectView.backgroundColor = [UIColor clearColor];
+        aspectView.layer.borderWidth = 1;
+        aspectView.layer.borderColor = [UIColor colorFromHexString:@"#EBEDED"].CGColor;
+        aspectView.layer.cornerRadius = 3;
+        [backgroupView addSubview:aspectView];
+        
         aspect = [[UILabel alloc] init];
         aspect.font = [UIFont fontWithName:kFont size:20];
-        aspect.textColor = [UIColor greenColor];
-        aspect.backgroundColor = [UIColor whiteColor];
+        aspect.textColor = [UIColor colorFromHexString:@"#4eb4ea"];
+        aspect.backgroundColor = [UIColor clearColor];
         aspect.textAlignment = NSTextAlignmentRight;
         [backgroupView addSubview:aspect];
+        
+        
         
         cutBlock = [[UIView alloc] init];
         cutBlock.backgroundColor = [UIColor clearColor];
@@ -170,6 +185,8 @@
     sourceName_2.frame = _headViewFrm.sourceName;
     sourceName_3.frame = _headViewFrm.sourceName;
     
+    bottonView.frame = _headViewFrm.bottonView;
+    aspectView.frame = _headViewFrm.aspectFrm;
     aspect.frame = _headViewFrm.aspectFrm;
     cutBlock.frame = _headViewFrm.cutBlockFrm;
     showBtn.frame = imgView.frame;

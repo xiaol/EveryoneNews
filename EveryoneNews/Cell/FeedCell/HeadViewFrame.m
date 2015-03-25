@@ -53,12 +53,14 @@
     _sourceTitle = CGRectMake(sourceTitleX, sourceTitleY, sourceTitleW, sourceTitleH);
     
     
-    CGFloat aspectW = 120;
-    CGFloat aspectX = backViewW - aspectW;
+    CGFloat aspectW = 100;
+    CGFloat aspectX = backViewW - aspectW - 16;
     CGFloat aspectY = CGRectGetMaxY(_sourceView_3);
     _aspectFrm = CGRectMake(aspectX, aspectY, aspectW, 30);
     
-    CGFloat cutY = CGRectGetMaxY(_aspectFrm);
+    _bottonView = CGRectMake(0, aspectY, backViewW, 40);
+    
+    CGFloat cutY = CGRectGetMaxY(_bottonView);
     _cutBlockFrm = CGRectMake(0, cutY, backViewW, 8);
     
     

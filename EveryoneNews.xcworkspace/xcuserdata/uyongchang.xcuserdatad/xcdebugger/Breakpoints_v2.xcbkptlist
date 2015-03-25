@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EveryoneNews/Cell/FeedCell/HeadViewFrame.m"
-            timestampString = "448975171.826902"
+            timestampString = "448978126.768769"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
             landmarkName = "-setHeadViewDatasource:"
             landmarkType = "5">
          </BreakpointContent>
