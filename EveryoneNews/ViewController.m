@@ -39,6 +39,8 @@
 //    self.view.backgroundColor = [UIColor greenColor];
 //    self.view.alpha = 0.3;
     [self tableViewInit];
+
+//    self.view.backgroundColor = [UIColor colorFromHexString:@"#EBEDED"];
     
     
 }
@@ -51,6 +53,7 @@
     myTableView.dataSource = self;
     myTableView.separatorStyle = UITableViewCellSelectionStyleNone;
     myTableView.showsVerticalScrollIndicator = NO;
+    myTableView.backgroundColor = [UIColor colorFromHexString:@"#EBEDED"];
 
     [self.view addSubview:myTableView];
 }
@@ -63,8 +66,9 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CGFloat cellH = [UIScreen mainScreen].bounds.size.width * 512 / 640 + 10;
-    return cellH;
+//    CGFloat cellH = [UIScreen mainScreen].bounds.size.width * 512 / 640 + 10;
+//    HeadViewCell *cell = [[HeadViewCell alloc] init];
+    return 291.859375;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

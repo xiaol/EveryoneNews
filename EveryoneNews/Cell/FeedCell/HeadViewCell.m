@@ -18,6 +18,15 @@
     UILabel *sourceTitle_1;
     UILabel *sourceTitle_2;
     UILabel *sourceTitle_3;
+    
+    UIView *sourceView_1;
+    UIView *sourceView_2;
+    UIView *sourceView_3;
+    
+    UILabel *sourceName_1;
+    UILabel *sourceName_2;
+    UILabel *sourceName_3;
+    
     UILabel *aspect;
     UIView *cutBlock;
     UIButton *showBtn;
@@ -29,7 +38,7 @@
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         backgroupView = [[UIView alloc] init];
-        backgroupView.backgroundColor = [UIColor colorFromHexString:@"#ecf2fe"];
+        backgroupView.backgroundColor = [UIColor colorFromHexString:@"#EBEDED"];
         [self.contentView addSubview:backgroupView];
         
         imgView = [[UIImageView alloc] init];
@@ -48,30 +57,65 @@
         titleLab.numberOfLines = 2;
         [backgroupView addSubview:titleLab];
         
+        sourceView_1 = [[UIView alloc] init];
+        sourceView_1.backgroundColor = [UIColor whiteColor];
+        [backgroupView addSubview:sourceView_1];
+        
+        sourceView_2 = [[UIView alloc] init];
+        sourceView_2.backgroundColor = [UIColor whiteColor];
+        [backgroupView addSubview:sourceView_2];
+        
+        sourceView_3 = [[UIView alloc] init];
+        sourceView_3.backgroundColor = [UIColor whiteColor];
+        [backgroupView addSubview:sourceView_3];
+        
+        ////////////////////////////////////////////////////////////
+        
         sourceTitle_1 = [[UILabel alloc] init];
-        sourceTitle_1.font = [UIFont fontWithName:kFont size:20];
-        sourceTitle_1.textColor = [UIColor yellowColor];
-//        sourceTitle_1.numberOfLines = 2;
-        [backgroupView addSubview:sourceTitle_1];
+        sourceTitle_1.font = [UIFont fontWithName:kFont size:18];
+        sourceTitle_1.textColor = [UIColor blackColor];
+        sourceTitle_1.backgroundColor = [UIColor clearColor];
+        [sourceView_1 addSubview:sourceTitle_1];
         
         sourceTitle_2 = [[UILabel alloc] init];
-        sourceTitle_2.font = [UIFont fontWithName:kFont size:20];
-        sourceTitle_2.textColor = [UIColor yellowColor];
-        [backgroupView addSubview:sourceTitle_2];
+        sourceTitle_2.font = [UIFont fontWithName:kFont size:18];
+        sourceTitle_2.textColor = [UIColor blackColor];
+        sourceTitle_2.backgroundColor = [UIColor clearColor];
+        [sourceView_2 addSubview:sourceTitle_2];
         
         sourceTitle_3 = [[UILabel alloc] init];
-        sourceTitle_3.font = [UIFont fontWithName:kFont size:20];
-        sourceTitle_3.textColor = [UIColor yellowColor];
-        [backgroupView addSubview:sourceTitle_3];
+        sourceTitle_3.font = [UIFont fontWithName:kFont size:18];
+        sourceTitle_3.textColor = [UIColor blackColor];
+        sourceTitle_3.backgroundColor = [UIColor clearColor];
+        [sourceView_3 addSubview:sourceTitle_3];
+        
+        sourceName_1 = [[UILabel alloc] init];
+        sourceName_1.font = [UIFont fontWithName:kFont size:16];
+        sourceName_1.textColor = [UIColor colorFromHexString:@"#666666"];
+        sourceName_1.backgroundColor = [UIColor clearColor];
+        [sourceView_1 addSubview:sourceName_1];
+        
+        sourceName_2 = [[UILabel alloc] init];
+        sourceName_2.font = [UIFont fontWithName:kFont size:16];
+        sourceName_2.textColor = [UIColor colorFromHexString:@"#666666"];
+        sourceName_2.backgroundColor = [UIColor clearColor];
+        [sourceView_2 addSubview:sourceName_2];
+        
+        sourceName_3 = [[UILabel alloc] init];
+        sourceName_3.font = [UIFont fontWithName:kFont size:16];
+        sourceName_3.textColor = [UIColor colorFromHexString:@"#666666"];
+        sourceName_3.backgroundColor = [UIColor clearColor];
+        [sourceView_3 addSubview:sourceName_3];
         
         aspect = [[UILabel alloc] init];
         aspect.font = [UIFont fontWithName:kFont size:20];
         aspect.textColor = [UIColor greenColor];
+        aspect.backgroundColor = [UIColor whiteColor];
         aspect.textAlignment = NSTextAlignmentRight;
         [backgroupView addSubview:aspect];
         
         cutBlock = [[UIView alloc] init];
-        cutBlock.backgroundColor = [UIColor whiteColor];
+        cutBlock.backgroundColor = [UIColor clearColor];
         [backgroupView addSubview:cutBlock];
         
         showBtn = [[UIButton alloc] init];
@@ -99,6 +143,10 @@
     sourceTitle_2.text = _headViewFrm.headViewDatasource.sourceTitle;
     sourceTitle_3.text = _headViewFrm.headViewDatasource.sourceTitle;
     
+    sourceName_1.text = _headViewFrm.headViewDatasource.sourceName;
+    sourceName_2.text = _headViewFrm.headViewDatasource.sourceName;
+    sourceName_3.text = _headViewFrm.headViewDatasource.sourceName;
+    
     aspect.text = _headViewFrm.headViewDatasource.aspectStr;
 }
 
@@ -110,9 +158,17 @@
     blurView.frame = titleLab.frame;
 //    blurImg.frame = titleLab.frame;
     
-    sourceTitle_1.frame = _headViewFrm.titleFrm_1;
-    sourceTitle_2.frame = _headViewFrm.titleFrm_2;
-    sourceTitle_3.frame = _headViewFrm.titleFrm_3;
+    sourceView_1.frame = _headViewFrm.sourceView_1;
+    sourceView_2.frame = _headViewFrm.sourceView_2;
+    sourceView_3.frame = _headViewFrm.sourceView_3;
+    
+    sourceTitle_1.frame = _headViewFrm.sourceTitle;
+    sourceTitle_2.frame = _headViewFrm.sourceTitle;
+    sourceTitle_3.frame = _headViewFrm.sourceTitle;
+    
+    sourceName_1.frame = _headViewFrm.sourceName;
+    sourceName_2.frame = _headViewFrm.sourceName;
+    sourceName_3.frame = _headViewFrm.sourceName;
     
     aspect.frame = _headViewFrm.aspectFrm;
     cutBlock.frame = _headViewFrm.cutBlockFrm;
