@@ -1,0 +1,36 @@
+//
+//  PrefixHeader.pch
+//  EveryoneNews
+//
+//  Created by 于咏畅 on 14/12/24.
+//  Copyright (c) 2014年 yyc. All rights reserved.
+//
+
+#ifndef EveryoneNews_PrefixHeader_pch
+#define EveryoneNews_PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif
+
+
+//调试时开启log，非调试则关闭log以节省性能
+#ifdef __OPTIMIZE__
+# define NSLog(...) {}
+#else
+# define NSLog(...) NSLog(__VA_ARGS__)
+#endif
+
+
+//#define kUuid @"huohua_sina_525d3b180cf2fd78b219f16d"
+//#define kOfflineIp @"http://60.28.29.37:82"
+//#define kOnlineIp @"http://60.28.29.7:82"   //过渡用
+#define kServerDomain @"http://60.28.29.7:82"
+//#define kCardBackgroundColor @"#FFFFFF"
+
+#define kAppKey         @"104745354"
+#define kRedirectURI    @"http://sns.whalecloud.com/sina2/callback"
+
+#define kFont           @"STZhongsong"
+

@@ -7,6 +7,8 @@
 //
 
 #import "HeadViewCell.h"
+#import "UIColor+HexToRGB.h"
+#import "DRNRealTimeBlurView.h"
 
 @implementation HeadViewCell
 {
@@ -19,13 +21,15 @@
     UILabel *aspect;
     UIView *cutBlock;
     UIButton *showBtn;
+
+    DRNRealTimeBlurView *blurView;
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         backgroupView = [[UIView alloc] init];
-        backgroupView.backgroundColor = [UIColor clearColor];
+        backgroupView.backgroundColor = [UIColor colorFromHexString:@"#ecf2fe"];
         [self.contentView addSubview:backgroupView];
         
         imgView = [[UIImageView alloc] init];
@@ -33,30 +37,35 @@
         imgView.clipsToBounds = YES;
         [backgroupView addSubview:imgView];
         
+        blurView = [[DRNRealTimeBlurView alloc] init];
+//        blurView.alpha = 0.9;
+        [backgroupView addSubview:blurView];
+        
+        
         titleLab = [[UILabel alloc] init];
-        titleLab.font = [UIFont systemFontOfSize:20.0];
-        titleLab.textColor = [UIColor purpleColor];
+        titleLab.font = [UIFont fontWithName:kFont size:20];
+        titleLab.textColor = [UIColor colorFromHexString:@"#ffffff"];
         titleLab.numberOfLines = 2;
         [backgroupView addSubview:titleLab];
         
         sourceTitle_1 = [[UILabel alloc] init];
-        sourceTitle_1.font = [UIFont systemFontOfSize:20.0];
+        sourceTitle_1.font = [UIFont fontWithName:kFont size:20];
         sourceTitle_1.textColor = [UIColor yellowColor];
 //        sourceTitle_1.numberOfLines = 2;
         [backgroupView addSubview:sourceTitle_1];
         
         sourceTitle_2 = [[UILabel alloc] init];
-        sourceTitle_2.font = [UIFont systemFontOfSize:20.0];
+        sourceTitle_2.font = [UIFont fontWithName:kFont size:20];
         sourceTitle_2.textColor = [UIColor yellowColor];
         [backgroupView addSubview:sourceTitle_2];
         
         sourceTitle_3 = [[UILabel alloc] init];
-        sourceTitle_3.font = [UIFont systemFontOfSize:20.0];
+        sourceTitle_3.font = [UIFont fontWithName:kFont size:20];
         sourceTitle_3.textColor = [UIColor yellowColor];
         [backgroupView addSubview:sourceTitle_3];
         
         aspect = [[UILabel alloc] init];
-        aspect.font = [UIFont systemFontOfSize:16.0];
+        aspect.font = [UIFont fontWithName:kFont size:20];
         aspect.textColor = [UIColor greenColor];
         aspect.textAlignment = NSTextAlignmentRight;
         [backgroupView addSubview:aspect];
@@ -98,6 +107,8 @@
     backgroupView.frame = _headViewFrm.backgroundViewFrm;
     imgView.frame = _headViewFrm.imgFrm;
     titleLab.frame = _headViewFrm.titleLabFrm;
+    blurView.frame = titleLab.frame;
+//    blurImg.frame = titleLab.frame;
     
     sourceTitle_1.frame = _headViewFrm.titleFrm_1;
     sourceTitle_2.frame = _headViewFrm.titleFrm_2;

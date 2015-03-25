@@ -16,19 +16,21 @@
     
     CGFloat backViewW = [UIScreen mainScreen].bounds.size.width;
     
+    CGFloat factor = [UIScreen mainScreen].bounds.size.width / 320;
     
+    CGFloat startY = 8;
+    CGFloat titleW = 222 * factor;
+    CGFloat titleH = 53;
+    _titleLabFrm = CGRectMake(0, startY, titleW, titleH);
     
-    CGFloat titleW = backViewW * 3 / 4;
-    CGFloat titleH = 60;
-    _titleLabFrm = CGRectMake(0, 0, titleW, titleH);
-    
-    CGFloat imgH = backViewW * 512 / 640;
-    _imgFrm = CGRectMake(0, 0, backViewW, imgH);
+    CGFloat imgH = 133 * factor;
+    _imgFrm = CGRectMake(0, startY, backViewW, imgH);
     
     CGFloat sourceTitleH = 30;
-    _titleFrm_1 = CGRectMake(0, imgH - 4 * sourceTitleH, backViewW, sourceTitleH);
-    _titleFrm_2 = CGRectMake(0, imgH - 3 * sourceTitleH, backViewW, sourceTitleH);
-    _titleFrm_3 = CGRectMake(0, imgH - 2 * sourceTitleH, backViewW, sourceTitleH);
+    CGFloat sourceTitleY = CGRectGetMaxY(_imgFrm);
+    _titleFrm_1 = CGRectMake(0, sourceTitleY, backViewW, sourceTitleH);
+    _titleFrm_2 = CGRectMake(0, sourceTitleY + sourceTitleH, backViewW, sourceTitleH);
+    _titleFrm_3 = CGRectMake(0, sourceTitleY + 2 * sourceTitleH, backViewW, sourceTitleH);
     
     CGFloat aspectW = 120;
     CGFloat aspectX = backViewW - aspectW;
@@ -36,7 +38,7 @@
     _aspectFrm = CGRectMake(aspectX, aspectY, aspectW, 30);
     
     CGFloat cutY = CGRectGetMaxY(_aspectFrm);
-    _cutBlockFrm = CGRectMake(0, cutY, backViewW, 10);
+    _cutBlockFrm = CGRectMake(0, cutY, backViewW, 8);
     
     
     CGFloat backViewH = CGRectGetMaxY(_cutBlockFrm);

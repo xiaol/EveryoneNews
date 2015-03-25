@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "HeadViewCell.h"
 #import "ContentViewController.h"
+#import "UIColor+HexToRGB.h"
 
 @interface ViewController ()<UITableViewDataSource, UITableViewDelegate, HeadViewDelegate>
 {
@@ -28,11 +29,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self commonInit];
+    
 }
 
 - (void)commonInit
 {
     self.title = @"百家争鸣";
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorFromHexString:@"ffffff"],NSFontAttributeName:[UIFont fontWithName:kFont size:22]}];
 //    self.view.backgroundColor = [UIColor greenColor];
 //    self.view.alpha = 0.3;
     [self tableViewInit];

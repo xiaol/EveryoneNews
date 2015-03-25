@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		72E38B7BA868266B182567CC /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A0528C26297FAA2C259EF3E /* libPods.a */; };
+		C11CD46D1AC2691400D1D9C8 /* huawen.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C11CD46C1AC268FF00D1D9C8 /* huawen.ttf */; };
+		C11CD4761AC2983200D1D9C8 /* transparent.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C11CD4751AC2983200D1D9C8 /* transparent.jpg */; };
+		C11CD4821AC2ADB100D1D9C8 /* DRNRealTimeBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = C11CD47F1AC2ADB100D1D9C8 /* DRNRealTimeBlurView.m */; };
+		C11CD4831AC2ADB100D1D9C8 /* UIImage+BoxBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = C11CD4811AC2ADB100D1D9C8 /* UIImage+BoxBlur.m */; };
 		C1C052311ABFFC1600D6D687 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C1C052301ABFFC1600D6D687 /* main.m */; };
 		C1C052341ABFFC1600D6D687 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C1C052331ABFFC1600D6D687 /* AppDelegate.m */; };
 		C1C052371ABFFC1600D6D687 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C1C052361ABFFC1600D6D687 /* ViewController.m */; };
@@ -60,6 +64,13 @@
 		39559E040BF0F3C0CBAD3816 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		5A0528C26297FAA2C259EF3E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FE9000300DFA499AE8DDD92 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		C11CD46C1AC268FF00D1D9C8 /* huawen.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = huawen.ttf; sourceTree = "<group>"; };
+		C11CD46E1AC2699700D1D9C8 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		C11CD4751AC2983200D1D9C8 /* transparent.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = transparent.jpg; sourceTree = "<group>"; };
+		C11CD47E1AC2ADB100D1D9C8 /* DRNRealTimeBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRNRealTimeBlurView.h; sourceTree = "<group>"; };
+		C11CD47F1AC2ADB100D1D9C8 /* DRNRealTimeBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRNRealTimeBlurView.m; sourceTree = "<group>"; };
+		C11CD4801AC2ADB100D1D9C8 /* UIImage+BoxBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+BoxBlur.h"; sourceTree = "<group>"; };
+		C11CD4811AC2ADB100D1D9C8 /* UIImage+BoxBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+BoxBlur.m"; sourceTree = "<group>"; };
 		C1C0522B1ABFFC1600D6D687 /* EveryoneNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EveryoneNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1C0522F1ABFFC1600D6D687 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C1C052301ABFFC1600D6D687 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -159,6 +170,25 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C11CD46B1AC268F100D1D9C8 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				C11CD46C1AC268FF00D1D9C8 /* huawen.ttf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
+		C11CD47D1AC2ADA200D1D9C8 /* BlurEffect */ = {
+			isa = PBXGroup;
+			children = (
+				C11CD47E1AC2ADB100D1D9C8 /* DRNRealTimeBlurView.h */,
+				C11CD47F1AC2ADB100D1D9C8 /* DRNRealTimeBlurView.m */,
+				C11CD4801AC2ADB100D1D9C8 /* UIImage+BoxBlur.h */,
+				C11CD4811AC2ADB100D1D9C8 /* UIImage+BoxBlur.m */,
+			);
+			path = BlurEffect;
+			sourceTree = "<group>";
+		};
 		C1C052221ABFFC1600D6D687 = {
 			isa = PBXGroup;
 			children = (
@@ -199,6 +229,7 @@
 		C1C0522E1ABFFC1600D6D687 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				C11CD46E1AC2699700D1D9C8 /* PrefixHeader.pch */,
 				C1C0522F1ABFFC1600D6D687 /* Info.plist */,
 				C1C052301ABFFC1600D6D687 /* main.m */,
 			);
@@ -273,6 +304,7 @@
 		C1C0526B1AC01EBE00D6D687 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				C11CD47D1AC2ADA200D1D9C8 /* BlurEffect */,
 				C1C0529F1AC13AF700D6D687 /* ImageExtension.h */,
 				C1C052A01AC13AF700D6D687 /* ImageExtension.m */,
 				C1C052A11AC13AF700D6D687 /* ScaleImage.h */,
@@ -286,6 +318,7 @@
 		C1C0526F1AC1194A00D6D687 /* res */ = {
 			isa = PBXGroup;
 			children = (
+				C11CD46B1AC268F100D1D9C8 /* Font */,
 				C1C052711AC1196F00D6D687 /* demo_1.jpg */,
 				C1C052701AC1196200D6D687 /* HeadView */,
 			);
@@ -295,6 +328,7 @@
 		C1C052701AC1196200D6D687 /* HeadView */ = {
 			isa = PBXGroup;
 			children = (
+				C11CD4751AC2983200D1D9C8 /* transparent.jpg */,
 			);
 			path = HeadView;
 			sourceTree = "<group>";
@@ -473,7 +507,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C11CD46D1AC2691400D1D9C8 /* huawen.ttf in Resources */,
 				C1C0523A1ABFFC1600D6D687 /* Main.storyboard in Resources */,
+				C11CD4761AC2983200D1D9C8 /* transparent.jpg in Resources */,
 				C1C0523F1ABFFC1600D6D687 /* LaunchScreen.xib in Resources */,
 				C1C052721AC1196F00D6D687 /* demo_1.jpg in Resources */,
 				C1C052B61AC13BDB00D6D687 /* MJRefresh.bundle in Resources */,
@@ -537,6 +573,7 @@
 				C1C052621AC005C400D6D687 /* HeadViewDatasource.m in Sources */,
 				C1C052C41AC13BE400D6D687 /* YLImageView.m in Sources */,
 				C1C052BC1AC13BDB00D6D687 /* UIScrollView+MJRefresh.m in Sources */,
+				C11CD4831AC2ADB100D1D9C8 /* UIImage+BoxBlur.m in Sources */,
 				C1C052651AC005D500D6D687 /* HeadViewFrame.m in Sources */,
 				C1C052BA1AC13BDB00D6D687 /* MJRefreshHeaderView.m in Sources */,
 				C1C052371ABFFC1600D6D687 /* ViewController.m in Sources */,
@@ -550,6 +587,7 @@
 				C1C052881AC139B900D6D687 /* ContentCell.m in Sources */,
 				C1C0529E1AC13AB700D6D687 /* FTCoreTextView.m in Sources */,
 				C1C052591AC0007800D6D687 /* BaseViewController.m in Sources */,
+				C11CD4821AC2ADB100D1D9C8 /* DRNRealTimeBlurView.m in Sources */,
 				C1C0528A1AC139B900D6D687 /* ContentDatasource.m in Sources */,
 				C1C052891AC139B900D6D687 /* ContentCellFrame.m in Sources */,
 				C1C052751AC1385800D6D687 /* ContentViewController.m in Sources */,
@@ -684,6 +722,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/EveryoneNews/Third/UMeng/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/EveryoneNews/PrefixHeader.pch";
 				INFOPLIST_FILE = EveryoneNews/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -706,6 +746,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/EveryoneNews/Third/UMeng/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/EveryoneNews/PrefixHeader.pch";
 				INFOPLIST_FILE = EveryoneNews/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
