@@ -9,6 +9,8 @@
 #import "HeadViewCell.h"
 #import "UIColor+HexToRGB.h"
 #import "DRNRealTimeBlurView.h"
+#import "UIImageView+WebCache.h"
+#import "ScaleImage.h"
 
 @implementation HeadViewCell
 {
@@ -145,22 +147,85 @@
 - (void)setHeadViewFrm:(HeadViewFrame *)headViewFrm
 {
     _headViewFrm = headViewFrm;
-    [self settingData];
+    
     [self settingSubviewFrame];
+    [self settingData];
 }
 
 - (void)settingData
 {
     titleLab.text = _headViewFrm.headViewDatasource.titleStr;
-    imgView.image = [UIImage imageNamed:@"demo_1.jpg"];
+//    imgView.image = [UIImage imageNamed:@"demo_1.jpg"];
     
-    sourceTitle_1.text = _headViewFrm.headViewDatasource.sourceTitle;
-    sourceTitle_2.text = _headViewFrm.headViewDatasource.sourceTitle;
-    sourceTitle_3.text = _headViewFrm.headViewDatasource.sourceTitle;
+    if ([self isBlankString:_headViewFrm.headViewDatasource.imgStr]) {
+        imgView.image = [UIImage imageNamed:@"demo_1.jpg"];
+    } else {
+        NSURL *url = [NSURL URLWithString:_headViewFrm.headViewDatasource.imgStr];
+        
+        [imgView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"demo_1.jpg"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            
+                    imgView.image = [ScaleImage scaleImage:imgView.image size:_headViewFrm.imgFrm.size];
+            
+            //        [SVProgressHUD dismiss];
+        }];
+    }
     
-    sourceName_1.text = _headViewFrm.headViewDatasource.sourceName;
-    sourceName_2.text = _headViewFrm.headViewDatasource.sourceName;
-    sourceName_3.text = _headViewFrm.headViewDatasource.sourceName;
+    NSArray *subArr = _headViewFrm.headViewDatasource.subArr;
+    
+    if (subArr != nil && ![subArr isKindOfClass:[NSNull class]] && subArr.count != 0) {
+        NSMutableArray *sourceTitle = [[NSMutableArray alloc] init];
+        NSMutableArray *sourceName = [[NSMutableArray alloc] init];
+        NSMutableArray *sourceUrl = [[NSMutableArray alloc] init];
+        
+        for (NSDictionary * dic in subArr) {
+            [sourceTitle addObject:dic[@"title"]];
+            [sourceName addObject:dic[@"sourceSitename"]];
+            [sourceUrl addObject:dic[@"url"]];
+        }
+        
+        sourceTitle_1.text = sourceTitle[0];
+        sourceName_1.text = sourceName[0];
+        
+        if (sourceTitle.count >= 2) {
+            sourceTitle_2.text = sourceTitle[1];
+            sourceName_2.text = sourceName[1];
+            
+        }
+        
+        if (sourceTitle.count >= 3) {
+            sourceTitle_3.text = sourceTitle[2];
+            sourceName_3.text = sourceName[2];
+        }
+        
+        
+    } else {
+        
+        sourceTitle_1.text = @"木有数据啊";
+        sourceTitle_2.text = @"木有数据啊";
+        sourceTitle_3.text = @"";
+        
+        sourceName_1.text = @"哮天犬";
+        sourceName_2.text = @"哮天犬";
+        sourceName_3.text = @"";
+    }
+    
+//    NSMutableArray *sourceTitle = [[NSMutableArray alloc] init];
+//    NSMutableArray *sourceName = [[NSMutableArray alloc] init];
+//    NSMutableArray *sourceUrl = [[NSMutableArray alloc] init];
+//    
+//    for (NSDictionary * dic in subArr) {
+//        [sourceTitle addObject:dic[@"title"]];
+//        [sourceName addObject:dic[@"sourceSitename"]];
+//        [sourceUrl addObject:dic[@"url"]];
+//    }
+//    
+//    sourceTitle_1.text = sourceTitle[0];
+//    sourceTitle_2.text = sourceTitle[1];
+//    sourceTitle_3.text = sourceTitle[2];
+//    
+//    sourceName_1.text = sourceName[0];
+//    sourceName_2.text = sourceName[1];
+//    sourceName_3.text = sourceName[2];
     
     aspect.text = _headViewFrm.headViewDatasource.aspectStr;
 }
@@ -204,6 +269,20 @@
                                hasImg:YES
                              favorNum:0];
     }
+}
+
+#pragma mark 判断字符串是否为空
+- (BOOL) isBlankString:(NSString *)string {
+    if (string == nil || string == NULL) {
+        return YES;
+    }
+    if ([string isKindOfClass:[NSNull class]]) {
+        return YES;
+    }
+    if ([[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length]==0) {
+        return YES;
+    }
+    return NO;
 }
 
 @end

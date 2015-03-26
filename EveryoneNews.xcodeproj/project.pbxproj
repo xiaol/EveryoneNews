@@ -12,6 +12,19 @@
 		C11CD4761AC2983200D1D9C8 /* transparent.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C11CD4751AC2983200D1D9C8 /* transparent.jpg */; };
 		C11CD4821AC2ADB100D1D9C8 /* DRNRealTimeBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = C11CD47F1AC2ADB100D1D9C8 /* DRNRealTimeBlurView.m */; };
 		C11CD4831AC2ADB100D1D9C8 /* UIImage+BoxBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = C11CD4811AC2ADB100D1D9C8 /* UIImage+BoxBlur.m */; };
+		C19712241AC3DADF0024B12E /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C19712231AC3DADF0024B12E /* CoreText.framework */; };
+		C19712261AC3DB590024B12E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C19712251AC3DB590024B12E /* CoreGraphics.framework */; };
+		C19712281AC3DD170024B12E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C19712271AC3DD170024B12E /* SystemConfiguration.framework */; };
+		C197122A1AC3DD350024B12E /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C19712291AC3DD350024B12E /* MobileCoreServices.framework */; };
+		C197122C1AC3DD950024B12E /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C197122B1AC3DD950024B12E /* OpenGLES.framework */; };
+		C197122E1AC3DD9E0024B12E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C197122D1AC3DD9E0024B12E /* QuartzCore.framework */; };
+		C19712301AC3DE0E0024B12E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C197122F1AC3DE0D0024B12E /* UIKit.framework */; };
+		C19712321AC3DE150024B12E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C19712311AC3DE150024B12E /* Foundation.framework */; };
+		C19712341AC3DE280024B12E /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C19712331AC3DE280024B12E /* libxml2.dylib */; };
+		C19712361AC3DE330024B12E /* libbz2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C19712351AC3DE330024B12E /* libbz2.dylib */; };
+		C19712381AC3DE480024B12E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C19712371AC3DE480024B12E /* libz.dylib */; };
+		C197123A1AC3DE530024B12E /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C19712391AC3DE530024B12E /* libstdc++.dylib */; };
+		C197123C1AC3DE5F0024B12E /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C197123B1AC3DE5F0024B12E /* libiconv.dylib */; };
 		C1C052311ABFFC1600D6D687 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C1C052301ABFFC1600D6D687 /* main.m */; };
 		C1C052341ABFFC1600D6D687 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C1C052331ABFFC1600D6D687 /* AppDelegate.m */; };
 		C1C052371ABFFC1600D6D687 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C1C052361ABFFC1600D6D687 /* ViewController.m */; };
@@ -71,6 +84,19 @@
 		C11CD47F1AC2ADB100D1D9C8 /* DRNRealTimeBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRNRealTimeBlurView.m; sourceTree = "<group>"; };
 		C11CD4801AC2ADB100D1D9C8 /* UIImage+BoxBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+BoxBlur.h"; sourceTree = "<group>"; };
 		C11CD4811AC2ADB100D1D9C8 /* UIImage+BoxBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+BoxBlur.m"; sourceTree = "<group>"; };
+		C19712231AC3DADF0024B12E /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		C19712251AC3DB590024B12E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		C19712271AC3DD170024B12E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		C19712291AC3DD350024B12E /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		C197122B1AC3DD950024B12E /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		C197122D1AC3DD9E0024B12E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		C197122F1AC3DE0D0024B12E /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		C19712311AC3DE150024B12E /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		C19712331AC3DE280024B12E /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		C19712351AC3DE330024B12E /* libbz2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbz2.dylib; path = usr/lib/libbz2.dylib; sourceTree = SDKROOT; };
+		C19712371AC3DE480024B12E /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		C19712391AC3DE530024B12E /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
+		C197123B1AC3DE5F0024B12E /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		C1C0522B1ABFFC1600D6D687 /* EveryoneNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EveryoneNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1C0522F1ABFFC1600D6D687 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C1C052301ABFFC1600D6D687 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -148,6 +174,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C197123C1AC3DE5F0024B12E /* libiconv.dylib in Frameworks */,
+				C197123A1AC3DE530024B12E /* libstdc++.dylib in Frameworks */,
+				C19712381AC3DE480024B12E /* libz.dylib in Frameworks */,
+				C19712361AC3DE330024B12E /* libbz2.dylib in Frameworks */,
+				C19712341AC3DE280024B12E /* libxml2.dylib in Frameworks */,
+				C19712321AC3DE150024B12E /* Foundation.framework in Frameworks */,
+				C19712301AC3DE0E0024B12E /* UIKit.framework in Frameworks */,
+				C197122E1AC3DD9E0024B12E /* QuartzCore.framework in Frameworks */,
+				C197122C1AC3DD950024B12E /* OpenGLES.framework in Frameworks */,
+				C197122A1AC3DD350024B12E /* MobileCoreServices.framework in Frameworks */,
+				C19712281AC3DD170024B12E /* SystemConfiguration.framework in Frameworks */,
+				C19712261AC3DB590024B12E /* CoreGraphics.framework in Frameworks */,
+				C19712241AC3DADF0024B12E /* CoreText.framework in Frameworks */,
 				72E38B7BA868266B182567CC /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -165,6 +204,19 @@
 		75437E1B9AF4465FC56403E0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C197123B1AC3DE5F0024B12E /* libiconv.dylib */,
+				C19712391AC3DE530024B12E /* libstdc++.dylib */,
+				C19712371AC3DE480024B12E /* libz.dylib */,
+				C19712351AC3DE330024B12E /* libbz2.dylib */,
+				C19712331AC3DE280024B12E /* libxml2.dylib */,
+				C19712311AC3DE150024B12E /* Foundation.framework */,
+				C197122F1AC3DE0D0024B12E /* UIKit.framework */,
+				C197122D1AC3DD9E0024B12E /* QuartzCore.framework */,
+				C197122B1AC3DD950024B12E /* OpenGLES.framework */,
+				C19712291AC3DD350024B12E /* MobileCoreServices.framework */,
+				C19712271AC3DD170024B12E /* SystemConfiguration.framework */,
+				C19712251AC3DB590024B12E /* CoreGraphics.framework */,
+				C19712231AC3DADF0024B12E /* CoreText.framework */,
 				5A0528C26297FAA2C259EF3E /* libPods.a */,
 			);
 			name = Frameworks;

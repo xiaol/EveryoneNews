@@ -47,7 +47,7 @@
     _sourceName = CGRectMake(sourceNameX, sourceNameY, 55, sourceNameH);
     
     CGFloat sourceTitleX = CGRectGetMaxX(_sourceName) + 3.5;
-    CGFloat sourceTitleW = backViewW - 16;
+    CGFloat sourceTitleW = backViewW - 16 - sourceTitleX;
     CGFloat sourceTitleH = 18;
     CGFloat sourceTitleY = CGRectGetMaxY(_sourceIcon) - sourceTitleH;
     _sourceTitle = CGRectMake(sourceTitleX, sourceTitleY, sourceTitleW, sourceTitleH);

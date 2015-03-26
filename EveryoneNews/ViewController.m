@@ -10,11 +10,12 @@
 #import "HeadViewCell.h"
 #import "ContentViewController.h"
 #import "UIColor+HexToRGB.h"
+#import "AFNetworking.h"
 
 @interface ViewController ()<UITableViewDataSource, UITableViewDelegate, HeadViewDelegate>
 {
     UITableView *myTableView;
-    NSMutableArray *dataList;
+    NSMutableArray *dataArr;
 }
 
 @end
@@ -26,6 +27,12 @@
     NSLog(@"FeedViewController receive Memory Warning");
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self getRequest:@"http://121.41.75.213:9999/news/baijia/fetchHome"];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self commonInit];
@@ -34,21 +41,21 @@
 
 - (void)commonInit
 {
+    dataArr = [[NSMutableArray alloc] init];
+    
     self.title = @"百家争鸣";
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorFromHexString:@"ffffff"],NSFontAttributeName:[UIFont fontWithName:kFont size:22]}];
-//    self.view.backgroundColor = [UIColor greenColor];
-//    self.view.alpha = 0.3;
-    [self tableViewInit];
 
-//    self.view.backgroundColor = [UIColor colorFromHexString:@"#EBEDED"];
-    
+    [self tableViewInit];
     
 }
 
 - (void)tableViewInit
 {
     myTableView = [[UITableView alloc] init];
-    myTableView.frame = self.view.frame;
+    CGFloat W = self.view.frame.size.width;
+    CGFloat H = self.view.frame.size.height - 64;
+    myTableView.frame = CGRectMake(0, 0, W, H);
     myTableView.delegate = self;
     myTableView.dataSource = self;
     myTableView.separatorStyle = UITableViewCellSelectionStyleNone;
@@ -61,14 +68,14 @@
 #pragma mark tableView delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return dataArr.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    CGFloat cellH = [UIScreen mainScreen].bounds.size.width * 512 / 640 + 10;
-//    HeadViewCell *cell = [[HeadViewCell alloc] init];
-    return 291.859375;
+
+    HeadViewFrame *frm = dataArr[indexPath.row];
+    return frm.cellH;
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -82,11 +89,12 @@
         cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
         cell.delegate = self;
     }
-    NSDictionary *dict = nil;
-    HeadViewFrame *headViewFrm = [[HeadViewFrame alloc] init];
-    headViewFrm.HeadViewDatasource = [HeadViewDatasource headViewDatasourceWithDict:dict];
-//    cell.headViewFrm.headViewDatasource = [HeadViewDatasource headViewDatasourceWithDict:dict];
-    cell.headViewFrm = headViewFrm;
+
+//    HeadViewFrame *headViewFrm = [[HeadViewFrame alloc] init];
+////    headViewFrm.HeadViewDatasource = [HeadViewDatasource headViewDatasourceWithDict:dict];
+//    headViewFrm.headViewDatasource = dataArr[indexPath.row];
+
+    cell.headViewFrm = dataArr[indexPath.row];
     return cell;
 }
 
@@ -105,6 +113,41 @@
     
     NSLog(@"sourceId:%@", sourceId);
     NSLog(@"sourceUrl:%@", sourceUrl);
+}
+
+#pragma mark AFNetworking
+- (void)getRequest:(NSString *)URL
+{
+    
+    NSString *URLTmp = [URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];  //转码成UTF-8  否则可能会出现错误
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString: URLTmp]];
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSString *requestTmp = [NSString stringWithString:operation.responseString];
+        NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
+        //系统自带JSON解析
+        NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
+        
+        [self convertToModel:resultDic];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Failure: %@", error);
+    }];
+    [operation start];
+}
+
+- (void)convertToModel:(NSDictionary *)resultDic
+{
+//    NSLog(@"resultDic:%@", resultDic);
+    for (NSDictionary *dict in resultDic) {
+        
+        HeadViewFrame *headViewFrm = [[HeadViewFrame alloc] init];
+        headViewFrm.headViewDatasource = [HeadViewDatasource headViewDatasourceWithDict:dict];
+        
+        [dataArr addObject:headViewFrm];
+        NSLog(@"dict:%@", dict);
+    }
+    
+    [myTableView reloadData];
 }
 
 

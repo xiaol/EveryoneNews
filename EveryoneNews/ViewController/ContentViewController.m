@@ -9,14 +9,10 @@
 #import "ContentViewController.h"
 #import "AFNetworking.h"
 #import "ContentCell.h"
-//#import "TextCell.h"
-//#import "LikeNShareCell.h"
-//#import "CorrelationCell.h"
+
 #import "FTCoreTextCell.h"
 #import "TxtCell.h"
-//#import "TextCellFrame.h"
 #import "UIColor+HexToRGB.h"
-//#import "DetailHeaderView.h"
 #import "UIImageView+WebCache.h"
 #import "SVProgressHUD.h"
 #import "YLImageView.h"
@@ -24,7 +20,6 @@
 
 #import "UIImage+GIF.h"
 
-//#import "UMSocial.h"
 
 
 #define kTitleFont 17.0
@@ -33,9 +28,7 @@
 {
     NSMutableArray *resourceArr;    //存储图文详细内容
     UITableView *contentTableView;
-//    NSMutableArray *resourceList;   //存储相关内容
     YLImageView *gifView;
-//    UIImageView *gifImg;
     
     UIImageView *imgView;
 }
@@ -74,7 +67,6 @@
 - (void)commonInit
 {
     resourceArr = [[NSMutableArray alloc] init];
-//    resourceList = [[NSMutableArray alloc] init];
     
     UIView *backView = [[UIView alloc] initWithFrame:self.view.frame];
     backView.backgroundColor = [UIColor colorFromHexString:@"#EDEDF3"];
@@ -101,20 +93,12 @@
     contentTableView.backgroundColor = [UIColor clearColor];
     contentTableView.showsVerticalScrollIndicator = NO;
     contentTableView.backgroundColor = [UIColor clearColor];
-//    [self.view addSubview:contentTableView];
 }
 
 
 #pragma mark tabelView delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-//    if (resourceList.count > 0) {
-//        return resourceArr.count + 2 + resourceList.count;
-//    }
-//    else
-//    {
-//        return resourceArr.count + 1;
-//    }
     return resourceArr.count;
 }
 
@@ -138,37 +122,6 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    if (indexPath.row < resourceArr.count) {
-//        NSDictionary *dict = resourceArr[indexPath.row];
-//        if ([dict.allKeys[0] isEqualToString:@"img"]) {
-//            ContentCellFrame *frm = dict[@"img"];
-//            return [frm cellHeight];
-//        }
-//        else
-//        {
-//            
-//            FTCoreTextCell *cell = (FTCoreTextCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
-//            CGFloat height = cell.cellH;
-//            return height;
-//        }
-//        
-//    }
-//    else if (indexPath.row == resourceArr.count)
-//    {
-//        if (resourceArr.count == 0) {
-//            return 0;
-//        }
-//        return 32; //like & share Height
-//    }
-//    else if (indexPath.row == resourceArr.count + 1)
-//    {
-//        return 40; //相关 Height
-//    }
-//    else
-//    {
-//        return [resourceList[indexPath.row - resourceArr.count - 2] cellHeight];
-//    }
-    
     NSDictionary *dict = resourceArr[indexPath.row];
     if ([dict.allKeys[0] isEqualToString:@"img"]) {
         ContentCellFrame *frm = dict[@"img"];

@@ -10,13 +10,19 @@
 
 @interface HeadViewDatasource : NSObject
 
-@property (nonatomic, copy) NSString *imgStr;
-@property (nonatomic, copy) NSString *titleStr;
+@property (nonatomic, copy) NSString *imgStr;           //imgUrl
+@property (nonatomic, copy) NSString *titleStr;         //title
 
 @property (nonatomic, copy) NSString *sourceTitle;
-@property (nonatomic, copy) NSString *sourceName;
+@property (nonatomic, copy) NSString *sourceName;       //originsourceSiteName
 
 @property (nonatomic, copy) NSString *aspectStr;
+
+@property (nonatomic, copy) NSString *sourceUrl;        //sourceUrl
+
+//@property (nonatomic, assign) int otherNum;             //otherNum
+
+@property (nonatomic, strong) NSArray *subArr;          //sublist
 
 +(id)headViewDatasourceWithDict:(NSDictionary *)dict;
 
