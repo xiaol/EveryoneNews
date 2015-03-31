@@ -98,21 +98,36 @@
     return cell;
 }
 
-- (void)getTextContent:(NSString *)sourceId imgUrl:(NSString *)imgUrl SourceSite:(NSString *)sourceSite Update:(NSString *)update Title:(NSString *)title sourceUrl:(NSString *)sourceUrl hasImg:(BOOL)hasImg favorNum:(int)favorNum
-{
+//- (void)getTextContent:(NSString *)sourceId imgUrl:(NSString *)imgUrl SourceSite:(NSString *)sourceSite Update:(NSString *)update Title:(NSString *)title sourceUrl:(NSString *)sourceUrl hasImg:(BOOL)hasImg favorNum:(int)favorNum
+//{
+//
+//    ContentViewController *contentVC = [[ContentViewController alloc] init];
+//    contentVC.sourceId = sourceId;
+//    contentVC.imgStr = imgUrl;
+//    contentVC.sourceSite = sourceSite;
+//    contentVC.titleStr = title;
+//    contentVC.hasImg = hasImg;
+//    contentVC.updateTime = update;
+//    contentVC.favorNum = favorNum;
+//    [self.navigationController pushViewController:contentVC animated:YES];
+//    
+//    NSLog(@"sourceId:%@", sourceId);
+//    NSLog(@"sourceUrl:%@", sourceUrl);
+//}
 
+- (void)getTextContent:(NSString *)sourceUrl imgUrl:(NSString *)imgUrl SourceSite:(NSString *)sourceSite Update:(NSString *)update Title:(NSString *)title ResponseUrls:(NSArray *)responseUrls RootClass:(NSString *)rootClass hasImg:(BOOL)hasImg
+{
     ContentViewController *contentVC = [[ContentViewController alloc] init];
-    contentVC.sourceId = sourceId;
+    contentVC.sourceUrl = sourceUrl;
     contentVC.imgStr = imgUrl;
     contentVC.sourceSite = sourceSite;
     contentVC.titleStr = title;
     contentVC.hasImg = hasImg;
     contentVC.updateTime = update;
-    contentVC.favorNum = favorNum;
+    contentVC.responseUrls = responseUrls;
+    contentVC.rootClass = rootClass;
     [self.navigationController pushViewController:contentVC animated:YES];
-    
-    NSLog(@"sourceId:%@", sourceId);
-    NSLog(@"sourceUrl:%@", sourceUrl);
+
 }
 
 #pragma mark AFNetworking

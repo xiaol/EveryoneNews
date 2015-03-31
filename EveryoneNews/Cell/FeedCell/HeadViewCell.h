@@ -12,20 +12,22 @@
 @protocol HeadViewDelegate <NSObject>
 
 @required
-- (void)getTextContent:(NSString *)sourceId
-                imgUrl:(NSString *)imgUrl
-            SourceSite:(NSString *)sourceSite
-                Update:(NSString *)update
-                 Title:(NSString *)title
-             sourceUrl:(NSString *)sourceUrl
-                hasImg:(BOOL)hasImg
-              favorNum:(int)favorNum;
+//- (void)getTextContent:(NSString *)sourceId
+//                imgUrl:(NSString *)imgUrl
+//            SourceSite:(NSString *)sourceSite
+//                Update:(NSString *)update
+//                 Title:(NSString *)title
+//             sourceUrl:(NSString *)sourceUrl
+//                hasImg:(BOOL)hasImg
+//              favorNum:(int)favorNum;
 
 - (void)getTextContent:(NSString *)sourceUrl
                 imgUrl:(NSString *)imgUrl
             SourceSite:(NSString *)sourceSite
                 Update:(NSString *)update
                  Title:(NSString *)title
+          ResponseUrls:(NSArray *)responseUrls
+             RootClass:(NSString *)rootClass
                 hasImg:(BOOL)hasImg;
 
 @end

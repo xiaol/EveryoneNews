@@ -30,6 +30,7 @@
         _responseUrls = dict[@"urls_response"];
         _updateTime = dict[@"updateTime"];
         _sourceSiteName = dict[@"sourceSiteName"];
+        _rootClass = dict[@"root_class"];
     }
     return self;
 }

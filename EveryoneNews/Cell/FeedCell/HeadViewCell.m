@@ -59,6 +59,11 @@
         titleLab.font = [UIFont fontWithName:kFont size:20];
         titleLab.textColor = [UIColor colorFromHexString:@"#ffffff"];
         titleLab.numberOfLines = 2;
+        //字体加阴影
+        titleLab.layer.shadowColor = [UIColor blackColor].CGColor;
+        titleLab.layer.shadowOpacity = 0.6;
+        titleLab.layer.shadowRadius = 1.0;
+        
         [backgroupView addSubview:titleLab];
         
         sourceView_1 = [[UIView alloc] init];
@@ -256,7 +261,6 @@
         aspect.backgroundColor = [UIColor clearColor];
         aspect.textAlignment = NSTextAlignmentRight;
         [backgroupView addSubview:aspect];
-
         
         aspectView.frame = _headViewFrm.aspectFrm;
         aspect.frame = _headViewFrm.aspectFrm;
@@ -271,22 +275,24 @@
 
 - (void)showBtnClick
 {
-    if ([self.delegate respondsToSelector:@selector(getTextContent:imgUrl:SourceSite:Update:Title:sourceUrl:hasImg:favorNum:)]) {
-        [self.delegate getTextContent:@"4d4716525b6d76e79a657116f318ba2be5ba7068"
-                               imgUrl:@"http://img31.mtime.cn/mg/2015/03/24/163919.94945336.jpg"
-                           SourceSite:@"影像日报"
-                               Update:@"2015-03-24 18:08:45"
-                                Title:@"《速度与激情7》特辑 怀念保罗·沃克"
-                            sourceUrl:@"http://moviesoon.com/news/2015/03/%e3%80%8a%e9%80%9f%e5%ba%a6%e4%b8%8e%e6%bf%80%e6%83%857%e3%80%8b%e7%89%b9%e8%be%91-%e6%80%80%e5%bf%b5%e4%bf%9d%e7%bd%97%c2%b7%e6%b2%83%e5%85%8b/"
-                               hasImg:YES
-                             favorNum:0];
-    }
-    if ([self.delegate respondsToSelector:@selector(getTextContent:imgUrl:SourceSite:Update:Title:hasImg:)]) {
+//    if ([self.delegate respondsToSelector:@selector(getTextContent:imgUrl:SourceSite:Update:Title:sourceUrl:hasImg:favorNum:)]) {
+//        [self.delegate getTextContent:@"4d4716525b6d76e79a657116f318ba2be5ba7068"
+//                               imgUrl:@"http://img31.mtime.cn/mg/2015/03/24/163919.94945336.jpg"
+//                           SourceSite:@"影像日报"
+//                               Update:@"2015-03-24 18:08:45"
+//                                Title:@"《速度与激情7》特辑 怀念保罗·沃克"
+//                            sourceUrl:@"http://moviesoon.com/news/2015/03/%e3%80%8a%e9%80%9f%e5%ba%a6%e4%b8%8e%e6%bf%80%e6%83%857%e3%80%8b%e7%89%b9%e8%be%91-%e6%80%80%e5%bf%b5%e4%bf%9d%e7%bd%97%c2%b7%e6%b2%83%e5%85%8b/"
+//                               hasImg:YES
+//                             favorNum:0];
+//    }
+    if ([self.delegate respondsToSelector:@selector(getTextContent:imgUrl:SourceSite:Update:Title:ResponseUrls: RootClass: hasImg:)]) {
         [self.delegate getTextContent:_headViewFrm.headViewDatasource.sourceUrl
                                imgUrl:_headViewFrm.headViewDatasource.imgStr
                            SourceSite:_headViewFrm.headViewDatasource.sourceSiteName
                                Update:_headViewFrm.headViewDatasource.updateTime
                                 Title:_headViewFrm.headViewDatasource.titleStr
+                         ResponseUrls:_headViewFrm.headViewDatasource.responseUrls
+                            RootClass:_headViewFrm.headViewDatasource.rootClass
                                hasImg:NO];
     }
 }

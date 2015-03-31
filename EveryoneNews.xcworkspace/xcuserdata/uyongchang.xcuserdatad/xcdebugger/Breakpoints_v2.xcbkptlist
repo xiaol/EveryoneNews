@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EveryoneNews/Cell/FeedCell/HeadViewFrame.m"
-            timestampString = "449482289.714123"
+            filePath = "EveryoneNews/ViewController/ContentViewController.m"
+            timestampString = "449486415.633033"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "78"
-            endingLineNumber = "78"
-            landmarkName = "-setHeadViewDatasource:"
+            startingLineNumber = "383"
+            endingLineNumber = "383"
+            landmarkName = "-convertToDetailModel:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EveryoneNews/Cell/FeedCell/HeadViewFrame.m"
-            timestampString = "449482289.714123"
+            filePath = "EveryoneNews/ViewController/ContentViewController.m"
+            timestampString = "449486415.633033"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
-            landmarkName = "-setHeadViewDatasource:"
+            startingLineNumber = "394"
+            endingLineNumber = "394"
+            landmarkName = "-putToResourceArr:Method:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

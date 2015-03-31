@@ -15,10 +15,10 @@
 #import "UIColor+HexToRGB.h"
 #import "UIImageView+WebCache.h"
 #import "SVProgressHUD.h"
-#import "YLImageView.h"
+//#import "YLImageView.h"
 #import "ScaleImage.h"
 
-#import "UIImage+GIF.h"
+//#import "UIImage+GIF.h"
 
 
 
@@ -28,9 +28,9 @@
 {
     NSMutableArray *resourceArr;    //存储图文详细内容
     UITableView *contentTableView;
-    YLImageView *gifView;
+//    YLImageView *gifView;
     
-    UIImageView *imgView;
+//    UIImageView *imgView;
 }
 
 @end
@@ -40,8 +40,15 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    NSString *sourceId = @"4d4716525b6d76e79a657116f318ba2be5ba7068";
-    [self getContentDetails:sourceId];
+//    NSString *sourceId = @"4d4716525b6d76e79a657116f318ba2be5ba7068";
+    
+    NSString *url = @"http://121.41.75.213:9999/news/baijia/fetchContent?url=";
+    url = [NSString stringWithFormat:@"%@%@", url, self.sourceUrl];
+    for (NSString *str in self.responseUrls) {
+        url = [NSString stringWithFormat:@"%@&filterurls=%@", url, str];
+    }
+//    [self getContentDetails:sourceId];
+    [self getContentDetails:url];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -55,11 +62,12 @@
     
     [self commonInit];
     [self initTableView];
-    if (self.hasImg) {
-        contentTableView.tableHeaderView = [self getHeaderView];
-    } else {
-        contentTableView.tableHeaderView = [self getHeaderViewWithoutImg];
-    }
+//    if (self.hasImg) {
+//        contentTableView.tableHeaderView = [self getHeaderView];
+//    } else {
+//        contentTableView.tableHeaderView = [self getHeaderViewWithoutImg];
+//    }
+    contentTableView.tableHeaderView = [self getHeaderView];
     
     
 }
@@ -72,11 +80,11 @@
     backView.backgroundColor = [UIColor colorFromHexString:@"#EDEDF3"];
     [self.view addSubview:backView];
     
-    /* 添加GIF */
-    gifView = [[YLImageView alloc] initWithFrame:CGRectMake(0, 0, 145, 141)];
-    gifView.center = CGPointMake(backView.center.x, backView.center.y - 64);
-    [backView addSubview:gifView];
-    gifView.image = [YLGIFImage imageNamed:@"yazi.gif"];
+//    /* 添加GIF */
+//    gifView = [[YLImageView alloc] initWithFrame:CGRectMake(0, 0, 145, 141)];
+//    gifView.center = CGPointMake(backView.center.x, backView.center.y - 64);
+//    [backView addSubview:gifView];
+//    gifView.image = [YLGIFImage imageNamed:@"yazi.gif"];
     
     
 }
@@ -93,6 +101,7 @@
     contentTableView.backgroundColor = [UIColor clearColor];
     contentTableView.showsVerticalScrollIndicator = NO;
     contentTableView.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:contentTableView];
 }
 
 
@@ -168,10 +177,13 @@
 {
     CGFloat imgW = [UIScreen mainScreen].bounds.size.width;
     CGFloat imgH = imgW * 512 / 640;
-    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, imgW, imgH)];
-    imgView = [[UIImageView alloc] init];;
-    imgView.frame = backView.frame;
-    imgView.image = [UIImage imageNamed:@"defaultImgBig.png"];
+//    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, imgW, imgH)];
+    UIView *backView = [[UIView alloc] init];
+    backView.backgroundColor = [UIColor whiteColor];
+    
+    UIImageView *imgView = [[UIImageView alloc] init];;
+    imgView.frame = CGRectMake(0, 0, imgW, imgH);
+    imgView.image = [UIImage imageNamed:@"demo_1.jpg"];
     
     if (![self isBlankString:_imgStr]) {
         NSURL *url = [NSURL URLWithString:_imgStr];
@@ -189,50 +201,39 @@
     }
     [backView addSubview:imgView];
     
-    UIImageView *shadow = [[UIImageView alloc] init];
-    shadow.image = [UIImage imageNamed:@"toum.png"];
-    shadow.alpha = 0.7;
-    CGFloat shadowY = CGRectGetMaxY(backView.frame) - 67;
-    shadow.frame = CGRectMake(0, shadowY, imgW, 67);
-    [backView addSubview:shadow];
-    
     UILabel *titleLab = [[UILabel alloc] init];
     titleLab.text = _titleStr;
-    titleLab.font = [UIFont boldSystemFontOfSize:17];
+//    titleLab.font = [UIFont boldSystemFontOfSize:17];
+    titleLab.font = [UIFont fontWithName:kFont size:18];
     titleLab.textAlignment = NSTextAlignmentLeft;
-    titleLab.textColor = [UIColor colorFromHexString:@"#ffffff"];
+    titleLab.textColor = [UIColor colorFromHexString:@"#000000"];
     titleLab.numberOfLines = 2;
     
     CGFloat titleW = imgW - 14;
     /***************** 标题过长时自动转行 ********************************/
-    NSDictionary * attribute = @{NSFontAttributeName: [UIFont systemFontOfSize:kTitleFont]};
+//    NSDictionary * attribute = @{NSFontAttributeName: [UIFont systemFontOfSize:kTitleFont]};
+    NSDictionary * attribute = @{NSFontAttributeName: [UIFont fontWithName:kFont size:18]};
     CGSize nameSize = [_titleStr boundingRectWithSize:CGSizeMake(titleW, 0) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;
     
     CGFloat titleY = 5;
     if (nameSize.height < 40) {
         titleY = 15;
     }
-    titleLab.frame = CGRectMake(7, titleY, titleW, nameSize.height);
-    [shadow addSubview:titleLab];
-    
-    UILabel *sourceSite = [[UILabel alloc] init];
-    sourceSite.text = _sourceSite;
-    sourceSite.font = [UIFont systemFontOfSize:10];
-    sourceSite.textColor = [UIColor colorFromHexString:@"#ffffff"];
-    sourceSite.textAlignment = NSTextAlignmentLeft;
-    CGFloat sourceSiteY = shadow.frame.size.height - 11 - 5;
-    sourceSite.frame = CGRectMake(10, sourceSiteY, 150, 11);
-    [shadow addSubview:sourceSite];
-    
+    titleLab.frame = CGRectMake(7, imgH, titleW, nameSize.height);
+    [backView addSubview:titleLab];
+   
     UILabel *updateTimeLab = [[UILabel alloc] init];
     updateTimeLab.text = _updateTime;
-    updateTimeLab.font = [UIFont systemFontOfSize:10];
-    updateTimeLab.textColor = [UIColor colorFromHexString:@"#ffffff"];
+    updateTimeLab.font = [UIFont fontWithName:kFont size:9];
+    updateTimeLab.textColor = [UIColor colorFromHexString:@"#7f7f7f"];
     updateTimeLab.textAlignment = NSTextAlignmentLeft;
-//    CGFloat updateX = CGRectGetMaxX(sourceSite.frame) + 25;
-    CGFloat updateX = CGRectGetMaxX(titleLab.frame) - 120 - 20;
-    updateTimeLab.frame = CGRectMake(updateX, sourceSiteY, 120, 11);
-    [shadow addSubview:updateTimeLab];
+    CGFloat updateY = CGRectGetMaxY(titleLab.frame) + 15;
+    updateTimeLab.frame = CGRectMake(7, updateY, 120, 11);
+    [backView addSubview:updateTimeLab];
+    
+    CGFloat backViewH = CGRectGetMaxY(updateTimeLab.frame) + 25;
+    
+    backView.frame = CGRectMake(0, 0, imgW, backViewH);
     
     return backView;
 }
@@ -288,7 +289,7 @@
 #pragma mark Get请求
 - (void)getContentDetails:(NSString *)URL
 {
-    URL = [NSString stringWithFormat:@"http://api.up.oforever.net/eagle/FetchContent?id=%@", URL];
+//    URL = [NSString stringWithFormat:@"http://api.up.oforever.net/eagle/FetchContent?id=%@", URL];
     NSString *URLTmp = [URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];  //转码成UTF-8  否则可能会出现错误
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString: URLTmp]];
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
@@ -305,47 +306,67 @@
     [operation start];
 }
 
+//- (void)convertToDetailModel:(NSDictionary *)resultDic
+//{
+//    resourceArr = [[NSMutableArray alloc] init];
+//    
+//    NSArray *content = resultDic[@"content"];
+//    //调用解析函数
+//    for (NSArray *arr in content) {
+//        for (NSDictionary *dict in arr) {
+//            NSArray *keyArr = dict.allKeys;
+//            /* 头图去重 */
+//
+//            if ([keyArr[0] isEqualToString:@"img"]) {
+//                NSLog(@"imgUrl:%@", dict[@"img"]);
+//                if  (![dict[@"img"] isEqualToString:self.imgStr]) {
+//                    ContentCellFrame *contentFrm = [[ContentCellFrame alloc] init];
+//                    contentFrm.contentDatasource = [ContentDatasource contentDatasourceWithImgStr:dict[@"img"]];
+//                    [self putToResourceArr:contentFrm Method:@"img"];
+//                }
+//            }
+//            else
+//            {
+//                NSString *string = dict[@"txt"];
+//                //**** 字符串去特殊符号 ****// //--此地需要重新设置判断及循环
+//                NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@"\n"];
+//                NSString *trimmedString = [string stringByTrimmingCharactersInSet:set];
+//                trimmedString = [trimmedString stringByTrimmingCharactersInSet:set];
+//                //**** 去空格 ****//
+//                set = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+//                trimmedString = [trimmedString stringByTrimmingCharactersInSet:set];
+//                NSLog(@"string:%@", trimmedString);
+//
+//                TxtDatasource *txtDatasource = [TxtDatasource txtDatasourceWithTxtStr:trimmedString];
+//                [self putToResourceArr:txtDatasource Method:@"FTText"];
+//            }
+//        }
+//    }
+//    
+//    [self.view addSubview:contentTableView];
+//    [contentTableView reloadData];
+//    gifView.image = nil;
+////    gifImg.image = nil;
+//}
+
 - (void)convertToDetailModel:(NSDictionary *)resultDic
 {
     resourceArr = [[NSMutableArray alloc] init];
     
-    NSArray *content = resultDic[@"content"];
-    //调用解析函数
-    for (NSArray *arr in content) {
-        for (NSDictionary *dict in arr) {
-            NSArray *keyArr = dict.allKeys;
-            /* 头图去重 */
+    NSString *string = resultDic[@"content"];
+//    //**** 字符串去特殊符号 ****// //--此地需要重新设置判断及循环
+//    NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@"\n"];
+//    NSString *trimmedString = [string stringByTrimmingCharactersInSet:set];
+//    trimmedString = [trimmedString stringByTrimmingCharactersInSet:set];
+//    //**** 去空格 ****//
+//    set = [NSCharacterSet whitespaceAndNewlineCharacterSet];
+//    trimmedString = [trimmedString stringByTrimmingCharactersInSet:set];
+//    NSLog(@"string:%@", trimmedString);
 
-            if ([keyArr[0] isEqualToString:@"img"]) {
-                NSLog(@"imgUrl:%@", dict[@"img"]);
-                if  (![dict[@"img"] isEqualToString:self.imgStr]) {
-                    ContentCellFrame *contentFrm = [[ContentCellFrame alloc] init];
-                    contentFrm.contentDatasource = [ContentDatasource contentDatasourceWithImgStr:dict[@"img"]];
-                    [self putToResourceArr:contentFrm Method:@"img"];
-                }
-            }
-            else
-            {
-                NSString *string = dict[@"txt"];
-                //**** 字符串去特殊符号 ****// //--此地需要重新设置判断及循环
-                NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@"\n"];
-                NSString *trimmedString = [string stringByTrimmingCharactersInSet:set];
-                trimmedString = [trimmedString stringByTrimmingCharactersInSet:set];
-                //**** 去空格 ****//
-                set = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-                trimmedString = [trimmedString stringByTrimmingCharactersInSet:set];
-                NSLog(@"string:%@", trimmedString);
-
-                TxtDatasource *txtDatasource = [TxtDatasource txtDatasourceWithTxtStr:trimmedString];
-                [self putToResourceArr:txtDatasource Method:@"FTText"];
-            }
-        }
-    }
+    TxtDatasource *txtDatasource = [TxtDatasource txtDatasourceWithTxtStr:string];
+    [self putToResourceArr:txtDatasource Method:@"FTText"];
     
-    [self.view addSubview:contentTableView];
     [contentTableView reloadData];
-    gifView.image = nil;
-//    gifImg.image = nil;
 }
 
 - (void)putToResourceArr:(id)resource Method:(NSString *)method

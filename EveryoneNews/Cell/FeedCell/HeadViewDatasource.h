@@ -28,6 +28,8 @@
 
 @property (nonatomic, copy) NSString *sourceSiteName;
 
+@property (nonatomic, copy) NSString *rootClass;
+
 +(id)headViewDatasourceWithDict:(NSDictionary *)dict;
 
 @end
