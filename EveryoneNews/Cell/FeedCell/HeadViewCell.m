@@ -179,7 +179,12 @@
         
         for (NSDictionary * dic in subArr) {
             [sourceTitle addObject:dic[@"title"]];
-            [sourceName addObject:dic[@"sourceSitename"]];
+            if (dic[@"user"]) {
+                [sourceName addObject:dic[@"user"]];
+            } else {
+                [sourceName addObject:dic[@"sourceSitename"]];
+            }
+            
             [sourceUrl addObject:dic[@"url"]];
         }
         
@@ -268,6 +273,14 @@
                             sourceUrl:@"http://moviesoon.com/news/2015/03/%e3%80%8a%e9%80%9f%e5%ba%a6%e4%b8%8e%e6%bf%80%e6%83%857%e3%80%8b%e7%89%b9%e8%be%91-%e6%80%80%e5%bf%b5%e4%bf%9d%e7%bd%97%c2%b7%e6%b2%83%e5%85%8b/"
                                hasImg:YES
                              favorNum:0];
+    }
+    if ([self.delegate respondsToSelector:@selector(getTextContent:imgUrl:SourceSite:Update:Title:hasImg:)]) {
+        [self.delegate getTextContent:_headViewFrm.headViewDatasource.sourceUrl
+                               imgUrl:_headViewFrm.headViewDatasource.imgStr
+                           SourceSite:_headViewFrm.headViewDatasource.sourceSiteName
+                               Update:_headViewFrm.headViewDatasource.updateTime
+                                Title:_headViewFrm.headViewDatasource.titleStr
+                               hasImg:NO];
     }
 }
 

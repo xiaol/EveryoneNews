@@ -21,6 +21,13 @@
                 hasImg:(BOOL)hasImg
               favorNum:(int)favorNum;
 
+- (void)getTextContent:(NSString *)sourceUrl
+                imgUrl:(NSString *)imgUrl
+            SourceSite:(NSString *)sourceSite
+                Update:(NSString *)update
+                 Title:(NSString *)title
+                hasImg:(BOOL)hasImg;
+
 @end
 
 @interface HeadViewCell : UITableViewCell

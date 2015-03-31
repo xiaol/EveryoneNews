@@ -13,16 +13,20 @@
 @property (nonatomic, copy) NSString *imgStr;           //imgUrl
 @property (nonatomic, copy) NSString *titleStr;         //title
 
-@property (nonatomic, copy) NSString *sourceTitle;
-@property (nonatomic, copy) NSString *sourceName;       //originsourceSiteName
+//@property (nonatomic, copy) NSString *sourceTitle;
+//@property (nonatomic, copy) NSString *sourceName;       //originsourceSiteName
 
 @property (nonatomic, copy) NSString *aspectStr;
 
 @property (nonatomic, copy) NSString *sourceUrl;        //sourceUrl
 
-//@property (nonatomic, assign) int otherNum;             //otherNum
+@property (nonatomic, copy) NSArray *responseUrls;
+
+@property (nonatomic, copy) NSString *updateTime;
 
 @property (nonatomic, strong) NSArray *subArr;          //sublist
+
+@property (nonatomic, copy) NSString *sourceSiteName;
 
 +(id)headViewDatasourceWithDict:(NSDictionary *)dict;
 

@@ -12,6 +12,9 @@
 		C11CD4761AC2983200D1D9C8 /* transparent.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C11CD4751AC2983200D1D9C8 /* transparent.jpg */; };
 		C11CD4821AC2ADB100D1D9C8 /* DRNRealTimeBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = C11CD47F1AC2ADB100D1D9C8 /* DRNRealTimeBlurView.m */; };
 		C11CD4831AC2ADB100D1D9C8 /* UIImage+BoxBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = C11CD4811AC2ADB100D1D9C8 /* UIImage+BoxBlur.m */; };
+		C18F951E1ACA506400A46502 /* TMQuiltView.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F951B1ACA506400A46502 /* TMQuiltView.m */; };
+		C18F951F1ACA506400A46502 /* TMQuiltViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F951D1ACA506400A46502 /* TMQuiltViewCell.m */; };
+		C18F95221ACA509A00A46502 /* TMPhotoQuiltViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F95211ACA509A00A46502 /* TMPhotoQuiltViewCell.m */; };
 		C19712241AC3DADF0024B12E /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C19712231AC3DADF0024B12E /* CoreText.framework */; };
 		C19712261AC3DB590024B12E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C19712251AC3DB590024B12E /* CoreGraphics.framework */; };
 		C19712281AC3DD170024B12E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C19712271AC3DD170024B12E /* SystemConfiguration.framework */; };
@@ -84,6 +87,12 @@
 		C11CD47F1AC2ADB100D1D9C8 /* DRNRealTimeBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRNRealTimeBlurView.m; sourceTree = "<group>"; };
 		C11CD4801AC2ADB100D1D9C8 /* UIImage+BoxBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+BoxBlur.h"; sourceTree = "<group>"; };
 		C11CD4811AC2ADB100D1D9C8 /* UIImage+BoxBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+BoxBlur.m"; sourceTree = "<group>"; };
+		C18F951A1ACA506400A46502 /* TMQuiltView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMQuiltView.h; sourceTree = "<group>"; };
+		C18F951B1ACA506400A46502 /* TMQuiltView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMQuiltView.m; sourceTree = "<group>"; };
+		C18F951C1ACA506400A46502 /* TMQuiltViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMQuiltViewCell.h; sourceTree = "<group>"; };
+		C18F951D1ACA506400A46502 /* TMQuiltViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMQuiltViewCell.m; sourceTree = "<group>"; };
+		C18F95201ACA509A00A46502 /* TMPhotoQuiltViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMPhotoQuiltViewCell.h; sourceTree = "<group>"; };
+		C18F95211ACA509A00A46502 /* TMPhotoQuiltViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMPhotoQuiltViewCell.m; sourceTree = "<group>"; };
 		C19712231AC3DADF0024B12E /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		C19712251AC3DB590024B12E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		C19712271AC3DD170024B12E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -241,6 +250,19 @@
 			path = BlurEffect;
 			sourceTree = "<group>";
 		};
+		C18F95191ACA504C00A46502 /* WaterFlow */ = {
+			isa = PBXGroup;
+			children = (
+				C18F951A1ACA506400A46502 /* TMQuiltView.h */,
+				C18F951B1ACA506400A46502 /* TMQuiltView.m */,
+				C18F951C1ACA506400A46502 /* TMQuiltViewCell.h */,
+				C18F951D1ACA506400A46502 /* TMQuiltViewCell.m */,
+				C18F95201ACA509A00A46502 /* TMPhotoQuiltViewCell.h */,
+				C18F95211ACA509A00A46502 /* TMPhotoQuiltViewCell.m */,
+			);
+			path = WaterFlow;
+			sourceTree = "<group>";
+		};
 		C1C052221ABFFC1600D6D687 = {
 			isa = PBXGroup;
 			children = (
@@ -356,6 +378,7 @@
 		C1C0526B1AC01EBE00D6D687 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				C18F95191ACA504C00A46502 /* WaterFlow */,
 				C11CD47D1AC2ADA200D1D9C8 /* BlurEffect */,
 				C1C0529F1AC13AF700D6D687 /* ImageExtension.h */,
 				C1C052A01AC13AF700D6D687 /* ImageExtension.m */,
@@ -633,6 +656,7 @@
 				C1C052B81AC13BDB00D6D687 /* MJRefreshConst.m in Sources */,
 				C1C052961AC139D800D6D687 /* TxtDatasource.m in Sources */,
 				C1C052A31AC13AF700D6D687 /* ImageExtension.m in Sources */,
+				C18F951F1ACA506400A46502 /* TMQuiltViewCell.m in Sources */,
 				C1C0525A1AC0007800D6D687 /* KDNavigationController.m in Sources */,
 				C1C052941AC139D800D6D687 /* FTCoreTextCell.m in Sources */,
 				C1C052BB1AC13BDB00D6D687 /* UIScrollView+MJExtension.m in Sources */,
@@ -647,7 +671,9 @@
 				C1C052971AC139D800D6D687 /* TxtFrm.m in Sources */,
 				C1C052311ABFFC1600D6D687 /* main.m in Sources */,
 				C1C0526E1AC01ED400D6D687 /* UIColor+HexToRGB.m in Sources */,
+				C18F951E1ACA506400A46502 /* TMQuiltView.m in Sources */,
 				C1C052A41AC13AF700D6D687 /* ScaleImage.m in Sources */,
+				C18F95221ACA509A00A46502 /* TMPhotoQuiltViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -777,6 +803,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/EveryoneNews/PrefixHeader.pch";
 				INFOPLIST_FILE = EveryoneNews/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -801,6 +828,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/EveryoneNews/PrefixHeader.pch";
 				INFOPLIST_FILE = EveryoneNews/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
