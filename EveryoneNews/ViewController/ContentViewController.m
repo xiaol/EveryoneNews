@@ -177,7 +177,6 @@
 {
     CGFloat imgW = [UIScreen mainScreen].bounds.size.width;
     CGFloat imgH = imgW * 512 / 640;
-//    UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, imgW, imgH)];
     UIView *backView = [[UIView alloc] init];
     backView.backgroundColor = [UIColor whiteColor];
     
@@ -190,20 +189,17 @@
         [imgView sd_setImageWithURL:url completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
             if (imgView.image.size.width / imgView.image.size.height > imgView.frame.size.width / imgView.frame.size.height) {
                 imgView.contentMode = UIViewContentModeScaleAspectFill;
-//                imgView.frame = _headerCellFrm.imgFrame;
                 imgView.clipsToBounds = YES;
             } else {
                 imgView.image = [ScaleImage scaleImage:imgView.image size:imgView.frame.size];
             }
-
-            [SVProgressHUD dismiss];
+//            [SVProgressHUD dismiss];
         }];
     }
     [backView addSubview:imgView];
     
     UILabel *titleLab = [[UILabel alloc] init];
     titleLab.text = _titleStr;
-//    titleLab.font = [UIFont boldSystemFontOfSize:17];
     titleLab.font = [UIFont fontWithName:kFont size:18];
     titleLab.textAlignment = NSTextAlignmentLeft;
     titleLab.textColor = [UIColor colorFromHexString:@"#000000"];
@@ -228,8 +224,22 @@
     updateTimeLab.textColor = [UIColor colorFromHexString:@"#7f7f7f"];
     updateTimeLab.textAlignment = NSTextAlignmentLeft;
     CGFloat updateY = CGRectGetMaxY(titleLab.frame) + 15;
-    updateTimeLab.frame = CGRectMake(7, updateY, 120, 11);
+    updateTimeLab.frame = CGRectMake(7, updateY, 120, 12);
     [backView addSubview:updateTimeLab];
+    
+    UIImageView *hotImg = [[UIImageView alloc] init];
+    CGFloat hotImgX = CGRectGetMaxX(updateTimeLab.frame);
+    hotImg.frame = CGRectMake(hotImgX, updateY + 1, 14.5, 9);
+    hotImg.image = [UIImage imageNamed:@"hot.png"];
+    [backView addSubview:hotImg];
+    
+    UILabel *hotLab = [[UILabel alloc] init];
+    CGFloat hotLabX = CGRectGetMaxX(hotImg.frame);
+    hotLab.frame = CGRectMake(hotLabX, updateY, 30, 9);
+    hotLab.font = [UIFont fontWithName:kFont size:9];
+    hotLab.textColor = [UIColor colorFromHexString:@"#7f7f7f"];
+    hotLab.text = self.rootClass;
+    [backView addSubview:hotLab];
     
     CGFloat backViewH = CGRectGetMaxY(updateTimeLab.frame) + 25;
     
@@ -375,24 +385,6 @@
     [resourceArr addObject:dict];
 }
 
-//#pragma mark TxtDelegate
-//- (void)getTextContent:(NSString *)sourceId imgUrl:(NSString *)imgUrl SourceSite:(NSString *)sourceSite Update:(NSString *)update Title:(NSString *)title sourceUrl:(NSString *)sourceUrl hasImg:(BOOL)hasImg favorNum:(int)favorNum
-//{
-//    ContentViewController *contentVC = [[ContentViewController alloc] init];
-//    
-//    contentVC.sourceId = sourceId;
-//    contentVC.imgStr = imgUrl;
-//    contentVC.sourceSite = sourceSite;
-//    contentVC.titleStr = title;
-//    contentVC.updateTime = update;
-//    contentVC.hasImg = hasImg;
-//    contentVC.favorNum = favorNum;
-//    [self.navigationController pushViewController:contentVC animated:YES];
-//    
-//    NSLog(@"sourceId:%@", sourceId);
-//    NSLog(@"sourceUrl:%@", sourceUrl);
-//
-//}
 
 #pragma mark 判断字符串是否为空
 - (BOOL) isBlankString:(NSString *)string {

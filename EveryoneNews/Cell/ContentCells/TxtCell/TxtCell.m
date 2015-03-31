@@ -35,7 +35,8 @@
         [self.contentView addSubview:backgrounpView];
         
         txtLab = [[UILabel alloc] init];
-        txtLab.font = [UIFont systemFontOfSize:14];
+//        txtLab.font = [UIFont systemFontOfSize:14];
+        txtLab.font = [UIFont fontWithName:kFont size:16];
         txtLab.numberOfLines = 0;
         txtLab.textAlignment = NSTextAlignmentJustified;
         txtLab.textColor = [UIColor colorFromHexString:@"#000000"];

@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EveryoneNews/ViewController/ContentViewController.m"
-            timestampString = "449486415.633033"
+            timestampString = "449491464.102455"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "383"
-            endingLineNumber = "383"
+            startingLineNumber = "375"
+            endingLineNumber = "375"
             landmarkName = "-convertToDetailModel:"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EveryoneNews/ViewController/ContentViewController.m"
-            timestampString = "449486415.633033"
+            timestampString = "449491464.102455"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "394"
-            endingLineNumber = "394"
+            startingLineNumber = "386"
+            endingLineNumber = "386"
             landmarkName = "-putToResourceArr:Method:"
             landmarkType = "5">
          </BreakpointContent>
