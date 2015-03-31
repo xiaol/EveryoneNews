@@ -12,6 +12,8 @@
 
 #import "FTCoreTextCell.h"
 #import "TxtCell.h"
+#import "BaiduCell.h"
+
 #import "UIColor+HexToRGB.h"
 #import "UIImageView+WebCache.h"
 #import "SVProgressHUD.h"
@@ -76,6 +78,8 @@
 {
     resourceArr = [[NSMutableArray alloc] init];
     
+//    self.navigationController.navigationBarHidden = YES;
+    
     UIView *backView = [[UIView alloc] initWithFrame:self.view.frame];
     backView.backgroundColor = [UIColor colorFromHexString:@"#EDEDF3"];
     [self.view addSubview:backView];
@@ -135,10 +139,13 @@
     if ([dict.allKeys[0] isEqualToString:@"img"]) {
         ContentCellFrame *frm = dict[@"img"];
         return [frm cellHeight];
-    } else {
+    } else if ([dict.allKeys[0] isEqualToString:@"FTText"]){
         FTCoreTextCell *cell = (FTCoreTextCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
         CGFloat height = cell.cellH;
         return height;
+    } else {
+        BaiduCell *cell = (BaiduCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
+        return cell.baiduFrm.cellH;
     }
 }
 
@@ -157,7 +164,7 @@
         cell.contentCellFrm = dict[type];
         return cell;
     }
-    else
+    else if ([type isEqualToString:@"FTText"])
     {
         static NSString *cellId = @"FTCell";
 
@@ -168,6 +175,20 @@
         cell.txtDatasource = dict[type];
         return cell;
 
+    }
+    else
+    {
+        static NSString *cellId = @"baike";
+        
+        BaiduCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+        if (!cell) {
+            cell = [[BaiduCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            //自定义UITableViewCell选中后的背景颜色和背景图片
+            cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
+        }
+        cell.baiduFrm = dict[type];
+        return cell;
     }
 
 }
@@ -207,7 +228,6 @@
     
     CGFloat titleW = imgW - 14;
     /***************** 标题过长时自动转行 ********************************/
-//    NSDictionary * attribute = @{NSFontAttributeName: [UIFont systemFontOfSize:kTitleFont]};
     NSDictionary * attribute = @{NSFontAttributeName: [UIFont fontWithName:kFont size:18]};
     CGSize nameSize = [_titleStr boundingRectWithSize:CGSizeMake(titleW, 0) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;
     
@@ -375,6 +395,14 @@
 
     TxtDatasource *txtDatasource = [TxtDatasource txtDatasourceWithTxtStr:string];
     [self putToResourceArr:txtDatasource Method:@"FTText"];
+    
+    NSDictionary *baikeDic = resultDic[@"baike"];
+    NSString *baikeTitle = baikeDic[@"title"];
+    if (![self isBlankString:baikeTitle]) {
+        BaiduFrame *baiduFrm = [[BaiduFrame alloc] init];
+        baiduFrm.baiduDatasource = [BaiduDatasource baiduDatasourceWithDict:baikeDic];
+        [self putToResourceArr:baiduFrm Method:@"baike"];
+    }
     
     [contentTableView reloadData];
 }

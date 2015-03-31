@@ -12,6 +12,10 @@
 		C11CD4761AC2983200D1D9C8 /* transparent.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C11CD4751AC2983200D1D9C8 /* transparent.jpg */; };
 		C11CD4821AC2ADB100D1D9C8 /* DRNRealTimeBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = C11CD47F1AC2ADB100D1D9C8 /* DRNRealTimeBlurView.m */; };
 		C11CD4831AC2ADB100D1D9C8 /* UIImage+BoxBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = C11CD4811AC2ADB100D1D9C8 /* UIImage+BoxBlur.m */; };
+		C16FA9971ACAFB1F00F85DF8 /* BaiduFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9961ACAFB1F00F85DF8 /* BaiduFrame.m */; };
+		C16FA99A1ACAFB3A00F85DF8 /* BaiduDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9991ACAFB3A00F85DF8 /* BaiduDatasource.m */; };
+		C16FA99D1ACB024500F85DF8 /* BaiduCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA99C1ACB024500F85DF8 /* BaiduCell.m */; };
+		C16FA99F1ACB05C000F85DF8 /* baiduLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = C16FA99E1ACB05C000F85DF8 /* baiduLogo.png */; };
 		C18F951E1ACA506400A46502 /* TMQuiltView.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F951B1ACA506400A46502 /* TMQuiltView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C18F951F1ACA506400A46502 /* TMQuiltViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F951D1ACA506400A46502 /* TMQuiltViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C18F95221ACA509A00A46502 /* TMPhotoQuiltViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F95211ACA509A00A46502 /* TMPhotoQuiltViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -88,6 +92,13 @@
 		C11CD47F1AC2ADB100D1D9C8 /* DRNRealTimeBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRNRealTimeBlurView.m; sourceTree = "<group>"; };
 		C11CD4801AC2ADB100D1D9C8 /* UIImage+BoxBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+BoxBlur.h"; sourceTree = "<group>"; };
 		C11CD4811AC2ADB100D1D9C8 /* UIImage+BoxBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+BoxBlur.m"; sourceTree = "<group>"; };
+		C16FA9951ACAFB1F00F85DF8 /* BaiduFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiduFrame.h; sourceTree = "<group>"; };
+		C16FA9961ACAFB1F00F85DF8 /* BaiduFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaiduFrame.m; sourceTree = "<group>"; };
+		C16FA9981ACAFB3A00F85DF8 /* BaiduDatasource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiduDatasource.h; sourceTree = "<group>"; };
+		C16FA9991ACAFB3A00F85DF8 /* BaiduDatasource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaiduDatasource.m; sourceTree = "<group>"; };
+		C16FA99B1ACB024500F85DF8 /* BaiduCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiduCell.h; sourceTree = "<group>"; };
+		C16FA99C1ACB024500F85DF8 /* BaiduCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaiduCell.m; sourceTree = "<group>"; };
+		C16FA99E1ACB05C000F85DF8 /* baiduLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = baiduLogo.png; sourceTree = "<group>"; };
 		C18F951A1ACA506400A46502 /* TMQuiltView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMQuiltView.h; sourceTree = "<group>"; };
 		C18F951B1ACA506400A46502 /* TMQuiltView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMQuiltView.m; sourceTree = "<group>"; };
 		C18F951C1ACA506400A46502 /* TMQuiltViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMQuiltViewCell.h; sourceTree = "<group>"; };
@@ -252,6 +263,19 @@
 			path = BlurEffect;
 			sourceTree = "<group>";
 		};
+		C16FA9941ACAFAC900F85DF8 /* BaiduCell */ = {
+			isa = PBXGroup;
+			children = (
+				C16FA9951ACAFB1F00F85DF8 /* BaiduFrame.h */,
+				C16FA9961ACAFB1F00F85DF8 /* BaiduFrame.m */,
+				C16FA9981ACAFB3A00F85DF8 /* BaiduDatasource.h */,
+				C16FA9991ACAFB3A00F85DF8 /* BaiduDatasource.m */,
+				C16FA99B1ACB024500F85DF8 /* BaiduCell.h */,
+				C16FA99C1ACB024500F85DF8 /* BaiduCell.m */,
+			);
+			path = BaiduCell;
+			sourceTree = "<group>";
+		};
 		C18F95191ACA504C00A46502 /* WaterFlow */ = {
 			isa = PBXGroup;
 			children = (
@@ -269,6 +293,7 @@
 			isa = PBXGroup;
 			children = (
 				C18F95241ACAA88D00A46502 /* hot.png */,
+				C16FA99E1ACB05C000F85DF8 /* baiduLogo.png */,
 			);
 			path = ContentVC;
 			sourceTree = "<group>";
@@ -422,6 +447,7 @@
 		C1C052801AC139A200D6D687 /* ContentCells */ = {
 			isa = PBXGroup;
 			children = (
+				C16FA9941ACAFAC900F85DF8 /* BaiduCell */,
 				C1C0528B1AC139D800D6D687 /* TxtCell */,
 				C1C052811AC139B200D6D687 /* ImgCell */,
 			);
@@ -600,6 +626,7 @@
 				C1C052721AC1196F00D6D687 /* demo_1.jpg in Resources */,
 				C18F95251ACAA88D00A46502 /* hot.png in Resources */,
 				C1C052B61AC13BDB00D6D687 /* MJRefresh.bundle in Resources */,
+				C16FA99F1ACB05C000F85DF8 /* baiduLogo.png in Resources */,
 				C1C0523C1ABFFC1600D6D687 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -662,6 +689,7 @@
 				C1C052BC1AC13BDB00D6D687 /* UIScrollView+MJRefresh.m in Sources */,
 				C11CD4831AC2ADB100D1D9C8 /* UIImage+BoxBlur.m in Sources */,
 				C1C052651AC005D500D6D687 /* HeadViewFrame.m in Sources */,
+				C16FA9971ACAFB1F00F85DF8 /* BaiduFrame.m in Sources */,
 				C1C052BA1AC13BDB00D6D687 /* MJRefreshHeaderView.m in Sources */,
 				C1C052371ABFFC1600D6D687 /* ViewController.m in Sources */,
 				C1C052B71AC13BDB00D6D687 /* MJRefreshBaseView.m in Sources */,
@@ -669,6 +697,7 @@
 				C1C052961AC139D800D6D687 /* TxtDatasource.m in Sources */,
 				C1C052A31AC13AF700D6D687 /* ImageExtension.m in Sources */,
 				C18F951F1ACA506400A46502 /* TMQuiltViewCell.m in Sources */,
+				C16FA99A1ACAFB3A00F85DF8 /* BaiduDatasource.m in Sources */,
 				C1C0525A1AC0007800D6D687 /* KDNavigationController.m in Sources */,
 				C1C052941AC139D800D6D687 /* FTCoreTextCell.m in Sources */,
 				C1C052BB1AC13BDB00D6D687 /* UIScrollView+MJExtension.m in Sources */,
@@ -682,6 +711,7 @@
 				C1C052341ABFFC1600D6D687 /* AppDelegate.m in Sources */,
 				C1C052971AC139D800D6D687 /* TxtFrm.m in Sources */,
 				C1C052311ABFFC1600D6D687 /* main.m in Sources */,
+				C16FA99D1ACB024500F85DF8 /* BaiduCell.m in Sources */,
 				C1C0526E1AC01ED400D6D687 /* UIColor+HexToRGB.m in Sources */,
 				C18F951E1ACA506400A46502 /* TMQuiltView.m in Sources */,
 				C1C052A41AC13AF700D6D687 /* ScaleImage.m in Sources */,
