@@ -12,9 +12,9 @@
 		C11CD4761AC2983200D1D9C8 /* transparent.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C11CD4751AC2983200D1D9C8 /* transparent.jpg */; };
 		C11CD4821AC2ADB100D1D9C8 /* DRNRealTimeBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = C11CD47F1AC2ADB100D1D9C8 /* DRNRealTimeBlurView.m */; };
 		C11CD4831AC2ADB100D1D9C8 /* UIImage+BoxBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = C11CD4811AC2ADB100D1D9C8 /* UIImage+BoxBlur.m */; };
-		C18F951E1ACA506400A46502 /* TMQuiltView.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F951B1ACA506400A46502 /* TMQuiltView.m */; };
-		C18F951F1ACA506400A46502 /* TMQuiltViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F951D1ACA506400A46502 /* TMQuiltViewCell.m */; };
-		C18F95221ACA509A00A46502 /* TMPhotoQuiltViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F95211ACA509A00A46502 /* TMPhotoQuiltViewCell.m */; };
+		C18F951E1ACA506400A46502 /* TMQuiltView.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F951B1ACA506400A46502 /* TMQuiltView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		C18F951F1ACA506400A46502 /* TMQuiltViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F951D1ACA506400A46502 /* TMQuiltViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		C18F95221ACA509A00A46502 /* TMPhotoQuiltViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F95211ACA509A00A46502 /* TMPhotoQuiltViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C19712241AC3DADF0024B12E /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C19712231AC3DADF0024B12E /* CoreText.framework */; };
 		C19712261AC3DB590024B12E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C19712251AC3DB590024B12E /* CoreGraphics.framework */; };
 		C19712281AC3DD170024B12E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C19712271AC3DD170024B12E /* SystemConfiguration.framework */; };

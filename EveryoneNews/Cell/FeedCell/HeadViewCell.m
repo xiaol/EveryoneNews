@@ -111,23 +111,23 @@
         sourceName_3.backgroundColor = [UIColor clearColor];
         [sourceView_3 addSubview:sourceName_3];
         
-        bottonView = [[UIView alloc] init];
-        bottonView.backgroundColor = [UIColor whiteColor];
-        [backgroupView addSubview:bottonView];
-        
-        aspectView = [[UIView alloc] init];
-        aspectView.backgroundColor = [UIColor clearColor];
-        aspectView.layer.borderWidth = 1;
-        aspectView.layer.borderColor = [UIColor colorFromHexString:@"#EBEDED"].CGColor;
-        aspectView.layer.cornerRadius = 3;
-        [backgroupView addSubview:aspectView];
-        
-        aspect = [[UILabel alloc] init];
-        aspect.font = [UIFont fontWithName:kFont size:20];
-        aspect.textColor = [UIColor colorFromHexString:@"#4eb4ea"];
-        aspect.backgroundColor = [UIColor clearColor];
-        aspect.textAlignment = NSTextAlignmentRight;
-        [backgroupView addSubview:aspect];
+//        bottonView = [[UIView alloc] init];
+//        bottonView.backgroundColor = [UIColor blueColor];
+//        [backgroupView addSubview:bottonView];
+//        
+//        aspectView = [[UIView alloc] init];
+//        aspectView.backgroundColor = [UIColor clearColor];
+//        aspectView.layer.borderWidth = 1;
+//        aspectView.layer.borderColor = [UIColor colorFromHexString:@"#EBEDED"].CGColor;
+//        aspectView.layer.cornerRadius = 3;
+//        [backgroupView addSubview:aspectView];
+//        
+//        aspect = [[UILabel alloc] init];
+//        aspect.font = [UIFont fontWithName:kFont size:20];
+//        aspect.textColor = [UIColor colorFromHexString:@"#4eb4ea"];
+//        aspect.backgroundColor = [UIColor clearColor];
+//        aspect.textAlignment = NSTextAlignmentRight;
+//        [backgroupView addSubview:aspect];
         
         
         
@@ -179,7 +179,7 @@
         
         for (NSDictionary * dic in subArr) {
             [sourceTitle addObject:dic[@"title"]];
-            if (dic[@"user"]) {
+            if (![self isBlankString:dic[@"user"]]) {
                 [sourceName addObject:dic[@"user"]];
             } else {
                 [sourceName addObject:dic[@"sourceSitename"]];
@@ -213,25 +213,7 @@
         sourceName_2.text = @"哮天犬";
         sourceName_3.text = @"";
     }
-    
-//    NSMutableArray *sourceTitle = [[NSMutableArray alloc] init];
-//    NSMutableArray *sourceName = [[NSMutableArray alloc] init];
-//    NSMutableArray *sourceUrl = [[NSMutableArray alloc] init];
-//    
-//    for (NSDictionary * dic in subArr) {
-//        [sourceTitle addObject:dic[@"title"]];
-//        [sourceName addObject:dic[@"sourceSitename"]];
-//        [sourceUrl addObject:dic[@"url"]];
-//    }
-//    
-//    sourceTitle_1.text = sourceTitle[0];
-//    sourceTitle_2.text = sourceTitle[1];
-//    sourceTitle_3.text = sourceTitle[2];
-//    
-//    sourceName_1.text = sourceName[0];
-//    sourceName_2.text = sourceName[1];
-//    sourceName_3.text = sourceName[2];
-    
+  
     aspect.text = _headViewFrm.headViewDatasource.aspectStr;
 }
 
@@ -241,7 +223,6 @@
     imgView.frame = _headViewFrm.imgFrm;
     titleLab.frame = _headViewFrm.titleLabFrm;
     blurView.frame = titleLab.frame;
-//    blurImg.frame = titleLab.frame;
     
     sourceView_1.frame = _headViewFrm.sourceView_1;
     sourceView_2.frame = _headViewFrm.sourceView_2;
@@ -256,8 +237,34 @@
     sourceName_3.frame = _headViewFrm.sourceName;
     
     bottonView.frame = _headViewFrm.bottonView;
-    aspectView.frame = _headViewFrm.aspectFrm;
-    aspect.frame = _headViewFrm.aspectFrm;
+    if (![_headViewFrm.headViewDatasource.aspectStr isEqualToString:@"0家观点"]) {
+        
+        bottonView = [[UIView alloc] init];
+        bottonView.backgroundColor = [UIColor whiteColor];
+        [backgroupView addSubview:bottonView];
+        
+        aspectView = [[UIView alloc] init];
+        aspectView.backgroundColor = [UIColor clearColor];
+        aspectView.layer.borderWidth = 1;
+        aspectView.layer.borderColor = [UIColor colorFromHexString:@"#EBEDED"].CGColor;
+        aspectView.layer.cornerRadius = 3;
+        [backgroupView addSubview:aspectView];
+        
+        aspect = [[UILabel alloc] init];
+        aspect.font = [UIFont fontWithName:kFont size:20];
+        aspect.textColor = [UIColor colorFromHexString:@"#4eb4ea"];
+        aspect.backgroundColor = [UIColor clearColor];
+        aspect.textAlignment = NSTextAlignmentRight;
+        [backgroupView addSubview:aspect];
+
+        
+        aspectView.frame = _headViewFrm.aspectFrm;
+        aspect.frame = _headViewFrm.aspectFrm;
+    }
+    
+//    aspectView.frame = _headViewFrm.aspectFrm;
+//    aspect.frame = _headViewFrm.aspectFrm;
+    
     cutBlock.frame = _headViewFrm.cutBlockFrm;
     showBtn.frame = imgView.frame;
 }

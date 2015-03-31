@@ -9,13 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EveryoneNews/Cell/FeedCell/HeadViewCell.m"
-            timestampString = "449048945.133384"
+            filePath = "EveryoneNews/Cell/FeedCell/HeadViewFrame.m"
+            timestampString = "449482289.714123"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "166"
-            endingLineNumber = "166"
-            landmarkName = "-settingData"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
+            landmarkName = "-setHeadViewDatasource:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,29 +25,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EveryoneNews/Cell/FeedCell/HeadViewCell.m"
-            timestampString = "449465010.315015"
+            filePath = "EveryoneNews/Cell/FeedCell/HeadViewFrame.m"
+            timestampString = "449482289.714123"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "188"
-            endingLineNumber = "188"
-            landmarkName = "-settingData"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "EveryoneNews/Cell/FeedCell/HeadViewCell.m"
-            timestampString = "449465010.315015"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "190"
-            endingLineNumber = "190"
-            landmarkName = "-settingData"
+            startingLineNumber = "81"
+            endingLineNumber = "81"
+            landmarkName = "-setHeadViewDatasource:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

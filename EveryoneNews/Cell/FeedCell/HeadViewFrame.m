@@ -52,15 +52,28 @@
     CGFloat sourceTitleY = CGRectGetMaxY(_sourceIcon) - sourceTitleH;
     _sourceTitle = CGRectMake(sourceTitleX, sourceTitleY, sourceTitleW, sourceTitleH);
     
+    CGFloat cutY;
     
-    CGFloat aspectW = 100;
-    CGFloat aspectX = backViewW - aspectW - 16;
-    CGFloat aspectY = CGRectGetMaxY(_sourceView_3);
-    _aspectFrm = CGRectMake(aspectX, aspectY, aspectW, 30);
+    if (![_headViewDatasource.aspectStr isEqualToString:@"0家观点"]) {
+        CGFloat aspectW = 100;
+        CGFloat aspectX = backViewW - aspectW - 16;
+        CGFloat aspectY = CGRectGetMaxY(_sourceView_3);
+        _aspectFrm = CGRectMake(aspectX, aspectY, aspectW, 30);
+        _bottonView = CGRectMake(0, aspectY, backViewW, 40);
+        cutY = CGRectGetMaxY(_bottonView);
+    } else {
+//        _bottonView = CGRectMake(0, CGRectGetMaxY(_sourceView_3), backViewW, 40);
+        cutY = CGRectGetMaxY(_sourceView_3);
+    }
     
-    _bottonView = CGRectMake(0, aspectY, backViewW, 40);
+//    CGFloat aspectW = 100;
+//    CGFloat aspectX = backViewW - aspectW - 16;
+//    CGFloat aspectY = CGRectGetMaxY(_sourceView_3);
+//    _aspectFrm = CGRectMake(aspectX, aspectY, aspectW, 30);
+//    _bottonView = CGRectMake(0, aspectY, backViewW, 40);
+
     
-    CGFloat cutY = CGRectGetMaxY(_bottonView);
+    
     _cutBlockFrm = CGRectMake(0, cutY, backViewW, 8);
     
     

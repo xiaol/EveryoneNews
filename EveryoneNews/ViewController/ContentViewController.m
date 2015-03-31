@@ -342,27 +342,6 @@
         }
     }
     
-//    resourceList = [[NSMutableArray alloc] init];
-//    NSMutableArray *elementListArr = resultDic[@"elementList"];
-//    if (elementListArr.count > 0) {
-//        //头图Cell的解析
-//        //图文解析
-//        for (int i = 0; i < elementListArr.count; i++) {
-//            BOOL isFirstCell = NO;
-//            if (i == 0) {
-//                isFirstCell = YES;
-//            }
-//            NSDictionary *temp = elementListArr[i];
-//            TextCellFrame *textCellFrame = [[TextCellFrame alloc] init];
-//            textCellFrame.textDatasource = [TextDatasource textDatasourceWithDict:temp IsFirstCell:isFirstCell RootClass:@"-1"];
-//            textCellFrame.baseView = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, textCellFrame.cellHeight);
-//            CGRect frm = textCellFrame.backgroupViewFrame;
-//            frm.origin.x = frm.origin.x + 10;
-//            textCellFrame.backgroupViewFrame = frm;
-//            [resourceList addObject:textCellFrame];
-//        }
-//    }
-
     [self.view addSubview:contentTableView];
     [contentTableView reloadData];
     gifView.image = nil;
@@ -375,24 +354,24 @@
     [resourceArr addObject:dict];
 }
 
-#pragma mark TxtDelegate
-- (void)getTextContent:(NSString *)sourceId imgUrl:(NSString *)imgUrl SourceSite:(NSString *)sourceSite Update:(NSString *)update Title:(NSString *)title sourceUrl:(NSString *)sourceUrl hasImg:(BOOL)hasImg favorNum:(int)favorNum
-{
-    ContentViewController *contentVC = [[ContentViewController alloc] init];
-    
-    contentVC.sourceId = sourceId;
-    contentVC.imgStr = imgUrl;
-    contentVC.sourceSite = sourceSite;
-    contentVC.titleStr = title;
-    contentVC.updateTime = update;
-    contentVC.hasImg = hasImg;
-    contentVC.favorNum = favorNum;
-    [self.navigationController pushViewController:contentVC animated:YES];
-    
-    NSLog(@"sourceId:%@", sourceId);
-    NSLog(@"sourceUrl:%@", sourceUrl);
-
-}
+//#pragma mark TxtDelegate
+//- (void)getTextContent:(NSString *)sourceId imgUrl:(NSString *)imgUrl SourceSite:(NSString *)sourceSite Update:(NSString *)update Title:(NSString *)title sourceUrl:(NSString *)sourceUrl hasImg:(BOOL)hasImg favorNum:(int)favorNum
+//{
+//    ContentViewController *contentVC = [[ContentViewController alloc] init];
+//    
+//    contentVC.sourceId = sourceId;
+//    contentVC.imgStr = imgUrl;
+//    contentVC.sourceSite = sourceSite;
+//    contentVC.titleStr = title;
+//    contentVC.updateTime = update;
+//    contentVC.hasImg = hasImg;
+//    contentVC.favorNum = favorNum;
+//    [self.navigationController pushViewController:contentVC animated:YES];
+//    
+//    NSLog(@"sourceId:%@", sourceId);
+//    NSLog(@"sourceUrl:%@", sourceUrl);
+//
+//}
 
 #pragma mark 判断字符串是否为空
 - (BOOL) isBlankString:(NSString *)string {
@@ -407,44 +386,6 @@
     }
     return NO;
 }
-
-//- (void)share
-//{
-//    NSString *shareText = [NSString stringWithFormat:@"%@", self.titleStr];
-//
-////    [UMSocialSnsService presentSnsIconSheetView:self
-////                                         appKey:@"550811d8fd98c53b4d00074c"
-////                                      shareText:shareText
-////                                     shareImage:imgView.image
-////                                shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToTencent,UMShareToRenren,
-////                                                 UMShareToWechatSession,UMShareToWechatTimeline,nil]
-////                                       delegate:self];
-//    
-//
-//    [[UMSocialControllerService defaultControllerService] setShareText:@"分享内嵌文字" shareImage:[UIImage imageNamed:@"icon"] socialUIDelegate:self];        //设置分享内容和回调对象
-//    [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToSina].snsClickHandler(self,[UMSocialControllerService defaultControllerService],YES);
-//    
-//}
-//
-//- (void)didFinishGetUMSocialDataInViewController:(UMSocialResponseEntity *)response
-//{
-//    //根据`responseCode`得到发送结果,如果分享成功
-//    if(response.responseCode == UMSResponseCodeSuccess)
-//    {
-//        //得到分享到的微博平台名
-//        NSLog(@"share to sns name is %@",[[response.data allKeys] objectAtIndex:0]);
-//        
-//        [self.navicationController dismissViewControllerAnimated:YES completion:nil];
-//    }
-//    if(response.responseCode == UMSResponseCodeFaild)
-//    {
-//        NSLog(@"share failed");
-//    }
-//    if (response.responseCode == UMSResponseCodeNotLogin) {
-//        NSLog(@"未登陆");
-//    }
-//
-//}
 
 
 @end
