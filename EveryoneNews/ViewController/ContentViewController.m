@@ -14,6 +14,7 @@
 #import "BaiduCell.h"
 #import "ZhihuCell.h"
 #import "DoubanCell.h"
+#import "WeiboCell.h"
 
 #import "UIColor+HexToRGB.h"
 #import "UIImageView+WebCache.h"
@@ -150,8 +151,11 @@
     } else if ([dict.allKeys[0] isEqualToString:@"zhihu"]){
         ZhihuCell *cell = (ZhihuCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
         return cell.cellH;
-    } else {
+    } else if ([dict.allKeys[0] isEqualToString:@"douban"]){
         DoubanCell *cell = (DoubanCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
+        return cell.cellH;
+    } else {
+        WeiboCell *cell = (WeiboCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
         return cell.cellH;
     }
 }
@@ -209,7 +213,7 @@
         cell.zhihuDatasource = dict[type];
         return cell;
     }
-    else
+    else if ([type isEqualToString:@"douban"])
     {
         static NSString *cellId = @"douban";
         DoubanCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
@@ -219,6 +223,18 @@
             cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
         }
         cell.doubanDatasource = dict[type];
+        return cell;
+    }
+    else
+    {
+        static NSString *cellId = @"weibo";
+        WeiboCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+        if (!cell) {
+            cell = [[WeiboCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
+        }
+        cell.weiboDatasource = dict[type];
         return cell;
     }
 
@@ -438,17 +454,27 @@
     }
     
     
-    NSDictionary *zhihuDic = resultDic[@"zhihu"];
-    NSString *zhihuTitle = zhihuDic[@"title"];
-    if (![self isBlankString:zhihuTitle]) {
-        ZhihuDatasource *zhihuDatasource = [ZhihuDatasource zhihuWithDict:zhihuDic];
-        [self putToResourceArr:zhihuDatasource Method:@"zhihu"];
+//    NSDictionary *zhihuDic = resultDic[@"zhihu"];
+    NSArray *zhihuArr = resultDic[@"zhihu"];
+    for (NSDictionary *dic in zhihuArr) {
+        NSString *zhihuTitle = dic[@"title"];
+        if (![self isBlankString:zhihuTitle]) {
+            ZhihuDatasource *zhihuDatasource = [ZhihuDatasource zhihuWithDict:dic];
+            [self putToResourceArr:zhihuDatasource Method:@"zhihu"];
+        }
     }
+    
     
     NSArray *doubanArr = resultDic[@"douban"];
     if (doubanArr != nil && ![doubanArr isKindOfClass:[NSNull class]] && doubanArr.count != 0) {
         DoubanDatasource *doubanDatasource = [DoubanDatasource doubanDatasourceWithArr:doubanArr];
         [self putToResourceArr:doubanDatasource Method:@"douban"];
+    }
+    
+    NSArray *weiboArr = resultDic[@"weibo"];
+    if (weiboArr != nil && ![weiboArr isKindOfClass:[NSNull class]] && weiboArr.count != 0) {
+        WeiboDatasource *weiboDatasource = [WeiboDatasource weiboDatasourceWithArr:weiboArr];
+        [self putToResourceArr:weiboDatasource Method:@"weibo"];
     }
     
     [contentTableView reloadData];

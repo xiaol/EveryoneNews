@@ -168,10 +168,7 @@
         NSURL *url = [NSURL URLWithString:_headViewFrm.headViewDatasource.imgStr];
         
         [imgView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"demo_1.jpg"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-            
                     imgView.image = [ScaleImage scaleImage:imgView.image size:_headViewFrm.imgFrm.size];
-            
-            //        [SVProgressHUD dismiss];
         }];
     }
     

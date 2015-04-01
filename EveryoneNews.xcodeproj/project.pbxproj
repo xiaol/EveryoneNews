@@ -22,6 +22,9 @@
 		C16FA9AC1ACBA71A00F85DF8 /* DoubanDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9AB1ACBA71A00F85DF8 /* DoubanDatasource.m */; };
 		C16FA9AF1ACBA73D00F85DF8 /* DoubanCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9AE1ACBA73D00F85DF8 /* DoubanCell.m */; };
 		C16FA9B11ACBA8E000F85DF8 /* douban.png in Resources */ = {isa = PBXBuildFile; fileRef = C16FA9B01ACBA8E000F85DF8 /* douban.png */; };
+		C16FA9B51ACBD48400F85DF8 /* WeiboCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9B41ACBD48400F85DF8 /* WeiboCell.m */; };
+		C16FA9B81ACBD49900F85DF8 /* WeiboDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9B71ACBD49900F85DF8 /* WeiboDatasource.m */; };
+		C16FA9BA1ACBE2A800F85DF8 /* weibo.png in Resources */ = {isa = PBXBuildFile; fileRef = C16FA9B91ACBE2A800F85DF8 /* weibo.png */; };
 		C18F951E1ACA506400A46502 /* TMQuiltView.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F951B1ACA506400A46502 /* TMQuiltView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C18F951F1ACA506400A46502 /* TMQuiltViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F951D1ACA506400A46502 /* TMQuiltViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C18F95221ACA509A00A46502 /* TMPhotoQuiltViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F95211ACA509A00A46502 /* TMPhotoQuiltViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -113,6 +116,11 @@
 		C16FA9AD1ACBA73D00F85DF8 /* DoubanCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoubanCell.h; sourceTree = "<group>"; };
 		C16FA9AE1ACBA73D00F85DF8 /* DoubanCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoubanCell.m; sourceTree = "<group>"; };
 		C16FA9B01ACBA8E000F85DF8 /* douban.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = douban.png; sourceTree = "<group>"; };
+		C16FA9B31ACBD48400F85DF8 /* WeiboCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboCell.h; sourceTree = "<group>"; };
+		C16FA9B41ACBD48400F85DF8 /* WeiboCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeiboCell.m; sourceTree = "<group>"; };
+		C16FA9B61ACBD49900F85DF8 /* WeiboDatasource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboDatasource.h; sourceTree = "<group>"; };
+		C16FA9B71ACBD49900F85DF8 /* WeiboDatasource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeiboDatasource.m; sourceTree = "<group>"; };
+		C16FA9B91ACBE2A800F85DF8 /* weibo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = weibo.png; sourceTree = "<group>"; };
 		C18F951A1ACA506400A46502 /* TMQuiltView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMQuiltView.h; sourceTree = "<group>"; };
 		C18F951B1ACA506400A46502 /* TMQuiltView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMQuiltView.m; sourceTree = "<group>"; };
 		C18F951C1ACA506400A46502 /* TMQuiltViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMQuiltViewCell.h; sourceTree = "<group>"; };
@@ -308,6 +316,17 @@
 			path = Douban;
 			sourceTree = "<group>";
 		};
+		C16FA9B21ACBD47600F85DF8 /* Weibo */ = {
+			isa = PBXGroup;
+			children = (
+				C16FA9B31ACBD48400F85DF8 /* WeiboCell.h */,
+				C16FA9B41ACBD48400F85DF8 /* WeiboCell.m */,
+				C16FA9B61ACBD49900F85DF8 /* WeiboDatasource.h */,
+				C16FA9B71ACBD49900F85DF8 /* WeiboDatasource.m */,
+			);
+			path = Weibo;
+			sourceTree = "<group>";
+		};
 		C18F95191ACA504C00A46502 /* WaterFlow */ = {
 			isa = PBXGroup;
 			children = (
@@ -326,6 +345,7 @@
 			children = (
 				C18F95241ACAA88D00A46502 /* hot.png */,
 				C16FA9B01ACBA8E000F85DF8 /* douban.png */,
+				C16FA9B91ACBE2A800F85DF8 /* weibo.png */,
 				C16FA99E1ACB05C000F85DF8 /* baiduLogo.png */,
 				C16FA9A71ACB9E2300F85DF8 /* zhihu.png */,
 			);
@@ -481,6 +501,7 @@
 		C1C052801AC139A200D6D687 /* ContentCells */ = {
 			isa = PBXGroup;
 			children = (
+				C16FA9B21ACBD47600F85DF8 /* Weibo */,
 				C16FA9A91ACBA70A00F85DF8 /* Douban */,
 				C16FA9A01ACB9BFF00F85DF8 /* Zhihu */,
 				C16FA9941ACAFAC900F85DF8 /* BaiduCell */,
@@ -653,6 +674,7 @@
 			files = (
 				C11CD46D1AC2691400D1D9C8 /* huawen.ttf in Resources */,
 				C1C0523A1ABFFC1600D6D687 /* Main.storyboard in Resources */,
+				C16FA9BA1ACBE2A800F85DF8 /* weibo.png in Resources */,
 				C11CD4761AC2983200D1D9C8 /* transparent.jpg in Resources */,
 				C1C0523F1ABFFC1600D6D687 /* LaunchScreen.xib in Resources */,
 				C1C052721AC1196F00D6D687 /* demo_1.jpg in Resources */,
@@ -713,6 +735,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C1C052B91AC13BDB00D6D687 /* MJRefreshFooterView.m in Sources */,
+				C16FA9B81ACBD49900F85DF8 /* WeiboDatasource.m in Sources */,
 				C1C0529D1AC13AB700D6D687 /* FTCoreTextStyle.m in Sources */,
 				C1C052C31AC13BE400D6D687 /* YLGIFImage.m in Sources */,
 				C1C052BD1AC13BDB00D6D687 /* UIView+MJExtension.m in Sources */,
@@ -752,6 +775,7 @@
 				C18F951E1ACA506400A46502 /* TMQuiltView.m in Sources */,
 				C1C052A41AC13AF700D6D687 /* ScaleImage.m in Sources */,
 				C18F95221ACA509A00A46502 /* TMPhotoQuiltViewCell.m in Sources */,
+				C16FA9B51ACBD48400F85DF8 /* WeiboCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
