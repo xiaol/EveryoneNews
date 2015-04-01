@@ -13,6 +13,7 @@
 #import "FTCoreTextCell.h"
 #import "BaiduCell.h"
 #import "ZhihuCell.h"
+#import "DoubanCell.h"
 
 #import "UIColor+HexToRGB.h"
 #import "UIImageView+WebCache.h"
@@ -146,8 +147,11 @@
     } else if ([dict.allKeys[0] isEqualToString:@"baike"]){
         BaiduCell *cell = (BaiduCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
         return cell.baiduFrm.cellH;
-    } else {
+    } else if ([dict.allKeys[0] isEqualToString:@"zhihu"]){
         ZhihuCell *cell = (ZhihuCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
+        return cell.cellH;
+    } else {
+        DoubanCell *cell = (DoubanCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
         return cell.cellH;
     }
 }
@@ -193,7 +197,7 @@
         cell.baiduFrm = dict[type];
         return cell;
     }
-    else
+    else if ([type isEqualToString:@"zhihu"])
     {
         static NSString *cellId = @"zhihu";
         ZhihuCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
@@ -203,6 +207,18 @@
             cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
         }
         cell.zhihuDatasource = dict[type];
+        return cell;
+    }
+    else
+    {
+        static NSString *cellId = @"douban";
+        DoubanCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+        if (!cell) {
+            cell = [[DoubanCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
+        }
+        cell.doubanDatasource = dict[type];
         return cell;
     }
 
@@ -424,6 +440,12 @@
     if (![self isBlankString:zhihuTitle]) {
         ZhihuDatasource *zhihuDatasource = [ZhihuDatasource zhihuWithDict:zhihuDic];
         [self putToResourceArr:zhihuDatasource Method:@"zhihu"];
+    }
+    
+    NSArray *doubanArr = resultDic[@"douban"];
+    if (doubanArr != nil && ![doubanArr isKindOfClass:[NSNull class]] && doubanArr.count != 0) {
+        DoubanDatasource *doubanDatasource = [DoubanDatasource doubanDatasourceWithArr:doubanArr];
+        [self putToResourceArr:doubanDatasource Method:@"douban"];
     }
     
     [contentTableView reloadData];

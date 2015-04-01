@@ -19,6 +19,9 @@
 		C16FA9A31ACB9C1200F85DF8 /* ZhihuCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9A21ACB9C1200F85DF8 /* ZhihuCell.m */; };
 		C16FA9A61ACB9C2600F85DF8 /* ZhihuDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9A51ACB9C2600F85DF8 /* ZhihuDatasource.m */; };
 		C16FA9A81ACB9E2300F85DF8 /* zhihu.png in Resources */ = {isa = PBXBuildFile; fileRef = C16FA9A71ACB9E2300F85DF8 /* zhihu.png */; };
+		C16FA9AC1ACBA71A00F85DF8 /* DoubanDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9AB1ACBA71A00F85DF8 /* DoubanDatasource.m */; };
+		C16FA9AF1ACBA73D00F85DF8 /* DoubanCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9AE1ACBA73D00F85DF8 /* DoubanCell.m */; };
+		C16FA9B11ACBA8E000F85DF8 /* douban.png in Resources */ = {isa = PBXBuildFile; fileRef = C16FA9B01ACBA8E000F85DF8 /* douban.png */; };
 		C18F951E1ACA506400A46502 /* TMQuiltView.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F951B1ACA506400A46502 /* TMQuiltView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C18F951F1ACA506400A46502 /* TMQuiltViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F951D1ACA506400A46502 /* TMQuiltViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C18F95221ACA509A00A46502 /* TMPhotoQuiltViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F95211ACA509A00A46502 /* TMPhotoQuiltViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -105,6 +108,11 @@
 		C16FA9A41ACB9C2600F85DF8 /* ZhihuDatasource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhihuDatasource.h; sourceTree = "<group>"; };
 		C16FA9A51ACB9C2600F85DF8 /* ZhihuDatasource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhihuDatasource.m; sourceTree = "<group>"; };
 		C16FA9A71ACB9E2300F85DF8 /* zhihu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = zhihu.png; sourceTree = "<group>"; };
+		C16FA9AA1ACBA71A00F85DF8 /* DoubanDatasource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoubanDatasource.h; sourceTree = "<group>"; };
+		C16FA9AB1ACBA71A00F85DF8 /* DoubanDatasource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoubanDatasource.m; sourceTree = "<group>"; };
+		C16FA9AD1ACBA73D00F85DF8 /* DoubanCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoubanCell.h; sourceTree = "<group>"; };
+		C16FA9AE1ACBA73D00F85DF8 /* DoubanCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DoubanCell.m; sourceTree = "<group>"; };
+		C16FA9B01ACBA8E000F85DF8 /* douban.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = douban.png; sourceTree = "<group>"; };
 		C18F951A1ACA506400A46502 /* TMQuiltView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMQuiltView.h; sourceTree = "<group>"; };
 		C18F951B1ACA506400A46502 /* TMQuiltView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMQuiltView.m; sourceTree = "<group>"; };
 		C18F951C1ACA506400A46502 /* TMQuiltViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMQuiltViewCell.h; sourceTree = "<group>"; };
@@ -289,6 +297,17 @@
 			path = Zhihu;
 			sourceTree = "<group>";
 		};
+		C16FA9A91ACBA70A00F85DF8 /* Douban */ = {
+			isa = PBXGroup;
+			children = (
+				C16FA9AA1ACBA71A00F85DF8 /* DoubanDatasource.h */,
+				C16FA9AB1ACBA71A00F85DF8 /* DoubanDatasource.m */,
+				C16FA9AD1ACBA73D00F85DF8 /* DoubanCell.h */,
+				C16FA9AE1ACBA73D00F85DF8 /* DoubanCell.m */,
+			);
+			path = Douban;
+			sourceTree = "<group>";
+		};
 		C18F95191ACA504C00A46502 /* WaterFlow */ = {
 			isa = PBXGroup;
 			children = (
@@ -306,6 +325,7 @@
 			isa = PBXGroup;
 			children = (
 				C18F95241ACAA88D00A46502 /* hot.png */,
+				C16FA9B01ACBA8E000F85DF8 /* douban.png */,
 				C16FA99E1ACB05C000F85DF8 /* baiduLogo.png */,
 				C16FA9A71ACB9E2300F85DF8 /* zhihu.png */,
 			);
@@ -461,6 +481,7 @@
 		C1C052801AC139A200D6D687 /* ContentCells */ = {
 			isa = PBXGroup;
 			children = (
+				C16FA9A91ACBA70A00F85DF8 /* Douban */,
 				C16FA9A01ACB9BFF00F85DF8 /* Zhihu */,
 				C16FA9941ACAFAC900F85DF8 /* BaiduCell */,
 				C1C0528B1AC139D800D6D687 /* TxtCell */,
@@ -640,6 +661,7 @@
 				C16FA99F1ACB05C000F85DF8 /* baiduLogo.png in Resources */,
 				C16FA9A81ACB9E2300F85DF8 /* zhihu.png in Resources */,
 				C1C0523C1ABFFC1600D6D687 /* Images.xcassets in Resources */,
+				C16FA9B11ACBA8E000F85DF8 /* douban.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -706,6 +728,7 @@
 				C1C052371ABFFC1600D6D687 /* ViewController.m in Sources */,
 				C1C052B71AC13BDB00D6D687 /* MJRefreshBaseView.m in Sources */,
 				C1C052B81AC13BDB00D6D687 /* MJRefreshConst.m in Sources */,
+				C16FA9AF1ACBA73D00F85DF8 /* DoubanCell.m in Sources */,
 				C1C052961AC139D800D6D687 /* TxtDatasource.m in Sources */,
 				C1C052A31AC13AF700D6D687 /* ImageExtension.m in Sources */,
 				C18F951F1ACA506400A46502 /* TMQuiltViewCell.m in Sources */,
@@ -716,6 +739,7 @@
 				C16FA9A61ACB9C2600F85DF8 /* ZhihuDatasource.m in Sources */,
 				C1C052881AC139B900D6D687 /* ContentCell.m in Sources */,
 				C1C0529E1AC13AB700D6D687 /* FTCoreTextView.m in Sources */,
+				C16FA9AC1ACBA71A00F85DF8 /* DoubanDatasource.m in Sources */,
 				C1C052591AC0007800D6D687 /* BaseViewController.m in Sources */,
 				C11CD4821AC2ADB100D1D9C8 /* DRNRealTimeBlurView.m in Sources */,
 				C1C0528A1AC139B900D6D687 /* ContentDatasource.m in Sources */,
