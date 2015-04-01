@@ -33,9 +33,9 @@
     _baiduIconFrm = CGRectMake(iconX, iconY, iconW, 14);
     
     CGFloat backViewH = CGRectGetMaxY(_baiduIconFrm) + 10;
-    _backViewFrm = CGRectMake(0, 28, screenW, backViewH);
+    _backViewFrm = CGRectMake(0, 14, screenW, backViewH);
     
-    CGFloat baseViewH = CGRectGetMaxY(_backViewFrm) + 28;
+    CGFloat baseViewH = CGRectGetMaxY(_backViewFrm) + 14;
     _baseViewFrm = CGRectMake(0, 0, screenW, baseViewH);
     
     _cellH = CGRectGetMaxY(_backViewFrm);

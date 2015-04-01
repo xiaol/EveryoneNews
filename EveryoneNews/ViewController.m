@@ -43,8 +43,8 @@
 {
     dataArr = [[NSMutableArray alloc] init];
     
-    self.title = @"百家争鸣";
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorFromHexString:@"ffffff"],NSFontAttributeName:[UIFont fontWithName:kFont size:22]}];
+    self.title = @"头条百家";
+//    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorFromHexString:@"ffffff"],NSFontAttributeName:[UIFont fontWithName:kFont size:22]}];
 
     [self tableViewInit];
     
@@ -153,6 +153,7 @@
 - (void)convertToModel:(NSDictionary *)resultDic
 {
 //    NSLog(@"resultDic:%@", resultDic);
+    dataArr = [[NSMutableArray alloc] init];
     for (NSDictionary *dict in resultDic) {
         
         HeadViewFrame *headViewFrm = [[HeadViewFrame alloc] init];

@@ -34,3 +34,5 @@
 
 #define kFont           @"STZhongsong"
 
+#define kGreen          @"#EBEDED"
+

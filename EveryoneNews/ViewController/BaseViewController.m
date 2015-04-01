@@ -36,6 +36,7 @@
 //    }
     _navicationController = (KDNavigationController*)self.navigationController;
 //    _navicationController.supportedOrientations = UIInterfaceOrientationMaskPortrait;
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorFromHexString:@"ffffff"],NSFontAttributeName:[UIFont fontWithName:kFont size:22]}];
 }
 
 -(void)viewWillDisappear:(BOOL)animated

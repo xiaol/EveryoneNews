@@ -22,7 +22,7 @@
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         baseView = [[UIView alloc] init];
-        baseView.backgroundColor = [UIColor colorFromHexString:@"#7f7f7f"];
+        baseView.backgroundColor = [UIColor colorFromHexString:kGreen];
         [self.contentView addSubview:baseView];
         
         backView = [[UIView alloc] init];

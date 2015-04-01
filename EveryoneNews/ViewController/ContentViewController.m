@@ -11,8 +11,8 @@
 #import "ContentCell.h"
 
 #import "FTCoreTextCell.h"
-#import "TxtCell.h"
 #import "BaiduCell.h"
+#import "ZhihuCell.h"
 
 #import "UIColor+HexToRGB.h"
 #import "UIImageView+WebCache.h"
@@ -96,7 +96,7 @@
 {
     contentTableView = [[UITableView alloc] init];
     CGRect frame = self.view.frame;
-    frame.size.height -= 64;
+    frame.size.height -= (64 + 14);
     contentTableView.frame = frame;
     
     contentTableView.delegate = self;
@@ -104,7 +104,6 @@
     contentTableView.separatorStyle = UITableViewCellSelectionStyleNone;
     contentTableView.backgroundColor = [UIColor clearColor];
     contentTableView.showsVerticalScrollIndicator = NO;
-    contentTableView.backgroundColor = [UIColor clearColor];
     [self.view addSubview:contentTableView];
 }
 
@@ -136,16 +135,20 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *dict = resourceArr[indexPath.row];
-    if ([dict.allKeys[0] isEqualToString:@"img"]) {
-        ContentCellFrame *frm = dict[@"img"];
-        return [frm cellHeight];
-    } else if ([dict.allKeys[0] isEqualToString:@"FTText"]){
+//    if ([dict.allKeys[0] isEqualToString:@"img"]) {
+//        ContentCellFrame *frm = dict[@"img"];
+//        return [frm cellHeight];
+//    } else
+    if ([dict.allKeys[0] isEqualToString:@"FTText"]){
         FTCoreTextCell *cell = (FTCoreTextCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
         CGFloat height = cell.cellH;
         return height;
-    } else {
+    } else if ([dict.allKeys[0] isEqualToString:@"baike"]){
         BaiduCell *cell = (BaiduCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
         return cell.baiduFrm.cellH;
+    } else {
+        ZhihuCell *cell = (ZhihuCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
+        return cell.cellH;
     }
 }
 
@@ -176,7 +179,7 @@
         return cell;
 
     }
-    else
+    else if ([type isEqualToString:@"baike"])
     {
         static NSString *cellId = @"baike";
         
@@ -188,6 +191,18 @@
             cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
         }
         cell.baiduFrm = dict[type];
+        return cell;
+    }
+    else
+    {
+        static NSString *cellId = @"zhihu";
+        ZhihuCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+        if (!cell) {
+            cell = [[ZhihuCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
+        }
+        cell.zhihuDatasource = dict[type];
         return cell;
     }
 
@@ -402,6 +417,13 @@
         BaiduFrame *baiduFrm = [[BaiduFrame alloc] init];
         baiduFrm.baiduDatasource = [BaiduDatasource baiduDatasourceWithDict:baikeDic];
         [self putToResourceArr:baiduFrm Method:@"baike"];
+    }
+    
+    NSDictionary *zhihuDic = resultDic[@"zhihu"];
+    NSString *zhihuTitle = zhihuDic[@"title"];
+    if (![self isBlankString:zhihuTitle]) {
+        ZhihuDatasource *zhihuDatasource = [ZhihuDatasource zhihuWithDict:zhihuDic];
+        [self putToResourceArr:zhihuDatasource Method:@"zhihu"];
     }
     
     [contentTableView reloadData];
