@@ -22,6 +22,8 @@
 //#import "YLImageView.h"
 #import "ScaleImage.h"
 
+#import "MJRefresh.h"
+
 //#import "UIImage+GIF.h"
 
 
@@ -44,15 +46,13 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-//    NSString *sourceId = @"4d4716525b6d76e79a657116f318ba2be5ba7068";
     
-    NSString *url = @"http://121.41.75.213:9999/news/baijia/fetchContent?url=";
-    url = [NSString stringWithFormat:@"%@%@", url, self.sourceUrl];
-    for (NSString *str in self.responseUrls) {
-        url = [NSString stringWithFormat:@"%@&filterurls=%@", url, str];
-    }
-//    [self getContentDetails:sourceId];
-    [self getContentDetails:url];
+//    NSString *url = @"http://121.41.75.213:9999/news/baijia/fetchContent?url=";
+//    url = [NSString stringWithFormat:@"%@%@", url, self.sourceUrl];
+//    for (NSString *str in self.responseUrls) {
+//        url = [NSString stringWithFormat:@"%@&filterurls=%@", url, str];
+//    }
+//    [self getContentDetails:url];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -66,14 +66,8 @@
     
     [self commonInit];
     [self initTableView];
-//    if (self.hasImg) {
-//        contentTableView.tableHeaderView = [self getHeaderView];
-//    } else {
-//        contentTableView.tableHeaderView = [self getHeaderViewWithoutImg];
-//    }
-    contentTableView.tableHeaderView = [self getHeaderView];
     
-    
+    [self setupRefresh];
 }
 
 - (void)commonInit
@@ -85,13 +79,6 @@
     UIView *backView = [[UIView alloc] initWithFrame:self.view.frame];
     backView.backgroundColor = [UIColor colorFromHexString:@"#EDEDF3"];
     [self.view addSubview:backView];
-    
-//    /* 添加GIF */
-//    gifView = [[YLImageView alloc] initWithFrame:CGRectMake(0, 0, 145, 141)];
-//    gifView.center = CGPointMake(backView.center.x, backView.center.y - 64);
-//    [backView addSubview:gifView];
-//    gifView.image = [YLGIFImage imageNamed:@"yazi.gif"];
-    
     
 }
 - (void)initTableView
@@ -106,7 +93,30 @@
     contentTableView.separatorStyle = UITableViewCellSelectionStyleNone;
     contentTableView.backgroundColor = [UIColor clearColor];
     contentTableView.showsVerticalScrollIndicator = NO;
+    
+    contentTableView.tableHeaderView = [self getHeaderView];
+    
     [self.view addSubview:contentTableView];
+}
+
+#pragma mark MJRefresh
+- (void)setupRefresh
+{
+    // 1.下拉刷新(进入刷新状态就会调用self的headerRereshing)
+    [contentTableView addHeaderWithTarget:self action:@selector(headerRereshing)];
+//    [self getNesrestPoint:YES];
+    [self headerRereshing];
+}
+
+- (void)headerRereshing
+{
+//    [self getRequestWithMethod:nil Temperature:targetZone - 1];
+    NSString *url = @"http://121.41.75.213:9999/news/baijia/fetchContent?url=";
+    url = [NSString stringWithFormat:@"%@%@", url, self.sourceUrl];
+    for (NSString *str in self.responseUrls) {
+        url = [NSString stringWithFormat:@"%@&filterurls=%@", url, str];
+    }
+    [self getContentDetails:url];
 }
 
 
@@ -116,23 +126,6 @@
     return resourceArr.count;
 }
 
-//- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    if (indexPath.row < resourceArr.count ) {
-//        NSDictionary *dict = resourceArr[indexPath.row];
-//        if ([dict.allKeys[0] isEqualToString:@"img"]) {
-//            CGFloat width = [UIScreen mainScreen].bounds.size.width - 2 * 15;
-//            CGFloat height = width * 9 / 16;
-//            return height;
-//        } else
-//            return 0;
-//    }
-//    else {
-//        return 0;
-//
-//    }
-//    
-//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

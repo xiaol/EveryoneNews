@@ -19,10 +19,15 @@
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         CGFloat screenW = [UIScreen mainScreen].bounds.size.width;
-        scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, screenW, 125)];
+        
+        UIView *baseView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenW, 125 + 28)];
+        baseView.backgroundColor = [UIColor colorFromHexString:kGreen];
+        [self.contentView addSubview:baseView];
+        
+        scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 14, screenW, 125)];
         scrollView.backgroundColor = [UIColor whiteColor];
         [self.contentView addSubview:scrollView];
-        _cellH = 125;
+        _cellH = 125 + 28;
     }
     return self;
 }
@@ -53,6 +58,12 @@
         [self setDetailsInView:backView UserName:dic[@"user"] userTitle:dic[@"title"]];
         [scrollView addSubview:backView];
     }
+    scrollView.showsHorizontalScrollIndicator = NO;
+    
+    CGFloat contentW = weiboX + weiboW +bolder;
+    scrollView.contentSize = CGSizeMake(contentW, 0);
+    scrollView.pagingEnabled = YES;
+    scrollView.delegate = self;
 }
 
 - (void)setDetailsInView:(UIView *)backView UserName:(NSString *)userName userTitle:(NSString *)userTitle
@@ -60,6 +71,8 @@
     UIImageView *iconImg = [[UIImageView alloc] initWithFrame:CGRectMake(7, 7, 36, 36)];
     NSURL *URL = [NSURL URLWithString:@"http://tp2.sinaimg.cn/3189729061/180/5671804570/1"];
     [iconImg sd_setImageWithURL:URL];
+    iconImg.layer.cornerRadius = 18;
+    iconImg.layer.masksToBounds = YES;
     [backView addSubview:iconImg];
     
     CGFloat userNameX = CGRectGetMaxX(iconImg.frame) + 9;
@@ -70,14 +83,18 @@
     userNameLab.font = [UIFont fontWithName:kFont size:12];
     userNameLab.textColor = [UIColor blackColor];
     userNameLab.textAlignment = NSTextAlignmentLeft;
+    
+    userNameLab.backgroundColor = [UIColor yellowColor];
+    
     [backView addSubview:userNameLab];
     
     CGFloat userTitleY = CGRectGetMaxY(userNameLab.frame) + 8;
-    UILabel *userTitleLab = [[UILabel alloc] initWithFrame:CGRectMake(userNameX, userTitleY, userNameW, 24)];
+    UILabel *userTitleLab = [[UILabel alloc] initWithFrame:CGRectMake(userNameX, userTitleY, userNameW, 30)];
     userTitleLab.text = userTitle;
     userTitleLab.font = [UIFont fontWithName:kFont size:11];
     userTitleLab.textColor = [UIColor colorFromHexString:@"#7f7f7f"];
     userTitleLab.numberOfLines = 2;
+    userTitleLab.textAlignment = NSTextAlignmentLeft;
     [backView addSubview:userTitleLab];
     
 }
