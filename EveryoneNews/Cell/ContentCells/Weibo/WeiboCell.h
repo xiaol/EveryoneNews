@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "WeiboDatasource.h"
+#import "BaseCell.h"
 
-@interface WeiboCell : UITableViewCell<UIScrollViewDelegate>
+@interface WeiboCell : BaseCell<UIScrollViewDelegate>
 
 @property (nonatomic, strong)WeiboDatasource *weiboDatasource;
 @property (nonatomic, assign) CGFloat cellH;

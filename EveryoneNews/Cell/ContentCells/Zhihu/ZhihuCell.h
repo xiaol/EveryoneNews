@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "ZhihuDatasource.h"
+#import "BaseCell.h"
 
-@interface ZhihuCell : UITableViewCell
+@interface ZhihuCell : BaseCell
 
 @property (nonatomic, strong) ZhihuDatasource *zhihuDatasource;
 @property (nonatomic, assign) CGFloat cellH;

@@ -25,6 +25,8 @@
 		C16FA9B51ACBD48400F85DF8 /* WeiboCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9B41ACBD48400F85DF8 /* WeiboCell.m */; };
 		C16FA9B81ACBD49900F85DF8 /* WeiboDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9B71ACBD49900F85DF8 /* WeiboDatasource.m */; };
 		C16FA9BA1ACBE2A800F85DF8 /* weibo.png in Resources */ = {isa = PBXBuildFile; fileRef = C16FA9B91ACBE2A800F85DF8 /* weibo.png */; };
+		C16FA9BD1ACC1E1400F85DF8 /* BaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9BC1ACC1E1400F85DF8 /* BaseCell.m */; };
+		C16FA9C01ACC209700F85DF8 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9BF1ACC209700F85DF8 /* WebViewController.m */; };
 		C18F951E1ACA506400A46502 /* TMQuiltView.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F951B1ACA506400A46502 /* TMQuiltView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C18F951F1ACA506400A46502 /* TMQuiltViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F951D1ACA506400A46502 /* TMQuiltViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C18F95221ACA509A00A46502 /* TMPhotoQuiltViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F95211ACA509A00A46502 /* TMPhotoQuiltViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -121,6 +123,10 @@
 		C16FA9B61ACBD49900F85DF8 /* WeiboDatasource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WeiboDatasource.h; sourceTree = "<group>"; };
 		C16FA9B71ACBD49900F85DF8 /* WeiboDatasource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WeiboDatasource.m; sourceTree = "<group>"; };
 		C16FA9B91ACBE2A800F85DF8 /* weibo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = weibo.png; sourceTree = "<group>"; };
+		C16FA9BB1ACC1E1400F85DF8 /* BaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseCell.h; sourceTree = "<group>"; };
+		C16FA9BC1ACC1E1400F85DF8 /* BaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseCell.m; sourceTree = "<group>"; };
+		C16FA9BE1ACC209700F85DF8 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		C16FA9BF1ACC209700F85DF8 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
 		C18F951A1ACA506400A46502 /* TMQuiltView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMQuiltView.h; sourceTree = "<group>"; };
 		C18F951B1ACA506400A46502 /* TMQuiltView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMQuiltView.m; sourceTree = "<group>"; };
 		C18F951C1ACA506400A46502 /* TMQuiltViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMQuiltViewCell.h; sourceTree = "<group>"; };
@@ -427,6 +433,8 @@
 				C1C052361ABFFC1600D6D687 /* ViewController.m */,
 				C1C052731AC1385700D6D687 /* ContentViewController.h */,
 				C1C052741AC1385800D6D687 /* ContentViewController.m */,
+				C16FA9BE1ACC209700F85DF8 /* WebViewController.h */,
+				C16FA9BF1ACC209700F85DF8 /* WebViewController.m */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -507,6 +515,8 @@
 				C16FA9941ACAFAC900F85DF8 /* BaiduCell */,
 				C1C0528B1AC139D800D6D687 /* TxtCell */,
 				C1C052811AC139B200D6D687 /* ImgCell */,
+				C16FA9BB1ACC1E1400F85DF8 /* BaseCell.h */,
+				C16FA9BC1ACC1E1400F85DF8 /* BaseCell.m */,
 			);
 			path = ContentCells;
 			sourceTree = "<group>";
@@ -769,6 +779,7 @@
 				C1C052891AC139B900D6D687 /* ContentCellFrame.m in Sources */,
 				C1C052751AC1385800D6D687 /* ContentViewController.m in Sources */,
 				C1C052341ABFFC1600D6D687 /* AppDelegate.m in Sources */,
+				C16FA9C01ACC209700F85DF8 /* WebViewController.m in Sources */,
 				C1C052311ABFFC1600D6D687 /* main.m in Sources */,
 				C16FA99D1ACB024500F85DF8 /* BaiduCell.m in Sources */,
 				C1C0526E1AC01ED400D6D687 /* UIColor+HexToRGB.m in Sources */,
@@ -776,6 +787,7 @@
 				C1C052A41AC13AF700D6D687 /* ScaleImage.m in Sources */,
 				C18F95221ACA509A00A46502 /* TMPhotoQuiltViewCell.m in Sources */,
 				C16FA9B51ACBD48400F85DF8 /* WeiboCell.m in Sources */,
+				C16FA9BD1ACC1E1400F85DF8 /* BaseCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

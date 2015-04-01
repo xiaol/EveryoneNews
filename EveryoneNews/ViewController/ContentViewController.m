@@ -24,19 +24,27 @@
 
 #import "MJRefresh.h"
 
+#import "TMQuiltView.h"
+#import "TMPhotoQuiltViewCell.h"
+
+#import "WebViewController.h"
+
 //#import "UIImage+GIF.h"
 
 
 
 #define kTitleFont 17.0
 
-@interface ContentViewController ()<UITableViewDataSource, UITableViewDelegate>
+@interface ContentViewController ()<UITableViewDataSource, UITableViewDelegate, TMQuiltViewDataSource,TMQuiltViewDelegate, WebDelegate>
 {
     NSMutableArray *resourceArr;    //存储图文详细内容
     UITableView *contentTableView;
-//    YLImageView *gifView;
+
+    TMQuiltView *qtmquitView;
     
-//    UIImageView *imgView;
+    BOOL firstLoad;
+    CGFloat waterFlowH;
+    NSMutableDictionary *waterFlowDic;
 }
 
 @end
@@ -66,6 +74,7 @@
     
     [self commonInit];
     [self initTableView];
+    [self initWaterFlow];
     
     [self setupRefresh];
 }
@@ -97,6 +106,34 @@
     contentTableView.tableHeaderView = [self getHeaderView];
     
     [self.view addSubview:contentTableView];
+}
+
+- (void)initWaterFlow
+{
+    waterFlowH = 0;
+    
+    qtmquitView = [[TMQuiltView alloc] initWithFrame:CGRectMake(0, 0, 320, 500)];
+    qtmquitView.delegate = self;
+    qtmquitView.dataSource = self;
+    qtmquitView.backgroundColor = [UIColor yellowColor];
+    
+    contentTableView.tableFooterView = qtmquitView;
+    
+//    [qtmquitView reloadData];
+}
+
+#pragma mark WaterFlow Function
+-(void)warterFlowReloadData{
+    
+//    [self finishReloadingData];
+    if (!firstLoad) {
+        waterFlowH = contentTableView.contentSize.height - qtmquitView.contentSize.height - 80 + 21;
+        firstLoad = YES;
+    }
+    
+    qtmquitView.frame = CGRectMake(0, waterFlowH, qtmquitView.contentSize.width, qtmquitView.contentSize.height);
+    contentTableView.contentSize = CGSizeMake(0, waterFlowH + qtmquitView.contentSize.height);
+
 }
 
 #pragma mark MJRefresh
@@ -202,6 +239,7 @@
             cell = [[ZhihuCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
+            cell.delegate = self;
         }
         cell.zhihuDatasource = dict[type];
         return cell;
@@ -254,7 +292,6 @@
             } else {
                 imgView.image = [ScaleImage scaleImage:imgView.image size:imgView.frame.size];
             }
-//            [SVProgressHUD dismiss];
         }];
     }
     [backView addSubview:imgView];
@@ -470,7 +507,15 @@
         [self putToResourceArr:weiboDatasource Method:@"weibo"];
     }
     
+    //waterFlow 假数据
+    for (int i = 0; i < 10; i++) {
+        [waterFlowDic setObject:@"douban.png" forKey:[NSString stringWithFormat:@"%d", i]];
+    }
+    
     [contentTableView reloadData];
+    
+//    [self warterFlowReloadData];
+    [qtmquitView reloadData];
 }
 
 - (void)putToResourceArr:(id)resource Method:(NSString *)method
@@ -478,6 +523,60 @@
     NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:resource, method, nil];
     [resourceArr addObject:dict];
 }
+
+#pragma mark waterFlow methods
+
+- (NSInteger)quiltViewNumberOfCells:(TMQuiltView *)TMQuiltView {
+//    return [self.images count];
+    return waterFlowDic.count;
+}
+
+- (TMQuiltViewCell *)quiltView:(TMQuiltView *)quiltView cellAtIndexPath:(NSIndexPath *)indexPath {
+    TMPhotoQuiltViewCell *cell = (TMPhotoQuiltViewCell *)[quiltView dequeueReusableCellWithReuseIdentifier:@"PhotoCell"];
+    if (!cell) {
+        cell = [[TMPhotoQuiltViewCell alloc] initWithReuseIdentifier:@"PhotoCell"];
+    }
+    
+    NSString *num = [NSString stringWithFormat:@"%d", (int)indexPath.row];
+    cell.photoView.image = waterFlowDic[num];
+    cell.titleLabel.text = [NSString stringWithFormat:@"%ld", indexPath.row];
+    return cell;
+}
+
+#pragma mark - TMQuiltViewDelegate
+
+- (NSInteger)quiltViewNumberOfColumns:(TMQuiltView *)quiltView {
+    
+    
+    if ([[UIDevice currentDevice] orientation] == UIDeviceOrientationLandscapeLeft
+        || [[UIDevice currentDevice] orientation] == UIDeviceOrientationLandscapeRight)
+    {
+        return 3;
+    } else {
+        return 2;
+    }
+}
+
+- (CGFloat)quiltView:(TMQuiltView *)quiltView heightForCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    return (indexPath.row % 3) * 10 + 8;
+}
+
+- (void)quiltView:(TMQuiltView *)quiltView didSelectCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"index:%ld",indexPath.row);
+}
+
+#pragma mark WebDelegate
+- (void)loadWebViewWithURL:(NSString *)URL
+{
+    WebViewController *webVC = [[WebViewController alloc] init];
+    
+    webVC.webUrl = URL;
+    
+    [self.navigationController pushViewController:webVC animated:YES];
+}
+
 
 
 #pragma mark 判断字符串是否为空

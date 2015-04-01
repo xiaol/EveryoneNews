@@ -58,6 +58,13 @@
 {
     _zhihuDatasource = zhihuDatasource;
     zhihuTitle.text = _zhihuDatasource.title;
+//    self.URL = _zhihuDatasource.url;
 }
+
+//- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+//    [super setSelected:selected animated:animated];
+//    
+//    [self showWebViewWithUrl:_zhihuDatasource.url];
+//}
 
 @end
