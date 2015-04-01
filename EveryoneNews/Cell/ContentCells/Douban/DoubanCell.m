@@ -13,6 +13,7 @@
 {
     UIView *baseView;
     UIView *backView;
+    UIImageView *doubanIcon;
     CGFloat doubanLeftX;
 }
 
@@ -28,7 +29,7 @@
         backView.backgroundColor = [UIColor whiteColor];
         [baseView addSubview:backView];
         
-        UIImageView *doubanIcon = [[UIImageView alloc] initWithFrame:CGRectMake(14, 10, 32, 28)];
+        doubanIcon = [[UIImageView alloc] initWithFrame:CGRectMake(14, 10, 32, 28)];
         doubanIcon.image = [UIImage imageNamed:@"douban.png"];
         [backView addSubview:doubanIcon];
         
@@ -59,12 +60,12 @@
         UILabel *tagLab = [[UILabel alloc] init];
         NSDictionary * attribute = @{NSFontAttributeName: [UIFont fontWithName:kFont size:12.5]};
         CGSize nameSize = [tagStr boundingRectWithSize:CGSizeMake(0, tagH) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;
-        if (tagX + nameSize.width <= screenW - 14) {
-            tagLab.frame = CGRectMake(tagX, tagY, nameSize.width, tagH);
+        if (tagX + nameSize.width + 6<= screenW - 14) {
+            tagLab.frame = CGRectMake(tagX, tagY, nameSize.width + 6, tagH);
         } else {
             tagX = doubanLeftX;
-            tagY += tagH;
-            tagLab.frame = CGRectMake(tagX, tagY, nameSize.width, tagH);
+            tagY += tagH + 10;
+            tagLab.frame = CGRectMake(tagX, tagY, nameSize.width + 6, tagH);
         }
         tagX = tagX + nameSize.width + 14;
         
@@ -79,10 +80,16 @@
         tagLab.font = [UIFont fontWithName:kFont size:12.5];
         tagLab.text = tagStr;
         tagLab.textColor = [UIColor colorFromHexString:@"#4db3ea"];
+        tagLab.textAlignment = NSTextAlignmentCenter;
         [backView addSubview:tagLab];
     }
     
-    CGFloat backViewH = tagY + tagH + 10;
+    CGFloat backViewH;
+    if (tagY == 10) {
+        backViewH = CGRectGetMaxY(doubanIcon.frame) + 10;
+    } else {
+        backViewH = tagY + tagH + 10;
+    }
     backView.frame = CGRectMake(0, 14, screenW, backViewH);
     
     baseView.frame = CGRectMake(0, 0, screenW, backViewH + 14 * 2);

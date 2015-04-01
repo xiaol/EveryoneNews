@@ -97,7 +97,7 @@
 {
     contentTableView = [[UITableView alloc] init];
     CGRect frame = self.view.frame;
-    frame.size.height -= (64 + 14);
+    frame.size.height -= 64;
     contentTableView.frame = frame;
     
     contentTableView.delegate = self;
@@ -427,13 +427,16 @@
     TxtDatasource *txtDatasource = [TxtDatasource txtDatasourceWithTxtStr:string];
     [self putToResourceArr:txtDatasource Method:@"FTText"];
     
-    NSDictionary *baikeDic = resultDic[@"baike"];
-    NSString *baikeTitle = baikeDic[@"title"];
-    if (![self isBlankString:baikeTitle]) {
-        BaiduFrame *baiduFrm = [[BaiduFrame alloc] init];
-        baiduFrm.baiduDatasource = [BaiduDatasource baiduDatasourceWithDict:baikeDic];
-        [self putToResourceArr:baiduFrm Method:@"baike"];
+    NSArray *baikeArr = resultDic[@"baike"];
+    for (NSDictionary *dic in baikeArr) {
+        NSString *baikeTitle = dic[@"title"];
+        if (![self isBlankString:baikeTitle]) {
+            BaiduFrame *baiduFrm = [[BaiduFrame alloc] init];
+            baiduFrm.baiduDatasource = [BaiduDatasource baiduDatasourceWithDict:dic];
+            [self putToResourceArr:baiduFrm Method:@"baike"];
+        }
     }
+    
     
     NSDictionary *zhihuDic = resultDic[@"zhihu"];
     NSString *zhihuTitle = zhihuDic[@"title"];
