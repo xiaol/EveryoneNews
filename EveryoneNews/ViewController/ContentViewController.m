@@ -112,6 +112,8 @@
 {
     waterFlowH = 0;
     
+    waterFlowDic = [[NSMutableDictionary alloc] init];
+    
     qtmquitView = [[TMQuiltView alloc] initWithFrame:CGRectMake(0, 0, 320, 500)];
     qtmquitView.delegate = self;
     qtmquitView.dataSource = self;
@@ -125,14 +127,13 @@
 #pragma mark WaterFlow Function
 -(void)warterFlowReloadData{
     
-//    [self finishReloadingData];
     if (!firstLoad) {
-        waterFlowH = contentTableView.contentSize.height - qtmquitView.contentSize.height - 80 + 21;
+        waterFlowH = contentTableView.contentSize.height - qtmquitView.contentSize.height;
         firstLoad = YES;
     }
     
-    qtmquitView.frame = CGRectMake(0, waterFlowH, qtmquitView.contentSize.width, qtmquitView.contentSize.height);
-    contentTableView.contentSize = CGSizeMake(0, waterFlowH + qtmquitView.contentSize.height);
+    qtmquitView.frame = CGRectMake(0, qtmquitView.frame.origin.y, qtmquitView.contentSize.width, qtmquitView.contentSize.height);
+    contentTableView.contentSize = CGSizeMake(0, qtmquitView.frame.origin.y + qtmquitView.contentSize.height);
 
 }
 
@@ -514,7 +515,7 @@
     
     [contentTableView reloadData];
     
-//    [self warterFlowReloadData];
+    [self warterFlowReloadData];
     [qtmquitView reloadData];
 }
 
@@ -538,7 +539,7 @@
     }
     
     NSString *num = [NSString stringWithFormat:@"%d", (int)indexPath.row];
-    cell.photoView.image = waterFlowDic[num];
+    cell.photoView.image = [UIImage imageNamed:waterFlowDic[num]];
     cell.titleLabel.text = [NSString stringWithFormat:@"%ld", indexPath.row];
     return cell;
 }
@@ -559,7 +560,7 @@
 
 - (CGFloat)quiltView:(TMQuiltView *)quiltView heightForCellAtIndexPath:(NSIndexPath *)indexPath
 {
-    return (indexPath.row % 3) * 10 + 8;
+    return (indexPath.row % 3) * 30 + 8;
 }
 
 - (void)quiltView:(TMQuiltView *)quiltView didSelectCellAtIndexPath:(NSIndexPath *)indexPath

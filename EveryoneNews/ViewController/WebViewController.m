@@ -21,7 +21,7 @@
     [super viewDidLoad];
     
     [super viewDidLoad];
-    webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, 320, 480)];
+    webView = [[UIWebView alloc] initWithFrame:self.view.frame];
 //    NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.baidu.com"]];
     NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:_webUrl]];
     [self.view addSubview: webView];

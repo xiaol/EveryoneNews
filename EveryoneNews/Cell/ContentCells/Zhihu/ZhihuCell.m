@@ -12,6 +12,7 @@
 @implementation ZhihuCell
 {
     UILabel *zhihuTitle;
+    UIButton *btn;
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -47,6 +48,10 @@
         CGFloat baseViewH = CGRectGetMaxY(backView.frame) + 14;
         baseView.frame = CGRectMake(0, 0, screenW, baseViewH);
         
+        btn = [[UIButton alloc] initWithFrame:backView.bounds];
+        [btn addTarget:self action:@selector(btnPress) forControlEvents:UIControlEventTouchUpInside];
+        [backView addSubview:btn];
+        
         _cellH = baseViewH;
         
         
@@ -66,5 +71,10 @@
 //    
 //    [self showWebViewWithUrl:_zhihuDatasource.url];
 //}
+
+- (void)btnPress
+{
+    [self showWebViewWithUrl:_zhihuDatasource.url];
+}
 
 @end

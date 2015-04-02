@@ -20,7 +20,7 @@
     if (self = [super init]) {
         
         _url = dict[@"url"];
-        _abstract = dict[@"abstract"];
+        _abstract = dict[@"abs"];
         _title = dict[@"title"];
         
     }
