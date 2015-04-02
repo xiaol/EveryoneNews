@@ -45,6 +45,7 @@
     BOOL firstLoad;
     CGFloat waterFlowH;
     NSMutableDictionary *waterFlowDic;
+    NSMutableArray *waterFlowArr;
 }
 
 @end
@@ -113,13 +114,14 @@
     waterFlowH = 0;
     
     waterFlowDic = [[NSMutableDictionary alloc] init];
+    waterFlowArr = [[NSMutableArray alloc] init];
     
     qtmquitView = [[TMQuiltView alloc] initWithFrame:CGRectMake(0, 0, 320, 500)];
     qtmquitView.delegate = self;
     qtmquitView.dataSource = self;
     qtmquitView.backgroundColor = [UIColor yellowColor];
     
-    contentTableView.tableFooterView = qtmquitView;
+//    contentTableView.tableFooterView = qtmquitView;
     
 //    [qtmquitView reloadData];
 }
@@ -513,10 +515,14 @@
         [waterFlowDic setObject:@"douban.png" forKey:[NSString stringWithFormat:@"%d", i]];
     }
     
-    [contentTableView reloadData];
+    waterFlowArr = resultDic[@"relate"];
+    if (waterFlowArr != nil && ![waterFlowArr isKindOfClass:[NSNull class]] && waterFlowArr.count != 0) {
+        contentTableView.tableFooterView = qtmquitView;
+        [self warterFlowReloadData];
+        [qtmquitView reloadData];
+    }
     
-    [self warterFlowReloadData];
-    [qtmquitView reloadData];
+    [contentTableView reloadData];
 }
 
 - (void)putToResourceArr:(id)resource Method:(NSString *)method
@@ -528,8 +534,8 @@
 #pragma mark waterFlow methods
 
 - (NSInteger)quiltViewNumberOfCells:(TMQuiltView *)TMQuiltView {
-//    return [self.images count];
-    return waterFlowDic.count;
+//    return waterFlowDic.count;
+    return waterFlowArr.count;
 }
 
 - (TMQuiltViewCell *)quiltView:(TMQuiltView *)quiltView cellAtIndexPath:(NSIndexPath *)indexPath {
@@ -538,9 +544,14 @@
         cell = [[TMPhotoQuiltViewCell alloc] initWithReuseIdentifier:@"PhotoCell"];
     }
     
-    NSString *num = [NSString stringWithFormat:@"%d", (int)indexPath.row];
-    cell.photoView.image = [UIImage imageNamed:waterFlowDic[num]];
-    cell.titleLabel.text = [NSString stringWithFormat:@"%ld", indexPath.row];
+    NSDictionary *dic = waterFlowArr[indexPath.row];
+    
+//    NSString *num = [NSString stringWithFormat:@"%d", (int)indexPath.row];
+//    cell.photoView.image = [UIImage imageNamed:waterFlowDic[num]];
+//    cell.titleLabel.text = [NSString stringWithFormat:@"%ld", indexPath.row];
+    cell.titleLabel.text = dic[@"title"];
+    NSURL *imgUrl = [NSURL URLWithString:dic[@"img"]];
+    [cell.photoView sd_setImageWithURL:imgUrl placeholderImage:[UIImage imageNamed:@"demo_1.jpg"]];
     return cell;
 }
 
@@ -549,13 +560,14 @@
 - (NSInteger)quiltViewNumberOfColumns:(TMQuiltView *)quiltView {
     
     
-    if ([[UIDevice currentDevice] orientation] == UIDeviceOrientationLandscapeLeft
-        || [[UIDevice currentDevice] orientation] == UIDeviceOrientationLandscapeRight)
-    {
-        return 3;
-    } else {
-        return 2;
-    }
+//    if ([[UIDevice currentDevice] orientation] == UIDeviceOrientationLandscapeLeft
+//        || [[UIDevice currentDevice] orientation] == UIDeviceOrientationLandscapeRight)
+//    {
+//        return 3;
+//    } else {
+//        return 2;
+//    }
+    return 2;
 }
 
 - (CGFloat)quiltView:(TMQuiltView *)quiltView heightForCellAtIndexPath:(NSIndexPath *)indexPath
