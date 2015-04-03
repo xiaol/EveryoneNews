@@ -40,12 +40,12 @@
 #pragma mark webDelegate
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-    NSLog(@"webViewDidFinishLoad");
+//    NSLog(@"webViewDidFinishLoad");
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView
 {
-    NSLog(@"webViewDidStartLoad");
+//    NSLog(@"webViewDidStartLoad");
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
