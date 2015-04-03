@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseCell.h"
 #import "DoubanDatasource.h"
 
-@interface DoubanCell : UITableViewCell
+@interface DoubanCell : BaseCell
 
 @property (nonatomic, strong) DoubanDatasource *doubanDatasource;
 @property (nonatomic, assign) CGFloat cellH;

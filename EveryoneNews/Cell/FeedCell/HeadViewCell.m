@@ -50,9 +50,9 @@
         imgView.clipsToBounds = YES;
         [backgroupView addSubview:imgView];
         
-        blurView = [[DRNRealTimeBlurView alloc] init];
-//        blurView.alpha = 0.9;
-        [backgroupView addSubview:blurView];
+//        blurView = [[DRNRealTimeBlurView alloc] init];
+////        blurView.alpha = 0.9;
+//        [backgroupView addSubview:blurView];
         
         
         titleLab = [[UILabel alloc] init];
@@ -115,25 +115,6 @@
         sourceName_3.textColor = [UIColor colorFromHexString:@"#666666"];
         sourceName_3.backgroundColor = [UIColor clearColor];
         [sourceView_3 addSubview:sourceName_3];
-        
-//        bottonView = [[UIView alloc] init];
-//        bottonView.backgroundColor = [UIColor blueColor];
-//        [backgroupView addSubview:bottonView];
-//        
-//        aspectView = [[UIView alloc] init];
-//        aspectView.backgroundColor = [UIColor clearColor];
-//        aspectView.layer.borderWidth = 1;
-//        aspectView.layer.borderColor = [UIColor colorFromHexString:@"#EBEDED"].CGColor;
-//        aspectView.layer.cornerRadius = 3;
-//        [backgroupView addSubview:aspectView];
-//        
-//        aspect = [[UILabel alloc] init];
-//        aspect.font = [UIFont fontWithName:kFont size:20];
-//        aspect.textColor = [UIColor colorFromHexString:@"#4eb4ea"];
-//        aspect.backgroundColor = [UIColor clearColor];
-//        aspect.textAlignment = NSTextAlignmentRight;
-//        [backgroupView addSubview:aspect];
-        
         
         
         cutBlock = [[UIView alloc] init];

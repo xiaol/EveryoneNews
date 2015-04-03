@@ -44,7 +44,7 @@
     
     BOOL firstLoad;
     CGFloat waterFlowH;
-    NSMutableDictionary *waterFlowDic;
+//    NSMutableDictionary *waterFlowDic;
     NSMutableArray *waterFlowArr;
 }
 
@@ -113,7 +113,7 @@
 {
     waterFlowH = 0;
     
-    waterFlowDic = [[NSMutableDictionary alloc] init];
+//    waterFlowDic = [[NSMutableDictionary alloc] init];
     waterFlowArr = [[NSMutableArray alloc] init];
     
     qtmquitView = [[TMQuiltView alloc] initWithFrame:CGRectMake(0, 0, 320, 500)];
@@ -156,6 +156,7 @@
     for (NSString *str in self.responseUrls) {
         url = [NSString stringWithFormat:@"%@&filterurls=%@", url, str];
     }
+    NSLog(@"detailUrl:%@", url);
     [self getContentDetails:url];
 }
 
@@ -230,6 +231,7 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             //自定义UITableViewCell选中后的背景颜色和背景图片
             cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
+            cell.delegate = self;
         }
         cell.baiduFrm = dict[type];
         return cell;
@@ -255,6 +257,7 @@
             cell = [[DoubanCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
+            cell.delegate = self;
         }
         cell.doubanDatasource = dict[type];
         return cell;
@@ -267,6 +270,7 @@
             cell = [[WeiboCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
+            cell.delegate = self;
         }
         cell.weiboDatasource = dict[type];
         return cell;
@@ -510,10 +514,10 @@
         [self putToResourceArr:weiboDatasource Method:@"weibo"];
     }
     
-    //waterFlow 假数据
-    for (int i = 0; i < 10; i++) {
-        [waterFlowDic setObject:@"douban.png" forKey:[NSString stringWithFormat:@"%d", i]];
-    }
+//    //waterFlow 假数据
+//    for (int i = 0; i < 10; i++) {
+//        [waterFlowDic setObject:@"douban.png" forKey:[NSString stringWithFormat:@"%d", i]];
+//    }
     
     waterFlowArr = resultDic[@"relate"];
     if (waterFlowArr != nil && ![waterFlowArr isKindOfClass:[NSNull class]] && waterFlowArr.count != 0) {

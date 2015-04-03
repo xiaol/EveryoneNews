@@ -13,12 +13,17 @@
 @implementation WeiboCell
 {
     UIScrollView *scrollView;
+    NSMutableArray *urlArr;
+    NSInteger tagCount;
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         CGFloat screenW = [UIScreen mainScreen].bounds.size.width;
+        
+        urlArr = [[NSMutableArray alloc] init];
+        tagCount = 1;
         
         UIView *baseView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenW, 125 + 28)];
         baseView.backgroundColor = [UIColor colorFromHexString:kGreen];
@@ -55,6 +60,7 @@
         weiboX += ( weiboW + bolder) * i;
         UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(weiboX, weiboY, weiboW, weiboH)];
         NSDictionary *dic = _weiboDatasource.weiboArr[i];
+        [urlArr addObject:dic[@"url"]];
         [self setDetailsInView:backView UserName:dic[@"user"] userTitle:dic[@"title"]];
         [scrollView addSubview:backView];
     }
@@ -97,6 +103,39 @@
     userTitleLab.textAlignment = NSTextAlignmentLeft;
     [backView addSubview:userTitleLab];
     
+    UIButton *btn = [[UIButton alloc] initWithFrame:backView.bounds];
+    [btn addTarget:self action:@selector(btnPress:) forControlEvents:UIControlEventTouchUpInside];
+    [btn setTag:tagCount * 2000];
+    tagCount++;
+    [backView addSubview:btn];
+    
+}
+
+- (void)btnPress:(UIButton *)sender
+{
+    NSInteger tag = sender.tag;
+    tag = tag / 2000 - 1;
+    
+    NSString *url = urlArr[tag];
+    
+    if (![self isBlankString:url]) {
+        [self showWebViewWithUrl:url];
+    }
+    
+}
+
+#pragma mark 判断字符串是否为空
+- (BOOL) isBlankString:(NSString *)string {
+    if (string == nil || string == NULL) {
+        return YES;
+    }
+    if ([string isKindOfClass:[NSNull class]]) {
+        return YES;
+    }
+    if ([[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length]==0) {
+        return YES;
+    }
+    return NO;
 }
 
 @end

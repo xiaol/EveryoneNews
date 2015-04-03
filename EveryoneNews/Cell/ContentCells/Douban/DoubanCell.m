@@ -52,6 +52,8 @@
     CGFloat tagY = 10;
     
     NSString *tagStr;
+    
+    NSInteger tag = 1;
    
     
     
@@ -82,6 +84,14 @@
         tagLab.textColor = [UIColor colorFromHexString:@"#4db3ea"];
         tagLab.textAlignment = NSTextAlignmentCenter;
         [backView addSubview:tagLab];
+        
+        UIButton *btn = [[UIButton alloc] initWithFrame:tagLab.frame];
+        [btn addTarget:self action:@selector(btnPress:) forControlEvents:UIControlEventTouchUpInside];
+        btn.backgroundColor = [UIColor clearColor];
+//        btn.tag = tag * 1000;
+        [btn setTag:tag * 1000];
+        tag++;
+        [backView addSubview:btn];
     }
     
     CGFloat backViewH;
@@ -94,6 +104,15 @@
     
     baseView.frame = CGRectMake(0, 0, screenW, backViewH + 14 * 2);
     _cellH = CGRectGetMaxY(baseView.frame);
+}
+
+- (void)btnPress:(UIButton *)sender
+{
+    NSInteger tag = sender.tag;
+    tag = tag / 1000 - 1;
+    
+    NSString *url = _doubanDatasource.tagArr[tag][1];
+    [self showWebViewWithUrl:url];
 }
 
 @end

@@ -30,11 +30,14 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self getRequest:@"http://121.41.75.213:9999/news/baijia/fetchHome"];
+//    [self getRequest:@"http://121.41.75.213:9999/news/baijia/fetchHome"];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self getRequest:@"http://121.41.75.213:9999/news/baijia/fetchHome"];
+    
     [self commonInit];
     
 }
@@ -160,7 +163,7 @@
         headViewFrm.headViewDatasource = [HeadViewDatasource headViewDatasourceWithDict:dict];
         
         [dataArr addObject:headViewFrm];
-        NSLog(@"dict:%@", dict);
+//        NSLog(@"dict:%@", dict);
     }
     
     [myTableView reloadData];

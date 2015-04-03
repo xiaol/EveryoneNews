@@ -16,6 +16,7 @@
     UILabel *titleLab;
     UILabel *abstractLab;
     UIImageView *baiduIcon;
+    UIButton *btn;
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -43,6 +44,11 @@
         baiduIcon = [[UIImageView alloc] init];
         baiduIcon.image = [UIImage imageNamed:@"baiduLogo.png"];
         [backView addSubview:baiduIcon];
+        
+        btn = [[UIButton alloc] init];
+        [btn addTarget:self action:@selector(btnPress) forControlEvents:UIControlEventTouchUpInside];
+        btn.backgroundColor = [UIColor clearColor];
+        [backView addSubview:btn];
     }
     return self;
 }
@@ -67,12 +73,18 @@
     titleLab.frame = _baiduFrm.titleFrm;
     abstractLab.frame = _baiduFrm.abstractFrm;
     baiduIcon.frame = _baiduFrm.baiduIconFrm;
+    btn.frame = backView.bounds;
 }
 
 - (void)settingData
 {
     titleLab.text = _baiduFrm.baiduDatasource.title;
     abstractLab.text = _baiduFrm.baiduDatasource.abstract;
+}
+
+- (void)btnPress
+{
+    [self showWebViewWithUrl:_baiduFrm.baiduDatasource.url];
 }
 
 @end

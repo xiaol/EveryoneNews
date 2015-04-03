@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseCell.h"
 #import "BaiduFrame.h"
 
-@interface BaiduCell : UITableViewCell
+@interface BaiduCell : BaseCell
 
 @property (nonatomic, strong) BaiduFrame *baiduFrm;
 
