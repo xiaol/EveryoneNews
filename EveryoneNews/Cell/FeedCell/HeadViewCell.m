@@ -71,6 +71,8 @@
         titleLab.layer.shadowColor = [UIColor blackColor].CGColor;
         titleLab.layer.shadowOpacity = 0.6;
         titleLab.layer.shadowRadius = 1.0;
+        //阴影方向
+        titleLab.layer.shadowOffset = CGSizeMake(2, 2);
         
         [backgroupView addSubview:titleLab];
         

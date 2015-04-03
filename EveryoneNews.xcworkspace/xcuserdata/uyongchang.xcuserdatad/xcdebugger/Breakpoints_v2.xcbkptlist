@@ -36,11 +36,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EveryoneNews/Cell/FeedCell/HeadViewCell.m"
-            timestampString = "449749443.52792"
+            timestampString = "449754584.127757"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "320"
-            endingLineNumber = "320"
+            startingLineNumber = "321"
+            endingLineNumber = "321"
             landmarkName = "-setBlurView"
             landmarkType = "5">
          </BreakpointContent>
