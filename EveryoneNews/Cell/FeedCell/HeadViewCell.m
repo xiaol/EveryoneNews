@@ -8,7 +8,6 @@
 
 #import "HeadViewCell.h"
 #import "UIColor+HexToRGB.h"
-#import "DRNRealTimeBlurView.h"
 #import "UIImageView+WebCache.h"
 #import "ScaleImage.h"
 
@@ -34,8 +33,9 @@
     UIView *bottonView;
     UIView *cutBlock;
     UIButton *showBtn;
+    
+    UIImageView *shotView;
 
-    DRNRealTimeBlurView *blurView;
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -53,6 +53,12 @@
 //        blurView = [[DRNRealTimeBlurView alloc] init];
 ////        blurView.alpha = 0.9;
 //        [backgroupView addSubview:blurView];
+        
+        shotView = [[UIImageView alloc] init];
+//        shotView.backgroundColor = [UIColor blueColor];
+        shotView.contentMode = UIViewContentModeScaleAspectFill;
+        shotView.clipsToBounds = YES;
+        [backgroupView addSubview:shotView];
         
         
         titleLab = [[UILabel alloc] init];
@@ -150,8 +156,12 @@
         
         [imgView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"demo_1.jpg"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                     imgView.image = [ScaleImage scaleImage:imgView.image size:_headViewFrm.imgFrm.size];
+            
+            [self screenShotWithRect:shotView.bounds];
         }];
     }
+    
+    [self screenShotWithRect:shotView.bounds];
     
     NSArray *subArr = _headViewFrm.headViewDatasource.subArr;
     
@@ -205,7 +215,8 @@
     backgroupView.frame = _headViewFrm.backgroundViewFrm;
     imgView.frame = _headViewFrm.imgFrm;
     titleLab.frame = _headViewFrm.titleLabFrm;
-    blurView.frame = titleLab.frame;
+//    blurView.frame = titleLab.frame;
+    shotView.frame = titleLab.frame;
     
     sourceView_1.frame = _headViewFrm.sourceView_1;
     sourceView_2.frame = _headViewFrm.sourceView_2;
@@ -287,6 +298,26 @@
         return YES;
     }
     return NO;
+}
+
+#pragma mark screenShot
+-(void)screenShotWithRect:(CGRect)rect {
+    
+//    UIGraphicsBeginImageContextWithOptions(CGSizeMake(640, 960), YES, 0);
+    UIGraphicsBeginImageContextWithOptions(self.contentView.frame.size, YES, 1);
+    [[imgView layer] renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    CGImageRef imageRef = viewImage.CGImage;
+//    CGRect rect =CGRectMake(100,  100, 320, 400);//这里可以设置想要截图的区域
+    CGImageRef imageRefRect =CGImageCreateWithImageInRect(imageRef, rect);
+    UIImage *sendImage = [[UIImage alloc] initWithCGImage:imageRefRect];
+    
+    shotView.image = sendImage;
+    
+    CGImageRelease(imageRefRect);
+    
+    
 }
 
 @end

@@ -10,8 +10,6 @@
 		72E38B7BA868266B182567CC /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A0528C26297FAA2C259EF3E /* libPods.a */; };
 		C11CD46D1AC2691400D1D9C8 /* huawen.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C11CD46C1AC268FF00D1D9C8 /* huawen.ttf */; };
 		C11CD4761AC2983200D1D9C8 /* transparent.jpg in Resources */ = {isa = PBXBuildFile; fileRef = C11CD4751AC2983200D1D9C8 /* transparent.jpg */; };
-		C11CD4821AC2ADB100D1D9C8 /* DRNRealTimeBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = C11CD47F1AC2ADB100D1D9C8 /* DRNRealTimeBlurView.m */; };
-		C11CD4831AC2ADB100D1D9C8 /* UIImage+BoxBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = C11CD4811AC2ADB100D1D9C8 /* UIImage+BoxBlur.m */; };
 		C16FA9971ACAFB1F00F85DF8 /* BaiduFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9961ACAFB1F00F85DF8 /* BaiduFrame.m */; };
 		C16FA99A1ACAFB3A00F85DF8 /* BaiduDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9991ACAFB3A00F85DF8 /* BaiduDatasource.m */; };
 		C16FA99D1ACB024500F85DF8 /* BaiduCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA99C1ACB024500F85DF8 /* BaiduCell.m */; };
@@ -97,10 +95,6 @@
 		C11CD46C1AC268FF00D1D9C8 /* huawen.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = huawen.ttf; sourceTree = "<group>"; };
 		C11CD46E1AC2699700D1D9C8 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		C11CD4751AC2983200D1D9C8 /* transparent.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = transparent.jpg; sourceTree = "<group>"; };
-		C11CD47E1AC2ADB100D1D9C8 /* DRNRealTimeBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DRNRealTimeBlurView.h; sourceTree = "<group>"; };
-		C11CD47F1AC2ADB100D1D9C8 /* DRNRealTimeBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DRNRealTimeBlurView.m; sourceTree = "<group>"; };
-		C11CD4801AC2ADB100D1D9C8 /* UIImage+BoxBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+BoxBlur.h"; sourceTree = "<group>"; };
-		C11CD4811AC2ADB100D1D9C8 /* UIImage+BoxBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+BoxBlur.m"; sourceTree = "<group>"; };
 		C16FA9951ACAFB1F00F85DF8 /* BaiduFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiduFrame.h; sourceTree = "<group>"; };
 		C16FA9961ACAFB1F00F85DF8 /* BaiduFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaiduFrame.m; sourceTree = "<group>"; };
 		C16FA9981ACAFB3A00F85DF8 /* BaiduDatasource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiduDatasource.h; sourceTree = "<group>"; };
@@ -274,17 +268,6 @@
 				C11CD46C1AC268FF00D1D9C8 /* huawen.ttf */,
 			);
 			path = Font;
-			sourceTree = "<group>";
-		};
-		C11CD47D1AC2ADA200D1D9C8 /* BlurEffect */ = {
-			isa = PBXGroup;
-			children = (
-				C11CD47E1AC2ADB100D1D9C8 /* DRNRealTimeBlurView.h */,
-				C11CD47F1AC2ADB100D1D9C8 /* DRNRealTimeBlurView.m */,
-				C11CD4801AC2ADB100D1D9C8 /* UIImage+BoxBlur.h */,
-				C11CD4811AC2ADB100D1D9C8 /* UIImage+BoxBlur.m */,
-			);
-			path = BlurEffect;
 			sourceTree = "<group>";
 		};
 		C16FA9941ACAFAC900F85DF8 /* BaiduCell */ = {
@@ -476,7 +459,6 @@
 			isa = PBXGroup;
 			children = (
 				C18F95191ACA504C00A46502 /* WaterFlow */,
-				C11CD47D1AC2ADA200D1D9C8 /* BlurEffect */,
 				C1C0529F1AC13AF700D6D687 /* ImageExtension.h */,
 				C1C052A01AC13AF700D6D687 /* ImageExtension.m */,
 				C1C052A11AC13AF700D6D687 /* ScaleImage.h */,
@@ -754,7 +736,6 @@
 				C1C052621AC005C400D6D687 /* HeadViewDatasource.m in Sources */,
 				C1C052C41AC13BE400D6D687 /* YLImageView.m in Sources */,
 				C1C052BC1AC13BDB00D6D687 /* UIScrollView+MJRefresh.m in Sources */,
-				C11CD4831AC2ADB100D1D9C8 /* UIImage+BoxBlur.m in Sources */,
 				C16FA9A31ACB9C1200F85DF8 /* ZhihuCell.m in Sources */,
 				C1C052651AC005D500D6D687 /* HeadViewFrame.m in Sources */,
 				C16FA9971ACAFB1F00F85DF8 /* BaiduFrame.m in Sources */,
@@ -775,7 +756,6 @@
 				C1C0529E1AC13AB700D6D687 /* FTCoreTextView.m in Sources */,
 				C16FA9AC1ACBA71A00F85DF8 /* DoubanDatasource.m in Sources */,
 				C1C052591AC0007800D6D687 /* BaseViewController.m in Sources */,
-				C11CD4821AC2ADB100D1D9C8 /* DRNRealTimeBlurView.m in Sources */,
 				C1C0528A1AC139B900D6D687 /* ContentDatasource.m in Sources */,
 				C1C052891AC139B900D6D687 /* ContentCellFrame.m in Sources */,
 				C1C052751AC1385800D6D687 /* ContentViewController.m in Sources */,
