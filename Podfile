@@ -5,4 +5,4 @@ pod 'AFNetworking', '~> 2.0'
 pod 'YAJL-Entity', '~> 1.0.1'
 pod 'SSKeychain', '~> 1.2.2'
 pod 'libwebp', '~> 0.4.2'
-  
+pod 'GRKBlurView', '~> 1.2'  

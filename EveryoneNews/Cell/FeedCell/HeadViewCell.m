@@ -10,6 +10,7 @@
 #import "UIColor+HexToRGB.h"
 #import "UIImageView+WebCache.h"
 #import "ScaleImage.h"
+#import "GRKBlurView.h"
 
 @implementation HeadViewCell
 {
@@ -35,6 +36,8 @@
     UIButton *showBtn;
     
     UIImageView *shotView;
+    
+    GRKBlurView *blurView;
 
 }
 
@@ -50,15 +53,14 @@
         imgView.clipsToBounds = YES;
         [backgroupView addSubview:imgView];
         
-//        blurView = [[DRNRealTimeBlurView alloc] init];
-////        blurView.alpha = 0.9;
-//        [backgroupView addSubview:blurView];
-        
+       
         shotView = [[UIImageView alloc] init];
-//        shotView.backgroundColor = [UIColor blueColor];
         shotView.contentMode = UIViewContentModeScaleAspectFill;
         shotView.clipsToBounds = YES;
         [backgroupView addSubview:shotView];
+        
+        blurView = [[GRKBlurView alloc] init];
+        [backgroupView addSubview:blurView];
         
         
         titleLab = [[UILabel alloc] init];
@@ -147,7 +149,6 @@
 - (void)settingData
 {
     titleLab.text = _headViewFrm.headViewDatasource.titleStr;
-//    imgView.image = [UIImage imageNamed:@"demo_1.jpg"];
     
     if ([self isBlankString:_headViewFrm.headViewDatasource.imgStr]) {
         imgView.image = [UIImage imageNamed:@"demo_1.jpg"];
@@ -215,7 +216,6 @@
     backgroupView.frame = _headViewFrm.backgroundViewFrm;
     imgView.frame = _headViewFrm.imgFrm;
     titleLab.frame = _headViewFrm.titleLabFrm;
-//    blurView.frame = titleLab.frame;
     shotView.frame = titleLab.frame;
     
     sourceView_1.frame = _headViewFrm.sourceView_1;
@@ -255,25 +255,13 @@
         aspect.frame = _headViewFrm.aspectFrm;
     }
     
-//    aspectView.frame = _headViewFrm.aspectFrm;
-//    aspect.frame = _headViewFrm.aspectFrm;
-    
     cutBlock.frame = _headViewFrm.cutBlockFrm;
     showBtn.frame = imgView.frame;
 }
 
 - (void)showBtnClick
 {
-//    if ([self.delegate respondsToSelector:@selector(getTextContent:imgUrl:SourceSite:Update:Title:sourceUrl:hasImg:favorNum:)]) {
-//        [self.delegate getTextContent:@"4d4716525b6d76e79a657116f318ba2be5ba7068"
-//                               imgUrl:@"http://img31.mtime.cn/mg/2015/03/24/163919.94945336.jpg"
-//                           SourceSite:@"影像日报"
-//                               Update:@"2015-03-24 18:08:45"
-//                                Title:@"《速度与激情7》特辑 怀念保罗·沃克"
-//                            sourceUrl:@"http://moviesoon.com/news/2015/03/%e3%80%8a%e9%80%9f%e5%ba%a6%e4%b8%8e%e6%bf%80%e6%83%857%e3%80%8b%e7%89%b9%e8%be%91-%e6%80%80%e5%bf%b5%e4%bf%9d%e7%bd%97%c2%b7%e6%b2%83%e5%85%8b/"
-//                               hasImg:YES
-//                             favorNum:0];
-//    }
+
     if ([self.delegate respondsToSelector:@selector(getTextContent:imgUrl:SourceSite:Update:Title:ResponseUrls: RootClass: hasImg:)]) {
         [self.delegate getTextContent:_headViewFrm.headViewDatasource.sourceUrl
                                imgUrl:_headViewFrm.headViewDatasource.imgStr
@@ -317,7 +305,24 @@
     
     CGImageRelease(imageRefRect);
     
+    [self setBlurView];
     
+}
+
+#pragma mark 设置毛玻璃效果
+- (void)setBlurView
+{
+
+    blurView.frame = shotView.frame;
+    blurView.targetImage = shotView.image;
+    blurView.blurRadius = 22;
+
+    //设置右下圆角
+    UIBezierPath *maskPath_Shadow = [UIBezierPath bezierPathWithRoundedRect:blurView.bounds byRoundingCorners:UIRectCornerBottomRight  cornerRadii:CGSizeMake(5, 5)];
+    CAShapeLayer *maskLayer_Shadow = [[CAShapeLayer alloc] init];
+    maskLayer_Shadow.frame = blurView.bounds;
+    maskLayer_Shadow.path = maskPath_Shadow.CGPath;
+    blurView.layer.mask = maskLayer_Shadow;
 }
 
 @end
