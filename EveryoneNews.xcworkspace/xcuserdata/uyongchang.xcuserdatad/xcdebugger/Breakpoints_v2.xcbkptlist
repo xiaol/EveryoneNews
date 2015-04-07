@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EveryoneNews/ViewController/ContentViewController.m"
-            timestampString = "450080427.560374"
+            timestampString = "450084867.16424"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "530"
-            endingLineNumber = "530"
+            startingLineNumber = "471"
+            endingLineNumber = "471"
             landmarkName = "-convertToDetailModel:"
             landmarkType = "5">
          </BreakpointContent>
@@ -35,13 +35,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EveryoneNews/Cell/ContentCells/Zhihu/ZhihuCell.m"
-            timestampString = "450081113.068261"
+            filePath = "EveryoneNews/ViewController.m"
+            timestampString = "450085215.803263"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
-            landmarkName = "-drawDetails"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
+            landmarkName = "-footerRefresh"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

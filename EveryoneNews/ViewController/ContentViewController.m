@@ -143,12 +143,12 @@
 - (void)setupRefresh
 {
     // 1.下拉刷新(进入刷新状态就会调用self的headerRereshing)
-    [contentTableView addHeaderWithTarget:self action:@selector(headerRereshing)];
-//    [self getNesrestPoint:YES];
-    [self headerRereshing];
+    [contentTableView addHeaderWithTarget:self action:@selector(headerRefresh)];
+
+    [self headerRefresh];
 }
 
-- (void)headerRereshing
+- (void)headerRefresh
 {
 //    [self getRequestWithMethod:nil Temperature:targetZone - 1];
     NSString *url = @"http://121.41.75.213:9999/news/baijia/fetchContent?url=";
@@ -161,12 +161,12 @@
 }
 
 
+
 #pragma mark tabelView delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return resourceArr.count;
 }
-
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -420,62 +420,12 @@
     [operation start];
 }
 
-//- (void)convertToDetailModel:(NSDictionary *)resultDic
-//{
-//    resourceArr = [[NSMutableArray alloc] init];
-//    
-//    NSArray *content = resultDic[@"content"];
-//    //调用解析函数
-//    for (NSArray *arr in content) {
-//        for (NSDictionary *dict in arr) {
-//            NSArray *keyArr = dict.allKeys;
-//            /* 头图去重 */
-//
-//            if ([keyArr[0] isEqualToString:@"img"]) {
-//                NSLog(@"imgUrl:%@", dict[@"img"]);
-//                if  (![dict[@"img"] isEqualToString:self.imgStr]) {
-//                    ContentCellFrame *contentFrm = [[ContentCellFrame alloc] init];
-//                    contentFrm.contentDatasource = [ContentDatasource contentDatasourceWithImgStr:dict[@"img"]];
-//                    [self putToResourceArr:contentFrm Method:@"img"];
-//                }
-//            }
-//            else
-//            {
-//                NSString *string = dict[@"txt"];
-//                //**** 字符串去特殊符号 ****// //--此地需要重新设置判断及循环
-//                NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@"\n"];
-//                NSString *trimmedString = [string stringByTrimmingCharactersInSet:set];
-//                trimmedString = [trimmedString stringByTrimmingCharactersInSet:set];
-//                //**** 去空格 ****//
-//                set = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-//                trimmedString = [trimmedString stringByTrimmingCharactersInSet:set];
-//                NSLog(@"string:%@", trimmedString);
-//
-//                TxtDatasource *txtDatasource = [TxtDatasource txtDatasourceWithTxtStr:trimmedString];
-//                [self putToResourceArr:txtDatasource Method:@"FTText"];
-//            }
-//        }
-//    }
-//    
-//    [self.view addSubview:contentTableView];
-//    [contentTableView reloadData];
-//    gifView.image = nil;
-////    gifImg.image = nil;
-//}
 
 - (void)convertToDetailModel:(NSDictionary *)resultDic
 {
     resourceArr = [[NSMutableArray alloc] init];
     
     NSString *string = resultDic[@"content"];
-//    //**** 字符串去特殊符号 ****// //--此地需要重新设置判断及循环
-//    NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@"\n"];
-//    NSString *trimmedString = [string stringByTrimmingCharactersInSet:set];
-//    trimmedString = [trimmedString stringByTrimmingCharactersInSet:set];
-//    //**** 去空格 ****//
-//    set = [NSCharacterSet whitespaceAndNewlineCharacterSet];
-//    trimmedString = [trimmedString stringByTrimmingCharactersInSet:set];
-//    NSLog(@"string:%@", trimmedString);
 
     TxtDatasource *txtDatasource = [TxtDatasource txtDatasourceWithTxtStr:string];
     [self putToResourceArr:txtDatasource Method:@"FTText"];
@@ -490,16 +440,7 @@
         }
     }
     
-    
-//    NSDictionary *zhihuDic = resultDic[@"zhihu"];
     NSArray *zhihuArr = resultDic[@"zhihu"];
-//    for (NSDictionary *dic in zhihuArr) {
-//        NSString *zhihuTitle = dic[@"title"];
-//        if (![self isBlankString:zhihuTitle]) {
-//            ZhihuDatasource *zhihuDatasource = [ZhihuDatasource zhihuWithDict:dic];
-//            [self putToResourceArr:zhihuDatasource Method:@"zhihu"];
-//        }
-//    }
     if (zhihuArr != nil && ![zhihuArr isKindOfClass:[NSNull class]] && zhihuArr.count != 0) {
         ZhihuDatasource *zhihuDatasource = [ZhihuDatasource zhihuWithArr:zhihuArr];
         [self putToResourceArr:zhihuDatasource Method:@"zhihu"];
@@ -542,7 +483,6 @@
 #pragma mark waterFlow methods
 
 - (NSInteger)quiltViewNumberOfCells:(TMQuiltView *)TMQuiltView {
-//    return waterFlowDic.count;
     return waterFlowArr.count;
 }
 

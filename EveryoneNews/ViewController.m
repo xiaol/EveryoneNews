@@ -11,11 +11,14 @@
 #import "ContentViewController.h"
 #import "UIColor+HexToRGB.h"
 #import "AFNetworking.h"
+#import "MJRefresh.h"
 
 @interface ViewController ()<UITableViewDataSource, UITableViewDelegate, HeadViewDelegate>
 {
     UITableView *myTableView;
     NSMutableArray *dataArr;
+    int page;
+    BOOL isRefreshing;
 }
 
 @end
@@ -36,7 +39,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self getRequest:@"http://121.41.75.213:9999/news/baijia/fetchHome"];
+//    [self getRequest:@"http://121.41.75.213:9999/news/baijia/fetchHome"];
     
     [self commonInit];
     
@@ -45,11 +48,13 @@
 - (void)commonInit
 {
     dataArr = [[NSMutableArray alloc] init];
+    page = 1;
+    isRefreshing = YES;
     
     self.title = @"头条百家";
-//    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor colorFromHexString:@"ffffff"],NSFontAttributeName:[UIFont fontWithName:kFont size:22]}];
 
     [self tableViewInit];
+    [self setupRefresh];
     
 }
 
@@ -66,6 +71,31 @@
     myTableView.backgroundColor = [UIColor colorFromHexString:@"#EBEDED"];
 
     [self.view addSubview:myTableView];
+}
+
+#pragma mark refresh
+#pragma mark MJRefresh
+- (void)setupRefresh
+{
+    // 1.下拉刷新(进入刷新状态就会调用self的headerRereshing)
+    [myTableView addHeaderWithTarget:self action:@selector(headerRefresh)];
+    [myTableView addFooterWithTarget:self action:@selector(footerRefresh)];
+    
+    [self headerRefresh];
+}
+
+- (void)headerRefresh
+{
+    isRefreshing = YES;
+   [self getRequest:@"http://121.41.75.213:9999/news/baijia/fetchHome"];
+}
+
+- (void)footerRefresh
+{
+    page++;
+    NSString *url = [NSString stringWithFormat:@"http://121.41.75.213:9999/news/baijia/fetchHome?page=%d", page];
+    isRefreshing = NO;
+    [self getRequest:url];
 }
 
 #pragma mark tableView delegate
@@ -135,8 +165,10 @@
 
 - (void)convertToModel:(NSDictionary *)resultDic
 {
-//    NSLog(@"resultDic:%@", resultDic);
-    dataArr = [[NSMutableArray alloc] init];
+    if (isRefreshing) {
+        dataArr = [[NSMutableArray alloc] init];
+    }
+    
     for (NSDictionary *dict in resultDic) {
         
         HeadViewFrame *headViewFrm = [[HeadViewFrame alloc] init];
@@ -147,6 +179,8 @@
     }
     
     [myTableView reloadData];
+    [myTableView headerEndRefreshing];
+    [myTableView footerEndRefreshing];
 }
 
 
