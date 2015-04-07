@@ -60,10 +60,20 @@
     for (NSDictionary *dict in _zhihuDatasource.zhihuArr) {
         CGFloat zhihuTitleW = screenW - 14 - zhihuTitleX;
         CGFloat zhihuTitleH = 34;
+        
+        if (i != 1) {
+            UIView *cutline = [[UIView alloc] init];
+            CGFloat cutlineW = screenW - zhihuTitleX;
+            cutline.frame = CGRectMake(zhihuTitleX, zhihuTitleY - 3, cutlineW, 1);
+            cutline.backgroundColor = [UIColor colorFromHexString:@"#D6D6D6"];
+            [backView addSubview:cutline];
+        }
+        
         zhihuTitle = [[UILabel alloc] initWithFrame:CGRectMake(zhihuTitleX, zhihuTitleY, zhihuTitleW, zhihuTitleH)];
         zhihuTitle.font = [UIFont fontWithName:kFont size:16];
         zhihuTitle.textColor = [UIColor blackColor];
-        zhihuTitle.numberOfLines = 2;
+//        zhihuTitle.numberOfLines = 2;
+        zhihuTitle.textAlignment = NSTextAlignmentJustified;
         zhihuTitle.text = dict[@"title"];
         [backView addSubview:zhihuTitle];
         
@@ -71,6 +81,8 @@
         [btn addTarget:self action:@selector(btnPress:) forControlEvents:UIControlEventTouchUpInside];
         [btn setTag:i * 3000];
         [backView addSubview:btn];
+        
+        i++;
         
         zhihuTitleY += 10 + zhihuTitleH;
     }
