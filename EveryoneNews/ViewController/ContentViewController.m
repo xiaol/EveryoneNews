@@ -493,12 +493,16 @@
     
 //    NSDictionary *zhihuDic = resultDic[@"zhihu"];
     NSArray *zhihuArr = resultDic[@"zhihu"];
-    for (NSDictionary *dic in zhihuArr) {
-        NSString *zhihuTitle = dic[@"title"];
-        if (![self isBlankString:zhihuTitle]) {
-            ZhihuDatasource *zhihuDatasource = [ZhihuDatasource zhihuWithDict:dic];
-            [self putToResourceArr:zhihuDatasource Method:@"zhihu"];
-        }
+//    for (NSDictionary *dic in zhihuArr) {
+//        NSString *zhihuTitle = dic[@"title"];
+//        if (![self isBlankString:zhihuTitle]) {
+//            ZhihuDatasource *zhihuDatasource = [ZhihuDatasource zhihuWithDict:dic];
+//            [self putToResourceArr:zhihuDatasource Method:@"zhihu"];
+//        }
+//    }
+    if (zhihuArr != nil && ![zhihuArr isKindOfClass:[NSNull class]] && zhihuArr.count != 0) {
+        ZhihuDatasource *zhihuDatasource = [ZhihuDatasource zhihuWithArr:zhihuArr];
+        [self putToResourceArr:zhihuDatasource Method:@"zhihu"];
     }
     
     

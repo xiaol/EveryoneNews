@@ -10,10 +10,13 @@
 
 @interface ZhihuDatasource : NSObject
 
-@property (nonatomic, copy) NSString *user;
-@property (nonatomic, copy) NSString *title;
-@property (nonatomic, copy) NSString *url;
+//@property (nonatomic, copy) NSString *user;
+//@property (nonatomic, copy) NSString *title;
+//@property (nonatomic, copy) NSString *url;
+@property (nonatomic, strong) NSArray *zhihuArr;
 
-+ (id)zhihuWithDict:(NSDictionary *)dict;
+//+ (id)zhihuWithDict:(NSDictionary *)dict;
+
++ (id)zhihuWithArr:(NSArray *)array;
 
 @end

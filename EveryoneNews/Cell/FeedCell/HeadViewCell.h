@@ -12,14 +12,6 @@
 @protocol HeadViewDelegate <NSObject>
 
 @required
-//- (void)getTextContent:(NSString *)sourceId
-//                imgUrl:(NSString *)imgUrl
-//            SourceSite:(NSString *)sourceSite
-//                Update:(NSString *)update
-//                 Title:(NSString *)title
-//             sourceUrl:(NSString *)sourceUrl
-//                hasImg:(BOOL)hasImg
-//              favorNum:(int)favorNum;
 
 - (void)getTextContent:(NSString *)sourceUrl
                 imgUrl:(NSString *)imgUrl
@@ -37,5 +29,6 @@
 @property (nonatomic, strong)HeadViewFrame *headViewFrm;
 
 @property (nonatomic, strong)id<HeadViewDelegate>delegate;
+
 
 @end

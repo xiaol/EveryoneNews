@@ -144,8 +144,9 @@
 {
     _headViewFrm = headViewFrm;
     
-    [self settingSubviewFrame];
     [self settingData];
+    [self settingSubviewFrame];
+    
 }
 
 - (void)settingData
@@ -314,7 +315,6 @@
 #pragma mark 设置毛玻璃效果
 - (void)setBlurView
 {
-
     blurView.frame = shotView.frame;
     blurView.targetImage = shotView.image;
     blurView.blurRadius = 22;
@@ -326,5 +326,6 @@
     maskLayer_Shadow.path = maskPath_Shadow.CGPath;
     blurView.layer.mask = maskLayer_Shadow;
 }
+
 
 @end

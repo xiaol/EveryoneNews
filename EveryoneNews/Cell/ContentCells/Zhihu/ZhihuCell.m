@@ -11,6 +11,12 @@
 
 @implementation ZhihuCell
 {
+    UIView *baseView;
+    UIView *backView;
+    CGFloat zhihuTitleX;
+    
+    CGFloat screenW;
+    
     UILabel *zhihuTitle;
     UIButton *btn;
 }
@@ -19,13 +25,13 @@
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         
-        CGFloat screenW = [UIScreen mainScreen].bounds.size.width;
+        screenW = [UIScreen mainScreen].bounds.size.width;
         
-        UIView *baseView = [[UIView alloc] init];
+        baseView = [[UIView alloc] init];
         baseView.backgroundColor = [UIColor colorFromHexString:kGreen];
         [self.contentView addSubview:baseView];
         
-        UIView *backView = [[UIView alloc] init];
+        backView = [[UIView alloc] init];
         backView.backgroundColor = [UIColor whiteColor];
         [baseView addSubview:backView];
         
@@ -33,27 +39,7 @@
         zhihuIcon.image = [UIImage imageNamed:@"zhihu.png"];
         [backView addSubview:zhihuIcon];
         
-        CGFloat zhihuTitleX = CGRectGetMaxX(zhihuIcon.frame) + 14;
-        CGFloat zhihuTitleW = screenW - 14 - zhihuTitleX;
-        CGFloat zhihuTitleH = 34;
-        zhihuTitle = [[UILabel alloc] initWithFrame:CGRectMake(zhihuTitleX, 10, zhihuTitleW, zhihuTitleH)];
-        zhihuTitle.font = [UIFont fontWithName:kFont size:16];
-        zhihuTitle.textColor = [UIColor blackColor];
-        zhihuTitle.numberOfLines = 2;
-        [backView addSubview:zhihuTitle];
-        
-        CGFloat backViewH = CGRectGetMaxY(zhihuTitle.frame) + 10;
-        backView.frame = CGRectMake(0, 14, screenW, backViewH);
-        
-        CGFloat baseViewH = CGRectGetMaxY(backView.frame) + 14;
-        baseView.frame = CGRectMake(0, 0, screenW, baseViewH);
-        
-        btn = [[UIButton alloc] initWithFrame:backView.bounds];
-        [btn addTarget:self action:@selector(btnPress) forControlEvents:UIControlEventTouchUpInside];
-        [backView addSubview:btn];
-        
-        _cellH = baseViewH;
-        
+        zhihuTitleX = CGRectGetMaxX(zhihuIcon.frame) + 14;
         
     }
     return self;
@@ -62,19 +48,51 @@
 - (void)setZhihuDatasource:(ZhihuDatasource *)zhihuDatasource
 {
     _zhihuDatasource = zhihuDatasource;
-    zhihuTitle.text = _zhihuDatasource.title;
-//    self.URL = _zhihuDatasource.url;
+    [self drawDetails];
 }
 
-//- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-//    [super setSelected:selected animated:animated];
-//    
-//    [self showWebViewWithUrl:_zhihuDatasource.url];
-//}
-
-- (void)btnPress
+- (void)drawDetails
 {
-    [self showWebViewWithUrl:_zhihuDatasource.url];
+    
+    CGFloat zhihuTitleY = 10;
+    NSInteger i = 1;
+    
+    for (NSDictionary *dict in _zhihuDatasource.zhihuArr) {
+        CGFloat zhihuTitleW = screenW - 14 - zhihuTitleX;
+        CGFloat zhihuTitleH = 34;
+        zhihuTitle = [[UILabel alloc] initWithFrame:CGRectMake(zhihuTitleX, zhihuTitleY, zhihuTitleW, zhihuTitleH)];
+        zhihuTitle.font = [UIFont fontWithName:kFont size:16];
+        zhihuTitle.textColor = [UIColor blackColor];
+        zhihuTitle.numberOfLines = 2;
+        zhihuTitle.text = dict[@"title"];
+        [backView addSubview:zhihuTitle];
+        
+        btn = [[UIButton alloc] initWithFrame:zhihuTitle.frame];
+        [btn addTarget:self action:@selector(btnPress:) forControlEvents:UIControlEventTouchUpInside];
+        [btn setTag:i * 3000];
+        [backView addSubview:btn];
+        
+        zhihuTitleY += 10 + zhihuTitleH;
+    }
+    
+    
+    CGFloat backViewH = CGRectGetMaxY(zhihuTitle.frame) + 10;
+    backView.frame = CGRectMake(0, 14, screenW, backViewH);
+    
+    CGFloat baseViewH = CGRectGetMaxY(backView.frame) + 14;
+    baseView.frame = CGRectMake(0, 0, screenW, baseViewH);
+    
+    
+    
+    _cellH = baseViewH;
+    
+}
+
+- (void)btnPress:(UIButton *)sender
+{
+    NSInteger tag = sender.tag / 3000 - 1;
+    NSDictionary *dic = _zhihuDatasource.zhihuArr[tag];
+    [self showWebViewWithUrl:dic[@"url"]];
 }
 
 @end

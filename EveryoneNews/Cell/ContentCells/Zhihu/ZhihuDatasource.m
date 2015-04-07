@@ -10,19 +10,32 @@
 
 @implementation ZhihuDatasource
 
-+ (id)zhihuWithDict:(NSDictionary *)dict
+//+ (id)zhihuWithDict:(NSDictionary *)dict
+//{
+//    return [[ZhihuDatasource alloc] initWithDict:dict];
+//}
+//
+//- (id)initWithDict:(NSDictionary *)dict
+//{
+//    if (self = [super init]) {
+//        
+//        _url = dict[@"url"];
+//        _user = dict[@"user"];
+//        _title = dict[@"title"];
+//        
+//    }
+//    return self;
+//}
+
++ (id)zhihuWithArr:(NSArray *)array
 {
-    return [[ZhihuDatasource alloc] initWithDict:dict];
+    return [[ZhihuDatasource alloc] initWithArr:array];
 }
 
-- (id)initWithDict:(NSDictionary *)dict
+- (id)initWithArr:(NSArray *)array
 {
     if (self = [super init]) {
-        
-        _url = dict[@"url"];
-        _user = dict[@"user"];
-        _title = dict[@"title"];
-        
+        _zhihuArr = array;
     }
     return self;
 }

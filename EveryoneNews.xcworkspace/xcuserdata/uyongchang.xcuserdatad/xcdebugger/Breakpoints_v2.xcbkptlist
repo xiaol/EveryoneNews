@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EveryoneNews/ViewController/ContentViewController.m"
-            timestampString = "449645991.602513"
+            timestampString = "450080427.560374"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "526"
-            endingLineNumber = "526"
+            startingLineNumber = "530"
+            endingLineNumber = "530"
             landmarkName = "-convertToDetailModel:"
             landmarkType = "5">
          </BreakpointContent>
@@ -36,12 +36,44 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EveryoneNews/Cell/FeedCell/HeadViewCell.m"
-            timestampString = "449754584.127757"
+            timestampString = "450078407.820946"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "321"
-            endingLineNumber = "321"
-            landmarkName = "-setBlurView"
+            startingLineNumber = "235"
+            endingLineNumber = "235"
+            landmarkName = "-settingSubviewFrame"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "EveryoneNews/Cell/FeedCell/HeadViewCell.m"
+            timestampString = "450078407.820946"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "146"
+            endingLineNumber = "146"
+            landmarkName = "-setHeadViewFrm:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "EveryoneNews/Cell/FeedCell/HeadViewCell.m"
+            timestampString = "450078407.820946"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "201"
+            endingLineNumber = "201"
+            landmarkName = "-settingData"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
