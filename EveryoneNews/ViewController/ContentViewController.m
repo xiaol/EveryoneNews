@@ -116,7 +116,7 @@
     qtmquitView = [[TMQuiltView alloc] initWithFrame:CGRectMake(0, 0, 320, 500)];
     qtmquitView.delegate = self;
     qtmquitView.dataSource = self;
-    qtmquitView.backgroundColor = [UIColor yellowColor];
+    qtmquitView.backgroundColor = [UIColor whiteColor];
     
 //    contentTableView.tableFooterView = qtmquitView;
     
@@ -147,16 +147,14 @@
 
 - (void)headerRefresh
 {
-//    [self getRequestWithMethod:nil Temperature:targetZone - 1];
     NSString *url = @"http://121.41.75.213:9999/news/baijia/fetchContent?url=";
     url = [NSString stringWithFormat:@"%@%@", url, self.sourceUrl];
-    for (NSString *str in self.responseUrls) {
-        url = [NSString stringWithFormat:@"%@&filterurls=%@", url, str];
-    }
+//    for (NSString *str in self.responseUrls) {
+//        url = [NSString stringWithFormat:@"%@&filterurls=%@", url, str];
+//    }
     NSLog(@"detailUrl:%@", url);
     [self getContentDetails:url];
 }
-
 
 
 #pragma mark tabelView delegate
@@ -168,10 +166,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *dict = resourceArr[indexPath.row];
-//    if ([dict.allKeys[0] isEqualToString:@"img"]) {
-//        ContentCellFrame *frm = dict[@"img"];
-//        return [frm cellHeight];
-//    } else
+
     if ([dict.allKeys[0] isEqualToString:@"FTText"]){
         FTCoreTextCell *cell = (FTCoreTextCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
         CGFloat height = cell.cellH;
@@ -352,7 +347,6 @@
     CGFloat bigTitleX = titleLabX + 14;
     CGFloat bigTitleW = imgW - 1.8 * bigTitleX;
     
-//    nameSize = [self autoLabSizeWithFontsize:16 SizeW:bigTitleW SizeH:0];
     nameSize = [AutoLabelSize autoLabSizeWithStr:_titleStr Fontsize:16 SizeW:bigTitleW SizeH:0];
     
     UILabel *bigTitle = [[UILabel alloc] initWithFrame:CGRectMake(bigTitleX, bigTitleY, bigTitleW, nameSize.height)];
@@ -375,58 +369,9 @@
     return backView;
 }
 
-//- (UIView *)getHeaderViewWithoutImg
-//{
-//    UIView *backView = [[UIView alloc] init];
-//    
-//    UILabel *titleLab = [[UILabel alloc] init];
-//    titleLab.text = _titleStr;
-//    titleLab.font = [UIFont boldSystemFontOfSize:kTitleFont];
-//    titleLab.textAlignment = NSTextAlignmentLeft;
-////    titleLab.textColor = [UIColor colorFromHexString:@"#ffffff"];
-//    titleLab.textColor = [UIColor blackColor];
-//    titleLab.numberOfLines = 0;
-//    CGFloat titleW = [UIScreen mainScreen].bounds.size.width - 14;
-//    /***************** 标题过长时自动转行 ********************************/
-//    NSDictionary * attribute = @{NSFontAttributeName: [UIFont systemFontOfSize:kTitleFont]};
-//    CGSize nameSize = [_titleStr boundingRectWithSize:CGSizeMake(titleW, 0) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;
-//
-//    
-//    titleLab.frame = CGRectMake(7, 5, titleW, nameSize.height);
-//    [backView addSubview:titleLab];
-//    
-//    UILabel *sourceSite = [[UILabel alloc] init];
-//    sourceSite.text = _sourceSite;
-//    sourceSite.font = [UIFont systemFontOfSize:10];
-////    sourceSite.textColor = [UIColor colorFromHexString:@"#ffffff"];
-//    sourceSite.textColor = [UIColor blackColor];
-//    sourceSite.textAlignment = NSTextAlignmentLeft;
-//    CGFloat sourceSiteY = CGRectGetMaxY(titleLab.frame) + 15;
-//    sourceSite.frame = CGRectMake(10, sourceSiteY, 150, 11);
-//    [backView addSubview:sourceSite];
-//    
-//    UILabel *updateTimeLab = [[UILabel alloc] init];
-//    updateTimeLab.text = _updateTime;
-//    updateTimeLab.font = [UIFont systemFontOfSize:10];
-////    updateTimeLab.textColor = [UIColor colorFromHexString:@"#ffffff"];
-//    updateTimeLab.textColor = [UIColor blackColor];
-//    updateTimeLab.textAlignment = NSTextAlignmentLeft;
-//    CGFloat updateX = CGRectGetMaxX(titleLab.frame) - 120 - 20;
-//    updateTimeLab.frame = CGRectMake(updateX, sourceSiteY, 120, 11);
-//    [backView addSubview:updateTimeLab];
-//    
-//    CGFloat backViewH = CGRectGetMaxY(updateTimeLab.frame);
-//    backView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, backViewH);
-//    backView.backgroundColor = [UIColor whiteColor];
-//
-//    
-//    return backView;
-//}
-
 #pragma mark Get请求
 - (void)getContentDetails:(NSString *)URL
 {
-//    URL = [NSString stringWithFormat:@"http://api.up.oforever.net/eagle/FetchContent?id=%@", URL];
     NSString *URLTmp = [URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];  //转码成UTF-8  否则可能会出现错误
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString: URLTmp]];
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
@@ -435,7 +380,6 @@
         NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
         //系统自带JSON解析
         NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
-        
         [self convertToDetailModel:resultDic];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Failure: %@", error);
@@ -544,7 +488,8 @@
 
 - (CGFloat)quiltView:(TMQuiltView *)quiltView heightForCellAtIndexPath:(NSIndexPath *)indexPath
 {
-    return (indexPath.row % 3) * 30 + 8;
+//    return (indexPath.row % 3) * 30 + 8;
+    return 200;
 }
 
 - (void)quiltView:(TMQuiltView *)quiltView didSelectCellAtIndexPath:(NSIndexPath *)indexPath

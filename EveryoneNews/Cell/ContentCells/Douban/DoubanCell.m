@@ -57,7 +57,6 @@
     NSInteger tag = 1;
    
     
-    
     for (NSArray *arr in _doubanDatasource.tagArr) {
         tagStr = arr[0];
         UILabel *tagLab = [[UILabel alloc] init];
@@ -90,7 +89,6 @@
         UIButton *btn = [[UIButton alloc] initWithFrame:tagLab.frame];
         [btn addTarget:self action:@selector(btnPress:) forControlEvents:UIControlEventTouchUpInside];
         btn.backgroundColor = [UIColor clearColor];
-//        btn.tag = tag * 1000;
         [btn setTag:tag * 1000];
         tag++;
         [backView addSubview:btn];
@@ -102,9 +100,9 @@
     } else {
         backViewH = tagY + tagH + 10;
     }
-    backView.frame = CGRectMake(0, 14, screenW, backViewH);
+    backView.frame = CGRectMake(0, 0, screenW, backViewH);
     
-    baseView.frame = CGRectMake(0, 0, screenW, backViewH + 14 * 2);
+    baseView.frame = CGRectMake(0, 0, screenW, backViewH + 14);
     _cellH = CGRectGetMaxY(baseView.frame);
 }
 
