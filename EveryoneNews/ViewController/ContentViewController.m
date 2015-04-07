@@ -312,14 +312,16 @@
     
     CGFloat titleW = imgW - 14;
     /***************** 标题过长时自动转行 ********************************/
-    NSDictionary * attribute = @{NSFontAttributeName: [UIFont fontWithName:kFont size:18]};
-    CGSize nameSize = [_titleStr boundingRectWithSize:CGSizeMake(titleW, 0) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;
+//    NSDictionary * attribute = @{NSFontAttributeName: [UIFont fontWithName:kFont size:18]};
+//    CGSize nameSize = [_titleStr boundingRectWithSize:CGSizeMake(titleW, 0) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;
+    CGSize nameSize = [self autoLabSizeWithFontsize:18 SizeW:titleW SizeH:0];
     
     CGFloat titleY = 5;
     if (nameSize.height < 40) {
         titleY = 15;
     }
-    titleLab.frame = CGRectMake(7, imgH, titleW, nameSize.height);
+    CGFloat titleLabX = 7;
+    titleLab.frame = CGRectMake(titleLabX, imgH, titleW, nameSize.height);
     [backView addSubview:titleLab];
    
     UILabel *updateTimeLab = [[UILabel alloc] init];
@@ -328,7 +330,7 @@
     updateTimeLab.textColor = [UIColor colorFromHexString:@"#7f7f7f"];
     updateTimeLab.textAlignment = NSTextAlignmentLeft;
     CGFloat updateY = CGRectGetMaxY(titleLab.frame) + 15;
-    updateTimeLab.frame = CGRectMake(7, updateY, 120, 12);
+    updateTimeLab.frame = CGRectMake(titleLabX, updateY, 120, 12);
     [backView addSubview:updateTimeLab];
     
     UIImageView *hotImg = [[UIImageView alloc] init];
@@ -345,60 +347,84 @@
     hotLab.text = self.rootClass;
     [backView addSubview:hotLab];
     
-    CGFloat backViewH = CGRectGetMaxY(updateTimeLab.frame) + 25;
+    CGFloat leftMarkY = 25 + CGRectGetMaxY(updateTimeLab.frame);
+    UIImageView *leftMark = [[UIImageView alloc] initWithFrame:CGRectMake(titleLabX, leftMarkY, 11, 15)];
+    leftMark.image = [UIImage imageNamed:@"leftMark.png"];
+    [backView addSubview:leftMark];
+    
+    CGFloat bigTitleY = leftMarkY + 12.5;
+    CGFloat bigTitleX = titleLabX + 14;
+    CGFloat bigTitleW = imgW - 1.8 * bigTitleX;
+    
+    nameSize = [self autoLabSizeWithFontsize:16 SizeW:bigTitleW SizeH:0];
+    
+    UILabel *bigTitle = [[UILabel alloc] initWithFrame:CGRectMake(bigTitleX, bigTitleY, bigTitleW, nameSize.height)];
+    bigTitle.font = [UIFont fontWithName:kFont size:16];
+    bigTitle.textColor = [UIColor blackColor];
+    bigTitle.numberOfLines = 2;
+    bigTitle.text = _titleStr;
+    [backView addSubview:bigTitle];
+    
+    CGFloat rightMarkY = CGRectGetMaxY(bigTitle.frame);
+    CGFloat rightMarkX = CGRectGetMaxX(titleLab.frame) - 15;
+    UIImageView *rightMark = [[UIImageView alloc] initWithFrame:CGRectMake(rightMarkX, rightMarkY, 11, 15)];
+    rightMark.image = [UIImage imageNamed:@"rightMark.png"];
+    [backView addSubview:rightMark];
+    
+    CGFloat backViewH = CGRectGetMaxY(rightMark.frame) + 25;
     
     backView.frame = CGRectMake(0, 0, imgW, backViewH);
     
     return backView;
 }
 
-- (UIView *)getHeaderViewWithoutImg
-{
-    UIView *backView = [[UIView alloc] init];
-    
-    UILabel *titleLab = [[UILabel alloc] init];
-    titleLab.text = _titleStr;
-    titleLab.font = [UIFont boldSystemFontOfSize:kTitleFont];
-    titleLab.textAlignment = NSTextAlignmentLeft;
-//    titleLab.textColor = [UIColor colorFromHexString:@"#ffffff"];
-    titleLab.textColor = [UIColor blackColor];
-    titleLab.numberOfLines = 0;
-    CGFloat titleW = [UIScreen mainScreen].bounds.size.width - 14;
-    /***************** 标题过长时自动转行 ********************************/
-    NSDictionary * attribute = @{NSFontAttributeName: [UIFont systemFontOfSize:kTitleFont]};
-    CGSize nameSize = [_titleStr boundingRectWithSize:CGSizeMake(titleW, 0) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;
-
-    
-    titleLab.frame = CGRectMake(7, 5, titleW, nameSize.height);
-    [backView addSubview:titleLab];
-    
-    UILabel *sourceSite = [[UILabel alloc] init];
-    sourceSite.text = _sourceSite;
-    sourceSite.font = [UIFont systemFontOfSize:10];
-//    sourceSite.textColor = [UIColor colorFromHexString:@"#ffffff"];
-    sourceSite.textColor = [UIColor blackColor];
-    sourceSite.textAlignment = NSTextAlignmentLeft;
-    CGFloat sourceSiteY = CGRectGetMaxY(titleLab.frame) + 15;
-    sourceSite.frame = CGRectMake(10, sourceSiteY, 150, 11);
-    [backView addSubview:sourceSite];
-    
-    UILabel *updateTimeLab = [[UILabel alloc] init];
-    updateTimeLab.text = _updateTime;
-    updateTimeLab.font = [UIFont systemFontOfSize:10];
-//    updateTimeLab.textColor = [UIColor colorFromHexString:@"#ffffff"];
-    updateTimeLab.textColor = [UIColor blackColor];
-    updateTimeLab.textAlignment = NSTextAlignmentLeft;
-    CGFloat updateX = CGRectGetMaxX(titleLab.frame) - 120 - 20;
-    updateTimeLab.frame = CGRectMake(updateX, sourceSiteY, 120, 11);
-    [backView addSubview:updateTimeLab];
-    
-    CGFloat backViewH = CGRectGetMaxY(updateTimeLab.frame);
-    backView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, backViewH);
-    backView.backgroundColor = [UIColor whiteColor];
-
-    
-    return backView;
-}
+//- (UIView *)getHeaderViewWithoutImg
+//{
+//    UIView *backView = [[UIView alloc] init];
+//    
+//    UILabel *titleLab = [[UILabel alloc] init];
+//    titleLab.text = _titleStr;
+//    titleLab.font = [UIFont boldSystemFontOfSize:kTitleFont];
+//    titleLab.textAlignment = NSTextAlignmentLeft;
+////    titleLab.textColor = [UIColor colorFromHexString:@"#ffffff"];
+//    titleLab.textColor = [UIColor blackColor];
+//    titleLab.numberOfLines = 0;
+//    CGFloat titleW = [UIScreen mainScreen].bounds.size.width - 14;
+//    /***************** 标题过长时自动转行 ********************************/
+//    NSDictionary * attribute = @{NSFontAttributeName: [UIFont systemFontOfSize:kTitleFont]};
+//    CGSize nameSize = [_titleStr boundingRectWithSize:CGSizeMake(titleW, 0) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;
+//
+//    
+//    titleLab.frame = CGRectMake(7, 5, titleW, nameSize.height);
+//    [backView addSubview:titleLab];
+//    
+//    UILabel *sourceSite = [[UILabel alloc] init];
+//    sourceSite.text = _sourceSite;
+//    sourceSite.font = [UIFont systemFontOfSize:10];
+////    sourceSite.textColor = [UIColor colorFromHexString:@"#ffffff"];
+//    sourceSite.textColor = [UIColor blackColor];
+//    sourceSite.textAlignment = NSTextAlignmentLeft;
+//    CGFloat sourceSiteY = CGRectGetMaxY(titleLab.frame) + 15;
+//    sourceSite.frame = CGRectMake(10, sourceSiteY, 150, 11);
+//    [backView addSubview:sourceSite];
+//    
+//    UILabel *updateTimeLab = [[UILabel alloc] init];
+//    updateTimeLab.text = _updateTime;
+//    updateTimeLab.font = [UIFont systemFontOfSize:10];
+////    updateTimeLab.textColor = [UIColor colorFromHexString:@"#ffffff"];
+//    updateTimeLab.textColor = [UIColor blackColor];
+//    updateTimeLab.textAlignment = NSTextAlignmentLeft;
+//    CGFloat updateX = CGRectGetMaxX(titleLab.frame) - 120 - 20;
+//    updateTimeLab.frame = CGRectMake(updateX, sourceSiteY, 120, 11);
+//    [backView addSubview:updateTimeLab];
+//    
+//    CGFloat backViewH = CGRectGetMaxY(updateTimeLab.frame);
+//    backView.frame = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, backViewH);
+//    backView.backgroundColor = [UIColor whiteColor];
+//
+//    
+//    return backView;
+//}
 
 #pragma mark Get请求
 - (void)getContentDetails:(NSString *)URL
@@ -554,5 +580,11 @@
     return NO;
 }
 
+- (CGSize)autoLabSizeWithFontsize:(CGFloat)size SizeW:(CGFloat)sizeW SizeH:(CGFloat)sizeH
+{
+    NSDictionary * attribute = @{NSFontAttributeName: [UIFont fontWithName:kFont size:size]};
+    CGSize nameSize = [_titleStr boundingRectWithSize:CGSizeMake(sizeW, sizeH) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;
+    return nameSize;
+}
 
 @end
