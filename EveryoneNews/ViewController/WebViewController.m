@@ -17,6 +17,12 @@
 
 @implementation WebViewController
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.hidden = YES;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -30,6 +36,8 @@
     NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:encodedString]];
     [self.view addSubview: webView];
     [webView loadRequest:request];
+ 
+    
 }
 
 - (void)didReceiveMemoryWarning {

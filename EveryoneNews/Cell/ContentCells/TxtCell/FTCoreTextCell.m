@@ -23,11 +23,7 @@
     {
         coreTextView = [[FTCoreTextView alloc] init];
         
-//        coreTextView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        // set styles
         [coreTextView addStyles:[self coreTextStyle]];
-        //set delegate
-//        [coreTextView setDelegate:self];
         
         bgView = [[UIView alloc] init];
         bgView.backgroundColor = [UIColor clearColor];
@@ -63,7 +59,8 @@
 //    defaultStyle.name = FTCoreTextTagDefault;	//thought the default name is already set to FTCoreTextTagDefault
     defaultStyle.name = @"myDefault";
 //    defaultStyle.font = [UIFont fontWithName:@"TimesNewRomanPSMT" size:16.f];
-    defaultStyle.font = [UIFont systemFontOfSize:16];
+//    defaultStyle.font = [UIFont systemFontOfSize:16];
+    defaultStyle.font = [UIFont fontWithName:kFont size:16];
     defaultStyle.textAlignment = FTCoreTextAlignementJustified;
     defaultStyle.paragraphInset = UIEdgeInsetsMake(12, 0, 0, 0);
 //    defaultStyle.maxLineHeight = 100;
@@ -74,7 +71,7 @@
 }
 - (CGRect)setTextViewFrm
 {
-    CGFloat txtX = 15;
+    CGFloat txtX = 20;
     CGFloat txtY = 0;
     CGFloat width = [UIScreen mainScreen].bounds.size.width - 2 * txtX;
     CGRect frm = CGRectMake(txtX, txtY, width, 0);

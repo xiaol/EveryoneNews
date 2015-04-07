@@ -44,6 +44,7 @@
 		C197123C1AC3DE5F0024B12E /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C197123B1AC3DE5F0024B12E /* libiconv.dylib */; };
 		C1C009411AD3C4D400F550A4 /* leftMark.png in Resources */ = {isa = PBXBuildFile; fileRef = C1C0093F1AD3C4D400F550A4 /* leftMark.png */; };
 		C1C009421AD3C4D400F550A4 /* rightMark.png in Resources */ = {isa = PBXBuildFile; fileRef = C1C009401AD3C4D400F550A4 /* rightMark.png */; };
+		C1C009481AD3E85400F550A4 /* AutoLabelSize.m in Sources */ = {isa = PBXBuildFile; fileRef = C1C009471AD3E85400F550A4 /* AutoLabelSize.m */; };
 		C1C052311ABFFC1600D6D687 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C1C052301ABFFC1600D6D687 /* main.m */; };
 		C1C052341ABFFC1600D6D687 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C1C052331ABFFC1600D6D687 /* AppDelegate.m */; };
 		C1C052371ABFFC1600D6D687 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C1C052361ABFFC1600D6D687 /* ViewController.m */; };
@@ -145,6 +146,8 @@
 		C197123B1AC3DE5F0024B12E /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		C1C0093F1AD3C4D400F550A4 /* leftMark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = leftMark.png; sourceTree = "<group>"; };
 		C1C009401AD3C4D400F550A4 /* rightMark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rightMark.png; sourceTree = "<group>"; };
+		C1C009461AD3E85400F550A4 /* AutoLabelSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoLabelSize.h; sourceTree = "<group>"; };
+		C1C009471AD3E85400F550A4 /* AutoLabelSize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoLabelSize.m; sourceTree = "<group>"; };
 		C1C0522B1ABFFC1600D6D687 /* EveryoneNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EveryoneNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1C0522F1ABFFC1600D6D687 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C1C052301ABFFC1600D6D687 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -471,6 +474,8 @@
 				C1C052A21AC13AF700D6D687 /* ScaleImage.m */,
 				C1C0526C1AC01ED400D6D687 /* UIColor+HexToRGB.h */,
 				C1C0526D1AC01ED400D6D687 /* UIColor+HexToRGB.m */,
+				C1C009461AD3E85400F550A4 /* AutoLabelSize.h */,
+				C1C009471AD3E85400F550A4 /* AutoLabelSize.m */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -777,6 +782,7 @@
 				C18F95221ACA509A00A46502 /* TMPhotoQuiltViewCell.m in Sources */,
 				C16FA9B51ACBD48400F85DF8 /* WeiboCell.m in Sources */,
 				C16FA9BD1ACC1E1400F85DF8 /* BaseCell.m in Sources */,
+				C1C009481AD3E85400F550A4 /* AutoLabelSize.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

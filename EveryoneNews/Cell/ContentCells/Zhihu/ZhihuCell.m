@@ -8,6 +8,7 @@
 
 #import "ZhihuCell.h"
 #import "UIColor+HexToRGB.h"
+#import "AutoLabelSize.h"
 
 @implementation ZhihuCell
 {
@@ -35,7 +36,7 @@
         backView.backgroundColor = [UIColor whiteColor];
         [baseView addSubview:backView];
         
-        UIImageView *zhihuIcon = [[UIImageView alloc] initWithFrame:CGRectMake(14, 10, 32, 28)];
+        UIImageView *zhihuIcon = [[UIImageView alloc] initWithFrame:CGRectMake(20, 10, 32, 28)];
         zhihuIcon.image = [UIImage imageNamed:@"zhihu.png"];
         [backView addSubview:zhihuIcon];
         
@@ -58,8 +59,8 @@
     NSInteger i = 1;
     
     for (NSDictionary *dict in _zhihuDatasource.zhihuArr) {
-        CGFloat zhihuTitleW = screenW - 14 - zhihuTitleX;
-        CGFloat zhihuTitleH = 34;
+        CGFloat zhihuTitleW = screenW - 20 - zhihuTitleX;
+        
         
         if (i != 1) {
             UIView *cutline = [[UIView alloc] init];
@@ -69,11 +70,17 @@
             [backView addSubview:cutline];
         }
         
+        CGSize titleSize = [AutoLabelSize autoLabSizeWithStr:dict[@"title"] Fontsize:16 SizeW:zhihuTitleW SizeH:0];
+        CGFloat zhihuTitleH = titleSize.height;
+        if (zhihuTitleH > 42) {
+            zhihuTitleH = 44;
+        }
+        
         zhihuTitle = [[UILabel alloc] initWithFrame:CGRectMake(zhihuTitleX, zhihuTitleY, zhihuTitleW, zhihuTitleH)];
         zhihuTitle.font = [UIFont fontWithName:kFont size:16];
         zhihuTitle.textColor = [UIColor blackColor];
-//        zhihuTitle.numberOfLines = 2;
-        zhihuTitle.textAlignment = NSTextAlignmentJustified;
+        zhihuTitle.numberOfLines = 2;
+        zhihuTitle.textAlignment = NSTextAlignmentLeft;
         zhihuTitle.text = dict[@"title"];
         [backView addSubview:zhihuTitle];
         
@@ -106,5 +113,7 @@
     NSDictionary *dic = _zhihuDatasource.zhihuArr[tag];
     [self showWebViewWithUrl:dic[@"url"]];
 }
+
+
 
 @end

@@ -30,6 +30,7 @@
 #import "WebViewController.h"
 
 //#import "UIImage+GIF.h"
+#import "AutoLabelSize.h"
 
 
 
@@ -55,13 +56,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
-//    NSString *url = @"http://121.41.75.213:9999/news/baijia/fetchContent?url=";
-//    url = [NSString stringWithFormat:@"%@%@", url, self.sourceUrl];
-//    for (NSString *str in self.responseUrls) {
-//        url = [NSString stringWithFormat:@"%@&filterurls=%@", url, str];
-//    }
-//    [self getContentDetails:url];
+
+    self.navigationController.navigationBar.hidden = YES;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -77,14 +73,15 @@
     [self initTableView];
     [self initWaterFlow];
     
-    [self setupRefresh];
+//    [self setupRefresh];
+    [self headerRefresh];
 }
 
 - (void)commonInit
 {
     resourceArr = [[NSMutableArray alloc] init];
     
-//    self.navigationController.navigationBarHidden = YES;
+    
     
     UIView *backView = [[UIView alloc] initWithFrame:self.view.frame];
     backView.backgroundColor = [UIColor colorFromHexString:@"#EDEDF3"];
@@ -94,9 +91,9 @@
 - (void)initTableView
 {
     contentTableView = [[UITableView alloc] init];
-    CGRect frame = self.view.frame;
-    frame.size.height -= 64;
-    contentTableView.frame = frame;
+//    CGRect frame = self.view.frame;
+//    frame.size.height -= 64;
+    contentTableView.frame = self.view.frame;
     
     contentTableView.delegate = self;
     contentTableView.dataSource = self;
@@ -310,18 +307,17 @@
     titleLab.textColor = [UIColor colorFromHexString:@"#000000"];
     titleLab.numberOfLines = 2;
     
-    CGFloat titleW = imgW - 14;
-    /***************** 标题过长时自动转行 ********************************/
-//    NSDictionary * attribute = @{NSFontAttributeName: [UIFont fontWithName:kFont size:18]};
-//    CGSize nameSize = [_titleStr boundingRectWithSize:CGSizeMake(titleW, 0) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;
-    CGSize nameSize = [self autoLabSizeWithFontsize:18 SizeW:titleW SizeH:0];
+    CGFloat titleLabX = 20;
+    CGFloat titleW = imgW - 2 * titleLabX;
+
+    CGSize nameSize = [AutoLabelSize autoLabSizeWithStr:_titleStr Fontsize:18 SizeW:titleW SizeH:0];
     
     CGFloat titleY = 5;
     if (nameSize.height < 40) {
         titleY = 15;
     }
-    CGFloat titleLabX = 7;
-    titleLab.frame = CGRectMake(titleLabX, imgH, titleW, nameSize.height);
+    
+    titleLab.frame = CGRectMake(titleLabX, imgH + 15, titleW, nameSize.height);
     [backView addSubview:titleLab];
    
     UILabel *updateTimeLab = [[UILabel alloc] init];
@@ -356,7 +352,8 @@
     CGFloat bigTitleX = titleLabX + 14;
     CGFloat bigTitleW = imgW - 1.8 * bigTitleX;
     
-    nameSize = [self autoLabSizeWithFontsize:16 SizeW:bigTitleW SizeH:0];
+//    nameSize = [self autoLabSizeWithFontsize:16 SizeW:bigTitleW SizeH:0];
+    nameSize = [AutoLabelSize autoLabSizeWithStr:_titleStr Fontsize:16 SizeW:bigTitleW SizeH:0];
     
     UILabel *bigTitle = [[UILabel alloc] initWithFrame:CGRectMake(bigTitleX, bigTitleY, bigTitleW, nameSize.height)];
     bigTitle.font = [UIFont fontWithName:kFont size:16];
@@ -498,6 +495,7 @@
     }
     
     [contentTableView reloadData];
+    [contentTableView headerEndRefreshing];
 }
 
 - (void)putToResourceArr:(id)resource Method:(NSString *)method
@@ -580,11 +578,5 @@
     return NO;
 }
 
-- (CGSize)autoLabSizeWithFontsize:(CGFloat)size SizeW:(CGFloat)sizeW SizeH:(CGFloat)sizeH
-{
-    NSDictionary * attribute = @{NSFontAttributeName: [UIFont fontWithName:kFont size:size]};
-    CGSize nameSize = [_titleStr boundingRectWithSize:CGSizeMake(sizeW, sizeH) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;
-    return nameSize;
-}
 
 @end

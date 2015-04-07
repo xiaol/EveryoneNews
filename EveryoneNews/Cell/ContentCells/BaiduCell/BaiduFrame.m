@@ -7,6 +7,7 @@
 //
 
 #import "BaiduFrame.h"
+#import "AutoLabelSize.h"
 
 @implementation BaiduFrame
 
@@ -19,8 +20,9 @@
     CGFloat titleX = 14;
     CGFloat titleY = 10;
     
-    NSDictionary * attribute = @{NSFontAttributeName: [UIFont fontWithName:kFont size:16]};
-    CGSize nameSize = [_baiduDatasource.title boundingRectWithSize:CGSizeMake(0, 16) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;
+//    NSDictionary * attribute = @{NSFontAttributeName: [UIFont fontWithName:kFont size:16]};
+//    CGSize nameSize = [_baiduDatasource.title boundingRectWithSize:CGSizeMake(0, 16) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;
+    CGSize nameSize = [AutoLabelSize autoLabSizeWithStr:_baiduDatasource.title Fontsize:16 SizeW:0 SizeH:16];
 //
     _titleFrm = CGRectMake(titleX, titleY, nameSize.width, 16);
     

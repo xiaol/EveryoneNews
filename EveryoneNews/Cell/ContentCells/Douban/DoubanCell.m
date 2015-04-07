@@ -8,6 +8,7 @@
 
 #import "DoubanCell.h"
 #import "UIColor+HexToRGB.h"
+#import "AutoLabelSize.h"
 
 @implementation DoubanCell
 {
@@ -29,7 +30,7 @@
         backView.backgroundColor = [UIColor whiteColor];
         [baseView addSubview:backView];
         
-        doubanIcon = [[UIImageView alloc] initWithFrame:CGRectMake(14, 10, 32, 28)];
+        doubanIcon = [[UIImageView alloc] initWithFrame:CGRectMake(20, 10, 32, 28)];
         doubanIcon.image = [UIImage imageNamed:@"douban.png"];
         [backView addSubview:doubanIcon];
         
@@ -60,9 +61,10 @@
     for (NSArray *arr in _doubanDatasource.tagArr) {
         tagStr = arr[0];
         UILabel *tagLab = [[UILabel alloc] init];
-        NSDictionary * attribute = @{NSFontAttributeName: [UIFont fontWithName:kFont size:12.5]};
-        CGSize nameSize = [tagStr boundingRectWithSize:CGSizeMake(0, tagH) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;
-        if (tagX + nameSize.width + 6<= screenW - 14) {
+ 
+        CGSize nameSize = [AutoLabelSize autoLabSizeWithStr:tagStr Fontsize:12.5 SizeW:0 SizeH:tagH];
+        
+        if (tagX + nameSize.width + 6<= screenW - 20) {
             tagLab.frame = CGRectMake(tagX, tagY, nameSize.width + 6, tagH);
         } else {
             tagX = doubanLeftX;

@@ -20,11 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EveryoneNews/ViewController/ContentViewController.m"
-            timestampString = "450087328.111151"
+            timestampString = "450093468.655633"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "497"
-            endingLineNumber = "497"
+            startingLineNumber = "494"
+            endingLineNumber = "494"
             landmarkName = "-convertToDetailModel:"
             landmarkType = "5">
          </BreakpointContent>

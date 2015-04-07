@@ -33,7 +33,7 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-//    [self getRequest:@"http://121.41.75.213:9999/news/baijia/fetchHome"];
+    self.navigationController.navigationBar.hidden = NO;
 }
 
 - (void)viewDidLoad {
