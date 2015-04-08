@@ -41,7 +41,7 @@
     
     _sourceIcon = CGRectMake(16, 8, 16, 13.5);
     
-    CGFloat sourceNameX = CGRectGetMaxX(_sourceIcon);
+    CGFloat sourceNameX = CGRectGetMaxX(_sourceIcon) + 4;
     CGFloat sourceNameH = 16;
     CGFloat sourceNameY = CGRectGetMaxY(_sourceIcon) - sourceNameH;
     _sourceName = CGRectMake(sourceNameX, sourceNameY, 55, sourceNameH);

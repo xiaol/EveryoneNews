@@ -100,8 +100,7 @@
 #pragma mark tableView delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-//    return dataArr.count;
-//    return 2;
+
     if (dataArr != nil && ![dataArr isKindOfClass:[NSNull class]] && dataArr.count != 0) {
         return dataArr.count;
     } else {
@@ -114,7 +113,6 @@
 //    HeadViewFrame *frm;
     if (dataArr != nil && ![dataArr isKindOfClass:[NSNull class]] && dataArr.count != 0) {
         HeadViewFrame *frm = dataArr[indexPath.row];
-        NSLog(@"CellHeight:%f", frm.cellH);
         return frm.cellH;
     } else {
         return 0;
@@ -135,11 +133,7 @@
         cell.delegate = self;
     }
 
-    HeadViewFrame *frm = dataArr[indexPath.row];
-    cell.headViewFrm = frm;
-//    cell.headViewFrm = dataArr[indexPath.row];
-    
-    NSLog(@"indexPath.row:%ld  %@",indexPath.row, cell.headViewFrm.headViewDatasource.titleStr);
+    cell.headViewFrm = dataArr[indexPath.row];
     
     return cell;
 }

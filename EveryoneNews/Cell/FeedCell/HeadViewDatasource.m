@@ -29,11 +29,11 @@
         _sourceSiteName = dict[@"sourceSiteName"];
         _rootClass = dict[@"root_class"];
         
-        NSLog(@"imgStr:%@ \n       sourceUrl:%@ \n      titleStr:%@ \n", _imgStr, _sourceUrl, _titleStr);
-        NSLog(@"subArr:%@", _subArr);
-        NSLog(@"aspectStr:%@\n      responseUrls:%@", _aspectStr, _responseUrls);
-        NSLog(@"updateTime:%@\n     sourceSiteName:%@\n", _updateTime, _sourceSiteName);
-        NSLog(@"rootClass:%@", _rootClass);
+//        NSLog(@"imgStr:%@ \n       sourceUrl:%@ \n      titleStr:%@ \n", _imgStr, _sourceUrl, _titleStr);
+//        NSLog(@"subArr:%@", _subArr);
+//        NSLog(@"aspectStr:%@\n      responseUrls:%@", _aspectStr, _responseUrls);
+//        NSLog(@"updateTime:%@\n     sourceSiteName:%@\n", _updateTime, _sourceSiteName);
+//        NSLog(@"rootClass:%@", _rootClass);
     }
     return self;
 }
