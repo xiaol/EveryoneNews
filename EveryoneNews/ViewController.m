@@ -73,7 +73,6 @@
     [self.view addSubview:myTableView];
 }
 
-#pragma mark refresh
 #pragma mark MJRefresh
 - (void)setupRefresh
 {
@@ -101,14 +100,27 @@
 #pragma mark tableView delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return dataArr.count;
+//    return dataArr.count;
+//    return 2;
+    if (dataArr != nil && ![dataArr isKindOfClass:[NSNull class]] && dataArr.count != 0) {
+        return dataArr.count;
+    } else {
+        return 0;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
-    HeadViewFrame *frm = dataArr[indexPath.row];
-    return frm.cellH;
+//    HeadViewFrame *frm;
+    if (dataArr != nil && ![dataArr isKindOfClass:[NSNull class]] && dataArr.count != 0) {
+        HeadViewFrame *frm = dataArr[indexPath.row];
+        NSLog(@"CellHeight:%f", frm.cellH);
+        return frm.cellH;
+    } else {
+        return 0;
+    }
+    
+    
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -123,7 +135,12 @@
         cell.delegate = self;
     }
 
-    cell.headViewFrm = dataArr[indexPath.row];
+    HeadViewFrame *frm = dataArr[indexPath.row];
+    cell.headViewFrm = frm;
+//    cell.headViewFrm = dataArr[indexPath.row];
+    
+    NSLog(@"indexPath.row:%ld  %@",indexPath.row, cell.headViewFrm.headViewDatasource.titleStr);
+    
     return cell;
 }
 
@@ -173,6 +190,8 @@
         
         HeadViewFrame *headViewFrm = [[HeadViewFrame alloc] init];
         headViewFrm.headViewDatasource = [HeadViewDatasource headViewDatasourceWithDict:dict];
+        
+//        NSLog(@"dict:%@", dict);
         
         [dataArr addObject:headViewFrm];
 //        NSLog(@"dict:%@", dict);

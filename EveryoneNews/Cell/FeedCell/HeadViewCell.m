@@ -178,8 +178,10 @@
             [sourceTitle addObject:dic[@"title"]];
             if (![self isBlankString:dic[@"user"]]) {
                 [sourceName addObject:dic[@"user"]];
-            } else {
+            } else if (![self isBlankString:dic[@"sourceSitename"]]){
                 [sourceName addObject:dic[@"sourceSitename"]];
+            } else {
+                [sourceName addObject:@"木有数据"];
             }
             
             [sourceUrl addObject:dic[@"url"]];

@@ -21,16 +21,19 @@
         _imgStr = dict[@"imgUrl"];
         _sourceUrl = dict[@"sourceUrl"];
         _titleStr = dict[@"title"];
-//        _otherNum = (int)dict[@"otherNum"];
         _subArr = dict[@"sublist"];
         
-//        _sourceTitle = @"给这只汪的生日蛋糕~~~";     //sublist title
         _aspectStr = [NSString stringWithFormat:@"%@家观点", dict[@"otherNum"]];
-//        _sourceName = @"凤凰网:";
         _responseUrls = dict[@"urls_response"];
         _updateTime = dict[@"updateTime"];
         _sourceSiteName = dict[@"sourceSiteName"];
         _rootClass = dict[@"root_class"];
+        
+        NSLog(@"imgStr:%@ \n       sourceUrl:%@ \n      titleStr:%@ \n", _imgStr, _sourceUrl, _titleStr);
+        NSLog(@"subArr:%@", _subArr);
+        NSLog(@"aspectStr:%@\n      responseUrls:%@", _aspectStr, _responseUrls);
+        NSLog(@"updateTime:%@\n     sourceSiteName:%@\n", _updateTime, _sourceSiteName);
+        NSLog(@"rootClass:%@", _rootClass);
     }
     return self;
 }
