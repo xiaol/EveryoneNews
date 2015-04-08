@@ -47,6 +47,8 @@
     CGFloat waterFlowH;
 //    NSMutableDictionary *waterFlowDic;
     NSMutableArray *waterFlowArr;
+//    NSMutableArray *waterFlowImgArr;
+//    NSMutableArray *waterFlowIamgeArr;
 }
 
 @end
@@ -112,6 +114,8 @@
     
 //    waterFlowDic = [[NSMutableDictionary alloc] init];
     waterFlowArr = [[NSMutableArray alloc] init];
+//    waterFlowImgArr = [[NSMutableArray alloc] init];
+//    waterFlowIamgeArr = [[NSMutableArray alloc] init];
     
     qtmquitView = [[TMQuiltView alloc] initWithFrame:CGRectMake(0, 0, 320, 500)];
     qtmquitView.delegate = self;
@@ -433,6 +437,26 @@
     
     waterFlowArr = resultDic[@"relate"];
     if (waterFlowArr != nil && ![waterFlowArr isKindOfClass:[NSNull class]] && waterFlowArr.count != 0) {
+        
+//        for (NSDictionary *dic in waterFlowArr) {
+//            UIImageView *photo = [[UIImageView alloc] init];
+//            NSString *imgStr = dic[@"img"];
+//            NSURL *imgUrl = [NSURL URLWithString:imgStr];
+//            [photo sd_setImageWithURL:imgUrl placeholderImage:[UIImage imageNamed:@"demo_1.jpg"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+//                CGFloat imgW = ([UIScreen mainScreen].bounds.size.width - 30 ) / 2;
+//                if (image.size.width < imgW) {
+//                    imgW = image.size.width;
+//                }
+//                CGFloat imgH = image.size.height * imgW / image.size.width;
+//                
+//                photo.image = [ScaleImage scaleImage:photo.image size:CGSizeMake(imgW, imgH)];
+//                
+//                [waterFlowImgArr addObject:[NSNumber numberWithFloat:imgH]];
+//                [waterFlowIamgeArr addObject:photo];
+//            }];
+//        }
+        
+        
         contentTableView.tableFooterView = qtmquitView;
         [self warterFlowReloadData];
         [qtmquitView reloadData];
@@ -462,12 +486,23 @@
     
     NSDictionary *dic = waterFlowArr[indexPath.row];
     
-//    NSString *num = [NSString stringWithFormat:@"%d", (int)indexPath.row];
-//    cell.photoView.image = [UIImage imageNamed:waterFlowDic[num]];
-//    cell.titleLabel.text = [NSString stringWithFormat:@"%ld", indexPath.row];
+
     cell.titleLabel.text = dic[@"title"];
     NSURL *imgUrl = [NSURL URLWithString:dic[@"img"]];
-    [cell.photoView sd_setImageWithURL:imgUrl placeholderImage:[UIImage imageNamed:@"demo_1.jpg"]];
+
+    [cell.photoView sd_setImageWithURL:imgUrl placeholderImage:[UIImage imageNamed:@"demo_1.jpg"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        CGFloat imgW = ([UIScreen mainScreen].bounds.size.width - 30 ) / 2;
+        if (image.size.width < imgW) {
+            imgW = image.size.width;
+        }
+        CGFloat imgH = image.size.height * imgW / image.size.width;
+//        [waterFlowImgArr addObject:[NSNumber numberWithFloat:imgH]];
+        cell.photoView.image = [ScaleImage scaleImage:cell.photoView.image size:CGSizeMake(imgW, imgH)];
+    }];
+//    cell.photoView.image = photo.image;
+    
+//    cell.photoView.image = waterFlowIamgeArr[indexPath.row];
+    
     return cell;
 }
 
@@ -475,14 +510,7 @@
 
 - (NSInteger)quiltViewNumberOfColumns:(TMQuiltView *)quiltView {
     
-    
-//    if ([[UIDevice currentDevice] orientation] == UIDeviceOrientationLandscapeLeft
-//        || [[UIDevice currentDevice] orientation] == UIDeviceOrientationLandscapeRight)
-//    {
-//        return 3;
-//    } else {
-//        return 2;
-//    }
+
     return 2;
 }
 
@@ -490,6 +518,14 @@
 {
 //    return (indexPath.row % 3) * 30 + 8;
     return 200;
+//    CGFloat height;
+//    if (waterFlowImgArr != nil && ![waterFlowImgArr isKindOfClass:[NSNull class]] && waterFlowImgArr.count != 0) {
+//        height = [waterFlowImgArr[indexPath.row] floatValue];
+//    }
+//    
+//    NSLog(@"height:%f", height);
+//   
+//    return height;
 }
 
 - (void)quiltView:(TMQuiltView *)quiltView didSelectCellAtIndexPath:(NSIndexPath *)indexPath

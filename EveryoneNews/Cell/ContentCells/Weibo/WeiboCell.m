@@ -25,11 +25,11 @@
         urlArr = [[NSMutableArray alloc] init];
         tagCount = 1;
         
-        UIView *baseView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenW, 125 + 28)];
+        UIView *baseView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenW, 125 + 14)];
         baseView.backgroundColor = [UIColor colorFromHexString:kGreen];
         [self.contentView addSubview:baseView];
         
-        scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 14, screenW, 125)];
+        scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, screenW, 125)];
         scrollView.backgroundColor = [UIColor whiteColor];
         [self.contentView addSubview:scrollView];
         _cellH = 125 + 28;
