@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		72E38B7BA868266B182567CC /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A0528C26297FAA2C259EF3E /* libPods.a */; };
 		C11CD46D1AC2691400D1D9C8 /* huawen.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C11CD46C1AC268FF00D1D9C8 /* huawen.ttf */; };
+		C13B06511AD631F70010095D /* huanqiuwang.png in Resources */ = {isa = PBXBuildFile; fileRef = C13B06501AD631F70010095D /* huanqiuwang.png */; };
 		C16FA9971ACAFB1F00F85DF8 /* BaiduFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9961ACAFB1F00F85DF8 /* BaiduFrame.m */; };
 		C16FA99A1ACAFB3A00F85DF8 /* BaiduDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9991ACAFB3A00F85DF8 /* BaiduDatasource.m */; };
 		C16FA99D1ACB024500F85DF8 /* BaiduCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA99C1ACB024500F85DF8 /* BaiduCell.m */; };
@@ -124,6 +125,7 @@
 		9FE9000300DFA499AE8DDD92 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		C11CD46C1AC268FF00D1D9C8 /* huawen.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = huawen.ttf; sourceTree = "<group>"; };
 		C11CD46E1AC2699700D1D9C8 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		C13B06501AD631F70010095D /* huanqiuwang.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = huanqiuwang.png; sourceTree = "<group>"; };
 		C16FA9951ACAFB1F00F85DF8 /* BaiduFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiduFrame.h; sourceTree = "<group>"; };
 		C16FA9961ACAFB1F00F85DF8 /* BaiduFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaiduFrame.m; sourceTree = "<group>"; };
 		C16FA9981ACAFB3A00F85DF8 /* BaiduDatasource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiduDatasource.h; sourceTree = "<group>"; };
@@ -404,6 +406,7 @@
 		C1C009491AD530F300F550A4 /* logo */ = {
 			isa = PBXGroup;
 			children = (
+				C13B06501AD631F70010095D /* huanqiuwang.png */,
 				C1C009861AD543DA00F550A4 /* beiqingwang.png */,
 				C1C009871AD543DA00F550A4 /* hongwang.png */,
 				C1C009881AD543DA00F550A4 /* hot.png */,
@@ -793,6 +796,7 @@
 				C1C009B01AD543DA00F550A4 /* tengxun.png in Resources */,
 				C1C009AD1AD543DA00F550A4 /* souhu.png in Resources */,
 				C1C009A41AD543DA00F550A4 /* iefangniuwang.png in Resources */,
+				C13B06511AD631F70010095D /* huanqiuwang.png in Resources */,
 				C16FA99F1ACB05C000F85DF8 /* baiduLogo.png in Resources */,
 				C1C009BB1AD543DA00F550A4 /* zhongjinzaixian.png in Resources */,
 				C1C009AE1AD543DA00F550A4 /* sportscn.png in Resources */,

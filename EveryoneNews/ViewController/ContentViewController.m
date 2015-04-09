@@ -47,7 +47,8 @@
     CGFloat waterFlowH;
 //    NSMutableDictionary *waterFlowDic;
     NSMutableArray *waterFlowArr;
-//    NSMutableArray *waterFlowImgArr;
+    NSMutableArray *waterFlowImgArr;
+    NSMutableDictionary *waterDic;
 //    NSMutableArray *waterFlowIamgeArr;
 }
 
@@ -114,7 +115,8 @@
     
 //    waterFlowDic = [[NSMutableDictionary alloc] init];
     waterFlowArr = [[NSMutableArray alloc] init];
-//    waterFlowImgArr = [[NSMutableArray alloc] init];
+    waterFlowImgArr = [[NSMutableArray alloc] init];
+    waterDic = [[NSMutableDictionary alloc] init];
 //    waterFlowIamgeArr = [[NSMutableArray alloc] init];
     
     qtmquitView = [[TMQuiltView alloc] initWithFrame:CGRectMake(0, 0, 320, 500)];
@@ -488,17 +490,27 @@
     
 
     cell.titleLabel.text = dic[@"title"];
-    NSURL *imgUrl = [NSURL URLWithString:dic[@"img"]];
-
-    [cell.photoView sd_setImageWithURL:imgUrl placeholderImage:[UIImage imageNamed:@"demo_1.jpg"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-        CGFloat imgW = ([UIScreen mainScreen].bounds.size.width - 30 ) / 2;
-        if (image.size.width < imgW) {
-            imgW = image.size.width;
-        }
-        CGFloat imgH = image.size.height * imgW / image.size.width;
-//        [waterFlowImgArr addObject:[NSNumber numberWithFloat:imgH]];
-        cell.photoView.image = [ScaleImage scaleImage:cell.photoView.image size:CGSizeMake(imgW, imgH)];
-    }];
+    NSString *imgStr = dic[@"img"];
+    if ([self isBlankString:imgStr]) {
+        cell.photoView.image = [UIImage imageNamed:@"demo_1.jpg"];
+    }
+    else
+    {
+        NSURL *imgUrl = [NSURL URLWithString:dic[@"img"]];
+        NSLog(@"%@", imgUrl);
+        
+        [cell.photoView sd_setImageWithURL:imgUrl placeholderImage:[UIImage imageNamed:@"demo_1.jpg"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            CGFloat imgW = ([UIScreen mainScreen].bounds.size.width - 30 ) / 2;
+            if (image.size.width < imgW) {
+                imgW = image.size.width;
+            }
+            CGFloat imgH = image.size.height * imgW / image.size.width;
+            [waterFlowImgArr addObject:[NSNumber numberWithFloat:imgH]];
+            [waterDic setObject:[NSNumber numberWithFloat:imgH] forKey:[NSString stringWithFormat:@"%ld", indexPath.row]];
+            cell.photoView.image = [ScaleImage scaleImage:cell.photoView.image size:CGSizeMake(imgW, imgH)];
+        }];
+    }
+    
 //    cell.photoView.image = photo.image;
     
 //    cell.photoView.image = waterFlowIamgeArr[indexPath.row];
@@ -517,14 +529,23 @@
 - (CGFloat)quiltView:(TMQuiltView *)quiltView heightForCellAtIndexPath:(NSIndexPath *)indexPath
 {
 //    return (indexPath.row % 3) * 30 + 8;
-    return 200;
+    NSLog(@"indexPath:%ld    %ld", indexPath.section, indexPath.row);
+//    return 200;
 //    CGFloat height;
 //    if (waterFlowImgArr != nil && ![waterFlowImgArr isKindOfClass:[NSNull class]] && waterFlowImgArr.count != 0) {
 //        height = [waterFlowImgArr[indexPath.row] floatValue];
 //    }
-//    
-//    NSLog(@"height:%f", height);
-//   
+    if (waterDic.count != 0) {
+        CGFloat height = [waterDic[[NSString stringWithFormat:@"%ld", indexPath.row]] floatValue];
+        NSLog(@"height:%f", height);
+        return height;
+    }
+    else {
+        return 100;
+    }
+    
+    
+   
 //    return height;
 }
 

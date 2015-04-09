@@ -17,13 +17,11 @@
     
     CGFloat screenW = [UIScreen mainScreen].bounds.size.width;
     
-    CGFloat titleX = 14;
+    CGFloat titleX = 20;
     CGFloat titleY = 10;
     
-//    NSDictionary * attribute = @{NSFontAttributeName: [UIFont fontWithName:kFont size:16]};
-//    CGSize nameSize = [_baiduDatasource.title boundingRectWithSize:CGSizeMake(0, 16) options:NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;
     CGSize nameSize = [AutoLabelSize autoLabSizeWithStr:_baiduDatasource.title Fontsize:16 SizeW:0 SizeH:16];
-//
+
     _titleFrm = CGRectMake(titleX, titleY, nameSize.width, 16);
     
     CGFloat abstractY = CGRectGetMaxY(_titleFrm) + 10;

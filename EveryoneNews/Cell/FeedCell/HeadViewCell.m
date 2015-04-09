@@ -182,7 +182,7 @@
         if (sourceTitle.count >= 3) {
             sourceTitle_3.text = sourceTitle[2];
             sourceName_3.text = [NSString stringWithFormat:@"%@:", sourceName[2]];
-            NSLog(@"title:%@", sourceTitle_3.text);
+//            NSLog(@"title:%@", sourceTitle_3.text);
             [self setSourceIcon:sourceIcon_3 SourceSiteName:sourceSiteNames[2]];
             [self setRelateNewsWithSourceTitle:sourceTitle_3 SourceName:sourceName_3];
         }
@@ -359,7 +359,7 @@
 
 - (void)setSourceIcon:(UIImageView *)sourceIcon SourceSiteName:(NSString *)sourceSiteName
 {
-    NSLog(@"sourceSiteName:  %@", sourceSiteName);
+//    NSLog(@"sourceSiteName:  %@", sourceSiteName);
     if ([self isBlankString:sourceSiteName]) {
         sourceIcon.image = [UIImage imageNamed:@"other.png"];
     }
