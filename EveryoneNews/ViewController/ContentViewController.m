@@ -45,14 +45,15 @@
     
     BOOL firstLoad;
     CGFloat waterFlowH;
-//    NSMutableDictionary *waterFlowDic;
+
     NSMutableArray *waterFlowArr;
-    NSMutableArray *waterFlowImgArr;
     NSMutableDictionary *waterDic;
-//    NSMutableArray *waterFlowIamgeArr;
+
     CGFloat columnOne;
     CGFloat columnTwo;
     CGFloat cellMargin;
+    
+//    NSArray *keyArr;
 }
 
 @end
@@ -121,37 +122,39 @@
     columnOne = cellMargin;
     columnTwo = cellMargin;
 
-    
     waterFlowArr = [[NSMutableArray alloc] init];
-    waterFlowImgArr = [[NSMutableArray alloc] init];
     waterDic = [[NSMutableDictionary alloc] init];
     
-    qtmquitView = [[TMQuiltView alloc] initWithFrame:CGRectMake(0, 0, 320, 600)];
+    qtmquitView = [[TMQuiltView alloc] initWithFrame:CGRectMake(0, 0, 320, 100)];
     qtmquitView.delegate = self;
     qtmquitView.dataSource = self;
     qtmquitView.backgroundColor = [UIColor whiteColor];
+    qtmquitView.bounces = YES;
 
 }
 
 #pragma mark WaterFlow Function
 -(void)warterFlowReloadData{
-    
-//    if (!firstLoad) {
-//        waterFlowH = contentTableView.contentSize.height - qtmquitView.contentSize.height;
-//        firstLoad = YES;
-//    }
-    
-//    qtmquitView.frame = CGRectMake(0, qtmquitView.frame.origin.y, qtmquitView.contentSize.width, qtmquitView.contentSize.height);
-//    contentTableView.contentSize = CGSizeMake(0, qtmquitView.frame.origin.y + qtmquitView.contentSize.height);
+
+    CGRect rect;
     if (waterFlowH == 0) {
-        qtmquitView.frame = CGRectMake(0, qtmquitView.frame.origin.y, qtmquitView.contentSize.width, qtmquitView.contentSize.height);
+        
+        NSInteger i = waterFlowArr.count / 2 + waterFlowArr.count % 2;
+        
+//        rect = CGRectMake(0, qtmquitView.frame.origin.y, qtmquitView.contentSize.width, qtmquitView.contentSize.height);
+        rect = CGRectMake(0, qtmquitView.frame.origin.y, qtmquitView.contentSize.width, i * 100);
 
     } else {
-        qtmquitView.frame = CGRectMake(0, qtmquitView.frame.origin.y, qtmquitView.contentSize.width, waterFlowH);
+        NSLog(@"waterHeight:%f", waterFlowH);
+        
+        rect = CGRectMake(0, qtmquitView.frame.origin.y, qtmquitView.contentSize.width, waterFlowH);
+        qtmquitView = [[TMQuiltView alloc] initWithFrame:rect];
+        qtmquitView.delegate = self;
+        qtmquitView.dataSource = self;
+        qtmquitView.backgroundColor = [UIColor whiteColor];
+        qtmquitView.bounces = YES;
+        contentTableView.tableFooterView = qtmquitView;
     }
-    
-    contentTableView.contentSize = CGSizeMake(0, qtmquitView.frame.origin.y + qtmquitView.contentSize.height + 200);
-
 }
 
 #pragma mark MJRefresh
@@ -444,33 +447,9 @@
         [self putToResourceArr:weiboDatasource Method:@"weibo"];
     }
     
-//    //waterFlow 假数据
-//    for (int i = 0; i < 10; i++) {
-//        [waterFlowDic setObject:@"douban.png" forKey:[NSString stringWithFormat:@"%d", i]];
-//    }
-    
     waterFlowArr = resultDic[@"relate"];
     if (waterFlowArr != nil && ![waterFlowArr isKindOfClass:[NSNull class]] && waterFlowArr.count != 0) {
-        
-//        for (NSDictionary *dic in waterFlowArr) {
-//            UIImageView *photo = [[UIImageView alloc] init];
-//            NSString *imgStr = dic[@"img"];
-//            NSURL *imgUrl = [NSURL URLWithString:imgStr];
-//            [photo sd_setImageWithURL:imgUrl placeholderImage:[UIImage imageNamed:@"demo_1.jpg"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-//                CGFloat imgW = ([UIScreen mainScreen].bounds.size.width - 30 ) / 2;
-//                if (image.size.width < imgW) {
-//                    imgW = image.size.width;
-//                }
-//                CGFloat imgH = image.size.height * imgW / image.size.width;
-//                
-//                photo.image = [ScaleImage scaleImage:photo.image size:CGSizeMake(imgW, imgH)];
-//                
-//                [waterFlowImgArr addObject:[NSNumber numberWithFloat:imgH]];
-//                [waterFlowIamgeArr addObject:photo];
-//            }];
-//        }
-        
-        
+       
         contentTableView.tableFooterView = qtmquitView;
         [self warterFlowReloadData];
         [qtmquitView reloadData];
@@ -505,6 +484,11 @@
     NSString *imgStr = dic[@"img"];
     if ([self isBlankString:imgStr]) {
         cell.photoView.image = [UIImage imageNamed:@"demo_1.jpg"];
+        
+        NSArray *keyArr = waterDic.allKeys;
+        if (![keyArr containsObject:[NSString stringWithFormat:@"%ld", indexPath.row]]) {
+            [waterDic setObject:[NSNumber numberWithFloat:100] forKey:[NSString stringWithFormat:@"%ld", indexPath.row]];
+        }
     }
     else
     {
@@ -517,7 +501,6 @@
                 imgW = image.size.width;
             }
             CGFloat imgH = image.size.height * imgW / image.size.width;
-            [waterFlowImgArr addObject:[NSNumber numberWithFloat:imgH]];
             
             //每个Cell只重调一次
             NSArray *keyArr = waterDic.allKeys;
@@ -526,15 +509,20 @@
                 NSLog(@"imgW:%f   imgH:%f", imgW, imgH);
                 
                 [waterDic setObject:[NSNumber numberWithFloat:imgH] forKey:[NSString stringWithFormat:@"%ld", indexPath.row]];
-                if (indexPath.row % 2 == 0) {
-                    columnOne = [self getHeight:columnOne Height:imgH];
+                
+
+                if (indexPath.row == 0) {
+                    columnOne += (imgH + cellMargin);
+                    waterFlowH = columnOne;
+                }
+                else if (indexPath.row == 1) {
+                    columnTwo += (imgH + cellMargin);
+                    waterFlowH = (columnOne > columnTwo)?columnOne:columnTwo;
                 } else {
-                    columnTwo = [self getHeight:columnTwo Height:imgH];
+                    waterFlowH = [self getHeight:imgH];
                 }
                 
-                waterFlowH = (columnOne > columnTwo)?columnOne:columnTwo;
                 [self warterFlowReloadData];
-                [qtmquitView reloadData];
             }
             
             cell.photoView.image = [ScaleImage scaleImage:cell.photoView.image size:CGSizeMake(imgW, imgH)];
@@ -551,20 +539,13 @@
 #pragma mark - TMQuiltViewDelegate
 
 - (NSInteger)quiltViewNumberOfColumns:(TMQuiltView *)quiltView {
-    
 
     return 2;
 }
 
 - (CGFloat)quiltView:(TMQuiltView *)quiltView heightForCellAtIndexPath:(NSIndexPath *)indexPath
 {
-//    return (indexPath.row % 3) * 30 + 8;
-//    NSLog(@"indexPath:%ld    %ld", indexPath.section, indexPath.row);
-//    return 200;
-//    CGFloat height;
-//    if (waterFlowImgArr != nil && ![waterFlowImgArr isKindOfClass:[NSNull class]] && waterFlowImgArr.count != 0) {
-//        height = [waterFlowImgArr[indexPath.row] floatValue];
-//    }
+
     if (waterDic.count != 0) {
         CGFloat height = [waterDic[[NSString stringWithFormat:@"%ld", indexPath.row]] floatValue];
         NSLog(@"height:%f   indexPate:%ld", height, indexPath.row);
@@ -608,10 +589,15 @@
 }
 
 #pragma mark 计算高度
-- (CGFloat)getHeight:(CGFloat)totalHeight Height:(CGFloat)height
+
+- (CGFloat)getHeight:(CGFloat)height
 {
-    totalHeight = totalHeight + height + 10;
-    return totalHeight;
+    if (columnOne > columnTwo) {
+        waterFlowH = waterFlowH + height;
+    } else {
+        waterFlowH = waterFlowH + height;
+    }
+    return waterFlowH;
 }
 
 

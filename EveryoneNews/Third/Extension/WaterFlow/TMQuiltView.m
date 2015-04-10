@@ -409,7 +409,6 @@ NSString *const kDefaultReusableIdentifier = @"kTMQuiltViewDefaultReusableIdenti
         int *bottom = &self.bottomByColumn[i];
         
         // Skip this column if it has no cells
-//        if ([indexPaths count] == 0) {
 //        if (indexPaths != nil && ![indexPaths isKindOfClass:[NSNull class]] && indexPaths.count != 0) {
 //            continue;
 //        }
@@ -421,7 +420,8 @@ NSString *const kDefaultReusableIdentifier = @"kTMQuiltViewDefaultReusableIdenti
             
                 TMQuiltViewCell *newCell = [self.dataSource quiltView:self cellAtIndexPath:indexPath];
                 newCell.frame = [self rectForCellAtIndex:0 column:i];
-                [self.indexPathToViewByColumn[i] setObject:newCell forKey:indexPath];
+//                [self.indexPathToViewByColumn[i] setObject:newCell forKey:indexPath];
+                [indexPathToView setObject:newCell forKey:indexPath];
                 [self addSubview:newCell];
                 [[self reusableViewsWithReuseIdentifier:newCell.reuseIdentifier] removeObject:newCell];
                 *top = 0;
