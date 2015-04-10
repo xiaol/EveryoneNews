@@ -32,7 +32,7 @@
         scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, screenW, 125)];
         scrollView.backgroundColor = [UIColor whiteColor];
         [self.contentView addSubview:scrollView];
-        _cellH = 125 + 28;
+        _cellH = 125 + 14;
     }
     return self;
 }

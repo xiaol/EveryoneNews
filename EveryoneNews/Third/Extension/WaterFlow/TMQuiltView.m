@@ -409,9 +409,10 @@ NSString *const kDefaultReusableIdentifier = @"kTMQuiltViewDefaultReusableIdenti
         int *bottom = &self.bottomByColumn[i];
         
         // Skip this column if it has no cells
-        if ([indexPaths count] == 0) {
-            continue;
-        }
+//        if ([indexPaths count] == 0) {
+//        if (indexPaths != nil && ![indexPaths isKindOfClass:[NSNull class]] && indexPaths.count != 0) {
+//            continue;
+//        }
         
         // Create the top cells if they don't exist yet.
         if (*top == -1 && *bottom == -1) {
@@ -429,8 +430,7 @@ NSString *const kDefaultReusableIdentifier = @"kTMQuiltViewDefaultReusableIdenti
                 break;
             }
         }
-        
-        
+
         
         for(int j = *top; j <= *bottom; j++) {
             TMQuiltViewCell *visibleCell = (TMQuiltViewCell *)[indexPathToView objectForKey:[indexPaths objectAtIndex:j]];

@@ -167,14 +167,14 @@
         
         sourceTitle_1.text = sourceTitle[0];
         sourceName_1.text = [NSString stringWithFormat:@"%@:", sourceName[0]];
-        NSLog(@"title:%@", sourceTitle_1.text);
+//        NSLog(@"title:%@", sourceTitle_1.text);
         [self setSourceIcon:sourceIcon_1 SourceSiteName:sourceSiteNames[0]];
         [self setRelateNewsWithSourceTitle:sourceTitle_1 SourceName:sourceName_1];
         
         if (sourceTitle.count >= 2) {
             sourceTitle_2.text = sourceTitle[1];
             sourceName_2.text = [NSString stringWithFormat:@"%@:", sourceName[1]];
-            NSLog(@"title:%@", sourceTitle_2.text);
+//            NSLog(@"title:%@", sourceTitle_2.text);
             [self setSourceIcon:sourceIcon_2 SourceSiteName:sourceSiteNames[1]];
             [self setRelateNewsWithSourceTitle:sourceTitle_2 SourceName:sourceName_2];
         }
