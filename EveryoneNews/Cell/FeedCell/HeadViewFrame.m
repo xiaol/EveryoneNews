@@ -21,17 +21,11 @@
     CGFloat startY = 8;
     CGFloat titleW = 222 * factor;
     CGFloat titleH = 53;
-    _titleLabFrm = CGRectMake(0, startY, titleW, titleH);
+    _titleLabFrm = CGRectMake(5, startY, titleW, titleH);
     
-    CGFloat imgH = 133 * factor;
+    CGFloat imgH = 150 * factor;
     _imgFrm = CGRectMake(0, startY, backViewW, imgH);
-    
-//    CGFloat sourceTitleH = 30;
-//    CGFloat sourceTitleY = CGRectGetMaxY(_imgFrm);
-//    _titleFrm_1 = CGRectMake(0, sourceTitleY, backViewW, sourceTitleH);
-//    _titleFrm_2 = CGRectMake(0, sourceTitleY + sourceTitleH, backViewW, sourceTitleH);
-//    _titleFrm_3 = CGRectMake(0, sourceTitleY + 2 * sourceTitleH, backViewW, sourceTitleH);
-    
+   
     ////////////////////////
     CGFloat sourceViewH = 30;
     CGFloat sourceViewY = CGRectGetMaxY(_imgFrm);

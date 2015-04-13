@@ -192,11 +192,15 @@
         
         sourceTitle_1.text = @"木有数据啊";
         sourceTitle_2.text = @"木有数据啊";
-        sourceTitle_3.text = @"";
+        sourceTitle_3.text = @"木有数据啊";
         
         sourceName_1.text = @"哮天犬";
         sourceName_2.text = @"哮天犬";
         sourceName_3.text = @"";
+        
+        [self setRelateNewsWithSourceTitle:sourceTitle_1 SourceName:sourceName_1];
+        [self setRelateNewsWithSourceTitle:sourceTitle_2 SourceName:sourceName_2];
+        [self setRelateNewsWithSourceTitle:sourceTitle_3 SourceName:sourceName_3];
     }
     
     
@@ -309,7 +313,11 @@
 #pragma mark 设置毛玻璃效果
 - (void)setBlurView
 {
-    blurView.frame = shotView.frame;
+    CGRect rect = shotView.frame;
+    rect.origin.x = 0;
+    rect.size.width = rect.size.width + 10;
+    rect.size.height = rect.size.height + 5;
+    blurView.frame = rect;
     blurView.targetImage = shotView.image;
     blurView.blurRadius = 22;
 
@@ -324,6 +332,7 @@
 #pragma mark 设置相关新闻UI
 - (void)setRelateNewsWithSourceTitle:(UILabel *)sourceTitle SourceName:(UILabel *)sourceName
 {
+    NSLog(@"NAME:%@", sourceName.text);
     CGSize size = [AutoLabelSize autoLabSizeWithStr:sourceName.text Fontsize:16 SizeW:0 SizeH:16];
     CGRect rect = sourceName.frame;
     rect.size.width = size.width;
@@ -345,12 +354,12 @@
     
     [sourceView addSubview:sourceIcon];
     
-    sourceTitle.font = [UIFont fontWithName:kFont size:18];
+    sourceTitle.font = [UIFont fontWithName:kFont size:16];
     sourceTitle.textColor = [UIColor blackColor];
     sourceTitle.backgroundColor = [UIColor clearColor];
     [sourceView addSubview:sourceTitle];
     
-    sourceName.font = [UIFont fontWithName:kFont size:16];
+    sourceName.font = [UIFont fontWithName:kFont size:14];
     sourceName.textColor = [UIColor colorFromHexString:@"#666666"];
     sourceName.backgroundColor = [UIColor clearColor];
     [sourceView addSubview:sourceName];
