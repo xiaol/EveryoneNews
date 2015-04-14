@@ -13,6 +13,9 @@
 #import "GRKBlurView.h"
 #import "AutoLabelSize.h"
 
+#define kSiteNameFont 13
+#define kTitleFont 14
+
 @implementation HeadViewCell
 {
     UIView *backgroupView;
@@ -51,6 +54,7 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         backgroupView = [[UIView alloc] init];
         backgroupView.backgroundColor = [UIColor colorFromHexString:@"#EBEDED"];
+        backgroupView.backgroundColor = [UIColor whiteColor];
         [self.contentView addSubview:backgroupView];
         
         imgView = [[UIImageView alloc] init];
@@ -103,7 +107,7 @@
         
         
         cutBlock = [[UIView alloc] init];
-        cutBlock.backgroundColor = [UIColor clearColor];
+        cutBlock.backgroundColor = [UIColor colorFromHexString:@"#EBEDED"];
         [backgroupView addSubview:cutBlock];
         
         showBtn = [[UIButton alloc] init];
@@ -314,8 +318,8 @@
 - (void)setBlurView
 {
     CGRect rect = shotView.frame;
-    rect.origin.x = 0;
-    rect.size.width = rect.size.width + 10;
+    rect.origin.x = rect.origin.x - 12;
+    rect.size.width = rect.size.width + 10 + 12;
     rect.size.height = rect.size.height + 5;
     blurView.frame = rect;
     blurView.targetImage = shotView.image;
@@ -332,7 +336,7 @@
 #pragma mark 设置相关新闻UI
 - (void)setRelateNewsWithSourceTitle:(UILabel *)sourceTitle SourceName:(UILabel *)sourceName
 {
-    CGSize size = [AutoLabelSize autoLabSizeWithStr:sourceName.text Fontsize:16 SizeW:0 SizeH:16];
+    CGSize size = [AutoLabelSize autoLabSizeWithStr:sourceName.text Fontsize:kSiteNameFont SizeW:0 SizeH:kSiteNameFont + 2];
     CGRect rect = sourceName.frame;
     rect.size.width = size.width;
     sourceName.frame = rect;
@@ -353,12 +357,12 @@
     
     [sourceView addSubview:sourceIcon];
     
-    sourceTitle.font = [UIFont fontWithName:kFont size:16];
+    sourceTitle.font = [UIFont fontWithName:kFont size:kTitleFont];
     sourceTitle.textColor = [UIColor blackColor];
     sourceTitle.backgroundColor = [UIColor clearColor];
     [sourceView addSubview:sourceTitle];
     
-    sourceName.font = [UIFont fontWithName:kFont size:14];
+    sourceName.font = [UIFont fontWithName:kFont size:kSiteNameFont];
     sourceName.textColor = [UIColor colorFromHexString:@"#666666"];
     sourceName.backgroundColor = [UIColor clearColor];
     [sourceView addSubview:sourceName];
