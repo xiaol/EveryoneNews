@@ -62,9 +62,9 @@
 //    defaultStyle.font = [UIFont systemFontOfSize:16];
     defaultStyle.font = [UIFont fontWithName:kFont size:16];
     defaultStyle.textAlignment = FTCoreTextAlignementJustified;
-    defaultStyle.paragraphInset = UIEdgeInsetsMake(12, 0, 0, 0);
+    defaultStyle.paragraphInset = UIEdgeInsetsMake(14, 0, 14, 0);
 //    defaultStyle.maxLineHeight = 100;
-    defaultStyle.minLineHeight = 22;
+    defaultStyle.minLineHeight = 26;
     [result addObject:defaultStyle];
     
     return  result;

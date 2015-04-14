@@ -56,6 +56,8 @@
     [self tableViewInit];
     [self setupRefresh];
     
+    [self followRollingScrollView:myTableView];
+    
 }
 
 - (void)tableViewInit

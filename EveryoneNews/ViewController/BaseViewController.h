@@ -9,12 +9,12 @@
 
 #import <UIKit/UIKit.h>
 #import "KDNavigationController.h"
-//#import "VideoPlayView.h"
+#import "XHYScrollingNavBarViewController.h"
 
 //@class VideoPlayView;
 @class KDNavigationController;
 
-@interface BaseViewController : UIViewController
+@interface BaseViewController : XHYScrollingNavBarViewController
 
 //区别Feed和search页
 //@property (nonatomic, copy)NSString *queryKey;

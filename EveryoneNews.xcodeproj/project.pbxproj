@@ -28,6 +28,9 @@
 		C17F74561ADCBAA000746CDB /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = C17F74551ADCBAA000746CDB /* back.png */; };
 		C17F74591ADCC26C00746CDB /* webBack.png in Resources */ = {isa = PBXBuildFile; fileRef = C17F74581ADCC26C00746CDB /* webBack.png */; };
 		C17F745B1ADCCD2200746CDB /* like.png in Resources */ = {isa = PBXBuildFile; fileRef = C17F745A1ADCCD2200746CDB /* like.png */; };
+		C17F745D1ADD094700746CDB /* dislike.png in Resources */ = {isa = PBXBuildFile; fileRef = C17F745C1ADD094700746CDB /* dislike.png */; };
+		C17F745F1ADD0A7100746CDB /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = C17F745E1ADD0A7100746CDB /* share.png */; };
+		C17F74631ADD0E9F00746CDB /* XHYScrollingNavBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C17F74621ADD0E9F00746CDB /* XHYScrollingNavBarViewController.m */; };
 		C18F951E1ACA506400A46502 /* TMQuiltView.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F951B1ACA506400A46502 /* TMQuiltView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C18F951F1ACA506400A46502 /* TMQuiltViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F951D1ACA506400A46502 /* TMQuiltViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C18F95221ACA509A00A46502 /* TMPhotoQuiltViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F95211ACA509A00A46502 /* TMPhotoQuiltViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -158,6 +161,10 @@
 		C17F74551ADCBAA000746CDB /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
 		C17F74581ADCC26C00746CDB /* webBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = webBack.png; sourceTree = "<group>"; };
 		C17F745A1ADCCD2200746CDB /* like.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = like.png; sourceTree = "<group>"; };
+		C17F745C1ADD094700746CDB /* dislike.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dislike.png; sourceTree = "<group>"; };
+		C17F745E1ADD0A7100746CDB /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
+		C17F74611ADD0E9F00746CDB /* XHYScrollingNavBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHYScrollingNavBarViewController.h; sourceTree = "<group>"; };
+		C17F74621ADD0E9F00746CDB /* XHYScrollingNavBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHYScrollingNavBarViewController.m; sourceTree = "<group>"; };
 		C18F951A1ACA506400A46502 /* TMQuiltView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMQuiltView.h; sourceTree = "<group>"; };
 		C18F951B1ACA506400A46502 /* TMQuiltView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMQuiltView.m; sourceTree = "<group>"; };
 		C18F951C1ACA506400A46502 /* TMQuiltViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMQuiltViewCell.h; sourceTree = "<group>"; };
@@ -388,10 +395,21 @@
 		C17F74571ADCC24C00746CDB /* WebViewImg */ = {
 			isa = PBXGroup;
 			children = (
+				C17F745E1ADD0A7100746CDB /* share.png */,
+				C17F745C1ADD094700746CDB /* dislike.png */,
 				C17F745A1ADCCD2200746CDB /* like.png */,
 				C17F74581ADCC26C00746CDB /* webBack.png */,
 			);
 			path = WebViewImg;
+			sourceTree = "<group>";
+		};
+		C17F74601ADD0E9F00746CDB /* XHYScrollingNavBarVC */ = {
+			isa = PBXGroup;
+			children = (
+				C17F74611ADD0E9F00746CDB /* XHYScrollingNavBarViewController.h */,
+				C17F74621ADD0E9F00746CDB /* XHYScrollingNavBarViewController.m */,
+			);
+			path = XHYScrollingNavBarVC;
 			sourceTree = "<group>";
 		};
 		C18F95191ACA504C00A46502 /* WaterFlow */ = {
@@ -564,6 +582,7 @@
 		C1C0526A1AC01E9000D6D687 /* Third */ = {
 			isa = PBXGroup;
 			children = (
+				C17F74601ADD0E9F00746CDB /* XHYScrollingNavBarVC */,
 				C1C052BE1AC13BE400D6D687 /* YLGIFImage */,
 				C1C052A51AC13BDB00D6D687 /* MJRefresh */,
 				C1C052981AC13AB700D6D687 /* FTCoreText */,
@@ -791,6 +810,7 @@
 				C1C009AF1AD543DA00F550A4 /* taipingyangdiannaowang.png in Resources */,
 				C11CD46D1AC2691400D1D9C8 /* huawen.ttf in Resources */,
 				C1C0523A1ABFFC1600D6D687 /* Main.storyboard in Resources */,
+				C17F745F1ADD0A7100746CDB /* share.png in Resources */,
 				C1C009B21AD543DA00F550A4 /* twenty_one_cn.png in Resources */,
 				C1C009B31AD543DA00F550A4 /* xinmin.png in Resources */,
 				C1C009AB1AD543DA00F550A4 /* renminwang.png in Resources */,
@@ -820,6 +840,7 @@
 				C16FA99F1ACB05C000F85DF8 /* baiduLogo.png in Resources */,
 				C1C009BB1AD543DA00F550A4 /* zhongjinzaixian.png in Resources */,
 				C1C009AE1AD543DA00F550A4 /* sportscn.png in Resources */,
+				C17F745D1ADD094700746CDB /* dislike.png in Resources */,
 				C1C0094D1AD531EA00F550A4 /* yi.png in Resources */,
 				C1C009531AD53C6900F550A4 /* xinlang.png in Resources */,
 				C1C009A71AD543DA00F550A4 /* leftMark.png in Resources */,
@@ -904,6 +925,7 @@
 				C1C0525A1AC0007800D6D687 /* KDNavigationController.m in Sources */,
 				C1C052941AC139D800D6D687 /* FTCoreTextCell.m in Sources */,
 				C1C052BB1AC13BDB00D6D687 /* UIScrollView+MJExtension.m in Sources */,
+				C17F74631ADD0E9F00746CDB /* XHYScrollingNavBarViewController.m in Sources */,
 				C16FA9A61ACB9C2600F85DF8 /* ZhihuDatasource.m in Sources */,
 				C1C052881AC139B900D6D687 /* ContentCell.m in Sources */,
 				C1C0529E1AC13AB700D6D687 /* FTCoreTextView.m in Sources */,
