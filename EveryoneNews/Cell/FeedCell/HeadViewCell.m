@@ -76,6 +76,7 @@
         titleLab.font = [UIFont fontWithName:kFont size:20];
         titleLab.textColor = [UIColor colorFromHexString:@"#ffffff"];
         titleLab.numberOfLines = 2;
+        titleLab.lineBreakMode = NSLineBreakByWordWrapping;
         //字体加阴影
         titleLab.layer.shadowColor = [UIColor blackColor].CGColor;
         titleLab.layer.shadowOpacity = 0.6;
@@ -360,6 +361,7 @@
     sourceTitle.font = [UIFont fontWithName:kFont size:kTitleFont];
     sourceTitle.textColor = [UIColor blackColor];
     sourceTitle.backgroundColor = [UIColor clearColor];
+    sourceTitle.lineBreakMode = NSLineBreakByWordWrapping;
     [sourceView addSubview:sourceTitle];
     
     sourceName.font = [UIFont fontWithName:kFont size:kSiteNameFont];

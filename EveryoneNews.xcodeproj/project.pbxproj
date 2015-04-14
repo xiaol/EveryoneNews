@@ -31,6 +31,7 @@
 		C17F745D1ADD094700746CDB /* dislike.png in Resources */ = {isa = PBXBuildFile; fileRef = C17F745C1ADD094700746CDB /* dislike.png */; };
 		C17F745F1ADD0A7100746CDB /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = C17F745E1ADD0A7100746CDB /* share.png */; };
 		C17F74631ADD0E9F00746CDB /* XHYScrollingNavBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C17F74621ADD0E9F00746CDB /* XHYScrollingNavBarViewController.m */; };
+		C17F74651ADD2B1F00746CDB /* navTitle.png in Resources */ = {isa = PBXBuildFile; fileRef = C17F74641ADD2B1F00746CDB /* navTitle.png */; };
 		C18F951E1ACA506400A46502 /* TMQuiltView.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F951B1ACA506400A46502 /* TMQuiltView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C18F951F1ACA506400A46502 /* TMQuiltViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F951D1ACA506400A46502 /* TMQuiltViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C18F95221ACA509A00A46502 /* TMPhotoQuiltViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F95211ACA509A00A46502 /* TMPhotoQuiltViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -165,6 +166,7 @@
 		C17F745E1ADD0A7100746CDB /* share.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = share.png; sourceTree = "<group>"; };
 		C17F74611ADD0E9F00746CDB /* XHYScrollingNavBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHYScrollingNavBarViewController.h; sourceTree = "<group>"; };
 		C17F74621ADD0E9F00746CDB /* XHYScrollingNavBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHYScrollingNavBarViewController.m; sourceTree = "<group>"; };
+		C17F74641ADD2B1F00746CDB /* navTitle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navTitle.png; sourceTree = "<group>"; };
 		C18F951A1ACA506400A46502 /* TMQuiltView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMQuiltView.h; sourceTree = "<group>"; };
 		C18F951B1ACA506400A46502 /* TMQuiltView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMQuiltView.m; sourceTree = "<group>"; };
 		C18F951C1ACA506400A46502 /* TMQuiltViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMQuiltViewCell.h; sourceTree = "<group>"; };
@@ -622,6 +624,7 @@
 		C1C052701AC1196200D6D687 /* HeadView */ = {
 			isa = PBXGroup;
 			children = (
+				C17F74641ADD2B1F00746CDB /* navTitle.png */,
 				C1C009491AD530F300F550A4 /* logo */,
 			);
 			path = HeadView;
@@ -842,6 +845,7 @@
 				C1C009AE1AD543DA00F550A4 /* sportscn.png in Resources */,
 				C17F745D1ADD094700746CDB /* dislike.png in Resources */,
 				C1C0094D1AD531EA00F550A4 /* yi.png in Resources */,
+				C17F74651ADD2B1F00746CDB /* navTitle.png in Resources */,
 				C1C009531AD53C6900F550A4 /* xinlang.png in Resources */,
 				C1C009A71AD543DA00F550A4 /* leftMark.png in Resources */,
 				C1C009B71AD543DA00F550A4 /* zhongguancunzaixian.png in Resources */,
