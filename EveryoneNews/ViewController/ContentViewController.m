@@ -19,7 +19,6 @@
 #import "UIColor+HexToRGB.h"
 #import "UIImageView+WebCache.h"
 #import "SVProgressHUD.h"
-//#import "YLImageView.h"
 #import "ScaleImage.h"
 
 #import "MJRefresh.h"
@@ -29,12 +28,7 @@
 
 #import "WebViewController.h"
 
-//#import "UIImage+GIF.h"
 #import "AutoLabelSize.h"
-
-
-
-#define kTitleFont 17.0
 
 @interface ContentViewController ()<UITableViewDataSource, UITableViewDelegate, TMQuiltViewDataSource,TMQuiltViewDelegate, WebDelegate>
 {
@@ -56,7 +50,8 @@
     BOOL hasRelate;
     CGFloat flag;
     
-//    NSArray *keyArr;
+    UIButton *backBtn;
+    float lastContentOffset;
 }
 
 @end
@@ -82,6 +77,13 @@
     [self commonInit];
     [self initTableView];
     [self initWaterFlow];
+    
+    //返回按钮
+    backBtn = [[UIButton alloc] initWithFrame:CGRectMake(22, 44, 42, 42)];
+    [backBtn setImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
+    backBtn.backgroundColor = [UIColor clearColor];
+    [backBtn addTarget:self action:@selector(backBtnPress) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:backBtn];
     
 //    [self setupRefresh];
     [self headerRefresh];
@@ -136,6 +138,12 @@
     qtmquitView.scrollEnabled = NO;
 
 }
+#pragma mark backBtn
+- (void)backBtnPress
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 
 #pragma mark WaterFlow Function
 -(void)warterFlowReloadData{
@@ -145,13 +153,11 @@
         
         NSInteger i = waterFlowArr.count / 2 + waterFlowArr.count % 2;
         
-//        rect = CGRectMake(0, qtmquitView.frame.origin.y, qtmquitView.contentSize.width, qtmquitView.contentSize.height);
         qtmquitView.frame = CGRectMake(0, qtmquitView.frame.origin.y, qtmquitView.contentSize.width, i * 110);
-//        contentTableView.contentSize = CGSizeMake(qtmquitView.contentSize.width, contentTableView.frame.origin.y + qtmquitView.contentSize.height);
         contentTableView.tableFooterView = qtmquitView;
 
     } else {
-        NSLog(@"waterHeight:%f", waterFlowH);
+//        NSLog(@"waterHeight:%f", waterFlowH);
         
         rect = CGRectMake(0, qtmquitView.frame.origin.y, qtmquitView.contentSize.width, waterFlowH);
         qtmquitView = [[TMQuiltView alloc] initWithFrame:rect];
@@ -178,9 +184,7 @@
 {
     NSString *url = @"http://121.41.75.213:9999/news/baijia/fetchContent?url=";
     url = [NSString stringWithFormat:@"%@%@", url, self.sourceUrl];
-//    for (NSString *str in self.responseUrls) {
-//        url = [NSString stringWithFormat:@"%@&filterurls=%@", url, str];
-//    }
+
     NSLog(@"detailUrl:%@", url);
     [self getContentDetails:url];
 }
@@ -304,10 +308,37 @@
 {
     if (scrollView == contentTableView) {
 
-        if (hasRelate && scrollView.contentOffset.y > scrollView.contentSize.height * 0.7) {
+        if (hasRelate && scrollView.contentOffset.y > scrollView.contentSize.height * 0.9) {
             [self warterFlowReloadData];
         }
     }
+    //判断滚动方向
+    if (lastContentOffset < scrollView.contentOffset.y) {
+//        NSLog(@"向上滚动");
+        [self fadeOut];
+    }else{
+//        NSLog(@"向下滚动");
+        [self fadeIn];
+    }
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+    lastContentOffset = scrollView.contentOffset.y;
+}
+
+#pragma mark Fadeout & fadein
+- (void)fadeIn
+{
+    [UIView animateWithDuration:0.8 animations:^{
+        backBtn.alpha = 1;
+    }];
+}
+
+- (void)fadeOut
+{
+    [UIView animateWithDuration:0.8 animations:^{
+        backBtn.alpha = 0;
+    }];
 }
 
 #pragma mark setHeaderView
@@ -468,9 +499,7 @@
     
     waterFlowArr = resultDic[@"relate"];
     if (waterFlowArr != nil && ![waterFlowArr isKindOfClass:[NSNull class]] && waterFlowArr.count != 0) {
-       
-//        contentTableView.tableFooterView = qtmquitView;
-//        [self warterFlowReloadData];
+
         hasRelate = YES;
         [qtmquitView reloadData];
     }
@@ -499,28 +528,21 @@
     
     NSDictionary *dic = waterFlowArr[indexPath.row];
     
-
     cell.titleLabel.text = dic[@"title"];
     NSString *imgStr = dic[@"img"];
     if ([self isBlankString:imgStr] || [imgStr hasPrefix:@".."]) {
         cell.photoView.image = [UIImage imageNamed:@"demo_1.jpg"];
         
-//        NSArray *keyArr = waterDic.allKeys;
-//        if (![keyArr containsObject:[NSString stringWithFormat:@"%ld", indexPath.row]]) {
-//            [waterDic setObject:[NSNumber numberWithFloat:100] forKey:[NSString stringWithFormat:@"%ld", indexPath.row]];
-//        }
         NSArray *keyArr = waterDic.allKeys;
         if (![keyArr containsObject:[NSString stringWithFormat:@"%ld", indexPath.row]]) {
             
             waterFlowH = [self getHeight:100];
             [waterDic setObject:[NSNumber numberWithFloat:100.0] forKey:[NSString stringWithFormat:@"%ld", indexPath.row]];
         }
-        
     }
     else
     {
         NSURL *imgUrl = [NSURL URLWithString:dic[@"img"]];
-        NSLog(@"%@", imgUrl);
         
         [cell.photoView sd_setImageWithURL:imgUrl placeholderImage:[UIImage imageNamed:@"demo_1.jpg"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
             CGFloat imgW = ([UIScreen mainScreen].bounds.size.width - 30 ) / 2;
@@ -536,35 +558,31 @@
             NSArray *keyArr = waterDic.allKeys;
             if (![keyArr containsObject:[NSString stringWithFormat:@"%ld", indexPath.row]]) {
                 
-//                NSLog(@"imgW:%f   imgH:%f", imgW, imgH);
-                
                 [waterDic setObject:[NSNumber numberWithFloat:imgH] forKey:[NSString stringWithFormat:@"%ld", indexPath.row]];
-                NSLog(@"imgHeight:%f, indexPath:%ld", imgH, indexPath.row);
-                
 
-//                if (indexPath.row == 0) {
-//                    columnOne += (imgH + cellMargin);
-//                    waterFlowH = columnOne;
-//                }
-//                else if (indexPath.row == 1) {
-//                    columnTwo += (imgH + cellMargin);
-//                    waterFlowH = (columnOne > columnTwo)?columnOne:columnTwo;
-//                } else {
+                if (indexPath.row == 0) {
+                    columnOne = imgH + cellMargin * 2;
+                    CGFloat tempH = columnOne;
+                    waterFlowH = (waterFlowH > tempH)?waterFlowH:tempH;
+                    NSLog(@"waterFlowH:%f index----:0", waterFlowH);
 //                    waterFlowH = [self getHeight:imgH];
-//                }
-                waterFlowH = [self getHeight:imgH];
+                } else if (indexPath.row == 1) {
+                    columnTwo = imgH + cellMargin * 2;
+                    CGFloat tempH = (columnOne > columnTwo)?columnOne:columnTwo;
+                    waterFlowH = (waterFlowH > tempH)?waterFlowH:tempH;
+                    NSLog(@"waterFlowH:%f index----:1", waterFlowH);
+                } else {
+                    waterFlowH = [self getHeight:imgH];
+                }
                 
-//                [self warterFlowReloadData];
+                
+                [self warterFlowReloadData];
             }
             
             cell.photoView.image = [ScaleImage scaleImage:cell.photoView.image size:CGSizeMake(imgW, imgH)];
         }];
     }
-    
-//    cell.photoView.image = photo.image;
-    
-//    cell.photoView.image = waterFlowIamgeArr[indexPath.row];
-    
+   
     return cell;
 }
 
@@ -580,10 +598,10 @@
 
     if (waterDic.count != 0) {
         CGFloat height = [waterDic[[NSString stringWithFormat:@"%ld", indexPath.row]] floatValue];
-        NSLog(@"height:%f   indexPate:%ld", height, indexPath.row);
         if (height == 0) {
             return 100;
         } else {
+            NSLog(@"height:%f indexPath:%ld", height, indexPath.row);
             return height;
         }
         
@@ -629,21 +647,11 @@
 
 - (CGFloat)getHeight:(CGFloat)height
 {
-//    if (columnOne > columnTwo) {
-//        columnTwo = columnTwo + height + cellMargin;
-//        waterFlowH = columnTwo;
-//        
-//    } else {
-//        columnOne = columnOne + height + cellMargin;
-//        waterFlowH = columnOne;
-//    }
-    //////////////////////////////////
+
     if (columnTwo > columnOne) {
         columnOne = columnOne + height + cellMargin;
-//        waterFlowH = columnOne;
     } else {
         columnTwo = columnTwo + height + cellMargin;
-//        waterFlowH = columnTwo;
     }
     
     if (columnOne > columnTwo) {

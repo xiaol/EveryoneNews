@@ -332,7 +332,6 @@
 #pragma mark 设置相关新闻UI
 - (void)setRelateNewsWithSourceTitle:(UILabel *)sourceTitle SourceName:(UILabel *)sourceName
 {
-    NSLog(@"NAME:%@", sourceName.text);
     CGSize size = [AutoLabelSize autoLabSizeWithStr:sourceName.text Fontsize:16 SizeW:0 SizeH:16];
     CGRect rect = sourceName.frame;
     rect.size.width = size.width;

@@ -61,10 +61,6 @@
     
 }
 
-//- (void)setBaiduFrm:(BaiduFrame *)baiduFrm
-//{
-//    NSLog(@"--------222----------");
-//}
 
 - (void)settingSubviewFrame
 {

@@ -25,6 +25,9 @@
 		C16FA9BA1ACBE2A800F85DF8 /* weibo.png in Resources */ = {isa = PBXBuildFile; fileRef = C16FA9B91ACBE2A800F85DF8 /* weibo.png */; };
 		C16FA9BD1ACC1E1400F85DF8 /* BaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9BC1ACC1E1400F85DF8 /* BaseCell.m */; };
 		C16FA9C01ACC209700F85DF8 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9BF1ACC209700F85DF8 /* WebViewController.m */; };
+		C17F74561ADCBAA000746CDB /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = C17F74551ADCBAA000746CDB /* back.png */; };
+		C17F74591ADCC26C00746CDB /* webBack.png in Resources */ = {isa = PBXBuildFile; fileRef = C17F74581ADCC26C00746CDB /* webBack.png */; };
+		C17F745B1ADCCD2200746CDB /* like.png in Resources */ = {isa = PBXBuildFile; fileRef = C17F745A1ADCCD2200746CDB /* like.png */; };
 		C18F951E1ACA506400A46502 /* TMQuiltView.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F951B1ACA506400A46502 /* TMQuiltView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C18F951F1ACA506400A46502 /* TMQuiltViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F951D1ACA506400A46502 /* TMQuiltViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C18F95221ACA509A00A46502 /* TMPhotoQuiltViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F95211ACA509A00A46502 /* TMPhotoQuiltViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -152,6 +155,9 @@
 		C16FA9BC1ACC1E1400F85DF8 /* BaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseCell.m; sourceTree = "<group>"; };
 		C16FA9BE1ACC209700F85DF8 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		C16FA9BF1ACC209700F85DF8 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		C17F74551ADCBAA000746CDB /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
+		C17F74581ADCC26C00746CDB /* webBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = webBack.png; sourceTree = "<group>"; };
+		C17F745A1ADCCD2200746CDB /* like.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = like.png; sourceTree = "<group>"; };
 		C18F951A1ACA506400A46502 /* TMQuiltView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMQuiltView.h; sourceTree = "<group>"; };
 		C18F951B1ACA506400A46502 /* TMQuiltView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMQuiltView.m; sourceTree = "<group>"; };
 		C18F951C1ACA506400A46502 /* TMQuiltViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMQuiltViewCell.h; sourceTree = "<group>"; };
@@ -379,6 +385,15 @@
 			path = Weibo;
 			sourceTree = "<group>";
 		};
+		C17F74571ADCC24C00746CDB /* WebViewImg */ = {
+			isa = PBXGroup;
+			children = (
+				C17F745A1ADCCD2200746CDB /* like.png */,
+				C17F74581ADCC26C00746CDB /* webBack.png */,
+			);
+			path = WebViewImg;
+			sourceTree = "<group>";
+		};
 		C18F95191ACA504C00A46502 /* WaterFlow */ = {
 			isa = PBXGroup;
 			children = (
@@ -399,6 +414,7 @@
 				C16FA9B01ACBA8E000F85DF8 /* douban.png */,
 				C16FA9B91ACBE2A800F85DF8 /* weibo.png */,
 				C16FA9A71ACB9E2300F85DF8 /* zhihu.png */,
+				C17F74551ADCBAA000746CDB /* back.png */,
 			);
 			path = ContentVC;
 			sourceTree = "<group>";
@@ -575,6 +591,7 @@
 		C1C0526F1AC1194A00D6D687 /* res */ = {
 			isa = PBXGroup;
 			children = (
+				C17F74571ADCC24C00746CDB /* WebViewImg */,
 				C18F95231ACAA88400A46502 /* ContentVC */,
 				C11CD46B1AC268F100D1D9C8 /* Font */,
 				C1C052711AC1196F00D6D687 /* demo_1.jpg */,
@@ -769,6 +786,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C1C009B61AD543DA00F550A4 /* zhonggongwang.png in Resources */,
+				C17F74591ADCC26C00746CDB /* webBack.png in Resources */,
 				C1C009B11AD543DA00F550A4 /* thirty_six_ke.png in Resources */,
 				C1C009AF1AD543DA00F550A4 /* taipingyangdiannaowang.png in Resources */,
 				C11CD46D1AC2691400D1D9C8 /* huawen.ttf in Resources */,
@@ -778,9 +796,11 @@
 				C1C009AB1AD543DA00F550A4 /* renminwang.png in Resources */,
 				C16FA9BA1ACBE2A800F85DF8 /* weibo.png in Resources */,
 				C1C009A91AD543DA00F550A4 /* nanhaiwang.png in Resources */,
+				C17F745B1ADCCD2200746CDB /* like.png in Resources */,
 				C1C009B91AD543DA00F550A4 /* zhongguojingjiwang.png in Resources */,
 				C1C009A51AD543DA00F550A4 /* jingjicankaobao.png in Resources */,
 				C1C009A81AD543DA00F550A4 /* nanfang.png in Resources */,
+				C17F74561ADCBAA000746CDB /* back.png in Resources */,
 				C1C009A21AD543DA00F550A4 /* hongwang.png in Resources */,
 				C1C0094B1AD5318B00F550A4 /* fenghuangwang.png in Resources */,
 				C1C009A61AD543DA00F550A4 /* jinrongjie.png in Resources */,
