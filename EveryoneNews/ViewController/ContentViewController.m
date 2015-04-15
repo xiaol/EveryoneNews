@@ -52,6 +52,7 @@
     
     UIButton *backBtn;
     float lastContentOffset;
+    
 }
 
 @end
@@ -168,6 +169,7 @@
         qtmquitView.scrollEnabled = NO;
         contentTableView.tableFooterView = qtmquitView;
         contentTableView.contentSize = CGSizeMake(contentTableView.frame.size.width, qtmquitView.frame.origin.y + waterFlowH);
+        
     }
 }
 
@@ -182,8 +184,8 @@
 
 - (void)headerRefresh
 {
-    NSString *url = @"http://121.41.75.213:9999/news/baijia/fetchContent?url=";
-    url = [NSString stringWithFormat:@"%@%@", url, self.sourceUrl];
+
+    NSString *url = [NSString stringWithFormat:@"%@%@%@", kServerIP, kFetchContent, self.sourceUrl];
 
     NSLog(@"detailUrl:%@", url);
     [self getContentDetails:url];

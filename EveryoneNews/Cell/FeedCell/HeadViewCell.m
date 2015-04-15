@@ -327,7 +327,7 @@
     blurView.blurRadius = 22;
 
     //设置右下圆角
-    UIBezierPath *maskPath_Shadow = [UIBezierPath bezierPathWithRoundedRect:blurView.bounds byRoundingCorners:UIRectCornerBottomRight  cornerRadii:CGSizeMake(5, 5)];
+    UIBezierPath *maskPath_Shadow = [UIBezierPath bezierPathWithRoundedRect:blurView.bounds byRoundingCorners:UIRectCornerBottomRight|UIRectCornerTopRight  cornerRadii:CGSizeMake(5, 5)];
     CAShapeLayer *maskLayer_Shadow = [[CAShapeLayer alloc] init];
     maskLayer_Shadow.frame = blurView.bounds;
     maskLayer_Shadow.path = maskPath_Shadow.CGPath;

@@ -103,13 +103,13 @@
 - (void)headerRefresh
 {
     isRefreshing = YES;
-   [self getRequest:@"http://121.41.75.213:9999/news/baijia/fetchHome"];
+   [self getRequest:[NSString stringWithFormat:@"%@%@", kServerIP, kFetchHome]];
 }
 
 - (void)footerRefresh
 {
     page++;
-    NSString *url = [NSString stringWithFormat:@"http://121.41.75.213:9999/news/baijia/fetchHome?page=%d", page];
+    NSString *url = [NSString stringWithFormat:@"%@%@?page=%d", kServerIP, kFetchHome, page];
     isRefreshing = NO;
     [self getRequest:url];
 }
