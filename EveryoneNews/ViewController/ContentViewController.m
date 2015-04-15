@@ -48,10 +48,10 @@
     CGFloat cellMargin;
     
     BOOL hasRelate;
-    CGFloat flag;
     
     UIButton *backBtn;
     float lastContentOffset;
+    NSInteger flag;
     
 }
 
@@ -94,7 +94,7 @@
 {
     resourceArr = [[NSMutableArray alloc] init];
     
-    
+    flag = 0;
     
     UIView *backView = [[UIView alloc] initWithFrame:self.view.frame];
     backView.backgroundColor = [UIColor colorFromHexString:@"#EDEDF3"];
@@ -154,7 +154,7 @@
         
         NSInteger i = waterFlowArr.count / 2 + waterFlowArr.count % 2;
         
-        qtmquitView.frame = CGRectMake(0, qtmquitView.frame.origin.y, qtmquitView.contentSize.width, i * 110);
+        qtmquitView.frame = CGRectMake(0, qtmquitView.frame.origin.y, qtmquitView.contentSize.width, i * 110 + 10);
         contentTableView.tableFooterView = qtmquitView;
 
     } else {
@@ -503,6 +503,7 @@
     if (waterFlowArr != nil && ![waterFlowArr isKindOfClass:[NSNull class]] && waterFlowArr.count != 0) {
 
         hasRelate = YES;
+        [self warterFlowReloadData];
         [qtmquitView reloadData];
     }
     
@@ -538,7 +539,7 @@
         NSArray *keyArr = waterDic.allKeys;
         if (![keyArr containsObject:[NSString stringWithFormat:@"%ld", indexPath.row]]) {
             
-            waterFlowH = [self getHeight:100];
+            waterFlowH = [self getHeight:100 IndexPath:nil];
             [waterDic setObject:[NSNumber numberWithFloat:100.0] forKey:[NSString stringWithFormat:@"%ld", indexPath.row]];
         }
     }
@@ -562,20 +563,21 @@
                 
                 [waterDic setObject:[NSNumber numberWithFloat:imgH] forKey:[NSString stringWithFormat:@"%ld", indexPath.row]];
 
-                if (indexPath.row == 0) {
-                    columnOne = imgH + cellMargin * 2;
-                    CGFloat tempH = columnOne;
-                    waterFlowH = (waterFlowH > tempH)?waterFlowH:tempH;
-//                    NSLog(@"waterFlowH:%f index----:0", waterFlowH);
+//                if (indexPath.row == 0) {
+//                    columnOne = imgH + cellMargin * 2;
+//                    CGFloat tempH = columnOne;
+//                    waterFlowH = (waterFlowH > tempH)?waterFlowH:tempH;
+////                    NSLog(@"waterFlowH:%f index----:0", waterFlowH);
+////                    waterFlowH = [self getHeight:imgH];
+//                } else if (indexPath.row == 1) {
+//                    columnTwo = imgH + cellMargin * 2;
+//                    CGFloat tempH = (columnOne > columnTwo)?columnOne:columnTwo;
+//                    waterFlowH = (waterFlowH > tempH)?waterFlowH:tempH;
+////                    NSLog(@"waterFlowH:%f index----:1", waterFlowH);
+//                } else {
 //                    waterFlowH = [self getHeight:imgH];
-                } else if (indexPath.row == 1) {
-                    columnTwo = imgH + cellMargin * 2;
-                    CGFloat tempH = (columnOne > columnTwo)?columnOne:columnTwo;
-                    waterFlowH = (waterFlowH > tempH)?waterFlowH:tempH;
-//                    NSLog(@"waterFlowH:%f index----:1", waterFlowH);
-                } else {
-                    waterFlowH = [self getHeight:imgH];
-                }
+//                }
+                waterFlowH = [self getHeight:imgH IndexPath:indexPath];
                 
                 
                 [self warterFlowReloadData];
@@ -650,20 +652,33 @@
 
 #pragma mark 计算高度
 
-- (CGFloat)getHeight:(CGFloat)height
+- (CGFloat)getHeight:(CGFloat)height IndexPath:(NSIndexPath *)indexPath
 {
-
-    if (columnTwo > columnOne) {
+    if (indexPath.row == 0) {
         columnOne = columnOne + height + cellMargin;
-    } else {
+        waterFlowH = (columnOne > columnTwo)?columnOne:columnTwo;
+    } else if (indexPath.row == 1) {
         columnTwo = columnTwo + height + cellMargin;
+        waterFlowH = (columnOne > columnTwo)?columnOne:columnTwo;
     }
+    else {
+        if (columnTwo > columnOne) {
+            columnOne = columnOne + height + cellMargin;
+        } else {
+            columnTwo = columnTwo + height + cellMargin;
+        }
+        
+        if (columnOne > columnTwo) {
+            waterFlowH = columnOne;
+        } else {
+            waterFlowH = columnTwo;
+        }
+
+    }
+//    flag ++;
     
-    if (columnOne > columnTwo) {
-        waterFlowH = columnOne;
-    } else {
-        waterFlowH = columnTwo;
-    }
+
+
     NSLog(@"waterFlowH:%f", waterFlowH);
     return waterFlowH;
 }
