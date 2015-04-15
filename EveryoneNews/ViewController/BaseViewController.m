@@ -71,11 +71,11 @@
 //    NSLog(@"系统版本：%f", [[[UIDevice currentDevice] systemVersion] floatValue]);
     
 //    self.navicationController.view.backgroundColor = [UIColor colorFromHexString:@"#F6F6F8"];
-    [self.navigationController.navigationBar setBarTintColor:[UIColor colorFromHexString:@"#4fb5ea"]];
+//    [self.navigationController.navigationBar setBarTintColor:[UIColor colorFromHexString:@"#4fb5ea"]];
     
-    self.navigationController.navigationBar.titleTextAttributes = @{UITextAttributeTextColor: [UIColor colorFromHexString:@"#FFFFFF"],
-                                                                    UITextAttributeFont : [UIFont systemFontOfSize:19]};
-//    self.navigationController.navigationBar.alpha = 1;
+//    self.navigationController.navigationBar.titleTextAttributes = @{UITextAttributeTextColor: [UIColor colorFromHexString:@"#FFFFFF"],
+//                                                                    UITextAttributeFont : [UIFont systemFontOfSize:19]};
+
 }
 
 

@@ -53,7 +53,7 @@
     
 //    self.title = @"头条百家";
     
-    [self setTitleView];
+//    [self setTitleView];
     
     [self tableViewInit];
     [self setupRefresh];
@@ -63,17 +63,6 @@
     
 }
 
-- (void)setTitleView
-{
-   
-    UIImageView *titleImg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 90, 17)];
-    titleImg.center = self.navigationController.navigationBar.center;
-    titleImg.image = [UIImage imageNamed:@"navTitle.png"];
-    titleImg.contentMode = UIViewContentModeScaleAspectFit;
-
-    self.navigationItem.titleView = titleImg;
-
-}
 
 - (void)tableViewInit
 {

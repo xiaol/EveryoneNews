@@ -10,6 +10,9 @@
 #define NavBarFrame self.navigationController.navigationBar.frame
 
 @interface XHYScrollingNavBarViewController ()<UIGestureRecognizerDelegate>
+{
+    UIImageView *titleImg;
+}
 
 @property (weak, nonatomic) UIView *scrollView;
 @property (retain, nonatomic)UIPanGestureRecognizer *panGesture;
@@ -79,6 +82,7 @@
             [UIView animateWithDuration:0.2 animations:^{
                 NavBarFrame = navBarFrame;
                 self.scrollView.frame=scrollViewFrame;
+                titleImg.alpha = 1;
 //                if ([self.scrollView isKindOfClass:[UIScrollView class]]) {
 //                    UIScrollView *scrollView=(UIScrollView *)self.scrollView;
 //                    scrollView.contentOffset=CGPointMake(scrollView.contentOffset.x, scrollView.contentOffset.y+44);
@@ -97,12 +101,14 @@
             CGRect frame =NavBarFrame;
             CGRect scrollViewFrame=self.scrollView.frame;
             frame.origin.y = -24;
+//            frame.origin.y = -0;
             scrollViewFrame.origin.y -= 44;
             scrollViewFrame.size.height += 44;
             
             [UIView animateWithDuration:0.2 animations:^{
                 NavBarFrame = frame;
                 self.scrollView.frame=scrollViewFrame;
+                titleImg.alpha = 0;
 //                if ([self.scrollView isKindOfClass:[UIScrollView class]]) {
 //                    UIScrollView *scrollView=(UIScrollView *)self.scrollView;
 //                    scrollView.contentOffset=CGPointMake(scrollView.contentOffset.x, scrollView.contentOffset.y-44);
@@ -123,6 +129,24 @@
 
 -(void)viewDidAppear:(BOOL)animated{
     [self.navigationController.navigationBar bringSubviewToFront:self.overLay];
+}
+
+-(void)viewDidLoad
+{
+    [super viewDidLoad];
+    [self setTitleView];
+}
+
+- (void)setTitleView
+{
+    titleImg = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 90, 17)];
+    titleImg.center = self.navigationController.navigationBar.center;
+    titleImg.image = [UIImage imageNamed:@"navTitle.png"];
+    titleImg.contentMode = UIViewContentModeScaleAspectFit;
+    
+    self.navigationItem.titleView = titleImg;
+    
+    [self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"navBack.png"] forBarMetrics:UIBarMetricsDefault];
 }
 
 @end
