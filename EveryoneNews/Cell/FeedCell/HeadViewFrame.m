@@ -20,10 +20,13 @@
     
     CGFloat imgX = (backViewW - 320) / 2;
     
-    CGFloat startY = 8;
+    CGFloat startY = 0;
+    if (backViewW > 320) {
+        startY = 8;
+    }
+    
     CGFloat titleW = 222 * factor;
     CGFloat titleH = 53;
-//    _titleLabFrm = CGRectMake(5, startY + 30, titleW, titleH);
     _titleLabFrm = CGRectMake(imgX + 12, startY + 30, titleW, titleH);
     
 //    CGFloat imgH = 180 * factor;
@@ -55,7 +58,7 @@
     if (![_headViewDatasource.aspectStr isEqualToString:@"0家观点"]) {
         CGFloat aspectW = 100;
         CGFloat aspectX = backViewW - aspectW - 16;
-        CGFloat aspectY = CGRectGetMaxY(_sourceView_3);
+        CGFloat aspectY = CGRectGetMaxY(_sourceView_3) + 5;
         _aspectFrm = CGRectMake(aspectX, aspectY, aspectW, 30);
         _bottonView = CGRectMake(0, aspectY, backViewW, 40);
         cutY = CGRectGetMaxY(_bottonView);
@@ -63,7 +66,7 @@
 //        _bottonView = CGRectMake(0, CGRectGetMaxY(_sourceView_3), backViewW, 40);
         cutY = CGRectGetMaxY(_sourceView_3);
     }
-    
+
 //    CGFloat aspectW = 100;
 //    CGFloat aspectX = backViewW - aspectW - 16;
 //    CGFloat aspectY = CGRectGetMaxY(_sourceView_3);
@@ -81,6 +84,7 @@
     
     CGFloat backViewH = CGRectGetMaxY(_cutBlockFrm);
     _backgroundViewFrm = CGRectMake(0, 0, backViewW, backViewH);
+    
     _cellH = backViewH;
 }
 

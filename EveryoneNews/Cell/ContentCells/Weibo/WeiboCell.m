@@ -25,14 +25,14 @@
         urlArr = [[NSMutableArray alloc] init];
         tagCount = 1;
         
-        UIView *baseView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenW, 125 + 14)];
+        UIView *baseView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenW, 150 + 14)];
         baseView.backgroundColor = [UIColor colorFromHexString:kGreen];
         [self.contentView addSubview:baseView];
         
-        scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, screenW, 125)];
+        scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, screenW, 150)];
         scrollView.backgroundColor = [UIColor whiteColor];
         [self.contentView addSubview:scrollView];
-        _cellH = 125 + 14;
+        _cellH = CGRectGetMaxY(baseView.frame);
     }
     return self;
 }
@@ -47,59 +47,103 @@
 {
     CGFloat weiboY = 10;
     
-    UIImageView *weiboLogo = [[UIImageView alloc] initWithFrame:CGRectMake(14, weiboY, 32, 28)];
-    weiboLogo.image = [UIImage imageNamed:@"weibo.png"];
-    [scrollView addSubview:weiboLogo];
+//    UIImageView *weiboLogo = [[UIImageView alloc] initWithFrame:CGRectMake(14, weiboY, 32, 28)];
+//    weiboLogo.image = [UIImage imageNamed:@"weibo.png"];
+//    [scrollView addSubview:weiboLogo];
     
     CGFloat bolder = 14.0;
     CGFloat weiboW = 195;
-    CGFloat weiboH = 102;
-    CGFloat weiboX = CGRectGetMaxX(weiboLogo.frame) + bolder;
+    CGFloat weiboH = 127;
+    CGFloat weiboX = bolder;
     
     for (int i = 0; i < _weiboDatasource.weiboArr.count; i++) {
-        weiboX += ( weiboW + bolder) * i;
+        
         UIView *backView = [[UIView alloc] initWithFrame:CGRectMake(weiboX, weiboY, weiboW, weiboH)];
+//        backView.backgroundColor = [UIColor yellowColor];
         NSDictionary *dic = _weiboDatasource.weiboArr[i];
         [urlArr addObject:dic[@"url"]];
-        [self setDetailsInView:backView UserName:dic[@"user"] userTitle:dic[@"title"]];
+//        [self setDetailsInView:backView UserName:dic[@"user"] userTitle:dic[@"title"]];
+        [self noProfileImageUI:backView UserName:dic[@"user"] userTitle:dic[@"title"]];
         [scrollView addSubview:backView];
+        
+        weiboX += ( weiboW + bolder);
     }
     scrollView.showsHorizontalScrollIndicator = NO;
     
-    CGFloat contentW = weiboX + weiboW +bolder;
+    CGFloat contentW = weiboX;
     scrollView.contentSize = CGSizeMake(contentW, 0);
     scrollView.pagingEnabled = YES;
     scrollView.delegate = self;
 }
 
-- (void)setDetailsInView:(UIView *)backView UserName:(NSString *)userName userTitle:(NSString *)userTitle
+//- (void)setDetailsInView:(UIView *)backView UserName:(NSString *)userName userTitle:(NSString *)userTitle
+//{
+//    UIImageView *iconImg = [[UIImageView alloc] initWithFrame:CGRectMake(7, 7, 36, 36)];
+//    NSURL *URL = [NSURL URLWithString:@"http://tp2.sinaimg.cn/3189729061/180/5671804570/1"];
+//    [iconImg sd_setImageWithURL:URL];
+//    iconImg.layer.cornerRadius = 18;
+//    iconImg.layer.masksToBounds = YES;
+//    [backView addSubview:iconImg];
+//    
+//    CGFloat userNameX = CGRectGetMaxX(iconImg.frame) + 9;
+//    CGFloat userNameW = 136;
+//    CGFloat userNameH = 12;
+//    UILabel *userNameLab = [[UILabel alloc] initWithFrame:CGRectMake(userNameX, 7, userNameW, userNameH)];
+//    userNameLab.text = userName;
+//    userNameLab.font = [UIFont fontWithName:kFont size:12];
+//    userNameLab.textColor = [UIColor blackColor];
+//    userNameLab.textAlignment = NSTextAlignmentLeft;
+//    
+//    userNameLab.backgroundColor = [UIColor yellowColor];
+//    
+//    [backView addSubview:userNameLab];
+//    
+//    CGFloat userTitleY = CGRectGetMaxY(userNameLab.frame) + 8;
+//    UILabel *userTitleLab = [[UILabel alloc] initWithFrame:CGRectMake(userNameX, userTitleY, userNameW, 30)];
+//    userTitleLab.text = userTitle;
+//    userTitleLab.font = [UIFont fontWithName:kFont size:11];
+//    userTitleLab.textColor = [UIColor colorFromHexString:@"#7f7f7f"];
+//    userTitleLab.numberOfLines = 2;
+//    userTitleLab.textAlignment = NSTextAlignmentLeft;
+//    [backView addSubview:userTitleLab];
+//    
+//    UIButton *btn = [[UIButton alloc] initWithFrame:backView.bounds];
+//    [btn addTarget:self action:@selector(btnPress:) forControlEvents:UIControlEventTouchUpInside];
+//    [btn setTag:tagCount * 2000];
+//    tagCount++;
+//    [backView addSubview:btn];
+//    
+//}
+
+- (void)noProfileImageUI:(UIView *)backView UserName:(NSString *)userName userTitle:(NSString *)userTitle
 {
-    UIImageView *iconImg = [[UIImageView alloc] initWithFrame:CGRectMake(7, 7, 36, 36)];
-    NSURL *URL = [NSURL URLWithString:@"http://tp2.sinaimg.cn/3189729061/180/5671804570/1"];
-    [iconImg sd_setImageWithURL:URL];
-    iconImg.layer.cornerRadius = 18;
-    iconImg.layer.masksToBounds = YES;
-    [backView addSubview:iconImg];
+    CGFloat weiboX = 7;
+    UIImageView *weiboLogo = [[UIImageView alloc] initWithFrame:CGRectMake(weiboX, 7, 24.8, 21.6)];
+    weiboLogo.image = [UIImage imageNamed:@"weibo.png"];
+    [backView addSubview:weiboLogo];
     
-    CGFloat userNameX = CGRectGetMaxX(iconImg.frame) + 9;
+    CGFloat userNameX = CGRectGetMaxX(weiboLogo.frame) + 5;
     CGFloat userNameW = 136;
-    CGFloat userNameH = 12;
-    UILabel *userNameLab = [[UILabel alloc] initWithFrame:CGRectMake(userNameX, 7, userNameW, userNameH)];
+    CGFloat userNameH = 14;
+//    CGFloat userNameY = CGRectGetMaxY(weiboLogo.frame) - userNameH;
+    UILabel *userNameLab = [[UILabel alloc] initWithFrame:CGRectMake(userNameX, 11, userNameW, userNameH)];
     userNameLab.text = userName;
-    userNameLab.font = [UIFont fontWithName:kFont size:12];
+    userNameLab.font = [UIFont fontWithName:kFont size:userNameH];
     userNameLab.textColor = [UIColor blackColor];
     userNameLab.textAlignment = NSTextAlignmentLeft;
     
-    userNameLab.backgroundColor = [UIColor yellowColor];
+//    userNameLab.backgroundColor = [UIColor blueColor];
     
     [backView addSubview:userNameLab];
     
-    CGFloat userTitleY = CGRectGetMaxY(userNameLab.frame) + 8;
-    UILabel *userTitleLab = [[UILabel alloc] initWithFrame:CGRectMake(userNameX, userTitleY, userNameW, 30)];
+    CGFloat userTitleY = CGRectGetMaxY(weiboLogo.frame);
+    CGFloat userTitleH = backView.frame.size.height - userTitleY - 8;
+    CGFloat userTitleW = (backView.frame.size.width - weiboX * 2);
+    UILabel *userTitleLab = [[UILabel alloc] initWithFrame:CGRectMake(weiboX, userTitleY, userTitleW, userTitleH)];
     userTitleLab.text = userTitle;
-    userTitleLab.font = [UIFont fontWithName:kFont size:11];
+    userTitleLab.font = [UIFont fontWithName:kFont size:13];
     userTitleLab.textColor = [UIColor colorFromHexString:@"#7f7f7f"];
-    userTitleLab.numberOfLines = 2;
+    userTitleLab.numberOfLines = 0;
     userTitleLab.textAlignment = NSTextAlignmentLeft;
     [backView addSubview:userTitleLab];
     
@@ -108,20 +152,17 @@
     [btn setTag:tagCount * 2000];
     tagCount++;
     [backView addSubview:btn];
-    
+
 }
 
 - (void)btnPress:(UIButton *)sender
 {
     NSInteger tag = sender.tag;
     tag = tag / 2000 - 1;
-    
     NSString *url = urlArr[tag];
-    
     if (![self isBlankString:url]) {
         [self showWebViewWithUrl:url];
     }
-    
 }
 
 #pragma mark 判断字符串是否为空

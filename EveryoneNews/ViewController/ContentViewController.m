@@ -353,7 +353,7 @@
     
     UIImageView *imgView = [[UIImageView alloc] init];;
     imgView.frame = CGRectMake(0, 0, imgW, imgH);
-    imgView.image = [UIImage imageNamed:@"demo_1.jpg"];
+    imgView.image = [UIImage imageNamed:@"demo_1.png"];
     
     if (![self isBlankString:_imgStr]) {
         NSURL *url = [NSURL URLWithString:_imgStr];
@@ -533,7 +533,7 @@
     cell.titleLabel.text = dic[@"title"];
     NSString *imgStr = dic[@"img"];
     if ([self isBlankString:imgStr] || [imgStr hasPrefix:@".."]) {
-        cell.photoView.image = [UIImage imageNamed:@"demo_1.jpg"];
+        cell.photoView.image = [UIImage imageNamed:@"demo_1.png"];
         
         NSArray *keyArr = waterDic.allKeys;
         if (![keyArr containsObject:[NSString stringWithFormat:@"%ld", indexPath.row]]) {
@@ -546,7 +546,7 @@
     {
         NSURL *imgUrl = [NSURL URLWithString:dic[@"img"]];
         
-        [cell.photoView sd_setImageWithURL:imgUrl placeholderImage:[UIImage imageNamed:@"demo_1.jpg"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        [cell.photoView sd_setImageWithURL:imgUrl placeholderImage:[UIImage imageNamed:@"demo_1.png"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
             CGFloat imgW = ([UIScreen mainScreen].bounds.size.width - 30 ) / 2;
             if (image.size.width < imgW) {
                 imgW = image.size.width;
@@ -566,13 +566,13 @@
                     columnOne = imgH + cellMargin * 2;
                     CGFloat tempH = columnOne;
                     waterFlowH = (waterFlowH > tempH)?waterFlowH:tempH;
-                    NSLog(@"waterFlowH:%f index----:0", waterFlowH);
+//                    NSLog(@"waterFlowH:%f index----:0", waterFlowH);
 //                    waterFlowH = [self getHeight:imgH];
                 } else if (indexPath.row == 1) {
                     columnTwo = imgH + cellMargin * 2;
                     CGFloat tempH = (columnOne > columnTwo)?columnOne:columnTwo;
                     waterFlowH = (waterFlowH > tempH)?waterFlowH:tempH;
-                    NSLog(@"waterFlowH:%f index----:1", waterFlowH);
+//                    NSLog(@"waterFlowH:%f index----:1", waterFlowH);
                 } else {
                     waterFlowH = [self getHeight:imgH];
                 }
@@ -617,6 +617,9 @@
 - (void)quiltView:(TMQuiltView *)quiltView didSelectCellAtIndexPath:(NSIndexPath *)indexPath
 {
     NSLog(@"index:%ld",indexPath.row);
+    NSDictionary *dic = waterFlowArr[indexPath.row];
+    NSString *url = dic[@"url"];
+    [self loadWebViewWithURL:url];
 }
 
 #pragma mark WebDelegate

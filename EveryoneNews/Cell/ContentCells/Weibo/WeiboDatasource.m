@@ -18,10 +18,6 @@
 - (id)initWithArr:(NSArray *)array
 {
     if (self = [super init]) {
-//        _url = dict[@"url"];
-//        _sourceSitename = dict[@"sourceSitename"];
-//        _user = dict[@"user"];
-//        _title = dict[@"title"];
         _weiboArr = array;
     }
     return self;

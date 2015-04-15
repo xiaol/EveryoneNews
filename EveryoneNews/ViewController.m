@@ -39,8 +39,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    [self getRequest:@"http://121.41.75.213:9999/news/baijia/fetchHome"];
-    
     [self commonInit];
     
 }
@@ -51,18 +49,11 @@
     page = 1;
     isRefreshing = YES;
     
-//    self.title = @"头条百家";
-    
-//    [self setTitleView];
-    
     [self tableViewInit];
     [self setupRefresh];
 
-    
     [self followRollingScrollView:myTableView];
-    
 }
-
 
 - (void)tableViewInit
 {
@@ -116,15 +107,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    HeadViewFrame *frm;
     if (dataArr != nil && ![dataArr isKindOfClass:[NSNull class]] && dataArr.count != 0) {
         HeadViewFrame *frm = dataArr[indexPath.row];
         return frm.cellH;
     } else {
         return 0;
     }
-    
-    
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -191,10 +179,7 @@
         HeadViewFrame *headViewFrm = [[HeadViewFrame alloc] init];
         headViewFrm.headViewDatasource = [HeadViewDatasource headViewDatasourceWithDict:dict];
         
-//        NSLog(@"dict:%@", dict);
-        
         [dataArr addObject:headViewFrm];
-//        NSLog(@"dict:%@", dict);
     }
     
     [myTableView reloadData];

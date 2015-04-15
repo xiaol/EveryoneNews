@@ -106,6 +106,24 @@
         [self setSourceTitle:sourceTitle_2 SourceName:sourceName_2 SourceIcon:sourceIcon_2 inSourceView:sourceView_2];
         [self setSourceTitle:sourceTitle_3 SourceName:sourceName_3 SourceIcon:sourceIcon_3 inSourceView:sourceView_3];
         
+        bottonView = [[UIView alloc] init];
+        bottonView.backgroundColor = [UIColor whiteColor];
+        [backgroupView addSubview:bottonView];
+        
+        aspectView = [[UIView alloc] init];
+        aspectView.backgroundColor = [UIColor clearColor];
+        aspectView.layer.borderWidth = 1;
+        aspectView.layer.borderColor = [UIColor colorFromHexString:@"#EBEDED"].CGColor;
+        aspectView.layer.cornerRadius = 3;
+        [backgroupView addSubview:aspectView];
+        
+        aspect = [[UILabel alloc] init];
+        aspect.font = [UIFont fontWithName:kFont size:20];
+        aspect.textColor = [UIColor colorFromHexString:@"#4eb4ea"];
+        aspect.backgroundColor = [UIColor clearColor];
+        aspect.textAlignment = NSTextAlignmentRight;
+        [backgroupView addSubview:aspect];
+        
         
         cutBlock = [[UIView alloc] init];
         cutBlock.backgroundColor = [UIColor colorFromHexString:@"#EBEDED"];
@@ -135,11 +153,12 @@
     titleLab.text = _headViewFrm.headViewDatasource.titleStr;
     
     if ([self isBlankString:_headViewFrm.headViewDatasource.imgStr]) {
-        imgView.image = [UIImage imageNamed:@"demo_1.jpg"];
+        imgView.image = [UIImage imageNamed:@"demo_1.png"];
+//        imgView.backgroundColor = [UIColor greenColor];
     } else {
         NSURL *url = [NSURL URLWithString:_headViewFrm.headViewDatasource.imgStr];
         
-        [imgView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"demo_1.jpg"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        [imgView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"demo_1.png"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                     imgView.image = [ScaleImage scaleImage:imgView.image size:_headViewFrm.imgFrm.size];
             
             [self screenShotWithRect:shotView.bounds];
@@ -238,31 +257,44 @@
     
     bottonView.frame = _headViewFrm.bottonView;
     if (![_headViewFrm.headViewDatasource.aspectStr isEqualToString:@"0家观点"]) {
-        
-        bottonView = [[UIView alloc] init];
-        bottonView.backgroundColor = [UIColor whiteColor];
-        [backgroupView addSubview:bottonView];
-        
-        aspectView = [[UIView alloc] init];
-        aspectView.backgroundColor = [UIColor clearColor];
-        aspectView.layer.borderWidth = 1;
-        aspectView.layer.borderColor = [UIColor colorFromHexString:@"#EBEDED"].CGColor;
-        aspectView.layer.cornerRadius = 3;
-        [backgroupView addSubview:aspectView];
-        
-        aspect = [[UILabel alloc] init];
-        aspect.font = [UIFont fontWithName:kFont size:20];
-        aspect.textColor = [UIColor colorFromHexString:@"#4eb4ea"];
-        aspect.backgroundColor = [UIColor clearColor];
-        aspect.textAlignment = NSTextAlignmentRight;
-        [backgroupView addSubview:aspect];
-        
-        aspectView.frame = _headViewFrm.aspectFrm;
-        aspect.frame = _headViewFrm.aspectFrm;
-    }
     
+//        bottonView = [[UIView alloc] init];
+//        bottonView.backgroundColor = [UIColor whiteColor];
+//        [backgroupView addSubview:bottonView];
+//        
+//        aspectView = [[UIView alloc] init];
+//        aspectView.backgroundColor = [UIColor clearColor];
+//        aspectView.layer.borderWidth = 1;
+//        aspectView.layer.borderColor = [UIColor colorFromHexString:@"#EBEDED"].CGColor;
+//        aspectView.layer.cornerRadius = 3;
+//        [backgroupView addSubview:aspectView];
+//        
+//        aspect = [[UILabel alloc] init];
+//        aspect.font = [UIFont fontWithName:kFont size:20];
+//        aspect.textColor = [UIColor colorFromHexString:@"#4eb4ea"];
+//        aspect.backgroundColor = [UIColor clearColor];
+//        aspect.textAlignment = NSTextAlignmentRight;
+//        [backgroupView addSubview:aspect];
+    
+        CGSize aspectSize = [AutoLabelSize autoLabSizeWithStr:_headViewFrm.headViewDatasource.aspectStr Fontsize:20 SizeW:0 SizeH:21];
+        CGRect rect = _headViewFrm.aspectFrm;
+        CGFloat aspectX = [UIScreen mainScreen].bounds.size.width - aspectSize.width - 16;
+        rect.origin.x = aspectX;
+        rect.size.width = aspectSize.width;
+        
+        aspectView.frame = rect;
+        aspect.frame = rect;
+        
+        aspectView.hidden = NO;
+        aspect.hidden = NO;
+    } else {
+        aspect.hidden = YES;
+        aspectView.hidden = YES;
+    }
+
     cutBlock.frame = _headViewFrm.cutBlockFrm;
-    showBtn.frame = imgView.frame;
+//    showBtn.frame = imgView.frame;
+    showBtn.frame = _headViewFrm.backgroundViewFrm;
 }
 
 - (void)showBtnClick
