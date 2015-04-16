@@ -37,6 +37,7 @@
 		C18F951E1ACA506400A46502 /* TMQuiltView.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F951B1ACA506400A46502 /* TMQuiltView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C18F951F1ACA506400A46502 /* TMQuiltViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F951D1ACA506400A46502 /* TMQuiltViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C18F95221ACA509A00A46502 /* TMPhotoQuiltViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F95211ACA509A00A46502 /* TMPhotoQuiltViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		C19549E81ADF71F40008FC36 /* DMPagingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = C19549E71ADF71F40008FC36 /* DMPagingScrollView.m */; };
 		C19712241AC3DADF0024B12E /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C19712231AC3DADF0024B12E /* CoreText.framework */; };
 		C19712261AC3DB590024B12E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C19712251AC3DB590024B12E /* CoreGraphics.framework */; };
 		C19712281AC3DD170024B12E /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C19712271AC3DD170024B12E /* SystemConfiguration.framework */; };
@@ -176,6 +177,8 @@
 		C18F951D1ACA506400A46502 /* TMQuiltViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMQuiltViewCell.m; sourceTree = "<group>"; };
 		C18F95201ACA509A00A46502 /* TMPhotoQuiltViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMPhotoQuiltViewCell.h; sourceTree = "<group>"; };
 		C18F95211ACA509A00A46502 /* TMPhotoQuiltViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMPhotoQuiltViewCell.m; sourceTree = "<group>"; };
+		C19549E61ADF71F40008FC36 /* DMPagingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DMPagingScrollView.h; sourceTree = "<group>"; };
+		C19549E71ADF71F40008FC36 /* DMPagingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DMPagingScrollView.m; sourceTree = "<group>"; };
 		C19712231AC3DADF0024B12E /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		C19712251AC3DB590024B12E /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		C19712271AC3DD170024B12E /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -441,6 +444,15 @@
 			path = ContentVC;
 			sourceTree = "<group>";
 		};
+		C19549E51ADF71EB0008FC36 /* DMPagingScrollView */ = {
+			isa = PBXGroup;
+			children = (
+				C19549E61ADF71F40008FC36 /* DMPagingScrollView.h */,
+				C19549E71ADF71F40008FC36 /* DMPagingScrollView.m */,
+			);
+			path = DMPagingScrollView;
+			sourceTree = "<group>";
+		};
 		C1C009491AD530F300F550A4 /* logo */ = {
 			isa = PBXGroup;
 			children = (
@@ -586,6 +598,7 @@
 		C1C0526A1AC01E9000D6D687 /* Third */ = {
 			isa = PBXGroup;
 			children = (
+				C19549E51ADF71EB0008FC36 /* DMPagingScrollView */,
 				C17F74601ADD0E9F00746CDB /* XHYScrollingNavBarVC */,
 				C1C052BE1AC13BE400D6D687 /* YLGIFImage */,
 				C1C052A51AC13BDB00D6D687 /* MJRefresh */,
@@ -928,6 +941,7 @@
 				C16FA9AF1ACBA73D00F85DF8 /* DoubanCell.m in Sources */,
 				C1C052961AC139D800D6D687 /* TxtDatasource.m in Sources */,
 				C1C052A31AC13AF700D6D687 /* ImageExtension.m in Sources */,
+				C19549E81ADF71F40008FC36 /* DMPagingScrollView.m in Sources */,
 				C18F951F1ACA506400A46502 /* TMQuiltViewCell.m in Sources */,
 				C16FA99A1ACAFB3A00F85DF8 /* BaiduDatasource.m in Sources */,
 				C1C0525A1AC0007800D6D687 /* KDNavigationController.m in Sources */,

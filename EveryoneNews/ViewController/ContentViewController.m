@@ -605,7 +605,7 @@
         if (height == 0) {
             return 100;
         } else {
-            NSLog(@"height:%f indexPath:%ld", height, indexPath.row);
+//            NSLog(@"height:%f indexPath:%ld", height, indexPath.row);
             return height;
         }
         
@@ -673,15 +673,10 @@
         } else {
             waterFlowH = columnTwo;
         }
-
     }
-//    flag ++;
-    
-
 
     NSLog(@"waterFlowH:%f", waterFlowH);
     return waterFlowH;
 }
-
 
 @end

@@ -9,10 +9,11 @@
 #import "WeiboCell.h"
 #import "UIImageView+WebCache.h"
 #import "UIColor+HexToRGB.h"
+#import "DMPagingScrollView.h"
 
 @implementation WeiboCell
 {
-    UIScrollView *scrollView;
+    DMPagingScrollView *scrollView;
     NSMutableArray *urlArr;
     NSInteger tagCount;
 }
@@ -29,7 +30,7 @@
         baseView.backgroundColor = [UIColor colorFromHexString:kGreen];
         [self.contentView addSubview:baseView];
         
-        scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, screenW, 150)];
+        scrollView = [[DMPagingScrollView alloc] initWithFrame:CGRectMake(0, 0, screenW, 150)];
         scrollView.backgroundColor = [UIColor whiteColor];
         [self.contentView addSubview:scrollView];
         _cellH = CGRectGetMaxY(baseView.frame);
@@ -69,6 +70,7 @@
         weiboX += ( weiboW + bolder);
     }
     scrollView.showsHorizontalScrollIndicator = NO;
+    scrollView.pageWidth = weiboW + bolder;
     
     CGFloat contentW = weiboX;
     scrollView.contentSize = CGSizeMake(contentW, 0);
