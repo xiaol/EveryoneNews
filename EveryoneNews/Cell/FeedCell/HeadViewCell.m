@@ -64,7 +64,7 @@
         
        
         shotView = [[UIImageView alloc] init];
-        shotView.contentMode = UIViewContentModeScaleAspectFill;
+//        shotView.contentMode = UIViewContentModeScaleAspectFit;
         shotView.clipsToBounds = YES;
         [backgroupView addSubview:shotView];
         
@@ -130,7 +130,9 @@
         [backgroupView addSubview:cutBlock];
         
         showBtn = [[UIButton alloc] init];
+//        showBtn.backgroundColor = [UIColor blackColor];
         showBtn.backgroundColor = [UIColor clearColor];
+//        showBtn.alpha = 0.2;
         [showBtn addTarget:self action:@selector(showBtnClick) forControlEvents:UIControlEventTouchUpInside];
         [backgroupView addSubview:showBtn];
     }
@@ -144,8 +146,6 @@
     
     [self settingSubviewFrame];
     [self settingData];
-    
-    
 }
 
 - (void)settingData
@@ -161,11 +161,11 @@
         [imgView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"demo_1.png"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                     imgView.image = [ScaleImage scaleImage:imgView.image size:_headViewFrm.imgFrm.size];
             
-            [self screenShotWithRect:shotView.bounds];
+            [self screenShotWithRect:shotView.frame];
         }];
     }
     
-    [self screenShotWithRect:shotView.bounds];
+    [self screenShotWithRect:shotView.frame];
     
     NSArray *subArr = _headViewFrm.headViewDatasource.subArr;
     
@@ -237,7 +237,14 @@
     backgroupView.frame = _headViewFrm.backgroundViewFrm;
     imgView.frame = _headViewFrm.imgFrm;
     titleLab.frame = _headViewFrm.titleLabFrm;
-    shotView.frame = titleLab.frame;
+    
+    CGRect rect = titleLab.frame;
+    rect.origin.x = rect.origin.x + 2;
+    rect.origin.y = rect.origin.y + 2;
+    rect.size.height = rect.size.height - 12;
+    rect.size.width = rect.size.width - 12;
+    
+    shotView.frame = rect;
     
     sourceView_1.frame = _headViewFrm.sourceView_1;
     sourceView_2.frame = _headViewFrm.sourceView_2;
@@ -332,6 +339,7 @@
 //    UIGraphicsBeginImageContextWithOptions(CGSizeMake(640, 960), YES, 0);
     UIGraphicsBeginImageContextWithOptions(self.contentView.frame.size, YES, 1);
     [[imgView layer] renderInContext:UIGraphicsGetCurrentContext()];
+//    [[self.contentView layer] renderInContext:UIGraphicsGetCurrentContext()];
     UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     CGImageRef imageRef = viewImage.CGImage;
@@ -356,7 +364,13 @@
     rect.size.height = rect.size.height + 5;
     blurView.frame = rect;
     blurView.targetImage = shotView.image;
-    blurView.blurRadius = 22;
+    
+//    blurView.frame = imgView.frame;
+//    blurView.targetImage = imgView.image;
+    
+//    [blurView setTargetImageFromView:shotView];
+    blurView.blurRadius = 1.56;
+//    blurView.saturationDeltaFactor = .8;
 
     //设置右下圆角
     UIBezierPath *maskPath_Shadow = [UIBezierPath bezierPathWithRoundedRect:blurView.bounds byRoundingCorners:UIRectCornerBottomRight|UIRectCornerTopRight  cornerRadii:CGSizeMake(5, 5)];
