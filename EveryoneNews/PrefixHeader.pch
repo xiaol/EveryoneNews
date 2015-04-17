@@ -33,6 +33,7 @@
 #define kRedirectURI    @"http://sns.whalecloud.com/sina2/callback"
 
 #define kFont           @"STZhongsong"
+//#define kFont           @"STHeiti-Thin"
 
 #define kGreen          @"#EBEDED"
 

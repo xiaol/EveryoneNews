@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		72E38B7BA868266B182567CC /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A0528C26297FAA2C259EF3E /* libPods.a */; };
 		C11CD46D1AC2691400D1D9C8 /* huawen.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C11CD46C1AC268FF00D1D9C8 /* huawen.ttf */; };
+		C12F983D1AE0E4E1003198BA /* NotoSansHans-DemiLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = C1D93BA11AE0E3C6009BF5E1 /* NotoSansHans-DemiLight.otf */; };
 		C13B06511AD631F70010095D /* huanqiuwang.png in Resources */ = {isa = PBXBuildFile; fileRef = C13B06501AD631F70010095D /* huanqiuwang.png */; };
 		C16FA9971ACAFB1F00F85DF8 /* BaiduFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9961ACAFB1F00F85DF8 /* BaiduFrame.m */; };
 		C16FA99A1ACAFB3A00F85DF8 /* BaiduDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9991ACAFB3A00F85DF8 /* BaiduDatasource.m */; };
@@ -290,6 +291,7 @@
 		C1C052C01AC13BE400D6D687 /* YLGIFImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLGIFImage.m; sourceTree = "<group>"; };
 		C1C052C11AC13BE400D6D687 /* YLImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLImageView.h; sourceTree = "<group>"; };
 		C1C052C21AC13BE400D6D687 /* YLImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLImageView.m; sourceTree = "<group>"; };
+		C1D93BA11AE0E3C6009BF5E1 /* NotoSansHans-DemiLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansHans-DemiLight.otf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -348,6 +350,7 @@
 		C11CD46B1AC268F100D1D9C8 /* Font */ = {
 			isa = PBXGroup;
 			children = (
+				C1D93BA11AE0E3C6009BF5E1 /* NotoSansHans-DemiLight.otf */,
 				C11CD46C1AC268FF00D1D9C8 /* huawen.ttf */,
 			);
 			path = Font;
@@ -823,6 +826,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C12F983D1AE0E4E1003198BA /* NotoSansHans-DemiLight.otf in Resources */,
 				C1C009B61AD543DA00F550A4 /* zhonggongwang.png in Resources */,
 				C17F74591ADCC26C00746CDB /* webBack.png in Resources */,
 				C1C009B11AD543DA00F550A4 /* thirty_six_ke.png in Resources */,
