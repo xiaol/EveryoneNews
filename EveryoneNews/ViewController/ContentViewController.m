@@ -15,6 +15,7 @@
 #import "ZhihuCell.h"
 #import "DoubanCell.h"
 #import "WeiboCell.h"
+#import "AbsCell.h"
 
 #import "UIColor+HexToRGB.h"
 #import "UIImageView+WebCache.h"
@@ -202,11 +203,21 @@
 {
     NSDictionary *dict = resourceArr[indexPath.row];
 
-    if ([dict.allKeys[0] isEqualToString:@"FTText"]){
+    if ([dict.allKeys[0] isEqualToString:@"abs"]){
+//        FTCoreTextCell *cell = (FTCoreTextCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
+//        CGFloat height = cell.cellH;
+//        return height;
+        AbsCell *cell = (AbsCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
+        CGFloat height = cell.cellH;
+        return height;
+    }
+    else if ([dict.allKeys[0] isEqualToString:@"FTText"]){
         FTCoreTextCell *cell = (FTCoreTextCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
         CGFloat height = cell.cellH;
         return height;
-    } else if ([dict.allKeys[0] isEqualToString:@"baike"]){
+    }
+    
+    else if ([dict.allKeys[0] isEqualToString:@"baike"]){
         BaiduCell *cell = (BaiduCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
         return cell.baiduFrm.cellH;
     } else if ([dict.allKeys[0] isEqualToString:@"zhihu"]){
@@ -235,6 +246,18 @@
         cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
         cell.contentCellFrm = dict[type];
         return cell;
+    }
+    else if ([type isEqualToString:@"abs"])
+    {
+        static NSString *cellId = @"abs";
+        
+        AbsCell *cell = [[AbsCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        //自定义UITableViewCell选中后的背景颜色和背景图片
+        cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
+        cell.absDatasource = dict[type];
+        return cell;
+        
     }
     else if ([type isEqualToString:@"FTText"])
     {
@@ -376,6 +399,9 @@
     titleLab.numberOfLines = 2;
     
     CGFloat titleLabX = 20;
+    if ([UIScreen mainScreen].bounds.size.width > 320) {
+        titleLabX = 40;
+    }
     CGFloat titleW = imgW - 2 * titleLabX;
 
     CGSize nameSize = [AutoLabelSize autoLabSizeWithStr:_titleStr Fontsize:18 SizeW:titleW SizeH:0];
@@ -411,31 +437,33 @@
     hotLab.text = self.rootClass;
     [backView addSubview:hotLab];
     
-    CGFloat leftMarkY = 25 + CGRectGetMaxY(updateTimeLab.frame);
-    UIImageView *leftMark = [[UIImageView alloc] initWithFrame:CGRectMake(titleLabX, leftMarkY, 11, 15)];
-    leftMark.image = [UIImage imageNamed:@"leftMark.png"];
-    [backView addSubview:leftMark];
+//    CGFloat leftMarkY = 25 + CGRectGetMaxY(updateTimeLab.frame);
+//    UIImageView *leftMark = [[UIImageView alloc] initWithFrame:CGRectMake(titleLabX, leftMarkY, 11, 15)];
+//    leftMark.image = [UIImage imageNamed:@"leftMark.png"];
+//    [backView addSubview:leftMark];
+//    
+//    CGFloat bigTitleY = leftMarkY + 12.5;
+//    CGFloat bigTitleX = titleLabX + 14;
+//    CGFloat bigTitleW = imgW - 1.8 * bigTitleX;
+//    
+//    nameSize = [AutoLabelSize autoLabSizeWithStr:_titleStr Fontsize:16 SizeW:bigTitleW SizeH:0];
+//    
+//    UILabel *bigTitle = [[UILabel alloc] initWithFrame:CGRectMake(bigTitleX, bigTitleY, bigTitleW, nameSize.height)];
+//    bigTitle.font = [UIFont fontWithName:kFont size:16];
+//    bigTitle.textColor = [UIColor blackColor];
+//    bigTitle.numberOfLines = 2;
+//    bigTitle.text = _titleStr;
+//    [backView addSubview:bigTitle];
+//    
+//    CGFloat rightMarkY = CGRectGetMaxY(bigTitle.frame);
+//    CGFloat rightMarkX = CGRectGetMaxX(titleLab.frame) - 15;
+//    UIImageView *rightMark = [[UIImageView alloc] initWithFrame:CGRectMake(rightMarkX, rightMarkY, 11, 15)];
+//    rightMark.image = [UIImage imageNamed:@"rightMark.png"];
+//    [backView addSubview:rightMark];
+//    
+//    CGFloat backViewH = CGRectGetMaxY(rightMark.frame) + 25;
     
-    CGFloat bigTitleY = leftMarkY + 12.5;
-    CGFloat bigTitleX = titleLabX + 14;
-    CGFloat bigTitleW = imgW - 1.8 * bigTitleX;
-    
-    nameSize = [AutoLabelSize autoLabSizeWithStr:_titleStr Fontsize:16 SizeW:bigTitleW SizeH:0];
-    
-    UILabel *bigTitle = [[UILabel alloc] initWithFrame:CGRectMake(bigTitleX, bigTitleY, bigTitleW, nameSize.height)];
-    bigTitle.font = [UIFont fontWithName:kFont size:16];
-    bigTitle.textColor = [UIColor blackColor];
-    bigTitle.numberOfLines = 2;
-    bigTitle.text = _titleStr;
-    [backView addSubview:bigTitle];
-    
-    CGFloat rightMarkY = CGRectGetMaxY(bigTitle.frame);
-    CGFloat rightMarkX = CGRectGetMaxX(titleLab.frame) - 15;
-    UIImageView *rightMark = [[UIImageView alloc] initWithFrame:CGRectMake(rightMarkX, rightMarkY, 11, 15)];
-    rightMark.image = [UIImage imageNamed:@"rightMark.png"];
-    [backView addSubview:rightMark];
-    
-    CGFloat backViewH = CGRectGetMaxY(rightMark.frame) + 25;
+    CGFloat backViewH = CGRectGetMaxY(hotLab.frame) + 25;
     
     backView.frame = CGRectMake(0, 0, imgW, backViewH);
     
@@ -464,6 +492,12 @@
 - (void)convertToDetailModel:(NSDictionary *)resultDic
 {
     resourceArr = [[NSMutableArray alloc] init];
+    
+    NSString *absStr = resultDic[@"abs"];
+    if (![self isBlankString:absStr]) {
+        AbsDatasource *absData = [AbsDatasource absDatasourceWithStr:absStr];
+        [self putToResourceArr:absData Method:@"abs"];
+    }
     
     NSString *string = resultDic[@"content"];
 

@@ -10,6 +10,8 @@
 		72E38B7BA868266B182567CC /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A0528C26297FAA2C259EF3E /* libPods.a */; };
 		C11CD46D1AC2691400D1D9C8 /* huawen.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C11CD46C1AC268FF00D1D9C8 /* huawen.ttf */; };
 		C12F983D1AE0E4E1003198BA /* NotoSansHans-DemiLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = C1D93BA11AE0E3C6009BF5E1 /* NotoSansHans-DemiLight.otf */; };
+		C12F98441AE128E7003198BA /* AbsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C12F98431AE128E7003198BA /* AbsCell.m */; };
+		C12F98471AE12908003198BA /* AbsDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = C12F98461AE12908003198BA /* AbsDatasource.m */; };
 		C13B06511AD631F70010095D /* huanqiuwang.png in Resources */ = {isa = PBXBuildFile; fileRef = C13B06501AD631F70010095D /* huanqiuwang.png */; };
 		C16FA9971ACAFB1F00F85DF8 /* BaiduFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9961ACAFB1F00F85DF8 /* BaiduFrame.m */; };
 		C16FA99A1ACAFB3A00F85DF8 /* BaiduDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9991ACAFB3A00F85DF8 /* BaiduDatasource.m */; };
@@ -135,6 +137,10 @@
 		9FE9000300DFA499AE8DDD92 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		C11CD46C1AC268FF00D1D9C8 /* huawen.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = huawen.ttf; sourceTree = "<group>"; };
 		C11CD46E1AC2699700D1D9C8 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		C12F98421AE128E7003198BA /* AbsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbsCell.h; sourceTree = "<group>"; };
+		C12F98431AE128E7003198BA /* AbsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbsCell.m; sourceTree = "<group>"; };
+		C12F98451AE12908003198BA /* AbsDatasource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbsDatasource.h; sourceTree = "<group>"; };
+		C12F98461AE12908003198BA /* AbsDatasource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbsDatasource.m; sourceTree = "<group>"; };
 		C13B06501AD631F70010095D /* huanqiuwang.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = huanqiuwang.png; sourceTree = "<group>"; };
 		C16FA9951ACAFB1F00F85DF8 /* BaiduFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiduFrame.h; sourceTree = "<group>"; };
 		C16FA9961ACAFB1F00F85DF8 /* BaiduFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaiduFrame.m; sourceTree = "<group>"; };
@@ -354,6 +360,17 @@
 				C11CD46C1AC268FF00D1D9C8 /* huawen.ttf */,
 			);
 			path = Font;
+			sourceTree = "<group>";
+		};
+		C12F98411AE128CA003198BA /* AbsCell */ = {
+			isa = PBXGroup;
+			children = (
+				C12F98421AE128E7003198BA /* AbsCell.h */,
+				C12F98431AE128E7003198BA /* AbsCell.m */,
+				C12F98451AE12908003198BA /* AbsDatasource.h */,
+				C12F98461AE12908003198BA /* AbsDatasource.m */,
+			);
+			path = AbsCell;
 			sourceTree = "<group>";
 		};
 		C16FA9941ACAFAC900F85DF8 /* BaiduCell */ = {
@@ -652,6 +669,7 @@
 		C1C052801AC139A200D6D687 /* ContentCells */ = {
 			isa = PBXGroup;
 			children = (
+				C12F98411AE128CA003198BA /* AbsCell */,
 				C16FA9B21ACBD47600F85DF8 /* Weibo */,
 				C16FA9A91ACBA70A00F85DF8 /* Douban */,
 				C16FA9A01ACB9BFF00F85DF8 /* Zhihu */,
@@ -948,6 +966,7 @@
 				C19549E81ADF71F40008FC36 /* DMPagingScrollView.m in Sources */,
 				C18F951F1ACA506400A46502 /* TMQuiltViewCell.m in Sources */,
 				C16FA99A1ACAFB3A00F85DF8 /* BaiduDatasource.m in Sources */,
+				C12F98471AE12908003198BA /* AbsDatasource.m in Sources */,
 				C1C0525A1AC0007800D6D687 /* KDNavigationController.m in Sources */,
 				C1C052941AC139D800D6D687 /* FTCoreTextCell.m in Sources */,
 				C1C052BB1AC13BDB00D6D687 /* UIScrollView+MJExtension.m in Sources */,
@@ -958,6 +977,7 @@
 				C16FA9AC1ACBA71A00F85DF8 /* DoubanDatasource.m in Sources */,
 				C1C052591AC0007800D6D687 /* BaseViewController.m in Sources */,
 				C1C0528A1AC139B900D6D687 /* ContentDatasource.m in Sources */,
+				C12F98441AE128E7003198BA /* AbsCell.m in Sources */,
 				C1C052891AC139B900D6D687 /* ContentCellFrame.m in Sources */,
 				C1C052751AC1385800D6D687 /* ContentViewController.m in Sources */,
 				C1C052341ABFFC1600D6D687 /* AppDelegate.m in Sources */,

@@ -64,7 +64,7 @@
     defaultStyle.textAlignment = FTCoreTextAlignementJustified;
     defaultStyle.paragraphInset = UIEdgeInsetsMake(14, 0, 14, 0);
 //    defaultStyle.maxLineHeight = 100;
-    defaultStyle.minLineHeight = 26;
+    defaultStyle.minLineHeight = 18;
     [result addObject:defaultStyle];
     
     return  result;
@@ -72,6 +72,10 @@
 - (CGRect)setTextViewFrm
 {
     CGFloat txtX = 20;
+    if ([UIScreen mainScreen].bounds.size.width > 320) {
+        txtX = 40;
+    }
+    
     CGFloat txtY = 0;
     CGFloat width = [UIScreen mainScreen].bounds.size.width - 2 * txtX;
     CGRect frm = CGRectMake(txtX, txtY, width, 0);

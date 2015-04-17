@@ -45,6 +45,8 @@
     
     UIImageView *shotView;
     
+    UILabel *categoryLab;
+    
     GRKBlurView *blurView;
 
 }
@@ -60,11 +62,16 @@
         imgView = [[UIImageView alloc] init];
         imgView.contentMode = UIViewContentModeScaleAspectFill;
         imgView.clipsToBounds = YES;
+        imgView.backgroundColor = [UIColor grayColor];
         [backgroupView addSubview:imgView];
         
+        categoryLab = [[UILabel alloc] init];
+        categoryLab.font = [UIFont fontWithName:kFont size:15];
+        categoryLab.textAlignment = NSTextAlignmentCenter;
+        
+        [imgView addSubview:categoryLab];
        
         shotView = [[UIImageView alloc] init];
-//        shotView.contentMode = UIViewContentModeScaleAspectFit;
         shotView.clipsToBounds = YES;
         [backgroupView addSubview:shotView];
         
@@ -153,19 +160,63 @@
     titleLab.text = _headViewFrm.headViewDatasource.titleStr;
     
     if ([self isBlankString:_headViewFrm.headViewDatasource.imgStr]) {
-        imgView.image = [UIImage imageNamed:@"demo_1.png"];
-//        imgView.backgroundColor = [UIColor greenColor];
+//        imgView.image = [UIImage imageNamed:@"demo_1.png"];
+        [self screenShotWithRect:shotView.frame];
+
     } else {
         NSURL *url = [NSURL URLWithString:_headViewFrm.headViewDatasource.imgStr];
         
-        [imgView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"demo_1.png"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        [imgView sd_setImageWithURL:url placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                     imgView.image = [ScaleImage scaleImage:imgView.image size:_headViewFrm.imgFrm.size];
             
             [self screenShotWithRect:shotView.frame];
         }];
     }
+//    [self screenShotWithRect:shotView.frame];
     
-    [self screenShotWithRect:shotView.frame];
+    //分类
+    NSString *categoryStr = _headViewFrm.headViewDatasource.categoryStr;
+    if ([self isBlankString:categoryStr]) {
+        categoryLab.hidden = YES;
+    } else {
+        if ([categoryStr isEqualToString:@"焦点"]) {
+            categoryLab.backgroundColor = [UIColor colorFromHexString:@"#FF4341"];
+        }
+        else if ([categoryStr isEqualToString:@"国际"]) {
+            categoryLab.backgroundColor = [UIColor colorFromHexString:@"#007fff"];
+        }
+        else if ([categoryStr isEqualToString:@"港台"]) {
+            categoryLab.backgroundColor = [UIColor colorFromHexString:@"#726bf8"];
+        }
+        else if ([categoryStr isEqualToString:@"内地"]) {
+            categoryLab.backgroundColor = [UIColor colorFromHexString:@"#18a68b"];
+        }
+        else if ([categoryStr isEqualToString:@"财经"]) {
+            categoryLab.backgroundColor = [UIColor colorFromHexString:@"#32bfcd"];
+        }
+        else if ([categoryStr isEqualToString:@"娱乐"]) {
+            categoryLab.backgroundColor = [UIColor colorFromHexString:@"#ff7272"];
+        }
+        else if ([categoryStr isEqualToString:@"科技"]) {
+            categoryLab.backgroundColor = [UIColor colorFromHexString:@"#007FFF"];
+        }
+        else if ([categoryStr isEqualToString:@"体育"]) {
+            categoryLab.backgroundColor = [UIColor colorFromHexString:@"#df8145"];
+        }
+        else if ([categoryStr isEqualToString:@"社会"]) {
+            categoryLab.backgroundColor = [UIColor colorFromHexString:@"#00b285"];
+        }
+        else if ([categoryStr isEqualToString:@"国内"]) {
+            categoryLab.backgroundColor = [UIColor colorFromHexString:@"#726bf8"];
+        }
+        categoryLab.text = categoryStr;
+        categoryLab.textColor = [UIColor whiteColor];
+        UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:categoryLab.bounds byRoundingCorners:UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii:CGSizeMake(2, 2)];
+        CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+        maskLayer.frame = categoryLab.bounds;
+        maskLayer.path = maskPath.CGPath;
+        categoryLab.layer.mask = maskLayer;
+    }
     
     NSArray *subArr = _headViewFrm.headViewDatasource.subArr;
     
@@ -236,13 +287,15 @@
 {
     backgroupView.frame = _headViewFrm.backgroundViewFrm;
     imgView.frame = _headViewFrm.imgFrm;
+    categoryLab.frame = _headViewFrm.categoryFrm;
     titleLab.frame = _headViewFrm.titleLabFrm;
     
     CGRect rect = titleLab.frame;
-    rect.origin.x = rect.origin.x + 2;
+//    rect.origin.x = rect.origin.x;
+    rect.origin.x = rect.origin.x - 12;
     rect.origin.y = rect.origin.y + 2;
-    rect.size.height = rect.size.height - 12;
-    rect.size.width = rect.size.width - 12;
+//    rect.size.height = rect.size.height - 12;
+    rect.size.width = rect.size.width + 12 * 2;
     
     shotView.frame = rect;
     
@@ -336,7 +389,13 @@
 #pragma mark screenShot
 -(void)screenShotWithRect:(CGRect)rect {
     
-//    UIGraphicsBeginImageContextWithOptions(CGSizeMake(640, 960), YES, 0);
+    rect.origin.x = 0;
+    if ([UIScreen mainScreen].bounds.size.width > 320) {
+        rect.origin.y = rect.origin.y - 8;
+    }
+    
+    
+//    UIGraphicsBeginImageContextWithOptions(imgView.frame.size, YES, 1);
     UIGraphicsBeginImageContextWithOptions(self.contentView.frame.size, YES, 1);
     [[imgView layer] renderInContext:UIGraphicsGetCurrentContext()];
 //    [[self.contentView layer] renderInContext:UIGraphicsGetCurrentContext()];
@@ -351,6 +410,13 @@
     
     CGImageRelease(imageRefRect);
     
+    //设置右下圆角
+    UIBezierPath *maskPath_Shadow = [UIBezierPath bezierPathWithRoundedRect:shotView.bounds byRoundingCorners:UIRectCornerBottomRight|UIRectCornerTopRight  cornerRadii:CGSizeMake(5, 5)];
+    CAShapeLayer *maskLayer_Shadow = [[CAShapeLayer alloc] init];
+    maskLayer_Shadow.frame = shotView.bounds;
+    maskLayer_Shadow.path = maskPath_Shadow.CGPath;
+    shotView.layer.mask = maskLayer_Shadow;
+    
     [self setBlurView];
     
 }
@@ -359,19 +425,14 @@
 - (void)setBlurView
 {
     CGRect rect = shotView.frame;
-    rect.origin.x = rect.origin.x - 12;
-    rect.size.width = rect.size.width + 10 + 12;
-    rect.size.height = rect.size.height + 5 + 5;
+//    rect.origin.x = rect.origin.x - 12;
+//    rect.size.width = rect.size.width + 10 + 12;
+//    rect.size.height = rect.size.height + 5 + 5;
     blurView.frame = rect;
     blurView.targetImage = shotView.image;
-    
-//    blurView.frame = imgView.frame;
-//    blurView.targetImage = imgView.image;
-    
-//    [blurView setTargetImageFromView:shotView];
+
     blurView.blurRadius = 15.56;
     blurView.alpha = 0.9;
-
 
     //设置右下圆角
     UIBezierPath *maskPath_Shadow = [UIBezierPath bezierPathWithRoundedRect:blurView.bounds byRoundingCorners:UIRectCornerBottomRight|UIRectCornerTopRight  cornerRadii:CGSizeMake(5, 5)];
@@ -390,7 +451,7 @@
     sourceName.frame = rect;
     
     CGFloat titleX = CGRectGetMaxX(rect);
-    CGFloat titleW = [UIScreen mainScreen].bounds.size.width - titleX - 16;
+    CGFloat titleW = [UIScreen mainScreen].bounds.size.width - titleX - 16 * 2;
     rect = sourceTitle.frame;
     rect.size.width = titleW;
     rect.origin.x = titleX;
@@ -406,7 +467,7 @@
     [sourceView addSubview:sourceIcon];
     
     sourceTitle.font = [UIFont fontWithName:kFont size:kTitleFont];
-    sourceTitle.textColor = [UIColor blackColor];
+    sourceTitle.textColor = [UIColor colorFromHexString:@"#787878"];
     sourceTitle.backgroundColor = [UIColor clearColor];
     sourceTitle.lineBreakMode = NSLineBreakByWordWrapping;
     [sourceView addSubview:sourceTitle];
@@ -519,5 +580,12 @@
             sourceIcon.image = [UIImage imageNamed:@"other.png"];
         }
     }
-    }
+}
+
+//- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+//    [super setSelected:selected animated:animated];
+//    
+//    // Configure the view for the selected state
+////    [self screenShotWithRect:shotView.frame];
+//}
 @end

@@ -28,6 +28,7 @@
         _updateTime = dict[@"updateTime"];
         _sourceSiteName = dict[@"sourceSiteName"];
         _rootClass = dict[@"root_class"];
+        _categoryStr = dict[@"category"];
         
 //        NSLog(@"imgStr:%@ \n       sourceUrl:%@ \n      titleStr:%@ \n", _imgStr, _sourceUrl, _titleStr);
 //        NSLog(@"subArr:%@", _subArr);

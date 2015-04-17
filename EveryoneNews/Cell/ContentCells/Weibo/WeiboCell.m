@@ -30,7 +30,7 @@
         baseView.backgroundColor = [UIColor colorFromHexString:kGreen];
         [self.contentView addSubview:baseView];
         
-        scrollView = [[DMPagingScrollView alloc] initWithFrame:CGRectMake(0, 0, screenW, 150)];
+        scrollView = [[DMPagingScrollView alloc] initWithFrame:CGRectMake(0, 0, screenW, 160)];
         scrollView.backgroundColor = [UIColor whiteColor];
         [self.contentView addSubview:scrollView];
         _cellH = CGRectGetMaxY(baseView.frame);
@@ -54,7 +54,7 @@
     
     CGFloat bolder = 14.0;
     CGFloat weiboW = 195;
-    CGFloat weiboH = 127;
+    CGFloat weiboH = 137;
     CGFloat weiboX = bolder;
     
     for (int i = 0; i < _weiboDatasource.weiboArr.count; i++) {
@@ -147,6 +147,9 @@
     userTitleLab.textColor = [UIColor colorFromHexString:@"#7f7f7f"];
     userTitleLab.numberOfLines = 0;
     userTitleLab.textAlignment = NSTextAlignmentLeft;
+    
+
+    
     [backView addSubview:userTitleLab];
     
     UIButton *btn = [[UIButton alloc] initWithFrame:backView.bounds];

@@ -34,6 +34,8 @@
 
 @property (nonatomic, assign, readonly) CGRect cutBlockFrm;
 
+@property (nonatomic, assign, readonly) CGRect categoryFrm;
+
 @property (nonatomic, assign)CGFloat cellH;
 
 @property (nonatomic, strong)HeadViewDatasource *headViewDatasource;

@@ -30,6 +30,8 @@
 
 @property (nonatomic, copy) NSString *rootClass;
 
+@property (nonatomic, copy) NSString *categoryStr;
+
 +(id)headViewDatasourceWithDict:(NSDictionary *)dict;
 
 @end
