@@ -361,7 +361,7 @@
     CGRect rect = shotView.frame;
     rect.origin.x = rect.origin.x - 12;
     rect.size.width = rect.size.width + 10 + 12;
-    rect.size.height = rect.size.height + 5;
+    rect.size.height = rect.size.height + 5 + 5;
     blurView.frame = rect;
     blurView.targetImage = shotView.image;
     
@@ -369,7 +369,8 @@
 //    blurView.targetImage = imgView.image;
     
 //    [blurView setTargetImageFromView:shotView];
-    blurView.blurRadius = 1.56;
+    blurView.blurRadius = 15.56;
+    blurView.alpha = 0.9;
 //    blurView.saturationDeltaFactor = .8;
 
     //设置右下圆角
