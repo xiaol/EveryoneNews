@@ -371,7 +371,7 @@
 //    [blurView setTargetImageFromView:shotView];
     blurView.blurRadius = 15.56;
     blurView.alpha = 0.9;
-//    blurView.saturationDeltaFactor = .8;
+
 
     //设置右下圆角
     UIBezierPath *maskPath_Shadow = [UIBezierPath bezierPathWithRoundedRect:blurView.bounds byRoundingCorners:UIRectCornerBottomRight|UIRectCornerTopRight  cornerRadii:CGSizeMake(5, 5)];
