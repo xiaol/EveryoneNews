@@ -32,8 +32,8 @@
 #define kAppKey         @"104745354"
 #define kRedirectURI    @"http://sns.whalecloud.com/sina2/callback"
 
-#define kFont           @"STZhongsong"
-//#define kFont           @"STHeiti-Thin"
+//#define kFont           @"STZhongsong"
+#define kFont           @"Noto Sans S Chinese"
 
 #define kGreen          @"#EBEDED"
 
