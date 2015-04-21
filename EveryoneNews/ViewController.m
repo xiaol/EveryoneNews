@@ -19,6 +19,11 @@
     NSMutableArray *dataArr;
     int page;
     BOOL isRefreshing;
+    
+    NSInteger hasLoad;
+    NSInteger rat;
+    
+    NSMutableArray *indexPahtsArr;
 }
 
 @end
@@ -48,11 +53,15 @@
     dataArr = [[NSMutableArray alloc] init];
     page = 1;
     isRefreshing = YES;
+    hasLoad = 0;
+    indexPahtsArr = [[NSMutableArray alloc] init];
     
     [self tableViewInit];
     [self setupRefresh];
 
     [self followRollingScrollView:myTableView];
+    
+    [self getRequest:[NSString stringWithFormat:@"%@%@", kServerIP, kFetchHome]];
 }
 
 - (void)tableViewInit
@@ -82,9 +91,21 @@
 
 - (void)headerRefresh
 {
+    [myTableView headerEndRefreshing];
+    
     isRefreshing = YES;
-   [self getRequest:[NSString stringWithFormat:@"%@%@", kServerIP, kFetchHome]];
+    
+    if (hasLoad != dataArr.count || hasLoad == 0) {
+        hasLoad++;
+    }
+
+    rat = hasLoad - 1;
+    
+    [myTableView reloadData];
+   
+//   [self getRequest:[NSString stringWithFormat:@"%@%@", kServerIP, kFetchHome]];
 }
+
 
 - (void)footerRefresh
 {
@@ -99,7 +120,8 @@
 {
 
     if (dataArr != nil && ![dataArr isKindOfClass:[NSNull class]] && dataArr.count != 0) {
-        return dataArr.count;
+//        return dataArr.count;
+        return hasLoad;
     } else {
         return 0;
     }
@@ -127,7 +149,25 @@
         cell.delegate = self;
     }
 
-    cell.headViewFrm = dataArr[indexPath.row];
+    
+//    if (![indexPahtsArr containsObject:indexPath]) {
+//        
+//        cell.shutDown = YES;
+//        
+//        [indexPahtsArr addObject:indexPath];
+//    }
+    if (indexPath.row == 0) {
+        cell.contentView.alpha = 0;
+        [UIView animateWithDuration:1 animations:^{
+            cell.contentView.alpha = 1;
+        }];
+    }
+    
+    cell.headViewFrm = dataArr[rat - indexPath.row];
+//    cell.contentView.alpha = 0;
+//    [UIView animateWithDuration:1 animations:^{
+//        cell.contentView.alpha = 1;
+//    }];
     
     return cell;
 }
@@ -186,6 +226,13 @@
     [myTableView headerEndRefreshing];
     [myTableView footerEndRefreshing];
 }
+
+
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    NSLog(@"%@", indexPath);
+//}
+
 
 
 @end

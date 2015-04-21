@@ -48,6 +48,7 @@
     UILabel *categoryLab;
     
     GRKBlurView *blurView;
+//    BOOL firstLoad;
 
 }
 
@@ -57,6 +58,7 @@
         backgroupView = [[UIView alloc] init];
         backgroupView.backgroundColor = [UIColor colorFromHexString:@"#EBEDED"];
         backgroupView.backgroundColor = [UIColor whiteColor];
+        
         [self.contentView addSubview:backgroupView];
         
         imgView = [[UIImageView alloc] init];
@@ -131,19 +133,15 @@
         aspect.textAlignment = NSTextAlignmentRight;
         [backgroupView addSubview:aspect];
         
-        
         cutBlock = [[UIView alloc] init];
         cutBlock.backgroundColor = [UIColor colorFromHexString:@"#EBEDED"];
         [backgroupView addSubview:cutBlock];
         
         showBtn = [[UIButton alloc] init];
-//        showBtn.backgroundColor = [UIColor blackColor];
         showBtn.backgroundColor = [UIColor clearColor];
-//        showBtn.alpha = 0.2;
         [showBtn addTarget:self action:@selector(showBtnClick) forControlEvents:UIControlEventTouchUpInside];
         [backgroupView addSubview:showBtn];
     }
-    
     return self;
 }
 
@@ -153,6 +151,20 @@
     
     [self settingSubviewFrame];
     [self settingData];
+    
+    if (_shutDown) {
+        [self showCell];
+    }
+}
+
+- (void)showCell
+{
+    self.contentView.alpha = 0;
+    [UIView animateWithDuration:1 animations:^{
+        self.contentView.alpha = 1;
+    }];
+    _shutDown = NO;
+
 }
 
 - (void)settingData
@@ -160,7 +172,6 @@
     titleLab.text = _headViewFrm.headViewDatasource.titleStr;
     
     if ([self isBlankString:_headViewFrm.headViewDatasource.imgStr]) {
-//        imgView.image = [UIImage imageNamed:@"demo_1.png"];
         [self screenShotWithRect:shotView.frame];
 
     } else {
@@ -172,7 +183,6 @@
             [self screenShotWithRect:shotView.frame];
         }];
     }
-//    [self screenShotWithRect:shotView.frame];
     
     //分类
     NSString *categoryStr = _headViewFrm.headViewDatasource.categoryStr;
@@ -242,14 +252,12 @@
         
         sourceTitle_1.text = sourceTitle[0];
         sourceName_1.text = [NSString stringWithFormat:@"%@:", sourceName[0]];
-//        NSLog(@"title:%@", sourceTitle_1.text);
         [self setSourceIcon:sourceIcon_1 SourceSiteName:sourceSiteNames[0]];
         [self setRelateNewsWithSourceTitle:sourceTitle_1 SourceName:sourceName_1];
         
         if (sourceTitle.count >= 2) {
             sourceTitle_2.text = sourceTitle[1];
             sourceName_2.text = [NSString stringWithFormat:@"%@:", sourceName[1]];
-//            NSLog(@"title:%@", sourceTitle_2.text);
             [self setSourceIcon:sourceIcon_2 SourceSiteName:sourceSiteNames[1]];
             [self setRelateNewsWithSourceTitle:sourceTitle_2 SourceName:sourceName_2];
         }
@@ -257,7 +265,6 @@
         if (sourceTitle.count >= 3) {
             sourceTitle_3.text = sourceTitle[2];
             sourceName_3.text = [NSString stringWithFormat:@"%@:", sourceName[2]];
-//            NSLog(@"title:%@", sourceTitle_3.text);
             [self setSourceIcon:sourceIcon_3 SourceSiteName:sourceSiteNames[2]];
             [self setRelateNewsWithSourceTitle:sourceTitle_3 SourceName:sourceName_3];
         }
@@ -291,10 +298,8 @@
     titleLab.frame = _headViewFrm.titleLabFrm;
     
     CGRect rect = titleLab.frame;
-//    rect.origin.x = rect.origin.x;
     rect.origin.x = rect.origin.x - 12;
     rect.origin.y = rect.origin.y + 2;
-//    rect.size.height = rect.size.height - 12;
     rect.size.width = rect.size.width + 12 * 2;
     
     shotView.frame = rect;
@@ -353,7 +358,6 @@
     }
 
     cutBlock.frame = _headViewFrm.cutBlockFrm;
-//    showBtn.frame = imgView.frame;
     showBtn.frame = _headViewFrm.backgroundViewFrm;
 }
 
@@ -425,9 +429,6 @@
 - (void)setBlurView
 {
     CGRect rect = shotView.frame;
-//    rect.origin.x = rect.origin.x - 12;
-//    rect.size.width = rect.size.width + 10 + 12;
-//    rect.size.height = rect.size.height + 5 + 5;
     blurView.frame = rect;
     blurView.targetImage = shotView.image;
 
@@ -585,7 +586,12 @@
 //- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
 //    [super setSelected:selected animated:animated];
 //    
-//    // Configure the view for the selected state
-////    [self screenShotWithRect:shotView.frame];
+//    if (!firstLoad) {
+//        [UIView animateWithDuration:1 animations:^{
+//            self.contentView.alpha = 1;
+//        }];
+//        firstLoad = YES;
+//    }
+//    
 //}
 @end

@@ -30,5 +30,8 @@
 
 @property (nonatomic, strong)id<HeadViewDelegate>delegate;
 
+@property (nonatomic, assign) BOOL shutDown;
+
+
 
 @end
