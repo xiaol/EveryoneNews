@@ -259,16 +259,16 @@
     for (NSDictionary *dict in resultDic) {
         
         NSString * special = [NSString stringWithFormat:@"1%@", dict[@"special"]];
-        NSLog(@"what is this:%@", dict[@"special"]);
-        if ([special isEqualToString:@"11"]) {
-            NSLog(@"------ 图片 ----------");
-            BigImgFrm *bigImgFrm = [[BigImgFrm alloc] init];
-            bigImgFrm.bigImgDatasource = [BigImgDatasource bigImgDatasourceWithDict:dict];
-            [self putToResourceArr:bigImgFrm Method:@"bigImg"];
-        } else {
+
+        if (![special isEqualToString:@"11"]) {
             HeadViewFrame *headViewFrm = [[HeadViewFrame alloc] init];
             headViewFrm.headViewDatasource = [HeadViewDatasource headViewDatasourceWithDict:dict];
             [self putToResourceArr:headViewFrm Method:@"headView"];
+
+        } else {
+            BigImgFrm *bigImgFrm = [[BigImgFrm alloc] init];
+            bigImgFrm.bigImgDatasource = [BigImgDatasource bigImgDatasourceWithDict:dict];
+            [self putToResourceArr:bigImgFrm Method:@"bigImg"];
 
         }
         
@@ -283,7 +283,8 @@
 - (void)putToResourceArr:(id)resource Method:(NSString *)method
 {
     NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:resource, method, nil];
-    [dataArr addObject:dict];
+//    [dataArr addObject:dict];
+    [dataArr insertObject:dict atIndex:0];
 }
 
 
