@@ -65,6 +65,7 @@
         cutY = CGRectGetMaxY(_bottonView);
     } else {
 //        _bottonView = CGRectMake(0, CGRectGetMaxY(_sourceView_3), backViewW, 40);
+        _aspectFrm = CGRectMake(0, 0, 0, 0);
         cutY = CGRectGetMaxY(_sourceView_3);
     }
     

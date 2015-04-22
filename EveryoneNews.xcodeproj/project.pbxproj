@@ -54,6 +54,11 @@
 		C19712381AC3DE480024B12E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C19712371AC3DE480024B12E /* libz.dylib */; };
 		C197123A1AC3DE530024B12E /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C19712391AC3DE530024B12E /* libstdc++.dylib */; };
 		C197123C1AC3DE5F0024B12E /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C197123B1AC3DE5F0024B12E /* libiconv.dylib */; };
+		C1B76B681AE63C0D0039FCB3 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = C1B76B671AE63C0D0039FCB3 /* arrow.png */; };
+		C1B76B6D1AE643B60039FCB3 /* BigImgDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = C1B76B6C1AE643B60039FCB3 /* BigImgDatasource.m */; };
+		C1B76B701AE643C70039FCB3 /* BigImgFrm.m in Sources */ = {isa = PBXBuildFile; fileRef = C1B76B6F1AE643C70039FCB3 /* BigImgFrm.m */; };
+		C1B76B731AE643E90039FCB3 /* BigImgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C1B76B721AE643E90039FCB3 /* BigImgCell.m */; };
+		C1B76B761AE779BD0039FCB3 /* BaseFeedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C1B76B751AE779BD0039FCB3 /* BaseFeedCell.m */; };
 		C1C009481AD3E85400F550A4 /* AutoLabelSize.m in Sources */ = {isa = PBXBuildFile; fileRef = C1C009471AD3E85400F550A4 /* AutoLabelSize.m */; };
 		C1C0094B1AD5318B00F550A4 /* fenghuangwang.png in Resources */ = {isa = PBXBuildFile; fileRef = C1C0094A1AD5318B00F550A4 /* fenghuangwang.png */; };
 		C1C0094D1AD531EA00F550A4 /* yi.png in Resources */ = {isa = PBXBuildFile; fileRef = C1C0094C1AD531EA00F550A4 /* yi.png */; };
@@ -199,6 +204,15 @@
 		C19712371AC3DE480024B12E /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		C19712391AC3DE530024B12E /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		C197123B1AC3DE5F0024B12E /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
+		C1B76B671AE63C0D0039FCB3 /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
+		C1B76B6B1AE643B60039FCB3 /* BigImgDatasource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BigImgDatasource.h; sourceTree = "<group>"; };
+		C1B76B6C1AE643B60039FCB3 /* BigImgDatasource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BigImgDatasource.m; sourceTree = "<group>"; };
+		C1B76B6E1AE643C70039FCB3 /* BigImgFrm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BigImgFrm.h; sourceTree = "<group>"; };
+		C1B76B6F1AE643C70039FCB3 /* BigImgFrm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BigImgFrm.m; sourceTree = "<group>"; };
+		C1B76B711AE643E90039FCB3 /* BigImgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BigImgCell.h; sourceTree = "<group>"; };
+		C1B76B721AE643E90039FCB3 /* BigImgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BigImgCell.m; sourceTree = "<group>"; };
+		C1B76B741AE779BD0039FCB3 /* BaseFeedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseFeedCell.h; sourceTree = "<group>"; };
+		C1B76B751AE779BD0039FCB3 /* BaseFeedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseFeedCell.m; sourceTree = "<group>"; };
 		C1C009461AD3E85400F550A4 /* AutoLabelSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoLabelSize.h; sourceTree = "<group>"; };
 		C1C009471AD3E85400F550A4 /* AutoLabelSize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoLabelSize.m; sourceTree = "<group>"; };
 		C1C0094A1AD5318B00F550A4 /* fenghuangwang.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fenghuangwang.png; sourceTree = "<group>"; };
@@ -473,6 +487,32 @@
 			path = DMPagingScrollView;
 			sourceTree = "<group>";
 		};
+		C1B76B691AE643740039FCB3 /* Text&ImgCell */ = {
+			isa = PBXGroup;
+			children = (
+				C1C0525D1AC0058900D6D687 /* HeadViewCell.h */,
+				C1C0525E1AC0058900D6D687 /* HeadViewCell.m */,
+				C1C052601AC005C400D6D687 /* HeadViewDatasource.h */,
+				C1C052611AC005C400D6D687 /* HeadViewDatasource.m */,
+				C1C052631AC005D500D6D687 /* HeadViewFrame.h */,
+				C1C052641AC005D500D6D687 /* HeadViewFrame.m */,
+			);
+			name = "Text&ImgCell";
+			sourceTree = "<group>";
+		};
+		C1B76B6A1AE643980039FCB3 /* BigImgCell */ = {
+			isa = PBXGroup;
+			children = (
+				C1B76B6B1AE643B60039FCB3 /* BigImgDatasource.h */,
+				C1B76B6C1AE643B60039FCB3 /* BigImgDatasource.m */,
+				C1B76B6E1AE643C70039FCB3 /* BigImgFrm.h */,
+				C1B76B6F1AE643C70039FCB3 /* BigImgFrm.m */,
+				C1B76B711AE643E90039FCB3 /* BigImgCell.h */,
+				C1B76B721AE643E90039FCB3 /* BigImgCell.m */,
+			);
+			path = BigImgCell;
+			sourceTree = "<group>";
+		};
 		C1C009491AD530F300F550A4 /* logo */ = {
 			isa = PBXGroup;
 			children = (
@@ -605,12 +645,10 @@
 		C1C0525C1AC0052A00D6D687 /* FeedCell */ = {
 			isa = PBXGroup;
 			children = (
-				C1C0525D1AC0058900D6D687 /* HeadViewCell.h */,
-				C1C0525E1AC0058900D6D687 /* HeadViewCell.m */,
-				C1C052601AC005C400D6D687 /* HeadViewDatasource.h */,
-				C1C052611AC005C400D6D687 /* HeadViewDatasource.m */,
-				C1C052631AC005D500D6D687 /* HeadViewFrame.h */,
-				C1C052641AC005D500D6D687 /* HeadViewFrame.m */,
+				C1B76B6A1AE643980039FCB3 /* BigImgCell */,
+				C1B76B691AE643740039FCB3 /* Text&ImgCell */,
+				C1B76B741AE779BD0039FCB3 /* BaseFeedCell.h */,
+				C1B76B751AE779BD0039FCB3 /* BaseFeedCell.m */,
 			);
 			path = FeedCell;
 			sourceTree = "<group>";
@@ -651,6 +689,7 @@
 				C18F95231ACAA88400A46502 /* ContentVC */,
 				C11CD46B1AC268F100D1D9C8 /* Font */,
 				C17947521ADE66F60080E456 /* demo_1.png */,
+				C1B76B671AE63C0D0039FCB3 /* arrow.png */,
 				C1C052701AC1196200D6D687 /* HeadView */,
 			);
 			path = res;
@@ -854,6 +893,7 @@
 				C17F745F1ADD0A7100746CDB /* share.png in Resources */,
 				C1C009B21AD543DA00F550A4 /* twenty_one_cn.png in Resources */,
 				C1C009B31AD543DA00F550A4 /* xinmin.png in Resources */,
+				C1B76B681AE63C0D0039FCB3 /* arrow.png in Resources */,
 				C1C009AB1AD543DA00F550A4 /* renminwang.png in Resources */,
 				C16FA9BA1ACBE2A800F85DF8 /* weibo.png in Resources */,
 				C1C009A91AD543DA00F550A4 /* nanhaiwang.png in Resources */,
@@ -951,12 +991,14 @@
 				C1C052BD1AC13BDB00D6D687 /* UIView+MJExtension.m in Sources */,
 				C1C0525F1AC0058900D6D687 /* HeadViewCell.m in Sources */,
 				C1C052621AC005C400D6D687 /* HeadViewDatasource.m in Sources */,
+				C1B76B6D1AE643B60039FCB3 /* BigImgDatasource.m in Sources */,
 				C1C052C41AC13BE400D6D687 /* YLImageView.m in Sources */,
 				C1C052BC1AC13BDB00D6D687 /* UIScrollView+MJRefresh.m in Sources */,
 				C16FA9A31ACB9C1200F85DF8 /* ZhihuCell.m in Sources */,
 				C1C052651AC005D500D6D687 /* HeadViewFrame.m in Sources */,
 				C16FA9971ACAFB1F00F85DF8 /* BaiduFrame.m in Sources */,
 				C1C052BA1AC13BDB00D6D687 /* MJRefreshHeaderView.m in Sources */,
+				C1B76B731AE643E90039FCB3 /* BigImgCell.m in Sources */,
 				C1C052371ABFFC1600D6D687 /* ViewController.m in Sources */,
 				C1C052B71AC13BDB00D6D687 /* MJRefreshBaseView.m in Sources */,
 				C1C052B81AC13BDB00D6D687 /* MJRefreshConst.m in Sources */,
@@ -979,9 +1021,11 @@
 				C1C0528A1AC139B900D6D687 /* ContentDatasource.m in Sources */,
 				C12F98441AE128E7003198BA /* AbsCell.m in Sources */,
 				C1C052891AC139B900D6D687 /* ContentCellFrame.m in Sources */,
+				C1B76B701AE643C70039FCB3 /* BigImgFrm.m in Sources */,
 				C1C052751AC1385800D6D687 /* ContentViewController.m in Sources */,
 				C1C052341ABFFC1600D6D687 /* AppDelegate.m in Sources */,
 				C16FA9C01ACC209700F85DF8 /* WebViewController.m in Sources */,
+				C1B76B761AE779BD0039FCB3 /* BaseFeedCell.m in Sources */,
 				C1C052311ABFFC1600D6D687 /* main.m in Sources */,
 				C16FA99D1ACB024500F85DF8 /* BaiduCell.m in Sources */,
 				C1C0526E1AC01ED400D6D687 /* UIColor+HexToRGB.m in Sources */,

@@ -12,6 +12,9 @@
 #import "UIScrollView+MJExtension.h"
 #import <objc/message.h>
 
+
+#import "UIColor+HexToRGB.h"
+
 @interface  MJRefreshBaseView()
 {
     __weak UILabel *_statusLabel;
@@ -32,7 +35,8 @@
         UILabel *statusLabel = [[UILabel alloc] init];
         statusLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         statusLabel.font = [UIFont boldSystemFontOfSize:13];
-        statusLabel.textColor = MJRefreshLabelTextColor;
+//        statusLabel.textColor = MJRefreshLabelTextColor;
+        statusLabel.textColor = [UIColor whiteColor];
         statusLabel.backgroundColor = [UIColor clearColor];
         statusLabel.textAlignment = NSTextAlignmentCenter;
         [self addSubview:_statusLabel = statusLabel];
@@ -46,8 +50,10 @@
 - (UIImageView *)arrowImage
 {
     if (!_arrowImage) {
-        UIImageView *arrowImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:MJRefreshSrcName(@"arrow.png")]];
-        arrowImage.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+//        UIImageView *arrowImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:MJRefreshSrcName(@"arrow.png")]];
+        UIImageView *arrowImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow.png"]];
+//        arrowImage.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        arrowImage.frame = CGRectMake(0, 0, 17, 17);
         [self addSubview:_arrowImage = arrowImage];
     }
     return _arrowImage;
@@ -73,10 +79,11 @@
     if (self = [super initWithFrame:frame]) {
         // 1.自己的属性
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor colorFromHexString:@"#4D94C9"];
         
         // 2.设置默认状态
         self.state = MJRefreshStateNormal;
+        
     }
     return self;
 }
@@ -86,11 +93,12 @@
     [super layoutSubviews];
     
     // 1.箭头
-    CGFloat arrowX = self.mj_width * 0.5 - 100;
-    self.arrowImage.center = CGPointMake(arrowX, self.mj_height * 0.5);
+//    CGFloat arrowX = self.mj_width * 0.5 - 100;
+    CGFloat arrowX = self.mj_width * 0.5;
+    self.arrowImage.center = CGPointMake(arrowX, self.mj_height * 0.7);
     
     // 2.指示器
-    self.activityView.center = self.arrowImage.center;
+//    self.activityView.center = self.arrowImage.center;
 }
 
 - (void)willMoveToSuperview:(UIView *)newSuperview

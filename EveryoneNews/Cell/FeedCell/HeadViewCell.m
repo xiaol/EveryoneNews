@@ -151,21 +151,8 @@
     
     [self settingSubviewFrame];
     [self settingData];
-    
-    if (_shutDown) {
-        [self showCell];
-    }
 }
 
-- (void)showCell
-{
-    self.contentView.alpha = 0;
-    [UIView animateWithDuration:1 animations:^{
-        self.contentView.alpha = 1;
-    }];
-    _shutDown = NO;
-
-}
 
 - (void)settingData
 {
@@ -355,6 +342,8 @@
     } else {
         aspect.hidden = YES;
         aspectView.hidden = YES;
+        aspect.frame = CGRectMake(0, 0, 0, 0);
+        aspectView.frame = CGRectMake(0, 0, 0, 0);
     }
 
     cutBlock.frame = _headViewFrm.cutBlockFrm;

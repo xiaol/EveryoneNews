@@ -16,8 +16,10 @@ NSString *const MJRefreshFooterPullToRefresh = @"上拉可以加载更多数据"
 NSString *const MJRefreshFooterReleaseToRefresh = @"松开立即加载更多数据";
 NSString *const MJRefreshFooterRefreshing = @"正在帮您加载数据...";
 
-NSString *const MJRefreshHeaderPullToRefresh = @"下拉可以刷新";
-NSString *const MJRefreshHeaderReleaseToRefresh = @"松开立即刷新";
+//NSString *const MJRefreshHeaderPullToRefresh = @"下拉可以刷新";
+//NSString *const MJRefreshHeaderReleaseToRefresh = @"松开立即刷新";
+NSString *const MJRefreshHeaderPullToRefresh = @"还有新内容";
+NSString *const MJRefreshHeaderReleaseToRefresh = @"还有新内容";
 NSString *const MJRefreshHeaderRefreshing = @"正在帮您刷新...";
 NSString *const MJRefreshHeaderTimeKey = @"MJRefreshHeaderView";
 

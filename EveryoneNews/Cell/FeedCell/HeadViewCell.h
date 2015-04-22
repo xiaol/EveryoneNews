@@ -8,29 +8,29 @@
 
 #import <UIKit/UIKit.h>
 #import "HeadViewFrame.h"
+#import "BaseFeedCell.h"
 
-@protocol HeadViewDelegate <NSObject>
+//@protocol HeadViewDelegate <NSObject>
+//
+//@required
+//
+//- (void)getTextContent:(NSString *)sourceUrl
+//                imgUrl:(NSString *)imgUrl
+//            SourceSite:(NSString *)sourceSite
+//                Update:(NSString *)update
+//                 Title:(NSString *)title
+//          ResponseUrls:(NSArray *)responseUrls
+//             RootClass:(NSString *)rootClass
+//                hasImg:(BOOL)hasImg;
+//
+//@end
 
-@required
-
-- (void)getTextContent:(NSString *)sourceUrl
-                imgUrl:(NSString *)imgUrl
-            SourceSite:(NSString *)sourceSite
-                Update:(NSString *)update
-                 Title:(NSString *)title
-          ResponseUrls:(NSArray *)responseUrls
-             RootClass:(NSString *)rootClass
-                hasImg:(BOOL)hasImg;
-
-@end
-
-@interface HeadViewCell : UITableViewCell
+@interface HeadViewCell : BaseFeedCell
 
 @property (nonatomic, strong)HeadViewFrame *headViewFrm;
 
-@property (nonatomic, strong)id<HeadViewDelegate>delegate;
+//@property (nonatomic, strong)id<HeadViewDelegate>delegate;
 
-@property (nonatomic, assign) BOOL shutDown;
 
 
 

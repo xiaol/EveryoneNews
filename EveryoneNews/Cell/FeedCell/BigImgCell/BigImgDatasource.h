@@ -1,17 +1,22 @@
 //
-//  HeadViewDatasource.h
+//  BigImgDatasource.h
 //  EveryoneNews
 //
-//  Created by 于咏畅 on 15/3/23.
+//  Created by 于咏畅 on 15/4/21.
 //  Copyright (c) 2015年 yyc. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 
-@interface HeadViewDatasource : NSObject
+@interface BigImgDatasource : NSObject
 
+@property (nonatomic, copy) NSString *categoryStr;
+@property (nonatomic, copy) NSString *titleStr;
+//@property (nonatomic, copy) NSString *imgUrlStr;
+
+////////
 @property (nonatomic, copy) NSString *imgStr;           //imgUrl
-@property (nonatomic, copy) NSString *titleStr;         //title
+//@property (nonatomic, copy) NSString *titleStr;         //title
 
 @property (nonatomic, copy) NSString *aspectStr;
 
@@ -27,8 +32,8 @@
 
 @property (nonatomic, copy) NSString *rootClass;
 
-@property (nonatomic, copy) NSString *categoryStr;
+//@property (nonatomic, copy) NSString *categoryStr;
 
-+(id)headViewDatasourceWithDict:(NSDictionary *)dict;
++(id)bigImgDatasourceWithDict:(NSDictionary *)dict;
 
 @end

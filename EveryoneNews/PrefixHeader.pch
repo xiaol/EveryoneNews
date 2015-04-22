@@ -40,4 +40,5 @@
 #define kServerIP       @"http://121.40.34.56"
 #define kFetchHome      @"/news/baijia/fetchHome"
 #define kFetchContent   @"/news/baijia/fetchContent?url="
+#define kTimenews       @"/news/baijia/fetchHome?timenews=1"
 

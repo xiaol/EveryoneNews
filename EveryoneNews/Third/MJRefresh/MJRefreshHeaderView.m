@@ -75,7 +75,7 @@
     CGFloat lastUpdateX = 0;
     CGFloat lastUpdateHeight = statusHeight;
     CGFloat lastUpdateWidth = statusWidth;
-    self.lastUpdateTimeLabel.frame = CGRectMake(lastUpdateX, lastUpdateY, lastUpdateWidth, lastUpdateHeight);
+//    self.lastUpdateTimeLabel.frame = CGRectMake(lastUpdateX, lastUpdateY, lastUpdateWidth, lastUpdateHeight);
 }
 
 - (void)willMoveToSuperview:(UIView *)newSuperview

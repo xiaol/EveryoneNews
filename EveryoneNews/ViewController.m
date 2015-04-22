@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "HeadViewCell.h"
+#import "BigImgCell.h"
 #import "ContentViewController.h"
 #import "UIColor+HexToRGB.h"
 #import "AFNetworking.h"
@@ -22,8 +23,8 @@
     
     NSInteger hasLoad;
     NSInteger rat;
+    BOOL stopFadein;
     
-    NSMutableArray *indexPahtsArr;
 }
 
 @end
@@ -54,14 +55,14 @@
     page = 1;
     isRefreshing = YES;
     hasLoad = 0;
-    indexPahtsArr = [[NSMutableArray alloc] init];
     
     [self tableViewInit];
     [self setupRefresh];
 
     [self followRollingScrollView:myTableView];
     
-    [self getRequest:[NSString stringWithFormat:@"%@%@", kServerIP, kFetchHome]];
+//    [self getRequest:[NSString stringWithFormat:@"%@%@", kServerIP, kFetchHome]];
+    [self getRequest:[NSString stringWithFormat:@"%@%@", kServerIP, kTimenews]];
 }
 
 - (void)tableViewInit
@@ -113,6 +114,8 @@
     NSString *url = [NSString stringWithFormat:@"%@%@?page=%d", kServerIP, kFetchHome, page];
     isRefreshing = NO;
     [self getRequest:url];
+    
+//    [self getRequest:[NSString stringWithFormat:@"%@%@", kServerIP, kTimenews]];
 }
 
 #pragma mark tableView delegate
@@ -120,7 +123,6 @@
 {
 
     if (dataArr != nil && ![dataArr isKindOfClass:[NSNull class]] && dataArr.count != 0) {
-//        return dataArr.count;
         return hasLoad;
     } else {
         return 0;
@@ -129,47 +131,84 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (dataArr != nil && ![dataArr isKindOfClass:[NSNull class]] && dataArr.count != 0) {
-        HeadViewFrame *frm = dataArr[indexPath.row];
-        return frm.cellH;
+//    if (dataArr != nil && ![dataArr isKindOfClass:[NSNull class]] && dataArr.count != 0) {
+//        HeadViewCell *cell = (HeadViewCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
+//        CGFloat height = cell.headViewFrm.cellH;
+//        return height;
+//    } else {
+//        return 0;
+//    }
+    NSDictionary *dict = dataArr[rat - indexPath.row];
+    NSString *type = dict.allKeys[0];
+    if ([type isEqualToString:@"headView"]){
+
+        HeadViewCell *cell = (HeadViewCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
+        CGFloat height = cell.headViewFrm.cellH;
+        return height;
+    } else if ([type isEqualToString:@"bigImg"]) {
+        BigImgCell *cell = (BigImgCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
+        return cell.bigImgFrm.CellH;
     } else {
         return 0;
     }
+
+
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *cellId = @"headViewCell";
-    HeadViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-    if (!cell) {
-        cell = [[HeadViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        //自定义UITableViewCell选中后的背景颜色和背景图片
-        cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
-        cell.delegate = self;
+    
+//    NSDictionary *dict = resourceArr[indexPath.row];
+    NSDictionary *dict = dataArr[rat - indexPath.row];
+    NSString *type = dict.allKeys[0];
+    if ([type isEqualToString:@"headView"]) {
+        
+        static NSString *cellId = @"headViewCell";
+        HeadViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+        if (!cell) {
+            cell = [[HeadViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            //自定义UITableViewCell选中后的背景颜色和背景图片
+            cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
+            cell.delegate = self;
+        }
+        if (indexPath.row == 0 && !stopFadein) {
+            cell.contentView.alpha = 0;
+            [UIView animateWithDuration:1 animations:^{
+                cell.contentView.alpha = 1;
+            }];
+        }
+        if ((rat - indexPath.row) == (dataArr.count - 1)) {
+            stopFadein = YES;
+        }
+        cell.headViewFrm = dict[type];
+        
+        return cell;
+    } else {
+        static NSString *cellId = @"bigImg";
+        BigImgCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+        if (!cell) {
+            cell = [[BigImgCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            //自定义UITableViewCell选中后的背景颜色和背景图片
+            cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
+            cell.delegate = self;
+        }
+        if (indexPath.row == 0 && !stopFadein) {
+            cell.contentView.alpha = 0;
+            [UIView animateWithDuration:1 animations:^{
+                cell.contentView.alpha = 1;
+            }];
+        }
+        if ((rat - indexPath.row) == (dataArr.count - 1)) {
+            stopFadein = YES;
+        }
+        cell.bigImgFrm = dict[type];
+        
+        return cell;
     }
 
     
-//    if (![indexPahtsArr containsObject:indexPath]) {
-//        
-//        cell.shutDown = YES;
-//        
-//        [indexPahtsArr addObject:indexPath];
-//    }
-    if (indexPath.row == 0) {
-        cell.contentView.alpha = 0;
-        [UIView animateWithDuration:1 animations:^{
-            cell.contentView.alpha = 1;
-        }];
-    }
-    
-    cell.headViewFrm = dataArr[rat - indexPath.row];
-//    cell.contentView.alpha = 0;
-//    [UIView animateWithDuration:1 animations:^{
-//        cell.contentView.alpha = 1;
-//    }];
-    
-    return cell;
 }
 
 
@@ -206,6 +245,9 @@
         NSLog(@"Failure: %@", error);
     }];
     [operation start];
+    
+    stopFadein = NO;
+    
 }
 
 - (void)convertToModel:(NSDictionary *)resultDic
@@ -216,15 +258,32 @@
     
     for (NSDictionary *dict in resultDic) {
         
-        HeadViewFrame *headViewFrm = [[HeadViewFrame alloc] init];
-        headViewFrm.headViewDatasource = [HeadViewDatasource headViewDatasourceWithDict:dict];
+        NSString * special = [NSString stringWithFormat:@"1%@", dict[@"special"]];
+        NSLog(@"what is this:%@", dict[@"special"]);
+        if ([special isEqualToString:@"11"]) {
+            NSLog(@"------ 图片 ----------");
+            BigImgFrm *bigImgFrm = [[BigImgFrm alloc] init];
+            bigImgFrm.bigImgDatasource = [BigImgDatasource bigImgDatasourceWithDict:dict];
+            [self putToResourceArr:bigImgFrm Method:@"bigImg"];
+        } else {
+            HeadViewFrame *headViewFrm = [[HeadViewFrame alloc] init];
+            headViewFrm.headViewDatasource = [HeadViewDatasource headViewDatasourceWithDict:dict];
+            [self putToResourceArr:headViewFrm Method:@"headView"];
+
+        }
         
-        [dataArr addObject:headViewFrm];
+//        [dataArr addObject:headViewFrm];
     }
     
     [myTableView reloadData];
     [myTableView headerEndRefreshing];
     [myTableView footerEndRefreshing];
+}
+
+- (void)putToResourceArr:(id)resource Method:(NSString *)method
+{
+    NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:resource, method, nil];
+    [dataArr addObject:dict];
 }
 
 
