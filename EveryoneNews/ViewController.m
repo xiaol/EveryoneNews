@@ -18,8 +18,11 @@
 {
     UITableView *myTableView;
     NSMutableArray *dataArr;
+    NSMutableArray *imgArr;
+    NSMutableArray *textArr;
     int page;
-    BOOL isRefreshing;
+//    BOOL isRefreshing;
+    BOOL isHeaderFreshing;
     
     NSInteger hasLoad;
     NSInteger rat;
@@ -52,9 +55,12 @@
 - (void)commonInit
 {
     dataArr = [[NSMutableArray alloc] init];
+    imgArr = [[NSMutableArray alloc] init];
+    textArr = [[NSMutableArray alloc] init];
+    
     page = 1;
-    isRefreshing = YES;
-    hasLoad = 0;
+//    isRefreshing = YES;
+    hasLoad = 1;
     
     [self tableViewInit];
     [self setupRefresh];
@@ -93,30 +99,51 @@
 - (void)headerRefresh
 {
     [myTableView headerEndRefreshing];
+//    isRefreshing = YES;
+    isHeaderFreshing = YES;
     
-    isRefreshing = YES;
-    
-    if (hasLoad != dataArr.count || hasLoad == 0) {
-        hasLoad++;
+    if (imgArr != nil && ![imgArr isKindOfClass:[NSNull class]] && imgArr.count != 0) {
+        [dataArr addObject:imgArr[0]];
+        [imgArr removeObjectAtIndex:0];
     }
-
-    rat = hasLoad - 1;
     
-    [myTableView reloadData];
+    [self stopRefresh];
    
 //   [self getRequest:[NSString stringWithFormat:@"%@%@", kServerIP, kFetchHome]];
 }
 
-
 - (void)footerRefresh
 {
-    page++;
-    NSString *url = [NSString stringWithFormat:@"%@%@?page=%d", kServerIP, kFetchHome, page];
-    isRefreshing = NO;
-    [self getRequest:url];
+    [myTableView footerEndRefreshing];
+    isHeaderFreshing = NO;
     
-//    [self getRequest:[NSString stringWithFormat:@"%@%@", kServerIP, kTimenews]];
+    if (textArr != nil && ![textArr isKindOfClass:[NSNull class]] && textArr.count != 0) {
+        [dataArr insertObject:textArr[0] atIndex:0];
+        [textArr removeObjectAtIndex:0];
+    }
+    
+    [self stopRefresh];
 }
+
+- (void)stopRefresh
+{
+    if (hasLoad != dataArr.count || hasLoad == 1) {
+        hasLoad++;
+    }
+    
+    rat = hasLoad - 1;
+    
+    [myTableView reloadData];
+}
+//- (void)footerRefresh
+//{
+//    page++;
+//    NSString *url = [NSString stringWithFormat:@"%@%@?page=%d", kServerIP, kFetchHome, page];
+//    isRefreshing = NO;
+//    [self getRequest:url];
+//    
+////    [self getRequest:[NSString stringWithFormat:@"%@%@", kServerIP, kTimenews]];
+//}
 
 #pragma mark tableView delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -131,13 +158,6 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//    if (dataArr != nil && ![dataArr isKindOfClass:[NSNull class]] && dataArr.count != 0) {
-//        HeadViewCell *cell = (HeadViewCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
-//        CGFloat height = cell.headViewFrm.cellH;
-//        return height;
-//    } else {
-//        return 0;
-//    }
     NSDictionary *dict = dataArr[rat - indexPath.row];
     NSString *type = dict.allKeys[0];
     if ([type isEqualToString:@"headView"]){
@@ -151,8 +171,6 @@
     } else {
         return 0;
     }
-
-
 }
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -172,12 +190,22 @@
             cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
             cell.delegate = self;
         }
-        if (indexPath.row == 0 && !stopFadein) {
-            cell.contentView.alpha = 0;
-            [UIView animateWithDuration:1 animations:^{
-                cell.contentView.alpha = 1;
-            }];
+        if (isHeaderFreshing) {
+            if (indexPath.row == 0 && !stopFadein) {
+                cell.contentView.alpha = 0;
+                [UIView animateWithDuration:1 animations:^{
+                    cell.contentView.alpha = 1;
+                }];
+            }
+        } else {
+            if (indexPath.row == rat) {
+                cell.contentView.alpha = 0;
+                [UIView animateWithDuration:1 animations:^{
+                    cell.contentView.alpha = 1;
+                }];
+            }
         }
+        
         if ((rat - indexPath.row) == (dataArr.count - 1)) {
             stopFadein = YES;
         }
@@ -207,8 +235,6 @@
         
         return cell;
     }
-
-    
 }
 
 
@@ -252,9 +278,9 @@
 
 - (void)convertToModel:(NSDictionary *)resultDic
 {
-    if (isRefreshing) {
-        dataArr = [[NSMutableArray alloc] init];
-    }
+//    if (isRefreshing) {
+//        dataArr = [[NSMutableArray alloc] init];
+//    }
     
     for (NSDictionary *dict in resultDic) {
         
@@ -263,28 +289,47 @@
         if (![special isEqualToString:@"11"]) {
             HeadViewFrame *headViewFrm = [[HeadViewFrame alloc] init];
             headViewFrm.headViewDatasource = [HeadViewDatasource headViewDatasourceWithDict:dict];
-            [self putToResourceArr:headViewFrm Method:@"headView"];
+            [self putToTextArr:headViewFrm Method:@"headView"];
+//            [self putToResourceArr:headViewFrm Method:@"headView"];
 
         } else {
             BigImgFrm *bigImgFrm = [[BigImgFrm alloc] init];
             bigImgFrm.bigImgDatasource = [BigImgDatasource bigImgDatasourceWithDict:dict];
-            [self putToResourceArr:bigImgFrm Method:@"bigImg"];
+            [self putToImgArr:bigImgFrm Method:@"bigImg"];
+//            [self putToResourceArr:bigImgFrm Method:@"bigImg"];
 
         }
         
-//        [dataArr addObject:headViewFrm];
     }
+    [dataArr addObject:textArr[0]];
+    [dataArr addObject:imgArr[0]];
+    
+    
+    [imgArr removeObjectAtIndex:0];
+    [textArr removeObjectAtIndex:0];
     
     [myTableView reloadData];
     [myTableView headerEndRefreshing];
     [myTableView footerEndRefreshing];
 }
 
-- (void)putToResourceArr:(id)resource Method:(NSString *)method
+//- (void)putToResourceArr:(id)resource Method:(NSString *)method
+//{
+//    NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:resource, method, nil];
+////    [dataArr addObject:dict];
+//    [dataArr insertObject:dict atIndex:0];
+//}
+
+- (void)putToImgArr:(id)resource Method:(NSString *)method
 {
     NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:resource, method, nil];
-//    [dataArr addObject:dict];
-    [dataArr insertObject:dict atIndex:0];
+    [imgArr addObject:dict];
+}
+
+- (void)putToTextArr:(id)resource Method:(NSString *)method
+{
+    NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:resource, method, nil];
+    [textArr addObject:dict];
 }
 
 

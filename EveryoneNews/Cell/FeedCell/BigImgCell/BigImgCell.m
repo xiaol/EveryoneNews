@@ -43,7 +43,7 @@
         showBtn = [[UIButton alloc] init];
         showBtn.backgroundColor = [UIColor clearColor];
         [showBtn addTarget:self action:@selector(showBtnClick) forControlEvents:UIControlEventTouchUpInside];
-        [imgView addSubview:showBtn];
+        [backView addSubview:showBtn];
         
     }
     return self;
