@@ -22,7 +22,6 @@
     NSMutableArray *imgArr;
     NSMutableArray *textArr;
     int page;
-//    BOOL isRefreshing;
     BOOL isHeaderFreshing;
     
     NSInteger hasLoad;
@@ -60,7 +59,6 @@
     textArr = [[NSMutableArray alloc] init];
     
     page = 1;
-//    isRefreshing = YES;
     hasLoad = 2;
     
     [self tableViewInit];
@@ -100,7 +98,6 @@
 - (void)headerRefresh
 {
     [myTableView headerEndRefreshing];
-//    isRefreshing = YES;
     isHeaderFreshing = YES;
     
     if (imgArr != nil && ![imgArr isKindOfClass:[NSNull class]] && imgArr.count != 0) {
@@ -109,8 +106,6 @@
     }
     
     [self stopRefresh];
-   
-//   [self getRequest:[NSString stringWithFormat:@"%@%@", kServerIP, kFetchHome]];
 }
 
 - (void)footerRefresh
@@ -131,25 +126,13 @@
     if (hasLoad != dataArr.count || hasLoad == 2) {
         hasLoad++;
     }
-    
     rat = hasLoad - 1;
-    
     [myTableView reloadData];
 }
-//- (void)footerRefresh
-//{
-//    page++;
-//    NSString *url = [NSString stringWithFormat:@"%@%@?page=%d", kServerIP, kFetchHome, page];
-//    isRefreshing = NO;
-//    [self getRequest:url];
-//    
-////    [self getRequest:[NSString stringWithFormat:@"%@%@", kServerIP, kTimenews]];
-//}
 
 #pragma mark tableView delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-
     if (dataArr != nil && ![dataArr isKindOfClass:[NSNull class]] && dataArr.count != 0) {
         return hasLoad;
     } else {
@@ -170,14 +153,12 @@
         
         BigImgCell *cell = (BigImgCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
         return cell.bigImgFrm.CellH;
-//        return 300;
     }
     else if ([type isEqualToString:@"centerCell"]){
         CenterCell *cell = (CenterCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
         return cell.cellH;
-//        return 41;
     }
-        else {
+    else {
         return 0;
     }
 }
@@ -218,8 +199,7 @@
         }
         cell.headViewFrm = dict[type];
         return cell;
-    } else if ([type isEqualToString:@"centerCell"])
-    {
+    } else if ([type isEqualToString:@"centerCell"]){
         static NSString *cellId = @"centerCell";
         CenterCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
         if (!cell) {
@@ -229,8 +209,7 @@
         }
         return cell;
         
-    }else {
-        
+    } else {
         static NSString *cellId = @"bigImg";
         BigImgCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
         if (!cell) {
@@ -295,9 +274,6 @@
 
 - (void)convertToModel:(NSDictionary *)resultDic
 {
-//    if (isRefreshing) {
-//        dataArr = [[NSMutableArray alloc] init];
-//    }
     
     for (NSDictionary *dict in resultDic) {
         
