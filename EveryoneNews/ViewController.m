@@ -173,9 +173,9 @@
 //        return 300;
     }
     else if ([type isEqualToString:@"centerCell"]){
-//        CenterCell *cell = (CenterCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
-//        return cell.cellH;
-        return 41;
+        CenterCell *cell = (CenterCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
+        return cell.cellH;
+//        return 41;
     }
         else {
         return 0;
@@ -184,12 +184,11 @@
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-//    NSDictionary *dict = resourceArr[indexPath.row];
     NSDictionary *dict = dataArr[rat - indexPath.row];
+    
     NSString *type = dict.allKeys[0];
+    
     if ([type isEqualToString:@"headView"]) {
-        
         static NSString *cellId = @"headViewCell";
         HeadViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
         if (!cell) {
@@ -202,38 +201,36 @@
         if (isHeaderFreshing) {
             if (indexPath.row == 0 && !stopFadein) {
                 cell.contentView.alpha = 0;
-                [UIView animateWithDuration:1.5 animations:^{
+                [UIView animateWithDuration:1 animations:^{
                     cell.contentView.alpha = 1;
                 }];
             }
-        }  else {
+        } else {
             if (indexPath.row == rat) {
                 cell.contentView.alpha = 0;
-                [UIView animateWithDuration:1.5 animations:^{
+                [UIView animateWithDuration:1 animations:^{
                     cell.contentView.alpha = 1;
                 }];
             }
         }
-        
         if ((rat - indexPath.row) == (dataArr.count - 1)) {
             stopFadein = YES;
         }
         cell.headViewFrm = dict[type];
-        
         return cell;
-    }else if ([type isEqualToString:@"centerCell"]) {
+    } else if ([type isEqualToString:@"centerCell"])
+    {
         static NSString *cellId = @"centerCell";
         CenterCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
         if (!cell) {
             cell = [[CenterCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            //自定义UITableViewCell选中后的背景颜色和背景图片
             cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
-            //                cell.delegate = self;
         }
         return cell;
         
-    } else {
+    }else {
+        
         static NSString *cellId = @"bigImg";
         BigImgCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
         if (!cell) {
@@ -242,7 +239,6 @@
             //自定义UITableViewCell选中后的背景颜色和背景图片
             cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
             cell.delegate = self;
-            return cell;
         }
         if (indexPath.row == 0 && !stopFadein) {
             cell.contentView.alpha = 0;
@@ -254,7 +250,6 @@
             stopFadein = YES;
         }
         cell.bigImgFrm = dict[type];
-        
         return cell;
     }
 }
