@@ -71,10 +71,10 @@
     self.statusLabel.frame = CGRectMake(statusX, statusY, statusWidth, statusHeight);
     
     // 2.时间标签
-    CGFloat lastUpdateY = statusHeight;
-    CGFloat lastUpdateX = 0;
-    CGFloat lastUpdateHeight = statusHeight;
-    CGFloat lastUpdateWidth = statusWidth;
+//    CGFloat lastUpdateY = statusHeight;
+//    CGFloat lastUpdateX = 0;
+//    CGFloat lastUpdateHeight = statusHeight;
+//    CGFloat lastUpdateWidth = statusWidth;
 //    self.lastUpdateTimeLabel.frame = CGRectMake(lastUpdateX, lastUpdateY, lastUpdateWidth, lastUpdateHeight);
 }
 

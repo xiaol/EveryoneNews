@@ -36,7 +36,13 @@
 {
     [super layoutSubviews];
     
-    self.statusLabel.frame = self.bounds;
+//    self.statusLabel.frame = self.bounds;
+    CGFloat statusX = 0;
+    CGFloat statusY = 0;
+    CGFloat statusHeight = self.mj_height * 0.5;
+    CGFloat statusWidth = self.mj_width;
+    // 1.状态标签
+    self.statusLabel.frame = CGRectMake(statusX, statusY, statusWidth, statusHeight);
 }
 
 - (void)willMoveToSuperview:(UIView *)newSuperview

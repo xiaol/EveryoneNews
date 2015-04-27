@@ -43,6 +43,7 @@
     _cutlineFrm = CGRectMake(0, _backFrm.size.height - 1, screenW, 1);
     
     _CellH = _backFrm.size.height;
+//    _CellH = 300;
 }
 
 @end

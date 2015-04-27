@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		72E38B7BA868266B182567CC /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A0528C26297FAA2C259EF3E /* libPods.a */; };
+		C106D7CC1AEDEB0000DCFD95 /* CenterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C106D7CB1AEDEB0000DCFD95 /* CenterCell.m */; };
+		C106D7CE1AEDED2D00DCFD95 /* compass.png in Resources */ = {isa = PBXBuildFile; fileRef = C106D7CD1AEDED2D00DCFD95 /* compass.png */; };
 		C11CD46D1AC2691400D1D9C8 /* huawen.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C11CD46C1AC268FF00D1D9C8 /* huawen.ttf */; };
 		C12F983D1AE0E4E1003198BA /* NotoSansHans-DemiLight.otf in Resources */ = {isa = PBXBuildFile; fileRef = C1D93BA11AE0E3C6009BF5E1 /* NotoSansHans-DemiLight.otf */; };
 		C12F98441AE128E7003198BA /* AbsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C12F98431AE128E7003198BA /* AbsCell.m */; };
@@ -140,6 +142,9 @@
 		39559E040BF0F3C0CBAD3816 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		5A0528C26297FAA2C259EF3E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FE9000300DFA499AE8DDD92 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		C106D7CA1AEDEB0000DCFD95 /* CenterCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CenterCell.h; sourceTree = "<group>"; };
+		C106D7CB1AEDEB0000DCFD95 /* CenterCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CenterCell.m; sourceTree = "<group>"; };
+		C106D7CD1AEDED2D00DCFD95 /* compass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = compass.png; sourceTree = "<group>"; };
 		C11CD46C1AC268FF00D1D9C8 /* huawen.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = huawen.ttf; sourceTree = "<group>"; };
 		C11CD46E1AC2699700D1D9C8 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		C12F98421AE128E7003198BA /* AbsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbsCell.h; sourceTree = "<group>"; };
@@ -365,6 +370,15 @@
 				5A0528C26297FAA2C259EF3E /* libPods.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C106D7C91AEDEAED00DCFD95 /* CenterCell */ = {
+			isa = PBXGroup;
+			children = (
+				C106D7CA1AEDEB0000DCFD95 /* CenterCell.h */,
+				C106D7CB1AEDEB0000DCFD95 /* CenterCell.m */,
+			);
+			path = CenterCell;
 			sourceTree = "<group>";
 		};
 		C11CD46B1AC268F100D1D9C8 /* Font */ = {
@@ -645,6 +659,7 @@
 		C1C0525C1AC0052A00D6D687 /* FeedCell */ = {
 			isa = PBXGroup;
 			children = (
+				C106D7C91AEDEAED00DCFD95 /* CenterCell */,
 				C1B76B6A1AE643980039FCB3 /* BigImgCell */,
 				C1B76B691AE643740039FCB3 /* Text&ImgCell */,
 				C1B76B741AE779BD0039FCB3 /* BaseFeedCell.h */,
@@ -700,6 +715,7 @@
 			children = (
 				C17F74641ADD2B1F00746CDB /* navTitle.png */,
 				C17F74661ADE3BBA00746CDB /* navBack.png */,
+				C106D7CD1AEDED2D00DCFD95 /* compass.png */,
 				C1C009491AD530F300F550A4 /* logo */,
 			);
 			path = HeadView;
@@ -895,6 +911,7 @@
 				C1C009B31AD543DA00F550A4 /* xinmin.png in Resources */,
 				C1B76B681AE63C0D0039FCB3 /* arrow.png in Resources */,
 				C1C009AB1AD543DA00F550A4 /* renminwang.png in Resources */,
+				C106D7CE1AEDED2D00DCFD95 /* compass.png in Resources */,
 				C16FA9BA1ACBE2A800F85DF8 /* weibo.png in Resources */,
 				C1C009A91AD543DA00F550A4 /* nanhaiwang.png in Resources */,
 				C17F745B1ADCCD2200746CDB /* like.png in Resources */,
@@ -992,6 +1009,7 @@
 				C1C0525F1AC0058900D6D687 /* HeadViewCell.m in Sources */,
 				C1C052621AC005C400D6D687 /* HeadViewDatasource.m in Sources */,
 				C1B76B6D1AE643B60039FCB3 /* BigImgDatasource.m in Sources */,
+				C106D7CC1AEDEB0000DCFD95 /* CenterCell.m in Sources */,
 				C1C052C41AC13BE400D6D687 /* YLImageView.m in Sources */,
 				C1C052BC1AC13BDB00D6D687 /* UIScrollView+MJRefresh.m in Sources */,
 				C16FA9A31ACB9C1200F85DF8 /* ZhihuCell.m in Sources */,

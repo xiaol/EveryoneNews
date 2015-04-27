@@ -9,6 +9,7 @@
 #import "ViewController.h"
 #import "HeadViewCell.h"
 #import "BigImgCell.h"
+#import "CenterCell.h"
 #import "ContentViewController.h"
 #import "UIColor+HexToRGB.h"
 #import "AFNetworking.h"
@@ -60,7 +61,7 @@
     
     page = 1;
 //    isRefreshing = YES;
-    hasLoad = 1;
+    hasLoad = 2;
     
     [self tableViewInit];
     [self setupRefresh];
@@ -127,7 +128,7 @@
 
 - (void)stopRefresh
 {
-    if (hasLoad != dataArr.count || hasLoad == 1) {
+    if (hasLoad != dataArr.count || hasLoad == 2) {
         hasLoad++;
     }
     
@@ -166,9 +167,17 @@
         CGFloat height = cell.headViewFrm.cellH;
         return height;
     } else if ([type isEqualToString:@"bigImg"]) {
+        
         BigImgCell *cell = (BigImgCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
         return cell.bigImgFrm.CellH;
-    } else {
+//        return 300;
+    }
+    else if ([type isEqualToString:@"centerCell"]){
+//        CenterCell *cell = (CenterCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
+//        return cell.cellH;
+        return 41;
+    }
+        else {
         return 0;
     }
 }
@@ -193,14 +202,14 @@
         if (isHeaderFreshing) {
             if (indexPath.row == 0 && !stopFadein) {
                 cell.contentView.alpha = 0;
-                [UIView animateWithDuration:1 animations:^{
+                [UIView animateWithDuration:1.5 animations:^{
                     cell.contentView.alpha = 1;
                 }];
             }
-        } else {
+        }  else {
             if (indexPath.row == rat) {
                 cell.contentView.alpha = 0;
-                [UIView animateWithDuration:1 animations:^{
+                [UIView animateWithDuration:1.5 animations:^{
                     cell.contentView.alpha = 1;
                 }];
             }
@@ -212,6 +221,18 @@
         cell.headViewFrm = dict[type];
         
         return cell;
+    }else if ([type isEqualToString:@"centerCell"]) {
+        static NSString *cellId = @"centerCell";
+        CenterCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+        if (!cell) {
+            cell = [[CenterCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            //自定义UITableViewCell选中后的背景颜色和背景图片
+            cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
+            //                cell.delegate = self;
+        }
+        return cell;
+        
     } else {
         static NSString *cellId = @"bigImg";
         BigImgCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
@@ -221,6 +242,7 @@
             //自定义UITableViewCell选中后的背景颜色和背景图片
             cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
             cell.delegate = self;
+            return cell;
         }
         if (indexPath.row == 0 && !stopFadein) {
             cell.contentView.alpha = 0;
@@ -302,6 +324,8 @@
         
     }
     [dataArr addObject:textArr[0]];
+    NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:@"centerCell", @"centerCell", nil];
+    [dataArr addObject:dict];
     [dataArr addObject:imgArr[0]];
     
     
