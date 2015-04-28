@@ -16,6 +16,7 @@
 		C12F98471AE12908003198BA /* AbsDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = C12F98461AE12908003198BA /* AbsDatasource.m */; };
 		C13B06511AD631F70010095D /* huanqiuwang.png in Resources */ = {isa = PBXBuildFile; fileRef = C13B06501AD631F70010095D /* huanqiuwang.png */; };
 		C13E9DD21AEE39AE00E7E23C /* navTitle.png in Resources */ = {isa = PBXBuildFile; fileRef = C13E9DD11AEE39AE00E7E23C /* navTitle.png */; };
+		C13E9DD51AEE3D9600E7E23C /* MoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C13E9DD41AEE3D9600E7E23C /* MoreCell.m */; };
 		C16FA9971ACAFB1F00F85DF8 /* BaiduFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9961ACAFB1F00F85DF8 /* BaiduFrame.m */; };
 		C16FA99A1ACAFB3A00F85DF8 /* BaiduDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9991ACAFB3A00F85DF8 /* BaiduDatasource.m */; };
 		C16FA99D1ACB024500F85DF8 /* BaiduCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA99C1ACB024500F85DF8 /* BaiduCell.m */; };
@@ -56,6 +57,7 @@
 		C19712381AC3DE480024B12E /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C19712371AC3DE480024B12E /* libz.dylib */; };
 		C197123A1AC3DE530024B12E /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C19712391AC3DE530024B12E /* libstdc++.dylib */; };
 		C197123C1AC3DE5F0024B12E /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C197123B1AC3DE5F0024B12E /* libiconv.dylib */; };
+		C1AA073F1AEF319B0001355C /* arrowInCircle.png in Resources */ = {isa = PBXBuildFile; fileRef = C1AA073E1AEF319B0001355C /* arrowInCircle.png */; };
 		C1B76B681AE63C0D0039FCB3 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = C1B76B671AE63C0D0039FCB3 /* arrow.png */; };
 		C1B76B6D1AE643B60039FCB3 /* BigImgDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = C1B76B6C1AE643B60039FCB3 /* BigImgDatasource.m */; };
 		C1B76B701AE643C70039FCB3 /* BigImgFrm.m in Sources */ = {isa = PBXBuildFile; fileRef = C1B76B6F1AE643C70039FCB3 /* BigImgFrm.m */; };
@@ -153,6 +155,8 @@
 		C12F98461AE12908003198BA /* AbsDatasource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbsDatasource.m; sourceTree = "<group>"; };
 		C13B06501AD631F70010095D /* huanqiuwang.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = huanqiuwang.png; sourceTree = "<group>"; };
 		C13E9DD11AEE39AE00E7E23C /* navTitle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navTitle.png; sourceTree = "<group>"; };
+		C13E9DD31AEE3D9600E7E23C /* MoreCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreCell.h; sourceTree = "<group>"; };
+		C13E9DD41AEE3D9600E7E23C /* MoreCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreCell.m; sourceTree = "<group>"; };
 		C16FA9951ACAFB1F00F85DF8 /* BaiduFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiduFrame.h; sourceTree = "<group>"; };
 		C16FA9961ACAFB1F00F85DF8 /* BaiduFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaiduFrame.m; sourceTree = "<group>"; };
 		C16FA9981ACAFB3A00F85DF8 /* BaiduDatasource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiduDatasource.h; sourceTree = "<group>"; };
@@ -209,6 +213,7 @@
 		C19712371AC3DE480024B12E /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		C19712391AC3DE530024B12E /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		C197123B1AC3DE5F0024B12E /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
+		C1AA073E1AEF319B0001355C /* arrowInCircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrowInCircle.png; sourceTree = "<group>"; };
 		C1B76B671AE63C0D0039FCB3 /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
 		C1B76B6B1AE643B60039FCB3 /* BigImgDatasource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BigImgDatasource.h; sourceTree = "<group>"; };
 		C1B76B6C1AE643B60039FCB3 /* BigImgDatasource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BigImgDatasource.m; sourceTree = "<group>"; };
@@ -377,6 +382,8 @@
 			children = (
 				C106D7CA1AEDEB0000DCFD95 /* CenterCell.h */,
 				C106D7CB1AEDEB0000DCFD95 /* CenterCell.m */,
+				C13E9DD31AEE3D9600E7E23C /* MoreCell.h */,
+				C13E9DD41AEE3D9600E7E23C /* MoreCell.m */,
 			);
 			path = CenterCell;
 			sourceTree = "<group>";
@@ -713,6 +720,7 @@
 		C1C052701AC1196200D6D687 /* HeadView */ = {
 			isa = PBXGroup;
 			children = (
+				C1AA073E1AEF319B0001355C /* arrowInCircle.png */,
 				C13E9DD11AEE39AE00E7E23C /* navTitle.png */,
 				C17F74661ADE3BBA00746CDB /* navBack.png */,
 				C106D7CD1AEDED2D00DCFD95 /* compass.png */,
@@ -925,6 +933,7 @@
 				C1C009B41AD543DA00F550A4 /* yangshiwang.png in Resources */,
 				C1C009B81AD543DA00F550A4 /* zhongguojingjibao.png in Resources */,
 				C1C0523F1ABFFC1600D6D687 /* LaunchScreen.xib in Resources */,
+				C1AA073F1AEF319B0001355C /* arrowInCircle.png in Resources */,
 				C1C009A31AD543DA00F550A4 /* hot.png in Resources */,
 				C1C009BA1AD543DA00F550A4 /* zhongguoshandongwang.png in Resources */,
 				C1C052B61AC13BDB00D6D687 /* MJRefresh.bundle in Resources */,
@@ -1031,6 +1040,7 @@
 				C1C052941AC139D800D6D687 /* FTCoreTextCell.m in Sources */,
 				C1C052BB1AC13BDB00D6D687 /* UIScrollView+MJExtension.m in Sources */,
 				C17F74631ADD0E9F00746CDB /* XHYScrollingNavBarViewController.m in Sources */,
+				C13E9DD51AEE3D9600E7E23C /* MoreCell.m in Sources */,
 				C16FA9A61ACB9C2600F85DF8 /* ZhihuDatasource.m in Sources */,
 				C1C052881AC139B900D6D687 /* ContentCell.m in Sources */,
 				C1C0529E1AC13AB700D6D687 /* FTCoreTextView.m in Sources */,

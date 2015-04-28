@@ -10,6 +10,7 @@
 #import "HeadViewCell.h"
 #import "BigImgCell.h"
 #import "CenterCell.h"
+#import "MoreCell.h"
 #import "ContentViewController.h"
 #import "UIColor+HexToRGB.h"
 #import "AFNetworking.h"
@@ -103,8 +104,14 @@
     if (imgArr != nil && ![imgArr isKindOfClass:[NSNull class]] && imgArr.count != 0) {
         [dataArr addObject:imgArr[0]];
         [imgArr removeObjectAtIndex:0];
+        if (imgArr == nil || [imgArr isKindOfClass:[NSNull class]] || imgArr.count == 0) {
+            NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"topMoreCell", @"topMoreCell", nil];
+            [dataArr addObject:dict];
+            [myTableView removeHeader];
+            hasLoad++;
+        }
     }
-    
+
     [self stopRefresh];
 }
 
@@ -116,8 +123,13 @@
     if (textArr != nil && ![textArr isKindOfClass:[NSNull class]] && textArr.count != 0) {
         [dataArr insertObject:textArr[0] atIndex:0];
         [textArr removeObjectAtIndex:0];
+        if (textArr == nil || [textArr isKindOfClass:[NSNull class]] || textArr.count == 0) {
+            NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"bottonMoreCell", @"bottonMoreCell", nil];
+            [dataArr insertObject:dict atIndex:0];
+            [myTableView removeFooter];
+            hasLoad++;
+        }
     }
-    
     [self stopRefresh];
 }
 
@@ -157,6 +169,11 @@
     else if ([type isEqualToString:@"centerCell"]){
         CenterCell *cell = (CenterCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
         return cell.cellH;
+    }
+    else if ([type isEqualToString:@"topMoreCell"] || [type isEqualToString:@"bottonMoreCell"]){
+        MoreCell *cell = (MoreCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
+        return cell.cellH;
+
     }
     else {
         return 0;
@@ -209,7 +226,7 @@
         }
         return cell;
         
-    } else {
+    } else if ([type isEqualToString:@"bigImg"]){
         static NSString *cellId = @"bigImg";
         BigImgCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
         if (!cell) {
@@ -230,7 +247,29 @@
         }
         cell.bigImgFrm = dict[type];
         return cell;
+    } else if ([type isEqualToString:@"topMoreCell"]){
+        static NSString *cellId = @"topMoreCell";
+        MoreCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+        if (!cell) {
+            cell = [[MoreCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            //自定义UITableViewCell选中后的背景颜色和背景图片
+            cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
+        }
+        return cell;
+    } else {
+        static NSString *cellId = @"bottonMoreCell";
+        MoreCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+        if (!cell) {
+            cell = [[MoreCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            //自定义UITableViewCell选中后的背景颜色和背景图片
+            cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
+        }
+        return cell;
+
     }
+
 }
 
 
@@ -302,6 +341,7 @@
     
     [imgArr removeObjectAtIndex:0];
     [textArr removeObjectAtIndex:0];
+
     
     [myTableView reloadData];
     [myTableView headerEndRefreshing];

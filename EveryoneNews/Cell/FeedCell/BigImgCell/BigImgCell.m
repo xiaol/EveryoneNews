@@ -9,6 +9,7 @@
 #import "BigImgCell.h"
 #import "UIImageView+WebCache.h"
 #import "ScaleImage.h"
+#import "UIColor+HexToRGB.h"
 
 @implementation BigImgCell
 {
@@ -38,13 +39,14 @@
         categoryLab = [[UILabel alloc] init];
         categoryLab.font = [UIFont fontWithName:kFont size:15];
         categoryLab.textAlignment = NSTextAlignmentCenter;
+        categoryLab.numberOfLines = 2;
+        categoryLab.textColor = [UIColor whiteColor];
         [imgView addSubview:categoryLab];
         
         showBtn = [[UIButton alloc] init];
         showBtn.backgroundColor = [UIColor clearColor];
         [showBtn addTarget:self action:@selector(showBtnClick) forControlEvents:UIControlEventTouchUpInside];
         [backView addSubview:showBtn];
-        
     }
     return self;
 }
@@ -69,15 +71,48 @@
 - (void)settingData
 {
     titleLab.text = _bigImgFrm.bigImgDatasource.titleStr;
-    
     NSURL *url = [NSURL URLWithString:_bigImgFrm.bigImgDatasource.imgStr];
-    
     [imgView sd_setImageWithURL:url placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         imgView.image = [ScaleImage scaleImage:imgView.image size:_bigImgFrm.imgFrm.size];
         
     }];
-    
-    categoryLab.text = _bigImgFrm.bigImgDatasource.categoryStr;
+    NSString *categoryStr = _bigImgFrm.bigImgDatasource.categoryStr;
+    if ([self isBlankString:categoryStr]) {
+        categoryLab.hidden = YES;
+    } else {
+        if ([categoryStr isEqualToString:@"焦点"]) {
+            categoryLab.backgroundColor = [UIColor colorFromHexString:@"#FF4341"];
+        }
+        else if ([categoryStr isEqualToString:@"国际"]) {
+            categoryLab.backgroundColor = [UIColor colorFromHexString:@"#007fff"];
+        }
+        else if ([categoryStr isEqualToString:@"港台"]) {
+            categoryLab.backgroundColor = [UIColor colorFromHexString:@"#726bf8"];
+        }
+        else if ([categoryStr isEqualToString:@"内地"]) {
+            categoryLab.backgroundColor = [UIColor colorFromHexString:@"#18a68b"];
+        }
+        else if ([categoryStr isEqualToString:@"财经"]) {
+            categoryLab.backgroundColor = [UIColor colorFromHexString:@"#32bfcd"];
+        }
+        else if ([categoryStr isEqualToString:@"娱乐"]) {
+            categoryLab.backgroundColor = [UIColor colorFromHexString:@"#ff7272"];
+        }
+        else if ([categoryStr isEqualToString:@"科技"]) {
+            categoryLab.backgroundColor = [UIColor colorFromHexString:@"#007FFF"];
+        }
+        else if ([categoryStr isEqualToString:@"体育"]) {
+            categoryLab.backgroundColor = [UIColor colorFromHexString:@"#df8145"];
+        }
+        else if ([categoryStr isEqualToString:@"社会"]) {
+            categoryLab.backgroundColor = [UIColor colorFromHexString:@"#00b285"];
+        }
+        else if ([categoryStr isEqualToString:@"国内"]) {
+            categoryLab.backgroundColor = [UIColor colorFromHexString:@"#726bf8"];
+        }
+    }
+    categoryLab.text = categoryStr;
+//    categoryLab.text = _bigImgFrm.bigImgDatasource.categoryStr;
 }
 
 - (void)showBtnClick
@@ -93,6 +128,20 @@
                             RootClass:_bigImgFrm.bigImgDatasource.rootClass
                                hasImg:NO];
     }
+}
+    
+#pragma mark 判断字符串是否为空
+- (BOOL) isBlankString:(NSString *)string {
+    if (string == nil || string == NULL) {
+        return YES;
+    }
+    if ([string isKindOfClass:[NSNull class]]) {
+        return YES;
+    }
+    if ([[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length]==0) {
+        return YES;
+    }
+    return NO;
 }
 
 

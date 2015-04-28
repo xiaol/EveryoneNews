@@ -22,14 +22,18 @@
         _imgFrm = CGRectMake(0, 0, screenW, backH);
         
     } else {
-        CGFloat backH = 195;
+//        CGFloat backH = 195;
+        CGFloat backH = 412 / 2 + 20;
         
         _backFrm = CGRectMake(0, 0, screenW, backH);
         
-        CGFloat imgX = 78;
+//        CGFloat imgX = 78;
         CGFloat imgY = 20;
-        CGFloat imgW = 800 / 3;
-        CGFloat imgH = 464 / 3;
+//        CGFloat imgW = 800 / 3;
+        CGFloat imgW = 320;
+        CGFloat imgX = (screenW - 320) / 2;
+//        CGFloat imgH = 464 / 3;
+        CGFloat imgH = 412 / 2;
         _imgFrm = CGRectMake(imgX, imgY, imgW, imgH);
         
     }
