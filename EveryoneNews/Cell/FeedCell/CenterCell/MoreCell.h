@@ -8,8 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol MoreCellDelegate <NSObject>
+
+- (void)scrollToPosition;
+
+@end
+
 @interface MoreCell : UITableViewCell
 
 @property (nonatomic, assign)CGFloat cellH;
+
+@property (nonatomic, strong)id <MoreCellDelegate>delegate;
 
 @end

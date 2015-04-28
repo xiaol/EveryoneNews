@@ -16,7 +16,7 @@
 #import "AFNetworking.h"
 #import "MJRefresh.h"
 
-@interface ViewController ()<UITableViewDataSource, UITableViewDelegate, HeadViewDelegate>
+@interface ViewController ()<UITableViewDataSource, UITableViewDelegate, HeadViewDelegate, MoreCellDelegate>
 {
     UITableView *myTableView;
     NSMutableArray *dataArr;
@@ -24,6 +24,8 @@
     NSMutableArray *textArr;
     int page;
     BOOL isHeaderFreshing;
+    
+    NSIndexPath *centerIndexPath;
     
     NSInteger hasLoad;
     NSInteger rat;
@@ -58,6 +60,8 @@
     dataArr = [[NSMutableArray alloc] init];
     imgArr = [[NSMutableArray alloc] init];
     textArr = [[NSMutableArray alloc] init];
+    
+    centerIndexPath = [[NSIndexPath alloc] init];
     
     page = 1;
     hasLoad = 2;
@@ -105,7 +109,7 @@
         [dataArr addObject:imgArr[0]];
         [imgArr removeObjectAtIndex:0];
         if (imgArr == nil || [imgArr isKindOfClass:[NSNull class]] || imgArr.count == 0) {
-            NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"topMoreCell", @"topMoreCell", nil];
+            NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"MoreCell", @"MoreCell", nil];
             [dataArr addObject:dict];
             [myTableView removeHeader];
             hasLoad++;
@@ -113,6 +117,7 @@
     }
 
     [self stopRefresh];
+    
 }
 
 - (void)footerRefresh
@@ -124,7 +129,7 @@
         [dataArr insertObject:textArr[0] atIndex:0];
         [textArr removeObjectAtIndex:0];
         if (textArr == nil || [textArr isKindOfClass:[NSNull class]] || textArr.count == 0) {
-            NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"bottonMoreCell", @"bottonMoreCell", nil];
+            NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"MoreCell", @"MoreCell", nil];
             [dataArr insertObject:dict atIndex:0];
             [myTableView removeFooter];
             hasLoad++;
@@ -140,6 +145,8 @@
     }
     rat = hasLoad - 1;
     [myTableView reloadData];
+    
+    
 }
 
 #pragma mark tableView delegate
@@ -170,10 +177,9 @@
         CenterCell *cell = (CenterCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
         return cell.cellH;
     }
-    else if ([type isEqualToString:@"topMoreCell"] || [type isEqualToString:@"bottonMoreCell"]){
+    else if ([type isEqualToString:@"MoreCell"]){
         MoreCell *cell = (MoreCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
         return cell.cellH;
-
     }
     else {
         return 0;
@@ -224,6 +230,8 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
         }
+        centerIndexPath = indexPath;
+
         return cell;
         
     } else if ([type isEqualToString:@"bigImg"]){
@@ -247,18 +255,8 @@
         }
         cell.bigImgFrm = dict[type];
         return cell;
-    } else if ([type isEqualToString:@"topMoreCell"]){
-        static NSString *cellId = @"topMoreCell";
-        MoreCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
-        if (!cell) {
-            cell = [[MoreCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            //自定义UITableViewCell选中后的背景颜色和背景图片
-            cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
-        }
-        return cell;
     } else {
-        static NSString *cellId = @"bottonMoreCell";
+        static NSString *cellId = @"MoreCell";
         MoreCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
         if (!cell) {
             cell = [[MoreCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
@@ -266,10 +264,9 @@
             //自定义UITableViewCell选中后的背景颜色和背景图片
             cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
         }
+        cell.delegate = self;
         return cell;
-
     }
-
 }
 
 
@@ -355,6 +352,7 @@
 //    [dataArr insertObject:dict atIndex:0];
 //}
 
+
 - (void)putToImgArr:(id)resource Method:(NSString *)method
 {
     NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:resource, method, nil];
@@ -365,6 +363,14 @@
 {
     NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:resource, method, nil];
     [textArr addObject:dict];
+}
+
+
+#pragma mark MoreCellDelegate
+- (void)scrollToPosition
+{
+    [myTableView scrollToRowAtIndexPath:centerIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    NSLog(@"scrollToPosition");
 }
 
 

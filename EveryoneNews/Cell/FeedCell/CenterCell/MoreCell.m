@@ -30,10 +30,38 @@
         arrowImg.image = [UIImage imageNamed:@"arrowInCircle.png"];
         [backView addSubview:arrowImg];
         
+        UIButton *btn = [[UIButton alloc] initWithFrame:backView.frame];
+        btn.backgroundColor = [UIColor clearColor];
+        [btn addTarget:self action:@selector(btnPress) forControlEvents:UIControlEventTouchUpInside];
+        [backView addSubview:btn];
+        
         _cellH = CGRectGetMaxY(backView.frame);
-    
+        
+        
+        //时间戳
+        NSDate *now = [NSDate date];
+        NSLog(@"now date is: %@", now);
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        NSUInteger unitFlags = NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
+        NSDateComponents *dateComponent = [calendar components:unitFlags fromDate:now];
+        NSInteger year = [dateComponent year];
+        NSInteger month = [dateComponent month];
+        NSInteger day = [dateComponent day];
+        NSInteger hour = [dateComponent hour];
+        NSInteger minute = [dateComponent minute];
+        NSInteger second = [dateComponent second];
+        
+        NSLog(@"year:%ld M:%ld D:%ld H:%ld M:%ld S:%ld", year, month, day, hour, minute, second);
     }
     return self;
+}
+
+- (void)btnPress
+{
+    NSLog(@"btnPress -------------");
+    if ([self.delegate respondsToSelector:@selector(scrollToPosition)]) {
+        [self.delegate scrollToPosition];
+    }
 }
 
 - (void)awakeFromNib {
