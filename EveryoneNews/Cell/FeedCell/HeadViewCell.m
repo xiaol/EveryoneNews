@@ -48,7 +48,7 @@
     UILabel *categoryLab;
     
     GRKBlurView *blurView;
-//    BOOL firstLoad;
+    UIView *grayView;
 
 }
 
@@ -79,6 +79,14 @@
         
         blurView = [[GRKBlurView alloc] init];
         [backgroupView addSubview:blurView];
+        
+        //加灰色透明层
+        grayView = [[UIView alloc] init];
+        grayView.backgroundColor = [UIColor grayColor];
+        grayView.alpha = 0.7;
+        grayView.layer.masksToBounds = YES;
+        grayView.layer.cornerRadius = 2;
+        [backgroupView addSubview:grayView];
         
         
         titleLab = [[UILabel alloc] init];
@@ -159,7 +167,7 @@
     titleLab.text = _headViewFrm.headViewDatasource.titleStr;
     
     if ([self isBlankString:_headViewFrm.headViewDatasource.imgStr]) {
-        [self screenShotWithRect:shotView.frame];
+//        [self screenShotWithRect:shotView.frame];
 
     } else {
         NSURL *url = [NSURL URLWithString:_headViewFrm.headViewDatasource.imgStr];
@@ -167,7 +175,7 @@
         [imgView sd_setImageWithURL:url placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                     imgView.image = [ScaleImage scaleImage:imgView.image size:_headViewFrm.imgFrm.size];
             
-            [self screenShotWithRect:shotView.frame];
+//            [self screenShotWithRect:shotView.frame];
         }];
     }
     
@@ -282,6 +290,8 @@
     backgroupView.frame = _headViewFrm.backgroundViewFrm;
     imgView.frame = _headViewFrm.imgFrm;
     categoryLab.frame = _headViewFrm.categoryFrm;
+
+    grayView.frame = _headViewFrm.titleLabFrm;
     titleLab.frame = _headViewFrm.titleLabFrm;
     
     CGRect rect = titleLab.frame;
@@ -410,7 +420,7 @@
     maskLayer_Shadow.path = maskPath_Shadow.CGPath;
     shotView.layer.mask = maskLayer_Shadow;
     
-    [self setBlurView];
+//    [self setBlurView];
     
 }
 
@@ -421,8 +431,9 @@
     blurView.frame = rect;
     blurView.targetImage = shotView.image;
 
-    blurView.blurRadius = 15.56;
-    blurView.alpha = 0.9;
+//    blurView.blurRadius = 15.56;
+    blurView.blurRadius = 0;
+    blurView.alpha = 0.7;
 
     //设置右下圆角
     UIBezierPath *maskPath_Shadow = [UIBezierPath bezierPathWithRoundedRect:blurView.bounds byRoundingCorners:UIRectCornerBottomRight|UIRectCornerTopRight  cornerRadii:CGSizeMake(5, 5)];

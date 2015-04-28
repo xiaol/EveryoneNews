@@ -16,14 +16,16 @@
     
     CGFloat screenW = [UIScreen mainScreen].bounds.size.width;
     
+    CGFloat backH;
+    
     if (screenW == 320) {
-        CGFloat backH = 412 / 2;
+        backH = 412 / 2;
         _backFrm = CGRectMake(0, 0, screenW, backH + 8);
         _imgFrm = CGRectMake(0, 0, screenW, backH);
         
     } else {
 //        CGFloat backH = 195;
-        CGFloat backH = 412 / 2 + 20;
+        backH = 412 / 2 + 20;
         
         _backFrm = CGRectMake(0, 0, screenW, backH);
         
@@ -38,9 +40,14 @@
         
     }
     
-    _titleFrm = CGRectMake(0, 0, 80, 100);
+    CGFloat titleY = CGRectGetMaxY(_imgFrm) - 50;
+    CGFloat titleX = _imgFrm.origin.x + 24;
+    _titleFrm = CGRectMake(titleX, titleY + 5, _imgFrm.size.width - 2 * titleX, 40);
     
-    CGFloat categoryX = CGRectGetMaxX(_titleFrm) + 9;
+    CGFloat toumuX = _imgFrm.origin.x;
+    _toumuFrm = CGRectMake(toumuX, titleY, _imgFrm.size.width, 50);
+    
+    CGFloat categoryX = CGRectGetMaxX(_titleFrm);
     CGFloat categoryY = 142 / 3;
     _categoryFrm = CGRectMake(categoryX, categoryY, 18, 36);
     

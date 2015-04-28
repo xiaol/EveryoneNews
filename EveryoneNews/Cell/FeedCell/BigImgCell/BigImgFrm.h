@@ -19,6 +19,7 @@
 @property (nonatomic, assign, readonly) CGRect titleFrm;
 @property (nonatomic, assign, readonly) CGRect categoryFrm;
 @property (nonatomic, assign, readonly) CGRect cutlineFrm;
+@property (nonatomic, assign, readonly) CGRect toumuFrm;
 
 @property (nonatomic, assign) CGFloat CellH;
 

@@ -282,7 +282,6 @@
     contentVC.responseUrls = responseUrls;
     contentVC.rootClass = rootClass;
     [self.navigationController pushViewController:contentVC animated:YES];
-
 }
 
 #pragma mark AFNetworking
@@ -364,7 +363,6 @@
     NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:resource, method, nil];
     [textArr addObject:dict];
 }
-
 
 #pragma mark MoreCellDelegate
 - (void)scrollToPosition

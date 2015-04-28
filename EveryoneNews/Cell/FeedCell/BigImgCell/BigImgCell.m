@@ -18,6 +18,7 @@
     UILabel *titleLab;
     UILabel *categoryLab;
     UIButton *showBtn;
+    UIImageView *toumuImg;
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -29,6 +30,11 @@
         
         imgView = [[UIImageView alloc] init];
         [self.contentView addSubview:imgView];
+        
+        toumuImg = [[UIImageView alloc] init];
+        toumuImg.image = [UIImage imageNamed:@"toum.png"];
+        toumuImg.alpha = 0.7;
+        [imgView addSubview:toumuImg];
         
         titleLab = [[UILabel alloc] init];
         titleLab.font = [UIFont fontWithName:kFont size:20];
@@ -63,6 +69,7 @@
 {
     backView.frame = _bigImgFrm.backFrm;
     imgView.frame = _bigImgFrm.imgFrm;
+    toumuImg.frame = _bigImgFrm.toumuFrm;
     titleLab.frame = _bigImgFrm.titleFrm;
     categoryLab.frame = _bigImgFrm.categoryFrm;
     showBtn.frame = imgView.frame;

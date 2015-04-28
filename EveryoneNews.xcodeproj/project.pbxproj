@@ -58,6 +58,7 @@
 		C197123A1AC3DE530024B12E /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C19712391AC3DE530024B12E /* libstdc++.dylib */; };
 		C197123C1AC3DE5F0024B12E /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C197123B1AC3DE5F0024B12E /* libiconv.dylib */; };
 		C1AA073F1AEF319B0001355C /* arrowInCircle.png in Resources */ = {isa = PBXBuildFile; fileRef = C1AA073E1AEF319B0001355C /* arrowInCircle.png */; };
+		C1AA07411AEF8F730001355C /* toum.png in Resources */ = {isa = PBXBuildFile; fileRef = C1AA07401AEF8F730001355C /* toum.png */; };
 		C1B76B681AE63C0D0039FCB3 /* arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = C1B76B671AE63C0D0039FCB3 /* arrow.png */; };
 		C1B76B6D1AE643B60039FCB3 /* BigImgDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = C1B76B6C1AE643B60039FCB3 /* BigImgDatasource.m */; };
 		C1B76B701AE643C70039FCB3 /* BigImgFrm.m in Sources */ = {isa = PBXBuildFile; fileRef = C1B76B6F1AE643C70039FCB3 /* BigImgFrm.m */; };
@@ -214,6 +215,7 @@
 		C19712391AC3DE530024B12E /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		C197123B1AC3DE5F0024B12E /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		C1AA073E1AEF319B0001355C /* arrowInCircle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrowInCircle.png; sourceTree = "<group>"; };
+		C1AA07401AEF8F730001355C /* toum.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = toum.png; sourceTree = "<group>"; };
 		C1B76B671AE63C0D0039FCB3 /* arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow.png; sourceTree = "<group>"; };
 		C1B76B6B1AE643B60039FCB3 /* BigImgDatasource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BigImgDatasource.h; sourceTree = "<group>"; };
 		C1B76B6C1AE643B60039FCB3 /* BigImgDatasource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BigImgDatasource.m; sourceTree = "<group>"; };
@@ -720,6 +722,7 @@
 		C1C052701AC1196200D6D687 /* HeadView */ = {
 			isa = PBXGroup;
 			children = (
+				C1AA07401AEF8F730001355C /* toum.png */,
 				C1AA073E1AEF319B0001355C /* arrowInCircle.png */,
 				C13E9DD11AEE39AE00E7E23C /* navTitle.png */,
 				C17F74661ADE3BBA00746CDB /* navBack.png */,
@@ -909,6 +912,7 @@
 			files = (
 				C12F983D1AE0E4E1003198BA /* NotoSansHans-DemiLight.otf in Resources */,
 				C1C009B61AD543DA00F550A4 /* zhonggongwang.png in Resources */,
+				C1AA07411AEF8F730001355C /* toum.png in Resources */,
 				C17F74591ADCC26C00746CDB /* webBack.png in Resources */,
 				C1C009B11AD543DA00F550A4 /* thirty_six_ke.png in Resources */,
 				C1C009AF1AD543DA00F550A4 /* taipingyangdiannaowang.png in Resources */,
