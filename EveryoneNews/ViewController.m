@@ -314,13 +314,13 @@
         
         NSString * special = [NSString stringWithFormat:@"1%@", dict[@"special"]];
 
-        if (![special isEqualToString:@"11"]) {
+        if ([special isEqualToString:@"1400"] || [special isEqualToString:@"19"]) {
             HeadViewFrame *headViewFrm = [[HeadViewFrame alloc] init];
             headViewFrm.headViewDatasource = [HeadViewDatasource headViewDatasourceWithDict:dict];
             [self putToTextArr:headViewFrm Method:@"headView"];
 //            [self putToResourceArr:headViewFrm Method:@"headView"];
 
-        } else {
+        } else if ([special isEqualToString:@"11"]) {
             BigImgFrm *bigImgFrm = [[BigImgFrm alloc] init];
             bigImgFrm.bigImgDatasource = [BigImgDatasource bigImgDatasourceWithDict:dict];
             [self putToImgArr:bigImgFrm Method:@"bigImg"];
@@ -371,6 +371,9 @@
     NSLog(@"scrollToPosition");
 }
 
+- (void)dealloc {
+//    [super dealloc];
+}
 
 //- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 //{

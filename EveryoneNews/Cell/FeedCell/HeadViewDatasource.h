@@ -29,6 +29,10 @@
 
 @property (nonatomic, copy) NSString *categoryStr;
 
+@property (nonatomic, copy) NSString *specialStr;
+
+@property (nonatomic, strong)NSArray *imgArr;
+
 +(id)headViewDatasourceWithDict:(NSDictionary *)dict;
 
 @end

@@ -18,7 +18,7 @@
 -(id)initWithDict:(NSDictionary *)dict
 {
     if (self = [super init]) {
-        _imgStr = dict[@"imgUrl"];
+        
         _sourceUrl = dict[@"sourceUrl"];
         _titleStr = dict[@"title"];
         _subArr = dict[@"sublist"];
@@ -29,6 +29,15 @@
         _sourceSiteName = dict[@"sourceSiteName"];
         _rootClass = dict[@"root_class"];
         _categoryStr = dict[@"category"];
+        _specialStr = [NSString stringWithFormat:@"1%@", dict[@"special"]];
+        if ([_specialStr isEqualToString:@"19"]) {
+            NSLog(@"special:%@", _specialStr);
+            _imgArr = dict[@"imgUrl_ex"];
+            _imgStr = _imgArr[0];
+        } else {
+            _imgStr = dict[@"imgUrl"];
+        }
+        
         
 //        NSLog(@"imgStr:%@ \n       sourceUrl:%@ \n      titleStr:%@ \n", _imgStr, _sourceUrl, _titleStr);
 //        NSLog(@"subArr:%@", _subArr);

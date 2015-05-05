@@ -9,10 +9,14 @@
 #import "HeadViewFrame.h"
 
 @implementation HeadViewFrame
+{
+    CGFloat maxSourceViewY;
+}
 
 - (void)setHeadViewDatasource:(HeadViewDatasource *)headViewDatasource
 {
     _headViewDatasource = headViewDatasource;
+    
     
     CGFloat backViewW = [UIScreen mainScreen].bounds.size.width;
     
@@ -38,8 +42,16 @@
     CGFloat sourceViewH = 28;
     CGFloat sourceViewY = CGRectGetMaxY(_imgFrm) + 8;
     _sourceView_1 = CGRectMake(0, sourceViewY, backViewW, sourceViewH);
-    _sourceView_2 = CGRectMake(0, sourceViewY + sourceViewH, backViewW, sourceViewH);
-    _sourceView_3 = CGRectMake(0, sourceViewY + 2 * sourceViewH, backViewW, sourceViewH + 5);
+    maxSourceViewY = CGRectGetMaxY(_sourceView_1);
+    if (_headViewDatasource.subArr.count >= 2) {
+        _sourceView_2 = CGRectMake(0, sourceViewY + sourceViewH, backViewW, sourceViewH);
+        maxSourceViewY = CGRectGetMaxY(_sourceView_2);
+    }
+    if (_headViewDatasource.subArr.count >= 3) {
+        _sourceView_3 = CGRectMake(0, sourceViewY + 2 * sourceViewH, backViewW, sourceViewH + 5);
+        maxSourceViewY = CGRectGetMaxY(_sourceView_3);
+    }
+    
     
     _sourceIcon = CGRectMake(16 + 12, 8, 16, 13.5);
     
@@ -59,32 +71,22 @@
     if (![_headViewDatasource.aspectStr isEqualToString:@"0家观点"]) {
         CGFloat aspectW = 100;
         CGFloat aspectX = backViewW - aspectW - 16;
-        CGFloat aspectY = CGRectGetMaxY(_sourceView_3) + 5;
+        CGFloat aspectY = maxSourceViewY + 5;
         _aspectFrm = CGRectMake(aspectX, aspectY, aspectW, 30);
         _bottonView = CGRectMake(0, aspectY, backViewW, 40);
         cutY = CGRectGetMaxY(_bottonView);
     } else {
-//        _bottonView = CGRectMake(0, CGRectGetMaxY(_sourceView_3), backViewW, 40);
         _aspectFrm = CGRectMake(0, 0, 0, 0);
-        cutY = CGRectGetMaxY(_sourceView_3);
+        cutY = maxSourceViewY;
     }
     
     cutY += 8;
-
-//    CGFloat aspectW = 100;
-//    CGFloat aspectX = backViewW - aspectW - 16;
-//    CGFloat aspectY = CGRectGetMaxY(_sourceView_3);
-//    _aspectFrm = CGRectMake(aspectX, aspectY, aspectW, 30);
-//    _bottonView = CGRectMake(0, aspectY, backViewW, 40);
-
     
     if (backViewW > 320) {
         _cutBlockFrm = CGRectMake(0, cutY, backViewW, 1);
     } else {
         _cutBlockFrm = CGRectMake(0, cutY, backViewW, 8);
     }
-    
-    
     
     CGFloat backViewH = CGRectGetMaxY(_cutBlockFrm);
     _backgroundViewFrm = CGRectMake(0, 0, backViewW, backViewH);
