@@ -31,9 +31,9 @@
         _categoryStr = dict[@"category"];
         _specialStr = [NSString stringWithFormat:@"1%@", dict[@"special"]];
         if ([_specialStr isEqualToString:@"19"]) {
-            NSLog(@"special:%@", _specialStr);
             _imgArr = dict[@"imgUrl_ex"];
             _imgStr = _imgArr[0];
+            NSLog(@"imgArr.count:%ld", _imgArr.count);
         } else {
             _imgStr = dict[@"imgUrl"];
         }

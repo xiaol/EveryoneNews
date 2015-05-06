@@ -11,6 +11,8 @@
 @implementation HeadViewFrame
 {
     CGFloat maxSourceViewY;
+    CGFloat maxImgY;
+    CGFloat sourceViewY;
 }
 
 - (void)setHeadViewDatasource:(HeadViewDatasource *)headViewDatasource
@@ -21,26 +23,59 @@
     CGFloat backViewW = [UIScreen mainScreen].bounds.size.width;
     
 //    CGFloat factor = [UIScreen mainScreen].bounds.size.width / 320;
-    
-    CGFloat imgX = (backViewW - 320) / 2;
-    
+    CGFloat imgX = (backViewW - 320) / 2 + 7;
     CGFloat startY = 0;
     if (backViewW > 320) {
         startY = 20;
     }
-    
     CGFloat titleW = 222;
     CGFloat titleH = 53;
-    _titleLabFrm = CGRectMake(imgX + 12, startY + 30, titleW, titleH);
     
-//    CGFloat imgH = 180 * factor;
-//    CGFloat imgX = (backViewW - 320) / 2;
-    _categoryFrm = CGRectMake(10, 0, 36, 18);
-    _imgFrm = CGRectMake(imgX, startY, 320, 180);
+    if ([_headViewDatasource.specialStr isEqualToString:@"1400"]) {
+        
+        _titleLabFrm = CGRectMake(imgX + 12, startY + 30, titleW, titleH);
+        
+        _categoryFrm = CGRectMake(10, 0, 36, 18);
+        _imgFrm = CGRectMake(imgX - 7, startY, 320, 180);
+        _imgFrm_2 = CGRectMake(0, 0, 0, 0);
+        _imgFrm_3 = CGRectMake(0, 0, 0, 0);
+        
+        sourceViewY = CGRectGetMaxY(_imgFrm) + 8;
+    } else {
+        if (_headViewDatasource.imgArr.count == 2) {
+//            CGFloat imgX = 7;
+            CGFloat offset = 9;
+            CGFloat imgW = (320 - offset - 2 * 7) / 2;
+            CGFloat imgH = 230 * imgW / 335;
+            _imgFrm = CGRectMake(imgX, startY, imgW, imgH);
+            _imgFrm_2 = CGRectMake(imgX + offset + imgW, startY, imgW, imgH);
+//            maxImgY = CGRectGetMaxY(_imgFrm_2);
+            _imgFrm_3 = CGRectMake(0, 0, 0, 0);
+            
+        } else if (_headViewDatasource.imgArr.count > 2) {
+            CGFloat offset = 9;
+            CGFloat imgW = (320 - offset * 2 - 2 * 7) / 3;
+            CGFloat imgH = 180 / 220 * imgW;
+            _imgFrm = CGRectMake(imgX, startY, imgW, imgH);
+            _imgFrm_2 = CGRectMake(imgX + offset + imgW, startY, imgW, imgH);
+            _imgFrm_3 = CGRectMake(imgX + 2 * offset + 2 * imgW, startY, imgW, imgH);
+//            maxImgY = CGRectGetMaxY(_imgFrm_3);
+        }
+        CGFloat titleY = CGRectGetMaxY(_imgFrm) + 18;
+        titleW = backViewW - 36 - 9 - imgX;
+        _titleLabFrm = CGRectMake(imgX + 12, titleY, titleW, titleH);
+        
+        CGFloat categoryX = backViewW - imgX - 36;
+        CGFloat categoryY = CGRectGetMaxY(_titleLabFrm) - 18;
+        _categoryFrm = CGRectMake(categoryX, categoryY, 36, 18);
+        
+        sourceViewY = CGRectGetMaxY(_titleLabFrm) + 8;
+        
+    }
    
     ////////////////////////
     CGFloat sourceViewH = 28;
-    CGFloat sourceViewY = CGRectGetMaxY(_imgFrm) + 8;
+    
     _sourceView_1 = CGRectMake(0, sourceViewY, backViewW, sourceViewH);
     maxSourceViewY = CGRectGetMaxY(_sourceView_1);
     if (_headViewDatasource.subArr.count >= 2) {

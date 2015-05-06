@@ -15,6 +15,8 @@
 @property (nonatomic, assign, readonly) CGRect backgroundViewFrm;
 @property (nonatomic, assign, readonly) CGRect titleLabFrm;
 @property (nonatomic, assign, readonly) CGRect imgFrm;
+@property (nonatomic, assign, readonly) CGRect imgFrm_2;
+@property (nonatomic, assign, readonly) CGRect imgFrm_3;
 
 //@property (nonatomic, assign, readonly) CGRect titleFrm_1;
 //@property (nonatomic, assign, readonly) CGRect titleFrm_2;

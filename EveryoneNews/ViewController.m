@@ -15,6 +15,7 @@
 #import "UIColor+HexToRGB.h"
 #import "AFNetworking.h"
 #import "MJRefresh.h"
+//#import "DataCacheTool.h"
 
 @interface ViewController ()<UITableViewDataSource, UITableViewDelegate, HeadViewDelegate, MoreCellDelegate>
 {
@@ -72,6 +73,11 @@
     [self followRollingScrollView:myTableView];
     
 //    [self getRequest:[NSString stringWithFormat:@"%@%@", kServerIP, kFetchHome]];
+    //if ([DataCacheTool hasNewData]) {
+        // 读取缓存
+//        NSArray *arr = [DataCacheTool rowsWithCount:1];
+//        NSLog(@"arr:%@", arr);
+    //}
     [self getRequest:[NSString stringWithFormat:@"%@%@", kServerIP, kTimenews]];
 }
 
@@ -102,7 +108,7 @@
 
 - (void)headerRefresh
 {
-    [myTableView headerEndRefreshing];
+    
     isHeaderFreshing = YES;
     
     if (imgArr != nil && ![imgArr isKindOfClass:[NSNull class]] && imgArr.count != 0) {
@@ -118,11 +124,13 @@
 
     [self stopRefresh];
     
+    [myTableView headerEndRefreshing];
+    
 }
 
 - (void)footerRefresh
 {
-    [myTableView footerEndRefreshing];
+    
     isHeaderFreshing = NO;
     
     if (textArr != nil && ![textArr isKindOfClass:[NSNull class]] && textArr.count != 0) {
@@ -136,6 +144,8 @@
         }
     }
     [self stopRefresh];
+    
+    [myTableView footerEndRefreshing];
 }
 
 - (void)stopRefresh
@@ -296,6 +306,10 @@
         NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
         //系统自带JSON解析
         NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
+        
+//        NSArray *arrDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
+//
+//        [DataCacheTool addRows:arrDic];
         
         [self convertToModel:resultDic];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

@@ -20,6 +20,8 @@
 {
     UIView *backgroupView;
     UIImageView *imgView;
+    UIImageView *imgView_2;
+    UIImageView *imgView_3;
     UILabel *titleLab;
     UILabel *sourceTitle_1;
     UILabel *sourceTitle_2;
@@ -62,20 +64,21 @@
         [self.contentView addSubview:backgroupView];
         
         imgView = [[UIImageView alloc] init];
-        imgView.contentMode = UIViewContentModeScaleAspectFill;
-        imgView.clipsToBounds = YES;
-        imgView.backgroundColor = [UIColor grayColor];
-        [backgroupView addSubview:imgView];
+        imgView_2 = [[UIImageView alloc] init];
+        imgView_3 = [[UIImageView alloc] init];
+        [self setImg:imgView];
+        [self setImg:imgView_2];
+        [self setImg:imgView_3];
         
         categoryLab = [[UILabel alloc] init];
         categoryLab.font = [UIFont fontWithName:kFont size:15];
         categoryLab.textAlignment = NSTextAlignmentCenter;
         
-        [imgView addSubview:categoryLab];
+        [backgroupView addSubview:categoryLab];
        
         shotView = [[UIImageView alloc] init];
         shotView.clipsToBounds = YES;
-        [backgroupView addSubview:shotView];
+//        [backgroupView addSubview:shotView];
         
         blurView = [[GRKBlurView alloc] init];
         [backgroupView addSubview:blurView];
@@ -86,20 +89,21 @@
         grayView.alpha = 0.7;
         grayView.layer.masksToBounds = YES;
         grayView.layer.cornerRadius = 2;
-        [backgroupView addSubview:grayView];
+//        [backgroupView addSubview:grayView];
         
         
         titleLab = [[UILabel alloc] init];
         titleLab.font = [UIFont fontWithName:kFont size:20];
-        titleLab.textColor = [UIColor colorFromHexString:@"#ffffff"];
+//        titleLab.textColor = [UIColor colorFromHexString:@"#ffffff"];
+        titleLab.textColor = [UIColor blackColor];
         titleLab.numberOfLines = 2;
         titleLab.lineBreakMode = NSLineBreakByWordWrapping;
-        //字体加阴影
-        titleLab.layer.shadowColor = [UIColor blackColor].CGColor;
-        titleLab.layer.shadowOpacity = 0.6;
-        titleLab.layer.shadowRadius = 1.0;
-        //阴影方向
-        titleLab.layer.shadowOffset = CGSizeMake(2, 2);
+//        //字体加阴影
+//        titleLab.layer.shadowColor = [UIColor blackColor].CGColor;
+//        titleLab.layer.shadowOpacity = 0.6;
+//        titleLab.layer.shadowRadius = 1.0;
+//        //阴影方向
+//        titleLab.layer.shadowOffset = CGSizeMake(2, 2);
         
         [backgroupView addSubview:titleLab];
         
@@ -166,17 +170,34 @@
 {
     titleLab.text = _headViewFrm.headViewDatasource.titleStr;
     
+//    NSString *spe = _headViewFrm.headViewDatasource.specialStr;
+//    if (![spe isEqualToString:@"1400"]) {
+//        NSLog(@"hihihihihiihihi-----------------");
+//    }
+    
     if ([self isBlankString:_headViewFrm.headViewDatasource.imgStr]) {
 //        [self screenShotWithRect:shotView.frame];
 
     } else {
-        NSURL *url = [NSURL URLWithString:_headViewFrm.headViewDatasource.imgStr];
-        
-        [imgView sd_setImageWithURL:url placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                    imgView.image = [ScaleImage scaleImage:imgView.image size:_headViewFrm.imgFrm.size];
-            
-//            [self screenShotWithRect:shotView.frame];
-        }];
+//        NSURL *url = [NSURL URLWithString:_headViewFrm.headViewDatasource.imgStr];
+//        
+//        [imgView sd_setImageWithURL:url placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+//                    imgView.image = [ScaleImage scaleImage:imgView.image size:_headViewFrm.imgFrm.size];
+//            
+////            [self screenShotWithRect:shotView.frame];
+//        }];
+        [self loadImgView:imgView WithUrl:_headViewFrm.headViewDatasource.imgStr WithSize:_headViewFrm.imgFrm.size];
+    }
+    
+    if (_headViewFrm.headViewDatasource.imgArr.count == 2) {
+        [self loadImgView:imgView_2 WithUrl:_headViewFrm.headViewDatasource.imgArr[1] WithSize:_headViewFrm.imgFrm_2.size];
+    }
+    
+    if (_headViewFrm.headViewDatasource.imgArr.count >= 3) {
+
+        [self loadImgView:imgView_2 WithUrl:_headViewFrm.headViewDatasource.imgArr[1] WithSize:_headViewFrm.imgFrm_2.size];
+
+        [self loadImgView:imgView_3 WithUrl:_headViewFrm.headViewDatasource.imgArr[2] WithSize:_headViewFrm.imgFrm_3.size];
     }
     
     //分类
@@ -289,6 +310,8 @@
 {
     backgroupView.frame = _headViewFrm.backgroundViewFrm;
     imgView.frame = _headViewFrm.imgFrm;
+    imgView_2.frame = _headViewFrm.imgFrm_2;
+    imgView_3.frame = _headViewFrm.imgFrm_3;
     categoryLab.frame = _headViewFrm.categoryFrm;
 
     grayView.frame = _headViewFrm.titleLabFrm;
@@ -389,59 +412,59 @@
     return NO;
 }
 
-#pragma mark screenShot
--(void)screenShotWithRect:(CGRect)rect {
-    
-    rect.origin.x = 0;
-    if ([UIScreen mainScreen].bounds.size.width > 320) {
-        rect.origin.y = rect.origin.y - 8;
-    }
-    
-    
-//    UIGraphicsBeginImageContextWithOptions(imgView.frame.size, YES, 1);
-    UIGraphicsBeginImageContextWithOptions(self.contentView.frame.size, YES, 1);
-    [[imgView layer] renderInContext:UIGraphicsGetCurrentContext()];
-//    [[self.contentView layer] renderInContext:UIGraphicsGetCurrentContext()];
-    UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    CGImageRef imageRef = viewImage.CGImage;
-//    CGRect rect =CGRectMake(100,  100, 320, 400);//这里可以设置想要截图的区域
-    CGImageRef imageRefRect =CGImageCreateWithImageInRect(imageRef, rect);
-    UIImage *sendImage = [[UIImage alloc] initWithCGImage:imageRefRect];
-    
-    shotView.image = sendImage;
-    
-    CGImageRelease(imageRefRect);
-    
-    //设置右下圆角
-    UIBezierPath *maskPath_Shadow = [UIBezierPath bezierPathWithRoundedRect:shotView.bounds byRoundingCorners:UIRectCornerBottomRight|UIRectCornerTopRight  cornerRadii:CGSizeMake(5, 5)];
-    CAShapeLayer *maskLayer_Shadow = [[CAShapeLayer alloc] init];
-    maskLayer_Shadow.frame = shotView.bounds;
-    maskLayer_Shadow.path = maskPath_Shadow.CGPath;
-    shotView.layer.mask = maskLayer_Shadow;
-    
-//    [self setBlurView];
-    
-}
+//#pragma mark screenShot
+//-(void)screenShotWithRect:(CGRect)rect {
+//    
+//    rect.origin.x = 0;
+//    if ([UIScreen mainScreen].bounds.size.width > 320) {
+//        rect.origin.y = rect.origin.y - 8;
+//    }
+//    
+//    
+////    UIGraphicsBeginImageContextWithOptions(imgView.frame.size, YES, 1);
+//    UIGraphicsBeginImageContextWithOptions(self.contentView.frame.size, YES, 1);
+//    [[imgView layer] renderInContext:UIGraphicsGetCurrentContext()];
+////    [[self.contentView layer] renderInContext:UIGraphicsGetCurrentContext()];
+//    UIImage *viewImage = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+//    CGImageRef imageRef = viewImage.CGImage;
+////    CGRect rect =CGRectMake(100,  100, 320, 400);//这里可以设置想要截图的区域
+//    CGImageRef imageRefRect =CGImageCreateWithImageInRect(imageRef, rect);
+//    UIImage *sendImage = [[UIImage alloc] initWithCGImage:imageRefRect];
+//    
+//    shotView.image = sendImage;
+//    
+//    CGImageRelease(imageRefRect);
+//    
+//    //设置右下圆角
+//    UIBezierPath *maskPath_Shadow = [UIBezierPath bezierPathWithRoundedRect:shotView.bounds byRoundingCorners:UIRectCornerBottomRight|UIRectCornerTopRight  cornerRadii:CGSizeMake(5, 5)];
+//    CAShapeLayer *maskLayer_Shadow = [[CAShapeLayer alloc] init];
+//    maskLayer_Shadow.frame = shotView.bounds;
+//    maskLayer_Shadow.path = maskPath_Shadow.CGPath;
+//    shotView.layer.mask = maskLayer_Shadow;
+//    
+////    [self setBlurView];
+//    
+//}
 
-#pragma mark 设置毛玻璃效果
-- (void)setBlurView
-{
-    CGRect rect = shotView.frame;
-    blurView.frame = rect;
-    blurView.targetImage = shotView.image;
-
-//    blurView.blurRadius = 15.56;
-    blurView.blurRadius = 0;
-    blurView.alpha = 0.7;
-
-    //设置右下圆角
-    UIBezierPath *maskPath_Shadow = [UIBezierPath bezierPathWithRoundedRect:blurView.bounds byRoundingCorners:UIRectCornerBottomRight|UIRectCornerTopRight  cornerRadii:CGSizeMake(5, 5)];
-    CAShapeLayer *maskLayer_Shadow = [[CAShapeLayer alloc] init];
-    maskLayer_Shadow.frame = blurView.bounds;
-    maskLayer_Shadow.path = maskPath_Shadow.CGPath;
-    blurView.layer.mask = maskLayer_Shadow;
-}
+//#pragma mark 设置毛玻璃效果
+//- (void)setBlurView
+//{
+//    CGRect rect = shotView.frame;
+//    blurView.frame = rect;
+//    blurView.targetImage = shotView.image;
+//
+////    blurView.blurRadius = 15.56;
+//    blurView.blurRadius = 0;
+//    blurView.alpha = 0.7;
+//
+//    //设置右下圆角
+//    UIBezierPath *maskPath_Shadow = [UIBezierPath bezierPathWithRoundedRect:blurView.bounds byRoundingCorners:UIRectCornerBottomRight|UIRectCornerTopRight  cornerRadii:CGSizeMake(5, 5)];
+//    CAShapeLayer *maskLayer_Shadow = [[CAShapeLayer alloc] init];
+//    maskLayer_Shadow.frame = blurView.bounds;
+//    maskLayer_Shadow.path = maskPath_Shadow.CGPath;
+//    blurView.layer.mask = maskLayer_Shadow;
+//}
 
 #pragma mark 设置相关新闻UI
 - (void)setRelateNewsWithSourceTitle:(UILabel *)sourceTitle SourceName:(UILabel *)sourceName
@@ -478,6 +501,23 @@
     sourceName.backgroundColor = [UIColor clearColor];
     [sourceView addSubview:sourceName];
     
+}
+
+- (void)setImg:(UIImageView *)img
+{
+    img.contentMode = UIViewContentModeScaleAspectFill;
+    img.clipsToBounds = YES;
+    img.backgroundColor = [UIColor grayColor];
+    [backgroupView addSubview:img];
+}
+
+- (void)loadImgView:(UIImageView *)img WithUrl:(NSString *)urlStr WithSize:(CGSize)size
+{
+    NSURL *url = [NSURL URLWithString:urlStr];
+    
+    [img sd_setImageWithURL:url placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        img.image = [ScaleImage scaleImage:img.image size:size];
+    }];
 }
 
 - (void)setSourceIcon:(UIImageView *)sourceIcon SourceSiteName:(NSString *)sourceSiteName
