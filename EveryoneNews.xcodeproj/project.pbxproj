@@ -26,6 +26,7 @@
 		C13B06511AD631F70010095D /* huanqiuwang.png in Resources */ = {isa = PBXBuildFile; fileRef = C13B06501AD631F70010095D /* huanqiuwang.png */; };
 		C13E9DD21AEE39AE00E7E23C /* navTitle.png in Resources */ = {isa = PBXBuildFile; fileRef = C13E9DD11AEE39AE00E7E23C /* navTitle.png */; };
 		C13E9DD51AEE3D9600E7E23C /* MoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C13E9DD41AEE3D9600E7E23C /* MoreCell.m */; };
+		C1690CB61AFC73BD0034CD22 /* pointView.m in Sources */ = {isa = PBXBuildFile; fileRef = C1690CB51AFC73BD0034CD22 /* pointView.m */; };
 		C16FA9971ACAFB1F00F85DF8 /* BaiduFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9961ACAFB1F00F85DF8 /* BaiduFrame.m */; };
 		C16FA99A1ACAFB3A00F85DF8 /* BaiduDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9991ACAFB3A00F85DF8 /* BaiduDatasource.m */; };
 		C16FA99D1ACB024500F85DF8 /* BaiduCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA99C1ACB024500F85DF8 /* BaiduCell.m */; };
@@ -138,6 +139,8 @@
 		C1C052BD1AC13BDB00D6D687 /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = C1C052B51AC13BDB00D6D687 /* UIView+MJExtension.m */; };
 		C1C052C31AC13BE400D6D687 /* YLGIFImage.m in Sources */ = {isa = PBXBuildFile; fileRef = C1C052C01AC13BE400D6D687 /* YLGIFImage.m */; };
 		C1C052C41AC13BE400D6D687 /* YLImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C1C052C21AC13BE400D6D687 /* YLImageView.m */; };
+		C1DAEC981AFA1C3100B39432 /* SingleImgFrm.m in Sources */ = {isa = PBXBuildFile; fileRef = C1DAEC971AFA1C3100B39432 /* SingleImgFrm.m */; };
+		C1DAEC9B1AFA1C5300B39432 /* SingleImgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C1DAEC9A1AFA1C5300B39432 /* SingleImgCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -186,6 +189,8 @@
 		C13E9DD11AEE39AE00E7E23C /* navTitle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navTitle.png; sourceTree = "<group>"; };
 		C13E9DD31AEE3D9600E7E23C /* MoreCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreCell.h; sourceTree = "<group>"; };
 		C13E9DD41AEE3D9600E7E23C /* MoreCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreCell.m; sourceTree = "<group>"; };
+		C1690CB41AFC73BD0034CD22 /* pointView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pointView.h; sourceTree = "<group>"; };
+		C1690CB51AFC73BD0034CD22 /* pointView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pointView.m; sourceTree = "<group>"; };
 		C16FA9951ACAFB1F00F85DF8 /* BaiduFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiduFrame.h; sourceTree = "<group>"; };
 		C16FA9961ACAFB1F00F85DF8 /* BaiduFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaiduFrame.m; sourceTree = "<group>"; };
 		C16FA9981ACAFB3A00F85DF8 /* BaiduDatasource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiduDatasource.h; sourceTree = "<group>"; };
@@ -352,6 +357,10 @@
 		C1C052C11AC13BE400D6D687 /* YLImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLImageView.h; sourceTree = "<group>"; };
 		C1C052C21AC13BE400D6D687 /* YLImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLImageView.m; sourceTree = "<group>"; };
 		C1D93BA11AE0E3C6009BF5E1 /* NotoSansHans-DemiLight.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansHans-DemiLight.otf"; sourceTree = "<group>"; };
+		C1DAEC961AFA1C3100B39432 /* SingleImgFrm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleImgFrm.h; sourceTree = "<group>"; };
+		C1DAEC971AFA1C3100B39432 /* SingleImgFrm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleImgFrm.m; sourceTree = "<group>"; };
+		C1DAEC991AFA1C5300B39432 /* SingleImgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleImgCell.h; sourceTree = "<group>"; };
+		C1DAEC9A1AFA1C5300B39432 /* SingleImgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleImgCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -589,6 +598,12 @@
 				C1C052611AC005C400D6D687 /* HeadViewDatasource.m */,
 				C1C052631AC005D500D6D687 /* HeadViewFrame.h */,
 				C1C052641AC005D500D6D687 /* HeadViewFrame.m */,
+				C1DAEC961AFA1C3100B39432 /* SingleImgFrm.h */,
+				C1DAEC971AFA1C3100B39432 /* SingleImgFrm.m */,
+				C1DAEC991AFA1C5300B39432 /* SingleImgCell.h */,
+				C1DAEC9A1AFA1C5300B39432 /* SingleImgCell.m */,
+				C1690CB41AFC73BD0034CD22 /* pointView.h */,
+				C1690CB51AFC73BD0034CD22 /* pointView.m */,
 			);
 			name = "Text&ImgCell";
 			sourceTree = "<group>";
@@ -1093,6 +1108,7 @@
 				C1C052C31AC13BE400D6D687 /* YLGIFImage.m in Sources */,
 				C1C052BD1AC13BDB00D6D687 /* UIView+MJExtension.m in Sources */,
 				C1C0525F1AC0058900D6D687 /* HeadViewCell.m in Sources */,
+				C1DAEC9B1AFA1C5300B39432 /* SingleImgCell.m in Sources */,
 				C1C052621AC005C400D6D687 /* HeadViewDatasource.m in Sources */,
 				C1B76B6D1AE643B60039FCB3 /* BigImgDatasource.m in Sources */,
 				C106D7CC1AEDEB0000DCFD95 /* CenterCell.m in Sources */,
@@ -1102,6 +1118,7 @@
 				C1C052651AC005D500D6D687 /* HeadViewFrame.m in Sources */,
 				C16FA9971ACAFB1F00F85DF8 /* BaiduFrame.m in Sources */,
 				C1C052BA1AC13BDB00D6D687 /* MJRefreshHeaderView.m in Sources */,
+				C1DAEC981AFA1C3100B39432 /* SingleImgFrm.m in Sources */,
 				C1B76B731AE643E90039FCB3 /* BigImgCell.m in Sources */,
 				C1C052371ABFFC1600D6D687 /* ViewController.m in Sources */,
 				C1C052B71AC13BDB00D6D687 /* MJRefreshBaseView.m in Sources */,
@@ -1128,6 +1145,7 @@
 				C1C0529E1AC13AB700D6D687 /* FTCoreTextView.m in Sources */,
 				C16FA9AC1ACBA71A00F85DF8 /* DoubanDatasource.m in Sources */,
 				C1C052591AC0007800D6D687 /* BaseViewController.m in Sources */,
+				C1690CB61AFC73BD0034CD22 /* pointView.m in Sources */,
 				C1C0528A1AC139B900D6D687 /* ContentDatasource.m in Sources */,
 				C12F98441AE128E7003198BA /* AbsCell.m in Sources */,
 				C1C052891AC139B900D6D687 /* ContentCellFrame.m in Sources */,

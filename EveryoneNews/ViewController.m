@@ -11,6 +11,7 @@
 #import "BigImgCell.h"
 #import "CenterCell.h"
 #import "MoreCell.h"
+#import "SingleImgCell.h"
 #import "ContentViewController.h"
 #import "UIColor+HexToRGB.h"
 #import "AFNetworking.h"
@@ -53,7 +54,6 @@
     [super viewDidLoad];
     
     [self commonInit];
-    
 }
 
 - (void)commonInit
@@ -173,10 +173,10 @@
 {
     NSDictionary *dict = dataArr[rat - indexPath.row];
     NSString *type = dict.allKeys[0];
-    if ([type isEqualToString:@"headView"]){
+    if ([type isEqualToString:@"singleCell"]){
 
-        HeadViewCell *cell = (HeadViewCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
-        CGFloat height = cell.headViewFrm.cellH;
+        SingleImgCell *cell = (SingleImgCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
+        CGFloat height = cell.singleImgFrm.cellH;
         return height;
     } else if ([type isEqualToString:@"bigImg"]) {
         
@@ -202,11 +202,11 @@
     
     NSString *type = dict.allKeys[0];
     
-    if ([type isEqualToString:@"headView"]) {
-        static NSString *cellId = @"headViewCell";
-        HeadViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
+    if ([type isEqualToString:@"singleCell"]) {
+        static NSString *cellId = @"singleCell";
+        SingleImgCell *cell = [tableView dequeueReusableCellWithIdentifier:cellId];
         if (!cell) {
-            cell = [[HeadViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
+            cell = [[SingleImgCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellId];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             //自定义UITableViewCell选中后的背景颜色和背景图片
             cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
@@ -230,7 +230,7 @@
         if ((rat - indexPath.row) == (dataArr.count - 1)) {
             stopFadein = YES;
         }
-        cell.headViewFrm = dict[type];
+        cell.singleImgFrm = dict[type];
         return cell;
     } else if ([type isEqualToString:@"centerCell"]){
         static NSString *cellId = @"centerCell";
@@ -329,10 +329,13 @@
         NSString * special = [NSString stringWithFormat:@"1%@", dict[@"special"]];
 
         if ([special isEqualToString:@"1400"] || [special isEqualToString:@"19"]) {
-            HeadViewFrame *headViewFrm = [[HeadViewFrame alloc] init];
-            headViewFrm.headViewDatasource = [HeadViewDatasource headViewDatasourceWithDict:dict];
-            [self putToTextArr:headViewFrm Method:@"headView"];
-//            [self putToResourceArr:headViewFrm Method:@"headView"];
+//            HeadViewFrame *headViewFrm = [[HeadViewFrame alloc] init];
+//            headViewFrm.headViewDatasource = [HeadViewDatasource headViewDatasourceWithDict:dict];
+//            [self putToTextArr:headViewFrm Method:@"headView"];
+////            [self putToResourceArr:headViewFrm Method:@"headView"];
+            SingleImgFrm *singleFrm = [[SingleImgFrm alloc] init];
+            singleFrm.headViewDatasource = [HeadViewDatasource headViewDatasourceWithDict:dict];
+            [self putToTextArr:singleFrm Method:@"singleCell"];
 
         } else if ([special isEqualToString:@"11"]) {
             BigImgFrm *bigImgFrm = [[BigImgFrm alloc] init];

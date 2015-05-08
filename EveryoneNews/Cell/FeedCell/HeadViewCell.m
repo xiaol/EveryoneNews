@@ -54,7 +54,7 @@
 
 }
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         backgroupView = [[UIView alloc] init];
@@ -169,11 +169,7 @@
 - (void)settingData
 {
     titleLab.text = _headViewFrm.headViewDatasource.titleStr;
-    
-//    NSString *spe = _headViewFrm.headViewDatasource.specialStr;
-//    if (![spe isEqualToString:@"1400"]) {
-//        NSLog(@"hihihihihiihihi-----------------");
-//    }
+
     
     if ([self isBlankString:_headViewFrm.headViewDatasource.imgStr]) {
 //        [self screenShotWithRect:shotView.frame];

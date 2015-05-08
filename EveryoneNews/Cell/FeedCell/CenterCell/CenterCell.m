@@ -40,6 +40,25 @@
         [backView addSubview:cutline];
         
         _cellH = backView.frame.size.height;
+        
+        
+        //时间戳
+        NSDate *now = [NSDate date];
+        NSLog(@"now date is: %@", now);
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        NSUInteger unitFlags = NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit;
+        NSDateComponents *dateComponent = [calendar components:unitFlags fromDate:now];
+        NSInteger year = [dateComponent year];
+        NSInteger month = [dateComponent month];
+        NSInteger day = [dateComponent day];
+        NSInteger hour = [dateComponent hour];
+        NSInteger minute = [dateComponent minute];
+        NSInteger second = [dateComponent second];
+        
+        NSLog(@"year:%ld M:%ld D:%ld H:%ld M:%ld S:%ld", year, month, day, hour, minute, second);
+
+        
+        
     }
     return self;
 }
