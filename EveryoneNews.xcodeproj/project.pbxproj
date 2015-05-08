@@ -26,7 +26,7 @@
 		C13B06511AD631F70010095D /* huanqiuwang.png in Resources */ = {isa = PBXBuildFile; fileRef = C13B06501AD631F70010095D /* huanqiuwang.png */; };
 		C13E9DD21AEE39AE00E7E23C /* navTitle.png in Resources */ = {isa = PBXBuildFile; fileRef = C13E9DD11AEE39AE00E7E23C /* navTitle.png */; };
 		C13E9DD51AEE3D9600E7E23C /* MoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C13E9DD41AEE3D9600E7E23C /* MoreCell.m */; };
-		C1690CB61AFC73BD0034CD22 /* pointView.m in Sources */ = {isa = PBXBuildFile; fileRef = C1690CB51AFC73BD0034CD22 /* pointView.m */; };
+		C1690CB81AFC93770034CD22 /* arrow_right_white.png in Resources */ = {isa = PBXBuildFile; fileRef = C1690CB71AFC93770034CD22 /* arrow_right_white.png */; };
 		C16FA9971ACAFB1F00F85DF8 /* BaiduFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9961ACAFB1F00F85DF8 /* BaiduFrame.m */; };
 		C16FA99A1ACAFB3A00F85DF8 /* BaiduDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9991ACAFB3A00F85DF8 /* BaiduDatasource.m */; };
 		C16FA99D1ACB024500F85DF8 /* BaiduCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA99C1ACB024500F85DF8 /* BaiduCell.m */; };
@@ -189,8 +189,7 @@
 		C13E9DD11AEE39AE00E7E23C /* navTitle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navTitle.png; sourceTree = "<group>"; };
 		C13E9DD31AEE3D9600E7E23C /* MoreCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreCell.h; sourceTree = "<group>"; };
 		C13E9DD41AEE3D9600E7E23C /* MoreCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreCell.m; sourceTree = "<group>"; };
-		C1690CB41AFC73BD0034CD22 /* pointView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pointView.h; sourceTree = "<group>"; };
-		C1690CB51AFC73BD0034CD22 /* pointView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = pointView.m; sourceTree = "<group>"; };
+		C1690CB71AFC93770034CD22 /* arrow_right_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_right_white.png; sourceTree = "<group>"; };
 		C16FA9951ACAFB1F00F85DF8 /* BaiduFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiduFrame.h; sourceTree = "<group>"; };
 		C16FA9961ACAFB1F00F85DF8 /* BaiduFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaiduFrame.m; sourceTree = "<group>"; };
 		C16FA9981ACAFB3A00F85DF8 /* BaiduDatasource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiduDatasource.h; sourceTree = "<group>"; };
@@ -602,8 +601,6 @@
 				C1DAEC971AFA1C3100B39432 /* SingleImgFrm.m */,
 				C1DAEC991AFA1C5300B39432 /* SingleImgCell.h */,
 				C1DAEC9A1AFA1C5300B39432 /* SingleImgCell.m */,
-				C1690CB41AFC73BD0034CD22 /* pointView.h */,
-				C1690CB51AFC73BD0034CD22 /* pointView.m */,
 			);
 			name = "Text&ImgCell";
 			sourceTree = "<group>";
@@ -815,6 +812,7 @@
 				C13E9DD11AEE39AE00E7E23C /* navTitle.png */,
 				C17F74661ADE3BBA00746CDB /* navBack.png */,
 				C106D7CD1AEDED2D00DCFD95 /* compass.png */,
+				C1690CB71AFC93770034CD22 /* arrow_right_white.png */,
 				C1C009491AD530F300F550A4 /* logo */,
 			);
 			path = HeadView;
@@ -1010,6 +1008,7 @@
 				C1C009B21AD543DA00F550A4 /* twenty_one_cn.png in Resources */,
 				C1C009B31AD543DA00F550A4 /* xinmin.png in Resources */,
 				C1B76B681AE63C0D0039FCB3 /* arrow.png in Resources */,
+				C1690CB81AFC93770034CD22 /* arrow_right_white.png in Resources */,
 				C1C009AB1AD543DA00F550A4 /* renminwang.png in Resources */,
 				C106D7CE1AEDED2D00DCFD95 /* compass.png in Resources */,
 				C16FA9BA1ACBE2A800F85DF8 /* weibo.png in Resources */,
@@ -1145,7 +1144,6 @@
 				C1C0529E1AC13AB700D6D687 /* FTCoreTextView.m in Sources */,
 				C16FA9AC1ACBA71A00F85DF8 /* DoubanDatasource.m in Sources */,
 				C1C052591AC0007800D6D687 /* BaseViewController.m in Sources */,
-				C1690CB61AFC73BD0034CD22 /* pointView.m in Sources */,
 				C1C0528A1AC139B900D6D687 /* ContentDatasource.m in Sources */,
 				C12F98441AE128E7003198BA /* AbsCell.m in Sources */,
 				C1C052891AC139B900D6D687 /* ContentCellFrame.m in Sources */,

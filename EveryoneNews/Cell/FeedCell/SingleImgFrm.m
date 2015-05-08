@@ -20,7 +20,7 @@
     
     CGFloat categoryX = screenW - 36;
     CGFloat categoryY = 15;
-    _categoryFrm = CGRectMake(categoryX, categoryY, 36, 18);
+    _categoryFrm = CGRectMake(categoryX, categoryY, 38, 16);
     
     CGFloat titleX = CGRectGetMaxX(_imgFrm) + 6;
     CGFloat titleW = categoryX - titleX - 8;
@@ -47,6 +47,7 @@
         _pointFrm_3 = CGRectMake(0, pointY + pointH * 2, screenW, pointH);
         maxPointY = CGRectGetMaxY(_pointFrm_3);
     }
+    maxPointY += 6;
     _backgroundFrm = CGRectMake(0, 0, screenW, maxPointY);
     _cutlineFrm = CGRectMake(0, maxPointY, screenW, 18);
     maxPointY = CGRectGetMaxY(_cutlineFrm);
@@ -57,9 +58,10 @@
     _circleFrm = CGRectMake(17, 0, 15, 15);
     
     CGFloat barH = (pointH - 15) / 2;
-    _topBlueBarFrm = CGRectMake(0, 0, 3, barH);
+    CGFloat offset = 2;
+    _topBlueBarFrm = CGRectMake(0, offset, 3, barH);
     CGFloat bottonBarY = pointH - barH;
-    _bottonBlueBarFrm  = CGRectMake(0, bottonBarY, 3, barH);
+    _bottonBlueBarFrm  = CGRectMake(0, bottonBarY + offset, 3, barH);
     
     CGFloat sourceX = CGRectGetMaxX(_circleFrm) + 9;
     _sourceFrm = CGRectMake(sourceX, pointH - 10 - 10, 80, pointH);
