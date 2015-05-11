@@ -90,10 +90,7 @@
                 [btn setBackgroundImage:[UIImage imageNamed:@"底下月亮"] forState:UIControlStateNormal];
                 [btn setBackgroundImage:[UIImage imageNamed:@"底下看过"] forState:UIControlStateSelected];
             }
-            if (i == COUNT - 2) {
-                self.selectedBtn = btn;
-                btn.selected = YES;
-            }
+   
             [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchDown];
             [self.itemBtns addObject:btn];
             [item addSubview:btn];
@@ -149,14 +146,21 @@
     } else {
         self.contentInset = UIEdgeInsetsMake(0, -itemW, 0, 0);
     }
-    
+//    if (i == COUNT - 2) {
+//        self.selectedBtn = btn;
+//        btn.selected = YES;
+//    }
+    UIButton *btn = self.itemBtns[COUNT - 2 - (int)self.type];
+    self.selectedBtn = btn;
+    btn.selected = YES;
 }
 
 - (void)btnClick:(UIButton *)btn
 {
+    NSLog(@"btn click!!!");
     // 通知代理 所选日期、时段
     if ([self.delegate respondsToSelector:@selector(dateScrollView:didSelectDate:withType:)]) {
-        [self.delegate dateScrollView:self didSelectDate:[NSDate dateStringSince:DAY_RANGE - btn.tag / 2 - 1  join:@"-"] withType:!(btn.tag % 2)];
+        [self.delegate dateScrollView:self didSelectDate:[NSDate yearStringSince:DAY_RANGE - btn.tag / 2 - 1  join:@"-"] withType:!(btn.tag % 2)];
     }
     // 设置按钮状态
     self.selectedBtn.selected = NO;

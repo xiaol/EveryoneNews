@@ -12,9 +12,7 @@
 
 @interface CountdownView ()
 @property (nonatomic, weak) UIImageView *bgImage;
-@property (nonatomic, weak) CircleProgressView *circleView;
-@property (nonatomic, weak) DateScrollView *dateView;
-@property (nonatomic, weak) UIButton *cancelBtn;
+
 @end
 
 @implementation CountdownView
@@ -94,12 +92,21 @@
     CGFloat cancelH = cancelW;
     CGFloat cancelX = self.bounds.size.width - 20 - cancelW;
     CGFloat cancelY = 36;
+    
+//        CGFloat cancelW = 15;
+//        CGFloat cancelH = cancelW;
+//        CGFloat cancelX = self.bounds.size.width/2;
+//        CGFloat cancelY = 400;
     self.cancelBtn.frame = CGRectMake(cancelX, cancelY, cancelW, cancelH);
 }
 
 - (void)cancelClick
 {
-    [self removeFromSuperview];
+//    [self removeFromSuperview];
+    
+    if ([self.delegate respondsToSelector:@selector(countdownViewDidCancel)]) {
+        [self.delegate countdownViewDidCancel];
+    }
 }
 
 @end

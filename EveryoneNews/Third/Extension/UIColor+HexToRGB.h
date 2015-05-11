@@ -11,5 +11,6 @@
 @interface UIColor (HexToRGB)
 
 + (UIColor *)colorFromHexString:(NSString *)hexString;
++ (UIColor *)colorFromHexString:(NSString *)hexString alpha:(CGFloat)alpha;
 
 @end

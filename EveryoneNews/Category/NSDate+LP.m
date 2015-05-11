@@ -24,23 +24,48 @@
     NSString *month = @"";
     NSString *day = @"";
     
-    
     NSDate *date = [NSDate dateWithTimeIntervalSinceNow:-(i*24*3600)];
     
     NSCalendar *calendar = [NSCalendar currentCalendar];
     NSDateComponents *components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond fromDate:date];
     if (components.month < 10) {
-        month = [NSString stringWithFormat:@"0%ld", components.month];
+        month = [NSString stringWithFormat:@"0%d", components.month];
     } else {
-        month = [NSString stringWithFormat:@"%ld", components.month];
+        month = [NSString stringWithFormat:@"%d", components.month];
     }
     if (components.day < 10) {
-        day = [NSString stringWithFormat:@"0%ld", components.day];
+        day = [NSString stringWithFormat:@"0%d", components.day];
     } else {
-        day = [NSString stringWithFormat:@"%ld", components.day];
+        day = [NSString stringWithFormat:@"%d", components.day];
     }
     return [NSString stringWithFormat:@"%@%@%@", month, join, day];
 
+}
+
++ (NSString *)yearStringSince:(int)i join:(NSString *)join
+{
+    NSString *month = @"";
+    NSString *day = @"";
+    NSString *year = @"";
+    
+    
+    NSDate *date = [NSDate dateWithTimeIntervalSinceNow:-(i*24*3600)];
+    
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond fromDate:date];
+    year = [NSString stringWithFormat:@"%d", components.year];
+    if (components.month < 10) {
+        month = [NSString stringWithFormat:@"0%d", components.month];
+    } else {
+        month = [NSString stringWithFormat:@"%d", components.month];
+    }
+    if (components.day < 10) {
+        day = [NSString stringWithFormat:@"0%d", components.day];
+    } else {
+        day = [NSString stringWithFormat:@"%d", components.day];
+    }
+    return [NSString stringWithFormat:@"%@%@%@%@%@", year, join, month, join, day];
+    
 }
 
 @end

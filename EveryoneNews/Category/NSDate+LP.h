@@ -14,4 +14,6 @@
 
 + (NSString *)dateStringSince:(int) i join:(NSString *)join;
 
++ (NSString *)yearStringSince:(int)i join:(NSString *)join;
+
 @end

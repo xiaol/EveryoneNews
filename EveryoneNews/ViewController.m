@@ -16,9 +16,12 @@
 #import "UIColor+HexToRGB.h"
 #import "AFNetworking.h"
 #import "MJRefresh.h"
+#import "CountdownView.h"
+#import "DateScrollView.h"
+#import "CircleProgressView.h"
 //#import "DataCacheTool.h"
 
-@interface ViewController ()<UITableViewDataSource, UITableViewDelegate, HeadViewDelegate, MoreCellDelegate>
+@interface ViewController ()<UITableViewDataSource, UITableViewDelegate, HeadViewDelegate, MoreCellDelegate, DateScrollViewDelegate, CircleProgressViewDelegate, CountdownViewDelegate>
 {
     UITableView *myTableView;
     NSMutableArray *dataArr;
@@ -35,7 +38,11 @@
     
     UIButton *timeBtn;
 }
-
+@property (strong, nonatomic) CountdownView *countdownView;
+@property (strong, nonatomic) CircleProgressView *circleProgressView;
+@property (strong, nonatomic) DateScrollView *dateScrollView;
+@property (assign, nonatomic) int nextTime;
+@property (assign, nonatomic) int nextType;
 @end
 
 @implementation ViewController
@@ -49,11 +56,19 @@
 {
     [super viewWillAppear:animated];
     self.navigationController.navigationBar.hidden = NO;
+    
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self commonInit];
+
+//    self.countdownView = [[CountdownView alloc] init];
+//    self.countdownView.updateTime = 3680;
+//    self.countdownView.type = 1;
+//    self.countdownView.frame = self.view.bounds;
+//    [self.view addSubview:self.countdownView];
+
+      [self commonInit];
 }
 
 - (void)commonInit
@@ -79,6 +94,9 @@
 //        NSLog(@"arr:%@", arr);
     //}
     [self getRequest:[NSString stringWithFormat:@"%@%@", kServerIP, kTimenews]];
+    
+//    CountdownView *countdownView = [[CountdownView alloc] init];
+//    self.countdownView = countdownView;
     
     //倒计时按钮
     timeBtn = [[UIButton alloc] init];
@@ -330,6 +348,7 @@
 - (void)getRequest:(NSString *)URL
 {
     NSString *URLTmp = [URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];  //转码成UTF-8  否则可能会出现错误
+    
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString: URLTmp]];
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -364,15 +383,39 @@
         NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
         NSString *nextUpdateTime = resultDic[@"next_update_time"];
         NSString *nextUpdateType = resultDic[@"next_update_type"];
-        int nextTime = [nextUpdateTime intValue];
-        int nextType = [nextUpdateType intValue];
-        NSLog(@"countDown:%d  %d", nextTime, nextType);
+        self.nextTime = [nextUpdateTime intValue] / 1000;
+        self.nextType = [nextUpdateType intValue];
+        // NSLog(@"countDown:%d  %d", nextTime, nextType);
+ 
+        
+        
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Failure: %@", error);
     }];
     [operation start];
 
 }
+#pragma mark 请求某天的数据
+- (void)getDataWithDay:(NSString *)urlStr
+{
+    NSString *URLTmp = [urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];  //转码成UTF-8  否则可能会出现错误
+//    NSString *URLTmp = [@"121.40.34.56/news/baijia/fetchHome?date=2015-05-09&type=1" stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString: URLTmp]];
+    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSString *requestTmp = [NSString stringWithString:operation.responseString];
+        NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
+        //系统自带JSON解析
+        NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
+        dataArr = [NSMutableArray array];
+        [self convertToModel:resultDic];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Failure: %@", error);
+    }];
+    [operation start];
+}
+    
 
 - (void)convertToModel:(NSDictionary *)resultDic
 {
@@ -397,9 +440,7 @@
             bigImgFrm.bigImgDatasource = [BigImgDatasource bigImgDatasourceWithDict:dict];
             [self putToImgArr:bigImgFrm Method:@"bigImg"];
 //            [self putToResourceArr:bigImgFrm Method:@"bigImg"];
-
         }
-        
     }
     [dataArr addObject:textArr[0]];
     NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:@"centerCell", @"centerCell", nil];
@@ -411,8 +452,6 @@
         hasLoad--;
         rat--;
     }
- 
-    
     [textArr removeObjectAtIndex:0];
 
     
@@ -448,19 +487,51 @@
     NSLog(@"scrollToPosition");
 }
 
-- (void)dealloc {
-//    [super dealloc];
-}
-
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    NSLog(@"%@", indexPath);
-//}
 
 - (void)timeBtnPress
 {
     NSLog(@"---- 倒计时界面 ----------");
+    CountdownView *countdownView = [[CountdownView alloc] initWithFrame:CGRectMake(0,0,[UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
+    countdownView.delegate = self;
+    countdownView.circleView.delegate = self;
+    countdownView.dateView.delegate = self;
+    countdownView.updateTime = self.nextTime;
+    NSLog(@"%d", self.nextTime/ 3600);
+    countdownView.type = self.nextType;
+    [self.view addSubview:countdownView];
+    self.countdownView = countdownView;
+    self.circleProgressView = countdownView.circleView;
+    self.dateScrollView = countdownView.dateView;
+//    self.navigationController.navigationBar.hidden = YES;
+    self.navigationController.navigationBarHidden = YES;
+    NSLog(@"%@", self.view);
+
 }
 
+- (void)dateScrollView:(DateScrollView *)dateScrollView didSelectDate:(NSString *)date withType:(BOOL)type
+{
+    NSLog(@"%@ ",date);
+    NSString *typeStr = @"";
+    if (type) {
+        typeStr = @"1";
+    } else {
+        typeStr = @"0";
+    }
+    NSString *url = [NSString stringWithFormat:@"http://121.40.34.56/news/baijia/fetchHome?date=%@&type=%@", date, typeStr];
+    [self getDataWithDay:url];
+    [self countdownViewDidCancel];
+}
+
+-(void)circleProgressDidFinish
+{
+    [self.countdownView removeFromSuperview];
+    // 请求新数据
+    [self getCountdown:[NSString stringWithFormat:@"%@%@", kServerIP, kCountdown]];
+}
+- (void)countdownViewDidCancel
+{
+    self.navigationController.navigationBarHidden = NO;
+    [self.countdownView removeFromSuperview];
+}
 
 @end
