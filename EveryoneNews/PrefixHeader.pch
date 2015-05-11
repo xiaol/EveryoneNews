@@ -41,4 +41,5 @@
 #define kFetchHome      @"/news/baijia/fetchHome"
 #define kFetchContent   @"/news/baijia/fetchContent?url="
 #define kTimenews       @"/news/baijia/fetchHome?timenews=1"
+#define kCountdown      @"/news/baijia/fetchTime?timefeedback=1"
 
