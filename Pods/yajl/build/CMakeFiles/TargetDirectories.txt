@@ -1,7 +1,0 @@
-/Users/uyongchang/Desktop/Demo/git/EveryoneNews/Pods/yajl/build/CMakeFiles/doc.dir
-/Users/uyongchang/Desktop/Demo/git/EveryoneNews/Pods/yajl/build/reformatter/CMakeFiles/json_reformat.dir
-/Users/uyongchang/Desktop/Demo/git/EveryoneNews/Pods/yajl/build/verify/CMakeFiles/json_verify.dir
-/Users/uyongchang/Desktop/Demo/git/EveryoneNews/Pods/yajl/build/CMakeFiles/test.dir
-/Users/uyongchang/Desktop/Demo/git/EveryoneNews/Pods/yajl/build/src/CMakeFiles/yajl.dir
-/Users/uyongchang/Desktop/Demo/git/EveryoneNews/Pods/yajl/build/src/CMakeFiles/yajl_s.dir
-/Users/uyongchang/Desktop/Demo/git/EveryoneNews/Pods/yajl/build/test/CMakeFiles/yajl_test.dir
