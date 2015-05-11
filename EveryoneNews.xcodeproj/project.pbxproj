@@ -28,6 +28,10 @@
 		C13E9DD51AEE3D9600E7E23C /* MoreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C13E9DD41AEE3D9600E7E23C /* MoreCell.m */; };
 		C1690CB81AFC93770034CD22 /* arrow_right_white.png in Resources */ = {isa = PBXBuildFile; fileRef = C1690CB71AFC93770034CD22 /* arrow_right_white.png */; };
 		C1690CBA1AFCB3EC0034CD22 /* ic_time.png in Resources */ = {isa = PBXBuildFile; fileRef = C1690CB91AFCB3EC0034CD22 /* ic_time.png */; };
+		C1690CBD1B0065700034CD22 /* NSDate+LP.m in Sources */ = {isa = PBXBuildFile; fileRef = C1690CBC1B0065700034CD22 /* NSDate+LP.m */; };
+		C1690CC61B0065DF0034CD22 /* CircleProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = C1690CC01B0065DF0034CD22 /* CircleProgressView.m */; };
+		C1690CC71B0065DF0034CD22 /* CountdownView.m in Sources */ = {isa = PBXBuildFile; fileRef = C1690CC31B0065DF0034CD22 /* CountdownView.m */; };
+		C1690CC81B0065DF0034CD22 /* DateScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = C1690CC51B0065DF0034CD22 /* DateScrollView.m */; };
 		C16FA9971ACAFB1F00F85DF8 /* BaiduFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9961ACAFB1F00F85DF8 /* BaiduFrame.m */; };
 		C16FA99A1ACAFB3A00F85DF8 /* BaiduDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9991ACAFB3A00F85DF8 /* BaiduDatasource.m */; };
 		C16FA99D1ACB024500F85DF8 /* BaiduCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA99C1ACB024500F85DF8 /* BaiduCell.m */; };
@@ -192,6 +196,15 @@
 		C13E9DD41AEE3D9600E7E23C /* MoreCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreCell.m; sourceTree = "<group>"; };
 		C1690CB71AFC93770034CD22 /* arrow_right_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_right_white.png; sourceTree = "<group>"; };
 		C1690CB91AFCB3EC0034CD22 /* ic_time.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_time.png; sourceTree = "<group>"; };
+		C1690CBB1B0065700034CD22 /* NSDate+LP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+LP.h"; sourceTree = "<group>"; };
+		C1690CBC1B0065700034CD22 /* NSDate+LP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+LP.m"; sourceTree = "<group>"; };
+		C1690CBF1B0065DF0034CD22 /* CircleProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleProgressView.h; sourceTree = "<group>"; };
+		C1690CC01B0065DF0034CD22 /* CircleProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleProgressView.m; sourceTree = "<group>"; };
+		C1690CC11B0065DF0034CD22 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
+		C1690CC21B0065DF0034CD22 /* CountdownView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountdownView.h; sourceTree = "<group>"; };
+		C1690CC31B0065DF0034CD22 /* CountdownView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountdownView.m; sourceTree = "<group>"; };
+		C1690CC41B0065DF0034CD22 /* DateScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateScrollView.h; sourceTree = "<group>"; };
+		C1690CC51B0065DF0034CD22 /* DateScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateScrollView.m; sourceTree = "<group>"; };
 		C16FA9951ACAFB1F00F85DF8 /* BaiduFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiduFrame.h; sourceTree = "<group>"; };
 		C16FA9961ACAFB1F00F85DF8 /* BaiduFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaiduFrame.m; sourceTree = "<group>"; };
 		C16FA9981ACAFB3A00F85DF8 /* BaiduDatasource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiduDatasource.h; sourceTree = "<group>"; };
@@ -448,6 +461,8 @@
 				C114420D1AF8CA2E007A4620 /* NSString+LP.m */,
 				C11442271AF9FD0E007A4620 /* NSString+YU.h */,
 				C11442281AF9FD0E007A4620 /* NSString+YU.m */,
+				C1690CBB1B0065700034CD22 /* NSDate+LP.h */,
+				C1690CBC1B0065700034CD22 /* NSDate+LP.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -488,6 +503,20 @@
 				C12F98461AE12908003198BA /* AbsDatasource.m */,
 			);
 			path = AbsCell;
+			sourceTree = "<group>";
+		};
+		C1690CBE1B0065A30034CD22 /* CountdownView */ = {
+			isa = PBXGroup;
+			children = (
+				C1690CBF1B0065DF0034CD22 /* CircleProgressView.h */,
+				C1690CC01B0065DF0034CD22 /* CircleProgressView.m */,
+				C1690CC11B0065DF0034CD22 /* Common.h */,
+				C1690CC21B0065DF0034CD22 /* CountdownView.h */,
+				C1690CC31B0065DF0034CD22 /* CountdownView.m */,
+				C1690CC41B0065DF0034CD22 /* DateScrollView.h */,
+				C1690CC51B0065DF0034CD22 /* DateScrollView.m */,
+			);
+			path = CountdownView;
 			sourceTree = "<group>";
 		};
 		C16FA9941ACAFAC900F85DF8 /* BaiduCell */ = {
@@ -689,6 +718,7 @@
 				C1C0523D1ABFFC1600D6D687 /* LaunchScreen.xib */,
 				C1C052541ABFFFCC00D6D687 /* ViewController */,
 				C114420B1AF8CA22007A4620 /* Category */,
+				C1690CBE1B0065A30034CD22 /* CountdownView */,
 				C11442071AF8C9E8007A4620 /* tool */,
 				C1C0525B1AC0051600D6D687 /* Cell */,
 				C1C0526A1AC01E9000D6D687 /* Third */,
@@ -1117,6 +1147,7 @@
 				C106D7CC1AEDEB0000DCFD95 /* CenterCell.m in Sources */,
 				C1C052C41AC13BE400D6D687 /* YLImageView.m in Sources */,
 				C1C052BC1AC13BDB00D6D687 /* UIScrollView+MJRefresh.m in Sources */,
+				C1690CBD1B0065700034CD22 /* NSDate+LP.m in Sources */,
 				C16FA9A31ACB9C1200F85DF8 /* ZhihuCell.m in Sources */,
 				C1C052651AC005D500D6D687 /* HeadViewFrame.m in Sources */,
 				C16FA9971ACAFB1F00F85DF8 /* BaiduFrame.m in Sources */,
@@ -1141,6 +1172,7 @@
 				C1C052BB1AC13BDB00D6D687 /* UIScrollView+MJExtension.m in Sources */,
 				C114421B1AF8CA99007A4620 /* FMDatabase.m in Sources */,
 				C17F74631ADD0E9F00746CDB /* XHYScrollingNavBarViewController.m in Sources */,
+				C1690CC81B0065DF0034CD22 /* DateScrollView.m in Sources */,
 				C114421D1AF8CA99007A4620 /* FMDatabasePool.m in Sources */,
 				C13E9DD51AEE3D9600E7E23C /* MoreCell.m in Sources */,
 				C16FA9A61ACB9C2600F85DF8 /* ZhihuDatasource.m in Sources */,
@@ -1159,12 +1191,14 @@
 				C1B76B761AE779BD0039FCB3 /* BaseFeedCell.m in Sources */,
 				C1C052311ABFFC1600D6D687 /* main.m in Sources */,
 				C16FA99D1ACB024500F85DF8 /* BaiduCell.m in Sources */,
+				C1690CC61B0065DF0034CD22 /* CircleProgressView.m in Sources */,
 				C1C0526E1AC01ED400D6D687 /* UIColor+HexToRGB.m in Sources */,
 				C18F951E1ACA506400A46502 /* TMQuiltView.m in Sources */,
 				C1C052A41AC13AF700D6D687 /* ScaleImage.m in Sources */,
 				C114421F1AF8CA99007A4620 /* FMResultSet.m in Sources */,
 				C18F95221ACA509A00A46502 /* TMPhotoQuiltViewCell.m in Sources */,
 				C114421C1AF8CA99007A4620 /* FMDatabaseAdditions.m in Sources */,
+				C1690CC71B0065DF0034CD22 /* CountdownView.m in Sources */,
 				C16FA9B51ACBD48400F85DF8 /* WeiboCell.m in Sources */,
 				C16FA9BD1ACC1E1400F85DF8 /* BaseCell.m in Sources */,
 				C1C009481AD3E85400F550A4 /* AutoLabelSize.m in Sources */,
