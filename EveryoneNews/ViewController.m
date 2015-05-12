@@ -505,10 +505,13 @@
 
 -(void)circleProgressDidFinish
 {
+    self.navigationController.navigationBarHidden = NO;
     [self.countdownView removeFromSuperview];
     self.countdownView = nil;
     
+    
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"selectTag"];
+    
     // 请求新数据
     [self getCountdown:[NSString stringWithFormat:@"%@%@", kServerIP, kCountdown]];
 }
