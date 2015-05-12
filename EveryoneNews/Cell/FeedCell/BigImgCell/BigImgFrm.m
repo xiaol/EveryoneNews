@@ -42,7 +42,7 @@
     
     CGFloat titleY = CGRectGetMaxY(_imgFrm) - 50;
     CGFloat titleX = _imgFrm.origin.x + 24;
-    _titleFrm = CGRectMake(titleX, titleY + 5, _imgFrm.size.width - 2 * titleX, 40);
+    _titleFrm = CGRectMake(titleX, titleY + 5, screenW - 2 * titleX, 40);
     
     CGFloat toumuX = _imgFrm.origin.x;
     _toumuFrm = CGRectMake(toumuX, titleY, _imgFrm.size.width, 50);

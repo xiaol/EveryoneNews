@@ -20,6 +20,7 @@
 #import "DateScrollView.h"
 #import "CircleProgressView.h"
 //#import "DataCacheTool.h"
+#import "HttpTool.h"
 
 @interface ViewController ()<UITableViewDataSource, UITableViewDelegate, HeadViewDelegate, MoreCellDelegate, DateScrollViewDelegate, CircleProgressViewDelegate, CountdownViewDelegate>
 {
@@ -34,7 +35,6 @@
     
     NSInteger hasLoad;
     NSInteger rat;
-    BOOL stopFadein;
     
     UIButton *timeBtn;
 }
@@ -85,13 +85,27 @@
 
     [self followRollingScrollView:myTableView];
     
-//    [self getRequest:[NSString stringWithFormat:@"%@%@", kServerIP, kFetchHome]];
+    [self getRequest];
     //if ([DataCacheTool hasNewData]) {
         // 读取缓存
 //        NSArray *arr = [DataCacheTool rowsWithCount:1];
 //        NSLog(@"arr:%@", arr);
     //}
-    [self getRequest:[NSString stringWithFormat:@"%@%@", kServerIP, kTimenews]];
+#warning --------------
+//    [self getRequest:[NSString stringWithFormat:@"%@%@", kServerIP, kTimenews]];
+    
+//    [HttpTool getWithURL:[NSString stringWithFormat:@"%@%@", kServerIP, kTimenews] params:nil success:^(id json) {
+//
+//        NSDictionary *resultDic = (NSDictionary *)json;
+//        NSLog(@"-----11------\n%@", resultDic);
+//
+//        [self convertToModel:resultDic];
+//        [self getCountdown:[NSString stringWithFormat:@"%@%@", kServerIP, kCountdown]];
+//    
+//        
+//    } failure:^(NSError *error) {
+//        
+//    }];
     
     //倒计时按钮
     timeBtn = [[UIButton alloc] init];
@@ -307,7 +321,6 @@
     [UIView commitAnimations];
 }
 
-
 - (void)getTextContent:(NSString *)sourceUrl imgUrl:(NSString *)imgUrl SourceSite:(NSString *)sourceSite Update:(NSString *)update Title:(NSString *)title ResponseUrls:(NSArray *)responseUrls RootClass:(NSString *)rootClass hasImg:(BOOL)hasImg
 {
     ContentViewController *contentVC = [[ContentViewController alloc] init];
@@ -323,42 +336,24 @@
 }
 
 #pragma mark AFNetworking
-- (void)getRequest:(NSString *)URL
+- (void)getRequest
 {
-    NSString *URLTmp = [URL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];  //转码成UTF-8  否则可能会出现错误
-    
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString: URLTmp]];
-    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSString *requestTmp = [NSString stringWithString:operation.responseString];
-        NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
-        //系统自带JSON解析
-        NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
+    [HttpTool getWithURL:[NSString stringWithFormat:@"%@%@", kServerIP, kTimenews] params:nil success:^(id json) {
         
-//        NSArray *arrDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
-//
-//        [DataCacheTool addRows:arrDic];
-        
+        NSDictionary *resultDic = (NSDictionary *)json;
         [self convertToModel:resultDic];
         [self getCountdown:[NSString stringWithFormat:@"%@%@", kServerIP, kCountdown]];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+    } failure:^(NSError *error) {
         NSLog(@"Failure: %@", error);
     }];
-    [operation start];
-    
-    stopFadein = NO;
 }
 #pragma mark 倒计时
 - (void)getCountdown:(NSString *)urlStr
 {
-    NSString *URLTmp = [urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];  //转码成UTF-8  否则可能会出现错误
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString: URLTmp]];
-    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSString *requestTmp = [NSString stringWithString:operation.responseString];
-        NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
-        //系统自带JSON解析
-        NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
+    [HttpTool getWithURL:urlStr params:nil success:^(id json) {
+        
+        NSDictionary *resultDic = (NSDictionary *)json;
         NSString *nextUpdateTime = resultDic[@"next_update_time"];
         self.remainUpdateTime = [nextUpdateTime intValue] / 1000;
         NSDate *requestTime = [NSDate date];
@@ -368,13 +363,9 @@
         NSString *nextUpdateType = resultDic[@"next_update_type"];
         self.nextTime = [nextUpdateTime intValue] / 1000;
         self.nextType = [nextUpdateType intValue];
-        // NSLog(@"countDown:%d  %d", nextTime, nextType);
-
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    } failure:^(NSError *error) {
         NSLog(@"Failure: %@", error);
     }];
-    [operation start];
 
 }
 
@@ -383,7 +374,7 @@
     if (self.remainUpdateTime <= 0) {
         // 请求新数据
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"selectTag"];
-        [self getRequest:[NSString stringWithFormat:@"%@%@", kServerIP, kTimenews]];
+        [self getRequest];
         if (self.countdownView != nil) {
             [self.countdownView removeFromSuperview];
             self.countdownView = nil;
@@ -394,21 +385,14 @@
 #pragma mark 请求某天的数据
 - (void)getDataWithDay:(NSString *)urlStr
 {
-    NSString *URLTmp = [urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];  //转码成UTF-8  否则可能会出现错误
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString: URLTmp]];
-    AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
-    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSString *requestTmp = [NSString stringWithString:operation.responseString];
-        NSData *resData = [[NSData alloc] initWithData:[requestTmp dataUsingEncoding:NSUTF8StringEncoding]];
-        //系统自带JSON解析
-        NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
+    
+    [HttpTool getWithURL:urlStr params:nil success:^(id json) {
+        NSDictionary *resultDic = (NSDictionary *)json;
         dataArr = [NSMutableArray array];
         [self convertToModel:resultDic];
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    } failure:^(NSError *error) {
         NSLog(@"Failure: %@", error);
     }];
-    [operation start];
 }
     
 

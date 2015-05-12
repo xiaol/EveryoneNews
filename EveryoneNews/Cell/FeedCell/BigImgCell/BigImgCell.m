@@ -26,21 +26,23 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         backView = [[UIView alloc] init];
         backView.backgroundColor = [UIColor whiteColor];
+//        backView.backgroundColor = [UIColor blueColor];
+//        backView.alpha = 0.3;
         [self.contentView addSubview:backView];
         
         imgView = [[UIImageView alloc] init];
-        [self.contentView addSubview:imgView];
+        [backView addSubview:imgView];
         
         toumuImg = [[UIImageView alloc] init];
         toumuImg.image = [UIImage imageNamed:@"toum.png"];
         toumuImg.alpha = 0.7;
-        [imgView addSubview:toumuImg];
+        [backView addSubview:toumuImg];
         
         titleLab = [[UILabel alloc] init];
         titleLab.font = [UIFont fontWithName:kFont size:20];
         titleLab.textColor = [UIColor whiteColor];
         titleLab.numberOfLines = 0;
-        [imgView addSubview:titleLab];
+        [backView addSubview:titleLab];
         
         categoryLab = [[UILabel alloc] init];
         categoryLab.font = [UIFont fontWithName:kFont size:15];

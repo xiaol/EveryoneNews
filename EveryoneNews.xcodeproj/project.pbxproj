@@ -155,6 +155,7 @@
 		C1C052C41AC13BE400D6D687 /* YLImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C1C052C21AC13BE400D6D687 /* YLImageView.m */; };
 		C1DAEC981AFA1C3100B39432 /* SingleImgFrm.m in Sources */ = {isa = PBXBuildFile; fileRef = C1DAEC971AFA1C3100B39432 /* SingleImgFrm.m */; };
 		C1DAEC9B1AFA1C5300B39432 /* SingleImgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C1DAEC9A1AFA1C5300B39432 /* SingleImgCell.m */; };
+		C1EC91411B01FBD5005EF2F0 /* HttpTool.m in Sources */ = {isa = PBXBuildFile; fileRef = C1EC91401B01FBD5005EF2F0 /* HttpTool.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -393,6 +394,8 @@
 		C1DAEC971AFA1C3100B39432 /* SingleImgFrm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleImgFrm.m; sourceTree = "<group>"; };
 		C1DAEC991AFA1C5300B39432 /* SingleImgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleImgCell.h; sourceTree = "<group>"; };
 		C1DAEC9A1AFA1C5300B39432 /* SingleImgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleImgCell.m; sourceTree = "<group>"; };
+		C1EC913F1B01FBD5005EF2F0 /* HttpTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpTool.h; sourceTree = "<group>"; };
+		C1EC91401B01FBD5005EF2F0 /* HttpTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpTool.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -465,6 +468,8 @@
 		C11442071AF8C9E8007A4620 /* tool */ = {
 			isa = PBXGroup;
 			children = (
+				C1EC913F1B01FBD5005EF2F0 /* HttpTool.h */,
+				C1EC91401B01FBD5005EF2F0 /* HttpTool.m */,
 				C11442081AF8C9FA007A4620 /* DataCacheTool.h */,
 				C11442091AF8C9FA007A4620 /* DataCacheTool.m */,
 			);
@@ -1198,6 +1203,7 @@
 				C1C052BA1AC13BDB00D6D687 /* MJRefreshHeaderView.m in Sources */,
 				C1DAEC981AFA1C3100B39432 /* SingleImgFrm.m in Sources */,
 				C1B76B731AE643E90039FCB3 /* BigImgCell.m in Sources */,
+				C1EC91411B01FBD5005EF2F0 /* HttpTool.m in Sources */,
 				C1C052371ABFFC1600D6D687 /* ViewController.m in Sources */,
 				C1C052B71AC13BDB00D6D687 /* MJRefreshBaseView.m in Sources */,
 				C1C052B81AC13BDB00D6D687 /* MJRefreshConst.m in Sources */,
