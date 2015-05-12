@@ -22,6 +22,7 @@
     UILabel *titleLab;
     UILabel *categoryLab;
     UILabel *aspectLab;
+    UIImageView *aspectImg;
     UIView *pointView_1;
     UIView *pointView_2;
     UIView *pointView_3;
@@ -47,6 +48,7 @@
     UILabel *indexLab_1;
     UILabel *indexLab_2;
     UILabel *indexLab_3;
+    
     
 }
 
@@ -86,6 +88,7 @@
         aspectLab.layer.masksToBounds = YES;
         aspectLab.layer.cornerRadius = 2;
         [backgroundView addSubview:aspectLab];
+        aspectImg = [[UIImageView alloc] init];
         
         pointView_1 = [[UIView alloc] init];
         pointView_2 = [[UIView alloc] init];
@@ -168,7 +171,6 @@
     rect.size.width = size.width + 15;
     aspectLab.frame = rect;
     
-    UIImageView *aspectImg = [[UIImageView alloc] init];
     CGFloat aspectImgX = CGRectGetMaxX(rect) - 12;
     aspectImg.frame = CGRectMake(aspectImgX, rect.origin.y, 6, 11);
     aspectImg.center = CGPointMake(aspectImg.center.x, aspectLab.center.y);
