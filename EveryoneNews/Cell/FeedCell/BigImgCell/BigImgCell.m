@@ -19,6 +19,7 @@
     UILabel *categoryLab;
     UIButton *showBtn;
     UIImageView *toumuImg;
+    
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -53,6 +54,10 @@
         showBtn.backgroundColor = [UIColor clearColor];
         [showBtn addTarget:self action:@selector(showBtnClick) forControlEvents:UIControlEventTouchUpInside];
         [backView addSubview:showBtn];
+        
+        _cutlineView = [[UIView alloc] init];
+        _cutlineView.backgroundColor = [UIColor whiteColor];
+        [self.contentView addSubview:_cutlineView];
     }
     return self;
 }
@@ -73,6 +78,7 @@
     titleLab.frame = _bigImgFrm.titleFrm;
     categoryLab.frame = _bigImgFrm.categoryFrm;
     showBtn.frame = imgView.frame;
+    _cutlineView.frame = _bigImgFrm.cutlineFrm;
 }
 
 - (void)settingData

@@ -32,6 +32,8 @@
 
 @property (nonatomic, copy) NSString *rootClass;
 
+@property (nonatomic, copy)NSString * isTop;
+
 //@property (nonatomic, copy) NSString *categoryStr;
 
 +(id)bigImgDatasourceWithDict:(NSDictionary *)dict;

@@ -33,7 +33,7 @@
     
     NSIndexPath *centerIndexPath;
     
-    NSInteger hasLoad;
+//    NSInteger hasLoad;
     NSInteger rat;
     
     UIButton *timeBtn;
@@ -78,7 +78,7 @@
     centerIndexPath = [[NSIndexPath alloc] init];
     
     page = 1;
-    hasLoad = 2;
+//    hasLoad = 2;
     
     [self tableViewInit];
 //    [self setupRefresh];
@@ -91,21 +91,6 @@
 //        NSArray *arr = [DataCacheTool rowsWithCount:1];
 //        NSLog(@"arr:%@", arr);
     //}
-#warning --------------
-//    [self getRequest:[NSString stringWithFormat:@"%@%@", kServerIP, kTimenews]];
-    
-//    [HttpTool getWithURL:[NSString stringWithFormat:@"%@%@", kServerIP, kTimenews] params:nil success:^(id json) {
-//
-//        NSDictionary *resultDic = (NSDictionary *)json;
-//        NSLog(@"-----11------\n%@", resultDic);
-//
-//        [self convertToModel:resultDic];
-//        [self getCountdown:[NSString stringWithFormat:@"%@%@", kServerIP, kCountdown]];
-//    
-//        
-//    } failure:^(NSError *error) {
-//        
-//    }];
     
     //倒计时按钮
     timeBtn = [[UIButton alloc] init];
@@ -151,7 +136,6 @@
             NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"MoreCell", @"MoreCell", nil];
             [dataArr addObject:dict];
             [myTableView removeHeader];
-            hasLoad++;
         }
     }
 
@@ -170,7 +154,6 @@
             NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"MoreCell", @"MoreCell", nil];
             [dataArr insertObject:dict atIndex:0];
             [myTableView removeFooter];
-            hasLoad++;
         }
     }
     [self stopRefresh];
@@ -179,11 +162,11 @@
 
 - (void)stopRefresh
 {
-    if (hasLoad != dataArr.count || hasLoad == 2) {
-        hasLoad++;
-    }
-    rat = hasLoad - 1;
-    [myTableView reloadData];
+//    if (hasLoad != dataArr.count || hasLoad == 2) {
+//        hasLoad++;
+//    }
+//    rat = hasLoad - 1;
+//    [myTableView reloadData];
 }
 
 #pragma mark tableView delegate
@@ -206,7 +189,13 @@
         return height;
     } else if ([type isEqualToString:@"bigImg"]) {
         BigImgCell *cell = (BigImgCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
+        if (indexPath.row == rat) {
+            return cell.bigImgFrm.CellH - 8;
+        } else {
+            return cell.bigImgFrm.CellH;
+        }
         return cell.bigImgFrm.CellH;
+        
     }
     else if ([type isEqualToString:@"centerCell"]){
         CenterCell *cell = (CenterCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
@@ -273,6 +262,10 @@
             cell.delegate = self;
         }
         cell.bigImgFrm = dict[type];
+        if (indexPath.row == rat) {
+            cell.cutlineView.backgroundColor = [UIColor clearColor];
+        }
+        
         return cell;
     } else {
         static NSString *cellId = @"MoreCell";
@@ -422,7 +415,9 @@
         }
     }
     if (imgArr != nil && ![imgArr isKindOfClass:[NSNull class]] && imgArr.count != 0) {
+       
         [dataArr addObjectsFromArray:imgArr];
+        rat = imgArr.count - 1;
     }
     NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:@"centerCell", @"centerCell", nil];
     [dataArr addObject:dict];
@@ -432,6 +427,11 @@
     }
 
     [myTableView reloadData];
+    
+    NSUInteger newIndex[] = {centerIndexPath.section,centerIndexPath.row - 1};
+    NSIndexPath *indexPath = [[NSIndexPath alloc] initWithIndexes:newIndex length:2];
+    [myTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    
 //    [myTableView headerEndRefreshing];
 //    [myTableView footerEndRefreshing];
 }
@@ -460,7 +460,7 @@
 - (void)scrollToPosition
 {
     [myTableView scrollToRowAtIndexPath:centerIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
-    NSLog(@"scrollToPosition");
+//    NSLog(@"scrollToPosition");
 }
 
 - (void)timeBtnPress

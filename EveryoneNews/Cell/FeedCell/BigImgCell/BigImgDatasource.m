@@ -33,6 +33,7 @@
         _sourceSiteName = dict[@"sourceSiteName"];
         _rootClass = dict[@"root_class"];
         _categoryStr = dict[@"category"];
+        _isTop = @"no";
 
     }
     return self;
