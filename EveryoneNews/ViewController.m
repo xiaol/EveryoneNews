@@ -62,12 +62,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-//    self.countdownView = [[CountdownView alloc] init];
-//    self.countdownView.updateTime = 3680;
-//    self.countdownView.type = 1;
-//    self.countdownView.frame = self.view.bounds;
-//    [self.view addSubview:self.countdownView];
-
       [self commonInit];
 }
 
@@ -94,9 +88,6 @@
 //        NSLog(@"arr:%@", arr);
     //}
     [self getRequest:[NSString stringWithFormat:@"%@%@", kServerIP, kTimenews]];
-    
-//    CountdownView *countdownView = [[CountdownView alloc] init];
-//    self.countdownView = countdownView;
     
     //倒计时按钮
     timeBtn = [[UIButton alloc] init];
@@ -192,17 +183,14 @@
     NSDictionary *dict = dataArr[rat - indexPath.row];
     NSString *type = dict.allKeys[0];
     if ([type isEqualToString:@"singleCell"]){
-
         SingleImgCell *cell = (SingleImgCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
         CGFloat height = cell.singleImgFrm.cellH;
         return height;
     } else if ([type isEqualToString:@"headView"]){
-        
         HeadViewCell *cell = (HeadViewCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
         CGFloat height = cell.headViewFrm.cellH;
         return height;
     } else if ([type isEqualToString:@"bigImg"]) {
-        
         BigImgCell *cell = (BigImgCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
         return cell.bigImgFrm.CellH;
     }
