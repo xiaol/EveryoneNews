@@ -33,7 +33,6 @@
         if ([_specialStr isEqualToString:@"19"]) {
             _imgArr = dict[@"imgUrl_ex"];
             _imgStr = _imgArr[0];
-            NSLog(@"imgArr.count:%ld", _imgArr.count);
         } else {
             _imgStr = dict[@"imgUrl"];
         }

@@ -267,7 +267,11 @@
         [self setSourceIcon:sourceIcon_1 SourceSiteName:sourceSiteNames[0]];
         [self setRelateNewsWithSourceTitle:sourceTitle_1 SourceName:sourceName_1];
         
-        if (sourceTitle.count >= 2) {
+        sourceView_2.hidden = YES;
+        sourceView_3.hidden = YES;
+        
+        if (sourceTitle.count == 2) {
+            sourceView_2.hidden = NO;
             sourceTitle_2.text = sourceTitle[1];
             sourceName_2.text = [NSString stringWithFormat:@"%@:", sourceName[1]];
             [self setSourceIcon:sourceIcon_2 SourceSiteName:sourceSiteNames[1]];
@@ -275,30 +279,20 @@
         }
         
         if (sourceTitle.count >= 3) {
+            
+            sourceView_2.hidden = NO;
+            sourceTitle_2.text = sourceTitle[1];
+            sourceName_2.text = [NSString stringWithFormat:@"%@:", sourceName[1]];
+            [self setSourceIcon:sourceIcon_2 SourceSiteName:sourceSiteNames[1]];
+            [self setRelateNewsWithSourceTitle:sourceTitle_2 SourceName:sourceName_2];
+            
+            sourceView_3.hidden = NO;
             sourceTitle_3.text = sourceTitle[2];
             sourceName_3.text = [NSString stringWithFormat:@"%@:", sourceName[2]];
             [self setSourceIcon:sourceIcon_3 SourceSiteName:sourceSiteNames[2]];
             [self setRelateNewsWithSourceTitle:sourceTitle_3 SourceName:sourceName_3];
         }
-        
-        
-    } else {
-        
-        sourceTitle_1.text = @"木有数据啊";
-        sourceTitle_2.text = @"木有数据啊";
-        sourceTitle_3.text = @"木有数据啊";
-        
-        sourceName_1.text = @"哮天犬";
-        sourceName_2.text = @"哮天犬";
-        sourceName_3.text = @"";
-        
-        [self setRelateNewsWithSourceTitle:sourceTitle_1 SourceName:sourceName_1];
-        [self setRelateNewsWithSourceTitle:sourceTitle_2 SourceName:sourceName_2];
-        [self setRelateNewsWithSourceTitle:sourceTitle_3 SourceName:sourceName_3];
     }
-    
-    
-  
     aspect.text = _headViewFrm.headViewDatasource.aspectStr;
 }
 

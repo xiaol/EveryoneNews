@@ -81,7 +81,7 @@
     hasLoad = 2;
     
     [self tableViewInit];
-    [self setupRefresh];
+//    [self setupRefresh];
 
     [self followRollingScrollView:myTableView];
     
@@ -123,7 +123,7 @@
     // 1.下拉刷新(进入刷新状态就会调用self的headerRereshing)
     [myTableView addHeaderWithTarget:self action:@selector(headerRefresh)];
     [myTableView addFooterWithTarget:self action:@selector(footerRefresh)];
-    [self headerRefresh];
+//    [self headerRefresh];
 }
 
 - (void)headerRefresh
@@ -175,16 +175,12 @@
 #pragma mark tableView delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (dataArr != nil && ![dataArr isKindOfClass:[NSNull class]] && dataArr.count != 0) {
-        return hasLoad;
-    } else {
-        return 0;
-    }
+    return dataArr.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *dict = dataArr[rat - indexPath.row];
+    NSDictionary *dict = dataArr[indexPath.row];
     NSString *type = dict.allKeys[0];
     if ([type isEqualToString:@"singleCell"]){
         SingleImgCell *cell = (SingleImgCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
@@ -213,7 +209,7 @@
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *dict = dataArr[rat - indexPath.row];
+    NSDictionary *dict = dataArr[indexPath.row];
     NSString *type = dict.allKeys[0];
     if ([type isEqualToString:@"singleCell"]) {
         static NSString *cellId = @"singleCell";
@@ -225,24 +221,7 @@
             cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
             cell.delegate = self;
         }
-        if (isHeaderFreshing) {
-            if (indexPath.row == 0 && !stopFadein) {
-                cell.contentView.alpha = 0;
-                [UIView animateWithDuration:1 animations:^{
-                    cell.contentView.alpha = 1;
-                }];
-            }
-        } else {
-            if (indexPath.row == rat) {
-                cell.contentView.alpha = 0;
-                [UIView animateWithDuration:1 animations:^{
-                    cell.contentView.alpha = 1;
-                }];
-            }
-        }
-        if ((rat - indexPath.row) == (dataArr.count - 1)) {
-            stopFadein = YES;
-        }
+
         cell.singleImgFrm = dict[type];
         return cell;
     } else if ([type isEqualToString:@"headView"]) {
@@ -255,24 +234,7 @@
             cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
             cell.delegate = self;
         }
-        if (isHeaderFreshing) {
-            if (indexPath.row == 0 && !stopFadein) {
-                cell.contentView.alpha = 0;
-                [UIView animateWithDuration:1 animations:^{
-                    cell.contentView.alpha = 1;
-                }];
-            }
-        } else {
-            if (indexPath.row == rat) {
-                cell.contentView.alpha = 0;
-                [UIView animateWithDuration:1 animations:^{
-                    cell.contentView.alpha = 1;
-                }];
-            }
-        }
-        if ((rat - indexPath.row) == (dataArr.count - 1)) {
-            stopFadein = YES;
-        }
+
         cell.headViewFrm = dict[type];
         return cell;
     } else if ([type isEqualToString:@"centerCell"]){
@@ -296,15 +258,6 @@
             cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
             cell.delegate = self;
         }
-        if (indexPath.row == 0 && !stopFadein) {
-            cell.contentView.alpha = 0;
-            [UIView animateWithDuration:1 animations:^{
-                cell.contentView.alpha = 1;
-            }];
-        }
-        if ((rat - indexPath.row) == (dataArr.count - 1)) {
-            stopFadein = YES;
-        }
         cell.bigImgFrm = dict[type];
         return cell;
     } else {
@@ -319,6 +272,42 @@
         cell.delegate = self;
         return cell;
     }
+}
+
+#pragma mark cell animation
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    
+    //1. Setup the CATransform3D structure
+    CATransform3D translation;
+    // rotation = CATransform3DMakeRotation( (90.0*M_PI)/180, 0.0, 0.7, 0.4);
+    translation = CATransform3DMakeTranslation(0, 480, 0);
+    //rotation.m34 = 1.0/ -600;
+    
+    
+    //2. Define the initial state (Before the animation)
+    cell.layer.shadowColor = [[UIColor blackColor]CGColor];
+    cell.layer.shadowOffset = CGSizeMake(10, 10);
+    cell.alpha = 0;
+    
+    cell.layer.transform = translation;
+    cell.layer.anchorPoint = CGPointMake(0, 0.5);
+    
+    //!!!FIX for issue #1 Cell position wrong------------
+    if(cell.layer.position.x != 0){
+        cell.layer.position = CGPointMake(0, cell.layer.position.y);
+    }
+    
+    //4. Define the final state (After the animation) and commit the animation
+    
+    [UIView beginAnimations:@"translation" context:NULL];
+    [UIView setAnimationDuration:0.8];
+    cell.layer.transform = CATransform3DIdentity;
+    
+    cell.alpha = 1;
+    cell.layer.shadowOffset = CGSizeMake(0, 0);
+    
+    [UIView commitAnimations];
 }
 
 
@@ -383,8 +372,7 @@
         self.nextTime = [nextUpdateTime intValue] / 1000;
         self.nextType = [nextUpdateType intValue];
         // NSLog(@"countDown:%d  %d", nextTime, nextType);
-        
-        
+
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Failure: %@", error);
@@ -410,7 +398,6 @@
 - (void)getDataWithDay:(NSString *)urlStr
 {
     NSString *URLTmp = [urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];  //转码成UTF-8  否则可能会出现错误
-//    NSString *URLTmp = [@"121.40.34.56/news/baijia/fetchHome?date=2015-05-09&type=1" stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString: URLTmp]];
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -453,22 +440,19 @@
 //            [self putToResourceArr:bigImgFrm Method:@"bigImg"];
         }
     }
-    [dataArr addObject:textArr[0]];
+    if (imgArr != nil && ![imgArr isKindOfClass:[NSNull class]] && imgArr.count != 0) {
+        [dataArr addObjectsFromArray:imgArr];
+    }
     NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:@"centerCell", @"centerCell", nil];
     [dataArr addObject:dict];
-    if (imgArr != nil && ![imgArr isKindOfClass:[NSNull class]] && imgArr.count != 0) {
-        [dataArr addObject:imgArr[0]];
-        [imgArr removeObjectAtIndex:0];
-    } else {
-        hasLoad--;
-        rat--;
+    if (textArr != nil && ![textArr isKindOfClass:[NSNull class]] && textArr.count != 0)
+    {
+        [dataArr addObjectsFromArray:textArr];
     }
-    [textArr removeObjectAtIndex:0];
 
-    
     [myTableView reloadData];
-    [myTableView headerEndRefreshing];
-    [myTableView footerEndRefreshing];
+//    [myTableView headerEndRefreshing];
+//    [myTableView footerEndRefreshing];
 }
 
 //- (void)putToResourceArr:(id)resource Method:(NSString *)method
@@ -498,7 +482,6 @@
     NSLog(@"scrollToPosition");
 }
 
-
 - (void)timeBtnPress
 {
     NSLog(@"---- 倒计时界面 ----------");
@@ -523,7 +506,6 @@
 //    self.navigationController.navigationBar.hidden = YES;
     self.navigationController.navigationBarHidden = YES;
     NSLog(@"%@", self.view);
-
 }
 
 - (void)dateScrollView:(DateScrollView *)dateScrollView didSelectDate:(NSString *)date withType:(BOOL)type
