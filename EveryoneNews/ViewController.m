@@ -77,7 +77,7 @@
     hasLoad = 2;
     
     [self tableViewInit];
-    [self setupRefresh];
+//    [self setupRefresh];
 
     [self followRollingScrollView:myTableView];
     
@@ -119,7 +119,7 @@
     // 1.下拉刷新(进入刷新状态就会调用self的headerRereshing)
     [myTableView addHeaderWithTarget:self action:@selector(headerRefresh)];
     [myTableView addFooterWithTarget:self action:@selector(footerRefresh)];
-    [self headerRefresh];
+//    [self headerRefresh];
 }
 
 - (void)headerRefresh
@@ -171,16 +171,12 @@
 #pragma mark tableView delegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (dataArr != nil && ![dataArr isKindOfClass:[NSNull class]] && dataArr.count != 0) {
-        return hasLoad;
-    } else {
-        return 0;
-    }
+    return dataArr.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *dict = dataArr[rat - indexPath.row];
+    NSDictionary *dict = dataArr[indexPath.row];
     NSString *type = dict.allKeys[0];
     if ([type isEqualToString:@"singleCell"]){
         SingleImgCell *cell = (SingleImgCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
@@ -209,7 +205,7 @@
 
 - (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSDictionary *dict = dataArr[rat - indexPath.row];
+    NSDictionary *dict = dataArr[indexPath.row];
     NSString *type = dict.allKeys[0];
     if ([type isEqualToString:@"singleCell"]) {
         static NSString *cellId = @"singleCell";
@@ -221,24 +217,7 @@
             cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
             cell.delegate = self;
         }
-        if (isHeaderFreshing) {
-            if (indexPath.row == 0 && !stopFadein) {
-                cell.contentView.alpha = 0;
-                [UIView animateWithDuration:1 animations:^{
-                    cell.contentView.alpha = 1;
-                }];
-            }
-        } else {
-            if (indexPath.row == rat) {
-                cell.contentView.alpha = 0;
-                [UIView animateWithDuration:1 animations:^{
-                    cell.contentView.alpha = 1;
-                }];
-            }
-        }
-        if ((rat - indexPath.row) == (dataArr.count - 1)) {
-            stopFadein = YES;
-        }
+
         cell.singleImgFrm = dict[type];
         return cell;
     } else if ([type isEqualToString:@"headView"]) {
@@ -251,24 +230,7 @@
             cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
             cell.delegate = self;
         }
-        if (isHeaderFreshing) {
-            if (indexPath.row == 0 && !stopFadein) {
-                cell.contentView.alpha = 0;
-                [UIView animateWithDuration:1 animations:^{
-                    cell.contentView.alpha = 1;
-                }];
-            }
-        } else {
-            if (indexPath.row == rat) {
-                cell.contentView.alpha = 0;
-                [UIView animateWithDuration:1 animations:^{
-                    cell.contentView.alpha = 1;
-                }];
-            }
-        }
-        if ((rat - indexPath.row) == (dataArr.count - 1)) {
-            stopFadein = YES;
-        }
+
         cell.headViewFrm = dict[type];
         return cell;
     } else if ([type isEqualToString:@"centerCell"]){
@@ -291,15 +253,6 @@
             //自定义UITableViewCell选中后的背景颜色和背景图片
             cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
             cell.delegate = self;
-        }
-        if (indexPath.row == 0 && !stopFadein) {
-            cell.contentView.alpha = 0;
-            [UIView animateWithDuration:1 animations:^{
-                cell.contentView.alpha = 1;
-            }];
-        }
-        if ((rat - indexPath.row) == (dataArr.count - 1)) {
-            stopFadein = YES;
         }
         cell.bigImgFrm = dict[type];
         return cell;
@@ -374,8 +327,6 @@
         self.nextTime = [nextUpdateTime intValue] / 1000;
         self.nextType = [nextUpdateType intValue];
         // NSLog(@"countDown:%d  %d", nextTime, nextType);
- 
-        
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Failure: %@", error);
@@ -387,7 +338,6 @@
 - (void)getDataWithDay:(NSString *)urlStr
 {
     NSString *URLTmp = [urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];  //转码成UTF-8  否则可能会出现错误
-//    NSString *URLTmp = [@"121.40.34.56/news/baijia/fetchHome?date=2015-05-09&type=1" stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString: URLTmp]];
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -430,22 +380,19 @@
 //            [self putToResourceArr:bigImgFrm Method:@"bigImg"];
         }
     }
-    [dataArr addObject:textArr[0]];
+    if (imgArr != nil && ![imgArr isKindOfClass:[NSNull class]] && imgArr.count != 0) {
+        [dataArr addObjectsFromArray:imgArr];
+    }
     NSDictionary *dict = [[NSDictionary alloc] initWithObjectsAndKeys:@"centerCell", @"centerCell", nil];
     [dataArr addObject:dict];
-    if (imgArr != nil && ![imgArr isKindOfClass:[NSNull class]] && imgArr.count != 0) {
-        [dataArr addObject:imgArr[0]];
-        [imgArr removeObjectAtIndex:0];
-    } else {
-        hasLoad--;
-        rat--;
+    if (textArr != nil && ![textArr isKindOfClass:[NSNull class]] && textArr.count != 0)
+    {
+        [dataArr addObjectsFromArray:textArr];
     }
-    [textArr removeObjectAtIndex:0];
 
-    
     [myTableView reloadData];
-    [myTableView headerEndRefreshing];
-    [myTableView footerEndRefreshing];
+//    [myTableView headerEndRefreshing];
+//    [myTableView footerEndRefreshing];
 }
 
 //- (void)putToResourceArr:(id)resource Method:(NSString *)method
@@ -475,7 +422,6 @@
     NSLog(@"scrollToPosition");
 }
 
-
 - (void)timeBtnPress
 {
     NSLog(@"---- 倒计时界面 ----------");
@@ -493,7 +439,6 @@
 //    self.navigationController.navigationBar.hidden = YES;
     self.navigationController.navigationBarHidden = YES;
     NSLog(@"%@", self.view);
-
 }
 
 - (void)dateScrollView:(DateScrollView *)dateScrollView didSelectDate:(NSString *)date withType:(BOOL)type
