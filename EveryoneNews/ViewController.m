@@ -38,11 +38,15 @@
     
     UIButton *timeBtn;
 }
+@property (nonatomic, strong) NSTimer *timer;
 @property (strong, nonatomic) CountdownView *countdownView;
 @property (strong, nonatomic) CircleProgressView *circleProgressView;
 @property (strong, nonatomic) DateScrollView *dateScrollView;
 @property (assign, nonatomic) int nextTime;
 @property (assign, nonatomic) int nextType;
+// 系统倒计时
+@property (nonatomic, assign) int remainUpdateTime;
+@property (nonatomic, strong) NSDate *requestTime;
 @end
 
 @implementation ViewController
@@ -370,11 +374,16 @@
         //系统自带JSON解析
         NSDictionary *resultDic = [NSJSONSerialization JSONObjectWithData:resData options:NSJSONReadingMutableLeaves error:nil];
         NSString *nextUpdateTime = resultDic[@"next_update_time"];
+        self.remainUpdateTime = [nextUpdateTime intValue] / 1000;
+        NSDate *requestTime = [NSDate date];
+        self.requestTime = requestTime;
+        // 倒计时
+        _timer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timeDown) userInfo:nil repeats:YES];
         NSString *nextUpdateType = resultDic[@"next_update_type"];
         self.nextTime = [nextUpdateTime intValue] / 1000;
         self.nextType = [nextUpdateType intValue];
         // NSLog(@"countDown:%d  %d", nextTime, nextType);
- 
+        
         
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -382,6 +391,20 @@
     }];
     [operation start];
 
+}
+
+- (void)timeDown
+{
+    if (self.remainUpdateTime <= 0) {
+        // 请求新数据
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"selectTag"];
+        [self getRequest:[NSString stringWithFormat:@"%@%@", kServerIP, kTimenews]];
+        if (self.countdownView != nil) {
+            [self.countdownView removeFromSuperview];
+            self.countdownView = nil;
+        }
+    }
+    self.remainUpdateTime --;
 }
 #pragma mark 请求某天的数据
 - (void)getDataWithDay:(NSString *)urlStr
@@ -480,10 +503,17 @@
 {
     NSLog(@"---- 倒计时界面 ----------");
     CountdownView *countdownView = [[CountdownView alloc] initWithFrame:CGRectMake(0,0,[UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height)];
+    
+    //计算当前时间与请求时间的时间差
+    NSDate *now = [NSDate date];
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *components = [calendar components:NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond fromDate:self.requestTime toDate:now options:0];
+    int delta = components.hour * 3600 + components.minute * 60 + components.second;
+    
     countdownView.delegate = self;
     countdownView.circleView.delegate = self;
     countdownView.dateView.delegate = self;
-    countdownView.updateTime = self.nextTime;
+    countdownView.updateTime = self.nextTime - delta;
     NSLog(@"%d", self.nextTime/ 3600);
     countdownView.type = self.nextType;
     [self.view addSubview:countdownView];
@@ -513,6 +543,9 @@
 -(void)circleProgressDidFinish
 {
     [self.countdownView removeFromSuperview];
+    self.countdownView = nil;
+    
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"selectTag"];
     // 请求新数据
     [self getCountdown:[NSString stringWithFormat:@"%@%@", kServerIP, kCountdown]];
 }
@@ -520,6 +553,7 @@
 {
     self.navigationController.navigationBarHidden = NO;
     [self.countdownView removeFromSuperview];
+    self.countdownView = nil;
 }
 
 @end

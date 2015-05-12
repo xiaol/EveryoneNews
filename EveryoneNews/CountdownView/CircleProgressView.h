@@ -17,6 +17,7 @@
 
 @interface CircleProgressView : UIView
 
+//还有多久会刷新
 @property (nonatomic, assign) int updateTime;
 @property (nonatomic, weak) id<CircleProgressViewDelegate> delegate;
 @end

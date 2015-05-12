@@ -97,7 +97,7 @@
             [self addSubview:item];
             [self.items addObject:item];
             
-        }
+          }
     }
     return self;
 }
@@ -146,18 +146,32 @@
     } else {
         self.contentInset = UIEdgeInsetsMake(0, -itemW, 0, 0);
     }
+    
+    UIButton *btn = [[UIButton alloc] init];
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"selectTag"] != nil) {
+        btn = self.itemBtns[[[[NSUserDefaults standardUserDefaults] objectForKey:@"selectTag"] integerValue]];
+    } else {
+        btn = self.itemBtns[COUNT - 2 - (int)self.type];
+    }
+    self.selectedBtn = btn;
+    btn.selected = YES;
+
 //    if (i == COUNT - 2) {
 //        self.selectedBtn = btn;
 //        btn.selected = YES;
 //    }
-    UIButton *btn = self.itemBtns[COUNT - 2 - (int)self.type];
-    self.selectedBtn = btn;
-    btn.selected = YES;
+    
+//    UIButton *btn = self.itemBtns[COUNT - 2 - (int)self.type];
+//    self.selectedBtn = btn;
+//    btn.selected = YES;
 }
 
 - (void)btnClick:(UIButton *)btn
 {
     NSLog(@"btn click!!!");
+    
+    [[NSUserDefaults standardUserDefaults] setObject:@((int)btn.tag) forKey:@"selectTag"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     // 通知代理 所选日期、时段
     if ([self.delegate respondsToSelector:@selector(dateScrollView:didSelectDate:withType:)]) {
         [self.delegate dateScrollView:self didSelectDate:[NSDate yearStringSince:DAY_RANGE - btn.tag / 2 - 1  join:@"-"] withType:!(btn.tag % 2)];
