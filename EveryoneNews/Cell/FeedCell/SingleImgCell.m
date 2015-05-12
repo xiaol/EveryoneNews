@@ -97,9 +97,6 @@
         [backgroundView addSubview:pointView_2];
         [backgroundView addSubview:pointView_3];
 
-//        [self pointViewInit:circleView_1 Topbar:topBar_1 Bottonbar:bottonBar_1 source:sourceLab_1 sourceTitleLab:sourceTitleLab_1 Index:indexLab_1];
-//        [self pointViewInit:circleView_2 Topbar:topBar_2 Bottonbar:bottonBar_2 source:sourceLab_2 sourceTitleLab:sourceTitleLab_2 Index:indexLab_2];
-//        [self pointViewInit:circleView_3 Topbar:topBar_3 Bottonbar:bottonBar_3 source:sourceLab_3 sourceTitleLab:sourceTitleLab_3 Index:indexLab_3];
         circleView_1 = [[UIView alloc] init];
         topBar_1 = [[UIView alloc] init];
         bottonBar_1 = [[UIView alloc] init];
@@ -121,7 +118,6 @@
         sourceTitleLab_3 = [[UILabel alloc] init];
         indexLab_3 = [[UILabel alloc] init];
     
-        
         showBtn = [[UIButton alloc] init];
         showBtn.backgroundColor = [UIColor clearColor];
         [showBtn addTarget:self action:@selector(showBtnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -130,8 +126,6 @@
         cutlineView = [[UIView alloc] init];
         cutlineView.backgroundColor = [UIColor colorFromHexString:@"#ebeded"];
         [baseView addSubview:cutlineView];
-        
-        
     }
     return self;
 }
@@ -180,6 +174,14 @@
     aspectImg.center = CGPointMake(aspectImg.center.x, aspectLab.center.y);
     aspectImg.image = [UIImage imageNamed:@"arrow_right_white.png"];
     [backgroundView addSubview:aspectImg];
+    
+    if ([aspectLab.text isEqualToString:@"  0家观点"]) {
+        aspectLab.hidden = YES;
+        aspectImg.hidden = YES;
+    } else {
+        aspectLab.hidden = NO;
+        aspectImg.hidden = NO;
+    }
 
     //分类
     NSString *categoryStr = _singleImgFrm.headViewDatasource.categoryStr;
@@ -229,6 +231,8 @@
     NSArray *subArr = _singleImgFrm.headViewDatasource.subArr;
     if (subArr.count == 1) {
         [self setPointDetail:pointView_1 WithDict:subArr[0] WithType:@"only" WithIndex:1 Circle:circleView_1 Topbar:topBar_1 Bottonbar:bottonBar_1 source:sourceLab_1 sourceTitleLab:sourceTitleLab_1 Index:indexLab_1];
+        pointView_2.hidden = YES;
+        pointView_3.hidden = YES;
     } else {
         [self setPointDetail:pointView_1 WithDict:subArr[0] WithType:@"top" WithIndex:1 Circle:circleView_1 Topbar:topBar_1 Bottonbar:bottonBar_1 source:sourceLab_1 sourceTitleLab:sourceTitleLab_1 Index:indexLab_1];
     }
