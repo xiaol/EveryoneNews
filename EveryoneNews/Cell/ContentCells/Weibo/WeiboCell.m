@@ -106,8 +106,6 @@
     userTitleLab.numberOfLines = 0;
     userTitleLab.textAlignment = NSTextAlignmentLeft;
     
-
-    
     [backView addSubview:userTitleLab];
     
     UIButton *btn = [[UIButton alloc] initWithFrame:backView.bounds];

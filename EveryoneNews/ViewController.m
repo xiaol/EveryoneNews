@@ -425,14 +425,20 @@
         [dataArr addObjectsFromArray:textArr];
     }
 
+    myTableView.hidden = YES;
     [myTableView reloadData];
-    
     NSUInteger newIndex[] = {centerIndexPath.section,centerIndexPath.row - 1};
     NSIndexPath *indexPath = [[NSIndexPath alloc] initWithIndexes:newIndex length:2];
     [myTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
     
+    [self performSelector:@selector(setTableAnimation) withObject:nil afterDelay:0.5];
+  
 //    [myTableView headerEndRefreshing];
 //    [myTableView footerEndRefreshing];
+}
+- (void)setTableAnimation
+{
+    myTableView.hidden = NO;
 }
 
 //- (void)putToResourceArr:(id)resource Method:(NSString *)method
