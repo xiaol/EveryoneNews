@@ -27,13 +27,13 @@
         
         CGFloat timeX = CGRectGetMaxX(compassImg.frame) + 5;
         CGFloat timeH = 12.0;
-        UILabel *timeLab = [[UILabel alloc] initWithFrame:CGRectMake(timeX, compassImg.center.y - timeH, 60, timeH)];
+        _timeLab = [[UILabel alloc] initWithFrame:CGRectMake(timeX, compassImg.center.y - timeH - 2, 100, timeH)];
 //        timeLab.center = CGPointMake(timeLab.center.x, compassImg.center.y);
-        timeLab.font = [UIFont fontWithName:kFont size:timeH];
+        _timeLab.font = [UIFont fontWithName:kFont size:timeH];
 //        timeLab.textColor = [UIColor colorFromHexString:@"#bbbbbb"];
-        timeLab.textColor = [UIColor blackColor];
-        timeLab.text = @"今天";
-        [backView addSubview:timeLab];
+        _timeLab.textColor = [UIColor blackColor];
+        _timeLab.text = @"今天";
+        [backView addSubview:_timeLab];
         
 //        CGFloat cutlineX = CGRectGetMaxX(timeLab.frame) + 5;
         CGFloat cutlineX = CGRectGetMaxX(compassImg.frame) + 5;
@@ -42,13 +42,13 @@
         cutline.backgroundColor = [UIColor colorFromHexString:@"#e2e2e2"];
         [backView addSubview:cutline];
         
-        UILabel *weekday = [[UILabel alloc] init];
-        weekday.frame = CGRectMake(cutlineX, cutline.frame.origin.y + 1, 60, timeH);
-        weekday.font = [UIFont fontWithName:kFont size:timeH];
+        _weekday = [[UILabel alloc] init];
+        _weekday.frame = CGRectMake(cutlineX, cutline.frame.origin.y + 2, 100, timeH);
+        _weekday.font = [UIFont fontWithName:kFont size:timeH];
 //        weekday.textColor = [UIColor colorFromHexString:@"#bbbbbb"];
-        weekday.textColor = [UIColor blackColor];
+        _weekday.textColor = [UIColor blackColor];
 //        weekday.text = @"今天";
-        [backView addSubview:weekday];
+        [backView addSubview:_weekday];
         
         _cellH = backView.frame.size.height;
         
@@ -69,19 +69,26 @@
 //        NSLog(@"year:%ld M:%ld D:%ld H:%ld M:%ld S:%ld Week:%ld", year, month, day, hour, minute, second, week);
         
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-//        [dateFormatter setDateFormat:@"'公元前/后:'G  '年份:'u'='yyyy'='yy '季度:'q'='qqq'='qqqq '月份:'M'='MMM'='MMMM '今天是今年第几周:'w '今天是本月第几周:'W  '今天是今天第几天:'D '今天是本月第几天:'d '星期:'c'='ccc'='cccc '上午/下午:'a '小时:'h'='H '分钟:'m '秒:'s '毫秒:'SSS  '这一天已过多少毫秒:'A  '时区名称:'zzzz'='vvvv '时区编号:'Z "];
-//        NSLog(@"%@", [dateFormatter stringFromDate:[NSData date]]);
+//        [dateFormatter setDateFormat:@"'公元前/后:'G  '年份:'u'='yyyy'='yy '季度:'q'='qqq'='qqqq '月份:'M'='MMM'='MMMM '今天是今年第几周:'w '今天是本月第几周:'W  '今天是今年第几天:'D '今天是本月第几天:'d '星期:'c'='ccc'='cccc '上午/下午:'a '小时:'h'='H '分钟:'m '秒:'s '毫秒:'SSS  '这一天已过多少毫秒:'A  '时区名称:'zzzz'='vvvv '时区编号:'Z "];
         NSLog(@"%@", [dateFormatter stringFromDate:[NSDate date]]);
         
-        [dateFormatter setDateFormat:@"MMMMd'日'"];
-        timeLab.text = [dateFormatter stringFromDate:[NSDate date]];
+        [dateFormatter setDateFormat:@"M'月'd'日'"];
+        _timeLab.text = [dateFormatter stringFromDate:[NSDate date]];
         
-        [dateFormatter setDateFormat:@"cccca"];
-        weekday.text = [dateFormatter stringFromDate:[NSDate date]];
+        [dateFormatter setDateFormat:@"a"];
+        NSString *apStr = [dateFormatter stringFromDate:[NSDate date]];
+        if ([apStr isEqualToString:@"AM"]) {
+            apStr = @"上午";
+        } else if ([apStr isEqualToString:@"PM"]) {
+            apStr = @"下午";
+        }
         
-        [dateFormatter setDateFormat:@"MMMM DDDD dddd cccc a"];
-        NSLog(@"----%@", [dateFormatter stringFromDate:[NSDate date]]);
- 
+        [dateFormatter setDateFormat:@"'星期'c"];
+        apStr = [NSString stringWithFormat:@"%@%@", [dateFormatter stringFromDate:[NSDate date]], apStr];
+        _weekday.text = apStr;
+        
+//        [dateFormatter setDateFormat:@"M dd ddd dddd dddddd D DD DDD DDDD DDDDD cccc a"];
+//        NSLog(@"----%@", [dateFormatter stringFromDate:[NSDate date]]);
     }
     return self;
 }

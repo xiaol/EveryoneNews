@@ -16,7 +16,6 @@
 
 @implementation SingleImgCell
 {
-//    UIView *baseView;
     UIView *backgroundView;
     UIImageView *imgView;
     UILabel *titleLab;
@@ -29,7 +28,6 @@
     UIView *cutlineView;
     UIButton *showBtn;
     
-    
     UIView *circleView_1;
     UIView *circleView_2;
     UIView *circleView_3;
@@ -39,27 +37,19 @@
     UIView *bottonBar_1;
     UIView *bottonBar_2;
     UIView *bottonBar_3;
-//    UILabel *sourceLab_1;
-//    UILabel *sourceLab_2;
-//    UILabel *sourceLab_3;
+
     UILabel *sourceTitleLab_1;
     UILabel *sourceTitleLab_2;
     UILabel *sourceTitleLab_3;
     UILabel *indexLab_1;
     UILabel *indexLab_2;
     UILabel *indexLab_3;
-    
-    
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        
-//        baseView = [[UIView alloc] init];
-//        baseView.backgroundColor = [UIColor colorFromHexString:@"#ebeded"];
-//        [self.contentView addSubview:baseView];
-        
+       
         backgroundView = [[UIView alloc] init];
         backgroundView.backgroundColor = [UIColor whiteColor];
         [self.contentView addSubview:backgroundView];
@@ -103,24 +93,27 @@
         bottonBar_1 = [[UIView alloc] init];
         sourceTitleLab_1 = [[UILabel alloc] init];
         indexLab_1 = [[UILabel alloc] init];
+        indexLab_1.text = @"1";
         
         circleView_2 = [[UIView alloc] init];
         topBar_2 = [[UIView alloc] init];
         bottonBar_2 = [[UIView alloc] init];
         sourceTitleLab_2 = [[UILabel alloc] init];
         indexLab_2 = [[UILabel alloc] init];
+        indexLab_2.text = @"2";
         
         circleView_3 = [[UIView alloc] init];
         topBar_3 = [[UIView alloc] init];
         bottonBar_3 = [[UIView alloc] init];
         sourceTitleLab_3 = [[UILabel alloc] init];
         indexLab_3 = [[UILabel alloc] init];
+        indexLab_3.text = @"3";
     
         showBtn = [[UIButton alloc] init];
         showBtn.backgroundColor = [UIColor clearColor];
         [showBtn addTarget:self action:@selector(showBtnClick) forControlEvents:UIControlEventTouchUpInside];
         [backgroundView addSubview:showBtn];
-
+        
         cutlineView = [[UIView alloc] init];
         cutlineView.backgroundColor = [UIColor colorFromHexString:@"#ebeded"];
         [backgroundView addSubview:cutlineView];
@@ -137,7 +130,6 @@
 
 - (void)settingSubviewFrame
 {
-//    baseView.frame = _singleImgFrm.baseFrm;
     backgroundView.frame = _singleImgFrm.backgroundFrm;
     imgView.frame = _singleImgFrm.imgFrm;
     titleLab.frame = _singleImgFrm.titleFrm;
@@ -239,6 +231,10 @@
         if (subArr != nil && subArr.count != 0 && ![subArr isKindOfClass:[NSNull class]]) {
             [self viewHiddenWithBool:NO Type:1];
             [self setPointDetail:pointView_1 WithDict:subArr[0] WithType:@"top" Circle:circleView_1 Topbar:topBar_1 Bottonbar:bottonBar_1 sourceTitleLab:sourceTitleLab_1 Index:indexLab_1];
+        } else {
+            [self viewHiddenWithBool:YES Type:1];
+            [self viewHiddenWithBool:YES Type:2];
+            [self viewHiddenWithBool:YES Type:3];
         }
     }
     
@@ -266,10 +262,22 @@
         sourceStr = @"null";
     }
     sourceStr = [NSString stringWithFormat:@"%@:%@", sourceStr, dict[@"title"]];
+    
     sourceTitleLab.text = sourceStr;
     sourceTitleLab.font = [UIFont fontWithName:kFont size:12];
     sourceTitleLab.textAlignment = NSTextAlignmentJustified;
+    
+    
+    NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithString:sourceStr];
+    NSMutableParagraphStyle * paragraphStyle1 = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle1 setLineSpacing:5];
+//    [paragraphStyle1 setMaximumLineHeight:100];
+//    [paragraphStyle1 setParagraphSpacing:100];
+    [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle1 range:NSMakeRange(0, [sourceStr length])];
+    [sourceTitleLab setAttributedText:attributedString];
+    
     sourceTitleLab.numberOfLines = 2;
+    
     [view addSubview:sourceTitleLab];
     
     

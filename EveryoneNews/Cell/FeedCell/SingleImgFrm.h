@@ -35,6 +35,7 @@
 @property (nonatomic, assign, readonly) CGRect sourceTitleFrm_1;
 @property (nonatomic, assign, readonly) CGRect sourceTitleFrm_2;
 @property (nonatomic, assign, readonly) CGRect sourceTitleFrm_3;
+@property (nonatomic, assign, readonly) CGRect whiteBlockFrm;
 
 @property (nonatomic, assign)CGFloat cellH;
 

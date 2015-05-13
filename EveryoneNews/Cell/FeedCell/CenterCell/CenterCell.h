@@ -12,4 +12,7 @@
 
 @property (nonatomic, assign)CGFloat cellH;
 
+@property (nonatomic, strong)UILabel *timeLab;
+@property (nonatomic, strong)UILabel *weekday;
+
 @end

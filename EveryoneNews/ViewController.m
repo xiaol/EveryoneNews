@@ -182,7 +182,6 @@
     if ([type isEqualToString:@"singleCell"]){
         SingleImgCell *cell = (SingleImgCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
         CGFloat height = cell.cellH;
-        NSLog(@"singleCellHeight:%f", height);
         return height;
     } else if ([type isEqualToString:@"headView"]){
         HeadViewCell *cell = (HeadViewCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
@@ -492,6 +491,9 @@
 - (void)dateScrollView:(DateScrollView *)dateScrollView didSelectDate:(NSString *)date withType:(BOOL)type
 {
     NSLog(@"%@ ",date);
+//    NSArray *array = [date componentsSeparatedByString:@"-"];
+//    NSString *time = [NSString stringWithFormat:@"%@月%@日", array[1], array[2]];
+    
     NSString *typeStr = @"";
     if (type) {
         typeStr = @"1";
