@@ -14,4 +14,6 @@
 
 @property (nonatomic, strong)SingleImgFrm *singleImgFrm;
 
+@property (nonatomic, assign)CGFloat cellH;
+
 @end

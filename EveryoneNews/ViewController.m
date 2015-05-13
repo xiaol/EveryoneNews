@@ -181,7 +181,8 @@
     NSString *type = dict.allKeys[0];
     if ([type isEqualToString:@"singleCell"]){
         SingleImgCell *cell = (SingleImgCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
-        CGFloat height = cell.singleImgFrm.cellH;
+        CGFloat height = cell.cellH;
+        NSLog(@"singleCellHeight:%f", height);
         return height;
     } else if ([type isEqualToString:@"headView"]){
         HeadViewCell *cell = (HeadViewCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
@@ -195,7 +196,6 @@
             return cell.bigImgFrm.CellH;
         }
         return cell.bigImgFrm.CellH;
-        
     }
     else if ([type isEqualToString:@"centerCell"]){
         CenterCell *cell = (CenterCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
