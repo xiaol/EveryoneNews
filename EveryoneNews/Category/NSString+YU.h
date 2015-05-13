@@ -10,4 +10,6 @@
 
 @interface NSString (YU)
 
++ (BOOL) isBlankString:(NSString *)string;
+
 @end

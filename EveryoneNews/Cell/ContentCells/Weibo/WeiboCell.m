@@ -10,6 +10,7 @@
 #import "UIImageView+WebCache.h"
 #import "UIColor+HexToRGB.h"
 #import "DMPagingScrollView.h"
+#import "NSString+YU.h"
 
 @implementation WeiboCell
 {
@@ -47,11 +48,6 @@
 - (void)setScrollViewContent
 {
     CGFloat weiboY = 10;
-    
-//    UIImageView *weiboLogo = [[UIImageView alloc] initWithFrame:CGRectMake(14, weiboY, 32, 28)];
-//    weiboLogo.image = [UIImage imageNamed:@"weibo.png"];
-//    [scrollView addSubview:weiboLogo];
-    
     CGFloat bolder = 14.0;
     CGFloat weiboW = 195;
     CGFloat weiboH = 137;
@@ -78,44 +74,6 @@
     scrollView.delegate = self;
 }
 
-//- (void)setDetailsInView:(UIView *)backView UserName:(NSString *)userName userTitle:(NSString *)userTitle
-//{
-//    UIImageView *iconImg = [[UIImageView alloc] initWithFrame:CGRectMake(7, 7, 36, 36)];
-//    NSURL *URL = [NSURL URLWithString:@"http://tp2.sinaimg.cn/3189729061/180/5671804570/1"];
-//    [iconImg sd_setImageWithURL:URL];
-//    iconImg.layer.cornerRadius = 18;
-//    iconImg.layer.masksToBounds = YES;
-//    [backView addSubview:iconImg];
-//    
-//    CGFloat userNameX = CGRectGetMaxX(iconImg.frame) + 9;
-//    CGFloat userNameW = 136;
-//    CGFloat userNameH = 12;
-//    UILabel *userNameLab = [[UILabel alloc] initWithFrame:CGRectMake(userNameX, 7, userNameW, userNameH)];
-//    userNameLab.text = userName;
-//    userNameLab.font = [UIFont fontWithName:kFont size:12];
-//    userNameLab.textColor = [UIColor blackColor];
-//    userNameLab.textAlignment = NSTextAlignmentLeft;
-//    
-//    userNameLab.backgroundColor = [UIColor yellowColor];
-//    
-//    [backView addSubview:userNameLab];
-//    
-//    CGFloat userTitleY = CGRectGetMaxY(userNameLab.frame) + 8;
-//    UILabel *userTitleLab = [[UILabel alloc] initWithFrame:CGRectMake(userNameX, userTitleY, userNameW, 30)];
-//    userTitleLab.text = userTitle;
-//    userTitleLab.font = [UIFont fontWithName:kFont size:11];
-//    userTitleLab.textColor = [UIColor colorFromHexString:@"#7f7f7f"];
-//    userTitleLab.numberOfLines = 2;
-//    userTitleLab.textAlignment = NSTextAlignmentLeft;
-//    [backView addSubview:userTitleLab];
-//    
-//    UIButton *btn = [[UIButton alloc] initWithFrame:backView.bounds];
-//    [btn addTarget:self action:@selector(btnPress:) forControlEvents:UIControlEventTouchUpInside];
-//    [btn setTag:tagCount * 2000];
-//    tagCount++;
-//    [backView addSubview:btn];
-//    
-//}
 
 - (void)noProfileImageUI:(UIView *)backView UserName:(NSString *)userName userTitle:(NSString *)userTitle
 {
@@ -165,23 +123,8 @@
     NSInteger tag = sender.tag;
     tag = tag / 2000 - 1;
     NSString *url = urlArr[tag];
-    if (![self isBlankString:url]) {
+    if (![NSString isBlankString:url]) {
         [self showWebViewWithUrl:url];
     }
 }
-
-#pragma mark 判断字符串是否为空
-- (BOOL) isBlankString:(NSString *)string {
-    if (string == nil || string == NULL) {
-        return YES;
-    }
-    if ([string isKindOfClass:[NSNull class]]) {
-        return YES;
-    }
-    if ([[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length]==0) {
-        return YES;
-    }
-    return NO;
-}
-
 @end

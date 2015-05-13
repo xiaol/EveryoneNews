@@ -12,6 +12,7 @@
 #import "ScaleImage.h"
 #import "GRKBlurView.h"
 #import "AutoLabelSize.h"
+#import "NSString+YU.h"
 
 #define kSiteNameFont 13
 #define kTitleFont 14
@@ -171,17 +172,9 @@
     titleLab.text = _headViewFrm.headViewDatasource.titleStr;
 
     
-    if ([self isBlankString:_headViewFrm.headViewDatasource.imgStr]) {
-//        [self screenShotWithRect:shotView.frame];
+    if ([NSString isBlankString:_headViewFrm.headViewDatasource.imgStr]) {
 
     } else {
-//        NSURL *url = [NSURL URLWithString:_headViewFrm.headViewDatasource.imgStr];
-//        
-//        [imgView sd_setImageWithURL:url placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-//                    imgView.image = [ScaleImage scaleImage:imgView.image size:_headViewFrm.imgFrm.size];
-//            
-////            [self screenShotWithRect:shotView.frame];
-//        }];
         [self loadImgView:imgView WithUrl:_headViewFrm.headViewDatasource.imgStr WithSize:_headViewFrm.imgFrm.size];
     }
     
@@ -198,7 +191,7 @@
     
     //分类
     NSString *categoryStr = _headViewFrm.headViewDatasource.categoryStr;
-    if ([self isBlankString:categoryStr]) {
+    if ([NSString isBlankString:categoryStr]) {
         categoryLab.hidden = YES;
     } else {
         if ([categoryStr isEqualToString:@"焦点"]) {
@@ -250,9 +243,9 @@
         NSMutableArray *sourceSiteNames = [[NSMutableArray alloc] init];
         for (NSDictionary * dic in subArr) {
             [sourceTitle addObject:dic[@"title"]];
-            if (![self isBlankString:dic[@"user"]]) {
+            if (![NSString isBlankString:dic[@"user"]]) {
                 [sourceName addObject:dic[@"user"]];
-            } else if (![self isBlankString:dic[@"sourceSitename"]]){
+            } else if (![NSString isBlankString:dic[@"sourceSitename"]]){
                 [sourceName addObject:dic[@"sourceSitename"]];
             } else {
                 [sourceName addObject:@"木有数据"];
@@ -388,20 +381,6 @@
     }
 }
 
-#pragma mark 判断字符串是否为空
-- (BOOL) isBlankString:(NSString *)string {
-    if (string == nil || string == NULL) {
-        return YES;
-    }
-    if ([string isKindOfClass:[NSNull class]]) {
-        return YES;
-    }
-    if ([[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length]==0) {
-        return YES;
-    }
-    return NO;
-}
-
 //#pragma mark screenShot
 //-(void)screenShotWithRect:(CGRect)rect {
 //    
@@ -513,7 +492,7 @@
 - (void)setSourceIcon:(UIImageView *)sourceIcon SourceSiteName:(NSString *)sourceSiteName
 {
 //    NSLog(@"sourceSiteName:  %@", sourceSiteName);
-    if ([self isBlankString:sourceSiteName]) {
+    if ([NSString isBlankString:sourceSiteName]) {
         sourceIcon.image = [UIImage imageNamed:@"other.png"];
     }
     else {
