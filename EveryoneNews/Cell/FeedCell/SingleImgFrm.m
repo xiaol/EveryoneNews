@@ -35,7 +35,7 @@
 
     CGFloat maxPointY = CGRectGetMaxY(_aspectFrm) + 10 ;
     
-    _backgroundFrm = CGRectMake(0, 0, screenW, maxPointY);
+//    _backgroundFrm = CGRectMake(0, 0, screenW, maxPointY);
     _cellH = maxPointY;
    
     NSArray *subArr = _headViewDatasource.subArr;
@@ -65,6 +65,7 @@
     _cellH += filler;
     _cutlineFrm = CGRectMake(0, _cellH, screenW, 18);
     _cellH += _cutlineFrm.size.height;
+    _backgroundFrm = CGRectMake(0, 0, screenW, _cellH);
     
 }
 

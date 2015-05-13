@@ -568,7 +568,6 @@
     cell.titleLabel.text = dic[@"title"];
     NSString *imgStr = dic[@"img"];
     if ([self isBlankString:imgStr] || [imgStr hasPrefix:@".."]) {
-        cell.photoView.image = [UIImage imageNamed:@"demo_1.png"];
         
         NSArray *keyArr = waterDic.allKeys;
         if (![keyArr containsObject:[NSString stringWithFormat:@"%ld", indexPath.row]]) {

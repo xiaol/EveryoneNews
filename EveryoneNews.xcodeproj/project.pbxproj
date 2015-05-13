@@ -56,7 +56,6 @@
 		C16FA9BA1ACBE2A800F85DF8 /* weibo.png in Resources */ = {isa = PBXBuildFile; fileRef = C16FA9B91ACBE2A800F85DF8 /* weibo.png */; };
 		C16FA9BD1ACC1E1400F85DF8 /* BaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9BC1ACC1E1400F85DF8 /* BaseCell.m */; };
 		C16FA9C01ACC209700F85DF8 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9BF1ACC209700F85DF8 /* WebViewController.m */; };
-		C17947531ADE66F60080E456 /* demo_1.png in Resources */ = {isa = PBXBuildFile; fileRef = C17947521ADE66F60080E456 /* demo_1.png */; };
 		C17F74561ADCBAA000746CDB /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = C17F74551ADCBAA000746CDB /* back.png */; };
 		C17F74591ADCC26C00746CDB /* webBack.png in Resources */ = {isa = PBXBuildFile; fileRef = C17F74581ADCC26C00746CDB /* webBack.png */; };
 		C17F745B1ADCCD2200746CDB /* like.png in Resources */ = {isa = PBXBuildFile; fileRef = C17F745A1ADCCD2200746CDB /* like.png */; };
@@ -250,7 +249,6 @@
 		C16FA9BC1ACC1E1400F85DF8 /* BaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseCell.m; sourceTree = "<group>"; };
 		C16FA9BE1ACC209700F85DF8 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		C16FA9BF1ACC209700F85DF8 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
-		C17947521ADE66F60080E456 /* demo_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = demo_1.png; sourceTree = "<group>"; };
 		C17F74551ADCBAA000746CDB /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
 		C17F74581ADCC26C00746CDB /* webBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = webBack.png; sourceTree = "<group>"; };
 		C17F745A1ADCCD2200746CDB /* like.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = like.png; sourceTree = "<group>"; };
@@ -869,7 +867,6 @@
 				C17F74571ADCC24C00746CDB /* WebViewImg */,
 				C18F95231ACAA88400A46502 /* ContentVC */,
 				C11CD46B1AC268F100D1D9C8 /* Font */,
-				C17947521ADE66F60080E456 /* demo_1.png */,
 				C1B76B671AE63C0D0039FCB3 /* arrow.png */,
 				C1690CB91AFCB3EC0034CD22 /* ic_time.png */,
 				C1C052701AC1196200D6D687 /* HeadView */,
@@ -1110,7 +1107,6 @@
 				C1C052B61AC13BDB00D6D687 /* MJRefresh.bundle in Resources */,
 				C1C009A11AD543DA00F550A4 /* beiqingwang.png in Resources */,
 				C13E9DD21AEE39AE00E7E23C /* navTitle.png in Resources */,
-				C17947531ADE66F60080E456 /* demo_1.png in Resources */,
 				C1C009B51AD543DA00F550A4 /* zhengquanzhixing.png in Resources */,
 				C17F74671ADE3BBA00746CDB /* navBack.png in Resources */,
 				C1C009B01AD543DA00F550A4 /* tengxun.png in Resources */,
