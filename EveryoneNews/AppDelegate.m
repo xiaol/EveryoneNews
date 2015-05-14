@@ -18,6 +18,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"selectTag"];
     return YES;
 }
 
@@ -46,11 +47,9 @@
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application
 {
     [[SDWebImageManager  sharedManager] cancelAll];
-//    [SDWebImageManager sharedManager]
-    //    [SDWebImageManager sharedManager]//    [SDWebImageManager sharedManager]
-    //    [SDWebImageManager sharedManager]
-    //    [SDWebImageManager sharedManager]//    [SDWebImageManager sharedManager]
-    //    [SDWebImageManager sharedManager]
+    [[SDWebImageManager sharedManager].imageCache clearMemory];
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+
 }
 
 @end

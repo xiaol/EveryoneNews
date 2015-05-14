@@ -9,7 +9,13 @@
 #import <Foundation/Foundation.h>
 
 @interface NSString (YU)
-
+/**
+ *  判断字符串是否为空
+ *
+ *  @param string 待判定字符串
+ *
+ *  @return bool
+ */
 + (BOOL) isBlankString:(NSString *)string;
 
 @end

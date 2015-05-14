@@ -189,12 +189,11 @@
         return height;
     } else if ([type isEqualToString:@"bigImg"]) {
         BigImgCell *cell = (BigImgCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
-        if (indexPath.row == rat) {
+        if (indexPath.row == rat && ([UIScreen mainScreen].bounds.size.width ==320)) {
             return cell.bigImgFrm.CellH - 8;
         } else {
             return cell.bigImgFrm.CellH;
         }
-        return cell.bigImgFrm.CellH;
     }
     else if ([type isEqualToString:@"centerCell"]){
         CenterCell *cell = (CenterCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];

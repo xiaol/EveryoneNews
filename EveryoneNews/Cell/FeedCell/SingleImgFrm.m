@@ -87,7 +87,6 @@
     CGFloat sourceTitleW = screenW - 50 - 10;
     CGSize sourceSize = [AutoLabelSize autoLabSizeWithStr:sourceStr Fontsize:12 SizeW:sourceTitleW SizeH:0];
     
-    NSLog(@"sourceSize.H:%F", sourceSize.height);
     CGFloat sourceTitleH = sourceSize.height;
     if (sourceTitleH > 30) {
         sourceTitleH = 30;
