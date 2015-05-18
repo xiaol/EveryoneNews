@@ -160,7 +160,9 @@
     aspectLab.text = [NSString stringWithFormat:@"  %@", aspectLab.text];
     CGSize size = [AutoLabelSize autoLabSizeWithStr:aspectLab.text Fontsize:15 SizeW:0 SizeH:15];
     CGRect rect = aspectLab.frame;
+    CGFloat maxX = CGRectGetMaxX(rect);
     rect.size.width = size.width + 15;
+    rect.origin.x = maxX - rect.size.width;
     aspectLab.frame = rect;
     
     CGFloat aspectImgX = CGRectGetMaxX(rect) - 12;

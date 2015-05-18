@@ -63,6 +63,7 @@
 		C17F745F1ADD0A7100746CDB /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = C17F745E1ADD0A7100746CDB /* share.png */; };
 		C17F74631ADD0E9F00746CDB /* XHYScrollingNavBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C17F74621ADD0E9F00746CDB /* XHYScrollingNavBarViewController.m */; };
 		C17F74671ADE3BBA00746CDB /* navBack.png in Resources */ = {isa = PBXBuildFile; fileRef = C17F74661ADE3BBA00746CDB /* navBack.png */; };
+		C189A88F1B09C7E300190640 /* NSArray+isEmpty.m in Sources */ = {isa = PBXBuildFile; fileRef = C189A88E1B09C7E300190640 /* NSArray+isEmpty.m */; };
 		C18F951E1ACA506400A46502 /* TMQuiltView.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F951B1ACA506400A46502 /* TMQuiltView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C18F951F1ACA506400A46502 /* TMQuiltViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F951D1ACA506400A46502 /* TMQuiltViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C18F95221ACA509A00A46502 /* TMPhotoQuiltViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F95211ACA509A00A46502 /* TMPhotoQuiltViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -257,6 +258,8 @@
 		C17F74611ADD0E9F00746CDB /* XHYScrollingNavBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHYScrollingNavBarViewController.h; sourceTree = "<group>"; };
 		C17F74621ADD0E9F00746CDB /* XHYScrollingNavBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHYScrollingNavBarViewController.m; sourceTree = "<group>"; };
 		C17F74661ADE3BBA00746CDB /* navBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navBack.png; sourceTree = "<group>"; };
+		C189A88D1B09C7E300190640 /* NSArray+isEmpty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+isEmpty.h"; sourceTree = "<group>"; };
+		C189A88E1B09C7E300190640 /* NSArray+isEmpty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+isEmpty.m"; sourceTree = "<group>"; };
 		C18F951A1ACA506400A46502 /* TMQuiltView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMQuiltView.h; sourceTree = "<group>"; };
 		C18F951B1ACA506400A46502 /* TMQuiltView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMQuiltView.m; sourceTree = "<group>"; };
 		C18F951C1ACA506400A46502 /* TMQuiltViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMQuiltViewCell.h; sourceTree = "<group>"; };
@@ -484,6 +487,8 @@
 				C11442281AF9FD0E007A4620 /* NSString+YU.m */,
 				C1690CBB1B0065700034CD22 /* NSDate+LP.h */,
 				C1690CBC1B0065700034CD22 /* NSDate+LP.m */,
+				C189A88D1B09C7E300190640 /* NSArray+isEmpty.h */,
+				C189A88E1B09C7E300190640 /* NSArray+isEmpty.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -1236,6 +1241,7 @@
 				C16FA9C01ACC209700F85DF8 /* WebViewController.m in Sources */,
 				C1B76B761AE779BD0039FCB3 /* BaseFeedCell.m in Sources */,
 				C1C052311ABFFC1600D6D687 /* main.m in Sources */,
+				C189A88F1B09C7E300190640 /* NSArray+isEmpty.m in Sources */,
 				C16FA99D1ACB024500F85DF8 /* BaiduCell.m in Sources */,
 				C1690CC61B0065DF0034CD22 /* CircleProgressView.m in Sources */,
 				C1C0526E1AC01ED400D6D687 /* UIColor+HexToRGB.m in Sources */,

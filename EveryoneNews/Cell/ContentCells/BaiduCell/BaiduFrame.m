@@ -7,7 +7,7 @@
 //
 
 #import "BaiduFrame.h"
-#import "AutoLabelSize.h"
+//#import "AutoLabelSize.h"
 
 @implementation BaiduFrame
 
@@ -20,9 +20,10 @@
     CGFloat titleX = 20;
     CGFloat titleY = 10;
     
-    CGSize nameSize = [AutoLabelSize autoLabSizeWithStr:_baiduDatasource.title Fontsize:16 SizeW:0 SizeH:16];
+//    CGSize nameSize = [AutoLabelSize autoLabSizeWithStr:_baiduDatasource.title Fontsize:16 SizeW:0 SizeH:16];
+    CGFloat titleW = screenW - titleX * 2;
 
-    _titleFrm = CGRectMake(titleX, titleY, nameSize.width, 16);
+    _titleFrm = CGRectMake(titleX, titleY, titleW, 16);
     
     CGFloat abstractY = CGRectGetMaxY(_titleFrm) + 10;
     _abstractFrm = CGRectMake(titleX, abstractY, screenW - 2 * titleX, 82);

@@ -29,7 +29,6 @@
     NSMutableArray *imgArr;
     NSMutableArray *textArr;
     int page;
-    BOOL isHeaderFreshing;
     
     NSIndexPath *centerIndexPath;
     
@@ -127,37 +126,33 @@
 
 - (void)headerRefresh
 {
-    isHeaderFreshing = YES;
-    
-    if (imgArr != nil && ![imgArr isKindOfClass:[NSNull class]] && imgArr.count != 0) {
-        [dataArr addObject:imgArr[0]];
-        [imgArr removeObjectAtIndex:0];
-        if (imgArr == nil || [imgArr isKindOfClass:[NSNull class]] || imgArr.count == 0) {
-            NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"MoreCell", @"MoreCell", nil];
-            [dataArr addObject:dict];
-            [myTableView removeHeader];
-        }
-    }
-
-    [self stopRefresh];
-    [myTableView headerEndRefreshing];
+//    if (imgArr != nil && ![imgArr isKindOfClass:[NSNull class]] && imgArr.count != 0) {
+//        [dataArr addObject:imgArr[0]];
+//        [imgArr removeObjectAtIndex:0];
+//        if (imgArr == nil || [imgArr isKindOfClass:[NSNull class]] || imgArr.count == 0) {
+//            NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"MoreCell", @"MoreCell", nil];
+//            [dataArr addObject:dict];
+//            [myTableView removeHeader];
+//        }
+//    }
+//
+//    [self stopRefresh];
+//    [myTableView headerEndRefreshing];
 }
 
 - (void)footerRefresh
 {
-    isHeaderFreshing = NO;
-    
-    if (textArr != nil && ![textArr isKindOfClass:[NSNull class]] && textArr.count != 0) {
-        [dataArr insertObject:textArr[0] atIndex:0];
-        [textArr removeObjectAtIndex:0];
-        if (textArr == nil || [textArr isKindOfClass:[NSNull class]] || textArr.count == 0) {
-            NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"MoreCell", @"MoreCell", nil];
-            [dataArr insertObject:dict atIndex:0];
-            [myTableView removeFooter];
-        }
-    }
-    [self stopRefresh];
-    [myTableView footerEndRefreshing];
+//    if (textArr != nil && ![textArr isKindOfClass:[NSNull class]] && textArr.count != 0) {
+//        [dataArr insertObject:textArr[0] atIndex:0];
+//        [textArr removeObjectAtIndex:0];
+//        if (textArr == nil || [textArr isKindOfClass:[NSNull class]] || textArr.count == 0) {
+//            NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"MoreCell", @"MoreCell", nil];
+//            [dataArr insertObject:dict atIndex:0];
+//            [myTableView removeFooter];
+//        }
+//    }
+//    [self stopRefresh];
+//    [myTableView footerEndRefreshing];
 }
 
 - (void)stopRefresh
@@ -403,13 +398,10 @@
             HeadViewFrame *headViewFrm = [[HeadViewFrame alloc] init];
             headViewFrm.headViewDatasource = [HeadViewDatasource headViewDatasourceWithDict:dict];
             [self putToTextArr:headViewFrm Method:@"headView"];
-            //            [self putToResourceArr:headViewFrm Method:@"headView"];
-
         }else if ([special isEqualToString:@"11"]) {
             BigImgFrm *bigImgFrm = [[BigImgFrm alloc] init];
             bigImgFrm.bigImgDatasource = [BigImgDatasource bigImgDatasourceWithDict:dict];
             [self putToImgArr:bigImgFrm Method:@"bigImg"];
-//            [self putToResourceArr:bigImgFrm Method:@"bigImg"];
         }
     }
     if (imgArr != nil && ![imgArr isKindOfClass:[NSNull class]] && imgArr.count != 0) {
@@ -431,9 +423,7 @@
     [myTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
     
     [self performSelector:@selector(setTableAnimation) withObject:nil afterDelay:0.5];
-  
-//    [myTableView headerEndRefreshing];
-//    [myTableView footerEndRefreshing];
+
 }
 - (void)setTableAnimation
 {

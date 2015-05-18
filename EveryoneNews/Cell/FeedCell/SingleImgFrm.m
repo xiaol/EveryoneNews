@@ -9,6 +9,7 @@
 #import "SingleImgFrm.h"
 #import "AutoLabelSize.h"
 #import "NSString+YU.h"
+#import "NSArray+isEmpty.h"
 
 @implementation SingleImgFrm
 
@@ -41,7 +42,7 @@
    
     NSArray *subArr = _headViewDatasource.subArr;
 
-    if (subArr != nil && ![subArr isKindOfClass:[NSNull class]] && subArr.count != 0) {
+    if (![NSArray isEmpty:subArr]) {
 
         [self setPointDetailWithDict:subArr[0] index:1];
         _pointFrm_3 = CGRectMake(0, 0, 0, 0);
@@ -51,7 +52,6 @@
         _pointFrm_2 = CGRectMake(0, 0, 0, 0);
         _pointFrm_3 = CGRectMake(0, 0, 0, 0);
     }
-    
     
     if (subArr.count == 2) {
 
