@@ -274,8 +274,6 @@
     NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithString:sourceStr];
     NSMutableParagraphStyle * paragraphStyle1 = [[NSMutableParagraphStyle alloc] init];
     [paragraphStyle1 setLineSpacing:5];
-//    [paragraphStyle1 setMaximumLineHeight:100];
-//    [paragraphStyle1 setParagraphSpacing:100];
     [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle1 range:NSMakeRange(0, [sourceStr length])];
     [sourceTitleLab setAttributedText:attributedString];
     

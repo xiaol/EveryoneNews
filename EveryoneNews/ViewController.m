@@ -495,7 +495,7 @@
     } else {
         typeStr = @"0";
     }
-    NSString *url = [NSString stringWithFormat:@"http://121.40.34.56/news/baijia/fetchHome?date=%@&type=%@", date, typeStr];
+    NSString *url = [NSString stringWithFormat:@"%@%@?date=%@&type=%@", kServerIP, kFetchHome, date, typeStr];
     [self getDataWithDay:url];
     [self countdownViewDidCancel];
 }

@@ -13,9 +13,9 @@
 #import "GRKBlurView.h"
 #import "AutoLabelSize.h"
 #import "NSString+YU.h"
+#import "NSArray+isEmpty.h"
 
-#define kSiteNameFont 13
-#define kTitleFont 14
+#define kTitleFont 12
 
 @implementation HeadViewCell
 {
@@ -32,9 +32,9 @@
     UIView *sourceView_2;
     UIView *sourceView_3;
     
-    UILabel *sourceName_1;
-    UILabel *sourceName_2;
-    UILabel *sourceName_3;
+//    UILabel *sourceName_1;
+//    UILabel *sourceName_2;
+//    UILabel *sourceName_3;
     
     UILabel *aspect;
     UIView *aspectView;
@@ -120,13 +120,13 @@
         sourceTitle_2 = [[UILabel alloc] init];
         sourceTitle_3 = [[UILabel alloc] init];
         
-        sourceName_1 = [[UILabel alloc] init];
-        sourceName_2 = [[UILabel alloc] init];
-        sourceName_3 = [[UILabel alloc] init];
+//        sourceName_1 = [[UILabel alloc] init];
+//        sourceName_2 = [[UILabel alloc] init];
+//        sourceName_3 = [[UILabel alloc] init];
 
-        [self setSourceTitle:sourceTitle_1 SourceName:sourceName_1 SourceIcon:sourceIcon_1 inSourceView:sourceView_1];
-        [self setSourceTitle:sourceTitle_2 SourceName:sourceName_2 SourceIcon:sourceIcon_2 inSourceView:sourceView_2];
-        [self setSourceTitle:sourceTitle_3 SourceName:sourceName_3 SourceIcon:sourceIcon_3 inSourceView:sourceView_3];
+        [self setSourceTitle:sourceTitle_1 SourceIcon:sourceIcon_1 inSourceView:sourceView_1];
+        [self setSourceTitle:sourceTitle_2 SourceIcon:sourceIcon_2 inSourceView:sourceView_2];
+        [self setSourceTitle:sourceTitle_3 SourceIcon:sourceIcon_3 inSourceView:sourceView_3];
         
         bottonView = [[UIView alloc] init];
         bottonView.backgroundColor = [UIColor whiteColor];
@@ -235,30 +235,36 @@
     
     NSArray *subArr = _headViewFrm.headViewDatasource.subArr;
     
-    if (subArr != nil && ![subArr isKindOfClass:[NSNull class]] && subArr.count != 0) {
+    if (![NSArray isEmpty:subArr]) {
         NSMutableArray *sourceTitle = [[NSMutableArray alloc] init];
-        NSMutableArray *sourceName = [[NSMutableArray alloc] init];
+//        NSMutableArray *sourceName = [[NSMutableArray alloc] init];
         NSMutableArray *sourceUrl = [[NSMutableArray alloc] init];
         
         NSMutableArray *sourceSiteNames = [[NSMutableArray alloc] init];
         for (NSDictionary * dic in subArr) {
-            [sourceTitle addObject:dic[@"title"]];
+//            [sourceTitle addObject:dic[@"title"]];
+            NSString *sourceName = @"";
             if (![NSString isBlankString:dic[@"user"]]) {
-                [sourceName addObject:dic[@"user"]];
+//                [sourceName addObject:dic[@"user"]];
+                sourceName = dic[@"user"];
             } else if (![NSString isBlankString:dic[@"sourceSitename"]]){
-                [sourceName addObject:dic[@"sourceSitename"]];
+//                [sourceName addObject:dic[@"sourceSitename"]];
+                sourceName = dic[@"sourceSitename"];
             } else {
-                [sourceName addObject:@"木有数据"];
+//                [sourceName addObject:@"null"];
+                sourceName = @"null";
             }
-            
+            sourceName = [NSString stringWithFormat:@"%@:%@", sourceName, dic[@"title"]];
+            [sourceTitle addObject:sourceName];
             [sourceSiteNames addObject:dic[@"sourceSitename"]];
             [sourceUrl addObject:dic[@"url"]];
         }
         
         sourceTitle_1.text = sourceTitle[0];
-        sourceName_1.text = [NSString stringWithFormat:@"%@:", sourceName[0]];
+        [self setSourceTitleAttribute:sourceTitle_1];
+//        sourceName_1.text = [NSString stringWithFormat:@"%@:", sourceName[0]];
         [self setSourceIcon:sourceIcon_1 SourceSiteName:sourceSiteNames[0]];
-        [self setRelateNewsWithSourceTitle:sourceTitle_1 SourceName:sourceName_1];
+//        [self setRelateNewsWithSourceTitle:sourceTitle_1 SourceName:sourceName_1];
         
         sourceView_2.hidden = YES;
         sourceView_3.hidden = YES;
@@ -266,24 +272,25 @@
         if (sourceTitle.count == 2) {
             sourceView_2.hidden = NO;
             sourceTitle_2.text = sourceTitle[1];
-            sourceName_2.text = [NSString stringWithFormat:@"%@:", sourceName[1]];
+            [self setSourceTitleAttribute:sourceTitle_2];
             [self setSourceIcon:sourceIcon_2 SourceSiteName:sourceSiteNames[1]];
-            [self setRelateNewsWithSourceTitle:sourceTitle_2 SourceName:sourceName_2];
         }
         
         if (sourceTitle.count >= 3) {
             
             sourceView_2.hidden = NO;
             sourceTitle_2.text = sourceTitle[1];
-            sourceName_2.text = [NSString stringWithFormat:@"%@:", sourceName[1]];
+//            sourceName_2.text = [NSString stringWithFormat:@"%@:", sourceName[1]];
+            [self setSourceTitleAttribute:sourceTitle_2];
             [self setSourceIcon:sourceIcon_2 SourceSiteName:sourceSiteNames[1]];
-            [self setRelateNewsWithSourceTitle:sourceTitle_2 SourceName:sourceName_2];
+//            [self setRelateNewsWithSourceTitle:sourceTitle_2 SourceName:sourceName_2];
             
             sourceView_3.hidden = NO;
             sourceTitle_3.text = sourceTitle[2];
-            sourceName_3.text = [NSString stringWithFormat:@"%@:", sourceName[2]];
+            [self setSourceTitleAttribute:sourceTitle_3];
+//            sourceName_3.text = [NSString stringWithFormat:@"%@:", sourceName[2]];
             [self setSourceIcon:sourceIcon_3 SourceSiteName:sourceSiteNames[2]];
-            [self setRelateNewsWithSourceTitle:sourceTitle_3 SourceName:sourceName_3];
+//            [self setRelateNewsWithSourceTitle:sourceTitle_3 SourceName:sourceName_3];
         }
     }
     aspect.text = _headViewFrm.headViewDatasource.aspectStr;
@@ -307,21 +314,21 @@
     
     shotView.frame = rect;
     
-    sourceView_1.frame = _headViewFrm.sourceView_1;
-    sourceView_2.frame = _headViewFrm.sourceView_2;
-    sourceView_3.frame = _headViewFrm.sourceView_3;
+    sourceView_1.frame = _headViewFrm.pointFrm_1;
+    sourceView_2.frame = _headViewFrm.pointFrm_2;
+    sourceView_3.frame = _headViewFrm.pointFrm_3;
     
     sourceIcon_1.frame = _headViewFrm.sourceIcon;
     sourceIcon_2.frame = _headViewFrm.sourceIcon;
     sourceIcon_3.frame = _headViewFrm.sourceIcon;
     
-    sourceTitle_1.frame = _headViewFrm.sourceTitle;
-    sourceTitle_2.frame = _headViewFrm.sourceTitle;
-    sourceTitle_3.frame = _headViewFrm.sourceTitle;
+    sourceTitle_1.frame = _headViewFrm.sourceTitleFrm_1;
+    sourceTitle_2.frame = _headViewFrm.sourceTitleFrm_2;
+    sourceTitle_3.frame = _headViewFrm.sourceTitleFrm_3;
     
-    sourceName_1.frame = _headViewFrm.sourceName;
-    sourceName_2.frame = _headViewFrm.sourceName;
-    sourceName_3.frame = _headViewFrm.sourceName;
+//    sourceName_1.frame = _headViewFrm.sourceName;
+//    sourceName_2.frame = _headViewFrm.sourceName;
+//    sourceName_3.frame = _headViewFrm.sourceName;
     
     bottonView.frame = _headViewFrm.bottonView;
     if (![_headViewFrm.headViewDatasource.aspectStr isEqualToString:@"0家观点"]) {
@@ -435,24 +442,24 @@
 //    blurView.layer.mask = maskLayer_Shadow;
 //}
 
-#pragma mark 设置相关新闻UI
-- (void)setRelateNewsWithSourceTitle:(UILabel *)sourceTitle SourceName:(UILabel *)sourceName
-{
-    CGSize size = [AutoLabelSize autoLabSizeWithStr:sourceName.text Fontsize:kSiteNameFont SizeW:0 SizeH:kSiteNameFont + 2];
-    CGRect rect = sourceName.frame;
-    rect.size.width = size.width;
-    sourceName.frame = rect;
-    
-    CGFloat titleX = CGRectGetMaxX(rect);
-    CGFloat titleW = [UIScreen mainScreen].bounds.size.width - titleX - 16 * 2;
-    rect = sourceTitle.frame;
-    rect.size.width = titleW;
-    rect.origin.x = titleX;
-    sourceTitle.frame = rect;
-}
+//#pragma mark 设置相关新闻UI
+//- (void)setRelateNewsWithSourceTitle:(UILabel *)sourceTitle SourceName:(UILabel *)sourceName
+//{
+//    CGSize size = [AutoLabelSize autoLabSizeWithStr:sourceName.text Fontsize:kSiteNameFont SizeW:0 SizeH:kSiteNameFont + 2];
+//    CGRect rect = sourceName.frame;
+//    rect.size.width = size.width;
+//    sourceName.frame = rect;
+//    
+//    CGFloat titleX = CGRectGetMaxX(rect);
+//    CGFloat titleW = [UIScreen mainScreen].bounds.size.width - titleX - 16 * 2;
+//    rect = sourceTitle.frame;
+//    rect.size.width = titleW;
+//    rect.origin.x = titleX;
+//    sourceTitle.frame = rect;
+//}
 
 
-- (void)setSourceTitle:(UILabel *)sourceTitle SourceName:(UILabel *)sourceName SourceIcon:(UIImageView *)sourceIcon inSourceView:(UIView *)sourceView
+- (void)setSourceTitle:(UILabel *)sourceTitle SourceIcon:(UIImageView *)sourceIcon inSourceView:(UIView *)sourceView
 {
     sourceView.backgroundColor = [UIColor whiteColor];
     [backgroupView addSubview:sourceView];
@@ -461,15 +468,19 @@
     
     sourceTitle.font = [UIFont fontWithName:kFont size:kTitleFont];
     sourceTitle.textColor = [UIColor colorFromHexString:@"#787878"];
-    sourceTitle.backgroundColor = [UIColor clearColor];
-    sourceTitle.lineBreakMode = NSLineBreakByWordWrapping;
+    sourceTitle.textAlignment = NSTextAlignmentJustified;
+
     [sourceView addSubview:sourceTitle];
-    
-    sourceName.font = [UIFont fontWithName:kFont size:kSiteNameFont];
-    sourceName.textColor = [UIColor colorFromHexString:@"#666666"];
-    sourceName.backgroundColor = [UIColor clearColor];
-    [sourceView addSubview:sourceName];
-    
+}
+
+- (void)setSourceTitleAttribute:(UILabel *)sourceTitleLab
+{
+    NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithString:sourceTitleLab.text];
+    NSMutableParagraphStyle * paragraphStyle1 = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle1 setLineSpacing:5];
+    [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle1 range:NSMakeRange(0, [sourceTitleLab.text length])];
+    [sourceTitleLab setAttributedText:attributedString];
+    sourceTitleLab.numberOfLines = 2;
 }
 
 - (void)setImg:(UIImageView *)img
@@ -592,15 +603,4 @@
     }
 }
 
-//- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-//    [super setSelected:selected animated:animated];
-//    
-//    if (!firstLoad) {
-//        [UIView animateWithDuration:1 animations:^{
-//            self.contentView.alpha = 1;
-//        }];
-//        firstLoad = YES;
-//    }
-//    
-//}
 @end

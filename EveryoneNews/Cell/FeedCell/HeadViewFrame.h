@@ -22,9 +22,13 @@
 //@property (nonatomic, assign, readonly) CGRect titleFrm_2;
 //@property (nonatomic, assign, readonly) CGRect titleFrm_3;
 
-@property (nonatomic, assign, readonly) CGRect sourceView_1;
-@property (nonatomic, assign, readonly) CGRect sourceView_2;
-@property (nonatomic, assign, readonly) CGRect sourceView_3;
+@property (nonatomic, assign, readonly) CGRect pointFrm_1;
+@property (nonatomic, assign, readonly) CGRect pointFrm_2;
+@property (nonatomic, assign, readonly) CGRect pointFrm_3;
+
+@property (nonatomic, assign, readonly) CGRect sourceTitleFrm_1;
+@property (nonatomic, assign, readonly) CGRect sourceTitleFrm_2;
+@property (nonatomic, assign, readonly) CGRect sourceTitleFrm_3;
 
 @property (nonatomic, assign, readonly) CGRect sourceIcon;
 @property (nonatomic, assign, readonly) CGRect sourceName;
