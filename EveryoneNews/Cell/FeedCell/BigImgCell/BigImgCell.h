@@ -12,6 +12,8 @@
 
 @interface BigImgCell : BaseFeedCell
 
+@property (nonatomic, strong)UIView *cutlineView;
+
 @property (strong, nonatomic) BigImgFrm *bigImgFrm;
 
 @end

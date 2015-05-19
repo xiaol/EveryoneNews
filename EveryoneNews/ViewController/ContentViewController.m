@@ -30,6 +30,7 @@
 #import "WebViewController.h"
 
 #import "AutoLabelSize.h"
+#import "NSString+YU.h"
 
 @interface ContentViewController ()<UITableViewDataSource, UITableViewDelegate, TMQuiltViewDataSource,TMQuiltViewDelegate, WebDelegate>
 {
@@ -378,7 +379,7 @@
     imgView.frame = CGRectMake(0, 0, imgW, imgH);
     imgView.image = [UIImage imageNamed:@"demo_1.png"];
     
-    if (![self isBlankString:_imgStr]) {
+    if (![NSString isBlankString:_imgStr]) {
         NSURL *url = [NSURL URLWithString:_imgStr];
         [imgView sd_setImageWithURL:url completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
             if (imgView.image.size.width / imgView.image.size.height > imgView.frame.size.width / imgView.frame.size.height) {
@@ -494,7 +495,7 @@
     resourceArr = [[NSMutableArray alloc] init];
     
     NSString *absStr = resultDic[@"abs"];
-    if (![self isBlankString:absStr]) {
+    if (![NSString isBlankString:absStr]) {
         AbsDatasource *absData = [AbsDatasource absDatasourceWithStr:absStr];
         [self putToResourceArr:absData Method:@"abs"];
     }
@@ -507,7 +508,7 @@
     NSArray *baikeArr = resultDic[@"baike"];
     for (NSDictionary *dic in baikeArr) {
         NSString *baikeTitle = dic[@"title"];
-        if (![self isBlankString:baikeTitle]) {
+        if (![NSString isBlankString:baikeTitle]) {
             BaiduFrame *baiduFrm = [[BaiduFrame alloc] init];
             baiduFrm.baiduDatasource = [BaiduDatasource baiduDatasourceWithDict:dic];
             [self putToResourceArr:baiduFrm Method:@"baike"];
@@ -567,8 +568,7 @@
     
     cell.titleLabel.text = dic[@"title"];
     NSString *imgStr = dic[@"img"];
-    if ([self isBlankString:imgStr] || [imgStr hasPrefix:@".."]) {
-        cell.photoView.image = [UIImage imageNamed:@"demo_1.png"];
+    if ([NSString isBlankString:imgStr] || [imgStr hasPrefix:@".."]) {
         
         NSArray *keyArr = waterDic.allKeys;
         if (![keyArr containsObject:[NSString stringWithFormat:@"%ld", indexPath.row]]) {
@@ -666,22 +666,6 @@
     webVC.webUrl = URL;
     
     [self.navigationController pushViewController:webVC animated:YES];
-}
-
-
-
-#pragma mark 判断字符串是否为空
-- (BOOL) isBlankString:(NSString *)string {
-    if (string == nil || string == NULL) {
-        return YES;
-    }
-    if ([string isKindOfClass:[NSNull class]]) {
-        return YES;
-    }
-    if ([[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length]==0) {
-        return YES;
-    }
-    return NO;
 }
 
 #pragma mark 计算高度

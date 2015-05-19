@@ -1,3 +1,11 @@
+//
+//  ViewController.m
+//  EveryoneNews
+//
+//  Created by 于咏畅 on 15/3/23.
+//  Copyright (c) 2015年 yyc. All rights reserved.
+//
+
 #import "ViewController.h"
 #import "HeadViewCell.h"
 #import "BigImgCell.h"
@@ -24,7 +32,7 @@
     
     NSIndexPath *centerIndexPath;
     
-    //    NSInteger hasLoad;
+//    NSInteger hasLoad;
     NSInteger rat;
     
     UIButton *timeBtn;
@@ -56,8 +64,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [self commonInit];
+
+      [self commonInit];
 }
 
 - (void)commonInit
@@ -69,18 +77,18 @@
     centerIndexPath = [[NSIndexPath alloc] init];
     
     page = 1;
-    //    hasLoad = 2;
+//    hasLoad = 2;
     
     [self tableViewInit];
-    //    [self setupRefresh];
-    
+//    [self setupRefresh];
+
     [self followRollingScrollView:myTableView];
     
     [self getRequest];
     //if ([DataCacheTool hasNewData]) {
-    // 读取缓存
-    //        NSArray *arr = [DataCacheTool rowsWithCount:1];
-    //        NSLog(@"arr:%@", arr);
+        // 读取缓存
+//        NSArray *arr = [DataCacheTool rowsWithCount:1];
+//        NSLog(@"arr:%@", arr);
     //}
     
     //倒计时按钮
@@ -103,7 +111,7 @@
     myTableView.separatorStyle = UITableViewCellSelectionStyleNone;
     myTableView.showsVerticalScrollIndicator = NO;
     myTableView.backgroundColor = [UIColor colorFromHexString:@"#EBEDED"];
-    
+
     [self.view addSubview:myTableView];
 }
 
@@ -113,47 +121,47 @@
     // 1.下拉刷新(进入刷新状态就会调用self的headerRereshing)
     [myTableView addHeaderWithTarget:self action:@selector(headerRefresh)];
     [myTableView addFooterWithTarget:self action:@selector(footerRefresh)];
-    //    [self headerRefresh];
+//    [self headerRefresh];
 }
 
 - (void)headerRefresh
 {
-    //    if (imgArr != nil && ![imgArr isKindOfClass:[NSNull class]] && imgArr.count != 0) {
-    //        [dataArr addObject:imgArr[0]];
-    //        [imgArr removeObjectAtIndex:0];
-    //        if (imgArr == nil || [imgArr isKindOfClass:[NSNull class]] || imgArr.count == 0) {
-    //            NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"MoreCell", @"MoreCell", nil];
-    //            [dataArr addObject:dict];
-    //            [myTableView removeHeader];
-    //        }
-    //    }
-    //
-    //    [self stopRefresh];
-    //    [myTableView headerEndRefreshing];
+//    if (imgArr != nil && ![imgArr isKindOfClass:[NSNull class]] && imgArr.count != 0) {
+//        [dataArr addObject:imgArr[0]];
+//        [imgArr removeObjectAtIndex:0];
+//        if (imgArr == nil || [imgArr isKindOfClass:[NSNull class]] || imgArr.count == 0) {
+//            NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"MoreCell", @"MoreCell", nil];
+//            [dataArr addObject:dict];
+//            [myTableView removeHeader];
+//        }
+//    }
+//
+//    [self stopRefresh];
+//    [myTableView headerEndRefreshing];
 }
 
 - (void)footerRefresh
 {
-    //    if (textArr != nil && ![textArr isKindOfClass:[NSNull class]] && textArr.count != 0) {
-    //        [dataArr insertObject:textArr[0] atIndex:0];
-    //        [textArr removeObjectAtIndex:0];
-    //        if (textArr == nil || [textArr isKindOfClass:[NSNull class]] || textArr.count == 0) {
-    //            NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"MoreCell", @"MoreCell", nil];
-    //            [dataArr insertObject:dict atIndex:0];
-    //            [myTableView removeFooter];
-    //        }
-    //    }
-    //    [self stopRefresh];
-    //    [myTableView footerEndRefreshing];
+//    if (textArr != nil && ![textArr isKindOfClass:[NSNull class]] && textArr.count != 0) {
+//        [dataArr insertObject:textArr[0] atIndex:0];
+//        [textArr removeObjectAtIndex:0];
+//        if (textArr == nil || [textArr isKindOfClass:[NSNull class]] || textArr.count == 0) {
+//            NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"MoreCell", @"MoreCell", nil];
+//            [dataArr insertObject:dict atIndex:0];
+//            [myTableView removeFooter];
+//        }
+//    }
+//    [self stopRefresh];
+//    [myTableView footerEndRefreshing];
 }
 
 - (void)stopRefresh
 {
-    //    if (hasLoad != dataArr.count || hasLoad == 2) {
-    //        hasLoad++;
-    //    }
-    //    rat = hasLoad - 1;
-    //    [myTableView reloadData];
+//    if (hasLoad != dataArr.count || hasLoad == 2) {
+//        hasLoad++;
+//    }
+//    rat = hasLoad - 1;
+//    [myTableView reloadData];
 }
 
 #pragma mark tableView delegate
@@ -209,7 +217,7 @@
             cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
             cell.delegate = self;
         }
-        
+
         cell.singleImgFrm = dict[type];
         return cell;
     } else if ([type isEqualToString:@"headView"]) {
@@ -222,7 +230,7 @@
             cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
             cell.delegate = self;
         }
-        
+
         cell.headViewFrm = dict[type];
         return cell;
     } else if ([type isEqualToString:@"centerCell"]){
@@ -344,7 +352,7 @@
     } failure:^(NSError *error) {
         NSLog(@"Failure: %@", error);
     }];
-    
+
 }
 
 - (void)timeDown
@@ -372,7 +380,7 @@
         NSLog(@"Failure: %@", error);
     }];
 }
-
+    
 
 - (void)convertToModel:(NSDictionary *)resultDic
 {
@@ -380,12 +388,12 @@
     for (NSDictionary *dict in resultDic) {
         
         NSString * special = [NSString stringWithFormat:@"1%@", dict[@"special"]];
-        
+
         if ([special isEqualToString:@"1400"]) {
             SingleImgFrm *singleFrm = [[SingleImgFrm alloc] init];
             singleFrm.headViewDatasource = [HeadViewDatasource headViewDatasourceWithDict:dict];
             [self putToTextArr:singleFrm Method:@"singleCell"];
-            
+
         }else if ([special isEqualToString:@"19"]) {
             HeadViewFrame *headViewFrm = [[HeadViewFrame alloc] init];
             headViewFrm.headViewDatasource = [HeadViewDatasource headViewDatasourceWithDict:dict];
@@ -397,7 +405,7 @@
         }
     }
     if (imgArr != nil && ![imgArr isKindOfClass:[NSNull class]] && imgArr.count != 0) {
-        
+       
         [dataArr addObjectsFromArray:imgArr];
         rat = imgArr.count - 1;
     }
@@ -407,7 +415,7 @@
     {
         [dataArr addObjectsFromArray:textArr];
     }
-    
+
     myTableView.hidden = YES;
     [myTableView reloadData];
     NSUInteger newIndex[] = {centerIndexPath.section,centerIndexPath.row - 1};
@@ -415,7 +423,7 @@
     [myTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
     
     [self performSelector:@selector(setTableAnimation) withObject:nil afterDelay:0.5];
-    
+
 }
 - (void)setTableAnimation
 {
@@ -446,7 +454,7 @@
 - (void)scrollToPosition
 {
     [myTableView scrollToRowAtIndexPath:centerIndexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
-    //    NSLog(@"scrollToPosition");
+//    NSLog(@"scrollToPosition");
 }
 
 - (void)timeBtnPress
@@ -470,7 +478,7 @@
     self.countdownView = countdownView;
     self.circleProgressView = countdownView.circleView;
     self.dateScrollView = countdownView.dateView;
-    //    self.navigationController.navigationBar.hidden = YES;
+//    self.navigationController.navigationBar.hidden = YES;
     self.navigationController.navigationBarHidden = YES;
     NSLog(@"%@", self.view);
 }
@@ -478,8 +486,8 @@
 - (void)dateScrollView:(DateScrollView *)dateScrollView didSelectDate:(NSString *)date withType:(BOOL)type
 {
     NSLog(@"%@ ",date);
-    //    NSArray *array = [date componentsSeparatedByString:@"-"];
-    //    NSString *time = [NSString stringWithFormat:@"%@月%@日", array[1], array[2]];
+//    NSArray *array = [date componentsSeparatedByString:@"-"];
+//    NSString *time = [NSString stringWithFormat:@"%@月%@日", array[1], array[2]];
     
     NSString *typeStr = @"";
     if (type) {

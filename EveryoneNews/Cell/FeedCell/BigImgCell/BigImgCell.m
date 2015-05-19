@@ -10,6 +10,7 @@
 #import "UIImageView+WebCache.h"
 #import "ScaleImage.h"
 #import "UIColor+HexToRGB.h"
+#import "NSString+YU.h"
 
 @implementation BigImgCell
 {
@@ -19,6 +20,7 @@
     UILabel *categoryLab;
     UIButton *showBtn;
     UIImageView *toumuImg;
+    
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -29,18 +31,18 @@
         [self.contentView addSubview:backView];
         
         imgView = [[UIImageView alloc] init];
-        [self.contentView addSubview:imgView];
+        [backView addSubview:imgView];
         
         toumuImg = [[UIImageView alloc] init];
         toumuImg.image = [UIImage imageNamed:@"toum.png"];
         toumuImg.alpha = 0.7;
-        [imgView addSubview:toumuImg];
+        [backView addSubview:toumuImg];
         
         titleLab = [[UILabel alloc] init];
         titleLab.font = [UIFont fontWithName:kFont size:20];
         titleLab.textColor = [UIColor whiteColor];
         titleLab.numberOfLines = 0;
-        [imgView addSubview:titleLab];
+        [backView addSubview:titleLab];
         
         categoryLab = [[UILabel alloc] init];
         categoryLab.font = [UIFont fontWithName:kFont size:15];
@@ -53,6 +55,10 @@
         showBtn.backgroundColor = [UIColor clearColor];
         [showBtn addTarget:self action:@selector(showBtnClick) forControlEvents:UIControlEventTouchUpInside];
         [backView addSubview:showBtn];
+        
+        _cutlineView = [[UIView alloc] init];
+        _cutlineView.backgroundColor = [UIColor whiteColor];
+        [self.contentView addSubview:_cutlineView];
     }
     return self;
 }
@@ -73,6 +79,7 @@
     titleLab.frame = _bigImgFrm.titleFrm;
     categoryLab.frame = _bigImgFrm.categoryFrm;
     showBtn.frame = imgView.frame;
+    _cutlineView.frame = _bigImgFrm.cutlineFrm;
 }
 
 - (void)settingData
@@ -84,7 +91,7 @@
         
     }];
     NSString *categoryStr = _bigImgFrm.bigImgDatasource.categoryStr;
-    if ([self isBlankString:categoryStr]) {
+    if ([NSString isBlankString:categoryStr]) {
         categoryLab.hidden = YES;
     } else {
         if ([categoryStr isEqualToString:@"焦点"]) {
@@ -135,20 +142,6 @@
                             RootClass:_bigImgFrm.bigImgDatasource.rootClass
                                hasImg:NO];
     }
-}
-    
-#pragma mark 判断字符串是否为空
-- (BOOL) isBlankString:(NSString *)string {
-    if (string == nil || string == NULL) {
-        return YES;
-    }
-    if ([string isKindOfClass:[NSNull class]]) {
-        return YES;
-    }
-    if ([[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length]==0) {
-        return YES;
-    }
-    return NO;
 }
 
 

@@ -11,12 +11,12 @@
 #import "UIImageView+WebCache.h"
 #import "ScaleImage.h"
 #import "AutoLabelSize.h"
+#import "NSString+YU.h"
 
 #define kBlue @"#4FB5EA"
 
 @implementation SingleImgCell
 {
-    UIView *baseView;
     UIView *backgroundView;
     UIImageView *imgView;
     UILabel *titleLab;
@@ -29,7 +29,6 @@
     UIView *cutlineView;
     UIButton *showBtn;
     
-    
     UIView *circleView_1;
     UIView *circleView_2;
     UIView *circleView_3;
@@ -39,30 +38,22 @@
     UIView *bottonBar_1;
     UIView *bottonBar_2;
     UIView *bottonBar_3;
-    UILabel *sourceLab_1;
-    UILabel *sourceLab_2;
-    UILabel *sourceLab_3;
+
     UILabel *sourceTitleLab_1;
     UILabel *sourceTitleLab_2;
     UILabel *sourceTitleLab_3;
     UILabel *indexLab_1;
     UILabel *indexLab_2;
     UILabel *indexLab_3;
-    
-    
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
-        
-        baseView = [[UIView alloc] init];
-        baseView.backgroundColor = [UIColor colorFromHexString:@"#ebeded"];
-        [self.contentView addSubview:baseView];
-        
+       
         backgroundView = [[UIView alloc] init];
         backgroundView.backgroundColor = [UIColor whiteColor];
-        [baseView addSubview:backgroundView];
+        [self.contentView addSubview:backgroundView];
         
         imgView = [[UIImageView alloc] init];
         imgView.contentMode = UIViewContentModeScaleAspectFill;
@@ -93,9 +84,7 @@
         pointView_1 = [[UIView alloc] init];
         pointView_2 = [[UIView alloc] init];
         pointView_3 = [[UIView alloc] init];
-        pointView_1.hidden = YES;
-        pointView_2.hidden = YES;
-        pointView_3.hidden = YES;
+    
         [backgroundView addSubview:pointView_1];
         [backgroundView addSubview:pointView_2];
         [backgroundView addSubview:pointView_3];
@@ -103,32 +92,32 @@
         circleView_1 = [[UIView alloc] init];
         topBar_1 = [[UIView alloc] init];
         bottonBar_1 = [[UIView alloc] init];
-        sourceLab_1 = [[UILabel alloc] init];
         sourceTitleLab_1 = [[UILabel alloc] init];
         indexLab_1 = [[UILabel alloc] init];
+        indexLab_1.text = @"1";
         
         circleView_2 = [[UIView alloc] init];
         topBar_2 = [[UIView alloc] init];
         bottonBar_2 = [[UIView alloc] init];
-        sourceLab_2 = [[UILabel alloc] init];
         sourceTitleLab_2 = [[UILabel alloc] init];
         indexLab_2 = [[UILabel alloc] init];
+        indexLab_2.text = @"2";
         
         circleView_3 = [[UIView alloc] init];
         topBar_3 = [[UIView alloc] init];
         bottonBar_3 = [[UIView alloc] init];
-        sourceLab_3 = [[UILabel alloc] init];
         sourceTitleLab_3 = [[UILabel alloc] init];
         indexLab_3 = [[UILabel alloc] init];
+        indexLab_3.text = @"3";
     
         showBtn = [[UIButton alloc] init];
         showBtn.backgroundColor = [UIColor clearColor];
         [showBtn addTarget:self action:@selector(showBtnClick) forControlEvents:UIControlEventTouchUpInside];
         [backgroundView addSubview:showBtn];
-
+        
         cutlineView = [[UIView alloc] init];
         cutlineView.backgroundColor = [UIColor colorFromHexString:@"#ebeded"];
-        [baseView addSubview:cutlineView];
+        [backgroundView addSubview:cutlineView];
     }
     return self;
 }
@@ -142,7 +131,6 @@
 
 - (void)settingSubviewFrame
 {
-    baseView.frame = _singleImgFrm.baseFrm;
     backgroundView.frame = _singleImgFrm.backgroundFrm;
     imgView.frame = _singleImgFrm.imgFrm;
     titleLab.frame = _singleImgFrm.titleFrm;
@@ -151,8 +139,12 @@
     pointView_1.frame = _singleImgFrm.pointFrm_1;
     pointView_2.frame = _singleImgFrm.pointFrm_2;
     pointView_3.frame = _singleImgFrm.pointFrm_3;
+    sourceTitleLab_1.frame = _singleImgFrm.sourceTitleFrm_1;
+    sourceTitleLab_2.frame = _singleImgFrm.sourceTitleFrm_2;
+    sourceTitleLab_3.frame = _singleImgFrm.sourceTitleFrm_3;
     cutlineView.frame = _singleImgFrm.cutlineFrm;
     showBtn.frame = _singleImgFrm.backgroundFrm;
+    _cellH = _singleImgFrm.cellH;
 }
 
 - (void)settingData
@@ -168,7 +160,9 @@
     aspectLab.text = [NSString stringWithFormat:@"  %@", aspectLab.text];
     CGSize size = [AutoLabelSize autoLabSizeWithStr:aspectLab.text Fontsize:15 SizeW:0 SizeH:15];
     CGRect rect = aspectLab.frame;
+    CGFloat maxX = CGRectGetMaxX(rect);
     rect.size.width = size.width + 15;
+    rect.origin.x = maxX - rect.size.width;
     aspectLab.frame = rect;
     
     CGFloat aspectImgX = CGRectGetMaxX(rect) - 12;
@@ -187,7 +181,7 @@
 
     //分类
     NSString *categoryStr = _singleImgFrm.headViewDatasource.categoryStr;
-    if ([self isBlankString:categoryStr]) {
+    if ([NSString isBlankString:categoryStr]) {
         categoryLab.hidden = YES;
     } else {
         if ([categoryStr isEqualToString:@"焦点"]) {
@@ -232,87 +226,88 @@
     
     NSArray *subArr = _singleImgFrm.headViewDatasource.subArr;
     if (subArr.count == 1) {
-        [self setPointDetail:pointView_1 WithDict:subArr[0] WithType:@"only" WithIndex:1 Circle:circleView_1 Topbar:topBar_1 Bottonbar:bottonBar_1 source:sourceLab_1 sourceTitleLab:sourceTitleLab_1 Index:indexLab_1];
-        pointView_2.hidden = YES;
-        pointView_3.hidden = YES;
+        [self viewHiddenWithBool:NO Type:1];
+        [self viewHiddenWithBool:YES Type:2];
+        [self viewHiddenWithBool:YES Type:3];
+        [self setPointDetail:pointView_1 WithDict:subArr[0] WithType:@"only" Circle:circleView_1 Topbar:topBar_1 Bottonbar:bottonBar_1 sourceTitleLab:sourceTitleLab_1 Index:indexLab_1];
     } else {
-        [self setPointDetail:pointView_1 WithDict:subArr[0] WithType:@"top" WithIndex:1 Circle:circleView_1 Topbar:topBar_1 Bottonbar:bottonBar_1 source:sourceLab_1 sourceTitleLab:sourceTitleLab_1 Index:indexLab_1];
+        if (subArr != nil && subArr.count != 0 && ![subArr isKindOfClass:[NSNull class]]) {
+            [self viewHiddenWithBool:NO Type:1];
+            [self setPointDetail:pointView_1 WithDict:subArr[0] WithType:@"top" Circle:circleView_1 Topbar:topBar_1 Bottonbar:bottonBar_1 sourceTitleLab:sourceTitleLab_1 Index:indexLab_1];
+        } else {
+            [self viewHiddenWithBool:YES Type:1];
+            [self viewHiddenWithBool:YES Type:2];
+            [self viewHiddenWithBool:YES Type:3];
+        }
     }
     
     if (subArr.count == 2) {
-        [self setPointDetail:pointView_2 WithDict:subArr[1] WithType:@"botton" WithIndex:2 Circle:circleView_2 Topbar:topBar_2 Bottonbar:bottonBar_2 source:sourceLab_2 sourceTitleLab:sourceTitleLab_2 Index:indexLab_2];
-        pointView_3.hidden = YES;
+        [self viewHiddenWithBool:NO Type:2];
+        [self viewHiddenWithBool:YES Type:3];
+        [self setPointDetail:pointView_2 WithDict:subArr[1] WithType:@"botton" Circle:circleView_2 Topbar:topBar_2 Bottonbar:bottonBar_2 sourceTitleLab:sourceTitleLab_2 Index:indexLab_2];
     } else if (subArr.count >= 3) {
-        [self setPointDetail:pointView_2 WithDict:subArr[1] WithType:@"nil" WithIndex:2 Circle:circleView_2 Topbar:topBar_2 Bottonbar:bottonBar_2 source:sourceLab_2 sourceTitleLab:sourceTitleLab_2 Index:indexLab_2];
-        [self setPointDetail:pointView_3 WithDict:subArr[2] WithType:@"botton" WithIndex:3 Circle:circleView_3 Topbar:topBar_3 Bottonbar:bottonBar_3 source:sourceLab_3 sourceTitleLab:sourceTitleLab_3 Index:indexLab_3];
+        [self viewHiddenWithBool:NO Type:2];
+        [self viewHiddenWithBool:NO Type:3];
+        [self setPointDetail:pointView_2 WithDict:subArr[1] WithType:@"nil" Circle:circleView_2 Topbar:topBar_2 Bottonbar:bottonBar_2 sourceTitleLab:sourceTitleLab_2 Index:indexLab_2];
+        [self setPointDetail:pointView_3 WithDict:subArr[2] WithType:@"botton" Circle:circleView_3 Topbar:topBar_3 Bottonbar:bottonBar_3 sourceTitleLab:sourceTitleLab_3 Index:indexLab_3];
     }
 }
 
-- (void)setPointDetail:(UIView *)view WithDict:(NSDictionary *)dict WithType:(NSString *)type WithIndex:(int)index Circle:(UIView *)circle Topbar:(UIView *)topbar Bottonbar:(UIView *)bottonbar source:(UILabel *)sourceLab sourceTitleLab:(UILabel *)sourceTitleLab Index:(UILabel *)indexLab
-
+#pragma mark 新函数
+- (void)setPointDetail:(UIView *)view WithDict:(NSDictionary *)dict WithType:(NSString *)type Circle:(UIView *)circle Topbar:(UIView *)topbar Bottonbar:(UIView *)bottonbar sourceTitleLab:(UILabel *)sourceTitleLab Index:(UILabel *)indexLab
 {
-    view.hidden = NO;
+    NSString *sourceStr;
+    if (![NSString isBlankString:dict[@"user"]]) {
+        sourceStr = dict[@"user"];
+    } else if (![NSString isBlankString:dict[@"sourceSitename"]]) {
+        sourceStr = dict[@"sourceSitename"];
+    } else {
+        sourceStr = @"null";
+    }
+    sourceStr = [NSString stringWithFormat:@"%@:%@", sourceStr, dict[@"title"]];
     
-//    circle = [[UIView alloc] init];
+    sourceTitleLab.text = sourceStr;
+    sourceTitleLab.font = [UIFont fontWithName:kFont size:12];
+    sourceTitleLab.textAlignment = NSTextAlignmentJustified;
+    
+    
+    NSMutableAttributedString * attributedString = [[NSMutableAttributedString alloc] initWithString:sourceStr];
+    NSMutableParagraphStyle * paragraphStyle1 = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle1 setLineSpacing:5];
+    [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle1 range:NSMakeRange(0, [sourceStr length])];
+    [sourceTitleLab setAttributedText:attributedString];
+    
+    sourceTitleLab.numberOfLines = 2;
+    
+    [view addSubview:sourceTitleLab];
+    
+    
     circle.backgroundColor = [UIColor colorFromHexString:kBlue];
-    circle.frame = _singleImgFrm.circleFrm;
+    circle.frame = CGRectMake(17, 0, 15, 15);
+    circle.center = CGPointMake(circle.center.x, sourceTitleLab.center.y);
     circle.layer.masksToBounds = YES;
     circle.layer.cornerRadius = circle.frame.size.width / 2;
     
     [view addSubview:circle];
     
-//    topbar = [[UIView alloc] init];
     topbar.backgroundColor = [UIColor colorFromHexString:kBlue];
-    topbar.frame = _singleImgFrm.topBlueBarFrm;
+    CGFloat topbarH = circle.frame.origin.y;
+    topbar.frame = CGRectMake(0, 0, 3, topbarH);
+    topbar.center = CGPointMake(circle.center.x, topbar.center.y);
     topbar.hidden = NO;
     [view addSubview:topbar];
     
-//    bottonbar = [[UIView alloc] init];
     bottonbar.backgroundColor = [UIColor colorFromHexString:kBlue];
-    bottonbar.frame = _singleImgFrm.bottonBlueBarFrm;
+    CGFloat bottonbarY = CGRectGetMaxY(circle.frame);
+    CGFloat bottonbarH = view.frame.size.height - bottonbarY;
+    bottonbar.frame = CGRectMake(0, bottonbarY, 3, bottonbarH);
+    bottonbar.center = CGPointMake(circle.center.x, bottonbar.center.y);
     bottonbar.hidden = NO;
     [view addSubview:bottonbar];
-    NSString *sourceStr;
-    if (![self isBlankString:dict[@"user"]]) {
-        sourceStr = dict[@"user"];
-    } else if (![self isBlankString:dict[@"sourceSitename"]]) {
-        sourceStr = dict[@"sourceSitename"];
-    } else {
-        sourceStr = @"null";
-    }
-    sourceStr = [NSString stringWithFormat:@"%@:", sourceStr];
     
-    CGSize sourceSize = [AutoLabelSize autoLabSizeWithStr:sourceStr Fontsize:12 SizeW:0 SizeH:57];
-    
-    CGRect sourceRect = _singleImgFrm.sourceFrm;
-    sourceRect.size = sourceSize;
-    
-//    sourceLab = [[UILabel alloc] initWithFrame:sourceRect];
-    sourceLab.frame = sourceRect;
-    sourceLab.text = sourceStr;
-    sourceLab.font = [UIFont fontWithName:kFont size:12];
-    sourceLab.textAlignment = NSTextAlignmentNatural;
-    sourceLab.textColor = [UIColor colorFromHexString:@"#8c8c8c"];
-    [view addSubview:sourceLab];
-    
-    CGRect rect = _singleImgFrm.sourceTitleFrm;
-    rect.origin.x = CGRectGetMaxX(sourceLab.frame);
-    rect.size.width = [UIScreen mainScreen].bounds.size.width - rect.origin.x - 10;
-//    sourceTitleLab = [[UILabel alloc] initWithFrame:rect];
-    sourceTitleLab.frame = rect;
-    sourceTitleLab.text = dict[@"title"];
-    sourceTitleLab.font = [UIFont fontWithName:kFont size:13];
-    sourceTitleLab.textAlignment = NSTextAlignmentJustified;
-    [view addSubview:sourceTitleLab];
-    
-    
-    circle.center = CGPointMake(circle.center.x, sourceLab.center.y);
-    topbar.center = CGPointMake(circle.center.x, topbar.center.y);
-    bottonbar.center = CGPointMake(circle.center.x, bottonbar.center.y);
-    
-//    indexLab = [[UILabel alloc] init];
+    //    indexLab = [[UILabel alloc] init];
     indexLab.bounds = CGRectMake(0, 0, 10, 10);
-    indexLab.text = [NSString stringWithFormat:@"%d", index];
+//    indexLab.text = [NSString stringWithFormat:@"%d", index];
     indexLab.textColor = [UIColor whiteColor];
     indexLab.center = circle.center;
     indexLab.font = [UIFont fontWithName:kFont size:10];
@@ -328,17 +323,23 @@
         topbar.hidden = YES;
         bottonbar.hidden = YES;
     }
-    
 }
 
-- (void)pointViewInit:(UIView *)circle Topbar:(UIView *)topbar Bottonbar:(UIView *)bottonbar source:(UILabel *)sourceLab sourceTitleLab:(UILabel *)sourceTitleLab Index:(UILabel *)indexLab
+- (void)viewHiddenWithBool:(BOOL)hidden Type:(int)type
 {
-    circle = [[UIView alloc] init];
-    topbar = [[UIView alloc] init];
-    bottonbar = [[UIView alloc] init];
-    sourceLab = [[UILabel alloc] init];
-    sourceTitleLab = [[UILabel alloc] init];
-    indexLab = [[UILabel alloc] init];
+    if (type == 1) {
+        circleView_1.hidden = hidden;
+        topBar_1.hidden = hidden;
+        bottonBar_1.hidden = hidden;
+    } else if (type == 2) {
+        circleView_2.hidden = hidden;
+        topBar_2.hidden = hidden;
+        bottonBar_2.hidden = hidden;
+    } else if (type == 3) {
+        circleView_3.hidden = hidden;
+        topBar_3.hidden = hidden;
+        bottonBar_3.hidden = hidden;
+    }
 }
 
 - (void)showBtnClick
@@ -355,21 +356,6 @@
                                hasImg:NO];
     }
 }
-
-#pragma mark 判断字符串是否为空
-- (BOOL) isBlankString:(NSString *)string {
-    if (string == nil || string == NULL) {
-        return YES;
-    }
-    if ([string isKindOfClass:[NSNull class]]) {
-        return YES;
-    }
-    if ([[string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]] length]==0) {
-        return YES;
-    }
-    return NO;
-}
-
 
 - (void)awakeFromNib {
     // Initialization code

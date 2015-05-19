@@ -18,17 +18,19 @@
     
     CGFloat backH;
     
+    CGFloat maxY;
+    
     if (screenW == 320) {
         backH = 412 / 2;
-        _backFrm = CGRectMake(0, 0, screenW, backH + 8);
+        _backFrm = CGRectMake(0, 0, screenW, backH);
         _imgFrm = CGRectMake(0, 0, screenW, backH);
+        _cutlineFrm = CGRectMake(0, backH, screenW, 8);
+        maxY = CGRectGetMaxY(_cutlineFrm);
         
     } else {
 //        CGFloat backH = 195;
         backH = 412 / 2 + 20;
-        
         _backFrm = CGRectMake(0, 0, screenW, backH);
-        
 //        CGFloat imgX = 78;
         CGFloat imgY = 20;
 //        CGFloat imgW = 800 / 3;
@@ -37,12 +39,13 @@
 //        CGFloat imgH = 464 / 3;
         CGFloat imgH = 412 / 2;
         _imgFrm = CGRectMake(imgX, imgY, imgW, imgH);
-        
+        _cutlineFrm = CGRectMake(0, 0, 0, 0);
+        maxY = backH;
     }
     
     CGFloat titleY = CGRectGetMaxY(_imgFrm) - 50;
     CGFloat titleX = _imgFrm.origin.x + 24;
-    _titleFrm = CGRectMake(titleX, titleY + 5, _imgFrm.size.width - 2 * titleX, 40);
+    _titleFrm = CGRectMake(titleX, titleY + 5, screenW - 2 * titleX, 40);
     
     CGFloat toumuX = _imgFrm.origin.x;
     _toumuFrm = CGRectMake(toumuX, titleY, _imgFrm.size.width, 50);
@@ -51,10 +54,11 @@
     CGFloat categoryY = 142 / 3;
     _categoryFrm = CGRectMake(categoryX, categoryY, 18, 36);
     
-    _cutlineFrm = CGRectMake(0, _backFrm.size.height - 1, screenW, 1);
+//    CGFloat maxY = CGRectGetMaxY(_cutlineFrm);
+//    _backFrm = CGRectMake(0, 0, screenW, maxY);
     
-    _CellH = _backFrm.size.height;
-//    _CellH = 300;
+//    _CellH = CGRectGetMaxY(_cutlineFrm);
+    _CellH = maxY;
 }
 
 @end

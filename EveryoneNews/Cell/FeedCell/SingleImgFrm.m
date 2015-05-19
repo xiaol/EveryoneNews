@@ -7,6 +7,9 @@
 //
 
 #import "SingleImgFrm.h"
+#import "AutoLabelSize.h"
+#import "NSString+YU.h"
+#import "NSArray+isEmpty.h"
 
 @implementation SingleImgFrm
 
@@ -31,43 +34,85 @@
     CGFloat aspectW = 74;
     CGFloat aspectX = screenW - 12 - aspectW;
     _aspectFrm = CGRectMake(aspectX, aspectY, aspectW, aspectH);
+
+    CGFloat maxPointY = CGRectGetMaxY(_aspectFrm) + 10 ;
     
-    CGFloat pointY = CGRectGetMaxY(_imgFrm) + 6;
-    CGFloat pointH = 26;
-    _pointFrm_1 = CGRectMake(0, pointY, screenW, pointH);
-    
-    CGFloat maxPointY = CGRectGetMaxY(_pointFrm_1);
-    
-    if (_headViewDatasource.subArr.count == 2) {
-        _pointFrm_2 = CGRectMake(0, pointY + pointH, screenW, pointH);
-        _pointFrm_3 = CGRectMake(0, 0, 0, 0);
-        maxPointY = CGRectGetMaxY(_pointFrm_2);
-    } else if (_headViewDatasource.subArr.count >= 3){
-        _pointFrm_2 = CGRectMake(0, pointY + pointH, screenW, pointH);
-        _pointFrm_3 = CGRectMake(0, pointY + pointH * 2, screenW, pointH);
-        maxPointY = CGRectGetMaxY(_pointFrm_3);
-    }
-    maxPointY += 6;
-    _backgroundFrm = CGRectMake(0, 0, screenW, maxPointY);
-    _cutlineFrm = CGRectMake(0, maxPointY, screenW, 18);
-    maxPointY = CGRectGetMaxY(_cutlineFrm);
-    _baseFrm = CGRectMake(0, 0, screenW, maxPointY);
+//    _backgroundFrm = CGRectMake(0, 0, screenW, maxPointY);
     _cellH = maxPointY;
+   
+    NSArray *subArr = _headViewDatasource.subArr;
+
+    if (![NSArray isEmpty:subArr]) {
+
+        [self setPointDetailWithDict:subArr[0] index:1];
+        _pointFrm_3 = CGRectMake(0, 0, 0, 0);
+        _pointFrm_2 = CGRectMake(0, 0, 0, 0);
+    } else {
+        _pointFrm_1 = CGRectMake(0, 0, 0, 0);
+        _pointFrm_2 = CGRectMake(0, 0, 0, 0);
+        _pointFrm_3 = CGRectMake(0, 0, 0, 0);
+    }
     
-    /**** point内部 ****/
-    _circleFrm = CGRectMake(17, 0, 15, 15);
+    if (subArr.count == 2) {
+
+        [self setPointDetailWithDict:subArr[1] index:2];
+        _pointFrm_3 = CGRectMake(0, 0, 0, 0);
+    } else if (subArr.count >= 3) {
+        [self setPointDetailWithDict:subArr[1] index:2];
+        [self setPointDetailWithDict:subArr[2] index:3];
+    }
+
+    CGFloat filler = 5.0;
+    _cellH += filler;
+    _cutlineFrm = CGRectMake(0, _cellH, screenW, 18);
+    _cellH += _cutlineFrm.size.height;
+    _backgroundFrm = CGRectMake(0, 0, screenW, _cellH);
     
-    CGFloat barH = (pointH - 15) / 2;
-    CGFloat offset = 2;
-    _topBlueBarFrm = CGRectMake(0, offset, 3, barH);
-    CGFloat bottonBarY = pointH - barH;
-    _bottonBlueBarFrm  = CGRectMake(0, bottonBarY + offset, 3, barH);
+}
+
+- (void)setPointDetailWithDict:(NSDictionary *)dict index:(int)index
+{
     
-    CGFloat sourceX = CGRectGetMaxX(_circleFrm) + 9;
-    _sourceFrm = CGRectMake(sourceX, pointH - 10 - 10, 80, pointH);
-    CGFloat sourceTitleX = CGRectGetMaxX(_sourceFrm);
-    _sourceTitleFrm = CGRectMake(sourceTitleX, pointH - 13 - 10, 100, pointH);
+    NSString *sourceStr;
+    if (![NSString isBlankString:dict[@"user"]]) {
+        sourceStr = dict[@"user"];
+    } else if (![NSString isBlankString:dict[@"sourceSitename"]]) {
+        sourceStr = dict[@"sourceSitename"];
+    } else {
+        sourceStr = @"null";
+    }
+    sourceStr = [NSString stringWithFormat:@"%@:%@", sourceStr, dict[@"title"]];
     
+    CGFloat screenW = [UIScreen mainScreen].bounds.size.width;
+    CGFloat sourceTitleW = screenW - 50 - 10;
+    CGSize sourceSize = [AutoLabelSize autoLabSizeWithStr:sourceStr Fontsize:12 SizeW:sourceTitleW SizeH:0];
+    
+    CGFloat sourceTitleH = sourceSize.height;
+    if (sourceTitleH > 30) {
+        sourceTitleH = 30;
+    }
+
+    CGRect sourceTitleFrm = CGRectMake(50, 5, sourceTitleW, sourceTitleH);
+    
+    CGRect viewFrm = CGRectMake(0, _cellH, screenW, (sourceTitleH + 10));
+    
+    [self drawPointInIndex:index PointFrm:viewFrm SourceFrm:sourceTitleFrm];
+
+    _cellH = _cellH + viewFrm.size.height;
+}
+
+- (void)drawPointInIndex:(int)index PointFrm:(CGRect)pointFrm SourceFrm:(CGRect)sourceFrm
+{
+    if (index == 1) {
+        _pointFrm_1 = pointFrm;
+        _sourceTitleFrm_1 = sourceFrm;
+    } else if (index == 2) {
+        _pointFrm_2 = pointFrm;
+        _sourceTitleFrm_2 = sourceFrm;
+    } else if (index == 3) {
+        _pointFrm_3 = pointFrm;
+        _sourceTitleFrm_3 = sourceFrm;
+    }
 }
 
 @end

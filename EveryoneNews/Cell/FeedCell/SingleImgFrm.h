@@ -12,7 +12,7 @@
 
 @interface SingleImgFrm : NSObject
 
-@property (nonatomic, assign, readonly) CGRect baseFrm;
+//@property (nonatomic, assign, readonly) CGRect baseFrm;
 @property (nonatomic, assign, readonly) CGRect backgroundFrm;
 @property (nonatomic, assign, readonly) CGRect imgFrm;
 @property (nonatomic, assign, readonly) CGRect titleFrm;
@@ -22,12 +22,20 @@
 @property (nonatomic, assign, readonly) CGRect pointFrm_2;
 @property (nonatomic, assign, readonly) CGRect pointFrm_3;
 @property (nonatomic, assign, readonly) CGRect cutlineFrm;
-
-@property (nonatomic, assign, readonly) CGRect topBlueBarFrm;
-@property (nonatomic, assign, readonly) CGRect bottonBlueBarFrm;
-@property (nonatomic, assign, readonly) CGRect circleFrm;
-@property (nonatomic, assign, readonly) CGRect sourceFrm;
-@property (nonatomic, assign, readonly) CGRect sourceTitleFrm;
+//
+@property (nonatomic, assign, readonly) CGRect topBlueBarFrm_1;
+@property (nonatomic, assign, readonly) CGRect topBlueBarFrm_2;
+@property (nonatomic, assign, readonly) CGRect topBlueBarFrm_3;
+@property (nonatomic, assign, readonly) CGRect bottonBlueBarFrm_1;
+@property (nonatomic, assign, readonly) CGRect bottonBlueBarFrm_2;
+@property (nonatomic, assign, readonly) CGRect bottonBlueBarFrm_3;
+@property (nonatomic, assign, readonly) CGRect circleFrm_1;
+@property (nonatomic, assign, readonly) CGRect circleFrm_2;
+@property (nonatomic, assign, readonly) CGRect circleFrm_3;
+@property (nonatomic, assign, readonly) CGRect sourceTitleFrm_1;
+@property (nonatomic, assign, readonly) CGRect sourceTitleFrm_2;
+@property (nonatomic, assign, readonly) CGRect sourceTitleFrm_3;
+@property (nonatomic, assign, readonly) CGRect whiteBlockFrm;
 
 @property (nonatomic, assign)CGFloat cellH;
 

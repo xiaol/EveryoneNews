@@ -7,18 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1819E4DB1B0A5464003A5983 /* libPods-AFNetworking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1819E4D21B0A5464003A5983 /* libPods-AFNetworking.a */; };
-		1819E4DC1B0A5464003A5983 /* libPods-GRKBlurView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1819E4D31B0A5464003A5983 /* libPods-GRKBlurView.a */; };
-		1819E4DD1B0A5464003A5983 /* libPods-libwebp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1819E4D41B0A5464003A5983 /* libPods-libwebp.a */; };
-		1819E4DE1B0A5464003A5983 /* libPods-SDWebImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1819E4D51B0A5464003A5983 /* libPods-SDWebImage.a */; };
-		1819E4DF1B0A5464003A5983 /* libPods-SSKeychain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1819E4D61B0A5464003A5983 /* libPods-SSKeychain.a */; };
-		1819E4E01B0A5464003A5983 /* libPods-SVProgressHUD.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1819E4D71B0A5464003A5983 /* libPods-SVProgressHUD.a */; };
-		1819E4E11B0A5464003A5983 /* libPods-YAJL-Entity.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1819E4D81B0A5464003A5983 /* libPods-YAJL-Entity.a */; };
-		1819E4E21B0A5464003A5983 /* libPods-yajl-objc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1819E4D91B0A5464003A5983 /* libPods-yajl-objc.a */; };
-		1819E4E31B0A5464003A5983 /* libPods-yajl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1819E4DA1B0A5464003A5983 /* libPods-yajl.a */; };
-		18B088871B01F45800F33532 /* HttpTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B088861B01F45800F33532 /* HttpTool.m */; };
-		18B0888A1B02010B00F33532 /* FormData.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B088891B02010B00F33532 /* FormData.m */; };
-		72E38B7BA868266B182567CC /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A0528C26297FAA2C259EF3E /* libPods.a */; settings = {ATTRIBUTES = (Required, ); }; };
+		72E38B7BA868266B182567CC /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A0528C26297FAA2C259EF3E /* libPods.a */; };
 		C106D7CC1AEDEB0000DCFD95 /* CenterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C106D7CB1AEDEB0000DCFD95 /* CenterCell.m */; };
 		C106D7CE1AEDED2D00DCFD95 /* compass.png in Resources */ = {isa = PBXBuildFile; fileRef = C106D7CD1AEDED2D00DCFD95 /* compass.png */; };
 		C114420A1AF8C9FA007A4620 /* DataCacheTool.m in Sources */ = {isa = PBXBuildFile; fileRef = C11442091AF8C9FA007A4620 /* DataCacheTool.m */; };
@@ -67,7 +56,6 @@
 		C16FA9BA1ACBE2A800F85DF8 /* weibo.png in Resources */ = {isa = PBXBuildFile; fileRef = C16FA9B91ACBE2A800F85DF8 /* weibo.png */; };
 		C16FA9BD1ACC1E1400F85DF8 /* BaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9BC1ACC1E1400F85DF8 /* BaseCell.m */; };
 		C16FA9C01ACC209700F85DF8 /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C16FA9BF1ACC209700F85DF8 /* WebViewController.m */; };
-		C17947531ADE66F60080E456 /* demo_1.png in Resources */ = {isa = PBXBuildFile; fileRef = C17947521ADE66F60080E456 /* demo_1.png */; };
 		C17F74561ADCBAA000746CDB /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = C17F74551ADCBAA000746CDB /* back.png */; };
 		C17F74591ADCC26C00746CDB /* webBack.png in Resources */ = {isa = PBXBuildFile; fileRef = C17F74581ADCC26C00746CDB /* webBack.png */; };
 		C17F745B1ADCCD2200746CDB /* like.png in Resources */ = {isa = PBXBuildFile; fileRef = C17F745A1ADCCD2200746CDB /* like.png */; };
@@ -75,6 +63,7 @@
 		C17F745F1ADD0A7100746CDB /* share.png in Resources */ = {isa = PBXBuildFile; fileRef = C17F745E1ADD0A7100746CDB /* share.png */; };
 		C17F74631ADD0E9F00746CDB /* XHYScrollingNavBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C17F74621ADD0E9F00746CDB /* XHYScrollingNavBarViewController.m */; };
 		C17F74671ADE3BBA00746CDB /* navBack.png in Resources */ = {isa = PBXBuildFile; fileRef = C17F74661ADE3BBA00746CDB /* navBack.png */; };
+		C189A88F1B09C7E300190640 /* NSArray+isEmpty.m in Sources */ = {isa = PBXBuildFile; fileRef = C189A88E1B09C7E300190640 /* NSArray+isEmpty.m */; };
 		C18F951E1ACA506400A46502 /* TMQuiltView.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F951B1ACA506400A46502 /* TMQuiltView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C18F951F1ACA506400A46502 /* TMQuiltViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F951D1ACA506400A46502 /* TMQuiltViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C18F95221ACA509A00A46502 /* TMPhotoQuiltViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C18F95211ACA509A00A46502 /* TMPhotoQuiltViewCell.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -166,6 +155,7 @@
 		C1C052C41AC13BE400D6D687 /* YLImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C1C052C21AC13BE400D6D687 /* YLImageView.m */; };
 		C1DAEC981AFA1C3100B39432 /* SingleImgFrm.m in Sources */ = {isa = PBXBuildFile; fileRef = C1DAEC971AFA1C3100B39432 /* SingleImgFrm.m */; };
 		C1DAEC9B1AFA1C5300B39432 /* SingleImgCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C1DAEC9A1AFA1C5300B39432 /* SingleImgCell.m */; };
+		C1EC91411B01FBD5005EF2F0 /* HttpTool.m in Sources */ = {isa = PBXBuildFile; fileRef = C1EC91401B01FBD5005EF2F0 /* HttpTool.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -179,19 +169,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1819E4D21B0A5464003A5983 /* libPods-AFNetworking.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AFNetworking.a"; path = "Pods/../build/Debug-iphoneos/libPods-AFNetworking.a"; sourceTree = "<group>"; };
-		1819E4D31B0A5464003A5983 /* libPods-GRKBlurView.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-GRKBlurView.a"; path = "Pods/../build/Debug-iphoneos/libPods-GRKBlurView.a"; sourceTree = "<group>"; };
-		1819E4D41B0A5464003A5983 /* libPods-libwebp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-libwebp.a"; path = "Pods/../build/Debug-iphoneos/libPods-libwebp.a"; sourceTree = "<group>"; };
-		1819E4D51B0A5464003A5983 /* libPods-SDWebImage.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-SDWebImage.a"; path = "Pods/../build/Debug-iphoneos/libPods-SDWebImage.a"; sourceTree = "<group>"; };
-		1819E4D61B0A5464003A5983 /* libPods-SSKeychain.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-SSKeychain.a"; path = "Pods/../build/Debug-iphoneos/libPods-SSKeychain.a"; sourceTree = "<group>"; };
-		1819E4D71B0A5464003A5983 /* libPods-SVProgressHUD.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-SVProgressHUD.a"; path = "Pods/../build/Debug-iphoneos/libPods-SVProgressHUD.a"; sourceTree = "<group>"; };
-		1819E4D81B0A5464003A5983 /* libPods-YAJL-Entity.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-YAJL-Entity.a"; path = "Pods/../build/Debug-iphoneos/libPods-YAJL-Entity.a"; sourceTree = "<group>"; };
-		1819E4D91B0A5464003A5983 /* libPods-yajl-objc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-yajl-objc.a"; path = "Pods/../build/Debug-iphoneos/libPods-yajl-objc.a"; sourceTree = "<group>"; };
-		1819E4DA1B0A5464003A5983 /* libPods-yajl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-yajl.a"; path = "Pods/../build/Debug-iphoneos/libPods-yajl.a"; sourceTree = "<group>"; };
-		18B088851B01F45800F33532 /* HttpTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpTool.h; sourceTree = "<group>"; };
-		18B088861B01F45800F33532 /* HttpTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpTool.m; sourceTree = "<group>"; };
-		18B088881B02010B00F33532 /* FormData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormData.h; sourceTree = "<group>"; };
-		18B088891B02010B00F33532 /* FormData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FormData.m; sourceTree = "<group>"; };
 		39559E040BF0F3C0CBAD3816 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		5A0528C26297FAA2C259EF3E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FE9000300DFA499AE8DDD92 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -273,7 +250,6 @@
 		C16FA9BC1ACC1E1400F85DF8 /* BaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseCell.m; sourceTree = "<group>"; };
 		C16FA9BE1ACC209700F85DF8 /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		C16FA9BF1ACC209700F85DF8 /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
-		C17947521ADE66F60080E456 /* demo_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = demo_1.png; sourceTree = "<group>"; };
 		C17F74551ADCBAA000746CDB /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
 		C17F74581ADCC26C00746CDB /* webBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = webBack.png; sourceTree = "<group>"; };
 		C17F745A1ADCCD2200746CDB /* like.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = like.png; sourceTree = "<group>"; };
@@ -282,6 +258,8 @@
 		C17F74611ADD0E9F00746CDB /* XHYScrollingNavBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XHYScrollingNavBarViewController.h; sourceTree = "<group>"; };
 		C17F74621ADD0E9F00746CDB /* XHYScrollingNavBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XHYScrollingNavBarViewController.m; sourceTree = "<group>"; };
 		C17F74661ADE3BBA00746CDB /* navBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navBack.png; sourceTree = "<group>"; };
+		C189A88D1B09C7E300190640 /* NSArray+isEmpty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+isEmpty.h"; sourceTree = "<group>"; };
+		C189A88E1B09C7E300190640 /* NSArray+isEmpty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+isEmpty.m"; sourceTree = "<group>"; };
 		C18F951A1ACA506400A46502 /* TMQuiltView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMQuiltView.h; sourceTree = "<group>"; };
 		C18F951B1ACA506400A46502 /* TMQuiltView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TMQuiltView.m; sourceTree = "<group>"; };
 		C18F951C1ACA506400A46502 /* TMQuiltViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TMQuiltViewCell.h; sourceTree = "<group>"; };
@@ -417,6 +395,8 @@
 		C1DAEC971AFA1C3100B39432 /* SingleImgFrm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleImgFrm.m; sourceTree = "<group>"; };
 		C1DAEC991AFA1C5300B39432 /* SingleImgCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingleImgCell.h; sourceTree = "<group>"; };
 		C1DAEC9A1AFA1C5300B39432 /* SingleImgCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingleImgCell.m; sourceTree = "<group>"; };
+		C1EC913F1B01FBD5005EF2F0 /* HttpTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpTool.h; sourceTree = "<group>"; };
+		C1EC91401B01FBD5005EF2F0 /* HttpTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpTool.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -424,15 +404,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1819E4DB1B0A5464003A5983 /* libPods-AFNetworking.a in Frameworks */,
-				1819E4DC1B0A5464003A5983 /* libPods-GRKBlurView.a in Frameworks */,
-				1819E4DD1B0A5464003A5983 /* libPods-libwebp.a in Frameworks */,
-				1819E4DE1B0A5464003A5983 /* libPods-SDWebImage.a in Frameworks */,
-				1819E4DF1B0A5464003A5983 /* libPods-SSKeychain.a in Frameworks */,
-				1819E4E01B0A5464003A5983 /* libPods-SVProgressHUD.a in Frameworks */,
-				1819E4E11B0A5464003A5983 /* libPods-YAJL-Entity.a in Frameworks */,
-				1819E4E21B0A5464003A5983 /* libPods-yajl-objc.a in Frameworks */,
-				1819E4E31B0A5464003A5983 /* libPods-yajl.a in Frameworks */,
 				C11442231AF8CDFE007A4620 /* libsqlite3.0.dylib in Frameworks */,
 				C197123C1AC3DE5F0024B12E /* libiconv.dylib in Frameworks */,
 				C197123A1AC3DE530024B12E /* libstdc++.dylib in Frameworks */,
@@ -461,29 +432,9 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		18B088841B01F02700F33532 /* HTTPTool */ = {
-			isa = PBXGroup;
-			children = (
-				18B088851B01F45800F33532 /* HttpTool.h */,
-				18B088861B01F45800F33532 /* HttpTool.m */,
-				18B088881B02010B00F33532 /* FormData.h */,
-				18B088891B02010B00F33532 /* FormData.m */,
-			);
-			name = HTTPTool;
-			sourceTree = "<group>";
-		};
 		75437E1B9AF4465FC56403E0 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1819E4D21B0A5464003A5983 /* libPods-AFNetworking.a */,
-				1819E4D31B0A5464003A5983 /* libPods-GRKBlurView.a */,
-				1819E4D41B0A5464003A5983 /* libPods-libwebp.a */,
-				1819E4D51B0A5464003A5983 /* libPods-SDWebImage.a */,
-				1819E4D61B0A5464003A5983 /* libPods-SSKeychain.a */,
-				1819E4D71B0A5464003A5983 /* libPods-SVProgressHUD.a */,
-				1819E4D81B0A5464003A5983 /* libPods-YAJL-Entity.a */,
-				1819E4D91B0A5464003A5983 /* libPods-yajl-objc.a */,
-				1819E4DA1B0A5464003A5983 /* libPods-yajl.a */,
 				C11442221AF8CDFE007A4620 /* libsqlite3.0.dylib */,
 				C11442201AF8CAB5007A4620 /* libsqlite3.dylib */,
 				C197123B1AC3DE5F0024B12E /* libiconv.dylib */,
@@ -518,6 +469,8 @@
 		C11442071AF8C9E8007A4620 /* tool */ = {
 			isa = PBXGroup;
 			children = (
+				C1EC913F1B01FBD5005EF2F0 /* HttpTool.h */,
+				C1EC91401B01FBD5005EF2F0 /* HttpTool.m */,
 				C11442081AF8C9FA007A4620 /* DataCacheTool.h */,
 				C11442091AF8C9FA007A4620 /* DataCacheTool.m */,
 			);
@@ -534,6 +487,8 @@
 				C11442281AF9FD0E007A4620 /* NSString+YU.m */,
 				C1690CBB1B0065700034CD22 /* NSDate+LP.h */,
 				C1690CBC1B0065700034CD22 /* NSDate+LP.m */,
+				C189A88D1B09C7E300190640 /* NSArray+isEmpty.h */,
+				C189A88E1B09C7E300190640 /* NSArray+isEmpty.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -798,7 +753,6 @@
 		C1C0522D1ABFFC1600D6D687 /* EveryoneNews */ = {
 			isa = PBXGroup;
 			children = (
-				18B088841B01F02700F33532 /* HTTPTool */,
 				C1C052321ABFFC1600D6D687 /* AppDelegate.h */,
 				C1C052331ABFFC1600D6D687 /* AppDelegate.m */,
 				C1C052381ABFFC1600D6D687 /* Main.storyboard */,
@@ -918,7 +872,6 @@
 				C17F74571ADCC24C00746CDB /* WebViewImg */,
 				C18F95231ACAA88400A46502 /* ContentVC */,
 				C11CD46B1AC268F100D1D9C8 /* Font */,
-				C17947521ADE66F60080E456 /* demo_1.png */,
 				C1B76B671AE63C0D0039FCB3 /* arrow.png */,
 				C1690CB91AFCB3EC0034CD22 /* ic_time.png */,
 				C1C052701AC1196200D6D687 /* HeadView */,
@@ -1159,7 +1112,6 @@
 				C1C052B61AC13BDB00D6D687 /* MJRefresh.bundle in Resources */,
 				C1C009A11AD543DA00F550A4 /* beiqingwang.png in Resources */,
 				C13E9DD21AEE39AE00E7E23C /* navTitle.png in Resources */,
-				C17947531ADE66F60080E456 /* demo_1.png in Resources */,
 				C1C009B51AD543DA00F550A4 /* zhengquanzhixing.png in Resources */,
 				C17F74671ADE3BBA00746CDB /* navBack.png in Resources */,
 				C1C009B01AD543DA00F550A4 /* tengxun.png in Resources */,
@@ -1252,7 +1204,7 @@
 				C1C052BA1AC13BDB00D6D687 /* MJRefreshHeaderView.m in Sources */,
 				C1DAEC981AFA1C3100B39432 /* SingleImgFrm.m in Sources */,
 				C1B76B731AE643E90039FCB3 /* BigImgCell.m in Sources */,
-				18B088871B01F45800F33532 /* HttpTool.m in Sources */,
+				C1EC91411B01FBD5005EF2F0 /* HttpTool.m in Sources */,
 				C1C052371ABFFC1600D6D687 /* ViewController.m in Sources */,
 				C1C052B71AC13BDB00D6D687 /* MJRefreshBaseView.m in Sources */,
 				C1C052B81AC13BDB00D6D687 /* MJRefreshConst.m in Sources */,
@@ -1276,7 +1228,6 @@
 				C13E9DD51AEE3D9600E7E23C /* MoreCell.m in Sources */,
 				C16FA9A61ACB9C2600F85DF8 /* ZhihuDatasource.m in Sources */,
 				C1C052881AC139B900D6D687 /* ContentCell.m in Sources */,
-				18B0888A1B02010B00F33532 /* FormData.m in Sources */,
 				C1C0529E1AC13AB700D6D687 /* FTCoreTextView.m in Sources */,
 				C16FA9AC1ACBA71A00F85DF8 /* DoubanDatasource.m in Sources */,
 				C1C052591AC0007800D6D687 /* BaseViewController.m in Sources */,
@@ -1290,6 +1241,7 @@
 				C16FA9C01ACC209700F85DF8 /* WebViewController.m in Sources */,
 				C1B76B761AE779BD0039FCB3 /* BaseFeedCell.m in Sources */,
 				C1C052311ABFFC1600D6D687 /* main.m in Sources */,
+				C189A88F1B09C7E300190640 /* NSArray+isEmpty.m in Sources */,
 				C16FA99D1ACB024500F85DF8 /* BaiduCell.m in Sources */,
 				C1690CC61B0065DF0034CD22 /* CircleProgressView.m in Sources */,
 				C1C0526E1AC01ED400D6D687 /* UIColor+HexToRGB.m in Sources */,
@@ -1433,7 +1385,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/EveryoneNews/PrefixHeader.pch";
 				INFOPLIST_FILE = EveryoneNews/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1441,7 +1393,6 @@
 					"$(PROJECT_DIR)/EveryoneNews/Third/UMeng/UMSocial_Sdk_4.2.1",
 					"$(PROJECT_DIR)/EveryoneNews/Third/UMeng/UMSocial_Sdk_Extra_Frameworks/Sina",
 					"$(PROJECT_DIR)/EveryoneNews/Third/UMeng/UMSocial_Sdk_Extra_Frameworks/Wechat",
-					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -1462,7 +1413,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/EveryoneNews/PrefixHeader.pch";
 				INFOPLIST_FILE = EveryoneNews/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1470,7 +1421,6 @@
 					"$(PROJECT_DIR)/EveryoneNews/Third/UMeng/UMSocial_Sdk_4.2.1",
 					"$(PROJECT_DIR)/EveryoneNews/Third/UMeng/UMSocial_Sdk_Extra_Frameworks/Sina",
 					"$(PROJECT_DIR)/EveryoneNews/Third/UMeng/UMSocial_Sdk_Extra_Frameworks/Wechat",
-					"$(PROJECT_DIR)/build/Debug-iphoneos",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

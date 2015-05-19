@@ -19,12 +19,12 @@
 +(void)addRows:(NSArray *)dictArray;
 //+(void)addRow:(NSDictionary *)dict;
 
-/**
- *  检查数据库中是否有最新数据
- *
- *  @return
- */
-+(BOOL)hasNewData;
+///**
+// *  检查数据库中是否有最新数据
+// *
+// *  @return
+// */
+//+(BOOL)hasNewData;
 
 
 /**
