@@ -9,11 +9,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>Pods-GRKBlurView.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>Pods-SDWebImage.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -57,52 +52,47 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>05492E67BBDEF695BC86790A</key>
+		<key>1EF6FE36947D6CF6FC6E0C33</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>1252F9E3FE22A47552B2A0C6</key>
+		<key>1F196CAED676ED7307A8A0A6</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>35C90D083ED140E5147706AC</key>
+		<key>3851DD24C141D1EDB6B7C673</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>4B52C7444252F1B7FAFFAA03</key>
+		<key>3F0AB1C97DCC45FE81B13451</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6A42BABF7A7F3F96005344DB</key>
+		<key>6CD2F4E215FBDF91CB1C9AF0</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>75B0DCA5265B4CB501A6CD5B</key>
+		<key>77C3FAE287FFBF44773D2FDC</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7A10779E5C602ED18A128064</key>
+		<key>A9994BB15E80459F46EA16C1</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D3EC87874789D2CB7E6A457D</key>
+		<key>E4B37EDF2BE68999E04820F9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>DDE1AD33A5C5036C8835E852</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>FC7A557A1B86221B3258CABF</key>
+		<key>FEF5A610913EC29F00E953C3</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "35C90D083ED140E5147706AC"
+               BlueprintIdentifier = "1F196CAED676ED7307A8A0A6"
                BuildableName = "libPods-YAJL-Entity.a"
                BlueprintName = "Pods-YAJL-Entity"
                ReferencedContainer = "container:Pods.xcodeproj">
