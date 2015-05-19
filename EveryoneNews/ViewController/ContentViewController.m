@@ -382,10 +382,11 @@
     if (![NSString isBlankString:_imgStr]) {
         NSURL *url = [NSURL URLWithString:_imgStr];
         [imgView sd_setImageWithURL:url completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-            if (imgView.image.size.width / imgView.image.size.height > imgView.frame.size.width / imgView.frame.size.height) {
+            if (image.size.width / image.size.height > imgView.frame.size.width / imgView.frame.size.height) {
                 imgView.contentMode = UIViewContentModeScaleAspectFill;
                 imgView.clipsToBounds = YES;
             } else {
+                //若是竖图，截图图片中央位置
                 imgView.image = [ScaleImage scaleImage:imgView.image size:imgView.frame.size];
             }
         }];
@@ -633,7 +634,6 @@
 
 - (CGFloat)quiltView:(TMQuiltView *)quiltView heightForCellAtIndexPath:(NSIndexPath *)indexPath
 {
-
     if (waterDic.count != 0) {
         CGFloat height = [waterDic[[NSString stringWithFormat:@"%ld", indexPath.row]] floatValue];
         if (height == 0) {
@@ -642,12 +642,10 @@
 //            NSLog(@"height:%f indexPath:%ld", height, indexPath.row);
             return height;
         }
-        
     }
     else {
         return 100;
     }
-
 }
 
 - (void)quiltView:(TMQuiltView *)quiltView didSelectCellAtIndexPath:(NSIndexPath *)indexPath

@@ -36,6 +36,7 @@
     NSInteger rat;
     
     UIButton *timeBtn;
+    int scrollNum;
 }
 @property (nonatomic, strong) NSTimer *timer;
 @property (strong, nonatomic) CountdownView *countdownView;
@@ -46,6 +47,8 @@
 // 系统倒计时
 @property (nonatomic, assign) int remainUpdateTime;
 @property (nonatomic, strong) NSDate *requestTime;
+
+@property (nonatomic, assign) NSUInteger anyDisplayingCellRowIndex;
 @end
 
 @implementation ViewController
@@ -275,15 +278,65 @@
 }
 
 #pragma mark cell animation
+//-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+//    
+//    //1. Setup the CATransform3D structure
+//    CATransform3D translation;
+//    // rotation = CATransform3DMakeRotation( (90.0*M_PI)/180, 0.0, 0.7, 0.4);
+//    translation = CATransform3DMakeTranslation(0, 480, 0);
+//    //rotation.m34 = 1.0/ -600;
+//    
+//    //2. Define the initial state (Before the animation)
+//    cell.layer.shadowColor = [[UIColor blackColor]CGColor];
+//    cell.layer.shadowOffset = CGSizeMake(10, 10);
+//    cell.alpha = 0;
+//    
+//    cell.layer.transform = translation;
+//    cell.layer.anchorPoint = CGPointMake(0, 0.5);
+//    
+//    //!!!FIX for issue #1 Cell position wrong------------
+//    if(cell.layer.position.x != 0){
+//        cell.layer.position = CGPointMake(0, cell.layer.position.y);
+//    }
+//    
+//    //4. Define the final state (After the animation) and commit the animation
+//    [UIView beginAnimations:@"translation" context:NULL];
+//    [UIView setAnimationDuration:1.5];
+//    cell.layer.transform = CATransform3DIdentity;
+//    
+//    cell.alpha = 1;
+//    cell.layer.shadowOffset = CGSizeMake(0, 0);
+//    
+//    [UIView commitAnimations];
+//}
+
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    
+    if (scrollNum <= 4) {
+        NSLog(@"scrollNum == %d!!!", scrollNum);
+        scrollNum++;
+        return;
+    }
     
     //1. Setup the CATransform3D structure
     CATransform3D translation;
     // rotation = CATransform3DMakeRotation( (90.0*M_PI)/180, 0.0, 0.7, 0.4);
-    translation = CATransform3DMakeTranslation(0, 480, 0);
-    //rotation.m34 = 1.0/ -600;
+    CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
+    CGFloat cellHeight = [self tableView:tableView heightForRowAtIndexPath:indexPath];
     
-    //2. Define the initial state (Before the animation)
+    if (indexPath.row > self.anyDisplayingCellRowIndex ) {
+        NSLog(@"scrollUp!!");
+        translation = CATransform3DMakeTranslation(0, screenHeight, 0);
+        
+    } else if (indexPath.row < self.anyDisplayingCellRowIndex) {
+        NSLog(@"scrollDown!!");
+        translation = CATransform3DMakeTranslation(0, - cellHeight, 0);
+    } else {
+        return;
+    }
+    self.anyDisplayingCellRowIndex = indexPath.row;
+    
     cell.layer.shadowColor = [[UIColor blackColor]CGColor];
     cell.layer.shadowOffset = CGSizeMake(10, 10);
     cell.alpha = 0;
@@ -291,14 +344,15 @@
     cell.layer.transform = translation;
     cell.layer.anchorPoint = CGPointMake(0, 0.5);
     
-    //!!!FIX for issue #1 Cell position wrong------------
+    
     if(cell.layer.position.x != 0){
         cell.layer.position = CGPointMake(0, cell.layer.position.y);
     }
     
-    //4. Define the final state (After the animation) and commit the animation
+    
     [UIView beginAnimations:@"translation" context:NULL];
-    [UIView setAnimationDuration:1.5];
+    [UIView setAnimationDuration:1.0];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
     cell.layer.transform = CATransform3DIdentity;
     
     cell.alpha = 1;
@@ -421,6 +475,8 @@
     NSUInteger newIndex[] = {centerIndexPath.section,centerIndexPath.row - 1};
     NSIndexPath *indexPath = [[NSIndexPath alloc] initWithIndexes:newIndex length:2];
     [myTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:YES];
+    
+    _anyDisplayingCellRowIndex = centerIndexPath.row;
     
     [self performSelector:@selector(setTableAnimation) withObject:nil afterDelay:0.5];
 

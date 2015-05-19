@@ -87,7 +87,9 @@
     titleLab.text = _bigImgFrm.bigImgDatasource.titleStr;
     NSURL *url = [NSURL URLWithString:_bigImgFrm.bigImgDatasource.imgStr];
     [imgView sd_setImageWithURL:url placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-        imgView.image = [ScaleImage scaleImage:imgView.image size:_bigImgFrm.imgFrm.size];
+//        imgView.image = [ScaleImage scaleImage:imgView.image size:_bigImgFrm.imgFrm.size];
+        imgView.contentMode = UIViewContentModeScaleAspectFill;
+        imgView.clipsToBounds = YES;
         
     }];
     NSString *categoryStr = _bigImgFrm.bigImgDatasource.categoryStr;

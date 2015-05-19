@@ -9,7 +9,7 @@
 #import "HeadViewCell.h"
 #import "UIColor+HexToRGB.h"
 #import "UIImageView+WebCache.h"
-#import "ScaleImage.h"
+//#import "ScaleImage.h"
 #import "AutoLabelSize.h"
 #import "NSString+YU.h"
 #import "NSArray+isEmpty.h"
@@ -349,7 +349,8 @@
     NSURL *url = [NSURL URLWithString:urlStr];
     
     [img sd_setImageWithURL:url placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-        img.image = [ScaleImage scaleImage:img.image size:size];
+//        img.image = [ScaleImage scaleImage:img.image size:size];
+        imgView.contentMode = UIViewContentModeScaleAspectFill;
     }];
 }
 

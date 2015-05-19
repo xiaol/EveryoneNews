@@ -9,7 +9,7 @@
 #import "SingleImgCell.h"
 #import "UIColor+HexToRGB.h"
 #import "UIImageView+WebCache.h"
-#import "ScaleImage.h"
+//#import "ScaleImage.h"
 #import "AutoLabelSize.h"
 #import "NSString+YU.h"
 
@@ -152,7 +152,8 @@
     NSURL *url = [NSURL URLWithString:_singleImgFrm.headViewDatasource.imgStr];
     
     [imgView sd_setImageWithURL:url placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-        imgView.image = [ScaleImage scaleImage:imgView.image size:_singleImgFrm.imgFrm.size];
+//        imgView.image = [ScaleImage scaleImage:image size:_singleImgFrm.imgFrm.size];
+        imgView.contentMode = UIViewContentModeScaleAspectFill;
     }];
     
     titleLab.text = _singleImgFrm.headViewDatasource.titleStr;
