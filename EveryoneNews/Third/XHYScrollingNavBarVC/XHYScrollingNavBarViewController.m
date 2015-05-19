@@ -68,32 +68,32 @@
 //    NSLog(@"%f",translation.y);
 //    CGFloat detai = self.lastContentset - translation.y;
     //显示
-    if (translation.y >= 5) {
-        if (self.isHidden) {
-            
-            self.overLay.alpha=0;
-            CGRect navBarFrame=NavBarFrame;
-            CGRect scrollViewFrame=self.scrollView.frame;
-            
-            navBarFrame.origin.y = 20;
-            scrollViewFrame.origin.y += 44;
-            scrollViewFrame.size.height -= 44;
-            
-            [UIView animateWithDuration:0.2 animations:^{
-                NavBarFrame = navBarFrame;
-                self.scrollView.frame=scrollViewFrame;
-                titleImg.alpha = 1;
-//                if ([self.scrollView isKindOfClass:[UIScrollView class]]) {
-//                    UIScrollView *scrollView=(UIScrollView *)self.scrollView;
-//                    scrollView.contentOffset=CGPointMake(scrollView.contentOffset.x, scrollView.contentOffset.y+44);
-//                }else if ([self.scrollView isKindOfClass:[UIWebView class]]){
-//                    UIWebView *webView=(UIWebView *)self.scrollView;
-//                    webView.scrollView.contentOffset=CGPointMake(webView.scrollView.contentOffset.x, webView.scrollView.contentOffset.y+44);
-//                }
-            }];
-            self.isHidden= NO;
-        }
-    }
+//    if (translation.y >= 5) {
+//        if (self.isHidden) {
+//            
+//            self.overLay.alpha=0;
+//            CGRect navBarFrame=NavBarFrame;
+//            CGRect scrollViewFrame=self.scrollView.frame;
+//            
+//            navBarFrame.origin.y = 20;
+//            scrollViewFrame.origin.y += 44;
+//            scrollViewFrame.size.height -= 44;
+//            
+//            [UIView animateWithDuration:0.2 animations:^{
+//                NavBarFrame = navBarFrame;
+//                self.scrollView.frame=scrollViewFrame;
+//                titleImg.alpha = 1;
+////                if ([self.scrollView isKindOfClass:[UIScrollView class]]) {
+////                    UIScrollView *scrollView=(UIScrollView *)self.scrollView;
+////                    scrollView.contentOffset=CGPointMake(scrollView.contentOffset.x, scrollView.contentOffset.y+44);
+////                }else if ([self.scrollView isKindOfClass:[UIWebView class]]){
+////                    UIWebView *webView=(UIWebView *)self.scrollView;
+////                    webView.scrollView.contentOffset=CGPointMake(webView.scrollView.contentOffset.x, webView.scrollView.contentOffset.y+44);
+////                }
+//            }];
+//            self.isHidden= NO;
+//        }
+//    }
     
     //隐藏
     if (translation.y <= -20) {
