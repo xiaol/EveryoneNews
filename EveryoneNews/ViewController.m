@@ -32,7 +32,6 @@
     
     NSIndexPath *centerIndexPath;
     
-//    NSInteger hasLoad;
     NSInteger rat;
     
     UIButton *timeBtn;
@@ -67,7 +66,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
       [self commonInit];
 }
 
@@ -80,10 +78,8 @@
     centerIndexPath = [[NSIndexPath alloc] init];
     
     page = 1;
-//    hasLoad = 2;
     
     [self tableViewInit];
-//    [self setupRefresh];
 
     [self followRollingScrollView:myTableView];
     
@@ -130,42 +126,12 @@
 
 - (void)headerRefresh
 {
-//    if (imgArr != nil && ![imgArr isKindOfClass:[NSNull class]] && imgArr.count != 0) {
-//        [dataArr addObject:imgArr[0]];
-//        [imgArr removeObjectAtIndex:0];
-//        if (imgArr == nil || [imgArr isKindOfClass:[NSNull class]] || imgArr.count == 0) {
-//            NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"MoreCell", @"MoreCell", nil];
-//            [dataArr addObject:dict];
-//            [myTableView removeHeader];
-//        }
-//    }
-//
-//    [self stopRefresh];
-//    [myTableView headerEndRefreshing];
+
 }
 
 - (void)footerRefresh
 {
-//    if (textArr != nil && ![textArr isKindOfClass:[NSNull class]] && textArr.count != 0) {
-//        [dataArr insertObject:textArr[0] atIndex:0];
-//        [textArr removeObjectAtIndex:0];
-//        if (textArr == nil || [textArr isKindOfClass:[NSNull class]] || textArr.count == 0) {
-//            NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:@"MoreCell", @"MoreCell", nil];
-//            [dataArr insertObject:dict atIndex:0];
-//            [myTableView removeFooter];
-//        }
-//    }
-//    [self stopRefresh];
-//    [myTableView footerEndRefreshing];
-}
 
-- (void)stopRefresh
-{
-//    if (hasLoad != dataArr.count || hasLoad == 2) {
-//        hasLoad++;
-//    }
-//    rat = hasLoad - 1;
-//    [myTableView reloadData];
 }
 
 #pragma mark tableView delegate
@@ -188,7 +154,7 @@
         return height;
     } else if ([type isEqualToString:@"bigImg"]) {
         BigImgCell *cell = (BigImgCell *)[self tableView:tableView cellForRowAtIndexPath:indexPath];
-        if (indexPath.row == rat && ([UIScreen mainScreen].bounds.size.width ==320)) {
+        if (indexPath.row == rat) {
             return cell.bigImgFrm.CellH - 8;
         } else {
             return cell.bigImgFrm.CellH;
@@ -282,7 +248,6 @@
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    
     if (scrollNum <= 4) {
         NSLog(@"scrollNum == %d!!!", scrollNum);
         scrollNum++;
@@ -318,7 +283,6 @@
     if(cell.layer.position.x != 0){
         cell.layer.position = CGPointMake(0, cell.layer.position.y);
     }
-    
     
     [UIView beginAnimations:@"translation" context:NULL];
     [UIView setAnimationDuration:1.0];
@@ -504,7 +468,6 @@
     self.countdownView = countdownView;
     self.circleProgressView = countdownView.circleView;
     self.dateScrollView = countdownView.dateView;
-//    self.navigationController.navigationBar.hidden = YES;
     self.navigationController.navigationBarHidden = YES;
     NSLog(@"%@", self.view);
 }

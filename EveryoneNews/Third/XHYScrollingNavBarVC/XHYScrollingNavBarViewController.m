@@ -96,32 +96,32 @@
 //    }
     
     //隐藏
-    if (translation.y <= -20) {
-        if (!self.isHidden) {
-            CGRect frame =NavBarFrame;
-            CGRect scrollViewFrame=self.scrollView.frame;
-            frame.origin.y = -24;
-//            frame.origin.y = -0;
-            scrollViewFrame.origin.y -= 44;
-            scrollViewFrame.size.height += 44;
-            
-            [UIView animateWithDuration:0.2 animations:^{
-                NavBarFrame = frame;
-                self.scrollView.frame=scrollViewFrame;
-                titleImg.alpha = 0;
-//                if ([self.scrollView isKindOfClass:[UIScrollView class]]) {
-//                    UIScrollView *scrollView=(UIScrollView *)self.scrollView;
-//                    scrollView.contentOffset=CGPointMake(scrollView.contentOffset.x, scrollView.contentOffset.y-44);
-//                }else if ([self.scrollView isKindOfClass:[UIWebView class]]){
-//                    UIWebView *webView=(UIWebView *)self.scrollView;
-//                    webView.scrollView.contentOffset=CGPointMake(webView.scrollView.contentOffset.x, webView.scrollView.contentOffset.y-44);
-//                }
-            } completion:^(BOOL finished) {
-                self.overLay.alpha=1;
-            }];
-            self.isHidden=YES;
-        }
-    }
+//    if (translation.y <= -20) {
+//        if (!self.isHidden) {
+//            CGRect frame =NavBarFrame;
+//            CGRect scrollViewFrame=self.scrollView.frame;
+//            frame.origin.y = -24;
+////            frame.origin.y = -0;
+//            scrollViewFrame.origin.y -= 44;
+//            scrollViewFrame.size.height += 44;
+//            
+//            [UIView animateWithDuration:0.2 animations:^{
+//                NavBarFrame = frame;
+//                self.scrollView.frame=scrollViewFrame;
+//                titleImg.alpha = 0;
+////                if ([self.scrollView isKindOfClass:[UIScrollView class]]) {
+////                    UIScrollView *scrollView=(UIScrollView *)self.scrollView;
+////                    scrollView.contentOffset=CGPointMake(scrollView.contentOffset.x, scrollView.contentOffset.y-44);
+////                }else if ([self.scrollView isKindOfClass:[UIWebView class]]){
+////                    UIWebView *webView=(UIWebView *)self.scrollView;
+////                    webView.scrollView.contentOffset=CGPointMake(webView.scrollView.contentOffset.x, webView.scrollView.contentOffset.y-44);
+////                }
+//            } completion:^(BOOL finished) {
+//                self.overLay.alpha=1;
+//            }];
+//            self.isHidden=YES;
+//        }
+//    }
     
     
     
