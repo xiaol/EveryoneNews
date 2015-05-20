@@ -45,6 +45,10 @@
     UILabel *indexLab_1;
     UILabel *indexLab_2;
     UILabel *indexLab_3;
+    
+    UIButton *subBtn_1;
+    UIButton *subBtn_2;
+    UIButton *subBtn_3;
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -109,11 +113,26 @@
         sourceTitleLab_3 = [[UILabel alloc] init];
         indexLab_3 = [[UILabel alloc] init];
         indexLab_3.text = @"3";
-    
+        
         showBtn = [[UIButton alloc] init];
         showBtn.backgroundColor = [UIColor clearColor];
         [showBtn addTarget:self action:@selector(showBtnClick) forControlEvents:UIControlEventTouchUpInside];
         [backgroundView addSubview:showBtn];
+        
+        subBtn_1 = [[UIButton alloc] init];
+        subBtn_1.tag = 1000;
+        [subBtn_1 addTarget:self action:@selector(subBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [backgroundView addSubview:subBtn_1];
+        
+        subBtn_2 = [[UIButton alloc] init];
+        subBtn_2.tag = 1001;
+        [subBtn_2 addTarget:self action:@selector(subBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [backgroundView addSubview:subBtn_2];
+        
+        subBtn_3 = [[UIButton alloc] init];
+        subBtn_3.tag = 1002;
+        [subBtn_3 addTarget:self action:@selector(subBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [backgroundView addSubview:subBtn_3];
         
         cutlineView = [[UIView alloc] init];
         cutlineView.backgroundColor = [UIColor colorFromHexString:@"#ebeded"];
@@ -142,6 +161,11 @@
     sourceTitleLab_1.frame = _singleImgFrm.sourceTitleFrm_1;
     sourceTitleLab_2.frame = _singleImgFrm.sourceTitleFrm_2;
     sourceTitleLab_3.frame = _singleImgFrm.sourceTitleFrm_3;
+    
+    subBtn_1.frame = _singleImgFrm.pointFrm_1;
+    subBtn_2.frame = _singleImgFrm.pointFrm_2;
+    subBtn_3.frame = _singleImgFrm.pointFrm_3;
+    
     cutlineView.frame = _singleImgFrm.cutlineFrm;
     showBtn.frame = _singleImgFrm.backgroundFrm;
     _cellH = _singleImgFrm.cellH;
@@ -343,6 +367,7 @@
     }
 }
 
+#pragma mark btnClick
 - (void)showBtnClick
 {
     
@@ -355,6 +380,17 @@
                          ResponseUrls:_singleImgFrm.headViewDatasource.responseUrls
                             RootClass:_singleImgFrm.headViewDatasource.rootClass
                                hasImg:NO];
+    }
+}
+
+- (void)subBtnClick:(UIButton *)btn
+{
+    NSInteger tag = btn.tag - 1000;
+    NSDictionary *dic = _singleImgFrm.headViewDatasource.subArr[tag];
+    NSString *url = dic[@"url"];
+    if (![NSString isBlankString:url]) {
+        NSLog(@"----button click:%@", url);
+        [self showWebViewWithUrl:url];
     }
 }
 

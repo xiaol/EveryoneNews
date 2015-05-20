@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseCell.h"
 
 @protocol HeadViewDelegate <NSObject>
 
 @required
-
 - (void)getTextContent:(NSString *)sourceUrl
                 imgUrl:(NSString *)imgUrl
             SourceSite:(NSString *)sourceSite
@@ -21,10 +21,15 @@
              RootClass:(NSString *)rootClass
                 hasImg:(BOOL)hasImg;
 
+@optional
+- (void)loadWebViewWithURL:(NSString *)URL;
+
 @end
 
 @interface BaseFeedCell : UITableViewCell
 
 @property (nonatomic, strong)id<HeadViewDelegate>delegate;
+
+- (void)showWebViewWithUrl:(NSString *)URL;
 
 @end

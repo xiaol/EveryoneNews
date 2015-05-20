@@ -5,6 +5,7 @@
 //  Created by 于咏畅 on 15/1/20.
 //  Copyright (c) 2015年 yyc. All rights reserved.
 //
+//  ** 详情页控制器 ***
 
 #import "ContentViewController.h"
 #import "AFNetworking.h"
@@ -23,16 +24,14 @@
 #import "ScaleImage.h"
 
 #import "MJRefresh.h"
-
 #import "TMQuiltView.h"
 #import "TMPhotoQuiltViewCell.h"
 
-#import "WebViewController.h"
-
 #import "AutoLabelSize.h"
 #import "NSString+YU.h"
+#import "NSArray+isEmpty.h"
 
-@interface ContentViewController ()<UITableViewDataSource, UITableViewDelegate, TMQuiltViewDataSource,TMQuiltViewDelegate, WebDelegate>
+@interface ContentViewController ()<UITableViewDataSource, UITableViewDelegate, TMQuiltViewDataSource,TMQuiltViewDelegate>
 {
     NSMutableArray *resourceArr;    //存储图文详细内容
     UITableView *contentTableView;
@@ -103,6 +102,8 @@
     [self.view addSubview:backView];
     
 }
+
+
 - (void)initTableView
 {
     contentTableView = [[UITableView alloc] init];
@@ -439,32 +440,6 @@
     hotLab.text = self.rootClass;
     [backView addSubview:hotLab];
     
-//    CGFloat leftMarkY = 25 + CGRectGetMaxY(updateTimeLab.frame);
-//    UIImageView *leftMark = [[UIImageView alloc] initWithFrame:CGRectMake(titleLabX, leftMarkY, 11, 15)];
-//    leftMark.image = [UIImage imageNamed:@"leftMark.png"];
-//    [backView addSubview:leftMark];
-//    
-//    CGFloat bigTitleY = leftMarkY + 12.5;
-//    CGFloat bigTitleX = titleLabX + 14;
-//    CGFloat bigTitleW = imgW - 1.8 * bigTitleX;
-//    
-//    nameSize = [AutoLabelSize autoLabSizeWithStr:_titleStr Fontsize:16 SizeW:bigTitleW SizeH:0];
-//    
-//    UILabel *bigTitle = [[UILabel alloc] initWithFrame:CGRectMake(bigTitleX, bigTitleY, bigTitleW, nameSize.height)];
-//    bigTitle.font = [UIFont fontWithName:kFont size:16];
-//    bigTitle.textColor = [UIColor blackColor];
-//    bigTitle.numberOfLines = 2;
-//    bigTitle.text = _titleStr;
-//    [backView addSubview:bigTitle];
-//    
-//    CGFloat rightMarkY = CGRectGetMaxY(bigTitle.frame);
-//    CGFloat rightMarkX = CGRectGetMaxX(titleLab.frame) - 15;
-//    UIImageView *rightMark = [[UIImageView alloc] initWithFrame:CGRectMake(rightMarkX, rightMarkY, 11, 15)];
-//    rightMark.image = [UIImage imageNamed:@"rightMark.png"];
-//    [backView addSubview:rightMark];
-//    
-//    CGFloat backViewH = CGRectGetMaxY(rightMark.frame) + 25;
-    
     CGFloat backViewH = CGRectGetMaxY(hotLab.frame) + 25;
     
     backView.frame = CGRectMake(0, 0, imgW, backViewH);
@@ -598,22 +573,7 @@
                 
                 [waterDic setObject:[NSNumber numberWithFloat:imgH] forKey:[NSString stringWithFormat:@"%ld", indexPath.row]];
 
-//                if (indexPath.row == 0) {
-//                    columnOne = imgH + cellMargin * 2;
-//                    CGFloat tempH = columnOne;
-//                    waterFlowH = (waterFlowH > tempH)?waterFlowH:tempH;
-////                    NSLog(@"waterFlowH:%f index----:0", waterFlowH);
-////                    waterFlowH = [self getHeight:imgH];
-//                } else if (indexPath.row == 1) {
-//                    columnTwo = imgH + cellMargin * 2;
-//                    CGFloat tempH = (columnOne > columnTwo)?columnOne:columnTwo;
-//                    waterFlowH = (waterFlowH > tempH)?waterFlowH:tempH;
-////                    NSLog(@"waterFlowH:%f index----:1", waterFlowH);
-//                } else {
-//                    waterFlowH = [self getHeight:imgH];
-//                }
                 waterFlowH = [self getHeight:imgH IndexPath:indexPath];
-                
                 
                 [self warterFlowReloadData];
             }
@@ -654,16 +614,6 @@
     NSDictionary *dic = waterFlowArr[indexPath.row];
     NSString *url = dic[@"url"];
     [self loadWebViewWithURL:url];
-}
-
-#pragma mark WebDelegate
-- (void)loadWebViewWithURL:(NSString *)URL
-{
-    WebViewController *webVC = [[WebViewController alloc] init];
-    
-    webVC.webUrl = URL;
-    
-    [self.navigationController pushViewController:webVC animated:YES];
 }
 
 #pragma mark 计算高度

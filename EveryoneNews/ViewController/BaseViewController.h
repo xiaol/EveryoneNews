@@ -24,5 +24,6 @@
 
 - (void)changeOrientation:(UIInterfaceOrientation)toOrientation;
 
+- (void)loadWebViewWithURL:(NSString *)URL;
 
 @end

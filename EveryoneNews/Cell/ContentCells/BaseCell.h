@@ -18,8 +18,6 @@
 
 @property (nonatomic, strong)id<WebDelegate>delegate;
 
-//@property (nonatomic, copy) NSString *URL;
-
 - (void)showWebViewWithUrl:(NSString *)URL;
 
 @end

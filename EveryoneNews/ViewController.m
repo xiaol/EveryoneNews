@@ -104,7 +104,7 @@
 {
     myTableView = [[UITableView alloc] init];
     CGFloat W = self.view.frame.size.width;
-    CGFloat H = self.view.frame.size.height - 64;
+    CGFloat H = self.view.frame.size.height - 44;
     myTableView.frame = CGRectMake(0, 0, W, H);
     myTableView.delegate = self;
     myTableView.dataSource = self;

@@ -8,8 +8,11 @@
 
 #import "BaseViewController.h"
 #import "UIColor+HexToRGB.h"
+#import "BaseCell.h"
+#import "WebViewController.h"
 
-@interface BaseViewController () {
+@interface BaseViewController ()<WebDelegate>
+{
     
 //    KDNavigationController *_navicationController;
     UINavigationBar *_naBar;
@@ -136,7 +139,20 @@
 //}
 
 
+#pragma mark WebDelegate
+- (void)loadWebViewWithURL:(NSString *)URL
+{
+    WebViewController *webVC = [[WebViewController alloc] init];
+    
+    webVC.webUrl = URL;
+    
+    [self.navigationController pushViewController:webVC animated:YES];
+}
 
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
 
 
 

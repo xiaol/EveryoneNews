@@ -40,6 +40,10 @@
     UIImageView *sourceIcon_1;
     UIImageView *sourceIcon_2;
     UIImageView *sourceIcon_3;
+    
+    UIButton *subBtn_1;
+    UIButton *subBtn_2;
+    UIButton *subBtn_3;
        
     UILabel *categoryLab;
 }
@@ -115,6 +119,21 @@
         showBtn.backgroundColor = [UIColor clearColor];
         [showBtn addTarget:self action:@selector(showBtnClick) forControlEvents:UIControlEventTouchUpInside];
         [backgroupView addSubview:showBtn];
+        
+        subBtn_1 = [[UIButton alloc] init];
+        subBtn_1.tag = 1000;
+        [subBtn_1 addTarget:self action:@selector(subBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [backgroupView addSubview:subBtn_1];
+        
+        subBtn_2 = [[UIButton alloc] init];
+        subBtn_2.tag = 1001;
+        [subBtn_2 addTarget:self action:@selector(subBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [backgroupView addSubview:subBtn_2];
+        
+        subBtn_3 = [[UIButton alloc] init];
+        subBtn_3.tag = 1002;
+        [subBtn_3 addTarget:self action:@selector(subBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [backgroupView addSubview:subBtn_3];
     }
     return self;
 }
@@ -264,6 +283,10 @@
     sourceView_2.frame = _headViewFrm.pointFrm_2;
     sourceView_3.frame = _headViewFrm.pointFrm_3;
     
+    subBtn_1.frame = _headViewFrm.pointFrm_1;
+    subBtn_2.frame = _headViewFrm.pointFrm_2;
+    subBtn_3.frame = _headViewFrm.pointFrm_3;
+    
     sourceIcon_1.frame = _headViewFrm.sourceIcon;
     sourceIcon_2.frame = _headViewFrm.sourceIcon;
     sourceIcon_3.frame = _headViewFrm.sourceIcon;
@@ -297,6 +320,7 @@
     showBtn.frame = _headViewFrm.backgroundViewFrm;
 }
 
+#pragma mark btnClick
 - (void)showBtnClick
 {
 
@@ -309,6 +333,17 @@
                          ResponseUrls:_headViewFrm.headViewDatasource.responseUrls
                             RootClass:_headViewFrm.headViewDatasource.rootClass
                                hasImg:NO];
+    }
+}
+
+- (void)subBtnClick:(UIButton *)btn
+{
+    NSInteger tag = btn.tag - 1000;
+    NSDictionary *dic = _headViewFrm.headViewDatasource.subArr[tag];
+    NSString *url = dic[@"url"];
+    if (![NSString isBlankString:url]) {
+        NSLog(@"----button click:%@", url);
+        [self showWebViewWithUrl:url];
     }
 }
 

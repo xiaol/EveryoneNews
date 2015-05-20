@@ -28,16 +28,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    screenW = [UIScreen mainScreen].bounds.size.width;
-    CGFloat topViewH = 44;
-    UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenW, topViewH)];
-    topView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:topView];
-    [self drawDetailsInTopView:topView];
+//    screenW = [UIScreen mainScreen].bounds.size.width;
+//    CGFloat topViewH = 44;
+//    UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenW, topViewH)];
+//    topView.backgroundColor = [UIColor whiteColor];
+//    [self.view addSubview:topView];
+//    [self drawDetailsInTopView:topView];
     
-    CGFloat bottonH = 40;
+//    CGFloat bottonH = 40;
 
-    webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, topViewH, screenW, [UIScreen mainScreen].bounds.size.height - topViewH - bottonH)];
+//    webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, screenW, [UIScreen mainScreen].bounds.size.height - topViewH - bottonH)];
+    webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
     webView.delegate = self;
     webView.backgroundColor = [UIColor whiteColor];
 
@@ -50,11 +51,11 @@
     [webView loadRequest:request];
     
     
-    CGFloat bottonY = [UIScreen mainScreen].bounds.size.height - bottonH;
-    UIView *bottonView = [[UIView alloc] initWithFrame:CGRectMake(0, bottonY, screenW, bottonH)];
-    bottonView.backgroundColor = [UIColor colorFromHexString:@"#fafafa"];
-    [self drawDetailsInBottonView:bottonView];
-    [self.view addSubview:bottonView];
+//    CGFloat bottonY = [UIScreen mainScreen].bounds.size.height - bottonH;
+//    UIView *bottonView = [[UIView alloc] initWithFrame:CGRectMake(0, bottonY, screenW, bottonH)];
+//    bottonView.backgroundColor = [UIColor colorFromHexString:@"#fafafa"];
+//    [self drawDetailsInBottonView:bottonView];
+//    [self.view addSubview:bottonView];
 
 }
 

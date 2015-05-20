@@ -20,4 +20,12 @@
     // Configure the view for the selected state
 }
 
+- (void)showWebViewWithUrl:(NSString *)URL
+{
+    if ([self.delegate respondsToSelector:@selector(loadWebViewWithURL:)]) {
+        [self.delegate loadWebViewWithURL:URL];
+    }
+}
+
+
 @end
