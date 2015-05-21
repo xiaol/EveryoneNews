@@ -31,7 +31,13 @@
 #import "NSString+YU.h"
 #import "NSArray+isEmpty.h"
 
-@interface ContentViewController ()<UITableViewDataSource, UITableViewDelegate, TMQuiltViewDataSource,TMQuiltViewDelegate>
+#import "LPWaterfallView.h"
+#import "MJExtension.h"
+#import "Relate.h"
+#import "RelateCell.h"
+
+
+@interface ContentViewController ()<UITableViewDataSource, UITableViewDelegate, TMQuiltViewDataSource,TMQuiltViewDelegate, LPWaterfallViewDataSource, LPWaterfallViewDelegate, WebDelegate>
 {
     NSMutableArray *resourceArr;    //存储图文详细内容
     UITableView *contentTableView;
@@ -55,6 +61,9 @@
     NSInteger flag;
     
 }
+
+@property (nonatomic, strong) NSMutableArray *relates;
+@property (nonatomic, weak) LPWaterfallView *waterfallView;
 
 @end
 
@@ -89,6 +98,15 @@
     
 //    [self setupRefresh];
     [self headerRefresh];
+}
+
+- (NSMutableArray *)relates
+{
+    if (_relates == nil) {
+        self.relates = [NSMutableArray array];
+    }
+    return _relates;
+
 }
 
 - (void)commonInit
@@ -333,12 +351,12 @@
 #pragma mark ScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    if (scrollView == contentTableView) {
-
-        if (hasRelate && scrollView.contentOffset.y > scrollView.contentSize.height * 0.9) {
-            [self warterFlowReloadData];
-        }
-    }
+//    if (scrollView == contentTableView) {
+//
+//        if (hasRelate && scrollView.contentOffset.y > scrollView.contentSize.height * 0.9) {
+//            [self warterFlowReloadData];
+//        }
+//    }
     //判断滚动方向
     if (lastContentOffset < scrollView.contentOffset.y) {
 //        NSLog(@"向上滚动");
@@ -347,6 +365,7 @@
 //        NSLog(@"向下滚动");
         [self fadeIn];
     }
+    
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
@@ -510,16 +529,164 @@
         [self putToResourceArr:weiboDatasource Method:@"weibo"];
     }
     
-    waterFlowArr = resultDic[@"relate"];
-    if (waterFlowArr != nil && ![waterFlowArr isKindOfClass:[NSNull class]] && waterFlowArr.count != 0) {
-
-        hasRelate = YES;
-        [self warterFlowReloadData];
-        [qtmquitView reloadData];
+#pragma mark - 瀑布流
+//    waterFlowArr = resultDic[@"relate"];
+//    if (waterFlowArr != nil && ![waterFlowArr isKindOfClass:[NSNull class]] && waterFlowArr.count != 0) {
+//
+//        hasRelate = YES;
+//        [self warterFlowReloadData];
+//        [qtmquitView reloadData];
+//    }
+//    NSArray *newRelates = [Relate objectArrayWithKeyValuesArray:resultDic[@"relate"]];
+    NSMutableArray *newRelates = [NSMutableArray array];
+    for (NSDictionary *dict in resultDic[@"relate"]) {
+        Relate *relate = [Relate relateWithDict:dict];
+        [newRelates addObject:relate];
     }
     
+    
+    if (newRelates && newRelates.count > 0 && ![newRelates isKindOfClass:[NSNull class]]) {
+        [self.relates addObjectsFromArray:newRelates];
+        
+#pragma mark - 计算总高度
+        NSUInteger numberOfCells = self.relates.count;
+        NSLog(@"%ld", numberOfCells);
+        int numberOfColumns = 2;
+        
+        CGFloat topM = 10;
+        CGFloat bottomM = 20;
+        CGFloat leftM = 30;
+        CGFloat columnM = 20;
+        CGFloat rowM = 8;
+        CGFloat rightM = leftM;
+        
+        CGFloat cellW = ([UIScreen mainScreen].bounds.size.width - leftM - rightM - (numberOfColumns - 1) * columnM) / numberOfColumns;
+        
+        // 用数组maxYOfColumns存放所有列的最大Y值
+        CGFloat maxYOfColumns[numberOfColumns];
+        for (int i = 0; i<numberOfColumns; i++) {
+            maxYOfColumns[i] = 0.0;
+        }
+        
+        int k = 1;
+        // 计算所有cell的frame
+        for (int i = 0; i < numberOfCells; i++, k++) {
+            // cell处在最短的一列, minMaxYOfCellColumn记录各列最大Y值中的最小值, cellColumn表示该列序号
+            NSUInteger cellColumn = 0;
+            CGFloat minMaxYOfCellColumn = maxYOfColumns[cellColumn];
+
+            if (maxYOfColumns[1] < minMaxYOfCellColumn) {
+                cellColumn = 1;
+                minMaxYOfCellColumn = maxYOfColumns[1];
+            }
+            Relate *relate = self.relates[i];
+            CGFloat cellH = cellW * 0.7;
+            if (relate.height != nil) {
+                cellH = cellW * relate.height.floatValue / relate.width.floatValue;
+                NSLog(@"k = %d", k);
+            }
+            
+            CGFloat cellY = 0;
+            if (minMaxYOfCellColumn == 0.0) {
+                cellY = topM;
+            } else {
+                cellY = minMaxYOfCellColumn + rowM;
+            }
+            
+            
+            // 更新最短那一列的最大Y值
+            maxYOfColumns[cellColumn] = cellY + cellH;
+            NSLog(@"第%d个cell的cellHeight = %.1f", i+1, cellH);
+        }
+        
+        NSLog(@"cellWidth = %.1f", cellW);
+        
+        
+        // 设置contentSize
+        CGFloat contentH = MAX(maxYOfColumns[0], maxYOfColumns[1]);
+        contentH += bottomM;
+
+        
+        LPWaterfallView *waterfallView = [[LPWaterfallView alloc] init];
+        waterfallView.backgroundColor = [UIColor whiteColor];
+
+        waterfallView.dataSource = self;
+        waterfallView.delegate = self;
+        waterfallView.scrollEnabled = YES;
+        
+        waterfallView.frame = CGRectMake(0, 0, self.view.bounds.size.width, contentH);
+        
+
+        waterFlowH = contentH;
+        
+        
+        contentTableView.tableFooterView = waterfallView;
+        
+
+        NSLog(@"contentTableView.tableFooterView.h = %.1f", contentTableView.tableFooterView.frame.size.height);
+        NSLog(@"contentH = %.1f", contentH);
+        
+
+    }
+    
+    
+    
     [contentTableView reloadData];
+
     [contentTableView headerEndRefreshing];
+}
+
+#pragma mark - 数据源方法
+- (NSUInteger)numberOfCellsInWaterfallView:(LPWaterfallView *)waterfallView
+{
+    return self.relates.count;
+}
+
+- (RelateCell *)waterfallView:(LPWaterfallView *)waterfallView cellAtIndex:(NSUInteger)index
+{
+    RelateCell *cell = [RelateCell cellWithWaterfallView:waterfallView];
+    
+    cell.relate = self.relates[index];
+    
+    return cell;
+}
+
+- (NSUInteger)numberOfColumnsInWaterfallView:(LPWaterfallView *)waterfallView
+{
+    return 2;
+}
+
+
+
+#pragma mark - 代理方法
+- (CGFloat)waterfallView:(LPWaterfallView *)waterfallView marginForType:(LPWaterfallViewMarginType)type
+{
+    switch (type) {
+        case LPWaterfallViewMarginTypeTop: return 10;
+        case LPWaterfallViewMarginTypeBottom: return 10;
+        case LPWaterfallViewMarginTypeLeft: return 30;
+        case LPWaterfallViewMarginTypeRight: return 30;
+        case LPWaterfallViewMarginTypeColumn: return 20;
+        case LPWaterfallViewMarginTypeRow: return 8;
+        default:
+            return 10;
+    }
+}
+
+-(CGFloat)waterfallView:(LPWaterfallView *)waterfallView heightAtIndex:(NSUInteger)index
+{
+    Relate *relate = self.relates[index];
+    if (relate.height) {
+        return waterfallView.cellWidth * relate.height.floatValue / relate.width.floatValue;
+    } else { // 没提供宽高
+        return waterfallView.cellWidth * 0.7;
+    }
+}
+
+- (void)waterfallView:(LPWaterfallView *)waterfallView didSelectAtIndex:(NSUInteger)index
+{
+    Relate *relate = self.relates[index];
+    [self loadWebViewWithURL:relate.url];
 }
 
 - (void)putToResourceArr:(id)resource Method:(NSString *)method
@@ -645,4 +812,9 @@
     return waterFlowH;
 }
 
+//- (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section
+//{
+//    CGRect frame = cg
+//    view.frame.size.height = waterFlowH;
+//}
 @end
