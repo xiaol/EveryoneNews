@@ -40,6 +40,7 @@
 		18ED7B191B0C758700D5E415 /* ZhihuDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = 18ED7B071B0C758700D5E415 /* ZhihuDatasource.m */; };
 		18ED7B1D1B0C75DC00D5E415 /* RelateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18ED7B1C1B0C75DC00D5E415 /* RelateCell.m */; };
 		18ED7B201B0C766A00D5E415 /* Relate.m in Sources */ = {isa = PBXBuildFile; fileRef = 18ED7B1F1B0C766A00D5E415 /* Relate.m */; };
+		18EEF35C1B0DB3880006DF16 /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 18EEF35B1B0DB3880006DF16 /* placeholder.png */; };
 		72E38B7BA868266B182567CC /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A0528C26297FAA2C259EF3E /* libPods.a */; };
 		C106D7CC1AEDEB0000DCFD95 /* CenterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C106D7CB1AEDEB0000DCFD95 /* CenterCell.m */; };
 		C106D7CE1AEDED2D00DCFD95 /* compass.png in Resources */ = {isa = PBXBuildFile; fileRef = C106D7CD1AEDED2D00DCFD95 /* compass.png */; };
@@ -251,6 +252,7 @@
 		18ED7B1C1B0C75DC00D5E415 /* RelateCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RelateCell.m; sourceTree = "<group>"; };
 		18ED7B1E1B0C766A00D5E415 /* Relate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Relate.h; sourceTree = "<group>"; };
 		18ED7B1F1B0C766A00D5E415 /* Relate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Relate.m; sourceTree = "<group>"; };
+		18EEF35B1B0DB3880006DF16 /* placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder.png; sourceTree = "<group>"; };
 		39559E040BF0F3C0CBAD3816 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		5A0528C26297FAA2C259EF3E /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		9FE9000300DFA499AE8DDD92 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -816,6 +818,7 @@
 		C18F95231ACAA88400A46502 /* ContentVC */ = {
 			isa = PBXGroup;
 			children = (
+				18EEF35B1B0DB3880006DF16 /* placeholder.png */,
 				C16FA99E1ACB05C000F85DF8 /* baiduLogo.png */,
 				C16FA9B01ACBA8E000F85DF8 /* douban.png */,
 				C16FA9B91ACBE2A800F85DF8 /* weibo.png */,
@@ -1207,6 +1210,7 @@
 				C1690CDB1B0082EE0034CD22 /* 月亮.png in Resources */,
 				C12F983D1AE0E4E1003198BA /* NotoSansHans-DemiLight.otf in Resources */,
 				C1C009B61AD543DA00F550A4 /* zhonggongwang.png in Resources */,
+				18EEF35C1B0DB3880006DF16 /* placeholder.png in Resources */,
 				C1AA07411AEF8F730001355C /* toum.png in Resources */,
 				C17F74591ADCC26C00746CDB /* webBack.png in Resources */,
 				C1C009B11AD543DA00F550A4 /* thirty_six_ke.png in Resources */,

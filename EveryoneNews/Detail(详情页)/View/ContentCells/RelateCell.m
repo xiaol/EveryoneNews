@@ -70,7 +70,7 @@
     _relate = relate;
     
     self.titleLabel.text = relate.title;
-    [self.imageView sd_setImageWithURL:[NSURL URLWithString:relate.img] placeholderImage:nil];
+    [self.imageView sd_setImageWithURL:[NSURL URLWithString:relate.img] placeholderImage:[UIImage imageNamed:@"placeholder"]];
 }
 
 @end
