@@ -93,7 +93,7 @@
     //倒计时按钮
     timeBtn = [[UIButton alloc] init];
     CGFloat timeBtnY = [UIScreen mainScreen].bounds.size.height - 120;
-    timeBtn.frame = CGRectMake(30, timeBtnY, 18, 18);
+    timeBtn.frame = CGRectMake(30, timeBtnY, 24, 24);
     [timeBtn setImage:[UIImage imageNamed:@"ic_time.png"] forState:UIControlStateNormal];
     [timeBtn addTarget:self action:@selector(timeBtnPress) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:timeBtn];
@@ -312,7 +312,18 @@
 #pragma mark AFNetworking
 - (void)getRequest
 {
-    [HttpTool getWithURL:[NSString stringWithFormat:@"%@%@", kServerIP, kTimenews] params:nil success:^(id json) {
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *components = [calendar components:NSCalendarUnitYear | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond fromDate:[NSDate date]];
+    NSString *date = [NSString stringWithFormat:@"%ld-%ld-%ld", components.year, components.month, (long)components.day];
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"date"] = date;
+    if (components.hour >= 6 && components.hour <= 17) {
+        params[@"type"] = @(1);
+    } else {
+        params[@"type"] = @(0);
+    }
+    [HttpTool getWithURL:[NSString stringWithFormat:@"%@%@", kServerIP, kTimenews] params:params success:^(id json) {
         
         NSDictionary *resultDic = (NSDictionary *)json;
         [self convertToModel:resultDic];

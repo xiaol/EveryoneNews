@@ -185,7 +185,22 @@
 
     secTip.text = @"秒";
     [self addSubview:secTip];
-
+    
+    UILabel *tipsLabel = [[UILabel alloc] init];
+    tipsLabel.backgroundColor = [UIColor clearColor];
+    CGFloat tipsY = 0.0;
+    if ([UIScreen mainScreen].bounds.size.width == 320) {
+        tipsLabel.font = [UIFont systemFontOfSize:12];
+        tipsY = CGRectGetMaxY(hourLabel.frame) + 24;
+    } else {
+        tipsLabel.font = [UIFont systemFontOfSize:16];
+        tipsY = CGRectGetMaxY(hourLabel.frame) + self.bounds.size.height * 8.5 / 72;
+    }
+    tipsLabel.textAlignment = NSTextAlignmentCenter;
+    tipsLabel.frame = CGRectMake(0, tipsY, self.frame.size.width, secTipH + 6);
+    tipsLabel.text = @"距离下次更新";
+    tipsLabel.textColor = [UIColor whiteColor];
+    [self addSubview:tipsLabel];
     
    // [self setAnimation:self.updateTime];
     [self setAnimation:self.updateTime];

@@ -45,7 +45,7 @@
         titleLabel.textAlignment = NSTextAlignmentLeft;
         titleLabel.numberOfLines = 2;
         titleLabel.textColor = [UIColor whiteColor];
-        titleLabel.font = [UIFont fontWithName:kFont size:11];
+        titleLabel.font = [UIFont fontWithName:kFont size:12];
         [self addSubview:titleLabel];
         self.titleLabel = titleLabel;
     }
@@ -59,7 +59,7 @@
     self.imageView.frame = self.bounds;
     
     CGFloat titleW = self.bounds.size.width;
-    CGFloat titleH = 25;
+    CGFloat titleH = 28;
     CGFloat titleX = 0;
     CGFloat titleY = self.bounds.size.height - titleH;
     self.titleLabel.frame = CGRectMake(titleX, titleY, titleW, titleH);
