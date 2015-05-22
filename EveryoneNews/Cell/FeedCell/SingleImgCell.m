@@ -356,14 +356,17 @@
         circleView_1.hidden = hidden;
         topBar_1.hidden = hidden;
         bottonBar_1.hidden = hidden;
+        indexLab_1.hidden = hidden;
     } else if (type == 2) {
         circleView_2.hidden = hidden;
         topBar_2.hidden = hidden;
         bottonBar_2.hidden = hidden;
+        indexLab_2.hidden = hidden;
     } else if (type == 3) {
         circleView_3.hidden = hidden;
         topBar_3.hidden = hidden;
         bottonBar_3.hidden = hidden;
+        indexLab_3.hidden = hidden;
     }
 }
 

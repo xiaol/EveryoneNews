@@ -359,6 +359,7 @@
     if (self.remainUpdateTime <= 0) {
         // 请求新数据
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"selectTag"];
+        
         [self getRequest];
         if (self.countdownView != nil) {
             [self.countdownView removeFromSuperview];
@@ -383,7 +384,7 @@
 
 - (void)convertToModel:(NSDictionary *)resultDic
 {
-    
+    [dataArr removeAllObjects];
     for (NSDictionary *dict in resultDic) {
         
         NSString * special = [NSString stringWithFormat:@"1%@", dict[@"special"]];
