@@ -68,8 +68,9 @@
 
 - (void)willMoveToSuperview:(UIView *)newSuperview
 {
-    [self reloadData];
-    
+    if (newSuperview) {
+        [self reloadData];
+    }
 }
 
 #pragma mark - 私有方法
@@ -114,7 +115,11 @@
  */
 - (BOOL)isInScreen:(CGRect)frame
 {
+    
+    
     return  ((CGRectGetMaxY(frame) > self.contentOffset.y && CGRectGetMinY(frame) < self.contentOffset.y + self.bounds.size.height));
+    
+    
 }
 
 
@@ -221,6 +226,12 @@
         CGRect cellFrame = [self.cellFrames[i] CGRectValue];
         // 优先从字典中取出i位置的cell
         LPWaterfallViewCell *cell = self.displayingCells[@(i)];
+        
+//        if (CGRectGetMinY(cellFrame) < self.contentOffset.y + self.bounds.size.height)
+//        {
+//            NSLog(@"", );
+//        }
+        
         if ([self isInScreen:cellFrame]) { // 在屏幕上
             if (cell == nil) { // 未曾显示过，从数据源获取
                 cell = [self.dataSource waterfallView:self cellAtIndex:i];

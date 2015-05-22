@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EveryoneNews/Detail(&#x8be6;&#x60c5;&#x9875;)/Controller/ContentViewController.m"
-            timestampString = "453874581.087417"
+            timestampString = "453960656.455334"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "624"
-            endingLineNumber = "624"
+            startingLineNumber = "593"
+            endingLineNumber = "593"
             landmarkName = "-convertToDetailModel:"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EveryoneNews/Detail(&#x8be6;&#x60c5;&#x9875;)/Controller/ContentViewController.m"
-            timestampString = "453872221.930097"
+            timestampString = "453960656.455334"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "368"
-            endingLineNumber = "368"
+            startingLineNumber = "344"
+            endingLineNumber = "344"
             landmarkName = "-scrollViewDidScroll:"
             landmarkType = "5">
          </BreakpointContent>

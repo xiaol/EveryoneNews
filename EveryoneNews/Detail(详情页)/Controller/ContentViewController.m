@@ -63,7 +63,7 @@
 }
 
 @property (nonatomic, strong) NSMutableArray *relates;
-@property (nonatomic, weak) LPWaterfallView *waterfallView;
+// @property (nonatomic, weak) LPWaterfallView *waterfallView;
 
 @end
 
@@ -163,36 +163,12 @@
 #pragma mark backBtn
 - (void)backBtnPress
 {
+
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 
-#pragma mark WaterFlow Function
--(void)warterFlowReloadData{
 
-    CGRect rect;
-    if (waterFlowH == 0) {
-        
-        NSInteger i = waterFlowArr.count / 2 + waterFlowArr.count % 2;
-        
-        qtmquitView.frame = CGRectMake(0, qtmquitView.frame.origin.y, qtmquitView.contentSize.width, i * 110 + 10);
-        contentTableView.tableFooterView = qtmquitView;
-
-    } else {
-//        NSLog(@"waterHeight:%f", waterFlowH);
-        
-        rect = CGRectMake(0, qtmquitView.frame.origin.y, qtmquitView.contentSize.width, waterFlowH);
-        qtmquitView = [[TMQuiltView alloc] initWithFrame:rect];
-        qtmquitView.delegate = self;
-        qtmquitView.dataSource = self;
-        qtmquitView.backgroundColor = [UIColor whiteColor];
-        qtmquitView.bounces = NO;
-        qtmquitView.scrollEnabled = NO;
-        contentTableView.tableFooterView = qtmquitView;
-        contentTableView.contentSize = CGSizeMake(contentTableView.frame.size.width, qtmquitView.frame.origin.y + waterFlowH);
-        
-    }
-}
 
 #pragma mark MJRefresh
 - (void)setupRefresh
@@ -530,14 +506,7 @@
     }
     
 #pragma mark - 瀑布流
-//    waterFlowArr = resultDic[@"relate"];
-//    if (waterFlowArr != nil && ![waterFlowArr isKindOfClass:[NSNull class]] && waterFlowArr.count != 0) {
-//
-//        hasRelate = YES;
-//        [self warterFlowReloadData];
-//        [qtmquitView reloadData];
-//    }
-//    NSArray *newRelates = [Relate objectArrayWithKeyValuesArray:resultDic[@"relate"]];
+
     NSMutableArray *newRelates = [NSMutableArray array];
     for (NSDictionary *dict in resultDic[@"relate"]) {
         Relate *relate = [Relate relateWithDict:dict];
@@ -623,10 +592,10 @@
         contentTableView.tableFooterView = waterfallView;
         
 
-        NSLog(@"contentTableView.tableFooterView.h = %.1f", contentTableView.tableFooterView.frame.size.height);
+        NSLog(@"waterfallView.contentOffset.y = %.1f", waterfallView.contentOffset.y);
         NSLog(@"contentH = %.1f", contentH);
         
-
+        
     }
     
     
@@ -656,11 +625,19 @@
     return 2;
 }
 
+//- (void)dealloc
+//{
+//    contentTableView.tableHeaderView = nil;
+//    contentTableView.tableFooterView = nil;
+//}
 
 
 #pragma mark - 代理方法
 - (CGFloat)waterfallView:(LPWaterfallView *)waterfallView marginForType:(LPWaterfallViewMarginType)type
 {
+//    if (!contentTableView.tableFooterView) {
+//        return 0;
+//    }
     switch (type) {
         case LPWaterfallViewMarginTypeTop: return 10;
         case LPWaterfallViewMarginTypeBottom: return 10;
@@ -695,126 +672,5 @@
     [resourceArr addObject:dict];
 }
 
-#pragma mark waterFlow methods
 
-- (NSInteger)quiltViewNumberOfCells:(TMQuiltView *)TMQuiltView {
-    return waterFlowArr.count;
-}
-
-- (TMQuiltViewCell *)quiltView:(TMQuiltView *)quiltView cellAtIndexPath:(NSIndexPath *)indexPath {
-    TMPhotoQuiltViewCell *cell = (TMPhotoQuiltViewCell *)[quiltView dequeueReusableCellWithReuseIdentifier:@"PhotoCell"];
-    if (!cell) {
-        cell = [[TMPhotoQuiltViewCell alloc] initWithReuseIdentifier:@"PhotoCell"];
-    }
-    
-    NSDictionary *dic = waterFlowArr[indexPath.row];
-    
-    cell.titleLabel.text = dic[@"title"];
-    NSString *imgStr = dic[@"img"];
-    if ([NSString isBlankString:imgStr] || [imgStr hasPrefix:@".."]) {
-        
-        NSArray *keyArr = waterDic.allKeys;
-        if (![keyArr containsObject:[NSString stringWithFormat:@"%ld", indexPath.row]]) {
-            
-            waterFlowH = [self getHeight:100 IndexPath:nil];
-            [waterDic setObject:[NSNumber numberWithFloat:100.0] forKey:[NSString stringWithFormat:@"%ld", indexPath.row]];
-        }
-    }
-    else
-    {
-        NSURL *imgUrl = [NSURL URLWithString:dic[@"img"]];
-        
-        [cell.photoView sd_setImageWithURL:imgUrl placeholderImage:[UIImage imageNamed:@"demo_1.png"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-            CGFloat imgW = ([UIScreen mainScreen].bounds.size.width - 30 ) / 2;
-            if (image.size.width < imgW) {
-                imgW = image.size.width;
-            }
-            CGFloat imgH = image.size.height * imgW / image.size.width;
-            if (imgH == 0) {
-                imgH = 100;
-            }
-            
-            //每个Cell只重调一次
-            NSArray *keyArr = waterDic.allKeys;
-            if (![keyArr containsObject:[NSString stringWithFormat:@"%ld", indexPath.row]]) {
-                
-                [waterDic setObject:[NSNumber numberWithFloat:imgH] forKey:[NSString stringWithFormat:@"%ld", indexPath.row]];
-
-                waterFlowH = [self getHeight:imgH IndexPath:indexPath];
-                
-                [self warterFlowReloadData];
-            }
-            
-            cell.photoView.image = [ScaleImage scaleImage:cell.photoView.image size:CGSizeMake(imgW, imgH)];
-        }];
-    }
-   
-    return cell;
-}
-
-#pragma mark - TMQuiltViewDelegate
-
-- (NSInteger)quiltViewNumberOfColumns:(TMQuiltView *)quiltView {
-
-    return 2;
-}
-
-- (CGFloat)quiltView:(TMQuiltView *)quiltView heightForCellAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (waterDic.count != 0) {
-        CGFloat height = [waterDic[[NSString stringWithFormat:@"%ld", indexPath.row]] floatValue];
-        if (height == 0) {
-            return 100;
-        } else {
-//            NSLog(@"height:%f indexPath:%ld", height, indexPath.row);
-            return height;
-        }
-    }
-    else {
-        return 100;
-    }
-}
-
-- (void)quiltView:(TMQuiltView *)quiltView didSelectCellAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSLog(@"index:%ld",indexPath.row);
-    NSDictionary *dic = waterFlowArr[indexPath.row];
-    NSString *url = dic[@"url"];
-    [self loadWebViewWithURL:url];
-}
-
-#pragma mark 计算高度
-
-- (CGFloat)getHeight:(CGFloat)height IndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.row == 0) {
-        columnOne = columnOne + height + cellMargin;
-        waterFlowH = (columnOne > columnTwo)?columnOne:columnTwo;
-    } else if (indexPath.row == 1) {
-        columnTwo = columnTwo + height + cellMargin;
-        waterFlowH = (columnOne > columnTwo)?columnOne:columnTwo;
-    }
-    else {
-        if (columnTwo > columnOne) {
-            columnOne = columnOne + height + cellMargin;
-        } else {
-            columnTwo = columnTwo + height + cellMargin;
-        }
-        
-        if (columnOne > columnTwo) {
-            waterFlowH = columnOne;
-        } else {
-            waterFlowH = columnTwo;
-        }
-    }
-
-    NSLog(@"waterFlowH:%f", waterFlowH);
-    return waterFlowH;
-}
-
-//- (void)tableView:(UITableView *)tableView willDisplayFooterView:(UIView *)view forSection:(NSInteger)section
-//{
-//    CGRect frame = cg
-//    view.frame.size.height = waterFlowH;
-//}
 @end

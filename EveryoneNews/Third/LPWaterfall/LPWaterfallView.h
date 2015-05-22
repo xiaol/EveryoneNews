@@ -75,7 +75,7 @@ typedef enum {
  *  刷新数据（只要调用这个方法，会重新向数据源和代理发送请求，请求数据）
  */
 // - (void)reloadData;
-- (CGFloat)reloadData;
+- (void)reloadData;
 
 /**
  *  cell的宽度
