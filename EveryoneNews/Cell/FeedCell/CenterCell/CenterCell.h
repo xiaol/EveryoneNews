@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+@class Time;
 
 @interface CenterCell : UITableViewCell
 
 @property (nonatomic, assign)CGFloat cellH;
 
-@property (nonatomic, strong)UILabel *timeLab;
-@property (nonatomic, strong)UILabel *weekday;
+@property (nonatomic, strong)  Time *time;
 
 @end

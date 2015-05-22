@@ -8,7 +8,14 @@
 
 #import "CenterCell.h"
 #import "UIColor+HexToRGB.h"
+#import "Time.h"
 
+@interface CenterCell ()
+
+@property (nonatomic, strong) UILabel *timeLab;
+@property (nonatomic, strong) UILabel *weekday;
+
+@end
 @implementation CenterCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -27,7 +34,10 @@
         
         CGFloat timeX = CGRectGetMaxX(compassImg.frame) + 8;
         CGFloat timeH = 13.0;
-        _timeLab = [[UILabel alloc] initWithFrame:CGRectMake(timeX, compassImg.center.y - timeH - 2, 100, timeH)];
+       
+        UILabel *timeLab = [[UILabel alloc] initWithFrame:CGRectMake(timeX, compassImg.center.y - timeH - 2, 100, timeH)];
+        self.timeLab = timeLab;
+
         _timeLab.font = [UIFont fontWithName:kFont size:12.5];
         _timeLab.textColor = [UIColor blackColor];
         _timeLab.text = @"今天";
@@ -40,7 +50,8 @@
         cutline.backgroundColor = [UIColor colorFromHexString:@"#e2e2e2"];
         [backView addSubview:cutline];
         
-        _weekday = [[UILabel alloc] init];
+        UILabel *weekday = [[UILabel alloc] init];
+        self.weekday = weekday;
         _weekday.frame = CGRectMake(timeX, cutline.frame.origin.y + 2, 100, timeH);
         _weekday.font = [UIFont fontWithName:kFont size:12.5];
 
@@ -49,9 +60,27 @@
         [backView addSubview:_weekday];
         
         _cellH = backView.frame.size.height;
-        
-        
+ 
+    }
+    
+    return self;
+}
+
+
+
+- (void)setTime:(Time *)time
+{
+    
+    self.timeLab.text = nil;
+    self.weekday.text = nil;
+    _time = time;
+    self.time.timeStr = time.timeStr;
+    self.time.type = time.type;
+    if (!time) {
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        //           dateFormatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"zh_CN"];
+        
+        
         [dateFormatter setDateFormat:@"M"];
         
         NSString *monthStr = [dateFormatter stringFromDate:[NSDate date]];
@@ -66,7 +95,7 @@
                 monthStr = [NSString stringWithFormat:@"十%@", s];
             }
         }
-
+        
         
         
         [dateFormatter setDateFormat:@"d"];
@@ -81,42 +110,108 @@
             NSString *s2 = [self arabicNumberToChinese:[dayStr substringWithRange:r2]];
             if ([dayStr substringWithRange:r1].intValue == 1) {
                 dayStr = [NSString stringWithFormat:@"十%@", s2];
-            } else {
+            }  else if ([dayStr substringWithRange:r2].intValue == 0) {
+                dayStr = [NSString stringWithFormat:@"%@十", s1];
+            }
+
+            else {
                 dayStr = [NSString stringWithFormat:@"%@十%@", s1, s2];
             }
             
         }
         _timeLab.text = [NSString stringWithFormat:@"%@月%@日", monthStr, dayStr];
-//        if (<#condition#>) {
-//            <#statements#>
-//        }
-        //
+        
         
         [dateFormatter setDateFormat:@"h"];
         NSString *apStr = [dateFormatter stringFromDate:[NSDate date]];
-//        if ([apStr isEqualToString:@"AM"]) {
-//            apStr = @"上午";
-//        } else if ([apStr isEqualToString:@"PM"]) {
-//            apStr = @"下午";
-//        }
-        if (apStr.intValue < 12) {
-            apStr = @"上午";
+        if (apStr.intValue <= 17 && apStr.intValue >= 6) {
+            apStr = @"白天";
         } else {
-            apStr = @"下午";
+            apStr = @"晚上";
         }
-
+        
         
         [dateFormatter setDateFormat:@"c"];
         NSString *weekdayStr = [dateFormatter stringFromDate:[NSDate date]];
-        weekdayStr = [self arabicNumberToChinese:weekdayStr];
+        if (weekdayStr.intValue > 0) {
+            weekdayStr = [self arabicNumberToChinese:[NSString stringWithFormat:@"%d", weekdayStr.intValue - 1]];
+        } else {
+            weekdayStr = @"日";
+        }
+        
         apStr = [NSString stringWithFormat:@"星期%@ %@", weekdayStr, apStr];
         _weekday.text = apStr;
         
+    
+
+    } else
+    {
+        NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
+        fmt.dateFormat = @"yyyy-MM-dd";
+        NSDate *date = [fmt dateFromString:_time.timeStr];
+
+        fmt.dateFormat = @"M";
+        
+        NSString *monthStr = [fmt stringFromDate:date];
+        if (monthStr.length == 1) {
+            monthStr = [self arabicNumberToChinese:monthStr];
+        } else {
+            NSRange r = {1, 1};
+            if ([monthStr substringWithRange:r].intValue == 0) {
+                monthStr = @"十";
+            } else {
+                NSString *s = [self arabicNumberToChinese:[monthStr substringWithRange:r]];
+                monthStr = [NSString stringWithFormat:@"十%@", s];
+            }
+        }
+        
+        fmt.dateFormat = @"d";
+        
+        NSString *dayStr = [fmt stringFromDate:date];
+        if (dayStr.length == 1) {
+            dayStr = [self arabicNumberToChinese:dayStr];
+        } else {
+            NSRange r1 = {0, 1};
+            NSRange r2 = {1, 1};
+            NSString *s1 = [self arabicNumberToChinese:[dayStr substringWithRange:r1]];
+            NSString *s2 = [self arabicNumberToChinese:[dayStr substringWithRange:r2]];
+            if ([dayStr substringWithRange:r1].intValue == 1) {
+                dayStr = [NSString stringWithFormat:@"十%@", s2];
+            } else if ([dayStr substringWithRange:r2].intValue == 0) {
+                dayStr = [NSString stringWithFormat:@"%@十", s1];
+            }
+            else {
+                dayStr = [NSString stringWithFormat:@"%@十%@", s1, s2];
+            }
+            
+        }
+        _timeLab.text = [NSString stringWithFormat:@"%@月%@日", monthStr, dayStr];
+        
+        
+        NSString *apStr = @"";
+        if (_time.type.intValue) {
+            apStr = @"白天";
+        } else {
+            apStr = @"晚上";
+        }
+        
+        
+        fmt.dateFormat = @"c";
+        NSString *weekdayStr = [fmt stringFromDate:date];
+        NSLog(@"weekday = %@", weekdayStr);
+        if (weekdayStr.intValue > 0) {
+            weekdayStr = [self arabicNumberToChinese:[NSString stringWithFormat:@"%d", weekdayStr.intValue - 1]];
+            NSLog(@"weekday = %@", weekdayStr);
+        } else {
+            weekdayStr = @"日";
+        }
+     
+        apStr = [NSString stringWithFormat:@"星期%@ %@", weekdayStr, apStr];
+        _weekday.text = apStr;
+
 
     }
-    return self;
 }
-
 
 - (void)awakeFromNib {
     // Initialization code

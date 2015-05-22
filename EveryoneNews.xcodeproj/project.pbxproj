@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		187893731B0F524500B389BF /* Time.m in Sources */ = {isa = PBXBuildFile; fileRef = 187893721B0F524500B389BF /* Time.m */; };
 		18ED7ACB1B0C744F00D5E415 /* LPWaterfallView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18ED7AB01B0C744F00D5E415 /* LPWaterfallView.m */; };
 		18ED7ACC1B0C744F00D5E415 /* LPWaterfallViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18ED7AB21B0C744F00D5E415 /* LPWaterfallViewCell.m */; };
 		18ED7ACD1B0C744F00D5E415 /* MJArgument.m in Sources */ = {isa = PBXBuildFile; fileRef = 18ED7AB51B0C744F00D5E415 /* MJArgument.m */; };
@@ -185,6 +186,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		187893711B0F524500B389BF /* Time.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Time.h; sourceTree = "<group>"; };
+		187893721B0F524500B389BF /* Time.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Time.m; sourceTree = "<group>"; };
 		18ED7AAF1B0C744F00D5E415 /* LPWaterfallView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPWaterfallView.h; sourceTree = "<group>"; };
 		18ED7AB01B0C744F00D5E415 /* LPWaterfallView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPWaterfallView.m; sourceTree = "<group>"; };
 		18ED7AB11B0C744F00D5E415 /* LPWaterfallViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPWaterfallViewCell.h; sourceTree = "<group>"; };
@@ -694,6 +697,8 @@
 				C106D7CB1AEDEB0000DCFD95 /* CenterCell.m */,
 				C13E9DD31AEE3D9600E7E23C /* MoreCell.h */,
 				C13E9DD41AEE3D9600E7E23C /* MoreCell.m */,
+				187893711B0F524500B389BF /* Time.h */,
+				187893721B0F524500B389BF /* Time.m */,
 			);
 			path = CenterCell;
 			sourceTree = "<group>";
@@ -1323,6 +1328,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				187893731B0F524500B389BF /* Time.m in Sources */,
 				C1C052B91AC13BDB00D6D687 /* MJRefreshFooterView.m in Sources */,
 				C1C0529D1AC13AB700D6D687 /* FTCoreTextStyle.m in Sources */,
 				C1C052C31AC13BE400D6D687 /* YLGIFImage.m in Sources */,

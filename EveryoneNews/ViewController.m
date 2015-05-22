@@ -21,6 +21,7 @@
 #import "CircleProgressView.h"
 //#import "DataCacheTool.h"
 #import "HttpTool.h"
+#import "Time.h"
 
 @interface ViewController ()<UITableViewDataSource, UITableViewDelegate, HeadViewDelegate, MoreCellDelegate, DateScrollViewDelegate, CircleProgressViewDelegate, CountdownViewDelegate>
 {
@@ -43,11 +44,14 @@
 @property (strong, nonatomic) DateScrollView *dateScrollView;
 @property (assign, nonatomic) int nextTime;
 @property (assign, nonatomic) int nextType;
+@property (nonatomic, strong) Time *time;
 // 系统倒计时
 @property (nonatomic, assign) int remainUpdateTime;
 @property (nonatomic, strong) NSDate *requestTime;
 
 @property (nonatomic, assign) NSUInteger anyDisplayingCellRowIndex;
+
+@property (nonatomic, strong) CenterCell *centerCell;
 @end
 
 @implementation ViewController
@@ -212,6 +216,7 @@
             cell.selectedBackgroundView.backgroundColor = [UIColor clearColor];
         }
         centerIndexPath = indexPath;
+        cell.time = self.time;
         return cell;
         
     } else if ([type isEqualToString:@"bigImg"]){
@@ -359,7 +364,6 @@
     if (self.remainUpdateTime <= 0) {
         // 请求新数据
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"selectTag"];
-        
         [self getRequest];
         if (self.countdownView != nil) {
             [self.countdownView removeFromSuperview];
@@ -374,7 +378,7 @@
     
     [HttpTool getWithURL:urlStr params:nil success:^(id json) {
         NSDictionary *resultDic = (NSDictionary *)json;
-        dataArr = [NSMutableArray array];
+        
         [self convertToModel:resultDic];
     } failure:^(NSError *error) {
         NSLog(@"Failure: %@", error);
@@ -385,6 +389,9 @@
 - (void)convertToModel:(NSDictionary *)resultDic
 {
     [dataArr removeAllObjects];
+    [textArr removeAllObjects];
+    [imgArr removeAllObjects];
+    
     for (NSDictionary *dict in resultDic) {
         
         NSString * special = [NSString stringWithFormat:@"1%@", dict[@"special"]];
@@ -486,17 +493,21 @@
 
 - (void)dateScrollView:(DateScrollView *)dateScrollView didSelectDate:(NSString *)date withType:(BOOL)type
 {
-    NSLog(@"%@ ",date);
-//    NSArray *array = [date componentsSeparatedByString:@"-"];
-//    NSString *time = [NSString stringWithFormat:@"%@月%@日", array[1], array[2]];
     
     NSString *typeStr = @"";
-    if (type) {
+    if (!type) {
         typeStr = @"1";
     } else {
         typeStr = @"0";
     }
     NSString *url = [NSString stringWithFormat:@"%@%@?date=%@&type=%@", kServerIP, kFetchHome, date, typeStr];
+    
+    
+    Time *time = [[Time alloc] init];
+    time.timeStr = date;
+    time.type = @(type);
+    self.time = time;
+    
     [self getDataWithDay:url];
     [self countdownViewDidCancel];
 }

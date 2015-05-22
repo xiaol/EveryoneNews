@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 @class DateScrollView;
 
-@protocol DateScrollViewDelegate <NSObject>
+@protocol DateScrollViewDelegate <UIScrollViewDelegate>
 
 @optional
 
