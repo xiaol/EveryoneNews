@@ -133,7 +133,7 @@
         
         [dateFormatter setDateFormat:@"c"];
         NSString *weekdayStr = [dateFormatter stringFromDate:[NSDate date]];
-        if (weekdayStr.intValue > 0) {
+        if (weekdayStr.intValue > 1) {
             weekdayStr = [self arabicNumberToChinese:[NSString stringWithFormat:@"%d", weekdayStr.intValue - 1]];
         } else {
             weekdayStr = @"日";
@@ -199,7 +199,7 @@
         fmt.dateFormat = @"c";
         NSString *weekdayStr = [fmt stringFromDate:date];
         NSLog(@"weekday = %@", weekdayStr);
-        if (weekdayStr.intValue > 0) {
+        if (weekdayStr.intValue > 1) {
             weekdayStr = [self arabicNumberToChinese:[NSString stringWithFormat:@"%d", weekdayStr.intValue - 1]];
             NSLog(@"weekday = %@", weekdayStr);
         } else {

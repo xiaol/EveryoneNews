@@ -247,9 +247,10 @@
         cell.delegate = self;
         return cell;
     }
+    
 }
 
-#pragma mark cell animation
+#pragma mark - cell displaying animation
 
 -(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -298,6 +299,7 @@
     cell.layer.shadowOffset = CGSizeMake(0, 0);
     
     [UIView commitAnimations];
+    
 }
 
 - (void)getTextContent:(NSString *)sourceUrl imgUrl:(NSString *)imgUrl SourceSite:(NSString *)sourceSite Update:(NSString *)update Title:(NSString *)title ResponseUrls:(NSArray *)responseUrls RootClass:(NSString *)rootClass hasImg:(BOOL)hasImg
