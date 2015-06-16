@@ -1,0 +1,115 @@
+//
+//  PrefixHeader.pch
+//  EveryoneNews
+//
+//  Created by apple on 15/5/13.
+//  Copyright (c) 2015年 apple. All rights reserved.
+//
+
+#ifndef EveryoneNews_PrefixHeader_pch
+#define EveryoneNews_PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+#ifdef __OBJC__
+
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "UIView+LP.h"
+#import "UIColor+LP.h"
+#import "NSString+LP.h"
+#import "NSMutableAttributedString+LP.h"
+#import "UIImage+LP.h"
+#import "Singleton.h"
+#import "LPActivityIndicator.h"
+
+#ifdef __OPTIMIZE__
+# define NSLog(...) {}
+#else
+# define NSLog(...) NSLog(__VA_ARGS__)
+#endif
+
+#define sharedIndicator [LPActivityIndicator sharedActivityIndicator]
+
+#define noteCenter [NSNotificationCenter defaultCenter]
+#define LPCategoryDidChangeNotification @"changeCategory"
+#define LPCategoryFrom @"fromCategory"
+#define LPCategoryTo @"toCategory"
+//#define LPCategoryFromID @"fromCategoryID"
+//#define LPCategoryToID @"toCategoryID"
+//#define LPCategoryFromURl @"fromCategoryURL"
+//#define LPCategoryToURL @"toCategoryURL"
+
+#define ServerUrl       @"http://121.40.34.56"
+#define kTimenews       @"/news/baijia/fetchHome?timenews=1"
+#define CountdownUrl    @"/news/baijia/fetchTime?timefeedback=1"
+
+#define HomeUrl @"http://121.40.34.56/news/baijia/fetchHome?timenews=1"
+#define ContentUrl @"http://121.40.34.56/news/baijia/fetchContent?url="
+
+#define ScreenWidth [UIScreen mainScreen].bounds.size.width
+#define ScreenHeight [UIScreen mainScreen].bounds.size.height
+#define CellHeightBorder 8.5  // cell高度缩减
+#define PhotoH 208  // 大图模式图片高度
+#define TabBarHeight 44
+#define TabBarColor @"#0096ff"
+#define TabBarButtonSelectedColor @"#ffffff"
+#define TabBarButtonNormalColor @"#007ed7"
+#define TabBarButtonWidth ScreenWidth/6
+
+#define CellWidth ScreenWidth
+
+#define TableViewBackColor @"#EBEDED"
+
+#define TimeCellTimeLabelH 13
+#define TimeCellWeekLabelH 13
+#define TimeCellDividerH 1
+
+#define CategoryBorderLeft 10.0
+#define CategoryBorderRight CategoryBorderLeft
+#define CategoryBorderColumn 12.0
+#define CategoryBorderRow 10.0
+#define CategoryViewAspectRatio 1.43
+#define CategoryBorderTop TabBarHeight + CategoryBorderLeft
+#define CategoryBorderBottom CategoryBorderLeft
+
+#define CellBackColor @"ffffff"
+#define FontName @"Arial-BoldMT"
+// #define FontName @"ArialRoundedMTBold"
+#define TitleColor @"#1a1a1a"
+#define Icons @[@"新浪", @"百度", @"知乎", @"多图", @"微信"]
+#define IconW 21.0
+#define IconBorder 8
+#define OpinionFontName @"ArialMT"
+#define OpinionsBottomBlankHeight 20.0
+#define TitleBgViewHeight 50
+#define PhotoTitlePadding 24
+
+
+#define TableHeaderViewH ScreenWidth * 0.75
+#define BodyFontSize 16
+#define BodyLineSpacing 5
+#define BodyPadding 12
+
+#define CommentFontSize 14
+#define CommentCountFontSize 13
+#define UpCountFontSize 12
+#define CommentCountLeftPadding 12
+#define CommentCountRightPadding 10
+#define CommentCountTopPadding 2
+#define CommentCountBottomPadding 0
+#define UpCountLeftPadding 22
+#define UpCountRightPadding 8
+#define UpCountTopPadding 2
+#define UpCountBottomPadding 6
+#define CommentLineSpacing 3
+#define DetailCellPadding 10
+#define DetailCellWidth ScreenWidth - (DetailCellPadding * 2)
+#define DetailCellHeightBorder 9
+#define DetailCellBilateralBorder 10
+#define UserIconWidth 34
+#define UserIconBorderWidth 2
+
+#endif
+
+#endif

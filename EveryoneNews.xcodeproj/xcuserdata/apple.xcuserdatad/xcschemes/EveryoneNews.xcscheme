@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C1C0522A1ABFFC1600D6D687"
+               BlueprintIdentifier = "1821BF9B1B033ABE003E6C94"
                BuildableName = "EveryoneNews.app"
                BlueprintName = "EveryoneNews"
                ReferencedContainer = "container:EveryoneNews.xcodeproj">
@@ -28,7 +28,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C1C052431ABFFC1600D6D687"
+               BlueprintIdentifier = "1821BFB41B033ABE003E6C94"
                BuildableName = "EveryoneNewsTests.xctest"
                BlueprintName = "EveryoneNewsTests"
                ReferencedContainer = "container:EveryoneNews.xcodeproj">
@@ -46,7 +46,7 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "C1C052431ABFFC1600D6D687"
+               BlueprintIdentifier = "1821BFB41B033ABE003E6C94"
                BuildableName = "EveryoneNewsTests.xctest"
                BlueprintName = "EveryoneNewsTests"
                ReferencedContainer = "container:EveryoneNews.xcodeproj">
@@ -56,7 +56,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C1C0522A1ABFFC1600D6D687"
+            BlueprintIdentifier = "1821BF9B1B033ABE003E6C94"
             BuildableName = "EveryoneNews.app"
             BlueprintName = "EveryoneNews"
             ReferencedContainer = "container:EveryoneNews.xcodeproj">
@@ -75,7 +75,7 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C1C0522A1ABFFC1600D6D687"
+            BlueprintIdentifier = "1821BF9B1B033ABE003E6C94"
             BuildableName = "EveryoneNews.app"
             BlueprintName = "EveryoneNews"
             ReferencedContainer = "container:EveryoneNews.xcodeproj">
@@ -93,7 +93,7 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "C1C0522A1ABFFC1600D6D687"
+            BlueprintIdentifier = "1821BF9B1B033ABE003E6C94"
             BuildableName = "EveryoneNews.app"
             BlueprintName = "EveryoneNews"
             ReferencedContainer = "container:EveryoneNews.xcodeproj">
