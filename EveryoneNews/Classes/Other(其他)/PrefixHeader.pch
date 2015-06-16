@@ -77,7 +77,7 @@
 #define FontName @"Arial-BoldMT"
 // #define FontName @"ArialRoundedMTBold"
 #define TitleColor @"#1a1a1a"
-#define Icons @[@"新浪", @"百度", @"知乎", @"多图", @"微信"]
+#define Icons @[@"新浪", @"百度", @"评论", @"多图"]
 #define IconW 21.0
 #define IconBorder 8
 #define OpinionFontName @"ArialMT"

@@ -52,7 +52,7 @@
 {
     _zhihuPoints = zhihuPoints;
     
-    self.iconView.frame = CGRectMake(10, 0, 22, 57);
+    self.iconView.frame = CGRectMake(10, -3, 22, 57);
     
     CGFloat pointY = ZhihuTopPadding;
     CGFloat pointX = CGRectGetMaxX(self.iconView.frame) + 15.5 + ArrowW + 7.5;

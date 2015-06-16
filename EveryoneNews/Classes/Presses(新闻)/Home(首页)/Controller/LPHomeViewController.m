@@ -76,6 +76,7 @@
     [self.pressFrames removeAllObjects];
     __weak typeof(self) weakSelf = self;
     [LPPressTool homePressesWithCategory:category success:^(id json) {
+        NSLog(@"%@", category.url);
         NSMutableArray *pressFrameArray = [NSMutableArray array];
         // 字典转模型
         for (NSDictionary *dict in (NSArray *)json) {
@@ -174,7 +175,7 @@
     cell.layer.transform = translation;
     
     [UIView beginAnimations:@"translation" context:NULL];
-    [UIView setAnimationDuration:1.0];
+    [UIView setAnimationDuration:0.5];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
     cell.layer.transform = CATransform3DIdentity;
     

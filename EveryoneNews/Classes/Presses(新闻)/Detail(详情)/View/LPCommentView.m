@@ -57,6 +57,7 @@
         self.plusBtn = plusBtn;
         
         UILabel *commentLabel = [[UILabel alloc] init];
+        commentLabel.lineBreakMode = NSLineBreakByCharWrapping;
         commentLabel.numberOfLines = 0;
         [self addSubview:commentLabel];
         self.commentLabel = commentLabel;

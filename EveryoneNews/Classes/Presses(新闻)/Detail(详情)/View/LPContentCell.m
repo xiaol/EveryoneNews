@@ -33,6 +33,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         UILabel *bodyLabel = [[UILabel alloc] init];
+        bodyLabel.lineBreakMode = NSLineBreakByCharWrapping;
         bodyLabel.numberOfLines = 0;
         [self.contentView addSubview:bodyLabel];
         self.bodyLabel = bodyLabel;

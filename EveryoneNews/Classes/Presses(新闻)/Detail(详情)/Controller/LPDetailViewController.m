@@ -545,4 +545,8 @@
     [LPPressTool loadWebViewWithURL:url viewController:self];
 }
 
+- (void)dealloc
+{
+    NSLog(@"xxx");
+}
 @end
