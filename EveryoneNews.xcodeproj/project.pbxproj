@@ -7,31 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		18095C8C1B28880800CB7666 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18095C8B1B28880800CB7666 /* Images.xcassets */; };
-		18095CA51B29B83200CB7666 /* 财经_发表评论初始.png in Resources */ = {isa = PBXBuildFile; fileRef = 18095C8D1B29B83200CB7666 /* 财经_发表评论初始.png */; };
-		18095CA61B29B83200CB7666 /* 财经_发表评论激活.png in Resources */ = {isa = PBXBuildFile; fileRef = 18095C8E1B29B83200CB7666 /* 财经_发表评论激活.png */; };
-		18095CA71B29B83200CB7666 /* 财经_评论数图形.png in Resources */ = {isa = PBXBuildFile; fileRef = 18095C8F1B29B83200CB7666 /* 财经_评论数图形.png */; };
-		18095CA81B29B83200CB7666 /* 港台_发表评论初始.png in Resources */ = {isa = PBXBuildFile; fileRef = 18095C901B29B83200CB7666 /* 港台_发表评论初始.png */; };
-		18095CA91B29B83200CB7666 /* 港台_发表评论激活.png in Resources */ = {isa = PBXBuildFile; fileRef = 18095C911B29B83200CB7666 /* 港台_发表评论激活.png */; };
-		18095CAA1B29B83200CB7666 /* 港台_评论数图形.png in Resources */ = {isa = PBXBuildFile; fileRef = 18095C921B29B83200CB7666 /* 港台_评论数图形.png */; };
-		18095CAB1B29B83200CB7666 /* 国际_发表评论初始.png in Resources */ = {isa = PBXBuildFile; fileRef = 18095C931B29B83200CB7666 /* 国际_发表评论初始.png */; };
-		18095CAC1B29B83200CB7666 /* 国际_发表评论激活.png in Resources */ = {isa = PBXBuildFile; fileRef = 18095C941B29B83200CB7666 /* 国际_发表评论激活.png */; };
-		18095CAD1B29B83200CB7666 /* 国际_评论数图形.png in Resources */ = {isa = PBXBuildFile; fileRef = 18095C951B29B83200CB7666 /* 国际_评论数图形.png */; };
-		18095CAE1B29B83200CB7666 /* 科技_发表评论初始.png in Resources */ = {isa = PBXBuildFile; fileRef = 18095C961B29B83200CB7666 /* 科技_发表评论初始.png */; };
-		18095CAF1B29B83200CB7666 /* 科技_发表评论激活.png in Resources */ = {isa = PBXBuildFile; fileRef = 18095C971B29B83200CB7666 /* 科技_发表评论激活.png */; };
-		18095CB01B29B83200CB7666 /* 科技_评论数图形.png in Resources */ = {isa = PBXBuildFile; fileRef = 18095C981B29B83200CB7666 /* 科技_评论数图形.png */; };
-		18095CB11B29B83200CB7666 /* 社会_发表评论初始.png in Resources */ = {isa = PBXBuildFile; fileRef = 18095C991B29B83200CB7666 /* 社会_发表评论初始.png */; };
-		18095CB21B29B83200CB7666 /* 社会_发表评论激活.png in Resources */ = {isa = PBXBuildFile; fileRef = 18095C9A1B29B83200CB7666 /* 社会_发表评论激活.png */; };
-		18095CB31B29B83200CB7666 /* 社会_评论数图形.png in Resources */ = {isa = PBXBuildFile; fileRef = 18095C9B1B29B83200CB7666 /* 社会_评论数图形.png */; };
-		18095CB41B29B83200CB7666 /* 时事_发表评论初始.png in Resources */ = {isa = PBXBuildFile; fileRef = 18095C9C1B29B83200CB7666 /* 时事_发表评论初始.png */; };
-		18095CB51B29B83200CB7666 /* 时事_发表评论激活.png in Resources */ = {isa = PBXBuildFile; fileRef = 18095C9D1B29B83200CB7666 /* 时事_发表评论激活.png */; };
-		18095CB61B29B83200CB7666 /* 时事_评论数图形.png in Resources */ = {isa = PBXBuildFile; fileRef = 18095C9E1B29B83200CB7666 /* 时事_评论数图形.png */; };
-		18095CB71B29B83200CB7666 /* 体育_发表评论初始.png in Resources */ = {isa = PBXBuildFile; fileRef = 18095C9F1B29B83200CB7666 /* 体育_发表评论初始.png */; };
-		18095CB81B29B83200CB7666 /* 体育_发表评论激活.png in Resources */ = {isa = PBXBuildFile; fileRef = 18095CA01B29B83200CB7666 /* 体育_发表评论激活.png */; };
-		18095CB91B29B83200CB7666 /* 体育_评论数图形.png in Resources */ = {isa = PBXBuildFile; fileRef = 18095CA11B29B83200CB7666 /* 体育_评论数图形.png */; };
-		18095CBA1B29B83200CB7666 /* 娱乐_发表评论初始.png in Resources */ = {isa = PBXBuildFile; fileRef = 18095CA21B29B83200CB7666 /* 娱乐_发表评论初始.png */; };
-		18095CBB1B29B83200CB7666 /* 娱乐_发表评论激活.png in Resources */ = {isa = PBXBuildFile; fileRef = 18095CA31B29B83200CB7666 /* 娱乐_发表评论激活.png */; };
-		18095CBC1B29B83200CB7666 /* 娱乐_评论数图形.png in Resources */ = {isa = PBXBuildFile; fileRef = 18095CA41B29B83200CB7666 /* 娱乐_评论数图形.png */; };
 		18095CCA1B2A21B500CB7666 /* LPCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18095CC51B2A21B500CB7666 /* LPCommentView.m */; };
 		18095CCB1B2A21B500CB7666 /* LPContentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18095CC71B2A21B500CB7666 /* LPContentCell.m */; };
 		18095CCC1B2A21B500CB7666 /* LPZhihuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18095CC91B2A21B500CB7666 /* LPZhihuView.m */; };
@@ -41,18 +16,61 @@
 		1811BC3D1B1C0F5900FB7BB1 /* LPCategoryButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 1811BC3C1B1C0F5900FB7BB1 /* LPCategoryButton.m */; };
 		1811BC401B1C25BF00FB7BB1 /* LPCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 1811BC3F1B1C25BF00FB7BB1 /* LPCategory.m */; };
 		1821BFBC1B033ABE003E6C94 /* EveryoneNewsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1821BFBB1B033ABE003E6C94 /* EveryoneNewsTests.m */; };
-		18302CB31B2C80AF009C454E /* toum.png in Resources */ = {isa = PBXBuildFile; fileRef = 18302CB21B2C80AF009C454E /* toum.png */; };
-		1846B1171B1C4044009EF8B9 /* 财经.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1846B10E1B1C4044009EF8B9 /* 财经.jpg */; };
-		1846B1181B1C4044009EF8B9 /* 港台.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1846B10F1B1C4044009EF8B9 /* 港台.jpg */; };
-		1846B1191B1C4044009EF8B9 /* 国际.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1846B1101B1C4044009EF8B9 /* 国际.jpg */; };
-		1846B11A1B1C4044009EF8B9 /* 互联网.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1846B1111B1C4044009EF8B9 /* 互联网.jpg */; };
-		1846B11B1B1C4044009EF8B9 /* 科技.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1846B1121B1C4044009EF8B9 /* 科技.jpg */; };
-		1846B11C1B1C4044009EF8B9 /* 社会.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1846B1131B1C4044009EF8B9 /* 社会.jpg */; };
-		1846B11D1B1C4044009EF8B9 /* 时事.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1846B1141B1C4044009EF8B9 /* 时事.jpg */; };
-		1846B11E1B1C4044009EF8B9 /* 体育.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1846B1151B1C4044009EF8B9 /* 体育.jpg */; };
-		1846B11F1B1C4044009EF8B9 /* 娱乐.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1846B1161B1C4044009EF8B9 /* 娱乐.jpg */; };
-		1846B1211B1C4057009EF8B9 /* 今日.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1846B1201B1C4057009EF8B9 /* 今日.jpg */; };
 		1846B1281B1C5178009EF8B9 /* LPSlidingShadowAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1846B1271B1C5178009EF8B9 /* LPSlidingShadowAnimation.m */; };
+		1886FC2B1B2FE1D800959FA0 /* 今日.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1886FBF31B2FE1D800959FA0 /* 今日.jpg */; };
+		1886FC2C1B2FE1D800959FA0 /* 体育.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1886FBF41B2FE1D800959FA0 /* 体育.jpg */; };
+		1886FC2D1B2FE1D800959FA0 /* 国际.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1886FBF51B2FE1D800959FA0 /* 国际.jpg */; };
+		1886FC2E1B2FE1D800959FA0 /* 娱乐.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1886FBF61B2FE1D800959FA0 /* 娱乐.jpg */; };
+		1886FC2F1B2FE1D800959FA0 /* 时事.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1886FBF71B2FE1D800959FA0 /* 时事.jpg */; };
+		1886FC301B2FE1D800959FA0 /* 港台.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1886FBF81B2FE1D800959FA0 /* 港台.jpg */; };
+		1886FC311B2FE1D800959FA0 /* 社会.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1886FBF91B2FE1D800959FA0 /* 社会.jpg */; };
+		1886FC321B2FE1D800959FA0 /* 科技.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1886FBFA1B2FE1D800959FA0 /* 科技.jpg */; };
+		1886FC331B2FE1D800959FA0 /* 财经.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1886FBFB1B2FE1D800959FA0 /* 财经.jpg */; };
+		1886FC341B2FE1D800959FA0 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FBFD1B2FE1D800959FA0 /* back.png */; };
+		1886FC351B2FE1D800959FA0 /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FBFE1B2FE1D800959FA0 /* placeholder.png */; };
+		1886FC361B2FE1D800959FA0 /* 体育_发表评论初始.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FBFF1B2FE1D800959FA0 /* 体育_发表评论初始.png */; };
+		1886FC371B2FE1D800959FA0 /* 体育_发表评论激活.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC001B2FE1D800959FA0 /* 体育_发表评论激活.png */; };
+		1886FC381B2FE1D800959FA0 /* 体育_评论数图形.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC011B2FE1D800959FA0 /* 体育_评论数图形.png */; };
+		1886FC391B2FE1D800959FA0 /* 内地_发表评论初始.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC021B2FE1D800959FA0 /* 内地_发表评论初始.png */; };
+		1886FC3A1B2FE1D800959FA0 /* 内地_发表评论激活.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC031B2FE1D800959FA0 /* 内地_发表评论激活.png */; };
+		1886FC3B1B2FE1D800959FA0 /* 内地_评论数图形.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC041B2FE1D800959FA0 /* 内地_评论数图形.png */; };
+		1886FC3C1B2FE1D800959FA0 /* 发表评论初始.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC051B2FE1D800959FA0 /* 发表评论初始.png */; };
+		1886FC3D1B2FE1D800959FA0 /* 发表评论激活.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC061B2FE1D800959FA0 /* 发表评论激活.png */; };
+		1886FC3E1B2FE1D800959FA0 /* 受赞气泡.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC071B2FE1D800959FA0 /* 受赞气泡.png */; };
+		1886FC3F1B2FE1D800959FA0 /* 国际_发表评论初始.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC081B2FE1D800959FA0 /* 国际_发表评论初始.png */; };
+		1886FC401B2FE1D800959FA0 /* 国际_发表评论激活.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC091B2FE1D800959FA0 /* 国际_发表评论激活.png */; };
+		1886FC411B2FE1D800959FA0 /* 国际_评论数图形.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC0A1B2FE1D800959FA0 /* 国际_评论数图形.png */; };
+		1886FC421B2FE1D800959FA0 /* 娱乐_发表评论初始.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC0B1B2FE1D800959FA0 /* 娱乐_发表评论初始.png */; };
+		1886FC431B2FE1D800959FA0 /* 娱乐_发表评论激活.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC0C1B2FE1D800959FA0 /* 娱乐_发表评论激活.png */; };
+		1886FC441B2FE1D800959FA0 /* 娱乐_评论数图形.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC0D1B2FE1D800959FA0 /* 娱乐_评论数图形.png */; };
+		1886FC451B2FE1D800959FA0 /* 时事_发表评论初始.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC0E1B2FE1D800959FA0 /* 时事_发表评论初始.png */; };
+		1886FC461B2FE1D800959FA0 /* 时事_发表评论激活.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC0F1B2FE1D800959FA0 /* 时事_发表评论激活.png */; };
+		1886FC471B2FE1D800959FA0 /* 时事_评论数图形.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC101B2FE1D800959FA0 /* 时事_评论数图形.png */; };
+		1886FC481B2FE1D800959FA0 /* 渐变.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC111B2FE1D800959FA0 /* 渐变.png */; };
+		1886FC491B2FE1D800959FA0 /* 港台_发表评论初始.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC121B2FE1D800959FA0 /* 港台_发表评论初始.png */; };
+		1886FC4A1B2FE1D800959FA0 /* 港台_发表评论激活.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC131B2FE1D800959FA0 /* 港台_发表评论激活.png */; };
+		1886FC4B1B2FE1D800959FA0 /* 港台_评论数图形.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC141B2FE1D800959FA0 /* 港台_评论数图形.png */; };
+		1886FC4C1B2FE1D800959FA0 /* 焦点_发表评论初始.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC151B2FE1D800959FA0 /* 焦点_发表评论初始.png */; };
+		1886FC4D1B2FE1D800959FA0 /* 焦点_发表评论激活.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC161B2FE1D800959FA0 /* 焦点_发表评论激活.png */; };
+		1886FC4E1B2FE1D800959FA0 /* 焦点_评论数图形.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC171B2FE1D800959FA0 /* 焦点_评论数图形.png */; };
+		1886FC4F1B2FE1D800959FA0 /* 社会_发表评论初始.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC181B2FE1D800959FA0 /* 社会_发表评论初始.png */; };
+		1886FC501B2FE1D800959FA0 /* 社会_发表评论激活.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC191B2FE1D800959FA0 /* 社会_发表评论激活.png */; };
+		1886FC511B2FE1D800959FA0 /* 社会_评论数图形.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC1A1B2FE1D800959FA0 /* 社会_评论数图形.png */; };
+		1886FC521B2FE1D800959FA0 /* 科技_发表评论初始.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC1B1B2FE1D800959FA0 /* 科技_发表评论初始.png */; };
+		1886FC531B2FE1D800959FA0 /* 科技_发表评论激活.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC1C1B2FE1D800959FA0 /* 科技_发表评论激活.png */; };
+		1886FC541B2FE1D800959FA0 /* 科技_评论数图形.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC1D1B2FE1D800959FA0 /* 科技_评论数图形.png */; };
+		1886FC551B2FE1D800959FA0 /* 财经_发表评论初始.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC1E1B2FE1D800959FA0 /* 财经_发表评论初始.png */; };
+		1886FC561B2FE1D800959FA0 /* 财经_发表评论激活.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC1F1B2FE1D800959FA0 /* 财经_发表评论激活.png */; };
+		1886FC571B2FE1D800959FA0 /* 财经_评论数图形.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC201B2FE1D800959FA0 /* 财经_评论数图形.png */; };
+		1886FC581B2FE1D800959FA0 /* toum.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC221B2FE1D800959FA0 /* toum.png */; };
+		1886FC591B2FE1D800959FA0 /* 多图.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC231B2FE1D800959FA0 /* 多图.png */; };
+		1886FC5A1B2FE1D800959FA0 /* 新浪.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC241B2FE1D800959FA0 /* 新浪.png */; };
+		1886FC5B1B2FE1D800959FA0 /* 百度.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC251B2FE1D800959FA0 /* 百度.png */; };
+		1886FC5C1B2FE1D800959FA0 /* 蓝点.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC261B2FE1D800959FA0 /* 蓝点.png */; };
+		1886FC5D1B2FE1D800959FA0 /* 观点数量.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC271B2FE1D800959FA0 /* 观点数量.png */; };
+		1886FC5E1B2FE1D800959FA0 /* 评论.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC281B2FE1D800959FA0 /* 评论.png */; };
+		1886FC5F1B2FE1D800959FA0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC291B2FE1D800959FA0 /* Images.xcassets */; };
+		1886FC621B2FE43000959FA0 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC611B2FE43000959FA0 /* Info.plist */; };
 		188E28561B17064700D1E5D9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 188E28531B17064700D1E5D9 /* AppDelegate.m */; };
 		188E28571B17064700D1E5D9 /* TransitioningObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 188E28551B17064700D1E5D9 /* TransitioningObject.m */; };
 		18A65C631B1EB65A0070DDD7 /* LPPointview.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A65C621B1EB65A0070DDD7 /* LPPointview.m */; };
@@ -63,11 +81,6 @@
 		18A65C7A1B1F000F0070DDD7 /* LPMultiGraphTopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A65C791B1F000F0070DDD7 /* LPMultiGraphTopView.m */; };
 		18A65C7D1B1FDBCE0070DDD7 /* NSString+LP.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A65C7C1B1FDBCE0070DDD7 /* NSString+LP.m */; };
 		18A65C801B2007060070DDD7 /* NSMutableAttributedString+LP.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A65C7F1B2007060070DDD7 /* NSMutableAttributedString+LP.m */; };
-		18A65C8D1B20231C0070DDD7 /* 百度.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A65C881B20231C0070DDD7 /* 百度.png */; };
-		18A65C8E1B20231C0070DDD7 /* 多图.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A65C891B20231C0070DDD7 /* 多图.png */; };
-		18A65C8F1B20231C0070DDD7 /* 评论.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A65C8A1B20231C0070DDD7 /* 评论.png */; };
-		18A65C901B20231C0070DDD7 /* 新浪.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A65C8B1B20231C0070DDD7 /* 新浪.png */; };
-		18A65C911B20231C0070DDD7 /* 知乎.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A65C8C1B20231C0070DDD7 /* 知乎.png */; };
 		18A65C941B2023F60070DDD7 /* LPIconsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A65C931B2023F60070DDD7 /* LPIconsView.m */; };
 		18A65CC21B203D330070DDD7 /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A65CA21B203D330070DDD7 /* MKAnnotationView+WebCache.m */; };
 		18A65CC31B203D330070DDD7 /* NSData+ImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A65CA41B203D330070DDD7 /* NSData+ImageContentType.m */; };
@@ -100,34 +113,12 @@
 		18BAE7641B14A84E0052BDD0 /* LPCategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BAE7631B14A84E0052BDD0 /* LPCategoryViewController.m */; };
 		18BAE7671B14C4DA0052BDD0 /* LPTabBarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BAE7661B14C4DA0052BDD0 /* LPTabBarButton.m */; };
 		18CB19A81B2E174D0005D3E3 /* LPParaCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CB19A71B2E174D0005D3E3 /* LPParaCommentViewController.m */; };
-		18CB19B31B2E189C0005D3E3 /* 关闭.png in Resources */ = {isa = PBXBuildFile; fileRef = 18CB19AA1B2E189C0005D3E3 /* 关闭.png */; };
-		18CB19B41B2E189C0005D3E3 /* 太阳.png in Resources */ = {isa = PBXBuildFile; fileRef = 18CB19AB1B2E189C0005D3E3 /* 太阳.png */; };
-		18CB19B51B2E189C0005D3E3 /* 底下太阳.png in Resources */ = {isa = PBXBuildFile; fileRef = 18CB19AC1B2E189C0005D3E3 /* 底下太阳.png */; };
-		18CB19B61B2E189C0005D3E3 /* 底下月亮.png in Resources */ = {isa = PBXBuildFile; fileRef = 18CB19AD1B2E189C0005D3E3 /* 底下月亮.png */; };
-		18CB19B71B2E189C0005D3E3 /* 底下看过.png in Resources */ = {isa = PBXBuildFile; fileRef = 18CB19AE1B2E189C0005D3E3 /* 底下看过.png */; };
-		18CB19B81B2E189C0005D3E3 /* 底下看过太阳.png in Resources */ = {isa = PBXBuildFile; fileRef = 18CB19AF1B2E189C0005D3E3 /* 底下看过太阳.png */; };
-		18CB19B91B2E189C0005D3E3 /* 月亮.png in Resources */ = {isa = PBXBuildFile; fileRef = 18CB19B01B2E189C0005D3E3 /* 月亮.png */; };
-		18CB19BA1B2E189C0005D3E3 /* 白线.png in Resources */ = {isa = PBXBuildFile; fileRef = 18CB19B11B2E189C0005D3E3 /* 白线.png */; };
-		18CB19BB1B2E189C0005D3E3 /* 背景.png in Resources */ = {isa = PBXBuildFile; fileRef = 18CB19B21B2E189C0005D3E3 /* 背景.png */; };
 		18CB19BE1B2E269B0005D3E3 /* LPParaCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CB19BD1B2E269B0005D3E3 /* LPParaCommentCell.m */; };
 		18CB19C11B2E2A380005D3E3 /* LPParaCommentFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CB19C01B2E2A380005D3E3 /* LPParaCommentFrame.m */; };
 		18CB19C51B2E9DAE0005D3E3 /* LPPressTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CB19C41B2E9DAE0005D3E3 /* LPPressTool.m */; };
 		18CB19C81B2E9F030005D3E3 /* LPWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CB19C71B2E9F030005D3E3 /* LPWebViewController.m */; };
-		18CB19D21B2EA1E70005D3E3 /* 焦点_发表评论初始.png in Resources */ = {isa = PBXBuildFile; fileRef = 18CB19C91B2EA1E70005D3E3 /* 焦点_发表评论初始.png */; };
-		18CB19D31B2EA1E70005D3E3 /* 焦点_发表评论激活.png in Resources */ = {isa = PBXBuildFile; fileRef = 18CB19CA1B2EA1E70005D3E3 /* 焦点_发表评论激活.png */; };
-		18CB19D41B2EA1E70005D3E3 /* 焦点_评论数图形.png in Resources */ = {isa = PBXBuildFile; fileRef = 18CB19CB1B2EA1E70005D3E3 /* 焦点_评论数图形.png */; };
-		18CB19D51B2EA1E70005D3E3 /* 内地_发表评论初始.png in Resources */ = {isa = PBXBuildFile; fileRef = 18CB19CC1B2EA1E70005D3E3 /* 内地_发表评论初始.png */; };
-		18CB19D61B2EA1E70005D3E3 /* 内地_发表评论激活.png in Resources */ = {isa = PBXBuildFile; fileRef = 18CB19CD1B2EA1E70005D3E3 /* 内地_发表评论激活.png */; };
-		18CB19D71B2EA1E70005D3E3 /* 内地_评论数图形.png in Resources */ = {isa = PBXBuildFile; fileRef = 18CB19CE1B2EA1E70005D3E3 /* 内地_评论数图形.png */; };
-		18CB19D81B2EA1E70005D3E3 /* 社会_发表评论初始.png in Resources */ = {isa = PBXBuildFile; fileRef = 18CB19CF1B2EA1E70005D3E3 /* 社会_发表评论初始.png */; };
-		18CB19D91B2EA1E70005D3E3 /* 社会_发表评论激活.png in Resources */ = {isa = PBXBuildFile; fileRef = 18CB19D01B2EA1E70005D3E3 /* 社会_发表评论激活.png */; };
-		18CB19DA1B2EA1E70005D3E3 /* 社会_评论数图形.png in Resources */ = {isa = PBXBuildFile; fileRef = 18CB19D11B2EA1E70005D3E3 /* 社会_评论数图形.png */; };
-		18CB19DC1B2EAB2B0005D3E3 /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = 18CB19DB1B2EAB2B0005D3E3 /* placeholder.png */; };
-		18CB19E01B2EC5080005D3E3 /* 观点数量.png in Resources */ = {isa = PBXBuildFile; fileRef = 18CB19DF1B2EC5080005D3E3 /* 观点数量.png */; };
-		18CB19E21B2EE59A0005D3E3 /* 渐变.png in Resources */ = {isa = PBXBuildFile; fileRef = 18CB19E11B2EE59A0005D3E3 /* 渐变.png */; };
 		18CB19E61B2F98F40005D3E3 /* LPActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CB19E51B2F98F40005D3E3 /* LPActivityIndicator.m */; };
 		18D71F731B24AEF4002A7375 /* UIImage+LP.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D71F721B24AEF4002A7375 /* UIImage+LP.m */; };
-		18D71F751B24AF70002A7375 /* 蓝点.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D71F741B24AF70002A7375 /* 蓝点.png */; };
 		18D71F791B257038002A7375 /* LPHttpTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D71F781B257038002A7375 /* LPHttpTool.m */; };
 		18D71F8E1B25710F002A7375 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D71F7C1B25710F002A7375 /* AFHTTPRequestOperation.m */; };
 		18D71F8F1B25710F002A7375 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D71F7E1B25710F002A7375 /* AFHTTPRequestOperationManager.m */; };
@@ -146,17 +137,12 @@
 		18D71FAE1B2572C5002A7375 /* NSObject+MJKeyValue.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D71FA41B2572C5002A7375 /* NSObject+MJKeyValue.m */; };
 		18D71FAF1B2572C5002A7375 /* NSObject+MJProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D71FA61B2572C5002A7375 /* NSObject+MJProperty.m */; };
 		18D71FB01B2572C5002A7375 /* NSString+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D71FA81B2572C5002A7375 /* NSString+MJExtension.m */; };
-		18D71FB31B26BB7E002A7375 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D71FB21B26BB7E002A7375 /* back.png */; };
 		18D71FB61B26C70E002A7375 /* LPComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D71FB51B26C70E002A7375 /* LPComment.m */; };
 		18D71FB91B26C868002A7375 /* LPWeiboPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D71FB81B26C868002A7375 /* LPWeiboPoint.m */; };
 		18D71FBC1B26CA10002A7375 /* LPRelatePoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D71FBB1B26CA10002A7375 /* LPRelatePoint.m */; };
 		18D71FBF1B26CA4B002A7375 /* LPZhihuPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D71FBE1B26CA4B002A7375 /* LPZhihuPoint.m */; };
 		18D71FC21B26CC57002A7375 /* LPContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D71FC11B26CC57002A7375 /* LPContent.m */; };
 		18D71FC81B26E6FA002A7375 /* LPContentFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D71FC71B26E6FA002A7375 /* LPContentFrame.m */; };
-		18D71FD01B281A9E002A7375 /* 发表评论初始.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D71FCC1B281A9E002A7375 /* 发表评论初始.png */; };
-		18D71FD11B281A9E002A7375 /* 发表评论激活.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D71FCD1B281A9E002A7375 /* 发表评论激活.png */; };
-		18D71FD21B281A9E002A7375 /* 体育_评论数图形.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D71FCE1B281A9E002A7375 /* 体育_评论数图形.png */; };
-		18D71FD31B281A9E002A7375 /* 受赞气泡.png in Resources */ = {isa = PBXBuildFile; fileRef = 18D71FCF1B281A9E002A7375 /* 受赞气泡.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -170,31 +156,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		18095C8B1B28880800CB7666 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = ../../../../.Trash/Images.xcassets; sourceTree = "<group>"; };
-		18095C8D1B29B83200CB7666 /* 财经_发表评论初始.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "财经_发表评论初始.png"; path = "../../../../Downloads/评论小图标/财经_发表评论初始.png"; sourceTree = "<group>"; };
-		18095C8E1B29B83200CB7666 /* 财经_发表评论激活.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "财经_发表评论激活.png"; path = "../../../../Downloads/评论小图标/财经_发表评论激活.png"; sourceTree = "<group>"; };
-		18095C8F1B29B83200CB7666 /* 财经_评论数图形.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "财经_评论数图形.png"; path = "../../../../Downloads/评论小图标/财经_评论数图形.png"; sourceTree = "<group>"; };
-		18095C901B29B83200CB7666 /* 港台_发表评论初始.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "港台_发表评论初始.png"; path = "../../../../Downloads/评论小图标/港台_发表评论初始.png"; sourceTree = "<group>"; };
-		18095C911B29B83200CB7666 /* 港台_发表评论激活.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "港台_发表评论激活.png"; path = "../../../../Downloads/评论小图标/港台_发表评论激活.png"; sourceTree = "<group>"; };
-		18095C921B29B83200CB7666 /* 港台_评论数图形.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "港台_评论数图形.png"; path = "../../../../Downloads/评论小图标/港台_评论数图形.png"; sourceTree = "<group>"; };
-		18095C931B29B83200CB7666 /* 国际_发表评论初始.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "国际_发表评论初始.png"; path = "../../../../Downloads/评论小图标/国际_发表评论初始.png"; sourceTree = "<group>"; };
-		18095C941B29B83200CB7666 /* 国际_发表评论激活.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "国际_发表评论激活.png"; path = "../../../../Downloads/评论小图标/国际_发表评论激活.png"; sourceTree = "<group>"; };
-		18095C951B29B83200CB7666 /* 国际_评论数图形.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "国际_评论数图形.png"; path = "../../../../Downloads/评论小图标/国际_评论数图形.png"; sourceTree = "<group>"; };
-		18095C961B29B83200CB7666 /* 科技_发表评论初始.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "科技_发表评论初始.png"; path = "../../../../Downloads/评论小图标/科技_发表评论初始.png"; sourceTree = "<group>"; };
-		18095C971B29B83200CB7666 /* 科技_发表评论激活.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "科技_发表评论激活.png"; path = "../../../../Downloads/评论小图标/科技_发表评论激活.png"; sourceTree = "<group>"; };
-		18095C981B29B83200CB7666 /* 科技_评论数图形.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "科技_评论数图形.png"; path = "../../../../Downloads/评论小图标/科技_评论数图形.png"; sourceTree = "<group>"; };
-		18095C991B29B83200CB7666 /* 社会_发表评论初始.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "社会_发表评论初始.png"; path = "../../../../Downloads/评论小图标/社会_发表评论初始.png"; sourceTree = "<group>"; };
-		18095C9A1B29B83200CB7666 /* 社会_发表评论激活.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "社会_发表评论激活.png"; path = "../../../../Downloads/评论小图标/社会_发表评论激活.png"; sourceTree = "<group>"; };
-		18095C9B1B29B83200CB7666 /* 社会_评论数图形.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "社会_评论数图形.png"; path = "../../../../Downloads/评论小图标/社会_评论数图形.png"; sourceTree = "<group>"; };
-		18095C9C1B29B83200CB7666 /* 时事_发表评论初始.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "时事_发表评论初始.png"; path = "../../../../Downloads/评论小图标/时事_发表评论初始.png"; sourceTree = "<group>"; };
-		18095C9D1B29B83200CB7666 /* 时事_发表评论激活.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "时事_发表评论激活.png"; path = "../../../../Downloads/评论小图标/时事_发表评论激活.png"; sourceTree = "<group>"; };
-		18095C9E1B29B83200CB7666 /* 时事_评论数图形.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "时事_评论数图形.png"; path = "../../../../Downloads/评论小图标/时事_评论数图形.png"; sourceTree = "<group>"; };
-		18095C9F1B29B83200CB7666 /* 体育_发表评论初始.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "体育_发表评论初始.png"; path = "../../../../Downloads/评论小图标/体育_发表评论初始.png"; sourceTree = "<group>"; };
-		18095CA01B29B83200CB7666 /* 体育_发表评论激活.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "体育_发表评论激活.png"; path = "../../../../Downloads/评论小图标/体育_发表评论激活.png"; sourceTree = "<group>"; };
-		18095CA11B29B83200CB7666 /* 体育_评论数图形.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "体育_评论数图形.png"; path = "../../../../Downloads/评论小图标/体育_评论数图形.png"; sourceTree = "<group>"; };
-		18095CA21B29B83200CB7666 /* 娱乐_发表评论初始.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "娱乐_发表评论初始.png"; path = "../../../../Downloads/评论小图标/娱乐_发表评论初始.png"; sourceTree = "<group>"; };
-		18095CA31B29B83200CB7666 /* 娱乐_发表评论激活.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "娱乐_发表评论激活.png"; path = "../../../../Downloads/评论小图标/娱乐_发表评论激活.png"; sourceTree = "<group>"; };
-		18095CA41B29B83200CB7666 /* 娱乐_评论数图形.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "娱乐_评论数图形.png"; path = "../../../../Downloads/评论小图标/娱乐_评论数图形.png"; sourceTree = "<group>"; };
 		18095CC41B2A21B500CB7666 /* LPCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPCommentView.h; sourceTree = "<group>"; };
 		18095CC51B2A21B500CB7666 /* LPCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPCommentView.m; sourceTree = "<group>"; };
 		18095CC61B2A21B500CB7666 /* LPContentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPContentCell.h; sourceTree = "<group>"; };
@@ -212,23 +173,64 @@
 		1811BC3E1B1C25BF00FB7BB1 /* LPCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPCategory.h; sourceTree = "<group>"; };
 		1811BC3F1B1C25BF00FB7BB1 /* LPCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPCategory.m; sourceTree = "<group>"; };
 		1821BF9C1B033ABE003E6C94 /* EveryoneNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EveryoneNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		1821BFA01B033ABE003E6C94 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1821BFB51B033ABE003E6C94 /* EveryoneNewsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EveryoneNewsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		1821BFBA1B033ABE003E6C94 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1821BFBB1B033ABE003E6C94 /* EveryoneNewsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EveryoneNewsTests.m; sourceTree = "<group>"; };
-		18302CB21B2C80AF009C454E /* toum.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = toum.png; sourceTree = "<group>"; };
-		1846B10E1B1C4044009EF8B9 /* 财经.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "财经.jpg"; path = "../../../../Downloads/3x/财经.jpg"; sourceTree = "<group>"; };
-		1846B10F1B1C4044009EF8B9 /* 港台.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "港台.jpg"; path = "../../../../Downloads/3x/港台.jpg"; sourceTree = "<group>"; };
-		1846B1101B1C4044009EF8B9 /* 国际.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "国际.jpg"; path = "../../../../Downloads/3x/国际.jpg"; sourceTree = "<group>"; };
-		1846B1111B1C4044009EF8B9 /* 互联网.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "互联网.jpg"; path = "../../../../Downloads/3x/互联网.jpg"; sourceTree = "<group>"; };
-		1846B1121B1C4044009EF8B9 /* 科技.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "科技.jpg"; path = "../../../../Downloads/3x/科技.jpg"; sourceTree = "<group>"; };
-		1846B1131B1C4044009EF8B9 /* 社会.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "社会.jpg"; path = "../../../../Downloads/3x/社会.jpg"; sourceTree = "<group>"; };
-		1846B1141B1C4044009EF8B9 /* 时事.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "时事.jpg"; path = "../../../../Downloads/3x/时事.jpg"; sourceTree = "<group>"; };
-		1846B1151B1C4044009EF8B9 /* 体育.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "体育.jpg"; path = "../../../../Downloads/3x/体育.jpg"; sourceTree = "<group>"; };
-		1846B1161B1C4044009EF8B9 /* 娱乐.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "娱乐.jpg"; path = "../../../../Downloads/3x/娱乐.jpg"; sourceTree = "<group>"; };
-		1846B1201B1C4057009EF8B9 /* 今日.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "今日.jpg"; path = "../../../../Downloads/今日.jpg"; sourceTree = "<group>"; };
 		1846B1261B1C5178009EF8B9 /* LPSlidingShadowAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPSlidingShadowAnimation.h; sourceTree = "<group>"; };
 		1846B1271B1C5178009EF8B9 /* LPSlidingShadowAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPSlidingShadowAnimation.m; sourceTree = "<group>"; };
+		1886FBF31B2FE1D800959FA0 /* 今日.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "今日.jpg"; sourceTree = "<group>"; };
+		1886FBF41B2FE1D800959FA0 /* 体育.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "体育.jpg"; sourceTree = "<group>"; };
+		1886FBF51B2FE1D800959FA0 /* 国际.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "国际.jpg"; sourceTree = "<group>"; };
+		1886FBF61B2FE1D800959FA0 /* 娱乐.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "娱乐.jpg"; sourceTree = "<group>"; };
+		1886FBF71B2FE1D800959FA0 /* 时事.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "时事.jpg"; sourceTree = "<group>"; };
+		1886FBF81B2FE1D800959FA0 /* 港台.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "港台.jpg"; sourceTree = "<group>"; };
+		1886FBF91B2FE1D800959FA0 /* 社会.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "社会.jpg"; sourceTree = "<group>"; };
+		1886FBFA1B2FE1D800959FA0 /* 科技.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "科技.jpg"; sourceTree = "<group>"; };
+		1886FBFB1B2FE1D800959FA0 /* 财经.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "财经.jpg"; sourceTree = "<group>"; };
+		1886FBFD1B2FE1D800959FA0 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
+		1886FBFE1B2FE1D800959FA0 /* placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder.png; sourceTree = "<group>"; };
+		1886FBFF1B2FE1D800959FA0 /* 体育_发表评论初始.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "体育_发表评论初始.png"; sourceTree = "<group>"; };
+		1886FC001B2FE1D800959FA0 /* 体育_发表评论激活.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "体育_发表评论激活.png"; sourceTree = "<group>"; };
+		1886FC011B2FE1D800959FA0 /* 体育_评论数图形.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "体育_评论数图形.png"; sourceTree = "<group>"; };
+		1886FC021B2FE1D800959FA0 /* 内地_发表评论初始.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "内地_发表评论初始.png"; sourceTree = "<group>"; };
+		1886FC031B2FE1D800959FA0 /* 内地_发表评论激活.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "内地_发表评论激活.png"; sourceTree = "<group>"; };
+		1886FC041B2FE1D800959FA0 /* 内地_评论数图形.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "内地_评论数图形.png"; sourceTree = "<group>"; };
+		1886FC051B2FE1D800959FA0 /* 发表评论初始.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "发表评论初始.png"; sourceTree = "<group>"; };
+		1886FC061B2FE1D800959FA0 /* 发表评论激活.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "发表评论激活.png"; sourceTree = "<group>"; };
+		1886FC071B2FE1D800959FA0 /* 受赞气泡.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "受赞气泡.png"; sourceTree = "<group>"; };
+		1886FC081B2FE1D800959FA0 /* 国际_发表评论初始.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "国际_发表评论初始.png"; sourceTree = "<group>"; };
+		1886FC091B2FE1D800959FA0 /* 国际_发表评论激活.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "国际_发表评论激活.png"; sourceTree = "<group>"; };
+		1886FC0A1B2FE1D800959FA0 /* 国际_评论数图形.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "国际_评论数图形.png"; sourceTree = "<group>"; };
+		1886FC0B1B2FE1D800959FA0 /* 娱乐_发表评论初始.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "娱乐_发表评论初始.png"; sourceTree = "<group>"; };
+		1886FC0C1B2FE1D800959FA0 /* 娱乐_发表评论激活.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "娱乐_发表评论激活.png"; sourceTree = "<group>"; };
+		1886FC0D1B2FE1D800959FA0 /* 娱乐_评论数图形.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "娱乐_评论数图形.png"; sourceTree = "<group>"; };
+		1886FC0E1B2FE1D800959FA0 /* 时事_发表评论初始.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "时事_发表评论初始.png"; sourceTree = "<group>"; };
+		1886FC0F1B2FE1D800959FA0 /* 时事_发表评论激活.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "时事_发表评论激活.png"; sourceTree = "<group>"; };
+		1886FC101B2FE1D800959FA0 /* 时事_评论数图形.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "时事_评论数图形.png"; sourceTree = "<group>"; };
+		1886FC111B2FE1D800959FA0 /* 渐变.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "渐变.png"; sourceTree = "<group>"; };
+		1886FC121B2FE1D800959FA0 /* 港台_发表评论初始.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "港台_发表评论初始.png"; sourceTree = "<group>"; };
+		1886FC131B2FE1D800959FA0 /* 港台_发表评论激活.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "港台_发表评论激活.png"; sourceTree = "<group>"; };
+		1886FC141B2FE1D800959FA0 /* 港台_评论数图形.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "港台_评论数图形.png"; sourceTree = "<group>"; };
+		1886FC151B2FE1D800959FA0 /* 焦点_发表评论初始.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "焦点_发表评论初始.png"; sourceTree = "<group>"; };
+		1886FC161B2FE1D800959FA0 /* 焦点_发表评论激活.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "焦点_发表评论激活.png"; sourceTree = "<group>"; };
+		1886FC171B2FE1D800959FA0 /* 焦点_评论数图形.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "焦点_评论数图形.png"; sourceTree = "<group>"; };
+		1886FC181B2FE1D800959FA0 /* 社会_发表评论初始.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "社会_发表评论初始.png"; sourceTree = "<group>"; };
+		1886FC191B2FE1D800959FA0 /* 社会_发表评论激活.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "社会_发表评论激活.png"; sourceTree = "<group>"; };
+		1886FC1A1B2FE1D800959FA0 /* 社会_评论数图形.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "社会_评论数图形.png"; sourceTree = "<group>"; };
+		1886FC1B1B2FE1D800959FA0 /* 科技_发表评论初始.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "科技_发表评论初始.png"; sourceTree = "<group>"; };
+		1886FC1C1B2FE1D800959FA0 /* 科技_发表评论激活.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "科技_发表评论激活.png"; sourceTree = "<group>"; };
+		1886FC1D1B2FE1D800959FA0 /* 科技_评论数图形.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "科技_评论数图形.png"; sourceTree = "<group>"; };
+		1886FC1E1B2FE1D800959FA0 /* 财经_发表评论初始.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "财经_发表评论初始.png"; sourceTree = "<group>"; };
+		1886FC1F1B2FE1D800959FA0 /* 财经_发表评论激活.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "财经_发表评论激活.png"; sourceTree = "<group>"; };
+		1886FC201B2FE1D800959FA0 /* 财经_评论数图形.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "财经_评论数图形.png"; sourceTree = "<group>"; };
+		1886FC221B2FE1D800959FA0 /* toum.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = toum.png; sourceTree = "<group>"; };
+		1886FC231B2FE1D800959FA0 /* 多图.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "多图.png"; sourceTree = "<group>"; };
+		1886FC241B2FE1D800959FA0 /* 新浪.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "新浪.png"; sourceTree = "<group>"; };
+		1886FC251B2FE1D800959FA0 /* 百度.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "百度.png"; sourceTree = "<group>"; };
+		1886FC261B2FE1D800959FA0 /* 蓝点.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "蓝点.png"; sourceTree = "<group>"; };
+		1886FC271B2FE1D800959FA0 /* 观点数量.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "观点数量.png"; sourceTree = "<group>"; };
+		1886FC281B2FE1D800959FA0 /* 评论.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "评论.png"; sourceTree = "<group>"; };
+		1886FC291B2FE1D800959FA0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		1886FC611B2FE43000959FA0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		188E28521B17064700D1E5D9 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		188E28531B17064700D1E5D9 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		188E28541B17064700D1E5D9 /* TransitioningObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TransitioningObject.h; sourceTree = "<group>"; };
@@ -249,11 +251,6 @@
 		18A65C7C1B1FDBCE0070DDD7 /* NSString+LP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+LP.m"; sourceTree = "<group>"; };
 		18A65C7E1B2007060070DDD7 /* NSMutableAttributedString+LP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableAttributedString+LP.h"; sourceTree = "<group>"; };
 		18A65C7F1B2007060070DDD7 /* NSMutableAttributedString+LP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableAttributedString+LP.m"; sourceTree = "<group>"; };
-		18A65C881B20231C0070DDD7 /* 百度.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "百度.png"; path = "../../../../Downloads/内容来源小图标@2x/百度.png"; sourceTree = "<group>"; };
-		18A65C891B20231C0070DDD7 /* 多图.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "多图.png"; path = "../../../../Downloads/内容来源小图标@2x/多图.png"; sourceTree = "<group>"; };
-		18A65C8A1B20231C0070DDD7 /* 评论.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "评论.png"; path = "../../../../Downloads/内容来源小图标@2x/评论.png"; sourceTree = "<group>"; };
-		18A65C8B1B20231C0070DDD7 /* 新浪.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "新浪.png"; path = "../../../../Downloads/内容来源小图标@2x/新浪.png"; sourceTree = "<group>"; };
-		18A65C8C1B20231C0070DDD7 /* 知乎.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "知乎.png"; path = "../../../../Downloads/内容来源小图标@2x/知乎.png"; sourceTree = "<group>"; };
 		18A65C921B2023F60070DDD7 /* LPIconsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPIconsView.h; sourceTree = "<group>"; };
 		18A65C931B2023F60070DDD7 /* LPIconsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPIconsView.m; sourceTree = "<group>"; };
 		18A65CA11B203D330070DDD7 /* MKAnnotationView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKAnnotationView+WebCache.h"; sourceTree = "<group>"; };
@@ -319,15 +316,6 @@
 		18BAE7661B14C4DA0052BDD0 /* LPTabBarButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPTabBarButton.m; sourceTree = "<group>"; };
 		18CB19A61B2E174D0005D3E3 /* LPParaCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPParaCommentViewController.h; sourceTree = "<group>"; };
 		18CB19A71B2E174D0005D3E3 /* LPParaCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPParaCommentViewController.m; sourceTree = "<group>"; };
-		18CB19AA1B2E189C0005D3E3 /* 关闭.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "关闭.png"; sourceTree = "<group>"; };
-		18CB19AB1B2E189C0005D3E3 /* 太阳.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "太阳.png"; sourceTree = "<group>"; };
-		18CB19AC1B2E189C0005D3E3 /* 底下太阳.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "底下太阳.png"; sourceTree = "<group>"; };
-		18CB19AD1B2E189C0005D3E3 /* 底下月亮.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "底下月亮.png"; sourceTree = "<group>"; };
-		18CB19AE1B2E189C0005D3E3 /* 底下看过.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "底下看过.png"; sourceTree = "<group>"; };
-		18CB19AF1B2E189C0005D3E3 /* 底下看过太阳.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "底下看过太阳.png"; sourceTree = "<group>"; };
-		18CB19B01B2E189C0005D3E3 /* 月亮.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "月亮.png"; sourceTree = "<group>"; };
-		18CB19B11B2E189C0005D3E3 /* 白线.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "白线.png"; sourceTree = "<group>"; };
-		18CB19B21B2E189C0005D3E3 /* 背景.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "背景.png"; sourceTree = "<group>"; };
 		18CB19BC1B2E269B0005D3E3 /* LPParaCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPParaCommentCell.h; sourceTree = "<group>"; };
 		18CB19BD1B2E269B0005D3E3 /* LPParaCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPParaCommentCell.m; sourceTree = "<group>"; };
 		18CB19BF1B2E2A380005D3E3 /* LPParaCommentFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPParaCommentFrame.h; sourceTree = "<group>"; };
@@ -336,24 +324,11 @@
 		18CB19C41B2E9DAE0005D3E3 /* LPPressTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPPressTool.m; sourceTree = "<group>"; };
 		18CB19C61B2E9F030005D3E3 /* LPWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPWebViewController.h; sourceTree = "<group>"; };
 		18CB19C71B2E9F030005D3E3 /* LPWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPWebViewController.m; sourceTree = "<group>"; };
-		18CB19C91B2EA1E70005D3E3 /* 焦点_发表评论初始.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "焦点_发表评论初始.png"; sourceTree = "<group>"; };
-		18CB19CA1B2EA1E70005D3E3 /* 焦点_发表评论激活.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "焦点_发表评论激活.png"; sourceTree = "<group>"; };
-		18CB19CB1B2EA1E70005D3E3 /* 焦点_评论数图形.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "焦点_评论数图形.png"; sourceTree = "<group>"; };
-		18CB19CC1B2EA1E70005D3E3 /* 内地_发表评论初始.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "内地_发表评论初始.png"; sourceTree = "<group>"; };
-		18CB19CD1B2EA1E70005D3E3 /* 内地_发表评论激活.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "内地_发表评论激活.png"; sourceTree = "<group>"; };
-		18CB19CE1B2EA1E70005D3E3 /* 内地_评论数图形.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "内地_评论数图形.png"; sourceTree = "<group>"; };
-		18CB19CF1B2EA1E70005D3E3 /* 社会_发表评论初始.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "社会_发表评论初始.png"; sourceTree = "<group>"; };
-		18CB19D01B2EA1E70005D3E3 /* 社会_发表评论激活.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "社会_发表评论激活.png"; sourceTree = "<group>"; };
-		18CB19D11B2EA1E70005D3E3 /* 社会_评论数图形.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "社会_评论数图形.png"; sourceTree = "<group>"; };
-		18CB19DB1B2EAB2B0005D3E3 /* placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder.png; sourceTree = "<group>"; };
-		18CB19DF1B2EC5080005D3E3 /* 观点数量.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "观点数量.png"; sourceTree = "<group>"; };
-		18CB19E11B2EE59A0005D3E3 /* 渐变.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "渐变.png"; sourceTree = "<group>"; };
 		18CB19E31B2F97A90005D3E3 /* Singleton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Singleton.h; sourceTree = "<group>"; };
 		18CB19E41B2F98F40005D3E3 /* LPActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPActivityIndicator.h; sourceTree = "<group>"; };
 		18CB19E51B2F98F40005D3E3 /* LPActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPActivityIndicator.m; sourceTree = "<group>"; };
 		18D71F711B24AEF4002A7375 /* UIImage+LP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+LP.h"; sourceTree = "<group>"; };
 		18D71F721B24AEF4002A7375 /* UIImage+LP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+LP.m"; sourceTree = "<group>"; };
-		18D71F741B24AF70002A7375 /* 蓝点.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "蓝点.png"; sourceTree = "<group>"; };
 		18D71F771B257038002A7375 /* LPHttpTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPHttpTool.h; sourceTree = "<group>"; };
 		18D71F781B257038002A7375 /* LPHttpTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPHttpTool.m; sourceTree = "<group>"; };
 		18D71F7B1B25710F002A7375 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -392,7 +367,6 @@
 		18D71FA61B2572C5002A7375 /* NSObject+MJProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+MJProperty.m"; sourceTree = "<group>"; };
 		18D71FA71B2572C5002A7375 /* NSString+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MJExtension.h"; sourceTree = "<group>"; };
 		18D71FA81B2572C5002A7375 /* NSString+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MJExtension.m"; sourceTree = "<group>"; };
-		18D71FB21B26BB7E002A7375 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
 		18D71FB41B26C70E002A7375 /* LPComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPComment.h; sourceTree = "<group>"; };
 		18D71FB51B26C70E002A7375 /* LPComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPComment.m; sourceTree = "<group>"; };
 		18D71FB71B26C868002A7375 /* LPWeiboPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPWeiboPoint.h; sourceTree = "<group>"; };
@@ -405,10 +379,6 @@
 		18D71FC11B26CC57002A7375 /* LPContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPContent.m; sourceTree = "<group>"; };
 		18D71FC61B26E6FA002A7375 /* LPContentFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPContentFrame.h; sourceTree = "<group>"; };
 		18D71FC71B26E6FA002A7375 /* LPContentFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPContentFrame.m; sourceTree = "<group>"; };
-		18D71FCC1B281A9E002A7375 /* 发表评论初始.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "发表评论初始.png"; sourceTree = "<group>"; };
-		18D71FCD1B281A9E002A7375 /* 发表评论激活.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "发表评论激活.png"; sourceTree = "<group>"; };
-		18D71FCE1B281A9E002A7375 /* 体育_评论数图形.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "体育_评论数图形.png"; sourceTree = "<group>"; };
-		18D71FCF1B281A9E002A7375 /* 受赞气泡.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "受赞气泡.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -476,29 +446,17 @@
 		1821BF9E1B033ABE003E6C94 /* EveryoneNews */ = {
 			isa = PBXGroup;
 			children = (
+				1886FBF11B2FE1D800959FA0 /* Supporting Files */,
 				18BAE6FD1B1352EA0052BDD0 /* Classes */,
-				1821BF9F1B033ABE003E6C94 /* Supporting Files */,
 			);
 			path = EveryoneNews;
-			sourceTree = "<group>";
-		};
-		1821BF9F1B033ABE003E6C94 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				18CB19A91B2E189C0005D3E3 /* CountDown */,
-				18095C8B1B28880800CB7666 /* Images.xcassets */,
-				18D71FB11B26BB6A002A7375 /* detailVc */,
-				18A65C871B2023010070DDD7 /* feedCell */,
-				1846B10D1B1C4017009EF8B9 /* categories */,
-				1821BFA01B033ABE003E6C94 /* Info.plist */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		1821BFB81B033ABE003E6C94 /* EveryoneNewsTests */ = {
 			isa = PBXGroup;
 			children = (
 				1821BFBB1B033ABE003E6C94 /* EveryoneNewsTests.m */,
+				1886FC611B2FE43000959FA0 /* Info.plist */,
 				1821BFB91B033ABE003E6C94 /* Supporting Files */,
 			);
 			path = EveryoneNewsTests;
@@ -507,26 +465,8 @@
 		1821BFB91B033ABE003E6C94 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				1821BFBA1B033ABE003E6C94 /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		1846B10D1B1C4017009EF8B9 /* categories */ = {
-			isa = PBXGroup;
-			children = (
-				1846B1201B1C4057009EF8B9 /* 今日.jpg */,
-				1846B10E1B1C4044009EF8B9 /* 财经.jpg */,
-				1846B10F1B1C4044009EF8B9 /* 港台.jpg */,
-				1846B1101B1C4044009EF8B9 /* 国际.jpg */,
-				1846B1111B1C4044009EF8B9 /* 互联网.jpg */,
-				1846B1121B1C4044009EF8B9 /* 科技.jpg */,
-				1846B1131B1C4044009EF8B9 /* 社会.jpg */,
-				1846B1141B1C4044009EF8B9 /* 时事.jpg */,
-				1846B1151B1C4044009EF8B9 /* 体育.jpg */,
-				1846B1161B1C4044009EF8B9 /* 娱乐.jpg */,
-			);
-			name = categories;
 			sourceTree = "<group>";
 		};
 		1846B1221B1C50F7009EF8B9 /* SlidingShadowAnimation */ = {
@@ -538,6 +478,90 @@
 			path = SlidingShadowAnimation;
 			sourceTree = "<group>";
 		};
+		1886FBF11B2FE1D800959FA0 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				1886FBF21B2FE1D800959FA0 /* categories */,
+				1886FBFC1B2FE1D800959FA0 /* detail */,
+				1886FC211B2FE1D800959FA0 /* feed */,
+				1886FC291B2FE1D800959FA0 /* Images.xcassets */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		1886FBF21B2FE1D800959FA0 /* categories */ = {
+			isa = PBXGroup;
+			children = (
+				1886FBF31B2FE1D800959FA0 /* 今日.jpg */,
+				1886FBF41B2FE1D800959FA0 /* 体育.jpg */,
+				1886FBF51B2FE1D800959FA0 /* 国际.jpg */,
+				1886FBF61B2FE1D800959FA0 /* 娱乐.jpg */,
+				1886FBF71B2FE1D800959FA0 /* 时事.jpg */,
+				1886FBF81B2FE1D800959FA0 /* 港台.jpg */,
+				1886FBF91B2FE1D800959FA0 /* 社会.jpg */,
+				1886FBFA1B2FE1D800959FA0 /* 科技.jpg */,
+				1886FBFB1B2FE1D800959FA0 /* 财经.jpg */,
+			);
+			path = categories;
+			sourceTree = "<group>";
+		};
+		1886FBFC1B2FE1D800959FA0 /* detail */ = {
+			isa = PBXGroup;
+			children = (
+				1886FBFD1B2FE1D800959FA0 /* back.png */,
+				1886FBFE1B2FE1D800959FA0 /* placeholder.png */,
+				1886FBFF1B2FE1D800959FA0 /* 体育_发表评论初始.png */,
+				1886FC001B2FE1D800959FA0 /* 体育_发表评论激活.png */,
+				1886FC011B2FE1D800959FA0 /* 体育_评论数图形.png */,
+				1886FC021B2FE1D800959FA0 /* 内地_发表评论初始.png */,
+				1886FC031B2FE1D800959FA0 /* 内地_发表评论激活.png */,
+				1886FC041B2FE1D800959FA0 /* 内地_评论数图形.png */,
+				1886FC051B2FE1D800959FA0 /* 发表评论初始.png */,
+				1886FC061B2FE1D800959FA0 /* 发表评论激活.png */,
+				1886FC071B2FE1D800959FA0 /* 受赞气泡.png */,
+				1886FC081B2FE1D800959FA0 /* 国际_发表评论初始.png */,
+				1886FC091B2FE1D800959FA0 /* 国际_发表评论激活.png */,
+				1886FC0A1B2FE1D800959FA0 /* 国际_评论数图形.png */,
+				1886FC0B1B2FE1D800959FA0 /* 娱乐_发表评论初始.png */,
+				1886FC0C1B2FE1D800959FA0 /* 娱乐_发表评论激活.png */,
+				1886FC0D1B2FE1D800959FA0 /* 娱乐_评论数图形.png */,
+				1886FC0E1B2FE1D800959FA0 /* 时事_发表评论初始.png */,
+				1886FC0F1B2FE1D800959FA0 /* 时事_发表评论激活.png */,
+				1886FC101B2FE1D800959FA0 /* 时事_评论数图形.png */,
+				1886FC111B2FE1D800959FA0 /* 渐变.png */,
+				1886FC121B2FE1D800959FA0 /* 港台_发表评论初始.png */,
+				1886FC131B2FE1D800959FA0 /* 港台_发表评论激活.png */,
+				1886FC141B2FE1D800959FA0 /* 港台_评论数图形.png */,
+				1886FC151B2FE1D800959FA0 /* 焦点_发表评论初始.png */,
+				1886FC161B2FE1D800959FA0 /* 焦点_发表评论激活.png */,
+				1886FC171B2FE1D800959FA0 /* 焦点_评论数图形.png */,
+				1886FC181B2FE1D800959FA0 /* 社会_发表评论初始.png */,
+				1886FC191B2FE1D800959FA0 /* 社会_发表评论激活.png */,
+				1886FC1A1B2FE1D800959FA0 /* 社会_评论数图形.png */,
+				1886FC1B1B2FE1D800959FA0 /* 科技_发表评论初始.png */,
+				1886FC1C1B2FE1D800959FA0 /* 科技_发表评论激活.png */,
+				1886FC1D1B2FE1D800959FA0 /* 科技_评论数图形.png */,
+				1886FC1E1B2FE1D800959FA0 /* 财经_发表评论初始.png */,
+				1886FC1F1B2FE1D800959FA0 /* 财经_发表评论激活.png */,
+				1886FC201B2FE1D800959FA0 /* 财经_评论数图形.png */,
+			);
+			path = detail;
+			sourceTree = "<group>";
+		};
+		1886FC211B2FE1D800959FA0 /* feed */ = {
+			isa = PBXGroup;
+			children = (
+				1886FC221B2FE1D800959FA0 /* toum.png */,
+				1886FC231B2FE1D800959FA0 /* 多图.png */,
+				1886FC241B2FE1D800959FA0 /* 新浪.png */,
+				1886FC251B2FE1D800959FA0 /* 百度.png */,
+				1886FC261B2FE1D800959FA0 /* 蓝点.png */,
+				1886FC271B2FE1D800959FA0 /* 观点数量.png */,
+				1886FC281B2FE1D800959FA0 /* 评论.png */,
+			);
+			path = feed;
+			sourceTree = "<group>";
+		};
 		188E28511B17064700D1E5D9 /* Other */ = {
 			isa = PBXGroup;
 			children = (
@@ -547,21 +571,6 @@
 				188E28551B17064700D1E5D9 /* TransitioningObject.m */,
 			);
 			path = Other;
-			sourceTree = "<group>";
-		};
-		18A65C871B2023010070DDD7 /* feedCell */ = {
-			isa = PBXGroup;
-			children = (
-				18CB19DF1B2EC5080005D3E3 /* 观点数量.png */,
-				18302CB21B2C80AF009C454E /* toum.png */,
-				18D71F741B24AF70002A7375 /* 蓝点.png */,
-				18A65C881B20231C0070DDD7 /* 百度.png */,
-				18A65C891B20231C0070DDD7 /* 多图.png */,
-				18A65C8A1B20231C0070DDD7 /* 评论.png */,
-				18A65C8B1B20231C0070DDD7 /* 新浪.png */,
-				18A65C8C1B20231C0070DDD7 /* 知乎.png */,
-			);
-			name = feedCell;
 			sourceTree = "<group>";
 		};
 		18A65CA01B203D330070DDD7 /* SDWebImage */ = {
@@ -942,22 +951,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		18CB19A91B2E189C0005D3E3 /* CountDown */ = {
-			isa = PBXGroup;
-			children = (
-				18CB19AA1B2E189C0005D3E3 /* 关闭.png */,
-				18CB19AB1B2E189C0005D3E3 /* 太阳.png */,
-				18CB19AC1B2E189C0005D3E3 /* 底下太阳.png */,
-				18CB19AD1B2E189C0005D3E3 /* 底下月亮.png */,
-				18CB19AE1B2E189C0005D3E3 /* 底下看过.png */,
-				18CB19AF1B2E189C0005D3E3 /* 底下看过太阳.png */,
-				18CB19B01B2E189C0005D3E3 /* 月亮.png */,
-				18CB19B11B2E189C0005D3E3 /* 白线.png */,
-				18CB19B21B2E189C0005D3E3 /* 背景.png */,
-			);
-			path = CountDown;
-			sourceTree = "<group>";
-		};
 		18D71F761B25701A002A7375 /* Tool */ = {
 			isa = PBXGroup;
 			children = (
@@ -1017,53 +1010,6 @@
 				18D71FA81B2572C5002A7375 /* NSString+MJExtension.m */,
 			);
 			path = MJExtension;
-			sourceTree = "<group>";
-		};
-		18D71FB11B26BB6A002A7375 /* detailVc */ = {
-			isa = PBXGroup;
-			children = (
-				18CB19E11B2EE59A0005D3E3 /* 渐变.png */,
-				18CB19DB1B2EAB2B0005D3E3 /* placeholder.png */,
-				18CB19C91B2EA1E70005D3E3 /* 焦点_发表评论初始.png */,
-				18CB19CA1B2EA1E70005D3E3 /* 焦点_发表评论激活.png */,
-				18CB19CB1B2EA1E70005D3E3 /* 焦点_评论数图形.png */,
-				18CB19CC1B2EA1E70005D3E3 /* 内地_发表评论初始.png */,
-				18CB19CD1B2EA1E70005D3E3 /* 内地_发表评论激活.png */,
-				18CB19CE1B2EA1E70005D3E3 /* 内地_评论数图形.png */,
-				18CB19CF1B2EA1E70005D3E3 /* 社会_发表评论初始.png */,
-				18CB19D01B2EA1E70005D3E3 /* 社会_发表评论激活.png */,
-				18CB19D11B2EA1E70005D3E3 /* 社会_评论数图形.png */,
-				18095C8D1B29B83200CB7666 /* 财经_发表评论初始.png */,
-				18095C8E1B29B83200CB7666 /* 财经_发表评论激活.png */,
-				18095C8F1B29B83200CB7666 /* 财经_评论数图形.png */,
-				18095C901B29B83200CB7666 /* 港台_发表评论初始.png */,
-				18095C911B29B83200CB7666 /* 港台_发表评论激活.png */,
-				18095C921B29B83200CB7666 /* 港台_评论数图形.png */,
-				18095C931B29B83200CB7666 /* 国际_发表评论初始.png */,
-				18095C941B29B83200CB7666 /* 国际_发表评论激活.png */,
-				18095C951B29B83200CB7666 /* 国际_评论数图形.png */,
-				18095C961B29B83200CB7666 /* 科技_发表评论初始.png */,
-				18095C971B29B83200CB7666 /* 科技_发表评论激活.png */,
-				18095C981B29B83200CB7666 /* 科技_评论数图形.png */,
-				18095C991B29B83200CB7666 /* 社会_发表评论初始.png */,
-				18095C9A1B29B83200CB7666 /* 社会_发表评论激活.png */,
-				18095C9B1B29B83200CB7666 /* 社会_评论数图形.png */,
-				18095C9C1B29B83200CB7666 /* 时事_发表评论初始.png */,
-				18095C9D1B29B83200CB7666 /* 时事_发表评论激活.png */,
-				18095C9E1B29B83200CB7666 /* 时事_评论数图形.png */,
-				18095C9F1B29B83200CB7666 /* 体育_发表评论初始.png */,
-				18095CA01B29B83200CB7666 /* 体育_发表评论激活.png */,
-				18095CA11B29B83200CB7666 /* 体育_评论数图形.png */,
-				18095CA21B29B83200CB7666 /* 娱乐_发表评论初始.png */,
-				18095CA31B29B83200CB7666 /* 娱乐_发表评论激活.png */,
-				18095CA41B29B83200CB7666 /* 娱乐_评论数图形.png */,
-				18D71FCC1B281A9E002A7375 /* 发表评论初始.png */,
-				18D71FCD1B281A9E002A7375 /* 发表评论激活.png */,
-				18D71FCE1B281A9E002A7375 /* 体育_评论数图形.png */,
-				18D71FCF1B281A9E002A7375 /* 受赞气泡.png */,
-				18D71FB21B26BB7E002A7375 /* back.png */,
-			);
-			name = detailVc;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1148,74 +1094,59 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				18A65C901B20231C0070DDD7 /* 新浪.png in Resources */,
-				18CB19E21B2EE59A0005D3E3 /* 渐变.png in Resources */,
-				18D71FD01B281A9E002A7375 /* 发表评论初始.png in Resources */,
-				18095CA71B29B83200CB7666 /* 财经_评论数图形.png in Resources */,
-				18CB19B61B2E189C0005D3E3 /* 底下月亮.png in Resources */,
-				18095CB41B29B83200CB7666 /* 时事_发表评论初始.png in Resources */,
-				18CB19BA1B2E189C0005D3E3 /* 白线.png in Resources */,
-				18095CAA1B29B83200CB7666 /* 港台_评论数图形.png in Resources */,
-				18CB19D51B2EA1E70005D3E3 /* 内地_发表评论初始.png in Resources */,
-				18095CB91B29B83200CB7666 /* 体育_评论数图形.png in Resources */,
-				18095CB61B29B83200CB7666 /* 时事_评论数图形.png in Resources */,
-				18095CA61B29B83200CB7666 /* 财经_发表评论激活.png in Resources */,
-				18095CB21B29B83200CB7666 /* 社会_发表评论激活.png in Resources */,
-				18D71F751B24AF70002A7375 /* 蓝点.png in Resources */,
-				18CB19BB1B2E189C0005D3E3 /* 背景.png in Resources */,
-				18095CA51B29B83200CB7666 /* 财经_发表评论初始.png in Resources */,
-				18D71FB31B26BB7E002A7375 /* back.png in Resources */,
-				18D71FD21B281A9E002A7375 /* 体育_评论数图形.png in Resources */,
-				18095CB01B29B83200CB7666 /* 科技_评论数图形.png in Resources */,
-				18CB19B51B2E189C0005D3E3 /* 底下太阳.png in Resources */,
-				18095CAC1B29B83200CB7666 /* 国际_发表评论激活.png in Resources */,
-				18D71FD31B281A9E002A7375 /* 受赞气泡.png in Resources */,
-				18095CB11B29B83200CB7666 /* 社会_发表评论初始.png in Resources */,
-				18095CAD1B29B83200CB7666 /* 国际_评论数图形.png in Resources */,
-				18A65C8E1B20231C0070DDD7 /* 多图.png in Resources */,
-				18CB19B71B2E189C0005D3E3 /* 底下看过.png in Resources */,
-				1846B11F1B1C4044009EF8B9 /* 娱乐.jpg in Resources */,
-				1846B11A1B1C4044009EF8B9 /* 互联网.jpg in Resources */,
-				18095CAE1B29B83200CB7666 /* 科技_发表评论初始.png in Resources */,
-				18095CB51B29B83200CB7666 /* 时事_发表评论激活.png in Resources */,
-				1846B1171B1C4044009EF8B9 /* 财经.jpg in Resources */,
-				18095CBB1B29B83200CB7666 /* 娱乐_发表评论激活.png in Resources */,
-				18CB19DC1B2EAB2B0005D3E3 /* placeholder.png in Resources */,
-				18CB19B31B2E189C0005D3E3 /* 关闭.png in Resources */,
-				18CB19B81B2E189C0005D3E3 /* 底下看过太阳.png in Resources */,
-				18CB19D41B2EA1E70005D3E3 /* 焦点_评论数图形.png in Resources */,
-				18095CAB1B29B83200CB7666 /* 国际_发表评论初始.png in Resources */,
-				18095CA81B29B83200CB7666 /* 港台_发表评论初始.png in Resources */,
-				1846B11B1B1C4044009EF8B9 /* 科技.jpg in Resources */,
-				18A65C8F1B20231C0070DDD7 /* 评论.png in Resources */,
-				1846B11C1B1C4044009EF8B9 /* 社会.jpg in Resources */,
-				18CB19B41B2E189C0005D3E3 /* 太阳.png in Resources */,
-				18CB19D31B2EA1E70005D3E3 /* 焦点_发表评论激活.png in Resources */,
-				18CB19D91B2EA1E70005D3E3 /* 社会_发表评论激活.png in Resources */,
-				18A65C8D1B20231C0070DDD7 /* 百度.png in Resources */,
-				18CB19D61B2EA1E70005D3E3 /* 内地_发表评论激活.png in Resources */,
-				18095CB31B29B83200CB7666 /* 社会_评论数图形.png in Resources */,
-				1846B1181B1C4044009EF8B9 /* 港台.jpg in Resources */,
-				18CB19D71B2EA1E70005D3E3 /* 内地_评论数图形.png in Resources */,
-				18095CAF1B29B83200CB7666 /* 科技_发表评论激活.png in Resources */,
-				18CB19D81B2EA1E70005D3E3 /* 社会_发表评论初始.png in Resources */,
-				18095C8C1B28880800CB7666 /* Images.xcassets in Resources */,
-				1846B11D1B1C4044009EF8B9 /* 时事.jpg in Resources */,
-				18CB19D21B2EA1E70005D3E3 /* 焦点_发表评论初始.png in Resources */,
-				18095CB81B29B83200CB7666 /* 体育_发表评论激活.png in Resources */,
-				18095CA91B29B83200CB7666 /* 港台_发表评论激活.png in Resources */,
-				18095CB71B29B83200CB7666 /* 体育_发表评论初始.png in Resources */,
-				18302CB31B2C80AF009C454E /* toum.png in Resources */,
-				18D71FD11B281A9E002A7375 /* 发表评论激活.png in Resources */,
-				18095CBA1B29B83200CB7666 /* 娱乐_发表评论初始.png in Resources */,
-				18A65C911B20231C0070DDD7 /* 知乎.png in Resources */,
-				18CB19DA1B2EA1E70005D3E3 /* 社会_评论数图形.png in Resources */,
-				1846B1211B1C4057009EF8B9 /* 今日.jpg in Resources */,
-				18CB19E01B2EC5080005D3E3 /* 观点数量.png in Resources */,
-				18095CBC1B29B83200CB7666 /* 娱乐_评论数图形.png in Resources */,
-				18CB19B91B2E189C0005D3E3 /* 月亮.png in Resources */,
-				1846B1191B1C4044009EF8B9 /* 国际.jpg in Resources */,
-				1846B11E1B1C4044009EF8B9 /* 体育.jpg in Resources */,
+				1886FC2F1B2FE1D800959FA0 /* 时事.jpg in Resources */,
+				1886FC2C1B2FE1D800959FA0 /* 体育.jpg in Resources */,
+				1886FC461B2FE1D800959FA0 /* 时事_发表评论激活.png in Resources */,
+				1886FC5A1B2FE1D800959FA0 /* 新浪.png in Resources */,
+				1886FC3D1B2FE1D800959FA0 /* 发表评论激活.png in Resources */,
+				1886FC331B2FE1D800959FA0 /* 财经.jpg in Resources */,
+				1886FC481B2FE1D800959FA0 /* 渐变.png in Resources */,
+				1886FC5B1B2FE1D800959FA0 /* 百度.png in Resources */,
+				1886FC301B2FE1D800959FA0 /* 港台.jpg in Resources */,
+				1886FC571B2FE1D800959FA0 /* 财经_评论数图形.png in Resources */,
+				1886FC521B2FE1D800959FA0 /* 科技_发表评论初始.png in Resources */,
+				1886FC311B2FE1D800959FA0 /* 社会.jpg in Resources */,
+				1886FC2D1B2FE1D800959FA0 /* 国际.jpg in Resources */,
+				1886FC3A1B2FE1D800959FA0 /* 内地_发表评论激活.png in Resources */,
+				1886FC341B2FE1D800959FA0 /* back.png in Resources */,
+				1886FC5C1B2FE1D800959FA0 /* 蓝点.png in Resources */,
+				1886FC391B2FE1D800959FA0 /* 内地_发表评论初始.png in Resources */,
+				1886FC361B2FE1D800959FA0 /* 体育_发表评论初始.png in Resources */,
+				1886FC3C1B2FE1D800959FA0 /* 发表评论初始.png in Resources */,
+				1886FC591B2FE1D800959FA0 /* 多图.png in Resources */,
+				1886FC471B2FE1D800959FA0 /* 时事_评论数图形.png in Resources */,
+				1886FC4E1B2FE1D800959FA0 /* 焦点_评论数图形.png in Resources */,
+				1886FC3B1B2FE1D800959FA0 /* 内地_评论数图形.png in Resources */,
+				1886FC4A1B2FE1D800959FA0 /* 港台_发表评论激活.png in Resources */,
+				1886FC531B2FE1D800959FA0 /* 科技_发表评论激活.png in Resources */,
+				1886FC371B2FE1D800959FA0 /* 体育_发表评论激活.png in Resources */,
+				1886FC4F1B2FE1D800959FA0 /* 社会_发表评论初始.png in Resources */,
+				1886FC5F1B2FE1D800959FA0 /* Images.xcassets in Resources */,
+				1886FC511B2FE1D800959FA0 /* 社会_评论数图形.png in Resources */,
+				1886FC5D1B2FE1D800959FA0 /* 观点数量.png in Resources */,
+				1886FC491B2FE1D800959FA0 /* 港台_发表评论初始.png in Resources */,
+				1886FC431B2FE1D800959FA0 /* 娱乐_发表评论激活.png in Resources */,
+				1886FC581B2FE1D800959FA0 /* toum.png in Resources */,
+				1886FC2E1B2FE1D800959FA0 /* 娱乐.jpg in Resources */,
+				1886FC421B2FE1D800959FA0 /* 娱乐_发表评论初始.png in Resources */,
+				1886FC3F1B2FE1D800959FA0 /* 国际_发表评论初始.png in Resources */,
+				1886FC501B2FE1D800959FA0 /* 社会_发表评论激活.png in Resources */,
+				1886FC321B2FE1D800959FA0 /* 科技.jpg in Resources */,
+				1886FC561B2FE1D800959FA0 /* 财经_发表评论激活.png in Resources */,
+				1886FC401B2FE1D800959FA0 /* 国际_发表评论激活.png in Resources */,
+				1886FC5E1B2FE1D800959FA0 /* 评论.png in Resources */,
+				1886FC381B2FE1D800959FA0 /* 体育_评论数图形.png in Resources */,
+				1886FC411B2FE1D800959FA0 /* 国际_评论数图形.png in Resources */,
+				1886FC551B2FE1D800959FA0 /* 财经_发表评论初始.png in Resources */,
+				1886FC541B2FE1D800959FA0 /* 科技_评论数图形.png in Resources */,
+				1886FC4D1B2FE1D800959FA0 /* 焦点_发表评论激活.png in Resources */,
+				1886FC3E1B2FE1D800959FA0 /* 受赞气泡.png in Resources */,
+				1886FC4B1B2FE1D800959FA0 /* 港台_评论数图形.png in Resources */,
+				1886FC351B2FE1D800959FA0 /* placeholder.png in Resources */,
+				1886FC2B1B2FE1D800959FA0 /* 今日.jpg in Resources */,
+				1886FC4C1B2FE1D800959FA0 /* 焦点_发表评论初始.png in Resources */,
+				1886FC441B2FE1D800959FA0 /* 娱乐_评论数图形.png in Resources */,
+				1886FC451B2FE1D800959FA0 /* 时事_发表评论初始.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1223,6 +1154,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1886FC621B2FE43000959FA0 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1427,7 +1359,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ivan liu (64EC98WRA5)";
-				INFOPLIST_FILE = EveryoneNews/Info.plist;
+				INFOPLIST_FILE = EveryoneNewsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
@@ -1443,7 +1375,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ivan liu (64EC98WRA5)";
-				INFOPLIST_FILE = EveryoneNews/Info.plist;
+				INFOPLIST_FILE = EveryoneNewsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
