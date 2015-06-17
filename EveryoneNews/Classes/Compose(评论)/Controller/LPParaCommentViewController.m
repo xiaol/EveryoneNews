@@ -91,7 +91,7 @@
     underLabel.textAlignment = NSTextAlignmentLeft;
     underLabel.font = [UIFont systemFontOfSize:15];
     underLabel.text = [NSString stringWithFormat:@" 精彩评论 (%ld)", self.comments.count];
-    underLabel.backgroundColor = [UIColor colorFromHexString:TableViewBackColor alpha:0.9];
+    underLabel.backgroundColor = [UIColor colorFromHexString:TableViewBackColor];
     [headerView addSubview:underLabel];
     
     headerHeight = CGRectGetHeight(aboveLabel.frame) + CGRectGetHeight(underLabel.frame);
@@ -104,7 +104,7 @@
     UIView *footerView = [[UIView alloc] init];
     footerView.backgroundColor = [UIColor whiteColor];
     self.tableView.tableFooterView = footerView;
-    footerView.frame = CGRectMake(0, 0, ScreenWidth, 300);
+    footerView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight * 0.7);
 }
 
 - (void)setupData
