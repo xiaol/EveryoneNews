@@ -213,7 +213,8 @@
     UIImageView *headerImageView = [[UIImageView alloc] init];
     headerImageView.contentMode = UIViewContentModeScaleAspectFill;
     headerImageView.clipsToBounds = YES;
-    headerImageView.frame = headerView.bounds;
+//    headerImageView.frame = headerView.bounds;
+    headerImageView.frame = CGRectMake(0, 0, headerView.width, TableHeaderImageViewH);
     [headerImageView sd_setImageWithURL:[NSURL URLWithString:imageURL]];
     self.headerImageView = headerImageView;
     
@@ -229,14 +230,7 @@
     CGFloat hudH = headerViewH * 0.4;
     CGFloat hudY = CGRectGetMaxY(headerImageView.frame) - hudH;
     hud.frame = CGRectMake(0, hudY, ScreenWidth, hudH);
-    
-//    UILabel *timeLabel = [[UILabel alloc] init];
-//    NSMutableAttributedString *timeString = [time attributedStringWithFont:[UIFont fontWithName:@"GeezaPro-Bold" size:14] color:[UIColor whiteColor] lineSpacing:0];
-//    CGSize size = [timeString sizeWithConstraintSize:CGSizeMake(MAXFLOAT, MAXFLOAT)];
-//    CGFloat timeX = ScreenWidth - DetailCellPadding - 10 - size.width;
-//    CGFloat timeY = CGRectGetMaxY(headerImageView.frame) - size.height - 10;
-//    timeLabel.frame = CGRectMake(timeX, timeY, size.width, size.height);
-//    timeLabel.attributedText = timeString;
+//    [headerImageView addSubview:hud];
     
     UILabel *titleLabel = [[UILabel alloc] init];
     titleLabel.numberOfLines = 0;
@@ -244,12 +238,11 @@
     CGFloat titleX = 20;
     CGFloat titleW = ScreenWidth - titleX * 2;
     CGFloat titleH = [titleString heightWithConstraintWidth:titleW];
-    CGFloat titleY = headerViewH - 10 - titleH;
+    CGFloat titleY = TableHeaderViewH - 9 - titleH;
     titleLabel.frame = CGRectMake(titleX, titleY, titleW, titleH);
     titleLabel.attributedText = titleString;
     
     [headerView addSubview:headerImageView];
-//    [headerView addSubview:timeLabel];
     [headerView addSubview:hud];
     [headerView addSubview:titleLabel];
     
@@ -417,7 +410,7 @@
         CGFloat w = ScreenWidth * scale;
         CGFloat offsetX = (w - ScreenWidth) / 2;
         
-        self.headerImageView.frame = CGRectMake(- offsetX, offsetY, w, TableHeaderViewH -  offsetY + diffY);
+        self.headerImageView.frame = CGRectMake(- offsetX, offsetY, w, TableHeaderImageViewH -  offsetY + diffY);
         self.filterView.frame = self.headerImageView.bounds;
     }
 }

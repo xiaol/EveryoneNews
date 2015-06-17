@@ -32,14 +32,16 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        self.contentView.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:250/255.0 alpha:0.9];
+        
         UILabel *bodyLabel = [[UILabel alloc] init];
-        bodyLabel.lineBreakMode = NSLineBreakByCharWrapping;
+        bodyLabel.lineBreakMode = NSLineBreakByWordWrapping;
         bodyLabel.numberOfLines = 0;
         [self.contentView addSubview:bodyLabel];
         self.bodyLabel = bodyLabel;
         
         LPCommentView *commentView = [[LPCommentView alloc] init];
-        commentView.backgroundColor = [UIColor colorFromHexString:@"FDFEFE"];
+//        commentView.backgroundColor = [UIColor colorFromHexString:@"FDFEFE"];
         [self.contentView addSubview:commentView];
         self.commentView = commentView;
         [commentView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapComment)]];
