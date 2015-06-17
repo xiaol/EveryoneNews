@@ -32,8 +32,6 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        self.contentView.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:250/255.0 alpha:0.9];
-        
         UILabel *bodyLabel = [[UILabel alloc] init];
         bodyLabel.lineBreakMode = NSLineBreakByWordWrapping;
         bodyLabel.numberOfLines = 0;
@@ -53,6 +51,11 @@
 {
     _contentFrame = contentFrame;
     LPContent *content = contentFrame.content;
+    if ([content.category isEqualToString:@"财经"]) {
+        self.contentView.backgroundColor = [UIColor colorWithRed:250/255.0 green:1.0 blue:1.0 alpha:0.9];
+    } else {
+        self.contentView.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:250/255.0 alpha:0.9];
+    }
     
     self.bodyLabel.frame = self.contentFrame.bodyLabelF;
     self.bodyLabel.attributedText = content.bodyString;

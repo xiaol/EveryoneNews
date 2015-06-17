@@ -197,6 +197,8 @@
     [self.navigationController pushViewController:detailVc animated:YES];
 }
 
+#pragma mark - Scroll view delegate
+
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
     self.isScrolled = YES;
