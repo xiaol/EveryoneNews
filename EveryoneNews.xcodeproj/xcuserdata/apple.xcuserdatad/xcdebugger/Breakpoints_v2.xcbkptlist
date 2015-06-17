@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EveryoneNews/Classes/Presses(&#x65b0;&#x95fb;)/Detail(&#x8be6;&#x60c5;)/Controller/LPDetailViewController.m"
-            timestampString = "456225521.799553"
+            timestampString = "456257780.137863"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "543"
-            endingLineNumber = "543"
+            startingLineNumber = "542"
+            endingLineNumber = "542"
             landmarkName = "-dealloc"
             landmarkType = "5">
          </BreakpointContent>

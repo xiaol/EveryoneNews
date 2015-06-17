@@ -30,6 +30,7 @@
     // Do any additional setup after loading the view.
     [self setupSubviews];
     [self setupTableHeaderView];
+    [self setupTableFooterView];
     [self setupData];
 }
 
@@ -57,19 +58,15 @@
     [self.view addSubview:blackView];
     self.blackView = blackView;
     [self.blackView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapBlackView:)]];
-//    CGFloat dismissW = 20;
-//    CGFloat dismissH = dismissW;
-//    UIButton *dismissBtn = [[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth - 15 - dismissW, 24, dismissW, dismissH)];
-//    [dismissBtn setImage:[UIImage imageNamed:@"关闭"] forState:UIControlStateNormal];
-//    [dismissBtn addTarget:self action:@selector(dismissBtnClick) forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addSubview:dismissBtn];
+
     
     UITableView *tableView = [[UITableView alloc] init];
 //    CGFloat tableViewH = ScreenHeight * 0.63;
     tableView.backgroundColor = [UIColor clearColor];
 //    tableView.frame = CGRectMake(0, ScreenHeight - tableViewH, ScreenWidth, tableViewH);
-    tableView.separatorColor = [UIColor colorFromHexString:TableViewBackColor alpha:0.5];
+    tableView.separatorColor = [UIColor colorFromHexString:TableViewBackColor alpha:0.6];
     tableView.showsHorizontalScrollIndicator = NO;
+    tableView.showsVerticalScrollIndicator = NO;
     tableView.dataSource = self;
     tableView.delegate = self;
     [self.view addSubview:tableView];
@@ -94,12 +91,20 @@
     underLabel.textAlignment = NSTextAlignmentLeft;
     underLabel.font = [UIFont systemFontOfSize:15];
     underLabel.text = [NSString stringWithFormat:@" 精彩评论 (%ld)", self.comments.count];
-    underLabel.backgroundColor = [UIColor colorFromHexString:TableViewBackColor];
+    underLabel.backgroundColor = [UIColor colorFromHexString:TableViewBackColor alpha:0.9];
     [headerView addSubview:underLabel];
     
     headerHeight = CGRectGetHeight(aboveLabel.frame) + CGRectGetHeight(underLabel.frame);
     headerView.frame = CGRectMake(0, 0, ScreenWidth, headerHeight);
     self.tableView.tableHeaderView = headerView;
+}
+
+- (void)setupTableFooterView
+{
+    UIView *footerView = [[UIView alloc] init];
+    footerView.backgroundColor = [UIColor whiteColor];
+    self.tableView.tableFooterView = footerView;
+    footerView.frame = CGRectMake(0, 0, ScreenWidth, 300);
 }
 
 - (void)setupData
@@ -122,7 +127,6 @@
 
 - (void)dismiss
 {
- //   [self.bgView removeFromSuperview];
     [UIView animateWithDuration:0.5 animations:^{
         self.blackView.alpha = 0.0;
         self.tableView.transform = CGAffineTransformMakeTranslation(0, tableViewHeight);
@@ -164,8 +168,11 @@
 #pragma mark - Scroll view delegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    
+//    if (scrollView.contentOffset.y >= scrollView.contentSize.height - scrollView.frame.size.height) {
+//        [scrollView setContentOffset:CGPointMake(scrollView.contentOffset.x, scrollView.contentSize.height - scrollView.frame.size.height)];
+//    }
 }
+
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
     if (decelerate == YES) {

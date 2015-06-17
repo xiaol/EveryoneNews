@@ -87,7 +87,7 @@
 
 
 #define TableHeaderViewH ScreenWidth * 0.75
-#define TableHeaderImageViewH TableHeaderViewH + 13.0
+#define TableHeaderImageViewH TableHeaderViewH + 18.0
 #define BodyFontSize 16
 #define BodyLineSpacing 5
 #define BodyPadding 12
@@ -110,6 +110,10 @@
 #define DetailCellBilateralBorder 10
 #define UserIconWidth 34
 #define UserIconBorderWidth 2
+
+#define ParaCommentTableHeaderAboveLabelHeight 44
+#define ParaCommentTableHeaderUnderLabelHeight 24
+#define Error 0.1e-3
 
 #endif
 

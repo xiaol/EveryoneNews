@@ -220,7 +220,7 @@
     
     UIView *filterView = [[UIView alloc] init];
     filterView.frame = headerImageView.bounds;
-    filterView.backgroundColor = [UIColor colorFromCategory:self.press.category alpha:0.24];
+    filterView.backgroundColor = [UIColor colorFromCategory:self.press.category alpha:0.2];
     self.filterView = filterView;
     [headerImageView addSubview:filterView];
     
@@ -417,7 +417,6 @@
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
-    NSLog(@"scrollView.contentOffset.y = %.2f", scrollView.contentOffset.y);
     
 }
 
