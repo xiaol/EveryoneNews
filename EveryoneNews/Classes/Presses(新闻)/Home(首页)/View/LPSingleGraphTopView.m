@@ -58,9 +58,8 @@
         [self addSubview:titleLabel];
         self.titleLabel = titleLabel;
         
-        LPIconsView *smallIconsView = [[LPIconsView alloc] init];
-        [self addSubview:smallIconsView];
-        self.smallIconsView = smallIconsView;
+        self.smallIconsView = [[LPIconsView alloc] init];
+        [self addSubview:self.smallIconsView];
         
         UILabel *categoryLabel = [[UILabel alloc] init];
         categoryLabel.font = [UIFont systemFontOfSize:14];
@@ -100,6 +99,9 @@
 {
     _pressFrame = pressFrame;
     LPPress *press = pressFrame.press;
+    
+    //设置小图标
+    self.smallIconsView.pressFrame=_pressFrame;
     
     [self.imageView sd_setImageWithURL:[NSURL URLWithString:press.imgUrl]];
     self.imageView.frame = self.pressFrame.thumbnailViewF;

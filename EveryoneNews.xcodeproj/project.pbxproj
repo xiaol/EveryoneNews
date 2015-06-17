@@ -143,6 +143,7 @@
 		18D71FBF1B26CA4B002A7375 /* LPZhihuPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D71FBE1B26CA4B002A7375 /* LPZhihuPoint.m */; };
 		18D71FC21B26CC57002A7375 /* LPContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D71FC11B26CC57002A7375 /* LPContent.m */; };
 		18D71FC81B26E6FA002A7375 /* LPContentFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D71FC71B26E6FA002A7375 /* LPContentFrame.m */; };
+		7E932F631B31134D00158E7D /* 知乎.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E932F621B31134D00158E7D /* 知乎.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -379,6 +380,7 @@
 		18D71FC11B26CC57002A7375 /* LPContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPContent.m; sourceTree = "<group>"; };
 		18D71FC61B26E6FA002A7375 /* LPContentFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPContentFrame.h; sourceTree = "<group>"; };
 		18D71FC71B26E6FA002A7375 /* LPContentFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPContentFrame.m; sourceTree = "<group>"; };
+		7E932F621B31134D00158E7D /* 知乎.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "知乎.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -553,6 +555,7 @@
 			children = (
 				1886FC221B2FE1D800959FA0 /* toum.png */,
 				1886FC231B2FE1D800959FA0 /* 多图.png */,
+				7E932F621B31134D00158E7D /* 知乎.png */,
 				1886FC241B2FE1D800959FA0 /* 新浪.png */,
 				1886FC251B2FE1D800959FA0 /* 百度.png */,
 				1886FC261B2FE1D800959FA0 /* 蓝点.png */,
@@ -1123,6 +1126,7 @@
 				1886FC4F1B2FE1D800959FA0 /* 社会_发表评论初始.png in Resources */,
 				1886FC5F1B2FE1D800959FA0 /* Images.xcassets in Resources */,
 				1886FC511B2FE1D800959FA0 /* 社会_评论数图形.png in Resources */,
+				7E932F631B31134D00158E7D /* 知乎.png in Resources */,
 				1886FC5D1B2FE1D800959FA0 /* 观点数量.png in Resources */,
 				1886FC491B2FE1D800959FA0 /* 港台_发表评论初始.png in Resources */,
 				1886FC431B2FE1D800959FA0 /* 娱乐_发表评论激活.png in Resources */,

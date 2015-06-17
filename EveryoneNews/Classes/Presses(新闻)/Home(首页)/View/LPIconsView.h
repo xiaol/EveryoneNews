@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+@class LPPressFrame;
 
 @interface LPIconsView : UIView
+
+@property (nonatomic,strong) LPPressFrame *pressFrame;
 
 @end
