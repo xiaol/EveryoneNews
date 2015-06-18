@@ -61,8 +61,8 @@
         _thumbnailViewF = CGRectMake(thumbnailX, thumbnailY, thumbnailW, thumbnailH);
     
         // 分类frame
-        CGFloat categoryW = 35;
-        CGFloat categoryH = 16;
+        CGFloat categoryW = 32;
+        CGFloat categoryH = 17;
         CGFloat categoryX = CellWidth - categoryW;
         CGFloat categoryY = CGRectGetMinY(_thumbnailViewF) + 1;
         _categoryLabelF = CGRectMake(categoryX, categoryY, categoryW, categoryH);

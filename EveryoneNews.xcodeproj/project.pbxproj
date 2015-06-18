@@ -67,7 +67,6 @@
 		1886FC5A1B2FE1D800959FA0 /* 新浪.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC241B2FE1D800959FA0 /* 新浪.png */; };
 		1886FC5B1B2FE1D800959FA0 /* 百度.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC251B2FE1D800959FA0 /* 百度.png */; };
 		1886FC5C1B2FE1D800959FA0 /* 蓝点.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC261B2FE1D800959FA0 /* 蓝点.png */; };
-		1886FC5D1B2FE1D800959FA0 /* 观点数量.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC271B2FE1D800959FA0 /* 观点数量.png */; };
 		1886FC5E1B2FE1D800959FA0 /* 评论.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC281B2FE1D800959FA0 /* 评论.png */; };
 		1886FC5F1B2FE1D800959FA0 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC291B2FE1D800959FA0 /* Images.xcassets */; };
 		1886FC621B2FE43000959FA0 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC611B2FE43000959FA0 /* Info.plist */; };
@@ -239,7 +238,6 @@
 		1886FC241B2FE1D800959FA0 /* 新浪.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "新浪.png"; sourceTree = "<group>"; };
 		1886FC251B2FE1D800959FA0 /* 百度.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "百度.png"; sourceTree = "<group>"; };
 		1886FC261B2FE1D800959FA0 /* 蓝点.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "蓝点.png"; sourceTree = "<group>"; };
-		1886FC271B2FE1D800959FA0 /* 观点数量.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "观点数量.png"; sourceTree = "<group>"; };
 		1886FC281B2FE1D800959FA0 /* 评论.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "评论.png"; sourceTree = "<group>"; };
 		1886FC291B2FE1D800959FA0 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		1886FC611B2FE43000959FA0 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -594,7 +592,6 @@
 				1886FC241B2FE1D800959FA0 /* 新浪.png */,
 				1886FC251B2FE1D800959FA0 /* 百度.png */,
 				1886FC261B2FE1D800959FA0 /* 蓝点.png */,
-				1886FC271B2FE1D800959FA0 /* 观点数量.png */,
 				1886FC281B2FE1D800959FA0 /* 评论.png */,
 			);
 			path = feed;
@@ -1126,6 +1123,11 @@
 					1821BF9B1B033ABE003E6C94 = {
 						CreatedOnToolsVersion = 6.0.1;
 						DevelopmentTeam = YFSY5VT59W;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					1821BFB41B033ABE003E6C94 = {
 						CreatedOnToolsVersion = 6.0.1;
@@ -1188,7 +1190,6 @@
 				1886FC5F1B2FE1D800959FA0 /* Images.xcassets in Resources */,
 				1886FC511B2FE1D800959FA0 /* 社会_评论数图形.png in Resources */,
 				7E932F631B31134D00158E7D /* 知乎.png in Resources */,
-				1886FC5D1B2FE1D800959FA0 /* 观点数量.png in Resources */,
 				1886FC491B2FE1D800959FA0 /* 港台_发表评论初始.png in Resources */,
 				1886FC431B2FE1D800959FA0 /* 娱乐_发表评论激活.png in Resources */,
 				1886FC581B2FE1D800959FA0 /* toum.png in Resources */,
@@ -1423,8 +1424,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ivan liu (64EC98WRA5)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = EveryoneNewsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1434,7 +1435,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "fa3095b3-9d93-45db-84c5-120d113d0d7a";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -1443,8 +1444,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ivan liu (64EC98WRA5)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = EveryoneNewsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1454,7 +1455,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "fa3095b3-9d93-45db-84c5-120d113d0d7a";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

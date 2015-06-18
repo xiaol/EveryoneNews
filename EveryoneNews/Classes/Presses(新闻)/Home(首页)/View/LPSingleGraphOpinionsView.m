@@ -102,6 +102,7 @@
     CAShapeLayer *dashLayer = [CAShapeLayer layer];
     dashLayer.strokeColor = [UIColor colorFromHexString:@"9c9c9c"].CGColor;
     dashLayer.fillColor = [UIColor clearColor].CGColor;
+    dashLayer.opacity = 0.4;
     [self.dashLayers addObject:dashLayer];
 }
 

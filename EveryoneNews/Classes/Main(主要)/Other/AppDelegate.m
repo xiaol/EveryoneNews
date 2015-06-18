@@ -20,27 +20,33 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
+    
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.rootViewController = [[LPTabBarController alloc] init];
     [self.window makeKeyAndVisible];
     
-//#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1
-//       if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
-//            //可以添加自定义categories
-//            [APService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert) categories:nil];
-//          } else {
-//                //categories 必须为nil
-//                [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert) categories:nil];
-//         }
-//#else
-//        //categories 必须为nil
-//      [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
-//                                                                                                      UIRemoteNotificationTypeSound |
-//                                                                                                      UIRemoteNotificationTypeAlert)
-//                                            categories:nil];
-//#endif
-//        // Required
-//        [APService setupWithOption:launchOptions];
+    NSDictionary *userInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+    if (userInfo) {
+        NSLog(@"启动状态 --- userInfo --- %@", [userInfo description]);
+    }
+    
+    
+#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1
+    if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
+        //可以添加自定义categorie
+        [APService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert) categories:nil];
+    } else {
+        //categories 必须为nil
+        [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert) categories:nil];
+    }
+#else
+        //categories 必须为nil
+    [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert) categories:nil];
+#endif
+    // Required
+    [APService setupWithOption:launchOptions];
+    
+    [application setApplicationIconBadgeNumber:0];
     
     return YES;
 }
@@ -50,6 +56,23 @@
     NSLog(@"didRegisterForRemoteNotificationsWithDeviceToken:%@", deviceToken);
     
     // 1.将token发送给公司的服务器（JPush的话无需此步）
+    
+    // 1.将token传给极光服务器
+    [APService registerDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    [APService handleRemoteNotification:userInfo];
+    NSLog(@"后台状态 --- userInfo --- %@", [userInfo description]);
+    [application setApplicationIconBadgeNumber:0];
+    completionHandler(UIBackgroundFetchResultNewData);
+}
+
+- (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo
+  completionHandler:(void (^)())completionHandler {
+    NSLog(@"identifier --- %@", identifier);
+    NSLog(@"userInfo --- %@", [userInfo description]);
 }
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

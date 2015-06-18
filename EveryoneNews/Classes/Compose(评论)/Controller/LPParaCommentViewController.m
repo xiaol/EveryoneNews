@@ -120,7 +120,7 @@
         totalCellHeight += commentFrame.cellHeight;
     }
     CGFloat tableViewMaxHeight = totalCellHeight + headerHeight;
-    tableViewHeight = MIN(tableViewMaxHeight, ScreenHeight * 0.68);
+    tableViewHeight = MIN(tableViewMaxHeight, ScreenHeight * 0.69);
     self.tableView.frame = CGRectMake(0, ScreenHeight - tableViewHeight, ScreenWidth, tableViewHeight);
     self.paraCommentFrames = commentFrameArray;
 }
@@ -176,7 +176,6 @@
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
     if (decelerate == YES) {
-        NSLog(@"-scrollView.contentOffset.y: %.2f", - scrollView.contentOffset.y);
         if ((- scrollView.contentOffset.y > tableViewHeight * 0.2)||( - scrollView.contentOffset.y > ScreenHeight / 8)) {
             [self dismiss];
         }
