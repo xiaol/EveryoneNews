@@ -19,12 +19,13 @@
 #import "LPCategory.h"
 #import "LPPressTool.h"
 
+typedef void (^completionBlock)();
+
 @interface LPHomeViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray *pressFrames;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, assign) NSUInteger timeRow;
-@property (nonatomic, assign) NSUInteger originDisplayCount;
 @property (nonatomic, assign) NSUInteger anyDisplayingCellRow;
 @property (nonatomic, assign) BOOL isScrolled;
 
@@ -35,7 +36,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupSubviews];
-    [self setupDataWithCategory:[LPCategory categoryWithURL:HomeUrl]];
+    [self setupDataWithCategory:[LPCategory categoryWithURL:HomeUrl] completion:nil];
+    [noteCenter addObserver:self selector:@selector(receivePushNotification:) name:LPPushNotificationFromLaunching object:nil];
+    [noteCenter addObserver:self selector:@selector(receivePushNotification:) name:LPPushNotificationFromBack object:nil];
+    [noteCenter addObserver:self selector:@selector(changeCategory:) name:LPCategoryDidChangeNotification object:nil];
 }
 
 - (void)setupSubviews
@@ -56,9 +60,6 @@
     sharedIndicator.center = self.view.center;
     sharedIndicator.bounds = CGRectMake(0, 0, ScreenWidth / 4, ScreenWidth / 4);
     [self.view addSubview:sharedIndicator];
-    
-    self.originDisplayCount = 0;
-    [noteCenter addObserver:self selector:@selector(changeCategory:) name:LPCategoryDidChangeNotification object:nil];
 }
 
 - (NSMutableArray *)pressFrames
@@ -69,14 +70,13 @@
     return _pressFrames;
 }
 
-- (void)setupDataWithCategory:(LPCategory *)category
+- (void)setupDataWithCategory:(LPCategory *)category completion:(completionBlock)block
 {
     self.tableView.hidden = YES;
     // 清空数据
     [self.pressFrames removeAllObjects];
     __weak typeof(self) weakSelf = self;
     [LPPressTool homePressesWithCategory:category success:^(id json) {
-        NSLog(@"%@", category.url);
         NSMutableArray *pressFrameArray = [NSMutableArray array];
         // 字典转模型
         for (NSDictionary *dict in (NSArray *)json) {
@@ -107,11 +107,15 @@
         //        LPPressFrame *pressFrame = [LPPressFrame pressFrameWithTimeCell];
         //        [pressFrameArray insertObject:nil atIndex:self.timeRow];
         // 模型数组属性的赋值
-        weakSelf.pressFrames = pressFrameArray;
+        self.pressFrames = pressFrameArray;
         [weakSelf.tableView reloadData];
-        [weakSelf.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:weakSelf.timeRow inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-        weakSelf.isScrolled = NO;
-        [weakSelf performSelector:@selector(homeDisplay) withObject:weakSelf afterDelay:0.5];
+        if (block) {
+            block();
+        } else {
+            [weakSelf.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:weakSelf.timeRow inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+            weakSelf.isScrolled = NO;
+            [weakSelf performSelector:@selector(homeDisplay) withObject:weakSelf afterDelay:0.3];
+        }
     } failure:^(NSError *error) {
         NSLog(@"Failure: %@", error);
     }];
@@ -123,19 +127,45 @@
     self.tableView.hidden = NO;
 }
 
+# pragma mark - notification selector
 - (void)changeCategory:(NSNotification *)note
 {
     NSDictionary *info = note.userInfo;
     LPCategory *from = info[LPCategoryFrom];
     LPCategory *to = info[LPCategoryTo];
     if (from.ID != to.ID) {
-        [self setupDataWithCategory:to];
+        [self setupDataWithCategory:to completion:nil];
     }
+}
+
+- (void)receivePushNotification:(NSNotification *)note
+{
+    NSLog(@"LPHomeViewController receivePushNotification");
+    NSDictionary *info = note.userInfo;
+    NSString *url = info[LPPushNotificationURL];
+    [self.navigationController popToRootViewControllerAnimated:NO];
+    __weak typeof(self) weakSelf = self;
+    [self setupDataWithCategory:[LPCategory categoryWithURL:HomeUrl] completion:^{
+        NSLog(@"self.pressFrames.count = %ld", weakSelf.pressFrames.count);
+        NSLog(@"self.pressFrames.count = %ld", weakSelf.pressFrames.count);
+        for (int row = 0; row < self.pressFrames.count; row ++) {
+            LPPressFrame *pressFrame = self.pressFrames[row];
+            if ([pressFrame.press.sourceUrl isEqualToString:url]) {
+                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
+                [weakSelf.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+                [weakSelf tableView:weakSelf.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
+                NSLog(@"LPHomeViewController pushDone");
+                break;
+            }
+        }
+        weakSelf.tableView.hidden = NO;
+    }];
 }
 
 - (void)dealloc
 {
     [noteCenter removeObserver:self name:LPCategoryDidChangeNotification object:nil];
+    [noteCenter removeObserver:self name:LPPushNotificationFromBack object:nil];
 }
 
 #pragma mark - Table view data source

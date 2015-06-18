@@ -105,6 +105,7 @@
     [self.contentFrames removeAllObjects];
     [sharedIndicator startAnimating];
     __weak typeof(self) weakSelf = self;
+    NSLog(@"sourceUrl = %@", self.press.sourceUrl);
     NSString *url = [NSString stringWithFormat:@"%@%@", ContentUrl, self.press.sourceUrl];
     [LPHttpTool getWithURL:url params:nil success:^(id json) {
         [sharedIndicator stopAnimating];

@@ -10,6 +10,7 @@
 
 @interface UIImage (LP)
 + (UIImage *)resizableImage:(NSString *)name;
++ (UIImage *)resizedImageWithName:(NSString *)name top:(CGFloat)top left:(CGFloat)left bottom:(CGFloat)bottom right:(CGFloat)right;
 + (UIImage *)resizedImageWithName:(NSString *)name;
 + (UIImage *)resizableImage:(NSString *)name left:(CGFloat)left top:(CGFloat)top;
 + (instancetype)captureWithView:(UIView *)view;

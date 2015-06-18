@@ -33,6 +33,8 @@
     [super viewDidLoad];
     
     [self setupCategoryView];
+    
+    [noteCenter addObserver:self selector:@selector(receivePushNotification:) name:LPPushNotificationFromBack object:nil];
 }
 
 
@@ -105,9 +107,27 @@
     self.selectedBtn = btn;
 
     // 发布通知
-//    NSDictionary *info = @{LPCategoryFromID:@(from.ID), LPCategoryToID:@(to.ID), LPCategoryFromURl:from.url, LPCategoryToURL:to.url};
     NSDictionary *info = @{LPCategoryFrom:from, LPCategoryTo:to};
     [noteCenter postNotificationName:LPCategoryDidChangeNotification object:self userInfo:info];
+}
+
+# pragma mark - notification selector
+- (void)receivePushNotification:(NSNotification *)note
+{
+    for (LPCategoryButton *btn in self.categoryBtns) {
+        if ([btn.category.title isEqualToString:@"今日"]) {
+            NSLog(@"LPCategoryVC receivePushNotification");
+            self.selectedBtn.selected = NO;
+            btn.selected = YES;
+            self.selectedBtn = btn;
+            break;
+        }
+    }
+}
+
+- (void)dealloc
+{
+    [noteCenter removeObserver:self name:LPPushNotificationFromBack object:nil];
 }
 
 - (void)didReceiveMemoryWarning {

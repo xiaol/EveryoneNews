@@ -49,6 +49,8 @@
     
     [self setupContent];
     
+    [noteCenter addObserver:self selector:@selector(receivePushNotification:) name:LPPushNotificationFromBack object:nil];
+    
 //    UIView *clock = [[UIView alloc] initWithFrame:CGRectMake(20, ScreenHeight - 40, 20, 20)];
 //    clock.backgroundColor = [UIColor purpleColor];
 //    clock.layer.cornerRadius = clock.height / 2;
@@ -215,7 +217,7 @@
     LPCategory *to = info[LPCategoryTo];
     if (from.ID != to.ID) {
         LPTabBarButton *btn = self.customTabBar.tabBarButtons[1];
-        [UIView transitionWithView:btn duration:1.0 options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
+        [UIView transitionWithView:btn duration:0.8 options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
                 [btn setTitle:to.title forState:UIControlStateNormal];
                 self.selectedIndex = 1;
         } completion:^(BOOL finished) {
@@ -226,9 +228,18 @@
     }
 }
 
+- (void)receivePushNotification:(NSNotification *)note
+{
+    NSLog(@"LPTabBarVC receivePushNotification");
+    LPTabBarButton *btn = self.customTabBar.tabBarButtons[1];
+    [btn setTitle:@"今日" forState:UIControlStateNormal];
+    self.selectedIndex = 1;
+}
+
 - (void)dealloc
 {
     [noteCenter removeObserver:self name:LPCategoryDidChangeNotification object:nil];
+    [noteCenter removeObserver:self name:LPPushNotificationFromBack object:nil];
 }
 
 //#pragma mark - LPCategoryViewControllerDelegate

@@ -31,7 +31,7 @@
     if (self) {
         UIButton *upBtn = [[UIButton alloc] init];
         upBtn.contentEdgeInsets = UIEdgeInsetsMake(UpCountTopPadding, UpCountLeftPadding, UpCountBottomPadding, UpCountRightPadding);
-        [upBtn setBackgroundImage:[UIImage resizedImageWithName:@"受赞气泡"] forState:UIControlStateNormal];
+        [upBtn setBackgroundImage:[UIImage resizedImageWithName:@"受赞气泡" top:0.5 left:0.7 bottom:0.5 right:0.3] forState:UIControlStateNormal];
         [upBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
         upBtn.titleLabel.font = [UIFont systemFontOfSize:UpCountFontSize];
         upBtn.titleLabel.textAlignment = NSTextAlignmentCenter;

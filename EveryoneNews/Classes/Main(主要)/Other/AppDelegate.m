@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "LPTabBarController.h"
 #import "APService.h"
+#import "UIImageView+WebCache.h"
 
 @interface AppDelegate ()
 
@@ -19,17 +20,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    
-    
-    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.window.rootViewController = [[LPTabBarController alloc] init];
-    [self.window makeKeyAndVisible];
-    
-    NSDictionary *userInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
-    if (userInfo) {
-        NSLog(@"启动状态 --- userInfo --- %@", [userInfo description]);
-    }
-    
+
     
 #if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
@@ -46,8 +37,20 @@
     // Required
     [APService setupWithOption:launchOptions];
     
-    [application setApplicationIconBadgeNumber:0];
     
+    
+    /**
+     *  处理推送
+     */
+//    NSDictionary *userInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+//    [APService handleRemoteNotification:userInfo];
+//    if (userInfo[LPPushNotificationURL]) { // 通过推送启动程序
+//        [noteCenter postNotificationName:LPPushNotificationFromLaunching object:self userInfo:userInfo];
+//    }
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    self.window.rootViewController = [[LPTabBarController alloc] init];
+    [self.window makeKeyAndVisible];
+    [application setApplicationIconBadgeNumber:0];
     return YES;
 }
 
@@ -64,7 +67,14 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
     [APService handleRemoteNotification:userInfo];
-    NSLog(@"后台状态 --- userInfo --- %@", [userInfo description]);
+    /**
+     *  处理推送
+     */
+    if (application.applicationState == UIApplicationStateBackground) {
+        NSLog(@"后台状态 --- userInfo --- %@", [userInfo description]);
+        [noteCenter postNotificationName:LPPushNotificationFromBack object:self userInfo:userInfo];
+    }
+    
     [application setApplicationIconBadgeNumber:0];
     completionHandler(UIBackgroundFetchResultNewData);
 }
@@ -94,6 +104,13 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (void)applicationDidReceiveMemoryWarning:(UIApplication *)application
+{
+    [[SDWebImageManager sharedManager] cancelAll];
+    [[SDWebImageManager sharedManager].imageCache clearMemory];
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
 }
 
 @end

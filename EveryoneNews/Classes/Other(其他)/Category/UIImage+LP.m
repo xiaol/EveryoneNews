@@ -17,6 +17,15 @@
     return [normal resizableImageWithCapInsets:UIEdgeInsetsMake(h, w, h, w)];
 }
 
++ (UIImage *)resizedImageWithName:(NSString *)name top:(CGFloat)top left:(CGFloat)left bottom:(CGFloat)bottom right:(CGFloat)right
+{
+    UIImage *normal = [UIImage imageNamed:name];
+    CGFloat w = normal.size.width;
+    CGFloat h = normal.size.height;
+    return [normal resizableImageWithCapInsets:UIEdgeInsetsMake(h * top, w * left, h * bottom, w * right)];
+}
+
+
 + (UIImage *)resizableImage:(NSString *)name
 {
     return [self resizableImage:name left:0.5 top:0.5];

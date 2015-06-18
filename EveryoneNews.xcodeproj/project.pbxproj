@@ -125,11 +125,9 @@
 		18CB19A81B2E174D0005D3E3 /* LPParaCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CB19A71B2E174D0005D3E3 /* LPParaCommentViewController.m */; };
 		18CB19BE1B2E269B0005D3E3 /* LPParaCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CB19BD1B2E269B0005D3E3 /* LPParaCommentCell.m */; };
 		18CB19C11B2E2A380005D3E3 /* LPParaCommentFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CB19C01B2E2A380005D3E3 /* LPParaCommentFrame.m */; };
-		18CB19C51B2E9DAE0005D3E3 /* LPPressTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CB19C41B2E9DAE0005D3E3 /* LPPressTool.m */; };
 		18CB19C81B2E9F030005D3E3 /* LPWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CB19C71B2E9F030005D3E3 /* LPWebViewController.m */; };
 		18CB19E61B2F98F40005D3E3 /* LPActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CB19E51B2F98F40005D3E3 /* LPActivityIndicator.m */; };
 		18D71F731B24AEF4002A7375 /* UIImage+LP.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D71F721B24AEF4002A7375 /* UIImage+LP.m */; };
-		18D71F791B257038002A7375 /* LPHttpTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D71F781B257038002A7375 /* LPHttpTool.m */; };
 		18D71F8E1B25710F002A7375 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D71F7C1B25710F002A7375 /* AFHTTPRequestOperation.m */; };
 		18D71F8F1B25710F002A7375 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D71F7E1B25710F002A7375 /* AFHTTPRequestOperationManager.m */; };
 		18D71F901B25710F002A7375 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D71F801B25710F002A7375 /* AFHTTPSessionManager.m */; };
@@ -153,6 +151,8 @@
 		18D71FBF1B26CA4B002A7375 /* LPZhihuPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D71FBE1B26CA4B002A7375 /* LPZhihuPoint.m */; };
 		18D71FC21B26CC57002A7375 /* LPContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D71FC11B26CC57002A7375 /* LPContent.m */; };
 		18D71FC81B26E6FA002A7375 /* LPContentFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D71FC71B26E6FA002A7375 /* LPContentFrame.m */; };
+		18E3A4B71B33235000168901 /* LPHttpTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E3A4B41B33235000168901 /* LPHttpTool.m */; };
+		18E3A4B81B33235000168901 /* LPPressTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E3A4B61B33235000168901 /* LPPressTool.m */; };
 		7E932F631B31134D00158E7D /* 知乎.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E932F621B31134D00158E7D /* 知乎.png */; };
 /* End PBXBuildFile section */
 
@@ -342,8 +342,6 @@
 		18CB19BD1B2E269B0005D3E3 /* LPParaCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPParaCommentCell.m; sourceTree = "<group>"; };
 		18CB19BF1B2E2A380005D3E3 /* LPParaCommentFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPParaCommentFrame.h; sourceTree = "<group>"; };
 		18CB19C01B2E2A380005D3E3 /* LPParaCommentFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPParaCommentFrame.m; sourceTree = "<group>"; };
-		18CB19C31B2E9DAE0005D3E3 /* LPPressTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPPressTool.h; sourceTree = "<group>"; };
-		18CB19C41B2E9DAE0005D3E3 /* LPPressTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPPressTool.m; sourceTree = "<group>"; };
 		18CB19C61B2E9F030005D3E3 /* LPWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPWebViewController.h; sourceTree = "<group>"; };
 		18CB19C71B2E9F030005D3E3 /* LPWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPWebViewController.m; sourceTree = "<group>"; };
 		18CB19E31B2F97A90005D3E3 /* Singleton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Singleton.h; sourceTree = "<group>"; };
@@ -351,8 +349,6 @@
 		18CB19E51B2F98F40005D3E3 /* LPActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPActivityIndicator.m; sourceTree = "<group>"; };
 		18D71F711B24AEF4002A7375 /* UIImage+LP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+LP.h"; sourceTree = "<group>"; };
 		18D71F721B24AEF4002A7375 /* UIImage+LP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+LP.m"; sourceTree = "<group>"; };
-		18D71F771B257038002A7375 /* LPHttpTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPHttpTool.h; sourceTree = "<group>"; };
-		18D71F781B257038002A7375 /* LPHttpTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPHttpTool.m; sourceTree = "<group>"; };
 		18D71F7B1B25710F002A7375 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
 		18D71F7C1B25710F002A7375 /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
 		18D71F7D1B25710F002A7375 /* AFHTTPRequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperationManager.h; sourceTree = "<group>"; };
@@ -401,6 +397,10 @@
 		18D71FC11B26CC57002A7375 /* LPContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPContent.m; sourceTree = "<group>"; };
 		18D71FC61B26E6FA002A7375 /* LPContentFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPContentFrame.h; sourceTree = "<group>"; };
 		18D71FC71B26E6FA002A7375 /* LPContentFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPContentFrame.m; sourceTree = "<group>"; };
+		18E3A4B31B33235000168901 /* LPHttpTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPHttpTool.h; sourceTree = "<group>"; };
+		18E3A4B41B33235000168901 /* LPHttpTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPHttpTool.m; sourceTree = "<group>"; };
+		18E3A4B51B33235000168901 /* LPPressTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPPressTool.h; sourceTree = "<group>"; };
+		18E3A4B61B33235000168901 /* LPPressTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPPressTool.m; sourceTree = "<group>"; };
 		7E932F621B31134D00158E7D /* 知乎.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "知乎.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -677,7 +677,6 @@
 			isa = PBXGroup;
 			children = (
 				18CB19E31B2F97A90005D3E3 /* Singleton.h */,
-				18D71F761B25701A002A7375 /* Tool */,
 				18BA5E8B1B199BB600EEDB63 /* Lib */,
 				18BA5E8A1B199BB100EEDB63 /* Category */,
 				18BA5E871B199B7300EEDB63 /* main.m */,
@@ -973,6 +972,7 @@
 		18BAE7511B1355170052BDD0 /* Main(主要) */ = {
 			isa = PBXGroup;
 			children = (
+				18E3A4B21B33235000168901 /* Tool */,
 				188E28511B17064700D1E5D9 /* Other */,
 				18BAE7521B1355170052BDD0 /* Controller */,
 				18BAE7551B1355170052BDD0 /* Model */,
@@ -1010,17 +1010,6 @@
 				18BAE7661B14C4DA0052BDD0 /* LPTabBarButton.m */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		18D71F761B25701A002A7375 /* Tool */ = {
-			isa = PBXGroup;
-			children = (
-				18D71F771B257038002A7375 /* LPHttpTool.h */,
-				18D71F781B257038002A7375 /* LPHttpTool.m */,
-				18CB19C31B2E9DAE0005D3E3 /* LPPressTool.h */,
-				18CB19C41B2E9DAE0005D3E3 /* LPPressTool.m */,
-			);
-			path = Tool;
 			sourceTree = "<group>";
 		};
 		18D71F7A1B25710F002A7375 /* AFNetworking */ = {
@@ -1071,6 +1060,17 @@
 				18D71FA81B2572C5002A7375 /* NSString+MJExtension.m */,
 			);
 			path = MJExtension;
+			sourceTree = "<group>";
+		};
+		18E3A4B21B33235000168901 /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				18E3A4B31B33235000168901 /* LPHttpTool.h */,
+				18E3A4B41B33235000168901 /* LPHttpTool.m */,
+				18E3A4B51B33235000168901 /* LPPressTool.h */,
+				18E3A4B61B33235000168901 /* LPPressTool.m */,
+			);
+			path = Tool;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1233,6 +1233,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				18D71FAA1B2572C5002A7375 /* MJFoundation.m in Sources */,
+				18E3A4B71B33235000168901 /* LPHttpTool.m in Sources */,
 				18D71F931B25710F002A7375 /* AFURLConnectionOperation.m in Sources */,
 				18CB19A81B2E174D0005D3E3 /* LPParaCommentViewController.m in Sources */,
 				18A65CD11B203D330070DDD7 /* UIView+WebCacheOperation.m in Sources */,
@@ -1254,7 +1255,6 @@
 				18D71F911B25710F002A7375 /* AFNetworkReachabilityManager.m in Sources */,
 				18D71FB01B2572C5002A7375 /* NSString+MJExtension.m in Sources */,
 				18D71F961B25710F002A7375 /* AFURLSessionManager.m in Sources */,
-				18CB19C51B2E9DAE0005D3E3 /* LPPressTool.m in Sources */,
 				18095CD31B2A221100CB7666 /* LPWaterfallViewCell.m in Sources */,
 				18D71FC81B26E6FA002A7375 /* LPContentFrame.m in Sources */,
 				18D71FAC1B2572C5002A7375 /* MJType.m in Sources */,
@@ -1301,6 +1301,7 @@
 				18095CCA1B2A21B500CB7666 /* LPCommentView.m in Sources */,
 				18BA5E891B199B7300EEDB63 /* main.m in Sources */,
 				18D71F901B25710F002A7375 /* AFHTTPSessionManager.m in Sources */,
+				18E3A4B81B33235000168901 /* LPPressTool.m in Sources */,
 				18A65CC21B203D330070DDD7 /* MKAnnotationView+WebCache.m in Sources */,
 				18D71F921B25710F002A7375 /* AFSecurityPolicy.m in Sources */,
 				18D71F951B25710F002A7375 /* AFURLResponseSerialization.m in Sources */,
@@ -1310,7 +1311,6 @@
 				18A65CC61B203D330070DDD7 /* SDWebImageDecoder.m in Sources */,
 				18A65CC51B203D330070DDD7 /* SDWebImageCompat.m in Sources */,
 				18A65CCF1B203D330070DDD7 /* UIImageView+HighlightedWebCache.m in Sources */,
-				18D71F791B257038002A7375 /* LPHttpTool.m in Sources */,
 				18A65CC31B203D330070DDD7 /* NSData+ImageContentType.m in Sources */,
 				18A65C7A1B1F000F0070DDD7 /* LPMultiGraphTopView.m in Sources */,
 			);
