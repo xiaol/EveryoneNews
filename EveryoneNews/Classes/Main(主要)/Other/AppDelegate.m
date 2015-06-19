@@ -39,19 +39,27 @@
     
     
     
-    /**
-     *  处理推送
-     */
-//    NSDictionary *userInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
-//    [APService handleRemoteNotification:userInfo];
-//    if (userInfo[LPPushNotificationURL]) { // 通过推送启动程序
-//        [noteCenter postNotificationName:LPPushNotificationFromLaunching object:self userInfo:userInfo];
-//    }
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.rootViewController = [[LPTabBarController alloc] init];
     [self.window makeKeyAndVisible];
     [application setApplicationIconBadgeNumber:0];
+    
+    /**
+     *  处理推送
+     */
+    NSDictionary *userInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+    [APService handleRemoteNotification:userInfo];
+    if (userInfo[LPPushNotificationURL]) { // 通过推送启动程序
+        [self performSelector:@selector(postNote:) withObject:userInfo afterDelay:0.8];
+        
+    }
+
     return YES;
+}
+
+- (void)postNote:(NSDictionary *)userInfo
+{
+    [noteCenter postNotificationName:LPPushNotificationFromLaunching object:self userInfo:userInfo];
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
@@ -77,6 +85,8 @@
     
     [application setApplicationIconBadgeNumber:0];
     completionHandler(UIBackgroundFetchResultNewData);
+    
+    
 }
 
 - (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo

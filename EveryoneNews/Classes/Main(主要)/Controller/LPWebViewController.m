@@ -22,6 +22,7 @@
     // Do any additional setup after loading the view.
     webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
     webView.delegate = self;
+    webView.scalesPageToFit = YES;
     webView.backgroundColor = [UIColor whiteColor];
     
     NSLog(@"webUrl:%@", _webUrl);

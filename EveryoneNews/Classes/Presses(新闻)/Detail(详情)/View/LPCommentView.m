@@ -11,6 +11,7 @@
 #import "LPContent.h"
 #import "LPContentFrame.h"
 #import "UIImageView+WebCache.h"
+#import "LPUpButton.h"
 
 @interface LPCommentView ()
 
@@ -29,12 +30,15 @@
     self = [super initWithFrame:frame];
     
     if (self) {
-        UIButton *upBtn = [[UIButton alloc] init];
-        upBtn.contentEdgeInsets = UIEdgeInsetsMake(UpCountTopPadding, UpCountLeftPadding, UpCountBottomPadding, UpCountRightPadding);
-        [upBtn setBackgroundImage:[UIImage resizedImageWithName:@"受赞气泡" top:0.5 left:0.7 bottom:0.5 right:0.3] forState:UIControlStateNormal];
+        LPUpButton *upBtn = [[LPUpButton alloc] init];
+//        upBtn.contentEdgeInsets = UIEdgeInsetsMake(UpCountTopPadding, UpCountLeftPadding, UpCountBottomPadding, UpCountRightPadding);
+        [upBtn setBackgroundImage:[UIImage imageNamed:@"点赞数量框"] forState:UIControlStateNormal];
         [upBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+        [upBtn setImage:[UIImage resizedImageWithName:@"心"] forState:UIControlStateNormal];
         upBtn.titleLabel.font = [UIFont systemFontOfSize:UpCountFontSize];
-        upBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
+        upBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
+        upBtn.imageView.contentMode = UIViewContentModeCenter;
+        upBtn.imageView.contentScaleFactor = 1.8;
         [self addSubview:upBtn];
         self.upBtn = upBtn;
         

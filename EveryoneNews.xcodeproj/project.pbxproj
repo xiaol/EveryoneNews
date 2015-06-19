@@ -153,6 +153,7 @@
 		18D71FC81B26E6FA002A7375 /* LPContentFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D71FC71B26E6FA002A7375 /* LPContentFrame.m */; };
 		18E3A4B71B33235000168901 /* LPHttpTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E3A4B41B33235000168901 /* LPHttpTool.m */; };
 		18E3A4B81B33235000168901 /* LPPressTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E3A4B61B33235000168901 /* LPPressTool.m */; };
+		18E3A4BB1B33DB2300168901 /* LPUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E3A4BA1B33DB2300168901 /* LPUpButton.m */; };
 		7E932F631B31134D00158E7D /* 知乎.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E932F621B31134D00158E7D /* 知乎.png */; };
 /* End PBXBuildFile section */
 
@@ -401,6 +402,8 @@
 		18E3A4B41B33235000168901 /* LPHttpTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPHttpTool.m; sourceTree = "<group>"; };
 		18E3A4B51B33235000168901 /* LPPressTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPPressTool.h; sourceTree = "<group>"; };
 		18E3A4B61B33235000168901 /* LPPressTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPPressTool.m; sourceTree = "<group>"; };
+		18E3A4B91B33DB2300168901 /* LPUpButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPUpButton.h; sourceTree = "<group>"; };
+		18E3A4BA1B33DB2300168901 /* LPUpButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPUpButton.m; sourceTree = "<group>"; };
 		7E932F621B31134D00158E7D /* 知乎.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "知乎.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -443,6 +446,8 @@
 				18095CC91B2A21B500CB7666 /* LPZhihuView.m */,
 				18095CD41B2A225F00CB7666 /* LPRelateCell.h */,
 				18095CD51B2A225F00CB7666 /* LPRelateCell.m */,
+				18E3A4B91B33DB2300168901 /* LPUpButton.h */,
+				18E3A4BA1B33DB2300168901 /* LPUpButton.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1270,6 +1275,7 @@
 				18A65C941B2023F60070DDD7 /* LPIconsView.m in Sources */,
 				18CB19C11B2E2A380005D3E3 /* LPParaCommentFrame.m in Sources */,
 				18D71FBF1B26CA4B002A7375 /* LPZhihuPoint.m in Sources */,
+				18E3A4BB1B33DB2300168901 /* LPUpButton.m in Sources */,
 				188E28561B17064700D1E5D9 /* AppDelegate.m in Sources */,
 				18D71FB91B26C868002A7375 /* LPWeiboPoint.m in Sources */,
 				18A65C7D1B1FDBCE0070DDD7 /* NSString+LP.m in Sources */,
