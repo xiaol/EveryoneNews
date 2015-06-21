@@ -127,13 +127,15 @@
 
 - (void)dismiss
 {
+    __weak typeof(self) weakSelf = self;
     [UIView animateWithDuration:0.5 animations:^{
-        self.blackView.alpha = 0.0;
-        self.tableView.transform = CGAffineTransformMakeTranslation(0, tableViewHeight);
+        weakSelf.blackView.alpha = 0.0;
+        weakSelf.tableView.transform = CGAffineTransformMakeTranslation(0, tableViewHeight);
     } completion:^(BOOL finished) {
-        [self dismissViewControllerAnimated:NO completion:^{
-            
-        }];
+//        [self dismissViewControllerAnimated:NO completion:^{
+        if ([weakSelf.delegate respondsToSelector:@selector(paraCommentViewControllerWillDismiss:)]) {
+            [weakSelf.delegate paraCommentViewControllerWillDismiss:self];
+        }
     }];
 }
 

@@ -15,4 +15,5 @@
 @property (assign, nonatomic) CGFloat height;
 @property (assign, nonatomic) CGSize size;
 @property (assign, nonatomic) CGPoint origin;
+- (void)setAnchorPoint:(CGPoint)anchor;
 @end

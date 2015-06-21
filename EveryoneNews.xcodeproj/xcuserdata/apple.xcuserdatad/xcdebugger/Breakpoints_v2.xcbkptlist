@@ -41,22 +41,6 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "EveryoneNews/Classes/Presses(&#x65b0;&#x95fb;)/Detail(&#x8be6;&#x60c5;)/Controller/LPDetailViewController.m"
-            timestampString = "456340789.992869"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "543"
-            endingLineNumber = "543"
-            landmarkName = "-dealloc"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "EveryoneNews/Classes/Main(&#x4e3b;&#x8981;)/Other/AppDelegate.m"
             timestampString = "456377427.332264"
             startingColumnNumber = "9223372036854775807"

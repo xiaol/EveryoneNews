@@ -80,4 +80,11 @@
 {
     return self.frame.origin;
 }
+
+- (void)setAnchorPoint:(CGPoint)anchor
+{
+    CGRect frame = self.frame;
+    self.layer.anchorPoint = anchor;
+    self.frame = frame;
+}
 @end

@@ -27,7 +27,7 @@
 
 #define CellAlpha 0.3
 
-@interface LPDetailViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate, LPContentCellDelegate, LPWaterfallViewDataSource, LPWaterfallViewDelegate, UIGestureRecognizerDelegate, LPZhihuViewDelegate>
+@interface LPDetailViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate, LPContentCellDelegate, LPWaterfallViewDataSource, LPWaterfallViewDelegate, UIGestureRecognizerDelegate, LPZhihuViewDelegate, LPParaCommentViewControllerDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, assign) CGFloat lastContentOffsetY;
@@ -526,9 +526,15 @@
     paraVc.comments = comments;
     paraVc.bgImage = [UIImage captureWithView:self.view];
     paraVc.category = content.category;
-    [self presentViewController:paraVc animated:NO completion:^{
-        
-    }];
+    paraVc.delegate = self;
+    [self presentViewController:paraVc animated:NO completion:nil];
+}
+
+#pragma mark - LPContentCell delegate
+
+- (void)paraCommentViewControllerWillDismiss:(LPParaCommentViewController *)paraCommentViewController
+{
+    [self dismissViewControllerAnimated:NO completion:nil];
 }
 
 #pragma mark - LPZhihuView delegate
@@ -538,8 +544,4 @@
     [LPPressTool loadWebViewWithURL:url viewController:self];
 }
 
-- (void)dealloc
-{
-    NSLog(@"xxx");
-}
 @end
