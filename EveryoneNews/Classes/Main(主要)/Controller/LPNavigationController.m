@@ -45,7 +45,6 @@
         scrollView.scrollEnabled = NO;
     }
     viewController.navigationController.navigationBarHidden = YES;
-//    viewController.hidesBottomBarWhenPushed = YES;
 }
 
 - (UIViewController *)popViewControllerAnimated:(BOOL)animated

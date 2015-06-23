@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "EveryoneNews/Classes/Main(&#x4e3b;&#x8981;)/Controller/LPTabBarController.m"
-            timestampString = "456340789.992869"
+            timestampString = "456621944.917697"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "216"
-            endingLineNumber = "216"
+            startingLineNumber = "210"
+            endingLineNumber = "210"
             landmarkName = "-categoryChange:"
             landmarkType = "5">
          </BreakpointContent>

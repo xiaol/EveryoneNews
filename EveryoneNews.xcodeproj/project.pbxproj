@@ -15,8 +15,10 @@
 		18095CD61B2A225F00CB7666 /* LPRelateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18095CD51B2A225F00CB7666 /* LPRelateCell.m */; };
 		1811BC3D1B1C0F5900FB7BB1 /* LPCategoryButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 1811BC3C1B1C0F5900FB7BB1 /* LPCategoryButton.m */; };
 		1811BC401B1C25BF00FB7BB1 /* LPCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 1811BC3F1B1C25BF00FB7BB1 /* LPCategory.m */; };
+		181F966D1B377746007C3D62 /* LPPageBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F966C1B377746007C3D62 /* LPPageBar.m */; };
 		1821BFBC1B033ABE003E6C94 /* EveryoneNewsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1821BFBB1B033ABE003E6C94 /* EveryoneNewsTests.m */; };
 		1846B1281B1C5178009EF8B9 /* LPSlidingShadowAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1846B1271B1C5178009EF8B9 /* LPSlidingShadowAnimation.m */; };
+		1855DF1B1B36FB81004145E2 /* LPMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1855DF1A1B36FB81004145E2 /* LPMainViewController.m */; };
 		1886FC2B1B2FE1D800959FA0 /* 今日.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1886FBF31B2FE1D800959FA0 /* 今日.jpg */; };
 		1886FC2C1B2FE1D800959FA0 /* 体育.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1886FBF41B2FE1D800959FA0 /* 体育.jpg */; };
 		1886FC2D1B2FE1D800959FA0 /* 国际.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1886FBF51B2FE1D800959FA0 /* 国际.jpg */; };
@@ -154,6 +156,8 @@
 		18E3A4B71B33235000168901 /* LPHttpTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E3A4B41B33235000168901 /* LPHttpTool.m */; };
 		18E3A4B81B33235000168901 /* LPPressTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E3A4B61B33235000168901 /* LPPressTool.m */; };
 		18E3A4BB1B33DB2300168901 /* LPUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E3A4BA1B33DB2300168901 /* LPUpButton.m */; };
+		18E8080A1B371F4F00CD4C55 /* LPCategoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E808091B371F4F00CD4C55 /* LPCategoryView.m */; };
+		18E8080D1B371FA300CD4C55 /* LPPressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E8080C1B371FA300CD4C55 /* LPPressView.m */; };
 		7E932F631B31134D00158E7D /* 知乎.png in Resources */ = {isa = PBXBuildFile; fileRef = 7E932F621B31134D00158E7D /* 知乎.png */; };
 /* End PBXBuildFile section */
 
@@ -184,11 +188,15 @@
 		1811BC3C1B1C0F5900FB7BB1 /* LPCategoryButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPCategoryButton.m; sourceTree = "<group>"; };
 		1811BC3E1B1C25BF00FB7BB1 /* LPCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPCategory.h; sourceTree = "<group>"; };
 		1811BC3F1B1C25BF00FB7BB1 /* LPCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPCategory.m; sourceTree = "<group>"; };
+		181F966B1B377746007C3D62 /* LPPageBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPPageBar.h; sourceTree = "<group>"; };
+		181F966C1B377746007C3D62 /* LPPageBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPPageBar.m; sourceTree = "<group>"; };
 		1821BF9C1B033ABE003E6C94 /* EveryoneNews.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EveryoneNews.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1821BFB51B033ABE003E6C94 /* EveryoneNewsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EveryoneNewsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1821BFBB1B033ABE003E6C94 /* EveryoneNewsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EveryoneNewsTests.m; sourceTree = "<group>"; };
 		1846B1261B1C5178009EF8B9 /* LPSlidingShadowAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPSlidingShadowAnimation.h; sourceTree = "<group>"; };
 		1846B1271B1C5178009EF8B9 /* LPSlidingShadowAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPSlidingShadowAnimation.m; sourceTree = "<group>"; };
+		1855DF191B36FB81004145E2 /* LPMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPMainViewController.h; sourceTree = "<group>"; };
+		1855DF1A1B36FB81004145E2 /* LPMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPMainViewController.m; sourceTree = "<group>"; };
 		1886FBF31B2FE1D800959FA0 /* 今日.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "今日.jpg"; sourceTree = "<group>"; };
 		1886FBF41B2FE1D800959FA0 /* 体育.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "体育.jpg"; sourceTree = "<group>"; };
 		1886FBF51B2FE1D800959FA0 /* 国际.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "国际.jpg"; sourceTree = "<group>"; };
@@ -404,6 +412,10 @@
 		18E3A4B61B33235000168901 /* LPPressTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPPressTool.m; sourceTree = "<group>"; };
 		18E3A4B91B33DB2300168901 /* LPUpButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPUpButton.h; sourceTree = "<group>"; };
 		18E3A4BA1B33DB2300168901 /* LPUpButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPUpButton.m; sourceTree = "<group>"; };
+		18E808081B371F4F00CD4C55 /* LPCategoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPCategoryView.h; sourceTree = "<group>"; };
+		18E808091B371F4F00CD4C55 /* LPCategoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPCategoryView.m; sourceTree = "<group>"; };
+		18E8080B1B371FA300CD4C55 /* LPPressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPPressView.h; sourceTree = "<group>"; };
+		18E8080C1B371FA300CD4C55 /* LPPressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPPressView.m; sourceTree = "<group>"; };
 		7E932F621B31134D00158E7D /* 知乎.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "知乎.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -995,6 +1007,8 @@
 				18BAE75D1B1494DB0052BDD0 /* LPTabBarController.m */,
 				18CB19C61B2E9F030005D3E3 /* LPWebViewController.h */,
 				18CB19C71B2E9F030005D3E3 /* LPWebViewController.m */,
+				1855DF191B36FB81004145E2 /* LPMainViewController.h */,
+				1855DF1A1B36FB81004145E2 /* LPMainViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1013,6 +1027,12 @@
 				18BAE7601B14A3090052BDD0 /* LPTabBar.m */,
 				18BAE7651B14C4DA0052BDD0 /* LPTabBarButton.h */,
 				18BAE7661B14C4DA0052BDD0 /* LPTabBarButton.m */,
+				18E808081B371F4F00CD4C55 /* LPCategoryView.h */,
+				18E808091B371F4F00CD4C55 /* LPCategoryView.m */,
+				18E8080B1B371FA300CD4C55 /* LPPressView.h */,
+				18E8080C1B371FA300CD4C55 /* LPPressView.m */,
+				181F966B1B377746007C3D62 /* LPPageBar.h */,
+				181F966C1B377746007C3D62 /* LPPageBar.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1127,7 +1147,7 @@
 				TargetAttributes = {
 					1821BF9B1B033ABE003E6C94 = {
 						CreatedOnToolsVersion = 6.0.1;
-						DevelopmentTeam = YFSY5VT59W;
+						DevelopmentTeam = 6BWPZAXBUP;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -1258,6 +1278,7 @@
 				18A65CCA1B203D330070DDD7 /* SDWebImagePrefetcher.m in Sources */,
 				18A65C711B1EFEB60070DDD7 /* LPPhotoView.m in Sources */,
 				18D71F911B25710F002A7375 /* AFNetworkReachabilityManager.m in Sources */,
+				1855DF1B1B36FB81004145E2 /* LPMainViewController.m in Sources */,
 				18D71FB01B2572C5002A7375 /* NSString+MJExtension.m in Sources */,
 				18D71F961B25710F002A7375 /* AFURLSessionManager.m in Sources */,
 				18095CD31B2A221100CB7666 /* LPWaterfallViewCell.m in Sources */,
@@ -1268,6 +1289,7 @@
 				18BAE75E1B1494DB0052BDD0 /* LPTabBarController.m in Sources */,
 				18A65CCD1B203D330070DDD7 /* UIImage+MultiFormat.m in Sources */,
 				188E28571B17064700D1E5D9 /* TransitioningObject.m in Sources */,
+				181F966D1B377746007C3D62 /* LPPageBar.m in Sources */,
 				18BAE74C1B1354B40052BDD0 /* LPPressCell.m in Sources */,
 				18A65CCB1B203D330070DDD7 /* UIButton+WebCache.m in Sources */,
 				18A65CCC1B203D330070DDD7 /* UIImage+GIF.m in Sources */,
@@ -1294,12 +1316,14 @@
 				18D71FAB1B2572C5002A7375 /* MJProperty.m in Sources */,
 				18095CCB1B2A21B500CB7666 /* LPContentCell.m in Sources */,
 				18CB19BE1B2E269B0005D3E3 /* LPParaCommentCell.m in Sources */,
+				18E8080D1B371FA300CD4C55 /* LPPressView.m in Sources */,
 				18A65C6E1B1EFB9C0070DDD7 /* LPMultiGraphOpinionsView.m in Sources */,
 				18D71FAE1B2572C5002A7375 /* NSObject+MJKeyValue.m in Sources */,
 				18095CD61B2A225F00CB7666 /* LPRelateCell.m in Sources */,
 				18A65C681B1EF3FB0070DDD7 /* LPSingleGraphOpinionsView.m in Sources */,
 				18A65C631B1EB65A0070DDD7 /* LPPointview.m in Sources */,
 				18D71FAF1B2572C5002A7375 /* NSObject+MJProperty.m in Sources */,
+				18E8080A1B371F4F00CD4C55 /* LPCategoryView.m in Sources */,
 				18D71FAD1B2572C5002A7375 /* NSObject+MJCoding.m in Sources */,
 				18A65CD01B203D330070DDD7 /* UIImageView+WebCache.m in Sources */,
 				18A65CC71B203D330070DDD7 /* SDWebImageDownloader.m in Sources */,
@@ -1358,7 +1382,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ivan liu (64EC98WRA5)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1381,7 +1406,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PROVISIONING_PROFILE = "fa3095b3-9d93-45db-84c5-120d113d0d7a";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1403,7 +1428,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Ivan liu (64EC98WRA5)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1419,7 +1445,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PROVISIONING_PROFILE = "fa3095b3-9d93-45db-84c5-120d113d0d7a";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1431,7 +1457,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
 				INFOPLIST_FILE = EveryoneNewsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1441,7 +1467,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "2dafd0b0-08f9-4f5c-b635-0c48fe081663";
 			};
 			name = Debug;
 		};
@@ -1451,7 +1477,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
 				INFOPLIST_FILE = EveryoneNewsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1461,7 +1487,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "2dafd0b0-08f9-4f5c-b635-0c48fe081663";
 			};
 			name = Release;
 		};

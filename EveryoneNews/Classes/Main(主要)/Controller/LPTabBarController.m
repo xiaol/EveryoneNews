@@ -23,7 +23,7 @@
 @property (nonatomic, strong) NSMutableArray *contents;
 
 @property (nonatomic, strong) UIView *contentView;
-@property (nonatomic, strong) UIGestureRecognizer *gestureRecognizer;
+// @property (nonatomic, strong) UIGestureRecognizer *gestureRecognizer;
 @property (nonatomic, strong) UIView *clock;
 @end
 
@@ -50,13 +50,6 @@
     [self setupContent];
     
     [noteCenter addObserver:self selector:@selector(receivePushNotification:) name:LPPushNotificationFromBack object:nil];
-    
-//    UIView *clock = [[UIView alloc] initWithFrame:CGRectMake(20, ScreenHeight - 40, 20, 20)];
-//    clock.backgroundColor = [UIColor purpleColor];
-//    clock.layer.cornerRadius = clock.height / 2;
-//    [self.view addSubview:clock];
-//    self.clock = clock;
-    
 }
 
 - (BOOL)prefersStatusBarHidden
@@ -78,6 +71,7 @@
     UIScrollView *scrollView = (UIScrollView *)[self.pageViewController.view.subviews objectAtIndex:0];
     
     scrollView.delegate = self;
+    
     
     self.pageViewController.dataSource = self;
     self.pageViewController.delegate = self;
@@ -230,7 +224,6 @@
 
 - (void)receivePushNotification:(NSNotification *)note
 {
-    NSLog(@"LPTabBarVC receivePushNotification");
     LPTabBarButton *btn = self.customTabBar.tabBarButtons[1];
     [btn setTitle:@"今日" forState:UIControlStateNormal];
     self.selectedIndex = 1;
