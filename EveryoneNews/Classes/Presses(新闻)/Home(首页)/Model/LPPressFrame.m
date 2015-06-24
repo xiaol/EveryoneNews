@@ -76,7 +76,7 @@
         CGFloat smallIconsX = CGRectGetMaxX(_thumbnailViewF) + 8;
         CGFloat smallIconsW = IconW * Icons.count + IconBorder * (Icons.count - 1) + 2;
         CGFloat smallIconsH = 24;
-        CGFloat smallIconsY = CGRectGetMaxY(_thumbnailViewF) - IconW - 1;
+        CGFloat smallIconsY = MAX(CGRectGetMaxY(_thumbnailViewF) - IconW - 1, CGRectGetMaxY(_titleLabelF) + 10) ;
         _smallIconsViewF = CGRectMake(smallIconsX, smallIconsY, smallIconsW, smallIconsH);
         // 多家观点数目frame
         CGFloat pointsH = 22;
@@ -88,7 +88,7 @@
         CGFloat topViewX = 0;
         CGFloat topViewY = 0;
         CGFloat topViewW = CellWidth;
-        CGFloat topViewH = CGRectGetMaxY(_thumbnailViewF) + 17;
+        CGFloat topViewH = MAX(CGRectGetMaxY(_thumbnailViewF) + 17, CGRectGetMaxY(_smallIconsViewF) + 5);
         _singleGraphTopViewF = CGRectMake(topViewX, topViewY, topViewW, topViewH);
         
         _cellHeight = CGRectGetMaxY(_singleGraphTopViewF) + CellHeightBorder;

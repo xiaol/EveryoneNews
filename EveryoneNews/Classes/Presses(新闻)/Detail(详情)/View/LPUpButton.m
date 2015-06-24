@@ -21,7 +21,7 @@
 - (CGRect)imageRectForContentRect:(CGRect)contentRect
 {
     CGFloat h = contentRect.size.height - UpCountTopPadding - UpCountBottomPadding;
-    return CGRectMake(4, UpCountTopPadding, h, h);
+    return CGRectMake(4, UpCountTopPadding, h + 1, h);
 }
 
 - (CGRect)titleRectForContentRect:(CGRect)contentRect

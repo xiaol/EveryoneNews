@@ -30,15 +30,25 @@
     self = [super initWithFrame:frame];
     
     if (self) {
-        LPUpButton *upBtn = [[LPUpButton alloc] init];
+//        LPUpButton *upBtn = [[LPUpButton alloc] init];
+        UIButton *upBtn = [[UIButton alloc] init];
 //        upBtn.contentEdgeInsets = UIEdgeInsetsMake(UpCountTopPadding, UpCountLeftPadding, UpCountBottomPadding, UpCountRightPadding);
+        upBtn.clipsToBounds = NO;
+        if (iPhone6Plus) {
+            upBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 4, UpCountBottomPadding - UpCountTopPadding - 0.3, 0);
+            upBtn.imageView.contentScaleFactor = 1.5;
+        } else {
+            upBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 0, UpCountBottomPadding - UpCountTopPadding, 0);
+            upBtn.imageView.contentScaleFactor = 1.9;
+        }
+        upBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 4, 5);
         [upBtn setBackgroundImage:[UIImage imageNamed:@"点赞数量框"] forState:UIControlStateNormal];
         [upBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-        [upBtn setImage:[UIImage resizedImageWithName:@"心"] forState:UIControlStateNormal];
+        [upBtn setImage:[UIImage imageNamed:@"心"] forState:UIControlStateNormal];
         upBtn.titleLabel.font = [UIFont systemFontOfSize:UpCountFontSize];
-        upBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
-        upBtn.imageView.contentMode = UIViewContentModeCenter;
-        upBtn.imageView.contentScaleFactor = 1.8;
+        upBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
+        upBtn.imageView.contentMode = UIViewContentModeLeft;
+        upBtn.imageView.clipsToBounds = NO;
         [self addSubview:upBtn];
         self.upBtn = upBtn;
         

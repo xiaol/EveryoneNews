@@ -54,8 +54,9 @@
         
         NSString *upCount = comment.up;
         CGSize upCountSize = [upCount sizeWithFont:[UIFont systemFontOfSize:UpCountFontSize] maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)];
-        CGFloat upW = upCountSize.width + UpCountLeftPadding + UpCountRightPadding;
+//        CGFloat upW = upCountSize.width + UpCountLeftPadding + UpCountRightPadding;
         CGFloat upH = upCountSize.height + UpCountTopPadding + UpCountBottomPadding;
+        CGFloat upW = upCountSize.width + UpCountLeftPadding + UpCountRightPadding;
         CGFloat upX = BodyPadding;
         CGFloat upY = userIconY - upH;
         _upBtnF = CGRectMake(upX, upY, upW, upH);

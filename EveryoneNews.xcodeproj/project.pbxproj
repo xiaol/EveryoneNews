@@ -18,6 +18,7 @@
 		181F966D1B377746007C3D62 /* LPPageBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 181F966C1B377746007C3D62 /* LPPageBar.m */; };
 		1821BFBC1B033ABE003E6C94 /* EveryoneNewsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1821BFBB1B033ABE003E6C94 /* EveryoneNewsTests.m */; };
 		1846B1281B1C5178009EF8B9 /* LPSlidingShadowAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1846B1271B1C5178009EF8B9 /* LPSlidingShadowAnimation.m */; };
+		184BA0B31B3A106E001D871B /* LPNewfeatureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184BA0B21B3A106E001D871B /* LPNewfeatureViewController.m */; };
 		1855DF1B1B36FB81004145E2 /* LPMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1855DF1A1B36FB81004145E2 /* LPMainViewController.m */; };
 		1886FC2B1B2FE1D800959FA0 /* 今日.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1886FBF31B2FE1D800959FA0 /* 今日.jpg */; };
 		1886FC2C1B2FE1D800959FA0 /* 体育.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1886FBF41B2FE1D800959FA0 /* 体育.jpg */; };
@@ -195,6 +196,8 @@
 		1821BFBB1B033ABE003E6C94 /* EveryoneNewsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EveryoneNewsTests.m; sourceTree = "<group>"; };
 		1846B1261B1C5178009EF8B9 /* LPSlidingShadowAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPSlidingShadowAnimation.h; sourceTree = "<group>"; };
 		1846B1271B1C5178009EF8B9 /* LPSlidingShadowAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPSlidingShadowAnimation.m; sourceTree = "<group>"; };
+		184BA0B11B3A106E001D871B /* LPNewfeatureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPNewfeatureViewController.h; sourceTree = "<group>"; };
+		184BA0B21B3A106E001D871B /* LPNewfeatureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPNewfeatureViewController.m; sourceTree = "<group>"; };
 		1855DF191B36FB81004145E2 /* LPMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPMainViewController.h; sourceTree = "<group>"; };
 		1855DF1A1B36FB81004145E2 /* LPMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPMainViewController.m; sourceTree = "<group>"; };
 		1886FBF31B2FE1D800959FA0 /* 今日.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "今日.jpg"; sourceTree = "<group>"; };
@@ -528,6 +531,39 @@
 			path = SlidingShadowAnimation;
 			sourceTree = "<group>";
 		};
+		184BA0AD1B3A1044001D871B /* Newfeature(版本新特性) */ = {
+			isa = PBXGroup;
+			children = (
+				184BA0AE1B3A1044001D871B /* Controller */,
+				184BA0AF1B3A1044001D871B /* Model */,
+				184BA0B01B3A1044001D871B /* View */,
+			);
+			path = "Newfeature(版本新特性)";
+			sourceTree = "<group>";
+		};
+		184BA0AE1B3A1044001D871B /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				184BA0B11B3A106E001D871B /* LPNewfeatureViewController.h */,
+				184BA0B21B3A106E001D871B /* LPNewfeatureViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		184BA0AF1B3A1044001D871B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		184BA0B01B3A1044001D871B /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		1886FBF11B2FE1D800959FA0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -737,6 +773,7 @@
 		18BAE6FD1B1352EA0052BDD0 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				184BA0AD1B3A1044001D871B /* Newfeature(版本新特性) */,
 				18BA5E861B199B7300EEDB63 /* Other(其他) */,
 				18BAE7511B1355170052BDD0 /* Main(主要) */,
 				18BAE72E1B1354B40052BDD0 /* Presses(新闻) */,
@@ -1327,6 +1364,7 @@
 				18D71FAD1B2572C5002A7375 /* NSObject+MJCoding.m in Sources */,
 				18A65CD01B203D330070DDD7 /* UIImageView+WebCache.m in Sources */,
 				18A65CC71B203D330070DDD7 /* SDWebImageDownloader.m in Sources */,
+				184BA0B31B3A106E001D871B /* LPNewfeatureViewController.m in Sources */,
 				18D71F8F1B25710F002A7375 /* AFHTTPRequestOperationManager.m in Sources */,
 				18095CCA1B2A21B500CB7666 /* LPCommentView.m in Sources */,
 				18BA5E891B199B7300EEDB63 /* main.m in Sources */,

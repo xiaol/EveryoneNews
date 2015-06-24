@@ -29,6 +29,13 @@
 # define NSLog(...) NSLog(__VA_ARGS__)
 #endif
 
+#define iPhone4 ([UIScreen mainScreen].bounds.size.height == 480.0)
+#define iPhone5 ([UIScreen mainScreen].bounds.size.height == 568.0)
+#define iPhone6 ([UIScreen mainScreen].bounds.size.height == 667.0)
+#define iPhone6Plus ([UIScreen mainScreen].bounds.size.height == 736.0)
+
+#define userDefaults [NSUserDefaults standardUserDefaults]
+
 #define sharedIndicator [LPActivityIndicator sharedActivityIndicator]
 
 #define noteCenter [NSNotificationCenter defaultCenter]
@@ -37,13 +44,7 @@
 #define LPCategoryTo @"toCategory"
 #define LPPushNotificationFromBack @"pushNotificationFromBack"
 #define LPPushNotificationFromLaunching @"pushNotificationFromLaunching"
-//#define LPPushNotificationCategory @"category"
-//#define LPPushNotificationCategoryURL @"categoryUrl"
 #define LPPushNotificationURL @"url"
-//#define LPCategoryFromID @"fromCategoryID"
-//#define LPCategoryToID @"toCategoryID"
-//#define LPCategoryFromURl @"fromCategoryURL"
-//#define LPCategoryToURL @"toCategoryURL"
 
 #define ServerUrl       @"http://121.40.34.56"
 #define kTimenews       @"/news/baijia/fetchHome?timenews=1"
@@ -91,7 +92,6 @@
 #define TitleBgViewHeight 50
 #define PhotoTitlePadding 24
 
-
 #define TableHeaderViewH ScreenWidth * 0.75
 #define TableHeaderImageViewH TableHeaderViewH + 18.0
 #define BodyFontSize 16
@@ -105,10 +105,10 @@
 #define CommentCountRightPadding 10
 #define CommentCountTopPadding 2
 #define CommentCountBottomPadding 0
-#define UpCountLeftPadding 22
-#define UpCountRightPadding 8
-#define UpCountTopPadding 2
-#define UpCountBottomPadding 6
+#define UpCountLeftPadding 24
+#define UpCountRightPadding 0
+#define UpCountTopPadding 1
+#define UpCountBottomPadding 5
 #define CommentLineSpacing 3
 #define DetailCellPadding 10
 #define DetailCellWidth ScreenWidth - (DetailCellPadding * 2)
