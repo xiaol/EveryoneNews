@@ -17,6 +17,7 @@
 #import "LPDetailViewController.h"
 #import "LPCategory.h"
 #import "LPPressTool.h"
+#import "MobClick.h"
 
 typedef void (^completionBlock)();
 
@@ -40,6 +41,19 @@ typedef void (^completionBlock)();
     [noteCenter addObserver:self selector:@selector(receivePushNotification:) name:LPPushNotificationFromBack object:nil];
     [noteCenter addObserver:self selector:@selector(changeCategory:) name:LPCategoryDidChangeNotification object:nil];
 }
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"HomePage"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"HomePage"];
+}
+
 
 - (void)setupSubviews
 {

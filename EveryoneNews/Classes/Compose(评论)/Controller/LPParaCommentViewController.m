@@ -10,6 +10,7 @@
 #import "LPComment.h"
 #import "LPParaCommentFrame.h"
 #import "LPParaCommentCell.h"
+#import "MobClick.h"
 
 @interface LPParaCommentViewController () <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
 {
@@ -32,6 +33,18 @@
     [self setupTableHeaderView];
     [self setupTableFooterView];
     [self setupData];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"CommentPage"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"CommentPage"];
 }
 
 - (NSMutableArray *)paraCommentFrames

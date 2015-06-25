@@ -11,6 +11,8 @@
 #import "APService.h"
 #import "UIImageView+WebCache.h"
 #import "LPNewfeatureViewController.h"
+#import "MobClick.h"
+
 
 @interface AppDelegate ()
 
@@ -20,8 +22,17 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
-
+    
+    NSString *versionKey = (__bridge NSString *) kCFBundleVersionKey;
+    NSString *lastVersion = [userDefaults objectForKey:versionKey];
+    NSString *currentVersion = [NSBundle mainBundle].infoDictionary[versionKey];
+    
+    // 0. Umeng setup
+#warning 发布时删除此句 setLogEnabled:
+//    [MobClick setLogEnabled:YES];
+    [MobClick setVersion:currentVersion];
+    [MobClick startWithAppkey:@"558b2ec267e58e64a00009db" reportPolicy:BATCH channelId:@""];
+    
     // 1. 注册APNs
 #if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1
     if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
@@ -41,10 +52,6 @@
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
     // 3. 设置根控制器
-    NSString *versionKey = (__bridge NSString *) kCFBundleVersionKey;
-    NSString *lastVersion = [userDefaults objectForKey:versionKey];
-    NSString *currentVersion = [NSBundle mainBundle].infoDictionary[versionKey];
-    
     if ([currentVersion isEqualToString:lastVersion]) {
         self.window.rootViewController = [[LPTabBarController alloc] init];
     } else {
@@ -52,7 +59,6 @@
         [userDefaults setObject:currentVersion forKey:versionKey];
         [userDefaults synchronize];
     }
-    
     
     
     // 4. 显示窗口（成为主窗口）
