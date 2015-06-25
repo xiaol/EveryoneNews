@@ -155,6 +155,7 @@
 		18D71FBF1B26CA4B002A7375 /* LPZhihuPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D71FBE1B26CA4B002A7375 /* LPZhihuPoint.m */; };
 		18D71FC21B26CC57002A7375 /* LPContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D71FC11B26CC57002A7375 /* LPContent.m */; };
 		18D71FC81B26E6FA002A7375 /* LPContentFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D71FC71B26E6FA002A7375 /* LPContentFrame.m */; };
+		18D7FDE41B3BA44E006C1935 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D7FDE31B3BA44E006C1935 /* LoginViewController.m */; };
 		18E3A4B71B33235000168901 /* LPHttpTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E3A4B41B33235000168901 /* LPHttpTool.m */; };
 		18E3A4B81B33235000168901 /* LPPressTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E3A4B61B33235000168901 /* LPPressTool.m */; };
 		18E3A4BB1B33DB2300168901 /* LPUpButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E3A4BA1B33DB2300168901 /* LPUpButton.m */; };
@@ -412,6 +413,8 @@
 		18D71FC11B26CC57002A7375 /* LPContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPContent.m; sourceTree = "<group>"; };
 		18D71FC61B26E6FA002A7375 /* LPContentFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPContentFrame.h; sourceTree = "<group>"; };
 		18D71FC71B26E6FA002A7375 /* LPContentFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPContentFrame.m; sourceTree = "<group>"; };
+		18D7FDE21B3BA44E006C1935 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		18D7FDE31B3BA44E006C1935 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		18E3A4B31B33235000168901 /* LPHttpTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPHttpTool.h; sourceTree = "<group>"; };
 		18E3A4B41B33235000168901 /* LPHttpTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPHttpTool.m; sourceTree = "<group>"; };
 		18E3A4B51B33235000168901 /* LPPressTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPPressTool.h; sourceTree = "<group>"; };
@@ -811,6 +814,8 @@
 		18BAE6FF1B1352EA0052BDD0 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				18D7FDE21B3BA44E006C1935 /* LoginViewController.h */,
+				18D7FDE31B3BA44E006C1935 /* LoginViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1372,6 +1377,7 @@
 				18D71FAE1B2572C5002A7375 /* NSObject+MJKeyValue.m in Sources */,
 				18095CD61B2A225F00CB7666 /* LPRelateCell.m in Sources */,
 				18A65C681B1EF3FB0070DDD7 /* LPSingleGraphOpinionsView.m in Sources */,
+				18D7FDE41B3BA44E006C1935 /* LoginViewController.m in Sources */,
 				18A65C631B1EB65A0070DDD7 /* LPPointview.m in Sources */,
 				18D71FAF1B2572C5002A7375 /* NSObject+MJProperty.m in Sources */,
 				18E8080A1B371F4F00CD4C55 /* LPCategoryView.m in Sources */,
