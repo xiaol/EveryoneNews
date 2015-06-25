@@ -27,6 +27,7 @@ typedef void (^completionBlock)();
 @property (nonatomic, assign) NSUInteger timeRow;
 @property (nonatomic, assign) NSUInteger anyDisplayingCellRow;
 @property (nonatomic, assign) BOOL isScrolled;
+@property (nonatomic,strong) UIButton *loginBtn;
 
 @end
 
@@ -59,6 +60,22 @@ typedef void (^completionBlock)();
     sharedIndicator.center = self.view.center;
     sharedIndicator.bounds = CGRectMake(0, 0, ScreenWidth / 4, ScreenWidth / 4);
     [self.view addSubview:sharedIndicator];
+    
+    self.loginBtn=[UIButton buttonWithType:UIButtonTypeCustom];
+    [self.loginBtn setBackgroundImage:[UIImage imageNamed:@"登录icon"] forState:UIControlStateNormal];
+    
+    #warning 增加屏幕适配
+    self.loginBtn.frame = CGRectMake(ScreenWidth*0.85-20, ScreenHeight*0.85, 40, 40);
+    self.loginBtn.layer.cornerRadius = self.loginBtn.frame.size.height / 2;
+    self.loginBtn.layer.borderWidth = 2;
+    self.loginBtn.layer.masksToBounds = YES;
+    self.loginBtn.layer.borderColor = [UIColor blackColor].CGColor;
+    [self.loginBtn addTarget:self action:@selector(userLogin:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.loginBtn];
+}
+- (void)userLogin:(UIButton *)loginBtn{
+    NSLog(@"%s",__func__);
+   
 }
 
 - (NSMutableArray *)pressFrames
