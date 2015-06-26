@@ -160,7 +160,6 @@ typedef void (^completionBlock)();
     __weak typeof(self) weakSelf = self;
     [self setupDataWithCategory:[LPCategory categoryWithURL:HomeUrl] completion:^{
         NSLog(@"self.pressFrames.count = %ld", weakSelf.pressFrames.count);
-        NSLog(@"self.pressFrames.count = %ld", weakSelf.pressFrames.count);
         for (int row = 0; row < self.pressFrames.count; row ++) {
             LPPressFrame *pressFrame = self.pressFrames[row];
             if ([pressFrame.press.sourceUrl isEqualToString:url]) {

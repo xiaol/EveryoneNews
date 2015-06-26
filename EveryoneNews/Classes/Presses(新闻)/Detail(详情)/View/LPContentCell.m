@@ -52,7 +52,7 @@
     _contentFrame = contentFrame;
     LPContent *content = contentFrame.content;
     if ([content.category isEqualToString:@"财经"]) {
-        self.contentView.backgroundColor = [UIColor colorWithRed:244/255.0 green:252/255.0 blue:1.0 alpha:0.9];
+        self.contentView.backgroundColor = [UIColor whiteColor];
     } else {
         self.contentView.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:250/255.0 alpha:0.9];
     }

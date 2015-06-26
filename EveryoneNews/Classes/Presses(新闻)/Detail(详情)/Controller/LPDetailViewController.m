@@ -36,6 +36,8 @@
 @property (nonatomic, strong) NSMutableArray *contentFrames;
 @property (nonatomic, strong) UIImageView *headerImageView;
 @property (nonatomic, strong) UIView *filterView;
+@property (nonatomic, strong) CAShapeLayer *maskLayer;
+@property (nonatomic, assign) CGFloat diffPercent;
 
 @property (nonatomic, strong) NSIndexPath *watchingIndexPath;
 @property (nonatomic, strong) NSArray *relates;
@@ -113,6 +115,7 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+#pragma mark - 请求数据，刷新tableView
 - (void)setupData
 {
     [self.contentFrames removeAllObjects];
@@ -224,23 +227,35 @@
     CGFloat headerViewH = TableHeaderViewH;
     headerView.frame = CGRectMake(0, 0, ScreenWidth, headerViewH);
     
+    self.diffPercent = 0.5;
+    
     UIImageView *headerImageView = [[UIImageView alloc] init];
     headerImageView.contentMode = UIViewContentModeScaleAspectFill;
+
     headerImageView.clipsToBounds = YES;
 //    headerImageView.frame = headerView.bounds;
     headerImageView.frame = CGRectMake(0, 0, headerView.width, TableHeaderImageViewH);
     [headerImageView sd_setImageWithURL:[NSURL URLWithString:imageURL]];
     self.headerImageView = headerImageView;
     
+    CAShapeLayer *maskLayer = [CAShapeLayer layer];
+    maskLayer.frame = CGRectMake(0, 0, ScreenWidth, TableHeaderImageViewH);
+    UIBezierPath *path = [UIBezierPath bezierPathWithRect:maskLayer.bounds];
+    maskLayer.path = path.CGPath;
+    self.headerImageView.layer.mask = maskLayer;
+    self.maskLayer = maskLayer;
+    
+    // 颜色版加在headerImageView上
     UIView *filterView = [[UIView alloc] init];
     filterView.frame = headerImageView.bounds;
     filterView.backgroundColor = [UIColor colorFromCategory:self.press.category alpha:0.2];
     self.filterView = filterView;
     [headerImageView addSubview:filterView];
     
+    // 渐变加在headerView上
     UIImageView *hud = [[UIImageView alloc] init];
     hud.image = [UIImage imageNamed:@"渐变"];
-    hud.alpha = 0.2;
+    hud.alpha = 0.6;
     CGFloat hudH = headerViewH * 0.4;
     CGFloat hudY = CGRectGetMaxY(headerImageView.frame) - hudH;
     hud.frame = CGRectMake(0, hudY, ScreenWidth, hudH);
@@ -279,12 +294,22 @@
         zhihuView.hidden = YES;
     }
     zhihuView.delegate = self;
+    if ([self.press.category isEqualToString:@"财经"]) {
+        zhihuView.backgroundColor = [UIColor whiteColor];
+    } else {
+        zhihuView.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:250/255.0 alpha:0.9];
+    }
+
     [footerView addSubview:zhihuView];
     
     LPWaterfallView *waterfallView = [[LPWaterfallView alloc] init];
     if (relateArray && relateArray.count > 0) {
         self.relates = relateArray;
-        waterfallView.backgroundColor = [UIColor whiteColor];
+        if ([self.press.category isEqualToString:@"财经"]) {
+            waterfallView.backgroundColor = [UIColor whiteColor];
+        } else {
+            waterfallView.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:250/255.0 alpha:0.9];
+        }
         CGFloat waterfallY = CGRectGetMaxY(zhihuView.frame) + DetailCellHeightBorder;
         waterfallView.hidden = NO;
         NSUInteger numberOfCells = relateArray.count;
@@ -415,17 +440,24 @@
 {
    
     self.lastContentOffsetY < scrollView.contentOffset.y ? [self fadeOut] : [self fadeIn];
-    
-    
-    if (scrollView.contentOffset.y < 0) {
-        CGFloat offsetY = scrollView.contentOffset.y;
-        CGFloat diffY = 0.0;
-        CGFloat scale = (diffY - offsetY) / TableHeaderViewH + 1;
+    CGFloat offsetY = scrollView.contentOffset.y;
+    if (offsetY < 0) { // 内切时，放大头部imageView及其颜色蒙版
+        CGFloat scale = - offsetY / TableHeaderViewH + 1;
         CGFloat w = ScreenWidth * scale;
         CGFloat offsetX = (w - ScreenWidth) / 2;
         
-        self.headerImageView.frame = CGRectMake(- offsetX, offsetY, w, TableHeaderImageViewH -  offsetY + diffY);
+        self.headerImageView.frame = CGRectMake(- offsetX, offsetY, w, TableHeaderImageViewH -  offsetY);
         self.filterView.frame = self.headerImageView.bounds;
+        self.headerImageView.layer.mask = nil;
+    } else {
+        if (offsetY < TableHeaderViewH) {
+            CGFloat diff = self.diffPercent * offsetY;
+            UIBezierPath *path = [UIBezierPath bezierPathWithRect:CGRectMake(0, 0, ScreenWidth, TableHeaderImageViewH - diff)];
+            self.maskLayer.path = path.CGPath;
+            self.headerImageView.layer.mask = self.maskLayer;
+            self.headerImageView.frame = CGRectMake(0, diff, ScreenWidth, TableHeaderImageViewH);
+            self.filterView.frame = self.headerImageView.bounds;
+        }
     }
 }
 

@@ -30,7 +30,6 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor whiteColor];
         
         UIImageView *iconView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"延伸阅读"]];
         iconView.contentMode = UIViewContentModeScaleAspectFill;
