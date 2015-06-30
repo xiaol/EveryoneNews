@@ -1730,7 +1730,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1739,8 +1739,6 @@
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0/UI",
 				);
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Falcon Network Co., Ltd. (6BWPZAXBUP)";
 				INFOPLIST_FILE = EveryoneNewsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1753,7 +1751,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8c1caa15-e657-4911-b839-bb87161539c8";
+				PROVISIONING_PROFILE = "04c7d36e-fc2c-4583-b0ac-0f33b79dc8b8";
 			};
 			name = Debug;
 		};
@@ -1762,8 +1760,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0/Connection",
@@ -1771,8 +1769,6 @@
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0/UI",
 				);
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Falcon Network Co., Ltd. (6BWPZAXBUP)";
 				INFOPLIST_FILE = EveryoneNewsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1785,7 +1781,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "8c1caa15-e657-4911-b839-bb87161539c8";
+				PROVISIONING_PROFILE = "04c7d36e-fc2c-4583-b0ac-0f33b79dc8b8";
 			};
 			name = Release;
 		};
