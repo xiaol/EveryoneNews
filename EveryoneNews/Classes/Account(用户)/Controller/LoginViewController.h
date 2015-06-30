@@ -10,4 +10,9 @@
 
 @interface LoginViewController : UIViewController
 
+//tabbar的背景图
+@property (nonatomic,strong) UIImage *headerBackgroundImage;
+//非tabbar的背景图
+@property (nonatomic,strong) UIImage *footerBackgroundImage;
+
 @end

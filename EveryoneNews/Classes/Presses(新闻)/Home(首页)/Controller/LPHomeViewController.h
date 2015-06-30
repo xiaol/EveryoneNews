@@ -12,5 +12,5 @@
 
 @interface LPHomeViewController : UIViewController
 
-// @property (nonatomic, strong) LPTabBarController *tabBarVc;
+ @property (nonatomic, strong) LPTabBarController *tabBarVc;
 @end

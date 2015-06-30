@@ -67,7 +67,7 @@
     self.bgView = bgView;
     
     UIView *blackView = [[UIView alloc] initWithFrame:self.view.bounds];
-    blackView.backgroundColor = [UIColor colorFromHexString:@"000000" alpha:0.4];
+    blackView.backgroundColor = [UIColor colorFromHexString:@"000000" alpha:0.1];
     [self.view addSubview:blackView];
     self.blackView = blackView;
     [self.blackView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapBlackView:)]];

@@ -98,6 +98,7 @@
 //    category.delegate = self;
     
     LPHomeViewController *home = [[LPHomeViewController alloc] init];
+    home.tabBarVc = self;
     [self setupChildViewController:home withTitle:@"今日" tabImageName:nil tabSelectedImage:nil tag:1];
 }
 
