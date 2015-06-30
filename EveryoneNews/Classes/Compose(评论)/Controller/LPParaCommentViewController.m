@@ -186,6 +186,10 @@
 //    if (scrollView.contentOffset.y >= scrollView.contentSize.height - scrollView.frame.size.height) {
 //        [scrollView setContentOffset:CGPointMake(scrollView.contentOffset.x, scrollView.contentSize.height - scrollView.frame.size.height)];
 //    }
+    CGFloat offsetY = scrollView.contentOffset.y;
+    if (offsetY > 0) {
+        
+    }
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate

@@ -21,6 +21,10 @@
 		184BA0B31B3A106E001D871B /* LPNewfeatureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184BA0B21B3A106E001D871B /* LPNewfeatureViewController.m */; };
 		184BA0EF1B3B6483001D871B /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 184BA0ED1B3B6483001D871B /* libMobClickLibrary.a */; };
 		1855DF1B1B36FB81004145E2 /* LPMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1855DF1A1B36FB81004145E2 /* LPMainViewController.m */; };
+		1877D4DF1B3BF5CC00C042E6 /* newfeature1.png in Resources */ = {isa = PBXBuildFile; fileRef = 1877D4DB1B3BF5CC00C042E6 /* newfeature1.png */; };
+		1877D4E01B3BF5CC00C042E6 /* newfeature2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1877D4DC1B3BF5CC00C042E6 /* newfeature2.png */; };
+		1877D4E11B3BF5CC00C042E6 /* newfeature3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1877D4DD1B3BF5CC00C042E6 /* newfeature3.png */; };
+		1877D4E61B3CF8D300C042E6 /* 引导页.gif in Resources */ = {isa = PBXBuildFile; fileRef = 1877D4E51B3CF8D300C042E6 /* 引导页.gif */; };
 		1886FC2B1B2FE1D800959FA0 /* 今日.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1886FBF31B2FE1D800959FA0 /* 今日.jpg */; };
 		1886FC2C1B2FE1D800959FA0 /* 体育.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1886FBF41B2FE1D800959FA0 /* 体育.jpg */; };
 		1886FC2D1B2FE1D800959FA0 /* 国际.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1886FBF51B2FE1D800959FA0 /* 国际.jpg */; };
@@ -229,6 +233,10 @@
 		184BA0EE1B3B6483001D871B /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
 		1855DF191B36FB81004145E2 /* LPMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPMainViewController.h; sourceTree = "<group>"; };
 		1855DF1A1B36FB81004145E2 /* LPMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPMainViewController.m; sourceTree = "<group>"; };
+		1877D4DB1B3BF5CC00C042E6 /* newfeature1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newfeature1.png; sourceTree = "<group>"; };
+		1877D4DC1B3BF5CC00C042E6 /* newfeature2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newfeature2.png; sourceTree = "<group>"; };
+		1877D4DD1B3BF5CC00C042E6 /* newfeature3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newfeature3.png; sourceTree = "<group>"; };
+		1877D4E51B3CF8D300C042E6 /* 引导页.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "引导页.gif"; sourceTree = "<group>"; };
 		1886FBF31B2FE1D800959FA0 /* 今日.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "今日.jpg"; sourceTree = "<group>"; };
 		1886FBF41B2FE1D800959FA0 /* 体育.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "体育.jpg"; sourceTree = "<group>"; };
 		1886FBF51B2FE1D800959FA0 /* 国际.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "国际.jpg"; sourceTree = "<group>"; };
@@ -651,10 +659,22 @@
 			path = UMeng;
 			sourceTree = "<group>";
 		};
+		1877D4DA1B3BF5CC00C042E6 /* newfeature */ = {
+			isa = PBXGroup;
+			children = (
+				1877D4E51B3CF8D300C042E6 /* 引导页.gif */,
+				1877D4DB1B3BF5CC00C042E6 /* newfeature1.png */,
+				1877D4DC1B3BF5CC00C042E6 /* newfeature2.png */,
+				1877D4DD1B3BF5CC00C042E6 /* newfeature3.png */,
+			);
+			path = newfeature;
+			sourceTree = "<group>";
+		};
 		1886FBF11B2FE1D800959FA0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
 				7E9E72311B3BD8C20038FE12 /* Images.xcassets */,
+				1877D4DA1B3BF5CC00C042E6 /* newfeature */,
 				189083581B31DD8800ADDEDB /* frameworks */,
 				1886FBF21B2FE1D800959FA0 /* categories */,
 				1886FBFC1B2FE1D800959FA0 /* detail */,
@@ -1435,6 +1455,7 @@
 				1886FC471B2FE1D800959FA0 /* 时事_评论数图形.png in Resources */,
 				1886FC4E1B2FE1D800959FA0 /* 焦点_评论数图形.png in Resources */,
 				1886FC3B1B2FE1D800959FA0 /* 内地_评论数图形.png in Resources */,
+				1877D4E11B3BF5CC00C042E6 /* newfeature3.png in Resources */,
 				1886FC4A1B2FE1D800959FA0 /* 港台_发表评论激活.png in Resources */,
 				1886FC531B2FE1D800959FA0 /* 科技_发表评论激活.png in Resources */,
 				1886FC371B2FE1D800959FA0 /* 体育_发表评论激活.png in Resources */,
@@ -1445,6 +1466,7 @@
 				1886FC431B2FE1D800959FA0 /* 娱乐_发表评论激活.png in Resources */,
 				1886FC581B2FE1D800959FA0 /* toum.png in Resources */,
 				1886FC2E1B2FE1D800959FA0 /* 娱乐.jpg in Resources */,
+				1877D4DF1B3BF5CC00C042E6 /* newfeature1.png in Resources */,
 				1886FC421B2FE1D800959FA0 /* 娱乐_发表评论初始.png in Resources */,
 				7E63BA7A1B3CFCEC00BEA1CF /* ic_login_close.png in Resources */,
 				1886FC3F1B2FE1D800959FA0 /* 国际_发表评论初始.png in Resources */,
@@ -1462,6 +1484,8 @@
 				7E08E46F1B3AB67100BB0DC0 /* Resource.bundle in Resources */,
 				1886FC4B1B2FE1D800959FA0 /* 港台_评论数图形.png in Resources */,
 				1890835A1B31DE8500ADDEDB /* PushConfig.plist in Resources */,
+				1877D4E61B3CF8D300C042E6 /* 引导页.gif in Resources */,
+				1877D4E01B3BF5CC00C042E6 /* newfeature2.png in Resources */,
 				1886FC351B2FE1D800959FA0 /* placeholder.png in Resources */,
 				7E9E72361B3BD9AA0038FE12 /* ic_login_weixin.png in Resources */,
 				1886FC2B1B2FE1D800959FA0 /* 今日.jpg in Resources */,
@@ -1633,7 +1657,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Falcon Network Co., Ltd. (6BWPZAXBUP)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1656,7 +1680,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "a2f383df-cc3d-4d74-af18-1d928883edf4";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1679,7 +1703,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Falcon Network Co., Ltd. (6BWPZAXBUP)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1695,7 +1719,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "a2f383df-cc3d-4d74-af18-1d928883edf4";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1715,6 +1739,8 @@
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0/UI",
 				);
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Falcon Network Co., Ltd. (6BWPZAXBUP)";
 				INFOPLIST_FILE = EveryoneNewsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1745,6 +1771,8 @@
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0/UI",
 				);
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Falcon Network Co., Ltd. (6BWPZAXBUP)";
 				INFOPLIST_FILE = EveryoneNewsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

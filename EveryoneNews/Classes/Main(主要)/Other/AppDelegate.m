@@ -156,4 +156,6 @@ weiboSDKCls:[WeiboSDK class];
                         annotation:annotation
                         wxDelegate:self];
 }
+
+
 @end
