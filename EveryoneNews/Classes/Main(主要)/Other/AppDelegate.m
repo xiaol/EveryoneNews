@@ -103,7 +103,7 @@ weiboSDKCls:[WeiboSDK class];
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-    NSLog(@"didRegisterForRemoteNotificationsWithDeviceToken:%@", deviceToken);
+//    NSLog(@"didRegisterForRemoteNotificationsWithDeviceToken:%@", deviceToken);
     
     // 1.将token发送给公司的服务器（JPush的话无需此步）
     
@@ -118,7 +118,7 @@ weiboSDKCls:[WeiboSDK class];
      *  处理推送
      */
     if (application.applicationState == UIApplicationStateBackground) {
-        NSLog(@"后台状态 --- userInfo --- %@", [userInfo description]);
+//        NSLog(@"后台状态 --- userInfo --- %@", [userInfo description]);
         [noteCenter postNotificationName:LPPushNotificationFromBack object:self userInfo:userInfo];
     }
     [application setApplicationIconBadgeNumber:0];
@@ -127,8 +127,7 @@ weiboSDKCls:[WeiboSDK class];
 
 - (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo
   completionHandler:(void (^)())completionHandler {
-    NSLog(@"identifier --- %@", identifier);
-    NSLog(@"userInfo --- %@", [userInfo description]);
+    
 }
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application

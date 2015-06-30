@@ -219,20 +219,17 @@ typedef void (^completionBlock)();
 
 - (void)receivePushNotification:(NSNotification *)note
 {
-    NSLog(@"LPHomeViewController receivePushNotification");
     NSDictionary *info = note.userInfo;
     NSString *url = info[LPPushNotificationURL];
     [self.navigationController popToRootViewControllerAnimated:NO];
     __weak typeof(self) weakSelf = self;
     [self setupDataWithCategory:[LPCategory categoryWithURL:HomeUrl] completion:^{
-        NSLog(@"self.pressFrames.count = %ld", weakSelf.pressFrames.count);
         for (int row = 0; row < self.pressFrames.count; row ++) {
             LPPressFrame *pressFrame = self.pressFrames[row];
             if ([pressFrame.press.sourceUrl isEqualToString:url]) {
                 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
                 [weakSelf.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
                 [weakSelf tableView:weakSelf.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
-                NSLog(@"LPHomeViewController pushDone");
                 break;
             }
         }

@@ -9,7 +9,7 @@
 #import "LPZhihuView.h"
 #import "LPZhihuPoint.h"
 
-#define RightPadding 10
+#define RightPadding 13
 #define ZhihuPointLineSpacing 3
 #define ZhihuFontSize 14
 #define ArrowW 3
@@ -125,7 +125,6 @@
 
 - (void)tapLabel:(UITapGestureRecognizer *)tap
 {
-    NSLog(@"labelTap");
     UILabel *label = (UILabel *)tap.view;
     LPZhihuPoint *point = self.zhihuPoints[label.tag];
     if ([self.delegate respondsToSelector:@selector(zhihuView:didClickURL:)]) {

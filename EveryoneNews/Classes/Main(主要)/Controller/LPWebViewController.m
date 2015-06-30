@@ -24,9 +24,7 @@
     webView.delegate = self;
     webView.scalesPageToFit = YES;
     webView.backgroundColor = [UIColor whiteColor];
-    
-    NSLog(@"webUrl:%@", _webUrl);
-    
+        
     //加载URL需要进行encode，否则有些URL中的转义字符会不识别
     NSString *encodedString=[_webUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:encodedString]];

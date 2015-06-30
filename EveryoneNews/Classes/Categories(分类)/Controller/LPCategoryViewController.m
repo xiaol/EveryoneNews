@@ -116,7 +116,6 @@
 {
     for (LPCategoryButton *btn in self.categoryBtns) {
         if ([btn.category.title isEqualToString:@"今日"]) {
-            NSLog(@"LPCategoryVC receivePushNotification");
             self.selectedBtn.selected = NO;
             btn.selected = YES;
             self.selectedBtn = btn;

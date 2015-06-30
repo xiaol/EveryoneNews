@@ -48,6 +48,8 @@
 #define LPPushNotificationFromLaunching @"pushNotificationFromLaunching"
 #define LPPushNotificationURL @"url"
 
+#define LPComposeCommentNotification @"compose"
+#define LPComposeFromContent @"content"
 //用户登录回调通知的userinfo的key值
 #define AccountLoginCallbackDictKey @"accountLoginCallbackDictKey"
 #define AccountLoginNotification @"accountLoginNotification"
@@ -103,12 +105,13 @@
 #define TableHeaderImageViewH TableHeaderViewH + 18.0
 #define BodyFontSize 16
 #define BodyLineSpacing 5
-#define BodyPadding 12
+#define BodyPadding 13
+#define BodyCommentPadding 12
 
 #define CommentFontSize 14
 #define CommentCountFontSize 13
 #define UpCountFontSize 12
-#define CommentCountLeftPadding 12
+#define CommentCountLeftPadding 13
 #define CommentCountRightPadding 10
 #define CommentCountTopPadding 2
 #define CommentCountBottomPadding 0
@@ -127,6 +130,9 @@
 #define ParaCommentTableHeaderAboveLabelHeight 44
 #define ParaCommentTableHeaderUnderLabelHeight 24
 #define Error 0.1e-3
+
+#define ComposeButtonNormalColor @"#ffffff"
+//#define ComposeButtonDisableColor @"#007ed7"
 
 #endif
 
