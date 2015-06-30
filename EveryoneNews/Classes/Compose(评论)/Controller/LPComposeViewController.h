@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LPComposeViewController : UIViewController
+typedef void(^returnTextBlock)(NSString *text);
 
+@interface LPComposeViewController : UIViewController
+//@property (nonatomic, strong) LPContent *content;
+@property (nonatomic, copy) NSString *draftText;
+@property (nonatomic, copy) NSString *category;
+@property (nonatomic, copy) returnTextBlock returnTextBlock;
+
+- (void)returnText:(returnTextBlock)returnTextBlock;
 @end

@@ -25,6 +25,8 @@
 		1877D4E01B3BF5CC00C042E6 /* newfeature2.png in Resources */ = {isa = PBXBuildFile; fileRef = 1877D4DC1B3BF5CC00C042E6 /* newfeature2.png */; };
 		1877D4E11B3BF5CC00C042E6 /* newfeature3.png in Resources */ = {isa = PBXBuildFile; fileRef = 1877D4DD1B3BF5CC00C042E6 /* newfeature3.png */; };
 		1877D4E61B3CF8D300C042E6 /* 引导页.gif in Resources */ = {isa = PBXBuildFile; fileRef = 1877D4E51B3CF8D300C042E6 /* 引导页.gif */; };
+		1877D4EC1B41323700C042E6 /* LPComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1877D4EB1B41323700C042E6 /* LPComposeViewController.m */; };
+		1877D5241B42594C00C042E6 /* LPTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1877D5231B42594C00C042E6 /* LPTextView.m */; };
 		1886FC2B1B2FE1D800959FA0 /* 今日.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1886FBF31B2FE1D800959FA0 /* 今日.jpg */; };
 		1886FC2C1B2FE1D800959FA0 /* 体育.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1886FBF41B2FE1D800959FA0 /* 体育.jpg */; };
 		1886FC2D1B2FE1D800959FA0 /* 国际.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 1886FBF51B2FE1D800959FA0 /* 国际.jpg */; };
@@ -212,6 +214,10 @@
 		1877D4DC1B3BF5CC00C042E6 /* newfeature2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newfeature2.png; sourceTree = "<group>"; };
 		1877D4DD1B3BF5CC00C042E6 /* newfeature3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = newfeature3.png; sourceTree = "<group>"; };
 		1877D4E51B3CF8D300C042E6 /* 引导页.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "引导页.gif"; sourceTree = "<group>"; };
+		1877D4EA1B41323700C042E6 /* LPComposeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPComposeViewController.h; sourceTree = "<group>"; };
+		1877D4EB1B41323700C042E6 /* LPComposeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPComposeViewController.m; sourceTree = "<group>"; };
+		1877D5221B42594C00C042E6 /* LPTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPTextView.h; sourceTree = "<group>"; };
+		1877D5231B42594C00C042E6 /* LPTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPTextView.m; sourceTree = "<group>"; };
 		1886FBF31B2FE1D800959FA0 /* 今日.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "今日.jpg"; sourceTree = "<group>"; };
 		1886FBF41B2FE1D800959FA0 /* 体育.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "体育.jpg"; sourceTree = "<group>"; };
 		1886FBF51B2FE1D800959FA0 /* 国际.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "国际.jpg"; sourceTree = "<group>"; };
@@ -906,6 +912,8 @@
 			children = (
 				18CB19A61B2E174D0005D3E3 /* LPParaCommentViewController.h */,
 				18CB19A71B2E174D0005D3E3 /* LPParaCommentViewController.m */,
+				1877D4EA1B41323700C042E6 /* LPComposeViewController.h */,
+				1877D4EB1B41323700C042E6 /* LPComposeViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -924,6 +932,8 @@
 			children = (
 				18CB19BC1B2E269B0005D3E3 /* LPParaCommentCell.h */,
 				18CB19BD1B2E269B0005D3E3 /* LPParaCommentCell.m */,
+				1877D5221B42594C00C042E6 /* LPTextView.h */,
+				1877D5231B42594C00C042E6 /* LPTextView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1394,6 +1404,7 @@
 				18CB19E61B2F98F40005D3E3 /* LPActivityIndicator.m in Sources */,
 				18BAE7641B14A84E0052BDD0 /* LPCategoryViewController.m in Sources */,
 				18D71FAB1B2572C5002A7375 /* MJProperty.m in Sources */,
+				1877D4EC1B41323700C042E6 /* LPComposeViewController.m in Sources */,
 				18095CCB1B2A21B500CB7666 /* LPContentCell.m in Sources */,
 				18CB19BE1B2E269B0005D3E3 /* LPParaCommentCell.m in Sources */,
 				18E8080D1B371FA300CD4C55 /* LPPressView.m in Sources */,
@@ -1423,6 +1434,7 @@
 				18A65CC61B203D330070DDD7 /* SDWebImageDecoder.m in Sources */,
 				18A65CC51B203D330070DDD7 /* SDWebImageCompat.m in Sources */,
 				18A65CCF1B203D330070DDD7 /* UIImageView+HighlightedWebCache.m in Sources */,
+				1877D5241B42594C00C042E6 /* LPTextView.m in Sources */,
 				18A65CC31B203D330070DDD7 /* NSData+ImageContentType.m in Sources */,
 				18A65C7A1B1F000F0070DDD7 /* LPMultiGraphTopView.m in Sources */,
 			);
@@ -1465,7 +1477,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Falcon Network Co., Ltd. (6BWPZAXBUP)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1488,7 +1500,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PROVISIONING_PROFILE = "a2f383df-cc3d-4d74-af18-1d928883edf4";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1511,7 +1523,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Falcon Network Co., Ltd. (6BWPZAXBUP)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1527,7 +1539,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PROVISIONING_PROFILE = "a2f383df-cc3d-4d74-af18-1d928883edf4";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1539,7 +1551,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Falcon Network Co., Ltd. (6BWPZAXBUP)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
 				INFOPLIST_FILE = EveryoneNewsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1550,7 +1562,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a2f383df-cc3d-4d74-af18-1d928883edf4";
+				PROVISIONING_PROFILE = "04c7d36e-fc2c-4583-b0ac-0f33b79dc8b8";
 			};
 			name = Debug;
 		};
@@ -1560,7 +1572,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Falcon Network Co., Ltd. (6BWPZAXBUP)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
 				INFOPLIST_FILE = EveryoneNewsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1571,7 +1583,7 @@
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a2f383df-cc3d-4d74-af18-1d928883edf4";
+				PROVISIONING_PROFILE = "04c7d36e-fc2c-4583-b0ac-0f33b79dc8b8";
 			};
 			name = Release;
 		};

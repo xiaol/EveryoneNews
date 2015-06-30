@@ -7,7 +7,7 @@
 //
 
 #import "LPSingleGraphMidSeperaterView.h"
-#define DividerHeight 1.0
+#define DividerHeight 0.5
 
 @interface LPSingleGraphMidSeperaterView ()
 {
@@ -32,6 +32,7 @@
         
         UIView *dividerView = [[UIView alloc] init];
         dividerView.backgroundColor = [UIColor colorFromHexString:@"#dadada"];
+//        dividerView.alpha = 0.8;
         [self addSubview:dividerView];
         self.dividerView = dividerView;
         

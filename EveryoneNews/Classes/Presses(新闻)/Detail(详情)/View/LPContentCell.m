@@ -39,7 +39,6 @@
         self.bodyLabel = bodyLabel;
         
         LPCommentView *commentView = [[LPCommentView alloc] init];
-//        commentView.backgroundColor = [UIColor colorFromHexString:@"FDFEFE"];
         [self.contentView addSubview:commentView];
         self.commentView = commentView;
         [commentView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapComment)]];
@@ -60,7 +59,8 @@
     self.bodyLabel.frame = self.contentFrame.bodyLabelF;
     self.bodyLabel.attributedText = content.bodyString;
     
-    if (content.hasComment) {
+    
+    if (!content.isAbstract) {
         self.commentView.hidden = NO;
         self.commentView.frame = self.contentFrame.commentViewF;
         self.commentView.contentFrame = self.contentFrame;

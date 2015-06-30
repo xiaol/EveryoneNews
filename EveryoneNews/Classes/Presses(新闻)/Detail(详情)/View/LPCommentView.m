@@ -30,9 +30,7 @@
     self = [super initWithFrame:frame];
     
     if (self) {
-//        LPUpButton *upBtn = [[LPUpButton alloc] init];
         UIButton *upBtn = [[UIButton alloc] init];
-//        upBtn.contentEdgeInsets = UIEdgeInsetsMake(UpCountTopPadding, UpCountLeftPadding, UpCountBottomPadding, UpCountRightPadding);
         upBtn.clipsToBounds = NO;
         if (iPhone6Plus) {
             upBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 4, UpCountBottomPadding - UpCountTopPadding - 0.3, 0);
@@ -58,15 +56,16 @@
         self.userIcon = userIcon;
         
         UIButton *commentsCountBtn = [[UIButton alloc] init];
-        commentsCountBtn.contentEdgeInsets = UIEdgeInsetsMake(CommentCountLeftPadding, CommentCountTopPadding, CommentCountRightPadding, CommentCountBottomPadding);
+        commentsCountBtn.titleEdgeInsets = UIEdgeInsetsMake(CommentCountTopPadding, CommentCountLeftPadding, CommentCountBottomPadding, CommentCountRightPadding);
         [commentsCountBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         commentsCountBtn.titleLabel.font = [UIFont systemFontOfSize:CommentCountFontSize];
-//        commentsCountBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
+        commentsCountBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
         commentsCountBtn.titleLabel.numberOfLines = 0;
         [self addSubview:commentsCountBtn];
         self.commentsCountBtn = commentsCountBtn;
         
         UIButton *plusBtn = [[UIButton alloc] init];
+        [plusBtn addTarget:self action:@selector(plusBtnClicked) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:plusBtn];
         self.plusBtn = plusBtn;
         
@@ -82,47 +81,56 @@
 - (void)setContentFrame:(LPContentFrame *)contentFrame
 {
     _contentFrame = contentFrame;
-    LPComment *comment = contentFrame.content.displayingComment;
-    NSString *category = contentFrame.content.category;
-    
-    if (!comment.up || comment.up.intValue == 0) {
-        self.upBtn.hidden = YES;
-    } else {
-        self.upBtn.hidden = NO;
-        self.upBtn.frame = self.contentFrame.upBtnF;
-        [self.upBtn setTitle:comment.up forState:UIControlStateNormal];
-    }
-    
-    self.userIcon.frame = self.contentFrame.userIconF;
-//    if (comment.userIcon) {
-//        [self.userIcon sd_setImageWithURL:[NSURL URLWithString:comment.userIcon] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-//            self.userIcon.image = [UIImage circleImageWithImage:image borderWidth:UserIconBorderWidth borderColor:[UIColor colorFromCategory:category]];
-//        }];
-//    } else {
-//        self.userIcon.image = [UIImage circleImageWithName:@"登录icon" borderWidth:UserIconBorderWidth borderColor:[UIColor colorFromCategory:category]];
-//    }
-    if (comment.userIcon && comment.userIcon.length) {
-        [self.userIcon sd_setImageWithURL:[NSURL URLWithString:comment.userIcon] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-            
-        }];
-    } else {
-        self.userIcon.image = [UIImage imageNamed:@"登录icon"];
-    }
-    self.userIcon.layer.cornerRadius = self.userIcon.frame.size.height / 2;
-    self.userIcon.layer.borderWidth = 2;
-    self.userIcon.layer.masksToBounds = YES;
-    self.userIcon.layer.borderColor = [UIColor colorFromCategory:category].CGColor;
-
-    
-    self.commentLabel.frame = self.contentFrame.commentLabelF;
-    self.commentLabel.attributedText = [comment commentStringWithCategory:category];
-    
-    self.commentsCountBtn.frame = self.contentFrame.commentsCountBtnF;
-    [self.commentsCountBtn setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@_评论数图形", category]] forState:UIControlStateNormal];
-    [self.commentsCountBtn setTitle:comment.comments_count forState:UIControlStateNormal];
+    LPContent *content = contentFrame.content;
+    NSString *category = content.category;
     
     self.plusBtn.frame = self.contentFrame.plusBtnF;
     [self.plusBtn setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@_发表评论初始", category]] forState:UIControlStateNormal];
-    
+    if (!content.hasComment) {
+        // 没有评论列表，只有添加评论按钮
+        self.upBtn.hidden = YES;
+        self.userIcon.hidden = YES;
+        self.commentsCountBtn.hidden = YES;
+        self.commentLabel.hidden = YES;
+    } else {
+        LPComment *comment = content.displayingComment;
+        if (!comment.up || comment.up.intValue == 0) {
+            self.upBtn.hidden = YES;
+        } else {
+            self.upBtn.hidden = NO;
+            self.upBtn.frame = self.contentFrame.upBtnF;
+            [self.upBtn setTitle:comment.up forState:UIControlStateNormal];
+        }
+        
+        self.userIcon.hidden = NO;
+        self.userIcon.frame = self.contentFrame.userIconF;
+        if (comment.userIcon && comment.userIcon.length) {
+            [self.userIcon sd_setImageWithURL:[NSURL URLWithString:comment.userIcon] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                
+            }];
+        } else {
+            self.userIcon.image = [UIImage imageNamed:@"登录icon"];
+        }
+        self.userIcon.layer.cornerRadius = self.userIcon.frame.size.height / 2;
+        self.userIcon.layer.borderWidth = 2;
+        self.userIcon.layer.masksToBounds = YES;
+        self.userIcon.layer.borderColor = [UIColor colorFromCategory:category].CGColor;
+        
+        self.commentLabel.hidden = NO;
+        self.commentLabel.frame = self.contentFrame.commentLabelF;
+        self.commentLabel.attributedText = [comment commentStringWithCategory:category];
+        
+        self.commentsCountBtn.hidden = NO;
+        self.commentsCountBtn.frame = self.contentFrame.commentsCountBtnF;
+        [self.commentsCountBtn setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@_评论数图形", category]] forState:UIControlStateNormal];
+        [self.commentsCountBtn setTitle:comment.comments_count forState:UIControlStateNormal];
+    }
+}
+
+- (void)plusBtnClicked
+{
+    LPContent *content = self.contentFrame.content;
+    NSDictionary *info = @{LPComposeFromContent: content};
+    [noteCenter postNotificationName:LPComposeCommentNotification object:self userInfo:info];
 }
 @end

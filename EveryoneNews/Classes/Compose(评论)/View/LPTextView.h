@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface LPTextView : UITextView
-
+@property (nonatomic, copy) NSString *placehoder;
+@property (nonatomic, strong) UIColor *placehoderColor;
+@property (nonatomic, strong) UILabel *placehoderLabel;
 @end

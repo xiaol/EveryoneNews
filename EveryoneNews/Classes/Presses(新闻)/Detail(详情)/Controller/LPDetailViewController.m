@@ -25,6 +25,8 @@
 #import "LPParaCommentViewController.h"
 #import "LPPressTool.h"
 #import "MobClick.h"
+#import "LPCommentView.h"
+#import "LPComposeViewController.h"
 
 #define CellAlpha 0.3
 
@@ -42,6 +44,8 @@
 @property (nonatomic, strong) NSIndexPath *watchingIndexPath;
 @property (nonatomic, strong) NSArray *relates;
 
+@property (nonatomic, copy) NSString *commentText;
+
 @end
 
 @implementation LPDetailViewController
@@ -52,6 +56,8 @@
     
     [self setupSubviews];
     [self setupData];
+    
+    [noteCenter addObserver:self selector:@selector(compose:) name:LPComposeCommentNotification object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -121,7 +127,7 @@
     [self.contentFrames removeAllObjects];
     [sharedIndicator startAnimating];
     __weak typeof(self) weakSelf = self;
-    NSLog(@"sourceUrl = %@", self.press.sourceUrl);
+//    NSLog(@"sourceUrl = %@", self.press.sourceUrl);
     NSString *url = [NSString stringWithFormat:@"%@%@", ContentUrl, self.press.sourceUrl];
     [LPHttpTool getWithURL:url params:nil success:^(id json) {
         [sharedIndicator stopAnimating];
@@ -565,17 +571,21 @@
 
 - (void)contentCellDidClickCommentView:(LPContentCell *)cell
 {
+//    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+//    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
     LPContent *content = cell.contentFrame.content;
     NSArray *comments = content.comments;
-    LPParaCommentViewController *paraVc = [[LPParaCommentViewController alloc] init];
-    paraVc.comments = comments;
-    paraVc.bgImage = [UIImage captureWithView:self.view];
-    paraVc.category = content.category;
-    paraVc.delegate = self;
-    [self presentViewController:paraVc animated:NO completion:nil];
+    if (comments.count) {
+        LPParaCommentViewController *paraVc = [[LPParaCommentViewController alloc] init];
+        paraVc.comments = comments;
+        paraVc.bgImage = [UIImage captureWithView:self.view];
+        paraVc.category = content.category;
+        paraVc.delegate = self;
+        [self presentViewController:paraVc animated:NO completion:nil];
+    }
 }
 
-#pragma mark - LPContentCell delegate
+#pragma mark - LPParaCommentViewController delegate
 
 - (void)paraCommentViewControllerWillDismiss:(LPParaCommentViewController *)paraCommentViewController
 {
@@ -587,6 +597,24 @@
 - (void)zhihuView:(LPZhihuView *)zhihuView didClickURL:(NSString *)url
 {
     [LPPressTool loadWebViewWithURL:url viewController:self];
+}
+
+#pragma mark - notification selector
+- (void)compose:(NSNotification *)note
+{
+#warning - 此处要进行登录判断，如果未登录，应该先登录
+    // login code ... ...
+    
+    NSDictionary *info = note.userInfo;
+    LPContent *content = info[LPComposeFromContent];
+    LPComposeViewController *composeVc = [[LPComposeViewController alloc] init];
+    composeVc.category = content.category;
+    composeVc.draftText = self.commentText;
+    [composeVc returnText:^(NSString *text) {
+        self.commentText = text;
+    }];
+//    composeVc.content = content;
+    [self.navigationController pushViewController:composeVc animated:YES];
 }
 
 @end
