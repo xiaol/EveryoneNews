@@ -24,6 +24,7 @@
 #import "LPRelateCell.h"
 #import "LPParaCommentViewController.h"
 #import "LPPressTool.h"
+#import "MobClick.h"
 
 #define CellAlpha 0.3
 
@@ -49,6 +50,18 @@
     
     [self setupSubviews];
     [self setupData];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"DetailPage"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"DetailPage"];
 }
 
 - (NSArray *)relates

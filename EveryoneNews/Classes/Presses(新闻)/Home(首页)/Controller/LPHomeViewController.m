@@ -17,10 +17,12 @@
 #import "LPDetailViewController.h"
 #import "LPCategory.h"
 #import "LPPressTool.h"
-
+#import "MobClick.h"
+#import "AccountTool.h"
+#import "UIImageView+WebCache.h"
 typedef void (^completionBlock)();
 
-@interface LPHomeViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface LPHomeViewController () <UITableViewDataSource, UITableViewDelegate,UIAlertViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray *pressFrames;
 @property (nonatomic, strong) UITableView *tableView;
@@ -28,7 +30,6 @@ typedef void (^completionBlock)();
 @property (nonatomic, assign) NSUInteger anyDisplayingCellRow;
 @property (nonatomic, assign) BOOL isScrolled;
 @property (nonatomic,strong) UIButton *loginBtn;
-
 @end
 
 @implementation LPHomeViewController
@@ -40,7 +41,21 @@ typedef void (^completionBlock)();
     [noteCenter addObserver:self selector:@selector(receivePushNotification:) name:LPPushNotificationFromLaunching object:nil];
     [noteCenter addObserver:self selector:@selector(receivePushNotification:) name:LPPushNotificationFromBack object:nil];
     [noteCenter addObserver:self selector:@selector(changeCategory:) name:LPCategoryDidChangeNotification object:nil];
+    [noteCenter addObserver:self selector:@selector(accountLoginWithNotification:) name:AccountLoginNotification  object:nil];
 }
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"HomePage"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"HomePage"];
+}
+
 
 - (void)setupSubviews
 {
@@ -61,21 +76,68 @@ typedef void (^completionBlock)();
     sharedIndicator.bounds = CGRectMake(0, 0, ScreenWidth / 4, ScreenWidth / 4);
     [self.view addSubview:sharedIndicator];
     
+    //添加右下角的登录按钮
     self.loginBtn=[UIButton buttonWithType:UIButtonTypeCustom];
-    [self.loginBtn setBackgroundImage:[UIImage imageNamed:@"登录icon"] forState:UIControlStateNormal];
-    
+    //如果用户已经登录则在右下角显示用户图像
+    Account *account=[AccountTool account];
+    if (account == nil) {
+        [self.loginBtn setImage:[UIImage imageNamed:@"登录icon"] forState:UIControlStateNormal];
+    } else {
+        [self displayLoginBtnIconWithAccount:account];
+    }
     #warning 增加屏幕适配
-    self.loginBtn.frame = CGRectMake(ScreenWidth*0.85-20, ScreenHeight*0.85, 40, 40);
+    self.loginBtn.frame = CGRectMake(ScreenWidth-20-32, ScreenHeight-20-32, 32, 32);
     self.loginBtn.layer.cornerRadius = self.loginBtn.frame.size.height / 2;
-    self.loginBtn.layer.borderWidth = 2;
+    self.loginBtn.layer.borderWidth = 1.5;
     self.loginBtn.layer.masksToBounds = YES;
     self.loginBtn.layer.borderColor = [UIColor blackColor].CGColor;
     [self.loginBtn addTarget:self action:@selector(userLogin:) forControlEvents:UIControlEventTouchUpInside];
+    
     [self.view addSubview:self.loginBtn];
 }
+//在右下角显示用户图像
+
+/**
+ *  显示右下角登录icon
+ *
+ *  @param account 用户信息对象
+ */
+- (void)displayLoginBtnIconWithAccount:(Account *)account
+{
+    UIImageView *imageView = [[UIImageView alloc] init];
+    __weak typeof(self) weakSelf = self;
+    [imageView sd_setImageWithURL:[NSURL URLWithString:account.userIcon] placeholderImage:[UIImage imageNamed:@"登录icon"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+        if (!error) {
+            [weakSelf.loginBtn setBackgroundImage:imageView.image forState:UIControlStateNormal];
+        }
+        
+    }];
+}
+/**
+ *  用户登录点击事件
+ *
+ *  @param loginBtn 响应点击事件的button
+ */
 - (void)userLogin:(UIButton *)loginBtn{
     NSLog(@"%s",__func__);
-   
+    if ([AccountTool account] != nil) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"退出登录" message:@"退出登录后无法进行评论哦" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
+        [alert show];
+    }else{
+        [AccountTool accountLoginWithViewController:self];
+    }
+}
+- (void)accountLoginWithNotification:(NSNotification *)notification{
+    NSLog(@"...%s...%@",__func__,[AccountTool account]);
+    [self displayLoginBtnIconWithAccount:[AccountTool account]];
+}
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex == 1) {
+        //1.删除用户信息
+        [AccountTool deleteAccount];
+        //2.修改主界面icon
+        [self.loginBtn setBackgroundImage:[UIImage imageNamed:@"登录icon"] forState:UIControlStateNormal];
+    }
 }
 
 - (NSMutableArray *)pressFrames
@@ -144,6 +206,7 @@ typedef void (^completionBlock)();
 }
 
 # pragma mark - notification selector
+
 - (void)changeCategory:(NSNotification *)note
 {
     NSDictionary *info = note.userInfo;
