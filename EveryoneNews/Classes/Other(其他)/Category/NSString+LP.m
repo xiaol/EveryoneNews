@@ -56,4 +56,20 @@
 {
     return ([self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length == 0);
 }
+
++ (instancetype)stringFromIntValue:(int)intValue
+{
+    return [NSString stringWithFormat:@"%d", intValue];
+}
+
++ (instancetype)stringFromUIntegerValue:(NSUInteger)uIntValue
+{
+    return [NSString stringWithFormat:@"%lu", uIntValue];
+}
+
++ (instancetype)stringFromBOOLValue:(BOOL)boolValue
+{
+    return boolValue ? @"YES" : @"NO";
+}
+
 @end

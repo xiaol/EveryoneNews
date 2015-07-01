@@ -27,6 +27,9 @@
 #import "MobClick.h"
 #import "LPCommentView.h"
 #import "LPComposeViewController.h"
+#import "LPComment.h"
+#import "AccountTool.h"
+#import "MBProgressHUD+MJ.h"
 
 #define CellAlpha 0.3
 
@@ -45,7 +48,7 @@
 @property (nonatomic, strong) NSArray *relates;
 
 @property (nonatomic, copy) NSString *commentText;
-
+@property (nonatomic, strong) LPContent *commentContent;
 @end
 
 @implementation LPDetailViewController
@@ -57,7 +60,8 @@
     [self setupSubviews];
     [self setupData];
     
-    [noteCenter addObserver:self selector:@selector(compose:) name:LPComposeCommentNotification object:nil];
+    [noteCenter addObserver:self selector:@selector(willComposeComment:) name:LPCommentWillComposeNotification object:nil];
+    [noteCenter addObserver:self selector:@selector(didComposeComment) name:LPCommentDidComposeNotification object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -184,7 +188,7 @@
             } else {
                 // 遍历point数组 根据索引确定每段的评论列表
                 for (LPComment *comment in commentArray) {
-                    if (comment.paragraphIndex.intValue == (i-1) && [comment.type isEqualToString:@"text_paragraph"])
+                    if (comment.paragraphIndex.intValue == i && [comment.type isEqualToString:@"text_paragraph"])
                     {
                         [comments addObject:comment];
                     }
@@ -442,6 +446,11 @@
     self.lastContentOffsetY = self.tableView.contentOffset.y;
 }
 
+/**
+ *  头图视差效果
+ *
+ *  @param scrollView tableView
+ */
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
    
@@ -599,14 +608,19 @@
     [LPPressTool loadWebViewWithURL:url viewController:self];
 }
 
-#pragma mark - notification selector
-- (void)compose:(NSNotification *)note
+#pragma mark - notification selector will compose comment
+- (void)willComposeComment:(NSNotification *)note
 {
+    if (![AccountTool account]) {
 #warning - 此处要进行登录判断，如果未登录，应该先登录
     // login code ... ...
-    
+    [AccountTool accountLoginWithViewController:self];
+#warning - 告诉我登陆成功与否, 登录失败直接返回
+//        [MBProgressHUD showError:@"登录失败"];
+    }
     NSDictionary *info = note.userInfo;
-    LPContent *content = info[LPComposeFromContent];
+    LPContent *content = info[LPComposeForContent];
+    self.commentContent = content;
     LPComposeViewController *composeVc = [[LPComposeViewController alloc] init];
     composeVc.category = content.category;
     composeVc.draftText = self.commentText;
@@ -615,6 +629,62 @@
     }];
 //    composeVc.content = content;
     [self.navigationController pushViewController:composeVc animated:YES];
+}
+
+#pragma mark - notification selector did compose comment
+- (void)didComposeComment
+{
+    NSLog(@"didComposeComment --- %@", self.commentText);
+    // 1. 刷新当前页
+    LPContent *content = self.commentContent;
+    Account *account = [AccountTool account];
+    NSMutableArray *commentArray = [NSMutableArray arrayWithArray:content.comments];
+    // 1.1 创建comment对象
+    LPComment *comment = [[LPComment alloc] init];
+    comment.sourceUrl = self.press.sourceUrl;
+    comment.srcText = self.commentText;
+    comment.category = content.category;
+    comment.paragraphIndex = [NSString stringFromIntValue:content.paragraphIndex];
+    comment.type = @"text_paragraph";
+    comment.uuid = account.userId;
+    comment.userIcon = account.userIcon;
+    comment.userName = account.userName;
+    // 1.2 更新content对象
+    content.hasComment = YES;
+    [commentArray addObject:comment];
+    content.comments = commentArray;
+    LPContentFrame *contentFrame = self.contentFrames[content.paragraphIndex];
+    contentFrame.content = content;
+    
+#warning - 发送成功，通知首页，使无评论图标的对应卡片显示评论图标， 这行代码写在这还是post成功之后？
+//    [noteCenter postNotificationName:LPCommentDidComposeSuccessNotification object:self];
+
+    // 2. 发送post请求
+    NSString *url = [NSString stringWithFormat:@"%@/news/baijia/point", ServerUrl];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"sourceUrl"] = comment.sourceUrl;
+    params[@"srcText"] = comment.srcText;
+    params[@"paragraphIndex"] = comment.paragraphIndex;
+    params[@"type"] = comment.type;
+    params[@"uuid"] = comment.uuid;
+    params[@"userIcon"] = comment.userIcon;
+    params[@"userName"] = comment.userName;
+    params[@"desText"] = content.body;
+    [LPHttpTool postWithURL:url params:params success:^(id json) {
+        [noteCenter postNotificationName:LPCommentDidComposeSuccessNotification object:self];
+        [MBProgressHUD showSuccess:@"发表成功"];
+        [self.tableView reloadData];
+    } failure:^(NSError *error) {
+        [MBProgressHUD showError:@"发表失败"];
+    }];
+    
+    // 3. 清空草稿
+    self.commentText = nil;
+}
+
+- (void)dealloc
+{
+    [noteCenter removeObserver:self];
 }
 
 @end

@@ -123,14 +123,14 @@
         self.commentsCountBtn.hidden = NO;
         self.commentsCountBtn.frame = self.contentFrame.commentsCountBtnF;
         [self.commentsCountBtn setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@_评论数图形", category]] forState:UIControlStateNormal];
-        [self.commentsCountBtn setTitle:comment.comments_count forState:UIControlStateNormal];
+        [self.commentsCountBtn setTitle:[NSString stringFromIntValue:(int)content.comments.count] forState:UIControlStateNormal];
     }
 }
 
 - (void)plusBtnClicked
 {
     LPContent *content = self.contentFrame.content;
-    NSDictionary *info = @{LPComposeFromContent: content};
-    [noteCenter postNotificationName:LPComposeCommentNotification object:self userInfo:info];
+    NSDictionary *info = @{LPComposeForContent: content};
+    [noteCenter postNotificationName:LPCommentWillComposeNotification object:self userInfo:info];
 }
 @end

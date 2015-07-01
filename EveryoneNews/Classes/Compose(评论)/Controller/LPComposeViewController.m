@@ -11,7 +11,7 @@
 #import "LPTextView.h"
 
 #define padding 10
-
+#define HeaderViewHeight 50
 
 @interface LPComposeViewController () <UITextViewDelegate>
 @property (nonatomic, strong) UIButton *composeBtn;
@@ -36,14 +36,6 @@
     [self.textView becomeFirstResponder];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    if (self.returnTextBlock != nil) {
-        self.returnTextBlock(self.textView.text);
-    }
-}
-
 - (void)returnText:(returnTextBlock)returnTextBlock
 {
     self.returnTextBlock = returnTextBlock;
@@ -56,7 +48,7 @@
     headerView.x = 0;
     headerView.y = 0;
     headerView.width = ScreenWidth;
-    headerView.height = 44;
+    headerView.height = HeaderViewHeight;
     headerView.backgroundColor = [UIColor colorFromCategory:self.category];
     
     UIButton *backBtn = [[UIButton alloc] init];
@@ -82,8 +74,9 @@
     [composeBtn setTitle:@"发表" forState:UIControlStateNormal];
     composeBtn.titleLabel.font = [UIFont boldSystemFontOfSize:15];
     [composeBtn setTitleColor:[UIColor colorFromHexString:ComposeButtonNormalColor] forState:UIControlStateNormal];
-    [composeBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
+    [composeBtn setTitleColor:LPColor(220, 220, 220) forState:UIControlStateDisabled];
     [headerView addSubview:composeBtn];
+    self.composeBtn = composeBtn;
 }
 
 - (void)setupTextView
@@ -91,7 +84,7 @@
     LPTextView *textView = [[LPTextView alloc] init];
     textView.alwaysBounceVertical = YES;
     textView.frame = self.view.bounds;
-    textView.y = 44;
+    textView.y = HeaderViewHeight;
     textView.delegate = self;
     [self.view addSubview:textView];
     self.textView = textView;
@@ -105,6 +98,8 @@
     }
     textView.font = [UIFont systemFontOfSize:15];
     
+    self.composeBtn.enabled = (self.textView.text.length != 0);
+
 //    [noteCenter addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
 //    [noteCenter addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
@@ -114,6 +109,9 @@
  */
 - (void)backBtnClicked
 {
+    if (self.returnTextBlock != nil) {
+        self.returnTextBlock(self.textView.text);
+    }
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -122,7 +120,11 @@
  */
 - (void)composeBtnClicked
 {
-    
+    if (self.returnTextBlock != nil) {
+        self.returnTextBlock(self.textView.text);
+    }
+    [noteCenter postNotificationName:LPCommentDidComposeNotification object:self];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 //- (void)keyboardWillShow:(NSNotification *)note
@@ -149,7 +151,15 @@
 {
     [self.view endEditing:YES];
 }
-
+/**
+ *  监听文字变化，设置发表文字的enabled
+ *
+ *  @param textView textView
+ */
+- (void)textViewDidChange:(UITextView *)textView
+{
+    self.composeBtn.enabled = (textView.text.length != 0);
+}
 
 //- (void)dealloc
 //{

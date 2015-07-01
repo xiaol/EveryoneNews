@@ -29,7 +29,8 @@ typedef void (^completionBlock)();
 @property (nonatomic, assign) NSUInteger timeRow;
 @property (nonatomic, assign) NSUInteger anyDisplayingCellRow;
 @property (nonatomic, assign) BOOL isScrolled;
-@property (nonatomic,strong) UIButton *loginBtn;
+@property (nonatomic, strong) UIButton *loginBtn;
+@property (nonatomic, assign) NSUInteger selectedRow;
 @end
 
 @implementation LPHomeViewController
@@ -41,7 +42,8 @@ typedef void (^completionBlock)();
     [noteCenter addObserver:self selector:@selector(receivePushNotification:) name:LPPushNotificationFromLaunching object:nil];
     [noteCenter addObserver:self selector:@selector(receivePushNotification:) name:LPPushNotificationFromBack object:nil];
     [noteCenter addObserver:self selector:@selector(changeCategory:) name:LPCategoryDidChangeNotification object:nil];
-    [noteCenter addObserver:self selector:@selector(accountLoginWithNotification:) name:AccountLoginNotification  object:nil];
+    [noteCenter addObserver:self selector:@selector(accountLogin:) name:AccountLoginNotification  object:nil];
+    [noteCenter addObserver:self selector:@selector(commentSuccess) name:LPCommentDidComposeSuccessNotification object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -81,7 +83,7 @@ typedef void (^completionBlock)();
     //如果用户已经登录则在右下角显示用户图像
     Account *account=[AccountTool account];
     if (account == nil) {
-        [self.loginBtn setImage:[UIImage imageNamed:@"登录icon"] forState:UIControlStateNormal];
+        [self.loginBtn setBackgroundImage:[UIImage imageNamed:@"登录icon"] forState:UIControlStateNormal];
     } else {
         [self displayLoginBtnIconWithAccount:account];
     }
@@ -128,7 +130,6 @@ typedef void (^completionBlock)();
  *  @param loginBtn 响应点击事件的button
  */
 - (void)userLogin:(UIButton *)loginBtn{
-    NSLog(@"%s",__func__);
     if ([AccountTool account] != nil) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"退出登录" message:@"退出登录后无法进行评论哦" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
         [alert show];
@@ -136,10 +137,11 @@ typedef void (^completionBlock)();
         [AccountTool accountLoginWithViewController:self];
     }
 }
-- (void)accountLoginWithNotification:(NSNotification *)notification{
-    NSLog(@"...%s...%@",__func__,[AccountTool account]);
+
+- (void)accountLogin:(NSNotification *)notification{
     [self displayLoginBtnIconWithAccount:[AccountTool account]];
 }
+
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 1) {
         //1.删除用户信息
@@ -245,11 +247,22 @@ typedef void (^completionBlock)();
         weakSelf.tableView.hidden = NO;
     }];
 }
+// 评论成功后，若原来没有评论图标，就显示
+- (void)commentSuccess
+{
+    NSLog(@"receive comment success notification");
+    LPPressFrame *pressFrame = self.pressFrames[self.selectedRow];
+    LPPress *press = pressFrame.press;
+    if (press.isCommentsFlag.intValue == 0) {
+        press.isCommentsFlag = @"1";
+        self.isScrolled = NO;
+        [self.tableView reloadData];
+    }
+}
 
 - (void)dealloc
 {
-    [noteCenter removeObserver:self name:LPCategoryDidChangeNotification object:nil];
-    [noteCenter removeObserver:self name:LPPushNotificationFromBack object:nil];
+    [noteCenter removeObserver:self];
 }
 
 #pragma mark - Table view data source
@@ -304,6 +317,7 @@ typedef void (^completionBlock)();
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    self.selectedRow = indexPath.row;
     LPPressFrame *pressFrame = self.pressFrames[indexPath.row];
     LPPress *press = pressFrame.press;
     LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
