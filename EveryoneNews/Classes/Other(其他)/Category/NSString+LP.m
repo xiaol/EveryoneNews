@@ -72,4 +72,13 @@
     return boolValue ? @"YES" : @"NO";
 }
 
++ (instancetype)stringFromNowDate;
+{
+    NSDate *date = [NSDate date];
+    NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
+    fmt.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    return [fmt stringFromDate:date];
+}
+
+
 @end

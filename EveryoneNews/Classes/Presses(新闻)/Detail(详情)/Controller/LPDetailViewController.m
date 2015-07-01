@@ -614,6 +614,7 @@
     if (![AccountTool account]) {
 #warning - 此处要进行登录判断，如果未登录，应该先登录
     // login code ... ...
+        
     [AccountTool accountLoginWithViewController:self];
 #warning - 告诉我登陆成功与否, 登录失败直接返回
 //        [MBProgressHUD showError:@"登录失败"];
@@ -649,6 +650,9 @@
     comment.uuid = account.userId;
     comment.userIcon = account.userIcon;
     comment.userName = account.userName;
+    comment.createTime = [NSString stringFromNowDate];
+    
+    NSLog(@"%@", comment.createTime);
     // 1.2 更新content对象
     content.hasComment = YES;
     [commentArray addObject:comment];
@@ -656,9 +660,6 @@
     LPContentFrame *contentFrame = self.contentFrames[content.paragraphIndex];
     contentFrame.content = content;
     
-#warning - 发送成功，通知首页，使无评论图标的对应卡片显示评论图标， 这行代码写在这还是post成功之后？
-//    [noteCenter postNotificationName:LPCommentDidComposeSuccessNotification object:self];
-
     // 2. 发送post请求
     NSString *url = [NSString stringWithFormat:@"%@/news/baijia/point", ServerUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -671,6 +672,7 @@
     params[@"userName"] = comment.userName;
     params[@"desText"] = content.body;
     [LPHttpTool postWithURL:url params:params success:^(id json) {
+        // 发送成功，通知首页，使无评论图标的对应卡片显示评论图标， 这行代码写在这还是post成功之后？
         [noteCenter postNotificationName:LPCommentDidComposeSuccessNotification object:self];
         [MBProgressHUD showSuccess:@"发表成功"];
         [self.tableView reloadData];

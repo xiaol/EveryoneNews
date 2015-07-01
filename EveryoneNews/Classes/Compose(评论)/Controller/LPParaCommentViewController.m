@@ -12,6 +12,8 @@
 #import "LPParaCommentCell.h"
 #import "MobClick.h"
 
+#define InputViewHeight 55
+
 @interface LPParaCommentViewController () <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
 {
     CGFloat headerHeight;
@@ -22,6 +24,7 @@
 @property (nonatomic, strong) UIView *blackView;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *paraCommentFrames;
+@property (nonatomic, strong) UIImageView *inputView;
 @end
 
 @implementation LPParaCommentViewController
@@ -67,7 +70,7 @@
     self.bgView = bgView;
     
     UIView *blackView = [[UIView alloc] initWithFrame:self.view.bounds];
-    blackView.backgroundColor = [UIColor colorFromHexString:@"000000" alpha:0.1];
+    blackView.backgroundColor = [UIColor colorFromHexString:@"000000" alpha:0.5];
     [self.view addSubview:blackView];
     self.blackView = blackView;
     [self.blackView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapBlackView:)]];
@@ -84,6 +87,14 @@
     tableView.delegate = self;
     [self.view addSubview:tableView];
     self.tableView = tableView;
+    
+    UIImageView *inputView = [[UIImageView alloc] initWithImage:[UIImage resizableImage:@"评论框"]];
+    inputView.x = 0;
+    inputView.y = ScreenHeight - InputViewHeight;
+    inputView.width = ScreenWidth;
+    inputView.height = InputViewHeight;
+    [self.view addSubview:inputView];
+    self.inputView = inputView;
 }
 
 - (void)setupTableHeaderView
@@ -133,8 +144,8 @@
         totalCellHeight += commentFrame.cellHeight;
     }
     CGFloat tableViewMaxHeight = totalCellHeight + headerHeight;
-    tableViewHeight = MIN(tableViewMaxHeight, ScreenHeight * 0.69);
-    self.tableView.frame = CGRectMake(0, ScreenHeight - tableViewHeight, ScreenWidth, tableViewHeight);
+    tableViewHeight = MIN(tableViewMaxHeight, ScreenHeight * 0.6);
+    self.tableView.frame = CGRectMake(0, ScreenHeight - tableViewHeight - InputViewHeight, ScreenWidth, tableViewHeight);
     self.paraCommentFrames = commentFrameArray;
 }
 
@@ -143,7 +154,8 @@
     __weak typeof(self) weakSelf = self;
     [UIView animateWithDuration:0.5 animations:^{
         weakSelf.blackView.alpha = 0.0;
-        weakSelf.tableView.transform = CGAffineTransformMakeTranslation(0, tableViewHeight);
+        weakSelf.inputView.transform = CGAffineTransformMakeTranslation(0, InputViewHeight);
+        weakSelf.tableView.transform = CGAffineTransformMakeTranslation(0, tableViewHeight + InputViewHeight);
     } completion:^(BOOL finished) {
 //        [self dismissViewControllerAnimated:NO completion:^{
         if ([weakSelf.delegate respondsToSelector:@selector(paraCommentViewControllerWillDismiss:)]) {

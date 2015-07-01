@@ -34,6 +34,8 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        self.backgroundColor = LPColor(255, 255, 250);
+        
         UIImageView *iconView = [[UIImageView alloc] init];
         iconView.contentMode = UIViewContentModeScaleAspectFill;
         [self.contentView addSubview:iconView];

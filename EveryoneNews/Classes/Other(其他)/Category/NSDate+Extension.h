@@ -14,5 +14,4 @@
 
 //将时间戳转换为NSDate类型
 + (NSDate *)getDateTimeFromMilliSeconds:(NSUInteger) miliSeconds;
-
 @end

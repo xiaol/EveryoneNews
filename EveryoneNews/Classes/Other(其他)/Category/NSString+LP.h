@@ -27,5 +27,5 @@
 + (instancetype)stringFromIntValue:(int)intValue;
 + (instancetype)stringFromUIntegerValue:(NSUInteger)uIntValue;
 + (instancetype)stringFromBOOLValue:(BOOL)boolValue;
-
++ (instancetype)stringFromNowDate;
 @end
