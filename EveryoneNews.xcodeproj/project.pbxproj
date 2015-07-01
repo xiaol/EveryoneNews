@@ -192,6 +192,7 @@
 		7E9E72391B3BDF500038FE12 /* AccountTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9E72381B3BDF500038FE12 /* AccountTool.m */; };
 		7E9E723E1B3BF0E70038FE12 /* MBProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7E9E723B1B3BF0E70038FE12 /* MBProgressHUD.bundle */; };
 		7E9E723F1B3BF0E70038FE12 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9E723D1B3BF0E70038FE12 /* MBProgressHUD.m */; };
+		7E9FEBA61B43928900D06E0A /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9FEBA51B43928900D06E0A /* NSDate+Extension.m */; };
 		7ED4FA571B41423300DF2B7D /* MBProgressHUD+MJ.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ED4FA561B41423300DF2B7D /* MBProgressHUD+MJ.m */; };
 /* End PBXBuildFile section */
 
@@ -496,6 +497,8 @@
 		7E9E723B1B3BF0E70038FE12 /* MBProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MBProgressHUD.bundle; sourceTree = "<group>"; };
 		7E9E723C1B3BF0E70038FE12 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		7E9E723D1B3BF0E70038FE12 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
+		7E9FEBA41B43928900D06E0A /* NSDate+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Extension.h"; sourceTree = "<group>"; };
+		7E9FEBA51B43928900D06E0A /* NSDate+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Extension.m"; sourceTree = "<group>"; };
 		7ED4FA551B41423300DF2B7D /* MBProgressHUD+MJ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+MJ.h"; sourceTree = "<group>"; };
 		7ED4FA561B41423300DF2B7D /* MBProgressHUD+MJ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+MJ.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -864,6 +867,8 @@
 			isa = PBXGroup;
 			children = (
 				18BA5E8C1B199BDB00EEDB63 /* UIView+LP.h */,
+				7E9FEBA41B43928900D06E0A /* NSDate+Extension.h */,
+				7E9FEBA51B43928900D06E0A /* NSDate+Extension.m */,
 				18BA5E8D1B199BDB00EEDB63 /* UIView+LP.m */,
 				18B06EA01B1B84E000FC18FC /* UIColor+LP.h */,
 				18B06EA11B1B84E000FC18FC /* UIColor+LP.m */,
@@ -1609,6 +1614,7 @@
 				18D71F921B25710F002A7375 /* AFSecurityPolicy.m in Sources */,
 				18D71F951B25710F002A7375 /* AFURLResponseSerialization.m in Sources */,
 				18BAE7611B14A3090052BDD0 /* LPTabBar.m in Sources */,
+				7E9FEBA61B43928900D06E0A /* NSDate+Extension.m in Sources */,
 				18D71FBC1B26CA10002A7375 /* LPRelatePoint.m in Sources */,
 				18095CD21B2A221100CB7666 /* LPWaterfallView.m in Sources */,
 				18A65CC61B203D330070DDD7 /* SDWebImageDecoder.m in Sources */,
@@ -1751,8 +1757,6 @@
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0/UI",
 				);
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
 				INFOPLIST_FILE = EveryoneNewsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1775,7 +1779,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0/Connection",
@@ -1783,8 +1787,6 @@
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0/UI",
 				);
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
 				INFOPLIST_FILE = EveryoneNewsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

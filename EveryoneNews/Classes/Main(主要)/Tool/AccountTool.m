@@ -17,13 +17,14 @@
 #import "LPHomeViewController.h"
 #import "LPTabBarController.h"
 #import "AppDelegate.h"
+#import "NSDate+Extension.h"
 @implementation AccountTool 
 
 + (void)accountLoginWithViewController:(UIViewController *)viewVc
 {
     Account *account=[self account];
+    LoginViewController *loginVc=[[LoginViewController alloc] init];
     if (account==nil) {
-        LoginViewController *loginVc=[[LoginViewController alloc] init];
         if ([viewVc isKindOfClass:[LPHomeViewController class]]) {
             LPTabBarController *tabbarVc = ((LPHomeViewController *)viewVc).tabBarVc;
             loginVc.headerBackgroundImage = [UIImage captureWithView:(UIView*)tabbarVc.customTabBar];
@@ -35,8 +36,8 @@
 
         [viewVc presentViewController:loginVc animated:NO completion:nil];
     }else{
-        if (![ShareSDK hasAuthorizedWithType:(ShareType)account.platformType]) {
-            LoginViewController *loginVc=[[LoginViewController alloc] init];
+        //如果已经授权登录，则判断是否过期
+        if ([NSDate dateToMilliSeconds:[NSDate date]] < account.expiresTime) {
             [viewVc presentViewController:loginVc animated:NO completion:nil];
         }
     }
@@ -49,16 +50,20 @@
      {
 
          if(result){
-             NSMutableDictionary *dict=[NSMutableDictionary dictionary];
-             dict[@"userId"]=userInfo.uid;
-             dict[@"userGender"]=@(userInfo.gender);
-             dict[@"userName"]=userInfo.nickname;
-             dict[@"userIcon"]=userInfo.profileImage;
-             dict[@"platformType"]=@(userInfo.type);
-             dict[@"deviceType"]=@"ios";
-            
+             //平台授权凭证协议
+            id<ISSPlatformCredential> credential = [ShareSDK getCredentialWithType:(ShareType)accountType];//平台类型
+             NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+             dict[@"userId"] = userInfo.uid;
+             dict[@"userGender"] = @(userInfo.gender);
+             dict[@"userName"] = userInfo.nickname;
+             dict[@"userIcon"] = userInfo.profileImage;
+             dict[@"platformType"] = @(userInfo.type);
+             dict[@"deviceType"] = @"ios";
+             dict[@"token"] =credential.token;
+             dict[@"expiresTime"] = @([NSDate dateToMilliSeconds:credential.expired]);
              Account *account = [Account objectWithKeyValues:dict];
-
+         
+             
              //将用户授权信息上传到服务器
              NSDictionary *params = [NSDictionary dictionary];
              params = account.keyValues;

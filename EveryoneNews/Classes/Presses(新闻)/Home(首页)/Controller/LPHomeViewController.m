@@ -88,7 +88,16 @@ typedef void (^completionBlock)();
         [self displayLoginBtnIconWithAccount:account];
     }
     #warning 增加屏幕适配
-    self.loginBtn.frame = CGRectMake(ScreenWidth-20-32, ScreenHeight-20-32, 32, 32);
+    CGFloat loginBtnWidth = 32;
+    CGFloat loginBtnHeight = 32;
+    if (iPhone6) {
+        loginBtnWidth -= 2;
+        loginBtnHeight -= 2;
+    } else if (iPhone6Plus){
+        loginBtnWidth += 2;
+        loginBtnHeight += 2;
+    }
+    self.loginBtn.frame = CGRectMake(ScreenWidth-20-32, ScreenHeight-20-32, loginBtnWidth, loginBtnHeight);
     self.loginBtn.layer.cornerRadius = self.loginBtn.frame.size.height / 2;
     self.loginBtn.layer.borderWidth = 1.5;
     self.loginBtn.layer.masksToBounds = YES;
