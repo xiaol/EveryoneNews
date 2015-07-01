@@ -11,7 +11,7 @@
 @implementation Account
 
 -(NSString *)description{
-    return [NSString stringWithFormat:@"<%p> (%@,%ld,%@,%@,%ld,%@)",self,_userId,_userGender,_userName,_userIcon,_platformType,_deviceType];
+    return [NSString stringWithFormat:@"<%p> (%@,%ld,%@,%@,%ld,%@,%ld)",self,_userId,_userGender,_userName,_userIcon,_platformType,_deviceType,_expiresTime];
 }
 // 从文件中解析对象的时候使用
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
@@ -23,6 +23,8 @@
         self.userIcon = [aDecoder decodeObjectForKey:@"userIcon"];
         self.platformType = [aDecoder decodeIntegerForKey:@"platformType"];
         self.deviceType=[aDecoder decodeObjectForKey:@"deviceType"];
+        self.token=[aDecoder decodeObjectForKey:@"token"];
+        self.expiresTime=[aDecoder decodeIntegerForKey:@"expiresTime"];
     }
     return self;
 }
@@ -35,5 +37,7 @@
     [aCoder encodeObject:self.userIcon forKey:@"userIcon"];
     [aCoder encodeInteger:self.platformType forKey:@"platformType"];
     [aCoder encodeObject:self.deviceType forKey:@"deviceType"];
+    [aCoder encodeObject:self.token forKey:@"token"];
+    [aCoder encodeInteger:self.expiresTime forKey:@"expiresTime"];
 }
 @end

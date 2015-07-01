@@ -16,4 +16,6 @@
 @property (nonatomic,copy) NSString *userIcon;
 @property (nonatomic,assign) NSInteger platformType;
 @property (nonatomic,copy) NSString *deviceType;
+@property (nonatomic,copy) NSString *token;
+@property (nonatomic,assign) NSUInteger expiresTime;
 @end

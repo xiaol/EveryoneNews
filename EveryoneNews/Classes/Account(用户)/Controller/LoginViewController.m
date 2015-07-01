@@ -14,7 +14,6 @@
 
 @interface LoginViewController ()
 @property (nonatomic,strong) UIView *wrapperView;
-
 @end
 
 @implementation LoginViewController
@@ -122,10 +121,11 @@
     [self dismissViewControllerAnimated:NO completion:nil];
 }
 - (void)weiboLogin:(UIButton *)weiboBtn{
+    [self closeSelf];
     [[[AccountTool alloc] init] accountLoginWithType:AccountTypeSinaWeibo completion:^(BOOL result) {
-        [self closeSelf];
         if (result) {
              [[NSNotificationCenter defaultCenter] postNotificationName:AccountLoginNotification object:self userInfo:[NSDictionary dictionaryWithObject:@(result) forKey:AccountLoginCallbackDictKey]];
+            [MBProgressHUD showSuccess:@"登录成功"];
         }else {
             [MBProgressHUD showError:@"登录失败"];
         }
@@ -134,10 +134,11 @@
      
 }
 - (void)weixinLogin:(UIButton *)weixinBtn{
+    [self closeSelf];
     [[[AccountTool alloc] init] accountLoginWithType:AccountTypeWeiXin completion:^(BOOL result) {
-        [self closeSelf];
         if (result) {
          [[NSNotificationCenter defaultCenter] postNotificationName:AccountLoginNotification object:self userInfo:[NSDictionary dictionaryWithObject:@(result) forKey:AccountLoginCallbackDictKey]];
+            [MBProgressHUD showSuccess:@"登录成功"];
         }else {
             [MBProgressHUD showError:@"登录失败"];
         }
