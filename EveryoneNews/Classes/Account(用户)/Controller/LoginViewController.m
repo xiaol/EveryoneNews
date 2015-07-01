@@ -14,6 +14,10 @@
 
 @interface LoginViewController ()
 @property (nonatomic,strong) UIView *wrapperView;
+@property (nonatomic,copy) success successBlock;
+@property (nonatomic,copy) failure failureBlock;
+@property (nonatomic,copy) cancel cancelBlock;
+
 @end
 
 @implementation LoginViewController
@@ -21,6 +25,13 @@
 {
     return YES;
 }
+- (void) setCallBackBlocks:(success)success :(failure) failure :(cancel)cancel
+{
+    self.successBlock=success;
+    self.failureBlock=failure;
+    self.cancelBlock=cancel;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     if (self.footerBackgroundImage != nil) {
@@ -119,15 +130,22 @@
 - (void)closeSelf
 {
     [self dismissViewControllerAnimated:NO completion:nil];
+    if (self.cancelBlock !=nil) {
+        self.cancelBlock();
+    }
 }
 - (void)weiboLogin:(UIButton *)weiboBtn{
     [self closeSelf];
     [[[AccountTool alloc] init] accountLoginWithType:AccountTypeSinaWeibo completion:^(BOOL result) {
         if (result) {
+            if (self.cancelBlock !=nil){
+                self.successBlock();
+            }
              [[NSNotificationCenter defaultCenter] postNotificationName:AccountLoginNotification object:self userInfo:[NSDictionary dictionaryWithObject:@(result) forKey:AccountLoginCallbackDictKey]];
-            [MBProgressHUD showSuccess:@"登录成功"];
         }else {
-            [MBProgressHUD showError:@"登录失败"];
+            if (self.cancelBlock !=nil){
+                self.failureBlock();
+            }
         }
 
     }];
@@ -137,10 +155,14 @@
     [self closeSelf];
     [[[AccountTool alloc] init] accountLoginWithType:AccountTypeWeiXin completion:^(BOOL result) {
         if (result) {
+            if (self.cancelBlock !=nil){
+                self.successBlock();
+            }
          [[NSNotificationCenter defaultCenter] postNotificationName:AccountLoginNotification object:self userInfo:[NSDictionary dictionaryWithObject:@(result) forKey:AccountLoginCallbackDictKey]];
-            [MBProgressHUD showSuccess:@"登录成功"];
         }else {
-            [MBProgressHUD showError:@"登录失败"];
+            if (self.cancelBlock !=nil){
+                self.failureBlock();
+            }
         }
     }];
   

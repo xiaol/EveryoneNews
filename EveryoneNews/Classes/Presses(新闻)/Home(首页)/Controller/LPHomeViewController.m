@@ -134,12 +134,19 @@ typedef void (^completionBlock)();
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"退出登录" message:@"退出登录后无法进行评论哦" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
         [alert show];
     }else{
-        [AccountTool accountLoginWithViewController:self];
+        [AccountTool accountLoginWithViewController:self success:^{
+            NSLog(@"---授权成功");
+            [self displayLoginBtnIconWithAccount:[AccountTool account]];
+        } failure:^{
+            NSLog(@"---授权失败");
+        } cancel:^{
+            NSLog(@"---授权取消");
+        }];
     }
 }
 
 - (void)accountLogin:(NSNotification *)notification{
-    [self displayLoginBtnIconWithAccount:[AccountTool account]];
+//    [self displayLoginBtnIconWithAccount:[AccountTool account]];
 }
 
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{

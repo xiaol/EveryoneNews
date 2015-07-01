@@ -611,13 +611,13 @@
 #pragma mark - notification selector will compose comment
 - (void)willComposeComment:(NSNotification *)note
 {
-    if (![AccountTool account]) {
-#warning - 此处要进行登录判断，如果未登录，应该先登录
-    // login code ... ...
-    [AccountTool accountLoginWithViewController:self];
-#warning - 告诉我登陆成功与否, 登录失败直接返回
-//        [MBProgressHUD showError:@"登录失败"];
-    }
+//    if (![AccountTool account]) {
+//#warning - 此处要进行登录判断，如果未登录，应该先登录
+//    // login code ... ...
+//    [AccountTool accountLoginWithViewController:self];
+//#warning - 告诉我登陆成功与否, 登录失败直接返回
+////        [MBProgressHUD showError:@"登录失败"];
+//    }
     NSDictionary *info = note.userInfo;
     LPContent *content = info[LPComposeForContent];
     self.commentContent = content;

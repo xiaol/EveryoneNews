@@ -20,16 +20,16 @@
 #import "NSDate+Extension.h"
 @implementation AccountTool 
 
-+ (void)accountLoginWithViewController:(UIViewController *)viewVc
++ (void)accountLoginWithViewController:(UIViewController *)viewVc success:(void (^)())success failure:(void (^)()) failure cancel:(void (^)()) cancel
 {
     Account *account=[self account];
     LoginViewController *loginVc=[[LoginViewController alloc] init];
+    [loginVc setCallBackBlocks:success :failure :cancel];
     if (account==nil) {
         if ([viewVc isKindOfClass:[LPHomeViewController class]]) {
             LPTabBarController *tabbarVc = ((LPHomeViewController *)viewVc).tabBarVc;
             loginVc.headerBackgroundImage = [UIImage captureWithView:(UIView*)tabbarVc.customTabBar];
             loginVc.footerBackgroundImage = [UIImage captureWithView:viewVc.view];
-            
         }else{
             loginVc.headerBackgroundImage=[UIImage captureWithView:viewVc.view];
         }
@@ -76,6 +76,7 @@
 
          }else{
              NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
+             callBackBlock(NO);
          }
          
          
