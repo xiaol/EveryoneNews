@@ -46,7 +46,7 @@
         if (self.content.hasComment) {
             // 有评论列表
             LPComment *comment = self.content.displayingComment;
-            NSString *commentCount = comment.comments_count;
+            NSString *commentCount = [NSString stringFromIntValue:(int)content.comments.count];
             CGSize commentCountSize = [commentCount sizeWithFont:[UIFont systemFontOfSize:CommentCountFontSize] maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)];
             CGFloat commentsCountW = commentCountSize.width + CommentCountLeftPadding + CommentCountRightPadding ;
             CGFloat commentsCountH = plusH;

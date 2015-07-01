@@ -22,19 +22,21 @@
 + (void)accountLoginWithViewController:(UIViewController *)viewVc
 {
     Account *account=[self account];
-    LoginViewController *loginVc=[[LoginViewController alloc] init];
-    if ([viewVc isKindOfClass:[LPHomeViewController class]]) {
-        LPTabBarController *tabbarVc = ((LPHomeViewController *)viewVc).tabBarVc;
-        loginVc.headerBackgroundImage = [UIImage captureWithView:(UIView*)tabbarVc.customTabBar];
-        loginVc.footerBackgroundImage = [UIImage captureWithView:viewVc.view];
-
-    }else{
-        loginVc.headerBackgroundImage=[UIImage captureWithView:viewVc.view];
-    }
     if (account==nil) {
+        LoginViewController *loginVc=[[LoginViewController alloc] init];
+        if ([viewVc isKindOfClass:[LPHomeViewController class]]) {
+            LPTabBarController *tabbarVc = ((LPHomeViewController *)viewVc).tabBarVc;
+            loginVc.headerBackgroundImage = [UIImage captureWithView:(UIView*)tabbarVc.customTabBar];
+            loginVc.footerBackgroundImage = [UIImage captureWithView:viewVc.view];
+            
+        }else{
+            loginVc.headerBackgroundImage=[UIImage captureWithView:viewVc.view];
+        }
+
         [viewVc presentViewController:loginVc animated:NO completion:nil];
     }else{
         if (![ShareSDK hasAuthorizedWithType:(ShareType)account.platformType]) {
+            LoginViewController *loginVc=[[LoginViewController alloc] init];
             [viewVc presentViewController:loginVc animated:NO completion:nil];
         }
     }

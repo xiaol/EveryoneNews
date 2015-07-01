@@ -23,4 +23,9 @@
 
 // 判断是否为空
 - (BOOL)isBlank;
+
++ (instancetype)stringFromIntValue:(int)intValue;
++ (instancetype)stringFromUIntegerValue:(NSUInteger)uIntValue;
++ (instancetype)stringFromBOOLValue:(BOOL)boolValue;
+
 @end

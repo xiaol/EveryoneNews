@@ -48,18 +48,21 @@
 #define LPPushNotificationFromLaunching @"pushNotificationFromLaunching"
 #define LPPushNotificationURL @"url"
 
-#define LPComposeCommentNotification @"compose"
-#define LPComposeFromContent @"content"
+#define LPCommentWillComposeNotification @"willCompose"
+#define LPComposeForContent @"content"
+#define LPCommentDidComposeNotification @"didCompose"
+#define LPCommentDidComposeSuccessNotification @"didComposeSuccess"
+
 //用户登录回调通知的userinfo的key值
 #define AccountLoginCallbackDictKey @"accountLoginCallbackDictKey"
 #define AccountLoginNotification @"accountLoginNotification"
 
-#define ServerUrl       @"http://121.40.34.56"
+#define ServerUrl       @"http://api.deeporiginalx.com"
 #define kTimenews       @"/news/baijia/fetchHome?timenews=1"
 #define CountdownUrl    @"/news/baijia/fetchTime?timefeedback=1"
 
-#define HomeUrl @"http://121.40.34.56/news/baijia/fetchHome?timenews=1"
-#define ContentUrl @"http://121.40.34.56/news/baijia/fetchContent?url="
+#define HomeUrl @"http://api.deeporiginalx.com/news/baijia/fetchHome?timenews=1"
+#define ContentUrl @"http://api.deeporiginalx.com/news/baijia/fetchContent?url="
 #define AccountLoginUrl @"http://api.deeporiginalx.com/news/baijia/fetchLogin"
 
 #define ScreenWidth [UIScreen mainScreen].bounds.size.width
