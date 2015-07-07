@@ -10,6 +10,7 @@
 #import "LPTabBarButton.h"
 @class LPTabBar;
 
+typedef void (^tabBarDidClick)(int from,int to);
 
 @protocol LPTabBarDelegate <NSObject>
 
@@ -22,9 +23,11 @@
 @interface LPTabBar : UIView
 
 - (void)addTabBarButtonWithItem:(UITabBarItem *)tabBarItem tag:(int)tag;
+- (void)setBabBarDidClickBlock:(tabBarDidClick)block;
 @property (nonatomic, weak) id<LPTabBarDelegate> delegate;
 @property (nonatomic, weak) LPTabBarButton *selectedButton;
 @property (nonatomic, strong) NSMutableArray *tabBarButtons;
 @property (nonatomic, weak) UIView *sliderView;
+
 
 @end

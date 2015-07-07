@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LPCategory.h"
 
-@interface CategoryView : UIScrollView
+typedef void (^categoryBtnClick)(LPCategory *from,LPCategory *to);
+
+@interface CategoryScrollView : UIScrollView
+
+- (void)didCategoryBtnClick:(categoryBtnClick)block;
 
 @end

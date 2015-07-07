@@ -10,6 +10,8 @@
 
 #import "LPNewfeatureViewController.h"
 #import "LPTabBarController.h"
+#import "MainNavigationController.h"
+#import "MainViewController.h"
 
 #define GIFHeight 337
 #define GIFWidth 222
@@ -160,9 +162,10 @@
 
 - (void)startBtnClick
 {
-    LPTabBarController *vc = [[LPTabBarController alloc] init];
+    MainViewController *mainVc = [[MainViewController alloc] init];
+    MainNavigationController *mainNavVc = [[MainNavigationController alloc] initWithRootViewController:mainVc];
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    window.rootViewController = vc;
+    window.rootViewController = mainNavVc;
 }
 
 #pragma mark - scroll view delegate

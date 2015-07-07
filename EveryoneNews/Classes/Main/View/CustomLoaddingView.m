@@ -6,19 +6,20 @@
 //  Copyright (c) 2015年 Feng. All rights reserved.
 //
 
-#import "UICustomLoadding.h"
+#import "CustomLoaddingView.h"
 
 #define SCREEN_WIDTH ([UIScreen mainScreen].bounds.size.width)
 #define SCREEN_HEIGHT ([UIScreen mainScreen].bounds.size.height)
 #define ProgressWidth 120
 
-@interface UICustomLoadding()
+@interface CustomLoaddingView()
+@property (nonatomic,strong) CustomLoaddingView *customLoaddingView;
 @property (nonatomic,strong) UIActivityIndicatorView *loaddingView;
 @property (nonatomic,strong) UIView *containerView;
 @property (nonatomic,copy) UILabel *messageLabel;
 @property (nonatomic,strong) UIView *mask;
 @end
-@implementation UICustomLoadding
+@implementation CustomLoaddingView
 -(UIActivityIndicatorView *)loaddingView{
     
     if (_loaddingView == nil) {
@@ -48,10 +49,10 @@
 - (UIView *)containerView{
     if (_containerView == nil) {
         CGFloat containerX = (SCREEN_WIDTH - ProgressWidth) * 0.5;
-        CGFloat containerY = (SCREEN_HEIGHT - ProgressWidth) * 0.5 - ProgressWidth * 0.5;
+        CGFloat containerY = (SCREEN_HEIGHT - ProgressWidth) * 0.5 - ProgressWidth * 0.4;
         
-        _containerView = [[UIView alloc] initWithFrame:CGRectMake(containerX , containerY, ProgressWidth, 120)];
-        _containerView.backgroundColor = [UIColor colorWithWhite:0.5 alpha:0.8];
+        _containerView = [[UIView alloc] initWithFrame:CGRectMake(containerX , containerY, ProgressWidth, ProgressWidth)];
+        _containerView.backgroundColor = [UIColor colorWithWhite:0.3 alpha:0.8];
         _containerView.layer.cornerRadius = 15;
         _containerView.layer.masksToBounds = YES;
         [_containerView addSubview:self.loaddingView];
@@ -68,7 +69,8 @@
 }
 
 + (instancetype)showMessage:(NSString *)message toView:(UIView *)rootView{
-    UICustomLoadding *view = [[self alloc] initWithFrame:rootView.bounds];
+    
+    CustomLoaddingView *view = [[self alloc] initWithFrame:rootView.bounds];
     UIView *container = view.subviews[1];
     UILabel *messageView = container.subviews[1];
     messageView.text = message;
@@ -82,7 +84,5 @@
     self.containerView = nil;
     self.loaddingView = nil;
     self.messageLabel = nil;
-    NSLog(@"---%d",_containerView.subviews.count);
-    NSLog(@"%d",    _loaddingView.isAnimating);
 }
 @end

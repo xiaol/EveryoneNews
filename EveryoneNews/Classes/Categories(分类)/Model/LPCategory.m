@@ -16,5 +16,7 @@
     category.url = url;
     return category;
 }
-
+-(NSString *)description{
+    return [NSString stringWithFormat:@"<%p,%@>{title=%@,url=%@,id=%ld}",self,self.class,_title,_url,_ID];
+}
 @end

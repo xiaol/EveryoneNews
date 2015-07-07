@@ -37,6 +37,7 @@ typedef void (^completionBlock)();
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     [self setupSubviews];
     [self setupDataWithCategory:[LPCategory categoryWithURL:HomeUrl] completion:nil];
     [noteCenter addObserver:self selector:@selector(receivePushNotification:) name:LPPushNotificationFromLaunching object:nil];
@@ -87,7 +88,7 @@ typedef void (^completionBlock)();
     } else {
         [self displayLoginBtnIconWithAccount:account];
     }
-    #warning 增加屏幕适配
+    
     CGFloat loginBtnWidth = 32;
     CGFloat loginBtnHeight = 32;
     if (iPhone6) {

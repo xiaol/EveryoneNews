@@ -1,5 +1,5 @@
 //
-//  HomeViewController.h
+//  HomeNavigationController.h
 //  EveryoneNews
 //
 //  Created by Feng on 15/7/2.
@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface HomeViewController : UIViewController
+@interface MainNavigationController : UINavigationController
 
 @end

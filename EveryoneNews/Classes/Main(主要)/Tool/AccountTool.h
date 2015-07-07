@@ -8,13 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "Account.h"
+#import <ShareSDK/ShareSDK.h>
 
 //保存用户信息path
 #define kAccountSavePath [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"account.data"]
 
 typedef enum {
-    AccountTypeSinaWeibo = 1,//使用新浪微博登录
-    AccountTypeWeiXin=22 //使用微信登录
+    AccountTypeSinaWeibo = ShareTypeSinaWeibo,//使用新浪微博登录
+    AccountTypeWeiXin=ShareTypeWeixiSession //使用微信登录
 } AccountType;
 
 @interface AccountTool : NSObject

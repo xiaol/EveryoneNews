@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UICustomLoadding : UIView
+@interface CustomLoaddingView : UIView
 + (instancetype)showMessage:(NSString *)message toView:(UIView *)rootView;
 - (void)dismissMessage;
 @end

@@ -37,7 +37,7 @@
         [viewVc presentViewController:loginVc animated:NO completion:nil];
     }else{
         //如果已经授权登录，则判断是否过期
-        if ([NSDate dateToMilliSeconds:[NSDate date]] < account.expiresTime) {
+        if ([NSDate dateToMilliSeconds:[NSDate date]] < account.expiresTime.unsignedIntegerValue) {
             [viewVc presentViewController:loginVc animated:NO completion:nil];
         }
     }
@@ -94,7 +94,7 @@
 +(void)deleteAccount{
     //1.删除授权信息
     Account *account=[self account];
-    [ShareSDK cancelAuthWithType:(ShareType)account.platformType];
+    [ShareSDK cancelAuthWithType:account.platformType.intValue];
     //2.删除本地信息文件
     NSFileManager *fileManager=[NSFileManager defaultManager];
     [fileManager removeItemAtPath:kAccountSavePath error:nil];
