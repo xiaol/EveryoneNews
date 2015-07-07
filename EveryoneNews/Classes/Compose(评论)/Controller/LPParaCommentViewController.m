@@ -11,20 +11,27 @@
 #import "LPParaCommentFrame.h"
 #import "LPParaCommentCell.h"
 #import "MobClick.h"
+#import "LPDetailViewController.h"
+#import "AccountTool.h"
+#import "MBProgressHUD+MJ.h"
+#import "LPHttpTool.h"
+#import "LPPress.h"
+#import "LPUpView.h"
+#import "LPContent.h"
 
-#define InputViewHeight 55
+#define InputViewHeight 44
 
-@interface LPParaCommentViewController () <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
-{
-    CGFloat headerHeight;
-    CGFloat tableViewHeight;
-    CGFloat totalCellHeight;
-}
+@interface LPParaCommentViewController () <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, LPParaCommentCellCellDelegate>
 @property (nonatomic, strong) UIImageView *bgView;
 @property (nonatomic, strong) UIView *blackView;
-@property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *paraCommentFrames;
 @property (nonatomic, strong) UIImageView *inputView;
+@property (nonatomic, strong) UIView *headerView;
+@property (nonatomic, assign) CGFloat tableViewHeight;
+@property (nonatomic, assign) CGFloat headerViewHeight;
+@property (nonatomic, assign) CGFloat totalCommentHeight;
+@property (nonatomic, strong) UILabel *underLabel;
+@property (nonatomic, assign) BOOL shouldReloadDetailCell;
 @end
 
 @implementation LPParaCommentViewController
@@ -33,9 +40,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self setupSubviews];
-    [self setupTableHeaderView];
-    [self setupTableFooterView];
+    [self setupHeaderView];
+//    [self setupTableFooterView];
     [self setupData];
+//    [noteCenter addObserver:self selector:@selector(reloadData:) name:@"reloadNewdata" object:nil];
+    [noteCenter addObserver:self selector:@selector(reloadData:) name:LPParaVcRefreshDataNotification object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -48,6 +57,10 @@
 {
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"CommentPage"];
+    if (self.shouldReloadDetailCell) {
+        NSDictionary *info = @{LPReloadCellIndex: @(self.contentIndex)};
+        [noteCenter postNotificationName:LPDetailVcShouldReloadDataNotification object:self userInfo:info];
+    }
 }
 
 - (NSMutableArray *)paraCommentFrames
@@ -77,12 +90,10 @@
 
     
     UITableView *tableView = [[UITableView alloc] init];
-//    CGFloat tableViewH = ScreenHeight * 0.63;
-    tableView.backgroundColor = [UIColor clearColor];
-//    tableView.frame = CGRectMake(0, ScreenHeight - tableViewH, ScreenWidth, tableViewH);
+    tableView.backgroundColor = LPColor(255, 255, 250);
     tableView.separatorColor = [UIColor colorFromHexString:TableViewBackColor alpha:0.6];
     tableView.showsHorizontalScrollIndicator = NO;
-    tableView.showsVerticalScrollIndicator = NO;
+    tableView.showsVerticalScrollIndicator = YES;
     tableView.dataSource = self;
     tableView.delegate = self;
     [self.view addSubview:tableView];
@@ -97,9 +108,10 @@
     self.inputView = inputView;
 }
 
-- (void)setupTableHeaderView
+- (void)setupHeaderView
 {
     UIView *headerView = [[UIView alloc] init];
+    headerView.backgroundColor = [UIColor whiteColor];
     
     UILabel *aboveLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 44)];
     aboveLabel.textAlignment = NSTextAlignmentCenter;
@@ -117,58 +129,61 @@
     underLabel.text = [NSString stringWithFormat:@" 精彩评论 (%ld)", self.comments.count];
     underLabel.backgroundColor = [UIColor colorFromHexString:TableViewBackColor];
     [headerView addSubview:underLabel];
+    self.underLabel = underLabel;
     
-    headerHeight = CGRectGetHeight(aboveLabel.frame) + CGRectGetHeight(underLabel.frame);
-    headerView.frame = CGRectMake(0, 0, ScreenWidth, headerHeight);
-    self.tableView.tableHeaderView = headerView;
-}
-
-- (void)setupTableFooterView
-{
-    UIView *footerView = [[UIView alloc] init];
-    footerView.backgroundColor = [UIColor whiteColor];
-    self.tableView.tableFooterView = footerView;
-    footerView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight * 0.7);
+    CGFloat headerViewHeight = CGRectGetHeight(aboveLabel.frame) + CGRectGetHeight(underLabel.frame);
+    self.headerViewHeight = headerViewHeight;
+    headerView.frame = CGRectMake(0, 0, ScreenWidth, headerViewHeight);
+    self.headerView = headerView;
+    
+    [self.view insertSubview:headerView aboveSubview:self.tableView];
 }
 
 - (void)setupData
 {
     NSMutableArray *commentFrameArray = [NSMutableArray array];
-    totalCellHeight = 0.0;
+    CGFloat tableViewHeight = 0.0;
     for (LPComment *comment in self.comments) {
         LPParaCommentFrame *commentFrame = [[LPParaCommentFrame alloc] init];
         comment.category = self.category;
         commentFrame.comment = comment;
         [commentFrameArray addObject:commentFrame];
         
-        totalCellHeight += commentFrame.cellHeight;
+        tableViewHeight += commentFrame.cellHeight;
     }
-    CGFloat tableViewMaxHeight = totalCellHeight + headerHeight;
-    tableViewHeight = MIN(tableViewMaxHeight, ScreenHeight * 0.6);
-    self.tableView.frame = CGRectMake(0, ScreenHeight - tableViewHeight - InputViewHeight, ScreenWidth, tableViewHeight);
+    self.tableViewHeight = tableViewHeight;
+    CGFloat maxHeight = tableViewHeight + self.headerViewHeight;
+    CGFloat totalCommentHeight = MIN(maxHeight, ScreenHeight * 0.63);
+    self.totalCommentHeight = totalCommentHeight;
+    self.headerView.frame = CGRectMake(0, ScreenHeight - totalCommentHeight - InputViewHeight, ScreenWidth, self.headerViewHeight);
+    self.tableView.frame = CGRectMake(0, CGRectGetMaxY(self.headerView.frame), ScreenWidth, totalCommentHeight - self.headerViewHeight);
     self.paraCommentFrames = commentFrameArray;
 }
 
 - (void)dismiss
 {
-    __weak typeof(self) weakSelf = self;
     [UIView animateWithDuration:0.5 animations:^{
-        weakSelf.blackView.alpha = 0.0;
-        weakSelf.inputView.transform = CGAffineTransformMakeTranslation(0, InputViewHeight);
-        weakSelf.tableView.transform = CGAffineTransformMakeTranslation(0, tableViewHeight + InputViewHeight);
+        self.blackView.alpha = 0.0;
+        self.inputView.y = ScreenHeight;
+        self.tableView.y = ScreenHeight;
+        self.headerView.y = ScreenHeight;
     } completion:^(BOOL finished) {
-//        [self dismissViewControllerAnimated:NO completion:^{
-        if ([weakSelf.delegate respondsToSelector:@selector(paraCommentViewControllerWillDismiss:)]) {
-            [weakSelf.delegate paraCommentViewControllerWillDismiss:self];
-        }
+        [self.navigationController popViewControllerAnimated:NO];
     }];
 }
 
 - (void)tapBlackView:(UITapGestureRecognizer *)recognizer
 {
     CGPoint location = [recognizer locationInView:recognizer.view];
-    if (location.y < ScreenHeight - tableViewHeight) {
+    if (location.y < ScreenHeight - self.totalCommentHeight) {
         [self dismiss];
+    }
+    if (location.y > ScreenHeight - InputViewHeight) {
+        // 发表评论
+        LPComment *comment = [self.comments firstObject];
+        int paraIndex = comment.paragraphIndex.intValue; // 评论的索引值要+1，因为他是相对于正文段落的索引
+        NSDictionary *info = @{LPComposeParaIndex: [NSString stringFromIntValue:(paraIndex + 1)]};
+        [noteCenter postNotificationName:LPCommentWillComposeNotification object:self userInfo:info];
     }
 }
 
@@ -182,6 +197,7 @@
 {
     LPParaCommentCell *cell = [LPParaCommentCell cellWithTableView:tableView];
     cell.paraCommentFrame = self.paraCommentFrames[indexPath.row];
+    cell.delegate = self;
     return cell;
 }
 
@@ -192,25 +208,88 @@
     return paraCommentFrame.cellHeight;
 }
 
-#pragma mark - Scroll view delegate
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+#pragma mark - Para comment cell delegate
+- (void)paraCommentCell:(LPParaCommentCell *)cell didClickUpView:(LPUpView *)upView withUpComment:(LPComment *)comment
 {
-//    if (scrollView.contentOffset.y >= scrollView.contentSize.height - scrollView.frame.size.height) {
-//        [scrollView setContentOffset:CGPointMake(scrollView.contentOffset.x, scrollView.contentSize.height - scrollView.frame.size.height)];
-//    }
-    CGFloat offsetY = scrollView.contentOffset.y;
-    if (offsetY > 0) {
-        
+    self.blackView.userInteractionEnabled = NO;
+    upView.userInteractionEnabled = NO;
+
+    __block Account *account = [AccountTool account];
+    if ([AccountTool account]) {
+        [self upComment:comment withAccount:account upView:upView];
+    } else {
+        [AccountTool accountLoginWithViewController:self success:^{
+            // 1. 刷新detailVc，更新自身comments值
+            [self.fromVc returnContentsBlock:^(NSArray *contents) {
+                LPContent *content = contents[self.contentIndex];
+                self.comments = content.comments;
+                LPComment *comment = self.comments[0];
+                NSLog(@"%@", comment.srcText);
+                // 2. 刷新tableView
+                [self setupData];
+                [self.tableView reloadData];
+                // 3. 点赞
+                account = [AccountTool account];
+                [self upComment:comment withAccount:account upView:upView];
+            }];
+        } failure:^{
+            [MBProgressHUD showError:@"登录失败"];
+            upView.userInteractionEnabled = YES;
+            self.blackView.userInteractionEnabled = YES;
+        } cancel:^{
+            upView.userInteractionEnabled = YES;
+            self.blackView.userInteractionEnabled = YES;
+        }];
     }
 }
 
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+- (void)upComment:(LPComment *)comment withAccount:(Account *)account upView:(LPUpView *)upView
 {
-    if (decelerate == YES) {
-        if ((- scrollView.contentOffset.y > tableViewHeight * 0.2)||( - scrollView.contentOffset.y > ScreenHeight / 8)) {
-            [self dismiss];
-        }
+    if (comment.isPraiseFlag.intValue) {
+        [MBProgressHUD showError:@"您已赞过"];
+        self.blackView.userInteractionEnabled = YES;
+    } else {
+        NSString *url = [NSString stringWithFormat:@"%@/news/baijia/praise", ServerUrl];
+        NSMutableDictionary *params = [NSMutableDictionary dictionary];
+        params[@"userId"] = account.userId;
+        params[@"platformType"] = account.platformType;
+        params[@"sourceUrl"] = self.press.sourceUrl;
+        params[@"commentId"] = comment.commentId;
+        params[@"deviceType"] = @"ios";
+        params[@"uuid"] = @"";
+        [LPHttpTool postWithURL:url params:params success:^(id json) {
+            comment.isPraiseFlag = @"1";
+            int up = comment.up.intValue + 1;
+            comment.up = [NSString stringFromIntValue:up];
+            [self.tableView reloadData];
+            if ([self.comments indexOfObject:comment] == 0) {
+                // 如果是第一个评论，还须刷新detailVc table view
+                self.shouldReloadDetailCell = YES;
+            }
+            upView.userInteractionEnabled = YES;
+            self.blackView.userInteractionEnabled = YES;
+        } failure:^(NSError *error) {
+            [MBProgressHUD showError:@"网络不给力 :("];
+            upView.userInteractionEnabled = YES;
+            self.blackView.userInteractionEnabled = YES;
+        }];
     }
 }
 
+# pragma mark - notification selector 
+- (void)reloadData:(NSNotification *)note
+{
+    NSMutableArray *mArray = [NSMutableArray arrayWithArray:self.comments];
+    [mArray addObject:note.userInfo[LPComposeComment]];
+    self.comments = mArray;
+    [self setupData];
+    self.underLabel.text = [NSString stringWithFormat:@" 精彩评论 (%ld)", self.comments.count];
+    [self.tableView reloadData];
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.comments.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+}
+
+- (void)dealloc
+{
+    [noteCenter removeObserver:self];
+}
 @end

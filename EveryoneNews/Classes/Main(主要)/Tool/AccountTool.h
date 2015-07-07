@@ -23,7 +23,7 @@ typedef enum {
  *
  *  @param viewVc 当前的ViewController
  */
-+ (void)accountLoginWithViewController:(UIViewController *)viewVc;
++ (void)accountLoginWithViewController:(UIViewController *)viewVc success:(void (^)())success failure:(void (^)()) failure cancel:(void (^)()) cancel;
 /**
  *  用户登录指定的平台
  *

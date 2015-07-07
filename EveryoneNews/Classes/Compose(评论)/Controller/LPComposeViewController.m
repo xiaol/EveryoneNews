@@ -52,13 +52,15 @@
     headerView.backgroundColor = [UIColor colorFromCategory:self.category];
     
     UIButton *backBtn = [[UIButton alloc] init];
-    backBtn.width = 50;
+    backBtn.width = 60;
     backBtn.height = 20;
-    backBtn.centerX = backBtn.width / 2 + padding;
+    backBtn.centerX = backBtn.width / 2 + 4;
     backBtn.centerY = headerView.centerY;
     backBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
+    backBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
     [backBtn addTarget:self action:@selector(backBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     [backBtn setTitle:@"返回" forState:UIControlStateNormal];
+    [backBtn setImage:[UIImage imageNamed:@"返回"] forState:UIControlStateNormal];
     backBtn.titleLabel.font = [UIFont boldSystemFontOfSize:15];
     [backBtn setTitleColor:[UIColor colorFromHexString:ComposeButtonNormalColor] forState:UIControlStateNormal];
     [headerView addSubview:backBtn];
@@ -110,6 +112,7 @@
 - (void)backBtnClicked
 {
     if (self.returnTextBlock != nil) {
+        // 点击取消，保存草稿
         self.returnTextBlock(self.textView.text);
     }
     [self.navigationController popViewControllerAnimated:YES];
@@ -121,6 +124,7 @@
 - (void)composeBtnClicked
 {
     if (self.returnTextBlock != nil) {
+        // 点击发送，取回评论文字，由详情页进行进一步处理（request）
         self.returnTextBlock(self.textView.text);
     }
     [noteCenter postNotificationName:LPCommentDidComposeNotification object:self];

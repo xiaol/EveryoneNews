@@ -20,6 +20,8 @@
 #import "MobClick.h"
 #import "AccountTool.h"
 #import "UIImageView+WebCache.h"
+#import "MBProgressHUD+MJ.h"
+
 typedef void (^completionBlock)();
 
 @interface LPHomeViewController () <UITableViewDataSource, UITableViewDelegate,UIAlertViewDelegate>
@@ -134,7 +136,15 @@ typedef void (^completionBlock)();
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"退出登录" message:@"退出登录后无法进行评论哦" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
         [alert show];
     }else{
-        [AccountTool accountLoginWithViewController:self];
+        __weak typeof(self) weakSelf = self;
+        [AccountTool accountLoginWithViewController:self success:^{
+            NSLog(@"homeVc --- %@", [NSThread currentThread]);
+            [MBProgressHUD showSuccess:@"登录成功"];
+            [weakSelf displayLoginBtnIconWithAccount:[AccountTool account]];
+        } failure:^{
+            [MBProgressHUD showError:@"登录失败"];
+        } cancel:^{
+        }];
     }
 }
 
@@ -165,6 +175,8 @@ typedef void (^completionBlock)();
     // 清空数据
     [self.pressFrames removeAllObjects];
     __weak typeof(self) weakSelf = self;
+    
+
     [LPPressTool homePressesWithCategory:category success:^(id json) {
         NSMutableArray *pressFrameArray = [NSMutableArray array];
         // 字典转模型
@@ -206,6 +218,8 @@ typedef void (^completionBlock)();
             [weakSelf performSelector:@selector(homeDisplay) withObject:weakSelf afterDelay:0.3];
         }
     } failure:^(NSError *error) {
+        NSLog(@"%@", [NSThread currentThread]);
+        [MBProgressHUD showError:@"网络不给力:("];
         NSLog(@"Failure: %@", error);
     }];
         
@@ -250,7 +264,6 @@ typedef void (^completionBlock)();
 // 评论成功后，若原来没有评论图标，就显示
 - (void)commentSuccess
 {
-    NSLog(@"receive comment success notification");
     LPPressFrame *pressFrame = self.pressFrames[self.selectedRow];
     LPPress *press = pressFrame.press;
     if (press.isCommentsFlag.intValue == 0) {

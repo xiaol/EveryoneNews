@@ -10,10 +10,13 @@
 #import "AccountTool.h"
 #import "MBProgressHUD+MJ.h"
 #import "UIImage+LP.h"
-
-
+ 
 @interface LoginViewController ()
 @property (nonatomic,strong) UIView *wrapperView;
+@property (nonatomic,strong) success successBlock;
+@property (nonatomic,strong) failure failureBlock;
+@property (nonatomic,strong) cancel cancelBlock;
+@property (nonatomic, strong) UIView *maskView;
 @end
 
 @implementation LoginViewController
@@ -21,32 +24,38 @@
 {
     return YES;
 }
+- (void)setCallBackBlocks:(success)success :(failure) failure :(cancel)cancel
+{
+    self.successBlock = success;
+    self.failureBlock = failure;
+    self.cancelBlock = cancel;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     if (self.footerBackgroundImage != nil) {
-        UIImageView *footerBackgroundView=[[UIImageView alloc] initWithImage:self.footerBackgroundImage];
-        footerBackgroundView.frame=CGRectMake(0, 0, self.footerBackgroundImage.size.width, self.footerBackgroundImage.size.height);
+        UIImageView *footerBackgroundView = [[UIImageView alloc] initWithImage:self.footerBackgroundImage];
+        footerBackgroundView.frame = CGRectMake(0, 0, self.footerBackgroundImage.size.width, self.footerBackgroundImage.size.height);
         [self.view addSubview:footerBackgroundView];
 
     }
     UIImageView *headerBackgroundView = [[UIImageView alloc] initWithImage:self.headerBackgroundImage];
     [self.view addSubview:headerBackgroundView];
-    UIView *mask=[[UIView alloc] initWithFrame:self.view.bounds];
-    mask.backgroundColor=[UIColor colorFromHexString:@"0000000" alpha:0.85];
+    UIView *mask = [[UIView alloc] initWithFrame:self.view.bounds];
+    mask.backgroundColor = [UIColor colorFromHexString:@"0000000"];
+    mask.alpha = 0.75;
     [self.view addSubview:mask];
+    self.maskView = mask;
     [self setupSubviews];
-
-    
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     [UIView animateWithDuration:0.8 animations:^{
+        self.maskView.alpha = 0.85;
         self.wrapperView.alpha = 1.0;
-    } completion:^(BOOL finished) {
-        
-    }];
+    } completion:nil];
 }
 /**
  *  初始化和添加子views
@@ -61,15 +70,15 @@
     UILabel *firstLabel = [[UILabel alloc] init];
     firstLabel.text = @"加入百家";
     firstLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:20.0];
-    firstLabel.frame=CGRectMake((ScreenWidth-230.0 / 375 * ScreenWidth) * 0.5 , ScreenHeight * 0.3, 100, 20);
-    firstLabel.textColor=[UIColor whiteColor];
+    firstLabel.frame = CGRectMake((ScreenWidth-230.0 / 375 * ScreenWidth) * 0.5 , ScreenHeight * 0.3, 100, 20);
+    firstLabel.textColor = [UIColor whiteColor];
     [viewWrapper addSubview:firstLabel];
     
     UILabel *secondLabel = [[UILabel alloc] init];
     secondLabel.text = @"与世界分享你的真知灼见";
     secondLabel.font = [UIFont systemFontOfSize:15.0];
-    secondLabel.frame=CGRectMake((ScreenWidth-230.0 / 375 * ScreenWidth) * 0.5 , CGRectGetMaxY(firstLabel.frame) + 14, 200, 15);
-    secondLabel.textColor=[UIColor whiteColor];
+    secondLabel.frame = CGRectMake((ScreenWidth-230.0 / 375 * ScreenWidth) * 0.5 , CGRectGetMaxY(firstLabel.frame) + 14, 200, 15);
+    secondLabel.textColor = [UIColor whiteColor];
     [viewWrapper addSubview:secondLabel];
     
     //微博登录按钮
@@ -78,7 +87,7 @@
     weiboBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10);
     weiboBtn.imageView.contentMode = UIViewContentModeScaleAspectFit;
     weiboBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
-    weiboBtn.titleLabel.font=[UIFont systemFontOfSize:16.0];
+    weiboBtn.titleLabel.font = [UIFont systemFontOfSize:16.0];
     weiboBtn.frame = CGRectMake((ScreenWidth-230.0 / 375 * ScreenWidth) *0.5,CGRectGetMaxY(secondLabel.frame) + 30, 230.0 / 375 * ScreenWidth, 55.0 / 667 * ScreenHeight);
     weiboBtn.backgroundColor = [UIColor colorFromHexString:@"ff5d5d"];
     [weiboBtn setImage:[UIImage imageNamed:@"ic_login_weibo"] forState:UIControlStateNormal];
@@ -109,9 +118,6 @@
     [closeBtn addTarget:self action:@selector(closeSelf) forControlEvents:UIControlEventTouchUpInside];
     [viewWrapper addSubview:closeBtn];
     viewWrapper.alpha = 0.5;
-
-    
-    
 }
 /**
  *  关闭当前的viewcontroller
@@ -119,28 +125,45 @@
 - (void)closeSelf
 {
     [self dismissViewControllerAnimated:NO completion:nil];
+    if (self.cancelBlock !=nil) {
+        self.cancelBlock();
+    }
 }
+
 - (void)weiboLogin:(UIButton *)weiboBtn{
     [self closeSelf];
+    __weak typeof(self) weakSelf = self;
     [[[AccountTool alloc] init] accountLoginWithType:AccountTypeSinaWeibo completion:^(BOOL result) {
         if (result) {
-             [[NSNotificationCenter defaultCenter] postNotificationName:AccountLoginNotification object:self userInfo:[NSDictionary dictionaryWithObject:@(result) forKey:AccountLoginCallbackDictKey]];
-            [MBProgressHUD showSuccess:@"登录成功"];
+            if (self.successBlock != nil){
+                self.successBlock();
+            }
+            [[NSNotificationCenter defaultCenter] postNotificationName:AccountLoginNotification object:weakSelf userInfo:[NSDictionary dictionaryWithObject:@(result) forKey:AccountLoginCallbackDictKey]];
         }else {
-            [MBProgressHUD showError:@"登录失败"];
+            if (self.failureBlock != nil){
+                self.failureBlock();
+            }
+            if (self.cancelBlock != nil) {
+                self.cancelBlock();
+            }
         }
 
     }];
-     
 }
+
 - (void)weixinLogin:(UIButton *)weixinBtn{
     [self closeSelf];
+    __weak typeof(self) weakSelf = self;
     [[[AccountTool alloc] init] accountLoginWithType:AccountTypeWeiXin completion:^(BOOL result) {
         if (result) {
-         [[NSNotificationCenter defaultCenter] postNotificationName:AccountLoginNotification object:self userInfo:[NSDictionary dictionaryWithObject:@(result) forKey:AccountLoginCallbackDictKey]];
-            [MBProgressHUD showSuccess:@"登录成功"];
+            if (self.successBlock !=nil){
+                self.successBlock();
+            }
+         [[NSNotificationCenter defaultCenter] postNotificationName:AccountLoginNotification object:weakSelf userInfo:[NSDictionary dictionaryWithObject:@(result) forKey:AccountLoginCallbackDictKey]];
         }else {
-            [MBProgressHUD showError:@"登录失败"];
+            if (self.failureBlock !=nil){
+                self.failureBlock();
+            }
         }
     }];
   

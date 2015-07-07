@@ -141,7 +141,7 @@
             CAShapeLayer *dashLayer = self.dashLayers[i-1];
             dashLayer.hidden = NO;
             dashLayer.frame = self.bounds;
-            dashLayer.lineWidth = 1;
+            dashLayer.lineWidth = 0.5;
             dashLayer.lineDashPattern = @[@(2.7), @(1.9)];
             CGMutablePathRef path = CGPathCreateMutable();
             CGPathMoveToPoint(path, NULL, LeftPartW, dashY);

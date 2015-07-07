@@ -49,9 +49,14 @@
 #define LPPushNotificationURL @"url"
 
 #define LPCommentWillComposeNotification @"willCompose"
-#define LPComposeForContent @"content"
+#define LPComposeParaIndex @"paraIndex"
 #define LPCommentDidComposeNotification @"didCompose"
 #define LPCommentDidComposeSuccessNotification @"didComposeSuccess"
+#define LPCommentDidCancelComposeNotification @"cancelCompose"
+#define LPParaVcRefreshDataNotification @"paraVcRefresh"
+#define LPComposeComment @"comment"
+#define LPDetailVcShouldReloadDataNotification @"reloadDetailVcCell"
+#define LPReloadCellIndex @"contentCellIndex"
 
 //用户登录回调通知的userinfo的key值
 #define AccountLoginCallbackDictKey @"accountLoginCallbackDictKey"

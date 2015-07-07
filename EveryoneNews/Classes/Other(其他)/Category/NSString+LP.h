@@ -21,10 +21,13 @@
 
 - (NSMutableAttributedString *)attributedStringWithFont:(UIFont *)font color:(UIColor *)color lineSpacing:(CGFloat)lineSpacing;
 
+- (BOOL)isMoreThanOneLineConstraintToWidth:(CGFloat)width withFont:(UIFont *)font;
+
 // 判断是否为空
 - (BOOL)isBlank;
 
 + (instancetype)stringFromIntValue:(int)intValue;
++ (instancetype)stringFromIntegerValue:(NSInteger)integerValue;
 + (instancetype)stringFromUIntegerValue:(NSUInteger)uIntValue;
 + (instancetype)stringFromBOOLValue:(BOOL)boolValue;
 + (instancetype)stringFromNowDate;

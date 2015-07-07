@@ -101,6 +101,13 @@
             self.upBtn.frame = self.contentFrame.upBtnF;
             [self.upBtn setTitle:comment.up forState:UIControlStateNormal];
         }
+//        self.upBtn.hidden = NO;
+//        self.upBtn.frame = self.contentFrame.upBtnF;
+//        if (!comment.up || comment.up.intValue == 0) {
+//            [self.upBtn setTitle:@"" forState:UIControlStateNormal];
+//        } else {
+//            [self.upBtn setTitle:comment.up forState:UIControlStateNormal];
+//        }
         
         self.userIcon.hidden = NO;
         self.userIcon.frame = self.contentFrame.userIconF;
@@ -130,7 +137,7 @@
 - (void)plusBtnClicked
 {
     LPContent *content = self.contentFrame.content;
-    NSDictionary *info = @{LPComposeForContent: content};
+    NSDictionary *info = @{LPComposeParaIndex: @(content.paragraphIndex)};
     [noteCenter postNotificationName:LPCommentWillComposeNotification object:self userInfo:info];
 }
 @end

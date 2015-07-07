@@ -20,16 +20,16 @@
 #import "NSDate+Extension.h"
 @implementation AccountTool 
 
-+ (void)accountLoginWithViewController:(UIViewController *)viewVc
++ (void)accountLoginWithViewController:(UIViewController *)viewVc success:(void (^)())success failure:(void (^)()) failure cancel:(void (^)()) cancel
 {
     Account *account=[self account];
     LoginViewController *loginVc=[[LoginViewController alloc] init];
+    [loginVc setCallBackBlocks:success :failure :cancel];
     if (account==nil) {
         if ([viewVc isKindOfClass:[LPHomeViewController class]]) {
             LPTabBarController *tabbarVc = ((LPHomeViewController *)viewVc).tabBarVc;
             loginVc.headerBackgroundImage = [UIImage captureWithView:(UIView*)tabbarVc.customTabBar];
             loginVc.footerBackgroundImage = [UIImage captureWithView:viewVc.view];
-            
         }else{
             loginVc.headerBackgroundImage=[UIImage captureWithView:viewVc.view];
         }
@@ -37,7 +37,7 @@
         [viewVc presentViewController:loginVc animated:NO completion:nil];
     }else{
         //如果已经授权登录，则判断是否过期
-        if ([NSDate dateToMilliSeconds:[NSDate date]] < account.expiresTime) {
+        if ([NSDate dateToMilliSeconds:[NSDate date]] > account.expiresTime) {
             [viewVc presentViewController:loginVc animated:NO completion:nil];
         }
     }
@@ -76,6 +76,7 @@
 
          }else{
              NSLog(@"分享失败,错误码:%ld,错误描述:%@", [error errorCode], [error errorDescription]);
+             callBackBlock(NO);
          }
          
          
@@ -83,7 +84,15 @@
 }
 
 + (Account *)account{
-    return [NSKeyedUnarchiver unarchiveObjectWithFile:kAccountSavePath];
+    
+    Account *account = [NSKeyedUnarchiver unarchiveObjectWithFile:kAccountSavePath];
+    if (account) {
+        //如果已经授权登录，则判断是否过期
+        if ([NSDate dateToMilliSeconds:[NSDate date]] > account.expiresTime) {
+            return nil;
+        }
+    }
+    return account;
 }
 
 + (void)saveAccount:(Account *)account{
@@ -93,7 +102,7 @@
 +(void)deleteAccount{
     //1.删除授权信息
     Account *account=[self account];
-    [ShareSDK cancelAuthWithType:(ShareType)account.platformType];
+    [ShareSDK cancelAuthWithType:(ShareType)account.platformType.intValue];
     //2.删除本地信息文件
     NSFileManager *fileManager=[NSFileManager defaultManager];
     [fileManager removeItemAtPath:kAccountSavePath error:nil];

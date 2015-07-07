@@ -62,6 +62,11 @@
     return [NSString stringWithFormat:@"%d", intValue];
 }
 
++ (instancetype)stringFromIntegerValue:(NSInteger)integerValue
+{
+    return [NSString stringWithFormat:@"%ld", integerValue];
+}
+
 + (instancetype)stringFromUIntegerValue:(NSUInteger)uIntValue
 {
     return [NSString stringWithFormat:@"%lu", uIntValue];
@@ -80,5 +85,9 @@
     return [fmt stringFromDate:date];
 }
 
+- (BOOL)isMoreThanOneLineConstraintToWidth:(CGFloat)width withFont:(UIFont *)font
+{
+    return [self sizeWithFont:font maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)].width > width;
+}
 
 @end

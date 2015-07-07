@@ -71,7 +71,8 @@
             CGFloat commentX = CGRectGetMaxX(_userIconF) + 11;
             CGFloat commentW = DetailCellWidth - commentX - BodyPadding;
             CGFloat commentH = [[comment commentStringWithCategory:content.category] heightWithConstraintWidth:commentW];
-            CGFloat commentY = CGRectGetMidY(_userIconF) -  [[comment commentStringWithCategory:content.category] heightWithConstraintWidth: MAXFLOAT] / 2 + 1;
+//            CGFloat commentY = CGRectGetMidY(_userIconF) -  [[comment commentStringWithCategory:content.category] heightWithConstraintWidth: MAXFLOAT] / 2 + 1;
+            CGFloat commentY = CGRectGetMidY(_userIconF) -  [comment commentTextLineHeight] / 2 + 1;
             _commentLabelF = CGRectMake(commentX, commentY, commentW, commentH);
             
             commentViewH = MAX(CGRectGetMaxY(_commentLabelF), CGRectGetMaxY(_userIconF)) + BodyPadding;
