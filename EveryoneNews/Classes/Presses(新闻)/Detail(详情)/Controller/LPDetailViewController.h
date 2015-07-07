@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 @class LPPress;
 
+typedef void (^returnCommentsToUpBlock)(NSArray *contents);
+
 @interface LPDetailViewController : UIViewController
 @property (nonatomic, strong) LPPress *press;
+- (void)returnContentsBlock:(returnCommentsToUpBlock)returnBlock;
 @end

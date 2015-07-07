@@ -7,16 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-@class LPParaCommentViewController;
 
-@protocol LPParaCommentViewControllerDelegate <NSObject>
-@optional
-- (void)paraCommentViewControllerWillDismiss:(LPParaCommentViewController *)paraCommentViewController;
-@end
+@class LPPress;
+@class LPDetailViewController;
 
 @interface LPParaCommentViewController : UIViewController
 @property (nonatomic, strong) NSArray *comments;
 @property (nonatomic, strong) UIImage *bgImage;
 @property (nonatomic, copy) NSString *category;
-@property (nonatomic, weak) id<LPParaCommentViewControllerDelegate> delegate;
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, assign) int contentIndex;
+@property (nonatomic, copy) NSString *commentText;
+@property (nonatomic, strong) LPPress *press;
+@property (nonatomic, strong) LPDetailViewController *fromVc;
 @end

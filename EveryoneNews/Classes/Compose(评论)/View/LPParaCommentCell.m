@@ -10,12 +10,15 @@
 #import "LPParaCommentFrame.h"
 #import "LPComment.h"
 #import "UIImageView+WebCache.h"
+#import "LPUpView.h"
 
 @interface LPParaCommentCell ()
 @property (nonatomic, strong) UIImageView *iconView;
 @property (nonatomic, strong) UILabel *nameLabel;
 @property (nonatomic, strong) UILabel *timeLabel;
 @property (nonatomic, strong) UILabel *commentLabel;
+@property (nonatomic, strong) UIView *dividerView;
+@property (nonatomic, strong) LPUpView *upView;
 @end
 
 @implementation LPParaCommentCell
@@ -34,6 +37,8 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        self.backgroundColor = LPColor(255, 255, 250);
+        
         UIImageView *iconView = [[UIImageView alloc] init];
         iconView.contentMode = UIViewContentModeScaleAspectFill;
         [self.contentView addSubview:iconView];
@@ -56,6 +61,17 @@
         commentLabel.numberOfLines = 0;
         [self.contentView addSubview:commentLabel];
         self.commentLabel = commentLabel;
+        
+        LPUpView *upView = [[LPUpView alloc] init];
+        [self.contentView addSubview:upView];
+        self.upView = upView;
+        
+        UIView *dividerView = [[UIView alloc] init];
+        dividerView.backgroundColor = [UIColor colorFromHexString:@"dadada"];
+        [self.contentView addSubview:dividerView];
+        self.dividerView = dividerView;
+        
+        [self.upView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(upTap)]];
     }
     return self;
 }
@@ -84,16 +100,28 @@
     
     self.commentLabel.frame = self.paraCommentFrame.commentLabelF;
     self.commentLabel.attributedText = [comment commentStringWithCategory:comment.category];
+    
+    self.upView.frame = self.paraCommentFrame.upViewF;
+    self.upView.commentFrame = self.paraCommentFrame;
+    
+    self.dividerView.frame = self.paraCommentFrame.dividerViewF;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
-    
+
 }
 
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
 {
-    
+
+}
+
+- (void)upTap
+{
+    if ([self.delegate respondsToSelector:@selector(paraCommentCell:didClickUpView:withUpComment:)]) {
+        [self.delegate paraCommentCell:self didClickUpView:self.upView withUpComment:self.paraCommentFrame.comment];
+    }
 }
 
 @end

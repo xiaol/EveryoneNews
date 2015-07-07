@@ -33,7 +33,7 @@
 
 #define CellAlpha 0.3
 
-@interface LPDetailViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate, LPContentCellDelegate, LPWaterfallViewDataSource, LPWaterfallViewDelegate, UIGestureRecognizerDelegate, LPZhihuViewDelegate, LPParaCommentViewControllerDelegate>
+@interface LPDetailViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate, LPContentCellDelegate, UIGestureRecognizerDelegate, LPZhihuViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, assign) CGFloat lastContentOffsetY;
@@ -48,7 +48,8 @@
 @property (nonatomic, strong) NSArray *relates;
 
 @property (nonatomic, copy) NSString *commentText;
-@property (nonatomic, strong) LPContent *commentContent;
+@property (nonatomic, assign) BOOL shouldPush;
+@property (nonatomic, assign) int realParaIndex;
 @end
 
 @implementation LPDetailViewController
@@ -58,10 +59,15 @@
     [super viewDidLoad];
     
     [self setupSubviews];
-    [self setupData];
-    
+    [self setupDataWithCompletion:nil];
+    [self setupNoteObserver];
+}
+
+- (void)setupNoteObserver
+{
     [noteCenter addObserver:self selector:@selector(willComposeComment:) name:LPCommentWillComposeNotification object:nil];
     [noteCenter addObserver:self selector:@selector(didComposeComment) name:LPCommentDidComposeNotification object:nil];
+    [noteCenter addObserver:self selector:@selector(reloadCell:) name:LPDetailVcShouldReloadDataNotification object:nil];
 }
 
 - (BOOL)prefersStatusBarHidden
@@ -131,14 +137,21 @@
 }
 
 #pragma mark - 请求数据，刷新tableView
-- (void)setupData
+- (void)setupDataWithCompletion:(returnCommentsToUpBlock)block
 {
     [self.contentFrames removeAllObjects];
     [sharedIndicator startAnimating];
     __weak typeof(self) weakSelf = self;
-//    NSLog(@"sourceUrl = %@", self.press.sourceUrl);
     NSString *url = [NSString stringWithFormat:@"%@%@", ContentUrl, self.press.sourceUrl];
-    [LPHttpTool getWithURL:url params:nil success:^(id json) {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    Account *account = [AccountTool account];
+    if (account) {
+        params[@"userId"] = account.userId;
+        params[@"platformType"] = account.platformType;
+    } else {
+        params = nil;
+    }
+    [LPHttpTool getWithURL:url params:params success:^(id json) {
         [sharedIndicator stopAnimating];
         sharedIndicator.hidden = YES;
         // 0. json字典转模型
@@ -146,6 +159,7 @@
         NSString *title = json[@"title"];
         NSString *time = json[@"updateTime"];
         
+        NSString *abstract = json[@"abs"];
         NSString *totalBody = json[@"content"];
         NSArray *commentArray = [LPComment objectArrayWithKeyValuesArray:json[@"point"]];
         
@@ -159,13 +173,15 @@
         
         // 2. 每段正文及其评论赋值
         NSArray *rawArray = [totalBody componentsSeparatedByString:@"\n"];
-        NSMutableArray *bodyArray = [NSMutableArray array];
+        NSMutableArray *bodyArray = [NSMutableArray arrayWithArray:@[abstract]];
         for (NSString *str in rawArray) {
             if (![str isBlank]) {
                 [bodyArray addObject:str];
             }
         }
         
+        NSMutableArray *contents = [NSMutableArray array];
+
         NSMutableArray *contentFrameArray = [NSMutableArray array];
         
         CGFloat contentH[bodyArray.count];
@@ -193,7 +209,7 @@
             } else {
                 // 遍历point数组 根据索引确定每段的评论列表
                 for (LPComment *comment in commentArray) {
-                    if (comment.paragraphIndex.intValue == i && [comment.type isEqualToString:@"text_paragraph"])
+                    if (comment.paragraphIndex.intValue == i - 1 && [comment.type isEqualToString:@"text_paragraph"])
                     {
                         [comments addObject:comment];
                     }
@@ -204,6 +220,7 @@
             LPContentFrame *contentFrame = [[LPContentFrame alloc] init];
             contentFrame.content = content;
             [contentFrameArray addObject:contentFrame];
+            [contents addObject:content];
             
             contentH[i] = contentFrame.cellHeight;
         }
@@ -226,6 +243,10 @@
         
         // 4. 刷新tableView
         [weakSelf.tableView reloadData];
+        
+        if (block) {
+            block(contents);
+        }
         
 //        // 5. 默认看第一个
 //        detailVc.watchingIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
@@ -274,7 +295,6 @@
     CGFloat hudH = headerViewH * 0.4;
     CGFloat hudY = CGRectGetMaxY(headerImageView.frame) - hudH;
     hud.frame = CGRectMake(0, hudY, ScreenWidth, hudH);
-//    [headerImageView addSubview:hud];
     
     UILabel *titleLabel = [[UILabel alloc] init];
     titleLabel.numberOfLines = 0;
@@ -317,70 +337,9 @@
 
     [footerView addSubview:zhihuView];
     
-    LPWaterfallView *waterfallView = [[LPWaterfallView alloc] init];
-    if (relateArray && relateArray.count > 0) {
-        self.relates = relateArray;
-        if ([self.press.category isEqualToString:@"财经"]) {
-            waterfallView.backgroundColor = [UIColor whiteColor];
-        } else {
-            waterfallView.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:250/255.0 alpha:0.9];
-        }
-        CGFloat waterfallY = CGRectGetMaxY(zhihuView.frame) + DetailCellHeightBorder;
-        waterfallView.hidden = NO;
-        NSUInteger numberOfCells = relateArray.count;
-        int numberOfColumns = 2;
-        CGFloat topM = 15;
-        CGFloat bottomM = 20;
-        CGFloat leftM = 10;
-        CGFloat columnM = 10;
-        CGFloat rowM = 8;
-        CGFloat rightM = leftM;
-        CGFloat cellW = (DetailCellWidth - leftM - rightM - (numberOfColumns - 1) * columnM) / numberOfColumns;
-        // 用数组maxYOfColumns存放所有列的最大Y值
-        CGFloat maxYOfColumns[numberOfColumns];
-        for (int i = 0; i<numberOfColumns; i++) {
-            maxYOfColumns[i] = 0.0;
-        }
-        
-        int k = 1;
-        // 计算所有cell的frame
-        for (int i = 0; i < numberOfCells; i++, k++) {
-            // cell处在最短的一列, minMaxYOfCellColumn记录各列最大Y值中的最小值, cellColumn表示该列序号
-            NSUInteger cellColumn = 0;
-            CGFloat minMaxYOfCellColumn = maxYOfColumns[cellColumn];
-            
-            if (maxYOfColumns[1] < minMaxYOfCellColumn) {
-                cellColumn = 1;
-                minMaxYOfCellColumn = maxYOfColumns[1];
-            }
-            LPRelatePoint *relate = relateArray[i];
-            CGFloat cellH = cellW * 0.7;
-            if (relate.height) {
-                cellH = cellW * relate.height.floatValue / relate.width.floatValue;
-            }
-            CGFloat cellY = 0;
-            if (minMaxYOfCellColumn == 0.0) {
-                cellY = topM;
-            } else {
-                cellY = minMaxYOfCellColumn + rowM;
-            }
-            maxYOfColumns[cellColumn] = cellY + cellH;
-        }
-        CGFloat contentH = MAX(maxYOfColumns[0], maxYOfColumns[1]);
-        contentH += bottomM;
-        waterfallView.dataSource = self;
-        waterfallView.delegate = self;
-        waterfallView.scrollEnabled = YES;
-        waterfallView.frame = CGRectMake(DetailCellPadding, waterfallY, DetailCellWidth, contentH);
-    } else {
-        waterfallView.hidden = YES;
-    }
-    [footerView addSubview:waterfallView];
     
     CGFloat footerH = 0.0;
-    if (waterfallView.hidden == NO) {
-        footerH = CGRectGetMaxY(waterfallView.frame);
-    } else if (zhihuView.hidden == NO) {
+    if (zhihuView.hidden == NO) {
         footerH = CGRectGetMaxY(zhihuView.frame);
     }
     
@@ -458,7 +417,6 @@
  */
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-   
     self.lastContentOffsetY < scrollView.contentOffset.y ? [self fadeOut] : [self fadeIn];
     CGFloat offsetY = scrollView.contentOffset.y;
     if (offsetY < 0) { // 内切时，放大头部imageView及其颜色蒙版
@@ -469,7 +427,7 @@
         self.headerImageView.frame = CGRectMake(- offsetX, offsetY, w, TableHeaderImageViewH -  offsetY);
         self.filterView.frame = self.headerImageView.bounds;
         self.headerImageView.layer.mask = nil;
-    } else {
+    } else { // 向上拖动时，控制视差并添加遮盖
         if (offsetY < TableHeaderViewH) {
             CGFloat diff = self.diffPercent * offsetY;
             UIBezierPath *path = [UIBezierPath bezierPathWithRect:CGRectMake(0, 0, ScreenWidth, TableHeaderImageViewH - diff)];
@@ -529,81 +487,29 @@
 //    }
 //}
 
-#pragma mark - LPWaterfall view data source
-- (NSUInteger)numberOfCellsInWaterfallView:(LPWaterfallView *)waterfallView
+#pragma mark - push para comment view controller
+- (void)pushParaVcWithContent:(LPContent *)content
 {
-    return self.relates.count;
-}
-
-- (LPRelateCell *)waterfallView:(LPWaterfallView *)waterfallView cellAtIndex:(NSUInteger)index
-{
-    LPRelateCell *cell = [LPRelateCell cellWithWaterfallView:waterfallView];
-    
-    cell.relatePoint = self.relates[index];
-    
-    return cell;
-}
-
-- (NSUInteger)numberOfColumnsInWaterfallView:(LPWaterfallView *)waterfallView
-{
-    return 2;
-}
-
-
-#pragma mark - LPWaterfall view delegate
-- (CGFloat)waterfallView:(LPWaterfallView *)waterfallView marginForType:(LPWaterfallViewMarginType)type
-{
-    switch (type) {
-        case LPWaterfallViewMarginTypeTop: return 15;
-        case LPWaterfallViewMarginTypeBottom: return 20;
-        case LPWaterfallViewMarginTypeLeft: return 10;
-        case LPWaterfallViewMarginTypeRight: return 10;
-        case LPWaterfallViewMarginTypeColumn: return 20;
-        case LPWaterfallViewMarginTypeRow: return 8;
-        default:
-            return 10;
-    }
-}
-
-- (CGFloat)waterfallView:(LPWaterfallView *)waterfallView heightAtIndex:(NSUInteger)index
-{
-    LPRelatePoint *relate = self.relates[index];
-    if (relate.height) {
-        return waterfallView.cellWidth * relate.height.floatValue / relate.width.floatValue;
-    } else { // 没提供宽高
-        return waterfallView.cellWidth * 0.7;
-    }
-}
-
-- (void)waterfallView:(LPWaterfallView *)waterfallView didSelectAtIndex:(NSUInteger)index
-{
-    LPRelatePoint *relate = self.relates[index];
-    [LPPressTool loadWebViewWithURL:relate.url viewController:self];
+    LPParaCommentViewController *paraVc = [[LPParaCommentViewController alloc] init];
+    paraVc.comments = content.comments;
+    paraVc.bgImage = [UIImage captureWithView:self.view];
+    paraVc.category = content.category;
+    paraVc.contentIndex = content.paragraphIndex;
+    paraVc.fromVc = self;
+    paraVc.commentText = self.commentText;
+    paraVc.press = self.press;
+    [self.navigationController pushViewController:paraVc animated:NO];
 }
 
 #pragma mark - LPContentCell delegate
 
 - (void)contentCellDidClickCommentView:(LPContentCell *)cell
 {
-//    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-//    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:NO];
     LPContent *content = cell.contentFrame.content;
     NSArray *comments = content.comments;
     if (comments.count) {
-        LPParaCommentViewController *paraVc = [[LPParaCommentViewController alloc] init];
-        paraVc.comments = comments;
-        paraVc.bgImage = [UIImage captureWithView:self.view];
-        paraVc.category = content.category;
-        paraVc.delegate = self;
-        [self presentViewController:paraVc animated:NO completion:nil];
+        [self pushParaVcWithContent:content];
     }
-}
-
-#pragma mark - LPParaCommentViewController delegate
-
-- (void)paraCommentViewControllerWillDismiss:(LPParaCommentViewController *)paraCommentViewController
-{
-    [self dismissViewControllerAnimated:NO completion:nil];
 }
 
 #pragma mark - LPZhihuView delegate
@@ -616,32 +522,47 @@
 #pragma mark - notification selector will compose comment
 - (void)willComposeComment:(NSNotification *)note
 {
-//    if (![AccountTool account]) {
-//#warning - 此处要进行登录判断，如果未登录，应该先登录
-//    // login code ... ...
-//    [AccountTool accountLoginWithViewController:self];
-//#warning - 告诉我登陆成功与否, 登录失败直接返回
-////        [MBProgressHUD showError:@"登录失败"];
-//    }
+    if (![AccountTool account]) {
+        __weak typeof(self) weakSelf = self;
+        [AccountTool accountLoginWithViewController:self.navigationController.topViewController
+        success:^{
+            [MBProgressHUD showSuccess:@"登录成功"];
+            [weakSelf performSelector:@selector(pushCommentComposeVcWithNote:) withObject:note afterDelay:0.6];
+        } failure:^{
+            [MBProgressHUD showError:@"登录失败"];
+        } cancel:nil];
+    } else {
+        [self pushCommentComposeVcWithNote:note];
+    }
+}
+
+- (void)pushCommentComposeVcWithNote:(NSNotification *)note
+{
     NSDictionary *info = note.userInfo;
-    LPContent *content = info[LPComposeForContent];
-    self.commentContent = content;
+    int paraIndex = [info[LPComposeParaIndex] intValue];
+    self.realParaIndex = paraIndex;
+    LPContentFrame *contentFrame = self.contentFrames[paraIndex];
+    LPContent *content = contentFrame.content;
     LPComposeViewController *composeVc = [[LPComposeViewController alloc] init];
     composeVc.category = content.category;
     composeVc.draftText = self.commentText;
     [composeVc returnText:^(NSString *text) {
         self.commentText = text;
     }];
-//    composeVc.content = content;
     [self.navigationController pushViewController:composeVc animated:YES];
 }
 
 #pragma mark - notification selector did compose comment
+/**
+ *  评论发送后的处理
+ */
 - (void)didComposeComment
 {
-    NSLog(@"didComposeComment --- %@", self.commentText);
     // 1. 刷新当前页
-    LPContent *content = self.commentContent;
+//    LPContent *content = self.commentContent;
+    LPContentFrame *contentFrame = self.contentFrames[self.realParaIndex];
+    LPContent *content = contentFrame.content;
+
     Account *account = [AccountTool account];
     NSMutableArray *commentArray = [NSMutableArray arrayWithArray:content.comments];
     // 1.1 创建comment对象
@@ -649,25 +570,25 @@
     comment.sourceUrl = self.press.sourceUrl;
     comment.srcText = self.commentText;
     comment.category = content.category;
-    comment.paragraphIndex = [NSString stringFromIntValue:content.paragraphIndex];
+    comment.paragraphIndex = [NSString stringFromIntValue:content.paragraphIndex - 1];
     comment.type = @"text_paragraph";
     comment.uuid = account.userId;
     comment.userIcon = account.userIcon;
     comment.userName = account.userName;
-    // 1.2 更新content对象
-    content.hasComment = YES;
-    [commentArray addObject:comment];
-    content.comments = commentArray;
-    LPContentFrame *contentFrame = self.contentFrames[content.paragraphIndex];
-    contentFrame.content = content;
+    comment.createTime = [NSString stringFromNowDate];
     
-#warning - 发送成功，通知首页，使无评论图标的对应卡片显示评论图标， 这行代码写在这还是post成功之后？
-//    [noteCenter postNotificationName:LPCommentDidComposeSuccessNotification object:self];
-
+    comment.up = @"0";
+    comment.isPraiseFlag = @"0";
+    
+    if (self.navigationController.viewControllers.count == 4) {
+        self.shouldPush = YES;
+    } else {
+        self.shouldPush = NO;
+    }
     // 2. 发送post请求
     NSString *url = [NSString stringWithFormat:@"%@/news/baijia/point", ServerUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"sourceUrl"] = comment.sourceUrl;
+    params[@"sourceUrl"] = self.press.sourceUrl;
     params[@"srcText"] = comment.srcText;
     params[@"paragraphIndex"] = comment.paragraphIndex;
     params[@"type"] = comment.type;
@@ -675,21 +596,53 @@
     params[@"userIcon"] = comment.userIcon;
     params[@"userName"] = comment.userName;
     params[@"desText"] = content.body;
+
     [LPHttpTool postWithURL:url params:params success:^(id json) {
-        [noteCenter postNotificationName:LPCommentDidComposeSuccessNotification object:self];
-        [MBProgressHUD showSuccess:@"发表成功"];
+        NSLog(@"%@", [json description]);
+        // 1.2 更新content对象
+        content.hasComment = YES;
+        comment.commentId = json[@"commentId"];
+        [commentArray addObject:comment];
+        content.comments = commentArray;
+        content.paragraphIndex = self.realParaIndex;
+        contentFrame.content = content;
         [self.tableView reloadData];
+        // 发送成功，通知首页，使无评论图标的对应卡片显示评论图标
+        [noteCenter postNotificationName:LPCommentDidComposeSuccessNotification object:self];
+        
+        if (self.shouldPush) {
+            NSDictionary *info = @{LPComposeComment:comment};
+            [noteCenter postNotificationName:LPParaVcRefreshDataNotification object:self userInfo:info];
+        }
+        // 3. 清空草稿
+        self.commentText = nil;
+        [MBProgressHUD showSuccess:@"发表成功"];
+        
     } failure:^(NSError *error) {
         [MBProgressHUD showError:@"发表失败"];
     }];
-    
-    // 3. 清空草稿
-    self.commentText = nil;
 }
+
 
 - (void)dealloc
 {
     [noteCenter removeObserver:self];
+}
+
+
+# pragma mark - handle unLogin up comment
+- (void)returnContentsBlock:(returnCommentsToUpBlock)returnBlock
+{
+    [self setupDataWithCompletion:returnBlock];
+}
+
+#pragma mark - notification selector reload cell
+- (void)reloadCell:(NSNotification *)note
+{
+//    NSNumber *rowNum = note.userInfo[LPReloadCellIndex];
+//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:rowNum.integerValue inSection:0];
+//    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    [self.tableView reloadData];
 }
 
 @end

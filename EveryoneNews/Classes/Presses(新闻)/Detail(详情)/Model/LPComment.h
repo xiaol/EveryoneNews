@@ -21,6 +21,8 @@
 //"userIcon": null
 @interface LPComment : NSObject
 
+@property (nonatomic, copy) NSString *isPraiseFlag;
+
 @property (nonatomic, copy) NSString *sourceUrl;
 
 @property (nonatomic, copy) NSString *srcText;
@@ -39,6 +41,8 @@
 
 @property (nonatomic, copy) NSString *comments_count;
 
+@property (nonatomic, copy) NSString *commentId;
+
 @property (nonatomic, copy) NSString *type;
 
 @property (nonatomic, copy) NSString *userIcon;
@@ -46,5 +50,7 @@
 @property (nonatomic, copy) NSString *category;
 
 - (NSMutableAttributedString *)commentStringWithCategory:(NSString *)category;
+
+- (CGFloat)commentTextLineHeight;
 
 @end

@@ -92,6 +92,10 @@
 		189083551B31DD1000ADDEDB /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 189083541B31DD1000ADDEDB /* Security.framework */; };
 		189083571B31DD1B00ADDEDB /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 189083561B31DD1B00ADDEDB /* libz.dylib */; };
 		1890835A1B31DE8500ADDEDB /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 189083591B31DE8500ADDEDB /* PushConfig.plist */; };
+		18A52D191B466F5500C4E65E /* 国内_发表评论初始.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A52D161B466F5500C4E65E /* 国内_发表评论初始.png */; };
+		18A52D1A1B466F5500C4E65E /* 国内_发表评论激活.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A52D171B466F5500C4E65E /* 国内_发表评论激活.png */; };
+		18A52D1B1B466F5500C4E65E /* 国内_评论数图形.png in Resources */ = {isa = PBXBuildFile; fileRef = 18A52D181B466F5500C4E65E /* 国内_评论数图形.png */; };
+		18A52D1E1B4A54F400C4E65E /* LPUpView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A52D1D1B4A54F400C4E65E /* LPUpView.m */; };
 		18A65C631B1EB65A0070DDD7 /* LPPointview.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A65C621B1EB65A0070DDD7 /* LPPointview.m */; };
 		18A65C681B1EF3FB0070DDD7 /* LPSingleGraphOpinionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A65C671B1EF3FB0070DDD7 /* LPSingleGraphOpinionsView.m */; };
 		18A65C6E1B1EFB9C0070DDD7 /* LPMultiGraphOpinionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A65C6D1B1EFB9C0070DDD7 /* LPMultiGraphOpinionsView.m */; };
@@ -316,6 +320,11 @@
 		189083541B31DD1000ADDEDB /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		189083561B31DD1B00ADDEDB /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		189083591B31DE8500ADDEDB /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PushConfig.plist; sourceTree = "<group>"; };
+		18A52D161B466F5500C4E65E /* 国内_发表评论初始.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "国内_发表评论初始.png"; sourceTree = "<group>"; };
+		18A52D171B466F5500C4E65E /* 国内_发表评论激活.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "国内_发表评论激活.png"; sourceTree = "<group>"; };
+		18A52D181B466F5500C4E65E /* 国内_评论数图形.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "国内_评论数图形.png"; sourceTree = "<group>"; };
+		18A52D1C1B4A54F400C4E65E /* LPUpView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPUpView.h; sourceTree = "<group>"; };
+		18A52D1D1B4A54F400C4E65E /* LPUpView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPUpView.m; sourceTree = "<group>"; };
 		18A65C611B1EB65A0070DDD7 /* LPPointview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPPointview.h; sourceTree = "<group>"; };
 		18A65C621B1EB65A0070DDD7 /* LPPointview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPPointview.m; sourceTree = "<group>"; };
 		18A65C661B1EF3FB0070DDD7 /* LPSingleGraphOpinionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPSingleGraphOpinionsView.h; sourceTree = "<group>"; };
@@ -457,7 +466,7 @@
 		18D71FC61B26E6FA002A7375 /* LPContentFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPContentFrame.h; sourceTree = "<group>"; };
 		18D71FC71B26E6FA002A7375 /* LPContentFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPContentFrame.m; sourceTree = "<group>"; };
 		18D7FDE21B3BA44E006C1935 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
-		18D7FDE31B3BA44E006C1935 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		18D7FDE31B3BA44E006C1935 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; wrapsLines = 1; };
 		18E3A4B31B33235000168901 /* LPHttpTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPHttpTool.h; sourceTree = "<group>"; };
 		18E3A4B41B33235000168901 /* LPHttpTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPHttpTool.m; sourceTree = "<group>"; };
 		18E3A4B51B33235000168901 /* LPPressTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPPressTool.h; sourceTree = "<group>"; };
@@ -725,6 +734,9 @@
 			isa = PBXGroup;
 			children = (
 				1886FBFD1B2FE1D800959FA0 /* back.png */,
+				18A52D161B466F5500C4E65E /* 国内_发表评论初始.png */,
+				18A52D171B466F5500C4E65E /* 国内_发表评论激活.png */,
+				18A52D181B466F5500C4E65E /* 国内_评论数图形.png */,
 				1886FBFE1B2FE1D800959FA0 /* placeholder.png */,
 				1886FBFF1B2FE1D800959FA0 /* 体育_发表评论初始.png */,
 				1886FC001B2FE1D800959FA0 /* 体育_发表评论激活.png */,
@@ -1025,6 +1037,8 @@
 				18CB19BD1B2E269B0005D3E3 /* LPParaCommentCell.m */,
 				1877D5221B42594C00C042E6 /* LPTextView.h */,
 				1877D5231B42594C00C042E6 /* LPTextView.m */,
+				18A52D1C1B4A54F400C4E65E /* LPUpView.h */,
+				18A52D1D1B4A54F400C4E65E /* LPUpView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1505,6 +1519,7 @@
 				1886FC3D1B2FE1D800959FA0 /* 发表评论激活.png in Resources */,
 				1886FC331B2FE1D800959FA0 /* 财经.jpg in Resources */,
 				1886FC481B2FE1D800959FA0 /* 渐变.png in Resources */,
+				18A52D191B466F5500C4E65E /* 国内_发表评论初始.png in Resources */,
 				1886FC5B1B2FE1D800959FA0 /* 百度.png in Resources */,
 				1886FC301B2FE1D800959FA0 /* 港台.jpg in Resources */,
 				1886FC571B2FE1D800959FA0 /* 财经_评论数图形.png in Resources */,
@@ -1514,6 +1529,7 @@
 				1886FC3A1B2FE1D800959FA0 /* 内地_发表评论激活.png in Resources */,
 				1886FC341B2FE1D800959FA0 /* back.png in Resources */,
 				1886FC5C1B2FE1D800959FA0 /* 蓝点.png in Resources */,
+				18A52D1A1B466F5500C4E65E /* 国内_发表评论激活.png in Resources */,
 				1886FC391B2FE1D800959FA0 /* 内地_发表评论初始.png in Resources */,
 				1886FC361B2FE1D800959FA0 /* 体育_发表评论初始.png in Resources */,
 				1886FC3C1B2FE1D800959FA0 /* 发表评论初始.png in Resources */,
@@ -1523,6 +1539,7 @@
 				1886FC4E1B2FE1D800959FA0 /* 焦点_评论数图形.png in Resources */,
 				1886FC3B1B2FE1D800959FA0 /* 内地_评论数图形.png in Resources */,
 				1877D4E11B3BF5CC00C042E6 /* newfeature3.png in Resources */,
+				18A52D1B1B466F5500C4E65E /* 国内_评论数图形.png in Resources */,
 				1886FC4A1B2FE1D800959FA0 /* 港台_发表评论激活.png in Resources */,
 				1886FC531B2FE1D800959FA0 /* 科技_发表评论激活.png in Resources */,
 				1886FC371B2FE1D800959FA0 /* 体育_发表评论激活.png in Resources */,
@@ -1581,6 +1598,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				18D71FAA1B2572C5002A7375 /* MJFoundation.m in Sources */,
+				18A52D1E1B4A54F400C4E65E /* LPUpView.m in Sources */,
 				18E3A4B71B33235000168901 /* LPHttpTool.m in Sources */,
 				18D71F931B25710F002A7375 /* AFURLConnectionOperation.m in Sources */,
 				18CB19A81B2E174D0005D3E3 /* LPParaCommentViewController.m in Sources */,

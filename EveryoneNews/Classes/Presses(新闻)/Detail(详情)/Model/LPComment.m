@@ -15,4 +15,11 @@
     UIColor *color = [UIColor colorFromCategory:category];
     return [self.srcText attributedStringWithFont:[UIFont systemFontOfSize:CommentFontSize] color:color lineSpacing:CommentLineSpacing];
 }
+
+- (CGFloat)commentTextLineHeight
+{
+    NSString *str = @"你好";
+    NSMutableAttributedString *attrStr = [str attributedStringWithFont:[UIFont systemFontOfSize:CommentFontSize] color:[UIColor whiteColor] lineSpacing:CommentLineSpacing];
+    return [attrStr heightWithConstraintWidth:MAXFLOAT];
+}
 @end

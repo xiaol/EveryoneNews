@@ -62,6 +62,11 @@
     return [NSString stringWithFormat:@"%d", intValue];
 }
 
++ (instancetype)stringFromIntegerValue:(NSInteger)integerValue
+{
+    return [NSString stringWithFormat:@"%ld", integerValue];
+}
+
 + (instancetype)stringFromUIntegerValue:(NSUInteger)uIntValue
 {
     return [NSString stringWithFormat:@"%lu", uIntValue];
@@ -70,6 +75,19 @@
 + (instancetype)stringFromBOOLValue:(BOOL)boolValue
 {
     return boolValue ? @"YES" : @"NO";
+}
+
++ (instancetype)stringFromNowDate;
+{
+    NSDate *date = [NSDate date];
+    NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
+    fmt.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    return [fmt stringFromDate:date];
+}
+
+- (BOOL)isMoreThanOneLineConstraintToWidth:(CGFloat)width withFont:(UIFont *)font
+{
+    return [self sizeWithFont:font maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)].width > width;
 }
 
 @end

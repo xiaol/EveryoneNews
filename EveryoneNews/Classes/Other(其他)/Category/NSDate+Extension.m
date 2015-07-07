@@ -23,4 +23,6 @@
     NSTimeInterval seconds = tempMilli/1000.0;//这里的.0一定要加上，不然除下来的数据会被截断导致时间不一致
     return [NSDate dateWithTimeIntervalSince1970:seconds];
 }
+
+
 @end

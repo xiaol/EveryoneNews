@@ -15,5 +15,10 @@
 @property (nonatomic, assign) CGRect nameLabelF;
 @property (nonatomic, assign) CGRect timeLabelF;
 @property (nonatomic, assign) CGRect commentLabelF;
+@property (nonatomic, assign) CGRect upImageViewF;
+@property (nonatomic, assign) CGRect upCountsLabelF;
+@property (nonatomic, assign) CGRect dividerViewF;
+@property (nonatomic, assign) CGRect upViewF;
+
 @property (nonatomic, assign) CGFloat cellHeight;
 @end

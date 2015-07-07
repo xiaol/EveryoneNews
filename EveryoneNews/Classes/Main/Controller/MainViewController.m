@@ -191,6 +191,9 @@ typedef void (^completionBlock)();
     [super viewDidLoad];
     [noteCenter addObserver:self selector:@selector(receiveJPushNotification:) name:LPPushNotificationFromLaunching object:nil];
     [noteCenter addObserver:self selector:@selector(receiveJPushNotification:) name:LPPushNotificationFromBack object:nil];
+    [noteCenter addObserver:self selector:@selector(accountLogin:) name:AccountLoginNotification  object:nil];
+    [noteCenter addObserver:self selector:@selector(commentSuccess) name:LPCommentDidComposeSuccessNotification object:nil];
+
     [self setupContainerScrollerView];
     [self setupCategoryScrollView];
     [self setupHomeTableView];
@@ -438,5 +441,15 @@ typedef void (^completionBlock)();
     [noteCenter removeObserver:self];
 }
 
-
+// 评论成功后，若原来没有评论图标，就显示
+- (void)commentSuccess
+{
+    LPPressFrame *pressFrame = self.pressFrames[self.selectedRow];
+    LPPress *press = pressFrame.press;
+    if (press.isCommentsFlag.intValue == 0) {
+        press.isCommentsFlag = @"1";
+        self.isScrolled = NO;
+        [self.homeTableView reloadData];
+    }
+}
 @end
