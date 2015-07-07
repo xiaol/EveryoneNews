@@ -251,6 +251,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		if (interv < self.minShowTime) {
 			self.minShowTimer = [NSTimer scheduledTimerWithTimeInterval:(self.minShowTime - interv) target:self 
 								selector:@selector(handleMinShowTimer:) userInfo:nil repeats:NO];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"ss" message:@"bb" delegate:nil cancelButtonTitle:@"ss" otherButtonTitles:nil, nil];
+            [alert show];
 			return;
 		} 
 	}
@@ -283,10 +285,11 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 #pragma mark - View Hierrarchy
 
 - (void)didMoveToSuperview {
+    [super didMoveToSuperview];
 	// We need to take care of rotation ourselfs if we're adding the HUD to a window
 	if ([self.superview isKindOfClass:[UIWindow class]]) {
 		[self setTransformForCurrentOrientation:NO];
-	}
+    }
 }
 
 #pragma mark - Internal show & hide operations
@@ -355,7 +358,9 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	}
 #endif
 	if (removeFromSuperViewOnHide) {
-		[self removeFromSuperview];
+//        if (self.superview) {
+            [self removeFromSuperview];
+//        }
 	}
 }
 

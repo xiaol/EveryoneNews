@@ -11,11 +11,11 @@
 @interface Account : NSObject <NSCoding>
 
 @property (nonatomic,copy) NSString *userId;
-@property (nonatomic,assign) NSInteger userGender;
+@property (nonatomic,strong) NSNumber *userGender;
 @property (nonatomic,copy) NSString *userName;
 @property (nonatomic,copy) NSString *userIcon;
-@property (nonatomic,assign) NSInteger platformType;
+@property (nonatomic,strong) NSNumber *platformType;
 @property (nonatomic,copy) NSString *deviceType;
 @property (nonatomic,copy) NSString *token;
-@property (nonatomic,assign) NSUInteger expiresTime;
+@property (nonatomic,strong) NSNumber *expiresTime;
 @end
