@@ -593,7 +593,6 @@
     params[@"desText"] = content.body;
 
     [LPHttpTool postWithURL:url params:params success:^(id json) {
-        NSLog(@"%@", [json description]);
         // 1.2 更新content对象
         content.hasComment = YES;
         comment.commentId = json[@"commentId"];
