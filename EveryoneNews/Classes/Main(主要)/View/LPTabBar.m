@@ -10,9 +10,8 @@
 
 
 @interface LPTabBar ()
-
-
-
+//tabbar 点击事件回调block
+@property (nonatomic,copy) tabBarDidClick tabBarDidClickBlock;
 @end
 
 @implementation LPTabBar
@@ -63,14 +62,13 @@
     // 通知代理
     int from = (int)self.selectedButton.tag;
     int to = (int)btn.tag;
-    if ([self.delegate respondsToSelector:@selector(tabBar:didSelectButtonFrom:to:)]) {
-        [self.delegate tabBar:self didSelectButtonFrom:from to:to];
+    // 设置按钮状态
+    self.selectedButton = btn;
+    __weak typeof(self) weakSelf = self;
+    if (weakSelf.tabBarDidClickBlock != nil) {
+        weakSelf.tabBarDidClickBlock(from,to);
     }
     
-    if (from != to) {
-        // 设置按钮状态
-        self.selectedButton = btn;
-    }
 }
 
 - (void)setSelectedButton:(LPTabBarButton *)selectedButton
@@ -101,4 +99,7 @@
     }
 }
 
+- (void)setBabBarDidClickBlock:(tabBarDidClick)block{
+    self.tabBarDidClickBlock = block;
+}
 @end

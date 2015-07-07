@@ -15,7 +15,8 @@
 #import <ShareSDK/ShareSDK.h>
 #import "WeiboSDK.h"
 #import "WXApi.h"
-
+#import "MainNavigationController.h"
+#import "MainViewController.h"
 @interface AppDelegate ()
 
 @end
@@ -40,7 +41,7 @@
     [ShareSDK connectSinaWeiboWithAppKey:@"104745354"
                                appSecret:@"e0c793deeb71942132d76b985e3b45c4"
                              redirectUri:@"http://sns.whalecloud.com/sina2/callback"];
-weiboSDKCls:[WeiboSDK class];
+        weiboSDKCls:[WeiboSDK class];
     //添加微信应用  http://open.weixin.qq.com
     [ShareSDK connectWeChatWithAppId:@"wxc52863aa86154991"
                            appSecret:@"9fdec381aa4cf819acdb17ebea64bd70"
@@ -69,16 +70,25 @@ weiboSDKCls:[WeiboSDK class];
     
     // 2. 创建窗口
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    MainViewController *mainVc = [[MainViewController alloc] init];
+    MainNavigationController *mainNavVc = [[MainNavigationController alloc] initWithRootViewController:mainVc];
+//    // 3. 设置根控制器
+//    if ([currentVersion isEqualToString:lastVersion]) {
+//        self.window.rootViewController = [[LPTabBarController alloc] init];
+//    } else {
+//        self.window.rootViewController = [[LPNewfeatureViewController alloc] init];
+//        [userDefaults setObject:currentVersion forKey:versionKey];
+//        [userDefaults synchronize];
+//    }
     
-    // 3. 设置根控制器
+    //设置根控制器
     if ([currentVersion isEqualToString:lastVersion]) {
-        self.window.rootViewController = [[LPTabBarController alloc] init];
-    } else {
+        self.window.rootViewController = mainNavVc;
+    }else {
         self.window.rootViewController = [[LPNewfeatureViewController alloc] init];
         [userDefaults setObject:currentVersion forKey:versionKey];
         [userDefaults synchronize];
     }
-    
     
     // 4. 显示窗口（成为主窗口）
     [self.window makeKeyAndVisible];
@@ -113,13 +123,17 @@ weiboSDKCls:[WeiboSDK class];
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
+    NSLog(@"---%s",__func__);
     [APService handleRemoteNotification:userInfo];
+    NSLog(@"---%ld",application.applicationState);
     /**
      *  处理推送
      */
     if (application.applicationState == UIApplicationStateBackground) {
-//        NSLog(@"后台状态 --- userInfo --- %@", [userInfo description]);
-        [noteCenter postNotificationName:LPPushNotificationFromBack object:self userInfo:userInfo];
+        NSLog(@"后台状态 --- userInfo --- %@", [userInfo description]);
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [noteCenter postNotificationName:LPPushNotificationFromBack object:self userInfo:userInfo];
+        });
     }
     [application setApplicationIconBadgeNumber:0];
     completionHandler(UIBackgroundFetchResultNewData);

@@ -10,6 +10,7 @@
 
 @implementation Account
 
+
 - (NSString *)description{
     return [NSString stringWithFormat:@"<%p> (%@,%@,%@,%@,%@,%@,%@)",self,_userId,_userGender,_userName,_userIcon,_platformType,_deviceType,_expiresTime];
 }
