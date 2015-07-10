@@ -109,6 +109,9 @@
         }
     } else if (mode == 9) {
         
+    }else if (mode == 1000){
+        _timeLineViewF = CGRectMake(0, 0, ScreenWidth, 170.0 / 1334 * ScreenHeight);
+        _cellHeight = 170.0 / 1334 * ScreenHeight +CellHeightBorder;
     }
 }
 

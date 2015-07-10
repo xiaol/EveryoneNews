@@ -62,7 +62,7 @@
 
 
 /**
- *  cell类型 （1：大图；400：单图图文；9：多图图文）
+ *  cell类型 （1：大图；400：单图图文；9：多图图文; 1000：时间栏）
  */
 @property (nonatomic, copy) NSString *special;
 

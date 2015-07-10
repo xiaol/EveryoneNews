@@ -297,6 +297,14 @@ typedef void (^completionBlock)();
             i = 0;
         }
         weakSelf.timeRow = MAX(i - 1, 0);
+        //插入时间栏LPPressFrame
+        LPPressFrame *timePressFrame = [[LPPressFrame alloc] init];
+        LPPress *timePress = [[LPPress alloc] init];
+        timePress.special = @"1000";
+        timePressFrame.press = timePress;
+        NSInteger insertPosition = (weakSelf.timeRow == 0)? 0:weakSelf.timeRow +1;
+        [pressFrameArray insertObject:timePressFrame atIndex:insertPosition];
+        NSLog(@"time----%ld",weakSelf.timeRow);
         weakSelf.anyDisplayingCellRow = i;
         //        LPPressFrame *pressFrame = [LPPressFrame pressFrameWithTimeCell];
         //        [pressFrameArray insertObject:nil atIndex:self.timeRow];
@@ -376,6 +384,10 @@ typedef void (^completionBlock)();
     self.selectedRow = indexPath.row;
     LPPressFrame *pressFrame = self.pressFrames[indexPath.row];
     LPPress *press = pressFrame.press;
+    //如果点击的时间栏，则不响应点击事件
+    if (press.special.intValue == 1000) {
+        return;
+    }
     LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
     detailVc.press = press;
     [self.navigationController pushViewController:detailVc animated:YES];

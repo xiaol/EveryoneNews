@@ -201,6 +201,7 @@
 		7E9FEBA61B43928900D06E0A /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9FEBA51B43928900D06E0A /* NSDate+Extension.m */; };
 		7E9FEBE51B45333700D06E0A /* MainNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9FEBE41B45333700D06E0A /* MainNavigationController.m */; };
 		7EC7D1C11B4B7EE5003491F5 /* CustomLoaddingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EC7D1C01B4B7EE5003491F5 /* CustomLoaddingView.m */; };
+		7EC7D1FF1B4D162D003491F5 /* TimeLineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7EC7D1FE1B4D162D003491F5 /* TimeLineView.m */; };
 		7ED4FA571B41423300DF2B7D /* MBProgressHUD+MJ.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ED4FA561B41423300DF2B7D /* MBProgressHUD+MJ.m */; };
 /* End PBXBuildFile section */
 
@@ -520,6 +521,8 @@
 		7E9FEBE41B45333700D06E0A /* MainNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainNavigationController.m; sourceTree = "<group>"; };
 		7EC7D1BF1B4B7EE5003491F5 /* CustomLoaddingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomLoaddingView.h; sourceTree = "<group>"; };
 		7EC7D1C01B4B7EE5003491F5 /* CustomLoaddingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomLoaddingView.m; sourceTree = "<group>"; };
+		7EC7D1FD1B4D162D003491F5 /* TimeLineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeLineView.h; sourceTree = "<group>"; };
+		7EC7D1FE1B4D162D003491F5 /* TimeLineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TimeLineView.m; sourceTree = "<group>"; };
 		7ED4FA551B41423300DF2B7D /* MBProgressHUD+MJ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+MJ.h"; sourceTree = "<group>"; };
 		7ED4FA561B41423300DF2B7D /* MBProgressHUD+MJ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+MJ.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1416,6 +1419,8 @@
 			children = (
 				7E4385131B46524900A30E50 /* CategoryScrollView.h */,
 				7E4385141B46524900A30E50 /* CategoryScrollView.m */,
+				7EC7D1FD1B4D162D003491F5 /* TimeLineView.h */,
+				7EC7D1FE1B4D162D003491F5 /* TimeLineView.m */,
 				7EC7D1BF1B4B7EE5003491F5 /* CustomLoaddingView.h */,
 				7EC7D1C01B4B7EE5003491F5 /* CustomLoaddingView.m */,
 			);
@@ -1676,6 +1681,7 @@
 				18D71FAF1B2572C5002A7375 /* NSObject+MJProperty.m in Sources */,
 				18E8080A1B371F4F00CD4C55 /* LPCategoryView.m in Sources */,
 				18D71FAD1B2572C5002A7375 /* NSObject+MJCoding.m in Sources */,
+				7EC7D1FF1B4D162D003491F5 /* TimeLineView.m in Sources */,
 				18A65CD01B203D330070DDD7 /* UIImageView+WebCache.m in Sources */,
 				18A65CC71B203D330070DDD7 /* SDWebImageDownloader.m in Sources */,
 				184BA0B31B3A106E001D871B /* LPNewfeatureViewController.m in Sources */,
