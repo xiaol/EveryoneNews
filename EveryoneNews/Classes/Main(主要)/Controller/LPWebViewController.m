@@ -8,12 +8,13 @@
 
 #import "LPWebViewController.h"
 #import "MBProgressHUD+MJ.h"
+//#import "CustomLoaddingView.h"
 
 @interface LPWebViewController () <UIWebViewDelegate>
 {
     UIWebView *webView;
-    CGFloat screenW;
 }
+//@property (nonatomic, strong) CustomLoaddingView *loadingView;
 @end
 
 @implementation LPWebViewController
@@ -39,7 +40,11 @@
     backBtn.backgroundColor = [UIColor clearColor];
     [backBtn addTarget:self action:@selector(backBtnPress) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:backBtn];
+}
 
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
 }
 
 - (void)backBtnPress
@@ -51,17 +56,21 @@
 
 - (void)webViewDidStartLoad:(UIWebView *)webView
 {
-    [MBProgressHUD showMessage:@"正在加载..."];
+//    [MBProgressHUD showMessage:@"正在加载..."];
+//    self.loadingView = [CustomLoaddingView showMessage:@"正在加载..." toView:webView];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
-    [MBProgressHUD hideHUD];
+//    [MBProgressHUD hideHUD];
+//    [self.loadingView dismissMessage];
 }
 
 -(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
-    [MBProgressHUD hideHUD];
+//    [MBProgressHUD hideHUD];
+//    [self.loadingView dismissMessage];
+
     [MBProgressHUD showError:@"加载失败：("];
 }
 @end

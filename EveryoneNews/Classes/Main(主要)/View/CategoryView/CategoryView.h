@@ -11,7 +11,7 @@
 
 typedef void (^categoryBtnClick)(LPCategory *from,LPCategory *to);
 
-@interface CategoryScrollView : UIScrollView
+@interface CategoryView : UIScrollView
 
 - (void)didCategoryBtnClick:(categoryBtnClick)block;
 

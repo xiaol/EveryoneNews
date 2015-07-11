@@ -57,6 +57,9 @@
         
         UIButton *commentsCountBtn = [[UIButton alloc] init];
         commentsCountBtn.titleEdgeInsets = UIEdgeInsetsMake(CommentCountTopPadding, CommentCountLeftPadding, CommentCountBottomPadding, CommentCountRightPadding);
+        if (iPhone6) {
+            commentsCountBtn.titleEdgeInsets = UIEdgeInsetsMake(CommentCountTopPadding, CommentCountLeftPadding, CommentCountBottomPadding + 2, CommentCountRightPadding);
+        }
         [commentsCountBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         commentsCountBtn.titleLabel.font = [UIFont systemFontOfSize:CommentCountFontSize];
         commentsCountBtn.titleLabel.textAlignment = NSTextAlignmentCenter;

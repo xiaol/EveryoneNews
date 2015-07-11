@@ -7,7 +7,6 @@
 //  header: imgUrl title updateTime
 
 #import "LPDetailViewController.h"
-#import "LPNavigationController.h"
 #import "LPPress.h"
 #import "MJExtension.h"
 #import "LPHttpTool.h"
@@ -136,7 +135,7 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-#pragma mark - 请求数据，刷新tableView
+#pragma mark - request new data (if re-login, pass contents model to paraVc)
 - (void)setupDataWithCompletion:(returnCommentsToUpBlock)block
 {
     [self.contentFrames removeAllObjects];
@@ -393,6 +392,11 @@
 //    } else {
 //        cell.contentView.alpha = CellAlpha;
 //    }
+    cell.layer.shadowOpacity = 0.24f;
+    cell.layer.shadowRadius = 3.0;
+    cell.layer.shadowOffset = CGSizeMake(0, 0);
+    cell.layer.shadowColor = [UIColor grayColor].CGColor;
+    cell.layer.zPosition = 999.0;
     return cell;
 }
 

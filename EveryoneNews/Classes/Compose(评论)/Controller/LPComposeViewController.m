@@ -20,6 +20,10 @@
 @end
 
 @implementation LPComposeViewController
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

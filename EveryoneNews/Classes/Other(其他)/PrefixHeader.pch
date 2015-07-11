@@ -57,7 +57,8 @@
 #define LPComposeComment @"comment"
 #define LPDetailVcShouldReloadDataNotification @"reloadDetailVcCell"
 #define LPReloadCellIndex @"contentCellIndex"
-
+#define LPWebViewWillLoadNotification @"loadWebView"
+#define LPWebURL @"webURL"
 //用户登录回调通知的userinfo的key值
 #define AccountLoginCallbackDictKey @"accountLoginCallbackDictKey"
 #define AccountLoginNotification @"accountLoginNotification"
@@ -130,7 +131,7 @@
 #define CommentLineSpacing 3
 #define DetailCellPadding 10
 #define DetailCellWidth ScreenWidth - (DetailCellPadding * 2)
-#define DetailCellHeightBorder 9
+#define DetailCellHeightBorder 10
 #define DetailCellBilateralBorder 10
 #define UserIconWidth 34
 #define UserIconBorderWidth 2
