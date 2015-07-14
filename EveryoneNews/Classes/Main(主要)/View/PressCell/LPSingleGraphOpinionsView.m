@@ -68,14 +68,14 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
- //       self.backgroundColor = [UIColor colorFromHexString:CellBackColor];
         
         for (int i = 0; i < 3; i++) {
             UILabel *opinionLabel = [[UILabel alloc] init];
             opinionLabel.numberOfLines = 2;
             opinionLabel.lineBreakMode = NSLineBreakByClipping;
-//            opinionLabel.tag = i;
-//            [opinionLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(labelTap:)]];
+            opinionLabel.userInteractionEnabled = YES;
+            opinionLabel.tag = i;
+            [opinionLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(labelTap:)]];
             [self addSubview:opinionLabel];
             [self.opinionLabels addObject:opinionLabel];
             
@@ -228,9 +228,10 @@
     }
 }
 
-//- (void)labelTap:(UITapGestureRecognizer *)tap
-//{
-//    LPPointview *pointview = self.sublist[tap.view.tag];
-//    
-//}
+- (void)labelTap:(UITapGestureRecognizer *)tap
+{
+    LPPointview *pointview = self.sublist[tap.view.tag];
+    NSDictionary *info = @{LPWebURL: pointview.url};
+    [noteCenter postNotificationName:LPWebViewWillLoadNotification object:self userInfo:info];
+}
 @end

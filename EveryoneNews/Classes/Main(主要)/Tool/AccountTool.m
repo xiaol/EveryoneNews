@@ -14,8 +14,8 @@
 #import "LoginViewController.h"
 #import "LPHttpTool.h"
 #import "UIImage+LP.h"
-#import "LPHomeViewController.h"
-#import "LPTabBarController.h"
+//#import "LPHomeViewController.h"
+//#import "LPTabBarController.h"
 #import "AppDelegate.h"
 #import "NSDate+Extension.h"
 
@@ -27,13 +27,13 @@
     LoginViewController *loginVc=[[LoginViewController alloc] init];
     [loginVc setCallBackBlocks:success :failure :cancel];
     if (account==nil) {
-        if ([viewVc isKindOfClass:[LPHomeViewController class]]) {
-            LPTabBarController *tabbarVc = ((LPHomeViewController *)viewVc).tabBarVc;
-            loginVc.headerBackgroundImage = [UIImage captureWithView:(UIView*)tabbarVc.customTabBar];
-            loginVc.footerBackgroundImage = [UIImage captureWithView:viewVc.view];
-        }else{
+//        if ([viewVc isKindOfClass:[LPHomeViewController class]]) {
+//            LPTabBarController *tabbarVc = ((LPHomeViewController *)viewVc).tabBarVc;
+//            loginVc.headerBackgroundImage = [UIImage captureWithView:(UIView*)tabbarVc.customTabBar];
+//            loginVc.footerBackgroundImage = [UIImage captureWithView:viewVc.view];
+//        }else{
             loginVc.headerBackgroundImage=[UIImage captureWithView:viewVc.view];
-        }
+//        }
 
         [viewVc.navigationController pushViewController:loginVc animated:NO];
     }else{
@@ -60,7 +60,7 @@
              dict[@"userIcon"] = userInfo.profileImage;
              dict[@"platformType"] = @(userInfo.type);
              dict[@"deviceType"] = @"ios";
-             dict[@"token"] =credential.token;
+             dict[@"token"] = credential.token;
              dict[@"expiresTime"] = @([NSDate dateToMilliSeconds:credential.expired]);
              Account *account = [Account objectWithKeyValues:dict];
          

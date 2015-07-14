@@ -7,7 +7,6 @@
 //  header: imgUrl title updateTime
 
 #import "LPDetailViewController.h"
-#import "LPNavigationController.h"
 #import "LPPress.h"
 #import "MJExtension.h"
 #import "LPHttpTool.h"
@@ -145,7 +144,7 @@ static  NSString * const CellIdentifier = @"ColleciontViewCell";
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-#pragma mark - 请求数据，刷新tableView
+#pragma mark - request new data (if re-login, pass contents model to paraVc)
 - (void)setupDataWithCompletion:(returnCommentsToUpBlock)block
 {
     [self.contentFrames removeAllObjects];
@@ -456,6 +455,11 @@ static  NSString * const CellIdentifier = @"ColleciontViewCell";
 //    } else {
 //        cell.contentView.alpha = CellAlpha;
 //    }
+    cell.layer.shadowOpacity = 0.24f;
+    cell.layer.shadowRadius = 3.0;
+    cell.layer.shadowOffset = CGSizeMake(0, 0);
+    cell.layer.shadowColor = [UIColor grayColor].CGColor;
+    cell.layer.zPosition = 999.0;
     return cell;
 }
 
@@ -661,7 +665,6 @@ static  NSString * const CellIdentifier = @"ColleciontViewCell";
     params[@"desText"] = content.body;
 
     [LPHttpTool postWithURL:url params:params success:^(id json) {
-        NSLog(@"%@", [json description]);
         // 1.2 更新content对象
         content.hasComment = YES;
         comment.commentId = json[@"commentId"];

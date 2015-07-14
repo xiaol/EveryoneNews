@@ -47,6 +47,14 @@
     [noteCenter addObserver:self selector:@selector(reloadData:) name:LPParaVcRefreshDataNotification object:nil];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    }
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -60,6 +68,9 @@
     if (self.shouldReloadDetailCell) {
         NSDictionary *info = @{LPReloadCellIndex: @(self.contentIndex)};
         [noteCenter postNotificationName:LPDetailVcShouldReloadDataNotification object:self userInfo:info];
+    }
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
     }
 }
 
@@ -218,13 +229,13 @@
     if ([AccountTool account]) {
         [self upComment:comment withAccount:account upView:upView];
     } else {
+        NSUInteger index = [self.comments indexOfObject:comment];
         [AccountTool accountLoginWithViewController:self success:^{
             // 1. 刷新detailVc，更新自身comments值
             [self.fromVc returnContentsBlock:^(NSArray *contents) {
                 LPContent *content = contents[self.contentIndex];
                 self.comments = content.comments;
-                LPComment *comment = self.comments[0];
-                NSLog(@"%@", comment.srcText);
+                LPComment *comment = self.comments[index];
                 // 2. 刷新tableView
                 [self setupData];
                 [self.tableView reloadData];
@@ -248,6 +259,7 @@
     if (comment.isPraiseFlag.intValue) {
         [MBProgressHUD showError:@"您已赞过"];
         self.blackView.userInteractionEnabled = YES;
+        upView.userInteractionEnabled = YES;
     } else {
         NSString *url = [NSString stringWithFormat:@"%@/news/baijia/praise", ServerUrl];
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -261,6 +273,7 @@
             comment.isPraiseFlag = @"1";
             int up = comment.up.intValue + 1;
             comment.up = [NSString stringFromIntValue:up];
+            
             [self.tableView reloadData];
             if ([self.comments indexOfObject:comment] == 0) {
                 // 如果是第一个评论，还须刷新detailVc table view

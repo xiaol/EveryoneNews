@@ -9,7 +9,6 @@
 #import <ImageIO/ImageIO.h>
 
 #import "LPNewfeatureViewController.h"
-#import "LPTabBarController.h"
 #import "MainNavigationController.h"
 #import "MainViewController.h"
 

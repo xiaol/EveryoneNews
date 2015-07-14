@@ -10,7 +10,7 @@
 #import "Account.h"
 #import "AccountTool.h"
 #import "UIImageView+WebCache.h"
-#import "CategoryScrollView.h"
+#import "CategoryView.h"
 #import "MobClick.h"
 #import "LPPressTool.h"
 #import "LPCategory.h"
@@ -33,9 +33,9 @@ typedef void (^completionBlock)();
 //所有内容展示的ScrollView
 @property (nonatomic,strong) UIScrollView *containerScrollView;
 //左边分类对应的ScrollView
-@property (nonatomic,strong) CategoryScrollView *categoryScrollView;
+@property (nonatomic,strong) CategoryView *CategoryView;
 //右边展示内容的TableView
-@property (nonatomic,strong) UITableView *homeTableView;
+@property (nonatomic,strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *pressFrames;
 @property (nonatomic, assign) NSUInteger timeRow;
 @property (nonatomic, assign) NSUInteger anyDisplayingCellRow;
@@ -64,7 +64,6 @@ typedef void (^completionBlock)();
 #pragma mark - 友盟统计
 - (void)viewWillAppear:(BOOL)animated
 {
-    NSLog(@"%.1f---%.1f", ScreenHeight,ScreenWidth);
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"HomePage"];
 }
@@ -89,19 +88,17 @@ typedef void (^completionBlock)();
     [self.view addSubview:self.containerScrollView];
 }
 
-- (void)setupCategoryScrollView{
-    self.categoryScrollView = [[CategoryScrollView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+- (void)setupCategoryView{
+    self.CategoryView = [[CategoryView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
     //设置分类点击回调block
-    [self.categoryScrollView didCategoryBtnClick:^(LPCategory *from, LPCategory *to) {
+    [self.CategoryView didCategoryBtnClick:^(LPCategory *from, LPCategory *to) {
         LPTabBarButton *button = self.customTabBar.tabBarButtons[1];
         self.customTabBar.selectedButton = button;
         //点击的不是同一个category 就执行该动画
         if (from != to) {
             [UIView transitionWithView:button duration:0.8 options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
                 [button setTitle:to.title forState:UIControlStateNormal];
-            } completion:^(BOOL finished) {
-                
-            }];
+            } completion:nil];
             
         }
         [button setTitle:to.title forState:UIControlStateNormal];
@@ -113,21 +110,21 @@ typedef void (^completionBlock)();
         }
         
     }];
-    [self.containerScrollView addSubview:self.categoryScrollView];
+    [self.containerScrollView addSubview:self.CategoryView];
 }
 
-- (void)setupHomeTableView{
-    self.homeTableView  = [[UITableView alloc] init];
-    self.homeTableView.x = ScreenWidth;
-    self.homeTableView.y = 0;
-    self.homeTableView.width = ScreenWidth;
-    self.homeTableView.height = ScreenHeight;
-    self.homeTableView.contentInset = UIEdgeInsetsMake(TabBarHeight, 0, 0, 0);
-    self.homeTableView.backgroundColor = [UIColor colorFromHexString:@"#EBEDED"];
-    self.homeTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.homeTableView.delegate = self;
-    self.homeTableView.dataSource = self;
-    [self.containerScrollView addSubview:self.homeTableView];
+- (void)setuptableView{
+    self.tableView  = [[UITableView alloc] init];
+    self.tableView.x = ScreenWidth;
+    self.tableView.y = 0;
+    self.tableView.width = ScreenWidth;
+    self.tableView.height = ScreenHeight;
+    self.tableView.contentInset = UIEdgeInsetsMake(TabBarHeight, 0, 0, 0);
+    self.tableView.backgroundColor = [UIColor colorFromHexString:@"#EBEDED"];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.containerScrollView addSubview:self.tableView];
 }
 
 - (void)setupTabBar
@@ -168,39 +165,104 @@ typedef void (^completionBlock)();
         [self displayLoginBtnIconWithAccount:account];
     }
     
-    CGFloat loginBtnWidth = 32;
-    CGFloat loginBtnHeight = 32;
-    if (iPhone6) {
-        loginBtnWidth -= 2;
-        loginBtnHeight -= 2;
-    } else if (iPhone6Plus){
-        loginBtnWidth += 2;
-        loginBtnHeight += 2;
+    CGFloat loginBtnWidth = 35;
+    CGFloat loginBtnHeight = 35;
+    
+    if (iPhone6Plus){
+        loginBtnWidth += 1;
+        loginBtnHeight += 1;
     }
-    self.loginBtn.frame = CGRectMake(ScreenWidth-20-32, ScreenHeight-20-32, loginBtnWidth, loginBtnHeight);
+    CGFloat loginBtnX = ScreenWidth - 20 - loginBtnWidth;
+    CGFloat loginBtnY = ScreenHeight - 20 - loginBtnHeight;
+    if (iPhone6Plus) {
+        loginBtnX -= 1;
+        loginBtnY -= 1;
+    }
+    self.loginBtn.frame = CGRectMake(loginBtnX, loginBtnY, loginBtnWidth, loginBtnHeight);
     self.loginBtn.layer.cornerRadius = self.loginBtn.frame.size.height / 2;
     self.loginBtn.layer.borderWidth = 1.5;
     self.loginBtn.layer.masksToBounds = YES;
     self.loginBtn.layer.borderColor = [UIColor blackColor].CGColor;
     [self.loginBtn addTarget:self action:@selector(userLogin:) forControlEvents:UIControlEventTouchUpInside];
     
+    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panLoginView:)];
+    [self.loginBtn addGestureRecognizer:pan];
     [self.view addSubview:self.loginBtn];
 }
+
+- (void)panLoginView:(UIPanGestureRecognizer *)pan
+{
+    CGFloat minX = pan.view.width / 2;
+    CGFloat maxX = ScreenWidth - pan.view.width / 2;
+    CGFloat minY = pan.view.height / 2;
+    CGFloat maxY = ScreenHeight - pan.view.height / 2;
+    CGPoint center = pan.view.center;
+    switch (pan.state) {
+        case UIGestureRecognizerStateBegan:
+            
+            break;
+            
+        case UIGestureRecognizerStateEnded:
+            if (center.x <= minX) {
+                center.x = minX;
+            }
+            if (center.x >= maxX) {
+                center.x = maxX;
+            }
+            if (center.y <= minY) {
+                center.y = minY;
+            }
+            if (center.y >= maxY) {
+                center.y = maxY;
+            }
+
+            break;
+            
+        default:
+            break;
+    }
+    
+    // 1.在view上面挪动的距离
+    CGPoint translation = [pan translationInView:pan.view];
+    center.x += translation.x;
+    center.y += translation.y;
+    if (center.x <= minX) {
+        center.x = minX;
+    }
+    if (center.x >= maxX) {
+        center.x = maxX;
+    }
+    if (center.y <= minY) {
+        center.y = minY;
+    }
+    if (center.y >= maxY) {
+        center.y = maxY;
+    }
+    pan.view.center = center;
+    // 2.清空移动的距离
+    [pan setTranslation:CGPointZero inView:pan.view];
+}
+
 #pragma mark - 生命周期方法
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    [self setupContainerScrollerView];
+    [self setupCategoryView];
+    [self setuptableView];
+    [self setupTabBar];
+    [self setupLoginButton];
+    [self setupDataWithCategory:[LPCategory categoryWithURL:HomeUrl] completion:nil];
+    [self setupNoteObserver];
+}
+
+- (void)setupNoteObserver
+{
     [noteCenter addObserver:self selector:@selector(receiveJPushNotification:) name:LPPushNotificationFromLaunching object:nil];
     [noteCenter addObserver:self selector:@selector(receiveJPushNotification:) name:LPPushNotificationFromBack object:nil];
     [noteCenter addObserver:self selector:@selector(accountLogin:) name:AccountLoginNotification  object:nil];
     [noteCenter addObserver:self selector:@selector(commentSuccess) name:LPCommentDidComposeSuccessNotification object:nil];
-
-    [self setupContainerScrollerView];
-    [self setupCategoryScrollView];
-    [self setupHomeTableView];
-    [self setupTabBar];
-    [self setupLoginButton];
-    [self setupDataWithCategory:[LPCategory categoryWithURL:HomeUrl] completion:nil];
-    
+    [noteCenter addObserver:self selector:@selector(loadWebWithNote:) name:LPWebViewWillLoadNotification object:nil];
 }
 #pragma mark - 设置tabbar索引
 - (void)setSelectedIndex:(NSUInteger)selectedIndex
@@ -265,7 +327,7 @@ typedef void (^completionBlock)();
 - (void)setupDataWithCategory:(LPCategory *)category completion:(completionBlock)block
 {
     self.loaddingView = [CustomLoaddingView showMessage:@"正在加载..." toView:self.view];
-    self.homeTableView.hidden = YES;
+    self.tableView.hidden = YES;
     // 清空数据
     [self.pressFrames removeAllObjects];
     __weak typeof(self) weakSelf = self;
@@ -310,11 +372,11 @@ typedef void (^completionBlock)();
         //        [pressFrameArray insertObject:nil atIndex:self.timeRow];
         // 模型数组属性的赋值
         self.pressFrames = pressFrameArray;
-        [weakSelf.homeTableView reloadData];
+        [weakSelf.tableView reloadData];
         if (block) {
             block();
         } else {
-            [weakSelf.homeTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:weakSelf.timeRow inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+            [weakSelf.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:weakSelf.timeRow inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
             weakSelf.isScrolled = NO;
             [weakSelf performSelector:@selector(homeDisplay) withObject:weakSelf afterDelay:0.3];
         }
@@ -327,7 +389,7 @@ typedef void (^completionBlock)();
 }
 - (void)homeDisplay
 {
-    self.homeTableView.hidden = NO;
+    self.tableView.hidden = NO;
 }
 #pragma mark - Table view data source
 
@@ -439,12 +501,12 @@ typedef void (^completionBlock)();
             LPPressFrame *pressFrame = self.pressFrames[row];
             if ([pressFrame.press.sourceUrl isEqualToString:url]) {
                 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
-                [weakSelf.homeTableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
-                [weakSelf tableView:weakSelf.homeTableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
+                [weakSelf.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+                [weakSelf tableView:weakSelf.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
                 break;
             }
         }
-        weakSelf.homeTableView.hidden = NO;
+        weakSelf.tableView.hidden = NO;
     }];
 }
 
@@ -461,7 +523,14 @@ typedef void (^completionBlock)();
     if (press.isCommentsFlag.intValue == 0) {
         press.isCommentsFlag = @"1";
         self.isScrolled = NO;
-        [self.homeTableView reloadData];
+        [self.tableView reloadData];
     }
+}
+
+#pragma mark - notification selector load web view
+- (void)loadWebWithNote:(NSNotification *)note
+{
+    NSString *url = note.userInfo[LPWebURL];
+    [LPPressTool loadWebViewWithURL:url viewController:self];
 }
 @end

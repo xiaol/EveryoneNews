@@ -1,25 +1,27 @@
 //
-//  LPCategoryViewController.m
+//  CategoryView.m
 //  EveryoneNews
 //
-//  Created by apple on 15/5/26.
+//  Created by Feng on 15/7/3.
 //  Copyright (c) 2015年 apple. All rights reserved.
 //
 
-#import "LPCategoryViewController.h"
-#import "LPTabBarButton.h"
-#import "LPTabBarController.h"
-#import "LPTabBar.h"
+#import "CategoryView.h"
 #import "LPCategoryButton.h"
 #import "LPCategory.h"
 
-
-@interface LPCategoryViewController ()
+@interface CategoryView ()
 @property (nonatomic, strong) NSMutableArray *categoryBtns;
 @property (nonatomic, weak) LPCategoryButton *selectedBtn;
+@property (nonatomic,copy) categoryBtnClick categoryBtnClick;
 @end
 
-@implementation LPCategoryViewController
+
+@implementation CategoryView
+- (void)didCategoryBtnClick:(categoryBtnClick)block{
+    __weak typeof(self) weakSelf = self;
+    weakSelf.categoryBtnClick = block;
+}
 
 - (NSMutableArray *)categoryBtns
 {
@@ -28,24 +30,22 @@
     }
     return _categoryBtns;
 }
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    [self setupCategoryView];
-    
-    [noteCenter addObserver:self selector:@selector(receivePushNotification:) name:LPPushNotificationFromBack object:nil];
+- (instancetype)initWithFrame:(CGRect)frame{
+    if (self == [super initWithFrame:frame]) {
+        [self setupCategoryView];
+    }
+    return self;
 }
-
-
 - (void)setupCategoryView
 {
-    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
-    [self.view addSubview:scrollView];
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
+    [self addSubview:scrollView];
+    scrollView.showsVerticalScrollIndicator = NO;
+    scrollView.showsHorizontalScrollIndicator = NO;
     NSArray *categoryTitles = @[@"今日", @"时事", @"娱乐", @"科技", @"国际", @"体育", @"财经", @"港台", @"社会"];
     CGFloat categoryW = (ScreenWidth - CategoryBorderLeft - CategoryBorderRight - CategoryBorderColumn) / 2;
     CGFloat categoryH = categoryW / CategoryViewAspectRatio;
- 
+    
     for (int i = 0; i < categoryTitles.count; i++) {
         int row = i / 2;
         int col = i % 2;
@@ -84,19 +84,6 @@
     }
 }
 
-//- (void)btnClick:(LPCategoryButton *)btn
-//{
-//    LPCategory *from = self.selectedBtn.category;
-//    LPCategory *to = btn.category;
-//    if ([self.delegate respondsToSelector:@selector(categoryViewController:didSelectCategoryFrom:to:)]) {
-//        [self.delegate categoryViewController:self didSelectCategoryFrom:from to:to];
-//    }
-//    
-//    self.selectedBtn.selected = NO;
-//    btn.selected = YES;
-//    self.selectedBtn = btn;
-//}
-
 - (void)btnClick:(LPCategoryButton *)btn
 {
     LPCategory *from = self.selectedBtn.category;
@@ -105,37 +92,10 @@
     self.selectedBtn.selected = NO;
     btn.selected = YES;
     self.selectedBtn = btn;
-
-    // 发布通知
-    NSDictionary *info = @{LPCategoryFrom:from, LPCategoryTo:to};
-    [noteCenter postNotificationName:LPCategoryDidChangeNotification object:self userInfo:info];
-}
-
-# pragma mark - notification selector
-- (void)receivePushNotification:(NSNotification *)note
-{
-    for (LPCategoryButton *btn in self.categoryBtns) {
-        if ([btn.category.title isEqualToString:@"今日"]) {
-            self.selectedBtn.selected = NO;
-            btn.selected = YES;
-            self.selectedBtn = btn;
-            break;
-        }
+    
+    __weak typeof(self) weakSelf = self;
+    if (weakSelf.categoryBtnClick != nil) {
+        weakSelf.categoryBtnClick(from,to);
     }
 }
-
-- (void)dealloc
-{
-    [noteCenter removeObserver:self name:LPPushNotificationFromBack object:nil];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
-- (BOOL)prefersStatusBarHidden
-{
-    return YES;
-}
-
 @end

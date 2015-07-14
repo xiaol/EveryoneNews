@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "LPTabBarController.h"
 #import "APService.h"
 #import "UIImageView+WebCache.h"
 #import "LPNewfeatureViewController.h"
@@ -123,14 +122,11 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
-    NSLog(@"---%s",__func__);
     [APService handleRemoteNotification:userInfo];
-    NSLog(@"---%ld",application.applicationState);
     /**
      *  处理推送
      */
     if (application.applicationState == UIApplicationStateBackground) {
-        NSLog(@"后台状态 --- userInfo --- %@", [userInfo description]);
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [noteCenter postNotificationName:LPPushNotificationFromBack object:self userInfo:userInfo];
         });
