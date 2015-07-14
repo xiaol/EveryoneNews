@@ -116,9 +116,10 @@
     [self.view addSubview:popBtn];
     self.popBtn = popBtn;
     // 菊花
-    sharedIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+    sharedIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+    sharedIndicator.color = [UIColor lightGrayColor];
     sharedIndicator.center = self.view.center;
-    sharedIndicator.bounds = CGRectMake(0, 0, ScreenWidth / 4, ScreenWidth / 4);
+//    sharedIndicator.bounds = CGRectMake(0, 0, ScreenWidth / 4, ScreenWidth / 4);
     [self.view addSubview:sharedIndicator];
 }
 
@@ -151,8 +152,6 @@
         params = nil;
     }
     [LPHttpTool getWithURL:url params:params success:^(id json) {
-        [sharedIndicator stopAnimating];
-        sharedIndicator.hidden = YES;
         // 0. json字典转模型
         NSString *headerImg = json[@"imgUrl"];
         NSString *title = json[@"title"];
@@ -240,8 +239,13 @@
         // 3. 尾部数据的赋值
         [weakSelf setupFooterWithBaike:baikeArray Zhihu:zhihuArray douban:doubanArray weibo:weiboArray relate:relateArray];
         
+        
+        [sharedIndicator stopAnimating];
+//        activityIndicator.hidden = YES;
         // 4. 刷新tableView
         [weakSelf.tableView reloadData];
+        
+        
         
         if (block) {
             block(contents);
@@ -323,6 +327,11 @@
     if (zhihuArray && zhihuArray.count > 0) {
         zhihuView.hidden = NO;
         zhihuView.frame = CGRectMake(DetailCellPadding, 0, DetailCellWidth, [zhihuView heightWithPointsArray:zhihuArray]);
+        zhihuView.layer.shadowOpacity = 0.24f;
+        zhihuView.layer.shadowRadius = 3.0;
+        zhihuView.layer.shadowOffset = CGSizeMake(0, 0);
+        zhihuView.layer.shadowColor = [UIColor lightGrayColor].CGColor;
+        zhihuView.layer.zPosition = 999.0;
         zhihuView.zhihuPoints = zhihuArray;
     } else {
         zhihuView.hidden = YES;
@@ -395,7 +404,7 @@
     cell.layer.shadowOpacity = 0.24f;
     cell.layer.shadowRadius = 3.0;
     cell.layer.shadowOffset = CGSizeMake(0, 0);
-    cell.layer.shadowColor = [UIColor grayColor].CGColor;
+    cell.layer.shadowColor = [UIColor lightGrayColor].CGColor;
     cell.layer.zPosition = 999.0;
     return cell;
 }

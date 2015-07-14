@@ -26,7 +26,7 @@
         CGFloat photoViewX = 0;
         CGFloat photoViewY = 0;
         CGFloat photoViewW = CellWidth;
-        CGFloat photoViewH = PhotoH;
+        CGFloat photoViewH = CellWidth * 2 / 3;
         _photoViewF = CGRectMake(photoViewX, photoViewY, photoViewW, photoViewH);
         
         _bgImageViewF = _photoViewF;

@@ -33,7 +33,7 @@ typedef void (^completionBlock)();
 //所有内容展示的ScrollView
 @property (nonatomic,strong) UIScrollView *containerScrollView;
 //左边分类对应的ScrollView
-@property (nonatomic,strong) CategoryView *CategoryView;
+@property (nonatomic,strong) CategoryView *categoryView;
 //右边展示内容的TableView
 @property (nonatomic,strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *pressFrames;
@@ -42,8 +42,8 @@ typedef void (^completionBlock)();
 @property (nonatomic, assign) BOOL isScrolled;
 @property (nonatomic, assign) NSUInteger selectedRow;
 @property (nonatomic, assign) NSUInteger selectedIndex;
-@property (nonatomic,strong) MBProgressHUD *progressView;
-@property (nonatomic,strong) CustomLoaddingView *loaddingView;
+//@property (nonatomic,strong) MBProgressHUD *progressView;
+//@property (nonatomic,strong) CustomLoaddingView *loaddingView;
 
 @end
 
@@ -56,11 +56,12 @@ typedef void (^completionBlock)();
     }
     return _pressFrames;
 }
-//影藏状态栏
+
 - (BOOL)prefersStatusBarHidden
 {
     return YES;
 }
+
 #pragma mark - 友盟统计
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -73,6 +74,7 @@ typedef void (^completionBlock)();
     [super viewWillDisappear:animated];
     [MobClick endLogPageView:@"HomePage"];
 }
+
 #pragma mark - 初始化子view
 - (void)setupContainerScrollerView{
     self.containerScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
@@ -89,9 +91,9 @@ typedef void (^completionBlock)();
 }
 
 - (void)setupCategoryView{
-    self.CategoryView = [[CategoryView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+    self.categoryView = [[CategoryView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
     //设置分类点击回调block
-    [self.CategoryView didCategoryBtnClick:^(LPCategory *from, LPCategory *to) {
+    [self.categoryView didCategoryBtnClick:^(LPCategory *from, LPCategory *to) {
         LPTabBarButton *button = self.customTabBar.tabBarButtons[1];
         self.customTabBar.selectedButton = button;
         //点击的不是同一个category 就执行该动画
@@ -110,10 +112,10 @@ typedef void (^completionBlock)();
         }
         
     }];
-    [self.containerScrollView addSubview:self.CategoryView];
+    [self.containerScrollView addSubview:self.categoryView];
 }
 
-- (void)setuptableView{
+- (void)setupTableView{
     self.tableView  = [[UITableView alloc] init];
     self.tableView.x = ScreenWidth;
     self.tableView.y = 0;
@@ -125,6 +127,12 @@ typedef void (^completionBlock)();
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.containerScrollView addSubview:self.tableView];
+    
+    // 菊花
+    sharedIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+    sharedIndicator.center = self.view.center;
+    sharedIndicator.color = [UIColor lightGrayColor];
+    [self.view addSubview:sharedIndicator];
 }
 
 - (void)setupTabBar
@@ -249,13 +257,14 @@ typedef void (^completionBlock)();
 
     [self setupContainerScrollerView];
     [self setupCategoryView];
-    [self setuptableView];
+    [self setupTableView];
     [self setupTabBar];
     [self setupLoginButton];
     [self setupDataWithCategory:[LPCategory categoryWithURL:HomeUrl] completion:nil];
     [self setupNoteObserver];
 }
 
+#pragma mark - setupNoteObserver
 - (void)setupNoteObserver
 {
     [noteCenter addObserver:self selector:@selector(receiveJPushNotification:) name:LPPushNotificationFromLaunching object:nil];
@@ -326,13 +335,14 @@ typedef void (^completionBlock)();
 #pragma mark - 网络获取数据
 - (void)setupDataWithCategory:(LPCategory *)category completion:(completionBlock)block
 {
-    self.loaddingView = [CustomLoaddingView showMessage:@"正在加载..." toView:self.view];
+//    self.loaddingView = [CustomLoaddingView showMessage:@"正在加载..." toView:self.view];
+    sharedIndicator.hidden = NO;
+    [sharedIndicator startAnimating];
     self.tableView.hidden = YES;
     // 清空数据
     [self.pressFrames removeAllObjects];
     __weak typeof(self) weakSelf = self;
     [LPPressTool homePressesWithCategory:category success:^(id json) {
-        [self.loaddingView dismissMessage];
         NSMutableArray *pressFrameArray = [NSMutableArray array];
         // 字典转模型
         for (NSDictionary *dict in (NSArray *)json) {
@@ -360,6 +370,7 @@ typedef void (^completionBlock)();
         }
         weakSelf.timeRow = MAX(i - 1, 0);
         weakSelf.anyDisplayingCellRow = i;
+
         //        LPPressFrame *pressFrame = [LPPressFrame pressFrameWithTimeCell];
         //        [pressFrameArray insertObject:nil atIndex:self.timeRow];
         // 模型数组属性的赋值
@@ -370,19 +381,18 @@ typedef void (^completionBlock)();
         } else {
             [weakSelf.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:weakSelf.timeRow inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
             weakSelf.isScrolled = NO;
-            [weakSelf performSelector:@selector(homeDisplay) withObject:weakSelf afterDelay:0.3];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                self.tableView.hidden = NO;
+            });
         }
+        [sharedIndicator stopAnimating];
     } failure:^(NSError *error) {
-        [self.loaddingView dismissMessage];
-        
+        [sharedIndicator stopAnimating];
         [MBProgressHUD showError:@"网络不给力 :(" toView:self.view];
     }];
     
 }
-- (void)homeDisplay
-{
-    self.tableView.hidden = NO;
-}
+
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

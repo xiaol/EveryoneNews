@@ -35,6 +35,7 @@
 #define iPhone6Plus ([UIScreen mainScreen].bounds.size.height == 736.0)
 
 #define userDefaults [NSUserDefaults standardUserDefaults]
+#define pasteboard [UIPasteboard generalPasteboard]
 
 #define sharedIndicator [LPActivityIndicator sharedActivityIndicator]
 

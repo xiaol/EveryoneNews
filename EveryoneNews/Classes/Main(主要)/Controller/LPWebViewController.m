@@ -40,6 +40,12 @@
     backBtn.backgroundColor = [UIColor clearColor];
     [backBtn addTarget:self action:@selector(backBtnPress) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:backBtn];
+    
+    // 菊花
+    sharedIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+    sharedIndicator.center = self.view.center;
+    sharedIndicator.color = [UIColor lightGrayColor];
+    [self.view addSubview:sharedIndicator];
 }
 
 - (BOOL)prefersStatusBarHidden
@@ -49,6 +55,7 @@
 
 - (void)backBtnPress
 {
+    [sharedIndicator stopAnimating];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -58,19 +65,21 @@
 {
 //    [MBProgressHUD showMessage:@"正在加载..."];
 //    self.loadingView = [CustomLoaddingView showMessage:@"正在加载..." toView:webView];
+    [sharedIndicator startAnimating];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
 //    [MBProgressHUD hideHUD];
 //    [self.loadingView dismissMessage];
+    [sharedIndicator stopAnimating];
 }
 
 -(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
 //    [MBProgressHUD hideHUD];
 //    [self.loadingView dismissMessage];
-
+    [sharedIndicator stopAnimating];
     [MBProgressHUD showError:@"加载失败：("];
 }
 @end

@@ -15,15 +15,12 @@
 
 + (void)homePressesWithCategory:(LPCategory *)category success:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
-    [sharedIndicator startAnimating];
     [LPHttpTool getWithURL:category.url params:nil success:^(id json) {
         if (success) {
-            [sharedIndicator stopAnimating];
             success(json);
         }
     } failure:^(NSError *error) {
         if (failure) {
-            [sharedIndicator stopAnimating];
             failure(error);
         }
     }];

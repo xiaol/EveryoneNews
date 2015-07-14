@@ -25,6 +25,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    NSLog(@"%@", pasteboard.string);
+    
     NSString *versionKey = (__bridge NSString *) kCFBundleVersionKey;
     NSString *lastVersion = [userDefaults objectForKey:versionKey];
     NSString *currentVersion = [NSBundle mainBundle].infoDictionary[versionKey];
