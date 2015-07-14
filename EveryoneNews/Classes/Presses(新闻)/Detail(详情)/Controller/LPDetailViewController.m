@@ -30,10 +30,15 @@
 #import "LPComment.h"
 #import "AccountTool.h"
 #import "MBProgressHUD+MJ.h"
+#import "ImageWall.h"
+#import "ImageWallCell.h"
+#import "ImageWallViewController.h"
 
 #define CellAlpha 0.3
 
-@interface LPDetailViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate, LPContentCellDelegate, UIGestureRecognizerDelegate, LPZhihuViewDelegate>
+static  NSString * const CellIdentifier = @"ColleciontViewCell";
+
+@interface LPDetailViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate, LPContentCellDelegate, UIGestureRecognizerDelegate, LPZhihuViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, assign) CGFloat lastContentOffsetY;
@@ -46,10 +51,14 @@
 
 @property (nonatomic, strong) NSIndexPath *watchingIndexPath;
 @property (nonatomic, strong) NSArray *relates;
+@property (nonatomic,strong) NSArray *imageWallArray;
 
 @property (nonatomic, copy) NSString *commentText;
 @property (nonatomic, assign) BOOL shouldPush;
 @property (nonatomic, assign) int realParaIndex;
+
+@property (nonatomic,strong) UICollectionView *imageWallView;
+@property (nonatomic,copy) NSString *newsTitle;
 @end
 
 @implementation LPDetailViewController
@@ -157,12 +166,15 @@
         // 0. json字典转模型
         NSString *headerImg = json[@"imgUrl"];
         NSString *title = json[@"title"];
+        self.newsTitle = title;
         NSString *time = json[@"updateTime"];
         
         NSString *abstract = json[@"abs"];
         NSString *totalBody = json[@"content"];
         NSArray *commentArray = [LPComment objectArrayWithKeyValuesArray:json[@"point"]];
         
+        //图片墙数据
+        self.imageWallArray = [ImageWall objectArrayWithKeyValuesArray:json[@"imgWall"]];
         NSArray *baikeArray = [LPWeiboPoint objectArrayWithKeyValuesArray:json[@"baike"]];
         NSArray *zhihuArray = [LPZhihuPoint objectArrayWithKeyValuesArray:json[@"zhihu"]];
         NSArray *doubanArray = [LPWeiboPoint objectArrayWithKeyValuesArray:json[@"douban"]];
@@ -239,7 +251,7 @@
 //        }
         
         // 3. 尾部数据的赋值
-        [weakSelf setupFooterWithBaike:baikeArray Zhihu:zhihuArray douban:doubanArray weibo:weiboArray relate:relateArray];
+        [weakSelf setupFooterWithBaike:baikeArray Zhihu:zhihuArray douban:doubanArray weibo:weiboArray imageWall:self.imageWallArray  relate:relateArray];
         
         // 4. 刷新tableView
         [weakSelf.tableView reloadData];
@@ -313,17 +325,65 @@
     self.tableView.tableHeaderView = headerView;
     [self.tableView sendSubviewToBack:headerView];
 }
+#pragma mark - 图片墙 delegate
 
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    return self.imageWallArray.count;
+}
+//定义展示的Section的个数
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
+    return 1;
+}
+
+- (UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    ImageWallCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
+    if (cell == nil) {
+        cell = [[ImageWallCell alloc] initWithFrame:CGRectMake(0, 0, DetailCellWidth , 220)];
+    }
+    ImageWall *imageWall = self.imageWallArray[indexPath.row];
+    [cell.imageView sd_setImageWithURL:[[NSURL alloc] initWithString:imageWall.img] placeholderImage:nil];
+    cell.layoutMargins = UIEdgeInsetsMake(10, 10, 10, 10);
+
+    return cell;
+}
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    //打开图片详情ViewController
+    ImageWallViewController *imageWallVc = [[ImageWallViewController alloc] init];
+    imageWallVc.images = self.imageWallArray;
+    imageWallVc.newsTitle = self.newsTitle;
+    imageWallVc.currentIndex = indexPath.row;
+    
+    [self.navigationController pushViewController:imageWallVc animated:YES];
+}
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
+    return UIEdgeInsetsMake(0, 0, 0, 0);
+}
 # pragma mark - footer view setting up
-- (void)setupFooterWithBaike:(NSArray *)baikeArray Zhihu:(NSArray *)zhihuArray douban:(NSArray *)doubanArray weibo:(NSArray *)weiboArray relate:(NSArray *)relateArray
+- (void)setupFooterWithBaike:(NSArray *)baikeArray Zhihu:(NSArray *)zhihuArray douban:(NSArray *)doubanArray weibo:(NSArray *)weiboArray imageWall:(NSArray *)imageWallArray relate:(NSArray *)relateArray
 {
     UIView *footerView = [[UIView alloc] init];
     footerView.backgroundColor = [UIColor colorFromHexString:TableViewBackColor];
     
+    //add ImageWall
+    if (imageWallArray.count != 0) {
+        UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
+        [flowLayout setScrollDirection:UICollectionViewScrollDirectionHorizontal];
+        flowLayout.itemSize = CGSizeMake(DetailCellWidth , 220);
+        flowLayout.minimumLineSpacing = 0;
+        self.imageWallView = [[UICollectionView alloc] initWithFrame:CGRectMake(DetailCellPadding, 0, DetailCellWidth, 220) collectionViewLayout:flowLayout];
+        [self.imageWallView registerClass:[ImageWallCell class] forCellWithReuseIdentifier:CellIdentifier];
+        self.imageWallView.backgroundColor = [UIColor whiteColor];
+        self.imageWallView.pagingEnabled = YES;
+        self.imageWallView.showsHorizontalScrollIndicator = NO;
+        self.imageWallView.dataSource = self;
+        self.imageWallView.delegate = self;
+        [footerView addSubview:self.imageWallView];
+    }
+    
     LPZhihuView *zhihuView = [[LPZhihuView alloc] init];
     if (zhihuArray && zhihuArray.count > 0) {
         zhihuView.hidden = NO;
-        zhihuView.frame = CGRectMake(DetailCellPadding, 0, DetailCellWidth, [zhihuView heightWithPointsArray:zhihuArray]);
+        zhihuView.frame = CGRectMake(DetailCellPadding, DetailCellPadding + CGRectGetMaxY(self.imageWallView.frame), DetailCellWidth, [zhihuView heightWithPointsArray:zhihuArray]);
         zhihuView.zhihuPoints = zhihuArray;
     } else {
         zhihuView.hidden = YES;
@@ -339,10 +399,13 @@
     
     
     CGFloat footerH = 0.0;
+    if (imageWallArray.count > 0) {
+        footerH = CGRectGetMaxY(self.imageWallView.frame) + DetailCellPadding;
+    }
     if (zhihuView.hidden == NO) {
         footerH = CGRectGetMaxY(zhihuView.frame);
     }
-    
+
     footerView.frame = CGRectMake(0, 0, ScreenWidth, footerH);
     self.tableView.tableFooterView = footerView;
 }

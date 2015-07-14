@@ -18,6 +18,7 @@
 #import "LPTabBarController.h"
 #import "AppDelegate.h"
 #import "NSDate+Extension.h"
+
 @implementation AccountTool 
 
 + (void)accountLoginWithViewController:(UIViewController *)viewVc success:(void (^)())success failure:(void (^)()) failure cancel:(void (^)()) cancel
@@ -34,11 +35,11 @@
             loginVc.headerBackgroundImage=[UIImage captureWithView:viewVc.view];
         }
 
-        [viewVc presentViewController:loginVc animated:NO completion:nil];
+        [viewVc.navigationController pushViewController:loginVc animated:NO];
     }else{
         //如果已经授权登录，则判断是否过期
         if ([NSDate dateToMilliSeconds:[NSDate date]] > account.expiresTime.unsignedIntegerValue) {
-            [viewVc presentViewController:loginVc animated:NO completion:nil];
+            [viewVc.navigationController pushViewController:loginVc animated:NO];
         }
     }
 }

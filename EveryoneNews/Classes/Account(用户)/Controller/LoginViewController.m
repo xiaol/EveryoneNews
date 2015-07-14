@@ -10,7 +10,7 @@
 #import "AccountTool.h"
 #import "MBProgressHUD+MJ.h"
 #import "UIImage+LP.h"
- 
+#import "WXApi.h"
 @interface LoginViewController ()
 @property (nonatomic,strong) UIView *wrapperView;
 @property (nonatomic,strong) success successBlock;
@@ -111,6 +111,10 @@
     [weixinBtn addTarget:self action:@selector(weixinLogin:) forControlEvents:UIControlEventTouchUpInside];
     [viewWrapper addSubview:weixinBtn];
     
+    if (![WXApi isWXAppInstalled]) {
+        weixinBtn.hidden = YES;
+    }
+    
     //添加关闭按钮
     UIButton *closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     closeBtn.frame = CGRectMake(ScreenWidth * 0.5 - 13, CGRectGetMaxY(weixinBtn.frame)+ 24, 25, 25);
@@ -124,7 +128,7 @@
  */
 - (void)closeSelf
 {
-    [self dismissViewControllerAnimated:NO completion:nil];
+    [self.navigationController popViewControllerAnimated:NO];
     if (self.cancelBlock !=nil) {
         self.cancelBlock();
     }
