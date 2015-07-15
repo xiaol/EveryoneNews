@@ -336,13 +336,8 @@ static  NSString * const CellIdentifier = @"ColleciontViewCell";
 
 - (UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     ImageWallCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:CellIdentifier forIndexPath:indexPath];
-    if (cell == nil) {
-        cell = [[ImageWallCell alloc] initWithFrame:CGRectMake(0, 0, DetailCellWidth , 220)];
-    }
     ImageWall *imageWall = self.imageWallArray[indexPath.row];
     [cell.imageView sd_setImageWithURL:[[NSURL alloc] initWithString:imageWall.img] placeholderImage:nil];
-    cell.layoutMargins = UIEdgeInsetsMake(10, 10, 10, 10);
-
     return cell;
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{

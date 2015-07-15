@@ -29,13 +29,13 @@
 }
 -(UILabel *)newsTitleLabel{
     if (_newsTitleLabel == nil) {
-        _newsTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(6, CGRectGetMaxY(self.imageWallScrollView.frame) + 3, ScreenWidth - 40, 18)];
+        _newsTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(6, ScreenHeight * 0.75, ScreenWidth - 40, 18)];
     }
     return _newsTitleLabel;
 }
 - (UIScrollView *)imageWallScrollView{
     if (_imageWallScrollView == nil) {
-        _imageWallScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 20, ScreenWidth, ScreenHeight - 160)];
+        _imageWallScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
         _imageWallScrollView.bounces = NO;
         _imageWallScrollView.pagingEnabled = YES;
         _imageWallScrollView.clipsToBounds = YES;
@@ -66,7 +66,7 @@
 }
 -(UILabel *)progressLabel{
     if (_progressLabel == nil) {
-        _progressLabel = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 40, CGRectGetMaxY(self.imageWallScrollView.frame) + 4, 40, 18)];
+        _progressLabel = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - 40, ScreenHeight * 0.75 , 40, 18)];
         _progressLabel.font = [UIFont systemFontOfSize:13];
         _progressLabel.textAlignment = NSTextAlignmentCenter;
         
@@ -81,13 +81,13 @@
 - (void)setImages:(NSArray *)images{
     _images = images;
     for (int i = 0; i < images.count; i ++) {
-       UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(i *ScreenWidth, 0, ScreenWidth, ScreenHeight - 160)];
+       UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(i *ScreenWidth, 0, ScreenWidth, ScreenHeight )];
         imageView.contentMode = UIViewContentModeScaleAspectFit;
         ImageWall *imageWall = images[i];
         [imageView sd_setImageWithURL:[[NSURL alloc] initWithString:imageWall.img]placeholderImage:nil];
         [self.imageWallScrollView addSubview:imageView];
     }
-    self.imageWallScrollView.contentSize = CGSizeMake(ScreenWidth * images.count, ScreenHeight - 200);
+    self.imageWallScrollView.contentSize = CGSizeMake(ScreenWidth * images.count, 0);
     
     NSMutableAttributedString *progressAttrString = [[NSString stringWithFormat:@"%ld",self.currentIndex + 1] attributedStringWithFont:[UIFont systemFontOfSize:18]];
     [progressAttrString appendAttributedString:[[NSString stringWithFormat:@"/%ld",images.count] attributedStringWithFont:[UIFont systemFontOfSize:14]]];

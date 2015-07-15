@@ -366,7 +366,6 @@ typedef void (^completionBlock)();
         timePressFrame.press = timePress;
         NSInteger insertPosition = (weakSelf.timeRow == 0)? 0:weakSelf.timeRow +1;
         [pressFrameArray insertObject:timePressFrame atIndex:insertPosition];
-        NSLog(@"time----%ld",weakSelf.timeRow);
         weakSelf.anyDisplayingCellRow = i;
         //        LPPressFrame *pressFrame = [LPPressFrame pressFrameWithTimeCell];
         //        [pressFrameArray insertObject:nil atIndex:self.timeRow];
