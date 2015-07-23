@@ -25,9 +25,7 @@
 
 @property (nonatomic, strong) UILabel *categoryLabel;
 
-//@property (nonatomic, strong) UILabel *pointsLabel;
-@property (nonatomic, strong) UIButton *pointsBtn;
-//@property (nonatomic, strong) UILabel *pointsSubLabel;
+//@property (nonatomic, strong) UIButton *pointsBtn;
 
 @end
 
@@ -49,6 +47,7 @@
         UIImageView *imageView = [[UIImageView alloc] init];
         imageView.contentMode = UIViewContentModeScaleAspectFill;
         imageView.clipsToBounds = YES;
+        imageView.layer.cornerRadius = 1.5;
         [self addSubview:imageView];
         self.imageView = imageView;
         
@@ -68,29 +67,15 @@
         [self addSubview:categoryLabel];
         self.categoryLabel = categoryLabel;
         
-        UIButton *pointsBtn = [[UIButton alloc] init];
-        pointsBtn.titleLabel.font = [UIFont systemFontOfSize:16];
-        [pointsBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-        pointsBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-        [pointsBtn setBackgroundImage:[UIImage imageNamed:@"观点数量"] forState:UIControlStateNormal];
-        pointsBtn.contentEdgeInsets = UIEdgeInsetsMake(3, 3, 3, 3);
-        pointsBtn.backgroundColor = [UIColor clearColor];
-        [self addSubview:pointsBtn];
-        self.pointsBtn = pointsBtn;
-        
-//        UILabel *pointsLabel = [[UILabel alloc] init];
-//        pointsLabel.font = [UIFont systemFontOfSize:16];
-//        pointsLabel.textColor = [UIColor redColor];
-//        pointsLabel.textAlignment = NSTextAlignmentCenter;
-//        [self addSubview:pointsLabel];
-//        self.pointsLabel = pointsLabel;
-        
-//        UILabel *pointsSubLabel = [[UILabel alloc] init];
-//        pointsSubLabel.font = [UIFont systemFontOfSize:16];
-//        pointsSubLabel.textColor = [UIColor redColor];
-//        pointsSubLabel.textAlignment = NSTextAlignmentCenter;
-//        [self addSubview:pointsSubLabel];
-//        self.pointsSubLabel = pointsSubLabel;
+//        UIButton *pointsBtn = [[UIButton alloc] init];
+//        pointsBtn.titleLabel.font = [UIFont systemFontOfSize:16];
+//        [pointsBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+//        pointsBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
+//        [pointsBtn setBackgroundImage:[UIImage imageNamed:@"观点数量"] forState:UIControlStateNormal];
+//        pointsBtn.contentEdgeInsets = UIEdgeInsetsMake(3, 3, 3, 3);
+//        pointsBtn.backgroundColor = [UIColor clearColor];
+//        [self addSubview:pointsBtn];
+//        self.pointsBtn = pointsBtn;
     }
     return self;
 }
@@ -103,7 +88,7 @@
     //设置小图标
     self.smallIconsView.pressFrame=_pressFrame;
     
-    [self.imageView sd_setImageWithURL:[NSURL URLWithString:press.imgUrl]];
+    [self.imageView sd_setImageWithURL:[NSURL URLWithString:press.imgUrl] placeholderImage:[UIImage imageNamed:@"占位图"]];
     self.imageView.frame = self.pressFrame.thumbnailViewF;
     
     self.titleLabel.attributedText = press.titleString;
@@ -126,34 +111,19 @@
     
     self.smallIconsView.frame = pressFrame.smallIconsViewF;
     
-    if (press.otherNum.intValue > 0 && press.otherNum) {
-//        self.pointsLabel.hidden = NO;
-//        self.pointsLabel.frame = pressFrame.pointsLabelF;
-//        self.pointsLabel.text = press.otherNum;
-        self.pointsBtn.hidden = NO;
-        self.pointsBtn.frame = pressFrame.pointsLabelF;
-        [self.pointsBtn setTitle:press.otherNum forState:UIControlStateNormal];
-        
-        
-//        CAShapeLayer *roundCornerShapeLayer = [CAShapeLayer layer];
-//        roundCornerShapeLayer.frame = self.pointsLabel.bounds;
-//        roundCornerShapeLayer.fillColor = [UIColor clearColor].CGColor;
-//        roundCornerShapeLayer.lineWidth = 1.5;
-//        roundCornerShapeLayer.lineJoin = kCALineJoinBevel;
-//        roundCornerShapeLayer.lineCap = kCALineCapRound;
-//        roundCornerShapeLayer.strokeColor = [UIColor redColor].CGColor;
-//        // roundCornerShapeLayer.masksToBounds = YES;
-//        CGFloat radius = roundCornerShapeLayer.frame.size.height / 2;
-//        UIBezierPath *roundCornerPath = [UIBezierPath bezierPathWithRoundedRect:self.pointsLabel.frame byRoundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(radius, radius)];
-//        roundCornerShapeLayer.path = roundCornerPath.CGPath;
-////        self.pointsSubLabel.text = press.otherNum;
-////        self.pointsSubLabel.frame = self.pointsLabel.bounds;
-//        [self.layer addSublayer:roundCornerShapeLayer];
-//        [self.pointsLabel addSubview:self.pointsSubLabel];
-    } else {
-//        self.pointsLabel.hidden = YES;
-          self.pointsBtn.hidden = YES;
-    }
+//    if (press.otherNum.intValue > 0 && press.otherNum) {
+////        self.pointsLabel.hidden = NO;
+////        self.pointsLabel.frame = pressFrame.pointsLabelF;
+////        self.pointsLabel.text = press.otherNum;
+//        self.pointsBtn.hidden = NO;
+//        self.pointsBtn.frame = pressFrame.pointsLabelF;
+//        [self.pointsBtn setTitle:press.otherNum forState:UIControlStateNormal];
+//        
+//        
+//    } else {
+////        self.pointsLabel.hidden = YES;
+//          self.pointsBtn.hidden = YES;
+//    }
 }
 
 @end

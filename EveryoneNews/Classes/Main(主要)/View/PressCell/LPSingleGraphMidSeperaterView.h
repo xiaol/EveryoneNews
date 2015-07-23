@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+//@class LPConcern;
 
 @interface LPSingleGraphMidSeperaterView : UIView
-
+@property (nonatomic, copy) NSString *category;
 @end

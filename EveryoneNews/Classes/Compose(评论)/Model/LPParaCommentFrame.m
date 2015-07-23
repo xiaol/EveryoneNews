@@ -44,7 +44,7 @@
     CGFloat textX = CGRectGetMinX(_nameLabelF);
     CGFloat textY = MAX(CGRectGetMaxY(_iconF), CGRectGetMaxY(_timeLabelF)) + padding + 2;
     CGFloat textW = ScreenWidth - textX * 2 - padding;
-    CGFloat textH = [[comment commentStringWithCategory:comment.category] heightWithConstraintWidth:textW];
+    CGFloat textH = [[comment commentStringWithColor:comment.color] heightWithConstraintWidth:textW];
     _commentLabelF = CGRectMake(textX, textY, textW, textH);
     
     
@@ -57,7 +57,7 @@
     
     CGFloat upViewX = dividerX + dividerW;
     CGFloat upViewY = CGRectGetMaxY(_timeLabelF);
-    if ([[comment commentStringWithCategory:comment.category] isMoreThanOneLineConstraintToWidth:textW]) {
+    if ([[comment commentStringWithColor:comment.color] isMoreThanOneLineConstraintToWidth:textW]) {
         // 若评论超过一行，心的位置下移，与评论文字平齐
         upViewY = CGRectGetMinY(_commentLabelF);
     }
@@ -88,7 +88,7 @@
         _dividerViewF.origin.x = dividerX;
         
         textW = dividerX - textX - padding;
-        textH = [[comment commentStringWithCategory:comment.category] heightWithConstraintWidth:textW];
+        textH = [[comment commentStringWithColor:comment.color] heightWithConstraintWidth:textW];
         _commentLabelF.size = CGSizeMake(textW, textH);
     }
     

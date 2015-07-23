@@ -77,6 +77,27 @@
     return newImage;
 }
 
+- (instancetype)circleImage {
+    CGSize imageSize = self.size;
+    CGFloat width = self.size.width;
+    CGFloat height = self.size.height;
+    CGFloat radius = MIN(width, height) / 2;
+    UIGraphicsBeginImageContextWithOptions(imageSize, NO, self.scale);
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    CGFloat centerX = width * 0.5;
+    CGFloat centerY = height * 0.5;
+    CGContextAddArc(ctx, centerX, centerY, radius, 0, M_PI * 2, 0);
+    CGContextClip(ctx);
+    if (width >= height) {
+        [self drawInRect:CGRectMake((width - height) / 2, 0, width, height)];
+    } else {
+        [self drawInRect:CGRectMake(0, (height - width) / 2, width, height)];
+    }
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+
 + (UIImage *)circleImageWithImage:(UIImage *)oldImage borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor
 {
 //    // 1.加载原图

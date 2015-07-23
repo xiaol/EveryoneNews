@@ -67,10 +67,15 @@
 #define ServerUrl       @"http://api.deeporiginalx.com"
 #define kTimenews       @"/news/baijia/fetchHome?timenews=1"
 #define CountdownUrl    @"/news/baijia/fetchTime?timefeedback=1"
+#define ConcernsUrl     @"/news/baijia/FetchChannelList"
 
 #define HomeUrl @"http://api.deeporiginalx.com/news/baijia/fetchHome?timenews=1"
 #define ContentUrl @"http://api.deeporiginalx.com/news/baijia/fetchContent?url="
 #define AccountLoginUrl @"http://api.deeporiginalx.com/news/baijia/fetchLogin"
+#define ConcernHomeUrl @"http://api.deeporiginalx.com/news/baijia/newsFetchHome"
+#define ConcernHomeRefreshingUrl @"http://api.deeporiginalx.com/news/baijia/loadMoreFetchContent"
+#define ConcernDetailUrl @"http://api.deeporiginalx.com/news/baijia/newsFetchContent"
+
 
 #define ScreenWidth [UIScreen mainScreen].bounds.size.width
 #define ScreenHeight [UIScreen mainScreen].bounds.size.height
@@ -143,6 +148,9 @@
 
 #define ComposeButtonNormalColor @"#ffffff"
 //#define ComposeButtonDisableColor @"#007ed7"
+
+#define ConcernPressTitleFontSize 17
+#define ConcernPressTagFontSize 12
 
 #endif
 

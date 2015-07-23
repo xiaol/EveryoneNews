@@ -90,7 +90,7 @@
     self.iconView.layer.cornerRadius = self.iconView.frame.size.height / 2;
     self.iconView.layer.borderWidth = 2;
     self.iconView.layer.masksToBounds = YES;
-    self.iconView.layer.borderColor = [UIColor colorFromCategory:comment.category].CGColor;
+    self.iconView.layer.borderColor = comment.color.CGColor;
     
     self.nameLabel.frame = self.paraCommentFrame.nameLabelF;
     self.nameLabel.text = comment.userName;
@@ -99,7 +99,7 @@
     self.timeLabel.text = comment.createTime;
     
     self.commentLabel.frame = self.paraCommentFrame.commentLabelF;
-    self.commentLabel.attributedText = [comment commentStringWithCategory:comment.category];
+    self.commentLabel.attributedText = [comment commentStringWithColor:comment.color];
     
     self.upView.frame = self.paraCommentFrame.upViewF;
     self.upView.commentFrame = self.paraCommentFrame;

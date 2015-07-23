@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class LPConcern;
+
 @interface UIColor (LP)
 
 + (instancetype)colorFromHexString:(NSString *)hexString;
@@ -15,4 +17,6 @@
 
 + (instancetype)colorFromCategory:(NSString *)category;
 + (instancetype)colorFromCategory:(NSString *)text alpha:(CGFloat)alpha;
++ (instancetype)colorFromConcern:(LPConcern *)concern;
++ (instancetype)colorFromConcern:(LPConcern *)concern alpha:(CGFloat)alpha;
 @end

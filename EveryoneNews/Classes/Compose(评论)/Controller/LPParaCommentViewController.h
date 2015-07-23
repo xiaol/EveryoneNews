@@ -8,16 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@class LPPress;
 @class LPDetailViewController;
 
 @interface LPParaCommentViewController : UIViewController
 @property (nonatomic, strong) NSArray *comments;
 @property (nonatomic, strong) UIImage *bgImage;
-@property (nonatomic, copy) NSString *category;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, assign) int contentIndex;
 @property (nonatomic, copy) NSString *commentText;
-@property (nonatomic, strong) LPPress *press;
 @property (nonatomic, strong) LPDetailViewController *fromVc;
+@property (nonatomic, strong) UIColor *color;
+@property (nonatomic, copy) NSString *sourceURL;
 @end

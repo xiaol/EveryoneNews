@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@class LPPressFrame;
+@class LPPress;
 //@class LPSingleGraphOpinionsView;
 //
 //@protocol LPSingleGraphOpinionsViewDelegate <NSObject>
@@ -18,7 +18,7 @@
 
 @interface LPSingleGraphOpinionsView : UIView
 
-@property (nonatomic, strong) NSArray *sublist;
+@property (nonatomic, strong) LPPress *press;
 
 + (CGFloat)opinionsViewHeightWithOpinions:(NSArray *)sublist;
 

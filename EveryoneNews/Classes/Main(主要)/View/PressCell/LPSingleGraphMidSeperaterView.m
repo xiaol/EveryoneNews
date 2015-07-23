@@ -37,7 +37,7 @@
         self.dividerView = dividerView;
         
         UILabel *pointLabel = [[UILabel alloc] init];
-        pointLabel.backgroundColor = [UIColor colorFromHexString:@"#50b5eb"];
+//        pointLabel.backgroundColor = [UIColor colorFromHexString:@"#50b5eb"];
         pointLabel.text = @"观点";
         pointLabel.font = [UIFont systemFontOfSize:10];
         pointLabel.textColor = [UIColor whiteColor];
@@ -48,6 +48,12 @@
         maskLayer = [CAShapeLayer layer];
     }
     return self;
+}
+
+- (void)setCategory:(NSString *)category
+{
+    _category = category;
+    self.pointLabel.backgroundColor = [UIColor colorFromCategory:self.category];
 }
 
 - (void)layoutSubviews

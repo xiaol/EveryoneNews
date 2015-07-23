@@ -10,10 +10,14 @@
 #import "LPCommentView.h"
 #import "LPContentFrame.h"
 #import "LPContent.h"
+#import "UIImageView+WebCache.h"
 
 @interface LPContentCell()
 @property (nonatomic, strong) UILabel *bodyLabel;
 @property (nonatomic, strong) LPCommentView *commentView;
+// 图片类型
+@property (nonatomic, strong) UIImageView *photoView;
+@property (nonatomic, strong) UILabel *photoLabel;
 @end
 
 @implementation LPContentCell
@@ -32,8 +36,10 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        self.backgroundColor = [UIColor whiteColor];
+        
         UILabel *bodyLabel = [[UILabel alloc] init];
-        bodyLabel.lineBreakMode = NSLineBreakByWordWrapping;
+        bodyLabel.lineBreakMode = NSLineBreakByCharWrapping;
         bodyLabel.numberOfLines = 0;
         [self.contentView addSubview:bodyLabel];
         self.bodyLabel = bodyLabel;
@@ -42,6 +48,18 @@
         [self.contentView addSubview:commentView];
         self.commentView = commentView;
         [commentView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapComment)]];
+        
+        UIImageView *photoView = [[UIImageView alloc] init];
+        photoView.contentMode = UIViewContentModeScaleAspectFill;
+        photoView.clipsToBounds = YES;
+        [self.contentView addSubview:photoView];
+        self.photoView = photoView;
+        
+        UILabel *photoLabel = [[UILabel alloc] init];
+        photoLabel.numberOfLines = 0;
+        photoLabel.lineBreakMode = NSLineBreakByCharWrapping;
+        [self.contentView addSubview:photoLabel];
+        self.photoLabel = photoLabel;
     }
     return self;
 }
@@ -50,17 +68,31 @@
 {
     _contentFrame = contentFrame;
     LPContent *content = contentFrame.content;
-    if ([content.category isEqualToString:@"财经"]) {
-        self.contentView.backgroundColor = [UIColor whiteColor];
+    
+    if (!content.isPhoto) {
+        self.bodyLabel.hidden = NO;
+        self.photoView.hidden = YES;
+        self.photoLabel.hidden = YES;
+        self.commentView.hidden = NO;
+        
+        self.bodyLabel.frame = self.contentFrame.bodyLabelF;
+        self.bodyLabel.attributedText = content.bodyString;
     } else {
-        self.contentView.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:250/255.0 alpha:0.9];
+        self.bodyLabel.hidden = YES;
+        self.photoView.hidden = NO;
+        self.photoView.frame = self.contentFrame.photoViewF;
+        [self.photoView sd_setImageWithURL:[NSURL URLWithString:content.photo] placeholderImage:[UIImage imageNamed:@"详情占位图"]];
+        if (!content.photoDesc || content.photoDesc.length == 0) {
+            self.commentView.hidden = YES;
+            self.photoLabel.hidden = YES;
+        } else {
+            self.commentView.hidden = NO;
+            self.photoLabel.hidden = NO;
+            self.photoLabel.frame = self.contentFrame.photoDescViewF;
+            self.photoLabel.attributedText = content.photoDescString;
+        }
     }
-    
-    self.bodyLabel.frame = self.contentFrame.bodyLabelF;
-    self.bodyLabel.attributedText = content.bodyString;
-    
-    
-    if (!content.isAbstract) {
+    if (!content.isAbstract || (content.isPhoto && content.photoDesc.length)) {
         self.commentView.hidden = NO;
         self.commentView.frame = self.contentFrame.commentViewF;
         self.commentView.contentFrame = self.contentFrame;
@@ -89,8 +121,10 @@
 
 - (void)tapComment
 {
-    if ([self.delegate respondsToSelector:@selector(contentCellDidClickCommentView:)]) {
-        [self.delegate contentCellDidClickCommentView:self];
+    if (self.contentFrame.content.hasComment) {
+        if ([self.delegate respondsToSelector:@selector(contentCellDidClickCommentView:)]) {
+            [self.delegate contentCellDidClickCommentView:self];
+        }
     }
 }
 @end

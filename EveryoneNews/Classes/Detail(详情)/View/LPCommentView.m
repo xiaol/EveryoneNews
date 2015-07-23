@@ -12,6 +12,7 @@
 #import "LPContentFrame.h"
 #import "UIImageView+WebCache.h"
 #import "LPUpButton.h"
+#import "LPConcern.h"
 
 @interface LPCommentView ()
 
@@ -47,7 +48,7 @@
         upBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
         upBtn.imageView.contentMode = UIViewContentModeLeft;
         upBtn.imageView.clipsToBounds = NO;
-        [self addSubview:upBtn];
+        [self addSubview:upBtn]; 
         self.upBtn = upBtn;
         
         UIImageView *userIcon = [[UIImageView alloc] init];
@@ -85,10 +86,14 @@
 {
     _contentFrame = contentFrame;
     LPContent *content = contentFrame.content;
-    NSString *category = content.category;
     
     self.plusBtn.frame = self.contentFrame.plusBtnF;
-    [self.plusBtn setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@_发表评论初始", category]] forState:UIControlStateNormal];
+    if (content.concern) {
+        [self.plusBtn setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@_发表评论初始", content.concern.channel_id]] forState:UIControlStateNormal];
+    } else {
+        [self.plusBtn setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@_发表评论初始", content.category]] forState:UIControlStateNormal];
+    }
+    
     if (!content.hasComment) {
         // 没有评论列表，只有添加评论按钮
         self.upBtn.hidden = YES;
@@ -124,15 +129,20 @@
         self.userIcon.layer.cornerRadius = self.userIcon.frame.size.height / 2;
         self.userIcon.layer.borderWidth = 2;
         self.userIcon.layer.masksToBounds = YES;
-        self.userIcon.layer.borderColor = [UIColor colorFromCategory:category].CGColor;
+        self.userIcon.layer.borderColor = content.color.CGColor;
+        self.commentLabel.attributedText = [comment commentStringWithColor:content.color];
+
+        if (content.concern) {
+            [self.commentsCountBtn setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@_评论数图形", content.concern.channel_id]] forState:UIControlStateNormal];
+        } else {
+            [self.commentsCountBtn setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@_评论数图形", content.category]] forState:UIControlStateNormal];
+        }
         
         self.commentLabel.hidden = NO;
         self.commentLabel.frame = self.contentFrame.commentLabelF;
-        self.commentLabel.attributedText = [comment commentStringWithCategory:category];
         
         self.commentsCountBtn.hidden = NO;
         self.commentsCountBtn.frame = self.contentFrame.commentsCountBtnF;
-        [self.commentsCountBtn setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@_评论数图形", category]] forState:UIControlStateNormal];
         [self.commentsCountBtn setTitle:[NSString stringFromIntValue:(int)content.comments.count] forState:UIControlStateNormal];
     }
 }

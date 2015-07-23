@@ -156,8 +156,8 @@
     [self.cellFrames removeAllObjects];
     [self.reusableCells removeAllObjects];
     
-    int numberOfCells = [self.dataSource numberOfCellsInWaterfallView:self];
-    int numberOfColumns = [self numberOfColumns];
+    NSUInteger numberOfCells = [self.dataSource numberOfCellsInWaterfallView:self];
+    NSUInteger numberOfColumns = [self numberOfColumns];
     
     CGFloat topM = [self marginForType:LPWaterfallViewMarginTypeTop];
     CGFloat bottomM = [self marginForType:LPWaterfallViewMarginTypeBottom];
@@ -261,7 +261,7 @@
     return reusableCell;
 }
 
-#pragma mark - 事件处理
+#pragma mark - handle event
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     if (![self.delegate respondsToSelector:@selector(waterfallView:didSelectAtIndex:)]) {

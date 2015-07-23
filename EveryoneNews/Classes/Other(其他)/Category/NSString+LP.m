@@ -46,11 +46,20 @@
 
 - (BOOL)isBlank
 {
-    if (self == nil || self == NULL || [self isKindOfClass:[NSNull class]] || [self stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length == 0) {
+    if (self == nil || self == NULL || [self isKindOfClass:[NSNull class]] || [self stringByTrimmingWhitespaceAndNewline].length == 0) {
         return YES;
     }
     return NO;
 }
+
+- (instancetype)stringByTrimmingWhitespaceAndNewline {
+    return [[[self stringByReplacingOccurrencesOfString:@"\n" withString:@""] stringByReplacingOccurrencesOfString:@"\r" withString:@""] stringByReplacingOccurrencesOfString:@" " withString:@""];
+}
+
+- (instancetype)stringByTrimmingNewline {
+    return [[self stringByReplacingOccurrencesOfString:@"\n" withString:@""] stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+}
+
 
 - (BOOL)isOnlyWhitespace
 {

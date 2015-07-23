@@ -8,10 +8,15 @@
 
 #import <UIKit/UIKit.h>
 @class LPPress;
+@class LPConcernPress;
+@class LPConcern;
 
 typedef void (^returnCommentsToUpBlock)(NSArray *contents);
 
 @interface LPDetailViewController : UIViewController
 @property (nonatomic, strong) LPPress *press;
+@property (nonatomic, strong) LPConcernPress *concernPress;
+@property (nonatomic, assign) BOOL isConcernDetail;
+@property (nonatomic, strong) LPConcern *concern;
 - (void)returnContentsBlock:(returnCommentsToUpBlock)returnBlock;
 @end

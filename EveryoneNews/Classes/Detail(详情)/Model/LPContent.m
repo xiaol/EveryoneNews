@@ -14,10 +14,7 @@
 {
     return [self.comments objectAtIndex:0];
 }
-//- (BOOL)hasComment
-//{
-//    return (self.comments && self.comments.count);
-//}
+
 - (NSMutableAttributedString *)bodyString
 {
     if (self.isAbstract) {
@@ -25,5 +22,9 @@
     } else {
         return [self.body attributedStringWithFont:[UIFont systemFontOfSize:BodyFontSize] color:[UIColor blackColor] lineSpacing:BodyLineSpacing];
     }
+}
+
+- (NSMutableAttributedString *)photoDescString {
+    return [self.photoDesc attributedStringWithFont:[UIFont systemFontOfSize:BodyFontSize] color:[UIColor blackColor] lineSpacing:BodyLineSpacing];
 }
 @end

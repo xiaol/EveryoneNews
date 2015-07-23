@@ -18,5 +18,9 @@
 @property (nonatomic, assign) CGRect plusBtnF;
 @property (nonatomic, assign) CGRect commentViewF;
 
+// 针对图像cell
+@property (nonatomic, assign) CGRect photoViewF;
+@property (nonatomic, assign) CGRect photoDescViewF;
+
 @property (nonatomic, assign) CGFloat cellHeight;
 @end

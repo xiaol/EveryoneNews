@@ -10,6 +10,8 @@
 #import "AccountTool.h"
 #import "MBProgressHUD+MJ.h"
 #import "UIImage+LP.h"
+#import "WXApi.h"
+#import "WeiboSDK.h"
  
 @interface LoginViewController ()
 @property (nonatomic,strong) UIView *wrapperView;
@@ -20,10 +22,21 @@
 @end
 
 @implementation LoginViewController
+
 - (BOOL)prefersStatusBarHidden
 {
     return YES;
 }
+
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+    }
+}
+
 - (void)setCallBackBlocks:(success)success :(failure) failure :(cancel)cancel
 {
     self.successBlock = success;
@@ -52,6 +65,11 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [super viewDidAppear:animated];
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    }
+
     [UIView animateWithDuration:0.8 animations:^{
         self.maskView.alpha = 0.85;
         self.wrapperView.alpha = 1.0;
@@ -97,6 +115,7 @@
     [viewWrapper addSubview:weiboBtn];
     
     //微信登录按钮
+    
     UIButton *weixinBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     weixinBtn.frame=CGRectMake((ScreenWidth-230.0 / 375 * ScreenWidth) / 2, CGRectGetMaxY(weiboBtn.frame)+13, 230.0/375*ScreenWidth, 55.0/667*ScreenHeight);
     weixinBtn.imageEdgeInsets = UIEdgeInsetsMake(8, 0, 10, 15);
@@ -110,10 +129,18 @@
     [weixinBtn setTitle:@"使用微信账号" forState:UIControlStateNormal];
     [weixinBtn addTarget:self action:@selector(weixinLogin:) forControlEvents:UIControlEventTouchUpInside];
     [viewWrapper addSubview:weixinBtn];
+    if (![WXApi isWXAppInstalled] || ![WXApi isWXAppSupportApi]) {
+        weixinBtn.hidden = YES;
+    } else {
+        weixinBtn.hidden = NO;
+    }
     
     //添加关闭按钮
     UIButton *closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     closeBtn.frame = CGRectMake(ScreenWidth * 0.5 - 13, CGRectGetMaxY(weixinBtn.frame)+ 24, 25, 25);
+    if(weixinBtn.hidden == YES) {
+        closeBtn.y = CGRectGetMaxY(weiboBtn.frame)+ 30;
+    }
     [closeBtn setBackgroundImage:[UIImage imageNamed:@"ic_login_close"] forState:UIControlStateNormal];
     [closeBtn addTarget:self action:@selector(closeSelf) forControlEvents:UIControlEventTouchUpInside];
     [viewWrapper addSubview:closeBtn];
@@ -124,7 +151,7 @@
  */
 - (void)closeSelf
 {
-    [self dismissViewControllerAnimated:NO completion:nil];
+    [self.navigationController popViewControllerAnimated:NO];
     if (self.cancelBlock !=nil) {
         self.cancelBlock();
     }

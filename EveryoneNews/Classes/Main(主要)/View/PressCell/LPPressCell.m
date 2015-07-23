@@ -97,8 +97,9 @@
             self.singleGraphSeparaterView.hidden = NO;
             self.singleGraphOpinionsView.hidden = NO;
             self.singleGraphSeparaterView.frame = self.pressFrame.singleGraphMidSeparaterF;
+            self.singleGraphSeparaterView.category = press.category;
             self.singleGraphOpinionsView.frame = self.pressFrame.singleGraphOpinionsViewF;
-            self.singleGraphOpinionsView.sublist = self.pressFrame.press.sublist;
+            self.singleGraphOpinionsView.press = press;
         } else {
             self.singleGraphSeparaterView.hidden = YES;
             self.singleGraphOpinionsView.hidden = YES;

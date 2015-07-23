@@ -18,8 +18,8 @@
 // *  大图 (special = 1)
 // */
 @property (nonatomic, assign, readonly) CGRect photoViewF;
-@property (nonatomic, assign) CGRect bgImageViewF;
-@property (nonatomic, assign) CGRect titleBgViewF;
+@property (nonatomic, assign, readonly) CGRect bgImageViewF;
+@property (nonatomic, assign, readonly) CGRect titleBgViewF;
 /**
  *  类别
  */
@@ -33,7 +33,7 @@
  *  图文cell顶部view
  */
 @property (nonatomic, assign, readonly) CGRect singleGraphTopViewF;
-@property (nonatomic, assign) CGRect singleGraphMidSeparaterF;
+@property (nonatomic, assign, readonly) CGRect singleGraphMidSeparaterF;
 //@property (nonatomic, assign, readonly) CGRect multiGraphTopViewF;
 /**
  *  左上单张配图 (special = 400)
@@ -47,11 +47,11 @@
 /**
  *  多家观点
  */
-@property (nonatomic, assign, readonly) CGRect pointsLabelF;
+//@property (nonatomic, assign, readonly) CGRect pointsLabelF;
 /**
  *  小图标集合
  */
-@property (nonatomic, assign) CGRect smallIconsViewF;
+@property (nonatomic, assign, readonly) CGRect smallIconsViewF;
 /**
  *  图文cell下部view (special = 400)
  */

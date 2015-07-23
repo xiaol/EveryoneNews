@@ -28,8 +28,10 @@
     self = [super initWithFrame:frame];
     if (self) {
         UIView *sliderView = [[UIView alloc] init];
-        sliderView.backgroundColor = [UIColor colorWithRed:230/255.0 green:230/255.0 blue:250/255.0 alpha:0.9];
-        CGFloat sliderH = TabBarHeight / 11;
+//        sliderView.backgroundColor = [UIColor colorFromHexString:@"72dfee"];
+        sliderView.backgroundColor = [UIColor colorFromHexString:@"eaeaea"];
+
+        CGFloat sliderH = 2.5;
         sliderView.frame = CGRectMake(TabBarButtonWidth, TabBarHeight - sliderH, TabBarButtonWidth, sliderH);
         [self addSubview:sliderView];
         self.sliderView = sliderView;

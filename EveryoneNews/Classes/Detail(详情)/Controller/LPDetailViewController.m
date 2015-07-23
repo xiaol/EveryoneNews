@@ -29,6 +29,8 @@
 #import "LPComment.h"
 #import "AccountTool.h"
 #import "MBProgressHUD+MJ.h"
+#import "LPConcernPress.h"
+#import "LPConcern.h"
 
 #define CellAlpha 0.3
 
@@ -77,13 +79,13 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"DetailPage"];
+    [MobClick beginLogPageView:@"DetailViewController"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"DetailPage"];
+    [MobClick endLogPageView:@"DetailViewController"];
 }
 
 - (NSArray *)relates
@@ -141,126 +143,222 @@
 {
     [self.contentFrames removeAllObjects];
     [sharedIndicator startAnimating];
-    __weak typeof(self) weakSelf = self;
-    NSString *url = [NSString stringWithFormat:@"%@%@", ContentUrl, self.press.sourceUrl];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
     Account *account = [AccountTool account];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
     if (account) {
         params[@"userId"] = account.userId;
         params[@"platformType"] = account.platformType;
-    } else {
-        params = nil;
     }
-    [LPHttpTool getWithURL:url params:params success:^(id json) {
-        // 0. json字典转模型
-        NSString *headerImg = json[@"imgUrl"];
-        NSString *title = json[@"title"];
-        NSString *time = json[@"updateTime"];
-        
-        NSString *abstract = json[@"abs"];
-        NSString *totalBody = json[@"content"];
-        NSArray *commentArray = [LPComment objectArrayWithKeyValuesArray:json[@"point"]];
-        
-        NSArray *baikeArray = [LPWeiboPoint objectArrayWithKeyValuesArray:json[@"baike"]];
-        NSArray *zhihuArray = [LPZhihuPoint objectArrayWithKeyValuesArray:json[@"zhihu"]];
-        NSArray *doubanArray = [LPWeiboPoint objectArrayWithKeyValuesArray:json[@"douban"]];
-        NSArray *weiboArray = [LPWeiboPoint objectArrayWithKeyValuesArray:json[@"weibo"]];
-        NSArray *relateArray = [LPRelatePoint objectArrayWithKeyValuesArray:json[@"relate"]];
-        // 1. header图像及标题的赋值
-        [weakSelf setupHeaderWithImageURL:headerImg title:title time:time];
-        
-        // 2. 每段正文及其评论赋值
-        NSArray *rawArray = [totalBody componentsSeparatedByString:@"\n"];
-        NSMutableArray *bodyArray = [NSMutableArray arrayWithArray:@[abstract]];
-        for (NSString *str in rawArray) {
-            if (![str isBlank]) {
-                [bodyArray addObject:str];
-            }
-        }
-        
-        NSMutableArray *contents = [NSMutableArray array];
-
-        NSMutableArray *contentFrameArray = [NSMutableArray array];
-        
-        CGFloat contentH[bodyArray.count];
-        CGFloat offsetSum[bodyArray.count];
-        for (int k = 0 ; k < bodyArray.count; k++) {
-            contentH[k] = 0.0;
-            offsetSum[k] = 0.0;
-        }
-        for (int i = 0; i < bodyArray.count; i++) {
-            // 2.1 正文
-            LPContent *content = [[LPContent alloc] init];
-            content.paragraphIndex = i;
-            content.body = bodyArray[i];
-            content.category = self.press.category;
-            NSMutableArray *comments = [NSMutableArray array];
-            if (i == 0) {
-                content.isAbstract = YES;
-            } else {
-                content.isAbstract = NO;
-            }
-            // 2.2 评论
-            if (!weakSelf.press.isCommentsFlag || content.isAbstract || commentArray.count == 0)
-            { // 首页给的数据 如果该标志为0 表示没有任何评论 & 摘要暂时无评论
-                content.hasComment = NO;
-            } else {
-                // 遍历point数组 根据索引确定每段的评论列表
-                for (LPComment *comment in commentArray) {
-                    if (comment.paragraphIndex.intValue == i - 1 && [comment.type isEqualToString:@"text_paragraph"])
-                    {
-                        [comments addObject:comment];
-                    }
-                }
-                content.hasComment = (comments.count > 0);
-                content.comments = comments;
-            }
-            LPContentFrame *contentFrame = [[LPContentFrame alloc] init];
-            contentFrame.content = content;
-            [contentFrameArray addObject:contentFrame];
-            [contents addObject:content];
+    __weak typeof(self) weakSelf = self;
+    if (!self.isConcernDetail) {
+         NSString *url = [NSString stringWithFormat:@"%@%@", ContentUrl, self.press.sourceUrl];
+        [LPHttpTool getWithURL:url params:params success:^(id json) {
+            // 0. json字典转模型
+            NSString *headerImg = json[@"imgUrl"];
+            NSString *title = json[@"title"];
+            NSString *time = json[@"updateTime"];
             
-            contentH[i] = contentFrame.cellHeight;
-        }
-        // 2.3 传递数据给contentFrames属性
-        weakSelf.contentFrames = contentFrameArray;
-        // 2.4 得到每个cell对应的offsetY值
-//        for (int i = 1; i < contentFrameArray.count; i ++) {
-//            offsetSum[i] = contentH[i-1] + offsetSum[i-1];
-//        }
-//        for (int i = 0; i < contentFrameArray.count; i++) {
-//            offsetSum[i] += TableHeaderViewH;
-//        }
-//        self.offset = offsetSum;
-//        for (int i = 0; i < contentFrameArray.count; i++) {
-//            NSLog(@"offset[%d] = %.2f", i, self.offset[i]);
-//        }
-        
-        // 3. 尾部数据的赋值
-        [weakSelf setupFooterWithBaike:baikeArray Zhihu:zhihuArray douban:doubanArray weibo:weiboArray relate:relateArray];
-        
-        
-        [sharedIndicator stopAnimating];
-//        activityIndicator.hidden = YES;
-        // 4. 刷新tableView
-        [weakSelf.tableView reloadData];
-        
-        
-        
-        if (block) {
-            block(contents);
-        }
-        
-//        // 5. 默认看第一个
-//        detailVc.watchingIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-    } failure:^(NSError *error) {
-        [sharedIndicator stopAnimating];
-        NSLog(@"Failure: %@", error);
-    }];
+            NSString *abstract = json[@"abs"];
+            NSString *totalBody = json[@"content"];
+            NSArray *commentArray = [LPComment objectArrayWithKeyValuesArray:json[@"point"]];
+            
+            NSArray *baikeArray = [LPWeiboPoint objectArrayWithKeyValuesArray:json[@"baike"]];
+            NSArray *zhihuArray = [LPZhihuPoint objectArrayWithKeyValuesArray:json[@"zhihu"]];
+            NSArray *doubanArray = [LPWeiboPoint objectArrayWithKeyValuesArray:json[@"douban"]];
+            NSArray *weiboArray = [LPWeiboPoint objectArrayWithKeyValuesArray:json[@"weibo"]];
+            NSArray *relateArray = [LPRelatePoint objectArrayWithKeyValuesArray:json[@"relate"]];
+            // 1. header图像及标题的赋值
+            [weakSelf setupHeaderWithImageURL:headerImg title:title time:time color:[UIColor colorFromCategory:self.press.category alpha:0.1]];
+            
+            // 2. 每段正文及其评论赋值
+            NSArray *rawArray = [totalBody componentsSeparatedByString:@"\n"];
+            NSMutableArray *bodyArray = [NSMutableArray arrayWithArray:@[abstract]];
+            for (NSString *str in rawArray) {
+                if (![str isBlank]) {
+                    [bodyArray addObject:str];
+                }
+            }
+            
+            NSMutableArray *contents = [NSMutableArray array];
+            NSMutableArray *contentFrameArray = [NSMutableArray array];
+            for (int i = 0; i < bodyArray.count; i++) {
+                // 2.1 正文
+                LPContent *content = [[LPContent alloc] init];
+                content.paragraphIndex = i;
+                content.body = bodyArray[i];
+                content.category = self.press.category;
+                content.color = [UIColor colorFromCategory:content.category];
+                NSMutableArray *comments = [NSMutableArray array];
+                if (i == 0) {
+                    content.isAbstract = YES;
+                } else {
+                    content.isAbstract = NO;
+                }
+                // 2.2 评论
+                if (!weakSelf.press.isCommentsFlag || content.isAbstract || commentArray.count == 0)
+                { // 首页给的数据 如果该标志为0 表示没有任何评论 & 摘要暂时无评论
+                    content.hasComment = NO;
+                } else {
+                    // 遍历point数组 根据索引确定每段的评论列表
+                    for (LPComment *comment in commentArray) {
+                        if (comment.paragraphIndex.intValue == i - 1 && [comment.type isEqualToString:@"text_paragraph"])
+                        {
+                            [comments addObject:comment];
+                        }
+                        comment.color = content.color;
+                    }
+                    content.hasComment = (comments.count > 0);
+                    content.comments = comments;
+                }
+                LPContentFrame *contentFrame = [[LPContentFrame alloc] init];
+                contentFrame.content = content;
+                [contentFrameArray addObject:contentFrame];
+                [contents addObject:content];
+            }
+            // 2.3 传递数据给contentFrames属性
+            weakSelf.contentFrames = contentFrameArray;
+            
+            // 3. 尾部数据的赋值
+            [weakSelf setupFooterWithBaike:baikeArray Zhihu:zhihuArray douban:doubanArray weibo:weiboArray relate:relateArray];
+            
+            // 4. 刷新tableView
+            [weakSelf.tableView reloadData];
+            
+            [sharedIndicator stopAnimating];
+            
+            if (block) {
+                block(contents);
+            }
+        } failure:^(NSError *error) {
+            [sharedIndicator stopAnimating];
+            NSLog(@"Failure: %@", error);
+        }];
+    } else {
+        NSString *url = [NSString stringWithFormat:@"%@", ConcernDetailUrl];
+        params[@"deviceType"] = @"IOS";
+        params[@"url"] = self.concernPress.sourceUrl;
+        NSLog(@"%@", self.concernPress.sourceUrl);
+        [LPHttpTool postWithURL:url params:params success:^(id json) {
+            NSLog(@"post success");
+            NSString *headerImg = json[@"imgUrl"];
+            NSString *title = json[@"title"];
+            NSString *time = json[@"updateTime"];
+            [weakSelf setupHeaderWithImageURL:headerImg title:title time:time color:[UIColor colorFromConcern:self.concern alpha:0.1]];
+            
+            NSArray *zhihuArray = [LPZhihuPoint objectArrayWithKeyValuesArray:json[@"zhihu"]];
+            
+            NSString *abstract = json[@"abs"];
+            if ([abstract isKindOfClass:[NSNull class]]) {
+                abstract = @"文章摘要";
+            }
+            NSArray *commentArray = [LPComment objectArrayWithKeyValuesArray:json[@"point"]];
+            NSLog(@"comment count = %ld", commentArray.count);
+            NSArray *bodyArray = json[@"content"];
+            LPContent *absContent = [[LPContent alloc] init];
+            absContent.isAbstract = YES;
+            absContent.body = abstract;
+            absContent.paragraphIndex = 0;
+            NSMutableArray *contents = [NSMutableArray arrayWithArray:@[absContent]];
+            LPContentFrame *absFrm = [[LPContentFrame alloc] init];
+            absFrm.content = absContent;
+            NSMutableArray *contentFrameArray = [NSMutableArray arrayWithArray:@[absFrm]];
+            
+            int i = 1;
+            for (NSDictionary *dict in bodyArray) {
+//                LPContent *content = [[LPContent alloc] init];
+//                content.isAbstract = NO;
+//                content.index = dict[@"index"];
+//                content.photo = dict[@"img"];
+//                content.photoDesc = dict[@"img_info"];
+//                content.body = dict[@"txt"];
+//                content.concern = self.concern;
+//                content.paragraphIndex = i;
+//                if (content.photo) {
+//                    content.isPhoto = YES;
+//                } else {
+//                    content.isPhoto = NO;
+//                }
+//                NSMutableArray *comments = [NSMutableArray array];
+//                if (!weakSelf.concernPress.isCommentsFlag || !commentArray.count)
+//                { // 首页给的数据 如果该标志为0 表示没有任何评论
+//                    content.hasComment = NO;
+//                } else {
+//                    // 遍历point数组 根据索引确定每段的评论列表
+//                    for (LPComment *comment in commentArray) {
+//                        if (comment.paragraphIndex.intValue == content.index.intValue && [comment.type isEqualToString:@"text_paragraph"])
+//                        {
+//                            [comments addObject:comment];
+//                        }
+//                    }
+//                    content.hasComment = (comments.count > 0);
+//                    content.comments = comments;
+//                }
+//                LPContentFrame *contentFrame = [[LPContentFrame alloc] init];
+//                contentFrame.content = content;
+//                [contents addObject:content];
+//                [contentFrameArray addObject:contentFrame];
+//                i++;
+                
+                LPContent *content = [[LPContent alloc] init];
+                content.isAbstract = NO;
+                content.index = dict[@"index"];
+                content.photo = dict[@"img"];
+                content.photoDesc = dict[@"img_info"];
+                content.body = dict[@"txt"];
+                content.concern = self.concern;
+                content.color = [UIColor colorFromConcern:self.concern];
+                if (content.photo) {
+                    content.isPhoto = YES;
+                } else {
+                    content.isPhoto = NO;
+                }
+                NSMutableArray *comments = [NSMutableArray array];
+                if (!commentArray.count)
+                { // 首页给的数据 如果该标志为0 表示没有任何评论
+                    content.hasComment = NO;
+                } else {
+                    // 遍历point数组 根据索引确定每段的评论列表
+                    for (LPComment *comment in commentArray) {
+                        if (comment.paragraphIndex.intValue == content.index.intValue && [comment.type isEqualToString:@"text_paragraph"])
+                        {
+                            [comments addObject:comment];
+                            NSLog(@"%@, %@", comment.srcText, comment.paragraphIndex);
+                        }
+                        comment.color = content.color;
+                    }
+                    content.hasComment = (comments.count > 0);
+                    content.comments = comments;
+                }
+                if (!content.isPhoto || ![content.photo isEqualToString:headerImg]) {
+                    content.paragraphIndex = i;
+                    LPContentFrame *contentFrame = [[LPContentFrame alloc] init];
+                    contentFrame.content = content;
+                    [contents addObject:content];
+                    [contentFrameArray addObject:contentFrame];
+                    i++;
+                }
+            }
+            weakSelf.contentFrames = contentFrameArray;
+            
+            [weakSelf setupFooterWithBaike:nil Zhihu:zhihuArray douban:nil weibo:nil relate:nil];
+            
+            [weakSelf.tableView reloadData];
+            
+            [sharedIndicator stopAnimating];
+            
+            if (block) {
+                block(contents);
+            }
+
+        } failure:^(NSError *error) {
+            [sharedIndicator stopAnimating];
+            NSLog(@"Failure: %@", error);
+        }];
+    }
 }
 
 # pragma mark - header view setting up
-- (void)setupHeaderWithImageURL:(NSString *)imageURL title:(NSString *)title time:(NSString *)time
+- (void)setupHeaderWithImageURL:(NSString *)imageURL title:(NSString *)title time:(NSString *)time color:(UIColor *)color
 {
     UIView *headerView = [[UIView alloc] init];
     CGFloat headerViewH = TableHeaderViewH;
@@ -272,7 +370,6 @@
     headerImageView.contentMode = UIViewContentModeScaleAspectFill;
 
     headerImageView.clipsToBounds = YES;
-//    headerImageView.frame = headerView.bounds;
     headerImageView.frame = CGRectMake(0, 0, headerView.width, TableHeaderImageViewH);
     [headerImageView sd_setImageWithURL:[NSURL URLWithString:imageURL]];
     self.headerImageView = headerImageView;
@@ -287,7 +384,7 @@
     // 颜色版加在headerImageView上
     UIView *filterView = [[UIView alloc] init];
     filterView.frame = headerImageView.bounds;
-    filterView.backgroundColor = [UIColor colorFromCategory:self.press.category alpha:0.2];
+    filterView.backgroundColor = color;
     self.filterView = filterView;
     [headerImageView addSubview:filterView];
     
@@ -337,11 +434,7 @@
         zhihuView.hidden = YES;
     }
     zhihuView.delegate = self;
-    if ([self.press.category isEqualToString:@"财经"]) {
-        zhihuView.backgroundColor = [UIColor whiteColor];
-    } else {
-        zhihuView.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:250/255.0 alpha:0.9];
-    }
+    zhihuView.backgroundColor = [UIColor whiteColor];
 
     [footerView addSubview:zhihuView];
     
@@ -365,7 +458,7 @@
 - (void)fadeOut
 {
     [UIView animateWithDuration:0.8 animations:^{
-        self.popBtn.alpha = 0.4;
+        self.popBtn.alpha = 0.0;
     }];
 }
 
@@ -396,11 +489,6 @@
     LPContentCell *cell = [LPContentCell cellWithTableView:tableView];
     cell.contentFrame = self.contentFrames[indexPath.row];
     cell.delegate = self;
-//    if (indexPath.row == self.watchingIndexPath.row) {
-//        cell.contentView.alpha = 1.0;
-//    } else {
-//        cell.contentView.alpha = CellAlpha;
-//    }
     cell.layer.shadowOpacity = 0.24f;
     cell.layer.shadowRadius = 3.0;
     cell.layer.shadowOffset = CGSizeMake(0, 0);
@@ -452,65 +540,21 @@
     }
 }
 
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-    
-}
-
-//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-//{
-//    if (decelerate == YES && self.contentFrames.count > 1) {
-//        CGFloat watchingCellHeight = [self tableView:self.tableView heightForRowAtIndexPath:self.watchingIndexPath];
-//        NSUInteger row = self.watchingIndexPath.row;
-//        // 1. 向下看
-//        CGFloat deltaOffset = scrollView.contentOffset.y - self.lastContentOffsetY;
-//        if (deltaOffset > 0) {
-//            if (row == 0)
-//            {
-//                if (scrollView.contentOffset.y > offset[1] - 10.0) {
-//                    self.watchingIndexPath = [NSIndexPath indexPathForRow:1 inSection:0];
-//                     [scrollView setContentOffset:CGPointMake(0.0, offset[1]) animated:YES];
-//                    [scrollView setContentOffset:CGPointMake(0.0, 300) animated:YES];
-//                }
-//            } else {
-//                if (row + 1 < self.contentFrames.count) {
-//                    if (deltaOffset > watchingCellHeight * 0.5 || offset[row + 1] - scrollView.contentOffset.y < 10.0 || offset[row + 1] < scrollView.contentOffset.y) {// 一次性滑动距离超过半个cell，或者offset接近其offset值，watchingIndex + 1; 否则，滚回原位置
-//                        self.watchingIndexPath = [NSIndexPath indexPathForRow:row + 1 inSection:0];
-//                        [scrollView setContentOffset:CGPointMake(0.0, offset[row + 1]) animated:YES];
-//                    } else {
-//                        [scrollView setContentOffset:CGPointMake(0.0, offset[row]) animated:YES];
-//                    }
-//                }
-//            }
-//        }
-//        // 2. 向上看
-//        if (deltaOffset < 0) {
-//            if (row == 1)
-//            {
-//                if (scrollView.contentOffset.y < offset[0] * 0.5) {
-//                    self.watchingIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-//                    // [scrollView setContentOffset:CGPointMake(0.0, 0.0) animated:YES];
-//    //            } else if () {
-//                    
-//                }
-//            } else if (row > 1) {
-//                
-//            }
-//        }
-//    }
-//}
-
 #pragma mark - push para comment view controller
 - (void)pushParaVcWithContent:(LPContent *)content
 {
     LPParaCommentViewController *paraVc = [[LPParaCommentViewController alloc] init];
     paraVc.comments = content.comments;
     paraVc.bgImage = [UIImage captureWithView:self.view];
-    paraVc.category = content.category;
+    paraVc.color = content.color;
     paraVc.contentIndex = content.paragraphIndex;
     paraVc.fromVc = self;
     paraVc.commentText = self.commentText;
-    paraVc.press = self.press;
+    if (self.isConcernDetail) {
+        paraVc.sourceURL = self.concernPress.sourceUrl;
+    } else {
+        paraVc.sourceURL = self.press.sourceUrl;
+    }
     [self.navigationController pushViewController:paraVc animated:NO];
 }
 
@@ -557,7 +601,7 @@
     LPContentFrame *contentFrame = self.contentFrames[paraIndex];
     LPContent *content = contentFrame.content;
     LPComposeViewController *composeVc = [[LPComposeViewController alloc] init];
-    composeVc.category = content.category;
+    composeVc.color = content.color;
     composeVc.draftText = self.commentText;
     [composeVc returnText:^(NSString *text) {
         self.commentText = text;
@@ -582,8 +626,9 @@
     LPComment *comment = [[LPComment alloc] init];
     comment.sourceUrl = self.press.sourceUrl;
     comment.srcText = self.commentText;
-    comment.category = content.category;
-    comment.paragraphIndex = [NSString stringFromIntValue:content.paragraphIndex - 1];
+    comment.color = content.color;
+    // 评论段落索引为整体(real)段落索引值 - 1
+    comment.paragraphIndex = [NSString stringFromIntValue:content.index.intValue];
     comment.type = @"text_paragraph";
     comment.uuid = account.userId;
     comment.userIcon = account.userIcon;
@@ -593,7 +638,7 @@
     comment.up = @"0";
     comment.isPraiseFlag = @"0";
     
-    if (self.navigationController.viewControllers.count == 4) {
+    if (self.navigationController.viewControllers.count >= 4) {
         self.shouldPush = YES;
     } else {
         self.shouldPush = NO;
@@ -601,14 +646,22 @@
     // 2. 发送post请求
     NSString *url = [NSString stringWithFormat:@"%@/news/baijia/point", ServerUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"sourceUrl"] = self.press.sourceUrl;
+    if (self.isConcernDetail) {
+        params[@"sourceUrl"] = self.concernPress.sourceUrl;
+    } else {
+        params[@"sourceUrl"] = self.press.sourceUrl;
+    }
     params[@"srcText"] = comment.srcText;
     params[@"paragraphIndex"] = comment.paragraphIndex;
     params[@"type"] = comment.type;
     params[@"uuid"] = comment.uuid;
     params[@"userIcon"] = comment.userIcon;
     params[@"userName"] = comment.userName;
-    params[@"desText"] = content.body;
+    if (content.photo) {
+        params[@"desText"] = content.photo;
+    } else {
+        params[@"desText"] = content.body;
+    }
 
     [LPHttpTool postWithURL:url params:params success:^(id json) {
         // 1.2 更新content对象
@@ -620,7 +673,9 @@
         contentFrame.content = content;
         [self.tableView reloadData];
         // 发送成功，通知首页，使无评论图标的对应卡片显示评论图标
-        [noteCenter postNotificationName:LPCommentDidComposeSuccessNotification object:self];
+        if (!self.isConcernDetail) {
+            [noteCenter postNotificationName:LPCommentDidComposeSuccessNotification object:self];
+        }
         
         if (self.shouldPush) {
             NSDictionary *info = @{LPComposeComment:comment};

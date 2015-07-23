@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+@class LPConcern;
 //{
 //    "originsourceSiteName": "网易新闻图片",
 //    "updateTime": "2015-05-14 20:53:41",
@@ -58,9 +58,6 @@
 //},
 
 @interface LPPress : NSObject
-
-
-
 /**
  *  cell类型 （1：大图；400：单图图文；9：多图图文）
  */
@@ -109,7 +106,7 @@
 @property (nonatomic, copy) NSString *isBaikeFlag;
 @property (nonatomic, copy) NSString *isImgWallFlag;
 
-
+@property (nonatomic, strong) LPConcern *concern;
 
 - (NSMutableAttributedString *)titleString;
 

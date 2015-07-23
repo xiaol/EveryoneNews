@@ -7,6 +7,7 @@
 //
 
 #import "UIColor+LP.h"
+#import "LPConcern.h"
 
 @implementation UIColor (LP)
 
@@ -54,6 +55,62 @@
         return [UIColor clearColor];
     }
 }
+
++ (instancetype)colorFromConcern:(LPConcern *)concern alpha:(CGFloat)alpha {
+    NSString *colorString = @"ffffff";
+    switch (concern.channel_id.intValue) {
+        case 0:
+            colorString = @"#ff1652";
+            break;
+        case 1:
+            colorString = @"#ee6270";
+            break;
+        case 2:
+            colorString = @"#6279a3";
+            break;
+        case 3:
+            colorString = @"#f788a2";
+            break;
+        case 4:
+            colorString = @"#37ccd9";
+            break;
+        case 5:
+            colorString = @"#b56f40";
+            break;
+        case 6:
+            colorString = @"#35e4c1";
+            break;
+        case 8:
+            colorString = @"#f6aa32";
+            break;
+        case 9:
+            colorString = @"#35a6fb";
+            break;
+        case 10:
+            colorString = @"#e2ab4b";
+            break;
+        case 11:
+            colorString = @"#2bc972";
+            break;
+        case 12:
+            colorString = @"#9153c6";
+            break;
+        case 13:
+            colorString = @"#ffda59";
+            break;
+        case 14:
+            colorString = @"#7174ff";
+            break;
+        default:
+            break;
+    }
+    return [self colorFromHexString:colorString alpha:alpha];
+}
+
++ (instancetype)colorFromConcern:(LPConcern *)concern {
+    return [self colorFromConcern:concern alpha:1.0];
+}
+
 + (instancetype)colorFromCategory:(NSString *)text
 {
     return [self colorFromCategory:text alpha:1.0];

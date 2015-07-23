@@ -20,35 +20,76 @@
 #import "LPPressCell.h"
 #import "LPDetailViewController.h"
 #import "MBProgressHUD+MJ.h"
-#import "CustomLoaddingView.h"
+#import "LPConcern.h"
+#import "LPConcernCell.h"
+#import "LPHttpTool.h"
+#import "ConcernViewController.h"
+
 typedef void (^completionBlock)();
 
+#define ConcernCellReuseIdentifier @"concernCell"
 
-@interface MainViewController () <UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>
+@interface MainViewController () <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 
 //自定义的顶部导航
 @property (nonatomic,strong) LPTabBar *customTabBar;
 //主界面右下角的登录按钮
 @property (nonatomic,strong) UIButton *loginBtn;
 //所有内容展示的ScrollView
-@property (nonatomic,strong) UIScrollView *containerScrollView;
+@property (nonatomic,strong) UIScrollView *containerView;
 //左边分类对应的ScrollView
-@property (nonatomic,strong) CategoryView *categoryView;
+//@property (nonatomic,strong) CategoryView *categoryView;
 //右边展示内容的TableView
 @property (nonatomic,strong) UITableView *tableView;
-@property (nonatomic, strong) NSMutableArray *pressFrames;
 @property (nonatomic, assign) NSUInteger timeRow;
 @property (nonatomic, assign) NSUInteger anyDisplayingCellRow;
 @property (nonatomic, assign) BOOL isScrolled;
 @property (nonatomic, assign) NSUInteger selectedRow;
 @property (nonatomic, assign) NSUInteger selectedIndex;
 //@property (nonatomic,strong) MBProgressHUD *progressView;
-//@property (nonatomic,strong) CustomLoaddingView *loaddingView;
+@property (nonatomic, strong) NSMutableArray *pressFrames;
 
+@property (nonatomic, strong) UICollectionView *concernView;
+//@property (nonatomic, strong) UIActivityIndicatorView *waitingIndicator;
+@property (nonatomic, strong) NSArray *concerns;
+
+@property (nonatomic, strong) NSMutableSet *shimmeringOffIndexes;
 @end
 
 @implementation MainViewController
 
+
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
+#pragma mark - life cycle
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    [self setupContainerScrollerView];
+    [self setupConcernView];
+    [self setupTableView];
+    [self setupTabBar];
+    [self setupLoginButton];
+    [self setupDataWithCategory:[LPCategory categoryWithURL:HomeUrl] completion:nil];
+    [self setupConcernData];
+    [self setupNoteObserver];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"MainViewController"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"MainViewController"];
+}
+
+#pragma mark - lazy loading
 - (NSMutableArray *)pressFrames
 {
     if (_pressFrames == nil) {
@@ -57,62 +98,51 @@ typedef void (^completionBlock)();
     return _pressFrames;
 }
 
-- (BOOL)prefersStatusBarHidden
+- (NSArray *)concerns
 {
-    return YES;
+    if (_concerns == nil) {
+        _concerns = [NSArray array];
+    }
+    return _concerns;
 }
 
-#pragma mark - 友盟统计
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"HomePage"];
+- (NSMutableSet *)shimmeringOffIndexes {
+    if (_shimmeringOffIndexes == nil) {
+        _shimmeringOffIndexes = [NSMutableSet set];
+    }
+    return _shimmeringOffIndexes;
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"HomePage"];
-}
-
-#pragma mark - 初始化子view
+#pragma mark - setup subviews
 - (void)setupContainerScrollerView{
-    self.containerScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, self.view.bounds.size.height)];
-    self.containerScrollView.contentSize = CGSizeMake(ScreenWidth * 2.0, 0);
-    self.containerScrollView.scrollEnabled = YES;
-    self.containerScrollView.pagingEnabled = YES;
-    self.containerScrollView.bounces = NO;
-    self.containerScrollView.showsHorizontalScrollIndicator = NO;
-    self.containerScrollView.showsVerticalScrollIndicator = NO;
-    self.containerScrollView.backgroundColor = [UIColor colorFromHexString:@"#EBEDED"];
-    self.containerScrollView.contentOffset = CGPointMake(ScreenWidth, 0);
-    self.containerScrollView.delegate = self;
-    [self.view addSubview:self.containerScrollView];
+    self.containerView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+    self.containerView.contentSize = CGSizeMake(ScreenWidth * 2.0, 0);
+    self.containerView.scrollEnabled = YES;
+    self.containerView.pagingEnabled = YES;
+    self.containerView.bounces = NO;
+    self.containerView.showsHorizontalScrollIndicator = NO;
+    self.containerView.showsVerticalScrollIndicator = NO;
+    self.containerView.backgroundColor = [UIColor colorFromHexString:@"#ebeded"];
+    self.containerView.contentOffset = CGPointMake(ScreenWidth, 0);
+    self.containerView.delegate = self;
+    [self.view addSubview:self.containerView];
 }
 
-- (void)setupCategoryView{
-    self.categoryView = [[CategoryView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
-    //设置分类点击回调block
-    [self.categoryView didCategoryBtnClick:^(LPCategory *from, LPCategory *to) {
-        LPTabBarButton *button = self.customTabBar.tabBarButtons[1];
-        self.customTabBar.selectedButton = button;
-        //点击的不是同一个category 就执行该动画
-        if (from != to) {
-            [UIView transitionWithView:button duration:0.8 options:UIViewAnimationOptionTransitionFlipFromLeft animations:^{
-                [button setTitle:to.title forState:UIControlStateNormal];
-            } completion:nil];
-            
-        }
-        [button setTitle:to.title forState:UIControlStateNormal];
-        [UIView animateWithDuration:0.5 animations:^{
-            self.containerScrollView.contentOffset = CGPointMake(ScreenWidth, 0);
-        }];
-        if (from != to) {
-            [self setupDataWithCategory:to completion:nil];
-        }
-        
-    }];
-    [self.containerScrollView addSubview:self.categoryView];
+- (void)setupConcernView{
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.itemSize = CGSizeMake(ScreenWidth, ScreenWidth * 6 / 25);
+    layout.sectionInset = UIEdgeInsetsMake(TabBarHeight, 0, 0, 0);
+    layout.minimumInteritemSpacing = 0;
+    layout.minimumLineSpacing = - 0.5;
+    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+    UICollectionView *concernView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
+    [concernView registerClass:[LPConcernCell class] forCellWithReuseIdentifier:ConcernCellReuseIdentifier];
+     concernView.backgroundColor = [UIColor clearColor];
+
+    concernView.dataSource = self;
+    concernView.delegate = self;
+    [self.containerView addSubview:concernView];
+    self.concernView = concernView;
 }
 
 - (void)setupTableView{
@@ -122,11 +152,11 @@ typedef void (^completionBlock)();
     self.tableView.width = ScreenWidth;
     self.tableView.height = ScreenHeight;
     self.tableView.contentInset = UIEdgeInsetsMake(TabBarHeight, 0, 0, 0);
-    self.tableView.backgroundColor = [UIColor colorFromHexString:@"#EBEDED"];
+    self.tableView.backgroundColor = [UIColor clearColor];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    [self.containerScrollView addSubview:self.tableView];
+    [self.containerView addSubview:self.tableView];
     
     // 菊花
     sharedIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
@@ -139,7 +169,7 @@ typedef void (^completionBlock)();
 {
     self.customTabBar = [[LPTabBar alloc] init];
     self.customTabBar.frame = CGRectMake(0, 0, ScreenWidth, TabBarHeight);
-    self.customTabBar.backgroundColor = [UIColor colorFromHexString:TabBarColor alpha:1.0];
+    self.customTabBar.backgroundColor = [UIColor colorFromHexString:@"00051c"];
     UITabBarItem *firstTabBarItem = [[UITabBarItem alloc] initWithTitle:@"关注" image:nil tag:0];
     UITabBarItem *secondTabBarItem = [[UITabBarItem alloc] initWithTitle:@"今日" image:nil tag:1];
     [self.customTabBar addTabBarButtonWithItem:firstTabBarItem tag:0];
@@ -154,9 +184,8 @@ typedef void (^completionBlock)();
         }
         weakSelf.customTabBar.sliderView.x = (from < to) ? TabBarButtonWidth:0;
         [UIView animateWithDuration:0.5f animations:^{
-            weakSelf.containerScrollView.contentOffset = offSetPoint;
+            weakSelf.containerView.contentOffset = offSetPoint;
         }];
-        
     }];
     [self.view addSubview:self.customTabBar];
     self.selectedIndex = 1;
@@ -175,7 +204,6 @@ typedef void (^completionBlock)();
     
     CGFloat loginBtnWidth = 35;
     CGFloat loginBtnHeight = 35;
-    
     if (iPhone6Plus){
         loginBtnWidth += 1;
         loginBtnHeight += 1;
@@ -189,8 +217,16 @@ typedef void (^completionBlock)();
     self.loginBtn.frame = CGRectMake(loginBtnX, loginBtnY, loginBtnWidth, loginBtnHeight);
     self.loginBtn.layer.cornerRadius = self.loginBtn.frame.size.height / 2;
     self.loginBtn.layer.borderWidth = 1.5;
-    self.loginBtn.layer.masksToBounds = YES;
+//    self.loginBtn.layer.masksToBounds = YES;
     self.loginBtn.layer.borderColor = [UIColor blackColor].CGColor;
+    
+    self.loginBtn.layer.shadowRadius = 1;
+    self.loginBtn.layer.shadowColor = [UIColor whiteColor].CGColor;
+    self.loginBtn.layer.shadowOffset = CGSizeMake(0, 0);
+    self.loginBtn.layer.shadowOpacity = 0.75;
+//    self.loginBtn.layer.masksToBounds = YES;
+//    UIBezierPath *path = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(- shadowRadius, - shadowRadius, loginBtnWidth + 2 * shadowRadius, loginBtnHeight + 2 * shadowRadius)];
+//    self.loginBtn.layer.shadowPath = path.CGPath;
     [self.loginBtn addTarget:self action:@selector(userLogin:) forControlEvents:UIControlEventTouchUpInside];
     
     UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panLoginView:)];
@@ -251,20 +287,7 @@ typedef void (^completionBlock)();
     [pan setTranslation:CGPointZero inView:pan.view];
 }
 
-#pragma mark - 生命周期方法
-- (void)viewDidLoad {
-    [super viewDidLoad];
-
-    [self setupContainerScrollerView];
-    [self setupCategoryView];
-    [self setupTableView];
-    [self setupTabBar];
-    [self setupLoginButton];
-    [self setupDataWithCategory:[LPCategory categoryWithURL:HomeUrl] completion:nil];
-    [self setupNoteObserver];
-}
-
-#pragma mark - setupNoteObserver
+#pragma mark - setup note observer
 - (void)setupNoteObserver
 {
     [noteCenter addObserver:self selector:@selector(receiveJPushNotification:) name:LPPushNotificationFromLaunching object:nil];
@@ -273,15 +296,18 @@ typedef void (^completionBlock)();
     [noteCenter addObserver:self selector:@selector(commentSuccess) name:LPCommentDidComposeSuccessNotification object:nil];
     [noteCenter addObserver:self selector:@selector(loadWebWithNote:) name:LPWebViewWillLoadNotification object:nil];
 }
-#pragma mark - 设置tabbar索引
+
+#pragma mark - setup tabbar index
 - (void)setSelectedIndex:(NSUInteger)selectedIndex
 {
     
     self.customTabBar.sliderView.x = (selectedIndex == 0) ? 0 : TabBarButtonWidth;
     self.customTabBar.selectedButton = [self.customTabBar.tabBarButtons objectAtIndex:selectedIndex];
+    CGPoint offset = CGPointMake(ScreenWidth * selectedIndex, 0);
+    self.containerView.contentOffset = offset;
     _selectedIndex = selectedIndex;
 }
-#pragma mark - 用户登录相关
+#pragma mark - login selectors
 
 /**
  *  显示右下角登录icon
@@ -294,9 +320,9 @@ typedef void (^completionBlock)();
     __weak typeof(self) weakSelf = self;
     [imageView sd_setImageWithURL:[NSURL URLWithString:account.userIcon] placeholderImage:[UIImage imageNamed:@"登录icon"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
         if (!error) {
-            [weakSelf.loginBtn setBackgroundImage:imageView.image forState:UIControlStateNormal];
+            UIImage *icon = [imageView.image circleImage];
+            [weakSelf.loginBtn setBackgroundImage:icon forState:UIControlStateNormal];
         }
-        
     }];
 }
 /**
@@ -304,27 +330,26 @@ typedef void (^completionBlock)();
  *
  *  @param loginBtn 响应点击事件的button
  */
-- (void)userLogin:(UIButton *)loginBtn{
+- (void)userLogin:(UIButton *)loginBtn {
     if ([AccountTool account] != nil) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"退出登录" message:@"退出登录后无法进行评论哦" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
         [alert show];
     }else{
         [AccountTool accountLoginWithViewController:self success:^{
             NSLog(@"---授权成功");
+            [MBProgressHUD showSuccess:@"登录成功"];
             [self displayLoginBtnIconWithAccount:[AccountTool account]];
         } failure:^{
-            NSLog(@"---授权失败");
-        } cancel:^{
-            NSLog(@"---授权取消");
-        }];
+            [MBProgressHUD showError:@"登录失败"];
+        } cancel:nil];
     }
 }
 
-- (void)accountLogin:(NSNotification *)notification{
+- (void)accountLogin:(NSNotification *)notification {
         [self displayLoginBtnIconWithAccount:[AccountTool account]];
 }
 
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1) {
         //1.删除用户信息
         [AccountTool deleteAccount];
@@ -332,10 +357,9 @@ typedef void (^completionBlock)();
         [self.loginBtn setBackgroundImage:[UIImage imageNamed:@"登录icon"] forState:UIControlStateNormal];
     }
 }
-#pragma mark - 网络获取数据
-- (void)setupDataWithCategory:(LPCategory *)category completion:(completionBlock)block
-{
-//    self.loaddingView = [CustomLoaddingView showMessage:@"正在加载..." toView:self.view];
+
+#pragma mark - setup home data with JPush remote notification block
+- (void)setupDataWithCategory:(LPCategory *)category completion:(completionBlock)block {
     sharedIndicator.hidden = NO;
     [sharedIndicator startAnimating];
     self.tableView.hidden = YES;
@@ -390,8 +414,53 @@ typedef void (^completionBlock)();
         [sharedIndicator stopAnimating];
         [MBProgressHUD showError:@"网络不给力 :(" toView:self.view];
     }];
-    
 }
+
+#pragma mark - setup concern view data
+- (void)setupConcernData
+{
+    NSString *url = [NSString stringWithFormat:@"%@%@", ServerUrl, ConcernsUrl];
+    [LPHttpTool getWithURL:url params:nil success:^(id json) {
+        self.concerns = [LPConcern objectArrayWithKeyValuesArray:json];
+        [self.concernView reloadData];
+    } failure:^(NSError *error) {
+        
+    }];
+}
+
+#pragma mark - Collection view data source
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    return 1;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return self.concerns.count - 1;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    __block LPConcernCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ConcernCellReuseIdentifier forIndexPath:indexPath];
+    
+    cell.concern = self.concerns[indexPath.item];
+    
+    [self.shimmeringOffIndexes enumerateObjectsUsingBlock:^(NSIndexPath *eIndexPath, BOOL *stop) {
+        if (eIndexPath.row == indexPath.row) {
+            cell.shimmering = NO;
+        }
+    }];
+    
+    return cell;
+}
+
+#pragma mark - Collection view delegate
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    ConcernViewController *concernVc = [[ConcernViewController alloc] init];
+    concernVc.concern = self.concerns[indexPath.item];
+    LPConcernCell *cell = (LPConcernCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    cell.shimmering = NO;
+    [self.shimmeringOffIndexes addObject:indexPath];
+    [self.navigationController pushViewController:concernVc animated:YES];
+}
+
 
 #pragma mark - Table view data source
 
@@ -449,6 +518,7 @@ typedef void (^completionBlock)();
     LPPressFrame *pressFrame = self.pressFrames[indexPath.row];
     LPPress *press = pressFrame.press;
     LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
+    detailVc.isConcernDetail = NO;
     detailVc.press = press;
     [self.navigationController pushViewController:detailVc animated:YES];
 }
@@ -464,7 +534,7 @@ typedef void (^completionBlock)();
 {
     self.isScrolled = NO;
     
-    if ([scrollView class] == [self.containerScrollView class]) {
+    if ([scrollView class] == [self.containerView class]) {
         CGFloat x = scrollView.contentOffset.x;
         if (x == ScreenWidth) {
             self.selectedIndex = 1;
@@ -476,8 +546,8 @@ typedef void (^completionBlock)();
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    //    if ([scrollView class] == [self.containerScrollView class]) {
-    if (scrollView == self.containerScrollView) {
+    //    if ([scrollView class] == [self.containerView class]) {
+    if (scrollView == self.containerView) {
         
         self.customTabBar.sliderView.x = TabBarButtonWidth * (scrollView.contentOffset.x / ScreenWidth);
     }
@@ -501,6 +571,14 @@ typedef void (^completionBlock)();
                 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
                 [weakSelf.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
                 [weakSelf tableView:weakSelf.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
+#pragma warning - 重复代码 及时抽取
+//                self.selectedRow = row;
+//                LPPressFrame *pressFrame = self.pressFrames[row];
+//                LPPress *press = pressFrame.press;
+//                LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
+//                detailVc.isConcernDetail = NO;
+//                detailVc.press = press;
+//                [self.navigationController pushViewController:detailVc animated:NO];
                 break;
             }
         }
@@ -508,10 +586,7 @@ typedef void (^completionBlock)();
     }];
 }
 
-- (void)dealloc
-{
-    [noteCenter removeObserver:self];
-}
+
 
 // 评论成功后，若原来没有评论图标，就显示
 - (void)commentSuccess
@@ -530,5 +605,10 @@ typedef void (^completionBlock)();
 {
     NSString *url = note.userInfo[LPWebURL];
     [LPPressTool loadWebViewWithURL:url viewController:self];
+}
+
+- (void)dealloc
+{
+    [noteCenter removeObserver:self];
 }
 @end

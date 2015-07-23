@@ -54,7 +54,7 @@
         _cellHeight = CGRectGetHeight(_photoViewF) + CellHeightBorder;
     } else if (mode == 400) {
         // 单图frame
-        CGFloat thumbnailX = 5;
+        CGFloat thumbnailX = 8;
         CGFloat thumbnailY = 27;
         CGFloat thumbnailW = 110;
         CGFloat thumbnailH = thumbnailW - 20;
@@ -64,11 +64,11 @@
         CGFloat categoryW = 32;
         CGFloat categoryH = 17;
         CGFloat categoryX = CellWidth - categoryW;
-        CGFloat categoryY = CGRectGetMinY(_thumbnailViewF) + 1;
+        CGFloat categoryY = CGRectGetMinY(_thumbnailViewF) + 5;
         _categoryLabelF = CGRectMake(categoryX, categoryY, categoryW, categoryH);
         // 标题frame
         CGFloat titleLabelX = CGRectGetMaxX(_thumbnailViewF) + 8;
-        CGFloat titleLabelY = CGRectGetMinY(_thumbnailViewF) + 1;
+        CGFloat titleLabelY = CGRectGetMinY(_thumbnailViewF) + 5;
         CGFloat titleLabelW = CellWidth - titleLabelX - categoryW - 18;
         CGFloat titleLabelH = [press.titleString heightWithConstraintWidth:titleLabelW];
         _titleLabelF = CGRectMake(titleLabelX, titleLabelY, titleLabelW, titleLabelH);
@@ -76,14 +76,14 @@
         CGFloat smallIconsX = CGRectGetMaxX(_thumbnailViewF) + 8;
         CGFloat smallIconsW = IconW * Icons.count + IconBorder * (Icons.count - 1) + 2;
         CGFloat smallIconsH = 24;
-        CGFloat smallIconsY = MAX(CGRectGetMaxY(_thumbnailViewF) - IconW - 1, CGRectGetMaxY(_titleLabelF) + 10) ;
+        CGFloat smallIconsY = MAX(CGRectGetMaxY(_thumbnailViewF) - IconW - 3, CGRectGetMaxY(_titleLabelF) + 10) ;
         _smallIconsViewF = CGRectMake(smallIconsX, smallIconsY, smallIconsW, smallIconsH);
-        // 多家观点数目frame
-        CGFloat pointsH = 22;
-        CGFloat pointsW = 46;
-        CGFloat pointsX = CellWidth - pointsW - 10;
-        CGFloat pointsY = CGRectGetMaxY(_thumbnailViewF) - 1 - pointsH;
-        _pointsLabelF = CGRectMake(pointsX, pointsY, pointsW, pointsH);
+//        // 多家观点数目frame
+//        CGFloat pointsH = 22;
+//        CGFloat pointsW = 46;
+//        CGFloat pointsX = CellWidth - pointsW - 10;
+//        CGFloat pointsY = CGRectGetMaxY(_thumbnailViewF) - 1 - pointsH;
+//        _pointsLabelF = CGRectMake(pointsX, pointsY, pointsW, pointsH);
         // 上半部分frame
         CGFloat topViewX = 0;
         CGFloat topViewY = 0;

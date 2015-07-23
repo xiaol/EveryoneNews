@@ -31,4 +31,7 @@
 + (instancetype)stringFromUIntegerValue:(NSUInteger)uIntValue;
 + (instancetype)stringFromBOOLValue:(BOOL)boolValue;
 + (instancetype)stringFromNowDate;
+
+- (instancetype)stringByTrimmingWhitespaceAndNewline;
+- (instancetype)stringByTrimmingNewline;
 @end

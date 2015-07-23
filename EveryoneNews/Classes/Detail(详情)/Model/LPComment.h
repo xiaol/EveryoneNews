@@ -19,6 +19,9 @@
 //"comments_count": 8,
 //"type": "text_paragraph",
 //"userIcon": null
+
+@class LPConcern;
+
 @interface LPComment : NSObject
 
 @property (nonatomic, copy) NSString *isPraiseFlag;
@@ -47,9 +50,13 @@
 
 @property (nonatomic, copy) NSString *userIcon;
 
-@property (nonatomic, copy) NSString *category;
+@property (nonatomic, strong) UIColor *color;
 
-- (NSMutableAttributedString *)commentStringWithCategory:(NSString *)category;
+- (NSMutableAttributedString *)commentStringWithColor:(UIColor *)color;
+
+//- (NSMutableAttributedString *)commentStringWithCategory:(NSString *)category;
+//
+//- (NSMutableAttributedString *)commentStringWithConcern:(LPConcern *)concern;
 
 - (CGFloat)commentTextLineHeight;
 

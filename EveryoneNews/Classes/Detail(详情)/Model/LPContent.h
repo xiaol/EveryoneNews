@@ -10,6 +10,8 @@
 
 #import "LPComment.h"
 
+@class LPConcern;
+
 @interface LPContent : NSObject
 @property (nonatomic, copy) NSString *category;
 @property (nonatomic, copy) NSString *body;
@@ -17,7 +19,16 @@
 @property (nonatomic, assign) BOOL hasComment;
 @property (nonatomic, assign) BOOL isAbstract;
 @property (nonatomic, assign) int paragraphIndex;
+@property (nonatomic, strong) LPConcern *concern;
+// 针对图像cell
+@property (nonatomic, assign) BOOL isPhoto;
+@property (nonatomic, copy) NSString *photoDesc;
+@property (nonatomic, copy) NSString *photo;
+
+@property (nonatomic, strong) NSNumber *index;
+@property (nonatomic, strong) UIColor *color;
 
 - (LPComment *)displayingComment;
 - (NSMutableAttributedString *)bodyString;
+- (NSMutableAttributedString *)photoDescString;
 @end

@@ -24,7 +24,7 @@
 - (NSMutableAttributedString *)pointItem
 {
     NSString *author = [self author];
-    NSString *pointString = [NSString stringWithFormat:@"%@%@", author, self.title];
+    NSString *pointString = [NSString stringWithFormat:@"%@%@", author, [self.title stringByTrimmingNewline]];
     NSMutableAttributedString *point = [pointString attributedStringWithFont:[UIFont systemFontOfSize:14]];
     [point addAttribute:NSForegroundColorAttributeName value:[UIColor colorFromHexString:@"b5b5b5"] range:NSMakeRange(0, author.length)];
     return point;

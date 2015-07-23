@@ -16,6 +16,9 @@
 #import "WXApi.h"
 #import "MainNavigationController.h"
 #import "MainViewController.h"
+#import "LaunchViewController.h"
+
+#define LaunchingDelay 4.5
 @interface AppDelegate ()
 
 @end
@@ -70,54 +73,39 @@
     [APService setupWithOption:launchOptions];
     
     // 2. 创建窗口
+    [application setApplicationIconBadgeNumber:0];
+    NSDictionary *userInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+    [APService handleRemoteNotification:userInfo];
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    MainViewController *mainVc = [[MainViewController alloc] init];
-    MainNavigationController *mainNavVc = [[MainNavigationController alloc] initWithRootViewController:mainVc];
-//    // 3. 设置根控制器
-//    if ([currentVersion isEqualToString:lastVersion]) {
-//        self.window.rootViewController = [[LPTabBarController alloc] init];
-//    } else {
-//        self.window.rootViewController = [[LPNewfeatureViewController alloc] init];
-//        [userDefaults setObject:currentVersion forKey:versionKey];
-//        [userDefaults synchronize];
-//    }
+
+    LaunchViewController *launchVc = [[LaunchViewController alloc] init];
     
-    //设置根控制器
-    if ([currentVersion isEqualToString:lastVersion]) {
+    //3. 设置根控制器
+    if (userInfo[LPPushNotificationURL]) { // 如有推送 迅速处理推送
+        MainViewController *mainVc = [[MainViewController alloc] init];
+        MainNavigationController *mainNavVc = [[MainNavigationController alloc] initWithRootViewController:mainVc];
         self.window.rootViewController = mainNavVc;
-    }else {
-        self.window.rootViewController = [[LPNewfeatureViewController alloc] init];
-        [userDefaults setObject:currentVersion forKey:versionKey];
-        [userDefaults synchronize];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.9 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [noteCenter postNotificationName:LPPushNotificationFromLaunching object:self userInfo:userInfo];
+        });
+    } else {
+        if ([currentVersion isEqualToString:lastVersion]) { // 版本未更新
+            self.window.rootViewController = launchVc;
+        }else { // 版本更新
+            self.window.rootViewController = [[LPNewfeatureViewController alloc] init];
+            [userDefaults setObject:currentVersion forKey:versionKey];
+            [userDefaults synchronize];
+        }
     }
     
     // 4. 显示窗口（成为主窗口）
     [self.window makeKeyAndVisible];
     
-    // 5. 处理推送
-    [application setApplicationIconBadgeNumber:0];
-    NSDictionary *userInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
-    [APService handleRemoteNotification:userInfo];
-    if (userInfo[LPPushNotificationURL]) { // 通过推送启动程序
-        [self performSelector:@selector(postNote:) withObject:userInfo afterDelay:0.8];
-        
-    }
-    
-
     return YES;
-}
-
-- (void)postNote:(NSDictionary *)userInfo
-{
-    [noteCenter postNotificationName:LPPushNotificationFromLaunching object:self userInfo:userInfo];
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-//    NSLog(@"didRegisterForRemoteNotificationsWithDeviceToken:%@", deviceToken);
-    
-    // 1.将token发送给公司的服务器（JPush的话无需此步）
-    
     // 1.将token传给极光服务器
     [APService registerDeviceToken:deviceToken];
 }

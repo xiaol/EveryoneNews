@@ -16,8 +16,10 @@
     if (self) {
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
         self.titleLabel.font = [UIFont boldSystemFontOfSize:14];
-        [self setTitleColor:[UIColor colorFromHexString:TabBarButtonNormalColor] forState:UIControlStateNormal];
-        [self setTitleColor:[UIColor colorFromHexString:TabBarButtonSelectedColor] forState:UIControlStateSelected];
+//        [self setTitleColor:[UIColor colorFromHexString:TabBarButtonNormalColor] forState:UIControlStateNormal];
+//        [self setTitleColor:[UIColor colorFromHexString:TabBarButtonSelectedColor] forState:UIControlStateSelected];
+        [self setTitleColor:[UIColor colorFromHexString:@"ffffff"] forState:UIControlStateNormal];
+//        [self setTitleColor:[UIColor colorFromHexString:@"dddddd"] forState:UIControlStateSelected];
     }
     return self;
 }

@@ -13,14 +13,14 @@ typedef enum {
     LPWaterfallViewMarginTypeBottom,
     LPWaterfallViewMarginTypeLeft,
     LPWaterfallViewMarginTypeRight,
-    LPWaterfallViewMarginTypeColumn, // 每一列
-    LPWaterfallViewMarginTypeRow, // 每一行
+    LPWaterfallViewMarginTypeColumn,
+    LPWaterfallViewMarginTypeRow,
 }LPWaterfallViewMarginType;
 
 @class LPWaterfallView;
 @class LPWaterfallViewCell;
 
-#pragma mark - 数据源方法
+#pragma mark - data source methods
 
 @protocol LPWaterfallViewDataSource <NSObject>
 
@@ -42,7 +42,8 @@ typedef enum {
 
 @end
 
-#pragma mark - 代理方法
+#pragma mark - delegate methods
+
 @protocol LPWaterfallViewDelegate <UIScrollViewDelegate>
 @optional
 /**

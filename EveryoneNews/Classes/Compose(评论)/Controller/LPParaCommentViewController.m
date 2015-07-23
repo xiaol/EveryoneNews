@@ -15,7 +15,6 @@
 #import "AccountTool.h"
 #import "MBProgressHUD+MJ.h"
 #import "LPHttpTool.h"
-#import "LPPress.h"
 #import "LPUpView.h"
 #import "LPContent.h"
 
@@ -58,13 +57,14 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"CommentPage"];
+    [MobClick beginLogPageView:@"ParaCommentViewController"];
 }
+
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"CommentPage"];
+    [MobClick endLogPageView:@"ParaCommentViewController"];
     if (self.shouldReloadDetailCell) {
         NSDictionary *info = @{LPReloadCellIndex: @(self.contentIndex)};
         [noteCenter postNotificationName:LPDetailVcShouldReloadDataNotification object:self userInfo:info];
@@ -99,7 +99,6 @@
     self.blackView = blackView;
     [self.blackView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapBlackView:)]];
 
-    
     UITableView *tableView = [[UITableView alloc] init];
     tableView.backgroundColor = LPColor(255, 255, 250);
     tableView.separatorColor = [UIColor colorFromHexString:TableViewBackColor alpha:0.6];
@@ -129,7 +128,7 @@
     aboveLabel.font = [UIFont boldSystemFontOfSize:18];
     aboveLabel.text = @"他·她们说";
     aboveLabel.textColor = [UIColor whiteColor];
-    aboveLabel.backgroundColor = [UIColor colorFromCategory:self.category];
+    aboveLabel.backgroundColor = self.color;
     [headerView addSubview:aboveLabel];
     
     UILabel *underLabel = [[UILabel alloc] init];
@@ -156,7 +155,7 @@
     CGFloat tableViewHeight = 0.0;
     for (LPComment *comment in self.comments) {
         LPParaCommentFrame *commentFrame = [[LPParaCommentFrame alloc] init];
-        comment.category = self.category;
+        comment.color = self.color;
         commentFrame.comment = comment;
         [commentFrameArray addObject:commentFrame];
         
@@ -191,9 +190,9 @@
     }
     if (location.y > ScreenHeight - InputViewHeight) {
         // 发表评论
-        LPComment *comment = [self.comments firstObject];
-        int paraIndex = comment.paragraphIndex.intValue; // 评论的索引值要+1，因为他是相对于正文段落的索引
-        NSDictionary *info = @{LPComposeParaIndex: [NSString stringFromIntValue:(paraIndex + 1)]};
+//        LPComment *comment = [self.comments firstObject];
+//        int paraIndex = comment.paragraphIndex.intValue; // 评论的索引值要+1，因为他是相对于正文段落的索引
+        NSDictionary *info = @{LPComposeParaIndex: [NSString stringFromIntValue:self.contentIndex]};
         [noteCenter postNotificationName:LPCommentWillComposeNotification object:self userInfo:info];
     }
 }
@@ -265,7 +264,7 @@
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
         params[@"userId"] = account.userId;
         params[@"platformType"] = account.platformType;
-        params[@"sourceUrl"] = self.press.sourceUrl;
+        params[@"sourceUrl"] = self.sourceURL;
         params[@"commentId"] = comment.commentId;
         params[@"deviceType"] = @"ios";
         params[@"uuid"] = @"";
@@ -299,6 +298,7 @@
     self.underLabel.text = [NSString stringWithFormat:@" 精彩评论 (%ld)", self.comments.count];
     [self.tableView reloadData];
     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.comments.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+
 }
 
 - (void)dealloc

@@ -25,21 +25,21 @@
     Account *account=[self account];
     LoginViewController *loginVc=[[LoginViewController alloc] init];
     [loginVc setCallBackBlocks:success :failure :cancel];
-    if (account==nil) {
+    if (account == nil) {
 //        if ([viewVc isKindOfClass:[LPHomeViewController class]]) {
 //            LPTabBarController *tabbarVc = ((LPHomeViewController *)viewVc).tabBarVc;
 //            loginVc.headerBackgroundImage = [UIImage captureWithView:(UIView*)tabbarVc.customTabBar];
 //            loginVc.footerBackgroundImage = [UIImage captureWithView:viewVc.view];
 //        }else{
-            loginVc.headerBackgroundImage=[UIImage captureWithView:viewVc.view];
+            loginVc.headerBackgroundImage = [UIImage captureWithView:viewVc.view];
 //        }
 
-        [viewVc presentViewController:loginVc animated:NO completion:nil];
-    }else{
-        //如果已经授权登录，则判断是否过期
-        if ([NSDate dateToMilliSeconds:[NSDate date]] > account.expiresTime.unsignedIntegerValue) {
-            [viewVc presentViewController:loginVc animated:NO completion:nil];
-        }
+        [viewVc.navigationController pushViewController:loginVc animated:NO];
+    } else {
+//        //如果已经授权登录，则判断是否过期
+//        if ([NSDate dateToMilliSeconds:[NSDate date]] > account.expiresTime.unsignedIntegerValue) {
+//            [viewVc.navigationController pushViewController:loginVc animated:NO];
+//        }
     }
 }
 
@@ -86,12 +86,12 @@
 + (Account *)account{
     
     Account *account = [NSKeyedUnarchiver unarchiveObjectWithFile:kAccountSavePath];
-    if (account) {
-        //如果已经授权登录，则判断是否过期
-        if ([NSDate dateToMilliSeconds:[NSDate date]] > account.expiresTime.unsignedIntegerValue) {
-            return nil;
-        }
-    }
+//    if (account) {
+//        //如果已经授权登录，则判断是否过期
+//        if ([NSDate dateToMilliSeconds:[NSDate date]] > account.expiresTime.unsignedIntegerValue) {
+//            return nil;
+//        }
+//    }
     return account;
 }
 

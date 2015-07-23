@@ -7,7 +7,7 @@
 //
 
 #import "LPSingleGraphOpinionsView.h"
-#import "LPPressFrame.h"
+#import "LPPress.h"
 #import "LPPointview.h"
 
 #define OpinionLineSpacing 4
@@ -28,6 +28,7 @@
 @property (nonatomic, strong) NSMutableArray *circleViews;
 @property (nonatomic, strong) NSMutableArray *verticalLines;
 @property (nonatomic, strong) NSMutableArray *dashLayers;
+@property (nonatomic, strong) NSArray *sublist;
 @end
 
 @implementation LPSingleGraphOpinionsView
@@ -79,15 +80,12 @@
             [self addSubview:opinionLabel];
             [self.opinionLabels addObject:opinionLabel];
             
-            UIImageView *circleView = [[UIImageView alloc] init];
-            circleView.image = [UIImage resizedImageWithName:@"蓝点"];
-            circleView.contentMode = UIViewContentModeScaleAspectFill;
-            // circleView.backgroundColor = [UIColor colorFromHexString:@"#50b5eb"];
+            UIView *circleView = [[UIView alloc] init];
+            circleView.layer.cornerRadius = CircleViewW / 2;
             [self addSubview:circleView];
             [self.circleViews addObject:circleView];
             
             UIView *verticalLine = [[UIView alloc] init];
-            verticalLine.backgroundColor = [UIColor colorFromHexString:@"#50b5eb"];
             [self addSubview:verticalLine];
             [self.verticalLines addObject:verticalLine];
         }
@@ -106,9 +104,12 @@
     [self.dashLayers addObject:dashLayer];
 }
 
-- (void)setSublist:(NSArray *)sublist
-{
-    _sublist = sublist;
+- (void)setPress:(LPPress *)press {
+
+    _press = press;
+    
+    NSArray *sublist = press.sublist;
+    self.sublist = sublist;
 
     if (!sublist || !sublist.count) {
         for (UILabel *label in self.opinionLabels) {
@@ -120,7 +121,7 @@
         for (CAShapeLayer *layer in self.dashLayers) {
             layer.hidden = YES;
         }
-        for (UIImageView *circle in self.circleViews) {
+        for (UIView *circle in self.circleViews) {
             circle.hidden = YES;
         }
         return;
@@ -174,10 +175,12 @@
         UIView *verticalLine = self.verticalLines[i];
         verticalLine.hidden = NO;
         CGFloat verticalLineH = opinionLabelH;
+        verticalLine.backgroundColor = [UIColor colorFromCategory:self.press.category];
         verticalLine.frame = CGRectMake(VerticalLineX, verticalLineY, VerticalLineW, verticalLineH);
         
-        UIImageView *circleView = self.circleViews[i];
+        UIView *circleView = self.circleViews[i];
         circleView.hidden = NO;
+        circleView.backgroundColor = [UIColor colorFromCategory:self.press.category];
         circleView.frame = CGRectMake(CircleViewX, circleViewY, CircleViewW, CircleViewH);
     }
     for (int j = 2; j >= i; j--) {
@@ -185,7 +188,7 @@
         label.hidden = YES;
         UIView *line = self.verticalLines[j];
         line.hidden = YES;
-        UIImageView *circle = self.circleViews[j];
+        UIView *circle = self.circleViews[j];
         circle.hidden = YES;
         CAShapeLayer *layer = self.dashLayers[j-1];
         layer.hidden = YES;

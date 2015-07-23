@@ -9,6 +9,7 @@
 #import "LPComposeViewController.h"
 #import "LPContent.h"
 #import "LPTextView.h"
+#import "MobClick.h"
 
 #define padding 10
 #define HeaderViewHeight 50
@@ -33,6 +34,18 @@
     [self setupTextView];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"ComposeViewController"];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"ComposeViewController"];
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -53,7 +66,7 @@
     headerView.y = 0;
     headerView.width = ScreenWidth;
     headerView.height = HeaderViewHeight;
-    headerView.backgroundColor = [UIColor colorFromCategory:self.category];
+    headerView.backgroundColor = self.color;
     
     UIButton *backBtn = [[UIButton alloc] init];
     backBtn.width = 60;

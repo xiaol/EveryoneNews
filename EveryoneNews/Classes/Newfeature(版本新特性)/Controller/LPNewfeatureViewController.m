@@ -9,8 +9,7 @@
 #import <ImageIO/ImageIO.h>
 
 #import "LPNewfeatureViewController.h"
-#import "MainNavigationController.h"
-#import "MainViewController.h"
+#import "LaunchViewController.h"
 
 #define GIFHeight 337
 #define GIFWidth 222
@@ -161,10 +160,11 @@
 
 - (void)startBtnClick
 {
-    MainViewController *mainVc = [[MainViewController alloc] init];
-    MainNavigationController *mainNavVc = [[MainNavigationController alloc] initWithRootViewController:mainVc];
+//    MainViewController *mainVc = [[MainViewController alloc] init];
+//    MainNavigationController *mainNavVc = [[MainNavigationController alloc] initWithRootViewController:mainVc];
     UIWindow *window = [UIApplication sharedApplication].keyWindow;
-    window.rootViewController = mainNavVc;
+    LaunchViewController *launchVc = [[LaunchViewController alloc] init];
+    window.rootViewController = launchVc;
 }
 
 #pragma mark - scroll view delegate

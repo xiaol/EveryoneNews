@@ -17,4 +17,5 @@
 @property (nonatomic, assign) NSUInteger ID;
 
 + (instancetype)categoryWithURL:(NSString *)url;
+
 @end
