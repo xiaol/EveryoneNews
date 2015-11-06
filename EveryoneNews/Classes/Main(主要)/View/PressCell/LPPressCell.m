@@ -31,48 +31,69 @@
 
 @implementation LPPressCell
 
-
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
+        self.backgroundColor = [UIColor whiteColor];
         
-
-            LPPhotoView *photoView = [[LPPhotoView alloc] init];
-            [self.contentView addSubview:photoView];
-            self.photoView = photoView;
-
-            LPSingleGraphTopView *topView = [[LPSingleGraphTopView alloc] init];
-            [self.contentView addSubview:topView];
-            self.singleGraphTopView = topView;
-            LPSingleGraphMidSeperaterView *seperaterView = [[LPSingleGraphMidSeperaterView alloc] init];
-            [self.contentView addSubview:seperaterView];
-            self.singleGraphSeparaterView = seperaterView;
-            LPSingleGraphOpinionsView *opinionsView = [[LPSingleGraphOpinionsView alloc] init];
-            [self.contentView addSubview:opinionsView];
-            self.singleGraphOpinionsView = opinionsView;
-
-//            LPMultiGraphTopView *topView = [[LPMultiGraphTopView alloc] init];
-//            [self.contentView addSubview:topView];
-//            self.multiGraphTopView = topView;
-//            
-//            LPMultiGraphOpinionsView *opinionsView = [[LPMultiGraphOpinionsView alloc] init];
-//            [self.contentView addSubview:opinionsView];
-//            self.multiGraphOpinionsView = opinionsView;
-
+        LPPhotoView *photoView = [[LPPhotoView alloc] init];
+        [self.contentView addSubview:photoView];
+        self.photoView = photoView;
+        
+        LPSingleGraphTopView *topView = [[LPSingleGraphTopView alloc] init];
+        [self.contentView addSubview:topView];
+        self.singleGraphTopView = topView;
+        LPSingleGraphMidSeperaterView *seperaterView = [[LPSingleGraphMidSeperaterView alloc] init];
+        [self.contentView addSubview:seperaterView];
+        self.singleGraphSeparaterView = seperaterView;
+        LPSingleGraphOpinionsView *opinionsView = [[LPSingleGraphOpinionsView alloc] init];
+        [self.contentView addSubview:opinionsView];
+        self.singleGraphOpinionsView = opinionsView;
     }
     return self;
 }
 
-+ (instancetype)cellWithTableView:(UITableView *)tableView
-{
-    static NSString *ID = @"press";
-    LPPressCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
-    if (cell == nil) {
-        cell = [[LPPressCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
-    }
-    return cell;
-}
+
+//- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+//{
+//    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+//    if (self) {
+//        
+//
+//            LPPhotoView *photoView = [[LPPhotoView alloc] init];
+//            [self.contentView addSubview:photoView];
+//            self.photoView = photoView;
+//
+//            LPSingleGraphTopView *topView = [[LPSingleGraphTopView alloc] init];
+//            [self.contentView addSubview:topView];
+//            self.singleGraphTopView = topView;
+//            LPSingleGraphMidSeperaterView *seperaterView = [[LPSingleGraphMidSeperaterView alloc] init];
+//            [self.contentView addSubview:seperaterView];
+//            self.singleGraphSeparaterView = seperaterView;
+//            LPSingleGraphOpinionsView *opinionsView = [[LPSingleGraphOpinionsView alloc] init];
+//            [self.contentView addSubview:opinionsView];
+//            self.singleGraphOpinionsView = opinionsView;
+//
+////            LPMultiGraphTopView *topView = [[LPMultiGraphTopView alloc] init];
+////            [self.contentView addSubview:topView];
+////            self.multiGraphTopView = topView;
+////            
+////            LPMultiGraphOpinionsView *opinionsView = [[LPMultiGraphOpinionsView alloc] init];
+////            [self.contentView addSubview:opinionsView];
+////            self.multiGraphOpinionsView = opinionsView;
+//
+//    }
+//    return self;
+//}
+//
+//+ (instancetype)cellWithTableView:(UITableView *)tableView
+//{
+//    static NSString *ID = @"press";
+//    LPPressCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+//    if (cell == nil) {
+//        cell = [[LPPressCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
+//    }
+//    return cell;
+//}
 
 - (void)setPressFrame:(LPPressFrame *)pressFrame
 {
@@ -109,19 +130,19 @@
     }
 }
 
-- (void)setFrame:(CGRect)frame
-{
-    frame.size.height -= CellHeightBorder;
-    [super setFrame:frame];
-}
-
--(void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    
-}
-
-- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
-{
-    
-}
+//- (void)setFrame:(CGRect)frame
+//{
+//    frame.size.height -= CellHeightBorder;
+//    [super setFrame:frame];
+//}
+//
+//-(void)setSelected:(BOOL)selected animated:(BOOL)animated
+//{
+//    
+//}
+//
+//- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
+//{
+//    
+//}
 @end

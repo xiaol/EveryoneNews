@@ -28,6 +28,12 @@
 @property (nonatomic, strong) NSNumber *index;
 @property (nonatomic, strong) UIColor *color;
 
+// 针对观点cell
+@property (nonatomic, assign) BOOL isOpinion;
+@property (nonatomic, copy) NSString *url;
+@property (nonatomic, copy) NSString *opinion;
+
+- (NSMutableAttributedString *)opinionString;
 - (LPComment *)displayingComment;
 - (NSMutableAttributedString *)bodyString;
 - (NSMutableAttributedString *)photoDescString;

@@ -11,51 +11,104 @@
 #import "UIImageView+WebCache.h"
 #import "LPNewfeatureViewController.h"
 #import "MobClick.h"
-#import <ShareSDK/ShareSDK.h>
-#import "WeiboSDK.h"
+//#import "WeiboSDK.h"
 #import "WXApi.h"
 #import "MainNavigationController.h"
 #import "MainViewController.h"
 #import "LaunchViewController.h"
+#import "AFNetworking.h"
+#import "MBProgressHUD+MJ.h"
+#import "AppDelegate+MOC.h"
+#import "CoreDataHelper.h"
+#import "UMSocial.h"
+#import "UMSocialQQHandler.h"
+#import "UMSocialWechatHandler.h"
+#import "UMSocialSinaHandler.h"
+#import "WXApiObject.h"
+
+////for mac
+//#include <sys/socket.h>
+//#include <sys/sysctl.h>
+//#include <net/if.h>
+//#include <net/if_dl.h>
+//
+////for idfa
+//#import <AdSupport/AdSupport.h>
 
 #define LaunchingDelay 4.5
-@interface AppDelegate ()
 
+
+
+NSString * const NetworkReachabilityDidChangeToReachableNotification = @"com.everyonenews.networkchangedtoreachable";
+
+@interface AppDelegate () <WXApiDelegate>
+@property (nonatomic, assign) AFNetworkReachabilityStatus networkStatus;
+//@property (nonatomic, strong) UIManagedDocument *document;
+//@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @end
 
 @implementation AppDelegate
 
+#define debug 0
+#pragma mark - core data helper
+// 获取CoreDataHelper实例
+- (CoreDataHelper*)cdh {
+    if (debug==1) {
+        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+    }
+    if (!_coreDataHelper) {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            _coreDataHelper = [[CoreDataHelper alloc] init];
+        });
+        [_coreDataHelper setupCoreData];
+    }
+    return _coreDataHelper;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    NSLog(@"%@", pasteboard.string);
+    NSLog(@"pasteboard : %@", pasteboard.string);
+    if (debug==1) {
+        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+    }
+
+    //  UMeng login & share
+    [UMSocialData setAppKey:@"558b2ec267e58e64a00009db"];
+    
+    //设置手机QQ 的AppId，Appkey，和分享URL，需要#import "UMSocialQQHandler.h"
+    [UMSocialQQHandler setQQWithAppId:@"987333155" appKey:@"558b2ec267e58e64a00009db" url:@"http://www.umeng.com/social"];
+    
+    //设置微信AppId、appSecret，分享url
+    [UMSocialWechatHandler setWXAppId:@"wxdc962221a58b59a5" appSecret:@"f60087313b3d5c42115d6bd0c89abfb6" url:@"http://www.umeng.com/social"];
+    
+    //    打开新浪微博的SSO开关，设置新浪微博回调地址，这里必须要和你在新浪微博后台设置的回调地址一致。若在新浪后台设置我们的回调地址，“http://sns.////whalecloud.com/sina2/callback”，这里可以传nil ,需要 #import "UMSocialSinaHandler.h"
+    
+    [UMSocialSinaHandler openSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
+
+    
+//    // 获得托管对象上下文
+//    self.document = [self createManagedDocument];
+//    self.managedObjectContext = [self createManagedObjectContextWithDocument:self.document];
     
     NSString *versionKey = (__bridge NSString *) kCFBundleVersionKey;
     NSString *lastVersion = [userDefaults objectForKey:versionKey];
     NSString *currentVersion = [NSBundle mainBundle].infoDictionary[versionKey];
     
-    /** sharesdk 登录和分享相关*/
-    [ShareSDK registerApp:@"838a81f341f0"];//字符串api20为您的ShareSDK的AppKey
-    [ShareSDK ssoEnabled:YES];
-    //    //添加新浪微博应用 注册网址 http://open.weibo.com
-    //    [ShareSDK connectSinaWeiboWithAppKey:@"104745354"
-    //                               appSecret:@"e0c793deeb71942132d76b985e3b45c4"
-    //                             redirectUri:@"http://sns.whalecloud.com/sina2/callback"];
-    //当使用新浪微博客户端分享的时候需要按照下面的方法来初始化新浪的平台 （注意：2个方法只用写其中一个就可以）
-    [ShareSDK connectSinaWeiboWithAppKey:@"104745354"
-                               appSecret:@"e0c793deeb71942132d76b985e3b45c4"
-                             redirectUri:@"http://sns.whalecloud.com/sina2/callback"];
-        weiboSDKCls:[WeiboSDK class];
-    //添加微信应用  http://open.weixin.qq.com
-    [ShareSDK connectWeChatWithAppId:@"wxc52863aa86154991"
-                           appSecret:@"9fdec381aa4cf819acdb17ebea64bd70"
-                           wechatCls:[WXApi class]];
-    
-    // 0. Umeng setup
+    // Mob statics
 #warning 发布时删除此句 setLogEnabled:
 //    [MobClick setLogEnabled:YES];
     [MobClick setVersion:currentVersion];
-    [MobClick startWithAppkey:@"558b2ec267e58e64a00009db" reportPolicy:BATCH channelId:@""];
+    [MobClick startWithAppkey:@"558b2ec267e58e64a00009db" reportPolicy:BATCH channelId:@"pb"];
+//#warning - umeng alternative channel
+//    NSString * appKey = @"558b2ec267e58e64a00009db";
+//    NSString * deviceName = [[[UIDevice currentDevice] name] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//    NSString * mac = [self macString];
+//    NSString * idfa = [self idfaString];
+//    NSString * idfv = [self idfvString];
+//    NSString * urlString = [NSString stringWithFormat:@"http://log.umtrack.com/ping/%@/?devicename=%@&mac=%@&idfa=%@&idfv=%@", appKey, deviceName, mac, idfa, idfv];
+//    [NSURLConnection connectionWithRequest:[NSURLRequest requestWithURL: [NSURL URLWithString:urlString]] delegate:nil];
+
     
     // 1. 注册APNs
 #if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1
@@ -81,27 +134,67 @@
     LaunchViewController *launchVc = [[LaunchViewController alloc] init];
     
     //3. 设置根控制器
-    if (userInfo[LPPushNotificationURL]) { // 如有推送 迅速处理推送
+    if (!iPhone4 && !iPhone5 && !iPhone6 && !iPhone6Plus) {
         MainViewController *mainVc = [[MainViewController alloc] init];
         MainNavigationController *mainNavVc = [[MainNavigationController alloc] initWithRootViewController:mainVc];
         self.window.rootViewController = mainNavVc;
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.9 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [noteCenter postNotificationName:LPPushNotificationFromLaunching object:self userInfo:userInfo];
-        });
     } else {
-        if ([currentVersion isEqualToString:lastVersion]) { // 版本未更新
-            self.window.rootViewController = launchVc;
-        }else { // 版本更新
-            self.window.rootViewController = [[LPNewfeatureViewController alloc] init];
-            [userDefaults setObject:currentVersion forKey:versionKey];
-            [userDefaults synchronize];
+        if (userInfo[LPPushNotificationURL]) { // 如有推送 迅速处理推送
+            MainViewController *mainVc = [[MainViewController alloc] init];
+            MainNavigationController *mainNavVc = [[MainNavigationController alloc] initWithRootViewController:mainVc];
+            self.window.rootViewController = mainNavVc;
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.9 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [noteCenter postNotificationName:LPPushNotificationFromLaunching object:self userInfo:userInfo];
+            });
+        } else {
+//            if ([currentVersion isEqualToString:lastVersion]) { // 版本未更新
+//                self.window.rootViewController = launchVc;
+                MainViewController *mainVc = [[MainViewController alloc] init];
+                MainNavigationController *mainNavVc = [[MainNavigationController alloc] initWithRootViewController:mainVc];
+                self.window.rootViewController = mainNavVc;
+//            }else { // 版本更新
+//                self.window.rootViewController = [[LPNewfeatureViewController alloc] init];
+//                [userDefaults setObject:currentVersion forKey:versionKey];
+//                [userDefaults synchronize];
+//            }
         }
     }
     
     // 4. 显示窗口（成为主窗口）
     [self.window makeKeyAndVisible];
     
+    // 5. 监控网络状态
+    AFNetworkReachabilityManager *mgr = [AFNetworkReachabilityManager sharedManager];
+    [mgr setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            _networkStatus = status;
+        });
+        switch (status) {
+            case AFNetworkReachabilityStatusNotReachable:
+                [MBProgressHUD showError:@"网络连接中断"];
+                break;
+            case AFNetworkReachabilityStatusReachableViaWiFi:
+                NSLog(@"wifi连接");
+                break;
+            default:
+                break;
+        }
+    }];
+    [noteCenter addObserver:self selector:@selector(networkChange:) name:AFNetworkingReachabilityDidChangeNotification object:nil];
+    [mgr startMonitoring];
     return YES;
+}
+
+- (void)networkChange:(NSNotification *)note {
+    NSDictionary *info = note.userInfo;
+    NSNumber *changeItem = info[AFNetworkingReachabilityNotificationStatusItem];
+    AFNetworkReachabilityStatus changedStatus = [changeItem integerValue];
+    // 根据先前状态_networkStatus和当前状态changedStatus 发送通知
+    if (_networkStatus <= 0 && changedStatus > 0) {
+        [noteCenter postNotificationName:NetworkReachabilityDidChangeToReachableNotification object:nil];
+    }
+    _networkStatus = changedStatus;
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
@@ -141,8 +234,9 @@
 - (BOOL)application:(UIApplication *)application
       handleOpenURL:(NSURL *)url
 {
-    return [ShareSDK handleOpenURL:url
-                        wxDelegate:self];
+//    return [ShareSDK handleOpenURL:url
+//                        wxDelegate:nil];
+    return [UMSocialSnsService handleOpenURL:url];
 }
 /**sharesdk 登录和分享 需要*/
 - (BOOL)application:(UIApplication *)application
@@ -150,11 +244,40 @@
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation
 {
-    return [ShareSDK handleOpenURL:url
-                 sourceApplication:sourceApplication
-                        annotation:annotation
-                        wxDelegate:self];
+//    return [ShareSDK handleOpenURL:url
+//                 sourceApplication:sourceApplication
+//                        annotation:annotation
+//                        wxDelegate:nil];
+    return [UMSocialSnsService handleOpenURL:url];
 }
 
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    if (debug==1) {
+        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+    }
+    [[self cdh] saveBackgroundContext];
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application {
+    if (debug==1) {
+        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+    }
+    [[self cdh] saveBackgroundContext];
+}
+
+- (void)applicationWillEnterForeground:(UIApplication *)application
+{
+    if (debug==1) {
+        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+    }
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+    if (debug==1) {
+        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+    }
+    [self cdh];
+}
 
 @end

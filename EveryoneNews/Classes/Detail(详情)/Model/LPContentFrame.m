@@ -17,7 +17,8 @@
 {
     _content = content;
     
-    if (!self.content.isPhoto) { // 普通类型
+
+    if (!self.content.isPhoto) { // 普通类型(非图)
         CGFloat bodyX = BodyPadding;
         CGFloat bodyY = BodyPadding;
         CGFloat bodyW = DetailCellWidth - 2 * BodyPadding;
@@ -26,6 +27,50 @@
         _bodyLabelF = CGRectMake(bodyX, bodyY, bodyW, bodyH);
         
         _cellHeight = CGRectGetMaxY(_bodyLabelF) + BodyPadding;
+        
+        if (content.isOpinion) {
+            NSMutableAttributedString *opinionStr = content.opinionString;
+            
+            CGFloat supplementX = 0;
+            CGFloat supplementY = CGRectGetMaxY(_bodyLabelF) + BodyPadding + 5;
+            CGFloat supplementW = DetailCellWidth;
+            
+            CGFloat dividerX = BodyPadding;
+            CGFloat dividerY = 0;
+            CGFloat dividerW = DetailCellWidth - 2 * BodyPadding;
+            CGFloat dividerH = 1;
+            _dividerViewF = CGRectMake(dividerX, dividerY, dividerW, dividerH);
+            
+            CGFloat arrowX = CGRectGetMinX(_dividerViewF) + BodyPadding;
+            CGFloat arrowY = CGRectGetMaxY(_dividerViewF) - 0.5;
+            CGFloat arrowW = 16;
+            CGFloat arrowH = 8;
+            _arrowViewF = CGRectMake(arrowX, arrowY, arrowW, arrowH);
+            
+            CGFloat pointerW = 8;
+            CGFloat pointerH = 14;
+            CGFloat pointerX = DetailCellWidth - BodyPadding - pointerW;
+            CGFloat pointerY = BodyPadding + 4;
+            _pointerViewF = CGRectMake(pointerX, pointerY, pointerW, pointerH);
+            
+            CGFloat iconH = 18;
+            CGFloat iconW = iconH;
+            CGFloat iconY = CGRectGetMidY(_pointerViewF) - iconH / 2;
+            CGFloat iconX = CGRectGetMidX(_arrowViewF) - iconW / 2;
+            _iconViewF = CGRectMake(iconX, iconY, iconW, iconH);
+            
+            CGFloat urlX = CGRectGetMaxX(_iconViewF) + BodyPadding;
+            CGFloat urlW = CGRectGetMinX(_pointerViewF) - urlX - BodyPadding;
+            CGFloat urlH = [opinionStr heightWithConstraintWidth:urlW];
+            CGFloat urlY = CGRectGetMidY(_iconViewF) - (opinionStr.lineHeight - 3) / 2;
+            _sourceViewF = CGRectMake(urlX, urlY, urlW, urlH);
+            
+            CGFloat supplementH = MAX(CGRectGetMaxY(_sourceViewF), CGRectGetMaxY(_iconViewF)) + BodyPadding;
+            _supplementViewF = CGRectMake(supplementX, supplementY, supplementW, supplementH);
+            
+            _cellHeight = CGRectGetMaxY(_supplementViewF) + DetailCellHeightBorder;
+            return;
+        }
         
         
         if (!self.content.isAbstract) {

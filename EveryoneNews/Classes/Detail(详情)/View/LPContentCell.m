@@ -10,6 +10,7 @@
 #import "LPCommentView.h"
 #import "LPContentFrame.h"
 #import "LPContent.h"
+#import "LPSupplementView.h"
 #import "UIImageView+WebCache.h"
 
 @interface LPContentCell()
@@ -18,9 +19,20 @@
 // 图片类型
 @property (nonatomic, strong) UIImageView *photoView;
 @property (nonatomic, strong) UILabel *photoLabel;
+
+@property (nonatomic, strong) LPSupplementView *supplementView;
 @end
 
 @implementation LPContentCell
+
++ (instancetype)cellWithTableView:(UITableView *)tableView identifier:(NSInteger)identifier {
+    NSString *ID = [NSString stringWithFormat:@"content%ld", identifier];
+    LPContentCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+    if (cell == nil) {
+        cell = [[LPContentCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
+    }
+    return cell;
+}
 
 + (instancetype)cellWithTableView:(UITableView *)tableView
 {
@@ -37,8 +49,11 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
+        self.layer.shouldRasterize = YES;
+        self.layer.rasterizationScale = [UIScreen mainScreen].scale;
         
         UILabel *bodyLabel = [[UILabel alloc] init];
+        bodyLabel.userInteractionEnabled = YES;
         bodyLabel.lineBreakMode = NSLineBreakByCharWrapping;
         bodyLabel.numberOfLines = 0;
         [self.contentView addSubview:bodyLabel];
@@ -60,6 +75,11 @@
         photoLabel.lineBreakMode = NSLineBreakByCharWrapping;
         [self.contentView addSubview:photoLabel];
         self.photoLabel = photoLabel;
+        
+        LPSupplementView *supplementView = [[LPSupplementView alloc] init];
+        [self.contentView addSubview:supplementView];
+        self.supplementView = supplementView;
+        [supplementView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOpinion)]];
     }
     return self;
 }
@@ -69,15 +89,25 @@
     _contentFrame = contentFrame;
     LPContent *content = contentFrame.content;
     
-    if (!content.isPhoto) {
+    if (!content.isPhoto) { // 非图
         self.bodyLabel.hidden = NO;
         self.photoView.hidden = YES;
         self.photoLabel.hidden = YES;
-        self.commentView.hidden = NO;
+        self.commentView.hidden = content.isOpinion || content.isAbstract;
+        self.supplementView.hidden = !content.isOpinion;
         
         self.bodyLabel.frame = self.contentFrame.bodyLabelF;
         self.bodyLabel.attributedText = content.bodyString;
-    } else {
+        if (!self.commentView.hidden) {
+            [self setupCommentView];
+        }
+        if (!self.supplementView.hidden) {
+            self.supplementView.frame = self.contentFrame.supplementViewF;
+            self.supplementView.contentFrame = self.contentFrame;
+        }
+    } else { // 图文类型
+        self.supplementView.hidden = YES;
+        
         self.bodyLabel.hidden = YES;
         self.photoView.hidden = NO;
         self.photoView.frame = self.contentFrame.photoViewF;
@@ -90,15 +120,14 @@
             self.photoLabel.hidden = NO;
             self.photoLabel.frame = self.contentFrame.photoDescViewF;
             self.photoLabel.attributedText = content.photoDescString;
+            [self setupCommentView];
         }
     }
-    if (!content.isAbstract || (content.isPhoto && content.photoDesc.length)) {
-        self.commentView.hidden = NO;
-        self.commentView.frame = self.contentFrame.commentViewF;
-        self.commentView.contentFrame = self.contentFrame;
-    } else {
-        self.commentView.hidden = YES;
-    }
+}
+
+- (void)setupCommentView {
+    self.commentView.frame = self.contentFrame.commentViewF;
+    self.commentView.contentFrame = self.contentFrame;
 }
 
 - (void)setFrame:(CGRect)frame
@@ -124,6 +153,15 @@
     if (self.contentFrame.content.hasComment) {
         if ([self.delegate respondsToSelector:@selector(contentCellDidClickCommentView:)]) {
             [self.delegate contentCellDidClickCommentView:self];
+        }
+    }
+}
+
+- (void)tapOpinion {
+    LPContent *content = self.contentFrame.content;
+    if (content.url) {
+        if ([self.delegate respondsToSelector:@selector(contentCell:didVisitOpinionURL:)]) {
+            [self.delegate contentCell:self didVisitOpinionURL:content.url];
         }
     }
 }

@@ -11,7 +11,7 @@
 #import "AccountTool.h"
 #import "UIImageView+WebCache.h"
 #import "CategoryView.h"
-#import "MobClick.h"
+#import "LPTagCloudView.h"
 #import "LPPressTool.h"
 #import "LPCategory.h"
 #import "LPPressFrame.h"
@@ -24,23 +24,33 @@
 #import "LPConcernCell.h"
 #import "LPHttpTool.h"
 #import "ConcernViewController.h"
+#import "LPFeaturedViewController.h"
+#import "LPSpringLayout.h"
+#import "LPDigViewController.h"
+#import "GenieTransition.h"
+#import "MainNavigationController.h"
+#import "DigButton.h"
+#import "AppDelegate.h"
 
 typedef void (^completionBlock)();
 
-#define ConcernCellReuseIdentifier @"concernCell"
 
-@interface MainViewController () <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
+NSString * const HomeCellReuseIdentifier = @"homeCell";
+NSString * const ConcernCellReuseIdentifier = @"concernCell";
+const NSInteger HotwordPageCapacity = 8;
+NSString * const HotwordsURL = @"http://api.deeporiginalx.com/news/baijia/fetchElementary";
+
+@interface MainViewController ()  <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, LPTagCloudViewDelegate>
 
 //自定义的顶部导航
 @property (nonatomic,strong) LPTabBar *customTabBar;
 //主界面右下角的登录按钮
 @property (nonatomic,strong) UIButton *loginBtn;
+@property (nonatomic, strong) UIButton *digBtn;
 //所有内容展示的ScrollView
 @property (nonatomic,strong) UIScrollView *containerView;
 //左边分类对应的ScrollView
-//@property (nonatomic,strong) CategoryView *categoryView;
-//右边展示内容的TableView
-@property (nonatomic,strong) UITableView *tableView;
+@property (nonatomic, strong) UICollectionView *homeView;
 @property (nonatomic, assign) NSUInteger timeRow;
 @property (nonatomic, assign) NSUInteger anyDisplayingCellRow;
 @property (nonatomic, assign) BOOL isScrolled;
@@ -51,45 +61,78 @@ typedef void (^completionBlock)();
 
 @property (nonatomic, strong) UICollectionView *concernView;
 //@property (nonatomic, strong) UIActivityIndicatorView *waitingIndicator;
-@property (nonatomic, strong) NSArray *concerns;
+@property (nonatomic, strong) NSMutableArray *concerns;
 
 @property (nonatomic, strong) NSMutableSet *shimmeringOffIndexes;
+
+@property (nonatomic, strong) LPTagCloudView *tagCloudView;
+
+
+@property (nonatomic, strong) NSMutableArray *digTags;
+
+@property (nonatomic, copy) NSString *pasteURL;
+
+@property (nonatomic, weak) LPDigViewController *digVc;
 @end
 
 @implementation MainViewController
-
-
-- (BOOL)prefersStatusBarHidden
-{
-    return YES;
-}
 
 #pragma mark - life cycle
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupContainerScrollerView];
     [self setupConcernView];
-    [self setupTableView];
+    [self setupHomeView];
     [self setupTabBar];
     [self setupLoginButton];
+    [self setupDigButton];
     [self setupDataWithCategory:[LPCategory categoryWithURL:HomeUrl] completion:nil];
     [self setupConcernData];
     [self setupNoteObserver];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"MainViewController"];
 }
 
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"MainViewController"];
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+}
+
+- (void)setupDigButton {
+    DigButton *btn = [[DigButton alloc] init];
+    [self.view addSubview:btn];
+    btn.x = DigButtonPadding;
+    btn.y = ScreenHeight - DigButtonPadding - DigButtonHeight;
+    btn.width = DigButtonWidth;
+    btn.height = DigButtonHeight;
+    btn.layer.cornerRadius = btn.width / 2;
+    [btn addTarget:self action:@selector(modalDigger) forControlEvents:UIControlEventTouchUpInside];
+    self.digBtn = btn;
+}
+
+- (void)modalDigger {
+    LPDigViewController *diggerVc = [[LPDigViewController alloc] init];
+//    diggerVc.hotwords = self.digTags;
+    diggerVc.presented = YES;
+    self.digVc = diggerVc;
+//    diggerVc.pasteURL = self.pasteURL;
+    MainNavigationController *nav = [[MainNavigationController alloc] initWithRootViewController:diggerVc];
+//    _genieTransition = [[GenieTransition alloc] initWithToViewController:nav];
+    self.genieTransition = [[GenieTransition alloc] init];
+    nav.transitioningDelegate = self.genieTransition;
+    nav.modalPresentationStyle = UIModalPresentationCustom;
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
 #pragma mark - lazy loading
+- (NSMutableArray *)digTags {
+    if (_digTags == nil) {
+        _digTags = [NSMutableArray array];
+    }
+    return _digTags;
+}
+
 - (NSMutableArray *)pressFrames
 {
     if (_pressFrames == nil) {
@@ -98,10 +141,10 @@ typedef void (^completionBlock)();
     return _pressFrames;
 }
 
-- (NSArray *)concerns
+- (NSMutableArray *)concerns
 {
     if (_concerns == nil) {
-        _concerns = [NSArray array];
+        _concerns = [NSMutableArray array];
     }
     return _concerns;
 }
@@ -125,38 +168,46 @@ typedef void (^completionBlock)();
     self.containerView.backgroundColor = [UIColor colorFromHexString:@"#ebeded"];
     self.containerView.contentOffset = CGPointMake(ScreenWidth, 0);
     self.containerView.delegate = self;
+    self.containerView.userInteractionEnabled = NO;
     [self.view addSubview:self.containerView];
 }
 
 - (void)setupConcernView{
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.itemSize = CGSizeMake(ScreenWidth, ScreenWidth * 6 / 25);
-    layout.sectionInset = UIEdgeInsetsMake(TabBarHeight, 0, 0, 0);
-    layout.minimumInteritemSpacing = 0;
-    layout.minimumLineSpacing = - 0.5;
-    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    UICollectionView *concernView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
-    [concernView registerClass:[LPConcernCell class] forCellWithReuseIdentifier:ConcernCellReuseIdentifier];
-     concernView.backgroundColor = [UIColor clearColor];
 
-    concernView.dataSource = self;
-    concernView.delegate = self;
-    [self.containerView addSubview:concernView];
-    self.concernView = concernView;
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.minimumLineSpacing = -0.5;
+    //    layout.springDamping = 0.75;
+    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+    layout.sectionInset = UIEdgeInsetsMake(TabBarHeight, 0, 0, 0);
+    
+    UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:self.view.bounds collectionViewLayout:layout];
+    collectionView.backgroundColor = [UIColor clearColor];
+    [collectionView registerClass:[LPConcernCell class] forCellWithReuseIdentifier:ConcernCellReuseIdentifier];
+    collectionView.dataSource = self;
+    collectionView.delegate = self;
+//    collectionView.bounces = NO;
+    [self.containerView addSubview:collectionView];
+    self.concernView = collectionView;
 }
 
-- (void)setupTableView{
-    self.tableView  = [[UITableView alloc] init];
-    self.tableView.x = ScreenWidth;
-    self.tableView.y = 0;
-    self.tableView.width = ScreenWidth;
-    self.tableView.height = ScreenHeight;
-    self.tableView.contentInset = UIEdgeInsetsMake(TabBarHeight, 0, 0, 0);
-    self.tableView.backgroundColor = [UIColor clearColor];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    [self.containerView addSubview:self.tableView];
+- (void)setupHomeView{
+    
+//    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+//    layout.minimumLineSpacing = CellHeightBorder;
+//    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+    
+    LPSpringLayout *layout = [[LPSpringLayout alloc] init];
+    layout.minimumLineSpacing = CellHeightBorder;
+    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+    layout.sectionInset = UIEdgeInsetsMake(TabBarHeight, 0, 0, 0);
+    UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(ScreenWidth, 0, ScreenWidth, ScreenHeight) collectionViewLayout:layout];
+    collectionView.backgroundColor = [UIColor clearColor];
+    [collectionView registerClass:[LPPressCell class] forCellWithReuseIdentifier:HomeCellReuseIdentifier];
+    collectionView.dataSource = self;
+    collectionView.delegate = self;
+    collectionView.decelerationRate = 0.7;
+    [self.containerView addSubview:collectionView];
+    self.homeView = collectionView;
     
     // 菊花
     sharedIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
@@ -196,24 +247,25 @@ typedef void (^completionBlock)();
     self.loginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     //如果用户已经登录则在右下角显示用户图像
     Account *account = [AccountTool account];
-    if (account == nil) {
-        [self.loginBtn setBackgroundImage:[UIImage imageNamed:@"登录icon"] forState:UIControlStateNormal];
+    if (self.userIcon) {
+        [self.loginBtn setBackgroundImage:self.userIcon forState:UIControlStateNormal];
     } else {
-        [self displayLoginBtnIconWithAccount:account];
+        if (account == nil) {
+            [self.loginBtn setBackgroundImage:[UIImage imageNamed:@"登录icon"] forState:UIControlStateNormal];
+        } else {
+            [self displayLoginBtnIconWithAccount:account];
+        }
     }
-    
-    CGFloat loginBtnWidth = 35;
-    CGFloat loginBtnHeight = 35;
+
+    CGFloat loginBtnWidth = 34;
+    CGFloat loginBtnHeight = 34;
     if (iPhone6Plus){
-        loginBtnWidth += 1;
-        loginBtnHeight += 1;
+        loginBtnWidth += 2;
+        loginBtnHeight += 2;
     }
-    CGFloat loginBtnX = ScreenWidth - 20 - loginBtnWidth;
-    CGFloat loginBtnY = ScreenHeight - 20 - loginBtnHeight;
-    if (iPhone6Plus) {
-        loginBtnX -= 1;
-        loginBtnY -= 1;
-    }
+    CGFloat loginBtnX = ScreenWidth - 15 - loginBtnWidth;
+    CGFloat loginBtnY = ScreenHeight - 15 - loginBtnHeight;
+
     self.loginBtn.frame = CGRectMake(loginBtnX, loginBtnY, loginBtnWidth, loginBtnHeight);
     self.loginBtn.layer.cornerRadius = self.loginBtn.frame.size.height / 2;
     self.loginBtn.layer.borderWidth = 1.5;
@@ -223,15 +275,13 @@ typedef void (^completionBlock)();
     self.loginBtn.layer.shadowRadius = 1;
     self.loginBtn.layer.shadowColor = [UIColor whiteColor].CGColor;
     self.loginBtn.layer.shadowOffset = CGSizeMake(0, 0);
-    self.loginBtn.layer.shadowOpacity = 0.75;
-//    self.loginBtn.layer.masksToBounds = YES;
-//    UIBezierPath *path = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(- shadowRadius, - shadowRadius, loginBtnWidth + 2 * shadowRadius, loginBtnHeight + 2 * shadowRadius)];
-//    self.loginBtn.layer.shadowPath = path.CGPath;
+    self.loginBtn.layer.shadowOpacity = 0.8;
     [self.loginBtn addTarget:self action:@selector(userLogin:) forControlEvents:UIControlEventTouchUpInside];
     
     UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panLoginView:)];
     [self.loginBtn addGestureRecognizer:pan];
     [self.view addSubview:self.loginBtn];
+    self.loginBtn.hidden = YES;
 }
 
 - (void)panLoginView:(UIPanGestureRecognizer *)pan
@@ -295,6 +345,14 @@ typedef void (^completionBlock)();
     [noteCenter addObserver:self selector:@selector(accountLogin:) name:AccountLoginNotification  object:nil];
     [noteCenter addObserver:self selector:@selector(commentSuccess) name:LPCommentDidComposeSuccessNotification object:nil];
     [noteCenter addObserver:self selector:@selector(loadWebWithNote:) name:LPWebViewWillLoadNotification object:nil];
+    [noteCenter addObserverForName:NetworkReachabilityDidChangeToReachableNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+        if (!self.pressFrames.count) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self setupDataWithCategory:[LPCategory categoryWithURL:HomeUrl] completion:nil];
+                [self setupConcernData];
+            });
+        }
+    }];
 }
 
 #pragma mark - setup tabbar index
@@ -316,12 +374,17 @@ typedef void (^completionBlock)();
  */
 - (void)displayLoginBtnIconWithAccount:(Account *)account
 {
-    UIImageView *imageView = [[UIImageView alloc] init];
     __weak typeof(self) weakSelf = self;
-    [imageView sd_setImageWithURL:[NSURL URLWithString:account.userIcon] placeholderImage:[UIImage imageNamed:@"登录icon"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-        if (!error) {
-            UIImage *icon = [imageView.image circleImage];
-            [weakSelf.loginBtn setBackgroundImage:icon forState:UIControlStateNormal];
+//    [imageView sd_setImageWithURL:[NSURL URLWithString:account.userIcon] placeholderImage:[UIImage imageNamed:@"登录icon"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+//        if (!error) {
+//            UIImage *icon = [UIImage circleImageWithImage:image];
+//            [weakSelf.loginBtn setBackgroundImage:icon forState:UIControlStateNormal];
+//        }
+//    }];
+    
+    [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:account.userIcon] options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+        if (image && finished) {
+            [weakSelf.loginBtn setBackgroundImage:[UIImage circleImageWithImage:image] forState:UIControlStateNormal];
         }
     }];
 }
@@ -335,13 +398,50 @@ typedef void (^completionBlock)();
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"退出登录" message:@"退出登录后无法进行评论哦" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
         [alert show];
     }else{
-        [AccountTool accountLoginWithViewController:self success:^{
-            NSLog(@"---授权成功");
-            [MBProgressHUD showSuccess:@"登录成功"];
-            [self displayLoginBtnIconWithAccount:[AccountTool account]];
+        [AccountTool accountLoginWithViewController:self success:^(Account *account) {
+            if ([account.platformType isEqualToString:@"sina"]) {
+                self.containerView.userInteractionEnabled = NO;
+                NSMutableDictionary *params = [NSMutableDictionary dictionary];
+                params[@"userId"] = account.userId;
+                params[@"token"] = account.token;
+                params[@"platformType"] = @"sina";
+                NSString *url = [NSString stringWithFormat:@"%@/news/baijia/fetchTags", ServerUrl];
+                [LPHttpTool getWithURL:url params:params success:^(id json) {
+                    NSArray *tags = json[@"tags"];
+                    if (!tags || !tags.count) {
+                        [MBProgressHUD showSuccess:@"登录成功"];
+                        self.containerView.userInteractionEnabled = YES;
+                    } else {
+                        LPTagCloudView *tagCloudView = [[LPTagCloudView alloc] init];
+                        tagCloudView.delegate = self;
+                        tagCloudView.alpha = 0;
+                        [self.view addSubview:tagCloudView];
+                        [self.view bringSubviewToFront:tagCloudView];
+                        tagCloudView.frame = self.view.bounds;
+                        tagCloudView.backgroundColor = [UIColor colorFromHexString:@"000000" alpha:0.95];
+                        tagCloudView.pageCapacity = 8;
+                        tagCloudView.tags = tags;
+                
+                        self.tagCloudView = tagCloudView;
+                        [UIView animateWithDuration:0.5 animations:^{
+                                    tagCloudView.alpha = 1.0;
+                            } completion:^(BOOL finished) {
+                                    self.containerView.userInteractionEnabled = YES;
+                        }];
+                    }
+                } failure:^(NSError *error) {
+                    self.containerView.userInteractionEnabled = YES;
+                    NSLog(@"error");
+                }];
+            } else {
+                NSLog(@"platform type : %@", account.platformType);
+                [MBProgressHUD showSuccess:@"登录成功"];
+            }
         } failure:^{
             [MBProgressHUD showError:@"登录失败"];
-        } cancel:nil];
+        } cancel:^{
+            
+        }];
     }
 }
 
@@ -358,70 +458,119 @@ typedef void (^completionBlock)();
     }
 }
 
+#pragma mark - tag cloud view delegate
+- (void)tagCloudViewDidClickStartButton:(LPTagCloudView *)tagCloudView {
+    [UIView animateWithDuration:0.8 animations:^{
+        self.tagCloudView.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        self.containerView.userInteractionEnabled = YES;
+        [self.tagCloudView removeFromSuperview];
+    }];
+}
 #pragma mark - setup home data with JPush remote notification block
 - (void)setupDataWithCategory:(LPCategory *)category completion:(completionBlock)block {
     sharedIndicator.hidden = NO;
     [sharedIndicator startAnimating];
-    self.tableView.hidden = YES;
+    self.homeView.hidden = YES;
     // 清空数据
     [self.pressFrames removeAllObjects];
     __weak typeof(self) weakSelf = self;
     [LPPressTool homePressesWithCategory:category success:^(id json) {
-        NSMutableArray *pressFrameArray = [NSMutableArray array];
+//        NSMutableArray *pressFrameArray = [NSMutableArray array];
         // 字典转模型
         for (NSDictionary *dict in (NSArray *)json) {
             LPPress *press = [LPPress objectWithKeyValues:dict];
             if (press.special.intValue != 9) {
                 LPPressFrame *pressFrame = [[LPPressFrame alloc] init];
                 pressFrame.press = press;
-                [pressFrameArray addObject:pressFrame];
+                [self.pressFrames addObject:pressFrame];
             }
         }
-        if (pressFrameArray.count == 0) {
+        if (self.pressFrames.count == 0) {
             return;
         }
         // 插入时间栏
         int i = 0;
-        for (; i < pressFrameArray.count; i++) {
-            LPPressFrame *pressFrame = pressFrameArray[i];
+        for (; i < self.pressFrames.count; i++) {
+            LPPressFrame *pressFrame = self.pressFrames[i];
             LPPress *press = pressFrame.press;
             if (press.special.integerValue == 400) {
                 break;
             }
         }
-        if (i == pressFrameArray.count) {
+        if (i == self.pressFrames.count) {
             i = 0;
         }
         weakSelf.timeRow = MAX(i - 1, 0);
         weakSelf.anyDisplayingCellRow = i;
-
-        //        LPPressFrame *pressFrame = [LPPressFrame pressFrameWithTimeCell];
-        //        [pressFrameArray insertObject:nil atIndex:self.timeRow];
+        
         // 模型数组属性的赋值
-        self.pressFrames = pressFrameArray;
-        [weakSelf.tableView reloadData];
+//        self.pressFrames = pressFrameArray;
+        LPSpringLayout *layout = (LPSpringLayout *)weakSelf.homeView.collectionViewLayout;
+        layout.springinessEnabled = YES;
+        [layout reset];
+        [weakSelf.homeView reloadData];
+        self.containerView.userInteractionEnabled = YES;
+        self.loginBtn.hidden = NO;
+        self.digBtn.hidden = NO;
         if (block) {
             block();
+//            [weakSelf setupHotword];
         } else {
-            [weakSelf.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:weakSelf.timeRow inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
-            weakSelf.isScrolled = NO;
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                self.tableView.hidden = NO;
+//            [weakSelf setupHotword];
+            
+            CGPoint initialOffset = CGPointMake(0, weakSelf.timeRow * (PhotoCellHeight + CellHeightBorder));
+            [weakSelf.homeView setContentOffset:initialOffset animated:NO];
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                self.homeView.hidden = NO;
+                [sharedIndicator stopAnimating];
             });
         }
-        [sharedIndicator stopAnimating];
+
     } failure:^(NSError *error) {
         [sharedIndicator stopAnimating];
+        self.containerView.userInteractionEnabled = YES;
         [MBProgressHUD showError:@"网络不给力 :(" toView:self.view];
     }];
 }
 
+#pragma mark - hotwords initialize
+- (void)setupHotword {
+    // 加载挖掘机热词
+    [LPHttpTool postWithURL:HotwordsURL params:nil success:^(id json) {
+        NSArray *jsonArray = (NSArray *)json;
+        
+        NSInteger majority = [jsonArray count] / HotwordPageCapacity * HotwordPageCapacity;
+        NSInteger residual = [jsonArray count] - majority;
+        NSInteger count = majority + (residual == 7 ? residual : 0);
+        NSMutableArray *tags = [NSMutableArray array];
+        for (int i = 0; i < count; i++) {
+            NSDictionary *dict = jsonArray[i];
+            NSString *title = dict[@"title"];
+            [tags addObject:title];
+        }
+        self.digTags = tags;
+    } failure:^(NSError *error) {
+        
+    }];
+}
+
+
 #pragma mark - setup concern view data
 - (void)setupConcernData
 {
+    [self.concerns  removeAllObjects];
     NSString *url = [NSString stringWithFormat:@"%@%@", ServerUrl, ConcernsUrl];
     [LPHttpTool getWithURL:url params:nil success:^(id json) {
-        self.concerns = [LPConcern objectArrayWithKeyValuesArray:json];
+        NSArray *concerns = [LPConcern objectArrayWithKeyValuesArray:json];
+        __block NSMutableArray *concernArray = [NSMutableArray arrayWithArray:concerns];
+        [concernArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            LPConcern *concern = (LPConcern *)obj;
+            if ([concern.channel_name isEqualToString:@"谷歌今日焦点"]) {
+                [concernArray removeObject:concern];
+            }
+            self.concerns = concernArray;
+        }];
         [self.concernView reloadData];
     } failure:^(NSError *error) {
         
@@ -434,94 +583,93 @@ typedef void (^completionBlock)();
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.concerns.count - 1;
+    if (collectionView == self.homeView) {
+        return self.pressFrames.count;
+    } else {
+        return self.concerns.count;
+    }
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    __block LPConcernCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ConcernCellReuseIdentifier forIndexPath:indexPath];
-    
-    cell.concern = self.concerns[indexPath.item];
-    
-    [self.shimmeringOffIndexes enumerateObjectsUsingBlock:^(NSIndexPath *eIndexPath, BOOL *stop) {
-        if (eIndexPath.row == indexPath.row) {
-            cell.shimmering = NO;
-        }
-    }];
-    
-    return cell;
+    if (collectionView == self.homeView) {
+        LPPressCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:HomeCellReuseIdentifier forIndexPath:indexPath];
+        cell.pressFrame = self.pressFrames[indexPath.item];
+        return cell;
+    } else {
+        LPConcernCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ConcernCellReuseIdentifier forIndexPath:indexPath];
+        
+        cell.concern = self.concerns[indexPath.row];
+        
+        [self.shimmeringOffIndexes enumerateObjectsUsingBlock:^(NSIndexPath *eIndexPath, BOOL *stop) {
+            if (eIndexPath.item == indexPath.item) {
+                cell.shimmering = NO;
+            }
+        }];
+        
+        return cell;
+    }
 }
 
 #pragma mark - Collection view delegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    ConcernViewController *concernVc = [[ConcernViewController alloc] init];
-    concernVc.concern = self.concerns[indexPath.item];
-    LPConcernCell *cell = (LPConcernCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    cell.shimmering = NO;
-    [self.shimmeringOffIndexes addObject:indexPath];
-    [self.navigationController pushViewController:concernVc animated:YES];
+    if (collectionView == self.homeView) {
+        self.selectedRow = indexPath.row;
+        LPPressFrame *pressFrame = self.pressFrames[indexPath.row];
+        LPPress *press = pressFrame.press;
+        LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
+        detailVc.isConcernDetail = NO;
+        detailVc.press = press;
+        [self.navigationController pushViewController:detailVc animated:YES];
+    } else {
+        ConcernViewController *concernVc = [[ConcernViewController alloc] init];
+        concernVc.concern = self.concerns[indexPath.item];
+        LPConcernCell *cell = (LPConcernCell *)[collectionView cellForItemAtIndexPath:indexPath];
+        cell.shimmering = NO;
+        [self.shimmeringOffIndexes addObject:indexPath];
+        [self.navigationController pushViewController:concernVc animated:YES];
+    }
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (collectionView == self.homeView) {
+        LPPressFrame *pressFrame = self.pressFrames[indexPath.item];
+        return CGSizeMake(ScreenWidth, pressFrame.cellHeight);
+    } else {
+        return CGSizeMake(ScreenWidth, ScreenWidth * 6 / 25);
+    }
 }
 
 
-#pragma mark - Table view data source
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
-    return self.pressFrames.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    LPPressCell *cell = [LPPressCell cellWithTableView:tableView];
-    cell.pressFrame = self.pressFrames[indexPath.row];
-    return cell;
-}
 
 
 #pragma mark - Table view delegate
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (self.isScrolled == NO) {
-        return;
-    }
-    
-    CATransform3D translation;
-    
-    if (indexPath.row > self.anyDisplayingCellRow) {
-        translation = CATransform3DMakeTranslation(0, ScreenHeight, 0);
-    } else if (indexPath.row < self.anyDisplayingCellRow) {
-        translation = CATransform3DMakeTranslation(0, - ScreenHeight, 0);
-    } else {
-        return;
-    }
-    self.anyDisplayingCellRow = indexPath.row;
-    
-    cell.layer.transform = translation;
-    
-    [UIView beginAnimations:@"translation" context:NULL];
-    [UIView setAnimationDuration:0.5];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
-    cell.layer.transform = CATransform3DIdentity;
-    
-    [UIView commitAnimations];
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    LPPressFrame *pressFrame = self.pressFrames[indexPath.row];
-    return pressFrame.cellHeight;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    self.selectedRow = indexPath.row;
-    LPPressFrame *pressFrame = self.pressFrames[indexPath.row];
-    LPPress *press = pressFrame.press;
-    LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
-    detailVc.isConcernDetail = NO;
-    detailVc.press = press;
-    [self.navigationController pushViewController:detailVc animated:YES];
-}
+//- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    if (self.isScrolled == NO) {
+//        return;
+//    }
+//    
+//    CATransform3D translation;
+//    
+//    if (indexPath.row > self.anyDisplayingCellRow) {
+//        translation = CATransform3DMakeTranslation(0, ScreenHeight, 0);
+//    } else if (indexPath.row < self.anyDisplayingCellRow) {
+//        translation = CATransform3DMakeTranslation(0, - ScreenHeight, 0);
+//    } else {
+//        return;
+//    }
+//    self.anyDisplayingCellRow = indexPath.row;
+//    
+//    cell.layer.transform = translation;
+//    
+//    [UIView beginAnimations:@"translation" context:NULL];
+//    [UIView setAnimationDuration:0.5];
+//    [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
+//    cell.layer.transform = CATransform3DIdentity;
+//    
+//    [UIView commitAnimations];
+//}
 
 #pragma mark - Scroll view delegate
 
@@ -543,12 +691,10 @@ typedef void (^completionBlock)();
         }
     }
 }
-#pragma mark - UIScrollViewDelegate
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    //    if ([scrollView class] == [self.containerView class]) {
     if (scrollView == self.containerView) {
-        
         self.customTabBar.sliderView.x = TabBarButtonWidth * (scrollView.contentOffset.x / ScreenWidth);
     }
 }
@@ -568,9 +714,11 @@ typedef void (^completionBlock)();
         for (int row = 0; row < self.pressFrames.count; row ++) {
             LPPressFrame *pressFrame = self.pressFrames[row];
             if ([pressFrame.press.sourceUrl isEqualToString:url]) {
-                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
-                [weakSelf.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
-                [weakSelf tableView:weakSelf.tableView didSelectRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
+                NSIndexPath *indexPath = [NSIndexPath indexPathForItem:row inSection:0];
+                if (row > 0) {
+                    [weakSelf.homeView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:NO];
+                }
+                [weakSelf collectionView:weakSelf.homeView didSelectItemAtIndexPath:[NSIndexPath indexPathForItem:row inSection:0]];
 #pragma warning - 重复代码 及时抽取
 //                self.selectedRow = row;
 //                LPPressFrame *pressFrame = self.pressFrames[row];
@@ -582,7 +730,7 @@ typedef void (^completionBlock)();
                 break;
             }
         }
-        weakSelf.tableView.hidden = NO;
+        weakSelf.homeView.hidden = NO;
     }];
 }
 
@@ -596,7 +744,7 @@ typedef void (^completionBlock)();
     if (press.isCommentsFlag.intValue == 0) {
         press.isCommentsFlag = @"1";
         self.isScrolled = NO;
-        [self.tableView reloadData];
+        [self.homeView reloadData];
     }
 }
 
@@ -605,6 +753,20 @@ typedef void (^completionBlock)();
 {
     NSString *url = note.userInfo[LPWebURL];
     [LPPressTool loadWebViewWithURL:url viewController:self];
+}
+
+#pragma mark - push featured vc with presses
+- (void)pushFeaturedViewContollerAtRow:(NSInteger)row animation:(BOOL)animation {
+    LPFeaturedViewController *featuredVc = [[LPFeaturedViewController alloc] init];
+    featuredVc.item = row;
+    NSMutableArray *presses = [NSMutableArray array];
+    for (LPPressFrame *pressFrame in self.pressFrames) {
+        LPPress *press = pressFrame.press;
+        [presses addObject:press];
+    }
+    featuredVc.presses = presses;
+    [self.navigationController pushViewController:featuredVc animated:animation];
+    self.containerView.hidden = NO;
 }
 
 - (void)dealloc

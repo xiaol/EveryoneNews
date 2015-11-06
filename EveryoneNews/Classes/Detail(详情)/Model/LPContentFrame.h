@@ -22,5 +22,13 @@
 @property (nonatomic, assign) CGRect photoViewF;
 @property (nonatomic, assign) CGRect photoDescViewF;
 
+// opinion cell
+@property (nonatomic, assign) CGRect dividerViewF;
+@property (nonatomic, assign) CGRect arrowViewF;
+@property (nonatomic, assign) CGRect pointerViewF;
+@property (nonatomic, assign) CGRect iconViewF;
+@property (nonatomic, assign) CGRect sourceViewF;
+@property (nonatomic, assign) CGRect supplementViewF;
+
 @property (nonatomic, assign) CGFloat cellHeight;
 @end

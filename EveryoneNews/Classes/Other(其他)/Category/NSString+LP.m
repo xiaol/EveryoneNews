@@ -44,6 +44,19 @@
     return string;
 }
 
+- (NSMutableAttributedString *)attributedStringWithFont:(UIFont *)font color:(UIColor *)color lineSpacing:(CGFloat)lineSpacing characterSpacing:(CGFloat)spacing firstLineSpacing:(CGFloat)firstSpacing {
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:self];
+    NSRange range = NSMakeRange(0, self.length);
+    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+    style.firstLineHeadIndent = firstSpacing;
+    style.lineSpacing = lineSpacing;
+    [string addAttribute:NSFontAttributeName value:font range:range];
+    [string addAttribute:NSForegroundColorAttributeName value:color range:range];
+    [string addAttribute:NSParagraphStyleAttributeName value:style range:range];
+    [string addAttribute:NSKernAttributeName value:@(spacing) range:range];
+    return string;
+}
+
 - (BOOL)isBlank
 {
     if (self == nil || self == NULL || [self isKindOfClass:[NSNull class]] || [self stringByTrimmingWhitespaceAndNewline].length == 0) {
@@ -86,11 +99,18 @@
     return boolValue ? @"YES" : @"NO";
 }
 
-+ (instancetype)stringFromNowDate;
++ (instancetype)stringFromNowDate
 {
     NSDate *date = [NSDate date];
     NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
     fmt.dateFormat = @"yyyy-MM-dd HH:mm:ss";
+    return [fmt stringFromDate:date];
+}
+
++ (instancetype)absoluteStringFromNowDate {
+    NSDate *date = [NSDate date];
+    NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
+    fmt.dateFormat = @"yyyyMMddHHmmss";
     return [fmt stringFromDate:date];
 }
 

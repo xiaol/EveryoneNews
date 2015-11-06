@@ -18,14 +18,14 @@
 #import "LPDetailViewController.h"
 #import "DiggerFooter.h"
 #import "DiggerHeader.h"
-#import "MobClick.h"
 
-@interface ConcernViewController () <UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate>
+@interface ConcernViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UIView *headerView;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *concernPressFrames;
 //@property (nonatomic, strong) UIActivityIndicatorView *indicator;
 @property (nonatomic, assign) CGFloat initialTableHeight;
+
 @end
 
 @implementation ConcernViewController
@@ -46,18 +46,6 @@
     [self setupRefreshView];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"ConcernViewController"];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"ConcernViewController"];
-}
-
 #pragma mark - setup subviews
 - (void)setupHeaderView {
     UIView *headerView = [[UIView alloc] init];
@@ -65,7 +53,13 @@
     headerView.x = 0;
     headerView.y = 0;
     headerView.width = ScreenWidth;
-    headerView.height = 80;
+    if (iPhone4) {
+        headerView.height = 55;
+    } else if (iPhone6Plus) {
+        headerView.height = 80;
+    } else {
+        headerView.height = 70;
+    }
     [self.view addSubview:headerView];
     self.headerView = headerView;
     
@@ -150,6 +144,7 @@
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     param[@"channelId"] = self.concern.channel_id;
     param[@"limit"] = @(30);
+//    NSLog(@"%@, %@", param[@"channelId"], param[@"limit"]);
     __weak typeof(self) weakSelf = self;
     [LPHttpTool getWithURL:ConcernHomeUrl params:param success:^(id json) {
         self.concernPressFrames = [weakSelf concernPressFramesFromJSONArray:json];
@@ -188,6 +183,7 @@
         NSLog(@"%@, %@, %@, %@, %@", param[@"limit"], param[@"time"], param[@"type"], param[@"channel_id"], param[@"news_id"]);
         [LPHttpTool postWithURL:ConcernHomeRefreshingUrl params:param success:^(id json) {
             NSMutableArray *concernPressFrameArray = [weakSelf concernPressFramesFromJSONArray:json];
+            NSLog(@"%ld", concernPressFrameArray.count);
             NSMutableArray *tempArray = [NSMutableArray array];
             [tempArray addObjectsFromArray:concernPressFrameArray];
             [tempArray addObjectsFromArray:self.concernPressFrames];
@@ -259,7 +255,7 @@
     label.width = ScreenWidth;
     label.y = self.headerView.height - label.height;
     
-    label.backgroundColor = [UIColor colorFromHexString:@"fafafa"];
+    label.backgroundColor = [UIColor colorFromHexString:@"#fafafa"];
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor colorFromConcern:self.concern];
     label.font = [UIFont systemFontOfSize:14];

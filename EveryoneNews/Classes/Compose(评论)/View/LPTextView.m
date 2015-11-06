@@ -80,6 +80,7 @@
     self.placehoderLabel.font = font;
     
     // 重新计算子控件的fame
+    
     [self setNeedsLayout];
 }
 

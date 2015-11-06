@@ -8,5 +8,5 @@
 
 #import <UIKit/UIKit.h>
 @interface MainNavigationController : UINavigationController
-
+@property (nonatomic, strong) UIPanGestureRecognizer *popRecognizer;
 @end

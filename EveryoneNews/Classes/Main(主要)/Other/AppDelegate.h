@@ -8,10 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@class CoreDataHelper;
+
+extern NSString * const NetworkReachabilityDidChangeToReachableNotification;
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
+@property (nonatomic, strong) CoreDataHelper *coreDataHelper;
 
+- (CoreDataHelper *)cdh;
 @end
 

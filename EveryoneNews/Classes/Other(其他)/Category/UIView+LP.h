@@ -18,4 +18,5 @@
 @property (nonatomic, assign) CGFloat centerX;
 @property (nonatomic, assign) CGFloat centerY;
 - (void)setAnchorPoint:(CGPoint)anchor;
+- (void)addCenterMotionEffectsXYWithOffset:(CGFloat)offset;
 @end

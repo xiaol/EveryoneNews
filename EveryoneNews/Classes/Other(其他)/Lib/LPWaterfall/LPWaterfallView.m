@@ -130,7 +130,7 @@
 - (CGFloat)cellWidth
 {
     // 总列数
-    int numberOfColumns = [self numberOfColumns];
+    NSUInteger numberOfColumns = [self numberOfColumns];
     CGFloat leftM = [self marginForType:LPWaterfallViewMarginTypeLeft];
     CGFloat rightM = [self marginForType:LPWaterfallViewMarginTypeRight];
     CGFloat columnM = [self marginForType:LPWaterfallViewMarginTypeColumn];
@@ -281,6 +281,11 @@
     if (selectIndex) {
         [self.delegate waterfallView:self didSelectAtIndex:selectIndex.unsignedIntegerValue];
     }
+}
+
+- (id) getBlockArray {
+    int val = 10;
+    return [[NSArray alloc] initWithObjects:^{NSLog(@"%d", val);}, nil];
 }
 
 

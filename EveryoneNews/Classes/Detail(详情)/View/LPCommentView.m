@@ -69,6 +69,7 @@
         self.commentsCountBtn = commentsCountBtn;
         
         UIButton *plusBtn = [[UIButton alloc] init];
+        [plusBtn setEnlargedEdgeWithTop:8 left:10 bottom:8 right:10];
         [plusBtn addTarget:self action:@selector(plusBtnClicked) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:plusBtn];
         self.plusBtn = plusBtn;
@@ -88,10 +89,14 @@
     LPContent *content = contentFrame.content;
     
     self.plusBtn.frame = self.contentFrame.plusBtnF;
+    
     if (content.concern) {
         [self.plusBtn setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@_发表评论初始", content.concern.channel_id]] forState:UIControlStateNormal];
     } else {
-        [self.plusBtn setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@_发表评论初始", content.category]] forState:UIControlStateNormal];
+        UIImage *bgImg = [UIImage imageNamed:[NSString stringWithFormat:@"%@_发表评论初始", content.category]];
+        if (bgImg) {
+            [self.plusBtn setBackgroundImage:bgImg forState:UIControlStateNormal];
+        }
     }
     
     if (!content.hasComment) {
@@ -120,9 +125,7 @@
         self.userIcon.hidden = NO;
         self.userIcon.frame = self.contentFrame.userIconF;
         if (comment.userIcon && comment.userIcon.length) {
-            [self.userIcon sd_setImageWithURL:[NSURL URLWithString:comment.userIcon] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-                
-            }];
+            [self.userIcon sd_setImageWithURL:[NSURL URLWithString:comment.userIcon] placeholderImage:[UIImage imageNamed:@"登录icon"]];
         } else {
             self.userIcon.image = [UIImage imageNamed:@"登录icon"];
         }
@@ -135,7 +138,10 @@
         if (content.concern) {
             [self.commentsCountBtn setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@_评论数图形", content.concern.channel_id]] forState:UIControlStateNormal];
         } else {
-            [self.commentsCountBtn setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@_评论数图形", content.category]] forState:UIControlStateNormal];
+            UIImage *bgImg = [UIImage imageNamed:[NSString stringWithFormat:@"%@_评论数图形", content.category]];
+            if (bgImg) {
+                [self.commentsCountBtn setBackgroundImage:bgImg forState:UIControlStateNormal];
+            }
         }
         
         self.commentLabel.hidden = NO;

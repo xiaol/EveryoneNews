@@ -10,7 +10,7 @@
 
 @class LPDetailViewController;
 
-@interface LPParaCommentViewController : UIViewController
+@interface LPParaCommentViewController : LPBaseViewController
 @property (nonatomic, strong) NSArray *comments;
 @property (nonatomic, strong) UIImage *bgImage;
 @property (nonatomic, strong) UITableView *tableView;

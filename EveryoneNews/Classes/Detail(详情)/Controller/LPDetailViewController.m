@@ -23,7 +23,6 @@
 #import "LPRelateCell.h"
 #import "LPParaCommentViewController.h"
 #import "LPPressTool.h"
-#import "MobClick.h"
 #import "LPCommentView.h"
 #import "LPComposeViewController.h"
 #import "LPComment.h"
@@ -31,10 +30,16 @@
 #import "MBProgressHUD+MJ.h"
 #import "LPConcernPress.h"
 #import "LPConcern.h"
+#import "LPPhoto.h"
+#import "LPPhotoCell.h"
+#import "MainNavigationController.h"
+#import "LPPhotoWallViewController.h"
 
 #define CellAlpha 0.3
 
-@interface LPDetailViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate, LPContentCellDelegate, UIGestureRecognizerDelegate, LPZhihuViewDelegate>
+NSString * const PhotoCellReuseId = @"photoWallCell";
+
+@interface LPDetailViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate, LPContentCellDelegate, LPZhihuViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, assign) CGFloat lastContentOffsetY;
@@ -51,6 +56,18 @@
 @property (nonatomic, copy) NSString *commentText;
 @property (nonatomic, assign) BOOL shouldPush;
 @property (nonatomic, assign) int realParaIndex;
+
+@property (nonatomic, strong) NSArray *photos;
+@property (nonatomic, assign) CGFloat offOriginX; // 最初offset的绝对值
+@property (nonatomic, assign) CGFloat pageWidth;
+@property (nonatomic, assign) CGFloat beginOffX;
+@property (nonatomic, strong) UICollectionView *photoWall;
+@property (nonatomic, assign) CGFloat velocity;
+
+
+
+@property (nonatomic, strong) LPHttpTool *http;
+@property (nonatomic, assign) BOOL requestSuccess;
 @end
 
 @implementation LPDetailViewController
@@ -58,10 +75,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [self setupSubviews];
     [self setupDataWithCompletion:nil];
     [self setupNoteObserver];
+}
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    if (self.http) {
+        [self.http cancelRequest];
+        self.http = nil;
+    }
 }
 
 - (void)setupNoteObserver
@@ -71,29 +95,32 @@
     [noteCenter addObserver:self selector:@selector(reloadCell:) name:LPDetailVcShouldReloadDataNotification object:nil];
 }
 
-- (BOOL)prefersStatusBarHidden
-{
-    return YES;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"DetailViewController"];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"DetailViewController"];
-}
+//- (BOOL)prefersStatusBarHidden
+//{
+//    return YES;
+//}
 
 - (NSArray *)relates
 {
     if (_relates == nil) {
-        self.relates = [NSArray array];
+        _relates = [NSArray array];
     }
     return _relates;
+}
+
+- (NSArray *)photos {
+    if (_photos == nil) {
+        _photos = [NSArray array];
+    }
+    return _photos;
+}
+
+- (NSMutableArray *)contentFrames
+{
+    if (_contentFrames == nil) {
+        _contentFrames = [NSMutableArray array];
+    }
+    return _contentFrames;
 }
 
 - (void)setupSubviews
@@ -101,16 +128,17 @@
     // 初始化tableview
     UITableView *tableView = [[UITableView alloc] init];
     tableView.frame = self.view.bounds;
-    tableView.backgroundColor = [UIColor colorFromHexString:TableViewBackColor];
+    tableView.backgroundColor = [UIColor colorFromHexString:@"#edefef"];
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    tableView.showsVerticalScrollIndicator = NO;
+    tableView.showsVerticalScrollIndicator = YES;
     tableView.showsHorizontalScrollIndicator = NO;
     self.tableView = tableView;
     [self.view addSubview:tableView];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     // 出栈button
-    UIButton *popBtn = [[UIButton alloc] initWithFrame:CGRectMake(22, 44, 35, 35)];
+    UIButton *popBtn = [[UIButton alloc] initWithFrame:CGRectMake(DetailCellPadding, DetailCellPadding * 2, 34, 34)];
+    popBtn.enlargedEdge = 5;
     [popBtn setImage:[UIImage resizedImageWithName:@"back"] forState:UIControlStateNormal];
     popBtn.backgroundColor = [UIColor clearColor];
     popBtn.alpha = 0.8;
@@ -123,14 +151,6 @@
     sharedIndicator.center = self.view.center;
 //    sharedIndicator.bounds = CGRectMake(0, 0, ScreenWidth / 4, ScreenWidth / 4);
     [self.view addSubview:sharedIndicator];
-}
-
-- (NSMutableArray *)contentFrames
-{
-    if (_contentFrames == nil) {
-        _contentFrames = [NSMutableArray array];
-    }
-    return _contentFrames;
 }
 
 - (void)popBtnClick
@@ -151,8 +171,13 @@
     }
     __weak typeof(self) weakSelf = self;
     if (!self.isConcernDetail) {
-         NSString *url = [NSString stringWithFormat:@"%@%@", ContentUrl, self.press.sourceUrl];
-        [LPHttpTool getWithURL:url params:params success:^(id json) {
+        if (!account) {
+            params = nil;
+        }
+//        params[@"url"] = self.press.sourceUrl;
+        NSString *url = [NSString stringWithFormat:@"%@%@", ContentUrl, self.press.sourceUrl];
+        self.http = [LPHttpTool http];
+        [self.http getWithURL:url params:params success:^(id json) {
             // 0. json字典转模型
             NSString *headerImg = json[@"imgUrl"];
             NSString *title = json[@"title"];
@@ -162,11 +187,13 @@
             NSString *totalBody = json[@"content"];
             NSArray *commentArray = [LPComment objectArrayWithKeyValuesArray:json[@"point"]];
             
-            NSArray *baikeArray = [LPWeiboPoint objectArrayWithKeyValuesArray:json[@"baike"]];
+//            NSArray *baikeArray = [LPWeiboPoint objectArrayWithKeyValuesArray:json[@"baike"]];
             NSArray *zhihuArray = [LPZhihuPoint objectArrayWithKeyValuesArray:json[@"zhihu"]];
-            NSArray *doubanArray = [LPWeiboPoint objectArrayWithKeyValuesArray:json[@"douban"]];
-            NSArray *weiboArray = [LPWeiboPoint objectArrayWithKeyValuesArray:json[@"weibo"]];
-            NSArray *relateArray = [LPRelatePoint objectArrayWithKeyValuesArray:json[@"relate"]];
+//            NSArray *doubanArray = [LPWeiboPoint objectArrayWithKeyValuesArray:json[@"douban"]];
+//            NSArray *weiboArray = [LPWeiboPoint objectArrayWithKeyValuesArray:json[@"weibo"]];
+//            NSArray *relateArray = [LPRelatePoint objectArrayWithKeyValuesArray:json[@"relate"]];
+            NSArray *photoWallArray = [LPPhoto objectArrayWithKeyValuesArray:json[@"imgWall"]];
+            
             // 1. header图像及标题的赋值
             [weakSelf setupHeaderWithImageURL:headerImg title:title time:time color:[UIColor colorFromCategory:self.press.category alpha:0.1]];
             
@@ -184,9 +211,10 @@
             for (int i = 0; i < bodyArray.count; i++) {
                 // 2.1 正文
                 LPContent *content = [[LPContent alloc] init];
+                content.isOpinion = NO;
                 content.paragraphIndex = i;
                 content.body = bodyArray[i];
-                content.category = self.press.category;
+                content.category = self.press.redefineCategory;
                 content.color = [UIColor colorFromCategory:content.category];
                 NSMutableArray *comments = [NSMutableArray array];
                 if (i == 0) {
@@ -215,11 +243,26 @@
                 [contentFrameArray addObject:contentFrame];
                 [contents addObject:content];
             }
-            // 2.3 传递数据给contentFrames属性
+            
+            // 2.3 观点数据
+            NSDictionary *relateOpinion = json[@"relate_opinion"];
+            NSArray *opinions = relateOpinion[@"self_opinion"];
+            for (NSDictionary *dict in opinions) {
+                LPContent *content = [[LPContent alloc] init];
+                content.isOpinion = YES;
+                content.url = dict[@"url"];
+                content.body = dict[@"self_opinion"];
+                content.opinion = dict[@"title"];
+                LPContentFrame *frm = [[LPContentFrame alloc] init];
+                frm.content = content;
+                [contentFrameArray addObject:frm];
+            }
+            
+            // 2.4 传递数据给contentFrames属性
             weakSelf.contentFrames = contentFrameArray;
             
             // 3. 尾部数据的赋值
-            [weakSelf setupFooterWithBaike:baikeArray Zhihu:zhihuArray douban:doubanArray weibo:weiboArray relate:relateArray];
+            [weakSelf setupFooterWithPhotoWallArray:photoWallArray zhihu:zhihuArray];
             
             // 4. 刷新tableView
             [weakSelf.tableView reloadData];
@@ -234,16 +277,18 @@
             NSLog(@"Failure: %@", error);
         }];
     } else {
+        self.http = [LPHttpTool http];
+        
         NSString *url = [NSString stringWithFormat:@"%@", ConcernDetailUrl];
         params[@"deviceType"] = @"IOS";
         params[@"url"] = self.concernPress.sourceUrl;
-        NSLog(@"%@", self.concernPress.sourceUrl);
-        [LPHttpTool postWithURL:url params:params success:^(id json) {
-            NSLog(@"post success");
+        NSLog(@"concernPress.sourceUrl = %@", self.concernPress.sourceUrl);
+        [self.http postWithURL:url params:params success:^(id json) {
+            
             NSString *headerImg = json[@"imgUrl"];
             NSString *title = json[@"title"];
             NSString *time = json[@"updateTime"];
-            [weakSelf setupHeaderWithImageURL:headerImg title:title time:time color:[UIColor colorFromConcern:self.concern alpha:0.1]];
+            [weakSelf setupHeaderWithImageURL:headerImg title:title time:time color:[UIColor colorFromConcern:weakSelf.concern alpha:0.1]];
             
             NSArray *zhihuArray = [LPZhihuPoint objectArrayWithKeyValuesArray:json[@"zhihu"]];
             
@@ -252,7 +297,6 @@
                 abstract = @"文章摘要";
             }
             NSArray *commentArray = [LPComment objectArrayWithKeyValuesArray:json[@"point"]];
-            NSLog(@"comment count = %ld", commentArray.count);
             NSArray *bodyArray = json[@"content"];
             LPContent *absContent = [[LPContent alloc] init];
             absContent.isAbstract = YES;
@@ -265,39 +309,6 @@
             
             int i = 1;
             for (NSDictionary *dict in bodyArray) {
-//                LPContent *content = [[LPContent alloc] init];
-//                content.isAbstract = NO;
-//                content.index = dict[@"index"];
-//                content.photo = dict[@"img"];
-//                content.photoDesc = dict[@"img_info"];
-//                content.body = dict[@"txt"];
-//                content.concern = self.concern;
-//                content.paragraphIndex = i;
-//                if (content.photo) {
-//                    content.isPhoto = YES;
-//                } else {
-//                    content.isPhoto = NO;
-//                }
-//                NSMutableArray *comments = [NSMutableArray array];
-//                if (!weakSelf.concernPress.isCommentsFlag || !commentArray.count)
-//                { // 首页给的数据 如果该标志为0 表示没有任何评论
-//                    content.hasComment = NO;
-//                } else {
-//                    // 遍历point数组 根据索引确定每段的评论列表
-//                    for (LPComment *comment in commentArray) {
-//                        if (comment.paragraphIndex.intValue == content.index.intValue && [comment.type isEqualToString:@"text_paragraph"])
-//                        {
-//                            [comments addObject:comment];
-//                        }
-//                    }
-//                    content.hasComment = (comments.count > 0);
-//                    content.comments = comments;
-//                }
-//                LPContentFrame *contentFrame = [[LPContentFrame alloc] init];
-//                contentFrame.content = content;
-//                [contents addObject:content];
-//                [contentFrameArray addObject:contentFrame];
-//                i++;
                 
                 LPContent *content = [[LPContent alloc] init];
                 content.isAbstract = NO;
@@ -322,7 +333,6 @@
                         if (comment.paragraphIndex.intValue == content.index.intValue && [comment.type isEqualToString:@"text_paragraph"])
                         {
                             [comments addObject:comment];
-                            NSLog(@"%@, %@", comment.srcText, comment.paragraphIndex);
                         }
                         comment.color = content.color;
                     }
@@ -340,7 +350,7 @@
             }
             weakSelf.contentFrames = contentFrameArray;
             
-            [weakSelf setupFooterWithBaike:nil Zhihu:zhihuArray douban:nil weibo:nil relate:nil];
+            [weakSelf setupFooterWithPhotoWallArray:nil zhihu:zhihuArray];
             
             [weakSelf.tableView reloadData];
             
@@ -368,6 +378,9 @@
     
     UIImageView *headerImageView = [[UIImageView alloc] init];
     headerImageView.contentMode = UIViewContentModeScaleAspectFill;
+    headerImageView.layer.shouldRasterize = YES;
+    headerImageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    
 
     headerImageView.clipsToBounds = YES;
     headerImageView.frame = CGRectMake(0, 0, headerView.width, TableHeaderImageViewH);
@@ -380,6 +393,7 @@
     maskLayer.path = path.CGPath;
     self.headerImageView.layer.mask = maskLayer;
     self.maskLayer = maskLayer;
+    
     
     // 颜色版加在headerImageView上
     UIView *filterView = [[UIView alloc] init];
@@ -415,33 +429,93 @@
 }
 
 # pragma mark - footer view setting up
-- (void)setupFooterWithBaike:(NSArray *)baikeArray Zhihu:(NSArray *)zhihuArray douban:(NSArray *)doubanArray weibo:(NSArray *)weiboArray relate:(NSArray *)relateArray
-{
+- (void)setupFooterWithPhotoWallArray:(NSArray *)photos zhihu:(NSArray *)zhihuArray {
     UIView *footerView = [[UIView alloc] init];
     footerView.backgroundColor = [UIColor colorFromHexString:TableViewBackColor];
     
+    UIView *photoBgView = [[UIView alloc] init];
+    if (photos && photos.count) {
+        self.photos = photos;
+        CGFloat photoW = DetailCellWidth - 2 * BodyPadding;
+        CGFloat photoH = photoW / 2;
+        // 1. 加个卡片
+        photoBgView.x = DetailCellPadding;
+        photoBgView.width = DetailCellWidth;
+        photoBgView.y = 0;
+        photoBgView.layer.shadowOpacity = 0.24f;
+        photoBgView.layer.shadowRadius = 3.0;
+        photoBgView.layer.shadowOffset = CGSizeMake(0, 0);
+        photoBgView.layer.shadowColor = [UIColor lightGrayColor].CGColor;
+//        photoBgView.layer.zPosition = 999.0;
+        photoBgView.backgroundColor = [UIColor whiteColor];
+        photoBgView.layer.cornerRadius = 1.0;
+        // 2. "相关图片"
+        NSString *tip = @"相关图片";
+        UILabel *tipLabel = [[UILabel alloc] init];
+        [photoBgView addSubview:tipLabel];
+        tipLabel.font = [UIFont systemFontOfSize:15];
+        tipLabel.textColor = [UIColor lightGrayColor];
+        tipLabel.text = tip;
+        tipLabel.x = BodyPadding;
+        tipLabel.y = BodyPadding;
+        CGSize tipSize = [tip sizeWithFont:tipLabel.font maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)];
+        tipLabel.size = tipSize;
+        CGFloat photoWallY = CGRectGetMaxY(tipLabel.frame) + 10;
+        photoBgView.height = photoWallY + photoH + BodyPadding;
+        [footerView addSubview:photoBgView];
+        
+        // 2. 设置图片墙
+        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+        layout.sectionInset = UIEdgeInsetsMake(0, DetailCellPadding + BodyPadding, 0, 0);
+        layout.minimumLineSpacing = DetailCellPadding;
+        layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+        layout.itemSize = CGSizeMake(photoW, photoH);
+        layout.footerReferenceSize = CGSizeMake(DetailCellPadding + BodyPadding, 0);
+        
+        self.pageWidth = layout.minimumLineSpacing + layout.itemSize.width;
+        self.offOriginX = layout.sectionInset.left;
+        
+        UICollectionView *photoWall = [[UICollectionView alloc] initWithFrame:CGRectMake(0, photoWallY, ScreenWidth, photoH) collectionViewLayout:layout];
+        [photoWall registerClass:[LPPhotoCell class] forCellWithReuseIdentifier:PhotoCellReuseId];
+        photoWall.backgroundColor = [UIColor clearColor];
+        photoWall.showsHorizontalScrollIndicator = NO;
+        [footerView addSubview:photoWall];
+        photoWall.dataSource = self;
+        photoWall.delegate = self;
+        self.photoWall = photoWall;
+        [photoWall reloadData];
+    } else {
+        photoBgView.height = 0;
+        photoBgView.hidden = YES;
+    }
+    CGFloat footerH = 0.0;
+    CGFloat zhihuY = 0.0;
+    if (!photoBgView.hidden) {
+        footerH = CGRectGetMaxY(photoBgView.frame) + DetailCellPadding;
+        zhihuY = footerH;
+    }
+    
     LPZhihuView *zhihuView = [[LPZhihuView alloc] init];
-    if (zhihuArray && zhihuArray.count > 0) {
+    if (zhihuArray && zhihuArray.count) {
         zhihuView.hidden = NO;
-        zhihuView.frame = CGRectMake(DetailCellPadding, 0, DetailCellWidth, [zhihuView heightWithPointsArray:zhihuArray]);
+        zhihuView.frame = CGRectMake(DetailCellPadding, zhihuY, DetailCellWidth, [zhihuView heightWithPointsArray:zhihuArray]);
         zhihuView.layer.shadowOpacity = 0.24f;
         zhihuView.layer.shadowRadius = 3.0;
         zhihuView.layer.shadowOffset = CGSizeMake(0, 0);
         zhihuView.layer.shadowColor = [UIColor lightGrayColor].CGColor;
         zhihuView.layer.zPosition = 999.0;
+        zhihuView.layer.cornerRadius = 1.0;
         zhihuView.zhihuPoints = zhihuArray;
     } else {
         zhihuView.hidden = YES;
     }
     zhihuView.delegate = self;
     zhihuView.backgroundColor = [UIColor whiteColor];
-
+    
     [footerView addSubview:zhihuView];
     
-    
-    CGFloat footerH = 0.0;
     if (zhihuView.hidden == NO) {
-        footerH = CGRectGetMaxY(zhihuView.frame);
+        footerH = CGRectGetMaxY(zhihuView.frame) + DetailCellPadding;
     }
     
     footerView.frame = CGRectMake(0, 0, ScreenWidth, footerH);
@@ -487,14 +561,19 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     LPContentCell *cell = [LPContentCell cellWithTableView:tableView];
+    cell.layer.cornerRadius = 1.0;
     cell.contentFrame = self.contentFrames[indexPath.row];
     cell.delegate = self;
+    [self setShadowForCell:cell];
+    return cell;
+}
+
+- (void)setShadowForCell:(LPContentCell *)cell {
     cell.layer.shadowOpacity = 0.24f;
     cell.layer.shadowRadius = 3.0;
     cell.layer.shadowOffset = CGSizeMake(0, 0);
     cell.layer.shadowColor = [UIColor lightGrayColor].CGColor;
     cell.layer.zPosition = 999.0;
-    return cell;
 }
 
 #pragma mark - Table view delegate
@@ -509,6 +588,9 @@
 {
     scrollView.scrollEnabled = YES;
     self.lastContentOffsetY = self.tableView.contentOffset.y;
+    if ([scrollView isKindOfClass:[UICollectionView class]]) {
+        self.beginOffX = scrollView.contentOffset.x;
+    }
 }
 
 /**
@@ -518,26 +600,81 @@
  */
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    self.lastContentOffsetY < scrollView.contentOffset.y ? [self fadeOut] : [self fadeIn];
-    CGFloat offsetY = scrollView.contentOffset.y;
-    if (offsetY < 0) { // 内切时，放大头部imageView及其颜色蒙版
-        CGFloat scale = - offsetY / TableHeaderViewH + 1;
-        CGFloat w = ScreenWidth * scale;
-        CGFloat offsetX = (w - ScreenWidth) / 2;
-        
-        self.headerImageView.frame = CGRectMake(- offsetX, offsetY, w, TableHeaderImageViewH -  offsetY);
-        self.filterView.frame = self.headerImageView.bounds;
-        self.headerImageView.layer.mask = nil;
-    } else { // 向上拖动时，控制视差并添加遮盖
-        if (offsetY < TableHeaderViewH) {
-            CGFloat diff = self.diffPercent * offsetY;
-            UIBezierPath *path = [UIBezierPath bezierPathWithRect:CGRectMake(0, 0, ScreenWidth, TableHeaderImageViewH - diff)];
-            self.maskLayer.path = path.CGPath;
-            self.headerImageView.layer.mask = self.maskLayer;
-            self.headerImageView.frame = CGRectMake(0, diff, ScreenWidth, TableHeaderImageViewH);
+    if ([scrollView isKindOfClass:[UITableView class]]) { // 上下拖动table view
+        self.lastContentOffsetY < scrollView.contentOffset.y ? [self fadeOut] : [self fadeIn];
+        CGFloat offsetY = scrollView.contentOffset.y;
+        if (offsetY < 0) { // 内切时，放大头部imageView及其颜色蒙版
+            CGFloat scale = - offsetY / TableHeaderViewH + 1;
+            CGFloat w = ScreenWidth * scale;
+            CGFloat offsetX = (w - ScreenWidth) / 2;
+            
+            self.headerImageView.frame = CGRectMake(- offsetX, offsetY, w, TableHeaderImageViewH -  offsetY);
             self.filterView.frame = self.headerImageView.bounds;
+            self.headerImageView.layer.mask = nil;
+        } else { // 向上拖动时，控制视差并添加遮盖
+            if (offsetY < TableHeaderViewH) {
+                CGFloat diff = self.diffPercent * offsetY;
+                UIBezierPath *path = [UIBezierPath bezierPathWithRect:CGRectMake(0, 0, ScreenWidth, TableHeaderImageViewH - diff)];
+                self.maskLayer.path = path.CGPath;
+                self.headerImageView.layer.mask = self.maskLayer;
+                self.headerImageView.frame = CGRectMake(0, diff, ScreenWidth, TableHeaderImageViewH);
+                self.filterView.frame = self.headerImageView.bounds;
+            }
+        }
+    } else {
+    }
+}
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+    if ([scrollView isKindOfClass:[UICollectionView class]]) { // 左右拖动图片墙
+        self.velocity = velocity.x;
+    }
+
+}
+
+//
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if ([scrollView isKindOfClass:[UICollectionView class]]) { // 左右拖动图片墙
+        if (self.offOriginX > 0 && self.pageWidth > 0) {
+            CGPoint pagedOffset = [self pagedOffsetWithScrollView:scrollView];
+            [scrollView setContentOffset:pagedOffset animated:YES];
         }
     }
+}
+
+// deactive scroll view decelerating, forced into paging
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
+    if ([scrollView isKindOfClass:[UICollectionView class]]) { // 左右拖动图片墙
+        [scrollView setContentOffset:scrollView.contentOffset animated:YES];
+        
+        CGPoint pagedOffset = [self pagedOffsetWithScrollView:scrollView];
+        [scrollView setContentOffset:pagedOffset animated:YES];
+    }
+}
+
+//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+//    if ([scrollView isKindOfClass:[UICollectionView class]]) { // 左右拖动图片墙
+//        if (self.offOriginX > 0 && self.pageWidth > 0) {
+//            CGPoint pagedOffset = [self pagedOffsetWithScrollView:scrollView];
+//            [scrollView setContentOffset:pagedOffset animated:YES];
+//        }
+//    }
+//}
+
+- (CGPoint)pagedOffsetWithScrollView:(UIScrollView *)scrollView {
+    CGFloat offX = scrollView.contentOffset.x;
+//    NSUInteger page = (offX + self.offOriginX) / self.pageWidth + 0.5;
+    CGFloat diff = offX > self.beginOffX ? 0.6 : 0.4;
+    NSUInteger page = offX / self.pageWidth + diff;
+    NSUInteger oldPage = self.beginOffX / self.pageWidth + 0.5;
+    if (ABS(self.velocity) > 1.0 && ABS(offX - self.beginOffX) < self.pageWidth / 2 ) {
+        page = offX > self.beginOffX ? oldPage + 1 : oldPage - 1;
+        page = offX < 0 ? 0 : page;
+        page = MIN(page, self.photos.count - 1);
+    }
+    
+    CGFloat newOffX = page * self.pageWidth;
+    return CGPointMake(newOffX, 0);
 }
 
 #pragma mark - push para comment view controller
@@ -569,6 +706,11 @@
     }
 }
 
+- (void)contentCell:(LPContentCell *)cell didVisitOpinionURL:(NSString *)url {
+    NSLog(@"url = %@", url);
+    [LPPressTool loadWebViewWithURL:url viewController:self];
+}
+
 #pragma mark - LPZhihuView delegate
 
 - (void)zhihuView:(LPZhihuView *)zhihuView didClickURL:(NSString *)url
@@ -581,10 +723,9 @@
 {
     if (![AccountTool account]) {
         __weak typeof(self) weakSelf = self;
-        [AccountTool accountLoginWithViewController:self.navigationController.topViewController
-        success:^{
+        [AccountTool accountLoginWithViewController:self.navigationController.topViewController success:^(Account *account) {
             [MBProgressHUD showSuccess:@"登录成功"];
-            [weakSelf performSelector:@selector(pushCommentComposeVcWithNote:) withObject:note afterDelay:0.6];
+            [weakSelf performSelector:@selector(pushCommentComposeVcWithNote:) withObject:note afterDelay:0.3];
         } failure:^{
             [MBProgressHUD showError:@"登录失败"];
         } cancel:nil];
@@ -628,7 +769,6 @@
     comment.srcText = self.commentText;
     comment.color = content.color;
     // 评论段落索引为整体(real)段落索引值 - 1
-    comment.paragraphIndex = [NSString stringFromIntValue:content.index.intValue];
     comment.type = @"text_paragraph";
     comment.uuid = account.userId;
     comment.userIcon = account.userIcon;
@@ -648,9 +788,12 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     if (self.isConcernDetail) {
         params[@"sourceUrl"] = self.concernPress.sourceUrl;
+        comment.paragraphIndex = [NSString stringFromIntValue:content.index.intValue];
     } else {
         params[@"sourceUrl"] = self.press.sourceUrl;
+        comment.paragraphIndex = [NSString stringFromIntValue:(content.paragraphIndex - 1)];
     }
+    
     params[@"srcText"] = comment.srcText;
     params[@"paragraphIndex"] = comment.paragraphIndex;
     params[@"type"] = comment.type;
@@ -710,6 +853,27 @@
 //    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:rowNum.integerValue inSection:0];
 //    [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
     [self.tableView reloadData];
+}
+
+#pragma mark - collection view data source
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return self.photos.count;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    LPPhotoCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:PhotoCellReuseId forIndexPath:indexPath];
+    cell.photo = self.photos[indexPath.item];
+    return cell;
+}
+
+#pragma mark - collection view delegate
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (!collectionView.isDragging && !collectionView.isDecelerating) {
+        LPPhotoWallViewController *photoVc = [[LPPhotoWallViewController alloc] init];
+        photoVc.originIndexPath = indexPath;
+        photoVc.photos = self.photos;
+        [self.navigationController pushViewController:photoVc animated:YES];
+    }
 }
 
 @end

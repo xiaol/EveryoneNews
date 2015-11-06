@@ -8,29 +8,23 @@
 
 #import <Foundation/Foundation.h>
 #import "Account.h"
-#import <ShareSDK/ShareSDK.h>
+#import "UMSocialSnsPlatformManager.h"
 
 //保存用户信息path
 #define kAccountSavePath [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"account.data"]
 
-typedef enum {
-    AccountTypeSinaWeibo = ShareTypeSinaWeibo,//使用新浪微博登录
-    AccountTypeWeiXin=ShareTypeWeixiSession //使用微信登录
-} AccountType;
+typedef void(^LoginSuccessHandler)(Account *account);
+typedef void(^LoginFailureHandler)();
+typedef void(^LoginCancelHandler)();
 
 @interface AccountTool : NSObject
+singleton_h(AccountTool);
 /**
  *  需要校验用户是否登录时，调用此方法，如果没有登录则弹出登录界面
  *
  *  @param viewVc 当前的ViewController
  */
-+ (void)accountLoginWithViewController:(UIViewController *)viewVc success:(void (^)())success failure:(void (^)()) failure cancel:(void (^)()) cancel;
-/**
- *  用户登录指定的平台
- *
- *  @param platformType 平台的类型 例如：ShareTypeSinaWeibo
- */
-- (void)accountLoginWithType:(AccountType)AccountType completion:(void (^)(BOOL result))callBackBlock;
++ (void)accountLoginWithViewController:(UIViewController *)viewVc success:(LoginSuccessHandler)success failure:(LoginFailureHandler)failure cancel:(LoginCancelHandler)cancel;
 
 /**保存用户信息到本地*/
 + (void)saveAccount:(Account *)account;

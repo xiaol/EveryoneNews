@@ -8,12 +8,22 @@
 
 #import <UIKit/UIKit.h>
 
+//@class LPPressFrame;
+//
+//@interface LPPressCell : UITableViewCell
+//
+//@property (nonatomic, strong) LPPressFrame *pressFrame;
+//
+//+ (instancetype)cellWithTableView:(UITableView *)tableView;
+//
+//@end
+
 @class LPPressFrame;
 
-@interface LPPressCell : UITableViewCell
+@interface LPPressCell : UICollectionViewCell
 
 @property (nonatomic, strong) LPPressFrame *pressFrame;
 
-+ (instancetype)cellWithTableView:(UITableView *)tableView;
+//+ (instancetype)cellWithTableView:(UITableView *)tableView;
 
 @end

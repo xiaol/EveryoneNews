@@ -65,10 +65,11 @@
     int from = (int)self.selectedButton.tag;
     int to = (int)btn.tag;
     // 设置按钮状态
-    self.selectedButton = btn;
-    __weak typeof(self) weakSelf = self;
-    if (weakSelf.tabBarDidClickBlock != nil) {
-        weakSelf.tabBarDidClickBlock(from,to);
+    if (from != to) {
+        self.selectedButton = btn;
+        if (self.tabBarDidClickBlock != nil) {
+            self.tabBarDidClickBlock(from,to);
+        }
     }
     
 }

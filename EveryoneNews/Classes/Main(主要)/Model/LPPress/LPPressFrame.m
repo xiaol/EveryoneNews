@@ -26,7 +26,7 @@
         CGFloat photoViewX = 0;
         CGFloat photoViewY = 0;
         CGFloat photoViewW = CellWidth;
-        CGFloat photoViewH = CellWidth * 2 / 3;
+        CGFloat photoViewH = PhotoCellHeight;
         _photoViewF = CGRectMake(photoViewX, photoViewY, photoViewW, photoViewH);
         
         _bgImageViewF = _photoViewF;
@@ -51,7 +51,9 @@
         CGFloat categoryH = 36;
         _categoryLabelF = CGRectMake(categoryX, categoryY, categoryW, categoryH);
         
-        _cellHeight = CGRectGetHeight(_photoViewF) + CellHeightBorder;
+//        _cellHeight = CGRectGetHeight(_photoViewF) + CellHeightBorder;
+        _cellHeight = CGRectGetHeight(_photoViewF);
+
     } else if (mode == 400) {
         // 单图frame
         CGFloat thumbnailX = 8;
@@ -91,7 +93,9 @@
         CGFloat topViewH = MAX(CGRectGetMaxY(_thumbnailViewF) + 17, CGRectGetMaxY(_smallIconsViewF) + 5);
         _singleGraphTopViewF = CGRectMake(topViewX, topViewY, topViewW, topViewH);
         
-        _cellHeight = CGRectGetMaxY(_singleGraphTopViewF) + CellHeightBorder;
+//        _cellHeight = CGRectGetMaxY(_singleGraphTopViewF) + CellHeightBorder;
+        _cellHeight = CGRectGetMaxY(_singleGraphTopViewF);
+
         if (press.sublist.count > 0) {
             // 中间部分
             CGFloat separaterX = 0;
@@ -105,7 +109,10 @@
             
             // cell高度
             
-            _cellHeight = CGRectGetMaxY(_singleGraphOpinionsViewF) + CellHeightBorder;
+//            _cellHeight = CGRectGetMaxY(_singleGraphOpinionsViewF) + CellHeightBorder;
+            
+            _cellHeight = CGRectGetMaxY(_singleGraphOpinionsViewF);
+
         }
     } else if (mode == 9) {
         

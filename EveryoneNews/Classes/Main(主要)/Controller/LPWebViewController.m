@@ -8,13 +8,14 @@
 
 #import "LPWebViewController.h"
 #import "MBProgressHUD+MJ.h"
-//#import "CustomLoaddingView.h"
 
-@interface LPWebViewController () <UIWebViewDelegate>
+@interface LPWebViewController () <UIWebViewDelegate, UIScrollViewDelegate>
 {
     UIWebView *webView;
 }
+@property (nonatomic, strong) UIButton *backBtn;
 //@property (nonatomic, strong) CustomLoaddingView *loadingView;
+@property (nonatomic, strong) UIActivityIndicatorView *indicator;
 @end
 
 @implementation LPWebViewController
@@ -34,28 +35,36 @@
     [webView loadRequest:request];
     
     
-    UIButton * backBtn = [[UIButton alloc] initWithFrame:CGRectMake(22, 44, 35, 35)];
+    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 20, 34, 34)];
     backBtn.alpha = 0.8;
     [backBtn setImage:[UIImage imageNamed:@"back.png"] forState:UIControlStateNormal];
     backBtn.backgroundColor = [UIColor clearColor];
     [backBtn addTarget:self action:@selector(backBtnPress) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:backBtn];
+    self.backBtn = backBtn;
     
     // 菊花
-    sharedIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
-    sharedIndicator.center = self.view.center;
-    sharedIndicator.color = [UIColor lightGrayColor];
-    [self.view addSubview:sharedIndicator];
+    UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    indicator.center = self.view.center;
+    indicator.color = [UIColor lightGrayColor];
+    [self.view addSubview:indicator];
+    self.indicator = indicator;
 }
 
-- (BOOL)prefersStatusBarHidden
-{
-    return YES;
+- (void)viewWillDisappear:(BOOL)animated {
+    [webView stopLoading];
+    [super viewWillDisappear:animated];
 }
+
+
+//- (BOOL)prefersStatusBarHidden
+//{
+//    return YES;
+//}
 
 - (void)backBtnPress
 {
-    [sharedIndicator stopAnimating];
+    [self.indicator stopAnimating];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -65,21 +74,21 @@
 {
 //    [MBProgressHUD showMessage:@"正在加载..."];
 //    self.loadingView = [CustomLoaddingView showMessage:@"正在加载..." toView:webView];
-    [sharedIndicator startAnimating];
+    [self.indicator startAnimating];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView
 {
 //    [MBProgressHUD hideHUD];
 //    [self.loadingView dismissMessage];
-    [sharedIndicator stopAnimating];
+    [self.indicator stopAnimating];
 }
 
 -(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
 //    [MBProgressHUD hideHUD];
 //    [self.loadingView dismissMessage];
-    [sharedIndicator stopAnimating];
-    [MBProgressHUD showError:@"加载失败：("];
+    [self.indicator stopAnimating];
+//    [MBProgressHUD showError:@"加载失败：("];
 }
 @end

@@ -42,7 +42,7 @@ static char imageURLKey;
     [self sd_cancelCurrentImageLoad];
     objc_setAssociatedObject(self, &imageURLKey, url, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 
-    if (!(options & SDWebImageDelayPlaceholder)) {
+    if (!(options & SDWebImageDelayPlaceholder)) { // 按位与, 表示options不是SDWebImageDelayPlaceholder
         dispatch_main_async_safe(^{
             self.image = placeholder;
         });
@@ -63,7 +63,7 @@ static char imageURLKey;
                         [wself setNeedsLayout];
                     }
                 }
-                if (completedBlock && finished) {
+                if (completedBlock && finished) { // 如果结束 给completedBlock传递相关参数
                     completedBlock(image, error, cacheType, url);
                 }
             });

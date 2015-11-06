@@ -7,6 +7,7 @@
 //
 
 #import "LPContent.h"
+#import "SDWebImageManager.h"
 
 @implementation LPContent
 
@@ -26,5 +27,24 @@
 
 - (NSMutableAttributedString *)photoDescString {
     return [self.photoDesc attributedStringWithFont:[UIFont systemFontOfSize:BodyFontSize] color:[UIColor blackColor] lineSpacing:BodyLineSpacing];
+}
+
+
+- (NSMutableAttributedString *)opinionString {
+    if (_opinion) {
+        return [_opinion attributedStringWithFont:[UIFont systemFontOfSize:12] color:[UIColor colorFromHexString:@"#b8b8b8"] lineSpacing:3];
+    }
+    return nil;
+}
+
+- (void)dealloc {
+    if (self != nil) {
+        if (self.isPhoto && !self.isAbstract) {
+//            if ([[SDWebImageManager sharedManager] cachedImageExistsForURL:[NSURL URLWithString:self.photo]]) {
+                    [[SDWebImageManager sharedManager].imageCache removeImageForKey:self.photo fromDisk:NO];
+
+//            }
+        }
+    }
 }
 @end

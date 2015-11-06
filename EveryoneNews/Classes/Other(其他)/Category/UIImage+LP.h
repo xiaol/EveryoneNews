@@ -14,7 +14,10 @@
 + (UIImage *)resizedImageWithName:(NSString *)name;
 + (UIImage *)resizableImage:(NSString *)name left:(CGFloat)left top:(CGFloat)top;
 + (instancetype)captureWithView:(UIView *)view;
+- (UIColor *)averageColor;
 + (UIImage *)circleImageWithName:(NSString *)name borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor;
 + (UIImage *)circleImageWithImage:(UIImage *)name borderWidth:(CGFloat)borderWidth borderColor:(UIColor *)borderColor;
 - (instancetype)circleImage;
++ (instancetype)circleImageWithImage:(UIImage *)image;
+- (UIImage *)applyBlurWithRadius:(CGFloat)blurRadius tintColor:(UIColor *)tintColor saturationDeltaFactor:(CGFloat)saturationDeltaFactor maskImage:(UIImage *)maskImage;
 @end

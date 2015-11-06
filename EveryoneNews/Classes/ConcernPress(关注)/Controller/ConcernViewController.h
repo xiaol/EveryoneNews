@@ -10,6 +10,6 @@
 
 @class LPConcern;
 
-@interface ConcernViewController : UIViewController
+@interface ConcernViewController : LPBaseViewController
 @property (nonatomic, strong) LPConcern *concern;
 @end

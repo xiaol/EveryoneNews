@@ -15,7 +15,7 @@
 
 @optional
 - (void)contentCellDidClickCommentView:(LPContentCell *)cell;
-
+- (void)contentCell:(LPContentCell *)cell didVisitOpinionURL:(NSString *)url;
 @end
 
 @interface LPContentCell : UITableViewCell
@@ -24,5 +24,6 @@
 @property (nonatomic, weak) id<LPContentCellDelegate> delegate;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
++ (instancetype)cellWithTableView:(UITableView *)tableView identifier:(NSInteger)identifier;
 
 @end

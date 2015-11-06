@@ -6,8 +6,8 @@
 //  Copyright (c) 2015年 apple. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <UIKit/UIKit.h> 
 
-@interface LPWebViewController : UIViewController
+@interface LPWebViewController : LPBaseViewController
 @property (nonatomic, copy) NSString *webUrl;
 @end

@@ -58,7 +58,7 @@ FOUNDATION_STATIC_INLINE NSUInteger SDCacheCostForImage(UIImage *image) {
 
 @interface SDImageCache ()
 
-@property (strong, nonatomic) NSCache *memCache;
+//@property (strong, nonatomic) NSCache *memCache;
 @property (strong, nonatomic) NSString *diskCachePath;
 @property (strong, nonatomic) NSMutableArray *customPaths;
 @property (SDDispatchQueueSetterSementics, nonatomic) dispatch_queue_t ioQueue;
@@ -69,6 +69,8 @@ FOUNDATION_STATIC_INLINE NSUInteger SDCacheCostForImage(UIImage *image) {
 @implementation SDImageCache {
     NSFileManager *_fileManager;
 }
+
+@synthesize memCache = _memCache;
 
 + (SDImageCache *)sharedImageCache {
     static dispatch_once_t once;

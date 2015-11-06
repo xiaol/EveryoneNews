@@ -53,6 +53,7 @@
 
 - (NSString *)cacheKeyForURL:(NSURL *)url {
     if (self.cacheKeyFilter) {
+        NSLog(@"cacheKeyFilter");
         return self.cacheKeyFilter(url);
     }
     else {

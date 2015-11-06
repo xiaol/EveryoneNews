@@ -10,7 +10,7 @@
 
 typedef void(^returnTextBlock)(NSString *text);
 
-@interface LPComposeViewController : UIViewController
+@interface LPComposeViewController : LPBaseViewController
 //@property (nonatomic, strong) LPContent *content;
 @property (nonatomic, copy) NSString *draftText;
 @property (nonatomic, strong) UIColor *color;

@@ -18,6 +18,9 @@
 
 + (instancetype)colorFromHexString:(NSString *)hexString alpha:(CGFloat)alpha
 {
+    if (!hexString) {
+        return [UIColor blackColor];
+    }
     unsigned rgbValue = 0;
     hexString = [hexString stringByReplacingOccurrencesOfString:@"#" withString:@""];
     NSScanner *scanner = [NSScanner scannerWithString:hexString];
@@ -52,7 +55,7 @@
     } else if ([text isEqualToString:@"国内"]){
         return [UIColor colorFromHexString:@"#8bace9" alpha:alpha];
     } else {
-        return [UIColor clearColor];
+        return [UIColor colorFromHexString:@"#ee6270" alpha:alpha];
     }
 }
 
@@ -100,6 +103,9 @@
             break;
         case 14:
             colorString = @"#7174ff";
+            break;
+        case 16:
+            colorString = @"#2b2b2b";
             break;
         default:
             break;

@@ -17,6 +17,7 @@
 #import "LPHttpTool.h"
 #import "LPUpView.h"
 #import "LPContent.h"
+#import "MainNavigationController.h"
 
 #define InputViewHeight 44
 
@@ -49,29 +50,19 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
-        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
-    }
+    MainNavigationController *nav = (MainNavigationController *)self.navigationController;
+    nav.popRecognizer.enabled = NO;
 }
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"ParaCommentViewController"];
-}
-
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"ParaCommentViewController"];
     if (self.shouldReloadDetailCell) {
         NSDictionary *info = @{LPReloadCellIndex: @(self.contentIndex)};
         [noteCenter postNotificationName:LPDetailVcShouldReloadDataNotification object:self userInfo:info];
     }
-    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
-        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
-    }
+    MainNavigationController *nav = (MainNavigationController *)self.navigationController;
+    nav.popRecognizer.enabled = YES;
 }
 
 - (NSMutableArray *)paraCommentFrames
@@ -229,7 +220,7 @@
         [self upComment:comment withAccount:account upView:upView];
     } else {
         NSUInteger index = [self.comments indexOfObject:comment];
-        [AccountTool accountLoginWithViewController:self success:^{
+        [AccountTool accountLoginWithViewController:self success:^(Account *account){
             // 1. 刷新detailVc，更新自身comments值
             [self.fromVc returnContentsBlock:^(NSArray *contents) {
                 LPContent *content = contents[self.contentIndex];
@@ -239,7 +230,6 @@
                 [self setupData];
                 [self.tableView reloadData];
                 // 3. 点赞
-                account = [AccountTool account];
                 [self upComment:comment withAccount:account upView:upView];
             }];
         } failure:^{

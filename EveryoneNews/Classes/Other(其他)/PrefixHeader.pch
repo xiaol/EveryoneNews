@@ -22,6 +22,8 @@
 #import "UIImage+LP.h"
 #import "Singleton.h"
 #import "LPActivityIndicator.h"
+#import "LPBaseViewController.h"
+#import "UIButton+LP.h"
 
 #ifdef __OPTIMIZE__
 # define NSLog(...) {}
@@ -34,12 +36,16 @@
 #define iPhone6 ([UIScreen mainScreen].bounds.size.height == 667.0)
 #define iPhone6Plus ([UIScreen mainScreen].bounds.size.height == 736.0)
 
+#define iOS8 [[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0
+
 #define userDefaults [NSUserDefaults standardUserDefaults]
 #define pasteboard [UIPasteboard generalPasteboard]
 
 #define sharedIndicator [LPActivityIndicator sharedActivityIndicator]
 
-#define LPColor(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
+extern const NSInteger HotwordPageCapacity;
+
+extern NSString * const HotwordsURL;
 
 #define noteCenter [NSNotificationCenter defaultCenter]
 #define LPCategoryDidChangeNotification @"changeCategory"
@@ -71,6 +77,7 @@
 
 #define HomeUrl @"http://api.deeporiginalx.com/news/baijia/fetchHome?timenews=1"
 #define ContentUrl @"http://api.deeporiginalx.com/news/baijia/fetchContent?url="
+//#define ContentUrl @"http://api.deeporiginalx.com/news/baijia/fetchContent"
 #define AccountLoginUrl @"http://api.deeporiginalx.com/news/baijia/fetchLogin"
 #define ConcernHomeUrl @"http://api.deeporiginalx.com/news/baijia/newsFetchHome"
 #define ConcernHomeRefreshingUrl @"http://api.deeporiginalx.com/news/baijia/loadMoreFetchContent"
@@ -79,7 +86,7 @@
 
 #define ScreenWidth [UIScreen mainScreen].bounds.size.width
 #define ScreenHeight [UIScreen mainScreen].bounds.size.height
-#define CellHeightBorder 8.5  // cell高度缩减
+#define CellHeightBorder 10  // cell高度缩减
 #define PhotoH 208  // 大图模式图片高度
 #define TabBarHeight 44
 #define TabBarColor @"#0096ff"
@@ -88,6 +95,7 @@
 #define TabBarButtonWidth ScreenWidth/6
 
 #define CellWidth ScreenWidth
+#define PhotoCellHeight CellWidth * 2 / 3
 
 #define TableViewBackColor @"#EBEDED"
 
@@ -142,6 +150,8 @@
 #define UserIconWidth 34
 #define UserIconBorderWidth 2
 
+#define PhotoGutter 15
+
 #define ParaCommentTableHeaderAboveLabelHeight 44
 #define ParaCommentTableHeaderUnderLabelHeight 24
 #define Error 0.1e-3
@@ -149,8 +159,21 @@
 #define ComposeButtonNormalColor @"#ffffff"
 //#define ComposeButtonDisableColor @"#007ed7"
 
-#define ConcernPressTitleFontSize 17
+#define ConcernPressTitleFontSize iPhone4 ? 15 : 16
 #define ConcernPressTagFontSize 12
+
+#define FeaturedCellPadding 10
+
+
+// 颜色
+#define LPColor(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
+#define LPColorRGBA(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:a]
+
+// 随机色
+#define LPRandomColor LPColor(arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256))
+
+// 生成一个字符串
+#define LPString(...) [NSString stringWithFormat:__VA_ARGS__]
 
 #endif
 
