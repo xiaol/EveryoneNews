@@ -63,6 +63,10 @@
 //@property (nonatomic, assign, readonly) CGRect multiGraphOpinionsViewF;
 
 // @property (nonatomic, assign) CGRect dividerViewF;
+/**
+ *  时间栏
+ */
+@property (nonatomic, assign, readonly) CGRect timeLineViewF;
 
 /**
  *  cell高度

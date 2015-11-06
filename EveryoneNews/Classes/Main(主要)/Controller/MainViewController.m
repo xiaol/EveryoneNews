@@ -502,6 +502,13 @@ NSString * const HotwordsURL = @"http://api.deeporiginalx.com/news/baijia/fetchE
             i = 0;
         }
         weakSelf.timeRow = MAX(i - 1, 0);
+        //插入时间栏LPPressFrame
+//        LPPressFrame *timePressFrame = [[LPPressFrame alloc] init];
+//        LPPress *timePress = [[LPPress alloc] init];
+//        timePress.special = @"1000";
+//        timePressFrame.press = timePress;
+//        NSInteger insertPosition = (weakSelf.timeRow == 0)? 0:weakSelf.timeRow +1;
+//        [pressFrameArray insertObject:timePressFrame atIndex:insertPosition];
         weakSelf.anyDisplayingCellRow = i;
         
         // 模型数组属性的赋值

@@ -21,6 +21,7 @@
 #import "WXApi.h"
 
 
+
 @interface LPLoginViewController : LPBaseViewController
 
 //tabbar的背景图
@@ -55,7 +56,6 @@
         UIImageView *footerBackgroundView = [[UIImageView alloc] initWithImage:self.footerBackgroundImage];
         footerBackgroundView.frame = CGRectMake(0, 0, self.footerBackgroundImage.size.width, self.footerBackgroundImage.size.height);
         [self.view addSubview:footerBackgroundView];
-        
     }
     UIImageView *headerBackgroundView = [[UIImageView alloc] initWithImage:self.headerBackgroundImage];
     [self.view addSubview:headerBackgroundView];

@@ -52,6 +52,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 
 @property (nonatomic, strong) NSIndexPath *watchingIndexPath;
 @property (nonatomic, strong) NSArray *relates;
+@property (nonatomic,strong) NSArray *imageWallArray;
 
 @property (nonatomic, copy) NSString *commentText;
 @property (nonatomic, assign) BOOL shouldPush;
@@ -68,6 +69,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 
 @property (nonatomic, strong) LPHttpTool *http;
 @property (nonatomic, assign) BOOL requestSuccess;
+
 @end
 
 @implementation LPDetailViewController
@@ -409,6 +411,8 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     CGFloat hudH = headerViewH * 0.4;
     CGFloat hudY = CGRectGetMaxY(headerImageView.frame) - hudH;
     hud.frame = CGRectMake(0, hudY, ScreenWidth, hudH);
+    hud.layer.shouldRasterize = YES;
+    hud.layer.rasterizationScale = [UIScreen mainScreen].scale;
     
     UILabel *titleLabel = [[UILabel alloc] init];
     titleLabel.numberOfLines = 0;
@@ -427,7 +431,6 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     self.tableView.tableHeaderView = headerView;
     [self.tableView sendSubviewToBack:headerView];
 }
-
 # pragma mark - footer view setting up
 - (void)setupFooterWithPhotoWallArray:(NSArray *)photos zhihu:(NSArray *)zhihuArray {
     UIView *footerView = [[UIView alloc] init];
@@ -449,6 +452,8 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 //        photoBgView.layer.zPosition = 999.0;
         photoBgView.backgroundColor = [UIColor whiteColor];
         photoBgView.layer.cornerRadius = 1.0;
+        photoBgView.layer.shouldRasterize = YES;
+        photoBgView.layer.rasterizationScale = [UIScreen mainScreen].scale;
         // 2. "相关图片"
         NSString *tip = @"相关图片";
         UILabel *tipLabel = [[UILabel alloc] init];
@@ -505,6 +510,8 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
         zhihuView.layer.shadowColor = [UIColor lightGrayColor].CGColor;
         zhihuView.layer.zPosition = 999.0;
         zhihuView.layer.cornerRadius = 1.0;
+        zhihuView.layer.rasterizationScale = [UIScreen mainScreen].scale;
+        zhihuView.layer.shouldRasterize = YES;
         zhihuView.zhihuPoints = zhihuArray;
     } else {
         zhihuView.hidden = YES;
@@ -517,7 +524,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     if (zhihuView.hidden == NO) {
         footerH = CGRectGetMaxY(zhihuView.frame) + DetailCellPadding;
     }
-    
+
     footerView.frame = CGRectMake(0, 0, ScreenWidth, footerH);
     self.tableView.tableFooterView = footerView;
 }

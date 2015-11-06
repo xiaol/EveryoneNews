@@ -1404,6 +1404,8 @@
 		1889FE3D1B4C2E91006D8E03 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				7E341DD11B561C3700C469FB /* ImageWallViewController.h */,
+				7E341DD21B561C3700C469FB /* ImageWallViewController.m */,
 				1889FE3E1B4C2E91006D8E03 /* LPDetailViewController.h */,
 				1889FE3F1B4C2E91006D8E03 /* LPDetailViewController.m */,
 				1826B3F21B7D9E0B00B712E0 /* LPPhotoWallViewController.h */,
@@ -1415,6 +1417,8 @@
 		1889FE401B4C2E91006D8E03 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				7E341DCB1B561BA100C469FB /* ImageWall.h */,
+				7E341DCC1B561BA100C469FB /* ImageWall.m */,
 				1889FE411B4C2E91006D8E03 /* LPComment.h */,
 				1889FE421B4C2E91006D8E03 /* LPComment.m */,
 				1889FE431B4C2E91006D8E03 /* LPContent.h */,
@@ -1447,6 +1451,8 @@
 				1889FE561B4C2E91006D8E03 /* LPRelateCell.h */,
 				1889FE571B4C2E91006D8E03 /* LPRelateCell.m */,
 				1889FE581B4C2E91006D8E03 /* LPUpButton.h */,
+				7E341DCE1B561C2600C469FB /* ImageWallCell.h */,
+				7E341DCF1B561C2600C469FB /* ImageWallCell.m */,
 				1889FE591B4C2E91006D8E03 /* LPUpButton.m */,
 				1889FE5A1B4C2E91006D8E03 /* LPZhihuView.h */,
 				1889FE5B1B4C2E91006D8E03 /* LPZhihuView.m */,

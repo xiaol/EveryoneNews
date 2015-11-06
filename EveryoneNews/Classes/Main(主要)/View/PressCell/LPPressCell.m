@@ -15,7 +15,7 @@
 #import "LPPhotoView.h"
 #import "LPPress.h"
 #import "LPSingleGraphMidSeperaterView.h"
-
+#import "TimeLineView.h"
 
 @interface LPPressCell ()
 //// 大图
@@ -24,6 +24,7 @@
 @property (nonatomic, strong) LPSingleGraphTopView *singleGraphTopView;
 @property (nonatomic, strong) LPSingleGraphMidSeperaterView  *singleGraphSeparaterView;
 @property (nonatomic, strong) LPSingleGraphOpinionsView *singleGraphOpinionsView;
+@property (nonatomic, strong) TimeLineView *timeLineView;
 
 //@property (nonatomic, strong) LPMultiGraphTopView *multiGraphTopView;
 //@property (nonatomic, strong) LPMultiGraphOpinionsView *multiGraphOpinionsView;
@@ -102,6 +103,8 @@
     int mode = press.special.intValue;
     if (mode == 1) {
         self.photoView.hidden = NO;
+        self.timeLineView.hidden = YES;
+        
         self.singleGraphTopView.hidden = YES;
         self.singleGraphSeparaterView.hidden = YES;
         self.singleGraphOpinionsView.hidden = YES;
@@ -110,7 +113,7 @@
         self.photoView.pressFrame = self.pressFrame;
     } else if (mode == 400) {
         self.photoView.hidden = YES;
-        
+        self.timeLineView.hidden = YES;
         self.singleGraphTopView.hidden = NO;
         self.singleGraphTopView.frame = self.pressFrame.singleGraphTopViewF;
         self.singleGraphTopView.pressFrame = self.pressFrame;
@@ -126,6 +129,15 @@
             self.singleGraphOpinionsView.hidden = YES;
         }
     } else if (mode == 9) {
+        
+    }else if (mode == 1000){
+        self.timeLineView.hidden = NO;
+        self.photoView.hidden = YES;
+        self.singleGraphTopView.hidden = YES;
+        self.singleGraphSeparaterView.hidden = YES;
+        self.singleGraphOpinionsView.hidden = YES;
+        self.timeLineView.frame = self.pressFrame.timeLineViewF;
+        self.timeLineView.pressFrame = self.pressFrame;
         
     }
 }
