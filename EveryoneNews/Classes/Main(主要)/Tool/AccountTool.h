@@ -13,9 +13,9 @@
 //保存用户信息path
 #define kAccountSavePath [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"account.data"]
 
-typedef void(^LoginSuccessHandler)(Account *account);
-typedef void(^LoginFailureHandler)();
-typedef void(^LoginCancelHandler)();
+typedef void (^LoginSuccessHandler)(Account *account);
+typedef void (^LoginFailureHandler)();
+typedef void (^LoginCancelHandler)();
 
 @interface AccountTool : NSObject
 singleton_h(AccountTool);

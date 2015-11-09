@@ -399,44 +399,47 @@ NSString * const HotwordsURL = @"http://api.deeporiginalx.com/news/baijia/fetchE
         [alert show];
     }else{
         [AccountTool accountLoginWithViewController:self success:^(Account *account) {
-            if ([account.platformType isEqualToString:@"sina"]) {
-                self.containerView.userInteractionEnabled = NO;
-                NSMutableDictionary *params = [NSMutableDictionary dictionary];
-                params[@"userId"] = account.userId;
-                params[@"token"] = account.token;
-                params[@"platformType"] = @"sina";
-                NSString *url = [NSString stringWithFormat:@"%@/news/baijia/fetchTags", ServerUrl];
-                [LPHttpTool getWithURL:url params:params success:^(id json) {
-                    NSArray *tags = json[@"tags"];
-                    if (!tags || !tags.count) {
-                        [MBProgressHUD showSuccess:@"登录成功"];
-                        self.containerView.userInteractionEnabled = YES;
-                    } else {
-                        LPTagCloudView *tagCloudView = [[LPTagCloudView alloc] init];
-                        tagCloudView.delegate = self;
-                        tagCloudView.alpha = 0;
-                        [self.view addSubview:tagCloudView];
-                        [self.view bringSubviewToFront:tagCloudView];
-                        tagCloudView.frame = self.view.bounds;
-                        tagCloudView.backgroundColor = [UIColor colorFromHexString:@"000000" alpha:0.95];
-                        tagCloudView.pageCapacity = 8;
-                        tagCloudView.tags = tags;
-                
-                        self.tagCloudView = tagCloudView;
-                        [UIView animateWithDuration:0.5 animations:^{
-                                    tagCloudView.alpha = 1.0;
-                            } completion:^(BOOL finished) {
-                                    self.containerView.userInteractionEnabled = YES;
-                        }];
-                    }
-                } failure:^(NSError *error) {
-                    self.containerView.userInteractionEnabled = YES;
-                    NSLog(@"error");
-                }];
-            } else {
-                NSLog(@"platform type : %@", account.platformType);
-                [MBProgressHUD showSuccess:@"登录成功"];
-            }
+            [MBProgressHUD showSuccess:@"登录成功"];
+//            if ([account.platformType isEqualToString:@"sina"]) {
+//                self.containerView.userInteractionEnabled = NO;
+//                NSMutableDictionary *params = [NSMutableDictionary dictionary];
+//                params[@"userId"] = account.userId;
+//                params[@"token"] = account.token;
+//                params[@"platformType"] = @"sina";
+//                NSString *url = [NSString stringWithFormat:@"%@/news/baijia/fetchTags", ServerUrl];
+//                [LPHttpTool getWithURL:url params:params success:^(id json) {
+////                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//                        NSArray *tags = json[@"tags"];
+//                        if (!tags || !tags.count) {
+//                            [MBProgressHUD showSuccess:@"登录成功"];
+//                            self.containerView.userInteractionEnabled = YES;
+//                        } else {
+//                            LPTagCloudView *tagCloudView = [[LPTagCloudView alloc] init];
+//                            tagCloudView.delegate = self;
+//                            tagCloudView.alpha = 0;
+//                            [self.navigationController.topViewController.view addSubview:tagCloudView];
+//                            [self.navigationController.topViewController.view bringSubviewToFront:tagCloudView];
+//                            tagCloudView.frame = self.view.bounds;
+//                            tagCloudView.backgroundColor = [UIColor colorFromHexString:@"000000" alpha:0.95];
+//                            tagCloudView.pageCapacity = 8;
+//                            tagCloudView.tags = tags;
+//                            
+//                            self.tagCloudView = tagCloudView;
+//                            [UIView animateWithDuration:0.5 animations:^{
+//                                tagCloudView.alpha = 1.0;
+//                            } completion:^(BOOL finished) {
+//                                self.containerView.userInteractionEnabled = YES;
+//                            }];
+//                        }
+////                    });
+//                } failure:^(NSError *error) {
+//                    self.containerView.userInteractionEnabled = YES;
+//                    NSLog(@"error");
+//                }];
+//            } else {
+//                NSLog(@"platform type : %@", account.platformType);
+//                [MBProgressHUD showSuccess:@"登录成功"];
+//            }
         } failure:^{
             [MBProgressHUD showError:@"登录失败"];
         } cancel:^{

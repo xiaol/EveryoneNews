@@ -4,7 +4,7 @@
 //
 //  Created by Feng on 15/6/25.
 //  Copyright (c) 2015年 apple. All rights reserved.
-//
+//  友盟登录
 
 #import "AccountTool.h"
 #import "MBProgressHUD.h"
@@ -21,8 +21,7 @@
 #import "WXApi.h"
 
 
-
-@interface LPLoginViewController : LPBaseViewController
+@interface LPLoginViewController : LPBaseViewController <UMSocialUIDelegate>
 
 //tabbar的背景图
 @property (nonatomic,strong) UIImage *headerBackgroundImage;
@@ -171,8 +170,12 @@
     __weak typeof(self) wself = self;
     [self.wrapperView removeFromSuperview];
     [self.maskView removeFromSuperview];
-    platform.loginClickHandler(self, [UMSocialControllerService defaultControllerService] , YES ,^(UMSocialResponseEntity *response) {
-        NSLog(@"responseCode is %d", response.responseCode);
+    UMSocialControllerService *service = [UMSocialControllerService defaultControllerService];
+    service.socialUIDelegate = self;
+//    NSLog(@"service %@", service.socialUIDelegate)
+    platform.loginClickHandler(self, service , YES ,^(UMSocialResponseEntity *response) {
+//        NSLog(@"%@", [UMSocialControllerService defaultControllerService]);
+        NSLog(@"responseCode is %d, type is %@", response.responseCode, type);
         if (response.responseCode == UMSResponseCodeSuccess) {
             UMSocialAccountEntity *accountEntity = [[UMSocialAccountManager socialAccountDictionary] valueForKey:type];
             NSMutableDictionary *dict = [NSMutableDictionary dictionary];
@@ -192,6 +195,8 @@
             [LPHttpTool getWithURL:AccountLoginUrl params:params success:^(id json) {
                 [AccountTool saveAccount:account];
                 [noteCenter postNotificationName:AccountLoginNotification object:wself];
+                NSLog(@"successBlock : %@", self.successBlock);
+                
                 if (wself.successBlock) {
                     wself.successBlock(account);
                 }
@@ -212,12 +217,24 @@
 }
 
 - (void)weiboLogin:(UIButton *)weiboBtn {
-//    [self closeSelf];
     [self loginWithPlatformName:UMShareToSina];
 }
 
 - (void)weixinLogin:(UIButton *)weixinBtn{
     [self loginWithPlatformName:UMShareToWechatSession];
+}
+
+- (void)dealloc {
+    NSLog(@"loginVC dealloc !");
+}
+
+#pragma mark - UMSocialUIDelegate
+//- (BOOL)closeOauthWebViewController:(UINavigationController *)navigationCtroller socialControllerService:(UMSocialControllerService *)socialControllerService {
+//    return YES;
+//}
+
+- (void)didCloseUIViewController:(UMSViewControllerType)fromViewControllerType {
+    [self closeSelf];
 }
 
 @end
@@ -257,7 +274,7 @@ singleton_m(AccountTool);
 
 + (void)deleteAccount{
     //1.删除授权信息
-    Account *account=[self account];
+//    Account *account=[self account];
     
 //    [ShareSDK cancelAuthWithType:account.platformType.intValue];
 
