@@ -34,13 +34,21 @@
 #import "LPPhotoCell.h"
 #import "MainNavigationController.h"
 #import "LPPhotoWallViewController.h"
+#import "LPShareViewController.h"
+#import "LPFullCommentViewController.h"
+#import "LPRelateView.h"
 
 #define CellAlpha 0.3
+#define LabelHeight 10
+#define ShareBtnWidth 45
 
 NSString * const PhotoCellReuseId = @"photoWallCell";
 
-@interface LPDetailViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate, LPContentCellDelegate, LPZhihuViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate>
-
+@interface LPDetailViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate, LPContentCellDelegate, LPZhihuViewDelegate,LPRelateViewDelegate,UICollectionViewDataSource, UICollectionViewDelegate>
+{
+    // 分享图片地址
+    NSString *detailImgUrl;
+}
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, assign) CGFloat lastContentOffsetY;
 @property (nonatomic, strong) UIButton *popBtn;
@@ -66,9 +74,15 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 @property (nonatomic, assign) CGFloat velocity;
 
 
+// 顶部视图
+@property(nonatomic,strong) UIView *topView;
+@property (nonatomic,strong) UIColor *categoryColor;
+// 存储全文评论内容
+@property (nonatomic,strong) NSArray *fullTextComments;
 
 @property (nonatomic, strong) LPHttpTool *http;
 @property (nonatomic, assign) BOOL requestSuccess;
+
 
 @end
 
@@ -93,8 +107,12 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 - (void)setupNoteObserver
 {
     [noteCenter addObserver:self selector:@selector(willComposeComment:) name:LPCommentWillComposeNotification object:nil];
-    [noteCenter addObserver:self selector:@selector(didComposeComment) name:LPCommentDidComposeNotification object:nil];
+    [noteCenter addObserver:self selector:@selector(didComposeComment:) name:LPCommentDidComposeNotification object:nil];
     [noteCenter addObserver:self selector:@selector(reloadCell:) name:LPDetailVcShouldReloadDataNotification object:nil];
+    
+    // 全文评论
+    [noteCenter addObserver:self selector:@selector(willComposeFulltextComment) name:LPFulltextCommentWillComposeNotification object:nil];
+    [noteCenter addObserver:self selector:@selector(refreshDataWithCompletion) name:LPDetailVcRefreshDataNotification object:nil];
 }
 
 //- (BOOL)prefersStatusBarHidden
@@ -127,26 +145,86 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 
 - (void)setupSubviews
 {
+    // 分享，评论，添加按钮边距设置
+    double topViewHeight= 44;
+    double btnReturnWidth=10;
+    double btnReturnHeight=18;
+    double btnCommentWidth=18;
+    double btnCommentHeight=18;
+    double btnWidth= 17.5;
+    double btnHeight=17;
+    double marginRight=25;
+    double padding=13;
+    double spacing=35;
+    
+    if(iPhone6Plus)
+    {
+        topViewHeight= 44;
+        btnCommentWidth=20;
+        btnCommentHeight=20;
+        btnWidth=19;
+        btnHeight=19;
+        padding=18;
+        marginRight=25;
+        spacing=35;
+    }
     // 初始化tableview
     UITableView *tableView = [[UITableView alloc] init];
     tableView.frame = self.view.bounds;
     tableView.backgroundColor = [UIColor colorFromHexString:@"#edefef"];
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    tableView.showsVerticalScrollIndicator = YES;
+    tableView.showsVerticalScrollIndicator = NO;
     tableView.showsHorizontalScrollIndicator = NO;
     self.tableView = tableView;
     [self.view addSubview:tableView];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    // 出栈button
-    UIButton *popBtn = [[UIButton alloc] initWithFrame:CGRectMake(DetailCellPadding, DetailCellPadding * 2, 34, 34)];
-    popBtn.enlargedEdge = 5;
-    [popBtn setImage:[UIImage resizedImageWithName:@"back"] forState:UIControlStateNormal];
-    popBtn.backgroundColor = [UIColor clearColor];
-    popBtn.alpha = 0.8;
+    
+    // 定义顶部视图
+    UIView* topView =[[ UIView alloc]initWithFrame:CGRectMake(0,0,ScreenWidth,topViewHeight)];
+    [topView setBackgroundColor:[UIColor colorFromHexString:@"#f6f6f7"]];
+    topView.alpha=0;
+    self.topView=topView;
+    
+    // 返回button
+    UIButton *popBtn = [[UIButton alloc] initWithFrame:CGRectMake(15, 0,btnReturnWidth, btnReturnHeight)];
+    [popBtn setBackgroundImage:[UIImage imageNamed:@"详情页返回"] forState:UIControlStateNormal];
+    [popBtn setEnlargedEdgeWithTop:20 left:10 bottom:10 right:20];
+    
+    popBtn.centerY=topView.centerY;
     [popBtn addTarget:self action:@selector(popBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:popBtn];
-    self.popBtn = popBtn;
+    [topView addSubview:popBtn];
+    
+    // 添加按钮
+    UIButton *addBtn=[[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth-btnWidth-marginRight, 0, btnWidth, btnHeight)];
+    [addBtn setBackgroundImage:[UIImage imageNamed:@"详情页专辑"] forState:UIControlStateNormal];
+    [addBtn setEnlargedEdgeWithTop:20 left:10 bottom:10 right:20];
+    addBtn.centerY=topView.centerY;
+    [topView addSubview:addBtn];
+    
+    // 添加分享按钮
+    UIButton *shareBtn=[[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth-marginRight-2*btnWidth-spacing, 0, btnWidth, btnHeight)];
+    [shareBtn setImage:[UIImage imageNamed:@"详情页分享"]  forState:UIControlStateNormal];
+    [shareBtn setEnlargedEdgeWithTop:20 left:10 bottom:10 right:20];
+    shareBtn.centerY=topView.centerY;
+    [shareBtn addTarget:self action:@selector(shareBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+    [topView addSubview:shareBtn];
+    
+    // 评论按钮
+    UIButton *commentBtn=[[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth-marginRight-3*btnWidth-2*spacing, 0, btnCommentWidth, btnCommentHeight)];
+    [commentBtn setImage:[UIImage imageNamed:@"详情页评论"]   forState:UIControlStateNormal];
+    [commentBtn setEnlargedEdgeWithTop:20 left:10 bottom:10 right:20];
+    commentBtn.centerY=topView.centerY+1;
+    [commentBtn addTarget:self action:@selector(fulltextCommentBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [topView addSubview:commentBtn];
+    
+    // 分割线
+    UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(0, topView.frame.size.height-1, ScreenWidth, 1)];
+    label.backgroundColor=[UIColor colorFromHexString:@"#cacaca"];
+    [topView addSubview:label];
+    [self.view addSubview:topView];
+    
+    
     // 菊花
     sharedIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
     sharedIndicator.color = [UIColor lightGrayColor];
@@ -155,6 +233,40 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     [self.view addSubview:sharedIndicator];
 }
 
+// 点击分享按钮
+- (void)shareBtnClick:(UIButton *)btn
+{
+    // 弹出分享view
+    LPShareViewController *shareVc = [[LPShareViewController alloc] init];
+    shareVc.detailTitleWithUrl=[NSString stringWithFormat:@"%@ http://deeporiginalx.com/news.html?type=%d&url=%@",self.isConcernDetail==YES?self.concernPress.title:self.press.title,self.isConcernDetail==YES?1:0,self.isConcernDetail==YES?self.concernPress.sourceUrl:self.press.sourceUrl];
+    shareVc.detailUrl=[NSString stringWithFormat:@"http://deeporiginalx.com/news.html?type=%d&url=%@",self.isConcernDetail==YES?1:0,self.isConcernDetail==YES?self.concernPress.sourceUrl:self.press.sourceUrl];
+    shareVc.captureImage=[UIImage captureWithView:self.view];
+    shareVc.detailTitle=self.isConcernDetail==YES?self.concernPress.title:self.press.title;
+    shareVc.detailImageUrl=detailImgUrl;
+    [self.navigationController pushViewController:shareVc animated:NO];
+}
+
+// 全文评论
+- (void)fulltextCommentBtnClick
+{
+    
+    LPFullCommentViewController *fullCommentVc=[[LPFullCommentViewController alloc] init];
+    fullCommentVc.color=self.categoryColor;
+    fullCommentVc.comments=self.fullTextComments;
+    if (self.isConcernDetail) {
+        fullCommentVc.sourceURL = self.concernPress.sourceUrl;
+    } else {
+        fullCommentVc.sourceURL = self.press.sourceUrl;
+    }
+    if (self.categoryColor!=nil) {
+        [self.navigationController pushViewController:fullCommentVc animated:YES];
+    }
+    else
+    {
+        [MBProgressHUD showError:@"请稍后"];
+    }
+    
+}
 - (void)popBtnClick
 {
     [self.navigationController popViewControllerAnimated:YES];
@@ -178,27 +290,34 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
         }
 //        params[@"url"] = self.press.sourceUrl;
         NSString *url = [NSString stringWithFormat:@"%@%@", ContentUrl, self.press.sourceUrl];
+        // url=@"http://api.deeporiginalx.com/news/baijia/fetchContent?url=http://finance.ifeng.com/a/20150820/13921905_0.shtml";
         self.http = [LPHttpTool http];
         [self.http getWithURL:url params:params success:^(id json) {
             // 0. json字典转模型
             NSString *headerImg = json[@"imgUrl"];
+            // 设置分享链接图片地址
+            detailImgUrl=headerImg;
             NSString *title = json[@"title"];
             NSString *time = json[@"updateTime"];
-            
             NSString *abstract = json[@"abs"];
             NSString *totalBody = json[@"content"];
+          //  NSLog(@"%@",json[@"newsid"]);
             NSArray *commentArray = [LPComment objectArrayWithKeyValuesArray:json[@"point"]];
             
 //            NSArray *baikeArray = [LPWeiboPoint objectArrayWithKeyValuesArray:json[@"baike"]];
             NSArray *zhihuArray = [LPZhihuPoint objectArrayWithKeyValuesArray:json[@"zhihu"]];
 //            NSArray *doubanArray = [LPWeiboPoint objectArrayWithKeyValuesArray:json[@"douban"]];
 //            NSArray *weiboArray = [LPWeiboPoint objectArrayWithKeyValuesArray:json[@"weibo"]];
-//            NSArray *relateArray = [LPRelatePoint objectArrayWithKeyValuesArray:json[@"relate"]];
+            // 相关观点
+            NSArray *relateArray = [LPRelatePoint objectArrayWithKeyValuesArray:json[@"relate"]];
             NSArray *photoWallArray = [LPPhoto objectArrayWithKeyValuesArray:json[@"imgWall"]];
             
             // 1. header图像及标题的赋值
             [weakSelf setupHeaderWithImageURL:headerImg title:title time:time color:[UIColor colorFromCategory:self.press.category alpha:0.1]];
-            
+            // 设置全文评论顶部视图颜色
+            self.categoryColor=[UIColor colorFromCategory:self.press.category];
+            // 防止数据为空时详情页崩溃
+            abstract=abstract==nil?@"":abstract;
             // 2. 每段正文及其评论赋值
             NSArray *rawArray = [totalBody componentsSeparatedByString:@"\n"];
             NSMutableArray *bodyArray = [NSMutableArray arrayWithArray:@[abstract]];
@@ -210,6 +329,20 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
             
             NSMutableArray *contents = [NSMutableArray array];
             NSMutableArray *contentFrameArray = [NSMutableArray array];
+            
+            // 全文评论
+            NSMutableArray *textComments=[NSMutableArray array];
+            // 获取所有的全文评论
+            for(LPComment *comment in commentArray)
+            {
+                //  判断是否为全文评论
+                if([comment.type isEqualToString:@"text_doc"])
+                {
+                    [textComments addObject:comment];
+                }
+            }
+            self.fullTextComments=textComments;
+            
             for (int i = 0; i < bodyArray.count; i++) {
                 // 2.1 正文
                 LPContent *content = [[LPContent alloc] init];
@@ -218,6 +351,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
                 content.body = bodyArray[i];
                 content.category = self.press.redefineCategory;
                 content.color = [UIColor colorFromCategory:content.category];
+                // 分段评论
                 NSMutableArray *comments = [NSMutableArray array];
                 if (i == 0) {
                     content.isAbstract = YES;
@@ -264,7 +398,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
             weakSelf.contentFrames = contentFrameArray;
             
             // 3. 尾部数据的赋值
-            [weakSelf setupFooterWithPhotoWallArray:photoWallArray zhihu:zhihuArray];
+            [weakSelf setupFooterWithPhotoWallArray:photoWallArray zhihu:zhihuArray relateArray:relateArray];
             
             // 4. 刷新tableView
             [weakSelf.tableView reloadData];
@@ -280,7 +414,6 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
         }];
     } else {
         self.http = [LPHttpTool http];
-        
         NSString *url = [NSString stringWithFormat:@"%@", ConcernDetailUrl];
         params[@"deviceType"] = @"IOS";
         params[@"url"] = self.concernPress.sourceUrl;
@@ -288,6 +421,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
         [self.http postWithURL:url params:params success:^(id json) {
             
             NSString *headerImg = json[@"imgUrl"];
+            detailImgUrl=headerImg;
             NSString *title = json[@"title"];
             NSString *time = json[@"updateTime"];
             [weakSelf setupHeaderWithImageURL:headerImg title:title time:time color:[UIColor colorFromConcern:weakSelf.concern alpha:0.1]];
@@ -309,6 +443,18 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
             absFrm.content = absContent;
             NSMutableArray *contentFrameArray = [NSMutableArray arrayWithArray:@[absFrm]];
             
+            // 全文评论
+            NSMutableArray *textComments=[NSMutableArray array];
+            // 获取所有的全文评论
+            for(LPComment *comment in commentArray)
+            {
+                //  判断是否为全文评论
+                if([comment.type isEqualToString:@"text_doc"])
+                {
+                    [textComments addObject:comment];
+                }
+            }
+            self.fullTextComments=textComments;
             int i = 1;
             for (NSDictionary *dict in bodyArray) {
                 
@@ -352,7 +498,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
             }
             weakSelf.contentFrames = contentFrameArray;
             
-            [weakSelf setupFooterWithPhotoWallArray:nil zhihu:zhihuArray];
+            [weakSelf setupFooterWithPhotoWallArray:nil zhihu:zhihuArray relateArray:nil];
             
             [weakSelf.tableView reloadData];
             
@@ -432,7 +578,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     [self.tableView sendSubviewToBack:headerView];
 }
 # pragma mark - footer view setting up
-- (void)setupFooterWithPhotoWallArray:(NSArray *)photos zhihu:(NSArray *)zhihuArray {
+- (void)setupFooterWithPhotoWallArray:(NSArray *)photos zhihu:(NSArray *)zhihuArray relateArray:(NSArray *)relateArray{
     UIView *footerView = [[UIView alloc] init];
     footerView.backgroundColor = [UIColor colorFromHexString:TableViewBackColor];
     
@@ -495,11 +641,38 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     }
     CGFloat footerH = 0.0;
     CGFloat zhihuY = 0.0;
-    if (!photoBgView.hidden) {
+    // 相关观点
+    LPRelateView *relateView=[[LPRelateView alloc] init];
+    relateView.backgroundColor=[UIColor whiteColor];
+    if(relateArray&&relateArray.count)
+    {
+        relateView.frame = CGRectMake(DetailCellPadding,CGRectGetMaxY(photoBgView.frame)+DetailCellPadding, DetailCellWidth, 60+79*relateArray.count);
+        relateView.layer.shadowOpacity = 0.24f;
+        relateView.layer.shadowRadius = 3.0;
+        relateView.layer.shadowOffset = CGSizeMake(0, 0);
+        relateView.layer.shadowColor = [UIColor lightGrayColor].CGColor;
+        relateView.layer.zPosition = 999.0;
+        relateView.layer.cornerRadius = 1.0;
+        relateView.relateArray=relateArray;
+        [footerView addSubview:relateView];
+        
+        footerH = CGRectGetMaxY(relateView.frame) + DetailCellPadding;
+        zhihuY = footerH;
+    }
+    else
+    {
+        relateView.height=0;
+        relateView.hidden=YES;
         footerH = CGRectGetMaxY(photoBgView.frame) + DetailCellPadding;
         zhihuY = footerH;
     }
-    
+    relateView.delegate=self;
+
+//    if (!photoBgView.hidden) {
+//        footerH = CGRectGetMaxY(photoBgView.frame) + DetailCellPadding;
+//        zhihuY = footerH;
+//    }
+    // 知乎推荐
     LPZhihuView *zhihuView = [[LPZhihuView alloc] init];
     if (zhihuArray && zhihuArray.count) {
         zhihuView.hidden = NO;
@@ -531,15 +704,17 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 
 - (void)fadeIn
 {
-    [UIView animateWithDuration:0.8 animations:^{
-        self.popBtn.alpha = 0.8;
+    [UIView animateWithDuration:0.1 animations:^{
+        //self.popBtn.alpha = 0.8;
+         self.topView.alpha=1.0;
     }];
 }
 
 - (void)fadeOut
 {
-    [UIView animateWithDuration:0.8 animations:^{
-        self.popBtn.alpha = 0.0;
+    [UIView animateWithDuration:0.1 animations:^{
+        //self.popBtn.alpha = 0.0;
+         self.topView.alpha=0.0;
     }];
 }
 
@@ -740,29 +915,21 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
         [self pushCommentComposeVcWithNote:note];
     }
 }
-
-- (void)pushCommentComposeVcWithNote:(NSNotification *)note
+// 相关观点
+-(void)relateView:(LPRelateView *)relateView didCliclURL:(NSString *)url
 {
-    NSDictionary *info = note.userInfo;
-    int paraIndex = [info[LPComposeParaIndex] intValue];
-    self.realParaIndex = paraIndex;
-    LPContentFrame *contentFrame = self.contentFrames[paraIndex];
-    LPContent *content = contentFrame.content;
-    LPComposeViewController *composeVc = [[LPComposeViewController alloc] init];
-    composeVc.color = content.color;
-    composeVc.draftText = self.commentText;
-    [composeVc returnText:^(NSString *text) {
-        self.commentText = text;
-    }];
-    [self.navigationController pushViewController:composeVc animated:YES];
+    [LPPressTool loadWebViewWithURL:url viewController:self];
 }
+
 
 #pragma mark - notification selector did compose comment
 /**
  *  评论发送后的处理
  */
-- (void)didComposeComment
+- (void)didComposeComment:(NSNotification *)note
 {
+    
+    NSString *commentType = [[note userInfo] objectForKey:@"commentType"];
     // 1. 刷新当前页
 //    LPContent *content = self.commentContent;
     LPContentFrame *contentFrame = self.contentFrames[self.realParaIndex];
@@ -776,7 +943,16 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     comment.srcText = self.commentText;
     comment.color = content.color;
     // 评论段落索引为整体(real)段落索引值 - 1
-    comment.type = @"text_paragraph";
+    if([commentType isEqualToString:@"text_paragraph"])
+    {
+        comment.type = @"text_paragraph";
+        commentArray = [NSMutableArray arrayWithArray:content.comments];
+    }
+    else if([commentType isEqualToString:@"text_doc"])
+    {
+        comment.type=@"text_doc";
+        //
+    }
     comment.uuid = account.userId;
     comment.userIcon = account.userIcon;
     comment.userName = account.userName;
@@ -829,7 +1005,14 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
         
         if (self.shouldPush) {
             NSDictionary *info = @{LPComposeComment:comment};
-            [noteCenter postNotificationName:LPParaVcRefreshDataNotification object:self userInfo:info];
+            if([commentType isEqualToString:@"text_paragraph"])
+            {
+                [noteCenter postNotificationName:LPParaVcRefreshDataNotification object:self userInfo:info];
+            }
+            else if([commentType isEqualToString:@"text_doc"])
+            {
+                [noteCenter postNotificationName:LPFulltextVcRefreshDataNotification object:self userInfo:info];
+            }
         }
         // 3. 清空草稿
         self.commentText = nil;
@@ -882,5 +1065,53 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
         [self.navigationController pushViewController:photoVc animated:YES];
     }
 }
-
+-(void)refreshDataWithCompletion
+{
+    [self setupDataWithCompletion:nil];
+}
+// 全文评论
+- (void)willComposeFulltextComment
+{
+    if (![AccountTool account]) {
+        __weak typeof(self) weakSelf = self;
+        [AccountTool accountLoginWithViewController:weakSelf success:^(Account *account){
+            [MBProgressHUD showSuccess:@"登录成功"];
+            [weakSelf performSelector:@selector(pushCommentComposeVcWithNote:) withObject:nil afterDelay:0.6];
+        } failure:^{
+            [MBProgressHUD showError:@"登录失败!"];
+        } cancel:nil];
+    } else {
+        [self pushCommentComposeVcWithNote:nil];
+    }
+}
+- (void)pushCommentComposeVcWithNote:(NSNotification *)note
+{
+    NSDictionary *info;
+    int paraIndex=0;
+    if(note!=nil)
+    {
+        info= note.userInfo;
+        paraIndex = [info[LPComposeParaIndex] intValue];
+    }
+    self.realParaIndex = paraIndex;
+    LPContentFrame *contentFrame = self.contentFrames[paraIndex];
+    LPContent *content = contentFrame.content;
+    LPComposeViewController *composeVc = [[LPComposeViewController alloc] init];
+    // 类别为1代表分段评论
+    if(note!=nil)
+    {
+        composeVc.commentType=1;
+        composeVc.color = content.color;
+    }
+    else
+    {
+        composeVc.commentType=2;
+        composeVc.color=self.categoryColor;
+    }
+    composeVc.draftText = self.commentText;
+    [composeVc returnText:^(NSString *text) {
+        self.commentText = text;
+    }];
+    [self.navigationController pushViewController:composeVc animated:YES];
+}
 @end

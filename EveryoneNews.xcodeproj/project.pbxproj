@@ -142,7 +142,6 @@
 		1889FE5F1B4C2E91006D8E03 /* LPContentFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 1889FE461B4C2E91006D8E03 /* LPContentFrame.m */; };
 		1889FE601B4C2E91006D8E03 /* LPOffset.m in Sources */ = {isa = PBXBuildFile; fileRef = 1889FE481B4C2E91006D8E03 /* LPOffset.m */; };
 		1889FE611B4C2E91006D8E03 /* LPRelatePoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 1889FE4A1B4C2E91006D8E03 /* LPRelatePoint.m */; };
-		1889FE621B4C2E91006D8E03 /* LPRelateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1889FE4C1B4C2E91006D8E03 /* LPRelateView.m */; };
 		1889FE631B4C2E91006D8E03 /* LPWeiboPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 1889FE4E1B4C2E91006D8E03 /* LPWeiboPoint.m */; };
 		1889FE641B4C2E91006D8E03 /* LPZhihuPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 1889FE501B4C2E91006D8E03 /* LPZhihuPoint.m */; };
 		1889FE651B4C2E91006D8E03 /* LPCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1889FE531B4C2E91006D8E03 /* LPCommentView.m */; };
@@ -333,6 +332,10 @@
 		7E9E723F1B3BF0E70038FE12 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9E723D1B3BF0E70038FE12 /* MBProgressHUD.m */; };
 		7E9FEBA61B43928900D06E0A /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9FEBA51B43928900D06E0A /* NSDate+Extension.m */; };
 		7ED4FA571B41423300DF2B7D /* MBProgressHUD+MJ.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ED4FA561B41423300DF2B7D /* MBProgressHUD+MJ.m */; };
+		8680F8171BF046A6002C08EB /* LPRelateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8680F8161BF046A6002C08EB /* LPRelateView.m */; };
+		8689DA191BECABFC00D425BC /* LPShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8689DA181BECABFC00D425BC /* LPShareViewController.m */; };
+		8689DDA41BECAEA600D425BC /* LPFullCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8689DDA31BECAEA600D425BC /* LPFullCommentCell.m */; };
+		8689DDA71BECAF1700D425BC /* LPFullCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8689DDA61BECAF1700D425BC /* LPFullCommentViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -575,8 +578,6 @@
 		1889FE481B4C2E91006D8E03 /* LPOffset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPOffset.m; sourceTree = "<group>"; };
 		1889FE491B4C2E91006D8E03 /* LPRelatePoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPRelatePoint.h; sourceTree = "<group>"; };
 		1889FE4A1B4C2E91006D8E03 /* LPRelatePoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPRelatePoint.m; sourceTree = "<group>"; };
-		1889FE4B1B4C2E91006D8E03 /* LPRelateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPRelateView.h; sourceTree = "<group>"; };
-		1889FE4C1B4C2E91006D8E03 /* LPRelateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPRelateView.m; sourceTree = "<group>"; };
 		1889FE4D1B4C2E91006D8E03 /* LPWeiboPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPWeiboPoint.h; sourceTree = "<group>"; };
 		1889FE4E1B4C2E91006D8E03 /* LPWeiboPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPWeiboPoint.m; sourceTree = "<group>"; };
 		1889FE4F1B4C2E91006D8E03 /* LPZhihuPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPZhihuPoint.h; sourceTree = "<group>"; };
@@ -918,6 +919,14 @@
 		7E9FEBA51B43928900D06E0A /* NSDate+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Extension.m"; sourceTree = "<group>"; };
 		7ED4FA551B41423300DF2B7D /* MBProgressHUD+MJ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+MJ.h"; sourceTree = "<group>"; };
 		7ED4FA561B41423300DF2B7D /* MBProgressHUD+MJ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+MJ.m"; sourceTree = "<group>"; };
+		8680F8151BF046A6002C08EB /* LPRelateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPRelateView.h; sourceTree = "<group>"; };
+		8680F8161BF046A6002C08EB /* LPRelateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPRelateView.m; sourceTree = "<group>"; };
+		8689DA171BECABFC00D425BC /* LPShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPShareViewController.h; sourceTree = "<group>"; };
+		8689DA181BECABFC00D425BC /* LPShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPShareViewController.m; sourceTree = "<group>"; };
+		8689DDA21BECAEA600D425BC /* LPFullCommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPFullCommentCell.h; sourceTree = "<group>"; };
+		8689DDA31BECAEA600D425BC /* LPFullCommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPFullCommentCell.m; sourceTree = "<group>"; };
+		8689DDA51BECAF1700D425BC /* LPFullCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPFullCommentViewController.h; sourceTree = "<group>"; };
+		8689DDA61BECAF1700D425BC /* LPFullCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPFullCommentViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1404,6 +1413,8 @@
 		1889FE3D1B4C2E91006D8E03 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				8689DA171BECABFC00D425BC /* LPShareViewController.h */,
+				8689DA181BECABFC00D425BC /* LPShareViewController.m */,
 				1889FE3E1B4C2E91006D8E03 /* LPDetailViewController.h */,
 				1889FE3F1B4C2E91006D8E03 /* LPDetailViewController.m */,
 				1826B3F21B7D9E0B00B712E0 /* LPPhotoWallViewController.h */,
@@ -1425,8 +1436,6 @@
 				1889FE481B4C2E91006D8E03 /* LPOffset.m */,
 				1889FE491B4C2E91006D8E03 /* LPRelatePoint.h */,
 				1889FE4A1B4C2E91006D8E03 /* LPRelatePoint.m */,
-				1889FE4B1B4C2E91006D8E03 /* LPRelateView.h */,
-				1889FE4C1B4C2E91006D8E03 /* LPRelateView.m */,
 				1889FE4D1B4C2E91006D8E03 /* LPWeiboPoint.h */,
 				1889FE4E1B4C2E91006D8E03 /* LPWeiboPoint.m */,
 				1889FE4F1B4C2E91006D8E03 /* LPZhihuPoint.h */,
@@ -1440,6 +1449,8 @@
 		1889FE511B4C2E91006D8E03 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				8680F8151BF046A6002C08EB /* LPRelateView.h */,
+				8680F8161BF046A6002C08EB /* LPRelateView.m */,
 				1889FE521B4C2E91006D8E03 /* LPCommentView.h */,
 				1889FE531B4C2E91006D8E03 /* LPCommentView.m */,
 				1889FE541B4C2E91006D8E03 /* LPContentCell.h */,
@@ -1762,6 +1773,8 @@
 		18BAE7071B1352EA0052BDD0 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				8689DDA51BECAF1700D425BC /* LPFullCommentViewController.h */,
+				8689DDA61BECAF1700D425BC /* LPFullCommentViewController.m */,
 				18CB19A61B2E174D0005D3E3 /* LPParaCommentViewController.h */,
 				18CB19A71B2E174D0005D3E3 /* LPParaCommentViewController.m */,
 				1877D4EA1B41323700C042E6 /* LPComposeViewController.h */,
@@ -1782,6 +1795,8 @@
 		18BAE7091B1352EA0052BDD0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				8689DDA21BECAEA600D425BC /* LPFullCommentCell.h */,
+				8689DDA31BECAEA600D425BC /* LPFullCommentCell.m */,
 				18CB19BC1B2E269B0005D3E3 /* LPParaCommentCell.h */,
 				18CB19BD1B2E269B0005D3E3 /* LPParaCommentCell.m */,
 				1877D5221B42594C00C042E6 /* LPTextView.h */,
@@ -2537,6 +2552,7 @@
 				18F631101B5C044300423658 /* MainViewController.m in Sources */,
 				1846B1281B1C5178009EF8B9 /* LPSlidingShadowAnimation.m in Sources */,
 				18BA5E8E1B199BDB00EEDB63 /* UIView+LP.m in Sources */,
+				8680F8171BF046A6002C08EB /* LPRelateView.m in Sources */,
 				18C9C4CC1B5C03C600064CED /* ConcernViewController.m in Sources */,
 				18EC95961BE21E6F0039486A /* TimerTool.m in Sources */,
 				18EC95BA1BE7D3940039486A /* AlbumPhoto.m in Sources */,
@@ -2631,6 +2647,7 @@
 				18F631221B5C044300423658 /* LPPressCell.m in Sources */,
 				186866091B907E1500039AA3 /* AFURLResponseSerialization.m in Sources */,
 				7E9E723F1B3BF0E70038FE12 /* MBProgressHUD.m in Sources */,
+				8689DA191BECABFC00D425BC /* LPShareViewController.m in Sources */,
 				1889FE681B4C2E91006D8E03 /* LPUpButton.m in Sources */,
 				18D71FAF1B2572C5002A7375 /* NSObject+MJProperty.m in Sources */,
 				18D71FAD1B2572C5002A7375 /* NSObject+MJCoding.m in Sources */,
@@ -2663,6 +2680,7 @@
 				1889FE661B4C2E91006D8E03 /* LPContentCell.m in Sources */,
 				7E9FEBA61B43928900D06E0A /* NSDate+Extension.m in Sources */,
 				186866581BB25AD900039AA3 /* AppDelegate+MOC.m in Sources */,
+				8689DDA71BECAF1700D425BC /* LPFullCommentViewController.m in Sources */,
 				186866051B907E1500039AA3 /* AFNetworkReachabilityManager.m in Sources */,
 				18095CD21B2A221100CB7666 /* LPWaterfallView.m in Sources */,
 				18EC95C31BE7D3960039486A /* PressPhoto.m in Sources */,
@@ -2695,8 +2713,8 @@
 				1826B39E1B78651400B712E0 /* LPTagCloudView.m in Sources */,
 				18C9C4CD1B5C03C600064CED /* LPConcernPress.m in Sources */,
 				18F631A31B5F2F1000423658 /* FBShimmeringView.m in Sources */,
-				1889FE621B4C2E91006D8E03 /* LPRelateView.m in Sources */,
 				18F631211B5C044300423658 /* LPPhotoView.m in Sources */,
+				8689DDA41BECAEA600D425BC /* LPFullCommentCell.m in Sources */,
 				18F631151B5C044300423658 /* LPPressFrame.m in Sources */,
 				18F6311C1B5C044300423658 /* LPCategoryButton.m in Sources */,
 				1826B3891B722F7800B712E0 /* LPItemView.m in Sources */,
@@ -2856,9 +2874,14 @@
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK/UI",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
+					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0/Connection",
+					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0/Core",
+					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0",
+					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0/UI",
+					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 				);
 				INFOPLIST_FILE = EveryoneNewsTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2872,6 +2895,14 @@
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_Extra_Frameworks/Sina",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_Extra_Frameworks/Wechat",
+					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/JPush",
+					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0/Extend/SinaWeiboSDK",
+					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0/Extend/WeChatSDK",
+					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/UMeng",
+					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_4.2.3",
+					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_Extra_Frameworks/Sina",
+					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
+					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_Extra_Frameworks/Wechat",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2898,9 +2929,14 @@
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK/UI",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
+					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0/Connection",
+					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0/Core",
+					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0",
+					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0/UI",
+					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 				);
 				INFOPLIST_FILE = EveryoneNewsTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2914,6 +2950,14 @@
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_Extra_Frameworks/Sina",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_Extra_Frameworks/Wechat",
+					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/JPush",
+					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0/Extend/SinaWeiboSDK",
+					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0/Extend/WeChatSDK",
+					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/UMeng",
+					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_4.2.3",
+					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_Extra_Frameworks/Sina",
+					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
+					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_Extra_Frameworks/Wechat",
 				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";

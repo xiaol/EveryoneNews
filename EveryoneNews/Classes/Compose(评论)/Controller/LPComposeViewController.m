@@ -11,7 +11,7 @@
 #import "LPTextView.h"
 
 #define padding 10
-#define HeaderViewHeight 50
+#define HeaderViewHeight 44
 
 @interface LPComposeViewController () <UITextViewDelegate>
 @property (nonatomic, strong) UIButton *composeBtn;
@@ -53,32 +53,35 @@
     headerView.y = 0;
     headerView.width = ScreenWidth;
     headerView.height = HeaderViewHeight;
+    double btnWidth= 44;
     headerView.backgroundColor = self.color;
     
-    UIButton *backBtn = [[UIButton alloc] init];
-    backBtn.width = 60;
-    backBtn.height = 20;
-    backBtn.centerX = backBtn.width / 2 + 4;
-    backBtn.centerY = headerView.centerY;
-    backBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-    backBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
+    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, btnWidth, btnWidth)];
+    //    backBtn.width = 60;
+    //    backBtn.height = 20;
+    //    backBtn.centerX = backBtn.width / 2 + 4;
+    //    backBtn.centerY = headerView.centerY;
+    //    backBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
+    //    backBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
     [backBtn addTarget:self action:@selector(backBtnClicked) forControlEvents:UIControlEventTouchUpInside];
-    [backBtn setTitle:@"返回" forState:UIControlStateNormal];
+    //[backBtn setTitle:@"返回" forState:UIControlStateNormal];
     [backBtn setImage:[UIImage imageNamed:@"返回"] forState:UIControlStateNormal];
-    backBtn.titleLabel.font = [UIFont boldSystemFontOfSize:15];
-    [backBtn setTitleColor:[UIColor colorFromHexString:ComposeButtonNormalColor] forState:UIControlStateNormal];
+    backBtn.imageEdgeInsets=UIEdgeInsetsMake(0,0,0,10);
+    //backBtn.titleLabel.font = [UIFont boldSystemFontOfSize:15];
+    //[backBtn setTitleColor:[UIColor colorFromHexString:ComposeButtonNormalColor] forState:UIControlStateNormal];
     [headerView addSubview:backBtn];
     
-    UIButton *composeBtn = [[UIButton alloc] init];
+    UIButton *composeBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, btnWidth, btnWidth)];
     composeBtn.enabled = NO;
-    composeBtn.width = 50;
-    composeBtn.height = 20;
+    //    composeBtn.width = 50;
+    //    composeBtn.height = 20;
     composeBtn.centerX = ScreenWidth - composeBtn.width / 2 - padding;
     composeBtn.centerY = headerView.centerY;
     composeBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-    [composeBtn addTarget:self action:@selector(composeBtnClicked) forControlEvents:UIControlEventTouchUpInside];
+    composeBtn.tag=self.commentType;
+    [composeBtn addTarget:self action:@selector(composeBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     [composeBtn setTitle:@"发表" forState:UIControlStateNormal];
-    composeBtn.titleLabel.font = [UIFont boldSystemFontOfSize:15];
+    composeBtn.titleLabel.font = [UIFont boldSystemFontOfSize:18];
     [composeBtn setTitleColor:[UIColor colorFromHexString:ComposeButtonNormalColor] forState:UIControlStateNormal];
     [composeBtn setTitleColor:LPColor(220, 220, 220) forState:UIControlStateDisabled];
     [headerView addSubview:composeBtn];
@@ -91,6 +94,10 @@
     textView.alwaysBounceVertical = YES;
     textView.frame = self.view.bounds;
     textView.y = HeaderViewHeight;
+    if(iPhone6Plus)
+    {
+        textView.y = 50;
+    }
     textView.delegate = self;
     [self.view addSubview:textView];
     self.textView = textView;
@@ -125,13 +132,24 @@
 /**
  *  发表
  */
-- (void)composeBtnClicked
+- (void)composeBtnClicked:(UIButton *)sender
 {
     if (self.returnTextBlock != nil) {
         // 点击发送，取回评论文字，由详情页进行进一步处理（request）
         self.returnTextBlock(self.textView.text);
     }
-    [noteCenter postNotificationName:LPCommentDidComposeNotification object:self];
+    NSString *commentType;
+    if(sender.tag==1)
+    {
+        commentType=@"text_paragraph";
+    }
+    else if(sender.tag==2)
+    {
+        commentType=@"text_doc";
+    }
+    NSDictionary *commentTypeDic = [NSDictionary dictionaryWithObject:commentType
+                                                               forKey:@"commentType"];
+    [noteCenter postNotificationName:LPCommentDidComposeNotification object:self userInfo:commentTypeDic];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
