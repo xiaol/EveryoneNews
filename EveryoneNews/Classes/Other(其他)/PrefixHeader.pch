@@ -55,6 +55,10 @@ extern NSString * const HotwordsURL;
 #define LPPushNotificationFromLaunching @"pushNotificationFromLaunching"
 #define LPPushNotificationURL @"url"
 
+#define LPFulltextCommentWillComposeNotification @"fulltextWillCompose"
+#define LPFulltextVcRefreshDataNotification @"fulltextVcRefresh"
+#define LPDetailVcRefreshDataNotification @"detailRefreshDataWithCompletion"
+
 #define LPCommentWillComposeNotification @"willCompose"
 #define LPComposeParaIndex @"paraIndex"
 #define LPCommentDidComposeNotification @"didCompose"

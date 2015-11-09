@@ -16,6 +16,7 @@
 @property (nonatomic, copy) NSString *img;
 
 @property (nonatomic, copy) NSString *title;
+@property (nonatomic,copy)  NSString *updateTime;
 
 @property (nonatomic, strong) NSString *height;
 
