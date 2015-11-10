@@ -2881,7 +2881,7 @@
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 				);
 				INFOPLIST_FILE = EveryoneNewsTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2936,7 +2936,7 @@
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 				);
 				INFOPLIST_FILE = EveryoneNewsTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
