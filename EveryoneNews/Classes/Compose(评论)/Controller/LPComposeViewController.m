@@ -14,6 +14,12 @@
 #define HeaderViewHeight 44
 
 @interface LPComposeViewController () <UITextViewDelegate>
+{
+    // 评论类别（1 分段评论 2 全文评论）
+    NSString *commentType;
+    // 全文评论内容
+    NSString *fullTextComment;
+}
 @property (nonatomic, strong) UIButton *composeBtn;
 @property (nonatomic, strong) UIButton *backBtn;
 @property (nonatomic, strong) LPTextView *textView;
@@ -106,7 +112,6 @@
         textView.text = self.draftText;
     } else {
         textView.placehoderLabel.hidden = NO;
-#warning - 占位文字是神马？？？？？？
         textView.placehoder = @"没事说两句...";
     }
     textView.font = [UIFont systemFontOfSize:15];
@@ -138,18 +143,20 @@
         // 点击发送，取回评论文字，由详情页进行进一步处理（request）
         self.returnTextBlock(self.textView.text);
     }
-    NSString *commentType;
     if(sender.tag==1)
     {
         commentType=@"text_paragraph";
+        fullTextComment=@"";
     }
     else if(sender.tag==2)
     {
         commentType=@"text_doc";
+        fullTextComment=self.textView.text;
     }
-    NSDictionary *commentTypeDic = [NSDictionary dictionaryWithObject:commentType
-                                                               forKey:@"commentType"];
-    [noteCenter postNotificationName:LPCommentDidComposeNotification object:self userInfo:commentTypeDic];
+    NSArray *keys=[NSArray arrayWithObjects:@"commentType",@"fullTextComment",nil];
+    NSArray *objects=[NSArray arrayWithObjects:commentType, fullTextComment,nil];
+    NSDictionary *commentDictionary = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
+    [noteCenter postNotificationName:LPCommentDidComposeNotification object:self userInfo:commentDictionary];
     [self.navigationController popViewControllerAnimated:YES];
 }
 

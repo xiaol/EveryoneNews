@@ -110,8 +110,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     [noteCenter addObserver:self selector:@selector(didComposeComment:) name:LPCommentDidComposeNotification object:nil];
     [noteCenter addObserver:self selector:@selector(reloadCell:) name:LPDetailVcShouldReloadDataNotification object:nil];
     
-    // 全文评论
-    [noteCenter addObserver:self selector:@selector(willComposeFulltextComment) name:LPFulltextCommentWillComposeNotification object:nil];
+
     [noteCenter addObserver:self selector:@selector(refreshDataWithCompletion) name:LPDetailVcRefreshDataNotification object:nil];
 }
 
@@ -290,7 +289,8 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
         }
 //        params[@"url"] = self.press.sourceUrl;
         NSString *url = [NSString stringWithFormat:@"%@%@", ContentUrl, self.press.sourceUrl];
-        // url=@"http://api.deeporiginalx.com/news/baijia/fetchContent?url=http://finance.ifeng.com/a/20150820/13921905_0.shtml";
+          // url=@"http://api.deeporiginalx.com/news/baijia/fetchContent?url=http://finance.ifeng.com/a/20150820/13921905_0.shtml";
+        //NSLog(@"%@",url);
         self.http = [LPHttpTool http];
         [self.http getWithURL:url params:params success:^(id json) {
             // 0. json字典转模型
@@ -582,6 +582,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     UIView *footerView = [[UIView alloc] init];
     footerView.backgroundColor = [UIColor colorFromHexString:TableViewBackColor];
     
+    CGFloat footerH = 0.0;
     UIView *photoBgView = [[UIView alloc] init];
     if (photos && photos.count) {
         self.photos = photos;
@@ -635,18 +636,17 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
         photoWall.delegate = self;
         self.photoWall = photoWall;
         [photoWall reloadData];
+        footerH=CGRectGetMaxY(photoBgView.frame);
     } else {
         photoBgView.height = 0;
         photoBgView.hidden = YES;
     }
-    CGFloat footerH = 0.0;
-    CGFloat zhihuY = 0.0;
     // 相关观点
     LPRelateView *relateView=[[LPRelateView alloc] init];
     relateView.backgroundColor=[UIColor whiteColor];
     if(relateArray&&relateArray.count)
     {
-        relateView.frame = CGRectMake(DetailCellPadding,CGRectGetMaxY(photoBgView.frame)+DetailCellPadding, DetailCellWidth, 60+79*relateArray.count);
+        relateView.frame = CGRectMake(DetailCellPadding,footerH, DetailCellWidth, 60+79*relateArray.count);
         relateView.layer.shadowOpacity = 0.24f;
         relateView.layer.shadowRadius = 3.0;
         relateView.layer.shadowOffset = CGSizeMake(0, 0);
@@ -655,28 +655,20 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
         relateView.layer.cornerRadius = 1.0;
         relateView.relateArray=relateArray;
         [footerView addSubview:relateView];
-        
-        footerH = CGRectGetMaxY(relateView.frame) + DetailCellPadding;
-        zhihuY = footerH;
+        footerH = CGRectGetMaxY(relateView.frame)+DetailCellPadding;
     }
     else
     {
         relateView.height=0;
         relateView.hidden=YES;
-        footerH = CGRectGetMaxY(photoBgView.frame) + DetailCellPadding;
-        zhihuY = footerH;
     }
     relateView.delegate=self;
 
-//    if (!photoBgView.hidden) {
-//        footerH = CGRectGetMaxY(photoBgView.frame) + DetailCellPadding;
-//        zhihuY = footerH;
-//    }
     // 知乎推荐
     LPZhihuView *zhihuView = [[LPZhihuView alloc] init];
     if (zhihuArray && zhihuArray.count) {
         zhihuView.hidden = NO;
-        zhihuView.frame = CGRectMake(DetailCellPadding, zhihuY, DetailCellWidth, [zhihuView heightWithPointsArray:zhihuArray]);
+        zhihuView.frame = CGRectMake(DetailCellPadding,footerH, DetailCellWidth, [zhihuView heightWithPointsArray:zhihuArray]);
         zhihuView.layer.shadowOpacity = 0.24f;
         zhihuView.layer.shadowRadius = 3.0;
         zhihuView.layer.shadowOffset = CGSizeMake(0, 0);
@@ -686,6 +678,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
         zhihuView.layer.rasterizationScale = [UIScreen mainScreen].scale;
         zhihuView.layer.shouldRasterize = YES;
         zhihuView.zhihuPoints = zhihuArray;
+        footerH = CGRectGetMaxY(zhihuView.frame)+DetailCellPadding;
     } else {
         zhihuView.hidden = YES;
     }
@@ -694,9 +687,9 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     
     [footerView addSubview:zhihuView];
     
-    if (zhihuView.hidden == NO) {
-        footerH = CGRectGetMaxY(zhihuView.frame) + DetailCellPadding;
-    }
+//    if (zhihuView.hidden == NO) {
+//        footerH = CGRectGetMaxY(zhihuView.frame) + DetailCellPadding;
+//    }
 
     footerView.frame = CGRectMake(0, 0, ScreenWidth, footerH);
     self.tableView.tableFooterView = footerView;
@@ -930,6 +923,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 {
     
     NSString *commentType = [[note userInfo] objectForKey:@"commentType"];
+    NSString *fulltextComment = [[note userInfo] objectForKey:@"fullTextComment"];
     // 1. 刷新当前页
 //    LPContent *content = self.commentContent;
     LPContentFrame *contentFrame = self.contentFrames[self.realParaIndex];
@@ -940,18 +934,18 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     // 1.1 创建comment对象
     LPComment *comment = [[LPComment alloc] init];
     comment.sourceUrl = self.press.sourceUrl;
-    comment.srcText = self.commentText;
     comment.color = content.color;
     // 评论段落索引为整体(real)段落索引值 - 1
     if([commentType isEqualToString:@"text_paragraph"])
     {
         comment.type = @"text_paragraph";
+        comment.srcText = self.commentText;
         commentArray = [NSMutableArray arrayWithArray:content.comments];
     }
     else if([commentType isEqualToString:@"text_doc"])
     {
         comment.type=@"text_doc";
-        //
+        comment.srcText=fulltextComment;
     }
     comment.uuid = account.userId;
     comment.userIcon = account.userIcon;
@@ -1069,21 +1063,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 {
     [self setupDataWithCompletion:nil];
 }
-// 全文评论
-- (void)willComposeFulltextComment
-{
-    if (![AccountTool account]) {
-        __weak typeof(self) weakSelf = self;
-        [AccountTool accountLoginWithViewController:weakSelf success:^(Account *account){
-            [MBProgressHUD showSuccess:@"登录成功"];
-            [weakSelf performSelector:@selector(pushCommentComposeVcWithNote:) withObject:nil afterDelay:0.6];
-        } failure:^{
-            [MBProgressHUD showError:@"登录失败!"];
-        } cancel:nil];
-    } else {
-        [self pushCommentComposeVcWithNote:nil];
-    }
-}
+// 分段评论
 - (void)pushCommentComposeVcWithNote:(NSNotification *)note
 {
     NSDictionary *info;
@@ -1102,11 +1082,6 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     {
         composeVc.commentType=1;
         composeVc.color = content.color;
-    }
-    else
-    {
-        composeVc.commentType=2;
-        composeVc.color=self.categoryColor;
     }
     composeVc.draftText = self.commentText;
     [composeVc returnText:^(NSString *text) {

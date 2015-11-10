@@ -17,12 +17,13 @@
 #import "AccountTool.h"
 #import "MBProgressHUD+MJ.h"
 #import "LPHttpTool.h"
-
+#import "LPContent.h"
+#import "LPContentFrame.h"
 
 #define HeaderViewHeight 50
 #define InputViewHeight 44
 @interface LPFullCommentViewController ()<UITableViewDataSource, UITableViewDelegate,UIScrollViewDelegate,LPFullCommentCellCellDelegate>
-@property (nonatomic, strong) NSMutableArray *paraCommentFrames;
+@property (nonatomic, strong) NSMutableArray *fullTextCommentFrames;
 @property (nonatomic, assign) CGFloat tableViewHeight;
 @property (nonatomic, assign) CGFloat headerViewHeight;
 @property (nonatomic, assign) CGFloat totalCommentHeight;
@@ -38,28 +39,26 @@
     [self setupSubviews];
     [self setupData];
     [noteCenter addObserver:self selector:@selector(refreshData:) name:LPFulltextVcRefreshDataNotification object:nil];
+//    // 全文评论
+   // [noteCenter addObserver:self selector:@selector(willComposeFulltextComment) name:LPFulltextCommentWillComposeNotification object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-//    MainNavigationController *nav = (MainNavigationController *)self.navigationController;
-//    nav.popRecognizer.enabled = NO;
     
 }
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-//    MainNavigationController *nav = (MainNavigationController *)self.navigationController;
-//    nav.popRecognizer.enabled = YES;
 }
 
-- (NSMutableArray *)paraCommentFrames
+- (NSMutableArray *)fullTextCommentFrames
 {
-    if (_paraCommentFrames == nil) {
-        _paraCommentFrames = [NSMutableArray array];
+    if (_fullTextCommentFrames == nil) {
+        _fullTextCommentFrames = [NSMutableArray array];
     }
-    return _paraCommentFrames;
+    return _fullTextCommentFrames;
 }
 
 // 添加头部视图
@@ -136,26 +135,26 @@
         commentFrame.comment = comment;
         [commentFrameArray addObject:commentFrame];
     }
-    self.paraCommentFrames = commentFrameArray;
+    self.fullTextCommentFrames = commentFrameArray;
 }
 
 #pragma mark - Table view data source
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.paraCommentFrames.count;
+    return self.fullTextCommentFrames.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     LPFullCommentCell *cell = [LPFullCommentCell cellWithTableView:tableView];
-    cell.paraCommentFrame = self.paraCommentFrames[indexPath.row];
+    cell.paraCommentFrame = self.fullTextCommentFrames[indexPath.row];
     cell.delegate = self;
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    LPParaCommentFrame *paraCommentFrame = self.paraCommentFrames[indexPath.row];
+    LPParaCommentFrame *paraCommentFrame = self.fullTextCommentFrames[indexPath.row];
     return paraCommentFrame.cellHeight;
 }
 
@@ -214,7 +213,6 @@
                                   imageView.transform= CGAffineTransformScale(CGAffineTransformIdentity, 1.0, 1.0);
                              }
                              completion:^(BOOL finished){
-                                 //[[self.view viewWithTag:-100] removeFromSuperview];
                                  [self.tableView reloadData];
                              }];
          
@@ -228,10 +226,26 @@
 // 点击评论框
 - (void)inputViewTap:(UITapGestureRecognizer *)recognizer
 {
-     NSDictionary *info = @{LPComposeParaIndex: @-1};
-     [noteCenter postNotificationName:LPFulltextCommentWillComposeNotification object:self userInfo:info];
+        if (![AccountTool account]) {
+            __weak typeof(self) weakSelf = self;
+            [AccountTool accountLoginWithViewController:weakSelf success:^(Account *account){
+                [MBProgressHUD showSuccess:@"登录成功"];
+                [weakSelf performSelector:@selector(pushCommentComposeVcWithNote) withObject:nil afterDelay:0.6];
+            } failure:^{
+                [MBProgressHUD showError:@"登录失败!"];
+            } cancel:nil];
+        } else {
+            [self pushCommentComposeVcWithNote];
+        }
 }
 
+- (void)pushCommentComposeVcWithNote
+{
+    LPComposeViewController *composeVc = [[LPComposeViewController alloc] init];
+    composeVc.color=self.color;
+    composeVc.commentType=2;
+    [self.navigationController pushViewController:composeVc animated:YES];
+}
 - (void)refreshData:(NSNotification *)note
 {
     NSMutableArray *mArray = [NSMutableArray arrayWithArray:self.comments];
@@ -245,11 +259,12 @@
 - (void)popBtnClick
 {
     [self.navigationController popViewControllerAnimated:YES];
-
 }
+
 - (void)dealloc
 {
     [noteCenter removeObserver:self];
-   // NSLog(@"全文评论dealloc");
+     NSLog(@"全文评论dealloc");
 }
+
 @end
