@@ -12,21 +12,16 @@
 #import "MainNavigationController.h"
 #import "UIImage+LP.h"
 
-#define MenuViewTag 1999
-#define MenuViewImageHeight 45
-#define MenuViewTitleHeight 10
-#define MenuViewVerticalPadding 57
-#define MenuViewHorizontalMargin 20
-#define MenuViewHorizontalMargin1 50
-#define MenuViewRriseAnimationID @"MenuViewRriseAnimationID"
-#define MenuViewDismissAnimationID @"MenuViewDismissAnimationID"
-#define MenuViewAnimationTime 0.24
-#define MenuViewAnimationInterval (MenuViewAnimationTime / 6)
-#define labelFont [UIFont systemFontOfSize:10]
-#define labelColor [UIColor colorFromHexString:@"#3e3e3e"]
+
+static const CGFloat MenuViewImageHeight= 45;
+static const CGFloat MenuViewTitleHeight =10;
+static const CGFloat MenuViewVerticalPadding =57;
+static const CGFloat MenuViewHorizontalMargin =20;
+static const CGFloat MenuViewHorizontalMargin1= 50;
+static const CGFloat MenuViewAnimationTime =0.24;
+static const CGFloat MenuViewAnimationInterval= (MenuViewAnimationTime / 6);
 
 @interface LPShareViewController()<UIGestureRecognizerDelegate>
-
 @end
 
 @implementation LPShareViewController
@@ -80,15 +75,19 @@
     [self createMenuView:overlay title:@"邮件" icon:@"邮件分享" index:5];
     [self createMenuView:overlay title:@"转发链接" icon:@"转发链接分享" index:6];
     [self.view addSubview:overlay];
-    self.view.userInteractionEnabled=YES;
+    // 分享按钮移除动画
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(overlayTouchUpInside)];
     tapGesture.delegate=self;
     [overlay addGestureRecognizer:tapGesture];
+    
+ 
     
 }
 // 创建自定义分享菜单
 - (void)createMenuView:(UIView *)overlay title:(NSString*)title icon:(NSString *)icon index:(NSUInteger)index
 {
+    UIFont *labelFont=[UIFont systemFontOfSize:10];
+    UIColor* labelColor =[UIColor colorFromHexString:@"#3e3e3e"];
     UIControl *viewWithButtonLabel=[[UIControl alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
     UIImageView *imageView=[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, MenuViewImageHeight, MenuViewImageHeight)];
     imageView.image = [UIImage imageNamed:icon];
@@ -138,7 +137,7 @@
     positionAnimation.duration =MenuViewAnimationTime;
     positionAnimation.fillMode=kCAFillModeForwards;
     positionAnimation.beginTime = [viewWithButtonLabel.layer convertTime:CACurrentMediaTime() fromLayer:nil] + delayInSeconds;
-    [positionAnimation setValue:[NSNumber numberWithUnsignedInteger:index] forKey:MenuViewRriseAnimationID];
+    [positionAnimation setValue:[NSNumber numberWithUnsignedInteger:index] forKey:@"MenuViewRriseAnimationID"];
     [CATransaction setCompletionBlock:^{
         self.view.userInteractionEnabled=YES;
         viewWithButtonLabel.frame=viewFrame;
@@ -181,10 +180,9 @@
     return frame;
 }
 
-// 允许交互
+// 分享按钮移除动画
 - (void)overlayTouchUpInside
 {
-    
     for (UIControl *view in [self.view viewWithTag:-2].subviews) {
         CGRect viewFrame=view.frame;
         NSInteger index=view.tag;
@@ -210,16 +208,13 @@
         [CATransaction setCompletionBlock:^{
             if(index==3)
             {
-
+                // 移除视图
                 [self.navigationController popViewControllerAnimated:NO];
             }
         }];
         [view.layer addAnimation:positionAnimation forKey:@"riseAnimation"];
         [CATransaction commit];
     }
- 
-
- 
 }
 
 // 分享按钮点击事件
@@ -376,6 +371,6 @@
 
 -(void)dealloc
 {
-    //NSLog(@"分享dealloc");
+//    NSLog(@"分享测试dealloc");
 }
 @end

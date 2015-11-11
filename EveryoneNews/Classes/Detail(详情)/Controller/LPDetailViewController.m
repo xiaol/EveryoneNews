@@ -38,10 +38,7 @@
 #import "LPFullCommentViewController.h"
 #import "LPRelateView.h"
 
-#define CellAlpha 0.3
-#define LabelHeight 10
-#define ShareBtnWidth 45
-
+static const CGFloat CellAlpha =0.3;
 NSString * const PhotoCellReuseId = @"photoWallCell";
 
 @interface LPDetailViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate, LPContentCellDelegate, LPZhihuViewDelegate,LPRelateViewDelegate,UICollectionViewDataSource, UICollectionViewDelegate>

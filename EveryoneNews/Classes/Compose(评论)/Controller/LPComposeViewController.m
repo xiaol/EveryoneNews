@@ -10,8 +10,8 @@
 #import "LPContent.h"
 #import "LPTextView.h"
 
-#define padding 10
-#define HeaderViewHeight 44
+static const CGFloat  padding=10;
+static const CGFloat  HeaderViewHeight= 44;
 
 @interface LPComposeViewController () <UITextViewDelegate>
 {
