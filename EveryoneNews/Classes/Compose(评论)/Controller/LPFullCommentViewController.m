@@ -20,39 +20,34 @@
 #import "LPContent.h"
 #import "LPContentFrame.h"
 
-#define HeaderViewHeight 50
-#define InputViewHeight 44
+// 底部输入框高度
+static const CGFloat inputViewHeight = 50;
+// 顶部视图高度
+static const CGFloat topViewHeight= 44;
+// 按钮大小
+static const CGFloat btnWidth= 44;
+
 @interface LPFullCommentViewController ()<UITableViewDataSource, UITableViewDelegate,UIScrollViewDelegate,LPFullCommentCellCellDelegate>
+// 全文评论frame集合
 @property (nonatomic, strong) NSMutableArray *fullTextCommentFrames;
-@property (nonatomic, assign) CGFloat tableViewHeight;
-@property (nonatomic, assign) CGFloat headerViewHeight;
-@property (nonatomic, assign) CGFloat totalCommentHeight;
-@property (nonatomic, strong) UIView *headerView;
+// 底部评论框
 @property (nonatomic, strong) UIImageView *inputView;
 @end
 
 @implementation LPFullCommentViewController
 - (void)viewDidLoad {
     [super viewDidLoad];
+    // 设置背景颜色为白色
     self.view.backgroundColor = [UIColor whiteColor];
     [self setupHeaderView];
     [self setupSubviews];
     [self setupData];
     [noteCenter addObserver:self selector:@selector(refreshData:) name:LPFulltextVcRefreshDataNotification object:nil];
-//    // 全文评论
-   // [noteCenter addObserver:self selector:@selector(willComposeFulltextComment) name:LPFulltextCommentWillComposeNotification object:nil];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-}
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-}
+ 
 
+// 懒加载
 - (NSMutableArray *)fullTextCommentFrames
 {
     if (_fullTextCommentFrames == nil) {
@@ -64,8 +59,7 @@
 // 添加头部视图
 - (void)setupHeaderView
 {
-    double topViewHeight= 44;
-    double btnWidth= 44;
+    // 顶部视图
     UIView *headerView = [[UIView alloc] init];
     [self.view addSubview:headerView];
     headerView.x = 0;
@@ -73,13 +67,13 @@
     headerView.width = ScreenWidth;
     headerView.height = topViewHeight;
     headerView.backgroundColor=self.color;
-    
+    // 返回按钮
     UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, btnWidth, btnWidth)];
     [backBtn setImage:[UIImage resizableImage:@"返回"] forState:UIControlStateNormal];
      backBtn.imageEdgeInsets=UIEdgeInsetsMake(0,0,0,10);
     [backBtn addTarget:self action:@selector(popBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [headerView addSubview:backBtn];
-    
+    // 评论标题
     UILabel *headerLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, topViewHeight)];
     headerLabel.centerX=headerView.centerX;
     headerLabel.textAlignment = NSTextAlignmentCenter;
@@ -87,20 +81,15 @@
     headerLabel.text = @"评论";
     headerLabel.textColor = [UIColor whiteColor];
     [headerView addSubview:headerLabel];
+    // 评论列表å
     [self.view insertSubview:headerView aboveSubview:self.tableView];
     
 }
 // 添加表格
 -(void)setupSubviews
 {
-    double topViewHeight= 44;
-    double btnWidth= 44;
-    if(iPhone6Plus)
-    {
-        topViewHeight=60;
-        btnWidth=60;
-    }
-    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,topViewHeight,ScreenWidth, ScreenHeight - InputViewHeight-topViewHeight)];
+
+    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,topViewHeight,ScreenWidth, ScreenHeight - inputViewHeight-topViewHeight)];
     tableView.backgroundColor = LPColor(255, 255, 250);
     tableView.separatorColor = [UIColor colorFromHexString:TableViewBackColor alpha:0.6];
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -114,9 +103,9 @@
     
     UIImageView *inputView = [[UIImageView alloc] initWithImage:[UIImage resizableImage:@"评论框"]];
     inputView.x = 0;
-    inputView.y = ScreenHeight - InputViewHeight;
+    inputView.y = ScreenHeight - inputViewHeight;
     inputView.width = ScreenWidth;
-    inputView.height = InputViewHeight;
+    inputView.height = inputViewHeight;
     inputView.userInteractionEnabled=YES;
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(inputViewTap:)];
     [inputView addGestureRecognizer:singleTap];
@@ -246,6 +235,7 @@
     composeVc.commentType=2;
     [self.navigationController pushViewController:composeVc animated:YES];
 }
+
 - (void)refreshData:(NSNotification *)note
 {
     NSMutableArray *mArray = [NSMutableArray arrayWithArray:self.comments];

@@ -127,7 +127,7 @@
     underLabel.frame = CGRectMake(0, underY, ScreenWidth, 24);
     underLabel.textAlignment = NSTextAlignmentLeft;
     underLabel.font = [UIFont systemFontOfSize:15];
-    underLabel.text = [NSString stringWithFormat:@" 精彩评论 (%ld)", self.comments.count];
+    underLabel.text = [NSString stringWithFormat:@" 精彩评论 (%d)", self.comments.count];
     underLabel.backgroundColor = [UIColor colorFromHexString:TableViewBackColor];
     [headerView addSubview:underLabel];
     self.underLabel = underLabel;
@@ -285,7 +285,7 @@
     [mArray addObject:note.userInfo[LPComposeComment]];
     self.comments = mArray;
     [self setupData];
-    self.underLabel.text = [NSString stringWithFormat:@" 精彩评论 (%ld)", self.comments.count];
+    self.underLabel.text = [NSString stringWithFormat:@" 精彩评论 (%d)", self.comments.count];
     [self.tableView reloadData];
     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.comments.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 
