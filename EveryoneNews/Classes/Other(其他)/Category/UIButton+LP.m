@@ -16,6 +16,8 @@ static char leftEdgeKey;
 static char bottomEdgeKey;
 static char rightEdgeKey;
 
+static char actionKey;
+
 // 合成存取方法
 - (void)setEnlargedEdge:(CGFloat)enlargedEdge {
     [self setEnlargedEdgeWithTop:enlargedEdge left:enlargedEdge bottom:enlargedEdge right:enlargedEdge];
@@ -69,4 +71,17 @@ static char rightEdgeKey;
 //    }
 //    return CGRectContainsPoint(enlargedRect, point) ? YES : NO;
 //}
+
+
+- (void)handleControlEvent:(UIControlEvents)event withBlock:(ActionHandler)action {
+    objc_setAssociatedObject(self, &actionKey, action, OBJC_ASSOCIATION_COPY_NONATOMIC);
+    [self addTarget:self action:@selector(callAction) forControlEvents:event];
+}
+
+- (void)callAction {
+    ActionHandler block = (ActionHandler)objc_getAssociatedObject(self, &actionKey);
+    if (block) {
+        block();
+    }
+}
 @end

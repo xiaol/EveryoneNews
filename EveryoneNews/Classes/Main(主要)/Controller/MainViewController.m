@@ -31,6 +31,7 @@
 #import "MainNavigationController.h"
 #import "DigButton.h"
 #import "AppDelegate.h"
+#import <StoreKit/StoreKit.h>
 
 typedef void (^completionBlock)();
 
@@ -40,7 +41,7 @@ NSString * const ConcernCellReuseIdentifier = @"concernCell";
 const NSInteger HotwordPageCapacity = 8;
 NSString * const HotwordsURL = @"http://api.deeporiginalx.com/news/baijia/fetchElementary";
 
-@interface MainViewController ()  <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, LPTagCloudViewDelegate>
+@interface MainViewController ()  <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, LPTagCloudViewDelegate, SKStoreProductViewControllerDelegate>
 
 //自定义的顶部导航
 @property (nonatomic,strong) LPTabBar *customTabBar;
@@ -72,7 +73,10 @@ NSString * const HotwordsURL = @"http://api.deeporiginalx.com/news/baijia/fetchE
 
 @property (nonatomic, copy) NSString *pasteURL;
 
-@property (nonatomic, weak) LPDigViewController *digVc;
+@property (nonatomic, strong) UIView *commentHUD;
+
+@property (nonatomic, strong) UIView *commentAlert;
+
 @end
 
 @implementation MainViewController
@@ -115,7 +119,6 @@ NSString * const HotwordsURL = @"http://api.deeporiginalx.com/news/baijia/fetchE
     LPDigViewController *diggerVc = [[LPDigViewController alloc] init];
 //    diggerVc.hotwords = self.digTags;
     diggerVc.presented = YES;
-    self.digVc = diggerVc;
 //    diggerVc.pasteURL = self.pasteURL;
     MainNavigationController *nav = [[MainNavigationController alloc] initWithRootViewController:diggerVc];
 //    _genieTransition = [[GenieTransition alloc] initWithToViewController:nav];
@@ -242,7 +245,7 @@ NSString * const HotwordsURL = @"http://api.deeporiginalx.com/news/baijia/fetchE
     self.selectedIndex = 1;
 }
 
-- (void)setupLoginButton{
+- (void)setupLoginButton {
     //添加右下角的登录按钮
     self.loginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     //如果用户已经登录则在右下角显示用户图像
@@ -699,6 +702,11 @@ NSString * const HotwordsURL = @"http://api.deeporiginalx.com/news/baijia/fetchE
         }else{
             self.selectedIndex = 0;
         }
+    } else if (scrollView == self.homeView) {
+//        if ((int)(scrollView.contentSize.height - scrollView.contentOffset.y - ScreenHeight) == 0 && self.pressFrames.count > 0) {
+            // 弹出评价框
+            [self setupAppCommentView];
+//        }
     }
 }
 
@@ -709,6 +717,123 @@ NSString * const HotwordsURL = @"http://api.deeporiginalx.com/news/baijia/fetchE
     }
 }
 
+#pragma mark - setup app comment alert
+- (void)setupAppCommentView {
+    UIView *hud = [[UIView alloc] initWithFrame:self.view.bounds];
+    [self.view addSubview:hud];
+    hud.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.6];
+    hud.alpha = 0.0;
+    self.commentHUD = hud;
+    
+    UIView *commentAlert = [[UIView alloc] init];
+    commentAlert.backgroundColor = [UIColor whiteColor];
+    commentAlert.layer.cornerRadius = 5;
+    CGFloat w = 250;
+    CGFloat x = (ScreenWidth - w) / 2;
+    CGFloat h = 200;
+    CGFloat y = (ScreenHeight - h) / 2;
+    commentAlert.frame = CGRectMake(x, ScreenHeight, w, h);
+    [self.view addSubview:commentAlert];
+    [self.view bringSubviewToFront:commentAlert];
+    self.commentAlert = commentAlert;
+    
+    UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"揭秘头像"]];
+    icon.frame = CGRectMake(15, -26, 53, 53);
+    [commentAlert addSubview:icon];
+    
+    UILabel *title = [[UILabel alloc] init];
+    title.textAlignment = NSTextAlignmentLeft;
+    title.font = [UIFont systemFontOfSize:15];
+    CGFloat titleX = CGRectGetMaxX(icon.frame) + 10;
+    CGFloat titleW = CGRectGetWidth(commentAlert.frame) - titleX;
+    title.frame = CGRectMake(titleX, 5, titleW, 25);
+    title.text = @"评价看产品经理真容";
+    [commentAlert addSubview:title];
+    
+    UILabel *tip = [[UILabel alloc] init];
+    tip.textAlignment = NSTextAlignmentCenter;
+    tip.textColor = [UIColor colorFromHexString:@"939393"];
+    tip.text = @"您的鼓励和支持帮助我们做的更好";
+    tip.font = [UIFont systemFontOfSize:14];
+    tip.x = 0;
+    tip.y = CGRectGetMaxY(title.frame) + 10;
+    tip.width = CGRectGetWidth(commentAlert.frame);
+    tip.height = 20;
+    [commentAlert addSubview:tip];
+    
+    CGFloat btnX = CGRectGetMidX(icon.frame) - 5;
+    CGFloat btnW = CGRectGetWidth(commentAlert.frame) - 2 * btnX;
+    CGFloat btnH = 36;
+    CGFloat commentY = CGRectGetMaxY(tip.frame) + 30;
+    CGFloat cancelY = commentY + btnH + 16 - 0.5;
+    UIButton *commentBtn = [[UIButton alloc] initWithFrame:CGRectMake(btnX, commentY, btnW, btnH)];
+    commentBtn.layer.cornerRadius = 4;
+    commentBtn.backgroundColor = [UIColor colorFromHexString:@"53adf0"];
+    [commentBtn setTitle:@"评价并围观" forState:UIControlStateNormal];
+    [commentBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    commentBtn.titleLabel.font = [UIFont systemFontOfSize:15];
+    [commentAlert addSubview:commentBtn];
+    
+    [commentBtn handleControlEvent:UIControlEventTouchUpInside withBlock:^{
+        SKStoreProductViewController *storeProductVc = [[SKStoreProductViewController alloc] init];
+        storeProductVc.delegate = self;
+//        987333155
+        NSDictionary *dict = [NSDictionary dictionaryWithObject:@(425349261) forKey:SKStoreProductParameterITunesItemIdentifier];
+        UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        indicator.center = CGPointMake(commentAlert.width / 2, commentAlert.height / 2);
+        [commentAlert addSubview:indicator];
+        [indicator startAnimating];
+        commentAlert.userInteractionEnabled = NO;
+        [storeProductVc loadProductWithParameters:dict completionBlock:^(BOOL result, NSError * _Nullable error) {
+            if (result) {
+                [self presentViewController:storeProductVc animated:YES completion:^{
+                    [indicator stopAnimating];
+                    [indicator removeFromSuperview];
+                    commentAlert.userInteractionEnabled = YES;
+                }];
+            } else {
+                [MBProgressHUD showError:@"Sorry, 无法加载App Store"];
+            }
+        }];
+    }];
+    
+    UIButton *cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(btnX, cancelY, btnW, btnH)];
+    [cancelBtn setTitle:@"下次心情好再说" forState:UIControlStateNormal];
+    [cancelBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    cancelBtn.titleLabel.font = [UIFont systemFontOfSize:15];
+    CAShapeLayer *layer = [CAShapeLayer layer];
+    layer.strokeColor = [UIColor grayColor].CGColor;
+    layer.borderWidth = 0.5;
+    layer.fillColor = nil;
+    layer.path = [UIBezierPath bezierPathWithRoundedRect:cancelBtn.bounds cornerRadius:4.0].CGPath;
+    [cancelBtn.layer addSublayer:layer];
+    [commentAlert addSubview:cancelBtn];
+    [cancelBtn handleControlEvent:UIControlEventTouchUpInside withBlock:^{
+        [UIView animateWithDuration:1.0 delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:1.0 options:0 animations:^{
+            commentAlert.transform = CGAffineTransformMakeScale(1.2, 1.2);
+            commentAlert.alpha = 0.0;
+            hud.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            [commentAlert removeFromSuperview];
+            [hud removeFromSuperview];
+        }];
+    }];
+    
+    [UIView animateWithDuration:1.2 delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:1.0 options:0 animations:^{
+        commentAlert.y = y;
+        hud.alpha = 1.0;
+    } completion:nil];
+}
+
+#pragma mark - SKStoreProductViewControllerDelegate
+- (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+    [viewController dismissViewControllerAnimated:YES completion:^{
+    
+    }];
+}
+
+#pragma mark - jpush notification handler
 - (void)receiveJPushNotification:(NSNotification *)note
 {
     NSLog(@"--receiveJPushNotification-%s",__func__);
