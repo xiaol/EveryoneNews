@@ -91,6 +91,17 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     [self setupSubviews];
     [self setupDataWithCompletion:nil];
     [self setupNoteObserver];
+    
+// //   just for test
+//    UIButton *btn = [UIButton buttonWithType:UIButtonTypeContactAdd];
+//    btn.center = self.view.center;
+//    [self.view addSubview:btn];
+//    __weak typeof(self) wself = self;
+//    [btn handleControlEvent:UIControlEventTouchUpInside withBlock:^{
+//        NSLog(@"handler in: %@", [wself class]);
+//        wself.tableView.backgroundColor = [UIColor blackColor];
+//        btn.x = 20;
+//    }];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -1014,10 +1025,11 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     }];
 }
 
-
+#pragma mark - dealloc
 - (void)dealloc
 {
     [noteCenter removeObserver:self];
+    NSLog(@"%@ dealloc!", [self class]);
 }
 
 

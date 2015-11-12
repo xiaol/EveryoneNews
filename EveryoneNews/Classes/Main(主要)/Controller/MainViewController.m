@@ -41,7 +41,7 @@ NSString * const ConcernCellReuseIdentifier = @"concernCell";
 const NSInteger HotwordPageCapacity = 8;
 NSString * const HotwordsURL = @"http://api.deeporiginalx.com/news/baijia/fetchElementary";
 
-@interface MainViewController ()  <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, LPTagCloudViewDelegate, SKStoreProductViewControllerDelegate>
+@interface MainViewController ()  <UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, LPTagCloudViewDelegate>
 
 //自定义的顶部导航
 @property (nonatomic,strong) LPTabBar *customTabBar;
@@ -72,10 +72,6 @@ NSString * const HotwordsURL = @"http://api.deeporiginalx.com/news/baijia/fetchE
 @property (nonatomic, strong) NSMutableArray *digTags;
 
 @property (nonatomic, copy) NSString *pasteURL;
-
-@property (nonatomic, strong) UIView *commentHUD;
-
-@property (nonatomic, strong) UIView *commentAlert;
 
 @end
 
@@ -356,6 +352,7 @@ NSString * const HotwordsURL = @"http://api.deeporiginalx.com/news/baijia/fetchE
             });
         }
     }];
+    [noteCenter addObserver:self selector:@selector(receiveAppReview) name:AppDidReceiveReviewNotification object:nil];
 }
 
 #pragma mark - setup tabbar index
@@ -655,34 +652,61 @@ NSString * const HotwordsURL = @"http://api.deeporiginalx.com/news/baijia/fetchE
 
 
 
-#pragma mark - Table view delegate
+#pragma mark - app review note
+- (void)receiveAppReview {
+    UIView *hud = [[UIView alloc] initWithFrame:self.view.bounds];
+    hud.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.6];
+    [hud addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapHUD:)]];
+    
+    UIView *alert = [[UIView alloc] init];
+    alert.backgroundColor = [UIColor whiteColor];
+    alert.layer.cornerRadius = 5;
+    CGFloat w = 250;
+    CGFloat x = (ScreenWidth - w) / 2;
+    CGFloat h = 80;
+    CGFloat y = (ScreenHeight - h) / 2;
+    alert.frame = CGRectMake(x, y, w, h);
+    [hud addSubview:alert];
+    
+    UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"产品经理头像"]];
+    icon.frame = CGRectMake(15, -26, 53, 53);
+    [alert addSubview:icon];
+    
+    UILabel *title = [[UILabel alloc] init];
+    title.textAlignment = NSTextAlignmentLeft;
+    title.font = [UIFont systemFontOfSize:15];
+    CGFloat titleX = CGRectGetMaxX(icon.frame) + 10;
+    CGFloat titleW = CGRectGetWidth(alert.frame) - titleX;
+    title.frame = CGRectMake(titleX, 5, titleW, 25);
+    title.text = @"我是产品经理Iirs";
+    [alert addSubview:title];
+    
+    UILabel *tip = [[UILabel alloc] init];
+    tip.textAlignment = NSTextAlignmentCenter;
+    tip.textColor = [UIColor colorFromHexString:@"939393"];
+    tip.text = @"谢谢您的评价, 请继续支持我们!";
+    tip.font = [UIFont systemFontOfSize:14];
+    tip.x = 0;
+    tip.y = CGRectGetMaxY(title.frame) + 10;
+    tip.width = CGRectGetWidth(alert.frame);
+    tip.height = 20;
+    [alert addSubview:tip];
+    
+    [self.view addSubview:hud];
+    [self.view bringSubviewToFront:hud];
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (hud) {
+            [hud removeFromSuperview];
+        }
+    });
+}
 
-//- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    if (self.isScrolled == NO) {
-//        return;
-//    }
-//    
-//    CATransform3D translation;
-//    
-//    if (indexPath.row > self.anyDisplayingCellRow) {
-//        translation = CATransform3DMakeTranslation(0, ScreenHeight, 0);
-//    } else if (indexPath.row < self.anyDisplayingCellRow) {
-//        translation = CATransform3DMakeTranslation(0, - ScreenHeight, 0);
-//    } else {
-//        return;
-//    }
-//    self.anyDisplayingCellRow = indexPath.row;
-//    
-//    cell.layer.transform = translation;
-//    
-//    [UIView beginAnimations:@"translation" context:NULL];
-//    [UIView setAnimationDuration:0.5];
-//    [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
-//    cell.layer.transform = CATransform3DIdentity;
-//    
-//    [UIView commitAnimations];
-//}
+- (void)tapHUD:(UITapGestureRecognizer *)recognizer {
+    UIView *hud = recognizer.view;
+    [hud removeFromSuperview];
+    hud = nil;
+}
 
 #pragma mark - Scroll view delegate
 
@@ -703,10 +727,16 @@ NSString * const HotwordsURL = @"http://api.deeporiginalx.com/news/baijia/fetchE
             self.selectedIndex = 0;
         }
     } else if (scrollView == self.homeView) {
-//        if ((int)(scrollView.contentSize.height - scrollView.contentOffset.y - ScreenHeight) == 0 && self.pressFrames.count > 0) {
-            // 弹出评价框
-            [self setupAppCommentView];
-//        }
+        if ((int)(scrollView.contentSize.height - scrollView.contentOffset.y - ScreenHeight) == 0 && self.pressFrames.count > 0) {
+            // 弹出评价框 (once_token)
+            NSNumber *review = [userDefaults objectForKey:AppDidReceiveReviewUserDefaultKey];
+            if (!review) {
+                static dispatch_once_t onceToken;
+                dispatch_once(&onceToken, ^{
+                    [self setupAppCommentView];
+                });
+            }
+        }
     }
 }
 
@@ -723,7 +753,6 @@ NSString * const HotwordsURL = @"http://api.deeporiginalx.com/news/baijia/fetchE
     [self.view addSubview:hud];
     hud.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.6];
     hud.alpha = 0.0;
-    self.commentHUD = hud;
     
     UIView *commentAlert = [[UIView alloc] init];
     commentAlert.backgroundColor = [UIColor whiteColor];
@@ -735,7 +764,6 @@ NSString * const HotwordsURL = @"http://api.deeporiginalx.com/news/baijia/fetchE
     commentAlert.frame = CGRectMake(x, ScreenHeight, w, h);
     [self.view addSubview:commentAlert];
     [self.view bringSubviewToFront:commentAlert];
-    self.commentAlert = commentAlert;
     
     UIImageView *icon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"揭秘头像"]];
     icon.frame = CGRectMake(15, -26, 53, 53);
@@ -774,27 +802,17 @@ NSString * const HotwordsURL = @"http://api.deeporiginalx.com/news/baijia/fetchE
     commentBtn.titleLabel.font = [UIFont systemFontOfSize:15];
     [commentAlert addSubview:commentBtn];
     
+    __weak typeof(commentAlert) wAlert = commentAlert;
+    __weak typeof(hud) wHUD = hud;
     [commentBtn handleControlEvent:UIControlEventTouchUpInside withBlock:^{
-        SKStoreProductViewController *storeProductVc = [[SKStoreProductViewController alloc] init];
-        storeProductVc.delegate = self;
-//        987333155
-        NSDictionary *dict = [NSDictionary dictionaryWithObject:@(425349261) forKey:SKStoreProductParameterITunesItemIdentifier];
-        UIActivityIndicatorView *indicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        indicator.center = CGPointMake(commentAlert.width / 2, commentAlert.height / 2);
-        [commentAlert addSubview:indicator];
-        [indicator startAnimating];
-        commentAlert.userInteractionEnabled = NO;
-        [storeProductVc loadProductWithParameters:dict completionBlock:^(BOOL result, NSError * _Nullable error) {
-            if (result) {
-                [self presentViewController:storeProductVc animated:YES completion:^{
-                    [indicator stopAnimating];
-                    [indicator removeFromSuperview];
-                    commentAlert.userInteractionEnabled = YES;
-                }];
-            } else {
-                [MBProgressHUD showError:@"Sorry, 无法加载App Store"];
-            }
-        }];
+        // 将相关偏好置NO, 表示点击了评价尚未完成
+        [userDefaults setObject:@(NO) forKey:AppDidReceiveReviewUserDefaultKey];
+        [userDefaults synchronize];
+        // 移除蒙版和弹框
+        [wAlert removeFromSuperview];
+        [wHUD removeFromSuperview];
+        // 跳转到AppStore评价页面
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/cn/app/id987333155?mt=8"]];
     }];
     
     UIButton *cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(btnX, cancelY, btnW, btnH)];
@@ -810,12 +828,12 @@ NSString * const HotwordsURL = @"http://api.deeporiginalx.com/news/baijia/fetchE
     [commentAlert addSubview:cancelBtn];
     [cancelBtn handleControlEvent:UIControlEventTouchUpInside withBlock:^{
         [UIView animateWithDuration:1.0 delay:0.0 usingSpringWithDamping:0.8 initialSpringVelocity:1.0 options:0 animations:^{
-            commentAlert.transform = CGAffineTransformMakeScale(1.2, 1.2);
-            commentAlert.alpha = 0.0;
-            hud.alpha = 0.0;
+            wAlert.transform = CGAffineTransformMakeScale(1.2, 1.2);
+            wAlert.alpha = 0.0;
+            wHUD.alpha = 0.0;
         } completion:^(BOOL finished) {
-            [commentAlert removeFromSuperview];
-            [hud removeFromSuperview];
+            [wAlert removeFromSuperview];
+            [wHUD removeFromSuperview];
         }];
     }];
     
@@ -825,13 +843,6 @@ NSString * const HotwordsURL = @"http://api.deeporiginalx.com/news/baijia/fetchE
     } completion:nil];
 }
 
-#pragma mark - SKStoreProductViewControllerDelegate
-- (void)productViewControllerDidFinish:(SKStoreProductViewController *)viewController {
-    NSLog(@"%@", NSStringFromSelector(_cmd));
-    [viewController dismissViewControllerAnimated:YES completion:^{
-    
-    }];
-}
 
 #pragma mark - jpush notification handler
 - (void)receiveJPushNotification:(NSNotification *)note

@@ -61,7 +61,7 @@
     _pressFrame = pressFrame;
     LPPress *press = pressFrame.press;
     
-    [self.imageView sd_setImageWithURL:[NSURL URLWithString:press.imgUrl]];
+    [self.imageView sd_setImageWithURL:[NSURL URLWithString:press.imgUrl] placeholderImage:[UIImage imageNamed:@"feed大图占位图"]];
     self.imageView.frame = self.pressFrame.bgImageViewF;
     
     self.titleBgImageView.frame = self.pressFrame.titleBgViewF;

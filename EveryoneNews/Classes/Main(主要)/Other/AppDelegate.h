@@ -12,6 +12,10 @@
 
 extern NSString * const NetworkReachabilityDidChangeToReachableNotification;
 
+extern NSString * const AppDidReceiveReviewUserDefaultKey;
+
+extern NSString * const AppDidReceiveReviewNotification;
+
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;

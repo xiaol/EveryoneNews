@@ -12,7 +12,7 @@
 
 @implementation CoreDataHelper
 
-#define debug 1
+#define debug 0
 
 #pragma mark - FILES
 NSString *storeFileName = @"EveryoneNews.sqlite";
@@ -159,7 +159,7 @@ NSString *storeFileName = @"EveryoneNews.sqlite";
             [self showValidationError:error];
         }
     } else {
-        NSLog(@"SKIPPED _context save, there are no changes!");
+//        NSLog(@"SKIPPED _context save, there are no changes!");
     }
 }
 
@@ -177,7 +177,7 @@ NSString *storeFileName = @"EveryoneNews.sqlite";
                 [self showValidationError:error];
             }
         } else {
-            NSLog(@"SKIPPED _parentContext save, there are no changes!");
+//            NSLog(@"SKIPPED _parentContext save, there are no changes!");
         }
     }];
 }

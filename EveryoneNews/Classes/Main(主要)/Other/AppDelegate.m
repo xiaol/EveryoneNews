@@ -41,21 +41,23 @@
 
 NSString * const NetworkReachabilityDidChangeToReachableNotification = @"com.everyonenews.networkchangedtoreachable";
 
+NSString * const AppDidReceiveReviewNotification = @"com.everyonenews.receive.a.review.notification";
+
+NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.a.review";
+
 @interface AppDelegate () <WXApiDelegate>
 @property (nonatomic, assign) AFNetworkReachabilityStatus networkStatus;
-//@property (nonatomic, strong) UIManagedDocument *document;
-//@property (nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 @end
 
 @implementation AppDelegate
 
-#define debug 0
+#define debug 1
 #pragma mark - core data helper
 // 获取CoreDataHelper实例
 - (CoreDataHelper*)cdh {
-    if (debug==1) {
-        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-    }
+//    if (debug==1) {
+//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+//    }
     if (!_coreDataHelper) {
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
@@ -86,13 +88,8 @@ NSString * const NetworkReachabilityDidChangeToReachableNotification = @"com.eve
     
     [UMSocialSinaHandler openSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
 
-    
-//    // 获得托管对象上下文
-//    self.document = [self createManagedDocument];
-//    self.managedObjectContext = [self createManagedObjectContextWithDocument:self.document];
-    
     NSString *versionKey = (__bridge NSString *) kCFBundleVersionKey;
-    NSString *lastVersion = [userDefaults objectForKey:versionKey];
+//    NSString *lastVersion = [userDefaults objectForKey:versionKey];
     NSString *currentVersion = [NSBundle mainBundle].infoDictionary[versionKey];
     
     // Mob statics
@@ -100,15 +97,6 @@ NSString * const NetworkReachabilityDidChangeToReachableNotification = @"com.eve
 //    [MobClick setLogEnabled:YES];
     [MobClick setVersion:currentVersion];
     [MobClick startWithAppkey:@"558b2ec267e58e64a00009db" reportPolicy:BATCH channelId:@"pb"];
-//#warning - umeng alternative channel
-//    NSString * appKey = @"558b2ec267e58e64a00009db";
-//    NSString * deviceName = [[[UIDevice currentDevice] name] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-//    NSString * mac = [self macString];
-//    NSString * idfa = [self idfaString];
-//    NSString * idfv = [self idfvString];
-//    NSString * urlString = [NSString stringWithFormat:@"http://log.umtrack.com/ping/%@/?devicename=%@&mac=%@&idfa=%@&idfv=%@", appKey, deviceName, mac, idfa, idfv];
-//    [NSURLConnection connectionWithRequest:[NSURLRequest requestWithURL: [NSURL URLWithString:urlString]] delegate:nil];
-
     
     // 1. 注册APNs
 #if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1
@@ -175,7 +163,6 @@ NSString * const NetworkReachabilityDidChangeToReachableNotification = @"com.eve
                 [MBProgressHUD showError:@"网络连接中断"];
                 break;
             case AFNetworkReachabilityStatusReachableViaWiFi:
-                NSLog(@"wifi连接");
                 break;
             default:
                 break;
@@ -183,6 +170,9 @@ NSString * const NetworkReachabilityDidChangeToReachableNotification = @"com.eve
     }];
     [noteCenter addObserver:self selector:@selector(networkChange:) name:AFNetworkingReachabilityDidChangeNotification object:nil];
     [mgr startMonitoring];
+    
+    // 6. 判断是否要弹出真实头像框, 如需, 发通知
+    [self checkoutAppReview];
     return YES;
 }
 
@@ -195,6 +185,15 @@ NSString * const NetworkReachabilityDidChangeToReachableNotification = @"com.eve
         [noteCenter postNotificationName:NetworkReachabilityDidChangeToReachableNotification object:nil];
     }
     _networkStatus = changedStatus;
+}
+
+- (void)checkoutAppReview {
+    NSNumber *review = [userDefaults objectForKey:AppDidReceiveReviewUserDefaultKey];
+    if (review && !review.boolValue) {
+        [userDefaults setObject:@(YES) forKey:AppDidReceiveReviewUserDefaultKey];
+        [userDefaults synchronize];
+        [noteCenter postNotificationName:AppDidReceiveReviewNotification object:nil];
+    }
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
@@ -244,10 +243,7 @@ NSString * const NetworkReachabilityDidChangeToReachableNotification = @"com.eve
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation
 {
-//    return [ShareSDK handleOpenURL:url
-//                 sourceApplication:sourceApplication
-//                        annotation:annotation
-//                        wxDelegate:nil];
+
     return [UMSocialSnsService handleOpenURL:url];
 }
 
@@ -270,6 +266,7 @@ NSString * const NetworkReachabilityDidChangeToReachableNotification = @"com.eve
     if (debug==1) {
         NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
     }
+    [self checkoutAppReview];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
