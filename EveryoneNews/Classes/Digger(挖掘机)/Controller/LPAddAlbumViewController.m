@@ -14,6 +14,7 @@
 #import "AppDelegate.h"
 #import "MBProgressHUD+MJ.h"
 #import "Album+Create.h"
+#import "MainNavigationController.h"
 
 static NSString * const CoverCellReuseId = @"coverCell";
 

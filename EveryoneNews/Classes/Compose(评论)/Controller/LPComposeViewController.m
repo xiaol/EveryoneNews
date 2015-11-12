@@ -84,7 +84,7 @@ static const CGFloat  HeaderViewHeight= 44;
     composeBtn.centerX = ScreenWidth - composeBtn.width / 2 - padding;
     composeBtn.centerY = headerView.centerY;
     composeBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-    composeBtn.tag=self.commentType;
+    composeBtn.tag = self.commentType;
     [composeBtn addTarget:self action:@selector(composeBtnClicked:) forControlEvents:UIControlEventTouchUpInside];
     [composeBtn setTitle:@"发表" forState:UIControlStateNormal];
     composeBtn.titleLabel.font = [UIFont boldSystemFontOfSize:18];

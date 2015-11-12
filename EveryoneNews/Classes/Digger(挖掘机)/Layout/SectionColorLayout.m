@@ -13,6 +13,9 @@
 static NSString *DecorationReuseID = @"sectionBackgroundColor";
 
 @implementation SectionColorLayout
+{
+    int i;
+}
 
 // 自定义的布局属性
 + (Class)layoutAttributesClass {
@@ -28,6 +31,7 @@ static NSString *DecorationReuseID = @"sectionBackgroundColor";
     self.itemSize = CGSizeMake(self.albumW, self.albumH);
     // 注册装饰视图
     [self registerClass:[SectionColorDecorationReusableView class] forDecorationViewOfKind:DecorationReuseID];
+    i = 0;
 }
 
 - (CGFloat)albumW {
@@ -57,14 +61,17 @@ static NSString *DecorationReuseID = @"sectionBackgroundColor";
     
     NSMutableArray *attrs = [attributes mutableCopy];
     
+    NSLog(@"attributes rect : %@", NSStringFromCGRect(rect));
+    
     for (UICollectionViewLayoutAttributes *attr in attributes) {
         if (attr.representedElementCategory == UICollectionElementCategoryCell
-            && attr.frame.origin.x == self.sectionInset.left) { // 加装饰属性
+            && attr.frame.origin.x == self.sectionInset.left && i == 0) { // 加装饰属性
             SectionColorLayoutAttributes *decorationAttr = [SectionColorLayoutAttributes layoutAttributesForDecorationViewOfKind:DecorationReuseID withIndexPath:attr.indexPath];
 //            decorationAttr.frame = CGRectMake(0, attr.frame.origin.y - self.sectionInset.top, self.collectionViewContentSize.width, self.itemSize.height + self.minimumLineSpacing + self.sectionInset.top + self.sectionInset.bottom);
             decorationAttr.frame = CGRectMake(0, attr.frame.origin.y - self.sectionInset.top, self.collectionViewContentSize.width, self.collectionViewContentSize.height - 44);
             decorationAttr.zIndex = attr.zIndex - 1;
             [attrs addObject:decorationAttr];
+            i ++;
             break;
         }
     }
