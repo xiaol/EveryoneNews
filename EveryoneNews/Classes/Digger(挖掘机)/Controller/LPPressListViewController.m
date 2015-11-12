@@ -231,7 +231,6 @@ static const CGFloat headerH = 64.0f;
     request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"date" ascending:NO]];
     NSArray *results = [cdh.context executeFetchRequest:request error:nil];
     if (results.count == 0) return;
-    NSLog(@"results count : %ld", results.count);
     for (Press *press in results) {
         [press cancelRequest];
         press.isDownloading = @(NO);

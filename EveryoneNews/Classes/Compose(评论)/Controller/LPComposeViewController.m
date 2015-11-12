@@ -16,7 +16,7 @@ static const CGFloat  HeaderViewHeight= 44;
 @interface LPComposeViewController () <UITextViewDelegate>
 {
     // 评论类别（1 分段评论 2 全文评论）
-    NSString *commentType;
+    NSString *commentTypeKey;
     // 全文评论内容
     NSString *fullTextComment;
 }
@@ -145,16 +145,16 @@ static const CGFloat  HeaderViewHeight= 44;
     }
     if(sender.tag==1)
     {
-        commentType=@"text_paragraph";
+        commentTypeKey=@"text_paragraph";
         fullTextComment=@"";
     }
     else if(sender.tag==2)
     {
-        commentType=@"text_doc";
+        commentTypeKey=@"text_doc";
         fullTextComment=self.textView.text;
     }
     NSArray *keys=[NSArray arrayWithObjects:@"commentType",@"fullTextComment",nil];
-    NSArray *objects=[NSArray arrayWithObjects:commentType, fullTextComment,nil];
+    NSArray *objects=[NSArray arrayWithObjects:commentTypeKey, fullTextComment,nil];
     NSDictionary *commentDictionary = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
     [noteCenter postNotificationName:LPCommentDidComposeNotification object:self userInfo:commentDictionary];
     [self.navigationController popViewControllerAnimated:YES];
