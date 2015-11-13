@@ -13,12 +13,15 @@
 #import "Content.h"
 #import "Press.h"
 #import "Zhihu.h"
+#import "Relate.h"
 #import "ContentFrame.h"
 #import "ContentCell.h"
 #import "Album.h"
 #import "SDWebImageManager.h"
+#import "ZhihuView.h"
+#import "LPPressTool.h"
 
-@interface LPDigDetailViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface LPDigDetailViewController () <UITableViewDataSource, UITableViewDelegate,ZhihuViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *contentFrames;
 @end
@@ -30,7 +33,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     [self setupTableView];
     [self setupTableHeaderView];
-    [self setupTableFooterView];
+//    [self setupTableFooterView];
     [self setupData];
 }
 
@@ -72,7 +75,7 @@
     Press *press = (Press *)[cdh.context existingObjectWithID:self.pressObjID error:nil];
     UIView *header = [[UIView alloc] init];
     
-    NSMutableAttributedString *title = [press.title attributedStringWithFont:[UIFont boldSystemFontOfSize:17] color:[UIColor colorFromHexString:@"2b2b2b"] lineSpacing:0];
+    NSMutableAttributedString *title = [press.title attributedStringWithFont:[UIFont boldSystemFontOfSize:19] color:[UIColor colorFromHexString:@"2b2b2b"] lineSpacing:0];
     UILabel *titleLabel = [[UILabel alloc] init];
     titleLabel.textAlignment = NSTextAlignmentCenter;
     [header addSubview:titleLabel];
@@ -86,7 +89,7 @@
     UILabel *albumLabel = [[UILabel alloc] init];
     Album *album = press.album;
     albumLabel.text = album.title;
-    albumLabel.font = [UIFont systemFontOfSize:14];
+    albumLabel.font = [UIFont systemFontOfSize:13];
     albumLabel.textColor = [UIColor grayColor];
     albumLabel.x = 13;
     albumLabel.y = CGRectGetMaxY(titleLabel.frame) + 13;
@@ -102,6 +105,9 @@
     timeLabel.x = CGRectGetMaxX(albumLabel.frame) + 15;
     timeLabel.y = albumLabel.y;
     timeLabel.size = [time sizeWithFont:timeLabel.font maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)];
+    
+
+
     [header addSubview:timeLabel];
     
     header.x = 0;
@@ -111,11 +117,11 @@
     self.tableView.tableHeaderView = header;
 }
 
-- (void)setupTableFooterView {
-    UIView *footer = [[UIView alloc] init];
-    footer.frame = CGRectMake(0, 0, ScreenWidth, 20);
-    self.tableView.tableFooterView = footer;
-}
+//- (void)setupTableFooterView {
+//    UIView *footer = [[UIView alloc] init];
+//    footer.frame = CGRectMake(0, 0, ScreenWidth, 20);
+//    self.tableView.tableFooterView = footer;
+//}
 
 #pragma mark - 配置frc
 - (void)setupData {
@@ -133,6 +139,39 @@
         [frms addObject:contentFrame];
     }
     self.contentFrames = frms;
+//    NSLog(@"------");
+  
+    
+//    // 相关观点
+//    for (Relate *relate in press.relates) {
+//        
+//        NSLog(@"相关观点---%@",relate.title);
+//    }
+    CGFloat footerViewHeight=20.0;
+    UIView *footerView = [[UIView alloc] init];
+    // 知乎
+    ZhihuView *zhihuView=[[ZhihuView alloc] init];
+
+    if(press.zhihus!=nil)
+    {
+        zhihuView.zhihuSet=press.zhihus;
+        [footerView addSubview:zhihuView];
+        footerViewHeight=footerViewHeight+[zhihuView heightWithPointsArray:[press.zhihus allObjects]];
+    }
+   
+    [footerView setFrame:CGRectMake(0, 0,ScreenWidth,footerViewHeight)];
+    self.tableView.tableFooterView=footerView;
+    
+    
+    
+//    
+//    // 知乎
+//    for (Zhihu *zhihu in press.zhihus) {
+//        NSLog(@"知乎页面----%@",zhihu.title);
+//    }
+//    
+//    
+    
 }
 
 #pragma mark - table view data source
@@ -150,6 +189,11 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     ContentFrame *contentFrame = self.contentFrames[indexPath.row];
     return contentFrame.cellHeight;
+}
+
+- (void)zhihuView:(ZhihuView *)zhihuView didClickURL:(NSString *)url
+{
+    [LPPressTool loadWebViewWithURL:url viewController:self];
 }
 
 @end
