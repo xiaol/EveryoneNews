@@ -140,14 +140,6 @@
         [frms addObject:contentFrame];
     }
     self.contentFrames = frms;
-//    NSLog(@"------");git
-  
-    
-//    // 相关观点
-//    for (Relate *relate in press.relates) {
-//        
-//        NSLog(@"相关观点---%@",relate.title);
-//    }
     CGFloat footerViewHeight=20.0;
     UIView *footerView = [[UIView alloc] init];
     // 知乎
@@ -156,23 +148,13 @@
     if(press.zhihus!=nil)
     {
         zhihuView.zhihuSet=press.zhihus;
-        [footerView addSubview:zhihuView];
+        zhihuView.delegate=self;
         footerViewHeight=footerViewHeight+[zhihuView heightWithPointsArray:[press.zhihus allObjects]];
+        [footerView addSubview:zhihuView];
+  
     }
-   
     [footerView setFrame:CGRectMake(0, 0,ScreenWidth,footerViewHeight)];
     self.tableView.tableFooterView=footerView;
-    
-    
-    
-//    
-//    // 知乎
-//    for (Zhihu *zhihu in press.zhihus) {
-//        NSLog(@"知乎页面----%@",zhihu.title);
-//    }
-//    
-//    
-    
 }
 
 #pragma mark - table view data source

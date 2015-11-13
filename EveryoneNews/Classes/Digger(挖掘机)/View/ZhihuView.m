@@ -80,8 +80,8 @@ static const CGFloat HeaderViewMaginBotton=10;
         zhihuLabel.frame = CGRectMake(pointX, pointY, pointW, pointH);
         zhihuLabel.numberOfLines = 0;
         zhihuLabel.attributedText = pointString;
-        [zhihuLabel addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(UITapGestureRecognizer:)]];
- 
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(zhihuLabelTap:)];
+        [zhihuLabel addGestureRecognizer:tap];
         // 圆点
         UIView *dotView=[[UIView alloc] initWithFrame:CGRectMake(10, pointY, 10, pointH)];
         CAShapeLayer *dotLayer = [CAShapeLayer layer];
@@ -126,20 +126,13 @@ static const CGFloat HeaderViewMaginBotton=10;
     return h + 80;
 }
 
-- (void)pointLabelTap:(UITapGestureRecognizer*)tap
+- (void)zhihuLabelTap:(UITapGestureRecognizer*)tap
 {
-    NSLog(@"sds");
-    //    UILabel *label = (UILabel *)tap.view;
-    //    Zhihu *point = [self.zhihuSet allObjects][label.tag];
-    //    if ([self.delegate respondsToSelector:@selector(zhihuView:didClickURL:)]) {
-    //        [self.delegate zhihuView:self didClickURL:point.url];
-    //    }
+    UILabel *label = (UILabel *)tap.view;
+    Zhihu *point = [self.zhihuSet allObjects][label.tag];
+    if ([self.delegate respondsToSelector:@selector(zhihuView:didClickURL:)]) {
+        [self.delegate zhihuView:self didClickURL:point.url];
+    }
 }
-//- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
-//{
-//    return YES;
-//  //  return ([[touch.view class] isSubclassOfClass:[UILabel class]]) ? NO : YES;
-//}
-
 
 @end
