@@ -142,13 +142,13 @@
     self.contentFrames = frms;
     CGFloat footerViewHeight=20.0;
     UIView *footerView = [[UIView alloc] init];
-    // 知乎
+    // 知乎页面
     ZhihuView *zhihuView=[[ZhihuView alloc] init];
-
     if(press.zhihus!=nil)
     {
-        zhihuView.zhihuSet=press.zhihus;
-        zhihuView.delegate=self;
+        zhihuView.zhihuArray = [press.zhihus allObjects];
+        zhihuView.frame=CGRectMake(0, 0, ScreenWidth, [zhihuView heightWithPointsArray:[press.zhihus allObjects]]);
+        zhihuView.delegate = self;
         footerViewHeight=footerViewHeight+[zhihuView heightWithPointsArray:[press.zhihus allObjects]];
         [footerView addSubview:zhihuView];
   

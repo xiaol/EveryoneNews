@@ -25,10 +25,7 @@ static const CGFloat HeaderViewMaginBotton=10;
 - (id)initWithFrame:(CGRect)frame {
     
     if ((self = [super initWithFrame:frame])) {
-        
-        
     }
-    
     return self;
 }
 - (NSMutableArray *)pointLabels
@@ -39,13 +36,14 @@ static const CGFloat HeaderViewMaginBotton=10;
     return _zhihuLabels;
 }
 
--(void)setZhihuSet:(NSSet *)zhihuSet
+-(void)setZhihuArray:(NSArray *)zhihuArray
 {
+    _zhihuArray=zhihuArray;
     UIView *headerView=[[UIView alloc] initWithFrame:CGRectMake(0, HeaderViewMarginTop, ScreenWidth, HeaderViewHeight)];
     headerView.backgroundColor=[UIColor colorFromHexString:@"#f4f4f4"];
     // 标题矩形框
     CAShapeLayer *headerLayer = [CAShapeLayer layer];
-    UIBezierPath *headerPath = [UIBezierPath  bezierPathWithRoundedRect:CGRectMake(10, 10, 4, 30) cornerRadius:0.0f];
+    UIBezierPath *headerPath = [UIBezierPath  bezierPathWithRoundedRect:CGRectMake(10, 15, 4, 20) cornerRadius:0.0f];
     headerLayer.lineWidth=1.0;
     headerLayer.path=headerPath.CGPath;
     headerLayer.fillColor = [UIColor colorFromHexString:@"#a1a1a1"].CGColor;
@@ -53,19 +51,16 @@ static const CGFloat HeaderViewMaginBotton=10;
     // 标题
     UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 130, 50)];
     label.text=@"知乎延伸";
-    label.textColor=[UIColor colorFromHexString:@"#a1a1a1"];
-    label.textAlignment=NSTextAlignmentCenter;
+    label.textColor = [UIColor colorFromHexString:@"#a1a1a1"];
+    label.textAlignment = NSTextAlignmentCenter;
     label.font=[UIFont boldSystemFontOfSize:17];
     [headerView addSubview:label];
     [self addSubview:headerView];
-    
-    CGFloat pointY =HeaderViewMarginTop+ HeaderViewHeight+HeaderViewMaginBotton;
+    CGFloat pointY = HeaderViewMarginTop+ HeaderViewHeight+HeaderViewMaginBotton;
     CGFloat pointX = 30;
     CGFloat pointW = ScreenWidth - pointX - RightPadding;
-    
-    NSArray *zhihuArray =[zhihuSet allObjects];
     for (int i=0; i<zhihuArray.count; i++) {
-        Zhihu *point=zhihuArray[i];
+        Zhihu *point=self.zhihuArray[i];
         NSString *text = point.title;
         NSMutableAttributedString *pointString = [text attributedStringWithFont:[UIFont systemFontOfSize:14] color:[UIColor blackColor] lineSpacing:3];
         CGFloat pointH = [pointString heightWithConstraintWidth:pointW];
@@ -75,7 +70,6 @@ static const CGFloat HeaderViewMaginBotton=10;
         }
         UILabel *zhihuLabel = [[UILabel alloc] init];
         zhihuLabel.tag = i;
-        
         [zhihuLabel setUserInteractionEnabled:YES];
         zhihuLabel.frame = CGRectMake(pointX, pointY, pointW, pointH);
         zhihuLabel.numberOfLines = 0;
@@ -86,11 +80,10 @@ static const CGFloat HeaderViewMaginBotton=10;
         UIView *dotView=[[UIView alloc] initWithFrame:CGRectMake(10, pointY, 10, pointH)];
         CAShapeLayer *dotLayer = [CAShapeLayer layer];
         UIBezierPath *dotPath = [UIBezierPath  bezierPathWithRoundedRect:CGRectMake(0, 5, 5, 5) cornerRadius:2];
-        dotLayer.lineWidth=1.0;
-        dotLayer.path=dotPath.CGPath;
+        dotLayer.lineWidth = 1.0;
+        dotLayer.path = dotPath.CGPath;
         dotLayer.fillColor = [UIColor blackColor].CGColor;
         [dotView.layer addSublayer:dotLayer];
-        
         [self addSubview:dotView];
         [self addSubview:zhihuLabel];
         [self.pointLabels addObject:zhihuLabel];
@@ -129,10 +122,13 @@ static const CGFloat HeaderViewMaginBotton=10;
 - (void)zhihuLabelTap:(UITapGestureRecognizer*)tap
 {
     UILabel *label = (UILabel *)tap.view;
-    Zhihu *point = [self.zhihuSet allObjects][label.tag];
+    Zhihu *point = self.zhihuArray[label.tag];
     if ([self.delegate respondsToSelector:@selector(zhihuView:didClickURL:)]) {
         [self.delegate zhihuView:self didClickURL:point.url];
     }
 }
-
+-(void)dealloc
+{
+    //NSLog(@"zhihu dealloc");
+}
 @end

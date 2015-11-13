@@ -303,7 +303,6 @@ static const CGFloat headerH = 64.0f;
             NSArray *contents = json[@"content"];
             NSArray *zhihus = json[@"zhihu"];
             NSArray *relates=json[@"relate"];
-            
             //  1.1 content
             NSUInteger index = 0;
             for (NSDictionary *dict in contents) {
@@ -347,8 +346,9 @@ static const CGFloat headerH = 64.0f;
                 zhihu.press = wPress;
                 zhihu.zhihuID = @(index);
                 zhihu.user = dict[@"user"];
-                zhihu.title = dict[@"title"];
-                zhihu.url = dict[@"url"];
+                // 数据是反的
+                zhihu.title = dict[@"url"];
+                zhihu.url = dict[@"title"];
                 index ++;
             }
             

@@ -15,7 +15,7 @@
 
 @interface ZhihuView : UIView
 // 知乎观点
-@property (nonatomic, strong) NSSet *zhihuSet;
+@property (nonatomic, strong) NSArray *zhihuArray;
 // 计算观点集合的高度
 - (CGFloat)heightWithPointsArray:(NSArray *)points;
 // 知乎页面跳转
