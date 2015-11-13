@@ -22,6 +22,7 @@
 #import "MBProgressHUD+MJ.h"
 #import "Content.h"
 #import "Zhihu.h"
+#import "Relate.h"
 #import "LPDigDetailViewController.h"
 #import "TimerTool.h"
 
@@ -301,6 +302,7 @@ static const CGFloat headerH = 64.0f;
             //  1. 储存json数据
             NSArray *contents = json[@"content"];
             NSArray *zhihus = json[@"zhihu"];
+            NSArray *relates=json[@"relate"];
             //  1.1 content
             NSUInteger index = 0;
             for (NSDictionary *dict in contents) {
@@ -319,7 +321,24 @@ static const CGFloat headerH = 64.0f;
                 }
                 index ++;
             }
-            //  1.2 zhihu
+            
+            // 1.2 relate
+            index=0;
+            for (NSDictionary *dict  in relates) {
+                Relate *relate=[NSEntityDescription insertNewObjectForEntityForName:@"Relate" inManagedObjectContext:cdh.context];
+                [cdh.context obtainPermanentIDsForObjects:@[relate] error:nil];
+                relate.press=wPress;
+                relate.relateID=@(index);
+                relate.photoURL=dict[@"photoURL"];
+                relate.sourceSite=dict[@"sourceSite"];
+                relate.title=dict[@"title"];
+                relate.updateTime=dict[@"updateTime"];
+                relate.url=dict[@"url"];
+                index++;
+            }
+            
+            
+            //  1.3 zhihu
             index = 0;
             for (NSDictionary *dict in zhihus) {
                 Zhihu *zhihu = [NSEntityDescription insertNewObjectForEntityForName:@"Zhihu" inManagedObjectContext:cdh.context];
@@ -327,6 +346,7 @@ static const CGFloat headerH = 64.0f;
                 zhihu.press = wPress;
                 zhihu.zhihuID = @(index);
                 zhihu.user = dict[@"user"];
+                // 数据是反的
                 zhihu.title = dict[@"url"];
                 zhihu.url = dict[@"title"];
                 index ++;
