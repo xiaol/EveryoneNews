@@ -277,4 +277,8 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     [self cdh];
 }
 
+- (void)applicationWillResignActive:(UIApplication *)application {
+    NSLog(@"%@ %ld", NSStringFromSelector(_cmd), application.applicationState);
+}
+
 @end
