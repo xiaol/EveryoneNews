@@ -223,7 +223,7 @@ static const CGFloat headerH = 64.0f;
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-        
+    
     CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     Album *album = (Album *)[cdh.context existingObjectWithID:self.albumObjID error:nil];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Press"];
@@ -238,6 +238,12 @@ static const CGFloat headerH = 64.0f;
         [press stopTimer];
     }
     [cdh saveBackgroundContext];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [self.view endEditing:YES];
 }
 
 #pragma mark - downloading missing presses

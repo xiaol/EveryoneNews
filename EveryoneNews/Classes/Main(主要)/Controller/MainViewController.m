@@ -812,7 +812,7 @@ NSString * const HotwordsURL = @"http://api.deeporiginalx.com/news/baijia/fetchE
         [wAlert removeFromSuperview];
         [wHUD removeFromSuperview];
         // 跳转到AppStore评价页面
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/cn/app/id987333155?mt=8"]];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"itms-apps://itunes.apple.com/app/id987333155"]];
     }];
     
     UIButton *cancelBtn = [[UIButton alloc] initWithFrame:CGRectMake(btnX, cancelY, btnW, btnH)];

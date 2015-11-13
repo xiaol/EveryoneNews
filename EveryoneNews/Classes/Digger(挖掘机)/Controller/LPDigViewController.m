@@ -50,8 +50,6 @@ NSString * const AlbumCellReuseId = @"albumCell";
 
 //@property (nonatomic, strong) UIButton *pasteboardHint;
 
-@property (nonatomic, strong) NSFetchedResultsController *collectFRC;
-
 @property (nonatomic, strong) LPHttpTool *http;
 
 @end
@@ -339,7 +337,6 @@ NSString * const AlbumCellReuseId = @"albumCell";
     collectVc.snapshot = [UIImage captureWithView:self.view];
     collectVc.fromPush = YES;
     
-    collectVc.frc = self.collectFRC;
     [self.navigationController pushViewController:collectVc animated:NO];
 }
 
