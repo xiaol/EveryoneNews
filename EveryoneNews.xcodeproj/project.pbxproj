@@ -134,7 +134,6 @@
 		1886FC5B1B2FE1D800959FA0 /* 百度.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC251B2FE1D800959FA0 /* 百度.png */; };
 		1886FC5C1B2FE1D800959FA0 /* 蓝点.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC261B2FE1D800959FA0 /* 蓝点.png */; };
 		1886FC5E1B2FE1D800959FA0 /* 评论.png in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC281B2FE1D800959FA0 /* 评论.png */; };
-		1886FC621B2FE43000959FA0 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1886FC611B2FE43000959FA0 /* Info.plist */; };
 		1889FDD11B4C2BFD006D8E03 /* CustomLoaddingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1889FDD01B4C2BFD006D8E03 /* CustomLoaddingView.m */; };
 		1889FE5C1B4C2E91006D8E03 /* LPDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1889FE3F1B4C2E91006D8E03 /* LPDetailViewController.m */; };
 		1889FE5D1B4C2E91006D8E03 /* LPComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 1889FE421B4C2E91006D8E03 /* LPComment.m */; };
@@ -2369,7 +2368,7 @@
 		1821BF941B033ABE003E6C94 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0600;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = apple;
 				TargetAttributes = {
 					1821BF9B1B033ABE003E6C94 = {
@@ -2518,7 +2517,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1886FC621B2FE43000959FA0 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2788,11 +2786,12 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -2813,7 +2812,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PROVISIONING_PROFILE = "0e5e42be-4fea-437e-948d-c57c71e51848";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -2835,7 +2834,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_BITCODE = NO;
@@ -2853,7 +2852,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PROVISIONING_PROFILE = "0e5e42be-4fea-437e-948d-c57c71e51848";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -2908,6 +2907,7 @@
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_Extra_Frameworks/Wechat",
 				);
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = YU.EveryoneNews;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -2963,6 +2963,7 @@
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_Extra_Frameworks/Wechat",
 				);
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = YU.EveryoneNews;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -2982,6 +2983,7 @@
 				);
 				INFOPLIST_FILE = EveryoneNewsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = YU.EveryoneNews;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EveryoneNews.app/EveryoneNews";
@@ -2997,6 +2999,7 @@
 				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = EveryoneNewsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = YU.EveryoneNews;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EveryoneNews.app/EveryoneNews";
