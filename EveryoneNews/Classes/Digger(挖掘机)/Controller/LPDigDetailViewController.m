@@ -126,6 +126,7 @@
 #pragma mark - 配置frc
 - (void)setupData {
     CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    
     Press *press = (Press *)[cdh.context existingObjectWithID:self.pressObjID error:nil];
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Content"];
     request.fetchBatchSize = 15;
@@ -139,7 +140,7 @@
         [frms addObject:contentFrame];
     }
     self.contentFrames = frms;
-//    NSLog(@"------");
+//    NSLog(@"------");git
   
     
 //    // 相关观点
