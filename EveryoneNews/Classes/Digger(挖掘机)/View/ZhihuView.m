@@ -99,7 +99,7 @@ static const CGFloat HeaderViewMaginBotton=10;
     for (int k = 0; k < count; k++) {
         array[k] = 0.0;
     }
-    CGFloat pointW = DetailCellWidth - - RightPadding;
+    CGFloat pointW = DetailCellWidth - RightPadding;
     for (int i = 0; i < count; i++) {
         Zhihu *point = points[i];
         NSString *text = point.title;
