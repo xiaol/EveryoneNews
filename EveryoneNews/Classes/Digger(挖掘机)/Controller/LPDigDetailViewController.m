@@ -21,7 +21,7 @@
 #import "ZhihuView.h"
 #import "LPPressTool.h"
 
-@interface LPDigDetailViewController () <UITableViewDataSource, UITableViewDelegate,ZhihuViewDelegate>
+@interface LPDigDetailViewController () <UITableViewDataSource, UITableViewDelegate, ZhihuViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *contentFrames;
 @end
@@ -140,21 +140,21 @@
         [frms addObject:contentFrame];
     }
     self.contentFrames = frms;
-    CGFloat footerViewHeight=20.0;
+    CGFloat footerViewHeight = 20.0;
     UIView *footerView = [[UIView alloc] init];
     // 知乎页面
-    ZhihuView *zhihuView=[[ZhihuView alloc] init];
-    if(press.zhihus!=nil)
+    ZhihuView *zhihuView = [[ZhihuView alloc] init];
+    if(press.zhihus != nil)
     {
         zhihuView.zhihuArray = [press.zhihus allObjects];
-        zhihuView.frame=CGRectMake(0, 0, ScreenWidth, [zhihuView heightWithPointsArray:[press.zhihus allObjects]]);
+        zhihuView.frame = CGRectMake(0, 0, ScreenWidth, [zhihuView heightWithPointsArray:[press.zhihus allObjects]]);
         zhihuView.delegate = self;
-        footerViewHeight=footerViewHeight+[zhihuView heightWithPointsArray:[press.zhihus allObjects]];
+        footerViewHeight = footerViewHeight + [zhihuView heightWithPointsArray:[press.zhihus allObjects]];
         [footerView addSubview:zhihuView];
   
     }
     [footerView setFrame:CGRectMake(0, 0,ScreenWidth,footerViewHeight)];
-    self.tableView.tableFooterView=footerView;
+    self.tableView.tableFooterView = footerView;
 }
 
 #pragma mark - table view data source

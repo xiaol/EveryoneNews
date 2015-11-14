@@ -9,17 +9,18 @@
 #import "ZhihuView.h"
 #import "Zhihu.h"
 
-static const CGFloat ZhihuTopPadding=30;
-static const CGFloat RightPadding=13;
-static const CGFloat HeaderViewHeight=50;
-static const CGFloat HeaderViewMarginTop=20;
-static const CGFloat HeaderViewMaginBotton=10;
+static const CGFloat RightPadding = 13;
+static const CGFloat LeftPadding = 13;
+static const CGFloat HeaderViewHeight = 50;
+static const CGFloat HeaderViewMarginTop = 20;
+static const CGFloat HeaderViewMaginBottom = 10;
 
 @interface ZhihuView ()
 // 观点UILabel集合
 @property (nonatomic, strong) NSMutableArray *zhihuLabels;
 
 @end
+
 @implementation ZhihuView
 
 - (id)initWithFrame:(CGRect)frame {
@@ -28,6 +29,7 @@ static const CGFloat HeaderViewMaginBotton=10;
     }
     return self;
 }
+
 - (NSMutableArray *)pointLabels
 {
     if (_zhihuLabels == nil) {
@@ -36,33 +38,37 @@ static const CGFloat HeaderViewMaginBotton=10;
     return _zhihuLabels;
 }
 
+#pragma mark 设置知乎链接
 -(void)setZhihuArray:(NSArray *)zhihuArray
 {
-    _zhihuArray=zhihuArray;
-    UIView *headerView=[[UIView alloc] initWithFrame:CGRectMake(0, HeaderViewMarginTop, ScreenWidth, HeaderViewHeight)];
-    headerView.backgroundColor=[UIColor colorFromHexString:@"#f4f4f4"];
+    _zhihuArray = zhihuArray;
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, HeaderViewMarginTop, ScreenWidth, HeaderViewHeight)];
+    headerView.backgroundColor = [UIColor colorFromHexString:@"#f4f4f4"];
+    
     // 标题矩形框
     CAShapeLayer *headerLayer = [CAShapeLayer layer];
-    UIBezierPath *headerPath = [UIBezierPath  bezierPathWithRoundedRect:CGRectMake(10, 15, 4, 20) cornerRadius:0.0f];
-    headerLayer.lineWidth=1.0;
-    headerLayer.path=headerPath.CGPath;
+    UIBezierPath *headerPath = [UIBezierPath  bezierPathWithRoundedRect:CGRectMake(LeftPadding, 15, 4, 20) cornerRadius:0.0f];
+    //headerLayer.lineWidth = 1.0;
+    headerLayer.path = headerPath.CGPath;
     headerLayer.fillColor = [UIColor colorFromHexString:@"#a1a1a1"].CGColor;
     [headerView.layer addSublayer:headerLayer];
+    
     // 标题
-    UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 130, 50)];
+    UILabel *label=[[UILabel alloc] initWithFrame:CGRectMake(0, 0, 130, HeaderViewHeight)];
     label.text=@"知乎延伸";
     label.textColor = [UIColor colorFromHexString:@"#a1a1a1"];
     label.textAlignment = NSTextAlignmentCenter;
-    label.font=[UIFont boldSystemFontOfSize:17];
+    label.font = [UIFont boldSystemFontOfSize:17];
     [headerView addSubview:label];
     [self addSubview:headerView];
-    CGFloat pointY = HeaderViewMarginTop+ HeaderViewHeight+HeaderViewMaginBotton;
+    
+    CGFloat pointY = HeaderViewMarginTop + HeaderViewHeight + HeaderViewMaginBottom;
     CGFloat pointX = 30;
     CGFloat pointW = ScreenWidth - pointX - RightPadding;
     for (int i=0; i<zhihuArray.count; i++) {
-        Zhihu *point=self.zhihuArray[i];
+        Zhihu *point = self.zhihuArray[i];
         NSString *text = point.title;
-        NSMutableAttributedString *pointString = [text attributedStringWithFont:[UIFont systemFontOfSize:14] color:[UIColor blackColor] lineSpacing:3];
+        NSMutableAttributedString *pointString = [text attributedStringWithFont:[UIFont systemFontOfSize:14] color:[UIColor blackColor] lineSpacing:5];
         CGFloat pointH = [pointString heightWithConstraintWidth:pointW];
         if (i > 0) {
             UILabel *lastLabel = self.pointLabels[i-1];
@@ -76,14 +82,12 @@ static const CGFloat HeaderViewMaginBotton=10;
         zhihuLabel.attributedText = pointString;
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(zhihuLabelTap:)];
         [zhihuLabel addGestureRecognizer:tap];
-        // 圆点
-        UIView *dotView=[[UIView alloc] initWithFrame:CGRectMake(10, pointY, 10, pointH)];
-        CAShapeLayer *dotLayer = [CAShapeLayer layer];
-        UIBezierPath *dotPath = [UIBezierPath  bezierPathWithRoundedRect:CGRectMake(0, 5, 5, 5) cornerRadius:2];
-        dotLayer.lineWidth = 1.0;
-        dotLayer.path = dotPath.CGPath;
-        dotLayer.fillColor = [UIColor blackColor].CGColor;
-        [dotView.layer addSublayer:dotLayer];
+        // 设置圆点
+        CGSize size = [text sizeWithAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]}];
+        UIView *dotView = [[UIView alloc] initWithFrame:CGRectMake(LeftPadding, pointY+ ((size.height/2)-2), 4,4)];
+        dotView.layer.backgroundColor = [UIColor blackColor].CGColor;
+        dotView.layer.cornerRadius = 2;
+
         [self addSubview:dotView];
         [self addSubview:zhihuLabel];
         [self.pointLabels addObject:zhihuLabel];
@@ -91,19 +95,20 @@ static const CGFloat HeaderViewMaginBotton=10;
     
 }
 
+#pragma mark 设置知乎视图高度值
 - (CGFloat)heightWithPointsArray:(NSArray *)points
 {
-    CGFloat h = ZhihuTopPadding;
+    CGFloat h = HeaderViewMarginTop+HeaderViewHeight;
     NSUInteger count = points.count;
     CGFloat array[count];
     for (int k = 0; k < count; k++) {
         array[k] = 0.0;
     }
-    CGFloat pointW = DetailCellWidth - - RightPadding;
+    CGFloat pointW = DetailCellWidth -  RightPadding;
     for (int i = 0; i < count; i++) {
         Zhihu *point = points[i];
         NSString *text = point.title;
-        NSMutableAttributedString *pointString = [text attributedStringWithFont:[UIFont systemFontOfSize:14] color:[UIColor blackColor] lineSpacing:3];
+        NSMutableAttributedString *pointString = [text attributedStringWithFont:[UIFont systemFontOfSize:14] color:[UIColor blackColor] lineSpacing:5];
         CGFloat pointH = [pointString heightWithConstraintWidth:pointW];
         array[i] = pointH;
     }
@@ -116,9 +121,10 @@ static const CGFloat HeaderViewMaginBotton=10;
     } else {
         h += sumH + (count - 1) * 10;
     }
-    return h + 80;
+    return h + HeaderViewMaginBottom;
 }
 
+#pragma mark 知乎链接
 - (void)zhihuLabelTap:(UITapGestureRecognizer*)tap
 {
     UILabel *label = (UILabel *)tap.view;
