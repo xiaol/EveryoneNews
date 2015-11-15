@@ -18,7 +18,7 @@ static const CGFloat MenuViewTitleHeight =10;
 static const CGFloat MenuViewVerticalPadding =57;
 static const CGFloat MenuViewHorizontalMargin =20;
 static const CGFloat MenuViewHorizontalMargin1= 50;
-static const CGFloat MenuViewAnimationTime =0.24;
+static const CGFloat MenuViewAnimationTime =0.36;
 static const CGFloat MenuViewAnimationInterval= (MenuViewAnimationTime / 6);
 
 @interface LPShareViewController()<UIGestureRecognizerDelegate>
@@ -28,22 +28,18 @@ static const CGFloat MenuViewAnimationInterval= (MenuViewAnimationTime / 6);
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setupSubViews];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     // 创建视图
-    [self setupSubViews];
     MainNavigationController *nav = (MainNavigationController *)self.navigationController;
     nav.popRecognizer.enabled = NO;
 
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-     self.view.userInteractionEnabled=NO;
-}
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
@@ -52,7 +48,6 @@ static const CGFloat MenuViewAnimationInterval= (MenuViewAnimationTime / 6);
     [[self.view viewWithTag:-2] removeFromSuperview];
     MainNavigationController *nav = (MainNavigationController *)self.navigationController;
     nav.popRecognizer.enabled = YES;
-
 }
 
 -(void)setupSubViews
@@ -79,9 +74,6 @@ static const CGFloat MenuViewAnimationInterval= (MenuViewAnimationTime / 6);
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(overlayTouchUpInside)];
     tapGesture.delegate=self;
     [overlay addGestureRecognizer:tapGesture];
-    
- 
-    
 }
 // 创建自定义分享菜单
 - (void)createMenuView:(UIView *)overlay title:(NSString*)title icon:(NSString *)icon index:(NSUInteger)index

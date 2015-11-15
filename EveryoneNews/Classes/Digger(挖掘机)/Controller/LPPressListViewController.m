@@ -251,7 +251,6 @@ static const CGFloat headerH = 64.0f;
     CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     Album *album = (Album *)[cdh.context existingObjectWithID:self.albumObjID error:nil];
     [cdh.context performBlock:^{
-        NSLog(@"thread: %@", [NSThread currentThread]);
         NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Press"];
         request.fetchBatchSize = 15;
         request.predicate = [NSPredicate predicateWithFormat:@"album.title = %@ && isDownload = %@", album.title, @(NO)];

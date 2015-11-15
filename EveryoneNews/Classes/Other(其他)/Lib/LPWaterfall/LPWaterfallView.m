@@ -282,12 +282,4 @@
         [self.delegate waterfallView:self didSelectAtIndex:selectIndex.unsignedIntegerValue];
     }
 }
-
-- (id) getBlockArray {
-    int val = 10;
-    return [[NSArray alloc] initWithObjects:^{NSLog(@"%d", val);}, nil];
-}
-
-
-
 @end

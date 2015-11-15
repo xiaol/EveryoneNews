@@ -10,6 +10,7 @@
 #import "SectionColorLayoutAttributes.h"
 
 @implementation SectionColorDecorationReusableView
+// 在装饰视图上应用其attributes
 - (void)applyLayoutAttributes:(UICollectionViewLayoutAttributes *)layoutAttributes {
     [super applyLayoutAttributes:layoutAttributes];
     

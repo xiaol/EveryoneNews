@@ -563,7 +563,6 @@ NSString * const AlbumCellReuseId = @"albumCell";
 }
 
 - (void)dealloc {
-    NSLog(@"hahahahah");
     [noteCenter removeObserver:self];
 }
 

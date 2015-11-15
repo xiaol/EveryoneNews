@@ -325,7 +325,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
             // 设置全文评论顶部视图颜色
             self.categoryColor=[UIColor colorFromCategory:self.press.category];
             // 防止数据为空时详情页崩溃
-            abstract=abstract==nil?@"":abstract;
+            abstract = (abstract==nil) ? @"" : abstract;
             // 2. 每段正文及其评论赋值
             NSArray *rawArray = [totalBody componentsSeparatedByString:@"\n"];
             NSMutableArray *bodyArray = [NSMutableArray arrayWithArray:@[abstract]];
