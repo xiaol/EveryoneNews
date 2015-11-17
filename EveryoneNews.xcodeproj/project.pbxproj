@@ -2792,8 +2792,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Falcon Network Co., Ltd. (6BWPZAXBUP)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Falcon Network Co., Ltd. (6BWPZAXBUP)";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -2818,7 +2818,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PROVISIONING_PROFILE = "2fd67da9-f96e-422a-a47e-d3c433c13da2";
+				PROVISIONING_PROFILE = "35ad8e5d-392a-492d-992a-9fc9eb3e27ee";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -2840,8 +2840,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Falcon Network Co., Ltd. (6BWPZAXBUP)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Falcon Network Co., Ltd. (6BWPZAXBUP)";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -2858,7 +2858,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PROVISIONING_PROFILE = "2fd67da9-f96e-422a-a47e-d3c433c13da2";
+				PROVISIONING_PROFILE = "35ad8e5d-392a-492d-992a-9fc9eb3e27ee";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -2871,6 +2871,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Falcon Network Co., Ltd. (6BWPZAXBUP)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Falcon Network Co., Ltd. (6BWPZAXBUP)";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0/Connection",
@@ -2894,18 +2895,12 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/JPush",
-					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0/Extend/SinaWeiboSDK",
-					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0/Extend/WeChatSDK",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/UMeng",
-					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK/Extend/SinaWeiboSDK",
-					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK/Extend/WeChatSDK",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_4.2.3",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_Extra_Frameworks/Sina",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_Extra_Frameworks/Wechat",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/JPush",
-					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0/Extend/SinaWeiboSDK",
-					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0/Extend/WeChatSDK",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/UMeng",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_4.2.3",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_Extra_Frameworks/Sina",
@@ -2915,7 +2910,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = YU.EveryoneNews;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d3e9d6d7-af88-4f94-9e00-1e04010b7165";
+				PROVISIONING_PROFILE = "35ad8e5d-392a-492d-992a-9fc9eb3e27ee";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -2927,6 +2922,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Shanghai Falcon Network Co., Ltd. (6BWPZAXBUP)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Shanghai Falcon Network Co., Ltd. (6BWPZAXBUP)";
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0/Connection",
@@ -2950,11 +2946,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/JPush",
-					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0/Extend/SinaWeiboSDK",
-					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK_v2.11.0/Extend/WeChatSDK",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/UMeng",
-					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK/Extend/SinaWeiboSDK",
-					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/ShareSDK/Extend/WeChatSDK",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_4.2.3",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_Extra_Frameworks/Sina",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
@@ -2971,7 +2963,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = YU.EveryoneNews;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d3e9d6d7-af88-4f94-9e00-1e04010b7165";
+				PROVISIONING_PROFILE = "35ad8e5d-392a-492d-992a-9fc9eb3e27ee";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -2991,7 +2983,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = YU.EveryoneNews;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EveryoneNews.app/EveryoneNews";
 			};
 			name = Debug;
@@ -3007,7 +2998,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = YU.EveryoneNews;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EveryoneNews.app/EveryoneNews";
 			};
 			name = Release;
