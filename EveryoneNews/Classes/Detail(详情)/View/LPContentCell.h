@@ -24,6 +24,6 @@
 @property (nonatomic, weak) id<LPContentCellDelegate> delegate;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
-+ (instancetype)cellWithTableView:(UITableView *)tableView identifier:(NSInteger)identifier;
+//+ (instancetype)cellWithTableView:(UITableView *)tableView identifier:(NSInteger)identifier;
 
 @end

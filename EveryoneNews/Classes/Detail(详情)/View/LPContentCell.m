@@ -25,15 +25,6 @@
 
 @implementation LPContentCell
 
-+ (instancetype)cellWithTableView:(UITableView *)tableView identifier:(NSInteger)identifier {
-    NSString *ID = [NSString stringWithFormat:@"content%ld", identifier];
-    LPContentCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
-    if (cell == nil) {
-        cell = [[LPContentCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
-    }
-    return cell;
-}
-
 + (instancetype)cellWithTableView:(UITableView *)tableView
 {
     static NSString *ID = @"content";
