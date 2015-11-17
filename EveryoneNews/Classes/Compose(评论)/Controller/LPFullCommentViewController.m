@@ -92,7 +92,6 @@ static const CGFloat btnWidth= 44;
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,topViewHeight,ScreenWidth, ScreenHeight - inputViewHeight-topViewHeight)];
     tableView.backgroundColor = LPColor(255, 255, 250);
     tableView.separatorColor = [UIColor colorFromHexString:TableViewBackColor alpha:0.6];
-    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     tableView.showsHorizontalScrollIndicator = NO;
     tableView.showsVerticalScrollIndicator = YES;
     tableView.allowsSelection=NO;

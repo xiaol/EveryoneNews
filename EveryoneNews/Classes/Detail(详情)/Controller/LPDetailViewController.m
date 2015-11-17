@@ -245,11 +245,14 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 {
     // 弹出分享view
     LPShareViewController *shareVc = [[LPShareViewController alloc] init];
-    shareVc.detailTitleWithUrl=[NSString stringWithFormat:@"%@ http://deeporiginalx.com/news.html?type=%d&url=%@",self.isConcernDetail==YES?self.concernPress.title:self.press.title,self.isConcernDetail==YES?1:0,self.isConcernDetail==YES?self.concernPress.sourceUrl:self.press.sourceUrl];
-    shareVc.detailUrl=[NSString stringWithFormat:@"http://deeporiginalx.com/news.html?type=%d&url=%@",self.isConcernDetail==YES?1:0,self.isConcernDetail==YES?self.concernPress.sourceUrl:self.press.sourceUrl];
-    shareVc.captureImage=[UIImage captureWithView:self.view];
-    shareVc.detailTitle=self.isConcernDetail==YES?self.concernPress.title:self.press.title;
-    shareVc.detailImageUrl=detailImgUrl;
+    // 链接地址编码
+    NSString *detailURLEncode = [(self.isConcernDetail==YES?self.concernPress.sourceUrl:self.press.sourceUrl) stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet ]];
+    NSString *detailURL = [NSString stringWithFormat:@"http://deeporiginalx.com/news.html?type=%d&url=%@",self.isConcernDetail==YES?1:0,detailURLEncode];
+    shareVc.detailTitleWithUrl = [NSString stringWithFormat:@"%@ %@",self.isConcernDetail==YES?self.concernPress.title:self.press.title,detailURL];
+    shareVc.detailUrl = detailURL;
+    shareVc.captureImage = [UIImage captureWithView:self.view];
+    shareVc.detailTitle = self.isConcernDetail== YES?self.concernPress.title:self.press.title;
+    shareVc.detailImageUrl = detailImgUrl;
     [self.navigationController pushViewController:shareVc animated:NO];
 }
 
@@ -257,9 +260,9 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 - (void)fulltextCommentBtnClick
 {
     
-    LPFullCommentViewController *fullCommentVc=[[LPFullCommentViewController alloc] init];
-    fullCommentVc.color=self.categoryColor;
-    fullCommentVc.comments=self.fullTextComments;
+    LPFullCommentViewController *fullCommentVc = [[LPFullCommentViewController alloc] init];
+    fullCommentVc.color = self.categoryColor;
+    fullCommentVc.comments = self.fullTextComments;
     if (self.isConcernDetail) {
         fullCommentVc.sourceURL = self.concernPress.sourceUrl;
     } else {
@@ -309,7 +312,6 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
             NSString *time = json[@"updateTime"];
             NSString *abstract = json[@"abs"];
             NSString *totalBody = json[@"content"];
-          //  NSLog(@"%@",json[@"newsid"]);
             NSArray *commentArray = [LPComment objectArrayWithKeyValuesArray:json[@"point"]];
             
 //            NSArray *baikeArray = [LPWeiboPoint objectArrayWithKeyValuesArray:json[@"baike"]];
@@ -433,7 +435,8 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
             NSString *title = json[@"title"];
             NSString *time = json[@"updateTime"];
             [weakSelf setupHeaderWithImageURL:headerImg title:title time:time color:[UIColor colorFromConcern:weakSelf.concern alpha:0.1]];
-            
+            // 设置全文评论顶部视图颜色
+            self.categoryColor=[UIColor colorFromConcern:weakSelf.concern];
             NSArray *zhihuArray = [LPZhihuPoint objectArrayWithKeyValuesArray:json[@"zhihu"]];
             
             NSString *abstract = json[@"abs"];
@@ -644,7 +647,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
         photoWall.delegate = self;
         self.photoWall = photoWall;
         [photoWall reloadData];
-        footerH=CGRectGetMaxY(photoBgView.frame);
+        footerH=CGRectGetMaxY(photoBgView.frame) + DetailCellPadding;
     } else {
         photoBgView.height = 0;
         photoBgView.hidden = YES;
@@ -663,7 +666,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
         relateView.layer.cornerRadius = 1.0;
         relateView.relateArray=relateArray;
         [footerView addSubview:relateView];
-        footerH = CGRectGetMaxY(relateView.frame)+DetailCellPadding;
+        footerH = CGRectGetMaxY(relateView.frame) + DetailCellPadding;
     }
     else
     {
@@ -676,7 +679,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     LPZhihuView *zhihuView = [[LPZhihuView alloc] init];
     if (zhihuArray && zhihuArray.count) {
         zhihuView.hidden = NO;
-        zhihuView.frame = CGRectMake(DetailCellPadding,footerH, DetailCellWidth, [zhihuView heightWithPointsArray:zhihuArray]);
+        zhihuView.frame = CGRectMake(DetailCellPadding, footerH, DetailCellWidth, [zhihuView heightWithPointsArray:zhihuArray]);
         zhihuView.layer.shadowOpacity = 0.24f;
         zhihuView.layer.shadowRadius = 3.0;
         zhihuView.layer.shadowOffset = CGSizeMake(0, 0);
@@ -686,7 +689,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
         zhihuView.layer.rasterizationScale = [UIScreen mainScreen].scale;
         zhihuView.layer.shouldRasterize = YES;
         zhihuView.zhihuPoints = zhihuArray;
-        footerH = CGRectGetMaxY(zhihuView.frame)+DetailCellPadding;
+        footerH = CGRectGetMaxY(zhihuView.frame) + DetailCellPadding;
     } else {
         zhihuView.hidden = YES;
     }
