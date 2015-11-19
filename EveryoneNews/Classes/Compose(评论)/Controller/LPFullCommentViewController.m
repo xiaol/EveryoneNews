@@ -91,6 +91,7 @@ static const CGFloat btnWidth= 44;
 
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,topViewHeight,ScreenWidth, ScreenHeight - inputViewHeight-topViewHeight)];
     tableView.backgroundColor = LPColor(255, 255, 250);
+    tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     tableView.separatorColor = [UIColor colorFromHexString:TableViewBackColor alpha:0.6];
     tableView.showsHorizontalScrollIndicator = NO;
     tableView.showsVerticalScrollIndicator = YES;
@@ -105,11 +106,11 @@ static const CGFloat btnWidth= 44;
     inputView.y = ScreenHeight - inputViewHeight;
     inputView.width = ScreenWidth;
     inputView.height = inputViewHeight;
-    inputView.userInteractionEnabled=YES;
+    inputView.userInteractionEnabled = YES;
     UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(inputViewTap:)];
     [inputView addGestureRecognizer:singleTap];
     [self.view addSubview:inputView];
-    self.inputView=inputView;
+    self.inputView = inputView;
     
 }
 
@@ -144,6 +145,16 @@ static const CGFloat btnWidth= 44;
 {
     LPParaCommentFrame *paraCommentFrame = self.fullTextCommentFrames[indexPath.row];
     return paraCommentFrame.cellHeight;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.01f;
+}
+
+- (UIView*) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(13, 0, ScreenWidth-13, 10)];
+    view.backgroundColor = [UIColor redColor];
+    return view;
 }
 
 // 点赞
@@ -253,7 +264,7 @@ static const CGFloat btnWidth= 44;
 - (void)dealloc
 {
     [noteCenter removeObserver:self];
-     NSLog(@"全文评论dealloc");
+    // NSLog(@"全文评论dealloc");
 }
 
 @end

@@ -58,18 +58,7 @@ static const CGFloat MenuViewAnimationInterval= (MenuViewAnimationTime / 6);
 
 -(void)setupSubViews
 {
-    CGRect imageViewFrame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height);
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:imageViewFrame];
-    imageView.tag = -1;
-    imageView.image = self.captureImage;
-    // create effect
-    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
-    // add effect to an effect view
-    UIVisualEffectView *effectView = [[UIVisualEffectView alloc]initWithEffect:blur];
-    effectView.frame = self.view.frame;
-    // add the effect view to the image view
-    [imageView addSubview:effectView];
-    [self.view addSubview:imageView];
+    [self.view addSubview:self.blurImageView];
     // 添加遮罩层
     UIView *overlay = [[UIView alloc] initWithFrame:self.view.bounds];
     overlay.tag = -2;
@@ -96,6 +85,11 @@ static const CGFloat MenuViewAnimationInterval= (MenuViewAnimationTime / 6);
     UIControl *viewWithButtonLabel=[[UIControl alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
     UIImageView *imageView=[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, MenuViewImageHeight, MenuViewImageHeight)];
     imageView.image = [UIImage imageNamed:icon];
+    [[imageView layer] setShadowOffset:CGSizeMake(0, 0)]; // 阴影的范围
+    [[imageView layer] setShadowRadius:1]; // 阴影扩散的范围控制
+    [[imageView layer] setShadowOpacity:1]; // 阴影透明度
+    [[imageView layer] setShadowColor:[UIColor lightGrayColor].CGColor]; // 阴影的颜色
+
     UILabel *titleLabel=[[UILabel alloc] initWithFrame:CGRectMake(0, MenuViewImageHeight+10, MenuViewImageHeight, MenuViewTitleHeight)];
     titleLabel.text = title;
     titleLabel.textColor = labelColor;
