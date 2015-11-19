@@ -96,7 +96,7 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
 #warning 发布时删除此句 setLogEnabled:
 //    [MobClick setLogEnabled:YES];
     [MobClick setVersion:currentVersion];
-    [MobClick startWithAppkey:@"558b2ec267e58e64a00009db" reportPolicy:BATCH channelId:@"pb"];
+    [MobClick startWithAppkey:@"558b2ec267e58e64a00009db" reportPolicy:BATCH channelId:@""];
     
     // 1. 注册APNs
 #if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1

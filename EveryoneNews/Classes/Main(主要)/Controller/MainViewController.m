@@ -848,9 +848,11 @@ NSString * const HotwordsURL = @"http://api.deeporiginalx.com/news/baijia/fetchE
 - (void)receiveJPushNotification:(NSNotification *)note
 {
     NSLog(@"--receiveJPushNotification-%s",__func__);
-    LPTabBarButton *btn = self.customTabBar.tabBarButtons[1];
-    [btn setTitle:@"今日" forState:UIControlStateNormal];
+
     self.selectedIndex = 1;
+    if (self.presentedViewController != nil) {
+        [self dismissViewControllerAnimated:NO completion:nil];
+    }
     
     NSDictionary *info = note.userInfo;
     NSString *url = info[LPPushNotificationURL];
