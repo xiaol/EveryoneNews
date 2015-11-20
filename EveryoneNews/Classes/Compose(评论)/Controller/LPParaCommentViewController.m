@@ -222,9 +222,16 @@
         NSUInteger index = [self.comments indexOfObject:comment];
         [AccountTool accountLoginWithViewController:self success:^(Account *account){
             // 1. 刷新detailVc，更新自身comments值
+            NSInteger vcIndex = [self.navigationController.viewControllers indexOfObject:self];
+            NSLog(@"hhh - %@", NSStringFromClass([self.navigationController.viewControllers[vcIndex - 1] class]));
+            LPDetailViewController *detailVc = (LPDetailViewController *)self.navigationController.viewControllers[vcIndex - 1];
             [self.fromVc returnContentsBlock:^(NSArray *contents) {
                 LPContent *content = contents[self.contentIndex];
-                self.comments = content.comments;
+                self.comments = [content.comments copy];
+                NSLog(@"after login ------ ");
+                for (LPComment *comment in self.comments) {
+                    NSLog(@"commentId : %@, srcText : %@, paragraphIndex : %@", comment.commentId, comment.srcText, comment.paragraphIndex);
+                }
                 LPComment *comment = self.comments[index];
                 // 2. 刷新tableView
                 [self setupData];

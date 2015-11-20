@@ -381,6 +381,10 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
                     }
                     content.hasComment = (comments.count > 0);
                     content.comments = comments;
+                    NSLog(@"before login ------ ");
+                    for (LPComment *comment in comments) {
+                        NSLog(@"commentId : %@, srcText : %@, paragraphIndex : %@", comment.commentId, comment.srcText, comment.paragraphIndex);
+                    }
                 }
                 LPContentFrame *contentFrame = [[LPContentFrame alloc] init];
                 contentFrame.content = content;
@@ -1029,7 +1033,6 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 - (void)dealloc
 {
     [noteCenter removeObserver:self];
-    NSLog(@"%@ dealloc!", [self class]);
 }
 
 

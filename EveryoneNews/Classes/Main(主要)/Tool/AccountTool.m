@@ -129,7 +129,7 @@
     [weixinBtn setTitle:@"使用微信账号" forState:UIControlStateNormal];
     [weixinBtn addTarget:self action:@selector(weixinLogin:) forControlEvents:UIControlEventTouchUpInside];
     [viewWrapper addSubview:weixinBtn];
-    NSLog(@"is wechat installed %d, support %d", [WXApi isWXAppInstalled], [WXApi isWXAppSupportApi]);
+//    NSLog(@"is wechat installed %d, support %d", [WXApi isWXAppInstalled], [WXApi isWXAppSupportApi]);
     if (![WXApi isWXAppInstalled] || ![WXApi isWXAppSupportApi]) {
         weixinBtn.hidden = YES;
     } else {
@@ -195,8 +195,6 @@
             [LPHttpTool getWithURL:AccountLoginUrl params:params success:^(id json) {
                 [AccountTool saveAccount:account];
                 [noteCenter postNotificationName:AccountLoginNotification object:wself];
-                NSLog(@"successBlock : %@", self.successBlock);
-                
                 if (wself.successBlock) {
                     wself.successBlock(account);
                 }

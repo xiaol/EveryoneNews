@@ -51,7 +51,7 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
 
 @implementation AppDelegate
 
-#define debug 1
+#define debug 0
 #pragma mark - core data helper
 // 获取CoreDataHelper实例
 - (CoreDataHelper*)cdh {
