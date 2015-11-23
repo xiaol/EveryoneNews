@@ -18,7 +18,7 @@
     _content = content;
     
 
-    if (!self.content.isPhoto) { // 普通类型(非图)
+    if (!self.content.isPhoto) { // 普通类型(非图)g
         CGFloat bodyX = BodyPadding;
         CGFloat bodyY = BodyPadding;
         CGFloat bodyW = DetailCellWidth - 2 * BodyPadding;
