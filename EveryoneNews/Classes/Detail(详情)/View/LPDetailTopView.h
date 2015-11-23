@@ -18,6 +18,7 @@
 @end
 @interface LPDetailTopView : UIView
 
+@property (nonatomic, assign) NSInteger badgeNumber;
 @property (nonatomic, weak) id<LPDetailTopViewDelegate> delegate;
 
 @end

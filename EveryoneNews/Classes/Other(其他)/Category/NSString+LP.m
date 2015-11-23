@@ -37,6 +37,10 @@
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:self];
     NSRange range = NSMakeRange(0, self.length);
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+    
+    style.alignment = NSTextAlignmentJustified;
+    style.firstLineHeadIndent = 0.001f;
+    
     style.lineSpacing = lineSpacing;
     [string addAttribute:NSFontAttributeName value:font range:range];
     [string addAttribute:NSForegroundColorAttributeName value:color range:range];

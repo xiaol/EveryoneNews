@@ -63,24 +63,13 @@ static const CGFloat  HeaderViewHeight= 44;
     headerView.backgroundColor = self.color;
     
     UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, btnWidth, btnWidth)];
-    //    backBtn.width = 60;
-    //    backBtn.height = 20;
-    //    backBtn.centerX = backBtn.width / 2 + 4;
-    //    backBtn.centerY = headerView.centerY;
-    //    backBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
-    //    backBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
     [backBtn addTarget:self action:@selector(backBtnClicked) forControlEvents:UIControlEventTouchUpInside];
-    //[backBtn setTitle:@"返回" forState:UIControlStateNormal];
     [backBtn setImage:[UIImage imageNamed:@"返回"] forState:UIControlStateNormal];
     backBtn.imageEdgeInsets=UIEdgeInsetsMake(0,0,0,10);
-    //backBtn.titleLabel.font = [UIFont boldSystemFontOfSize:15];
-    //[backBtn setTitleColor:[UIColor colorFromHexString:ComposeButtonNormalColor] forState:UIControlStateNormal];
     [headerView addSubview:backBtn];
     
     UIButton *composeBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, btnWidth, btnWidth)];
     composeBtn.enabled = NO;
-    //    composeBtn.width = 50;
-    //    composeBtn.height = 20;
     composeBtn.centerX = ScreenWidth - composeBtn.width / 2 - padding;
     composeBtn.centerY = headerView.centerY;
     composeBtn.titleLabel.textAlignment = NSTextAlignmentCenter;
