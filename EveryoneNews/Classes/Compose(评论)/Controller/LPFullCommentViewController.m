@@ -165,79 +165,31 @@ static const CGFloat btnWidth= 44;
     // 如果已经登录直接点赞，没有登录登录成功后才能点赞
     if ([AccountTool account]) {
         [self upComment:comment withAccount:account upView:upView cell:cell];
-    } else {
+    }else {
         NSUInteger index = [self.comments indexOfObject:comment];
-        [AccountTool accountLoginWithViewController:self success:^(Account *account) {
-            if (!self.isConcernDetail) {
-                Account *account = [AccountTool account];
-                NSMutableDictionary *params = [NSMutableDictionary dictionary];
-                if (account) {
-                    params[@"userId"] = account.userId;
-                    params[@"platformType"] = account.platformType;
-                }
-                NSString *url = [NSString stringWithFormat:@"%@%@", ContentUrl, self.sourceURL];
-                self.http = [LPHttpTool http];
-                [self.http getWithURL:url params:params success:^(id json) {
-                    NSArray *commentArray = [LPComment objectArrayWithKeyValuesArray:json[@"point"]];
-                    NSMutableArray *textCommentArray=[NSMutableArray array];
-                    for (LPComment *comment in commentArray) {
-                        //  判断是否为全文评论
-                        if([comment.type isEqualToString:@"text_doc"])
-                        {
-                            [textCommentArray addObject:comment];
-                        }
-                    }
-                    self.comments = textCommentArray;
-                    LPComment *comment = self.comments[index];
-                    // 2. 刷新tableView
-                    [self setupData];
-                    [self.tableView reloadData];
-                    [self upComment:comment withAccount:account upView:upView cell:cell];
-                } failure:^(NSError *error) {
+        for (UIViewController *viewController in self.navigationController.viewControllers) {
+            if([viewController isKindOfClass:[LPDetailViewController class]]) {
+                [AccountTool accountLoginWithViewController:self success:^(Account *account){
+                    // 1. 刷新detailVc，更新自身comments值
+                    [(LPDetailViewController*)viewController fulltextCommentsUpDidComposed:^(NSArray *fulltextComments) {
+                        self.comments = fulltextComments;
+                        LPComment *comment = self.comments[index];
+                        // 2. 刷新tableView
+                        [self setupData];
+                        [self.tableView reloadData];
+                        // 3. 点赞
+                        [self upComment:comment withAccount:account upView:upView cell:cell];
+                    }];
+                } failure:^{
+                    [MBProgressHUD showError:@"登录失败"];
+                    
+                } cancel:^{
                     
                 }];
+                break;
             }
-            else{
-                self.http = [LPHttpTool http];
-                NSString *url = [NSString stringWithFormat:@"%@", ConcernDetailUrl];
-                Account *account = [AccountTool account];
-                NSMutableDictionary *params = [NSMutableDictionary dictionary];
-                if (account) {
-                    params[@"userId"] = account.userId;
-                    params[@"platformType"] = account.platformType;
-                }
-                params[@"deviceType"] = @"IOS";
-                params[@"url"] = self.sourceURL;
-                [self.http postWithURL:url params:params success:^(id json) {
-                    NSArray *commentArray = [LPComment objectArrayWithKeyValuesArray:json[@"point"]];
-                    NSMutableArray *textCommentArray=[NSMutableArray array];
-                    for (LPComment *comment in commentArray) {
-                        //  判断是否为全文评论
-                        if([comment.type isEqualToString:@"text_doc"])
-                        {
-                            [textCommentArray addObject:comment];
-                        }
-                    }
-                    self.comments = textCommentArray;
-                    LPComment *comment = self.comments[index];
-                    // 2. 刷新tableView
-                    [self setupData];
-                    [self.tableView reloadData];
-                    [self upComment:comment withAccount:account upView:upView cell:cell];
-                    
-                } failure:^(NSError *error) {
-                    
-                }];
-            }
-        } failure:^{
-            [MBProgressHUD showError:@"登录失败"];
-            upView.userInteractionEnabled = YES;
- 
-        } cancel:^{
-            upView.userInteractionEnabled = YES;
- 
-        }];
-    }
+        }
+    } 
 }
 
 - (void)upComment:(LPComment *)comment withAccount:(Account *)account upView:(LPUpView *)upView cell:(LPFullCommentCell *)cell

@@ -88,7 +88,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupSubviews];
-    [self setupDataWithCompletion:nil];
+    [self setupDataWithCompletion:nil fulltextCommentsUpHandle:nil];
     [self setupNoteObserver];
     
 // //   just for test
@@ -194,11 +194,12 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     
     // 弹出分享view
     LPShareViewController *shareVc = [[LPShareViewController alloc] init];
-    // 链接地址编码
-    NSString *detailURLEncode = [(self.isConcernDetail == YES ? self.concernPress.sourceUrl : self.press.sourceUrl) stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    // NSLog(@"编码：%@",detailURLEncode);
+    // 链接地址
+    NSString *detailURLEncode=(self.isConcernDetail==YES?self.concernPress.sourceUrl:self.press.sourceUrl);
+//    // 链接地址编码
+//    NSString *detailURLEncode=[(self.isConcernDetail==YES?self.concernPress.sourceUrl:self.press.sourceUrl) stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet ]];
     NSString *detailURL = [NSString stringWithFormat:@"http://deeporiginalx.com/news.html?type=%d&url=%@",self.isConcernDetail == YES ? 1:0, detailURLEncode];
-    shareVc.detailTitleWithUrl = [NSString stringWithFormat:@"%@ %@",self.isConcernDetail == YES ? self.concernPress.title : self.press.title,detailURL];
+    shareVc.detailTitleWithUrl = [NSString stringWithFormat:@"%@ %@",self.isConcernDetail == YES ? self.concernPress.title : self.press.title, detailURL];
     shareVc.detailUrl = detailURL;
     shareVc.blurImageView = blurImageView;
     shareVc.detailTitle = self.isConcernDetail == YES ? self.concernPress.title : self.press.title;
@@ -211,28 +212,18 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 // 全文评论
 - (void)fulltextCommentBtnClick
 {
-    
     LPFullCommentViewController *fullCommentVc = [[LPFullCommentViewController alloc] init];
     fullCommentVc.color = self.categoryColor;
     fullCommentVc.comments = self.fullTextComments;
-    fullCommentVc.isConcernDetail = self.isConcernDetail;
     if (self.isConcernDetail) {
         fullCommentVc.sourceURL = self.concernPress.sourceUrl;
     } else {
         fullCommentVc.sourceURL = self.press.sourceUrl;
     }
-    if (self.categoryColor != nil) {
-        
-        [fullCommentVc fulltextCommentDidComposed:^(NSInteger count) {
+    [fullCommentVc fulltextCommentDidComposed:^(NSInteger count) {
             self.topView.badgeNumber = count;
-        }];
-        [self.navigationController pushViewController:fullCommentVc animated:YES];
-    }
-    else
-    {
-        [MBProgressHUD showError:@"请稍后"];
-    }
-    
+    }];
+    [self.navigationController pushViewController:fullCommentVc animated:YES];
 }
 
 -(void)topViewBackBtnClick{
@@ -242,7 +233,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 
 
 #pragma mark - request new data (if re-login, pass contents model to paraVc)
-- (void)setupDataWithCompletion:(returnCommentsToUpBlock)block
+- (void)setupDataWithCompletion:(returnCommentsToUpBlock)block fulltextCommentsUpHandle:(fulltextCommentsUpHandle)fulltextCommentsUpHandle
 {
     [self.contentFrames removeAllObjects];
     [sharedIndicator startAnimating];
@@ -377,6 +368,11 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
             if (block) {
                 block(contents);
             }
+            if(fulltextCommentsUpHandle) {
+                fulltextCommentsUpHandle(textComments);
+            }
+            // 当前数据没有加载则不显示顶部视图
+            self.categoryColor == nil ? (self.topView.hidden = YES) : (self.topView.hidden = NO);
         } failure:^(NSError *error) {
             [sharedIndicator stopAnimating];
             NSLog(@"Failure: %@", error);
@@ -397,7 +393,6 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
             // 设置全文评论顶部视图颜色
             self.categoryColor=[UIColor colorFromConcern:weakSelf.concern];
             NSArray *zhihuArray = [LPZhihuPoint objectArrayWithKeyValuesArray:json[@"zhihu"]];
-            
             NSString *abstract = json[@"abs"];
             if ([abstract isKindOfClass:[NSNull class]]) {
                 abstract = @"文章摘要";
@@ -479,7 +474,11 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
             if (block) {
                 block(contents);
             }
-
+            if(fulltextCommentsUpHandle) {
+                fulltextCommentsUpHandle(textComments);
+            }
+            // 当前数据没有加载则不显示顶部视图
+            self.categoryColor == nil ? (self.topView.hidden = YES) : (self.topView.hidden = NO);
         } failure:^(NSError *error) {
             [sharedIndicator stopAnimating];
             NSLog(@"Failure: %@", error);
@@ -993,7 +992,12 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 # pragma mark - handle unLogin up comment
 - (void)returnContentsBlock:(returnCommentsToUpBlock)returnBlock
 {
-    [self setupDataWithCompletion:returnBlock];
+    [self setupDataWithCompletion:returnBlock fulltextCommentsUpHandle:nil];
+}
+
+#pragma mark - handle unlogin up fulltext comment
+- (void)fulltextCommentsUpDidComposed:(fulltextCommentsUpHandle) fulltextCommentsUpHandle {
+    [self setupDataWithCompletion:nil fulltextCommentsUpHandle:fulltextCommentsUpHandle];
 }
 
 #pragma mark - notification selector reload cell
@@ -1027,7 +1031,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 }
 -(void)refreshDataWithCompletion
 {
-    [self setupDataWithCompletion:nil];
+    [self setupDataWithCompletion:nil fulltextCommentsUpHandle:nil];
 }
 // 分段评论
 - (void)pushCommentComposeVcWithNote:(NSNotification *)note
