@@ -288,7 +288,6 @@ static const CGFloat headerH = 64.0f;
     params[@"uid"] = [AccountTool account].userId;
     params[@"album"] = @"ios";
     params[@"key"] = press.title;
-//    press.http = [[LPHttpTool alloc] init];
     __weak typeof(press) wPress = press;
     press.http = [LPHttpTool http];
     [press.http postWithURL:@"http://api.deeporiginalx.com/news/baijia/dredgeUpStatusforiOS" params:params success:^(id json) {

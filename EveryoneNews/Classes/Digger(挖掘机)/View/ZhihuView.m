@@ -47,18 +47,19 @@ static const CGFloat HeaderViewMaginBottom = 10;
     
     // 标题矩形框
     CAShapeLayer *headerLayer = [CAShapeLayer layer];
-    UIBezierPath *headerPath = [UIBezierPath  bezierPathWithRoundedRect:CGRectMake(LeftPadding, 15, 4, 20) cornerRadius:0.0f];
+    UIBezierPath *headerPath = [UIBezierPath  bezierPathWithRoundedRect:CGRectMake(LeftPadding, 17, 4, 16) cornerRadius:0.0f];
     //headerLayer.lineWidth = 1.0;
     headerLayer.path = headerPath.CGPath;
     headerLayer.fillColor = [UIColor colorFromHexString:@"#a1a1a1"].CGColor;
     [headerView.layer addSublayer:headerLayer];
     
     // 标题
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 130, HeaderViewHeight)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 120, HeaderViewHeight)];
     label.text = @"知乎延伸";
     label.textColor = [UIColor colorFromHexString:@"#a1a1a1"];
     label.textAlignment = NSTextAlignmentCenter;
     label.font = [UIFont boldSystemFontOfSize:17];
+    
     [headerView addSubview:label];
     [self addSubview:headerView];
     

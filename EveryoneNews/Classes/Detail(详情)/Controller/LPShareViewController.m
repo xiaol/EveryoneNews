@@ -28,7 +28,7 @@ static const CGFloat MenuViewAnimationInterval= (MenuViewAnimationTime / 6);
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setupSubViews];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -37,7 +37,13 @@ static const CGFloat MenuViewAnimationInterval= (MenuViewAnimationTime / 6);
     // 创建视图
     MainNavigationController *nav = (MainNavigationController *)self.navigationController;
     nav.popRecognizer.enabled = NO;
+    [self setupSubViews];
 
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    self.view.userInteractionEnabled=NO;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -52,15 +58,10 @@ static const CGFloat MenuViewAnimationInterval= (MenuViewAnimationTime / 6);
 
 -(void)setupSubViews
 {
-    CGRect imageViewFrame=CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y, self.view.frame.size.width, self.view.frame.size.height);
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:imageViewFrame];
-    imageView.tag = -1;
-    imageView.image = [UIImage blur:self.captureImage];
-    [self.view addSubview:imageView];
+    [self.view addSubview:self.blurImageView];
     // 添加遮罩层
-    UIView *overlay= [[UIView alloc] initWithFrame:self.view.bounds];
+    UIView *overlay = [[UIView alloc] initWithFrame:self.view.bounds];
     overlay.tag = -2;
-    overlay.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.7];
     // 添加弹出按钮动画
     [self createMenuView:overlay title:@"朋友圈" icon:@"朋友圈分享" index:0];
     [self createMenuView:overlay title:@"微信好友" icon:@"微信好友分享" index:1];
@@ -70,9 +71,10 @@ static const CGFloat MenuViewAnimationInterval= (MenuViewAnimationTime / 6);
     [self createMenuView:overlay title:@"邮件" icon:@"邮件分享" index:5];
     [self createMenuView:overlay title:@"转发链接" icon:@"转发链接分享" index:6];
     [self.view addSubview:overlay];
+ 
     // 分享按钮移除动画
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(overlayTouchUpInside)];
-    tapGesture.delegate=self;
+    tapGesture.delegate = self;
     [overlay addGestureRecognizer:tapGesture];
 }
 // 创建自定义分享菜单
@@ -83,6 +85,11 @@ static const CGFloat MenuViewAnimationInterval= (MenuViewAnimationTime / 6);
     UIControl *viewWithButtonLabel=[[UIControl alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
     UIImageView *imageView=[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, MenuViewImageHeight, MenuViewImageHeight)];
     imageView.image = [UIImage imageNamed:icon];
+    [[imageView layer] setShadowOffset:CGSizeMake(0, 0)]; // 阴影的范围
+    [[imageView layer] setShadowRadius:1]; // 阴影扩散的范围控制
+    [[imageView layer] setShadowOpacity:1]; // 阴影透明度
+    [[imageView layer] setShadowColor:[UIColor lightGrayColor].CGColor]; // 阴影的颜色
+
     UILabel *titleLabel=[[UILabel alloc] initWithFrame:CGRectMake(0, MenuViewImageHeight+10, MenuViewImageHeight, MenuViewTitleHeight)];
     titleLabel.text = title;
     titleLabel.textColor = labelColor;
@@ -92,83 +99,47 @@ static const CGFloat MenuViewAnimationInterval= (MenuViewAnimationTime / 6);
     [viewWithButtonLabel addSubview:titleLabel];
     // 设置开始位置
     CGRect viewFrame=[self frameForButtonAtIndex:overlay  index:index];
-    viewWithButtonLabel.frame=CGRectMake(overlay.bounds.size.width/2-MenuViewImageHeight/2,overlay.bounds.size.height, MenuViewImageHeight, (MenuViewImageHeight+MenuViewTitleHeight));
-    [overlay addSubview:viewWithButtonLabel];
-    // 创建动画效果
-    NSInteger rowIndex=0;
-    NSInteger rowCount=0;
-    CGPoint fromPosition = CGPointMake(0,0);
-    CGPoint toPosition = CGPointMake(0,0);
-    if(index<4)
-    {
-        rowIndex=0;
-        rowCount=index+1;
-        fromPosition = CGPointMake(viewFrame.origin.x +MenuViewImageHeight / 2.0,viewFrame.origin.y +  (rowCount - rowIndex + 2)*200 + (MenuViewImageHeight + MenuViewTitleHeight) / 2.0);
-        
-        toPosition = CGPointMake(viewFrame.origin.x + MenuViewImageHeight / 2.0,viewFrame.origin.y + (MenuViewImageHeight + MenuViewTitleHeight) / 2.0);
-        
-    }
-    else
-    {
-        rowIndex=1;
-        rowCount=index+1;
-        fromPosition = CGPointMake(viewFrame.origin.x +MenuViewImageHeight / 2.0,viewFrame.origin.y +  (rowCount - rowIndex + 2)*200 + (MenuViewImageHeight + MenuViewTitleHeight) / 2.0);
-        toPosition = CGPointMake(viewFrame.origin.x + MenuViewImageHeight / 2.0,viewFrame.origin.y + (MenuViewImageHeight + MenuViewTitleHeight) / 2.0);
-        
-    }
-    
-    // 设置动画
-    [CATransaction begin];
-    CABasicAnimation *positionAnimation;
-    double delayInSeconds =index* MenuViewAnimationInterval;
-    positionAnimation = [CABasicAnimation animationWithKeyPath:@"position"];
-    positionAnimation.delegate=self;
-    positionAnimation.removedOnCompletion =NO;
-    positionAnimation.toValue = [NSValue valueWithCGPoint:toPosition];
-    positionAnimation.timingFunction = [CAMediaTimingFunction functionWithControlPoints:0.45f :1.2f :0.75f :1.0f];
-    positionAnimation.duration =MenuViewAnimationTime;
-    positionAnimation.fillMode=kCAFillModeForwards;
-    positionAnimation.beginTime = [viewWithButtonLabel.layer convertTime:CACurrentMediaTime() fromLayer:nil] + delayInSeconds;
-    [positionAnimation setValue:[NSNumber numberWithUnsignedInteger:index] forKey:@"MenuViewRriseAnimationID"];
-    [CATransaction setCompletionBlock:^{
-        self.view.userInteractionEnabled=YES;
-        viewWithButtonLabel.frame=viewFrame;
-        viewWithButtonLabel.tag=index;
+    viewWithButtonLabel.frame = CGRectMake(overlay.bounds.size.width/2-MenuViewImageHeight/2,overlay.bounds.size.height, MenuViewImageHeight, (MenuViewImageHeight+MenuViewTitleHeight));
+    [overlay addSubview: viewWithButtonLabel];
+    [UIView animateWithDuration:index * MenuViewAnimationInterval animations:^{
+        viewWithButtonLabel.frame = viewFrame;
+    } completion:^(BOOL finished) {
+        self.view.userInteractionEnabled = YES;
+        viewWithButtonLabel.frame = viewFrame;
+        viewWithButtonLabel.tag = index;
         [viewWithButtonLabel addTarget:self action:@selector(shareControlClick:) forControlEvents:UIControlEventTouchUpInside];
         [overlay addSubview:viewWithButtonLabel];
-        
     }];
-    [viewWithButtonLabel.layer addAnimation:positionAnimation forKey:@"riseAnimation"];
-    [CATransaction commit];
+    
 }
 
 // 计算自定义视图的位置
 - (CGRect)frameForButtonAtIndex:(UIView *)view index:(NSUInteger)index
 {
-    NSUInteger columnCount=4;
-    NSUInteger columnIndex=0;
-    CGFloat offsetX=MenuViewHorizontalMargin;
-    CGFloat offsetY=0;
-    CGFloat itemHeight=(MenuViewImageHeight +MenuViewTitleHeight);
-    CGFloat horizontalPadding=0;
-    columnIndex=index%columnCount;
+    NSUInteger columnCount = 4;
+    NSUInteger columnIndex = 0;
+    CGFloat offsetX = MenuViewHorizontalMargin;
+    CGFloat offsetY = 0;
+    CGFloat itemHeight = (MenuViewImageHeight +MenuViewTitleHeight);
+    CGFloat horizontalPadding = 0;
+    columnIndex = index%columnCount;
     // 第一行
     if(index<4)
     {
         horizontalPadding=(view.bounds.size.width-MenuViewHorizontalMargin*2-MenuViewImageHeight*4)/3.0;
-        offsetX=MenuViewHorizontalMargin;
-        offsetX+=(MenuViewImageHeight+horizontalPadding)*columnIndex;
-        offsetY+=(view.bounds.size.height-itemHeight)/2.0;
+        offsetX = MenuViewHorizontalMargin;
+        offsetX += (MenuViewImageHeight+horizontalPadding) * columnIndex;
+        offsetY += (view.bounds.size.height-itemHeight) / 2.0;
     }
     // 第二行
     else
     {
-        horizontalPadding=(view.bounds.size.width-MenuViewHorizontalMargin1*2-MenuViewImageHeight*3)/2.0;
-        offsetX=MenuViewHorizontalMargin1;
-        offsetX+=(MenuViewImageHeight+horizontalPadding)*columnIndex;
-        offsetY+=(view.bounds.size.height-itemHeight)/2.0+ (itemHeight + MenuViewVerticalPadding) ;
+        horizontalPadding = (view.bounds.size.width-MenuViewHorizontalMargin1*2-MenuViewImageHeight*3)/2.0;
+        offsetX = MenuViewHorizontalMargin1;
+        offsetX += (MenuViewImageHeight+horizontalPadding)*columnIndex;
+        offsetY += (view.bounds.size.height-itemHeight) / 2.0+ (itemHeight + MenuViewVerticalPadding) ;
     }
-    CGRect frame= CGRectMake(offsetX, offsetY, MenuViewImageHeight, (MenuViewImageHeight+MenuViewTitleHeight));
+    CGRect frame = CGRectMake(offsetX, offsetY, MenuViewImageHeight, (MenuViewImageHeight+MenuViewTitleHeight));
     return frame;
 }
 
@@ -176,43 +147,29 @@ static const CGFloat MenuViewAnimationInterval= (MenuViewAnimationTime / 6);
 - (void)overlayTouchUpInside
 {
     for (UIControl *view in [self.view viewWithTag:-2].subviews) {
-        CGRect viewFrame=view.frame;
-        NSInteger index=view.tag;
-        CGPoint toPosition = CGPointMake(viewFrame.origin.x+MenuViewImageHeight / 2.0,[self.view viewWithTag:-2].frame.size.height+viewFrame.size.height);
-        // 设置动画
-        [CATransaction begin];
-        CABasicAnimation *positionAnimation;
-        double delayInSeconds=0;
-        if(index>3)
-        {
-            delayInSeconds=0.3;
+        CGRect viewFrame = view.frame;
+        viewFrame.origin.y = viewFrame.origin.y+ self.view.height;
+        NSInteger index = view.tag;
+        double delayInSeconds = 0;
+        if(index > 3) {
+            delayInSeconds = 0.3;
         }
-        else
-        {
-            delayInSeconds=0.6;
+        else {
+            delayInSeconds = 0.6;
         }
-        positionAnimation = [CABasicAnimation animationWithKeyPath:@"position"];
-        positionAnimation.delegate=self;
-        positionAnimation.toValue = [NSValue valueWithCGPoint:toPosition];
-        positionAnimation.removedOnCompletion =NO;
-        positionAnimation.fillMode=kCAFillModeForwards;
-        positionAnimation.beginTime = [view.layer convertTime:CACurrentMediaTime() fromLayer:nil] + delayInSeconds;
-        [CATransaction setCompletionBlock:^{
-            if(index==3)
-            {
-                // 移除视图
-                [self.navigationController popViewControllerAnimated:NO];
-            }
+        [UIView animateWithDuration:delayInSeconds animations:^{
+            view.frame = viewFrame;
+        } completion:^(BOOL finished) {
+            // 移除视图
+            [self.navigationController popViewControllerAnimated:NO];
         }];
-        [view.layer addAnimation:positionAnimation forKey:@"riseAnimation"];
-        [CATransaction commit];
     }
 }
 
 // 分享按钮点击事件
 - (void) shareControlClick:(UIControl *)viewWithButtonLabel
 {
-    NSInteger index=viewWithButtonLabel.tag;
+    NSInteger index = viewWithButtonLabel.tag;
     switch (index) {
         case 0:
             [self shareToWechatTimelineBtnClick];
@@ -262,8 +219,7 @@ static const CGFloat MenuViewAnimationInterval= (MenuViewAnimationTime / 6);
         if (shareResponse.responseCode == UMSResponseCodeSuccess) {
             [self shareSucess];
         }
-        else
-        {
+        else {
             [self shareFailure];
         }
     }];
@@ -358,7 +314,6 @@ static const CGFloat MenuViewAnimationInterval= (MenuViewAnimationTime / 6);
     }else{
         return YES;
     }
-    
 }
 
 -(void)dealloc

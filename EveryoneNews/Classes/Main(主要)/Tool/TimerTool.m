@@ -24,7 +24,6 @@
     return timer;
 }
 
-#pragma mark - refresh timer
 dispatch_source_t createTimer(double interval, dispatch_queue_t queue, dispatch_block_t block) {
     dispatch_source_t timerSource = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
     if (timerSource) {

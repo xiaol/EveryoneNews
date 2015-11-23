@@ -10,14 +10,14 @@
 
 @interface LPShareViewController : LPBaseViewController
 
-// 截屏图片
-@property(nonatomic,strong) UIImage *captureImage;
 // 详情页标题和链接
-@property(nonatomic,copy) NSString *detailTitleWithUrl;
+@property(nonatomic, copy) NSString *detailTitleWithUrl;
 // 详情页链接
-@property(nonatomic,copy) NSString *detailUrl;
+@property(nonatomic, copy) NSString *detailUrl;
 // 详情页标题
-@property(nonatomic,copy) NSString *detailTitle;
+@property(nonatomic, copy) NSString *detailTitle;
 // 详情页图像链接
-@property(nonatomic,copy) NSString *detailImageUrl;
+@property(nonatomic, copy) NSString *detailImageUrl;
+// 分享页blur
+@property(nonatomic, strong) UIImageView *blurImageView;
 @end

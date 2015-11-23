@@ -65,7 +65,7 @@
     [self.layer addSublayer:titleLayer];
     
     for (int i=0; i<relateArray.count; i++) {
-        LPRelatePoint *point=self.relateArray[i];
+        LPRelatePoint *point = self.relateArray[i];
         UIView *cellView=[[UIView alloc] initWithFrame:CGRectMake(10,30+79*i,ScreenWidth-40, 79)];
         
         // 日期
@@ -158,8 +158,9 @@
         [contentImageView addSubview:contentLabel];
         
         //  图片
-        UIImageView *imageView=[[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth-156, 5, 65, 55)];
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth-152, 12.5f, 50, 40)];
         [imageView sd_setImageWithURL:[NSURL URLWithString:point.img] placeholderImage:[UIImage imageNamed:@"imgWallPlaceholder"]];
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
         [contentImageView addSubview:imageView];
         [self addSubview:cellView];
         
