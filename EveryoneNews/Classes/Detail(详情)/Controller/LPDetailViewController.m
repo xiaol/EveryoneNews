@@ -301,7 +301,6 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
                 }
             }
             self.fullTextComments = textComments;
-            self.topView.badgeNumber = self.fullTextComments.count;
             for (int i = 0; i < bodyArray.count; i++) {
                 // 2.1 正文
                 LPContent *content = [[LPContent alloc] init];
@@ -371,6 +370,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
                 fulltextCommentsUpHandle(textComments);
             }
             [self addDetailTopView];
+            self.topView.badgeNumber = self.fullTextComments.count;
         } failure:^(NSError *error) {
             [sharedIndicator stopAnimating];
             NSLog(@"Failure: %@", error);
@@ -476,6 +476,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
                 fulltextCommentsUpHandle(textComments);
             }
             [self addDetailTopView];
+            self.topView.badgeNumber = self.fullTextComments.count;
         } failure:^(NSError *error) {
             [sharedIndicator stopAnimating];
             NSLog(@"Failure: %@", error);
