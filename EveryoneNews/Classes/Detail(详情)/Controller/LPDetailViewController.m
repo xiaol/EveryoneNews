@@ -90,6 +90,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     [self setupSubviews];
     [self setupDataWithCompletion:nil fulltextCommentsUpHandle:nil];
     [self setupNoteObserver];
+
     
 // //   just for test
 //    UIButton *btn = [UIButton buttonWithType:UIButtonTypeContactAdd];
@@ -162,18 +163,19 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     [self.view addSubview:tableView];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    
-    self.topView = [[LPDetailTopView alloc] initWithFrame: self.view.bounds];
-    self.topView.delegate = self;
-    self.topView.alpha = 0.0;
-    [self.view addSubview:self.topView];
-    
     // 菊花
     sharedIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
     sharedIndicator.color = [UIColor lightGrayColor];
     sharedIndicator.center = self.view.center;
 //    sharedIndicator.bounds = CGRectMake(0, 0, ScreenWidth / 4, ScreenWidth / 4);
     [self.view addSubview:sharedIndicator];
+}
+
+- (void)addDetailTopView {
+    self.topView = [[LPDetailTopView alloc] initWithFrame: self.view.bounds];
+    self.topView.delegate = self;
+    self.topView.alpha = 0.0;
+    [self.view addSubview:self.topView];
 }
 
 // 点击分享按钮
@@ -196,15 +198,12 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     LPShareViewController *shareVc = [[LPShareViewController alloc] init];
     // 链接地址
     NSString *detailURLEncode=(self.isConcernDetail==YES?self.concernPress.sourceUrl:self.press.sourceUrl);
-//    // 链接地址编码
-//    NSString *detailURLEncode=[(self.isConcernDetail==YES?self.concernPress.sourceUrl:self.press.sourceUrl) stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet ]];
     NSString *detailURL = [NSString stringWithFormat:@"http://deeporiginalx.com/news.html?type=%d&url=%@",self.isConcernDetail == YES ? 1:0, detailURLEncode];
     shareVc.detailTitleWithUrl = [NSString stringWithFormat:@"%@ %@",self.isConcernDetail == YES ? self.concernPress.title : self.press.title, detailURL];
     shareVc.detailUrl = detailURL;
     shareVc.blurImageView = blurImageView;
     shareVc.detailTitle = self.isConcernDetail == YES ? self.concernPress.title : self.press.title;
     shareVc.detailImageUrl = detailImgUrl;
-    
     
     [self.navigationController pushViewController:shareVc animated:NO];
 }
@@ -371,8 +370,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
             if(fulltextCommentsUpHandle) {
                 fulltextCommentsUpHandle(textComments);
             }
-            // 当前数据没有加载则不显示顶部视图
-            self.categoryColor == nil ? (self.topView.hidden = YES) : (self.topView.hidden = NO);
+            [self addDetailTopView];
         } failure:^(NSError *error) {
             [sharedIndicator stopAnimating];
             NSLog(@"Failure: %@", error);
@@ -477,8 +475,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
             if(fulltextCommentsUpHandle) {
                 fulltextCommentsUpHandle(textComments);
             }
-            // 当前数据没有加载则不显示顶部视图
-            self.categoryColor == nil ? (self.topView.hidden = YES) : (self.topView.hidden = NO);
+            [self addDetailTopView];
         } failure:^(NSError *error) {
             [sharedIndicator stopAnimating];
             NSLog(@"Failure: %@", error);
