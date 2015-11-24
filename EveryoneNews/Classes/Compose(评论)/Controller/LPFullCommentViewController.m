@@ -19,6 +19,7 @@
 #import "LPHttpTool.h"
 #import "LPContent.h"
 #import "LPContentFrame.h"
+#import "MJExtension.h"
 
 // 底部输入框高度
 static const CGFloat inputViewHeight = 50;
@@ -27,11 +28,12 @@ static const CGFloat topViewHeight= 44;
 // 按钮大小
 static const CGFloat btnWidth= 44;
 
-@interface LPFullCommentViewController ()<UITableViewDataSource, UITableViewDelegate,UIScrollViewDelegate,LPFullCommentCellCellDelegate>
+@interface LPFullCommentViewController ()<UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate, LPFullCommentCellDelegate>
 // 全文评论frame集合
 @property (nonatomic, strong) NSMutableArray *fullTextCommentFrames;
 // 底部评论框
 @property (nonatomic, strong) UIImageView *inputView;
+@property (nonatomic, strong) LPHttpTool *http;
 @end
 
 @implementation LPFullCommentViewController
@@ -44,8 +46,6 @@ static const CGFloat btnWidth= 44;
     [self setupData];
     [noteCenter addObserver:self selector:@selector(refreshData:) name:LPFulltextVcRefreshDataNotification object:nil];
 }
-
- 
 
 // 懒加载
 - (NSMutableArray *)fullTextCommentFrames
@@ -166,9 +166,69 @@ static const CGFloat btnWidth= 44;
     if ([AccountTool account]) {
         [self upComment:comment withAccount:account upView:upView cell:cell];
     } else {
-            [AccountTool accountLoginWithViewController:self success:^(Account *account) {
-            [self upComment:comment withAccount:account upView:upView cell:cell];
-
+        NSUInteger index = [self.comments indexOfObject:comment];
+        [AccountTool accountLoginWithViewController:self success:^(Account *account) {
+            if (!self.isConcernDetail) {
+                Account *account = [AccountTool account];
+                NSMutableDictionary *params = [NSMutableDictionary dictionary];
+                if (account) {
+                    params[@"userId"] = account.userId;
+                    params[@"platformType"] = account.platformType;
+                }
+                NSString *url = [NSString stringWithFormat:@"%@%@", ContentUrl, self.sourceURL];
+                self.http = [LPHttpTool http];
+                [self.http getWithURL:url params:params success:^(id json) {
+                    NSArray *commentArray = [LPComment objectArrayWithKeyValuesArray:json[@"point"]];
+                    NSMutableArray *textCommentArray=[NSMutableArray array];
+                    for (LPComment *comment in commentArray) {
+                        //  判断是否为全文评论
+                        if([comment.type isEqualToString:@"text_doc"])
+                        {
+                            [textCommentArray addObject:comment];
+                        }
+                    }
+                    self.comments = textCommentArray;
+                    LPComment *comment = self.comments[index];
+                    // 2. 刷新tableView
+                    [self setupData];
+                    [self.tableView reloadData];
+                    [self upComment:comment withAccount:account upView:upView cell:cell];
+                } failure:^(NSError *error) {
+                    
+                }];
+        } else {
+                
+                self.http = [LPHttpTool http];
+                NSString *url = [NSString stringWithFormat:@"%@", ConcernDetailUrl];
+                Account *account = [AccountTool account];
+                NSMutableDictionary *params = [NSMutableDictionary dictionary];
+                if (account) {
+                    params[@"userId"] = account.userId;
+                    params[@"platformType"] = account.platformType;
+                }
+                params[@"deviceType"] = @"IOS";
+                params[@"url"] = self.sourceURL;
+                [self.http postWithURL:url params:params success:^(id json) {
+                    NSArray *commentArray = [LPComment objectArrayWithKeyValuesArray:json[@"point"]];
+                    NSMutableArray *textCommentArray = [NSMutableArray array];
+                    for (LPComment *comment in commentArray) {
+                        //  判断是否为全文评论
+                        if([comment.type isEqualToString:@"text_doc"])
+                        {
+                            [textCommentArray addObject:comment];
+                        }
+                    }
+                    self.comments = textCommentArray;
+                    LPComment *comment = self.comments[index];
+                    // 2. 刷新tableView
+                    [self setupData];
+                    [self.tableView reloadData];
+                    [self upComment:comment withAccount:account upView:upView cell:cell];
+                    
+                } failure:^(NSError *error) {
+                    
+                }];
+            }
         } failure:^{
             [MBProgressHUD showError:@"登录失败"];
             upView.userInteractionEnabled = YES;
@@ -241,8 +301,8 @@ static const CGFloat btnWidth= 44;
 - (void)pushCommentComposeVcWithNote
 {
     LPComposeViewController *composeVc = [[LPComposeViewController alloc] init];
-    composeVc.color=self.color;
-    composeVc.commentType=2;
+    composeVc.color = self.color;
+    composeVc.commentType = 2;
     [self.navigationController pushViewController:composeVc animated:YES];
 }
 
@@ -251,6 +311,9 @@ static const CGFloat btnWidth= 44;
     NSMutableArray *mArray = [NSMutableArray arrayWithArray:self.comments];
     [mArray addObject:note.userInfo[LPComposeComment]];
     self.comments = mArray;
+    if(self.block != nil) {
+        self.block(self.comments.count);
+    }
     [self setupData];
     [self.tableView reloadData];
     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.comments.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
@@ -261,10 +324,14 @@ static const CGFloat btnWidth= 44;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)fulltextCommentDidComposed:(fulltextCommentHandle) handle {
+    self.block = handle;
+}
+
 - (void)dealloc
 {
     [noteCenter removeObserver:self];
-    // NSLog(@"全文评论dealloc");
+     NSLog(@"全文评论dealloc");
 }
 
 @end

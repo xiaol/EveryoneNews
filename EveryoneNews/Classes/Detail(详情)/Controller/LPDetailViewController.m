@@ -47,6 +47,8 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     // 分享图片地址
     NSString *detailImgUrl;
 }
+
+@property (nonatomic, strong) LPDetailTopView *topView;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, assign) CGFloat lastContentOffsetY;
 @property (nonatomic, strong) UIButton *popBtn;
@@ -72,8 +74,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 @property (nonatomic, assign) CGFloat velocity;
 
 @property (nonatomic,strong) UIColor *categoryColor;
-// 存储全文评论内容
-@property (nonatomic,strong) NSArray *fullTextComments;
+
 
 @property (nonatomic, strong) LPHttpTool *http;
 @property (nonatomic, assign) BOOL requestSuccess;
@@ -162,12 +163,11 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     
-    LPDetailTopView *topView = [[LPDetailTopView alloc] initWithFrame: self.view.bounds];
-    topView.delegate=self;
-    topView.alpha=0;
-    topView.tag=-3;
-    [self.view addSubview:topView];
-    [self setFulltextCommentCount];
+    self.topView = [[LPDetailTopView alloc] initWithFrame: self.view.bounds];
+    self.topView.delegate = self;
+    self.topView.alpha = 0.0;
+    [self.view addSubview:self.topView];
+    
     // 菊花
     sharedIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
     sharedIndicator.color = [UIColor lightGrayColor];
@@ -215,16 +215,19 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     LPFullCommentViewController *fullCommentVc = [[LPFullCommentViewController alloc] init];
     fullCommentVc.color = self.categoryColor;
     fullCommentVc.comments = self.fullTextComments;
+    fullCommentVc.isConcernDetail = self.isConcernDetail;
     if (self.isConcernDetail) {
         fullCommentVc.sourceURL = self.concernPress.sourceUrl;
     } else {
         fullCommentVc.sourceURL = self.press.sourceUrl;
     }
     if (self.categoryColor != nil) {
+        
+        [fullCommentVc fulltextCommentDidComposed:^(NSInteger count) {
+            self.topView.badgeNumber = count;
+        }];
         [self.navigationController pushViewController:fullCommentVc animated:YES];
-    }
-    else
-    {
+    } else {
         [MBProgressHUD showError:@"请稍后"];
     }
     
@@ -235,109 +238,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-#pragma mark - 全文评论总数量
-- (void)setFulltextCommentCount{
-    if([self.view viewWithTag:-4]){
-        [[self.view viewWithTag:-4] removeFromSuperview];
-    }
 
-    if (!self.isConcernDetail) {
-        NSString *url = [NSString stringWithFormat:@"%@%@", ContentUrl, self.press.sourceUrl];
-        self.http = [LPHttpTool http];
-        [self.http getWithURL:url params:nil success:^(id json) {
-            NSArray *commentArray = [LPComment objectArrayWithKeyValuesArray:json[@"point"]];
-            [self fulltextCommentCount:commentArray];
-        } failure:^(NSError *error) {
-            
-        }];
-    }
-    else{
-        self.http = [LPHttpTool http];
-        NSString *url = [NSString stringWithFormat:@"%@", ConcernDetailUrl];
-        Account *account = [AccountTool account];
-        NSMutableDictionary *params = [NSMutableDictionary dictionary];
-        if (account) {
-            params[@"userId"] = account.userId;
-            params[@"platformType"] = account.platformType;
-        }
-        params[@"deviceType"] = @"IOS";
-        params[@"url"] = self.concernPress.sourceUrl;
-        [self.http postWithURL:url params:params success:^(id json) {
-            NSArray *commentArray = [LPComment objectArrayWithKeyValuesArray:json[@"point"]];
-            [self fulltextCommentCount:commentArray];
-        } failure:^(NSError *error) {
-            
-        }];
-    }
-  
-}
-// 全文评论条数公共方法
-- (void) fulltextCommentCount:(NSArray *)commentArray{
-    double btnWidth = 17.5;
-    double marginRight = 25;
-    double spacing = 35;
-    double paddingLeft = 0;
-    double commentViewWidth = 0;
-    double commentViewHeight = 0;
-    if(iPhone6Plus)
-    {
-        btnWidth = 19;
-        marginRight = 25;
-        spacing = 35;
-    }
-    long fulltextCommentCount = 0;
-    NSMutableArray *textComments = [NSMutableArray array];
-    // 获取所有的全文评论
-    for(LPComment *comment in commentArray)
-    {
-        //  判断是否为全文评论
-        if([comment.type isEqualToString:@"text_doc"])
-        {
-            [textComments addObject:comment];
-        }
-    }
-    fulltextCommentCount = textComments.count;
-    if(fulltextCommentCount < 10){
-        paddingLeft = 12;
-        commentViewWidth = 16;
-        commentViewHeight = 10;
-    }
-    else if(fulltextCommentCount < 100){
-        paddingLeft = 12;
-        commentViewWidth = 20;
-        commentViewHeight = 10;
-    }
-    else if(fulltextCommentCount < 1000){
-        paddingLeft = 9;
-        commentViewWidth = 30;
-        commentViewHeight = 10;
-    }
-    else{
-        paddingLeft = 5;
-        commentViewWidth = 32;
-        commentViewHeight = 10;
-    }
-    NSString *text = [NSString stringWithFormat:@"%ld", fulltextCommentCount];
-    if(fulltextCommentCount > 999){
-        text = @"999+";
-    }
-    // 评论条数
-    UIView *commentCountView = [[UIView alloc] initWithFrame:CGRectMake(ScreenWidth - marginRight - 3*btnWidth - 2*spacing + paddingLeft, 10, commentViewWidth, commentViewHeight)];
-    commentCountView.tag = -4;
-    commentCountView.backgroundColor = [UIColor colorFromHexString:@"#ff5454"];
-    commentCountView.layer.cornerRadius = 5.0;
-    UILabel *commentLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, commentViewWidth, commentViewHeight)];
-    
-    NSMutableAttributedString *commentString = [text attributedStringWithFont:[UIFont systemFontOfSize:10] color:[UIColor whiteColor] lineSpacing:0];
-    commentLabel.attributedText = commentString;
-    commentLabel.textAlignment = NSTextAlignmentCenter;
-    [commentCountView addSubview:commentLabel];
-    if(fulltextCommentCount != 0){
-        [[self.view viewWithTag:-3] addSubview:commentCountView];
-    }
-
-    
-}
 #pragma mark - request new data (if re-login, pass contents model to paraVc)
 - (void)setupDataWithCompletion:(returnCommentsToUpBlock)block
 {
@@ -407,8 +308,8 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
                     [textComments addObject:comment];
                 }
             }
-            self.fullTextComments=textComments;
-            
+            self.fullTextComments = textComments;
+            self.topView.badgeNumber = self.fullTextComments.count;
             for (int i = 0; i < bodyArray.count; i++) {
                 // 2.1 正文
                 LPContent *content = [[LPContent alloc] init];
@@ -439,10 +340,6 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
                     }
                     content.hasComment = (comments.count > 0);
                     content.comments = comments;
-                    NSLog(@"before login ------ ");
-                    for (LPComment *comment in comments) {
-                        NSLog(@"commentId : %@, srcText : %@, paragraphIndex : %@", comment.commentId, comment.srcText, comment.paragraphIndex);
-                    }
                 }
                 LPContentFrame *contentFrame = [[LPContentFrame alloc] init];
                 contentFrame.content = content;
@@ -525,7 +422,9 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
                     [textComments addObject:comment];
                 }
             }
-            self.fullTextComments=textComments;
+            self.fullTextComments = textComments;
+            
+            self.topView.badgeNumber = self.fullTextComments.count;
             int i = 1;
             for (NSDictionary *dict in bodyArray) {
                 
@@ -764,14 +663,14 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 - (void)fadeIn
 {
     [UIView animateWithDuration:0.1 animations:^{
-        [self.view viewWithTag:-3].alpha = 0.9;;
+        self.topView.alpha = 0.9;;
     }];
 }
 
 - (void)fadeOut
 {
     [UIView animateWithDuration:0.1 animations:^{
-        [self.view viewWithTag:-3].alpha = 0.0;;
+        self.topView.alpha = 0.0;;
     }];
 }
 
@@ -1070,8 +969,6 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
             else if([commentType isEqualToString:@"text_doc"])
             {
                 [noteCenter postNotificationName:LPFulltextVcRefreshDataNotification object:self userInfo:info];
-                [self setFulltextCommentCount];
-                //[noteCenter postNotificationName:LPFulltextCommentCountRefresh object:self];
             }
         }
         // 3. 清空草稿

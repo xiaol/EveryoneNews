@@ -150,7 +150,7 @@
         
         
         UILabel *contentLabel= [[UILabel alloc] init];
-        contentLabel.frame=CGRectMake(10, 5, ScreenWidth-168, 55);
+        contentLabel.frame=CGRectMake(10, 5, ScreenWidth-170, 55);
         contentLabel.text=point.title;
         contentLabel.attributedText=[contentLabel.text attributedStringWithFont:[UIFont systemFontOfSize:14] color:[UIColor blackColor] lineSpacing:3];
         contentLabel.numberOfLines=0;
@@ -158,7 +158,7 @@
         [contentImageView addSubview:contentLabel];
         
         //  图片
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth-152, 12.5f, 50, 40)];
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth-148, 12.5f, 48, 40)];
         [imageView sd_setImageWithURL:[NSURL URLWithString:point.img] placeholderImage:[UIImage imageNamed:@"imgWallPlaceholder"]];
         imageView.contentMode = UIViewContentModeScaleAspectFill;
         [contentImageView addSubview:imageView];

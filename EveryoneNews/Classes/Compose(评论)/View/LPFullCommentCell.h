@@ -12,7 +12,7 @@
 @class LPComment;
 @class LPUpView;
 
-@protocol  LPFullCommentCellCellDelegate <NSObject>
+@protocol  LPFullCommentCellDelegate <NSObject>
 @optional
 - (void)fullCommentCell:(LPFullCommentCell *)cell upView:(LPUpView *)upView comment:(LPComment *)comment;
 @end
@@ -22,7 +22,7 @@
 @property (nonatomic, strong) LPUpView *upView;
 // 评论框
 @property (nonatomic, strong) LPParaCommentFrame *paraCommentFrame;
-@property (nonatomic, weak) id<LPFullCommentCellCellDelegate> delegate;
+@property (nonatomic, weak) id<LPFullCommentCellDelegate> delegate;
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 
 @end

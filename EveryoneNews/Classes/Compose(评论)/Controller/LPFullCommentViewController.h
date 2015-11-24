@@ -10,6 +10,8 @@
 
 @class LPDetailViewController;
 
+typedef void(^fulltextCommentHandle)(NSInteger count);
+
 @interface LPFullCommentViewController : LPBaseViewController
 // 全文评论集合
 @property (nonatomic, strong) NSArray *comments;
@@ -24,4 +26,10 @@
 // 全文评论对应的链接地址
 @property (nonatomic, copy) NSString *sourceURL;
 
+@property (nonatomic, copy) fulltextCommentHandle block;
+
+- (void)fulltextCommentDidComposed:(fulltextCommentHandle) handle;
+
+@property (nonatomic, assign) BOOL isConcernDetail;
+ 
 @end

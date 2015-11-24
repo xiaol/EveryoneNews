@@ -19,5 +19,7 @@ typedef void (^returnCommentsToUpBlock)(NSArray *contents);
 @property (nonatomic, strong) LPConcernPress *concernPress;
 @property (nonatomic, assign) BOOL isConcernDetail;
 @property (nonatomic, strong) LPConcern *concern;
+// 存储全文评论内容
+@property (nonatomic,strong) NSArray *fullTextComments;
 - (void)returnContentsBlock:(returnCommentsToUpBlock)returnBlock;
 @end
