@@ -112,9 +112,9 @@
     }
 }
 // 判断评论数量是否为0
-- (void)setBadgeNumber:(NSInteger)badgeNumber {
+
+- (void) setBadgeNumber:(NSInteger)badgeNumber {
     _badgeNumber = badgeNumber;
-    
     double btnWidth = 17.5;
     double marginRight = 25;
     double spacing = 35;
