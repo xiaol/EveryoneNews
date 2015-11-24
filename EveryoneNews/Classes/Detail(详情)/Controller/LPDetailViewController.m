@@ -90,7 +90,6 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     [self setupSubviews];
     [self setupDataWithCompletion:nil fulltextCommentsUpHandle:nil];
     [self setupNoteObserver];
-
     
 // //   just for test
 //    UIButton *btn = [UIButton buttonWithType:UIButtonTypeContactAdd];
@@ -163,19 +162,18 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     [self.view addSubview:tableView];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    
+    self.topView = [[LPDetailTopView alloc] initWithFrame: self.view.bounds];
+    self.topView.delegate = self;
+    self.topView.alpha = 0.0;
+    [self.view addSubview:self.topView];
+    
     // 菊花
     sharedIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
     sharedIndicator.color = [UIColor lightGrayColor];
     sharedIndicator.center = self.view.center;
 //    sharedIndicator.bounds = CGRectMake(0, 0, ScreenWidth / 4, ScreenWidth / 4);
     [self.view addSubview:sharedIndicator];
-}
-
-- (void)addDetailTopView {
-    self.topView = [[LPDetailTopView alloc] initWithFrame: self.view.bounds];
-    self.topView.delegate = self;
-    self.topView.alpha = 0.0;
-    [self.view addSubview:self.topView];
 }
 
 // 点击分享按钮
@@ -301,6 +299,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
                 }
             }
             self.fullTextComments = textComments;
+            self.topView.badgeNumber = self.fullTextComments.count;
             for (int i = 0; i < bodyArray.count; i++) {
                 // 2.1 正文
                 LPContent *content = [[LPContent alloc] init];
@@ -369,8 +368,6 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
             if(fulltextCommentsUpHandle) {
                 fulltextCommentsUpHandle(textComments);
             }
-            [self addDetailTopView];
-            self.topView.badgeNumber = self.fullTextComments.count;
         } failure:^(NSError *error) {
             [sharedIndicator stopAnimating];
             NSLog(@"Failure: %@", error);
@@ -475,8 +472,6 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
             if(fulltextCommentsUpHandle) {
                 fulltextCommentsUpHandle(textComments);
             }
-            [self addDetailTopView];
-            self.topView.badgeNumber = self.fullTextComments.count;
         } failure:^(NSError *error) {
             [sharedIndicator stopAnimating];
             NSLog(@"Failure: %@", error);
@@ -662,7 +657,9 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 - (void)fadeIn
 {
     [UIView animateWithDuration:0.1 animations:^{
-        self.topView.alpha = 0.9;;
+        if(self.categoryColor != nil) {
+            self.topView.alpha = 0.9;
+        }
     }];
 }
 
