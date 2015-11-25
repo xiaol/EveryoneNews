@@ -116,8 +116,10 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     [noteCenter addObserver:self selector:@selector(willComposeComment:) name:LPCommentWillComposeNotification object:nil];
     [noteCenter addObserver:self selector:@selector(didComposeComment:) name:LPCommentDidComposeNotification object:nil];
     [noteCenter addObserver:self selector:@selector(reloadCell:) name:LPDetailVcShouldReloadDataNotification object:nil];
-    [noteCenter addObserver:self selector:@selector(refreshDataWithCompletion) name:LPDetailVcRefreshDataNotification object:nil];
-  //  [noteCenter addObserver:self selector:@selector(setFulltextCommentCount) name:LPFulltextCommentCountRefresh object:nil];
+    // 全文评论通知
+    [noteCenter addObserver:self selector:@selector(pushFulltextCommentComposeVc) name:LPFulltextCommentWillComposeNotification object:nil];
+    // 提交全文评论
+    [noteCenter addObserver:self selector:@selector(didComposefulltextComment) name:LPFulltextCommentDidComposeNotification object:nil];
 
 }
 
@@ -248,7 +250,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 //        params[@"url"] = self.press.sourceUrl;
         NSString *url = [NSString stringWithFormat:@"%@%@", ContentUrl, self.press.sourceUrl];
           // url=@"http://api.deeporiginalx.com/news/baijia/fetchContent?url=http://finance.ifeng.com/a/20150820/13921905_0.shtml";
-        //NSLog(@"%@",url);
+         NSLog(@"%@",url);
         self.http = [LPHttpTool http];
         [self.http getWithURL:url params:params success:^(id json) {
             // 0. json字典转模型
@@ -852,6 +854,60 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     [LPPressTool loadWebViewWithURL:url viewController:self];
 }
 
+
+#pragma mark - 弹出全文评论发表框
+
+- (void)pushFulltextCommentComposeVc {
+    LPComposeViewController *composeVc = [[LPComposeViewController alloc] init];
+    composeVc.commentType = 2;
+    composeVc.color = self.categoryColor;
+    composeVc.draftText = self.commentText;
+    [composeVc returnText:^(NSString *text) {
+        self.commentText = text;
+     }];
+    [self.navigationController pushViewController:composeVc animated:YES];
+}
+
+#pragma mark - 全文评论提交到数据库,然后刷新全文评论
+- (void)didComposefulltextComment {
+    Account *account = [AccountTool account];
+    // 1.1 创建comment对象
+    LPComment *comment = [[LPComment alloc] init];
+    comment.srcText = self.commentText;
+    comment.type = @"text_doc";
+    comment.uuid = account.userId;
+    comment.userIcon = account.userIcon;
+    comment.userName = account.userName;
+    comment.createTime = [NSString stringFromNowDate];
+    comment.up = @"0";
+    comment.isPraiseFlag = @"0";
+    
+    // 2. 发送post请求
+    NSString *url = [NSString stringWithFormat:@"%@/news/baijia/point", ServerUrl];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    if (self.isConcernDetail) {
+        params[@"sourceUrl"] = self.concernPress.sourceUrl;
+    } else {
+        params[@"sourceUrl"] = self.press.sourceUrl;
+    }
+    params[@"srcText"] = comment.srcText;
+    params[@"paragraphIndex"] = @"0";
+    params[@"type"] = comment.type;
+    params[@"uuid"] = comment.uuid;
+    params[@"userIcon"] = comment.userIcon;
+    params[@"userName"] = comment.userName;
+    params[@"desText"]  = @"";
+    [LPHttpTool postWithURL:url params:params success:^(id json) {
+        [noteCenter postNotificationName:LPFulltextVcRefreshDataNotification object:self];
+        self.commentText = nil;
+        [self.navigationController popViewControllerAnimated:YES];
+        [MBProgressHUD showSuccess:@"发表成功"];
+        
+    } failure:^(NSError *error) {
+        [MBProgressHUD showError:@"发表失败"];
+    }];
+
+}
 #pragma mark - notification selector will compose comment
 - (void)willComposeComment:(NSNotification *)note
 {
@@ -874,46 +930,27 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 }
 
 
-#pragma mark - notification selector did compose comment
-/**
- *  评论发送后的处理
- */
-- (void)didComposeComment:(NSNotification *)note
-{
-    
-    NSString *commentType = [[note userInfo] objectForKey:@"commentType"];
-    NSString *fulltextComment = [[note userInfo] objectForKey:@"fullTextComment"];
-    // 1. 刷新当前页
-//    LPContent *content = self.commentContent;
+#pragma mark - 分段评论处理
+- (void)didComposeComment:(NSNotification *)note {
     LPContentFrame *contentFrame = self.contentFrames[self.realParaIndex];
     LPContent *content = contentFrame.content;
-
     Account *account = [AccountTool account];
     NSMutableArray *commentArray = [NSMutableArray arrayWithArray:content.comments];
+    
     // 1.1 创建comment对象
     LPComment *comment = [[LPComment alloc] init];
     comment.sourceUrl = self.press.sourceUrl;
     comment.color = content.color;
     // 评论段落索引为整体(real)段落索引值 - 1
-    if([commentType isEqualToString:@"text_paragraph"])
-    {
-        comment.type = @"text_paragraph";
-        comment.srcText = self.commentText;
-        commentArray = [NSMutableArray arrayWithArray:content.comments];
-    }
-    else if([commentType isEqualToString:@"text_doc"])
-    {
-        comment.type=@"text_doc";
-        comment.srcText=fulltextComment;
-    }
+    comment.type = @"text_paragraph";
+    comment.srcText = self.commentText;
     comment.uuid = account.userId;
     comment.userIcon = account.userIcon;
     comment.userName = account.userName;
     comment.createTime = [NSString stringFromNowDate];
-    
     comment.up = @"0";
     comment.isPraiseFlag = @"0";
-    
+
     if (self.navigationController.viewControllers.count >= 4) {
         self.shouldPush = YES;
     } else {
@@ -958,14 +995,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
         
         if (self.shouldPush) {
             NSDictionary *info = @{LPComposeComment:comment};
-            if([commentType isEqualToString:@"text_paragraph"])
-            {
-                [noteCenter postNotificationName:LPParaVcRefreshDataNotification object:self userInfo:info];
-            }
-            else if([commentType isEqualToString:@"text_doc"])
-            {
-                [noteCenter postNotificationName:LPFulltextVcRefreshDataNotification object:self userInfo:info];
-            }
+            [noteCenter postNotificationName:LPParaVcRefreshDataNotification object:self userInfo:info];
         }
         // 3. 清空草稿
         self.commentText = nil;
@@ -1024,34 +1054,24 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
         [self.navigationController pushViewController:photoVc animated:YES];
     }
 }
--(void)refreshDataWithCompletion
-{
-    [self setupDataWithCompletion:nil fulltextCommentsUpHandle:nil];
-}
+
 // 分段评论
-- (void)pushCommentComposeVcWithNote:(NSNotification *)note
-{
-    NSDictionary *info;
-    int paraIndex=0;
-    if(note!=nil)
-    {
-        info= note.userInfo;
-        paraIndex = [info[LPComposeParaIndex] intValue];
-    }
-    self.realParaIndex = paraIndex;
-    LPContentFrame *contentFrame = self.contentFrames[paraIndex];
-    LPContent *content = contentFrame.content;
-    LPComposeViewController *composeVc = [[LPComposeViewController alloc] init];
-    // 类别为1代表分段评论
-    if(note!=nil)
-    {
+- (void)pushCommentComposeVcWithNote:(NSNotification *)note {
+
+        NSDictionary *info = note.userInfo;
+        int paraIndex = [info[LPComposeParaIndex] intValue];
+        self.realParaIndex = paraIndex;
+        LPContentFrame *contentFrame = self.contentFrames[paraIndex];
+        LPContent *content = contentFrame.content;
+        LPComposeViewController *composeVc = [[LPComposeViewController alloc] init];
+        // 类别为1代表分段评论
         composeVc.commentType=1;
         composeVc.color = content.color;
-    }
-    composeVc.draftText = self.commentText;
-    [composeVc returnText:^(NSString *text) {
-        self.commentText = text;
-    }];
-    [self.navigationController pushViewController:composeVc animated:YES];
+        composeVc.draftText = self.commentText;
+        [composeVc returnText:^(NSString *text) {
+            self.commentText = text;
+        }];
+        [self.navigationController pushViewController:composeVc animated:YES];
+
 }
 @end

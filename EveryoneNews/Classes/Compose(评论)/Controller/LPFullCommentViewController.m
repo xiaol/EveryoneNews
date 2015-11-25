@@ -45,9 +45,12 @@ static const CGFloat btnWidth= 44;
     [self setupHeaderView];
     [self setupSubviews];
     [self setupData];
-    [noteCenter addObserver:self selector:@selector(refreshData:) name:LPFulltextVcRefreshDataNotification object:nil];
+    [self setupNoteObserver];
 }
 
+- (void)setupNoteObserver {
+    [noteCenter addObserver:self selector:@selector(refreshData) name:LPFulltextVcRefreshDataNotification object:nil];
+}
 // 懒加载
 - (NSMutableArray *)fullTextCommentFrames
 {
@@ -84,10 +87,6 @@ static const CGFloat btnWidth= 44;
     [headerView addSubview:headerLabel];
     // 评论列表
     [self.view insertSubview:headerView aboveSubview:self.tableView];
-    
-    
-    
-    
 }
 // 添加表格
 -(void)setupSubviews
@@ -160,6 +159,7 @@ static const CGFloat btnWidth= 44;
     return view;
 }
 
+//   没有数据的时候给出提示信息
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     NSInteger numOfSections = 0;
     if(self.fullTextCommentFrames.count == 0) {
@@ -188,7 +188,7 @@ static const CGFloat btnWidth= 44;
     return numOfSections;
 }
 
-// 点赞
+#pragma -mark 点赞
 - (void)fullCommentCell:(LPFullCommentCell *)cell upView:(LPUpView *)upView comment:(LPComment *)comment
 {
     upView.userInteractionEnabled = NO;
@@ -265,41 +265,41 @@ static const CGFloat btnWidth= 44;
         }];
     }
 }
-// 点击评论框
-- (void)inputViewTap:(UITapGestureRecognizer *)recognizer
-{
+#pragma -mark 点击评论框
+- (void)inputViewTap:(UITapGestureRecognizer *)recognizer {
         if (![AccountTool account]) {
             __weak typeof(self) weakSelf = self;
             [AccountTool accountLoginWithViewController:weakSelf success:^(Account *account){
                 [MBProgressHUD showSuccess:@"登录成功"];
-                [weakSelf performSelector:@selector(pushCommentComposeVcWithNote) withObject:nil afterDelay:0.6];
+                [weakSelf performSelector:@selector(pushCommentComposeVc) withObject:nil afterDelay:0.6];
             } failure:^{
                 [MBProgressHUD showError:@"登录失败!"];
             } cancel:nil];
         } else {
-            [self pushCommentComposeVcWithNote];
+            [self pushCommentComposeVc];
         }
 }
 
-- (void)pushCommentComposeVcWithNote
-{
-    LPComposeViewController *composeVc = [[LPComposeViewController alloc] init];
-    composeVc.color=self.color;
-    composeVc.commentType=2;
-    [self.navigationController pushViewController:composeVc animated:YES];
+#pragma -mark 弹出发表评论对话框
+- (void)pushCommentComposeVc {
+     [noteCenter postNotificationName:LPFulltextCommentWillComposeNotification object:self];
 }
 
-- (void)refreshData:(NSNotification *)note
-{
-    NSMutableArray *mArray = [NSMutableArray arrayWithArray:self.comments];
-    [mArray addObject:note.userInfo[LPComposeComment]];
-    self.comments = mArray;
-    if(self.block != nil) {
-        self.block(self.comments.count);
+#pragma -mark 刷新全文评论
+- (void)refreshData {
+    for (UIViewController *viewController in self.navigationController.viewControllers) {
+        if([viewController isKindOfClass:[LPDetailViewController class]]) {
+                // 1. 刷新detailVc，更新自身comments值
+                [(LPDetailViewController*)viewController fulltextCommentsUpDidComposed:^(NSArray *fulltextComments) {
+                    self.comments = fulltextComments;
+                    // 2. 刷新tableView
+                    [self setupData];
+                    [self.tableView reloadData];
+                    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.comments.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+                }];
+                break;
+        }
     }
-    [self setupData];
-    [self.tableView reloadData];
-    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.comments.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 }
 // 返回上一级菜单
 - (void)popBtnClick
