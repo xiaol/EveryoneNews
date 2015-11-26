@@ -22,6 +22,7 @@
         CGFloat bodyX = BodyPadding;
         CGFloat bodyY = BodyPadding;
         CGFloat bodyW = DetailCellWidth - 2 * BodyPadding;
+//       CGFloat bodyH = [self.content.bodyString heightWithConstraintWidth:bodyW] - BodyPadding;
         CGFloat bodyH = [self.content.bodyString heightWithConstraintWidth:bodyW];
         _bodyLabelF = CGRectMake(bodyX, bodyY, bodyW, bodyH);
         

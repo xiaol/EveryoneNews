@@ -20,6 +20,7 @@
 #import "LPContent.h"
 #import "LPContentFrame.h"
 #import "MJExtension.h"
+#import "NSString+LP.h"
 
 // 底部输入框高度
 static const CGFloat inputViewHeight = 50;
@@ -81,8 +82,11 @@ static const CGFloat btnWidth= 44;
     headerLabel.text = @"评论";
     headerLabel.textColor = [UIColor whiteColor];
     [headerView addSubview:headerLabel];
-    // 评论列表å
+    // 评论列表
     [self.view insertSubview:headerView aboveSubview:self.tableView];
+    
+    
+    
     
 }
 // 添加表格
@@ -153,8 +157,35 @@ static const CGFloat btnWidth= 44;
 - (UIView*) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(13, 0, ScreenWidth-13, 10)];
-    view.backgroundColor = [UIColor redColor];
     return view;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    NSInteger numOfSections = 0;
+    if(self.fullTextCommentFrames.count == 0) {
+        UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 10, ScreenWidth, 100)];
+        
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"暂无评论"]];
+        imageView.centerX = self.view.centerX;
+        imageView.centerY = ScreenHeight/4;
+        
+        UILabel *noDataLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 30)];
+        noDataLabel.centerY = CGRectGetMaxY(imageView.frame) + 20;
+   
+        NSString *text = @"暂无评论，快抢沙发";
+        NSMutableAttributedString *noDataString = [text attributedStringWithFont:[UIFont systemFontOfSize:12] color:[UIColor colorFromHexString:@"#c8c8c8"] lineSpacing:0];
+        noDataLabel.attributedText = noDataString;
+        noDataLabel.textAlignment = NSTextAlignmentCenter;
+        [backgroundView addSubview:imageView];
+        [backgroundView addSubview:noDataLabel];
+        self.tableView.backgroundView = backgroundView;
+        numOfSections = 0;
+    }
+    else {
+        self.tableView.backgroundView = nil;
+        numOfSections = 1;
+    }
+    return numOfSections;
 }
 
 // 点赞

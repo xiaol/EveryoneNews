@@ -46,7 +46,7 @@ NSString * const FullPhotoCellReuseId = @"fullPhotoCell";
     [self.view addSubview:noteView];
     self.noteView = noteView;
 
-    self.indexLabel.text = [NSString stringWithFormat:@"%ld/%ld", self.originIndexPath.item + 1, self.photos.count];
+    self.indexLabel.text = [NSString stringWithFormat:@"%d/%d", self.originIndexPath.item + 1, self.photos.count];
     self.indexLabel.width = ScreenWidth - DetailCellPadding;
     self.indexLabel.x = 0;
     self.indexLabel.height = 34;
