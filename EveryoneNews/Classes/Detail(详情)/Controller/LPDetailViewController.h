@@ -13,7 +13,7 @@
 @class LPConcern;
 
 typedef void (^returnCommentsToUpBlock)(NSArray *contents);
-//  全文评论点赞
+// 全文评论点赞
 typedef void (^fulltextCommentsUpHandle)(NSArray *fulltextComments);
 
 @interface LPDetailViewController : LPBaseViewController
@@ -21,8 +21,6 @@ typedef void (^fulltextCommentsUpHandle)(NSArray *fulltextComments);
 @property (nonatomic, strong) LPConcernPress *concernPress;
 @property (nonatomic, assign) BOOL isConcernDetail;
 @property (nonatomic, strong) LPConcern *concern;
-
-@property (nonatomic, copy) fulltextCommentsUpHandle fulltextBlock;
 // 存储全文评论内容
 @property (nonatomic,strong) NSArray *fullTextComments;
 - (void)returnContentsBlock:(returnCommentsToUpBlock)returnBlock;

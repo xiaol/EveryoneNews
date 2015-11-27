@@ -45,12 +45,8 @@ static const CGFloat btnWidth= 44;
     [self setupHeaderView];
     [self setupSubviews];
     [self setupData];
-    [self setupNoteObserver];
 }
 
-- (void)setupNoteObserver {
-    [noteCenter addObserver:self selector:@selector(refreshData) name:LPFulltextVcRefreshDataNotification object:nil];
-}
 // 懒加载
 - (NSMutableArray *)fullTextCommentFrames
 {
@@ -59,7 +55,12 @@ static const CGFloat btnWidth= 44;
     }
     return _fullTextCommentFrames;
 }
-
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if(self.shouldRefresh) {
+        [self refreshData];
+    }
+}
 // 添加头部视图
 - (void)setupHeaderView
 {
@@ -271,20 +272,25 @@ static const CGFloat btnWidth= 44;
             __weak typeof(self) weakSelf = self;
             [AccountTool accountLoginWithViewController:weakSelf success:^(Account *account){
                 [MBProgressHUD showSuccess:@"登录成功"];
-                [weakSelf performSelector:@selector(pushCommentComposeVc) withObject:nil afterDelay:0.6];
+                [weakSelf refreshData];
+                [weakSelf performSelector:@selector(pushFulltextCommentComposeVc) withObject:nil afterDelay:0.6];
             } failure:^{
                 [MBProgressHUD showError:@"登录失败!"];
             } cancel:nil];
         } else {
-            [self pushCommentComposeVc];
+            [self pushFulltextCommentComposeVc];
         }
 }
 
 #pragma -mark 弹出发表评论对话框
-- (void)pushCommentComposeVc {
-     [noteCenter postNotificationName:LPFulltextCommentWillComposeNotification object:self];
+- (void)pushFulltextCommentComposeVc {
+    LPComposeViewController *composeVc = [[LPComposeViewController alloc] init];
+    composeVc.commentType = 2;
+    composeVc.color = self.color;
+    composeVc.sourceURL = self.sourceURL;
+    self.shouldRefresh = YES;
+    [self.navigationController pushViewController:composeVc animated:YES];
 }
-
 #pragma -mark 刷新全文评论
 - (void)refreshData {
     for (UIViewController *viewController in self.navigationController.viewControllers) {
@@ -313,8 +319,7 @@ static const CGFloat btnWidth= 44;
 
 - (void)dealloc
 {
-    [noteCenter removeObserver:self];
-    // NSLog(@"全文评论dealloc");
+     NSLog(@"全文评论dealloc");
 }
 
 @end

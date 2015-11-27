@@ -280,21 +280,13 @@
 # pragma mark - notification selector 
 - (void)reloadData:(NSNotification *)note
 {
-    [self.fromVc returnContentsBlock:^(NSArray *contents) {
-//        NSMutableArray *mArray = [NSMutableArray arrayWithArray:self.comments];
-//        [mArray addObject:note.userInfo[LPComposeComment]];
-//        self.comments = mArray;
-        LPContent *content = contents[self.contentIndex];
-        self.comments = content.comments;
-        // 2. 刷新tableView
-        [self setupData];
-        self.underLabel.text = [NSString stringWithFormat:@" 精彩评论 (%d)", self.comments.count];
-        [self.tableView reloadData];
-        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.comments.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-    }];
-    
-
-
+    NSMutableArray *mArray = [NSMutableArray arrayWithArray:self.comments];
+    [mArray addObject:note.userInfo[LPComposeComment]];
+    self.comments = mArray;
+    [self setupData];
+    self.underLabel.text = [NSString stringWithFormat:@" 精彩评论 (%d)", self.comments.count];
+    [self.tableView reloadData];
+    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.comments.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 }
 
 - (void)dealloc

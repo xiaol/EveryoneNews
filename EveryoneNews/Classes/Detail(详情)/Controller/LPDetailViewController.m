@@ -116,11 +116,6 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     [noteCenter addObserver:self selector:@selector(willComposeComment:) name:LPCommentWillComposeNotification object:nil];
     [noteCenter addObserver:self selector:@selector(didComposeComment:) name:LPCommentDidComposeNotification object:nil];
     [noteCenter addObserver:self selector:@selector(reloadCell:) name:LPDetailVcShouldReloadDataNotification object:nil];
-    // 全文评论通知
-    [noteCenter addObserver:self selector:@selector(pushFulltextCommentComposeVc) name:LPFulltextCommentWillComposeNotification object:nil];
-    // 提交全文评论
-    [noteCenter addObserver:self selector:@selector(didComposefulltextComment) name:LPFulltextCommentDidComposeNotification object:nil];
-
 }
 
 //- (BOOL)prefersStatusBarHidden
@@ -223,6 +218,10 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
             self.topView.badgeNumber = count;
     }];
     [self.navigationController pushViewController:fullCommentVc animated:YES];
+}
+
+- (void)fulltextWillCompose {
+    
 }
 
 -(void)topViewBackBtnClick{
@@ -847,6 +846,10 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     [LPPressTool loadWebViewWithURL:url viewController:self];
 }
 
+- (void)contentPhotoTap {
+    
+}
+
 #pragma mark - LPZhihuView delegate
 
 - (void)zhihuView:(LPZhihuView *)zhihuView didClickURL:(NSString *)url
@@ -854,60 +857,6 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     [LPPressTool loadWebViewWithURL:url viewController:self];
 }
 
-
-#pragma mark - 弹出全文评论发表框
-
-- (void)pushFulltextCommentComposeVc {
-    LPComposeViewController *composeVc = [[LPComposeViewController alloc] init];
-    composeVc.commentType = 2;
-    composeVc.color = self.categoryColor;
-    composeVc.draftText = self.commentText;
-    [composeVc returnText:^(NSString *text) {
-        self.commentText = text;
-     }];
-    [self.navigationController pushViewController:composeVc animated:YES];
-}
-
-#pragma mark - 全文评论提交到数据库,然后刷新全文评论
-- (void)didComposefulltextComment {
-    Account *account = [AccountTool account];
-    // 1.1 创建comment对象
-    LPComment *comment = [[LPComment alloc] init];
-    comment.srcText = self.commentText;
-    comment.type = @"text_doc";
-    comment.uuid = account.userId;
-    comment.userIcon = account.userIcon;
-    comment.userName = account.userName;
-    comment.createTime = [NSString stringFromNowDate];
-    comment.up = @"0";
-    comment.isPraiseFlag = @"0";
-    
-    // 2. 发送post请求
-    NSString *url = [NSString stringWithFormat:@"%@/news/baijia/point", ServerUrl];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    if (self.isConcernDetail) {
-        params[@"sourceUrl"] = self.concernPress.sourceUrl;
-    } else {
-        params[@"sourceUrl"] = self.press.sourceUrl;
-    }
-    params[@"srcText"] = comment.srcText;
-    params[@"paragraphIndex"] = @"0";
-    params[@"type"] = comment.type;
-    params[@"uuid"] = comment.uuid;
-    params[@"userIcon"] = comment.userIcon;
-    params[@"userName"] = comment.userName;
-    params[@"desText"]  = @"";
-    [LPHttpTool postWithURL:url params:params success:^(id json) {
-        [noteCenter postNotificationName:LPFulltextVcRefreshDataNotification object:self];
-        self.commentText = nil;
-        [self.navigationController popViewControllerAnimated:YES];
-        [MBProgressHUD showSuccess:@"发表成功"];
-        
-    } failure:^(NSError *error) {
-        [MBProgressHUD showError:@"发表失败"];
-    }];
-
-}
 #pragma mark - notification selector will compose comment
 - (void)willComposeComment:(NSNotification *)note
 {
