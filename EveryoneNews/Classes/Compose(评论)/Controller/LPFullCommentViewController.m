@@ -235,9 +235,9 @@ static const CGFloat btnWidth= 44;
         params[@"deviceType"] = @"ios";
         params[@"uuid"] = @"";
         [LPHttpTool postWithURL:url params:params success:^(id json) {
-            comment.isPraiseFlag = @"1";
-            int up = comment.up.intValue + 1;
-            comment.up = [NSString stringFromIntValue:up];
+//            comment.isPraiseFlag = @"1";
+//            int up = comment.up.intValue + 1;
+//            comment.up = [NSString stringFromIntValue:up];
             //  点赞动画效果
             UIImageView *imageView = [[UIImageView alloc] initWithFrame:upView.commentFrame.upImageViewF];
             imageView.tag = -100;
@@ -251,7 +251,7 @@ static const CGFloat btnWidth= 44;
                                   imageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.0, 1.0);
                              }
                              completion:^(BOOL finished){
-                                 [self.tableView reloadData];
+                                 [self refreshData];
                              }];
          
 
@@ -300,7 +300,9 @@ static const CGFloat btnWidth= 44;
         // 2. 刷新tableView
         [self setupData];
         [self.tableView reloadData];
+        if(self.comments.count > 1) {
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.comments.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+        }
     }];
 }
 // 返回上一级菜单
