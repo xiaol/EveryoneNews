@@ -9,7 +9,16 @@
 #import <UIKit/UIKit.h>
 @class ContentFrame;
 
+@class ContentCell;
+@protocol ContentCellDelegate <NSObject>
+
+@optional
+- (void) savePhoto:(ContentCell*) contentCell imageURL:(NSURL *)imageURL;
+@end
+
 @interface ContentCell : UITableViewCell
 @property (nonatomic, strong) ContentFrame *contentFrame;
 + (instancetype)cellWithTableView:(UITableView *)tableView;
+
+@property (nonatomic, weak) id<ContentCellDelegate> delegate;
 @end
