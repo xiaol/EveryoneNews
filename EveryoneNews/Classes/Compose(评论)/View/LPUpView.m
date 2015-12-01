@@ -41,7 +41,7 @@
     LPComment *comment = commentFrame.comment;
     
     self.upImageView.frame = self.commentFrame.upImageViewF;
-    if (comment.isPraiseFlag.intValue) {
+    if (comment.isPraiseFlag.boolValue) {
         self.upImageView.image = [UIImage imageNamed:@"点赞心1"];
     } else {
         self.upImageView.image = [UIImage imageNamed:@"点赞心0"];

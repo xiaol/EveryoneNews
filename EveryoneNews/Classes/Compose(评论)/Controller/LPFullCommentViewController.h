@@ -9,7 +9,6 @@
 #import "LPBaseViewController.h"
 
 @class LPDetailViewController;
-
 typedef void(^fulltextCommentHandle)(NSInteger count);
 
 @interface LPFullCommentViewController : LPBaseViewController

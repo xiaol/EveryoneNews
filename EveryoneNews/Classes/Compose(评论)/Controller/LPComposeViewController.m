@@ -132,21 +132,14 @@ static const CGFloat  HeaderViewHeight= 44;
         // 点击发送，取回评论文字，由详情页进行进一步处理（request）
         self.returnTextBlock(self.textView.text);
     }
-    if(sender.tag==1)
-    {
-        commentTypeKey=@"text_paragraph";
-        fullTextComment=@"";
+    // 分段评论
+    if(sender.tag == 1) {
+        [noteCenter postNotificationName:LPCommentDidComposeNotification object:self];
+        [self.navigationController popViewControllerAnimated:YES];
     }
-    else if(sender.tag==2)
-    {
-        commentTypeKey=@"text_doc";
-        fullTextComment=self.textView.text;
+    else if(sender.tag == 2) {
+        [noteCenter postNotificationName:LPFulltextCommentDidComposeNotification object:self];
     }
-    NSArray *keys=[NSArray arrayWithObjects:@"commentType",@"fullTextComment",nil];
-    NSArray *objects=[NSArray arrayWithObjects:commentTypeKey, fullTextComment,nil];
-    NSDictionary *commentDictionary = [NSDictionary dictionaryWithObjects:objects forKeys:keys];
-    [noteCenter postNotificationName:LPCommentDidComposeNotification object:self userInfo:commentDictionary];
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 //- (void)keyboardWillShow:(NSNotification *)note

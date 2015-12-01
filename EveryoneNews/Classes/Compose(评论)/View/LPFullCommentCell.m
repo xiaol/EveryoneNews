@@ -22,11 +22,8 @@
 
 @implementation LPFullCommentCell
 
-
-
 + (instancetype)cellWithTableView:(UITableView *)tableView
 {
-    [noteCenter postNotificationName:LPDetailVcRefreshDataNotification object:self];
     static NSString *ID = @"text_comment";
     LPFullCommentCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     if(cell==nil)
@@ -59,8 +56,8 @@
         timeLabel.textColor = [UIColor grayColor];
         [self.contentView addSubview:timeLabel];
         self.timeLabel = timeLabel;
-        
-        UILabel *commentLabel = [[UILabel alloc] init];
+
+                UILabel *commentLabel = [[UILabel alloc] init];
         commentLabel.numberOfLines = 0;
         [self.contentView addSubview:commentLabel];
         self.commentLabel = commentLabel;

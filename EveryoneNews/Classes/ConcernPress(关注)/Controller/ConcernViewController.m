@@ -144,7 +144,6 @@
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     param[@"channelId"] = self.concern.channel_id;
     param[@"limit"] = @(30);
-//    NSLog(@"%@, %@", param[@"channelId"], param[@"limit"]);
     __weak typeof(self) weakSelf = self;
     [LPHttpTool getWithURL:ConcernHomeUrl params:param success:^(id json) {
         self.concernPressFrames = [weakSelf concernPressFramesFromJSONArray:json];

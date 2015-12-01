@@ -43,7 +43,6 @@
     [self setupHeaderView];
 //    [self setupTableFooterView];
     [self setupData];
-//    [noteCenter addObserver:self selector:@selector(reloadData:) name:@"reloadNewdata" object:nil];
     [noteCenter addObserver:self selector:@selector(reloadData:) name:LPParaVcRefreshDataNotification object:nil];
 }
 
@@ -71,10 +70,6 @@
         _paraCommentFrames = [NSMutableArray array];
     }
     return _paraCommentFrames;
-}
-- (BOOL)prefersStatusBarHidden
-{
-    return YES;
 }
 
 - (void)setupSubviews
@@ -127,7 +122,7 @@
     underLabel.frame = CGRectMake(0, underY, ScreenWidth, 24);
     underLabel.textAlignment = NSTextAlignmentLeft;
     underLabel.font = [UIFont systemFontOfSize:15];
-    underLabel.text = [NSString stringWithFormat:@" 精彩评论 (%d)", self.comments.count];
+    underLabel.text = [NSString stringWithFormat:@" 精彩评论 (%lu)", (unsigned long)self.comments.count];
     underLabel.backgroundColor = [UIColor colorFromHexString:TableViewBackColor];
     [headerView addSubview:underLabel];
     self.underLabel = underLabel;
@@ -219,16 +214,28 @@
     if ([AccountTool account]) {
         [self upComment:comment withAccount:account upView:upView];
     } else {
-        NSUInteger index = [self.comments indexOfObject:comment];
+//        NSUInteger index = [self.comments indexOfObject:comment];
+        NSString *commentID = comment.commentId;
         [AccountTool accountLoginWithViewController:self success:^(Account *account){
             // 1. 刷新detailVc，更新自身comments值
-            NSInteger vcIndex = [self.navigationController.viewControllers indexOfObject:self];
-            NSLog(@"hhh - %@", NSStringFromClass([self.navigationController.viewControllers[vcIndex - 1] class]));
-            LPDetailViewController *detailVc = (LPDetailViewController *)self.navigationController.viewControllers[vcIndex - 1];
-            [self.fromVc returnContentsBlock:^(NSArray *contents) {
+            __block LPDetailViewController *detailVc = nil;
+            [self.navigationController.viewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if ([obj isKindOfClass:[LPDetailViewController class]]) {
+                    detailVc = obj;
+                    * stop = YES;
+                }
+            }];
+            [detailVc returnContentsBlock:^(NSArray *contents) {
                 LPContent *content = contents[self.contentIndex];
                 self.comments = [content.comments copy];
-                LPComment *comment = self.comments[index];
+                __block LPComment *comment = nil;
+                [self.comments enumerateObjectsUsingBlock:^(LPComment * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    if ([obj.commentId isEqualToString:commentID]) {
+                        comment = obj;
+                        * stop = YES;
+                    }
+                }];
+//                LPComment *comment = self.comments[index];
                 // 2. 刷新tableView
                 [self setupData];
                 [self.tableView reloadData];
@@ -282,16 +289,17 @@
 }
 
 # pragma mark - notification selector 
-- (void)reloadData:(NSNotification *)note
-{
+- (void)reloadData:(NSNotification *)note {
+    
     NSMutableArray *mArray = [NSMutableArray arrayWithArray:self.comments];
     [mArray addObject:note.userInfo[LPComposeComment]];
     self.comments = mArray;
+
+    // 2. 刷新tableView
     [self setupData];
-    self.underLabel.text = [NSString stringWithFormat:@" 精彩评论 (%d)", self.comments.count];
+    self.underLabel.text = [NSString stringWithFormat:@" 精彩评论 (%ld)", (unsigned long)self.comments.count];
     [self.tableView reloadData];
     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.comments.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-
 }
 
 - (void)dealloc

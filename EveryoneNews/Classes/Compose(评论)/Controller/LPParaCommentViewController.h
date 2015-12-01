@@ -16,7 +16,6 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, assign) int contentIndex;
 @property (nonatomic, copy) NSString *commentText;
-@property (nonatomic, strong) LPDetailViewController *fromVc;
 @property (nonatomic, strong) UIColor *color;
 @property (nonatomic, copy) NSString *sourceURL;
 @end

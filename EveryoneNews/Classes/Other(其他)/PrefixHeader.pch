@@ -56,8 +56,8 @@ extern NSString * const HotwordsURL;
 #define LPPushNotificationURL @"url"
 
 #define LPFulltextCommentWillComposeNotification @"fulltextWillCompose"
+#define LPFulltextCommentDidComposeNotification @"fulltextDidCompose"
 #define LPFulltextVcRefreshDataNotification @"fulltextVcRefresh"
-#define LPDetailVcRefreshDataNotification @"detailRefreshDataWithCompletion"
 
 #define LPCommentWillComposeNotification @"willCompose"
 #define LPComposeParaIndex @"paraIndex"
@@ -131,7 +131,7 @@ extern NSString * const HotwordsURL;
 #define TableHeaderViewH ScreenWidth * 0.75
 #define TableHeaderImageViewH TableHeaderViewH + 18.0
 #define BodyFontSize 16
-#define BodyLineSpacing 5
+#define BodyLineSpacing 6
 #define BodyPadding 13
 #define BodyCommentPadding 12
 
