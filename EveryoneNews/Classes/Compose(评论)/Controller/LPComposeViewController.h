@@ -16,6 +16,7 @@ typedef void(^returnTextBlock)(NSString *text);
 @property (nonatomic, copy) NSString *draftText;
 @property (nonatomic, strong) UIColor *color;
 @property (nonatomic, copy) returnTextBlock returnTextBlock;
+@property (nonatomic, copy) NSString *sourceURL;
 // 评论类别 （1 分段评论 2 全文评论）
 @property (nonatomic,assign) NSInteger commentType;
 - (void)returnText:(returnTextBlock)returnTextBlock;

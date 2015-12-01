@@ -17,6 +17,7 @@
 @interface ContentCell ()
 @property (nonatomic, strong) UILabel *textView;
 @property (nonatomic, strong) UIImageView *photoView;
+@property (nonatomic, strong) NSURL *imageURL;
 @end
 
 @implementation ContentCell
@@ -45,11 +46,25 @@
         photoView.clipsToBounds = YES;
         photoView.layer.cornerRadius = 4.0;
         photoView.contentMode = UIViewContentModeScaleAspectFill;
+        
+        // 必须设置
+        photoView.userInteractionEnabled = YES;
+        UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapGesturePressed:)];
+        [photoView addGestureRecognizer:tapGesture];
+        
         [self.contentView addSubview:photoView];
         self.photoView = photoView;
     }
     return self;
 }
+
+- (void)tapGesturePressed:(UITapGestureRecognizer *)recognizer {
+    if([self.delegate respondsToSelector:@selector(contentCell:didSavePhotoWithImageURL:)]) {
+        [self.delegate contentCell:self didSavePhotoWithImageURL:self.imageURL];
+    }
+}
+
+
 
 - (void)setContentFrame:(ContentFrame *)contentFrame {
     _contentFrame = contentFrame;
@@ -59,9 +74,9 @@
     if (content.isPhotoType.boolValue) {
         self.photoView.hidden = NO;
         self.textView.hidden = YES;
-        
+        self.imageURL = [NSURL URLWithString:content.photoURL];
         self.photoView.frame = contentFrame.photoF;
-        [self.photoView sd_setImageWithURL:[NSURL URLWithString:content.photoURL] placeholderImage:[UIImage imageNamed:@"详情占位图"]];
+        [self.photoView sd_setImageWithURL:self.imageURL placeholderImage:[UIImage imageNamed:@"详情占位图"]];
     } else {
         self.photoView.hidden = YES;
         self.textView.hidden = NO;
@@ -70,6 +85,8 @@
         self.textView.attributedText = [content attributedBodyText];
     }
 }
+
+
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {

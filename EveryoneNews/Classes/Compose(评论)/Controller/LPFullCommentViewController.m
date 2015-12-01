@@ -45,12 +45,8 @@ static const CGFloat btnWidth= 44;
     [self setupHeaderView];
     [self setupSubviews];
     [self setupData];
-    [self setupNoteObserver];
 }
 
-- (void)setupNoteObserver {
-    [noteCenter addObserver:self selector:@selector(refreshData) name:LPFulltextVcRefreshDataNotification object:nil];
-}
 // 懒加载
 - (NSMutableArray *)fullTextCommentFrames
 {
@@ -59,7 +55,12 @@ static const CGFloat btnWidth= 44;
     }
     return _fullTextCommentFrames;
 }
-
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if(self.shouldRefresh) {
+        [self refreshData];
+    }
+}
 // 添加头部视图
 - (void)setupHeaderView
 {
@@ -198,29 +199,25 @@ static const CGFloat btnWidth= 44;
     if ([AccountTool account]) {
         [self upComment:comment withAccount:account upView:upView cell:cell];
     }else {
-        NSUInteger index = [self.comments indexOfObject:comment];
-        for (UIViewController *viewController in self.navigationController.viewControllers) {
-            if([viewController isKindOfClass:[LPDetailViewController class]]) {
-                [AccountTool accountLoginWithViewController:self success:^(Account *account){
-                    // 1. 刷新detailVc，更新自身comments值
-                    [(LPDetailViewController*)viewController fulltextCommentsUpDidComposed:^(NSArray *fulltextComments) {
-                        self.comments = fulltextComments;
-                        LPComment *comment = self.comments[index];
-                        // 2. 刷新tableView
-                        [self setupData];
-                        [self.tableView reloadData];
-                        // 3. 点赞
-                        [self upComment:comment withAccount:account upView:upView cell:cell];
-                    }];
-                } failure:^{
-                    [MBProgressHUD showError:@"登录失败"];
-                } cancel:^{
-                    
-                }];
-                break;
+        NSString *commentID = comment.commentId;
+        __block LPComment *comment = nil;
+        [self.comments enumerateObjectsUsingBlock:^(LPComment *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([obj.commentId isEqualToString:commentID]) {
+                comment = obj;
+                *stop = YES;
             }
-        }
-    } 
+        }];
+        [AccountTool accountLoginWithViewController:self success:^(Account *account){
+            // 刷新数据
+            [self refreshData];
+            [self upComment:comment withAccount:account upView:upView cell:cell];
+        } failure:^{
+            [MBProgressHUD showError:@"登录失败"];
+            
+        } cancel:^{
+            
+        }];
+    }
 }
 
 - (void)upComment:(LPComment *)comment withAccount:(Account *)account upView:(LPUpView *)upView cell:(LPFullCommentCell *)cell
@@ -239,12 +236,12 @@ static const CGFloat btnWidth= 44;
         params[@"deviceType"] = @"ios";
         params[@"uuid"] = @"";
         [LPHttpTool postWithURL:url params:params success:^(id json) {
-            comment.isPraiseFlag = @"1";
-            int up = comment.up.intValue + 1;
-            comment.up = [NSString stringFromIntValue:up];
+//            comment.isPraiseFlag = @"1";
+//            int up = comment.up.intValue + 1;
+//            comment.up = [NSString stringFromIntValue:up];
             //  点赞动画效果
-            UIImageView *imageView=[[UIImageView alloc] initWithFrame:upView.commentFrame.upImageViewF];
-            imageView.tag=-100;
+            UIImageView *imageView = [[UIImageView alloc] initWithFrame:upView.commentFrame.upImageViewF];
+            imageView.tag = -100;
             imageView.image = [UIImage imageNamed:@"点赞心1"];
             imageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.0, 0.0);
             [cell.upView addSubview:imageView];
@@ -252,10 +249,10 @@ static const CGFloat btnWidth= 44;
                                   delay:0
                                   options:UIViewAnimationOptionBeginFromCurrentState
                                   animations:(void (^)(void)) ^{
-                                  imageView.transform= CGAffineTransformScale(CGAffineTransformIdentity, 1.0, 1.0);
+                                  imageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.0, 1.0);
                              }
                              completion:^(BOOL finished){
-                                 [self.tableView reloadData];
+                                 [self refreshData];
                              }];
          
 
@@ -271,35 +268,43 @@ static const CGFloat btnWidth= 44;
             __weak typeof(self) weakSelf = self;
             [AccountTool accountLoginWithViewController:weakSelf success:^(Account *account){
                 [MBProgressHUD showSuccess:@"登录成功"];
-                [weakSelf performSelector:@selector(pushCommentComposeVc) withObject:nil afterDelay:0.6];
+                [weakSelf refreshData];
+                [weakSelf performSelector:@selector(pushFulltextCommentComposeVc) withObject:nil afterDelay:0.6];
             } failure:^{
                 [MBProgressHUD showError:@"登录失败!"];
             } cancel:nil];
         } else {
-            [self pushCommentComposeVc];
+            [self pushFulltextCommentComposeVc];
         }
 }
 
 #pragma -mark 弹出发表评论对话框
-- (void)pushCommentComposeVc {
-     [noteCenter postNotificationName:LPFulltextCommentWillComposeNotification object:self];
+- (void)pushFulltextCommentComposeVc {
+    LPComposeViewController *composeVc = [[LPComposeViewController alloc] init];
+    composeVc.commentType = 2;
+    composeVc.color = self.color;
+    composeVc.sourceURL = self.sourceURL;
+    self.shouldRefresh = YES;
+    [self.navigationController pushViewController:composeVc animated:YES];
 }
-
 #pragma -mark 刷新全文评论
 - (void)refreshData {
-    for (UIViewController *viewController in self.navigationController.viewControllers) {
-        if([viewController isKindOfClass:[LPDetailViewController class]]) {
-                // 1. 刷新detailVc，更新自身comments值
-                [(LPDetailViewController*)viewController fulltextCommentsUpDidComposed:^(NSArray *fulltextComments) {
-                    self.comments = fulltextComments;
-                    // 2. 刷新tableView
-                    [self setupData];
-                    [self.tableView reloadData];
-                    [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.comments.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-                }];
-                break;
+    __block LPDetailViewController *detailVc = nil;
+    [self.navigationController.viewControllers enumerateObjectsUsingBlock:^(__kindof UIViewController * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([obj isKindOfClass:[LPDetailViewController class]]) {
+            detailVc = obj;
+            *stop = YES;
         }
-    }
+    }];
+    [detailVc fulltextCommentsUpDidComposed:^(NSArray *fulltextComments) {
+        self.comments = fulltextComments;
+        // 2. 刷新tableView
+        [self setupData];
+        [self.tableView reloadData];
+        if(self.comments.count > 1) {
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:self.comments.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+        }
+    }];
 }
 // 返回上一级菜单
 - (void)popBtnClick
@@ -313,7 +318,6 @@ static const CGFloat btnWidth= 44;
 
 - (void)dealloc
 {
-    [noteCenter removeObserver:self];
      NSLog(@"全文评论dealloc");
 }
 

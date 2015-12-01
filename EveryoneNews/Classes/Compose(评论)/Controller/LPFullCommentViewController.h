@@ -22,7 +22,7 @@ typedef void(^fulltextCommentHandle)(NSInteger count);
 @property (nonatomic, strong) UIColor *color;
 // 全文评论对应的链接地址
 @property (nonatomic, copy) NSString *sourceURL;
-
+@property (nonatomic, assign) BOOL shouldRefresh;
 @property (nonatomic, copy) fulltextCommentHandle block;
 
 - (void)fulltextCommentDidComposed:(fulltextCommentHandle) handle;

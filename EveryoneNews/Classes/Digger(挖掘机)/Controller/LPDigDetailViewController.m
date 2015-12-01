@@ -20,8 +20,9 @@
 #import "SDWebImageManager.h"
 #import "ZhihuView.h"
 #import "LPPressTool.h"
+#import "LPFullPhotoViewController.h"
 
-@interface LPDigDetailViewController () <UITableViewDataSource, UITableViewDelegate, ZhihuViewDelegate>
+@interface LPDigDetailViewController () <UITableViewDataSource, UITableViewDelegate, ZhihuViewDelegate, ContentCellDelegate>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *contentFrames;
 @end
@@ -162,6 +163,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     ContentCell *cell = [ContentCell cellWithTableView:tableView];
+    cell.delegate = self;
     cell.contentFrame = self.contentFrames[indexPath.row];
     return cell;
 }
@@ -175,6 +177,13 @@
 - (void)zhihuView:(ZhihuView *)zhihuView didClickURL:(NSString *)url
 {
     [LPPressTool loadWebViewWithURL:url viewController:self];
+}
+
+#pragma mark - content cell delegate
+- (void)contentCell:(ContentCell *)contentCell didSavePhotoWithImageURL:(NSURL *)imageURL {
+    LPFullPhotoViewController *fullPhotoVc = [[LPFullPhotoViewController alloc] init];
+    fullPhotoVc.imageURL = imageURL;
+    [self.navigationController pushViewController:fullPhotoVc animated:YES];
 }
 
 @end

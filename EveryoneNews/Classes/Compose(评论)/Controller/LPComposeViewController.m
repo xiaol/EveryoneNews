@@ -9,6 +9,10 @@
 #import "LPComposeViewController.h"
 #import "LPContent.h"
 #import "LPTextView.h"
+#import "AccountTool.h"
+#import "MJExtension.h"
+#import "MBProgressHUD+MJ.h"
+#import "LPHttpTool.h"
 
 static const CGFloat  padding=10;
 static const CGFloat  HeaderViewHeight= 44;
@@ -138,10 +142,43 @@ static const CGFloat  HeaderViewHeight= 44;
         [self.navigationController popViewControllerAnimated:YES];
     }
     else if(sender.tag == 2) {
-        [noteCenter postNotificationName:LPFulltextCommentDidComposeNotification object:self];
+        [self didComposefulltextComment];
     }
 }
 
+- (void)didComposefulltextComment {
+    Account *account = [AccountTool account];
+    // 1.1 创建comment对象
+    LPComment *comment = [[LPComment alloc] init];
+    comment.srcText = self.textView.text;
+    comment.type = @"text_doc";
+    comment.uuid = account.userId;
+    comment.userIcon = account.userIcon;
+    comment.userName = account.userName;
+    comment.createTime = [NSString stringFromNowDate];
+    comment.up = @"0";
+    comment.isPraiseFlag = @"0";
+    
+    // 2. 发送post请求
+    NSString *url = [NSString stringWithFormat:@"%@/news/baijia/point", ServerUrl];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"sourceUrl"] = self.sourceURL;
+    params[@"srcText"] = comment.srcText;
+    params[@"paragraphIndex"] = @"0";
+    params[@"type"] = comment.type;
+    params[@"uuid"] = comment.uuid;
+    params[@"userIcon"] = comment.userIcon;
+    params[@"userName"] = comment.userName;
+    params[@"desText"]  = @"";
+    [LPHttpTool postWithURL:url params:params success:^(id json) {
+        [self.navigationController popViewControllerAnimated:YES];
+        [MBProgressHUD showSuccess:@"发表成功"];
+        
+    } failure:^(NSError *error) {
+        [MBProgressHUD showError:@"发表失败"];
+    }];
+    
+}
 //- (void)keyboardWillShow:(NSNotification *)note
 //{
 //    // 键盘弹出时间
