@@ -129,7 +129,6 @@
 
 - (void)cancelRequest {
     if (!self.operation) return;
-    NSLog(@"cancel!!!");
     [self.operation cancel];
     self.operation = nil;
 }
