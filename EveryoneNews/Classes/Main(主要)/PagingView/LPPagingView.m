@@ -98,7 +98,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         self.pagingEnabled = YES;
-        self.showsHorizontalScrollIndicator = YES;
+        self.showsHorizontalScrollIndicator = NO;
     }
     return self;
 }
@@ -132,7 +132,7 @@
         _helper.numberOfPages = [self.dataSource numberOfPagesInPagingView:self];
         _helper.pageHeight = self.bounds.size.height;
         _helper.pageWidth = self.bounds.size.width;
-        _helper.gutter = 0.0f;
+        _helper.gutter = - 0.5f;
         
         self.contentSize = _helper.contentSize;
 
@@ -153,7 +153,7 @@
     return _delegateTrampoline;
 }
 
-// page frame as stablized
+// page frame as stablized (gutter 左右各一半)
 - (CGRect)frameForPageIndex:(NSInteger)pageIndex {
     CGFloat pageW = self.helper.pageWidth;
     CGFloat pageH = self.helper.pageHeight;
@@ -180,8 +180,8 @@
 }
 
 - (NSInteger)currentPageIndex {
-//    NSInteger currentPageIndex = floorf(CGRectGetMinX(self.bounds) / (self.helper.pageWidth + self.helper.gutter));
-    NSInteger currentPageIndex = floorf(self.contentOffset.x / (self.helper.pageWidth + self.helper.gutter));
+    NSInteger currentPageIndex = floorf(CGRectGetMinX(self.bounds) / (self.helper.pageWidth + self.helper.gutter));
+//    NSInteger currentPageIndex = floorf(self.contentOffset.x / (self.helper.pageWidth + self.helper.gutter));
     currentPageIndex = MAX(currentPageIndex, 0);
     currentPageIndex = MIN(currentPageIndex, self.helper.numberOfPages - 1);
     return currentPageIndex;
@@ -198,7 +198,7 @@
     
     self.helper = nil;
     
-//    [self setNeedsLayout];
+    [self setNeedsLayout];
 }
 
 // scroll view delegate trampoline methods
@@ -296,7 +296,7 @@
     CGFloat pageLength = self.helper.pageWidth + self.helper.gutter;
     CGFloat minX = CGRectGetMinX(visibleBounds) + self.helper.gutter / 2;
     CGFloat maxX = CGRectGetMaxX(visibleBounds) - self.helper.gutter / 2;
-    maxX --;
+//    maxX --;
     
     NSInteger firstIndex = floorf(minX / pageLength);
     firstIndex = MAX(firstIndex, 0);
@@ -310,9 +310,8 @@
         if (page.tag < firstIndex || page.tag > lastIndex) {
             [page removeFromSuperview];
             [removedPages addObject:page];
+            [self queueReusablePage:page];
         }
-        
-        [self queueReusablePage:page];
     }
     [self.visiblePages minusSet:removedPages];
     
