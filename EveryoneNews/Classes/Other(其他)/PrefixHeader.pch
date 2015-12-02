@@ -170,6 +170,10 @@ extern NSString * const HotwordsURL;
 #define LPColor(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
 #define LPColorRGBA(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:a]
 
+// 默认字体颜色
+#define LPNormalColor LPColor(85, 85 ,85)
+#define LPSelectedColor LPColor(255, 20, 4)
+
 // 随机色
 #define LPRandomColor LPColor(arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256))
 
