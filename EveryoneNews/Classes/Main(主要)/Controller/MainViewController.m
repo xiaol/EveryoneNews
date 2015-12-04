@@ -740,8 +740,7 @@ NSString * const HotwordsURL = @"http://api.deeporiginalx.com/news/baijia/fetchE
     }
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if (scrollView == self.containerView) {
         self.customTabBar.sliderView.x = TabBarButtonWidth * (scrollView.contentOffset.x / ScreenWidth);
     }
