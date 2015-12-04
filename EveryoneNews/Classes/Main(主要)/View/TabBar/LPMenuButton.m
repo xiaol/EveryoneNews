@@ -7,6 +7,7 @@
 //
 
 #import "LPMenuButton.h"
+
 const static CGFloat DefaultRate = 1.15;
 
 @interface LPMenuButton () {
@@ -45,10 +46,11 @@ const static CGFloat DefaultRate = 1.15;
     }
     return _rate;
 }
+
 - (void)setSelected:(BOOL)selected {
     [super setSelected:selected];
     if (selected) {
-        [self setTitleColor:self.selectedColor forState:UIControlStateNormal];
+        [self setTitleColor:self.selectedColor forState:UIControlStateSelected];
     } else {
         [self setTitleColor:self.normalColor forState:UIControlStateNormal];
     }
@@ -75,8 +77,6 @@ const static CGFloat DefaultRate = 1.15;
     _fontName = fontName;
     self.fontSize = 14;
 }
-
-
 
 - (void)selectedItemAnimation {
     self.selected = YES;

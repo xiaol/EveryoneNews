@@ -53,6 +53,21 @@
  */
 - (void)pagingView:(LPPagingView *)pagingView didScrollToPageIndex:(NSInteger)pageIndex;
 
+/**
+ *  代理方法: 滚动至具体位置时的回调 (不建议使用)
+ *
+ *  @param pagingView self
+ *  @param offsetX    X轴偏移量
+ */
+- (void)pagingView:(LPPagingView *)pagingView didScrollToOffsetX:(CGFloat)offsetX;
+
+/**
+ *  代理方法: 滚动至具体位置时的回调, 告知滚动比例
+ *
+ *  @param pagingView    self
+ *  @param ratio         ratio
+ */
+- (void)pagingView:(LPPagingView *)pagingView didScrollWithRatio:(CGFloat)ratio;
 @end
 
 @interface LPPagingView : UIScrollView <UIScrollViewDelegate>
