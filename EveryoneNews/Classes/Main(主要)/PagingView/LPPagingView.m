@@ -12,6 +12,7 @@
 
 #pragma mark - delegate trampoline
 
+// 蹦床接收所有pv代理方法, 实现其中一部分, 并把余下未实现的方法转发给自己的代理
 @interface LPPagingViewDelegateTrampline : NSObject <UIScrollViewDelegate>
 
 @property (nonatomic, weak) LPPagingView *pagingView;
@@ -28,6 +29,13 @@
 - (void)forwardInvocation:(NSInvocation *)anInvocation {
     if ([self.delegate respondsToSelector:anInvocation.selector]) {
         [anInvocation invokeWithTarget:self.delegate];
+    }
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self.pagingView scrollViewDidScroll:scrollView];
+    if ([self.delegate respondsToSelector:_cmd]) {
+        [self.delegate scrollViewDidScroll:scrollView];
     }
 }
 
@@ -98,7 +106,7 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         self.pagingEnabled = YES;
-        self.showsHorizontalScrollIndicator = NO;
+        self.showsHorizontalScrollIndicator = YES;
     }
     return self;
 }
@@ -153,7 +161,7 @@
     return _delegateTrampoline;
 }
 
-// page frame as stablized (gutter 左右各一半)
+// page frame as stablized
 - (CGRect)frameForPageIndex:(NSInteger)pageIndex {
     CGFloat pageW = self.helper.pageWidth;
     CGFloat pageH = self.helper.pageHeight;
@@ -181,6 +189,7 @@
 
 - (NSInteger)currentPageIndex {
     NSInteger currentPageIndex = floorf(CGRectGetMinX(self.bounds) / (self.helper.pageWidth + self.helper.gutter));
+//    NSLog(@"%.2f -- %@", CGRectGetMinX(self.bounds), NSStringFromCGRect(self.bounds));
 //    NSInteger currentPageIndex = floorf(self.contentOffset.x / (self.helper.pageWidth + self.helper.gutter));
     currentPageIndex = MAX(currentPageIndex, 0);
     currentPageIndex = MIN(currentPageIndex, self.helper.numberOfPages - 1);
@@ -201,7 +210,11 @@
     [self setNeedsLayout];
 }
 
-// scroll view delegate trampoline methods
+// scroll view delegate trampoline method components
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self didScroll];
+}
+
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     if (decelerate == NO) {
         [self didScrollToPageIndex:self.currentPageIndex];
@@ -216,6 +229,21 @@
     [self didScrollToPageIndex:self.currentPageIndex];
 }
 
+- (void)didScroll {
+    CGFloat pageLength = self.helper.pageWidth + self.helper.gutter;
+    CGFloat offset = self.contentOffset.x;
+    CGFloat ratio = offset / pageLength;
+    if (offset > 0 && ratio <= self.helper.numberOfPages - 1) {
+//        ratio -= floorf(ratio);
+        if ([self.delegate respondsToSelector:@selector(pagingView:didScrollWithRatio:)]) {
+            [self.delegate pagingView:self didScrollWithRatio:ratio];
+        }
+    }
+    if ([self.delegate respondsToSelector:@selector(pagingView:didScrollToOffsetX:)]) {
+        [self.delegate pagingView:self didScrollToOffsetX:offset];
+    }
+}
+
 // scroll ending call back
 - (void)didScrollToPageIndex:(NSInteger)pageIndex {
     if ([self.delegate respondsToSelector:@selector(pagingView:didScrollToPageIndex:)]) {
@@ -225,8 +253,8 @@
 
 // delegate setter / getter
 - (void)setDelegate:(id<LPPagingViewDelegate>)delegate {
-    [super setDelegate:self.delegateTrampoline];
-    self.delegateTrampoline.delegate = delegate;
+    self.delegateTrampoline.delegate = delegate; // 将蹦床代理设为现代理, 蹦床未实现的代理方法, 转发给现代理实现
+    [super setDelegate:self.delegateTrampoline]; // 将自己的代理设为蹦床, 由蹦床拦截一些方法并实现
 }
 
 - (id<LPPagingViewDelegate>)delegate {
@@ -296,7 +324,7 @@
     CGFloat pageLength = self.helper.pageWidth + self.helper.gutter;
     CGFloat minX = CGRectGetMinX(visibleBounds) + self.helper.gutter / 2;
     CGFloat maxX = CGRectGetMaxX(visibleBounds) - self.helper.gutter / 2;
-//    maxX --;
+//    maxX ++;
     
     NSInteger firstIndex = floorf(minX / pageLength);
     firstIndex = MAX(firstIndex, 0);
@@ -328,7 +356,7 @@
     
 //    for (NSInteger index = 0; index < self.pageFrames.count; index++) {
 //        CGRect pageFrame = [self.pageFrames[index] CGRectValue];
-//        UIview *page = self.visiblePages[@(index)]; // 1. 从可视pages数组中取出对应的page
+//        LPPagingViewPage *page = self.visiblePages[@(index)]; // 1. 从可视pages数组中取出对应的page
 //        if ([self isPageInScreenWithFrame:pageFrame]) {
 //            if (page == nil) { // 2. 若数组中不存在相应page, 由数据源创建相应
 //                // 2.1 创建一个page

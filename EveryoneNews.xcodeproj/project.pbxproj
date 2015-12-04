@@ -335,6 +335,9 @@
 		7E9FEBA61B43928900D06E0A /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9FEBA51B43928900D06E0A /* NSDate+Extension.m */; };
 		7ED4FA571B41423300DF2B7D /* MBProgressHUD+MJ.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ED4FA561B41423300DF2B7D /* MBProgressHUD+MJ.m */; };
 		866D85C51BF5923900D92E5D /* ZhihuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 866D85C41BF5923900D92E5D /* ZhihuView.m */; };
+		867ECA1C1C0E907A000930BF /* LPHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 867ECA1B1C0E907A000930BF /* LPHomeViewController.m */; };
+		867ECA1F1C0E95F3000930BF /* LPMenuButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 867ECA1E1C0E95F3000930BF /* LPMenuButton.m */; };
+		867ECA221C0EC109000930BF /* LPMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 867ECA211C0EC109000930BF /* LPMenuView.m */; };
 		8680F8171BF046A6002C08EB /* LPRelateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8680F8161BF046A6002C08EB /* LPRelateView.m */; };
 		868367691C080A0A00732516 /* LPFullPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 868367681C080A0A00732516 /* LPFullPhotoViewController.m */; };
 		8689DA191BECABFC00D425BC /* LPShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8689DA181BECABFC00D425BC /* LPShareViewController.m */; };
@@ -932,6 +935,12 @@
 		7ED4FA561B41423300DF2B7D /* MBProgressHUD+MJ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+MJ.m"; sourceTree = "<group>"; };
 		866D85C31BF5923900D92E5D /* ZhihuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhihuView.h; sourceTree = "<group>"; };
 		866D85C41BF5923900D92E5D /* ZhihuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhihuView.m; sourceTree = "<group>"; };
+		867ECA1A1C0E907A000930BF /* LPHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPHomeViewController.h; sourceTree = "<group>"; };
+		867ECA1B1C0E907A000930BF /* LPHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPHomeViewController.m; sourceTree = "<group>"; };
+		867ECA1D1C0E95F3000930BF /* LPMenuButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPMenuButton.h; sourceTree = "<group>"; };
+		867ECA1E1C0E95F3000930BF /* LPMenuButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPMenuButton.m; sourceTree = "<group>"; };
+		867ECA201C0EC109000930BF /* LPMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPMenuView.h; sourceTree = "<group>"; };
+		867ECA211C0EC109000930BF /* LPMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPMenuView.m; sourceTree = "<group>"; };
 		8680F8151BF046A6002C08EB /* LPRelateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPRelateView.h; sourceTree = "<group>"; };
 		8680F8161BF046A6002C08EB /* LPRelateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPRelateView.m; sourceTree = "<group>"; };
 		868367671C080A0A00732516 /* LPFullPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPFullPhotoViewController.h; sourceTree = "<group>"; };
@@ -2076,6 +2085,8 @@
 				18F630D21B5C044300423658 /* MainViewController.m */,
 				18EF3B411B6507CF0097F5A6 /* LPBaseViewController.h */,
 				18EF3B421B6507CF0097F5A6 /* LPBaseViewController.m */,
+				867ECA1A1C0E907A000930BF /* LPHomeViewController.h */,
+				867ECA1B1C0E907A000930BF /* LPHomeViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2215,6 +2226,10 @@
 				18F6310B1B5C044300423658 /* LPTabBar.m */,
 				18F6310C1B5C044300423658 /* LPTabBarButton.h */,
 				18F6310D1B5C044300423658 /* LPTabBarButton.m */,
+				867ECA1D1C0E95F3000930BF /* LPMenuButton.h */,
+				867ECA1E1C0E95F3000930BF /* LPMenuButton.m */,
+				867ECA201C0EC109000930BF /* LPMenuView.h */,
+				867ECA211C0EC109000930BF /* LPMenuView.m */,
 			);
 			path = TabBar;
 			sourceTree = "<group>";
@@ -2637,6 +2652,7 @@
 				18CB19C11B2E2A380005D3E3 /* LPParaCommentFrame.m in Sources */,
 				18EC41A01B6B46E200548DD9 /* UIButton+LP.m in Sources */,
 				1868660D1B94006D00039AA3 /* DigButton.m in Sources */,
+				867ECA221C0EC109000930BF /* LPMenuView.m in Sources */,
 				181B38371BC652B000698FC5 /* Thumbnailer.m in Sources */,
 				18F631661B5C0CEA00423658 /* MJRefreshStateHeader.m in Sources */,
 				18A65C7D1B1FDBCE0070DDD7 /* NSString+LP.m in Sources */,
@@ -2691,6 +2707,7 @@
 				7E9E723F1B3BF0E70038FE12 /* MBProgressHUD.m in Sources */,
 				8689DA191BECABFC00D425BC /* LPShareViewController.m in Sources */,
 				1889FE681B4C2E91006D8E03 /* LPUpButton.m in Sources */,
+				867ECA1F1C0E95F3000930BF /* LPMenuButton.m in Sources */,
 				18D71FAF1B2572C5002A7375 /* NSObject+MJProperty.m in Sources */,
 				18D71FAD1B2572C5002A7375 /* NSObject+MJCoding.m in Sources */,
 				18F631131B5C044300423658 /* LPPointview.m in Sources */,
@@ -2779,6 +2796,7 @@
 				1868665F1BB4212600039AA3 /* HotwordCloud.m in Sources */,
 				18A65CC31B203D330070DDD7 /* NSData+ImageContentType.m in Sources */,
 				18F6315C1B5C0CEA00423658 /* MJRefreshFooter.m in Sources */,
+				867ECA1C1C0E907A000930BF /* LPHomeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2907,8 +2925,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2916,7 +2934,7 @@
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 				);
 				INFOPLIST_FILE = EveryoneNewsTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2945,9 +2963,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2955,7 +2972,7 @@
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 				);
 				INFOPLIST_FILE = EveryoneNewsTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
