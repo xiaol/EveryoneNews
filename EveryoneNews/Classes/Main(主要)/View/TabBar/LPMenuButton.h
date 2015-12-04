@@ -24,12 +24,15 @@
 @property (nonatomic, copy) NSString *fontName;
 
 // 选中按钮时添加动画
-- (void)selectedItemAnimation;
+- (void)buttonDidSelectedWithAnimation;
+
 // 取消选中时添加动画
-- (void)unSelectedItemAnimation;
-// 根据索引初始化标题
-- (instancetype)initTitlesWithIndex:(NSArray *)titles index:(int)index;
+- (void)buttonDidDeSelectedWithAnimation;
+
+// 初始化标题
+- (instancetype)initWithTitle:(NSString *)title;
+
 // 根据缩放系数改变字体颜色和大小
-- (void)changeSelectedColorWithRate:(CGFloat)rate;
+- (void)titleSizeAndColorDidChangedWithRate:(CGFloat)rate;
 
 @end

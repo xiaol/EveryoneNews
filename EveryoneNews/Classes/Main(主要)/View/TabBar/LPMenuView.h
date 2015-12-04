@@ -10,24 +10,24 @@
 
 
 @class LPMenuView;
-@protocol LPMenuViewDelegate <NSObject>
+@protocol LPMenuViewDelegate <UIScrollViewDelegate>
 
 @optional
-- (void)menuViewDelegate:(LPMenuView *)menuView index:(int)index;
+- (void)menuView:(LPMenuView *)menuView didSelectedButtonAtIndex:(int)index;
 
 @end
 
-@interface LPMenuView : UIView
+@interface LPMenuView : UIScrollView  
 
-@property (nonatomic, weak) id<LPMenuViewDelegate> delegate;
+@property (nonatomic, weak) id<LPMenuViewDelegate> menuViewDelegate;
 
 /**
- *  指定回调函数，当菜单下面的scrollview滚动时候调用
+ *  当自定义PagingView滚动时候菜单栏缩放
  *
  *  @param index 当前页
  *  @param rate  按钮缩放比例
  */
-- (void)changeSelectedButtonRateWithIndex:(int)index rate:(CGFloat) rate;
+- (void)selectedButtonScaleWithRate:(int)index rate:(CGFloat)rate;
 
 /**
  *  加载菜单栏
@@ -37,18 +37,16 @@
 - (void)loadMenuViewTitles:(NSArray *)titles;
 
 /**
- *  回调函数，当菜单栏下面自定义PagingView滚动时候，按钮颜色发生变化
- *
- *  @param index      选中按钮
- *  @param otherIndex 非选中按钮
- */
-- (void)selectedButtonWithIndex:(int)index otherIndex:(int)otherIndex;
-
-/**
  *  标题自动移动到正中央
  *
- *  @param index 标题索引
+ *  @param index 选中标题索引
  */
 - (void)selectedButtonMoveToCenterWithIndex:(int)index;
 
+/**
+ *  菜单栏标题选中状态改变
+ *
+ *  @param index 选中标题索引值
+ */
+- (void)buttonSelectedStatusChangedWithIndex:(int)index;
 @end

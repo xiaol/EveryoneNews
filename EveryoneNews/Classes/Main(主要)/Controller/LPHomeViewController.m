@@ -11,10 +11,10 @@
 #import "LPMenuView.h"
 #import "LPPagingView.h"
 
-@interface LPHomeViewController () <LPPagingViewDataSource, LPPagingViewDelegate, LPMenuViewDelegate>
+@interface LPHomeViewController () <LPPagingViewDataSource, LPPagingViewDelegate, LPMenuViewDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate>
 
 @property (nonatomic, strong) NSArray *tabArray;
-@property (nonatomic, strong) LPPagingView *detailPagingView;
+@property (nonatomic, strong) LPPagingView *pagingView;
 @property (nonatomic, strong) LPMenuView *menuView;
 
 @end
@@ -42,22 +42,37 @@
     titleLabel.font = [UIFont fontWithName:@"Arial" size:20];
     titleLabel.textColor = [UIColor whiteColor];
     [topView addSubview:titleLabel];
-    
+
     self.tabArray = @[@"推荐",@"热点",@"精选",@"社会",@"外媒",@"娱乐",@"科技",@"体育",@"财经",@"时尚",@"搞笑",@"重口味"];
-    LPMenuView *menuView = [[LPMenuView alloc] initWithFrame:CGRectMake(0, 60, ScreenWidth, TabBarHeight)];
-    menuView.delegate = self;
+    LPMenuView *menuView = [[LPMenuView alloc] initWithFrame:CGRectMake(0, 60, ScreenWidth , TabBarHeight)];
+    menuView.menuViewDelegate = self;
     [menuView loadMenuViewTitles:self.tabArray];
     [self.view addSubview:menuView];
     self.menuView = menuView;
     
-    self.detailPagingView = [[LPPagingView alloc] init];
-    self.detailPagingView.backgroundColor = [UIColor grayColor];
-    [self.view addSubview:self.detailPagingView];
-    self.detailPagingView.frame = CGRectMake(0, 60 + TabBarHeight, ScreenWidth, ScreenHeight - 60 -TabBarHeight);
-    self.detailPagingView.contentSize = CGSizeMake(self.tabArray.count * self.detailPagingView.width, 0);
-    self.detailPagingView.delegate = self;
-    self.detailPagingView.dataSource = self;
+//    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"向下箭头"]];
+//    imageView.userInteractionEnabled = YES;
+//    imageView.frame = CGRectMake(ScreenWidth - 30, 72, 30, 20);
+//    // 分享按钮移除动画
+//    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(manageChannelItems)];
+//    tapGesture.delegate = self;
+//    [imageView addGestureRecognizer:tapGesture];
+    
+//    [self.view addSubview:imageView];
+    
+    LPPagingView *pagingView = [[LPPagingView alloc] init];
+    pagingView.backgroundColor = [UIColor grayColor];
+    pagingView.frame = CGRectMake(0, 60 + TabBarHeight, ScreenWidth, ScreenHeight - 60 -TabBarHeight);
+    pagingView.contentSize = CGSizeMake(self.tabArray.count * pagingView.width, 0);
+    pagingView.delegate = self;
+    pagingView.dataSource = self;
+    [self.view addSubview:pagingView];
+    self.pagingView = pagingView;
 }
+
+//- (void)manageChannelItems {
+//    NSLog(@"ss");
+//}
 
 - (NSInteger)numberOfPagesInPagingView:(LPPagingView *)pagingView {
     return self.tabArray.count;
@@ -73,31 +88,21 @@
 }
 
 - (void)pagingView:(LPPagingView *)pagingView didScrollWithRatio:(CGFloat)ratio {
-    // 获取当前页
-   // NSLog(@"%@", NSStringFromSelector(_cmd));
     int pageIndex = floor(ratio);
-    if(pageIndex == 0) {
-        [self.menuView selectedButtonWithIndex:pageIndex otherIndex:pageIndex + 1];
-    } else if(pageIndex == self.tabArray.count - 1) {
-        [self.menuView selectedButtonWithIndex:pageIndex otherIndex:pageIndex - 1];
-    } else {
-        [self.menuView selectedButtonWithIndex:pageIndex otherIndex:pageIndex - 1];
-        [self.menuView selectedButtonWithIndex:pageIndex otherIndex:pageIndex + 1];
-    }
     CGFloat rate = ratio - pageIndex;
-    [self.menuView changeSelectedButtonRateWithIndex:pageIndex rate:rate];
+    [self.menuView selectedButtonScaleWithRate:pageIndex rate:rate];
 }
 
 - (void)pagingView:(LPPagingView *)pagingView didScrollToPageIndex:(NSInteger)pageIndex {
+    // 改变菜单栏按钮选中取消状态
+    [self.menuView buttonSelectedStatusChangedWithIndex:pageIndex];
+    // 按钮自动居中
     [self.menuView selectedButtonMoveToCenterWithIndex:pageIndex];
 }
 
 #pragma 菜单栏选中某个按钮代理方法
-- (void)menuViewDelegate:(LPMenuView *)menuView index:(int)index {
-    
-    [self.detailPagingView setCurrentPageIndex:index animated:NO];
+- (void)menuView:(LPMenuView *)menuView didSelectedButtonAtIndex:(int)index {
+     [self.pagingView setCurrentPageIndex:index animated:NO];
 }
-
-
 
 @end
