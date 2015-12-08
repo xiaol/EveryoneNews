@@ -19,34 +19,6 @@ const static CGFloat DefaultRate = 1.15;
 
 @implementation LPMenuButton
 
-- (UIColor *)normalColor {
-    if (_normalColor == nil) {
-        _normalColor =  LPNormalColor;
-    }
-    return _normalColor;
-}
-
-- (UIColor *)selectedColor {
-    if(_selectedColor == nil) {
-        _selectedColor =  LPSelectedColor;
-    }
-    return _selectedColor;
-}
-
-- (UIColor *)titleColor {
-    if(_titleColor == nil) {
-        _titleColor = LPNormalColor;
-    }
-    return _titleColor;
-}
-- (CGFloat)rate
-{
-    if (_rate == 0) {
-        _rate = DefaultRate;
-    }
-    return _rate;
-}
-
 - (void)setSelected:(BOOL)selected {
     [super setSelected:selected];
     if (selected) {
@@ -58,51 +30,38 @@ const static CGFloat DefaultRate = 1.15;
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if(self = [super initWithFrame:frame]) {
+        self.normalColor = LPNormalColor;
+        self.selectedColor = LPSelectedColor;
+        self.rate = DefaultRate;
+        self.fontName =  @"Arial";
+        self.fontSize = 14;
         [self.titleLabel setFont:[UIFont systemFontOfSize:14]];
         [self setTitleColor:self.normalColor forState:UIControlStateNormal];
     }
     return self;
 }
 
-- (void)setFontSize:(CGFloat)fontSize {
-    _fontSize = fontSize;
-    if(self.fontName) {
-        self.titleLabel.font = [UIFont fontWithName:self.fontName size:fontSize];
-    } else {
-        self.titleLabel.font = [UIFont systemFontOfSize:fontSize];
-    }
-}
-
-- (void)setFontName:(NSString *)fontName {
-    _fontName = fontName;
-    self.fontSize = 14;
-}
-
-- (void)selectedItemAnimation {
-    self.selected = YES;
+- (void)buttonDidSelectedWithAnimation {
     [UIView animateWithDuration:0.3 animations:^{
         self.transform = CGAffineTransformMakeScale(self.rate, self.rate);
     }];
      
 }
 
-- (void)unSelectedItemAnimation {
-    self.selected = NO;
+- (void)buttonDidDeSelectedWithAnimation {
     [UIView animateWithDuration:0.3 animations:^{
         self.transform = CGAffineTransformIdentity;
     }];
 }
 
-- (instancetype)initTitlesWithIndex:(NSArray *)titles index:(int)index {
+- (instancetype)initWithTitle:(NSString *)title {
     if(self = [super init]) {
-        NSString *title = titles[index];
         [self setTitle:title forState:UIControlStateNormal];
     }
     return self;
 }
 
-- (void)changeSelectedColorWithRate:(CGFloat)rate {
-
+- (void)titleSizeAndColorDidChangedWithRate:(CGFloat)rate {
     int numNormal = (int)CGColorGetNumberOfComponents(self.normalColor.CGColor);
     int numSelected = (int)CGColorGetNumberOfComponents(self.selectedColor.CGColor);
     if(numNormal == 4 && numSelected == 4) {
