@@ -25,7 +25,9 @@
 }
 
 - (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect {
-    NSArray *attributes = [super layoutAttributesForElementsInRect:rect];
+//    NSArray *attributes = [super layoutAttributesForElementsInRect:rect].copy;
+    NSMutableArray *attributes = [NSMutableArray arrayWithArray:[super layoutAttributesForElementsInRect:rect].copy];
+
     for (UICollectionViewLayoutAttributes *attribute in attributes) { // 这里只有cell类型的布局属性
         attribute.transform3D = CATransform3DIdentity;
         if (!CGRectIntersectsRect(attribute.frame, rect)) {
@@ -51,7 +53,7 @@
 //    NSLog(@"proposedContentOffset : %@", NSStringFromCGPoint(proposedContentOffset));
     // 屏幕部分在整个collectionView的frame, 并取出屏幕上的item属性
     CGRect screenRect = CGRectMake(proposedContentOffset.x, 0, boundsSize.width, boundsSize.height);
-    NSArray *attributes = [super layoutAttributesForElementsInRect:screenRect];
+    NSArray *attributes = [super layoutAttributesForElementsInRect:screenRect].copy;
     
     CGFloat screenCenterX = proposedContentOffset.x + midX;
     

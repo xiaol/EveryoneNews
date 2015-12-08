@@ -1,5 +1,5 @@
 //
-//  AlbumPhoto.h
+//  CardImage.h
 //  EveryoneNews
 //
 //  Created by apple on 15/12/8.
@@ -7,13 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Photo.h"
+#import <CoreData/CoreData.h>
 
-@class Album;
+@class Card;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AlbumPhoto : Photo
+@interface CardImage : NSManagedObject
 
 // Insert code here to declare functionality of your managed object subclass
 
@@ -21,4 +21,4 @@ NS_ASSUME_NONNULL_BEGIN
 
 NS_ASSUME_NONNULL_END
 
-#import "AlbumPhoto+CoreDataProperties.h"
+#import "CardImage+CoreDataProperties.h"

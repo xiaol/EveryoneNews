@@ -1,15 +1,16 @@
 //
-//  PressPhoto.m
+//  Card.m
 //  EveryoneNews
 //
 //  Created by apple on 15/12/8.
 //  Copyright © 2015年 apple. All rights reserved.
 //
 
-#import "PressPhoto.h"
-#import "Press.h"
+#import "Card.h"
+#import "CardImage.h"
+#import "CardRelate.h"
 
-@implementation PressPhoto
+@implementation Card
 
 // Insert code here to add functionality to your managed object subclass
 

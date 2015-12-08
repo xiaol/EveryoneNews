@@ -2,8 +2,8 @@
 //  Zhihu.h
 //  EveryoneNews
 //
-//  Created by apple on 15/11/3.
-//  Copyright (c) 2015年 apple. All rights reserved.
+//  Created by apple on 15/12/8.
+//  Copyright © 2015年 apple. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -11,12 +11,14 @@
 
 @class Press;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface Zhihu : NSManagedObject
 
-@property (nonatomic, retain) NSString * title;
-@property (nonatomic, retain) NSString * url;
-@property (nonatomic, retain) NSString * user;
-@property (nonatomic, retain) NSNumber * zhihuID;
-@property (nonatomic, retain) Press *press;
+// Insert code here to declare functionality of your managed object subclass
 
 @end
+
+NS_ASSUME_NONNULL_END
+
+#import "Zhihu+CoreDataProperties.h"
