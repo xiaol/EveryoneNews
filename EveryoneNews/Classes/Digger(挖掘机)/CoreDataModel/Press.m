@@ -2,8 +2,8 @@
 //  Press.m
 //  EveryoneNews
 //
-//  Created by apple on 15/11/3.
-//  Copyright (c) 2015年 apple. All rights reserved.
+//  Created by apple on 15/12/8.
+//  Copyright © 2015年 apple. All rights reserved.
 //
 
 #import "Press.h"
@@ -13,19 +13,8 @@
 #import "Relate.h"
 #import "Zhihu.h"
 
-
 @implementation Press
 
-@dynamic date;
-@dynamic isDownload;
-@dynamic isDownloading;
-@dynamic pressID;
-@dynamic thumbnail;
-@dynamic title;
-@dynamic album;
-@dynamic contents;
-@dynamic photo;
-@dynamic relates;
-@dynamic zhihus;
+// Insert code here to add functionality to your managed object subclass
 
 @end

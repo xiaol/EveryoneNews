@@ -17,7 +17,7 @@
 
 @end
 
-@interface LPMenuView : UIScrollView  
+@interface LPMenuView : UIScrollView
 
 @property (nonatomic, weak) id<LPMenuViewDelegate> menuViewDelegate;
 @property (nonatomic, strong) LPMenuButton *selectedButton;

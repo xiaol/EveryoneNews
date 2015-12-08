@@ -2,8 +2,8 @@
 //  Album.h
 //  EveryoneNews
 //
-//  Created by apple on 15/11/3.
-//  Copyright (c) 2015年 apple. All rights reserved.
+//  Created by apple on 15/12/8.
+//  Copyright © 2015年 apple. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -11,22 +11,14 @@
 
 @class AlbumPhoto, Press;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface Album : NSManagedObject
 
-@property (nonatomic, retain) NSNumber * albumID;
-@property (nonatomic, retain) NSNumber * isUpload;
-@property (nonatomic, retain) NSString * subtitle;
-@property (nonatomic, retain) NSData * thumbnail;
-@property (nonatomic, retain) NSString * title;
-@property (nonatomic, retain) AlbumPhoto *photo;
-@property (nonatomic, retain) NSSet *presses;
-@end
-
-@interface Album (CoreDataGeneratedAccessors)
-
-- (void)addPressesObject:(Press *)value;
-- (void)removePressesObject:(Press *)value;
-- (void)addPresses:(NSSet *)values;
-- (void)removePresses:(NSSet *)values;
+// Insert code here to declare functionality of your managed object subclass
 
 @end
+
+NS_ASSUME_NONNULL_END
+
+#import "Album+CoreDataProperties.h"

@@ -140,7 +140,7 @@
         _helper.numberOfPages = [self.dataSource numberOfPagesInPagingView:self];
         _helper.pageHeight = self.bounds.size.height;
         _helper.pageWidth = self.bounds.size.width;
-        _helper.gutter = 0.0f;
+        _helper.gutter = - 0.5f;
         
         self.contentSize = _helper.contentSize;
 

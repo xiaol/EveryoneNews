@@ -164,9 +164,9 @@ const static CGFloat buttonPadding = 8;
     self.selectedButton = button;
     [button buttonDidSelectedWithAnimation];
     [self selectedButtonMoveToCenterWithIndex:(int)button.tag];
-    if([self.menuViewDelegate respondsToSelector:@selector(menuView:didSelectedButtonAtIndex:)]) {
-        [self.menuViewDelegate menuView:self didSelectedButtonAtIndex:(int)button.tag];
-    }
+//    if([self.menuViewDelegate respondsToSelector:@selector(menuView:didSelectedButtonAtIndex:)]) {
+//        [self.menuViewDelegate menuView:self didSelectedButtonAtIndex:(int)button.tag];
+//    }
 }
 
 /**
