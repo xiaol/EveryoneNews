@@ -29,17 +29,16 @@
     NSMutableArray *attributes = [NSMutableArray arrayWithArray:[super layoutAttributesForElementsInRect:rect].copy];
 
     for (UICollectionViewLayoutAttributes *attribute in attributes) { // 这里只有cell类型的布局属性
+        if (attribute.representedElementCategory != UICollectionElementCategoryCell) continue;
         attribute.transform3D = CATransform3DIdentity;
-        if (!CGRectIntersectsRect(attribute.frame, rect)) {
-            continue;
-        }
+        if (!CGRectIntersectsRect(attribute.frame, rect)) continue;
         CGPoint contentOffset = self.collectionView.contentOffset;
         // item中心点
         CGPoint itemCenter = CGPointMake(attribute.center.x - contentOffset.x, attribute.center.y - contentOffset.y);
         // 当前item中心距屏幕中心的距离
         CGFloat distance = ABS(midX - itemCenter.x);
         CGFloat normalized = distance / midX;
-        normalized = MIN(1.0, normalized);
+        normalized = MIN(1, normalized);
         CGFloat zoom = cos(normalized * M_PI / 5);
         
         attribute.transform3D = CATransform3DMakeScale(zoom, zoom, 1.0);
