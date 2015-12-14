@@ -17,11 +17,5 @@
 + (void)saveChannelItems:(NSMutableArray *)channelItems;
 
 + (NSMutableArray *)getChannelItems;
-/**
- *  频道选中状态修改
- *
- *  @param channelIsSelected 是否选中 1 选中 0 未选中
- *  @param title             频道名称
- */
-+ (void)updateChannelIsSelectedWithTitle:(NSString *)channelIsSelected title:(NSString *)title;
+
 @end

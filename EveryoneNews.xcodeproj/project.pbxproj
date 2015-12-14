@@ -364,6 +364,8 @@
 		86934CC31C127CE300999501 /* LPSortCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 86934CC21C127CE300999501 /* LPSortCollectionViewCell.m */; };
 		86934CC61C128F2E00999501 /* LPSortCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86934CC51C128F2E00999501 /* LPSortCollectionReusableView.m */; };
 		86A6735F1C119D7D003509C3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 86A6735E1C119D7D003509C3 /* Images.xcassets */; };
+		86A87A3C1C1A7528006830E9 /* LPMenuCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A87A3B1C1A7528006830E9 /* LPMenuCollectionViewCell.m */; };
+		86A87A3F1C1AB7A0006830E9 /* LPSortCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A87A3E1C1AB7A0006830E9 /* LPSortCollectionView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1014,6 +1016,10 @@
 		86934CC41C128F2E00999501 /* LPSortCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPSortCollectionReusableView.h; sourceTree = "<group>"; };
 		86934CC51C128F2E00999501 /* LPSortCollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPSortCollectionReusableView.m; sourceTree = "<group>"; };
 		86A6735E1C119D7D003509C3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		86A87A3A1C1A7528006830E9 /* LPMenuCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPMenuCollectionViewCell.h; sourceTree = "<group>"; };
+		86A87A3B1C1A7528006830E9 /* LPMenuCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPMenuCollectionViewCell.m; sourceTree = "<group>"; };
+		86A87A3D1C1AB7A0006830E9 /* LPSortCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPSortCollectionView.h; sourceTree = "<group>"; };
+		86A87A3E1C1AB7A0006830E9 /* LPSortCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPSortCollectionView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2282,6 +2288,8 @@
 				86934CC21C127CE300999501 /* LPSortCollectionViewCell.m */,
 				86934CC41C128F2E00999501 /* LPSortCollectionReusableView.h */,
 				86934CC51C128F2E00999501 /* LPSortCollectionReusableView.m */,
+				86A87A3D1C1AB7A0006830E9 /* LPSortCollectionView.h */,
+				86A87A3E1C1AB7A0006830E9 /* LPSortCollectionView.m */,
 			);
 			path = CategoryView;
 			sourceTree = "<group>";
@@ -2331,6 +2339,8 @@
 				867ECA1E1C0E95F3000930BF /* LPMenuButton.m */,
 				867ECA201C0EC109000930BF /* LPMenuView.h */,
 				867ECA211C0EC109000930BF /* LPMenuView.m */,
+				86A87A3A1C1A7528006830E9 /* LPMenuCollectionViewCell.h */,
+				86A87A3B1C1A7528006830E9 /* LPMenuCollectionViewCell.m */,
 			);
 			path = TabBar;
 			sourceTree = "<group>";
@@ -2688,6 +2698,7 @@
 				1889FE631B4C2E91006D8E03 /* LPWeiboPoint.m in Sources */,
 				18EF3B4D1B6635200097F5A6 /* LPFeaturedCell.m in Sources */,
 				1826B3F41B7D9E0B00B712E0 /* LPPhotoWallViewController.m in Sources */,
+				86A87A3F1C1AB7A0006830E9 /* LPSortCollectionView.m in Sources */,
 				1826B3DE1B786B3900B712E0 /* POPAnimationRuntime.mm in Sources */,
 				18F6311B1B5C044300423658 /* CategoryView.m in Sources */,
 				1826B3EB1B786B3900B712E0 /* TransformationMatrix.cpp in Sources */,
@@ -2872,6 +2883,7 @@
 				18AB8C851B8A439D0084934E /* GenieTransition.m in Sources */,
 				1826B3E21B786B3900B712E0 /* POPCGUtils.mm in Sources */,
 				181B38641BCAD8AB00698FC5 /* Cover.m in Sources */,
+				86A87A3C1C1A7528006830E9 /* LPMenuCollectionViewCell.m in Sources */,
 				1826B3F11B7CB23400B712E0 /* LPPhotoCell.m in Sources */,
 				18EC95991BE63E020039486A /* Press+HTTP.m in Sources */,
 				18F631611B5C0CEA00423658 /* MJRefreshBackGifFooter.m in Sources */,
@@ -3055,7 +3067,7 @@
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 				);
 				INFOPLIST_FILE = EveryoneNewsTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3093,7 +3105,7 @@
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 				);
 				INFOPLIST_FILE = EveryoneNewsTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

@@ -13,6 +13,12 @@
 @property (nonatomic, strong) UILabel *contentLabel;
 @property (nonatomic, strong) UIButton *deleteButton;
 @property (nonatomic, strong) NSIndexPath *indexPath;
-
-- (void)setCellWithArray:(NSArray *)dataArray indexPath:(NSIndexPath*)indexPath;
+/**
+ *  设置cell中频道
+ *
+ *  @param dataMutableArray 所有频道
+ *  @param indexPath        索引
+ *  @param selectedTitle    选中的频道
+ */
+- (void)setCellWithArray:(NSMutableArray *)dataMutableArray indexPath:(NSIndexPath*)indexPath selectedTitle:(NSString *)selectedTitle;
 @end

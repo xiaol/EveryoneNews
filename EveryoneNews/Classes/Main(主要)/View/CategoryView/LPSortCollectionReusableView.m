@@ -32,17 +32,6 @@
         [self.sortButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
         [self.sortButton addTarget:self action:@selector(sortButtonClick:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:self.sortButton];
-        
-        
-//        UITapGestureRecognizer *imageTapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(popPreviousView:)];
-//        imageTapGesture.delegate = self;
-//        UIImage *image = [UIImage imageNamed:@"向上箭头"];
-//        self.upImageView = [[UIImageView alloc] initWithImage:image];
-//        self.upImageView.contentMode = UIViewContentModeCenter;
-//        self.upImageView.userInteractionEnabled = YES;
-//        self.upImageView.frame = CGRectMake(ScreenWidth - 40, 7, 40, 30);
-//        [self.upImageView  addGestureRecognizer:imageTapGesture];
-//        [self addSubview:self.upImageView ];
     }
     return self;
 }
@@ -61,12 +50,5 @@
         self.sortButtonClickBlock(FinishState);
     }
 }
-
-//- (void)popPreviousView:(UITapGestureRecognizer *)recognizer {
-//    LPSortCollectionReusableView *view =(LPSortCollectionReusableView *)recognizer.view.superview;
-//    if([self.delegate respondsToSelector:@selector(upImageViewDidTap:)]) {
-//        [self.delegate upImageViewDidTap:view];
-//    }
-//}
 
 @end
