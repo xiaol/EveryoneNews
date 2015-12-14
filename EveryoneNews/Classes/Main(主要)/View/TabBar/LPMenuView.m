@@ -13,7 +13,7 @@
 const static CGFloat buttonPadding = 8;
 @interface LPMenuView ()
 
-@property (nonatomic, strong) LPMenuButton *selectedButton;
+
 @property (nonatomic, assign) CGFloat totalWidth;
 
 @end
@@ -72,17 +72,81 @@ const static CGFloat buttonPadding = 8;
     }
     self.totalWidth = totalWidth;
     // 处理按钮较少时的情况
-    if(self.contentSize.width < self.width) {
-        CGFloat margin = (ScreenWidth - self.totalWidth)/(self.subviews.count + 1);
-        for (int i = 0; i < self.subviews.count; i++){
-            currentButton= self.subviews[i];
-            if (i >= 1) {
-                oldButton = self.subviews[i-1];
-            }
-            currentButton.x = oldButton.x + oldButton.width + margin;
-            
+//    if(self.contentSize.width < self.width) {
+//        CGFloat margin = (ScreenWidth - self.totalWidth)/(self.subviews.count + 1);
+//        for (int i = 0; i < self.subviews.count; i++){
+//            currentButton= self.subviews[i];
+//            if (i >= 1) {
+//                oldButton = self.subviews[i-1];
+//            }
+//            currentButton.x = oldButton.x + oldButton.width + margin;
+//            
+//        }
+//    }
+}
+
+- (void)reloadMenuViewTitles:(NSArray *)titles selectedTitle:(NSString *)selectedTitle {
+    self.showsHorizontalScrollIndicator = NO;
+    self.showsVerticalScrollIndicator = NO;
+    self.backgroundColor = [UIColor whiteColor];
+    BOOL oldTitleIsExistsInTitles = false;
+    // 加载标题
+    for (int i = 0; i < titles.count; i++) {
+        LPMenuButton *menuButton = [[LPMenuButton alloc] initWithTitle:titles[i]];
+        if([titles[i] isEqualToString:selectedTitle]) {
+            oldTitleIsExistsInTitles = true;
         }
+        menuButton.tag = i;
+        [menuButton addTarget:self action:@selector(menuButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:menuButton];
     }
+    // 计算滚动条宽度
+    LPMenuButton *currentButton = [[LPMenuButton alloc] init];
+    LPMenuButton *oldButton = [[LPMenuButton alloc] init];
+    CGFloat totalWidth;
+    for (int i = 0; i < self.subviews.count; i++) {
+        currentButton = self.subviews[i];
+        if(i >= 1) {
+            oldButton = self.subviews[i - 1];
+        }
+        UIFont *titleFont = currentButton.titleLabel.font;
+        CGSize buttonSize = [currentButton.titleLabel.text sizeWithFont:titleFont maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)];
+        CGFloat buttonW = buttonSize.width + 2 * buttonPadding;
+        CGFloat buttonX = oldButton.x + oldButton.width + buttonPadding;
+        CGFloat buttonY = 0;
+        CGFloat buttonH = self.height - 2;
+        
+        currentButton.frame = CGRectMake(buttonX, buttonY, buttonW, buttonH);
+        totalWidth += currentButton.width;
+        if(currentButton == [self.subviews lastObject]) {
+            CGFloat width = self.bounds.size.width;
+            CGFloat height = self.bounds.size.height;
+            self.size = CGSizeMake(width, height);
+            self.contentSize = CGSizeMake(currentButton.x + buttonW + buttonPadding, 0);
+            self.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+        }
+
+        // 默认设置第一个按钮选中
+        if(i == 0 && oldTitleIsExistsInTitles == false) {
+            currentButton.selected = YES;
+            self.selectedButton = currentButton;
+            currentButton.transform = CGAffineTransformMakeScale(1.15, 1.15);
+
+        }
+        
+        if ([currentButton.titleLabel.text isEqualToString:selectedTitle]) {
+            currentButton.selected = YES;
+            self.selectedButton = currentButton;
+            currentButton.transform = CGAffineTransformMakeScale(1.15, 1.15);
+        }
+        currentButton = nil;
+        oldButton = nil;
+    }
+    self.totalWidth = totalWidth;
+//    [self selectedButtonMoveToCenterWithIndex:(int)self.selectedButton .tag];
+//    if([self.menuViewDelegate respondsToSelector:@selector(menuView:didSelectedButtonAtIndex:)]) {
+//        [self.menuViewDelegate menuView:self didSelectedButtonAtIndex:(int)self.selectedButton.tag];
+//    }
 }
 
 /**
@@ -99,7 +163,6 @@ const static CGFloat buttonPadding = 8;
     button.selected = YES;
     self.selectedButton = button;
     [button buttonDidSelectedWithAnimation];
-
     [self selectedButtonMoveToCenterWithIndex:(int)button.tag];
 //    if([self.menuViewDelegate respondsToSelector:@selector(menuView:didSelectedButtonAtIndex:)]) {
 //        [self.menuViewDelegate menuView:self didSelectedButtonAtIndex:(int)button.tag];
@@ -158,9 +221,18 @@ const static CGFloat buttonPadding = 8;
 }
 
 - (void)buttonSelectedStatusChangedWithIndex:(int)index {
-    self.selectedButton.selected = NO;
+//    self.selectedButton.selected = NO;
     self.selectedButton = self.subviews[index];
-    self.selectedButton.selected = YES;
+//    self.selectedButton.selected = YES;
 }
+
+- (void)setSelectedButton:(LPMenuButton *)selectedButton {
+    self.selectedButton.selected = NO;
+    selectedButton.selected = YES;
+    self.selectedButton = selectedButton;
+}
+
+
+
 
 @end

@@ -31,7 +31,7 @@
     [context obtainPermanentIDsForObjects:@[card] error:nil];
     card.channelId = dict[@"channelId"];
     card.sourceSiteName = dict[@"sourceSiteName"];
-    card.updateTime = dict[@"updateTime"];
+    card.updateTime = [dict[@"updateTime"] absoluteDateString];
     card.title = dict[@"title"];
     card.commentNum = dict[@"commentNum"];
     card.newId = dict[@"newsId"];

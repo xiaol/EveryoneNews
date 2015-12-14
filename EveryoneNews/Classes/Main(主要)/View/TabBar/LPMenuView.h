@@ -7,33 +7,22 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "LPMenuButton.h"
 
 @class LPMenuView;
 @protocol LPMenuViewDelegate <UIScrollViewDelegate>
 
 @optional
-- (void)menuView:(LPMenuView *)menuView didSelectButttonAtIndex:(int)index;
-
-@end
-
-@interface LPMenuView : UIScrollView
-@property (nonatomic, weak) id<LPMenuViewDelegate> delegate;
-
-/**
- *  当菜单下面的scrollview滚动时候调用
-=======
 - (void)menuView:(LPMenuView *)menuView didSelectedButtonAtIndex:(int)index;
 
 @end
 
-@interface LPMenuView : UIScrollView  
+@interface LPMenuView : UIScrollView
 
 @property (nonatomic, weak) id<LPMenuViewDelegate> menuViewDelegate;
-
+@property (nonatomic, strong) LPMenuButton *selectedButton;
 /**
  *  当自定义PagingView滚动时候菜单栏缩放
->>>>>>> 38ca0af6e1760a81888866ba95573a5f7e81d643
  *
  *  @param index 当前页
  *  @param rate  按钮缩放比例
@@ -60,4 +49,11 @@
  *  @param index 选中标题索引值
  */
 - (void)buttonSelectedStatusChangedWithIndex:(int)index;
+/**
+ *  改变频道栏后重新加载菜单
+ *
+ *  @param titles        重新选择的所有频道
+ *  @param selectedTitle 历史选中的频道名称
+ */
+- (void)reloadMenuViewTitles:(NSArray *)titles selectedTitle:(NSString *)selectedTitle;
 @end

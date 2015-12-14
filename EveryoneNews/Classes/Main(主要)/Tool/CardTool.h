@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class CardParam;
+
 typedef void (^CardsFetchedSuccessHandler)(NSArray *cards);
 typedef void (^CardsFetchedFailureHandler)(NSError *error);
 
@@ -20,7 +22,7 @@ typedef void (^CardsFetchedFailureHandler)(NSError *error);
  *  @param success 成功回调
  *  @param failure 失败回调
  */
-+ (void)cardsWithParam:(NSDictionary *)param
++ (void)cardsWithParam:(CardParam *)param
                success:(CardsFetchedSuccessHandler)success
                failure:(CardsFetchedFailureHandler)failure;
 

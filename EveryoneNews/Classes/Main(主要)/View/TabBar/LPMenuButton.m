@@ -21,6 +21,9 @@ const static CGFloat DefaultRate = 1.15;
 
 - (void)setSelected:(BOOL)selected {
     [super setSelected:selected];
+    if (self.selected == selected) {
+        return;
+    }
     if (selected) {
         [self setTitleColor:self.selectedColor forState:UIControlStateSelected];
     } else {
@@ -90,4 +93,6 @@ const static CGFloat DefaultRate = 1.15;
     CGFloat scaleRate = self.rate - rate * (self.rate - 1);
     self.transform = CGAffineTransformMakeScale(scaleRate, scaleRate);
 }
+
+
 @end
