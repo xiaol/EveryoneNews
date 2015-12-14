@@ -78,6 +78,13 @@
     return [[self stringByReplacingOccurrencesOfString:@"\n" withString:@""] stringByReplacingOccurrencesOfString:@"\r" withString:@""];
 }
 
+- (instancetype)stringByTrimmingString:(NSString *)string {
+    return [self stringByReplacingOccurrencesOfString:@"-" withString:@""];
+}
+
+- (instancetype)absoluteDateString {
+    return [[[self stringByTrimmingString:@"-"] stringByTrimmingString:@":"] stringByTrimmingString:@" "];
+}
 
 - (BOOL)isOnlyWhitespace
 {

@@ -75,4 +75,6 @@
     CGFloat scaleRate = self.rate - rate * (self.rate - 1);
     self.transform = CGAffineTransformMakeScale(scaleRate, scaleRate);
 }
+
+
 @end

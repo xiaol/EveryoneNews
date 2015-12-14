@@ -36,4 +36,6 @@
 
 - (instancetype)stringByTrimmingWhitespaceAndNewline;
 - (instancetype)stringByTrimmingNewline;
+- (instancetype)stringByTrimmingString:(NSString *)string;
+- (instancetype)absoluteDateString;
 @end

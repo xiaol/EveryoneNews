@@ -174,7 +174,7 @@ static const NSInteger totalCoverNums = 8;
     layout.itemSize = CGSizeMake(maxWidth, maxHeight);
     self.itemSize = layout.itemSize;
     layout.minimumLineSpacing = spacing;
-    layout.sectionInset = UIEdgeInsetsMake(15, (ScreenWidth - maxWidth) / 2, 15, (ScreenWidth - maxWidth) / 2);
+    layout.sectionInset = UIEdgeInsetsMake(15, (ScreenWidth - maxWidth) / 2.0f, 15, (ScreenWidth - maxWidth) / 2.0f);
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(tipLabel.frame), ScreenWidth, maxHeight + 30) collectionViewLayout:layout];
     [collectionView registerClass:[CoverCell class] forCellWithReuseIdentifier:CoverCellReuseId];

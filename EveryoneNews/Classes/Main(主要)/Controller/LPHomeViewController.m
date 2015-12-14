@@ -121,6 +121,7 @@ const static float menuImageViewWidth= 40;
                                 animated:NO
                           scrollPosition:UICollectionViewScrollPositionNone];
 }
+
 - (void)setupSubViews {
 
     self.channelItemsArray =  [LPChannelItemTool getChannelItems];
