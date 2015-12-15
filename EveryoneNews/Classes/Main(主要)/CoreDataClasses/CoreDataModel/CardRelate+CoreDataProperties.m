@@ -2,7 +2,7 @@
 //  CardRelate+CoreDataProperties.m
 //  EveryoneNews
 //
-//  Created by apple on 15/12/8.
+//  Created by apple on 15/12/15.
 //  Copyright © 2015年 apple. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -13,10 +13,10 @@
 
 @implementation CardRelate (CoreDataProperties)
 
-@dynamic sourceSiteName;
-@dynamic sourceUrl;
 @dynamic compress;
 @dynamic similarity;
+@dynamic sourceSiteName;
+@dynamic sourceUrl;
 @dynamic card;
 
 @end

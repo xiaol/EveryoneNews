@@ -126,9 +126,25 @@
     return [fmt stringFromDate:date];
 }
 
-- (BOOL)isMoreThanOneLineConstraintToWidth:(CGFloat)width withFont:(UIFont *)font
-{
+- (BOOL)isMoreThanOneLineConstraintToWidth:(CGFloat)width withFont:(UIFont *)font {
     return [self sizeWithFont:font maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)].width > width;
+}
+
+- (instancetype)stringByBase64Encoding {
+    NSData *encodeData = [self dataUsingEncoding:NSASCIIStringEncoding];
+    return [encodeData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
+}
+
+- (instancetype)stringByBase64Decoding {
+    NSData *decodeData = [[NSData alloc] initWithBase64EncodedString:self options:0];
+    return [[NSString alloc] initWithData:decodeData encoding:NSASCIIStringEncoding];
+}
+
+- (double)timestampWithDateFormat:(NSString *)dateFormat {
+    NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
+    [fmt setDateFormat:dateFormat];
+    NSDate *date = [fmt dateFromString:self];
+    return [date timeIntervalSince1970];
 }
 
 @end

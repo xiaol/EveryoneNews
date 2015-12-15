@@ -20,6 +20,10 @@
 #import "LPMenuCollectionViewCell.h"
 #import "LPSortCollectionView.h"
 
+#import "CardTool.h"
+#import "CardParam.h"
+#import "Card+CoreDataProperties.h"
+
 const static CGFloat cellPadding = 10;
 static NSString *cellIdentifier = @"sortCollectionViewCell";
 static NSString *reuseIdentifierFirst = @"reuseIdentifierFirst";
@@ -80,6 +84,17 @@ const static float menuImageViewWidth= 40;
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    CardParam *param = [[CardParam alloc] init];
+    param.type = HomeCardsFetchTypeMore;
+    param.channelID = @"1";
+    [CardTool cardsWithParam:param success:^(NSArray *cards) {
+        for (Card *card in cards) {
+            NSLog(@"%@, %@, %@", card.channelId, card.sourceSiteName, card.updateTime);
+        }
+    } failure:^(NSError *error) {
+        NSLog(@"failure!");
+    }];
     [self setupSubViews];
 }
 
@@ -151,8 +166,6 @@ const static float menuImageViewWidth= 40;
     [menuView registerClass:[LPMenuCollectionViewCell class] forCellWithReuseIdentifier:menuCellIdentifier];
     menuView.alwaysBounceHorizontal = NO;
     menuView.allowsMultipleSelection = NO;
-//    menuView.delaysContentTouches = NO;
-//    menuView.canCancelContentTouches = NO;
     self.menuView = menuView;
 
     // 内容页面
@@ -209,7 +222,7 @@ const static float menuImageViewWidth= 40;
 
 
 
-#pragma -mark 重新加载菜单项
+#pragma -mark 频道栏展开和折叠
 - (void)manageChannelItems {
      UIImage *image = nil;
     __weak __typeof(self)weakSelf = self;
@@ -230,15 +243,15 @@ const static float menuImageViewWidth= 40;
         self.isSpread = NO;
         self.menuView.alpha = 1;
         self.isSort = NO;
+        [self.menuView reloadData];
         // 当前选中频道索引值
         int index = 0;
         for (int i = 0; i < self.selectedArray.count; i++) {
-            LPChannelItem *channelItem = self.channelItemsArray[i];
+            LPChannelItem *channelItem = self.selectedArray[i];
             if([channelItem.channelName isEqualToString:self.selectedChannelTitle]) {
                 index = i;
                 break;
             }
-        
         }
         if(index == 0) {
             self.selectedChannelTitle = @"推荐";
@@ -248,8 +261,8 @@ const static float menuImageViewWidth= 40;
         [self.menuView selectItemAtIndexPath:menuIndexPath
                                     animated:NO
                               scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+        [self.pagingView reloadData];
         [self.pagingView setCurrentPageIndex:index animated:NO];
-       
          [UIView animateWithDuration:0.5 animations:^{
            weakSelf.imageView.transform = CGAffineTransformMakeRotation(0 * M_PI / 180);
            weakSelf.sortCollectionView.frame = CGRectMake(0, 60 - ScreenHeight, ScreenWidth, ScreenHeight - 60);
@@ -268,7 +281,7 @@ const static float menuImageViewWidth= 40;
 - (UIView *)pagingView:(LPPagingView *)pagingView pageForPageIndex:(NSInteger)pageIndex {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(50, 50, ScreenWidth, 20)];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, ScreenWidth, 20)];
-    label.text = [NSString stringWithFormat:@"%d",pageIndex];
+    label.text = [NSString stringWithFormat:@"%ld",pageIndex];
     label.textColor = [UIColor redColor];
     [view addSubview:label];
     return view;
@@ -504,11 +517,13 @@ const static float menuImageViewWidth= 40;
                 self.isSort = NO;
                 // 回到主界面时跳转到单击的选项
                 [self.menuView reloadData];
+                [self.pagingView reloadData];
                 self.selectedChannelTitle = currentCell.contentLabel.text;
                 [self redirectToChannel:indexPath.item];
                 [UIView animateWithDuration:0.2 animations:^{
                     [weakSelf.imageView  setImage:image];
                     weakSelf.sortCollectionView.frame = CGRectMake(0, 60 - ScreenHeight, ScreenWidth, ScreenHeight - 60);
+                    weakSelf.imageView.transform = CGAffineTransformMakeRotation(0 * M_PI / 180);
                 } completion:^(BOOL finished) {
                    
                 }];
@@ -551,7 +566,7 @@ const static float menuImageViewWidth= 40;
 
 }
 
-- (void)redirectToChannel:(int)index {
+- (void)redirectToChannel:(NSInteger)index {
     
     NSIndexPath *menuIndexPath = [NSIndexPath indexPathForItem:index
                                                      inSection:0];
@@ -573,12 +588,6 @@ const static float menuImageViewWidth= 40;
         [self.channelItemsArray addObject:channelItem];
     }
     [LPChannelItemTool saveChannelItems:self.channelItemsArray];
-    [self.menuView reloadData];
-//    for (int i=0; i < self.selectedArray.count; i++) {
-//        [self.menuView  deselectItemAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0] animated:YES];
-//    }
-    // 重新加载分页数据
-    [self.pagingView reloadData];
 }
 
 #pragma mark - collectionView Style
@@ -628,6 +637,5 @@ const static float menuImageViewWidth= 40;
         return  CGSizeMake(ScreenWidth, 0.0);
     }
 }
-
 
 @end

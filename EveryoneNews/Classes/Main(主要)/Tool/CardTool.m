@@ -18,8 +18,8 @@
                success:(CardsFetchedSuccessHandler)success
                failure:(CardsFetchedFailureHandler)failure {
     NSMutableDictionary *paramDict = [NSMutableDictionary dictionary];
-    if (param.type == HomeCardsFetchTypeNew) {
-        paramDict[@"cid"] = param.channelID;
+    if (param.type == HomeCardsFetchTypeNew) { // 下拉刷新, 直接发送网络请求, 成功后存入数据库
+        paramDict[@"cid"]    = param.channelID;
         paramDict[@"offset"] = param.count;
         paramDict[@"tstart"] = param.startTime;
         NSString *url = [NSString stringWithFormat:@"%@bdp/news/refresh", ServerUrl];
@@ -32,16 +32,15 @@
                        failure:^(NSError *error) {
                            failure(error);
                        }];
-        
-    } else if (param.type == HomeCardsFetchTypeMore) {
-        //  先从数据库获取, 如未命中, 转网络请求
+    } else if (param.type == HomeCardsFetchTypeMore) { // 上拉加载更多, 先从数据库获取, 如未命中, 发送网络请求
         NSArray *cards = [Card fetchCardsWithCardParam:param];
-        if (cards.count) {
+        if (cards.count) {      // 命中, 直接返回结果
             success(cards);
-        } else {
-            paramDict[@"cid"] = param.channelID;
+        } else {                // 未命中, 网络请求, 成功后存入数据库
+            paramDict[@"cid"]    = param.channelID;
             paramDict[@"offset"] = param.count;
             paramDict[@"tstart"] = param.startTime;
+            NSLog(@"startTime : %@", param.startTime);
             NSString *url = [NSString stringWithFormat:@"%@bdp/news/load", ServerUrl];
             [LPHttpTool getWithURL:url
                             params:paramDict
@@ -53,10 +52,8 @@
                                failure(error);
                            }];
         }
-    } else if (param.type == HomeCardsFetchTypeToday) {
-        
     } else {
-        NSLog(@"param is wrong!");
+        NSLog(@"%@ --- param is invalid !!!", NSStringFromClass([self class]));
     }
 }
 
