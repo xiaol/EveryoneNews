@@ -30,23 +30,6 @@
     return self;
 }
 
-- (void)setHighlighted:(BOOL)highlighted {
-    if(highlighted) {
-        self.textColor = LPSelectedColor;
-        [UIView animateWithDuration:0.4 animations:^{
-            self.transform = CGAffineTransformMakeScale(1.15, 1.15);
-            
-        }];
-    } else {
-        self.textColor = LPNormalColor;
-        [UIView animateWithDuration:0.4 animations:^{
-            self.transform = CGAffineTransformIdentity;
-         
-        }];
-    }
-    
-}
-
 - (void)titleSizeAndColorDidChangedWithRate:(CGFloat)rate {
     int numNormal = (int)CGColorGetNumberOfComponents(self.normalColor.CGColor);
     int numSelected = (int)CGColorGetNumberOfComponents(self.selectedColor.CGColor);

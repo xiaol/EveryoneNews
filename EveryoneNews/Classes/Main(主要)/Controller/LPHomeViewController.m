@@ -151,8 +151,6 @@ const static float menuImageViewWidth= 40;
     [menuView registerClass:[LPMenuCollectionViewCell class] forCellWithReuseIdentifier:menuCellIdentifier];
     menuView.alwaysBounceHorizontal = NO;
     menuView.allowsMultipleSelection = NO;
-//    menuView.delaysContentTouches = NO;
-//    menuView.canCancelContentTouches = NO;
     self.menuView = menuView;
 
     // 内容页面
@@ -209,7 +207,7 @@ const static float menuImageViewWidth= 40;
 
 
 
-#pragma -mark 重新加载菜单项
+#pragma -mark 频道栏展开和折叠
 - (void)manageChannelItems {
      UIImage *image = nil;
     __weak __typeof(self)weakSelf = self;
@@ -230,15 +228,15 @@ const static float menuImageViewWidth= 40;
         self.isSpread = NO;
         self.menuView.alpha = 1;
         self.isSort = NO;
+        [self.menuView reloadData];
         // 当前选中频道索引值
         int index = 0;
         for (int i = 0; i < self.selectedArray.count; i++) {
-            LPChannelItem *channelItem = self.channelItemsArray[i];
+            LPChannelItem *channelItem = self.selectedArray[i];
             if([channelItem.channelName isEqualToString:self.selectedChannelTitle]) {
                 index = i;
                 break;
             }
-        
         }
         if(index == 0) {
             self.selectedChannelTitle = @"推荐";
@@ -248,8 +246,8 @@ const static float menuImageViewWidth= 40;
         [self.menuView selectItemAtIndexPath:menuIndexPath
                                     animated:NO
                               scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+        [self.pagingView reloadData];
         [self.pagingView setCurrentPageIndex:index animated:NO];
-       
          [UIView animateWithDuration:0.5 animations:^{
            weakSelf.imageView.transform = CGAffineTransformMakeRotation(0 * M_PI / 180);
            weakSelf.sortCollectionView.frame = CGRectMake(0, 60 - ScreenHeight, ScreenWidth, ScreenHeight - 60);
@@ -504,11 +502,13 @@ const static float menuImageViewWidth= 40;
                 self.isSort = NO;
                 // 回到主界面时跳转到单击的选项
                 [self.menuView reloadData];
+                [self.pagingView reloadData];
                 self.selectedChannelTitle = currentCell.contentLabel.text;
                 [self redirectToChannel:indexPath.item];
                 [UIView animateWithDuration:0.2 animations:^{
                     [weakSelf.imageView  setImage:image];
                     weakSelf.sortCollectionView.frame = CGRectMake(0, 60 - ScreenHeight, ScreenWidth, ScreenHeight - 60);
+                    weakSelf.imageView.transform = CGAffineTransformMakeRotation(0 * M_PI / 180);
                 } completion:^(BOOL finished) {
                    
                 }];
@@ -573,12 +573,6 @@ const static float menuImageViewWidth= 40;
         [self.channelItemsArray addObject:channelItem];
     }
     [LPChannelItemTool saveChannelItems:self.channelItemsArray];
-    [self.menuView reloadData];
-//    for (int i=0; i < self.selectedArray.count; i++) {
-//        [self.menuView  deselectItemAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0] animated:YES];
-//    }
-    // 重新加载分页数据
-    [self.pagingView reloadData];
 }
 
 #pragma mark - collectionView Style
@@ -626,23 +620,6 @@ const static float menuImageViewWidth= 40;
         return CGSizeMake(0, 0);
     } else {
         return  CGSizeMake(ScreenWidth, 0.0);
-    }
-}
-
-
-
-//- (BOOL)collectionView:(LPMenuView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-//
-//    return YES;
-//}
-
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-    if([collectionView isKindOfClass:[LPMenuView class]]) {
- 
-        return YES;
-    } else {
- 
-        return  YES;
     }
 }
 

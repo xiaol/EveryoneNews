@@ -30,36 +30,20 @@
     self.menuButton.text = channelItem.channelName;
 }
 
-//- (void)setSelected:(BOOL)selected {
-//    if(selected) {
-//        self.menuButton.textColor = LPSelectedColor;
-//        [UIView animateWithDuration:0.4 animations:^{
-//            self.menuButton.transform = CGAffineTransformMakeScale(1.15, 1.15);
-//            
-//    } else {
-//        self.menuButton.textColor = LPNormalColor;
-//        [UIView animateWithDuration:0.4 animations:^{
-//            self.menuButton.transform = CGAffineTransformIdentity;
-//            
-//        }];
-//    }
-//}
-
-//- (void)setHighlighted:(BOOL)highlighted {
-//    if(highlighted) {
-//        self.textColor = LPSelectedColor;
-//        [UIView animateWithDuration:0.4 animations:^{
-//            self.transform = CGAffineTransformMakeScale(1.15, 1.15);
-//            
-//        }];
-//    } else {
-//        self.textColor = LPNormalColor;
-//        [UIView animateWithDuration:0.4 animations:^{
-//            self.transform = CGAffineTransformIdentity;
-//            
-//        }];
-//    }
-//    
-//}
+- (void)setSelected:(BOOL)selected {
+    if(selected) {
+        self.menuButton.textColor = LPSelectedColor;
+        [UIView animateWithDuration:0.4 animations:^{
+            self.menuButton.transform = CGAffineTransformMakeScale(1.15, 1.15);
+        }];
+            
+    } else {
+        self.menuButton.textColor = LPNormalColor;
+        [UIView animateWithDuration:0.4 animations:^{
+            self.menuButton.transform = CGAffineTransformIdentity;
+            
+        }];
+    }
+}
 
 @end
