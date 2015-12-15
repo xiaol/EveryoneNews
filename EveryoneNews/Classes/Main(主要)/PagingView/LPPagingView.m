@@ -317,7 +317,7 @@
 // layout subviews
 - (void)layoutSubviews {
     [super layoutSubviews];
-    if (self.contentOffset.x < 0 || self.contentOffset.x > self.helper.contentSize.width) return;
+//    if (self.contentOffset.x < self.helper.gutter / 2 || self.contentOffset.x > self.helper.contentSize.width) return;
     CGFloat numberOfPages = self.helper.numberOfPages;
     if (numberOfPages == 0) return;
     CGRect visibleBounds = self.clipsToBounds ? self.bounds : [self convertRect:self.superview.bounds fromView:self.superview];

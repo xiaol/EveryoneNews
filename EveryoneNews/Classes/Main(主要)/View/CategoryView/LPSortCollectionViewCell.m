@@ -7,8 +7,21 @@
 //
 
 #import "LPSortCollectionViewCell.h"
+#import "LPChannelItem.h"
 
+@interface LPSortCollectionViewCell ()
+
+@property (nonatomic, strong) LPChannelItem *channelItem;
+
+@end
 @implementation LPSortCollectionViewCell
+
+- (LPChannelItem *)channelItem {
+    if(_channelItem == nil) {
+        _channelItem = [[LPChannelItem alloc] init];
+    }
+    return _channelItem;
+}
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if(self = [super initWithFrame:frame]) {
@@ -30,26 +43,28 @@
     return self;
 }
 
-- (void)setCellWithArray:(NSArray *)dataArray indexPath:(NSIndexPath*)indexPath {
+- (void)setCellWithArray:(NSMutableArray *)dataMutableArray indexPath:(NSIndexPath*)indexPath selectedTitle:(NSString *)selectedTitle{
     self.indexPath = indexPath;
     self.contentLabel.hidden = NO;
-    self.contentLabel.text = dataArray[indexPath.row];
-    if(indexPath.section == 0 && indexPath.row == 0) {
+    self.channelItem = dataMutableArray[indexPath.row];
+    self.contentLabel.text = self.channelItem.channelName;
+    if([self.contentLabel.text isEqualToString:selectedTitle]) {
         self.contentLabel.textColor = [UIColor redColor];
+    } else {
+        self.contentLabel.textColor = [UIColor grayColor];
+    }
+    if(indexPath.section == 0 && indexPath.row == 0) {
         self.contentLabel.layer.borderColor = [UIColor clearColor].CGColor;
         self.contentLabel.layer.borderWidth = 0.0;
         self.contentLabel.layer.masksToBounds = YES;
         
     } else {
-        self.contentLabel.textColor = [UIColor grayColor];
         self.contentLabel.layer.masksToBounds = YES;
         self.contentLabel.layer.borderColor = [UIColor grayColor].CGColor;
         self.contentLabel.layer.borderWidth = 0.45;
         self.contentLabel.layer.cornerRadius = 10;
         self.contentLabel.layer.masksToBounds = YES;
     }
-    
-
 }
 
 

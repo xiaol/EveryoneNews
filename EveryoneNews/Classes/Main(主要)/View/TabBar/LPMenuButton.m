@@ -8,8 +8,6 @@
 
 #import "LPMenuButton.h"
 
-const static CGFloat DefaultRate = 1.15;
-
 @interface LPMenuButton () {
     CGFloat rgba[4];
     CGFloat rgbaGap[4];
@@ -19,49 +17,34 @@ const static CGFloat DefaultRate = 1.15;
 
 @implementation LPMenuButton
 
-- (void)setSelected:(BOOL)selected {
-    [super setSelected:selected];
-    if (self.selected == selected) {
-        return;
-    }
-    if (selected) {
-        [self setTitleColor:self.selectedColor forState:UIControlStateSelected];
-    } else {
-        [self setTitleColor:self.normalColor forState:UIControlStateNormal];
-    }
-}
-
 - (instancetype)initWithFrame:(CGRect)frame {
     if(self = [super initWithFrame:frame]) {
+        self.textColor = LPNormalColor;
+        self.textAlignment = NSTextAlignmentCenter;
+        [self setFont:[UIFont fontWithName:@"Arial" size:14]];
         self.normalColor = LPNormalColor;
         self.selectedColor = LPSelectedColor;
-        self.rate = DefaultRate;
-        self.fontName =  @"Arial";
-        self.fontSize = 14;
-        [self.titleLabel setFont:[UIFont systemFontOfSize:14]];
-        [self setTitleColor:self.normalColor forState:UIControlStateNormal];
+        self.rate = 1.15;
+        self.highlightedTextColor = LPSelectedColor;
     }
     return self;
 }
 
-- (void)buttonDidSelectedWithAnimation {
-    [UIView animateWithDuration:0.3 animations:^{
-        self.transform = CGAffineTransformMakeScale(self.rate, self.rate);
-    }];
-     
-}
-
-- (void)buttonDidDeSelectedWithAnimation {
-    [UIView animateWithDuration:0.3 animations:^{
-        self.transform = CGAffineTransformIdentity;
-    }];
-}
-
-- (instancetype)initWithTitle:(NSString *)title {
-    if(self = [super init]) {
-        [self setTitle:title forState:UIControlStateNormal];
+- (void)setHighlighted:(BOOL)highlighted {
+    if(highlighted) {
+        self.textColor = LPSelectedColor;
+        [UIView animateWithDuration:0.4 animations:^{
+            self.transform = CGAffineTransformMakeScale(1.15, 1.15);
+            
+        }];
+    } else {
+        self.textColor = LPNormalColor;
+        [UIView animateWithDuration:0.4 animations:^{
+            self.transform = CGAffineTransformIdentity;
+         
+        }];
     }
-    return self;
+    
 }
 
 - (void)titleSizeAndColorDidChangedWithRate:(CGFloat)rate {
@@ -88,8 +71,7 @@ const static CGFloat DefaultRate = 1.15;
     CGFloat g = rgba[1] + rgbaGap[1]*(1-rate);
     CGFloat b = rgba[2] + rgbaGap[2]*(1-rate);
     CGFloat a = rgba[3] + rgbaGap[3]*(1-rate);
-    self.titleColor = [UIColor colorWithRed:r green:g blue:b alpha:a];
-    [self setTitleColor:self.titleColor forState:UIControlStateNormal];
+    self.textColor = [UIColor colorWithRed:r green:g blue:b alpha:a];
     CGFloat scaleRate = self.rate - rate * (self.rate - 1);
     self.transform = CGAffineTransformMakeScale(scaleRate, scaleRate);
 }

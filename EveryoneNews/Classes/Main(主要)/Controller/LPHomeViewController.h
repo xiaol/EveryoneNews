@@ -10,6 +10,4 @@
 
 @interface LPHomeViewController : LPBaseViewController
 
-- (NSMutableArray *)getChannelItems;
-
 @end
