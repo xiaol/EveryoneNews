@@ -87,10 +87,10 @@ const static float menuImageViewWidth= 40;
     
     CardParam *param = [[CardParam alloc] init];
     param.type = HomeCardsFetchTypeMore;
-    param.channelID = @"1";
+    param.channelID = @"4";
     [CardTool cardsWithParam:param success:^(NSArray *cards) {
         for (Card *card in cards) {
-            NSLog(@"%@, %@, %@", card.channelId, card.sourceSiteName, card.updateTime);
+            NSLog(@"card with channel : %@, sourceName : %@, updateTime : %@", card.channelId, card.sourceSiteName, card.updateTime);
         }
     } failure:^(NSError *error) {
         NSLog(@"failure!");
@@ -202,7 +202,7 @@ const static float menuImageViewWidth= 40;
     self.imageView.contentMode = UIViewContentModeCenter;
     self.imageView.userInteractionEnabled = YES;
     self.imageView.frame = CGRectMake(ScreenWidth - 40, 67, 40, 30);
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(manageChannelItems)];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapArrowView)];
     tapGesture.delegate = self;
     [self.imageView addGestureRecognizer:tapGesture];
     self.isSpread = NO;
@@ -223,7 +223,7 @@ const static float menuImageViewWidth= 40;
 
 
 #pragma -mark 频道栏展开和折叠
-- (void)manageChannelItems {
+- (void)tapArrowView {
      UIImage *image = nil;
     __weak __typeof(self)weakSelf = self;
     // 展开频道栏
@@ -316,22 +316,19 @@ const static float menuImageViewWidth= 40;
     [self buttonSelectedStatusChangedWithIndex:pageIndex];
 }
 
-- (void)buttonSelectedStatusChangedWithIndex:(int)index {
+- (void)buttonSelectedStatusChangedWithIndex:(NSInteger)index {
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index
                                                  inSection:0];
     [self.menuView selectItemAtIndexPath:indexPath
                                 animated:YES
                           scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
 }
-#pragma 菜单栏选中某个按钮代理方法
+#pragma mark - 菜单栏选中某个按钮代理方法
 - (void)menuView:(LPMenuView *)menuView didSelectedButtonAtIndex:(int)index {
      [self.pagingView setCurrentPageIndex:index animated:NO];
-    
-    
 }
 
-#pragma - mark UICollectionView 数据源
-
+#pragma mark - UICollectionView 数据源
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
      if([collectionView isKindOfClass:[LPMenuView class]]) {
          return 1;

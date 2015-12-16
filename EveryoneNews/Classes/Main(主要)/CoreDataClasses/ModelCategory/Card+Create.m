@@ -35,8 +35,7 @@
     card.title = dict[@"title"];
     card.sourceSiteURL = dict[@"pubUrl"];
     card.sourceSiteName = dict[@"pubName"];
-    card.updateTime = [NSString stringWithFormat:@"%ld", (long)([dict[@"pubTime"] timestampWithDateFormat:@"YYYY-MM-dd HH:mm:ss"] * 1000)];
-    card.updateTime = dict[@"pubTime"];
+    card.updateTime = [NSString stringWithFormat:@"%lld", (long long)([dict[@"pubTime"] timestampWithDateFormat:@"YYYY-MM-dd HH:mm:ss"] * 1000)];
     card.channelId = dict[@"channelId"];
     card.type = dict[@"imgStyle"];
 //    [CardRelate createCardRelatesWithDictArray:dict[@"relatePointsList"]

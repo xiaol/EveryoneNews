@@ -22,7 +22,7 @@
         paramDict[@"cid"]    = param.channelID;
         paramDict[@"offset"] = param.count;
         paramDict[@"tstart"] = param.startTime;
-        NSString *url = [NSString stringWithFormat:@"%@bdp/news/refresh", ServerUrl];
+        NSString *url = [NSString stringWithFormat:@"%@/bdp/news/refresh", ServerUrl];
         [LPHttpTool getWithURL:url
                         params:paramDict
                        success:^(id json) {
@@ -40,8 +40,7 @@
             paramDict[@"cid"]    = param.channelID;
             paramDict[@"offset"] = param.count;
             paramDict[@"tstart"] = param.startTime;
-            NSLog(@"startTime : %@", param.startTime);
-            NSString *url = [NSString stringWithFormat:@"%@bdp/news/load", ServerUrl];
+            NSString *url = [NSString stringWithFormat:@"%@/bdp/news/load", ServerUrl];
             [LPHttpTool getWithURL:url
                             params:paramDict
                            success:^(id json) {
@@ -49,6 +48,7 @@
                                success(cards);
                            }
                            failure:^(NSError *error) {
+                               NSLog(@"%@", error);
                                failure(error);
                            }];
         }

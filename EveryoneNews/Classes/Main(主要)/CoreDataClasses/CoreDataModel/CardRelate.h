@@ -2,7 +2,7 @@
 //  CardRelate.h
 //  EveryoneNews
 //
-//  Created by apple on 15/12/15.
+//  Created by apple on 15/12/16.
 //  Copyright © 2015年 apple. All rights reserved.
 //
 
