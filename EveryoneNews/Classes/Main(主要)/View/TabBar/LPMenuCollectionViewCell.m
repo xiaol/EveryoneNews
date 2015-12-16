@@ -36,7 +36,7 @@
         [UIView animateWithDuration:0.4 animations:^{
             self.menuButton.transform = CGAffineTransformMakeScale(1.15, 1.15);
         }];
-            
+        
     } else {
         self.menuButton.textColor = LPNormalColor;
         [UIView animateWithDuration:0.4 animations:^{
