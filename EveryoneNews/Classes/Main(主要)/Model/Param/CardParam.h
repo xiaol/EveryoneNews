@@ -19,27 +19,23 @@ typedef NS_ENUM(NSUInteger, HomeCardsFetchType) {
      *  上拉加载更多
      */
     HomeCardsFetchTypeMore,
-    /**
-     *  今日最新
-     */
-    HomeCardsFetchTypeToday,
 };
 
 @interface CardParam : NSObject
 /**
- *  请求类型
+ *  请求类型 (必填)
  */
 @property (nonatomic, assign) HomeCardsFetchType type;
 /**
- *  频道ID
+ *  频道ID  (必填)
  */
 @property (nonatomic, copy) NSString *channelID;
 /**
- *  请求数量
+ *  请求数量 (默认20)
  */
 @property (nonatomic, strong) NSNumber *count;
 /**
- *  起始时间
+ *  起始时间 (如非第一次上拉, 必填, 第一次上拉默认为当前时间; 下拉必填)
  */
 @property (nonatomic, copy) NSString *startTime;
 

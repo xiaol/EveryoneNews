@@ -13,6 +13,7 @@
 @property (nonatomic, strong) UILabel *contentLabel;
 @property (nonatomic, strong) UIButton *deleteButton;
 @property (nonatomic, strong) NSIndexPath *indexPath;
+
 /**
  *  设置cell中频道
  *

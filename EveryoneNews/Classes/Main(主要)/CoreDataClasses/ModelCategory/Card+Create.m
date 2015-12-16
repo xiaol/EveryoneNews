@@ -21,6 +21,8 @@
         Card *card = [self createCardWithDict:dict inManagedObjectContext:cdh.context];
         [cards addObject:card];
     }
+    // optional !!
+    [cdh saveBackgroundContext];
     return cards;
 }
 
@@ -29,18 +31,17 @@
     Card *card = nil;
     card = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:context];
     [context obtainPermanentIDsForObjects:@[card] error:nil];
-    card.channelId = dict[@"channelId"];
-    card.sourceSiteName = dict[@"sourceSiteName"];
-    card.updateTime = [dict[@"updateTime"] absoluteDateString];
+    card.newId = [[dict[@"url"] stringByBase64Encoding] stringByTrimmingString:@"="];
     card.title = dict[@"title"];
-    card.commentNum = dict[@"commentNum"];
-    card.newId = dict[@"newsId"];
-    card.type = dict[@"type"];
-    card.collection = dict[@"collection"];
-    [CardRelate createCardRelatesWithDictArray:dict[@"relatePointsList"]
-                                          card:card
-                        inManagedObjectContext:context];
-    [CardImage createCardImagesWithURLArray:dict[@"imgUrls"]
+    card.sourceSiteURL = dict[@"pubUrl"];
+    card.sourceSiteName = dict[@"pubName"];
+    card.updateTime = [NSString stringWithFormat:@"%lld", (long long)([dict[@"pubTime"] timestampWithDateFormat:@"YYYY-MM-dd HH:mm:ss"] * 1000)];
+    card.channelId = dict[@"channelId"];
+    card.type = dict[@"imgStyle"];
+//    [CardRelate createCardRelatesWithDictArray:dict[@"relatePointsList"]
+//                                          card:card
+//                        inManagedObjectContext:context];
+    [CardImage createCardImagesWithURLArray:dict[@"imgList"]
                                        card:card
                      inManagedObjectContext:context];
     return card;

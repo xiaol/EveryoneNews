@@ -38,4 +38,10 @@
 - (instancetype)stringByTrimmingNewline;
 - (instancetype)stringByTrimmingString:(NSString *)string;
 - (instancetype)absoluteDateString;
+
+- (instancetype)stringByBase64Encoding;
+- (instancetype)stringByBase64Decoding;
+
+// 获取时间戳
+- (double)timestampWithDateFormat:(NSString *)dateFormat;
 @end
