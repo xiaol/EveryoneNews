@@ -79,7 +79,7 @@
 }
 
 - (instancetype)stringByTrimmingString:(NSString *)string {
-    return [self stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    return [self stringByReplacingOccurrencesOfString:string withString:@""];
 }
 
 - (instancetype)absoluteDateString {

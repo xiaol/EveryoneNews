@@ -31,7 +31,7 @@
     Card *card = nil;
     card = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:context];
     [context obtainPermanentIDsForObjects:@[card] error:nil];
-    card.newId = [dict[@"url"] stringByBase64Encoding];
+    card.newId = [[dict[@"url"] stringByBase64Encoding] stringByTrimmingString:@"="];
     card.title = dict[@"title"];
     card.sourceSiteURL = dict[@"pubUrl"];
     card.sourceSiteName = dict[@"pubName"];
