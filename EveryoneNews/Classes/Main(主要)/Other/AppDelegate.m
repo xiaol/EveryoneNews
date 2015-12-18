@@ -71,9 +71,10 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
 
 - (void)LoadHomeViewController {
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    [self.window makeKeyAndVisible];
     LPHomeViewController *homeVc = [[LPHomeViewController alloc] init];
-    self.window.rootViewController = homeVc;
+    MainNavigationController *mainNavVc = [[MainNavigationController alloc] initWithRootViewController:homeVc];
+    self.window.rootViewController = mainNavVc;
+    [self.window makeKeyAndVisible];
 }
 
 

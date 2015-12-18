@@ -14,6 +14,10 @@
 
 @interface LPPagingViewPage : UIView
 
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) NSMutableArray *homeViewFrames;
+@property (nonatomic, assign) NSInteger pageIndex;
+//- (void)loadNewDataWithCount:(NSNumber *)count channelID:(NSString *)channelID;
 
 /**
  *  复用前的准备工作(复写该方法)
