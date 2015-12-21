@@ -20,7 +20,7 @@
     request.fetchLimit = param.count.integerValue;
     request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"updateTime" ascending:NO]];
     if (param.startTime) {
-        request.predicate = [NSPredicate predicateWithFormat:@"updateTime < %@", param.startTime];
+        request.predicate = [NSPredicate predicateWithFormat:@"channelId = %@ && updateTime < %@", param.channelID, param.startTime];
     }
     NSArray *results = [cdh.context executeFetchRequest:request error:nil];
     return results;

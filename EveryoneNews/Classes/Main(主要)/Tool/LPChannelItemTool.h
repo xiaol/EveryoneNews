@@ -18,4 +18,5 @@
 
 + (NSMutableArray *)getChannelItems;
 
++ (NSString *)channelID:(NSString *)channelName;
 @end

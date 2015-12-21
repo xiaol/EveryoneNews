@@ -19,10 +19,12 @@
 #import "LPChannelItemTool.h"
 #import "LPMenuCollectionViewCell.h"
 #import "LPSortCollectionView.h"
-
 #import "CardTool.h"
 #import "CardParam.h"
 #import "Card+CoreDataProperties.h"
+#import "LPHomeViewCell.h"
+#import "LPHomeViewFrame.h"
+#import "LPPagingViewPage.h"
 
 const static CGFloat cellPadding = 10;
 static NSString *cellIdentifier = @"sortCollectionViewCell";
@@ -30,6 +32,7 @@ static NSString *reuseIdentifierFirst = @"reuseIdentifierFirst";
 static NSString *reuseIdentifierSecond = @"reuseIdentifierSecond";
 
 static NSString *menuCellIdentifier = @"menuCollectionViewCell";
+static NSString *reusePageID = @"reusePageID";
 const static float topViewHeight = 60;
 // 展开折叠图片宽度
 const static float menuImageViewWidth= 40;
@@ -57,7 +60,14 @@ const static float menuImageViewWidth= 40;
 @property (nonatomic, assign) BOOL isSpread;
 @property (nonatomic, assign) BOOL isSort;
 @property (nonatomic, strong) LPMenuCollectionViewCell *firstCell;
+// 记录选中菜单栏名称
 @property (nonatomic, copy) NSString *selectedChannelTitle;
+// 记录所有的样式，用于长按拖动
+@property (nonatomic, strong) NSMutableArray *cellAttributesArray;
+
+//@property (nonatomic, assign) CGFloat tableViewHeight;
+
+@property (nonatomic, strong) NSMutableArray *homeViewFrames;
 
 @end
 
@@ -84,18 +94,23 @@ const static float menuImageViewWidth= 40;
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    CardParam *param = [[CardParam alloc] init];
-    param.type = HomeCardsFetchTypeMore;
-    param.channelID = @"4";
-    [CardTool cardsWithParam:param success:^(NSArray *cards) {
-        for (Card *card in cards) {
-            NSLog(@"card with channel : %@, sourceName : %@, updateTime : %@", card.channelId, card.sourceSiteName, card.updateTime);
-        }
-    } failure:^(NSError *error) {
-        NSLog(@"failure!");
-    }];
+//    NSLog(@"--------------------");
+//    CardParam *param = [[CardParam alloc] init];
+//    param.type = HomeCardsFetchTypeMore;
+//    param.channelID = @"11";
+//    param.startTime = @"1450432924369";
+//    [CardTool cardsWithParam:param success:^(NSArray *cards) {
+//  
+//        for (Card *card in cards) {
+//            NSLog(@"%@", card.title);
+//            NSLog(@"card with channel : %@, sourceName : %@, updateTime : %@", card.channelId, card.sourceSiteName, card.updateTime);
+//        }
+//    } failure:^(NSError *error) {
+//        NSLog(@"failure!");
+//    }];
     [self setupSubViews];
+    
+  
 }
 
 - (NSMutableArray *)channelItemsArray {
@@ -119,6 +134,20 @@ const static float menuImageViewWidth= 40;
     return _optionalArray;
 }
 
+- (NSMutableArray *)cellAttributesArray {
+    if (_cellAttributesArray == nil) {
+        _cellAttributesArray = [[NSMutableArray alloc] init];
+    }
+    return _cellAttributesArray;
+}
+
+- (NSMutableArray *)homeViewFrames {
+    if(_homeViewFrames == nil) {
+        _homeViewFrames = [[NSMutableArray alloc] init];
+    }
+    return _homeViewFrames;
+}
+
 - (BOOL)prefersStatusBarHidden {
     return  YES;
 }
@@ -138,7 +167,6 @@ const static float menuImageViewWidth= 40;
 }
 
 - (void)setupSubViews {
-
     self.channelItemsArray =  [LPChannelItemTool getChannelItems];
     // 已选分类
     for (LPChannelItem *channelItem in self.channelItemsArray) {
@@ -174,6 +202,7 @@ const static float menuImageViewWidth= 40;
     pagingView.contentSize = CGSizeMake(self.selectedArray.count * pagingView.width, 0);
     pagingView.delegate = self;
     pagingView.dataSource = self;
+    [pagingView registerClass:[LPPagingViewPage class] forPageWithReuseIdentifier:reusePageID];
     [self.view addSubview:pagingView];
     self.pagingView = pagingView;
 
@@ -187,9 +216,6 @@ const static float menuImageViewWidth= 40;
     [self.sortCollectionView registerClass:[LPSortCollectionViewCell class] forCellWithReuseIdentifier:cellIdentifier];
     [self.sortCollectionView registerClass:[LPSortCollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:reuseIdentifierFirst];
     [self.sortCollectionView registerClass:[LPSortCollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:reuseIdentifierSecond];
-    // 长按交换频道顺序
-    UILongPressGestureRecognizer *longGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handlelongGesture:)];
-    [self.sortCollectionView addGestureRecognizer:longGesture];
     [self.view addSubview:self.sortCollectionView];
  
 
@@ -279,12 +305,63 @@ const static float menuImageViewWidth= 40;
 }
 
 - (UIView *)pagingView:(LPPagingView *)pagingView pageForPageIndex:(NSInteger)pageIndex {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(50, 50, ScreenWidth, 20)];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, ScreenWidth, 20)];
-    label.text = [NSString stringWithFormat:@"%ld",pageIndex];
-    label.textColor = [UIColor redColor];
-    [view addSubview:label];
-    return view;
+    if(pageIndex == 0 || pageIndex == 1) {
+        LPChannelItem *channelItem = [self.selectedArray objectAtIndex:0];
+        NSString *channelID = [LPChannelItemTool channelID:channelItem.channelName];
+        [self loadNewDataWithCount:@20 channelID:channelID];
+    } else {
+        LPChannelItem *channelItem = [self.selectedArray objectAtIndex:pageIndex];
+        NSString *channelID = [LPChannelItemTool channelID:channelItem.channelName];
+        [self loadNewDataWithCount:@20 channelID:channelID];
+    }
+    LPPagingViewPage *page = (LPPagingViewPage *)[pagingView dequeueReusablePageWithIdentifier:reusePageID];
+    page.homeViewFrames = self.homeViewFrames;
+    return page;
+
+    
+// 测试方法
+//    UITableView *tableView = [[UITableView alloc] init];
+//    tableView.x = 0;
+//    tableView.width = ScreenWidth;
+//    tableView.height = ScreenHeight - tableView.y;
+//    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+//    tableView.dataSource = self;
+//    tableView.delegate = self;
+//    self.homeTableView = tableView;
+//    if(pageIndex == 0) {
+//        LPChannelItem *channelItem = [self.selectedArray objectAtIndex:0];
+//        NSString *channelID = [LPChannelItemTool channelID:channelItem.channelName];
+//        [self loadNewDataWithCount:@20 channelID:channelID];
+//    } else {
+//        LPChannelItem *channelItem = [self.selectedArray objectAtIndex:pageIndex];
+//        NSString *channelID = [LPChannelItemTool channelID:channelItem.channelName];
+//        [self loadNewDataWithCount:@20 channelID:channelID];
+//    }
+//    return tableView;
+    return nil;
+ 
+}
+
+- (void)loadNewDataWithCount:(NSNumber *)count channelID:(NSString *)channelID {
+    CardParam *param = [[CardParam alloc] init];
+    param.type = HomeCardsFetchTypeMore;
+    param.channelID = @"11";
+    param.count = count;
+    param.startTime =@"1450432924369";
+//    param.startTime = [NSString stringWithFormat:@"%lld", (long long)([[NSDate date] timeIntervalSince1970] * 1000)];
+//    NSLog(@"%@", param.startTime);
+    __weak typeof(self) weakSelf = self;
+    [self.homeViewFrames removeAllObjects];
+    [CardTool cardsWithParam:param success:^(NSArray *cards) {
+        for (Card *card in cards) {
+            LPHomeViewFrame *homeViewFrame = [[LPHomeViewFrame alloc] init];
+            homeViewFrame.card = card;
+            [weakSelf.homeViewFrames addObject:homeViewFrame];
+        }
+    } failure:^(NSError *error) {
+        NSLog(@"failure!");
+    }];
+    
 }
 
 - (void)pagingView:(LPPagingView *)pagingView didScrollWithRatio:(CGFloat)ratio {
@@ -313,7 +390,8 @@ const static float menuImageViewWidth= 40;
         }
     }
     // 改变菜单栏按钮选中取消状态
-    [self buttonSelectedStatusChangedWithIndex:pageIndex];
+    [self buttonSelectedStatusChangedWithIndex:(int)pageIndex];
+  
 }
 
 - (void)buttonSelectedStatusChangedWithIndex:(NSInteger)index {
@@ -323,7 +401,7 @@ const static float menuImageViewWidth= 40;
                                 animated:YES
                           scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
 }
-#pragma mark - 菜单栏选中某个按钮代理方法
+#pragma mark - 菜单栏选中某个按钮
 - (void)menuView:(LPMenuView *)menuView didSelectedButtonAtIndex:(int)index {
      [self.pagingView setCurrentPageIndex:index animated:NO];
 }
@@ -365,14 +443,29 @@ const static float menuImageViewWidth= 40;
         LPSortCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
         if(indexPath.section == 0) {
             [cell setCellWithArray:self.selectedArray indexPath:indexPath selectedTitle:self.selectedChannelTitle];
-           
             // 删除状态时显示灰色
-            if(self.isSort) {
-                 cell.contentLabel.textColor = [UIColor grayColor];
+            if (self.isSort) {
+                cell.contentLabel.textColor = [UIColor grayColor];
+                // 防止手势冲突先删除所有手势
+                for (UIGestureRecognizer *gesture in cell.gestureRecognizers) {
+                        [cell removeGestureRecognizer:gesture];
+                }
+                // 添加拖动排序
+                UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(sortItem:)];
+                panGesture.delegate = self;
+                [cell addGestureRecognizer:panGesture];
+             
+            } else {
+                for (UIGestureRecognizer *gesture in cell.gestureRecognizers) {
+                        [cell removeGestureRecognizer:gesture];
+                }
+                // 长按需要变换状态
+                UILongPressGestureRecognizer *longGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longGesture:)];
+                longGesture.delegate = self;
+                [cell addGestureRecognizer:longGesture];
             }
-            if(indexPath.row == 0) {
+            if (indexPath.row == 0) {
                 cell.deleteButton.hidden = YES;
-                
             } else {
                 cell.deleteButton.hidden = !self.isSort;
                 // 添加频道时先隐藏label
@@ -389,6 +482,84 @@ const static float menuImageViewWidth= 40;
         return cell;
     }
   
+}
+
+#pragma 长按更换排序状态
+- (void)longGesture:(UILongPressGestureRecognizer  *)longRecognizer {
+
+    self.isSort = YES;
+    [self.sortCollectionView reloadData];
+
+}
+
+#pragma 跳转到选中频道
+- (void)redirectToChannel:(int)index {
+        NSIndexPath *menuIndexPath = [NSIndexPath indexPathForItem:index
+                                                         inSection:0];
+        [self.menuView selectItemAtIndexPath:menuIndexPath
+                                    animated:NO
+                              scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+        [self.pagingView setCurrentPageIndex:index animated:NO];
+}
+
+#pragma  排序方法
+- (void)sortItem:(UIPanGestureRecognizer *)recognizer {
+    LPSortCollectionViewCell *cell = (LPSortCollectionViewCell *)recognizer.view;
+    NSIndexPath *cellIndexPath = [self.sortCollectionView indexPathForCell:cell];
+    BOOL ischange = NO;
+    switch (recognizer.state) {
+        case UIGestureRecognizerStateBegan:
+            if (cellIndexPath == nil) {
+                break;
+            }
+            // 获取所有cell的attributes
+            [self.cellAttributesArray removeAllObjects];
+            for (NSInteger i = 0 ; i < self.selectedArray.count; i++) {
+                [self.cellAttributesArray addObject:[self.sortCollectionView layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]]];
+            }
+            break;
+        case UIGestureRecognizerStateChanged:
+            if (cellIndexPath.item != 0) {
+                // 移动的相对位置
+                CGPoint point = [recognizer translationInView:self.sortCollectionView];
+                cell.center = CGPointMake(cell.center.x + point.x, cell.center.y + point.y);
+                // 移动以后的坐标
+                [recognizer setTranslation:CGPointMake(0, 0) inView:self.sortCollectionView];
+                for (UICollectionViewLayoutAttributes *attributes in self.cellAttributesArray) {
+                    CGRect rect = CGRectMake(attributes.center.x - 12, attributes.center.y - 12, 25, 25);
+                    // 判断重叠区域
+                    if (CGRectContainsPoint(rect, CGPointMake(recognizer.view.center.x, recognizer.view.center.y)) && (cellIndexPath != attributes.indexPath) && attributes.indexPath.item != 0) {
+                        //后面跟前面交换
+                        if (cellIndexPath.row > attributes.indexPath.row) {
+                            //交替操作0 1 2 3 变成（3<->2 3<->1 3<->0）
+                            for (NSInteger index = cellIndexPath.row; index > attributes.indexPath.row; index -- ) {
+                                [self.selectedArray exchangeObjectAtIndex:index withObjectAtIndex:index - 1];
+                            }
+                        } else {
+                        //前面跟后面交换
+                            //交替操作0 1 2 3 变成（0<->1 0<->2 0<->3）
+                            for (NSInteger index = cellIndexPath.row; index < attributes.indexPath.row; index ++ ) {
+                                [self.selectedArray exchangeObjectAtIndex:index withObjectAtIndex:index + 1];
+                            }
+                        }
+                        ischange = YES;
+                        [self.sortCollectionView moveItemAtIndexPath:cellIndexPath toIndexPath:attributes.indexPath];
+                    } else {
+                       ischange = NO;
+                    }
+                }
+            }
+            break;
+        case UIGestureRecognizerStateEnded:
+            if (ischange) {
+                [self reloadChannelItems];
+            } else {
+                cell.center = [self.sortCollectionView layoutAttributesForItemAtIndexPath:cellIndexPath].center;
+            }
+            break;
+        default:
+            break;
+    }
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
@@ -427,56 +598,59 @@ const static float menuImageViewWidth= 40;
    
 }
 
-#pragma  长按交换频道
-- (void)collectionView:(UICollectionView *)collectionView moveItemAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
-    if([collectionView isKindOfClass:[LPMenuView class]]) {
-        
-    } else {
-        if(destinationIndexPath.row != 0) {
-            LPChannelItem *sourceItem = [self.selectedArray objectAtIndex:sourceIndexPath.row];
-            LPChannelItem *destinationItem = [self.selectedArray objectAtIndex:destinationIndexPath.row];
-            [self.selectedArray removeObjectAtIndex:sourceIndexPath.row];
-            [self.selectedArray insertObject:destinationItem atIndex:sourceIndexPath.row];
-            [self.selectedArray removeObjectAtIndex:destinationIndexPath.row];
-            [self.selectedArray insertObject:sourceItem atIndex:destinationIndexPath.row];
-            [self reloadChannelItems];
-        }
-    }
-}
+#pragma  长按交换频道（iOS 9.0以上）
+//- (void)collectionView:(UICollectionView *)collectionView moveItemAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
+//    if([collectionView isKindOfClass:[LPMenuView class]]) {
+//        
+//    } else {
+//        if(destinationIndexPath.row != 0) {
+//            LPChannelItem *sourceItem = [self.selectedArray objectAtIndex:sourceIndexPath.row];
+//            LPChannelItem *destinationItem = [self.selectedArray objectAtIndex:destinationIndexPath.row];
+//            [self.selectedArray removeObjectAtIndex:sourceIndexPath.row];
+//            [self.selectedArray insertObject:destinationItem atIndex:sourceIndexPath.row];
+//            [self.selectedArray removeObjectAtIndex:destinationIndexPath.row];
+//            [self.selectedArray insertObject:sourceItem atIndex:destinationIndexPath.row];
+//            [self reloadChannelItems];
+//        }
+//    }
+//}
+//
+//
+//- (void)handlelongGesture:(UILongPressGestureRecognizer *)longGesture {
+//    //判断手势落点位置是否在路径上
+//    NSIndexPath *indexPath = [self.sortCollectionView indexPathForItemAtPoint:[longGesture locationInView:self.sortCollectionView]];
+//    // 栏目按钮显示完成状态
+//    if(self.isSort && indexPath.section == 0) {
+//        //判断手势状态
+//        switch (longGesture.state) {
+//            case UIGestureRecognizerStateBegan:{
+//                if (indexPath == nil) {
+//                    break;
+//                }
+//                //在路径上则开始移动该路径上的cell
+//                [self.sortCollectionView beginInteractiveMovementForItemAtIndexPath:indexPath];
+//            }
+//                break;
+//            case UIGestureRecognizerStateChanged:
+//                if(indexPath.item != 0) {
+//                    [self.sortCollectionView updateInteractiveMovementTargetPosition:[longGesture locationInView:self.sortCollectionView]];
+//                }
+//                
+//                break;
+//            case UIGestureRecognizerStateEnded:
+//                //移动结束后关闭cell移动
+//                [self.sortCollectionView endInteractiveMovement];
+//                
+//                break;
+//            default:
+//                [self.sortCollectionView cancelInteractiveMovement];
+//                
+//                break;
+//        }
+//    }
+//}
 
-- (void)handlelongGesture:(UILongPressGestureRecognizer *)longGesture {
-    //判断手势落点位置是否在路径上
-    NSIndexPath *indexPath = [self.sortCollectionView indexPathForItemAtPoint:[longGesture locationInView:self.sortCollectionView]];
-    // 栏目按钮显示完成状态
-    if(self.isSort && indexPath.section == 0) {
-        //判断手势状态
-        switch (longGesture.state) {
-            case UIGestureRecognizerStateBegan:{
-                if (indexPath == nil) {
-                    break;
-                }
-                //在路径上则开始移动该路径上的cell
-                [self.sortCollectionView beginInteractiveMovementForItemAtIndexPath:indexPath];
-            }
-                break;
-            case UIGestureRecognizerStateChanged:
-                if(indexPath.item != 0) {
-                    [self.sortCollectionView updateInteractiveMovementTargetPosition:[longGesture locationInView:self.sortCollectionView]];
-                }
-                
-                break;
-            case UIGestureRecognizerStateEnded:
-                //移动结束后关闭cell移动
-                [self.sortCollectionView endInteractiveMovement];
-                
-                break;
-            default:
-                [self.sortCollectionView cancelInteractiveMovement];
-                
-                break;
-        }
-    }
-}
+
 #pragma  添加频道动画效果
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 
@@ -501,11 +675,10 @@ const static float menuImageViewWidth= 40;
                             } completion:^(BOOL finished) {
                                  [self reloadChannelItems];
                         }];
-                    } else {
-                        
                     }
                 }
-            } else {
+            }
+            else {
                 // 跳转到指定频道
                 UIImage *image = [UIImage imageNamed:@"向下箭头"];
                 __weak typeof(self) weakSelf = self;
@@ -516,7 +689,7 @@ const static float menuImageViewWidth= 40;
                 [self.menuView reloadData];
                 [self.pagingView reloadData];
                 self.selectedChannelTitle = currentCell.contentLabel.text;
-                [self redirectToChannel:indexPath.item];
+                [self redirectToChannel:(int)indexPath.item];
                 [UIView animateWithDuration:0.2 animations:^{
                     [weakSelf.imageView  setImage:image];
                     weakSelf.sortCollectionView.frame = CGRectMake(0, 60 - ScreenHeight, ScreenWidth, ScreenHeight - 60);
@@ -561,16 +734,6 @@ const static float menuImageViewWidth= 40;
         
     }
 
-}
-
-- (void)redirectToChannel:(NSInteger)index {
-    
-    NSIndexPath *menuIndexPath = [NSIndexPath indexPathForItem:index
-                                                     inSection:0];
-    [self.menuView selectItemAtIndexPath:menuIndexPath
-                                animated:NO
-                          scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
-    [self.pagingView setCurrentPageIndex:index animated:NO];
 }
 
 #pragma 更新plist文件中所有频道
