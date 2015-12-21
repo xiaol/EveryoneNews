@@ -8,7 +8,7 @@
 
 #import "LPPagingView.h"
 #import "UIView+LPReusePage.h"
-
+#import <objc/runtime.h>
 
 #pragma mark - delegate trampoline
 
@@ -254,7 +254,7 @@
 // delegate setter / getter
 - (void)setDelegate:(id<LPPagingViewDelegate>)delegate {
     self.delegateTrampoline.delegate = delegate; // 将蹦床代理设为现代理, 蹦床未实现的代理方法, 转发给现代理实现
-    [super setDelegate:self.delegateTrampoline]; // 将自己的代理设为蹦床, 由蹦床拦截一些方法并实现
+    [super setDelegate:self.delegateTrampoline]; // 将自己的代理设为蹦床, 由蹦床拦截一些方法, 并转发剩余的
 }
 
 - (id<LPPagingViewDelegate>)delegate {

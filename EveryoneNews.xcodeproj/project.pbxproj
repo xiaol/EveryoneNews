@@ -15,6 +15,8 @@
 		180953921C0E5B51001E5B2E /* UIView+LPReusePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1809538F1C0E5B51001E5B2E /* UIView+LPReusePage.m */; };
 		18095CD21B2A221100CB7666 /* LPWaterfallView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18095CCF1B2A221100CB7666 /* LPWaterfallView.m */; };
 		18095CD31B2A221100CB7666 /* LPWaterfallViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18095CD11B2A221100CB7666 /* LPWaterfallViewCell.m */; };
+		18162F0E1C229C2400FC947D /* KeyValueObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 18162F0C1C229C2400FC947D /* KeyValueObserver.m */; };
+		18162F111C229CA200FC947D /* ObserverManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18162F101C229CA200FC947D /* ObserverManager.m */; };
 		181B37EF1BC6135400698FC5 /* Faulter.m in Sources */ = {isa = PBXBuildFile; fileRef = 181B37EE1BC6135400698FC5 /* Faulter.m */; };
 		181B38371BC652B000698FC5 /* Thumbnailer.m in Sources */ = {isa = PBXBuildFile; fileRef = 181B38361BC652B000698FC5 /* Thumbnailer.m */; };
 		181B383E1BC76E0E00698FC5 /* AlbumCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 181B383D1BC76E0E00698FC5 /* AlbumCell.m */; };
@@ -258,7 +260,6 @@
 		18D513091BEB33A500875298 /* libSocialWechat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18D512F51BEB33A500875298 /* libSocialWechat.a */; };
 		18D5130A1BEB33A500875298 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18D512F61BEB33A500875298 /* libWeChatSDK.a */; };
 		18D5130C1BEB379700875298 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 18D5130B1BEB379700875298 /* libiconv.tbd */; };
-		18D64DB61BDE02D80077F673 /* KeyValueObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D64DB51BDE02D80077F673 /* KeyValueObserver.m */; };
 		18D64DD71BDE67AA0077F673 /* LPDigDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D64DD61BDE67AA0077F673 /* LPDigDetailViewController.m */; };
 		18D64E341BDF460E0077F673 /* ContentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D64E331BDF460E0077F673 /* ContentCell.m */; };
 		18D64E371BDF48DE0077F673 /* ContentFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D64E361BDF48DE0077F673 /* ContentFrame.m */; };
@@ -401,6 +402,10 @@
 		18095CCF1B2A221100CB7666 /* LPWaterfallView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPWaterfallView.m; sourceTree = "<group>"; };
 		18095CD01B2A221100CB7666 /* LPWaterfallViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPWaterfallViewCell.h; sourceTree = "<group>"; };
 		18095CD11B2A221100CB7666 /* LPWaterfallViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPWaterfallViewCell.m; sourceTree = "<group>"; };
+		18162F0B1C229C2400FC947D /* KeyValueObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyValueObserver.h; sourceTree = "<group>"; };
+		18162F0C1C229C2400FC947D /* KeyValueObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyValueObserver.m; sourceTree = "<group>"; };
+		18162F0F1C229CA200FC947D /* ObserverManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObserverManager.h; sourceTree = "<group>"; };
+		18162F101C229CA200FC947D /* ObserverManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObserverManager.m; sourceTree = "<group>"; };
 		181B37ED1BC6135400698FC5 /* Faulter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Faulter.h; sourceTree = "<group>"; };
 		181B37EE1BC6135400698FC5 /* Faulter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Faulter.m; sourceTree = "<group>"; };
 		181B38351BC652B000698FC5 /* Thumbnailer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Thumbnailer.h; sourceTree = "<group>"; };
@@ -832,8 +837,6 @@
 		18D512F81BEB33A500875298 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
 		18D512F91BEB33A500875298 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
 		18D5130B1BEB379700875298 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
-		18D64DB41BDE02D80077F673 /* KeyValueObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyValueObserver.h; sourceTree = "<group>"; };
-		18D64DB51BDE02D80077F673 /* KeyValueObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyValueObserver.m; sourceTree = "<group>"; };
 		18D64DD51BDE67AA0077F673 /* LPDigDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPDigDetailViewController.h; sourceTree = "<group>"; };
 		18D64DD61BDE67AA0077F673 /* LPDigDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPDigDetailViewController.m; sourceTree = "<group>"; };
 		18D64E321BDF460E0077F673 /* ContentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ContentCell.h; sourceTree = "<group>"; };
@@ -1178,6 +1181,24 @@
 				18095CD11B2A221100CB7666 /* LPWaterfallViewCell.m */,
 			);
 			path = LPWaterfall;
+			sourceTree = "<group>";
+		};
+		18162F0A1C229C2400FC947D /* KVOHelper */ = {
+			isa = PBXGroup;
+			children = (
+				18162F0B1C229C2400FC947D /* KeyValueObserver.h */,
+				18162F0C1C229C2400FC947D /* KeyValueObserver.m */,
+			);
+			path = KVOHelper;
+			sourceTree = "<group>";
+		};
+		18162F0D1C229C2400FC947D /* ObserverManager */ = {
+			isa = PBXGroup;
+			children = (
+				18162F0F1C229CA200FC947D /* ObserverManager.h */,
+				18162F101C229CA200FC947D /* ObserverManager.m */,
+			);
+			path = ObserverManager;
 			sourceTree = "<group>";
 		};
 		181B385A1BCA393A00698FC5 /* Layout */ = {
@@ -1797,7 +1818,6 @@
 		18AB8C861B8A47E80084934E /* Digger(挖掘机) */ = {
 			isa = PBXGroup;
 			children = (
-				18D64DB31BDE02900077F673 /* KVOHelper */,
 				181B38611BCAD89600698FC5 /* Model */,
 				181B385A1BCA393A00698FC5 /* Layout */,
 				18AB8C871B8A47E80084934E /* Controller */,
@@ -2127,15 +2147,6 @@
 			path = Wechat;
 			sourceTree = "<group>";
 		};
-		18D64DB31BDE02900077F673 /* KVOHelper */ = {
-			isa = PBXGroup;
-			children = (
-				18D64DB41BDE02D80077F673 /* KeyValueObserver.h */,
-				18D64DB51BDE02D80077F673 /* KeyValueObserver.m */,
-			);
-			path = KVOHelper;
-			sourceTree = "<group>";
-		};
 		18D71F971B2572C5002A7375 /* MJExtension */ = {
 			isa = PBXGroup;
 			children = (
@@ -2283,6 +2294,8 @@
 		18F630E11B5C044300423658 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				18162F0A1C229C2400FC947D /* KVOHelper */,
+				18162F0D1C229C2400FC947D /* ObserverManager */,
 				18F630E21B5C044300423658 /* AppDelegate.h */,
 				18F630E31B5C044300423658 /* AppDelegate.m */,
 				18F630E41B5C044300423658 /* TransitioningObject.h */,
@@ -2805,6 +2818,7 @@
 				187564891C2110B600589320 /* Relate+CoreDataProperties.m in Sources */,
 				7E63BA621B3C022900BEA1CF /* Account.m in Sources */,
 				18F631141B5C044300423658 /* LPPress.m in Sources */,
+				18162F111C229CA200FC947D /* ObserverManager.m in Sources */,
 				1808948C1C1E984B00FBBADA /* CardParam.m in Sources */,
 				18D71FAC1B2572C5002A7375 /* MJType.m in Sources */,
 				18A0AA981C20602600E9AA44 /* Card+Fetch.m in Sources */,
@@ -2845,6 +2859,7 @@
 				18F631161B5C044300423658 /* AppDelegate.m in Sources */,
 				18EC41E31B71B8C600548DD9 /* LPSupplementView.m in Sources */,
 				18F631191B5C044300423658 /* LPHttpTool.m in Sources */,
+				18162F0E1C229C2400FC947D /* KeyValueObserver.m in Sources */,
 				1860F85E1B6A184B0012E11D /* LPFeatureFrame.m in Sources */,
 				1826B3F71B7DA00B00B712E0 /* LPFullPhotoCell.m in Sources */,
 				18A65CC91B203D330070DDD7 /* SDWebImageManager.m in Sources */,
@@ -2950,7 +2965,6 @@
 				187912E11BC0895B0021AB3E /* NavigationPopAnimation.m in Sources */,
 				187564751C2110B600589320 /* Press+CoreDataProperties.m in Sources */,
 				18A0AA9C1C20602600E9AA44 /* Press+Create.m in Sources */,
-				18D64DB61BDE02D80077F673 /* KeyValueObserver.m in Sources */,
 				18F631641B5C0CEA00423658 /* MJRefreshGifHeader.m in Sources */,
 				18F631271B5C044300423658 /* LPTabBar.m in Sources */,
 				1875647E1C2110B600589320 /* CardRelate.m in Sources */,
