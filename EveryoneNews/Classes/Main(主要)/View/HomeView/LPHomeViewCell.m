@@ -8,7 +8,7 @@
 
 #import "LPHomeViewCell.h"
 #import "UIImageView+WebCache.h"
-#import "LPHomeViewFrame.h"
+#import "CardFrame.h"
 #import "Card.h"
 #import "CardImage.h"
 
@@ -29,21 +29,14 @@
 
 @implementation LPHomeViewCell
 
-+ (instancetype)cellWithTableView:(UITableView *)tableView {
-    static NSString *ID = @"CardCellID";
-    LPHomeViewCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
-    if(cell == nil) {
-        cell = [[LPHomeViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
-    }
-    return cell;
-}
-
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if(self) {
         // 无图
         UILabel *noImageLabel = [[UILabel alloc] init];
+        noImageLabel.textColor = LPNormalColor;
         self.noImageLabel = noImageLabel;
+        
         
         // 单图
         UIImageView *iconView = [[UIImageView alloc] init];
@@ -56,6 +49,7 @@
         UILabel *titleLabel = [[UILabel alloc] init];
         titleLabel.numberOfLines = 0;
         titleLabel.font = [UIFont systemFontOfSize:ConcernPressTitleFontSize];
+        titleLabel.textColor = LPNormalColor;
         [self.contentView addSubview:titleLabel];
         self.titleLabel = titleLabel;
         //  三图及其三图以上
@@ -63,6 +57,7 @@
         UILabel *multipleImageLabel = [[UILabel alloc] init];
         multipleImageLabel.numberOfLines = 0;
         multipleImageLabel.font = [UIFont systemFontOfSize:ConcernPressTitleFontSize];
+        multipleImageLabel.textColor = LPNormalColor;
         [self.contentView addSubview:multipleImageLabel];
         self.multipleImageLabel = multipleImageLabel;
         
@@ -91,7 +86,7 @@
     return self;
 }
 
-- (void)setHomeViewFrame:(LPHomeViewFrame *)homeViewFrame {
+- (void)setHomeViewFrame:(CardFrame *)homeViewFrame {
     _homeViewFrame = homeViewFrame;
     Card *card = self.homeViewFrame.card;
     if(card.cardImages.count == 0) {
@@ -125,12 +120,11 @@
         CGRect frame = self.homeViewFrame.multipleImageViewFrame;
         CGFloat x = frame.origin.x;
         CGFloat y = frame.origin.y;
-        CGFloat w = frame.size.width;
+        CGFloat w = (frame.size.width - 10) / 3 ;
         CGFloat h = frame.size.height;
-        self.firstMutipleImageView.frame = CGRectMake(x, y, w / 3, h);
-        self.secondMutipleImageView.frame = CGRectMake(w / 3, y, w / 3, h);
-        self.thirdMutipleImageView.frame = CGRectMake(2 * w / 3, y, w / 3, h);
-       
+        self.firstMutipleImageView.frame = CGRectMake(x, y, w, h);
+        self.secondMutipleImageView.frame = CGRectMake(x + w + 5, y, w, h);
+        self.thirdMutipleImageView.frame = CGRectMake(x + 2 * w + 10, y, w, h);
     }
     
 }

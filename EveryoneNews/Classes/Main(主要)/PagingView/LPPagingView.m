@@ -8,6 +8,7 @@
 
 #import "LPPagingView.h"
 #import "UIView+LPReusePage.h"
+#import <objc/runtime.h>
 
 
 #pragma mark - delegate trampoline
@@ -25,6 +26,10 @@
 - (BOOL)respondsToSelector:(SEL)aSelector {
     return [super respondsToSelector:aSelector] || [self.delegate respondsToSelector:aSelector];
 }
+
+//- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
+//    return [self.delegate methodSignatureForSelector:aSelector];
+//}
 
 - (void)forwardInvocation:(NSInvocation *)anInvocation {
     if ([self.delegate respondsToSelector:anInvocation.selector]) {
@@ -316,8 +321,9 @@
 
 // layout subviews
 - (void)layoutSubviews {
+//    NSLog(@"%@", NSStringFromSelector(_cmd));
     [super layoutSubviews];
-//    if (self.contentOffset.x < self.helper.gutter / 2 || self.contentOffset.x > self.helper.contentSize.width) return;
+//    if (self.contentOffset.x < 0 || self.contentOffset.x > self.helper.contentSize.width) return;
     CGFloat numberOfPages = self.helper.numberOfPages;
     if (numberOfPages == 0) return;
     CGRect visibleBounds = self.clipsToBounds ? self.bounds : [self convertRect:self.superview.bounds fromView:self.superview];

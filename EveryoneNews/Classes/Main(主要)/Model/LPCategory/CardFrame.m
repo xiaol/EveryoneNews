@@ -6,20 +6,21 @@
 //  Copyright © 2015年 apple. All rights reserved.
 //
 
-#import "LPHomeViewFrame.h"
+#import "CardFrame.h"
 #import "Card.h"
 
 static const CGFloat PaddingHorizontal = 10;
 static const CGFloat PaddingVertical = 15;
+static const CGFloat noImageFrameHeight = 40;
 
-@implementation LPHomeViewFrame
+@implementation CardFrame
 
 - (void)setCard:(Card *)card {
     _card = card;
     _cellHeight = 0.0f;
     if(card.cardImages.count == 0) {
         
-        _noImageLabelF = CGRectMake(PaddingHorizontal, PaddingVertical, ScreenWidth - 20, 75);
+        _noImageLabelF = CGRectMake(PaddingHorizontal, PaddingVertical, ScreenWidth - PaddingHorizontal, noImageFrameHeight);
         _cellHeight = CGRectGetMaxY(_noImageLabelF);
         
     } else if (card.cardImages.count == 1 || card.cardImages.count == 2) {

@@ -7,12 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-@class LPHomeViewFrame;
+@class CardFrame;
 
 @interface LPHomeViewCell : UITableViewCell
 
-@property (nonatomic, strong) LPHomeViewFrame *homeViewFrame;
-
-+ (instancetype)cellWithTableView:(UITableView *)tableView;
+@property (nonatomic, strong) CardFrame *homeViewFrame;
 
 @end

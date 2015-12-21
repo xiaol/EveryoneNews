@@ -29,7 +29,7 @@ typedef NS_ENUM(NSUInteger, HomeCardsFetchType) {
 /**
  *  频道ID  (必填)
  */
-@property (nonatomic, copy) NSString *channelID;
+@property (nonatomic, strong) NSString *channelID;
 /**
  *  请求数量 (默认20)
  */

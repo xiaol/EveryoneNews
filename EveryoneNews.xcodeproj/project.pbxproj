@@ -373,7 +373,9 @@
 		86A6735F1C119D7D003509C3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 86A6735E1C119D7D003509C3 /* Images.xcassets */; };
 		86A87A3C1C1A7528006830E9 /* LPMenuCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A87A3B1C1A7528006830E9 /* LPMenuCollectionViewCell.m */; };
 		86A87A3F1C1AB7A0006830E9 /* LPSortCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A87A3E1C1AB7A0006830E9 /* LPSortCollectionView.m */; };
-		86CC9B0E1C2168BF00D9364D /* LPHomeViewFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 86CC9B0D1C2168BF00D9364D /* LPHomeViewFrame.m */; };
+		86BF699D1C254109009C967C /* LPDiggerFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 86BF699A1C254109009C967C /* LPDiggerFooter.m */; };
+		86BF699E1C254109009C967C /* LPDiggerHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 86BF699C1C254109009C967C /* LPDiggerHeader.m */; };
+		86CC9B0E1C2168BF00D9364D /* CardFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 86CC9B0D1C2168BF00D9364D /* CardFrame.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1045,8 +1047,12 @@
 		86A87A3B1C1A7528006830E9 /* LPMenuCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPMenuCollectionViewCell.m; sourceTree = "<group>"; };
 		86A87A3D1C1AB7A0006830E9 /* LPSortCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPSortCollectionView.h; sourceTree = "<group>"; };
 		86A87A3E1C1AB7A0006830E9 /* LPSortCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPSortCollectionView.m; sourceTree = "<group>"; };
-		86CC9B0C1C2168BF00D9364D /* LPHomeViewFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPHomeViewFrame.h; sourceTree = "<group>"; };
-		86CC9B0D1C2168BF00D9364D /* LPHomeViewFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPHomeViewFrame.m; sourceTree = "<group>"; };
+		86BF69991C254109009C967C /* LPDiggerFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPDiggerFooter.h; sourceTree = "<group>"; };
+		86BF699A1C254109009C967C /* LPDiggerFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPDiggerFooter.m; sourceTree = "<group>"; };
+		86BF699B1C254109009C967C /* LPDiggerHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPDiggerHeader.h; sourceTree = "<group>"; };
+		86BF699C1C254109009C967C /* LPDiggerHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPDiggerHeader.m; sourceTree = "<group>"; };
+		86CC9B0C1C2168BF00D9364D /* CardFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardFrame.h; sourceTree = "<group>"; };
+		86CC9B0D1C2168BF00D9364D /* CardFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardFrame.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2260,8 +2266,8 @@
 				18F630D61B5C044300423658 /* LPCategory.m */,
 				866F0CC61C15245800F8CA16 /* LPChannelItem.h */,
 				866F0CC71C15245800F8CA16 /* LPChannelItem.m */,
-				86CC9B0C1C2168BF00D9364D /* LPHomeViewFrame.h */,
-				86CC9B0D1C2168BF00D9364D /* LPHomeViewFrame.m */,
+				86CC9B0C1C2168BF00D9364D /* CardFrame.h */,
+				86CC9B0D1C2168BF00D9364D /* CardFrame.m */,
 			);
 			path = LPCategory;
 			sourceTree = "<group>";
@@ -2549,6 +2555,10 @@
 		86CC9B051C21465700D9364D /* HomeView */ = {
 			isa = PBXGroup;
 			children = (
+				86BF69991C254109009C967C /* LPDiggerFooter.h */,
+				86BF699A1C254109009C967C /* LPDiggerFooter.m */,
+				86BF699B1C254109009C967C /* LPDiggerHeader.h */,
+				86BF699C1C254109009C967C /* LPDiggerHeader.m */,
 				865C12B41C21A208000303C8 /* LPHomeViewCell.h */,
 				865C12B51C21A208000303C8 /* LPHomeViewCell.m */,
 			);
@@ -2792,7 +2802,7 @@
 				1846B1281B1C5178009EF8B9 /* LPSlidingShadowAnimation.m in Sources */,
 				18BA5E8E1B199BDB00EEDB63 /* UIView+LP.m in Sources */,
 				8680F8171BF046A6002C08EB /* LPRelateView.m in Sources */,
-				86CC9B0E1C2168BF00D9364D /* LPHomeViewFrame.m in Sources */,
+				86CC9B0E1C2168BF00D9364D /* CardFrame.m in Sources */,
 				18C9C4CC1B5C03C600064CED /* ConcernViewController.m in Sources */,
 				868D15BD1BFDA6A900E75E9A /* LPDetailTopView.m in Sources */,
 				18EC95961BE21E6F0039486A /* TimerTool.m in Sources */,
@@ -2913,11 +2923,13 @@
 				1808946C1C1905BD00FBBADA /* Model.xcdatamodeld in Sources */,
 				18A65CC71B203D330070DDD7 /* SDWebImageDownloader.m in Sources */,
 				866F0CC81C15245800F8CA16 /* LPChannelItem.m in Sources */,
+				86BF699E1C254109009C967C /* LPDiggerHeader.m in Sources */,
 				180953921C0E5B51001E5B2E /* UIView+LPReusePage.m in Sources */,
 				187912D51BC06C9F0021AB3E /* CoreDataHelper.m in Sources */,
 				1875647D1C2110B600589320 /* CardRelate+CoreDataProperties.m in Sources */,
 				18F631A21B5F2F1000423658 /* FBShimmeringLayer.m in Sources */,
 				184BA0B31B3A106E001D871B /* LPNewfeatureViewController.m in Sources */,
+				86BF699D1C254109009C967C /* LPDiggerFooter.m in Sources */,
 				186866041B907E1500039AA3 /* AFHTTPSessionManager.m in Sources */,
 				180953911C0E5B51001E5B2E /* LPPagingViewPage.m in Sources */,
 				187564851C2110B600589320 /* PressPhoto+CoreDataProperties.m in Sources */,

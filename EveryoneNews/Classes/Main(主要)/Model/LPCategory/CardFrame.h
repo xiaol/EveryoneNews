@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 @class Card;
-@interface LPHomeViewFrame : NSObject
+@interface CardFrame : NSObject
 
 // 无图模式
 @property (nonatomic, assign) CGRect noImageLabelF;
