@@ -31,7 +31,7 @@
         
     } else {
         channelItems = [[NSMutableArray alloc] init];
-        LPChannelItem *item0 = [[LPChannelItem alloc] init];
+//        LPChannelItem *item0 = [[LPChannelItem alloc] init];
         LPChannelItem *item1 = [[LPChannelItem alloc] init];
         LPChannelItem *item2 = [[LPChannelItem alloc] init];
         LPChannelItem *item3 = [[LPChannelItem alloc] init];
@@ -59,9 +59,9 @@
         LPChannelItem *item25 = [[LPChannelItem alloc] init];
 
         
-        item0.channelID = @"1";
-        item0.channelName = @"推荐";
-        item0.channelIsSelected = @"1";
+//        item0.channelID = @"1";
+//        item0.channelName = @"推荐";
+//        item0.channelIsSelected = @"1";
         
         item1.channelID = @"2";
         item1.channelName = @"社会";
@@ -163,7 +163,7 @@
         item25.channelName = @"美女";
         item25.channelIsSelected = @"0";
         
-        [channelItems addObject:item0];
+//        [channelItems addObject:item0];
         [channelItems addObject:item1];
         [channelItems addObject:item2];
         [channelItems addObject:item3];

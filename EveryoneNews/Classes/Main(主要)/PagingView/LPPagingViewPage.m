@@ -21,18 +21,13 @@
 
 @interface LPPagingViewPage () <UITableViewDataSource, UITableViewDelegate>
 
-@property (nonatomic, copy) NSString *selectedChannelID;
-
 @property (nonatomic, strong) UITableView *tableView;
 
 @end
 
 @implementation LPPagingViewPage
 
-- (void)prepareForReuse {
-    
-}
-
+ 
 - (instancetype)initWithFrame:(CGRect)frame {
     if(self = [super initWithFrame:frame]) {
         UITableView *tableView = [[UITableView alloc] init];
@@ -49,14 +44,9 @@
 
 - (void)setCardFrames:(NSMutableArray *)cardFrames {
     _cardFrames = cardFrames;
-    
     [self.tableView reloadData];
 }
 
-- (void)setChannelID:(NSString *)channelID{
-    self.selectedChannelID= channelID;
-    NSLog(@"currentID %@", self.selectedChannelID);
-}
 #pragma - mark 下拉刷新
 //- (void)loadNewDataWithCount{
 ////    NSLog(@"index--%@", self.selectedChannelID);
@@ -139,12 +129,7 @@
 //        NSLog(@"failure!");
 //    }];
 //}
-//- (NSMutableArray *)cardFrames {
-//    if(_cardFrames == nil) {
-//        _cardFrames = [[NSMutableArray alloc] init];
-//    }
-//    return _cardFrames;
-//}
+
 
 #pragma -mark tableView  数据源
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -152,7 +137,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *cellIdentifier = [NSString stringWithFormat:@"%d,%d",indexPath.section,indexPath.row];
+    static NSString *cellIdentifier = @"cardCellIdentifier";
     LPHomeViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil) {
         cell = [[LPHomeViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];

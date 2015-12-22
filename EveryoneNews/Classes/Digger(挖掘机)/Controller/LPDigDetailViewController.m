@@ -162,6 +162,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     ContentCell *cell = [ContentCell cellWithTableView:tableView];
     cell.delegate = self;
     cell.contentFrame = self.contentFrames[indexPath.row];

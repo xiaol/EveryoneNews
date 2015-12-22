@@ -35,8 +35,9 @@
         // 无图
         UILabel *noImageLabel = [[UILabel alloc] init];
         noImageLabel.textColor = LPNormalColor;
+        noImageLabel.clipsToBounds = YES;
+        [self.contentView addSubview:noImageLabel];
         self.noImageLabel = noImageLabel;
-        
         
         // 单图
         UIImageView *iconView = [[UIImageView alloc] init];
@@ -90,9 +91,18 @@
     _homeViewFrame = homeViewFrame;
     Card *card = self.homeViewFrame.card;
     if(card.cardImages.count == 0) {
+        self.noImageLabel.hidden = NO;
         
-        self.titleLabel.frame = self.homeViewFrame.noImageLabelF;
-        self.titleLabel.text = card.title;
+        self.titleLabel.hidden = YES;
+        self.iconView.hidden = YES;
+        
+        self.multipleImageLabel.hidden = YES;
+        self.firstMutipleImageView.hidden = YES;
+        self.secondMutipleImageView.hidden = YES;
+        self.thirdMutipleImageView.hidden = YES;
+        
+        self.noImageLabel.frame = self.homeViewFrame.noImageLabelF;
+        self.noImageLabel.text = card.title;
         
     } else if (card.cardImages.count == 1 || card.cardImages.count == 2) {
         
@@ -101,11 +111,34 @@
             [imageArray addObject:cardImage.imgUrl];
         }
        [self.iconView sd_setImageWithURL:[NSURL URLWithString:imageArray[0]] placeholderImage:[UIImage imageNamed:@"占位图"]];
+        
+        self.noImageLabel.hidden = YES;
+        self.titleLabel.hidden = NO;
+        self.iconView.hidden = NO;
+        
+        self.multipleImageLabel.hidden = YES;
+        self.firstMutipleImageView.hidden = YES;
+        self.secondMutipleImageView.hidden = YES;
+        self.thirdMutipleImageView.hidden = YES;
+        
         self.titleLabel.text = card.title;
         self.iconView.frame = self.homeViewFrame.singleImageImageViewFrame;
         self.titleLabel.frame = self.homeViewFrame.singleImageTitleLabelFrame;
         
+        
+  
+        
     } else if (card.cardImages.count >= 3) {
+        self.noImageLabel.hidden = YES;
+        
+        self.titleLabel.hidden = YES;
+        self.iconView.hidden = YES;
+        
+        self.multipleImageLabel.hidden = NO;
+        self.firstMutipleImageView.hidden = NO;
+        self.secondMutipleImageView.hidden = NO;
+        self.thirdMutipleImageView.hidden = NO;
+        
         self.multipleImageLabel.frame = self.homeViewFrame.multipleImageTitleLabelFrame;
         self.multipleImageLabel.text = card.title;
         
@@ -125,6 +158,8 @@
         self.firstMutipleImageView.frame = CGRectMake(x, y, w, h);
         self.secondMutipleImageView.frame = CGRectMake(x + w + 5, y, w, h);
         self.thirdMutipleImageView.frame = CGRectMake(x + 2 * w + 10, y, w, h);
+        
+     
     }
     
 }

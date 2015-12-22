@@ -11,12 +11,10 @@
 /**
  *  自定义 page
  */
-@class LPHomeViewFrame;
+
 @interface LPPagingViewPage : UIView
 
 @property (nonatomic, strong) NSMutableArray *cardFrames;
-- (void)setChannelID:(NSString *)channelID;
-
 /**
  *  复用前的准备工作(复写该方法)
  */
