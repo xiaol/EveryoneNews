@@ -11,13 +11,11 @@
 /**
  *  自定义 page
  */
-
+@class LPHomeViewFrame;
 @interface LPPagingViewPage : UIView
 
-@property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSMutableArray *homeViewFrames;
-@property (nonatomic, assign) NSInteger pageIndex;
-//- (void)loadNewDataWithCount:(NSNumber *)count channelID:(NSString *)channelID;
+@property (nonatomic, strong) NSMutableArray *cardFrames;
+@property (nonatomic, copy) NSString *pageID;
 
 /**
  *  复用前的准备工作(复写该方法)
@@ -26,5 +24,4 @@
 
 // table view, collection view, label, image view, ... and so on (your custom subviews)
 
-// - @property (nonatomic, strong) UITableView *tableView;
 @end

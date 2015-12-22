@@ -47,6 +47,10 @@
     return [NSMethodSignature signatureWithObjCTypes:desc.types];
 }
 
+//- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
+//    return [self.delegate methodSignatureForSelector:aSelector];
+//}
+
 - (void)forwardInvocation:(NSInvocation *)anInvocation {
     if ([self.delegate respondsToSelector:anInvocation.selector]) {
         [anInvocation invokeWithTarget:self.delegate];
@@ -161,7 +165,7 @@
         _helper.numberOfPages = [self.dataSource numberOfPagesInPagingView:self];
         _helper.pageHeight = self.bounds.size.height;
         _helper.pageWidth = self.bounds.size.width;
-        _helper.gutter = - 0.5f;
+        _helper.gutter = 0;
         
         self.contentSize = _helper.contentSize;
         
@@ -227,8 +231,16 @@
     [self.reusablePages removeAllObjects];
     
     self.helper = nil;
+    if ([self.dataSource numberOfPagesInPagingView:self]) {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            if ([self.delegate respondsToSelector:@selector(pagingView:didScrollToPageIndex:)]) {
+                [self.delegate pagingView:self didScrollToPageIndex:0];
+            }
+        });
+    }
     
-    [self setNeedsLayout];
+//    [self setNeedsLayout];
 }
 
 // scroll view delegate trampoline method components
@@ -337,9 +349,9 @@
 
 // layout subviews
 - (void)layoutSubviews {
-    //    NSLog(@"%@", NSStringFromSelector(_cmd));
+//    NSLog(@"%@", NSStringFromSelector(_cmd));
     [super layoutSubviews];
-    //    if (self.contentOffset.x < 0 || self.contentOffset.x > self.helper.contentSize.width) return;
+//    if (self.contentOffset.x < 0 || self.contentOffset.x > self.helper.contentSize.width) return;
     CGFloat numberOfPages = self.helper.numberOfPages;
     if (numberOfPages == 0) return;
     CGRect visibleBounds = self.clipsToBounds ? self.bounds : [self convertRect:self.superview.bounds fromView:self.superview];
