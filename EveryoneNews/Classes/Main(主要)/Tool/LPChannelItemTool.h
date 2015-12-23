@@ -19,4 +19,8 @@
 + (NSMutableArray *)getChannelItems;
 
 + (NSString *)channelID:(NSString *)channelName;
+// 清空所有频道上次访问日期
++ (void)initializeLastAccessDate;
+//  记录频道上次访问日期
++ (void)saveChannelItemLastAccessDate:(LPChannelItem *)channelItem lastAccessDate:(NSDate *)lastAccessDate;
 @end

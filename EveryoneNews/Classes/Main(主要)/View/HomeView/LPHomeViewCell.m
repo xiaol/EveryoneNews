@@ -38,6 +38,7 @@
         noImageLabel.clipsToBounds = YES;
         [self.contentView addSubview:noImageLabel];
         self.noImageLabel = noImageLabel;
+
         
         // 单图
         UIImageView *iconView = [[UIImageView alloc] init];
@@ -105,7 +106,6 @@
         self.noImageLabel.text = card.title;
         
     } else if (card.cardImages.count == 1 || card.cardImages.count == 2) {
-        
         NSMutableArray *imageArray = [[NSMutableArray alloc] init];
         for (CardImage * cardImage in card.cardImages) {
             [imageArray addObject:cardImage.imgUrl];
@@ -124,9 +124,6 @@
         self.titleLabel.text = card.title;
         self.iconView.frame = self.homeViewFrame.singleImageImageViewFrame;
         self.titleLabel.frame = self.homeViewFrame.singleImageTitleLabelFrame;
-        
-        
-  
         
     } else if (card.cardImages.count >= 3) {
         self.noImageLabel.hidden = YES;
@@ -158,10 +155,8 @@
         self.firstMutipleImageView.frame = CGRectMake(x, y, w, h);
         self.secondMutipleImageView.frame = CGRectMake(x + w + 5, y, w, h);
         self.thirdMutipleImageView.frame = CGRectMake(x + 2 * w + 10, y, w, h);
-        
-     
+
     }
-    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

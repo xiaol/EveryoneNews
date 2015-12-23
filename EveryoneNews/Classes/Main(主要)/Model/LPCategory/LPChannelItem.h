@@ -15,4 +15,6 @@
 // 1  选中  0 未选中
 @property (nonatomic, copy) NSString *channelIsSelected;
 
+@property (nonatomic, strong) NSDate *lastAccessDate;
+
 @end

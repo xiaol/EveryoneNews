@@ -13,7 +13,7 @@
 
 #pragma mark - delegate trampoline
 
-// 蹦床接收所有pv代理方法, 实现其中一部分, 并把余下未实现的方法转发给自己的代理
+// 蹦床接收所有pv代理方法(无法获得代理(id)的签名, 但可以知道代理可以响应的方法(协议中规定了)), 实现其中一部分, 并把余下未实现的方法转发给自己的代理
 @interface LPPagingViewDelegateTrampline : NSObject <UIScrollViewDelegate>
 
 @property (nonatomic, weak) LPPagingView *pagingView;
@@ -23,13 +23,26 @@
 
 @implementation LPPagingViewDelegateTrampline
 
-- (BOOL)respondsToSelector:(SEL)aSelector {
-    return [super respondsToSelector:aSelector] || [self.delegate respondsToSelector:aSelector];
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
+    NSMethodSignature *sig = [super methodSignatureForSelector:aSelector];
+    if (sig) {
+        return sig;
+    }
+    
+    Protocol *protocol = @protocol(LPPagingViewDelegate);
+    struct objc_method_description desc = protocol_getMethodDescription(protocol, aSelector, YES, YES);
+    if (desc.name == NULL) {
+        desc = protocol_getMethodDescription(protocol, aSelector, NO, YES);
+    }
+    
+    if (desc.name == NULL) {
+        [self doesNotRecognizeSelector:aSelector];
+        return nil;
+    }
+    
+    return [NSMethodSignature signatureWithObjCTypes:desc.types];
 }
 
-//- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
-//    return [self.delegate methodSignatureForSelector:aSelector];
-//}
 
 - (void)forwardInvocation:(NSInvocation *)anInvocation {
     if ([self.delegate respondsToSelector:anInvocation.selector]) {
@@ -145,10 +158,10 @@
         _helper.numberOfPages = [self.dataSource numberOfPagesInPagingView:self];
         _helper.pageHeight = self.bounds.size.height;
         _helper.pageWidth = self.bounds.size.width;
-        _helper.gutter = - 0.5f;
+        _helper.gutter = 0;
         
         self.contentSize = _helper.contentSize;
-
+        
         CGRect frame = self.frame;
         frame.size.width += _helper.gutter;
         frame.origin.x -= _helper.gutter / 2;
@@ -194,8 +207,8 @@
 
 - (NSInteger)currentPageIndex {
     NSInteger currentPageIndex = floorf(CGRectGetMinX(self.bounds) / (self.helper.pageWidth + self.helper.gutter));
-//    NSLog(@"%.2f -- %@", CGRectGetMinX(self.bounds), NSStringFromCGRect(self.bounds));
-//    NSInteger currentPageIndex = floorf(self.contentOffset.x / (self.helper.pageWidth + self.helper.gutter));
+    //    NSLog(@"%.2f -- %@", CGRectGetMinX(self.bounds), NSStringFromCGRect(self.bounds));
+    //    NSInteger currentPageIndex = floorf(self.contentOffset.x / (self.helper.pageWidth + self.helper.gutter));
     currentPageIndex = MAX(currentPageIndex, 0);
     currentPageIndex = MIN(currentPageIndex, self.helper.numberOfPages - 1);
     return currentPageIndex;
@@ -203,7 +216,7 @@
 
 // reload data
 - (void)reloadData {
-//    [self.visiblePages makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    //    [self.visiblePages makeObjectsPerformSelector:@selector(removeFromSuperview)];
     for (UIView *page in self.visiblePages) {
         [page removeFromSuperview];
     }
@@ -211,8 +224,16 @@
     [self.reusablePages removeAllObjects];
     
     self.helper = nil;
+    if ([self.dataSource numberOfPagesInPagingView:self]) {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            if ([self.delegate respondsToSelector:@selector(pagingView:didScrollToPageIndex:)]) {
+                [self.delegate pagingView:self didScrollToPageIndex:0];
+            }
+        });
+    }
     
-    [self setNeedsLayout];
+//    [self setNeedsLayout];
 }
 
 // scroll view delegate trampoline method components
@@ -239,7 +260,7 @@
     CGFloat offset = self.contentOffset.x;
     CGFloat ratio = offset / pageLength;
     if (offset > 0 && ratio <= self.helper.numberOfPages - 1) {
-//        ratio -= floorf(ratio);
+        //        ratio -= floorf(ratio);
         if ([self.delegate respondsToSelector:@selector(pagingView:didScrollWithRatio:)]) {
             [self.delegate pagingView:self didScrollWithRatio:ratio];
         }
@@ -287,7 +308,7 @@
     if (page != nil) {
         [page prepareForReuse];
         [set removeObject:page];
-    
+        
         return page;
     }
     
@@ -330,60 +351,60 @@
     CGFloat pageLength = self.helper.pageWidth + self.helper.gutter;
     CGFloat minX = CGRectGetMinX(visibleBounds) + self.helper.gutter / 2;
     CGFloat maxX = CGRectGetMaxX(visibleBounds) - self.helper.gutter / 2;
-//    maxX ++;
+    //    maxX ++;
     
     NSInteger firstIndex = floorf(minX / pageLength);
     firstIndex = MAX(firstIndex, 0);
     NSInteger lastIndex = floorf(maxX / pageLength);
     lastIndex = MIN(lastIndex, numberOfPages - 1);
     
-    // remove non-visible pages & queue reusable pages
+    // 1. remove non-visible pages & queue reusable pages 在当前可视集合中将即将不可视的page从pv(1.1)和可视集合(1.2)中remove掉, 并存入缓存(1.3)
     NSMutableSet *removedPages = [NSMutableSet set];
     
     for (UIView *page in self.visiblePages) {
         if (page.tag < firstIndex || page.tag > lastIndex) {
-            [page removeFromSuperview];
+            [page removeFromSuperview];         // 1.1
             [removedPages addObject:page];
-            [self queueReusablePage:page];
+            [self queueReusablePage:page];      // 1.3
         }
     }
-    [self.visiblePages minusSet:removedPages];
+    [self.visiblePages minusSet:removedPages];  // 1.2
     
-    // layout visible pages
+    // 2. layout visible pages 如更新的可视集合中有新来的index, 从数据源获取对应的page(2.1)添加至pv(2.2), 并加入可视集合(2.3)
     for (NSInteger index = firstIndex; index <= lastIndex; index ++) {
         if (![self isPageVisibleAtPageIndex:index]) {
-            UIView *page = [self.dataSource pagingView:self pageForPageIndex:index];
+            UIView *page = [self.dataSource pagingView:self pageForPageIndex:index]; // 2.1
             page.frame = [self frameForPageIndex:index];
             page.tag = index;
-            [self insertSubview:page atIndex:0];
-            [self.visiblePages addObject:page];
+            [self insertSubview:page atIndex:0];                                     // 2.2
+            [self.visiblePages addObject:page];                                      // 2.3
         }
     }
     
-//    for (NSInteger index = 0; index < self.pageFrames.count; index++) {
-//        CGRect pageFrame = [self.pageFrames[index] CGRectValue];
-//        LPPagingViewPage *page = self.visiblePages[@(index)]; // 1. 从可视pages数组中取出对应的page
-//        if ([self isPageInScreenWithFrame:pageFrame]) {
-//            if (page == nil) { // 2. 若数组中不存在相应page, 由数据源创建相应
-//                // 2.1 创建一个page
-//                page = [self.dataSource pagingView:self pageForPageIndex:index];
-//                // 2.2 设置其frame并添加至self
-//                page.frame = pageFrame;
-//                [self addSubview:page];
-//                // 2.3 存入可视字典
-//                self.visiblePages[@(index)] = page;
-//            }
-//            // 3. 若page可见且存于字典, nothing to do
-//        } else {
-//            if (page) { // 4. 若page不可见但存于字典, 扔进复用缓存池中以避免大量创建 (like table / collection view)
-//            // 4.1 清理工作 removed from super view & delete from visible dictionary
-//                [page removeFromSuperview];
-//                [self.visiblePages removeObjectForKey:@(index)];
-//            // 4.2 added into 缓存池
-//                [self.reusablePages addObject:page];
-//            }
-//        }
-//    }
+    //    for (NSInteger index = 0; index < self.pageFrames.count; index++) {
+    //        CGRect pageFrame = [self.pageFrames[index] CGRectValue];
+    //        LPPagingViewPage *page = self.visiblePages[@(index)]; // 1. 从可视pages数组中取出对应的page
+    //        if ([self isPageInScreenWithFrame:pageFrame]) {
+    //            if (page == nil) { // 2. 若数组中不存在相应page, 由数据源创建相应
+    //                // 2.1 创建一个page
+    //                page = [self.dataSource pagingView:self pageForPageIndex:index];
+    //                // 2.2 设置其frame并添加至self
+    //                page.frame = pageFrame;
+    //                [self addSubview:page];
+    //                // 2.3 存入可视字典
+    //                self.visiblePages[@(index)] = page;
+    //            }
+    //            // 3. 若page可见且存于字典, nothing to do
+    //        } else {
+    //            if (page) { // 4. 若page不可见但存于字典, 扔进复用缓存池中以避免大量创建 (like table / collection view)
+    //            // 4.1 清理工作 removed from super view & delete from visible dictionary
+    //                [page removeFromSuperview];
+    //                [self.visiblePages removeObjectForKey:@(index)];
+    //            // 4.2 added into 缓存池
+    //                [self.reusablePages addObject:page];
+    //            }
+    //        }
+    //    }
 }
 
 - (void)registerClass:(Class)pageClass forPageWithReuseIdentifier:(NSString *)identifier {

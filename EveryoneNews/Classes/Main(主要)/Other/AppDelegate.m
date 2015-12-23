@@ -270,10 +270,17 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
+    if (![userDefaults objectForKey:@"isFirstLoadMark"]) {
+        [userDefaults setObject:@"NO" forKey:@"isFirstLoadMark"];
+        [userDefaults synchronize];
+    }
+    
     if (debug==1) {
         NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
     }
     [[self cdh] saveBackgroundContext];
+    
+    
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application

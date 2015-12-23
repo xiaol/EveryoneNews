@@ -15,6 +15,8 @@
         self.channelID = [aDecoder decodeObjectForKey:@"channelID"];
         self.channelName = [aDecoder decodeObjectForKey:@"channelName"];
         self.channelIsSelected = [aDecoder decodeObjectForKey:@"channelIsSelected"];
+        self.lastAccessDate = [aDecoder decodeObjectForKey:@"lastAccessDate"];
+        
     }
     return self;
 }
@@ -23,6 +25,7 @@
     [aCoder encodeObject:self.channelID forKey:@"channelID"];
     [aCoder encodeObject:self.channelName forKey:@"channelName"];
     [aCoder encodeObject:self.channelIsSelected forKey:@"channelIsSelected"];
+    [aCoder encodeObject:self.lastAccessDate forKey:@"lastAccessDate"];
 }
 
 @end

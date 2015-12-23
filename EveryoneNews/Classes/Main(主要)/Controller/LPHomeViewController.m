@@ -45,6 +45,7 @@ static NSString *firstChannelName = @"社会";
 const static float topViewHeight = 60;
 // 展开折叠图片宽度
 const static float menuImageViewWidth= 40;
+NSString *isFirstLoadMark = @"isFirstLoadMark";
 
 @interface LPHomeViewController () <LPPagingViewDataSource, LPPagingViewDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, LPSortCollectionReusableViewDelegate>
 
@@ -75,13 +76,12 @@ const static float menuImageViewWidth= 40;
 @property (nonatomic, copy) NSString *selectedChannelTitle;
 // 记录所有的样式，用于长按拖动
 @property (nonatomic, strong) NSMutableArray *cellAttributesArray;
-// 存储选中的模型
-@property (nonatomic, strong) NSMutableArray *homeViewFrames;
 // 存储所有的模型数据
-@property (nonatomic, strong) NSCache *cache;
+@property (nonatomic, strong) NSMutableDictionary *channelItemDictionary;
 
 @property (nonatomic, strong) NSMutableDictionary *pageindexToChannelItemDictionary;
 
+@property (nonatomic, strong) NSUserDefaults *userDefault;
 @end
 
 @implementation LPHomeViewController
@@ -108,33 +108,27 @@ const static float menuImageViewWidth= 40;
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 }
+
+ 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    if (_channelItemDictionary == nil) {
+        _channelItemDictionary = [[NSMutableDictionary alloc] init];
+    }
+ 
     self.view.backgroundColor = [UIColor whiteColor];
-//    [NSThread sleepForTimeInterval:3.0];
-//    NSLog(@"--------------------");
-//    CardParam *param = [[CardParam alloc] init];
-//    param.type = HomeCardsFetchTypeMore;
-//    param.channelID = @"4";
-//    param.count = @20;
-//    [CardTool cardsWithParam:param success:^(NSArray *cards) {
-//        for (Card *card in cards) {
-//            NSLog(@"%@", card.title);
-//            NSLog(@"card with channel : %@, sourceName : %@, updateTime : %@", card.channelId, card.sourceSiteName, card.updateTime);
-//        }
-//    } failure:^(NSError *error) {
-//        NSLog(@"failure!");
-//    }];
     [self setupSubViews];
-    [self setCacheInitialData];
-    [self updatePageIndexToChannelItem];
+    // 初始化所有频道上次访问日期
+    [LPChannelItemTool initializeLastAccessDate];
+    
+   
 }
 
-- (NSCache *)cache {
-    if (_cache == nil) {
-        _cache = [[NSCache alloc] init];
+- (NSMutableDictionary *)channelItemDictionary {
+    if (_channelItemDictionary == nil) {
+        _channelItemDictionary = [[NSMutableDictionary alloc] init];
     }
-    return _cache;
+    return _channelItemDictionary;
 }
 
 - (NSMutableArray *)channelItemsArray {
@@ -189,7 +183,7 @@ const static float menuImageViewWidth= 40;
 #pragma - mark 初始化页码
 
 - (void)updatePageIndexToChannelItem {
-    [_pageindexToChannelItemDictionary removeAllObjects];
+    [self.pageindexToChannelItemDictionary removeAllObjects];
     for (int i = 0; i < self.selectedArray.count; i++) {
         LPChannelItem *channelItem = self.selectedArray[i];
         [self.pageindexToChannelItemDictionary setObject:channelItem forKey:@(i)];
@@ -197,7 +191,7 @@ const static float menuImageViewWidth= 40;
 }
 
 #pragma - mark 初始化频道模型
-- (void)setCacheInitialData {
+- (void)setChannelItemDictionaryInitialData {
     for (int i = 0; i < self.selectedArray.count; i++) {
         CardParam *param = [[CardParam alloc] init];
         param.type = HomeCardsFetchTypeMore;
@@ -207,15 +201,13 @@ const static float menuImageViewWidth= 40;
         NSString *channelID = [LPChannelItemTool channelID:channelItem.channelName];
         param.channelID = channelID;
         NSMutableArray *cfs = [NSMutableArray array];
-        
         [CardTool cardsWithParam:param success:^(NSArray *cards) {
             for (Card *card in cards) {
                 CardFrame *cf = [[CardFrame alloc] init];
                 cf.card = card;
                 [cfs addObject:cf];
-                NSLog(@"%@", card.title);
             }
-            [self.cache setObject:cfs forKey:channelItem];
+            [self.channelItemDictionary setObject:cfs forKey:channelItem.channelName];
             if (i == self.selectedArray.count - 1) {
                 [self.pagingView reloadData];
             }
@@ -226,6 +218,7 @@ const static float menuImageViewWidth= 40;
     }
  
 }
+
 
 #pragma -mark 初始化界面
 - (void)setupSubViews {
@@ -242,7 +235,7 @@ const static float menuImageViewWidth= 40;
             [self.optionalArray addObject:channelItem];
         }
     }
-    
+    [self updatePageIndexToChannelItem];
     // 菜单栏
     UICollectionViewFlowLayout *menuViewFlowLayout = [[UICollectionViewFlowLayout alloc] init];
     menuViewFlowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
@@ -364,14 +357,13 @@ const static float menuImageViewWidth= 40;
 
 #pragma -mark 分页
 - (NSInteger)numberOfPagesInPagingView:(LPPagingView *)pagingView {
-
     return self.selectedArray.count;
 }
 
 - (UIView *)pagingView:(LPPagingView *)pagingView pageForPageIndex:(NSInteger)pageIndex {
     LPChannelItem *channelItem = self.pageindexToChannelItemDictionary[@(pageIndex)];
     LPPagingViewPage *page = (LPPagingViewPage *)[pagingView dequeueReusablePageWithIdentifier:reusePageID];
-    page.cardFrames = [self.cache objectForKey:channelItem];
+    page.cardFrames = self.channelItemDictionary[channelItem.channelName];
     return page;
 }
 
@@ -400,39 +392,31 @@ const static float menuImageViewWidth= 40;
     }
     // 改变菜单栏按钮选中取消状态
     [self buttonSelectedStatusChangedWithIndex:(int)pageIndex];
-    
-
- 
-    
-    
-    
-//    LPHomeViewFrame *homeViewFrame = [self.homeViewFrames lastObject];
-//    Card *card = homeViewFrame.card;
-//    CardParam *param = [[CardParam alloc] init];
-//    param.type = HomeCardsFetchTypeMore;
-//    param.channelID = self.selectedChannelID;
-//    param.count = @20;
-//    param.startTime = card.updateTime;
-//    NSLog(@"%@", card.updateTime);
-//    [CardTool cardsWithParam:param success:^(NSArray *cards) {
-//        for (Card *card in cards) {
-//            LPHomeViewFrame *homeViewFrame = [[LPHomeViewFrame alloc] init];
-//            homeViewFrame.card = card;
-//            [weakSelf.homeViewFrames addObject:homeViewFrame];
-//            //            NSLog(@"------------%@", card.title);
-//        }
-//        [self.tableView reloadData];
-//        [self.tableView.footer endRefreshing];
-//        if (!cards.count) {
-//            [self.tableView.footer noticeNoMoreData];
-//        }
-//    } failure:^(NSError *error) {
-//        [self.tableView.footer endRefreshing];
-//        NSLog(@"failure!");
-//    }];
-//    
-    
+    if (![userDefaults objectForKey:isFirstLoadMark]) {
+        [self channelItemDidSavedInDictionary:pageIndex];
+    }
 }
+
+- (void)channelItemDidSavedInDictionary:(NSInteger)pageIndex{
+    LPChannelItem *channelItem = self.pageindexToChannelItemDictionary[@(pageIndex)];
+    CardParam *param = [[CardParam alloc] init];
+    param.type = HomeCardsFetchTypeMore;
+    param.count = @(20);
+    param.startTime = [NSString stringWithFormat:@"%lld", (long long)([[NSDate date] timeIntervalSince1970] * 1000)];
+    param.channelID = channelItem.channelID;
+    NSMutableArray *cfs = [NSMutableArray array];
+    [CardTool cardsWithParam:param success:^(NSArray *cards) {
+        for (Card *card in cards) {
+            CardFrame *cf = [[CardFrame alloc] init];
+            cf.card = card;
+            [cfs addObject:cf];
+        }
+        [self.channelItemDictionary setObject:cfs forKey:channelItem.channelName];
+    } failure:^(NSError *error) {
+        NSLog(@"failure!");
+    }];
+}
+
 
 - (void)buttonSelectedStatusChangedWithIndex:(NSInteger)index {
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index
