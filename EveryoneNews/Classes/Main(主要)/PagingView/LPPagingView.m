@@ -13,6 +13,7 @@
 
 #pragma mark - delegate trampoline
 
+
 // 蹦床接收所有pv代理方法(无法获得代理(id)的签名, 但可以知道代理可以响应的方法(协议中规定了)), 实现其中一部分, 并把余下未实现的方法转发给自己的代理
 @interface LPPagingViewDelegateTrampline : NSObject <UIScrollViewDelegate>
 
@@ -22,6 +23,10 @@
 @end
 
 @implementation LPPagingViewDelegateTrampline
+
+//- (BOOL)respondsToSelector:(SEL)aSelector {
+//    return [super respondsToSelector:aSelector] || [self.delegate respondsToSelector:aSelector];
+//}
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
     NSMethodSignature *sig = [super methodSignatureForSelector:aSelector];
@@ -43,7 +48,6 @@
     return [NSMethodSignature signatureWithObjCTypes:desc.types];
 }
 
-
 - (void)forwardInvocation:(NSInvocation *)anInvocation {
     if ([self.delegate respondsToSelector:anInvocation.selector]) {
         [anInvocation invokeWithTarget:self.delegate];
@@ -51,30 +55,36 @@
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [self.pagingView scrollViewDidScroll:scrollView];
+    if (scrollView == self.pagingView) {
+        [self.pagingView scrollViewDidScroll:scrollView];
+    }
     if ([self.delegate respondsToSelector:_cmd]) {
         [self.delegate scrollViewDidScroll:scrollView];
     }
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-    [self.pagingView scrollViewDidEndDragging:scrollView willDecelerate:decelerate];
+    if (scrollView == self.pagingView) {
+        [self.pagingView scrollViewDidEndDragging:scrollView willDecelerate:decelerate];
+    }
     if ([self.delegate respondsToSelector:_cmd]) {
         [self.delegate scrollViewDidEndDragging:scrollView willDecelerate:decelerate];
     }
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    [self.pagingView scrollViewDidEndDecelerating:scrollView];
-    
+    if (scrollView == self.pagingView) {
+        [self.pagingView scrollViewDidEndDecelerating:scrollView];
+    }
     if ([self.delegate respondsToSelector:_cmd]) {
         [self.delegate scrollViewDidEndDecelerating:scrollView];
     }
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
-    [self.pagingView scrollViewDidEndScrollingAnimation:scrollView];
-    
+    if (scrollView == self.pagingView) {
+        [self.pagingView scrollViewDidEndScrollingAnimation:scrollView];
+    }
     if ([self.delegate respondsToSelector:_cmd]) {
         [self.delegate scrollViewDidEndScrollingAnimation:scrollView];
     }
@@ -158,10 +168,10 @@
         _helper.numberOfPages = [self.dataSource numberOfPagesInPagingView:self];
         _helper.pageHeight = self.bounds.size.height;
         _helper.pageWidth = self.bounds.size.width;
-        _helper.gutter = 0;
+        _helper.gutter = 0.0f;
         
         self.contentSize = _helper.contentSize;
-        
+
         CGRect frame = self.frame;
         frame.size.width += _helper.gutter;
         frame.origin.x -= _helper.gutter / 2;
@@ -207,8 +217,8 @@
 
 - (NSInteger)currentPageIndex {
     NSInteger currentPageIndex = floorf(CGRectGetMinX(self.bounds) / (self.helper.pageWidth + self.helper.gutter));
-    //    NSLog(@"%.2f -- %@", CGRectGetMinX(self.bounds), NSStringFromCGRect(self.bounds));
-    //    NSInteger currentPageIndex = floorf(self.contentOffset.x / (self.helper.pageWidth + self.helper.gutter));
+//    NSLog(@"%.2f -- %@", CGRectGetMinX(self.bounds), NSStringFromCGRect(self.bounds));
+//    NSInteger currentPageIndex = floorf(self.contentOffset.x / (self.helper.pageWidth + self.helper.gutter));
     currentPageIndex = MAX(currentPageIndex, 0);
     currentPageIndex = MIN(currentPageIndex, self.helper.numberOfPages - 1);
     return currentPageIndex;
@@ -216,7 +226,7 @@
 
 // reload data
 - (void)reloadData {
-    //    [self.visiblePages makeObjectsPerformSelector:@selector(removeFromSuperview)];
+//    [self.visiblePages makeObjectsPerformSelector:@selector(removeFromSuperview)];
     for (UIView *page in self.visiblePages) {
         [page removeFromSuperview];
     }
@@ -224,15 +234,15 @@
     [self.reusablePages removeAllObjects];
     
     self.helper = nil;
-    if ([self.dataSource numberOfPagesInPagingView:self]) {
+    NSInteger pageCount = [self.dataSource numberOfPagesInPagingView:self];
+    if (pageCount && !self.dragging && !self.decelerating) {
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
             if ([self.delegate respondsToSelector:@selector(pagingView:didScrollToPageIndex:)]) {
-                [self.delegate pagingView:self didScrollToPageIndex:0];
+                [self.delegate pagingView:self didScrollToPageIndex:self.currentPageIndex];
             }
         });
     }
-    
 //    [self setNeedsLayout];
 }
 
@@ -260,7 +270,7 @@
     CGFloat offset = self.contentOffset.x;
     CGFloat ratio = offset / pageLength;
     if (offset > 0 && ratio <= self.helper.numberOfPages - 1) {
-        //        ratio -= floorf(ratio);
+//        ratio -= floorf(ratio);
         if ([self.delegate respondsToSelector:@selector(pagingView:didScrollWithRatio:)]) {
             [self.delegate pagingView:self didScrollWithRatio:ratio];
         }
@@ -303,12 +313,12 @@
     NSParameterAssert(identifier != nil);
     
     NSMutableSet *set = [self reusablePagesWithIdentifier:identifier];
-    UIView *page = [set anyObject];
+    UIView *page = set.count > 2 ? [set anyObject] : nil;
     
     if (page != nil) {
         [page prepareForReuse];
         [set removeObject:page];
-        
+    
         return page;
     }
     
@@ -351,7 +361,7 @@
     CGFloat pageLength = self.helper.pageWidth + self.helper.gutter;
     CGFloat minX = CGRectGetMinX(visibleBounds) + self.helper.gutter / 2;
     CGFloat maxX = CGRectGetMaxX(visibleBounds) - self.helper.gutter / 2;
-    //    maxX ++;
+//    maxX ++;
     
     NSInteger firstIndex = floorf(minX / pageLength);
     firstIndex = MAX(firstIndex, 0);
@@ -380,32 +390,32 @@
             [self.visiblePages addObject:page];                                      // 2.3
         }
     }
-    
-    //    for (NSInteger index = 0; index < self.pageFrames.count; index++) {
-    //        CGRect pageFrame = [self.pageFrames[index] CGRectValue];
-    //        LPPagingViewPage *page = self.visiblePages[@(index)]; // 1. 从可视pages数组中取出对应的page
-    //        if ([self isPageInScreenWithFrame:pageFrame]) {
-    //            if (page == nil) { // 2. 若数组中不存在相应page, 由数据源创建相应
-    //                // 2.1 创建一个page
-    //                page = [self.dataSource pagingView:self pageForPageIndex:index];
-    //                // 2.2 设置其frame并添加至self
-    //                page.frame = pageFrame;
-    //                [self addSubview:page];
-    //                // 2.3 存入可视字典
-    //                self.visiblePages[@(index)] = page;
-    //            }
-    //            // 3. 若page可见且存于字典, nothing to do
-    //        } else {
-    //            if (page) { // 4. 若page不可见但存于字典, 扔进复用缓存池中以避免大量创建 (like table / collection view)
-    //            // 4.1 清理工作 removed from super view & delete from visible dictionary
-    //                [page removeFromSuperview];
-    //                [self.visiblePages removeObjectForKey:@(index)];
-    //            // 4.2 added into 缓存池
-    //                [self.reusablePages addObject:page];
-    //            }
-    //        }
-    //    }
 }
+
+- (void)reloadPageAtPageIndex:(NSInteger)pageIndex {
+    // 1. 要刷新的页面可见, 从数据源获取并取代旧的
+    for (UIView *page in self.visiblePages) {
+        if (pageIndex == page.tag) {
+            UIView *newPage = [self.dataSource pagingView:self pageForPageIndex:pageIndex];
+            newPage.tag = page.tag;
+            newPage.frame = page.frame;
+            
+            [page removeFromSuperview];
+            [self.visiblePages removeObject:page];
+            [self addSubview:newPage];
+            [self.visiblePages addObject:newPage];
+            break;
+        }
+    }
+    // 2. 要刷新但页面不可见， 无需操作
+}
+
+//- (void)reloadPagesAtPageIndexes:(NSArray *)pageIndexes {
+//    for (NSNumber *indexObj in pageIndexes) {
+//        NSInteger index = indexObj.integerValue;
+//        [self reloadPageAtPageIndex:index];
+//    }
+//}
 
 - (void)registerClass:(Class)pageClass forPageWithReuseIdentifier:(NSString *)identifier {
     NSParameterAssert(identifier != nil);

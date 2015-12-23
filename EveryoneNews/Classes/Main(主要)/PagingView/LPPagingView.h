@@ -112,4 +112,14 @@
  */
 - (void)reloadData;
 
+/**
+ *  刷新一页
+ */
+- (void)reloadPageAtPageIndex:(NSInteger)pageIndex;
+//
+///**
+// *  刷新某些页面
+// */
+//- (void)reloadPagesAtPageIndexes:(NSArray *)pageIndexes;
+
 @end

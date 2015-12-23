@@ -31,6 +31,7 @@
                        }
                        failure:^(NSError *error) {
                            failure(error);
+                           NSLog(@"%@", error);
                        }];
     } else if (param.type == HomeCardsFetchTypeMore) { // 上拉加载更多, 先从数据库获取, 如未命中, 发送网络请求
         NSArray *cards = [Card fetchCardsWithCardParam:param];

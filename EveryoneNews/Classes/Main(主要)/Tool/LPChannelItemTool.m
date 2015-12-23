@@ -17,6 +17,7 @@
     for (LPChannelItem *item in channelItems) {
         if ([item.channelName isEqualToString:channelItem.channelName]) {
             item.lastAccessDate = lastAccessDate;
+            NSLog(@"%@,%@", item.channelName, item.lastAccessDate);
         }
         [newChannelItems addObject:item];
     }
@@ -243,7 +244,7 @@
                                 @"科学",@"25",
                                 @"美女",@"26",
                                 nil];
-    NSString *channelID = @"4";
+    NSString *channelID = @"0";
     for (NSString *key in dictionary) {
         if([dictionary[key] isEqualToString:channelName]) {
             channelID = key;

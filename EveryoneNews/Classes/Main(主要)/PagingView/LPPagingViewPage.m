@@ -29,7 +29,6 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if(self = [super initWithFrame:frame]) {
         UITableView *tableView = [[UITableView alloc] init];
-        tableView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight - 104);
         tableView.backgroundColor =  [UIColor colorFromHexString:@"#edefef"];
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         tableView.dataSource = self;
@@ -40,10 +39,18 @@
     return self;
 }
 
+- (void)layoutSubviews {
+    self.tableView.frame = self.bounds;
+}
+
 - (void)setCardFrames:(NSMutableArray *)cardFrames {
     _cardFrames = cardFrames;
-    [self.tableView reloadData];
 }
+
+//- (void)refreshTableView {
+//   
+//    [self.tableView setNeedsDisplay];
+//}
 
 #pragma - mark 下拉刷新
 //- (void)loadNewDataWithCount{
@@ -127,6 +134,9 @@
 //        NSLog(@"failure!");
 //    }];
 //}
+//- (void)prepareForReuse {
+////    [_tableView setContentOffset:CGPointMake(0, 100)];
+//}
 
 
 #pragma -mark tableView  数据源
@@ -149,6 +159,11 @@
     return cardFrame.cellHeight;
 }
 
- 
+
+#pragma mark - scroll view delegate
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//    NSLog(@"%s %.f", class_getName(scrollView.class), scrollView.contentOffset.y);
+//}
+// 
 
 @end

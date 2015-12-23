@@ -15,7 +15,6 @@
 @interface LPPagingViewPage : UIView
 
 @property (nonatomic, strong) NSMutableArray *cardFrames;
-
 /**
  *  复用前的准备工作(复写该方法)
  */

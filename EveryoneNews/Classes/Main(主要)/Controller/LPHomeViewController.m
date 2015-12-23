@@ -30,6 +30,7 @@
 #import "MBProgressHUD+MJ.h"
 #import "LPDiggerFooter.h"
 #import "LPDiggerHeader.h"
+#import <objc/runtime.h>
 
 const static CGFloat cellPadding = 10;
 const static CGFloat menuViewHeight = 44;
@@ -121,7 +122,11 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
     // 初始化所有频道上次访问日期
     [LPChannelItemTool initializeLastAccessDate];
     
-   
+    if ([userDefaults objectForKey:isFirstLoadMark]) {
+        [self setChannelItemDictionaryInitialData];
+    }
+    
+    
 }
 
 - (NSMutableDictionary *)channelItemDictionary {
@@ -212,7 +217,7 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
                 [self.pagingView reloadData];
             }
         } failure:^(NSError *error) {
-            NSLog(@"failure!");
+            // nslog(@"failure!");
             
         }];
     }
@@ -257,6 +262,7 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
     pagingView.contentSize = CGSizeMake(self.selectedArray.count * pagingView.width, 0);
     pagingView.delegate = self;
     pagingView.dataSource = self;
+    pagingView.backgroundColor = [UIColor greenColor];
     [pagingView registerClass:[LPPagingViewPage class] forPageWithReuseIdentifier:reusePageID];
     [self.view addSubview:pagingView];
     
@@ -355,6 +361,7 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
     }
 }
 
+
 #pragma -mark 分页
 - (NSInteger)numberOfPagesInPagingView:(LPPagingView *)pagingView {
     return self.selectedArray.count;
@@ -364,6 +371,7 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
     LPChannelItem *channelItem = self.pageindexToChannelItemDictionary[@(pageIndex)];
     LPPagingViewPage *page = (LPPagingViewPage *)[pagingView dequeueReusablePageWithIdentifier:reusePageID];
     page.cardFrames = self.channelItemDictionary[channelItem.channelName];
+    // nslog(@"%s %@", sel_getName(_cmd), [page.cardFrames description]);
     return page;
 }
 
@@ -383,21 +391,56 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
 }
 
 - (void)pagingView:(LPPagingView *)pagingView didScrollToPageIndex:(NSInteger)pageIndex {
-    for (int i = 0; i < self.selectedArray.count; i++) {
-        LPChannelItem *channelItem = self.selectedArray[i];
-        if(i == pageIndex) {
-            self.selectedChannelTitle = channelItem.channelName;
-            break;
-        }
-    }
+//    LPChannelItem *channelItem = self.selectedArray[pageIndex];
+//    self.selectedChannelTitle = channelItem.channelName;
+//    
+//    if (![userDefaults objectForKey:isFirstLoadMark]) {
+//            [self loadMoreDataInPageAtPageIndex:pageIndex];
+//    }
+    
+    
+    
+    
+    [self reloadSelectedArray];
+    LPChannelItem *channelItem = self.selectedArray[pageIndex];
+    self.selectedChannelTitle = channelItem.channelName;
+    
     // 改变菜单栏按钮选中取消状态
     [self buttonSelectedStatusChangedWithIndex:(int)pageIndex];
+    // 记录访问当前页的时间
+    if (channelItem.lastAccessDate == nil) {
+        NSDate *currentDate = [NSDate date];
+        [LPChannelItemTool saveChannelItemLastAccessDate:channelItem lastAccessDate:currentDate];
+    }
+     //第一次安装
     if (![userDefaults objectForKey:isFirstLoadMark]) {
-        [self channelItemDidSavedInDictionary:pageIndex];
+        NSDate *currentDate = [NSDate date];
+        NSDate *lastAccessDate = channelItem.lastAccessDate;
+        if (lastAccessDate != nil) {
+            int interval = (int) [currentDate timeIntervalSinceDate: lastAccessDate] / 60;
+            if (interval > 5) {
+               [self loadMoreDataInPageAtPageIndex:pageIndex];
+               [LPChannelItemTool saveChannelItemLastAccessDate:channelItem lastAccessDate:currentDate];
+            }
+        } else {
+              [self loadMoreDataInPageAtPageIndex:pageIndex];
+        }
     }
 }
 
-- (void)channelItemDidSavedInDictionary:(NSInteger)pageIndex{
+- (void)reloadSelectedArray {
+    self.channelItemsArray =  [LPChannelItemTool getChannelItems];
+    [self.selectedArray removeAllObjects];
+    // 已选分类
+    for (LPChannelItem *channelItem in self.channelItemsArray) {
+        if([channelItem.channelIsSelected  isEqual: @"1"]) {
+            [self.selectedArray addObject:channelItem];
+        }
+    }
+}
+
+
+- (void)loadMoreDataInPageAtPageIndex:(NSInteger)pageIndex{
     LPChannelItem *channelItem = self.pageindexToChannelItemDictionary[@(pageIndex)];
     CardParam *param = [[CardParam alloc] init];
     param.type = HomeCardsFetchTypeMore;
@@ -412,10 +455,35 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
             [cfs addObject:cf];
         }
         [self.channelItemDictionary setObject:cfs forKey:channelItem.channelName];
+//        [self.pagingView reloadData];
+        [self.pagingView reloadPageAtPageIndex:pageIndex];
     } failure:^(NSError *error) {
-        NSLog(@"failure!");
     }];
 }
+
+//- (void)loadNewData:(NSInteger)pageIndex {
+//    LPChannelItem *channelItem = self.pageindexToChannelItemDictionary[@(pageIndex)];
+//    // nslog(@"%@ ,%@", channelItem.channelName, channelItem.channelID);
+//    CardParam *param = [[CardParam alloc] init];
+//    param.type = HomeCardsFetchTypeNew;
+//    param.count = @(20);
+//    param.startTime = [NSString stringWithFormat:@"%lld", (long long)([[NSDate date] timeIntervalSince1970] * 1000)];
+//    // nslog(@"%@", param.startTime);
+//    param.channelID = channelItem.channelID;
+//    NSMutableArray *cfs = [NSMutableArray array];
+//    [CardTool cardsWithParam:param success:^(NSArray *cards) {
+//        for (Card *card in cards) {
+//            CardFrame *cf = [[CardFrame alloc] init];
+//            cf.card = card;
+//            [cfs addObject:cf];
+//            // nslog(@"%@",card.title);
+//        }
+//        [self.channelItemDictionary setObject:cfs forKey:channelItem.channelName];
+//    } failure:^(NSError *error) {
+//        // nslog(@"%@", error);
+//    }];
+//    
+//}
 
 
 - (void)buttonSelectedStatusChangedWithIndex:(NSInteger)index {
@@ -425,12 +493,8 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
                                 animated:YES
                           scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
 }
-#pragma mark - 菜单栏选中某个按钮
-- (void)menuView:(LPMenuView *)menuView didSelectedButtonAtIndex:(int)index {
-     [self.pagingView setCurrentPageIndex:index animated:NO];
-}
 
-#pragma mark - UICollectionView 数据源
+#pragma mark - UICollectionView
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
      if([collectionView isKindOfClass:[LPMenuView class]]) {
          return 1;
@@ -622,59 +686,6 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
    
 }
 
-#pragma  长按交换频道（iOS 9.0以上）
-//- (void)collectionView:(UICollectionView *)collectionView moveItemAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
-//    if([collectionView isKindOfClass:[LPMenuView class]]) {
-//        
-//    } else {
-//        if(destinationIndexPath.row != 0) {
-//            LPChannelItem *sourceItem = [self.selectedArray objectAtIndex:sourceIndexPath.row];
-//            LPChannelItem *destinationItem = [self.selectedArray objectAtIndex:destinationIndexPath.row];
-//            [self.selectedArray removeObjectAtIndex:sourceIndexPath.row];
-//            [self.selectedArray insertObject:destinationItem atIndex:sourceIndexPath.row];
-//            [self.selectedArray removeObjectAtIndex:destinationIndexPath.row];
-//            [self.selectedArray insertObject:sourceItem atIndex:destinationIndexPath.row];
-//            [self reloadChannelItems];
-//        }
-//    }
-//}
-//
-//
-//- (void)handlelongGesture:(UILongPressGestureRecognizer *)longGesture {
-//    //判断手势落点位置是否在路径上
-//    NSIndexPath *indexPath = [self.sortCollectionView indexPathForItemAtPoint:[longGesture locationInView:self.sortCollectionView]];
-//    // 栏目按钮显示完成状态
-//    if(self.isSort && indexPath.section == 0) {
-//        //判断手势状态
-//        switch (longGesture.state) {
-//            case UIGestureRecognizerStateBegan:{
-//                if (indexPath == nil) {
-//                    break;
-//                }
-//                //在路径上则开始移动该路径上的cell
-//                [self.sortCollectionView beginInteractiveMovementForItemAtIndexPath:indexPath];
-//            }
-//                break;
-//            case UIGestureRecognizerStateChanged:
-//                if(indexPath.item != 0) {
-//                    [self.sortCollectionView updateInteractiveMovementTargetPosition:[longGesture locationInView:self.sortCollectionView]];
-//                }
-//                
-//                break;
-//            case UIGestureRecognizerStateEnded:
-//                //移动结束后关闭cell移动
-//                [self.sortCollectionView endInteractiveMovement];
-//                
-//                break;
-//            default:
-//                [self.sortCollectionView cancelInteractiveMovement];
-//                
-//                break;
-//        }
-//    }
-//}
-
-
 #pragma  添加频道动画效果
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 
@@ -682,6 +693,11 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
         LPMenuCollectionViewCell *currentCell = (LPMenuCollectionViewCell *)[self.menuView cellForItemAtIndexPath:indexPath];
         LPMenuButton *currentButton = currentCell.menuButton;
         self.selectedChannelTitle = currentButton.text;
+        
+        if (![userDefaults objectForKey:isFirstLoadMark]) {
+            [self loadMoreDataInPageAtPageIndex:indexPath.item];
+        }
+        
         [self.pagingView setCurrentPageIndex:indexPath.item animated:NO];
         
     } else {
