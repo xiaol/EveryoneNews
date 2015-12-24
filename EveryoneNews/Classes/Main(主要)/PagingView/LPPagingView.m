@@ -313,7 +313,9 @@
     NSParameterAssert(identifier != nil);
     
     NSMutableSet *set = [self reusablePagesWithIdentifier:identifier];
-    UIView *page = set.count > 2 ? [set anyObject] : nil;
+//    UIView *page = set.count > 2 ? [set anyObject] : nil;
+    UIView *page = [set anyObject];
+
     
     if (page != nil) {
         [page prepareForReuse];
@@ -364,9 +366,9 @@
 //    maxX ++;
     
     NSInteger firstIndex = floorf(minX / pageLength);
-    firstIndex = MAX(firstIndex, 0);
+    firstIndex = MAX(firstIndex - 1, 0);
     NSInteger lastIndex = floorf(maxX / pageLength);
-    lastIndex = MIN(lastIndex, numberOfPages - 1);
+    lastIndex = MIN(lastIndex + 1, numberOfPages - 1);
     
     // 1. remove non-visible pages & queue reusable pages 在当前可视集合中将即将不可视的page从pv(1.1)和可视集合(1.2)中remove掉, 并存入缓存(1.3)
     NSMutableSet *removedPages = [NSMutableSet set];

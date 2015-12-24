@@ -26,7 +26,7 @@
         [LPHttpTool getWithURL:url
                         params:paramDict
                        success:^(id json) {
-                           NSArray *cards = [Card createCardsWithDictArray:json];
+                           NSArray *cards = [Card createCardsWithDictArray:json[@"data"]];
                            success(cards);
                        }
                        failure:^(NSError *error) {
@@ -45,7 +45,7 @@
             [LPHttpTool getWithURL:url
                             params:paramDict
                            success:^(id json) {
-                               NSArray *cards = [Card createCardsWithDictArray:json];
+                               NSArray *cards = [Card createCardsWithDictArray:json[@"data"]];
                                success(cards);
                            }
                            failure:^(NSError *error) {

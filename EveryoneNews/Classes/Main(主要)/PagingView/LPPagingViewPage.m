@@ -18,6 +18,7 @@
 #import "CardTool.h"
 #import "CardParam.h"
 #import "Card+CoreDataProperties.h"
+#import <objc/runtime.h>
 
 @interface LPPagingViewPage () <UITableViewDataSource, UITableViewDelegate>
 
@@ -26,6 +27,10 @@
 @end
 
 @implementation LPPagingViewPage
+
+- (void)prepareForReuse {
+    [self.tableView setContentOffset:CGPointZero];
+}
 - (instancetype)initWithFrame:(CGRect)frame {
     if(self = [super initWithFrame:frame]) {
         UITableView *tableView = [[UITableView alloc] init];
@@ -34,7 +39,23 @@
         tableView.dataSource = self;
         tableView.delegate = self;
         [self addSubview:tableView];
-         self.tableView = tableView;
+        self.tableView = tableView;
+        
+        // 下拉刷新功能
+        __weak typeof(self) weakSelf = self;
+        self.tableView.header = [LPDiggerHeader headerWithRefreshingBlock:^{
+            [weakSelf loadNewData];
+        }];
+        
+        LPDiggerHeader *header = (LPDiggerHeader *)self.tableView.header;
+        header.lastUpdatedTimeLabel.hidden = YES;
+        header.stateLabel.hidden = YES;
+        header.autoChangeAlpha = YES;
+        [self.tableView.header beginRefreshing];
+        
+        self.tableView.footer = [LPDiggerFooter footerWithRefreshingBlock:^{
+            [weakSelf loadMoreData];
+        }];
     }
     return self;
 }
@@ -45,107 +66,79 @@
 
 - (void)setCardFrames:(NSMutableArray *)cardFrames {
     _cardFrames = cardFrames;
+    [self.tableView reloadData];
 }
 
-//- (void)refreshTableView {
-//   
-//    [self.tableView setNeedsDisplay];
-//}
-
 #pragma - mark 下拉刷新
-//- (void)loadNewDataWithCount{
-////    NSLog(@"index--%@", self.selectedChannelID);
-//    if (self.cardFrames.count == 0) {
-//        CardParam *param = [[CardParam alloc] init];
-//        param.type = HomeCardsFetchTypeMore;
-//        param.channelID = self.selectedChannelID;
-//        param.count = @20;
-////        NSLog(@"starttime－－－%@", param.startTime);
-////        NSLog(@"current time------%@",[NSString stringWithFormat:@"%lld", (long long)([[NSDate date] timeIntervalSince1970] * 1000)]);
-//         __weak typeof(self) weakSelf = self;
-//        [CardTool cardsWithParam:param success:^(NSArray *cards) {
-//            for (Card *card in cards) {
-//                LPHomeViewFrame *homeViewFrame = [[LPHomeViewFrame alloc] init];
-//                homeViewFrame.card = card;
-//                [weakSelf.cardFrames addObject:homeViewFrame];
-//               // NSLog(@"%@", card.title);
-//            }
-//            [weakSelf.tableView reloadData];
-//            [weakSelf.tableView.header endRefreshing];
-//             weakSelf.tableView.footer = [LPDiggerFooter footerWithRefreshingBlock:^{
-//            [weakSelf loadMoreDataWithCount];
-//            }];
-//        } failure:^(NSError *error) {
-//            [weakSelf.tableView.header endRefreshing];
-//            NSLog(@"failure!");
-//        }];
-//    } else {
-//        LPHomeViewFrame *homeViewFrame = self.cardFrames[0];
-//        CardParam *param = [[CardParam alloc] init];
-//        param.type = HomeCardsFetchTypeNew;
-//        param.channelID = self.selectedChannelID;
-//        param.count = @20;
-//        param.startTime = homeViewFrame.card.updateTime;
-//        __weak typeof(self) weakSelf = self;
-//        [CardTool cardsWithParam:param success:^(NSArray *cards) {
-//            for (Card *card in cards) {
-//                LPHomeViewFrame *homeViewFrame = [[LPHomeViewFrame alloc] init];
-//                homeViewFrame.card = card;
-//                [weakSelf.cardFrames addObject:homeViewFrame];
+- (void)loadNewData{
+//    NSLog(@"index--%@", self.selectedChannelID);
+    if (self.cardFrames.count != 0) {
+        CardFrame *cardFrame = self.cardFrames[0];
+        Card *card = cardFrame.card;
+        CardParam *param = [[CardParam alloc] init];
+        param.type = HomeCardsFetchTypeNew;
+        param.channelID = [NSString stringWithFormat:@"%@", card.channelId];
+        param.count = @20;
+        param.startTime = cardFrame.card.updateTime;
+        NSMutableArray *newCardFrames = self.cardFrames;
+        __weak typeof(self) weakSelf = self;
+        [CardTool cardsWithParam:param success:^(NSArray *cards) {
+            for (Card *card in cards) {
+                CardFrame *cardFrame = [[CardFrame alloc] init];
+                cardFrame.card = card;
+                [weakSelf.cardFrames addObject:cardFrame];
 //                NSLog(@"%@", card.title);
-//            }
-//            [weakSelf.tableView reloadData];
-//            [weakSelf.tableView.header endRefreshing];
-//        } failure:^(NSError *error) {
-//            [weakSelf.tableView.header endRefreshing];
-//            NSLog(@"failure!");
-//        }];
-//    }
-//}
+            }
+            self.cardFrames = newCardFrames;
+            [weakSelf.tableView.header endRefreshing];
+        } failure:^(NSError *error) {
+            [weakSelf.tableView.header endRefreshing];
+            NSLog(@"failure!");
+        }];
+    }
+}
 
-//#pragma -mark 加载更多
-//- (void)loadMoreDataWithCount {
-//    if (self.cardFrames.count == 0) {
-//        return;
-//    }
-//    __weak typeof(self) weakSelf = self;
-//    LPHomeViewFrame *homeViewFrame = [self.cardFrames lastObject];
-//    Card *card = homeViewFrame.card;
-//    CardParam *param = [[CardParam alloc] init];
-//    param.type = HomeCardsFetchTypeMore;
-//    param.channelID = self.selectedChannelID;
-//    param.count = @20;
-//    param.startTime = card.updateTime;
+#pragma mark - 加载更多
+- (void)loadMoreData {
+    CardFrame *cardFrame = [self.cardFrames lastObject];
+    Card *card = cardFrame.card;
+    CardParam *param = [[CardParam alloc] init];
+    param.channelID = [NSString stringWithFormat:@"%@", card.channelId];
+    param.type = HomeCardsFetchTypeMore;
+    param.count = @20;
+    param.startTime = card.updateTime;
+    
+    NSMutableArray *newCardFrames = self.cardFrames;
 //    NSLog(@"%@", card.updateTime);
-//    [CardTool cardsWithParam:param success:^(NSArray *cards) {
-//        for (Card *card in cards) {
-//            LPHomeViewFrame *homeViewFrame = [[LPHomeViewFrame alloc] init];
-//            homeViewFrame.card = card;
-//            [weakSelf.cardFrames addObject:homeViewFrame];
-////            NSLog(@"------------%@", card.title);
-//        }
-//        [self.tableView reloadData];
-//        [self.tableView.footer endRefreshing];
-//        if (!cards.count) {
-//            [self.tableView.footer noticeNoMoreData];
-//        }
-//    } failure:^(NSError *error) {
-//        [self.tableView.footer endRefreshing];
-//        NSLog(@"failure!");
-//    }];
-//}
-//- (void)prepareForReuse {
-////    [_tableView setContentOffset:CGPointMake(0, 100)];
-//}
+    [CardTool cardsWithParam:param success:^(NSArray *cards) {
+        for (Card *card in cards) {
+            CardFrame *cardFrame = [[CardFrame alloc] init];
+            cardFrame.card = card;
+            [newCardFrames addObject:cardFrame];
+        }
+        self.cardFrames = newCardFrames;
+    
+    [self.tableView.footer endRefreshing];
+    if (!cards.count) {
+        [self.tableView.footer noticeNoMoreData];
+    }
+    } failure:^(NSError *error) {
+        [self.tableView.footer endRefreshing];
+        NSLog(@"failure!");
+    }];
+
+}
 
 
-#pragma -mark tableView  数据源
+#pragma mark - tableView  数据源
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.cardFrames.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *cellIdentifier = @"cardCellIdentifier";
+//    static NSString *cellIdentifier = @"cardCellIdentifier";
+    NSString *cellIdentifier = self.cellIdentifier;
+//    NSLog(@"%@", cellIdentifier);
     LPHomeViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil) {
         cell = [[LPHomeViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];

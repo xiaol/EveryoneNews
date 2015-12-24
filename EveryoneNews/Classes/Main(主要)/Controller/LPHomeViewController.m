@@ -80,9 +80,11 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
 // 存储所有的模型数据
 @property (nonatomic, strong) NSMutableDictionary *channelItemDictionary;
 
-@property (nonatomic, strong) NSMutableDictionary *pageindexToChannelItemDictionary;
+@property (nonatomic, strong) NSMutableDictionary *pageindexMapToChannelItemDictionary;
 
 @property (nonatomic, strong) NSUserDefaults *userDefault;
+
+@property (nonatomic, strong) NSMutableDictionary *cardCellIdentifierDictionary;
 @end
 
 @implementation LPHomeViewController
@@ -125,7 +127,8 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
     if ([userDefaults objectForKey:isFirstLoadMark]) {
         [self setChannelItemDictionaryInitialData];
     }
-    
+    // 设置所有频道的CellIdentifier
+    [self setCellIdentifierOfAllChannelItems];
     
 }
 
@@ -164,11 +167,19 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
     return _cellAttributesArray;
 }
 
-- (NSMutableDictionary *)pageindexToChannelItemDictionary {
-    if (_pageindexToChannelItemDictionary == nil) {
-        _pageindexToChannelItemDictionary = [[NSMutableDictionary alloc] init];
+- (NSMutableDictionary *)pageindexMapToChannelItemDictionary {
+    if (_pageindexMapToChannelItemDictionary == nil) {
+        _pageindexMapToChannelItemDictionary = [[NSMutableDictionary alloc] init];
     }
-    return _pageindexToChannelItemDictionary;
+    return _pageindexMapToChannelItemDictionary;
+}
+
+- (NSMutableDictionary *)cardCellIdentifierDictionary {
+    if (_cardCellIdentifierDictionary == nil) {
+        _cardCellIdentifierDictionary = [[NSMutableDictionary alloc] init];
+    }
+    
+    return _cardCellIdentifierDictionary;
 }
 
 // 首次默认选中第一个菜单项
@@ -185,17 +196,22 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
                           scrollPosition:UICollectionViewScrollPositionNone];
 }
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self reloadChannelItems];
+  
+}
 #pragma - mark 初始化页码
 
 - (void)updatePageIndexToChannelItem {
-    [self.pageindexToChannelItemDictionary removeAllObjects];
+    [self.pageindexMapToChannelItemDictionary removeAllObjects];
     for (int i = 0; i < self.selectedArray.count; i++) {
         LPChannelItem *channelItem = self.selectedArray[i];
-        [self.pageindexToChannelItemDictionary setObject:channelItem forKey:@(i)];
+        [self.pageindexMapToChannelItemDictionary setObject:channelItem forKey:@(i)];
     }
 }
 
-#pragma - mark 初始化频道模型
+#pragma  mark - 初始化频道模型
 - (void)setChannelItemDictionaryInitialData {
     for (int i = 0; i < self.selectedArray.count; i++) {
         CardParam *param = [[CardParam alloc] init];
@@ -217,15 +233,23 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
                 [self.pagingView reloadData];
             }
         } failure:^(NSError *error) {
-            // nslog(@"failure!");
+            // // NSLog(@"failure!");
             
         }];
     }
  
 }
 
+#pragma mark - 初始化所有频道的CellIdentifier
+- (void)setCellIdentifierOfAllChannelItems {
+    [self.cardCellIdentifierDictionary removeAllObjects];
+    for (int i = 0; i < self.selectedArray.count; i++) {
+        NSString *cellIdentifier = [NSString stringWithFormat:@"CardCellIdentifier%d", i];
+        [self.cardCellIdentifierDictionary setObject:cellIdentifier forKey:@(i)];
+    }
+}
 
-#pragma -mark 初始化界面
+#pragma mark－ 初始化界面
 - (void)setupSubViews {
     self.channelItemsArray =  [LPChannelItemTool getChannelItems];
     // 已选分类
@@ -306,7 +330,7 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
     titleLabel.font = [UIFont fontWithName:@"Arial" size:20];
     titleLabel.textColor = [UIColor whiteColor];
     [topView addSubview:titleLabel];
-
+    
 }
 
 
@@ -362,16 +386,18 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
 }
 
 
-#pragma -mark 分页
+#pragma mark- 分页
 - (NSInteger)numberOfPagesInPagingView:(LPPagingView *)pagingView {
     return self.selectedArray.count;
 }
 
 - (UIView *)pagingView:(LPPagingView *)pagingView pageForPageIndex:(NSInteger)pageIndex {
-    LPChannelItem *channelItem = self.pageindexToChannelItemDictionary[@(pageIndex)];
+    LPChannelItem *channelItem = self.pageindexMapToChannelItemDictionary[@(pageIndex)];
+    // NSLog(@"%@", channelItem.channelName);
     LPPagingViewPage *page = (LPPagingViewPage *)[pagingView dequeueReusablePageWithIdentifier:reusePageID];
     page.cardFrames = self.channelItemDictionary[channelItem.channelName];
-    // nslog(@"%s %@", sel_getName(_cmd), [page.cardFrames description]);
+    page.cellIdentifier = self.cardCellIdentifierDictionary[@(pageIndex)];
+    
     return page;
 }
 
@@ -391,57 +417,41 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
 }
 
 - (void)pagingView:(LPPagingView *)pagingView didScrollToPageIndex:(NSInteger)pageIndex {
-//    LPChannelItem *channelItem = self.selectedArray[pageIndex];
-//    self.selectedChannelTitle = channelItem.channelName;
-//    
-//    if (![userDefaults objectForKey:isFirstLoadMark]) {
-//            [self loadMoreDataInPageAtPageIndex:pageIndex];
-//    }
     
-    
-    
-    
-    [self reloadSelectedArray];
     LPChannelItem *channelItem = self.selectedArray[pageIndex];
     self.selectedChannelTitle = channelItem.channelName;
     
     // 改变菜单栏按钮选中取消状态
     [self buttonSelectedStatusChangedWithIndex:(int)pageIndex];
-    // 记录访问当前页的时间
-    if (channelItem.lastAccessDate == nil) {
-        NSDate *currentDate = [NSDate date];
-        [LPChannelItemTool saveChannelItemLastAccessDate:channelItem lastAccessDate:currentDate];
-    }
+    
+    NSDate *currentDate = [NSDate date];
      //第一次安装
     if (![userDefaults objectForKey:isFirstLoadMark]) {
-        NSDate *currentDate = [NSDate date];
         NSDate *lastAccessDate = channelItem.lastAccessDate;
         if (lastAccessDate != nil) {
-            int interval = (int) [currentDate timeIntervalSinceDate: lastAccessDate] / 60;
+            int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
+            // 每5分钟做一次刷新操作
             if (interval > 5) {
                [self loadMoreDataInPageAtPageIndex:pageIndex];
-               [LPChannelItemTool saveChannelItemLastAccessDate:channelItem lastAccessDate:currentDate];
+                channelItem.lastAccessDate = currentDate;
             }
         } else {
               [self loadMoreDataInPageAtPageIndex:pageIndex];
         }
     }
-}
-
-- (void)reloadSelectedArray {
-    self.channelItemsArray =  [LPChannelItemTool getChannelItems];
-    [self.selectedArray removeAllObjects];
-    // 已选分类
-    for (LPChannelItem *channelItem in self.channelItemsArray) {
-        if([channelItem.channelIsSelected  isEqual: @"1"]) {
-            [self.selectedArray addObject:channelItem];
-        }
+    // 记录访问当前页的时间
+    if (channelItem.lastAccessDate == nil) {
+        channelItem.lastAccessDate = currentDate;
     }
+    
+    LPPagingViewPage *page = (LPPagingViewPage *)[self pagingView:pagingView pageForPageIndex:pageIndex];
+    page.selectedChannelID = channelItem.channelID;
+    
 }
 
-
+#pragma mark -加载更多
 - (void)loadMoreDataInPageAtPageIndex:(NSInteger)pageIndex{
-    LPChannelItem *channelItem = self.pageindexToChannelItemDictionary[@(pageIndex)];
+    LPChannelItem *channelItem = self.pageindexMapToChannelItemDictionary[@(pageIndex)];
     CardParam *param = [[CardParam alloc] init];
     param.type = HomeCardsFetchTypeMore;
     param.count = @(20);
@@ -455,37 +465,13 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
             [cfs addObject:cf];
         }
         [self.channelItemDictionary setObject:cfs forKey:channelItem.channelName];
-//        [self.pagingView reloadData];
-        [self.pagingView reloadPageAtPageIndex:pageIndex];
+        [self.pagingView reloadData];
+//        [self.pagingView reloadPageAtPageIndex:pageIndex];
     } failure:^(NSError *error) {
     }];
 }
 
-//- (void)loadNewData:(NSInteger)pageIndex {
-//    LPChannelItem *channelItem = self.pageindexToChannelItemDictionary[@(pageIndex)];
-//    // nslog(@"%@ ,%@", channelItem.channelName, channelItem.channelID);
-//    CardParam *param = [[CardParam alloc] init];
-//    param.type = HomeCardsFetchTypeNew;
-//    param.count = @(20);
-//    param.startTime = [NSString stringWithFormat:@"%lld", (long long)([[NSDate date] timeIntervalSince1970] * 1000)];
-//    // nslog(@"%@", param.startTime);
-//    param.channelID = channelItem.channelID;
-//    NSMutableArray *cfs = [NSMutableArray array];
-//    [CardTool cardsWithParam:param success:^(NSArray *cards) {
-//        for (Card *card in cards) {
-//            CardFrame *cf = [[CardFrame alloc] init];
-//            cf.card = card;
-//            [cfs addObject:cf];
-//            // nslog(@"%@",card.title);
-//        }
-//        [self.channelItemDictionary setObject:cfs forKey:channelItem.channelName];
-//    } failure:^(NSError *error) {
-//        // nslog(@"%@", error);
-//    }];
-//    
-//}
-
-
+#pragma mark -选中按钮状态变化
 - (void)buttonSelectedStatusChangedWithIndex:(NSInteger)index {
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index
                                                  inSection:0];
