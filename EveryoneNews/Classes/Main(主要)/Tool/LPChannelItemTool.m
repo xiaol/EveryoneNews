@@ -11,18 +11,6 @@
 
 @implementation LPChannelItemTool
 
-//+ (void)saveChannelItemLastAccessDate:(LPChannelItem *)channelItem lastAccessDate:(NSDate *)lastAccessDate {
-//    NSMutableArray *channelItems = [LPChannelItemTool getChannelItems];
-//    NSMutableArray *newChannelItems = [[NSMutableArray alloc] init];
-//    for (LPChannelItem *item in channelItems) {
-//        if ([item.channelName isEqualToString:channelItem.channelName]) {
-//            item.lastAccessDate = lastAccessDate;
-//        }
-//        [newChannelItems addObject:item];
-//    }
-//    [LPChannelItemTool saveChannelItems:newChannelItems];
-//}
-
 + (void)initializeLastAccessDate {
     NSMutableArray *channelItems = [LPChannelItemTool getChannelItems];
     NSMutableArray *newChannelItems = [[NSMutableArray alloc] init];

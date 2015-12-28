@@ -34,7 +34,7 @@
     if(selected) {
         self.menuButton.textColor = LPSelectedColor;
         [UIView animateWithDuration:0.4 animations:^{
-            self.menuButton.transform = CGAffineTransformMakeScale(1.15, 1.15);
+            self.menuButton.transform = CGAffineTransformMakeScale(1.2, 1.2);
         }];
         
     } else {

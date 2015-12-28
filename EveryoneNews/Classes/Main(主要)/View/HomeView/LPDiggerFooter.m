@@ -18,7 +18,7 @@
         UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"动画3000%zd", i]];
         [refreshImages addObject:image];
     }
-    
+    [self setTitle:@"" forState:MJRefreshStateIdle];
     [self setImages:refreshImages duration:0.5 forState:MJRefreshStateRefreshing];
 }
 

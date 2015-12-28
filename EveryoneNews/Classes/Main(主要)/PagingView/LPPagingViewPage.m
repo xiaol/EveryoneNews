@@ -18,41 +18,43 @@
 #import "CardTool.h"
 #import "CardParam.h"
 #import "Card+CoreDataProperties.h"
-#import <objc/runtime.h>
 
 @interface LPPagingViewPage () <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 
+@property (nonatomic, strong) NSMutableDictionary *contentOffsetDictionary;
+
+@property (nonatomic, assign) CGFloat contentOffsetY;
 @end
 
 @implementation LPPagingViewPage
 
+- (NSMutableDictionary *)contentOffsetDictionary {
+    if (_contentOffsetDictionary == nil) {
+        _contentOffsetDictionary = [[NSMutableDictionary alloc] init];
+    }
+    return _contentOffsetDictionary;
+}
 - (void)prepareForReuse {
-    [self.tableView setContentOffset:CGPointZero];
+//    [self.tableView setContentOffset:CGPointZero];
 }
 - (instancetype)initWithFrame:(CGRect)frame {
     if(self = [super initWithFrame:frame]) {
         UITableView *tableView = [[UITableView alloc] init];
         tableView.backgroundColor =  [UIColor colorFromHexString:@"#edefef"];
-        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
         tableView.dataSource = self;
         tableView.delegate = self;
+        tableView.showsVerticalScrollIndicator = NO;
         [self addSubview:tableView];
         self.tableView = tableView;
-        
         // 下拉刷新功能
         __weak typeof(self) weakSelf = self;
         self.tableView.header = [LPDiggerHeader headerWithRefreshingBlock:^{
             [weakSelf loadNewData];
         }];
-        
-        LPDiggerHeader *header = (LPDiggerHeader *)self.tableView.header;
-        header.lastUpdatedTimeLabel.hidden = YES;
-        header.stateLabel.hidden = YES;
-        header.autoChangeAlpha = YES;
-        [self.tableView.header beginRefreshing];
-        
+        // 上拉加载更多
         self.tableView.footer = [LPDiggerFooter footerWithRefreshingBlock:^{
             [weakSelf loadMoreData];
         }];
@@ -68,10 +70,12 @@
     _cardFrames = cardFrames;
     [self.tableView reloadData];
 }
+#pragma mark - 自动加载最新数据
+- (void)autotomaticLoadNewData {
+}
 
-#pragma - mark 下拉刷新
+#pragma mark － 下拉刷新 如果超过24小时始终返回最新数据
 - (void)loadNewData{
-//    NSLog(@"index--%@", self.selectedChannelID);
     if (self.cardFrames.count != 0) {
         CardFrame *cardFrame = self.cardFrames[0];
         Card *card = cardFrame.card;
@@ -80,16 +84,23 @@
         param.channelID = [NSString stringWithFormat:@"%@", card.channelId];
         param.count = @20;
         param.startTime = cardFrame.card.updateTime;
-        NSMutableArray *newCardFrames = self.cardFrames;
+        NSLog(@"%@", param.startTime);
         __weak typeof(self) weakSelf = self;
+        NSMutableArray *tempArray = [[NSMutableArray alloc] init];
         [CardTool cardsWithParam:param success:^(NSArray *cards) {
-            for (Card *card in cards) {
-                CardFrame *cardFrame = [[CardFrame alloc] init];
-                cardFrame.card = card;
-                [weakSelf.cardFrames addObject:cardFrame];
-//                NSLog(@"%@", card.title);
+            if (cards.count > 0) {
+                for (int i = cards.count; i > 0; i --) {
+                    CardFrame *cardFrame = [[CardFrame alloc] init];
+                    cardFrame.card = cards[i - 1];
+                    [tempArray addObject:cardFrame];
+                }
+                NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:
+                                       NSMakeRange(0,[tempArray count])];
+
+                [weakSelf.cardFrames insertObjects: tempArray atIndexes:indexes];
+                [weakSelf.tableView reloadData];
             }
-            self.cardFrames = newCardFrames;
+            [weakSelf showNewCount:tempArray.count];
             [weakSelf.tableView.header endRefreshing];
         } failure:^(NSError *error) {
             [weakSelf.tableView.header endRefreshing];
@@ -98,6 +109,45 @@
     }
 }
 
+- (void)showNewCount:(NSInteger)count {
+    UILabel *label = [[UILabel alloc] init];
+    [self insertSubview:label belowSubview:self];
+    
+    label.height = 30;
+    if (iPhone6Plus) {
+        label.height = 35;
+    }
+    label.x = 0;
+    label.y = -15;
+    label.width = ScreenWidth;
+    
+    label.backgroundColor = [UIColor colorFromHexString:@"#fafafa"];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.textColor = [UIColor redColor];
+    label.font = [UIFont systemFontOfSize:14];
+    if (iPhone6Plus) {
+        label.font = [UIFont systemFontOfSize:16];
+    }
+    label.alpha = 0.9;
+    
+    if (count) {
+        label.text = [NSString stringWithFormat:@"有%d条更新", count];
+    } else {
+        label.text = @"已经是最新啦~";
+    }
+    
+    [UIView animateWithDuration:0.8 animations:^{
+        label.transform = CGAffineTransformMakeTranslation(0, label.height);
+    } completion:^(BOOL finished) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:0.8 animations:^{
+                label.transform = CGAffineTransformIdentity;
+            } completion:^(BOOL finished) {
+                [label removeFromSuperview];
+            }];
+        });
+    }];
+}
 #pragma mark - 加载更多
 - (void)loadMoreData {
     CardFrame *cardFrame = [self.cardFrames lastObject];
@@ -130,7 +180,7 @@
 }
 
 
-#pragma mark - tableView  数据源
+#pragma mark - tableView  datasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.cardFrames.count;
 }
@@ -154,9 +204,22 @@
 
 
 #pragma mark - scroll view delegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self.contentOffsetDictionary setObject:@(scrollView.contentOffset.y) forKey:self.pageChannelName];
+}
+
+
+
 //- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-//    NSLog(@"%s %.f", class_getName(scrollView.class), scrollView.contentOffset.y);
+//   // NSLog(@"%s %.f", class_getName(scrollView.class), scrollView.contentOffset.y);
+//    if ([self.delegate respondsToSelector:@selector(contentOffsetDidSavedWithPage:contentOffsetY:)]) {
+//        [self.delegate contentOffsetDidSavedWithPage:self contentOffsetY:scrollView.contentOffset.y];
+//    }
 //}
-// 
+//
+//- (void)scrollToContentOffsetY:(CGFloat)contentOffsetY {
+//    [self.tableView setContentOffset:CGPointMake(0, contentOffsetY)];
+//    [self.tableView reloadData];
+//}
 
 @end

@@ -12,6 +12,9 @@
 #import "Card.h"
 #import "CardImage.h"
 
+
+NSString *fontName = @"中等浑厚";
+
 @interface LPHomeViewCell ()
 // 无图
 @property (nonatomic, strong) UILabel *noImageLabel;
@@ -34,7 +37,7 @@
     if(self) {
         // 无图
         UILabel *noImageLabel = [[UILabel alloc] init];
-        noImageLabel.textColor = LPNormalColor;
+        noImageLabel.textColor = LPColor(43, 43 ,43);
         noImageLabel.clipsToBounds = YES;
         [self.contentView addSubview:noImageLabel];
         self.noImageLabel = noImageLabel;
@@ -50,16 +53,16 @@
         
         UILabel *titleLabel = [[UILabel alloc] init];
         titleLabel.numberOfLines = 0;
-        titleLabel.font = [UIFont systemFontOfSize:ConcernPressTitleFontSize];
-        titleLabel.textColor = LPNormalColor;
+        titleLabel.textColor = LPColor(43, 43 ,43);
+        titleLabel.font = [UIFont fontWithName:fontName size:ConcernPressTitleFontSize];
         [self.contentView addSubview:titleLabel];
         self.titleLabel = titleLabel;
         //  三图及其三图以上
         
         UILabel *multipleImageLabel = [[UILabel alloc] init];
         multipleImageLabel.numberOfLines = 0;
-        multipleImageLabel.font = [UIFont systemFontOfSize:ConcernPressTitleFontSize];
-        multipleImageLabel.textColor = LPNormalColor;
+        multipleImageLabel.font = [UIFont fontWithName:fontName size:ConcernPressTitleFontSize];
+        multipleImageLabel.textColor = LPColor(43, 43 ,43);
         [self.contentView addSubview:multipleImageLabel];
         self.multipleImageLabel = multipleImageLabel;
         

@@ -21,10 +21,10 @@
     if(self = [super initWithFrame:frame]) {
         self.textColor = LPNormalColor;
         self.textAlignment = NSTextAlignmentCenter;
-        [self setFont:[UIFont fontWithName:@"Arial" size:14]];
+        [self setFont:[UIFont fontWithName:@"Arial" size:15]];
         self.normalColor = LPNormalColor;
         self.selectedColor = LPSelectedColor;
-        self.rate = 1.15;
+        self.rate = 1.2;
         self.highlightedTextColor = LPSelectedColor;
     }
     return self;
