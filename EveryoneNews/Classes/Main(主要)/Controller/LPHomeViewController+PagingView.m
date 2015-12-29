@@ -15,8 +15,13 @@
 #import "CardFrame.h"
 #import "LPPagingViewPage.h"
 #import "LPMenuButton.h"
+#import "LPDiggerFooter.h"
+#import "LPDiggerHeader.h"
+#import "MJExtension.h"
+#import "MJRefresh.h"
+#import "MBProgressHUD+MJ.h"
 
-static NSString *currentDateString = @"2015-12-27 20:08:08";
+static NSString *currentDateString = @"2015-12-29 08:08:08";
 static NSString *reusePageID = @"reusePageID";
 NSString *isFirstLoadMark = @"isFirstLoadMark";
 
@@ -96,6 +101,7 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
     [nextButton titleSizeAndColorDidChangedWithRate:(1 - rate)];
 }
 
+
 - (void)pagingView:(LPPagingView *)pagingView didScrollToPageIndex:(NSInteger)pageIndex {
     
     LPChannelItem *channelItem = self.selectedArray[pageIndex];
@@ -106,7 +112,7 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
     NSDate *currentDate = [NSDate date];
     NSDate *lastAccessDate = channelItem.lastAccessDate;
     
-    LPPagingViewPage *page = (LPPagingViewPage *)[self pagingView:pagingView pageForPageIndex:pageIndex];
+//    LPPagingViewPage *page = (LPPagingViewPage *)[self pagingView:pagingView pageForPageIndex:pageIndex];
     //第一次安装
     if (![userDefaults objectForKey:isFirstLoadMark]) {
         if (lastAccessDate == nil) {
@@ -114,41 +120,17 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
             channelItem.lastAccessDate = currentDate;
         } else {
             int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate];
-            NSLog(@"%d", interval);
 //            int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
             // 每5分钟做一次刷新操作
             if (interval > 1) {
-                
-                [page autotomaticLoadNewData];
+//                [page.tableView.header beginRefreshing];
+//                [page autotomaticLoadNewData];
+//                [self.pagingView reloadPageAtPageIndex:pageIndex];
                 channelItem.lastAccessDate = currentDate;
             }
         }
-        
-        //        NSDate *lastAccessDate = channelItem.lastAccessDate;
-        //        if (lastAccessDate != nil) {
-        //            int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
-        //            // 每5分钟做一次刷新操作
-        //            if (interval > 5) {
-        //               [self loadMoreDataInPageAtPageIndex:pageIndex];
-        //                channelItem.lastAccessDate = currentDate;
-        //            }
-        //        } else {
-        //              [self loadMoreDataInPageAtPageIndex:pageIndex];
-        //        }
     }
-    //    // 记录访问当前页的时间
-    //    if (channelItem.lastAccessDate == nil) {
-    //        channelItem.lastAccessDate = currentDate;
-    //    }
-    
-
-    ////
-    ////    if (self.contentOffsetDictionary[channelItem.channelName] != nil) {
-    ////        CGFloat contentOffsetY = [self.contentOffsetDictionary[channelItem.channelName] floatValue];
-    ////        [page scrollToContentOffsetY:contentOffsetY];
-    ////    }
-    //        [page scrollToContentOffsetY:[self.contentOffsetDictionary[channelItem.channelName] floatValue]];
-    
+//     [page autotomaticLoadNewData];
 }
 #pragma mark - 加载更多
 - (void)loadMoreDataInPageAtPageIndex:(NSInteger)pageIndex{
@@ -178,7 +160,7 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
         }
         [self.channelItemDictionary setObject:cfs forKey:channelItem.channelName];
         [self.pagingView reloadData];
-                //[self.pagingView reloadPageAtPageIndex:pageIndex];
+//        [self.pagingView reloadPageAtPageIndex:pageIndex];
     } failure:^(NSError *error) {
     }];
 }

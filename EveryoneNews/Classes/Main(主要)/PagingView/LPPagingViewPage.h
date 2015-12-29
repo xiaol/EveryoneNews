@@ -24,6 +24,9 @@
 
 @property (nonatomic, copy) NSString *cellIdentifier;
 
+@property (nonatomic, strong) UITableView *tableView;
+
+
 //@property (nonatomic, weak) id<LPPagingViewPageDelegate> delegate;
 //
 @property (nonatomic, copy) NSString *pageChannelName;

@@ -13,13 +13,14 @@
 -(void)prepare {
     [super prepare];
     
-    NSMutableArray *refreshImages = [NSMutableArray array];
-    for (NSUInteger i = 1; i <= 7; i++) {
-        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"动画3000%zd", i]];
-        [refreshImages addObject:image];
-    }
-    [self setTitle:@"" forState:MJRefreshStateIdle];
-    [self setImages:refreshImages duration:0.5 forState:MJRefreshStateRefreshing];
+    
+//    NSMutableArray *refreshImages = [NSMutableArray array];
+//    for (NSUInteger i = 1; i <= 7; i++) {
+//        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"动画3000%zd", i]];
+//        [refreshImages addObject:image];
+//    }
+//    [self setTitle:@"" forState:MJRefreshStateIdle];
+//    [self setImages:refreshImages duration:0.5 forState:MJRefreshStateRefreshing];
 }
 
 @end

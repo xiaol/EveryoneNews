@@ -21,7 +21,7 @@
 
 @interface LPPagingViewPage () <UITableViewDataSource, UITableViewDelegate>
 
-@property (nonatomic, strong) UITableView *tableView;
+//@property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic, strong) NSMutableDictionary *contentOffsetDictionary;
 
@@ -58,6 +58,8 @@
         self.tableView.footer = [LPDiggerFooter footerWithRefreshingBlock:^{
             [weakSelf loadMoreData];
         }];
+        
+        NSLog(@"initframe");
     }
     return self;
 }
@@ -70,9 +72,33 @@
     _cardFrames = cardFrames;
     [self.tableView reloadData];
 }
+
+
+
 #pragma mark - 自动加载最新数据
 - (void)autotomaticLoadNewData {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        NSLog(@"auto refresh");
+        [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentOffset.y-self.tableView.header.frame.size.height) animated:YES];
+//        [self.tableView.header beginRefreshing];
+        
+//        [self.tableView.header setState:MJRefreshStatePulling];
+//        [self.tableView reloadData];
+//        
+//        [self.tableView.header beginRefreshing];
+      
+        
+    });
+    
 }
+-(void)autoPullDownToRefresh{
+    [self scrollViewWillBeginDragging:self.tableView];
+    [self.tableView setContentOffset:CGPointMake(0, - 100) animated:NO];
+           [self.tableView.header beginRefreshing];
+    [self scrollViewDidScroll:self.tableView];
+    [self scrollViewDidEndDragging:self.tableView willDecelerate:YES];
+}
+ 
 
 #pragma mark － 下拉刷新 如果超过24小时始终返回最新数据
 - (void)loadNewData{
@@ -203,23 +229,33 @@
 }
 
 
-#pragma mark - scroll view delegate
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [self.contentOffsetDictionary setObject:@(scrollView.contentOffset.y) forKey:self.pageChannelName];
-}
-
-
-
+//#pragma mark - scroll view delegate
 //- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-//   // NSLog(@"%s %.f", class_getName(scrollView.class), scrollView.contentOffset.y);
-//    if ([self.delegate respondsToSelector:@selector(contentOffsetDidSavedWithPage:contentOffsetY:)]) {
-//        [self.delegate contentOffsetDidSavedWithPage:self contentOffsetY:scrollView.contentOffset.y];
-//    }
+//    NSLog(@"didscroll");
+//    [self.tableView.header beginRefreshing];
+// 
 //}
 //
-//- (void)scrollToContentOffsetY:(CGFloat)contentOffsetY {
-//    [self.tableView setContentOffset:CGPointMake(0, contentOffsetY)];
-//    [self.tableView reloadData];
+//
+//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+//    NSLog(@"scrollViewDidEndDragging");
+//        [self.tableView.header beginRefreshing];
 //}
+//
+//- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+//    NSLog(@"scrollViewWillEndDragging");
+//        [self.tableView.header beginRefreshing];
+//}
+//
+//- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+//    NSLog(@"begin drag");
+//        [self.tableView.header beginRefreshing];
+//}
+//
+//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+//    [self.tableView.header beginRefreshing];
+//}
+ 
+
 
 @end

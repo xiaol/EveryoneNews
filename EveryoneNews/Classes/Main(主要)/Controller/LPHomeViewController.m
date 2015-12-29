@@ -41,7 +41,7 @@ const static float menuImageViewWidth= 44;
 
 @interface LPHomeViewController ()
 
-
+@property (assign, nonatomic) UIStatusBarStyle statusBarStyle;
 @end
 
 @implementation LPHomeViewController
@@ -54,7 +54,6 @@ const static float menuImageViewWidth= 44;
     if ([userDefaults objectForKey:@"isFirstLoadMark"]) {
         [self  setInitialChannelItemDictionary];
     }
- 
 }
 - (BOOL)prefersStatusBarHidden
 {
