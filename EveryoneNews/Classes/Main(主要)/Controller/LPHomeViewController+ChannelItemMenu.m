@@ -15,6 +15,7 @@
 #import "LPMenuButton.h"
 #import "LPSortCollectionViewCell.h"
 #import "LPMenuCollectionViewCell.h"
+#import "LPPagingViewPage.h"
 
 const static CGFloat cellPadding = 10;
 static NSString *reuseIdentifierFirst = @"reuseIdentifierFirst";
@@ -127,6 +128,8 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
                           scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
     [self.pagingView setCurrentPageIndex:index animated:NO];
     self.backgroundView.alpha = 0;
+    // 此处缺少自动刷新机制
+    [self loadMoreDataInPageAtPageIndex:index];
 }
 
 #pragma mark - 频道排序
@@ -280,9 +283,22 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
         LPMenuButton *currentButton = currentCell.menuButton;
         self.selectedChannelTitle = currentButton.text;
         [self.pagingView setCurrentPageIndex:indexPath.item animated:NO];
-        
-        [self loadMoreDataInPageAtPageIndex:indexPath.item];
-        
+        // 超过5分钟自动刷新 第一次调用则加载
+        LPChannelItem *channelItem = [currentCell channelItem];
+        NSDate *currentDate = [NSDate date];
+        NSDate *lastAccessDate = channelItem.lastAccessDate;
+        if (lastAccessDate == nil) {
+            [self loadMoreDataInPageAtPageIndex:indexPath.item];
+            channelItem.lastAccessDate = currentDate;
+        } else {
+            int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60 ;
+            // 每5分钟做一次刷新操作
+            if (interval > 5) {
+                LPPagingViewPage *page = (LPPagingViewPage *)[self.pagingView currentPage];
+                [page autotomaticLoadNewData];
+                channelItem.lastAccessDate = currentDate;
+            }
+        }
     } else {
         // 删除频道
         if (indexPath.section == 0) {
@@ -356,10 +372,7 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
                 [weakSelf.optionalArray removeObjectAtIndex:indexPath.row];
                 [weakSelf.sortCollectionView deleteItemsAtIndexPaths:@[indexPath]];
                 weakSelf.sortCollectionView.userInteractionEnabled = YES;
-                
                 [weakSelf updatePageindexMapToChannelItemDictionary];
-                // 添加完频道后需要加载相应数据
-                [weakSelf loadMoreDataInPageAtPageIndex:(weakSelf.selectedArray.count - 1)];
             }];
         }
         

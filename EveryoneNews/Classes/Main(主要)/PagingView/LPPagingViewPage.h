@@ -11,28 +11,15 @@
 /**
  *  自定义 page
  */
-//@class LPPagingViewPage;
-//@protocol LPPagingViewPageDelegate<NSObject>
-//
-//- (void)contentOffsetDidSavedWithPage:(LPPagingViewPage *)page contentOffsetY:(CGFloat)contentOffsetY;
-//
-//@end
-
 @interface LPPagingViewPage : UIView
 
 @property (nonatomic, strong) NSMutableArray *cardFrames;
 
 @property (nonatomic, copy) NSString *cellIdentifier;
 
-@property (nonatomic, strong) UITableView *tableView;
-
-
-//@property (nonatomic, weak) id<LPPagingViewPageDelegate> delegate;
-//
 @property (nonatomic, copy) NSString *pageChannelName;
+
 - (void)autotomaticLoadNewData;
-//
-//- (void)scrollToContentOffsetY:(CGFloat)contentOffsetY;
 
 /**
  *  复用前的准备工作(复写该方法)

@@ -4,7 +4,6 @@
 //
 //  Created by apple on 15/12/1.
 //  Copyright © 2015年 apple. All rights reserved.
-//
 
 /**
  *  paging view API
@@ -113,13 +112,16 @@
 - (void)reloadData;
 
 /**
- *  刷新一页
+ *  刷新某些页面
+ *
+ *  @param indexes NSNumber集合
  */
-- (void)reloadPageAtPageIndex:(NSInteger)pageIndex;
-//
-///**
-// *  刷新某些页面
-// */
-//- (void)reloadPagesAtPageIndexes:(NSArray *)pageIndexes;
+//- (void)reloadPagesAtPageIndexes:(NSArray *)indexes;
 
+/**
+ *  刷新某一页
+ */
+- (void)reloadPageAtPageIndex:(NSInteger)index;
+
+- (UIView *)currentPage;
 @end

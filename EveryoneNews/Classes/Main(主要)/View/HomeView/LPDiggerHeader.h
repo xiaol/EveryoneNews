@@ -6,8 +6,8 @@
 //  Copyright (c) 2015年 apple. All rights reserved.
 //
 
-#import "MJRefreshGifHeader.h"
+#import "MJRefreshNormalHeader.h"
 
-@interface LPDiggerHeader : MJRefreshGifHeader
+@interface LPDiggerHeader : MJRefreshNormalHeader
 
 @end

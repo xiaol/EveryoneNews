@@ -11,6 +11,6 @@
 
 @interface LPHomeViewCell : UITableViewCell
 
-@property (nonatomic, strong) CardFrame *homeViewFrame;
+@property (nonatomic, strong) CardFrame *cardFrame;
 
 @end

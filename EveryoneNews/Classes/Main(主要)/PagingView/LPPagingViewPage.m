@@ -21,7 +21,7 @@
 
 @interface LPPagingViewPage () <UITableViewDataSource, UITableViewDelegate>
 
-//@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic, strong) NSMutableDictionary *contentOffsetDictionary;
 
@@ -36,14 +36,16 @@
     }
     return _contentOffsetDictionary;
 }
+
 - (void)prepareForReuse {
 //    [self.tableView setContentOffset:CGPointZero];
 }
+
 - (instancetype)initWithFrame:(CGRect)frame {
     if(self = [super initWithFrame:frame]) {
         UITableView *tableView = [[UITableView alloc] init];
+        tableView.separatorStyle =UITableViewCellSeparatorStyleNone;
         tableView.backgroundColor =  [UIColor colorFromHexString:@"#edefef"];
-        tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
         tableView.dataSource = self;
         tableView.delegate = self;
         tableView.showsVerticalScrollIndicator = NO;
@@ -58,8 +60,6 @@
         self.tableView.footer = [LPDiggerFooter footerWithRefreshingBlock:^{
             [weakSelf loadMoreData];
         }];
-        
-        NSLog(@"initframe");
     }
     return self;
 }
@@ -73,32 +73,14 @@
     [self.tableView reloadData];
 }
 
-
-
 #pragma mark - 自动加载最新数据
 - (void)autotomaticLoadNewData {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        NSLog(@"auto refresh");
-        [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentOffset.y-self.tableView.header.frame.size.height) animated:YES];
-//        [self.tableView.header beginRefreshing];
-        
-//        [self.tableView.header setState:MJRefreshStatePulling];
-//        [self.tableView reloadData];
-//        
-//        [self.tableView.header beginRefreshing];
-      
-        
+    [self.tableView.header beginRefreshing];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.tableView.header endRefreshing];
     });
     
 }
--(void)autoPullDownToRefresh{
-    [self scrollViewWillBeginDragging:self.tableView];
-    [self.tableView setContentOffset:CGPointMake(0, - 100) animated:NO];
-           [self.tableView.header beginRefreshing];
-    [self scrollViewDidScroll:self.tableView];
-    [self scrollViewDidEndDragging:self.tableView willDecelerate:YES];
-}
- 
 
 #pragma mark － 下拉刷新 如果超过24小时始终返回最新数据
 - (void)loadNewData{
@@ -110,7 +92,7 @@
         param.channelID = [NSString stringWithFormat:@"%@", card.channelId];
         param.count = @20;
         param.startTime = cardFrame.card.updateTime;
-        NSLog(@"%@", param.startTime);
+//        NSLog(@"%@", param.startTime);
         __weak typeof(self) weakSelf = self;
         NSMutableArray *tempArray = [[NSMutableArray alloc] init];
         [CardTool cardsWithParam:param success:^(NSArray *cards) {
@@ -214,12 +196,11 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 //    static NSString *cellIdentifier = @"cardCellIdentifier";
     NSString *cellIdentifier = self.cellIdentifier;
-//    NSLog(@"%@", cellIdentifier);
     LPHomeViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil) {
         cell = [[LPHomeViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
-    cell.homeViewFrame = self.cardFrames[indexPath.row];
+    cell.cardFrame = self.cardFrames[indexPath.row];
     return cell;
 }
 
@@ -229,33 +210,6 @@
 }
 
 
-//#pragma mark - scroll view delegate
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-//    NSLog(@"didscroll");
-//    [self.tableView.header beginRefreshing];
-// 
-//}
-//
-//
-//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
-//    NSLog(@"scrollViewDidEndDragging");
-//        [self.tableView.header beginRefreshing];
-//}
-//
-//- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
-//    NSLog(@"scrollViewWillEndDragging");
-//        [self.tableView.header beginRefreshing];
-//}
-//
-//- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-//    NSLog(@"begin drag");
-//        [self.tableView.header beginRefreshing];
-//}
-//
-//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-//    [self.tableView.header beginRefreshing];
-//}
- 
 
 
 @end

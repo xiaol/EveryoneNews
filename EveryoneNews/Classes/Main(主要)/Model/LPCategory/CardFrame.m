@@ -9,43 +9,77 @@
 #import "CardFrame.h"
 #import "Card.h"
 
-static const CGFloat PaddingHorizontal = 10;
+static const CGFloat PaddingHorizontal = 15;
 static const CGFloat PaddingVertical = 15;
-static const CGFloat noImageFrameHeight = 40;
 
 @implementation CardFrame
 
 - (void)setCard:(Card *)card {
+    
+    NSString *title = card.title;
+    NSString *sourceSiteName = card.sourceSiteName;
     _card = card;
     _cellHeight = 0.0f;
+    
     if(card.cardImages.count == 0) {
+        // 无图
+        CGFloat titleW = ScreenWidth - PaddingHorizontal * 2;
+        CGFloat titleH = [title sizeWithFont:[UIFont systemFontOfSize:ConcernPressTitleFontSize] maxSize:CGSizeMake(titleW, MAXFLOAT)].height;
+        _noImageLabelFrame = CGRectMake(PaddingHorizontal, PaddingVertical, titleW, titleH);
         
-        _noImageLabelF = CGRectMake(PaddingHorizontal, PaddingVertical, ScreenWidth - PaddingHorizontal, noImageFrameHeight);
-        _cellHeight = CGRectGetMaxY(_noImageLabelF);
+        CGFloat sourceSiteNameH = [sourceSiteName sizeWithFont:[UIFont systemFontOfSize:10] maxSize:CGSizeMake(titleW, MAXFLOAT)].height;
+        CGFloat sourceSiteNameY = CGRectGetMaxY(_noImageLabelFrame) + 5;
+        
+        _noImageSourceLabelFrame = CGRectMake(PaddingHorizontal, sourceSiteNameY, titleW, sourceSiteNameH);
+        
+        CGFloat noImageSeperatorLineY = CGRectGetMaxY(_noImageSourceLabelFrame) + PaddingVertical;
+        
+        _noImageSeperatorLineFrame = CGRectMake(0, noImageSeperatorLineY, ScreenWidth, 0.5);
+        
+        _cellHeight = CGRectGetMaxY(_noImageSeperatorLineFrame);
         
     } else if (card.cardImages.count == 1 || card.cardImages.count == 2) {
         
         CGFloat imageX = PaddingHorizontal;
         CGFloat imageY = PaddingVertical;
-        CGFloat imageW = 90;
+        CGFloat imageW = 113;
         CGFloat imageH = 75;
         _singleImageImageViewFrame = CGRectMake(imageX, imageY, imageW, imageH);
         
-        NSString *title = card.title;
-        CGFloat titleX = CGRectGetMaxX(_singleImageImageViewFrame) + PaddingVertical;
-        CGFloat titleW = ScreenWidth - CGRectGetMaxX(_singleImageImageViewFrame) - PaddingVertical * 2;
+        CGFloat titleX = CGRectGetMaxX(_singleImageImageViewFrame) + PaddingHorizontal;
+        CGFloat titleW = ScreenWidth - CGRectGetMaxX(_singleImageImageViewFrame) - PaddingHorizontal * 2;
         CGFloat titleH = [title sizeWithFont:[UIFont systemFontOfSize:ConcernPressTitleFontSize] maxSize:CGSizeMake(titleW, MAXFLOAT)].height;
-        CGFloat titleY = (titleH < imageH) ? (PaddingVertical + (imageH - titleH) / 2) : PaddingVertical;
         
+        CGFloat sourceSiteNameH = [sourceSiteName sizeWithFont:[UIFont systemFontOfSize:10] maxSize:CGSizeMake(titleW, MAXFLOAT)].height;
+        CGFloat titleY = PaddingVertical + (imageH - titleH - sourceSiteNameH - 10) / 2;
+        CGFloat sourceSiteNameY = titleY + titleH + 10;
+//        CGFloat titleY = (titleH < imageH) ? (PaddingVertical + (imageH - titleH) / 2) : PaddingVertical;
         _singleImageTitleLabelFrame = CGRectMake(titleX, titleY, titleW, titleH);
-        _cellHeight = MAX(CGRectGetMaxY(_singleImageImageViewFrame), CGRectGetMaxY(_singleImageTitleLabelFrame));
+        _singleImageSourceLabelFrame = CGRectMake(titleX, sourceSiteNameY, titleW, sourceSiteNameH);
+        
+        CGFloat singleImageSeperatorLineY = CGRectGetMaxY(_singleImageSourceLabelFrame) + PaddingVertical;
+        _singleImageSeperatorLineFrame = CGRectMake(0, singleImageSeperatorLineY, ScreenWidth, 0.5);
+        
+        _cellHeight =  CGRectGetMaxY(_singleImageSeperatorLineFrame);
         
     } else if (card.cardImages.count >= 3) {
+        CGFloat titleW = ScreenWidth - PaddingHorizontal * 2;
+        CGFloat titleH = [title sizeWithFont:[UIFont systemFontOfSize:ConcernPressTitleFontSize] maxSize:CGSizeMake(titleW, MAXFLOAT)].height;
+        _multipleImageTitleLabelFrame = CGRectMake(PaddingHorizontal, PaddingVertical, titleW, titleH);
         
-        _multipleImageTitleLabelFrame = CGRectMake(PaddingHorizontal, PaddingVertical, ScreenWidth - PaddingHorizontal * 2, 40);
+        CGFloat imageH = 75;
+        CGFloat imageY = PaddingVertical + titleH + 8;
+        _multipleImageViewFrame = CGRectMake(PaddingHorizontal, imageY, titleW, imageH);
         
-        _multipleImageViewFrame = CGRectMake(PaddingHorizontal, 40 + PaddingVertical, ScreenWidth - PaddingHorizontal * 2, 75);
-        _cellHeight = CGRectGetMaxY(_multipleImageViewFrame);
+        CGFloat sourceSiteNameY = CGRectGetMaxY(_multipleImageViewFrame) + 6;
+        CGFloat sourceSiteNameH = [sourceSiteName sizeWithFont:[UIFont systemFontOfSize:10] maxSize:CGSizeMake(titleW, MAXFLOAT)].height;
+        _multipleImageSourceLabelFrame = CGRectMake(PaddingHorizontal, sourceSiteNameY, titleW, sourceSiteNameH);
+     
+        // 分割线
+         CGFloat mutipleImageSeperatorLineY = CGRectGetMaxY(_multipleImageSourceLabelFrame) + PaddingVertical;
+        _mutipleImageSeperatorLineFrame = CGRectMake(0, mutipleImageSeperatorLineY, ScreenWidth, 0.5);
+        
+        _cellHeight = CGRectGetMaxY(_mutipleImageSeperatorLineFrame);
     }
 }
 

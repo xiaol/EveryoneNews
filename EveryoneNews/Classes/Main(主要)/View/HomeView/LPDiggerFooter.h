@@ -6,8 +6,8 @@
 //  Copyright (c) 2015年 apple. All rights reserved.
 //
 
-#import "MJRefreshAutoGifFooter.h"
+#import "MJRefreshAutoNormalFooter.h"
 
-@interface LPDiggerFooter : MJRefreshAutoGifFooter
+@interface LPDiggerFooter : MJRefreshAutoNormalFooter
 
 @end

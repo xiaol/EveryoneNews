@@ -10,7 +10,6 @@
 #import "UIView+LPReusePage.h"
 #import <objc/runtime.h>
 
-
 #pragma mark - delegate trampoline
 
 
@@ -171,7 +170,7 @@
         _helper.gutter = 0.0f;
         
         self.contentSize = _helper.contentSize;
-
+        
         CGRect frame = self.frame;
         frame.size.width += _helper.gutter;
         frame.origin.x -= _helper.gutter / 2;
@@ -217,8 +216,8 @@
 
 - (NSInteger)currentPageIndex {
     NSInteger currentPageIndex = floorf(CGRectGetMinX(self.bounds) / (self.helper.pageWidth + self.helper.gutter));
-//    NSLog(@"%.2f -- %@", CGRectGetMinX(self.bounds), NSStringFromCGRect(self.bounds));
-//    NSInteger currentPageIndex = floorf(self.contentOffset.x / (self.helper.pageWidth + self.helper.gutter));
+    //    NSLog(@"%.2f -- %@", CGRectGetMinX(self.bounds), NSStringFromCGRect(self.bounds));
+    //    NSInteger currentPageIndex = floorf(self.contentOffset.x / (self.helper.pageWidth + self.helper.gutter));
     currentPageIndex = MAX(currentPageIndex, 0);
     currentPageIndex = MIN(currentPageIndex, self.helper.numberOfPages - 1);
     return currentPageIndex;
@@ -226,7 +225,7 @@
 
 // reload data
 - (void)reloadData {
-//    [self.visiblePages makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    //    [self.visiblePages makeObjectsPerformSelector:@selector(removeFromSuperview)];
     for (UIView *page in self.visiblePages) {
         [page removeFromSuperview];
     }
@@ -234,16 +233,6 @@
     [self.reusablePages removeAllObjects];
     
     self.helper = nil;
-    NSInteger pageCount = [self.dataSource numberOfPagesInPagingView:self];
-    if (pageCount && !self.dragging && !self.decelerating) {
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            if ([self.delegate respondsToSelector:@selector(pagingView:didScrollToPageIndex:)]) {
-                [self.delegate pagingView:self didScrollToPageIndex:self.currentPageIndex];
-            }
-        });
-    }
-//    [self setNeedsLayout];
 }
 
 // scroll view delegate trampoline method components
@@ -270,7 +259,7 @@
     CGFloat offset = self.contentOffset.x;
     CGFloat ratio = offset / pageLength;
     if (offset > 0 && ratio <= self.helper.numberOfPages - 1) {
-//        ratio -= floorf(ratio);
+        //        ratio -= floorf(ratio);
         if ([self.delegate respondsToSelector:@selector(pagingView:didScrollWithRatio:)]) {
             [self.delegate pagingView:self didScrollWithRatio:ratio];
         }
@@ -282,9 +271,12 @@
 
 // scroll ending call back
 - (void)didScrollToPageIndex:(NSInteger)pageIndex {
-    if ([self.delegate respondsToSelector:@selector(pagingView:didScrollToPageIndex:)]) {
-        [self.delegate pagingView:self didScrollToPageIndex:pageIndex];
-    }
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if ([self.delegate respondsToSelector:@selector(pagingView:didScrollToPageIndex:)]) {
+            [self.delegate pagingView:self didScrollToPageIndex:pageIndex];
+        }
+//    });
+
 }
 
 // delegate setter / getter
@@ -313,14 +305,14 @@
     NSParameterAssert(identifier != nil);
     
     NSMutableSet *set = [self reusablePagesWithIdentifier:identifier];
-//    UIView *page = set.count > 2 ? [set anyObject] : nil;
+    //    UIView *page = set.count > 2 ? [set anyObject] : nil;
     UIView *page = [set anyObject];
-
+    
     
     if (page != nil) {
         [page prepareForReuse];
         [set removeObject:page];
-    
+        
         return page;
     }
     
@@ -354,16 +346,16 @@
 
 // layout subviews
 - (void)layoutSubviews {
-//    NSLog(@"%@", NSStringFromSelector(_cmd));
+    //    NSLog(@"%@", NSStringFromSelector(_cmd));
     [super layoutSubviews];
-//    if (self.contentOffset.x < 0 || self.contentOffset.x > self.helper.contentSize.width) return;
+    //    if (self.contentOffset.x < 0 || self.contentOffset.x > self.helper.contentSize.width) return;
     CGFloat numberOfPages = self.helper.numberOfPages;
     if (numberOfPages == 0) return;
     CGRect visibleBounds = self.clipsToBounds ? self.bounds : [self convertRect:self.superview.bounds fromView:self.superview];
     CGFloat pageLength = self.helper.pageWidth + self.helper.gutter;
     CGFloat minX = CGRectGetMinX(visibleBounds) + self.helper.gutter / 2;
     CGFloat maxX = CGRectGetMaxX(visibleBounds) - self.helper.gutter / 2;
-//    maxX ++;
+    //    maxX ++;
     
     NSInteger firstIndex = floorf(minX / pageLength);
     firstIndex = MAX(firstIndex - 1, 0);
@@ -392,6 +384,13 @@
             [self.visiblePages addObject:page];                                      // 2.3
         }
     }
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if ([self.delegate respondsToSelector:@selector(pagingView:didScrollToPageIndex:)]) {
+            [self.delegate pagingView:self didScrollToPageIndex:self.currentPageIndex];
+        }
+    });
 }
 
 - (void)reloadPageAtPageIndex:(NSInteger)pageIndex {
@@ -439,6 +438,15 @@
     else {
         return [super pointInside:point withEvent:event];
     }
+}
+
+- (UIView *)currentPage {
+    for (UIView *page in self.subviews) {
+        if (page.tag == self.currentPageIndex) {
+            return page;
+        }
+    }
+    return nil;
 }
 
 @end
