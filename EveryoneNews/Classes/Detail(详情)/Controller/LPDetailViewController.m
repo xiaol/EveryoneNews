@@ -38,6 +38,9 @@
 #import "LPFullCommentViewController.h"
 #import "LPDetailTopView.h"
 #import "LPRelateView.h"
+#import "CardFrame.h"
+#import "Card.h"
+#import "CardImage.h"
 
 static const CGFloat CellAlpha =0.3;
 NSString * const PhotoCellReuseId = @"photoWallCell";
@@ -375,26 +378,55 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
         }];
     } else {
         self.http = [LPHttpTool http];
-        NSString *url = [NSString stringWithFormat:@"%@", ConcernDetailUrl];
+  
+        
+        Card *card = self.cardFrame.card;
+        NSMutableArray *imageArray = [[NSMutableArray alloc] init];
+        BOOL isPhoto = YES;
+        if (card.cardImages.count > 0) {
+            isPhoto = YES;
+            for (CardImage * cardImage in card.cardImages) {
+                [imageArray addObject:cardImage.imgUrl];
+            }
+        } else {
+            isPhoto = NO;
+        }
+        NSString *url = [NSString stringWithFormat:@"%@%@", @"http://api.deeporiginalx.com/bdp/news/content?url=", card.newId];
+        NSLog(@"%@", url);
         params[@"deviceType"] = @"IOS";
-        params[@"url"] = self.concernPress.sourceUrl;
-        NSLog(@"concernPress.sourceUrl = %@", self.concernPress.sourceUrl);
-        [self.http postWithURL:url params:params success:^(id json) {
+        params[@"url"] = url;
+//        NSLog(@"concernPress.sourceUrl = %@", self.concernPress.sourceUrl);
+        [self.http getWithURL:url params:params success:^(id json) {
+        
             
-            NSString *headerImg = json[@"imgUrl"];
+//            NSDictionary *dict = @{
+//                                   @"title":@"title",
+//                                   @"descr":@"descr",
+//                                   @"pubTime":@"2015-06-06 00:00:00",
+//                                   @"pubUrl":@"",
+//                                   @"content":
+//                                       @[
+//                                           @{@"txt":@"biss"},
+//                                           @{@"img":@"http://image.baidu.com/search/detail?ct=503316480&z=0&ipn=d&word=%E5%9B%BE%E7%89%87&pn=0&spn=0&di=153519752980&pi=&rn=1&tn=baiduimagedetail&ie=utf-8&oe=utf-8&cl=2&lm=-1&cs=128811874%2C840272376&os=922079446%2C3220597865&simid=3473458608%2C462633313&adpicid=0&ln=30&fr=ala&sme=&cg=&bdtype=0&objurl=http%3A%2F%2Fpic2.ooopic.com%2F01%2F03%2F51%2F25b1OOOPIC19.jpg&fromurl=ippr_z2C%24qAzdH3FAzdH3Fojtst_z%26e3B555rtv_z%26e3Bv54AzdH3Fojtst_8anc8dc_z%26e3Bip4s&gsm=0"},
+//                                           @{@"txt":@"ssss"}
+//                                      ]
+//                                   };
+            NSDictionary *dict = json[@"data"];
+            NSString *headerImg = isPhoto == YES ? imageArray[0] : nil;
             detailImgUrl=headerImg;
-            NSString *title = json[@"title"];
-            NSString *time = json[@"updateTime"];
-            [weakSelf setupHeaderWithImageURL:headerImg title:title time:time color:[UIColor colorFromConcern:weakSelf.concern alpha:0.1]];
-            // 设置全文评论顶部视图颜色
-            self.categoryColor=[UIColor colorFromConcern:weakSelf.concern];
-            NSArray *zhihuArray = [LPZhihuPoint objectArrayWithKeyValuesArray:json[@"zhihu"]];
-            NSString *abstract = json[@"abs"];
+            NSString *title = dict[@"title"];
+            NSString *time = dict[@"pubTime"];
+            
+            [weakSelf setupHeaderWithImageURL:headerImg title:title time:time color:[UIColor colorFromHexString:@"#0087d1" alpha:0.1]];
+            
+            NSArray *zhihuArray = [LPZhihuPoint objectArrayWithKeyValuesArray:dict[@"zhihu"]];
+            NSString *abstract = dict[@"descr"];
             if ([abstract isKindOfClass:[NSNull class]]) {
                 abstract = @"文章摘要";
             }
-            NSArray *commentArray = [LPComment objectArrayWithKeyValuesArray:json[@"point"]];
-            NSArray *bodyArray = json[@"content"];
+            NSArray *commentArray = [LPComment objectArrayWithKeyValuesArray:dict[@"point"]];
+            NSArray *bodyArray = dict[@"content"];
+            
             LPContent *absContent = [[LPContent alloc] init];
             absContent.isAbstract = YES;
             absContent.body = abstract;
@@ -403,7 +435,6 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
             LPContentFrame *absFrm = [[LPContentFrame alloc] init];
             absFrm.content = absContent;
             NSMutableArray *contentFrameArray = [NSMutableArray arrayWithArray:@[absFrm]];
-            
             // 全文评论
             NSMutableArray *textComments=[NSMutableArray array];
             // 获取所有的全文评论
@@ -428,7 +459,6 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
                 content.photoDesc = dict[@"img_info"];
                 content.body = dict[@"txt"];
                 content.concern = self.concern;
-                content.color = [UIColor colorFromConcern:self.concern];
                 if (content.photo) {
                     content.isPhoto = YES;
                 } else {
@@ -445,7 +475,6 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
                         {
                             [comments addObject:comment];
                         }
-                        comment.color = content.color;
                     }
                     content.hasComment = (comments.count > 0);
                     content.comments = comments;

@@ -127,7 +127,6 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
                                 animated:NO
                           scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
     [self.pagingView setCurrentPageIndex:index animated:NO];
-    self.backgroundView.alpha = 0;
     // 此处缺少自动刷新机制
     [self loadMoreDataInPageAtPageIndex:index];
 }
@@ -321,7 +320,6 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
             }
             else {
                 // 跳转到指定频道
-                UIImage *image = [UIImage imageNamed:@"向下箭头"];
                 __weak typeof(self) weakSelf = self;
                 self.isSpread = NO;
                 self.menuView.alpha = 1;
@@ -332,9 +330,7 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
                 self.selectedChannelTitle = currentCell.contentLabel.text;
                 [self redirectToSelectedChanneItem:(int)indexPath.item];
                 [UIView animateWithDuration:0.2 animations:^{
-                    [weakSelf.imageView  setImage:image];
-                    weakSelf.sortCollectionView.frame = CGRectMake(0, 60 - ScreenHeight, ScreenWidth, ScreenHeight - 60);
-                    weakSelf.imageView.transform = CGAffineTransformMakeRotation(0 * M_PI / 180);
+                    weakSelf.blurView.frame = CGRectMake(0, - ScreenHeight, ScreenWidth, ScreenHeight);
                 } completion:^(BOOL finished) {
                     
                 }];

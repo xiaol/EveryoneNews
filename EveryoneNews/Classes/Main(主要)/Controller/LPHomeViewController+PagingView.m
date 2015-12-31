@@ -20,6 +20,7 @@
 #import "MJExtension.h"
 #import "MJRefresh.h"
 #import "MBProgressHUD+MJ.h"
+#import "LPDetailViewController.h"
 
 //static NSString *currentDateString = @"2015-12-29 08:08:08";
 static NSString *reusePageID = @"reusePageID";
@@ -42,8 +43,9 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
             lastAccessDate = currentDate;
             channelItem.lastAccessDate = currentDate;
         }
-        
+       
         param.startTime = [NSString stringWithFormat:@"%lld", (long long)([lastAccessDate timeIntervalSince1970] * 1000)];
+//        NSLog(@"%@",   param.startTime);
         NSString *channelID = [LPChannelItemTool channelID:channelItem.channelName];
         param.channelID = channelID;
         NSMutableArray *cfs = [NSMutableArray array];
@@ -71,6 +73,7 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
 - (UIView *)pagingView:(LPPagingView *)pagingView pageForPageIndex:(NSInteger)pageIndex {
     LPChannelItem *channelItem = self.pageindexMapToChannelItemDictionary[@(pageIndex)];
     LPPagingViewPage *page = (LPPagingViewPage *)[pagingView dequeueReusablePageWithIdentifier:reusePageID];
+    page.delegate = self;
     page.cardFrames = self.channelItemDictionary[channelItem.channelName];
     page.cellIdentifier = self.cardCellIdentifierDictionary[@(pageIndex)];
     page.pageChannelName = channelItem.channelName;
@@ -160,5 +163,17 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
     [self.menuView selectItemAtIndexPath:indexPath
                                 animated:YES
                           scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+}
+
+- (void)pushDetailViewController:(LPPagingViewPage *)page cardFrame:(CardFrame *)cardFrame {
+//    LPDetailContentViewController *detailVc = [[LPDetailContentViewController alloc] init];
+//    detailVc.card = cardFrame.card;
+//    [self.navigationController pushViewController:detailVc animated:YES];
+        
+    LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
+    detailVc.cardFrame = cardFrame;
+    detailVc.isConcernDetail = YES;
+    [self.navigationController pushViewController:detailVc animated:YES];
+    
 }
 @end

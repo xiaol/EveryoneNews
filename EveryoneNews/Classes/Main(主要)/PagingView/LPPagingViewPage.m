@@ -19,6 +19,7 @@
 #import "CardParam.h"
 #import "Card+CoreDataProperties.h"
 
+
 @interface LPPagingViewPage () <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -131,7 +132,7 @@
     
     label.backgroundColor = [UIColor colorFromHexString:@"#fafafa"];
     label.textAlignment = NSTextAlignmentCenter;
-    label.textColor = [UIColor redColor];
+    label.textColor = [UIColor colorFromHexString:@"0087d1"];
     label.font = [UIFont systemFontOfSize:14];
     if (iPhone6Plus) {
         label.font = [UIFont systemFontOfSize:16];
@@ -139,13 +140,13 @@
     label.alpha = 0.9;
     
     if (count) {
-        label.text = [NSString stringWithFormat:@"有%d条更新", count];
+        label.text = [NSString stringWithFormat:@"已为您推荐%d条新内容", count];
     } else {
-        label.text = @"已经是最新啦~";
+        label.text = @"已经是最新内容";
     }
     
     [UIView animateWithDuration:0.8 animations:^{
-        label.transform = CGAffineTransformMakeTranslation(0, label.height);
+        label.transform = CGAffineTransformMakeTranslation(0, 15);
     } completion:^(BOOL finished) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [UIView animateWithDuration:0.8 animations:^{
@@ -209,6 +210,12 @@
     return cardFrame.cellHeight;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    CardFrame *cardFrame = self.cardFrames[indexPath.row];
+    if ([self.delegate respondsToSelector:@selector(pushDetailViewController:cardFrame:)]) {
+        [self.delegate pushDetailViewController:self cardFrame:cardFrame];
+    }
+}
 
 
 

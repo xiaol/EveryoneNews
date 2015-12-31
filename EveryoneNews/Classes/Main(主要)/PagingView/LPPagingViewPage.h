@@ -11,6 +11,14 @@
 /**
  *  自定义 page
  */
+@class LPPagingViewPage;
+@class CardFrame;
+@protocol LPPagingViewPageDelegate <NSObject>
+
+- (void)pushDetailViewController:(LPPagingViewPage *)page cardFrame:(CardFrame *)cardFrame;
+
+@end
+
 @interface LPPagingViewPage : UIView
 
 @property (nonatomic, strong) NSMutableArray *cardFrames;
@@ -19,6 +27,7 @@
 
 @property (nonatomic, copy) NSString *pageChannelName;
 
+@property (nonatomic, weak) id<LPPagingViewPageDelegate> delegate;
 - (void)autotomaticLoadNewData;
 
 /**

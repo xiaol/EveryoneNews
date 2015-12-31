@@ -11,6 +11,7 @@
 @class LPPress;
 @class LPConcernPress;
 @class LPConcern;
+@class CardFrame;
 
 typedef void (^returnCommentsToUpBlock)(NSArray *contents);
 
@@ -27,4 +28,6 @@ typedef void (^fulltextCommentsUpHandler)(NSArray *fulltextComments);
 - (void)returnContentsBlock:(returnCommentsToUpBlock)returnBlock;
 // 全文评论点赞block
 - (void)fulltextCommentsUpDidComposed:(fulltextCommentsUpHandler) fulltextCommentsUpHandle;
+
+@property (nonatomic, strong) CardFrame *cardFrame;
 @end

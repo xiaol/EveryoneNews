@@ -42,7 +42,7 @@ static const CGFloat PaddingVertical = 15;
         
         CGFloat imageX = PaddingHorizontal;
         CGFloat imageY = PaddingVertical;
-        CGFloat imageW = 113;
+        CGFloat imageW = (ScreenWidth - PaddingHorizontal * 2 - 6) / 3 ;
         CGFloat imageH = 75;
         _singleImageImageViewFrame = CGRectMake(imageX, imageY, imageW, imageH);
         

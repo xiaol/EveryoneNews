@@ -12,11 +12,12 @@
 #import "LPPagingView.h"
 #import "LPMenuView.h"
 #import "LPMenuCollectionViewCell.h"
+#import "LPTabBar.h"
+@class GenieTransition;
 
- 
 @interface LPHomeViewController : LPBaseViewController
 
-@property (nonatomic, strong) UIView *backgroundView;
+@property (nonatomic, strong) UIView *topBackgroundView;
 // 所有频道集合
 @property (nonatomic, strong) NSMutableArray *channelItemsArray;
 // 内容页面
@@ -27,8 +28,8 @@
 @property (nonatomic, strong) NSMutableArray *selectedArray;
 // 可选频道
 @property (nonatomic, strong) NSMutableArray *optionalArray;
-
-@property (nonatomic, strong) UIImageView *imageView;
+// 蒙层
+@property (nonatomic , strong) UIView *blurView;
 // 频道栏
 @property (nonatomic, strong) LPSortCollectionView *sortCollectionView;
 // 频道添加时
@@ -52,5 +53,10 @@
 @property (nonatomic, strong) NSMutableDictionary *cardCellIdentifierDictionary;
 
 @property (nonatomic, strong) NSMutableDictionary *contentOffsetDictionary;
+// 登录 挖掘机
+@property (nonatomic, strong) UIImageView *frontImageView;
+@property (nonatomic, assign) BOOL shouldPush;
+@property (nonatomic, strong) UIImage *userIcon;
+@property (nonatomic, strong) GenieTransition *genieTransition;
 
 @end
