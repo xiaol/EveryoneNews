@@ -22,7 +22,7 @@
 #import "MBProgressHUD+MJ.h"
 #import "LPDetailViewController.h"
 
-//static NSString *currentDateString = @"2015-12-29 08:08:08";
+static NSString *currentDateString = @"2016-01-05 08:08:08";
 static NSString *reusePageID = @"reusePageID";
 NSString *isFirstLoadMark = @"isFirstLoadMark";
 
@@ -98,7 +98,6 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
 
 
 - (void)pagingView:(LPPagingView *)pagingView didScrollToPageIndex:(NSInteger)pageIndex {
-    
     LPChannelItem *channelItem = self.selectedArray[pageIndex];
     self.selectedChannelTitle = channelItem.channelName;
     // 改变菜单栏按钮选中取消状态
@@ -118,9 +117,10 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
         if (page.cardFrames.count == 0) {
             [self loadMoreDataInPageAtPageIndex:pageIndex];
         } else {
-            int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
+            int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate];
             // 每5分钟做一次刷新操作
             if (interval > 5) {
+                NSLog(@"autoload");
                 [page autotomaticLoadNewData];
                 channelItem.lastAccessDate = currentDate;
             }
@@ -130,16 +130,45 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
 
 #pragma mark - 加载更多
 - (void)loadMoreDataInPageAtPageIndex:(NSInteger)pageIndex{
+  
     sharedIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
     sharedIndicator.color = [UIColor lightGrayColor];
-    sharedIndicator.center = CGPointMake(ScreenWidth / 2, 100 );
+    sharedIndicator.frame = CGRectMake((ScreenWidth - 22) / 2, 72, 22, 22);
     [self.view addSubview:sharedIndicator];
+    
+    CGFloat loadLabelY = CGRectGetMaxY(sharedIndicator.frame) + 8;
+    CGFloat loadLabelX = (ScreenWidth - 40) / 2;
+    UILabel *loadLabel = [[UILabel alloc] initWithFrame:CGRectMake(loadLabelX, loadLabelY, 40, 12)];
+    loadLabel.font = [UIFont systemFontOfSize:10];
+    loadLabel.textColor = [UIColor colorFromHexString:@"#969696"];
+    loadLabel.text = @"正在推荐";
+    [self.view addSubview:loadLabel];
+    
+    UIImage *loadImage = [UIImage imageNamed:@"头条百家字"];
+    UIImageView *loadImageView = [[UIImageView alloc] initWithImage:loadImage];
+    loadImageView.center = self.view.center;
+    [self.view addSubview:loadImageView];
+    
+    
     [sharedIndicator startAnimating];
     LPChannelItem *channelItem = self.pageindexMapToChannelItemDictionary[@(pageIndex)];
     CardParam *param = [[CardParam alloc] init];
     param.type = HomeCardsFetchTypeMore;
     param.count = @(20);
-    param.startTime = [NSString stringWithFormat:@"%lld", (long long)([[NSDate date] timeIntervalSince1970] * 1000)];
+    
+    
+    //-----------------------------------------------------------------------
+        NSString *dateString = currentDateString;
+        //设置转换格式
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init] ;
+        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        //NSString转NSDate
+        NSDate *date=[formatter dateFromString:dateString];
+    
+        param.startTime = [NSString stringWithFormat:@"%lld", (long long)([date timeIntervalSince1970] * 1000)];
+    //-----------------------------------------------------------------------
+    
+//    param.startTime = [NSString stringWithFormat:@"%lld", (long long)([[NSDate date] timeIntervalSince1970] * 1000)];
     param.channelID = channelItem.channelID;
     NSMutableArray *cfs = [NSMutableArray array];
     [CardTool cardsWithParam:param success:^(NSArray *cards) {
@@ -151,8 +180,12 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
         [self.channelItemDictionary setObject:cfs forKey:channelItem.channelName];
         [self.pagingView reloadData];
         [sharedIndicator stopAnimating];
+        loadImageView.hidden = YES;
+        loadLabel.hidden = YES;
     } failure:^(NSError *error) {
         [sharedIndicator stopAnimating];
+        loadImageView.hidden = YES;
+        loadLabel.hidden = YES;
     }];
 }
 
@@ -165,11 +198,7 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
                           scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
 }
 
-- (void)pushDetailViewController:(LPPagingViewPage *)page cardFrame:(CardFrame *)cardFrame {
-//    LPDetailContentViewController *detailVc = [[LPDetailContentViewController alloc] init];
-//    detailVc.card = cardFrame.card;
-//    [self.navigationController pushViewController:detailVc animated:YES];
-        
+- (void)pushDetailViewController:(LPPagingViewPage *)page cardFrame:(CardFrame *)cardFrame {        
     LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
     detailVc.cardFrame = cardFrame;
     detailVc.isConcernDetail = YES;

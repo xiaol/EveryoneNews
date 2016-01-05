@@ -77,14 +77,11 @@
 #pragma mark - 自动加载最新数据
 - (void)autotomaticLoadNewData {
     [self.tableView.header beginRefreshing];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.tableView.header endRefreshing];
-    });
-    
 }
 
 #pragma mark － 下拉刷新 如果超过24小时始终返回最新数据
 - (void)loadNewData{
+    NSLog(@"loadNewData");
     if (self.cardFrames.count != 0) {
         CardFrame *cardFrame = self.cardFrames[0];
         Card *card = cardFrame.card;
@@ -93,21 +90,22 @@
         param.channelID = [NSString stringWithFormat:@"%@", card.channelId];
         param.count = @20;
         param.startTime = cardFrame.card.updateTime;
-//        NSLog(@"%@", param.startTime);
+        NSLog(@"%@",param.startTime);
         __weak typeof(self) weakSelf = self;
         NSMutableArray *tempArray = [[NSMutableArray alloc] init];
         [CardTool cardsWithParam:param success:^(NSArray *cards) {
             if (cards.count > 0) {
-                for (int i = cards.count; i > 0; i --) {
-                    CardFrame *cardFrame = [[CardFrame alloc] init];
-                    cardFrame.card = cards[i - 1];
-                    [tempArray addObject:cardFrame];
-                }
-                NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:
-                                       NSMakeRange(0,[tempArray count])];
+            for (int i = 0; i < (int)cards.count; i ++) {
+                CardFrame *cardFrame = [[CardFrame alloc] init];
+                cardFrame.card = cards[i];
+                [tempArray addObject:cardFrame];
+            }
+            
+            NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:
+                                   NSMakeRange(0,[tempArray count])];
 
-                [weakSelf.cardFrames insertObjects: tempArray atIndexes:indexes];
-                [weakSelf.tableView reloadData];
+            [weakSelf.cardFrames insertObjects: tempArray atIndexes:indexes];
+            [weakSelf.tableView reloadData];
             }
             [weakSelf showNewCount:tempArray.count];
             [weakSelf.tableView.header endRefreshing];
@@ -115,6 +113,8 @@
             [weakSelf.tableView.header endRefreshing];
             NSLog(@"failure!");
         }];
+    } else {
+        [self.tableView.header endRefreshing];
     }
 }
 
@@ -187,7 +187,6 @@
     }];
 
 }
-
 
 #pragma mark - tableView  datasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

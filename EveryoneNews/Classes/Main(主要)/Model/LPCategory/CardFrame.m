@@ -39,27 +39,45 @@ static const CGFloat PaddingVertical = 15;
         _cellHeight = CGRectGetMaxY(_noImageSeperatorLineFrame);
         
     } else if (card.cardImages.count == 1 || card.cardImages.count == 2) {
-        
         CGFloat imageX = PaddingHorizontal;
         CGFloat imageY = PaddingVertical;
-        CGFloat imageW = (ScreenWidth - PaddingHorizontal * 2 - 6) / 3 ;
+        // 图片高度
         CGFloat imageH = 75;
-        _singleImageImageViewFrame = CGRectMake(imageX, imageY, imageW, imageH);
+        CGFloat imageW = (ScreenWidth - PaddingHorizontal * 2 - 6) / 3 ;
         
-        CGFloat titleX = CGRectGetMaxX(_singleImageImageViewFrame) + PaddingHorizontal;
-        CGFloat titleW = ScreenWidth - CGRectGetMaxX(_singleImageImageViewFrame) - PaddingHorizontal * 2;
+        
+        // 标题宽度
+        CGFloat titleW = ScreenWidth - imageW - 3 * PaddingHorizontal;
+        // 标题高度
         CGFloat titleH = [title sizeWithFont:[UIFont systemFontOfSize:ConcernPressTitleFontSize] maxSize:CGSizeMake(titleW, MAXFLOAT)].height;
+        CGFloat titleX = imageW + PaddingHorizontal * 2;
+        CGFloat titleY = PaddingVertical;
+        CGFloat singleImageSeperatorLineY = 0.f;
+        // 分割线
         
+        // 新闻来源高度
         CGFloat sourceSiteNameH = [sourceSiteName sizeWithFont:[UIFont systemFontOfSize:10] maxSize:CGSizeMake(titleW, MAXFLOAT)].height;
-        CGFloat titleY = PaddingVertical + (imageH - titleH - sourceSiteNameH - 10) / 2;
-        CGFloat sourceSiteNameY = titleY + titleH + 10;
-//        CGFloat titleY = (titleH < imageH) ? (PaddingVertical + (imageH - titleH) / 2) : PaddingVertical;
+        CGFloat sourceSiteNameY = 0.f;
+        // 如果图片比文字高则以图片作为参考对象
+        if (imageH > titleH + sourceSiteNameH + 10) {
+            titleY = PaddingVertical + (imageH - titleH - sourceSiteNameH - 10) / 2;
+           
+        } else {
+            imageY = PaddingVertical + (titleH + sourceSiteNameH + 10 - imageH) / 2;
+        }
+        sourceSiteNameY = titleY + titleH + 10;
+        _singleImageImageViewFrame = CGRectMake(imageX, imageY, imageW, imageH);
         _singleImageTitleLabelFrame = CGRectMake(titleX, titleY, titleW, titleH);
         _singleImageSourceLabelFrame = CGRectMake(titleX, sourceSiteNameY, titleW, sourceSiteNameH);
         
-        CGFloat singleImageSeperatorLineY = CGRectGetMaxY(_singleImageSourceLabelFrame) + PaddingVertical;
+        if (imageH > titleH + sourceSiteNameH + 10) {
+            singleImageSeperatorLineY = CGRectGetMaxY(_singleImageImageViewFrame) + PaddingVertical;
+        } else {
+            
+            singleImageSeperatorLineY = CGRectGetMaxY(_singleImageSourceLabelFrame) + PaddingVertical;
+          
+        }
         _singleImageSeperatorLineFrame = CGRectMake(0, singleImageSeperatorLineY, ScreenWidth, 0.5);
-        
         _cellHeight =  CGRectGetMaxY(_singleImageSeperatorLineFrame);
         
     } else if (card.cardImages.count >= 3) {

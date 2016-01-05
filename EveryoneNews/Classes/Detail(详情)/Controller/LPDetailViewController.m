@@ -104,6 +104,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 //        wself.tableView.backgroundColor = [UIColor blackColor];
 //        btn.x = 20;
 //    }];
+    
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -116,15 +117,15 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 
 - (void)setupNoteObserver
 {
-    [noteCenter addObserver:self selector:@selector(willComposeComment:) name:LPCommentWillComposeNotification object:nil];
-    [noteCenter addObserver:self selector:@selector(didComposeComment:) name:LPCommentDidComposeNotification object:nil];
-    [noteCenter addObserver:self selector:@selector(reloadCell:) name:LPDetailVcShouldReloadDataNotification object:nil];
+//    [noteCenter addObserver:self selector:@selector(willComposeComment:) name:LPCommentWillComposeNotification object:nil];
+//    [noteCenter addObserver:self selector:@selector(didComposeComment:) name:LPCommentDidComposeNotification object:nil];
+//    [noteCenter addObserver:self selector:@selector(reloadCell:) name:LPDetailVcShouldReloadDataNotification object:nil];
 }
 
-//- (BOOL)prefersStatusBarHidden
-//{
-//    return YES;
-//}
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
 
 - (NSArray *)relates
 {
@@ -377,6 +378,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
             NSLog(@"Failure: %@", error);
         }];
     } else {
+        
         self.http = [LPHttpTool http];
   
         
@@ -392,10 +394,8 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
             isPhoto = NO;
         }
         NSString *url = [NSString stringWithFormat:@"%@%@", @"http://api.deeporiginalx.com/bdp/news/content?url=", card.newId];
-        NSLog(@"%@", url);
-        params[@"deviceType"] = @"IOS";
-        params[@"url"] = url;
-//        NSLog(@"concernPress.sourceUrl = %@", self.concernPress.sourceUrl);
+
+        //        NSLog(@"concernPress.sourceUrl = %@", self.concernPress.sourceUrl);
         [self.http getWithURL:url params:params success:^(id json) {
         
             

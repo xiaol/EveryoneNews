@@ -35,9 +35,9 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
         self.animationLabel.numberOfLines = 1;
         self.animationLabel.adjustsFontSizeToFitWidth = YES;
         self.animationLabel.minimumScaleFactor = 0.1;
-        self.animationLabel.textColor = [UIColor grayColor];
+        self.animationLabel.textColor = [UIColor colorFromHexString:@"#737376"];
         self.animationLabel.layer.masksToBounds = YES;
-        self.animationLabel.layer.borderColor = [UIColor grayColor].CGColor;
+        self.animationLabel.layer.borderColor = [UIColor colorFromHexString:@"#737376"].CGColor;
         self.animationLabel.layer.borderWidth = 0.45;
         self.animationLabel.layer.cornerRadius = 10;
         self.animationLabel.layer.masksToBounds = YES;
@@ -48,15 +48,6 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
 #pragma mark - 默认选中第一个按钮
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0
-                                                 inSection:0];
-    LPMenuButton *menuButton = ((LPMenuCollectionViewCell *)[self.menuView cellForItemAtIndexPath:indexPath]).menuButton;
-    if(menuButton != nil) {
-        self.selectedChannelTitle = menuButton.text;
-    }
-    [self.menuView selectItemAtIndexPath:indexPath
-                                animated:NO
-                          scrollPosition:UICollectionViewScrollPositionNone];
 }
 
 #pragma mark - 保存频道的plist文件
@@ -113,11 +104,9 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
 }
 
 #pragma mark - 长按切换到排序删除状态
-- (void)longGesture:(UILongPressGestureRecognizer  *)longRecognizer {
-    
+- (void)longGestureHandle:(UILongPressGestureRecognizer  *)longRecognizer {
     self.isSort = YES;
     [self.sortCollectionView reloadData];
-    
 }
 #pragma mark - 单击跳转到指定频道
 - (void)redirectToSelectedChanneItem:(int)index {
@@ -235,7 +224,7 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
             [cell setCellWithArray:self.selectedArray indexPath:indexPath selectedTitle:self.selectedChannelTitle];
             // 删除状态时显示灰色
             if (self.isSort) {
-                cell.contentLabel.textColor = [UIColor grayColor];
+                cell.contentLabel.textColor = [UIColor colorFromHexString:@"#737376"];
                 // 防止手势冲突先删除所有手势
                 for (UIGestureRecognizer *gesture in cell.gestureRecognizers) {
                     [cell removeGestureRecognizer:gesture];
@@ -250,7 +239,7 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
                     [cell removeGestureRecognizer:gesture];
                 }
                 // 长按需要变换状态
-                UILongPressGestureRecognizer *longGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longGesture:)];
+                UILongPressGestureRecognizer *longGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longGestureHandle:)];
                 longGesture.delegate = self;
                 [cell addGestureRecognizer:longGesture];
             }
@@ -259,15 +248,14 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
             } else {
                 cell.deleteButton.hidden = !self.isSort;
                 // 添加频道时先隐藏label
-                if(indexPath.row == self.selectedArray.count -1 ) {
+                if(indexPath.row == self.selectedArray.count - 1 ) {
                     cell.contentLabel.hidden = self.lastLabelIsHidden;
                 }
-                
             }
         } else {
             [cell setCellWithArray:self.optionalArray indexPath:indexPath selectedTitle:self.selectedChannelTitle];
             cell.deleteButton.hidden = YES;
-            cell.contentLabel.textColor = [UIColor grayColor];
+            cell.contentLabel.textColor = [UIColor colorFromHexString:@"#737376"];
         }
         return cell;
     }
@@ -299,26 +287,9 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
             }
         }
     } else {
-        // 删除频道
         if (indexPath.section == 0) {
             LPSortCollectionViewCell *currentCell =  (LPSortCollectionViewCell *)[self.sortCollectionView cellForItemAtIndexPath:indexPath];
-            // 删除频道
-            if(self.isSort) {
-                if (indexPath != nil) {
-                    if(indexPath.item !=0 ) {
-                        [self.optionalArray insertObject:[self.selectedArray objectAtIndex:indexPath.row] atIndex:0];
-                        [self.selectedArray removeObjectAtIndex:indexPath.row];
-                        [self.cardCellIdentifierDictionary removeObjectForKey:@(indexPath.row)];
-                      
-                        [self.sortCollectionView performBatchUpdates:^{
-                            [self.sortCollectionView deleteItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
-                        } completion:^(BOOL finished) {
-                            [self updatePageindexMapToChannelItemDictionary];
-                        }];
-                    }
-                }
-            }
-            else {
+            if(!self.isSort) {
                 // 跳转到指定频道
                 __weak typeof(self) weakSelf = self;
                 self.isSpread = NO;
@@ -332,8 +303,22 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
                 [UIView animateWithDuration:0.2 animations:^{
                     weakSelf.blurView.frame = CGRectMake(0, - ScreenHeight, ScreenWidth, ScreenHeight);
                 } completion:^(BOOL finished) {
-                    
                 }];
+            } else {
+                if (indexPath != nil) {
+                    if(indexPath.item !=0 ) {
+                        currentCell.userInteractionEnabled  = YES;
+                        [self.optionalArray insertObject:[self.selectedArray objectAtIndex:indexPath.row] atIndex:0];
+                        [self.selectedArray removeObjectAtIndex:indexPath.row];
+                        [self.cardCellIdentifierDictionary removeObjectForKey:@(indexPath.row)];
+                        
+                        [self.sortCollectionView performBatchUpdates:^{
+                            [self.sortCollectionView deleteItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
+                        } completion:^(BOOL finished) {
+                            [self updatePageindexMapToChannelItemDictionary];
+                        }];
+                    }
+                }
             }
         }
         // 添加频道
@@ -399,13 +384,16 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
                     }
                     [weakSelf.sortCollectionView reloadData];
                 }];
-                resuableView.titleLabel.text = @"切换栏目";
+                resuableView.titleLabel.text = @"我的频道";
+                resuableView.subtitleLabel.hidden = YES;
             } else {
                 resuableView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:reuseIdentifierSecond forIndexPath:indexPath];
                 resuableView.backgroundColor = [UIColor whiteColor];
-                resuableView.titleLabel.text = @"点击添加更多栏目";
+                resuableView.titleLabel.text = @"推荐频道";
+                resuableView.subtitleLabel.text = @"点击添加更多关注";
+                
                 resuableView.sortButton.hidden = YES;
-                resuableView.upImageView.hidden = YES;
+                
             }
         }
         return resuableView;
@@ -443,7 +431,7 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
         return CGSizeMake(0, 0);
     } else {
         if (section == 0) {
-            return CGSizeMake(ScreenWidth, 40.0);
+            return CGSizeMake(ScreenWidth, 30.0);
         } else {
             return CGSizeMake(ScreenWidth, 30.0);
         }

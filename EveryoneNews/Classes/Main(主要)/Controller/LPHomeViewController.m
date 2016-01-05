@@ -8,27 +8,20 @@
 
 #import "LPHomeViewController.h"
 #import "LPMenuView.h"
+#import "LPMenuButton.h"
 #import "LPPagingView.h"
 #import "UIImageView+WebCache.h"
-//#import "LPChannelItemTool.h"
 #import "LPChannelItem.h"
-//#import "LPMenuButton.h"
 #import "LPSortCollectionViewCell.h"
 #import "LPSortCollectionReusableView.h"
 #import "LPChannelItemTool.h"
 #import "LPMenuCollectionViewCell.h"
 #import "LPSortCollectionView.h"
-//#import "CardTool.h"
-//#import "CardParam.h"
-//#import "Card+CoreDataProperties.h"
 #import "LPHomeViewCell.h"
-//#import "CardFrame.h"
 #import "LPPagingViewPage.h"
 #import "LPHomeViewController+ChannelItemMenu.h"
 #import "LPHomeViewController+PagingView.h"
-
 #import "LPDetailViewController.h"
-
 
 // 挖掘机
 #import "Account.h"
@@ -59,25 +52,22 @@
 
 typedef void (^completionBlock)();
 
-
 NSString * const HomeCellReuseIdentifier = @"homeCell";
 NSString * const ConcernCellReuseIdentifier = @"concernCell";
 const NSInteger HotwordPageCapacity = 8;
 NSString * const HotwordsURL = @"http://api.deeporiginalx.com/news/baijia/fetchElementary";
+NSString * const cellIdentifier = @"sortCollectionViewCell";
 
-
+NSString * const reuseIdentifierFirst = @"reuseIdentifierFirst";
+NSString * const reuseIdentifierSecond = @"reuseIdentifierSecond";
+NSString * const menuCellIdentifier = @"menuCollectionViewCell";
+NSString * const reusePageID = @"reusePageID";
+NSString * const firstChannelName = @"社会";
 
 const static CGFloat menuViewHeight = 44;
 const static CGFloat statusBarHeight = 20;
-static NSString *cellIdentifier = @"sortCollectionViewCell";
-static NSString *reuseIdentifierFirst = @"reuseIdentifierFirst";
-static NSString *reuseIdentifierSecond = @"reuseIdentifierSecond";
-static NSString *menuCellIdentifier = @"menuCollectionViewCell";
-static NSString *reusePageID = @"reusePageID";
-static NSString *firstChannelName = @"社会";
-
 // 展开折叠图片宽度
-const static float menuImageViewWidth= 44;
+const static CGFloat menuImageViewWidth= 44;
 
 @interface LPHomeViewController () <LPTagCloudViewDelegate>
 
@@ -86,12 +76,11 @@ const static float menuImageViewWidth= 44;
 @property (nonatomic, strong) UIImageView *downImageView;
 // 向上箭头
 @property (nonatomic, strong) UIImageView *upImageView;
-
-
 //自定义的顶部导航
 @property (nonatomic,strong) LPTabBar *customTabBar;
 //主界面右下角的登录按钮
 @property (nonatomic,strong) UIButton *loginBtn;
+
 @property (nonatomic, strong) UIButton *digBtn;
 //所有内容展示的ScrollView
 @property (nonatomic,strong) UIScrollView *containerView;
@@ -127,17 +116,37 @@ const static float menuImageViewWidth= 44;
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     [self setupSubViews];
+    
+
     if ([userDefaults objectForKey:@"isFirstLoadMark"]) {
         [self  setInitialChannelItemDictionary];
     }
+    [self scrollToFirstChannelItem];
     [self setupLoginButton];
     [self setupDigButton];
     [self setupNoteObserver];
 }
+
+#pragma mark - 显示状态栏
 - (BOOL)prefersStatusBarHidden
 {
     return NO;
 }
+
+#pragma mark - 默认选中第一项
+- (void)scrollToFirstChannelItem {
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0
+                                                 inSection:0];
+    LPMenuButton *menuButton = ((LPMenuCollectionViewCell *)[self.menuView cellForItemAtIndexPath:indexPath]).menuButton;
+    if(menuButton != nil) {
+        self.selectedChannelTitle = menuButton.text;
+    }
+    [self.menuView selectItemAtIndexPath:indexPath
+                                animated:NO
+                          scrollPosition:UICollectionViewScrollPositionNone];
+}
+
+
 
 #pragma mark - 懒加载
 - (NSMutableDictionary *)channelItemDictionary {
@@ -324,7 +333,7 @@ const static float menuImageViewWidth= 44;
 
 }
 
-
+#pragma mark - 添加挖掘机
 - (void)setupDigButton {
     DigButton *btn = [[DigButton alloc] init];
     [self.view addSubview:btn];
@@ -381,6 +390,7 @@ const static float menuImageViewWidth= 44;
     return _shimmeringOffIndexes;
 }
 
+#pragma mark - 添加登录按钮
 - (void)setupLoginButton {
     //添加右下角的登录按钮
     self.loginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -479,31 +489,11 @@ const static float menuImageViewWidth= 44;
 #pragma mark - setup note observer
 - (void)setupNoteObserver
 {
-    [noteCenter addObserver:self selector:@selector(receiveJPushNotification:) name:LPPushNotificationFromLaunching object:nil];
-    [noteCenter addObserver:self selector:@selector(receiveJPushNotification:) name:LPPushNotificationFromBack object:nil];
     [noteCenter addObserver:self selector:@selector(accountLogin:) name:AccountLoginNotification  object:nil];
-    [noteCenter addObserver:self selector:@selector(commentSuccess) name:LPCommentDidComposeSuccessNotification object:nil];
     [noteCenter addObserver:self selector:@selector(loadWebWithNote:) name:LPWebViewWillLoadNotification object:nil];
-    [noteCenter addObserverForName:NetworkReachabilityDidChangeToReachableNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
-        if (!self.pressFrames.count) {
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self setupDataWithCategory:[LPCategory categoryWithURL:HomeUrl] completion:nil];
-            });
-        }
-    }];
     [noteCenter addObserver:self selector:@selector(receiveAppReview) name:AppDidReceiveReviewNotification object:nil];
 }
 
-#pragma mark - setup tabbar index
-- (void)setSelectedIndex:(NSUInteger)selectedIndex
-{
-    
-    self.customTabBar.sliderView.x = (selectedIndex == 0) ? 0 : TabBarButtonWidth;
-    self.customTabBar.selectedButton = [self.customTabBar.tabBarButtons objectAtIndex:selectedIndex];
-    CGPoint offset = CGPointMake(ScreenWidth * selectedIndex, 0);
-    self.containerView.contentOffset = offset;
-    _selectedIndex = selectedIndex;
-}
 #pragma mark - login selectors
 
 /**
@@ -562,79 +552,7 @@ const static float menuImageViewWidth= 44;
         [self.tagCloudView removeFromSuperview];
     }];
 }
-#pragma mark - setup home data with JPush remote notification block
-- (void)setupDataWithCategory:(LPCategory *)category completion:(completionBlock)block {
-    sharedIndicator.hidden = NO;
-    [sharedIndicator startAnimating];
-    self.homeView.hidden = YES;
-    // 清空数据
-    [self.pressFrames removeAllObjects];
-    __weak typeof(self) weakSelf = self;
-    [LPPressTool homePressesWithCategory:category success:^(id json) {
-        //        NSMutableArray *pressFrameArray = [NSMutableArray array];
-        // 字典转模型
-        for (NSDictionary *dict in (NSArray *)json) {
-            LPPress *press = [LPPress objectWithKeyValues:dict];
-            if (press.special.intValue != 9) {
-                LPPressFrame *pressFrame = [[LPPressFrame alloc] init];
-                pressFrame.press = press;
-                [self.pressFrames addObject:pressFrame];
-            }
-        }
-        if (self.pressFrames.count == 0) {
-            return;
-        }
-        // 插入时间栏
-        int i = 0;
-        for (; i < self.pressFrames.count; i++) {
-            LPPressFrame *pressFrame = self.pressFrames[i];
-            LPPress *press = pressFrame.press;
-            if (press.special.integerValue == 400) {
-                break;
-            }
-        }
-        if (i == self.pressFrames.count) {
-            i = 0;
-        }
-        weakSelf.timeRow = MAX(i - 1, 0);
-        //插入时间栏LPPressFrame
-        //        LPPressFrame *timePressFrame = [[LPPressFrame alloc] init];
-        //        LPPress *timePress = [[LPPress alloc] init];
-        //        timePress.special = @"1000";
-        //        timePressFrame.press = timePress;
-        //        NSInteger insertPosition = (weakSelf.timeRow == 0)? 0:weakSelf.timeRow +1;
-        //        [pressFrameArray insertObject:timePressFrame atIndex:insertPosition];
-        weakSelf.anyDisplayingCellRow = i;
-        
-        // 模型数组属性的赋值
-        //        self.pressFrames = pressFrameArray;
-        LPSpringLayout *layout = (LPSpringLayout *)weakSelf.homeView.collectionViewLayout;
-        layout.springinessEnabled = YES;
-        [layout reset];
-        [weakSelf.homeView reloadData];
-        self.containerView.userInteractionEnabled = YES;
-        self.loginBtn.hidden = NO;
-        self.digBtn.hidden = NO;
-        if (block) {
-            block();
-            //            [weakSelf setupHotword];
-        } else {
-            //            [weakSelf setupHotword];
-            
-            CGPoint initialOffset = CGPointMake(0, weakSelf.timeRow * (PhotoCellHeight + CellHeightBorder));
-            [weakSelf.homeView setContentOffset:initialOffset animated:NO];
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                self.homeView.hidden = NO;
-                [sharedIndicator stopAnimating];
-            });
-        }
-        
-    } failure:^(NSError *error) {
-        [sharedIndicator stopAnimating];
-        self.containerView.userInteractionEnabled = YES;
-        [MBProgressHUD showError:@"网络不给力 :(" toView:self.view];
-    }];
-}
+
 
 #pragma mark - hotwords initialize
 - (void)setupHotword {
@@ -711,44 +629,6 @@ const static float menuImageViewWidth= 44;
     UIView *hud = recognizer.view;
     [hud removeFromSuperview];
     hud = nil;
-}
-
-#pragma mark - Scroll view delegate
-
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
-    self.isScrolled = YES;
-}
-
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    self.isScrolled = NO;
-    
-    if ([scrollView class] == [self.containerView class]) {
-        CGFloat x = scrollView.contentOffset.x;
-        if (x == ScreenWidth) {
-            self.selectedIndex = 1;
-        }else{
-            self.selectedIndex = 0;
-        }
-    } else if (scrollView == self.homeView) {
-        if ((int)(scrollView.contentSize.height - scrollView.contentOffset.y - ScreenHeight) == 0 && self.pressFrames.count > 0) {
-            // 弹出评价框 (once_token)
-            NSNumber *review = [userDefaults objectForKey:AppDidReceiveReviewUserDefaultKey];
-            if (!review) {
-                static dispatch_once_t onceToken;
-                dispatch_once(&onceToken, ^{
-                    [self setupAppCommentView];
-                });
-            }
-        }
-    }
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if (scrollView == self.containerView) {
-        self.customTabBar.sliderView.x = TabBarButtonWidth * (scrollView.contentOffset.x / ScreenWidth);
-    }
 }
 
 #pragma mark - setup app comment alert
@@ -847,78 +727,11 @@ const static float menuImageViewWidth= 44;
     } completion:nil];
 }
 
-
-#pragma mark - jpush notification handler
-- (void)receiveJPushNotification:(NSNotification *)note
-{
-    NSLog(@"--receiveJPushNotification-%s",__func__);
-    
-    self.selectedIndex = 1;
-    if (self.presentedViewController != nil) {
-        [self dismissViewControllerAnimated:NO completion:nil];
-    }
-    
-    NSDictionary *info = note.userInfo;
-    NSString *url = info[LPPushNotificationURL];
-    [self.navigationController popToRootViewControllerAnimated:NO];
-    __weak typeof(self) weakSelf = self;
-    [self setupDataWithCategory:[LPCategory categoryWithURL:HomeUrl] completion:^{
-        for (int row = 0; row < self.pressFrames.count; row ++) {
-            LPPressFrame *pressFrame = self.pressFrames[row];
-            if ([pressFrame.press.sourceUrl isEqualToString:url]) {
-                NSIndexPath *indexPath = [NSIndexPath indexPathForItem:row inSection:0];
-                if (row > 0) {
-                    [weakSelf.homeView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:NO];
-                }
-                [weakSelf collectionView:weakSelf.homeView didSelectItemAtIndexPath:[NSIndexPath indexPathForItem:row inSection:0]];
-#pragma warning - 重复代码 及时抽取
-                //                self.selectedRow = row;
-                //                LPPressFrame *pressFrame = self.pressFrames[row];
-                //                LPPress *press = pressFrame.press;
-                //                LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
-                //                detailVc.isConcernDetail = NO;
-                //                detailVc.press = press;
-                //                [self.navigationController pushViewController:detailVc animated:NO];
-                break;
-            }
-        }
-        weakSelf.homeView.hidden = NO;
-    }];
-}
-
-
-
-// 评论成功后，若原来没有评论图标，就显示
-- (void)commentSuccess
-{
-    LPPressFrame *pressFrame = self.pressFrames[self.selectedRow];
-    LPPress *press = pressFrame.press;
-    if (press.isCommentsFlag.intValue == 0) {
-        press.isCommentsFlag = @"1";
-        self.isScrolled = NO;
-        [self.homeView reloadData];
-    }
-}
-
 #pragma mark - notification selector load web view
 - (void)loadWebWithNote:(NSNotification *)note
 {
     NSString *url = note.userInfo[LPWebURL];
     [LPPressTool loadWebViewWithURL:url viewController:self];
-}
-
-#pragma mark - push featured vc with presses
-- (void)pushFeaturedViewContollerAtRow:(NSInteger)row animation:(BOOL)animation {
-    LPFeaturedViewController *featuredVc = [[LPFeaturedViewController alloc] init];
-    featuredVc.item = row;
-    NSMutableArray *presses = [NSMutableArray array];
-    for (LPPressFrame *pressFrame in self.pressFrames) {
-        LPPress *press = pressFrame.press;
-        [presses addObject:press];
-    }
-    featuredVc.presses = presses;
-    [self.navigationController pushViewController:featuredVc animated:animation];
-    self.containerView.hidden = NO;
 }
 
 - (void)dealloc

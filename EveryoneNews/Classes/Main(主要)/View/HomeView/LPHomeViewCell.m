@@ -188,7 +188,7 @@
         for (CardImage * cardImage in card.cardImages) {
             [imageArray addObject:cardImage.imgUrl];
         }
-       [self.iconView sd_setImageWithURL:[NSURL URLWithString:imageArray[0]] placeholderImage:[UIImage imageNamed:@"占位图"]];
+       [self.iconView sd_setImageWithURL:[NSURL URLWithString:imageArray[0]] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
         
         self.noImageLabel.hidden = YES;
         self.noImageSourceLabel.hidden = YES;
@@ -246,9 +246,9 @@
         for (CardImage * cardImage in card.cardImages) {
             [imageArray addObject:cardImage.imgUrl];
         }
-        [self.firstMutipleImageView sd_setImageWithURL:[NSURL URLWithString:imageArray[0]] placeholderImage:[UIImage imageNamed:@"占位图"]];
-        [self.secondMutipleImageView sd_setImageWithURL:[NSURL URLWithString:imageArray[1]] placeholderImage:[UIImage imageNamed:@"占位图"]];
-        [self.thirdMutipleImageView sd_setImageWithURL:[NSURL URLWithString:imageArray[2]] placeholderImage:[UIImage imageNamed:@"占位图"]];
+        [self.firstMutipleImageView sd_setImageWithURL:[NSURL URLWithString:imageArray[0]] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
+        [self.secondMutipleImageView sd_setImageWithURL:[NSURL URLWithString:imageArray[1]] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
+        [self.thirdMutipleImageView sd_setImageWithURL:[NSURL URLWithString:imageArray[2]] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
         
         CGRect frame = self.cardFrame.multipleImageViewFrame;
         CGFloat x = frame.origin.x;

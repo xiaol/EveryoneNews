@@ -16,22 +16,32 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if(self = [super initWithFrame:frame]) {
-        self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 200, self.bounds.size.height)];
-        self.titleLabel.font = [UIFont systemFontOfSize:14];
-        self.titleLabel.textColor = [UIColor grayColor];
-        [self addSubview:self.titleLabel];
+        UILabel *titelLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 70, self.bounds.size.height)];
+        titelLabel.font = [UIFont systemFontOfSize:17];
+        titelLabel.textColor = [UIColor colorFromHexString:@"#414141"];
+        [self addSubview:titelLabel];
+        self.titleLabel = titelLabel;
         
-        self.sortButton = [[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth - 120, 10, 60, 20)];
-        self.sortButton.titleLabel.font = [UIFont systemFontOfSize:13];
-        self.sortButton.layer.masksToBounds = YES;
-        self.sortButton.layer.cornerRadius = 10;
-        self.sortButton.layer.borderColor = [UIColor redColor].CGColor;
-        self.sortButton.layer.borderWidth = 0.7;
-        [self.sortButton setTitle:@"排序删除" forState:UIControlStateNormal];
-        [self.sortButton setTitle:@"完成" forState:UIControlStateSelected];
-        [self.sortButton setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
-        [self.sortButton addTarget:self action:@selector(sortButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:self.sortButton];
+        CGFloat sortButtonX = CGRectGetMaxX(titelLabel.frame);
+        UILabel *subTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(sortButtonX + 10, 7, 82, 16)];
+        subTitleLabel.textColor = [UIColor colorFromHexString:@"#414141"];
+        subTitleLabel.font = [UIFont systemFontOfSize:10];
+        [self addSubview:subTitleLabel];
+        self.subtitleLabel = subTitleLabel;
+        
+        UIButton *sortButton = [[UIButton alloc] initWithFrame:CGRectMake(sortButtonX + 10, 7, 82, 16)];
+        sortButton.titleLabel.font = [UIFont systemFontOfSize:10];
+        sortButton.layer.masksToBounds = YES;
+        sortButton.layer.cornerRadius = 5;
+        sortButton.layer.borderColor = [UIColor colorFromHexString:@"#747476"].CGColor;
+        sortButton.layer.borderWidth = 0.5;
+        [sortButton setTitle:@"长按排序或删除" forState:UIControlStateNormal];
+        [sortButton setTitle:@"完成" forState:UIControlStateSelected];
+        [sortButton setTitleColor:[UIColor colorFromHexString:@"#747476"] forState:UIControlStateNormal];
+        [sortButton setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
+        [sortButton addTarget:self action:@selector(sortButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:sortButton];
+        self.sortButton = sortButton;
     }
     return self;
 }

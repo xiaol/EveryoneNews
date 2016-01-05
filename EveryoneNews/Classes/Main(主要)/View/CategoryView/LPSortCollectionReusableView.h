@@ -22,11 +22,15 @@ typedef void (^sortButtonClickBlock)(SortButtonState state);
 - (void)upImageViewDidTap:(LPSortCollectionReusableView *)resuableView;
 
 @end
+
 @interface LPSortCollectionReusableView : UICollectionReusableView
 
+// 主标题
 @property (nonatomic, strong) UILabel *titleLabel;
+// 副标题
+@property (nonatomic, strong) UILabel *subtitleLabel;
 @property (nonatomic, strong) UIButton *sortButton;
-@property (nonatomic, strong) UIImageView *upImageView;
+//@property (nonatomic, strong) UIImageView *upImageView;
 @property (nonatomic, assign) BOOL sortButtonHidden;
 @property (nonatomic, copy) sortButtonClickBlock sortButtonClickBlock;
 @property (nonatomic, weak) id<LPSortCollectionReusableViewDelegate>  delegate;

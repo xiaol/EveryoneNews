@@ -9,7 +9,7 @@
 #import "LPSortCollectionViewCell.h"
 #import "LPChannelItem.h"
 
-@interface LPSortCollectionViewCell ()
+@interface LPSortCollectionViewCell () <UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) LPChannelItem *channelItem;
 
@@ -25,7 +25,8 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if(self = [super initWithFrame:frame]) {
-        self.contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.contentView.bounds.size.width , self.contentView.bounds.size.height)];
+//        self.contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.contentView.bounds.size.width , self.contentView.bounds.size.height)];
+             self.contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 60 , 25)];
         self.contentLabel.center = self.contentView.center;
         self.contentLabel.textAlignment = NSTextAlignmentCenter;
         self.contentLabel.font = [UIFont systemFontOfSize:15];
@@ -34,10 +35,13 @@
         self.contentLabel.minimumScaleFactor = 0.1;
         [self.contentView addSubview:self.contentLabel];
         
-        self.deleteButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
-        [self.deleteButton setBackgroundImage:[UIImage imageNamed:@"分类删除"] forState:UIControlStateNormal];
-        [self.contentView addSubview:self.deleteButton];
+        UIButton *deleteButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 13, 13)];
+        deleteButton.center = self.contentLabel.frame.origin;
+        [deleteButton setBackgroundImage:[UIImage imageNamed:@"分类删除"] forState:UIControlStateNormal];
+        [self.contentView addSubview:deleteButton];
+        self.deleteButton = deleteButton;
         
+        [self bringSubviewToFront:self.deleteButton];
         self.contentView.backgroundColor = [UIColor clearColor];
     }
     return self;
@@ -49,9 +53,9 @@
     self.channelItem = dataMutableArray[indexPath.row];
     self.contentLabel.text = self.channelItem.channelName;
     if([self.contentLabel.text isEqualToString:selectedTitle]) {
-        self.contentLabel.textColor = [UIColor redColor];
+        self.contentLabel.textColor = [UIColor colorFromHexString:@"#0086d1"];
     } else {
-        self.contentLabel.textColor = [UIColor grayColor];
+        self.contentLabel.textColor = [UIColor colorFromHexString:@"#737376"];
     }
     if(indexPath.section == 0 && indexPath.row == 0) {
         self.contentLabel.layer.borderColor = [UIColor clearColor].CGColor;
@@ -66,6 +70,5 @@
         self.contentLabel.layer.masksToBounds = YES;
     }
 }
-
 
 @end
