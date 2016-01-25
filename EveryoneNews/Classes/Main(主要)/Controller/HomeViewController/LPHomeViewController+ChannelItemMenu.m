@@ -7,7 +7,7 @@
 //
 
 #import "LPHomeViewController+ChannelItemMenu.h"
-#import "LPHomeViewController+PagingView.h"
+#import "LPHomeViewController+ContentView.h"
 #import "LPPagingView.h"
 #import "LPMenuView.h"
 #import "LPChannelItemTool.h"
@@ -17,7 +17,7 @@
 #import "LPMenuCollectionViewCell.h"
 #import "LPPagingViewPage.h"
 
-const static CGFloat cellPadding = 10;
+const static CGFloat cellPadding = 15;
 static NSString *reuseIdentifierFirst = @"reuseIdentifierFirst";
 static NSString *reuseIdentifierSecond = @"reuseIdentifierSecond";
 static NSString *menuCellIdentifier = @"menuCollectionViewCell";
@@ -29,9 +29,13 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
 #pragma mark - 初始化
 - (instancetype)init {
     if(self = [super init]) {
+        CGFloat fontSize = 15;
+        if (iPhone6Plus) {
+            fontSize = 22;
+        }
         self.animationLabel = [[UILabel alloc] init];
         self.animationLabel.textAlignment = NSTextAlignmentCenter;
-        self.animationLabel.font = [UIFont systemFontOfSize:15];
+        self.animationLabel.font = [UIFont systemFontOfSize:fontSize];
         self.animationLabel.numberOfLines = 1;
         self.animationLabel.adjustsFontSizeToFitWidth = YES;
         self.animationLabel.minimumScaleFactor = 0.1;
@@ -39,7 +43,7 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
         self.animationLabel.layer.masksToBounds = YES;
         self.animationLabel.layer.borderColor = [UIColor colorFromHexString:@"#737376"].CGColor;
         self.animationLabel.layer.borderWidth = 0.45;
-        self.animationLabel.layer.cornerRadius = 10;
+        self.animationLabel.layer.cornerRadius = 5.0f;
         self.animationLabel.layer.masksToBounds = YES;
     }
     return self;
@@ -107,17 +111,6 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
 - (void)longGestureHandle:(UILongPressGestureRecognizer  *)longRecognizer {
     self.isSort = YES;
     [self.sortCollectionView reloadData];
-}
-#pragma mark - 单击跳转到指定频道
-- (void)redirectToSelectedChanneItem:(int)index {
-    NSIndexPath *menuIndexPath = [NSIndexPath indexPathForItem:index
-                                                     inSection:0];
-    [self.menuView selectItemAtIndexPath:menuIndexPath
-                                animated:NO
-                          scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
-    [self.pagingView setCurrentPageIndex:index animated:NO];
-    // 此处缺少自动刷新机制
-    [self loadMoreDataInPageAtPageIndex:index];
 }
 
 #pragma mark - 频道排序
@@ -256,10 +249,28 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
             [cell setCellWithArray:self.optionalArray indexPath:indexPath selectedTitle:self.selectedChannelTitle];
             cell.deleteButton.hidden = YES;
             cell.contentLabel.textColor = [UIColor colorFromHexString:@"#737376"];
+            
+            for (UIGestureRecognizer *gesture in cell.gestureRecognizers) {
+                if ([gesture isKindOfClass:[UILongPressGestureRecognizer class]]) {
+                    [cell removeGestureRecognizer:gesture];
+                }
+                
+            }
         }
         return cell;
     }
     
+}
+
+#pragma mark - 单击跳转到指定频道
+- (void)redirectToSelectedChanneItem:(int)index {
+    NSIndexPath *menuIndexPath = [NSIndexPath indexPathForItem:index
+                                                     inSection:0];
+    [self.menuView selectItemAtIndexPath:menuIndexPath
+                                animated:NO
+                          scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+    [self.pagingView setCurrentPageIndex:index animated:NO];
+    [self loadMoreDataInPageAtPageIndex:index];
 }
 
 #pragma mark - UICollectionView Delegate
@@ -270,11 +281,15 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
         LPMenuButton *currentButton = currentCell.menuButton;
         self.selectedChannelTitle = currentButton.text;
         [self.pagingView setCurrentPageIndex:indexPath.item animated:NO];
+
         // 超过5分钟自动刷新 第一次调用则加载
         LPChannelItem *channelItem = [currentCell channelItem];
         NSDate *currentDate = [NSDate date];
         NSDate *lastAccessDate = channelItem.lastAccessDate;
         if (lastAccessDate == nil) {
+            
+            [self loadIndictorShow];
+            
             [self loadMoreDataInPageAtPageIndex:indexPath.item];
             channelItem.lastAccessDate = currentDate;
         } else {
@@ -290,20 +305,21 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
         if (indexPath.section == 0) {
             LPSortCollectionViewCell *currentCell =  (LPSortCollectionViewCell *)[self.sortCollectionView cellForItemAtIndexPath:indexPath];
             if(!self.isSort) {
-                // 跳转到指定频道
-                __weak typeof(self) weakSelf = self;
-                self.isSpread = NO;
-                self.menuView.alpha = 1;
                 self.isSort = NO;
+                self.blurView.alpha = 0.0;
                 // 回到主界面时跳转到单击的选项
                 [self.menuView reloadData];
                 [self.pagingView reloadData];
+                
+                LPChannelItem *channelItem = [currentCell channelItem];
+                NSDate *lastAccessDate = channelItem.lastAccessDate;
+                if (lastAccessDate == nil) {
+                    [self loadIndictorShow];
+                }
                 self.selectedChannelTitle = currentCell.contentLabel.text;
                 [self redirectToSelectedChanneItem:(int)indexPath.item];
-                [UIView animateWithDuration:0.2 animations:^{
-                    weakSelf.blurView.frame = CGRectMake(0, - ScreenHeight, ScreenWidth, ScreenHeight);
-                } completion:^(BOOL finished) {
-                }];
+                
+                
             } else {
                 if (indexPath != nil) {
                     if(indexPath.item !=0 ) {
@@ -311,7 +327,6 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
                         [self.optionalArray insertObject:[self.selectedArray objectAtIndex:indexPath.row] atIndex:0];
                         [self.selectedArray removeObjectAtIndex:indexPath.row];
                         [self.cardCellIdentifierDictionary removeObjectForKey:@(indexPath.row)];
-                        
                         [self.sortCollectionView performBatchUpdates:^{
                             [self.sortCollectionView deleteItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
                         } completion:^(BOOL finished) {
@@ -334,7 +349,19 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
             [self.sortCollectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
             //移动开始的attributes
             UICollectionViewLayoutAttributes *startAttributes = [self.sortCollectionView layoutAttributesForItemAtIndexPath:indexPath].copy;
-            self.animationLabel.frame = CGRectMake(startAttributes.frame.origin.x, startAttributes.frame.origin.y, startAttributes.frame.size.width , startAttributes.frame.size.height);
+            
+            CGFloat deleteButtonWidth = 13;
+            CGFloat deleteButtonHeight = 13;
+            if (iPhone6Plus) {
+                deleteButtonWidth = 18;
+                deleteButtonHeight = 18;
+            }
+            CGFloat labelX = startAttributes.frame.origin.x + 8 + deleteButtonWidth / 2;
+            CGFloat labelY = startAttributes.frame.origin.y + deleteButtonHeight / 2;
+            CGFloat labelW = startAttributes.frame.size.width - (8 + deleteButtonWidth / 2);
+            CGFloat labelH = startAttributes.frame.size.height - deleteButtonHeight / 2;
+            
+            self.animationLabel.frame = CGRectMake(labelX, labelY, labelW , labelH);
             self.animationLabel.text = ((LPChannelItem *)[self.optionalArray objectAtIndex:indexPath.row]).channelName;
             [self.sortCollectionView addSubview:self.animationLabel];
             NSIndexPath *toIndexPath = [NSIndexPath indexPathForRow:self.selectedArray.count - 1 inSection:0];
@@ -343,7 +370,7 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
             typeof(self) __weak weakSelf = self;
             // 动画
             [UIView animateWithDuration:0.4 animations:^{
-                weakSelf.animationLabel.center = endAttributes.center;
+                weakSelf.animationLabel.center = CGPointMake(endAttributes.center.x + 4 + deleteButtonWidth / 4, endAttributes.center.y + deleteButtonHeight / 4) ;
             } completion:^(BOOL finished) {
                 //展示最后一个cell的contentLabel
                 LPSortCollectionViewCell *endCell = (LPSortCollectionViewCell *)[weakSelf.sortCollectionView cellForItemAtIndexPath:toIndexPath];
@@ -360,6 +387,7 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
     }
     
 }
+
 
 #pragma mark - UICollectionView Header
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
@@ -386,9 +414,23 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
                 }];
                 resuableView.titleLabel.text = @"我的频道";
                 resuableView.subtitleLabel.hidden = YES;
+                
+                CGFloat subtitleLabelH = 16;
+                CGRect sortButtonFrame = resuableView.sortButton.frame;
+                sortButtonFrame.size.height = subtitleLabelH;
+                resuableView.sortButton.frame = sortButtonFrame;
+             
             } else {
                 resuableView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:reuseIdentifierSecond forIndexPath:indexPath];
-                resuableView.backgroundColor = [UIColor whiteColor];
+
+                CGRect titleLabelFrame = resuableView.titleLabel.frame;
+                titleLabelFrame.origin.y = 20;
+                resuableView.titleLabel.frame = titleLabelFrame;
+                
+                CGRect subtitleLabelFrame = resuableView.subtitleLabel.frame;
+                subtitleLabelFrame.origin.y = 20;
+                resuableView.subtitleLabel.frame = subtitleLabelFrame;
+                
                 resuableView.titleLabel.text = @"推荐频道";
                 resuableView.subtitleLabel.text = @"点击添加更多关注";
                 
@@ -402,10 +444,16 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
 
 #pragma mark - UICollectionView Style
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    CGFloat height = 33;
+    CGFloat width = 50;
+    if (iPhone6Plus) {
+        height = 44;
+        width = 60;
+    }
     if([collectionView isKindOfClass:[LPMenuView class]]) {
-        return CGSizeMake(50, 30);
+        return CGSizeMake(width, height);
     } else {
-        return CGSizeMake((ScreenWidth - 5 * cellPadding) / 4.0, 30);
+        return CGSizeMake((ScreenWidth - cellPadding) / 4.0, height);
     }
 }
 
@@ -413,16 +461,26 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
     if([collectionView isKindOfClass:[LPMenuView class]]) {
         return UIEdgeInsetsMake(0, 0, 0, 0);
     } else {
-        return UIEdgeInsetsMake(cellPadding, cellPadding, cellPadding, cellPadding);
+        if (section == 0) {
+            return UIEdgeInsetsMake(0, 0, 0, 0);
+        } else {
+           return UIEdgeInsetsMake(0, 0, 0, 0);
+        }
+    
     }
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-    return cellPadding;
+    return 5;
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
-    return cellPadding;
+    if([collectionView isKindOfClass:[LPMenuView class]]) {
+        return cellPadding;
+    } else {
+         return 0;
+    }
+   
 }
 
 // 设置header高度
@@ -433,17 +491,13 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
         if (section == 0) {
             return CGSizeMake(ScreenWidth, 30.0);
         } else {
-            return CGSizeMake(ScreenWidth, 30.0);
+            return CGSizeMake(ScreenWidth, 60.0);
         }
     }
 }
 
 // 设置footer高度
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
-    if([collectionView isKindOfClass:[LPMenuView class]]) {
-        return CGSizeMake(0, 0);
-    } else {
-        return  CGSizeMake(ScreenWidth, 0.0);
-    }
+    return CGSizeMake(0, 0);
 }
 @end

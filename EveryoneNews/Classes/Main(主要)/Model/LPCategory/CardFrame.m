@@ -15,7 +15,14 @@ static const CGFloat PaddingVertical = 15;
 @implementation CardFrame
 
 - (void)setCard:(Card *)card {
-    
+    CGFloat titleFontSize = ConcernPressTitleFontSize;
+    CGFloat sourceFontSize = 10;
+    CGFloat imageH = 75;
+    if (iPhone6Plus) {
+        titleFontSize = 18;
+        sourceFontSize = 12;
+        imageH = 90;
+    }
     NSString *title = card.title;
     NSString *sourceSiteName = card.sourceSiteName;
     _card = card;
@@ -24,10 +31,10 @@ static const CGFloat PaddingVertical = 15;
     if(card.cardImages.count == 0) {
         // 无图
         CGFloat titleW = ScreenWidth - PaddingHorizontal * 2;
-        CGFloat titleH = [title sizeWithFont:[UIFont systemFontOfSize:ConcernPressTitleFontSize] maxSize:CGSizeMake(titleW, MAXFLOAT)].height;
+        CGFloat titleH = [title sizeWithFont:[UIFont systemFontOfSize:titleFontSize] maxSize:CGSizeMake(titleW, MAXFLOAT)].height;
         _noImageLabelFrame = CGRectMake(PaddingHorizontal, PaddingVertical, titleW, titleH);
         
-        CGFloat sourceSiteNameH = [sourceSiteName sizeWithFont:[UIFont systemFontOfSize:10] maxSize:CGSizeMake(titleW, MAXFLOAT)].height;
+        CGFloat sourceSiteNameH = [sourceSiteName sizeWithFont:[UIFont systemFontOfSize:sourceFontSize] maxSize:CGSizeMake(titleW, MAXFLOAT)].height;
         CGFloat sourceSiteNameY = CGRectGetMaxY(_noImageLabelFrame) + 5;
         
         _noImageSourceLabelFrame = CGRectMake(PaddingHorizontal, sourceSiteNameY, titleW, sourceSiteNameH);
@@ -42,21 +49,20 @@ static const CGFloat PaddingVertical = 15;
         CGFloat imageX = PaddingHorizontal;
         CGFloat imageY = PaddingVertical;
         // 图片高度
-        CGFloat imageH = 75;
         CGFloat imageW = (ScreenWidth - PaddingHorizontal * 2 - 6) / 3 ;
         
         
         // 标题宽度
         CGFloat titleW = ScreenWidth - imageW - 3 * PaddingHorizontal;
         // 标题高度
-        CGFloat titleH = [title sizeWithFont:[UIFont systemFontOfSize:ConcernPressTitleFontSize] maxSize:CGSizeMake(titleW, MAXFLOAT)].height;
+        CGFloat titleH = [title sizeWithFont:[UIFont systemFontOfSize:titleFontSize] maxSize:CGSizeMake(titleW, MAXFLOAT)].height;
         CGFloat titleX = imageW + PaddingHorizontal * 2;
         CGFloat titleY = PaddingVertical;
         CGFloat singleImageSeperatorLineY = 0.f;
         // 分割线
         
         // 新闻来源高度
-        CGFloat sourceSiteNameH = [sourceSiteName sizeWithFont:[UIFont systemFontOfSize:10] maxSize:CGSizeMake(titleW, MAXFLOAT)].height;
+        CGFloat sourceSiteNameH = [sourceSiteName sizeWithFont:[UIFont systemFontOfSize:sourceFontSize] maxSize:CGSizeMake(titleW, MAXFLOAT)].height;
         CGFloat sourceSiteNameY = 0.f;
         // 如果图片比文字高则以图片作为参考对象
         if (imageH > titleH + sourceSiteNameH + 10) {
@@ -82,15 +88,14 @@ static const CGFloat PaddingVertical = 15;
         
     } else if (card.cardImages.count >= 3) {
         CGFloat titleW = ScreenWidth - PaddingHorizontal * 2;
-        CGFloat titleH = [title sizeWithFont:[UIFont systemFontOfSize:ConcernPressTitleFontSize] maxSize:CGSizeMake(titleW, MAXFLOAT)].height;
+        CGFloat titleH = [title sizeWithFont:[UIFont systemFontOfSize:titleFontSize] maxSize:CGSizeMake(titleW, MAXFLOAT)].height;
         _multipleImageTitleLabelFrame = CGRectMake(PaddingHorizontal, PaddingVertical, titleW, titleH);
         
-        CGFloat imageH = 75;
         CGFloat imageY = PaddingVertical + titleH + 8;
         _multipleImageViewFrame = CGRectMake(PaddingHorizontal, imageY, titleW, imageH);
         
         CGFloat sourceSiteNameY = CGRectGetMaxY(_multipleImageViewFrame) + 6;
-        CGFloat sourceSiteNameH = [sourceSiteName sizeWithFont:[UIFont systemFontOfSize:10] maxSize:CGSizeMake(titleW, MAXFLOAT)].height;
+        CGFloat sourceSiteNameH = [sourceSiteName sizeWithFont:[UIFont systemFontOfSize:sourceFontSize] maxSize:CGSizeMake(titleW, MAXFLOAT)].height;
         _multipleImageSourceLabelFrame = CGRectMake(PaddingHorizontal, sourceSiteNameY, titleW, sourceSiteNameH);
      
         // 分割线

@@ -16,21 +16,36 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if(self = [super initWithFrame:frame]) {
-        UILabel *titelLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 70, self.bounds.size.height)];
-        titelLabel.font = [UIFont systemFontOfSize:17];
+
+        CGFloat fontSize = 17;
+        CGFloat subtitleFontSize = 10;
+        CGFloat titleLabelW = 70.0f;
+        CGFloat subtitleLabelW = 82;
+        CGFloat subtitleLabelY = 7;
+        if (iPhone6Plus) {
+            fontSize = 20;
+            subtitleFontSize = 13;
+            titleLabelW = 90;
+            subtitleLabelW = 110;
+        }
+        UILabel *titelLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, titleLabelW, self.bounds.size.height)];
+        titelLabel.font = [UIFont systemFontOfSize:fontSize];
         titelLabel.textColor = [UIColor colorFromHexString:@"#414141"];
         [self addSubview:titelLabel];
         self.titleLabel = titelLabel;
         
+
+        
         CGFloat sortButtonX = CGRectGetMaxX(titelLabel.frame);
-        UILabel *subTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(sortButtonX + 10, 7, 82, 16)];
-        subTitleLabel.textColor = [UIColor colorFromHexString:@"#414141"];
-        subTitleLabel.font = [UIFont systemFontOfSize:10];
+        UILabel *subTitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(sortButtonX , subtitleLabelY, subtitleLabelW, self.bounds.size.height)];
+        subTitleLabel.textColor = [UIColor colorFromHexString:@"#747476"];
+        subTitleLabel.font = [UIFont systemFontOfSize:subtitleFontSize];
         [self addSubview:subTitleLabel];
+
         self.subtitleLabel = subTitleLabel;
         
-        UIButton *sortButton = [[UIButton alloc] initWithFrame:CGRectMake(sortButtonX + 10, 7, 82, 16)];
-        sortButton.titleLabel.font = [UIFont systemFontOfSize:10];
+        UIButton *sortButton = [[UIButton alloc] initWithFrame:CGRectMake(sortButtonX , subtitleLabelY, subtitleLabelW, self.bounds.size.height)];
+        sortButton.titleLabel.font = [UIFont systemFontOfSize:subtitleFontSize];
         sortButton.layer.masksToBounds = YES;
         sortButton.layer.cornerRadius = 5;
         sortButton.layer.borderColor = [UIColor colorFromHexString:@"#747476"].CGColor;

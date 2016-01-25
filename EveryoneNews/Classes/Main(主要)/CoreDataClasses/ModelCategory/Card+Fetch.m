@@ -26,4 +26,11 @@
     return results;
 }
 
++ (NSArray *)fetchCardsWithSourceSiteURL:(NSString *)sourceSiteURL {
+    CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Card"];
+    request.predicate = [NSPredicate predicateWithFormat:@"sourceSiteURL = %@", sourceSiteURL];
+    NSArray *results = [cdh.context executeFetchRequest:request error:nil];
+    return results;
+}
 @end

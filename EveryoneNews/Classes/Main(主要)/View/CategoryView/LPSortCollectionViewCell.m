@@ -11,8 +11,6 @@
 
 @interface LPSortCollectionViewCell () <UIGestureRecognizerDelegate>
 
-@property (nonatomic, strong) LPChannelItem *channelItem;
-
 @end
 @implementation LPSortCollectionViewCell
 
@@ -24,30 +22,43 @@
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
+    CGFloat fontSize = 15;
+    if (iPhone6Plus) {
+        fontSize = 18;
+    }
     if(self = [super initWithFrame:frame]) {
-//        self.contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.contentView.bounds.size.width , self.contentView.bounds.size.height)];
-             self.contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 60 , 25)];
+        self.contentLabel = [[UILabel alloc] init];
         self.contentLabel.center = self.contentView.center;
         self.contentLabel.textAlignment = NSTextAlignmentCenter;
-        self.contentLabel.font = [UIFont systemFontOfSize:15];
+        self.contentLabel.font = [UIFont systemFontOfSize:fontSize];
         self.contentLabel.numberOfLines = 1;
         self.contentLabel.adjustsFontSizeToFitWidth = YES;
-        self.contentLabel.minimumScaleFactor = 0.1;
+        self.contentLabel.minimumScaleFactor = 0.1f;
         [self.contentView addSubview:self.contentLabel];
         
-        UIButton *deleteButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 13, 13)];
-        deleteButton.center = self.contentLabel.frame.origin;
-        [deleteButton setBackgroundImage:[UIImage imageNamed:@"分类删除"] forState:UIControlStateNormal];
+        UIImageView *deleteButton = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"分类删除"]];
+        
         [self.contentView addSubview:deleteButton];
         self.deleteButton = deleteButton;
-        
-        [self bringSubviewToFront:self.deleteButton];
         self.contentView.backgroundColor = [UIColor clearColor];
     }
     return self;
 }
 
 - (void)setCellWithArray:(NSMutableArray *)dataMutableArray indexPath:(NSIndexPath*)indexPath selectedTitle:(NSString *)selectedTitle{
+    CGFloat deleteButtonWidth = 13;
+    CGFloat deleteButtonHeight = 13;
+    if (iPhone6Plus) {
+        deleteButtonWidth = 18;
+        deleteButtonHeight = 18;
+    }
+    CGFloat labelX = 8 + deleteButtonWidth / 2;
+    CGFloat labelY = deleteButtonHeight / 2;
+    CGFloat labelW = self.bounds.size.width - labelX;
+    CGFloat labelH = self.bounds.size.height - labelY;
+    
+    self.contentLabel.frame = CGRectMake(labelX, labelY, labelW, labelH);
+    self.deleteButton.frame = CGRectMake(8, 0 , deleteButtonWidth, deleteButtonHeight);
     self.indexPath = indexPath;
     self.contentLabel.hidden = NO;
     self.channelItem = dataMutableArray[indexPath.row];
@@ -59,14 +70,13 @@
     }
     if(indexPath.section == 0 && indexPath.row == 0) {
         self.contentLabel.layer.borderColor = [UIColor clearColor].CGColor;
-        self.contentLabel.layer.borderWidth = 0.0;
+        self.contentLabel.layer.borderWidth = 0.0f;
         self.contentLabel.layer.masksToBounds = YES;
         
     } else {
-        self.contentLabel.layer.masksToBounds = YES;
         self.contentLabel.layer.borderColor = [UIColor grayColor].CGColor;
-        self.contentLabel.layer.borderWidth = 0.45;
-        self.contentLabel.layer.cornerRadius = 10;
+        self.contentLabel.layer.borderWidth = 0.45f;
+        self.contentLabel.layer.cornerRadius = 5.0f;
         self.contentLabel.layer.masksToBounds = YES;
     }
 }

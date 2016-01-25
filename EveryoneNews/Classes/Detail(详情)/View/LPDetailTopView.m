@@ -42,54 +42,64 @@
     if (self) {
         // 定义顶部视图
         self.frame = CGRectMake(0 , 0, ScreenWidth, topViewHeight);
-        [self setBackgroundColor:[UIColor colorFromHexString:@"#f6f6f7"]];
-        // 返回button
-        UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(15, 0, btnReturnWidth, btnReturnHeight)];
-        [backBtn setBackgroundImage:[UIImage imageNamed:@"详情页返回"] forState:UIControlStateNormal];
-        [backBtn setEnlargedEdgeWithTop:20 left:10 bottom:10 right:20];
+//        [self setBackgroundColor:[UIColor colorFromHexString:@"#f6f6f7"]];
         
-        backBtn.centerY = self.centerY;
-        [backBtn addTarget:self action:@selector(topViewBackBtnClick) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:backBtn];
+        UIButton *popBtn = [[UIButton alloc] initWithFrame:CGRectMake(DetailCellPadding, DetailCellPadding * 2, 34, 34)];
+        popBtn.enlargedEdge = 5;
+        [popBtn setImage:[UIImage resizedImageWithName:@"back"] forState:UIControlStateNormal];
+        popBtn.backgroundColor = [UIColor clearColor];
+        popBtn.alpha = 0.8;
+        [popBtn addTarget:self action:@selector(topViewBackBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        [self addSubview:popBtn];
         
-        // 添加按钮
-        UIButton *addBtn=[[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth-btnWidth-marginRight, 0, btnWidth, btnHeight)];
-        [addBtn setBackgroundImage:[UIImage imageNamed:@"详情页专辑"] forState:UIControlStateNormal];
-        [addBtn setEnlargedEdgeWithTop:20 left:10 bottom:10 right:20];
-        addBtn.centerY = self.centerY;
-        [self addSubview:addBtn];
+    
+//        // 返回button
+//        UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(15, 0, btnReturnWidth, btnReturnHeight)];
+//        [backBtn setBackgroundImage:[UIImage imageNamed:@"详情页返回"] forState:UIControlStateNormal];
+//        [backBtn setEnlargedEdgeWithTop:20 left:10 bottom:10 right:20];
+//        
+//        backBtn.centerY = self.centerY;
+//        [backBtn addTarget:self action:@selector(topViewBackBtnClick) forControlEvents:UIControlEventTouchUpInside];
+//        [self addSubview:backBtn];
+//        
+//        // 添加按钮
+//        UIButton *addBtn=[[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth-btnWidth-marginRight, 0, btnWidth, btnHeight)];
+//        [addBtn setBackgroundImage:[UIImage imageNamed:@"详情页专辑"] forState:UIControlStateNormal];
+//        [addBtn setEnlargedEdgeWithTop:20 left:10 bottom:10 right:20];
+//        addBtn.centerY = self.centerY;
+//        [self addSubview:addBtn];
+//        
+//        // 添加分享按钮
+//        UIButton *shareBtn = [[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth-marginRight-2*btnWidth-spacing, 0, btnWidth, btnHeight)];
+//        [shareBtn setImage:[UIImage imageNamed:@"详情页分享"]  forState:UIControlStateNormal];
+//        [shareBtn setEnlargedEdgeWithTop:20 left:10 bottom:10 right:20];
+//        shareBtn.centerY = self.centerY;
+//        [shareBtn addTarget:self action:@selector(shareBtnClick) forControlEvents:UIControlEventTouchUpInside];
+//        [self addSubview:shareBtn];
         
-        // 添加分享按钮
-        UIButton *shareBtn = [[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth-marginRight-2*btnWidth-spacing, 0, btnWidth, btnHeight)];
-        [shareBtn setImage:[UIImage imageNamed:@"详情页分享"]  forState:UIControlStateNormal];
-        [shareBtn setEnlargedEdgeWithTop:20 left:10 bottom:10 right:20];
-        shareBtn.centerY = self.centerY;
-        [shareBtn addTarget:self action:@selector(shareBtnClick) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:shareBtn];
+//        // 评论按钮
+//        UIButton *commentBtn = [[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth - marginRight - 3*btnWidth - 2*spacing, 0, btnCommentWidth, btnCommentHeight)];
+//        
+//        [commentBtn setImage:[UIImage imageNamed:@"详情页评论"]   forState:UIControlStateNormal];
+//        [commentBtn setEnlargedEdgeWithTop:20 left:10 bottom:10 right:20];
+//        commentBtn.centerY = self.centerY + 1;
+//        [commentBtn addTarget:self action:@selector(fulltextCommentBtnClick) forControlEvents:UIControlEventTouchUpInside];
+//        [self addSubview:commentBtn];
         
-        // 评论按钮
-        UIButton *commentBtn = [[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth - marginRight - 3*btnWidth - 2*spacing, 0, btnCommentWidth, btnCommentHeight)];
+//        // 分割线
+//        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, self.frame.size.height-1, ScreenWidth, 1)];
+//        label.backgroundColor = [UIColor colorFromHexString:@"#cacaca"];
+//        [self addSubview:label];
         
-        [commentBtn setImage:[UIImage imageNamed:@"详情页评论"]   forState:UIControlStateNormal];
-        [commentBtn setEnlargedEdgeWithTop:20 left:10 bottom:10 right:20];
-        commentBtn.centerY = self.centerY + 1;
-        [commentBtn addTarget:self action:@selector(fulltextCommentBtnClick) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:commentBtn];
-        
-        // 分割线
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, self.frame.size.height-1, ScreenWidth, 1)];
-        label.backgroundColor = [UIColor colorFromHexString:@"#cacaca"];
-        [self addSubview:label];
-        
-        // 评论条数
-        self.commentCountView = [[UIView alloc] init];
-        self.commentCountView.backgroundColor = [UIColor colorFromHexString:@"#ff5454"];
-        self.commentCountView.layer.cornerRadius = 5.0;
-        
-        self.commentLabel = [[UILabel alloc] init];
-        self.commentCountView.hidden = YES;
-        [self.commentCountView addSubview:self.commentLabel];
-        [self addSubview:self.commentCountView];
+//        // 评论条数
+//        self.commentCountView = [[UIView alloc] init];
+//        self.commentCountView.backgroundColor = [UIColor colorFromHexString:@"#ff5454"];
+//        self.commentCountView.layer.cornerRadius = 5.0;
+//        
+//        self.commentLabel = [[UILabel alloc] init];
+//        self.commentCountView.hidden = YES;
+//        [self.commentCountView addSubview:self.commentLabel];
+//        [self addSubview:self.commentCountView];
     }
     return self;
 }

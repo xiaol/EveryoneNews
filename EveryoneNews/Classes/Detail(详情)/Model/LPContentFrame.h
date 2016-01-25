@@ -18,6 +18,8 @@
 @property (nonatomic, assign) CGRect plusBtnF;
 @property (nonatomic, assign) CGRect commentViewF;
 
+@property (nonatomic ,assign) CGRect abstractSeperatorViewF;
+
 // 针对图像cell
 @property (nonatomic, assign) CGRect photoViewF;
 @property (nonatomic, assign) CGRect photoDescViewF;

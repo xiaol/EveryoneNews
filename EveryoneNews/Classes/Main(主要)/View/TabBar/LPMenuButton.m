@@ -18,13 +18,18 @@
 @implementation LPMenuButton
 
 - (instancetype)initWithFrame:(CGRect)frame {
+    CGFloat titleFontSize = 15;
+    if (iPhone6Plus) {
+        titleFontSize = 18;
+    }
+    
     if(self = [super initWithFrame:frame]) {
         self.textColor = LPNormalColor;
         self.textAlignment = NSTextAlignmentCenter;
-        [self setFont:[UIFont fontWithName:@"Arial" size:15]];
+        [self setFont:[UIFont fontWithName:@"Arial" size:titleFontSize]];
         self.normalColor = LPNormalColor;
         self.selectedColor = LPSelectedColor;
-        self.rate = 1.2;
+        self.rate = 1.2f;
         self.highlightedTextColor = LPSelectedColor;
     }
     return self;
@@ -50,10 +55,10 @@
             self.selectedColor = [UIColor colorWithRed:selComponents[0] green:selComponents[0] blue:selComponents[0] alpha:selComponents[1]];
         }
     }
-    CGFloat r = rgba[0] + rgbaGap[0]*(1-rate);
-    CGFloat g = rgba[1] + rgbaGap[1]*(1-rate);
-    CGFloat b = rgba[2] + rgbaGap[2]*(1-rate);
-    CGFloat a = rgba[3] + rgbaGap[3]*(1-rate);
+    CGFloat r = rgba[0] + rgbaGap[0] * (1 - rate);
+    CGFloat g = rgba[1] + rgbaGap[1] * (1 - rate);
+    CGFloat b = rgba[2] + rgbaGap[2] * (1 - rate);
+    CGFloat a = rgba[3] + rgbaGap[3] * (1 - rate);
     self.textColor = [UIColor colorWithRed:r green:g blue:b alpha:a];
     CGFloat scaleRate = self.rate - rate * (self.rate - 1);
     self.transform = CGAffineTransformMakeScale(scaleRate, scaleRate);

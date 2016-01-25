@@ -20,8 +20,9 @@
 #import "LPHomeViewCell.h"
 #import "LPPagingViewPage.h"
 #import "LPHomeViewController+ChannelItemMenu.h"
-#import "LPHomeViewController+PagingView.h"
+#import "LPHomeViewController+ContentView.h"
 #import "LPDetailViewController.h"
+#import "LPHomeViewController+NewFeature.h"
 
 // 挖掘机
 #import "Account.h"
@@ -50,6 +51,7 @@
 #import "AppDelegate.h"
 #import <StoreKit/StoreKit.h>
 
+
 typedef void (^completionBlock)();
 
 NSString * const HomeCellReuseIdentifier = @"homeCell";
@@ -66,16 +68,15 @@ NSString * const firstChannelName = @"社会";
 
 const static CGFloat menuViewHeight = 44;
 const static CGFloat statusBarHeight = 20;
-// 展开折叠图片宽度
-const static CGFloat menuImageViewWidth= 44;
+const static CGFloat cellPadding = 15;
 
-@interface LPHomeViewController () <LPTagCloudViewDelegate>
+@interface LPHomeViewController () <LPTagCloudViewDelegate, UIGestureRecognizerDelegate>
 
 @property (assign, nonatomic) UIStatusBarStyle statusBarStyle;
 // 向下箭头
-@property (nonatomic, strong) UIImageView *downImageView;
+@property (nonatomic, strong) UIButton *downButton;
 // 向上箭头
-@property (nonatomic, strong) UIImageView *upImageView;
+@property (nonatomic, strong) UIButton *upButton;
 //自定义的顶部导航
 @property (nonatomic,strong) LPTabBar *customTabBar;
 //主界面右下角的登录按钮
@@ -91,11 +92,11 @@ const static CGFloat menuImageViewWidth= 44;
 @property (nonatomic, assign) BOOL isScrolled;
 @property (nonatomic, assign) NSUInteger selectedRow;
 @property (nonatomic, assign) NSUInteger selectedIndex;
-//@property (nonatomic,strong) MBProgressHUD *progressView;
+
 @property (nonatomic, strong) NSMutableArray *pressFrames;
 
 @property (nonatomic, strong) UICollectionView *concernView;
-//@property (nonatomic, strong) UIActivityIndicatorView *waitingIndicator;
+
 @property (nonatomic, strong) NSMutableArray *concerns;
 
 @property (nonatomic, strong) NSMutableSet *shimmeringOffIndexes;
@@ -107,6 +108,8 @@ const static CGFloat menuImageViewWidth= 44;
 
 @property (nonatomic, copy) NSString *pasteURL;
 
+@property (nonatomic, strong) UIView *digAlertView;
+
 @end
 
 @implementation LPHomeViewController
@@ -116,8 +119,6 @@ const static CGFloat menuImageViewWidth= 44;
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     [self setupSubViews];
-    
-
     if ([userDefaults objectForKey:@"isFirstLoadMark"]) {
         [self  setInitialChannelItemDictionary];
     }
@@ -199,11 +200,11 @@ const static CGFloat menuImageViewWidth= 44;
     return _cardCellIdentifierDictionary;
 }
 
-- (NSMutableDictionary *)contentOffsetDictionary {
-    if (_contentOffsetDictionary == nil) {
-        _contentOffsetDictionary = [[NSMutableDictionary alloc] init];
+- (NSMutableDictionary *)pageContentOffsetDictionary {
+    if (_pageContentOffsetDictionary == nil) {
+        _pageContentOffsetDictionary = [[NSMutableDictionary alloc] init];
     }
-    return _contentOffsetDictionary;
+    return _pageContentOffsetDictionary;
 }
 
 
@@ -219,12 +220,26 @@ const static CGFloat menuImageViewWidth= 44;
     [self.view addSubview:topBackgroundView];
     self.topBackgroundView = topBackgroundView;
     
+    // 展开折叠图片宽度
+    CGFloat menuPaddingRight = 9;
+    CGFloat menuImageWidth = 11;
+    CGFloat menuImageHeight = 6;
+    
+    CGFloat seperatorW = 0.5f;
+    CGFloat seperatorPaddingTop = 32;
+    CGFloat seperatorH = 20;
+    if (iPhone6Plus) {
+         menuImageWidth = 16.5;
+         menuImageHeight = 9;
+         seperatorPaddingTop = 30;
+         seperatorH = 25;
+    }
+    
+    CGFloat rightViewWidth = 2 * cellPadding + menuImageWidth + seperatorW + menuPaddingRight + menuPaddingRight;
     // 菜单栏
     UICollectionViewFlowLayout *menuViewFlowLayout = [[UICollectionViewFlowLayout alloc] init];
     menuViewFlowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    menuViewFlowLayout.sectionInset = UIEdgeInsetsMake(0, 0, 0, 0);
-    
-    LPMenuView *menuView = [[LPMenuView alloc] initWithFrame:CGRectMake(0, 0 , ScreenWidth - menuImageViewWidth,statusBarHeight + menuViewHeight) collectionViewLayout:menuViewFlowLayout];
+    LPMenuView *menuView = [[LPMenuView alloc] initWithFrame:CGRectMake(cellPadding, 0 , ScreenWidth - rightViewWidth - cellPadding,statusBarHeight + menuViewHeight) collectionViewLayout:menuViewFlowLayout];
     menuView.backgroundColor = [UIColor colorFromHexString:@"0087d1"];
     menuView.showsHorizontalScrollIndicator = NO;
     menuView.delegate = self;
@@ -245,28 +260,40 @@ const static CGFloat menuImageViewWidth= 44;
     [self.view addSubview:pagingView];
     self.pagingView = pagingView;
     
+    // 添加加载中提示信息
+    [self setupBackgroundView];
+    
+    
+    // 分割线
+    UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(self.menuView.frame) + menuPaddingRight, seperatorPaddingTop, seperatorW, seperatorH)];
+    seperatorView.backgroundColor = [UIColor colorFromHexString:@"#dedbdb"];
+    [self.view addSubview:seperatorView];
+    
+    CGFloat imageFrameX = CGRectGetMaxX(seperatorView.frame) + cellPadding;
+    
+    CGFloat imageFrameY = 40.0f;
+    if (iPhone6Plus) {
+        imageFrameY = 40.0f;
+    }
     // 向下箭头
     UIImage *downImage = [UIImage imageNamed:@"首页向下箭头"];
-    self.downImageView = [[UIImageView alloc] initWithImage:downImage];
-    self.downImageView.contentMode = UIViewContentModeCenter;
-    self.downImageView.userInteractionEnabled = YES;
-    self.downImageView.frame = CGRectMake(ScreenWidth - menuImageViewWidth, statusBarHeight, menuImageViewWidth, menuImageViewWidth);
+    self.downButton = [[UIButton alloc] init];
+    [self.downButton  setBackgroundImage:downImage forState:UIControlStateNormal];
+    self.downButton.frame = CGRectMake(imageFrameX, imageFrameY, menuImageWidth, menuImageHeight);
+    [self.downButton addTarget:self action:@selector(downButtonClick) forControlEvents:UIControlEventTouchUpInside];
+    self.downButton.enlargedEdge = 10;
+    [topBackgroundView addSubview:self.downButton];
     
-    UITapGestureRecognizer *tapDownGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapDownImageView)];
-    tapDownGesture.delegate = self;
-    [self.downImageView addGestureRecognizer:tapDownGesture];
-    [topBackgroundView addSubview:self.downImageView];
-    
-    
-    UIView *blurView = [[UIView alloc] initWithFrame:CGRectMake(0,  - ScreenHeight, ScreenWidth, ScreenHeight)];
+    UIView *blurView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
     blurView.backgroundColor = [UIColor whiteColor];
-    blurView.alpha = 0.95;
+    blurView.alpha = 0.0f;
     [self.view addSubview:blurView];
     self.blurView = blurView;
     
+    // 频道管理
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    self.sortCollectionView = [[LPSortCollectionView alloc] initWithFrame:CGRectMake(0, statusBarHeight + menuViewHeight, ScreenWidth, ScreenHeight - statusBarHeight- menuViewHeight) collectionViewLayout:layout];
+    self.sortCollectionView = [[LPSortCollectionView alloc] initWithFrame:CGRectMake(0, statusBarHeight + menuViewHeight, ScreenWidth - cellPadding, ScreenHeight - statusBarHeight- menuViewHeight) collectionViewLayout:layout];
     self.sortCollectionView.delegate = self;
     self.sortCollectionView.dataSource = self;
     self.sortCollectionView.backgroundColor = [UIColor whiteColor];
@@ -276,33 +303,226 @@ const static CGFloat menuImageViewWidth= 44;
     [self.sortCollectionView registerClass:[LPSortCollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:reuseIdentifierSecond];
     [blurView addSubview:self.sortCollectionView];
 
-
     UIImage *upImage = [UIImage imageNamed:@"首页向上箭头"];
-    self.upImageView = [[UIImageView alloc] initWithImage:upImage];
-    self.upImageView.contentMode = UIViewContentModeCenter;
-    self.upImageView.userInteractionEnabled = YES;
-    self.upImageView.frame = CGRectMake(ScreenWidth - menuImageViewWidth, statusBarHeight, menuImageViewWidth, menuImageViewWidth);
+    self.upButton = [[UIButton alloc] init];
+    [self.upButton  setBackgroundImage:upImage forState:UIControlStateNormal];
+    self.upButton.userInteractionEnabled = YES;
+    self.upButton.frame = self.downButton.frame;
+    [self.upButton addTarget:self action:@selector(upButtonClick) forControlEvents:UIControlEventTouchUpInside];
+    self.upButton.enlargedEdge = 10;
+    [blurView addSubview:self.upButton];
+    // 挖掘机提示框
+    [self setupDigAlterView];
     
-    UITapGestureRecognizer *tapUpGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapUpImageView)];
-    tapUpGesture.delegate = self;
-    [self.upImageView addGestureRecognizer:tapUpGesture];
-    [blurView addSubview:self.upImageView];
+    // 新特性展示
+    if (![userDefaults objectForKey:@"isFirstLoadMark"]) {
+        [self setupNewFeatureView];
+    }
+}
+
+- (void)setupBackgroundView {
+    UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, statusBarHeight + menuViewHeight, ScreenWidth, ScreenHeight - statusBarHeight - menuViewHeight)];
+    UIActivityIndicatorView *indictorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    indictorView.frame = CGRectMake((ScreenWidth - 22) / 2, 15, 22, 22);
+    [backgroundView addSubview:indictorView];
+    self.indictorView = indictorView;
+
+    CGFloat loadLabelY = CGRectGetMaxY(self.indictorView.frame) + 8;
+    CGFloat loadLabelX = (ScreenWidth - 40) / 2;
+    UILabel *loadLabel = [[UILabel alloc] initWithFrame:CGRectMake(loadLabelX, loadLabelY, 40, 12)];
+    loadLabel.font = [UIFont systemFontOfSize:10];
+    loadLabel.textColor = [UIColor colorFromHexString:@"#969696"];
+    loadLabel.text = @"正在推荐";
+    [backgroundView addSubview:loadLabel];
+    self.loadLabel = loadLabel;
+
+    UIImage *backgroundImage = [UIImage imageNamed:@"头条百家字"];
+    UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:backgroundImage];
+    backgroundImageView.center = CGPointMake(ScreenWidth / 2, (ScreenHeight - TabBarHeight) / 2);
+    [backgroundView addSubview:backgroundImageView];
+    
+    // 正在加载提示
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(loadCurrentPage)];
+    tapGestureRecognizer.delegate = self;
+    UIImage *loadImage = [UIImage imageNamed:@"重新加载"];
+    UIImageView *loadImageView = [[UIImageView alloc] initWithImage:loadImage];
+    loadImageView.userInteractionEnabled = YES;
+    [loadImageView addGestureRecognizer:tapGestureRecognizer];
+
+    loadImageView.centerX = self.view.centerX;
+    loadImageView.centerY = ScreenHeight / 3;
+
+    UILabel *noDataLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 30)];
+    noDataLabel.centerY = CGRectGetMaxY(loadImageView.frame) + 20;
+    NSString *text = @"网络出错，轻触屏幕重新加载";
+    NSMutableAttributedString *noDataString = [text attributedStringWithFont:[UIFont systemFontOfSize:12] color:[UIColor colorFromHexString:@"#c8c8c8"] lineSpacing:0];
+    noDataLabel.attributedText = noDataString;
+    noDataLabel.textAlignment = NSTextAlignmentCenter;
+    [backgroundView addSubview:loadImageView];
+    loadImageView.hidden = YES;
+    self.loadImageView = loadImageView;
+    
+    [backgroundView addSubview:noDataLabel];
+    noDataLabel.hidden = YES;
+    self.noDataLabel = noDataLabel;
+    
+    backgroundView.hidden = YES;
+    [self.view addSubview:backgroundView];
+    self.backgroundView = backgroundView;
+    
+ 
     
 }
 
-#pragma mark - 点击向下箭头
-- (void)tapDownImageView {
+#pragma mark - 加载更多
+- (void)loadCurrentPage {
+    [self channelItemDidAddToCoreData:self.pagingView.currentPageIndex];
+}
+
+#pragma mark - 挖掘机悬浮框
+- (void)setupDigAlterView {
+   
+    NSString *latestSearch = pasteboard.string;
+    if (latestSearch.length > 0) {
+
+    CGFloat cancelButtonWidth = 14;
+    CGFloat cancelButtonHeight = 14;
+    CGFloat confirmButtonWidth = 21;
+    CGFloat confirmButtonHeight = 14;
+        
+    CGFloat buttonPaddingLeft = 8;
+    CGFloat buttonPaddingRight = 8;
+    
+    CGFloat seperatorPaddingLeft = 10;
+    CGFloat seperatorPaddingRight = 10;
+    CGFloat seperatorHeight = 24;
+    CGFloat seperatorWidth = 0.5;
+    
+    CGFloat labelPadding = 6;
+    CGFloat digAlertViewPadding = 13;
+    CGFloat digAlertViewHeight = 52;
+    
+    CGFloat fontSize = 12;
+    if (iPhone6Plus) {
+        fontSize = 15;
+        digAlertViewHeight = 60;
+        cancelButtonWidth = 21;
+        cancelButtonHeight = 21;
+        
+        confirmButtonWidth = 31.5f;
+        confirmButtonHeight = 21;
+        
+        seperatorPaddingLeft = 13;
+        seperatorPaddingRight = 13;
+        seperatorHeight = 30;
+        
+        buttonPaddingLeft = 15;
+        buttonPaddingRight = 15;
+        labelPadding = 9;
+    }
+    
+    self.pagingView.userInteractionEnabled = NO;
+        
+    UIView *digAlertView = [[UIView alloc] initWithFrame:CGRectMake(digAlertViewPadding , ScreenHeight, ScreenWidth - digAlertViewPadding * 2, digAlertViewHeight)];
+    
+    digAlertView.backgroundColor = [UIColor colorFromHexString:@"#00010c"];
+    digAlertView.alpha = 0.88f;
+
+    UIButton *closeButton = [[UIButton alloc] initWithFrame:CGRectMake(buttonPaddingLeft, (digAlertViewHeight - cancelButtonHeight) / 2, cancelButtonWidth, cancelButtonHeight)];
+    [closeButton setBackgroundImage:[UIImage imageNamed:@"提示取消"] forState:UIControlStateNormal];
+        
+    [closeButton addTarget:self action:@selector(digAlertViewDidClose:) forControlEvents:UIControlEventTouchUpInside];
+    [closeButton setEnlargedEdgeWithTop:(digAlertViewHeight - cancelButtonHeight) / 2 left:buttonPaddingLeft bottom:(digAlertViewHeight - cancelButtonHeight) / 2 right:buttonPaddingRight];
+    [digAlertView addSubview:closeButton];
+
+    UILabel *leftSeperatorLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(closeButton.frame) + seperatorPaddingLeft, (digAlertViewHeight - seperatorHeight) / 2, seperatorWidth, seperatorHeight)];
+    leftSeperatorLabel.backgroundColor = [UIColor colorFromHexString:@"#cfcfd1"];
+    [digAlertView addSubview:leftSeperatorLabel];
+
+    
+    CGFloat tipLabelX = CGRectGetMaxX(leftSeperatorLabel.frame) + seperatorPaddingRight;
+    CGFloat tipLabelW = digAlertView.size.width - tipLabelX * 2 - 10;
+    NSString *tipString = @"是否要使用剪切板中的数据进行挖掘?";
+    CGFloat tipLabelH = [tipString sizeWithFont:[UIFont systemFontOfSize:fontSize] maxSize:CGSizeMake(tipLabelW, MAXFLOAT)].height;
+    
+    UILabel *tipLabel = [[UILabel alloc] initWithFrame:CGRectMake(tipLabelX, (digAlertViewHeight - tipLabelH * 2 - labelPadding) / 2, tipLabelW , tipLabelH)];
+    tipLabel.text = tipString;
+    tipLabel.font = [UIFont systemFontOfSize:fontSize];
+    tipLabel.textAlignment = NSTextAlignmentLeft;
+    tipLabel.textColor = [UIColor colorFromHexString:@"#ffffff"];
+    [digAlertView addSubview:tipLabel];
+    
+    UILabel *pasteLabel = [[UILabel alloc] initWithFrame:CGRectMake(tipLabelX, CGRectGetMaxY(tipLabel.frame) + labelPadding, tipLabelW, tipLabelH)];
+    pasteLabel.text = latestSearch;
+    pasteLabel.font = [UIFont systemFontOfSize:fontSize];
+    pasteLabel.textAlignment = NSTextAlignmentLeft;
+    pasteLabel.textColor = [UIColor colorFromHexString:@"#ffffff"];
+    [digAlertView addSubview:pasteLabel];
+    
+    
+    UILabel *rightSeperatorLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(tipLabel.frame) + seperatorPaddingLeft, (digAlertViewHeight - seperatorHeight) / 2, seperatorWidth, seperatorHeight)];
+    rightSeperatorLabel.backgroundColor = [UIColor colorFromHexString:@"#cfcfd1"];
+    [digAlertView addSubview:rightSeperatorLabel];
+    
+    
+    UIButton *digConfirmButton = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(rightSeperatorLabel.frame) + seperatorPaddingRight, (digAlertViewHeight - confirmButtonHeight) / 2, confirmButtonWidth, confirmButtonHeight)];
+    [digConfirmButton setBackgroundImage:[UIImage imageNamed:@"提示对号"] forState:UIControlStateNormal];
+    [digConfirmButton addTarget:self action:@selector(digAlertViewDidConfirm:) forControlEvents:UIControlEventTouchUpInside];
+    [digConfirmButton setEnlargedEdgeWithTop:(digAlertViewHeight - confirmButtonHeight) / 2 left:seperatorPaddingLeft bottom:(digAlertViewHeight - confirmButtonHeight) / 2 right:seperatorPaddingRight];
+    
+    [digAlertView addSubview:digConfirmButton];
+    [self.view addSubview:digAlertView];
+    self.digAlertView = digAlertView;
+    
+    [UIView animateWithDuration:1 animations:^{
+        self.digAlertView.frame = CGRectMake(digAlertViewPadding , ScreenHeight - digAlertViewHeight * 2 - 30, ScreenWidth - digAlertViewPadding * 2, digAlertViewHeight);
+    } completion:^(BOOL finished) {
+            }];
+    
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [UIView animateWithDuration:0.3 animations:^{
+//            self.digAlertView.alpha = 0.0f;
+//        }  completion:^(BOOL finished) {
+//            self.pagingView.userInteractionEnabled = YES;
+//        }];
+//    });
+
+    }
+}
+
+- (void)digAlertViewDidClose:(UIButton *)sender {
+    [self.digAlertView removeFromSuperview];
+    self.pagingView.userInteractionEnabled = YES;
+
+}
+
+- (void)digAlertViewDidConfirm:(UIButton *)sender {
+    LPDigViewController *diggerVc = [[LPDigViewController alloc] init];
+    if (pasteboard.string.length > 0) {
+        diggerVc.pasteString = pasteboard.string;
+    }
+    diggerVc.presented = YES;
+    //    diggerVc.pasteURL = self.pasteURL;
+    MainNavigationController *nav = [[MainNavigationController alloc] initWithRootViewController:diggerVc];
+    self.genieTransition = [[GenieTransition alloc] init];
+    nav.transitioningDelegate = self.genieTransition;
+    nav.modalPresentationStyle = UIModalPresentationCustom;
+    [self presentViewController:nav animated:YES completion:nil];
+}
+
+#pragma mark - 展开我的频道
+- (void)downButtonClick {
     __weak __typeof(self)weakSelf = self;
     // 选中某个按钮后需要刷新频道
     [self.sortCollectionView reloadData];
-    [UIView animateWithDuration:0.5 animations:^{
-        weakSelf.blurView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
+    [UIView animateWithDuration:0.3 animations:^{
+        weakSelf.blurView.alpha = 1.0;
     } completion:^(BOOL finished) {
     }];
 }
 
-#pragma mark - 点击向上箭头
-- (void)tapUpImageView {
+#pragma mark - 折叠我的频道
+- (void)upButtonClick {
     __weak __typeof(self)weakSelf = self;
     self.isSort = NO;
     [self.menuView reloadData];
@@ -325,8 +545,8 @@ const static CGFloat menuImageViewWidth= 44;
                           scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
     [self.pagingView reloadData];
     [self.pagingView setCurrentPageIndex:index animated:NO];
-    [UIView animateWithDuration:0.5 animations:^{
-        weakSelf.blurView.frame = CGRectMake(0, - ScreenHeight, ScreenWidth, ScreenHeight);
+    [UIView animateWithDuration:0.3 animations:^{
+        weakSelf.blurView.alpha = 0.0;
     } completion:^(BOOL finished) {
         
     }];
@@ -339,6 +559,11 @@ const static CGFloat menuImageViewWidth= 44;
     [self.view addSubview:btn];
     btn.x = DigButtonPadding;
     btn.y = ScreenHeight - DigButtonPadding - DigButtonHeight;
+    
+    if (iPhone6Plus) {
+         btn.y = ScreenHeight - 3 * DigButtonPadding - DigButtonHeight;
+    }
+    
     btn.width = DigButtonWidth;
     btn.height = DigButtonHeight;
     btn.layer.cornerRadius = btn.width / 2;
@@ -408,12 +633,14 @@ const static CGFloat menuImageViewWidth= 44;
     
     CGFloat loginBtnWidth = 34;
     CGFloat loginBtnHeight = 34;
+    CGFloat loginBtnY = ScreenHeight - 15 - loginBtnHeight;
     if (iPhone6Plus){
         loginBtnWidth += 2;
         loginBtnHeight += 2;
+        loginBtnY = ScreenHeight - 45 - loginBtnHeight;
     }
     CGFloat loginBtnX = ScreenWidth - 15 - loginBtnWidth;
-    CGFloat loginBtnY = ScreenHeight - 15 - loginBtnHeight;
+
     
     self.loginBtn.frame = CGRectMake(loginBtnX, loginBtnY, loginBtnWidth, loginBtnHeight);
     self.loginBtn.layer.cornerRadius = self.loginBtn.frame.size.height / 2;

@@ -11,6 +11,8 @@
 #import "AppDelegate.h"
 #import "CardImage+Create.h"
 #import "CardRelate+Create.h"
+#import <objc/runtime.h>
+#import "Card+Fetch.h"
 
 @implementation Card (Create)
 
@@ -18,8 +20,15 @@
     NSMutableArray *cards = [NSMutableArray array];
      CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     for (NSDictionary *dict in dicts) {
-        Card *card = [self createCardWithDict:dict inManagedObjectContext:cdh.context];
-        [cards addObject:card];
+//        // 判断本地文件中是否存在相应的url，存在则不保存
+//        NSArray *array = [Card fetchCardsWithSourceSiteURL:dict[@"pubUrl"]];
+//        if (array.count < 1) {
+//            Card *card = [self createCardWithDict:dict inManagedObjectContext:cdh.context];
+//            [cards addObject:card];
+//        }
+
+         Card *card = [self createCardWithDict:dict inManagedObjectContext:cdh.context];
+         [cards addObject:card];
     }
     // optional !!
     [cdh saveBackgroundContext];
@@ -46,5 +55,16 @@
                      inManagedObjectContext:context];
     return card;
 }
+
+//- (NSString *)description {
+//    unsigned int count = 0;
+//    objc_property_t *properties = class_copyPropertyList(self.class, &count);
+//    for (NSInteger i = 0; i < count; i++) {
+//        const char *name = property_getName(properties[i]);
+//        NSLog(@"%s", name);
+//    }
+//    free(properties);
+//    return nil;
+//}
 
 @end

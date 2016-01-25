@@ -132,7 +132,7 @@
 
 - (instancetype)stringByBase64Encoding {
     NSData *encodeData = [self dataUsingEncoding:NSASCIIStringEncoding];
-    return [encodeData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
+    return [encodeData base64EncodedStringWithOptions:0];
 }
 
 - (instancetype)stringByBase64Decoding {

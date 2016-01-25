@@ -41,11 +41,13 @@
 #import "CardFrame.h"
 #import "Card.h"
 #import "CardImage.h"
+#import "CoreDataHelper.h"
+#import "AppDelegate.h"
 
 static const CGFloat CellAlpha =0.3;
 NSString * const PhotoCellReuseId = @"photoWallCell";
 
-@interface LPDetailViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate, LPContentCellDelegate, LPZhihuViewDelegate,LPRelateViewDelegate,UICollectionViewDataSource, UICollectionViewDelegate, LPDetailTopViewDelegate>
+@interface LPDetailViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate, LPZhihuViewDelegate,LPRelateViewDelegate,UICollectionViewDataSource, UICollectionViewDelegate, LPDetailTopViewDelegate>
 {
     // 分享图片地址
     NSString *detailImgUrl;
@@ -82,7 +84,6 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 @property (nonatomic, strong) LPHttpTool *http;
 @property (nonatomic, assign) BOOL requestSuccess;
 
-
 @end
 
 @implementation LPDetailViewController
@@ -94,16 +95,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     [self setupDataWithCompletion:nil fulltextCommentsUpHandle:nil];
     [self setupNoteObserver];
     
-// //   just for test
-//    UIButton *btn = [UIButton buttonWithType:UIButtonTypeContactAdd];
-//    btn.center = self.view.center;
-//    [self.view addSubview:btn];
-//    __weak typeof(self) wself = self;
-//    [btn handleControlEvent:UIControlEventTouchUpInside withBlock:^{
-//        NSLog(@"handler in: %@", [wself class]);
-//        wself.tableView.backgroundColor = [UIColor blackColor];
-//        btn.x = 20;
-//    }];
+
     
 }
 
@@ -159,6 +151,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     tableView.showsVerticalScrollIndicator = NO;
     tableView.showsHorizontalScrollIndicator = NO;
+
     self.tableView = tableView;
     [self.view addSubview:tableView];
     self.tableView.delegate = self;
@@ -166,15 +159,8 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     
     self.topView = [[LPDetailTopView alloc] initWithFrame: self.view.bounds];
     self.topView.delegate = self;
-    self.topView.alpha = 0.0;
+    self.topView.alpha = 0.9;
     [self.view addSubview:self.topView];
-    
-    // 菊花
-    sharedIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
-    sharedIndicator.color = [UIColor lightGrayColor];
-    sharedIndicator.center = self.view.center;
-//    sharedIndicator.bounds = CGRectMake(0, 0, ScreenWidth / 4, ScreenWidth / 4);
-    [self.view addSubview:sharedIndicator];
 }
 
 // 点击分享按钮
@@ -238,7 +224,6 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 - (void)setupDataWithCompletion:(returnCommentsToUpBlock)block fulltextCommentsUpHandle:(fulltextCommentsUpHandler)fulltextCommentsUpHandle
 {
     [self.contentFrames removeAllObjects];
-    [sharedIndicator startAnimating];
     Account *account = [AccountTool account];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     if (account) {
@@ -378,144 +363,126 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
             NSLog(@"Failure: %@", error);
         }];
     } else {
-        
-        self.http = [LPHttpTool http];
-  
-        
-        Card *card = self.cardFrame.card;
-        NSMutableArray *imageArray = [[NSMutableArray alloc] init];
-        BOOL isPhoto = YES;
-        if (card.cardImages.count > 0) {
-            isPhoto = YES;
-            for (CardImage * cardImage in card.cardImages) {
-                [imageArray addObject:cardImage.imgUrl];
-            }
-        } else {
-            isPhoto = NO;
-        }
-        NSString *url = [NSString stringWithFormat:@"%@%@", @"http://api.deeporiginalx.com/bdp/news/content?url=", card.newId];
+        // 加载详情页数据
+        CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+        Card *card = (Card *)[cdh.context existingObjectWithID:self.cardID error:nil];
+        NSString *url = @"http://api.deeporiginalx.com/bdp/news/content";
+        // 必须通过kvc方式获取，否则会有bug
+        params[@"url"] = [card valueForKey:@"newId"];
+        NSLog(@"http://api.deeporiginalx.com/bdp/news/content?url=%@",params[@"url"]);
+        [self getDataWithUrl:url params:params];
 
-        //        NSLog(@"concernPress.sourceUrl = %@", self.concernPress.sourceUrl);
-        [self.http getWithURL:url params:params success:^(id json) {
-        
-            
-//            NSDictionary *dict = @{
-//                                   @"title":@"title",
-//                                   @"descr":@"descr",
-//                                   @"pubTime":@"2015-06-06 00:00:00",
-//                                   @"pubUrl":@"",
-//                                   @"content":
-//                                       @[
-//                                           @{@"txt":@"biss"},
-//                                           @{@"img":@"http://image.baidu.com/search/detail?ct=503316480&z=0&ipn=d&word=%E5%9B%BE%E7%89%87&pn=0&spn=0&di=153519752980&pi=&rn=1&tn=baiduimagedetail&ie=utf-8&oe=utf-8&cl=2&lm=-1&cs=128811874%2C840272376&os=922079446%2C3220597865&simid=3473458608%2C462633313&adpicid=0&ln=30&fr=ala&sme=&cg=&bdtype=0&objurl=http%3A%2F%2Fpic2.ooopic.com%2F01%2F03%2F51%2F25b1OOOPIC19.jpg&fromurl=ippr_z2C%24qAzdH3FAzdH3Fojtst_z%26e3B555rtv_z%26e3Bv54AzdH3Fojtst_8anc8dc_z%26e3Bip4s&gsm=0"},
-//                                           @{@"txt":@"ssss"}
-//                                      ]
-//                                   };
-            NSDictionary *dict = json[@"data"];
-            NSString *headerImg = isPhoto == YES ? imageArray[0] : nil;
-            detailImgUrl=headerImg;
-            NSString *title = dict[@"title"];
-            NSString *time = dict[@"pubTime"];
-            
-            [weakSelf setupHeaderWithImageURL:headerImg title:title time:time color:[UIColor colorFromHexString:@"#0087d1" alpha:0.1]];
-            
-            NSArray *zhihuArray = [LPZhihuPoint objectArrayWithKeyValuesArray:dict[@"zhihu"]];
-            NSString *abstract = dict[@"descr"];
-            if ([abstract isKindOfClass:[NSNull class]]) {
-                abstract = @"文章摘要";
-            }
-            NSArray *commentArray = [LPComment objectArrayWithKeyValuesArray:dict[@"point"]];
-            NSArray *bodyArray = dict[@"content"];
-            
-            LPContent *absContent = [[LPContent alloc] init];
-            absContent.isAbstract = YES;
-            absContent.body = abstract;
-            absContent.paragraphIndex = 0;
-            NSMutableArray *contents = [NSMutableArray arrayWithArray:@[absContent]];
-            LPContentFrame *absFrm = [[LPContentFrame alloc] init];
-            absFrm.content = absContent;
-            NSMutableArray *contentFrameArray = [NSMutableArray arrayWithArray:@[absFrm]];
-            // 全文评论
-            NSMutableArray *textComments=[NSMutableArray array];
-            // 获取所有的全文评论
-            for(LPComment *comment in commentArray)
-            {
-                //  判断是否为全文评论
-                if([comment.type isEqualToString:@"text_doc"])
-                {
-                    [textComments addObject:comment];
-                }
-            }
-            self.fullTextComments = textComments;
-            
-            self.topView.badgeNumber = self.fullTextComments.count;
-            int i = 1;
-            for (NSDictionary *dict in bodyArray) {
-                
-                LPContent *content = [[LPContent alloc] init];
-                content.isAbstract = NO;
-                content.index = dict[@"index"];
-                content.photo = dict[@"img"];
-                content.photoDesc = dict[@"img_info"];
-                content.body = dict[@"txt"];
-                content.concern = self.concern;
-                if (content.photo) {
-                    content.isPhoto = YES;
-                } else {
-                    content.isPhoto = NO;
-                }
-                NSMutableArray *comments = [NSMutableArray array];
-                if (!commentArray.count)
-                { // 首页给的数据 如果该标志为0 表示没有任何评论
-                    content.hasComment = NO;
-                } else {
-                    // 遍历point数组 根据索引确定每段的评论列表
-                    for (LPComment *comment in commentArray) {
-                        if (comment.paragraphIndex.intValue == content.index.intValue && [comment.type isEqualToString:@"text_paragraph"])
-                        {
-                            [comments addObject:comment];
-                        }
-                    }
-                    content.hasComment = (comments.count > 0);
-                    content.comments = comments;
-                }
-                if (!content.isPhoto || ![content.photo isEqualToString:headerImg]) {
-                    content.paragraphIndex = i;
-                    LPContentFrame *contentFrame = [[LPContentFrame alloc] init];
-                    contentFrame.content = content;
-                    [contents addObject:content];
-                    [contentFrameArray addObject:contentFrame];
-                    i++;
-                }
-            }
-            weakSelf.contentFrames = contentFrameArray;
-            
-            [weakSelf setupFooterWithPhotoWallArray:nil zhihu:zhihuArray relateArray:nil];
-            
-            [weakSelf.tableView reloadData];
-            
-            [sharedIndicator stopAnimating];
-            
-            if (block) {
-                block(contents);
-            }
-            if(fulltextCommentsUpHandle) {
-                fulltextCommentsUpHandle(textComments);
-            }
-        } failure:^(NSError *error) {
-            [sharedIndicator stopAnimating];
-            NSLog(@"Failure: %@", error);
-        }];
     }
+
 }
+
+- (void)getDataWithUrl:(NSString *)url params:(NSDictionary *)params {
+    [LPHttpTool getWithURL:url params:params success:^(id json) {
+        NSDictionary *dict = json[@"data"];
+    
+        NSString *title = dict[@"title"];
+        NSString *time = dict[@"pubTime"];
+        NSArray *zhihuArray = [LPZhihuPoint objectArrayWithKeyValuesArray:dict[@"zhihu"]];
+        NSString *descr = dict[@"descr"];
+        NSString *abstract = [NSString stringWithFormat:@"%@...", descr];
+        if ([descr isKindOfClass:[NSNull class]] || descr.length == 0) {
+            abstract = @"文章摘要";
+        }
+        NSArray *commentArray = [LPComment objectArrayWithKeyValuesArray:dict[@"point"]];
+        NSArray *bodyArray = dict[@"content"];
+        
+        // 设置头图 取详情页第一个图作为头图
+        NSString *headerImg = nil;
+        for (NSDictionary *dict in bodyArray) {
+             LPContent *content = [[LPContent alloc] init];
+             content.photo = dict[@"img"];
+            if (content.photo) {
+                headerImg = content.photo;
+                break;
+            }
+        }
+ 
+        detailImgUrl = headerImg;
+        [self setupHeaderWithImageURL:headerImg title:title time:time color:[UIColor colorFromHexString:@"#0087d1" alpha:0.1]];
+        
+        LPContent *absContent = [[LPContent alloc] init];
+        absContent.isAbstract = YES;
+        absContent.body = abstract;
+        absContent.paragraphIndex = 0;
+        NSMutableArray *contents = [NSMutableArray arrayWithArray:@[absContent]];
+        LPContentFrame *absFrm = [[LPContentFrame alloc] init];
+        absFrm.content = absContent;
+        NSMutableArray *contentFrameArray = [NSMutableArray arrayWithArray:@[absFrm]];
+        // 全文评论
+        NSMutableArray *textComments=[NSMutableArray array];
+        // 获取所有的全文评论
+        for(LPComment *comment in commentArray)
+        {
+            //  判断是否为全文评论
+            if([comment.type isEqualToString:@"text_doc"])
+            {
+                [textComments addObject:comment];
+            }
+        }
+        self.fullTextComments = textComments;
+        
+        self.topView.badgeNumber = self.fullTextComments.count;
+        int i = 1;
+        for (NSDictionary *dict in bodyArray) {
+            
+            LPContent *content = [[LPContent alloc] init];
+            content.isAbstract = NO;
+            content.index = dict[@"index"];
+            content.photo = dict[@"img"];
+            content.photoDesc = dict[@"img_info"];
+            content.body = dict[@"txt"];
+            content.concern = self.concern;
+            if (content.photo) {
+                content.isPhoto = YES;
+            } else {
+                content.isPhoto = NO;
+            }
+            NSMutableArray *comments = [NSMutableArray array];
+            if (!commentArray.count)
+            { // 首页给的数据 如果该标志为0 表示没有任何评论
+                content.hasComment = NO;
+            } else {
+                // 遍历point数组 根据索引确定每段的评论列表
+                for (LPComment *comment in commentArray) {
+                    if (comment.paragraphIndex.intValue == content.index.intValue && [comment.type isEqualToString:@"text_paragraph"])
+                    {
+                        [comments addObject:comment];
+                    }
+                }
+                content.hasComment = (comments.count > 0);
+                content.comments = comments;
+            }
+            if (!content.isPhoto || ![content.photo isEqualToString:headerImg]) {
+                content.paragraphIndex = i;
+                LPContentFrame *contentFrame = [[LPContentFrame alloc] init];
+                contentFrame.content = content;
+                [contents addObject:content];
+                [contentFrameArray addObject:contentFrame];
+                i++;
+            }
+        }
+        self.contentFrames = contentFrameArray;
+        
+        [self setupFooterWithPhotoWallArray:nil zhihu:zhihuArray relateArray:nil];
+        
+        [self.tableView reloadData];
+    } failure:^(NSError *error) {
+        [MBProgressHUD showError:@"网络不给力"];
+    }];
+}
+
 
 # pragma mark - header view setting up
 - (void)setupHeaderWithImageURL:(NSString *)imageURL title:(NSString *)title time:(NSString *)time color:(UIColor *)color
 {
     UIView *headerView = [[UIView alloc] init];
     CGFloat headerViewH = TableHeaderViewH;
-    headerView.frame = CGRectMake(0, 0, ScreenWidth, headerViewH);
-    
+    headerView.frame = CGRectMake(0, 0, ScreenWidth, headerViewH);    
     self.diffPercent = 0.5;
     
     UIImageView *headerImageView = [[UIImageView alloc] init];
@@ -528,7 +495,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     headerImageView.frame = CGRectMake(0, 0, headerView.width, TableHeaderImageViewH);
     [headerImageView sd_setImageWithURL:[NSURL URLWithString:imageURL]];
     self.headerImageView = headerImageView;
-    
+
     CAShapeLayer *maskLayer = [CAShapeLayer layer];
     maskLayer.frame = CGRectMake(0, 0, ScreenWidth, TableHeaderImageViewH);
     UIBezierPath *path = [UIBezierPath bezierPathWithRect:maskLayer.bounds];
@@ -687,9 +654,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 - (void)fadeIn
 {
     [UIView animateWithDuration:0.1 animations:^{
-        if(self.categoryColor != nil) {
             self.topView.alpha = 0.9;
-        }
     }];
 }
 
@@ -727,16 +692,15 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     LPContentCell *cell = [LPContentCell cellWithTableView:tableView];
     cell.layer.cornerRadius = 1.0;
     cell.contentFrame = self.contentFrames[indexPath.row];
-    cell.delegate = self;
     [self setShadowForCell:cell];
     return cell;
 }
 
 - (void)setShadowForCell:(LPContentCell *)cell {
-    cell.layer.shadowOpacity = 0.24f;
-    cell.layer.shadowRadius = 3.0;
-    cell.layer.shadowOffset = CGSizeMake(0, 0);
-    cell.layer.shadowColor = [UIColor lightGrayColor].CGColor;
+//    cell.layer.shadowOpacity = 0.24f;
+//    cell.layer.shadowRadius = 3.0;
+//    cell.layer.shadowOffset = CGSizeMake(0, 0);
+//    cell.layer.shadowColor = [UIColor lightGrayColor].CGColor;
     cell.layer.zPosition = 999.0;
 }
 
@@ -985,7 +949,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 
 #pragma mark - dealloc
 - (void)dealloc {
-    [noteCenter removeObserver:self];
+//    [noteCenter removeObserver:self];
 }
 
 

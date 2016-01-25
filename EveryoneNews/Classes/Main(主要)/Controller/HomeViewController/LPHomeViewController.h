@@ -36,7 +36,7 @@
 @property (nonatomic, strong) UILabel *animationLabel;
 @property (nonatomic, assign) BOOL lastLabelIsHidden;
 // 频道栏是否展开
-@property (nonatomic, assign) BOOL isSpread;
+//@property (nonatomic, assign) BOOL isSpread;
 @property (nonatomic, assign) BOOL isSort;
 @property (nonatomic, strong) LPMenuCollectionViewCell *firstCell;
 // 记录选中菜单栏名称
@@ -52,7 +52,28 @@
 
 @property (nonatomic, strong) NSMutableDictionary *cardCellIdentifierDictionary;
 
-@property (nonatomic, strong) NSMutableDictionary *contentOffsetDictionary;
+@property (nonatomic, strong) NSMutableDictionary *pageContentOffsetDictionary;
+
+@property (nonatomic, strong) UIView *backgroundView;
+
+@property (nonatomic, strong) UIActivityIndicatorView *indictorView;
+
+@property (nonatomic, strong) UILabel *loadLabel;
+
+@property (nonatomic, strong) UIImageView *loadImageView;
+
+@property (nonatomic, strong) UILabel *noDataLabel;
+
+//@property (nonatomic, strong) UIScrollView *featureScrollView;
+
+@property (nonatomic, strong) UIPageControl *pageControl;
+
+@property (nonatomic, strong) UIView *featureBlurView;
+
+@property (nonatomic, strong) UIView *featureView;
+
+@property (nonatomic, strong) UIImageView *closeImageView;
+
 // 登录 挖掘机
 @property (nonatomic, strong) UIImageView *frontImageView;
 @property (nonatomic, assign) BOOL shouldPush;

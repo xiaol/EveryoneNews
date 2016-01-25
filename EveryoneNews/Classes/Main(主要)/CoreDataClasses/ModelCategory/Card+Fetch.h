@@ -17,4 +17,7 @@
  *
  */
 + (NSArray *)fetchCardsWithCardParam:(CardParam *)param;
+
++ (NSArray *)fetchCardsWithSourceSiteURL:(NSString *)sourceSiteURL;
+ 
 @end

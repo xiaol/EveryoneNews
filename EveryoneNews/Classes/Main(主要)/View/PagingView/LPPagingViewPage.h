@@ -7,15 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import <CoreData/CoreData.h>
 /**
  *  自定义 page
  */
 @class LPPagingViewPage;
-@class CardFrame;
 @protocol LPPagingViewPageDelegate <NSObject>
+@optional
+- (void)page:(LPPagingViewPage *)page didSelectCellWithCardID:(NSManagedObjectID *)cardID;
 
-- (void)pushDetailViewController:(LPPagingViewPage *)page cardFrame:(CardFrame *)cardFrame;
+- (void)page:(LPPagingViewPage *)page didClickSearchImageView:(UIImageView *)imageView;
+
+- (void)page:(LPPagingViewPage *)page didSaveOffsetY:(CGFloat)offsetY;
 
 @end
 
@@ -29,6 +32,8 @@
 
 @property (nonatomic, weak) id<LPPagingViewPageDelegate> delegate;
 - (void)autotomaticLoadNewData;
+
+- (void)scrollToOffsetY:(CGFloat)offsetY;
 
 /**
  *  复用前的准备工作(复写该方法)

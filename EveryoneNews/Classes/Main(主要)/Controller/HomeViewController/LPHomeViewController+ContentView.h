@@ -9,8 +9,10 @@
 #import "LPHomeViewController.h"
 #import "LPPagingViewPage.h"
 
-@interface LPHomeViewController (PagingView) <LPPagingViewDataSource, LPPagingViewDelegate, LPPagingViewPageDelegate>
+@interface LPHomeViewController (PagingView) <LPPagingViewDataSource, LPPagingViewDelegate, LPPagingViewPageDelegate, UIGestureRecognizerDelegate>
 
 - (void)setInitialChannelItemDictionary;
 - (void)loadMoreDataInPageAtPageIndex:(NSInteger)pageIndex;
+- (void)loadIndictorShow;
+- (void)channelItemDidAddToCoreData:(NSInteger)pageIndex;
 @end

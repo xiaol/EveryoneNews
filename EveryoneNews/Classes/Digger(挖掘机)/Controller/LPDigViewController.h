@@ -12,4 +12,6 @@
 @interface LPDigViewController : CoreDataCVC
 //@property (nonatomic, strong) NSMutableArray *hotwords;
 @property (nonatomic, assign, getter=isPresented) BOOL presented;
+@property (nonatomic, copy) NSString *pasteString;
+
 @end

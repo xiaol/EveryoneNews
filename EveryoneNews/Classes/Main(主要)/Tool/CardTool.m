@@ -11,6 +11,7 @@
 #import "CardParam.h"
 #import "Card+Create.h"
 #import "Card+Fetch.h"
+#import "MJExtension.h"
 
 @implementation CardTool
 
@@ -26,8 +27,8 @@
         [LPHttpTool getWithURL:url
                         params:paramDict
                        success:^(id json) {
-                           NSArray *cards = [Card createCardsWithDictArray:json[@"data"]];
-                           success(cards);
+                               NSArray *cards = [Card createCardsWithDictArray:json[@"data"]];
+                               success(cards);
                        }
                        failure:^(NSError *error) {
                            failure(error);

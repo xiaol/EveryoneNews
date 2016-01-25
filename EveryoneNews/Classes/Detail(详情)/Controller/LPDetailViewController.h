@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreData/CoreData.h>
 
 @class LPPress;
 @class LPConcernPress;
 @class LPConcern;
-@class CardFrame;
 
 typedef void (^returnCommentsToUpBlock)(NSArray *contents);
 
@@ -29,5 +29,5 @@ typedef void (^fulltextCommentsUpHandler)(NSArray *fulltextComments);
 // 全文评论点赞block
 - (void)fulltextCommentsUpDidComposed:(fulltextCommentsUpHandler) fulltextCommentsUpHandle;
 
-@property (nonatomic, strong) CardFrame *cardFrame;
+@property (nonatomic, strong) NSManagedObjectID *cardID;
 @end

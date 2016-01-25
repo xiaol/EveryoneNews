@@ -23,6 +23,7 @@
 #import "LPEditAlbumViewController.h"
 #import "AlbumPhoto.h"
 #import "AFNetworking.h"
+#import "LPTriangleView.h"
 
 static const CGFloat headerH = 44;
 static const CGFloat padding = 10.0;
@@ -51,6 +52,7 @@ NSString * const AlbumCellReuseId = @"albumCell";
 //@property (nonatomic, strong) UIButton *pasteboardHint;
 
 @property (nonatomic, strong) LPHttpTool *http;
+@property (nonatomic, strong) UIView *blurView;
 
 @end
 
@@ -154,6 +156,7 @@ NSString * const AlbumCellReuseId = @"albumCell";
     textView.font = [UIFont systemFontOfSize:15];
     textView.placehoder = @"输入或粘贴文本/链接";
     
+ 
 //    CAShapeLayer *layer = [CAShapeLayer layer];
 //    layer.strokeColor = [UIColor lightGrayColor].CGColor;
 //    layer.borderWidth = 0.5;
@@ -320,6 +323,7 @@ NSString * const AlbumCellReuseId = @"albumCell";
     [headerView addSubview:showBtn];
     
     UIButton *addBtn = [[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth - padding - 18, 13, 18, 18)];
+//    addBtn.backgroundColor = [UIColor redColor];
     addBtn.enlargedEdge = 8;
     self.addBtn = addBtn;
     [addBtn addTarget:self action:@selector(addBtnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -327,6 +331,74 @@ NSString * const AlbumCellReuseId = @"albumCell";
     addBtn.enabled = NO;
     [addBtn setBackgroundImage:[UIImage imageNamed:@"dig添加至专辑可点击"] forState:UIControlStateNormal];
     [addBtn setBackgroundImage:[UIImage imageNamed:@"dig添加至专辑灰"] forState:UIControlStateDisabled];
+    
+    if (self.pasteString.length > 0) {
+        self.textView.text = self.pasteString;
+         addBtn.enabled = YES;
+        // 首次加载的时候
+        if (![userDefaults objectForKey:@"isFirstDigger"]) {
+            [self setupTipView];
+        }
+       
+    }
+}
+
+#pragma mark - 第一次加载提示信息
+- (void)setupTipView {
+    // 第一次操作时添加提示框
+    UIView *blurView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+    blurView.backgroundColor = [UIColor blackColor];
+    blurView.alpha = 0.85f;
+
+    // 添加高亮按钮
+    UIButton *blurAddButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    blurAddButton.frame = CGRectMake(ScreenWidth - padding - 24, 7, 30, 30);
+    blurAddButton.backgroundColor = [UIColor clearColor];
+    blurAddButton.enlargedEdge = 8;
+    [blurAddButton addTarget:self action:@selector(blurAddButtonClick) forControlEvents:UIControlEventTouchUpInside];
+    blurAddButton.layer.shadowColor = [[UIColor whiteColor] CGColor];
+    blurAddButton.layer.shadowOpacity = 1;
+    blurAddButton.layer.shadowRadius = 15;
+    blurAddButton.layer.shadowPath = [UIBezierPath bezierPathWithRoundedRect:blurAddButton.bounds cornerRadius:15].CGPath;
+    blurAddButton.layer.shouldRasterize = YES;
+    blurAddButton.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    [blurView addSubview:blurAddButton];
+
+    // 添加提示框
+    LPTriangleView *triangleView = [[LPTriangleView alloc] initWithFrame:CGRectMake(ScreenWidth - 49, 35, 30, 30)];
+    triangleView.backgroundColor = [UIColor clearColor];
+    [blurView addSubview:triangleView];
+
+    UIView *rectangleView = [[UIView alloc] initWithFrame:CGRectMake(ScreenWidth - 169, 50, 150, 50)];
+    rectangleView.backgroundColor = [UIColor whiteColor];
+    rectangleView.layer.cornerRadius = 2;
+
+    UILabel *firstLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, 150, 20)];
+    firstLabel.textAlignment = NSTextAlignmentCenter;
+    firstLabel.font = [UIFont systemFontOfSize:13];
+    firstLabel.textColor= [UIColor colorFromHexString:@"#2b2b2b"];
+
+    NSMutableAttributedString * string = [[NSMutableAttributedString alloc] initWithString:@"点击“+”加入专辑"];
+    [string addAttribute:NSForegroundColorAttributeName value:[UIColor colorFromHexString:@"#0086d1"] range:NSMakeRange(3,1)];
+    firstLabel.attributedText = string;
+    [rectangleView addSubview:firstLabel];
+
+    UILabel *secondLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 25, 150, 20)];
+    secondLabel.textAlignment = NSTextAlignmentCenter;
+    secondLabel.font = [UIFont systemFontOfSize:13];
+    secondLabel.textColor= [UIColor colorFromHexString:@"#2b2b2b"];
+    secondLabel.text = @"开始挖掘";
+    [rectangleView addSubview:secondLabel];
+    
+    [blurView addSubview:rectangleView];
+
+    [self.view addSubview:blurView];
+    self.blurView = blurView;
+}
+
+- (void)blurAddButtonClick {
+    self.blurView.hidden = YES;
+    [self addBtnClick];
 }
 
 #pragma mark - collect into album (push collectVc)
@@ -421,6 +493,9 @@ NSString * const AlbumCellReuseId = @"albumCell";
 - (void)textViewDidChange:(UITextView *)textView {
     NSString *absoluteStr = [textView.text stringByTrimmingWhitespaceAndNewline];
     self.addBtn.enabled = (absoluteStr.length > 0);
+    if (absoluteStr.length > 0 && ![userDefaults objectForKey:@"isFirstDigger"]) {
+        [self setupTipView];
+    }
 }
 
 #pragma mark - scroll view delegate
@@ -552,6 +627,12 @@ NSString * const AlbumCellReuseId = @"albumCell";
     [super viewDidDisappear:animated];
     CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     [cdh saveBackgroundContext];
+    
+    // 判断是否是第一次加载挖掘机页面
+    if (![userDefaults objectForKey:@"isFirstDigger"]) {
+        [userDefaults setObject:@"NO" forKey:@"isFirstDigger"];
+        [userDefaults synchronize];
+    }
 }
 
 #pragma  mark - image blurring

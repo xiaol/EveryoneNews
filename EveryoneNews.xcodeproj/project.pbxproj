@@ -10,9 +10,6 @@
 		180894191C18FEBB00FBBADA /* CardTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 180894181C18FEBB00FBBADA /* CardTool.m */; };
 		1808946C1C1905BD00FBBADA /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1808943B1C1905BD00FBBADA /* Model.xcdatamodeld */; };
 		1808948C1C1E984B00FBBADA /* CardParam.m in Sources */ = {isa = PBXBuildFile; fileRef = 1808948B1C1E984B00FBBADA /* CardParam.m */; };
-		180953901C0E5B51001E5B2E /* LPPagingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1809538B1C0E5B51001E5B2E /* LPPagingView.m */; };
-		180953911C0E5B51001E5B2E /* LPPagingViewPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1809538D1C0E5B51001E5B2E /* LPPagingViewPage.m */; };
-		180953921C0E5B51001E5B2E /* UIView+LPReusePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1809538F1C0E5B51001E5B2E /* UIView+LPReusePage.m */; };
 		18095CD21B2A221100CB7666 /* LPWaterfallView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18095CCF1B2A221100CB7666 /* LPWaterfallView.m */; };
 		18095CD31B2A221100CB7666 /* LPWaterfallViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18095CD11B2A221100CB7666 /* LPWaterfallViewCell.m */; };
 		18162F0E1C229C2400FC947D /* KeyValueObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 18162F0C1C229C2400FC947D /* KeyValueObserver.m */; };
@@ -356,13 +353,26 @@
 		7E9E723F1B3BF0E70038FE12 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9E723D1B3BF0E70038FE12 /* MBProgressHUD.m */; };
 		7E9FEBA61B43928900D06E0A /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9FEBA51B43928900D06E0A /* NSDate+Extension.m */; };
 		7ED4FA571B41423300DF2B7D /* MBProgressHUD+MJ.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ED4FA561B41423300DF2B7D /* MBProgressHUD+MJ.m */; };
-		863BE5491C2E7D11004AFFFB /* LPHomeViewController+ChannelItemMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 863BE5481C2E7D11004AFFFB /* LPHomeViewController+ChannelItemMenu.m */; };
+		8649B3721C50F44F00BC96BF /* LPTriangleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8649B3711C50F44F00BC96BF /* LPTriangleView.m */; };
+		8649B37C1C50F4AA00BC96BF /* LPHomeViewController+ChannelItemMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 8649B3751C50F4AA00BC96BF /* LPHomeViewController+ChannelItemMenu.m */; };
+		8649B37D1C50F4AA00BC96BF /* LPHomeViewController+NewFeature.m in Sources */ = {isa = PBXBuildFile; fileRef = 8649B3771C50F4AA00BC96BF /* LPHomeViewController+NewFeature.m */; };
+		8649B37E1C50F4AA00BC96BF /* LPHomeViewController+ContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8649B3791C50F4AA00BC96BF /* LPHomeViewController+ContentView.m */; };
+		8649B37F1C50F4AA00BC96BF /* LPHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8649B37B1C50F4AA00BC96BF /* LPHomeViewController.m */; };
+		8649B39E1C50F92600BC96BF /* LPPagingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8649B3991C50F92600BC96BF /* LPPagingView.m */; };
+		8649B39F1C50F92600BC96BF /* LPPagingViewPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8649B39B1C50F92600BC96BF /* LPPagingViewPage.m */; };
+		8649B3A01C50F92600BC96BF /* UIView+LPReusePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8649B39D1C50F92600BC96BF /* UIView+LPReusePage.m */; };
+		8649B3A31C50F96300BC96BF /* LPSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8649B3A21C50F96300BC96BF /* LPSearchViewController.m */; };
+		8649B3AB1C50F9AB00BC96BF /* LPHotWordCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8649B3A61C50F9AB00BC96BF /* LPHotWordCollectionViewCell.m */; };
+		8649B3AC1C50F9AB00BC96BF /* LPSearchHistoryCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8649B3A81C50F9AB00BC96BF /* LPSearchHistoryCollectionViewCell.m */; };
+		8649B3AD1C50F9AB00BC96BF /* LPSearchItemViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8649B3AA1C50F9AB00BC96BF /* LPSearchItemViewCell.m */; };
+		8649B3B31C50F9D300BC96BF /* LPSearchItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8649B3B01C50F9D300BC96BF /* LPSearchItem.m */; };
+		8649B3B41C50F9D300BC96BF /* LPSearchItemFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 8649B3B21C50F9D300BC96BF /* LPSearchItemFrame.m */; };
+		8649B3B71C50FA2B00BC96BF /* UICollectionViewLeftAlignedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 8649B3B61C50FA2B00BC96BF /* UICollectionViewLeftAlignedLayout.m */; };
+		8649B3BA1C50FA9500BC96BF /* UITextField+LP.m in Sources */ = {isa = PBXBuildFile; fileRef = 8649B3B91C50FA9500BC96BF /* UITextField+LP.m */; };
 		865C12B61C21A208000303C8 /* LPHomeViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 865C12B51C21A208000303C8 /* LPHomeViewCell.m */; };
-		866465D61C2ECD7F00AA836A /* LPHomeViewController+PagingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 866465D51C2ECD7F00AA836A /* LPHomeViewController+PagingView.m */; };
 		866D85C51BF5923900D92E5D /* ZhihuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 866D85C41BF5923900D92E5D /* ZhihuView.m */; };
 		866F0CC81C15245800F8CA16 /* LPChannelItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 866F0CC71C15245800F8CA16 /* LPChannelItem.m */; };
 		866F0CCE1C152A1E00F8CA16 /* LPChannelItemTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 866F0CCD1C152A1E00F8CA16 /* LPChannelItemTool.m */; };
-		867ECA1C1C0E907A000930BF /* LPHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 867ECA1B1C0E907A000930BF /* LPHomeViewController.m */; };
 		867ECA1F1C0E95F3000930BF /* LPMenuButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 867ECA1E1C0E95F3000930BF /* LPMenuButton.m */; };
 		867ECA221C0EC109000930BF /* LPMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 867ECA211C0EC109000930BF /* LPMenuView.m */; };
 		8680F8171BF046A6002C08EB /* LPRelateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8680F8161BF046A6002C08EB /* LPRelateView.m */; };
@@ -398,12 +408,6 @@
 		1808943D1C1905BD00FBBADA /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		1808948A1C1E984B00FBBADA /* CardParam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardParam.h; sourceTree = "<group>"; };
 		1808948B1C1E984B00FBBADA /* CardParam.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardParam.m; sourceTree = "<group>"; };
-		1809538A1C0E5B51001E5B2E /* LPPagingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPPagingView.h; sourceTree = "<group>"; };
-		1809538B1C0E5B51001E5B2E /* LPPagingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPPagingView.m; sourceTree = "<group>"; };
-		1809538C1C0E5B51001E5B2E /* LPPagingViewPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPPagingViewPage.h; sourceTree = "<group>"; };
-		1809538D1C0E5B51001E5B2E /* LPPagingViewPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPPagingViewPage.m; sourceTree = "<group>"; };
-		1809538E1C0E5B51001E5B2E /* UIView+LPReusePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+LPReusePage.h"; sourceTree = "<group>"; };
-		1809538F1C0E5B51001E5B2E /* UIView+LPReusePage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+LPReusePage.m"; sourceTree = "<group>"; };
 		18095CCE1B2A221100CB7666 /* LPWaterfallView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPWaterfallView.h; sourceTree = "<group>"; };
 		18095CCF1B2A221100CB7666 /* LPWaterfallView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPWaterfallView.m; sourceTree = "<group>"; };
 		18095CD01B2A221100CB7666 /* LPWaterfallViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPWaterfallViewCell.h; sourceTree = "<group>"; };
@@ -1017,20 +1021,46 @@
 		7E9FEBA51B43928900D06E0A /* NSDate+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Extension.m"; sourceTree = "<group>"; };
 		7ED4FA551B41423300DF2B7D /* MBProgressHUD+MJ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+MJ.h"; sourceTree = "<group>"; };
 		7ED4FA561B41423300DF2B7D /* MBProgressHUD+MJ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+MJ.m"; sourceTree = "<group>"; };
-		863BE5471C2E7D11004AFFFB /* LPHomeViewController+ChannelItemMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LPHomeViewController+ChannelItemMenu.h"; sourceTree = "<group>"; };
-		863BE5481C2E7D11004AFFFB /* LPHomeViewController+ChannelItemMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LPHomeViewController+ChannelItemMenu.m"; sourceTree = "<group>"; };
+		8649B3701C50F44F00BC96BF /* LPTriangleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPTriangleView.h; sourceTree = "<group>"; };
+		8649B3711C50F44F00BC96BF /* LPTriangleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPTriangleView.m; sourceTree = "<group>"; };
+		8649B3741C50F4AA00BC96BF /* LPHomeViewController+ChannelItemMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LPHomeViewController+ChannelItemMenu.h"; sourceTree = "<group>"; };
+		8649B3751C50F4AA00BC96BF /* LPHomeViewController+ChannelItemMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LPHomeViewController+ChannelItemMenu.m"; sourceTree = "<group>"; };
+		8649B3761C50F4AA00BC96BF /* LPHomeViewController+NewFeature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LPHomeViewController+NewFeature.h"; sourceTree = "<group>"; };
+		8649B3771C50F4AA00BC96BF /* LPHomeViewController+NewFeature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LPHomeViewController+NewFeature.m"; sourceTree = "<group>"; };
+		8649B3781C50F4AA00BC96BF /* LPHomeViewController+ContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LPHomeViewController+ContentView.h"; sourceTree = "<group>"; };
+		8649B3791C50F4AA00BC96BF /* LPHomeViewController+ContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LPHomeViewController+ContentView.m"; sourceTree = "<group>"; };
+		8649B37A1C50F4AA00BC96BF /* LPHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPHomeViewController.h; sourceTree = "<group>"; };
+		8649B37B1C50F4AA00BC96BF /* LPHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPHomeViewController.m; sourceTree = "<group>"; };
+		8649B3981C50F92600BC96BF /* LPPagingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPPagingView.h; sourceTree = "<group>"; };
+		8649B3991C50F92600BC96BF /* LPPagingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPPagingView.m; sourceTree = "<group>"; };
+		8649B39A1C50F92600BC96BF /* LPPagingViewPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPPagingViewPage.h; sourceTree = "<group>"; };
+		8649B39B1C50F92600BC96BF /* LPPagingViewPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPPagingViewPage.m; sourceTree = "<group>"; };
+		8649B39C1C50F92600BC96BF /* UIView+LPReusePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+LPReusePage.h"; sourceTree = "<group>"; };
+		8649B39D1C50F92600BC96BF /* UIView+LPReusePage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+LPReusePage.m"; sourceTree = "<group>"; };
+		8649B3A11C50F96300BC96BF /* LPSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LPSearchViewController.h; path = ../LPSearchViewController.h; sourceTree = "<group>"; };
+		8649B3A21C50F96300BC96BF /* LPSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LPSearchViewController.m; path = ../LPSearchViewController.m; sourceTree = "<group>"; };
+		8649B3A51C50F9AB00BC96BF /* LPHotWordCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPHotWordCollectionViewCell.h; sourceTree = "<group>"; };
+		8649B3A61C50F9AB00BC96BF /* LPHotWordCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPHotWordCollectionViewCell.m; sourceTree = "<group>"; };
+		8649B3A71C50F9AB00BC96BF /* LPSearchHistoryCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPSearchHistoryCollectionViewCell.h; sourceTree = "<group>"; };
+		8649B3A81C50F9AB00BC96BF /* LPSearchHistoryCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPSearchHistoryCollectionViewCell.m; sourceTree = "<group>"; };
+		8649B3A91C50F9AB00BC96BF /* LPSearchItemViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPSearchItemViewCell.h; sourceTree = "<group>"; };
+		8649B3AA1C50F9AB00BC96BF /* LPSearchItemViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPSearchItemViewCell.m; sourceTree = "<group>"; };
+		8649B3AF1C50F9D300BC96BF /* LPSearchItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPSearchItem.h; sourceTree = "<group>"; };
+		8649B3B01C50F9D300BC96BF /* LPSearchItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPSearchItem.m; sourceTree = "<group>"; };
+		8649B3B11C50F9D300BC96BF /* LPSearchItemFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPSearchItemFrame.h; sourceTree = "<group>"; };
+		8649B3B21C50F9D300BC96BF /* LPSearchItemFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPSearchItemFrame.m; sourceTree = "<group>"; };
+		8649B3B51C50FA2B00BC96BF /* UICollectionViewLeftAlignedLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UICollectionViewLeftAlignedLayout.h; sourceTree = "<group>"; };
+		8649B3B61C50FA2B00BC96BF /* UICollectionViewLeftAlignedLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICollectionViewLeftAlignedLayout.m; sourceTree = "<group>"; };
+		8649B3B81C50FA9500BC96BF /* UITextField+LP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+LP.h"; sourceTree = "<group>"; };
+		8649B3B91C50FA9500BC96BF /* UITextField+LP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+LP.m"; sourceTree = "<group>"; };
 		865C12B41C21A208000303C8 /* LPHomeViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPHomeViewCell.h; sourceTree = "<group>"; };
 		865C12B51C21A208000303C8 /* LPHomeViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPHomeViewCell.m; sourceTree = "<group>"; };
-		866465D41C2ECD7F00AA836A /* LPHomeViewController+PagingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LPHomeViewController+PagingView.h"; sourceTree = "<group>"; };
-		866465D51C2ECD7F00AA836A /* LPHomeViewController+PagingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LPHomeViewController+PagingView.m"; sourceTree = "<group>"; };
 		866D85C31BF5923900D92E5D /* ZhihuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhihuView.h; sourceTree = "<group>"; };
 		866D85C41BF5923900D92E5D /* ZhihuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhihuView.m; sourceTree = "<group>"; };
 		866F0CC61C15245800F8CA16 /* LPChannelItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPChannelItem.h; sourceTree = "<group>"; };
 		866F0CC71C15245800F8CA16 /* LPChannelItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPChannelItem.m; sourceTree = "<group>"; };
 		866F0CCC1C152A1E00F8CA16 /* LPChannelItemTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPChannelItemTool.h; sourceTree = "<group>"; };
 		866F0CCD1C152A1E00F8CA16 /* LPChannelItemTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPChannelItemTool.m; sourceTree = "<group>"; };
-		867ECA1A1C0E907A000930BF /* LPHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPHomeViewController.h; sourceTree = "<group>"; };
-		867ECA1B1C0E907A000930BF /* LPHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPHomeViewController.m; sourceTree = "<group>"; };
 		867ECA1D1C0E95F3000930BF /* LPMenuButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPMenuButton.h; sourceTree = "<group>"; };
 		867ECA1E1C0E95F3000930BF /* LPMenuButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPMenuButton.m; sourceTree = "<group>"; };
 		867ECA201C0EC109000930BF /* LPMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPMenuView.h; sourceTree = "<group>"; };
@@ -1175,19 +1205,6 @@
 				1808948B1C1E984B00FBBADA /* CardParam.m */,
 			);
 			path = Param;
-			sourceTree = "<group>";
-		};
-		180953891C0E5B51001E5B2E /* PagingView */ = {
-			isa = PBXGroup;
-			children = (
-				1809538A1C0E5B51001E5B2E /* LPPagingView.h */,
-				1809538B1C0E5B51001E5B2E /* LPPagingView.m */,
-				1809538C1C0E5B51001E5B2E /* LPPagingViewPage.h */,
-				1809538D1C0E5B51001E5B2E /* LPPagingViewPage.m */,
-				1809538E1C0E5B51001E5B2E /* UIView+LPReusePage.h */,
-				1809538F1C0E5B51001E5B2E /* UIView+LPReusePage.m */,
-			);
-			path = PagingView;
 			sourceTree = "<group>";
 		};
 		18095CCD1B2A221100CB7666 /* LPWaterfall */ = {
@@ -1366,6 +1383,8 @@
 		1826B3F81B81BCEC00B712E0 /* Layout */ = {
 			isa = PBXGroup;
 			children = (
+				8649B3B51C50FA2B00BC96BF /* UICollectionViewLeftAlignedLayout.h */,
+				8649B3B61C50FA2B00BC96BF /* UICollectionViewLeftAlignedLayout.m */,
 				1826B3F91B81BD1900B712E0 /* LPSpringLayout.h */,
 				1826B3FA1B81BD1900B712E0 /* LPSpringLayout.m */,
 			);
@@ -1868,6 +1887,8 @@
 		18AB8C891B8A47E80084934E /* View */ = {
 			isa = PBXGroup;
 			children = (
+				8649B3701C50F44F00BC96BF /* LPTriangleView.h */,
+				8649B3711C50F44F00BC96BF /* LPTriangleView.m */,
 				1868665D1BB4212600039AA3 /* HotwordCloud.h */,
 				1868665E1BB4212600039AA3 /* HotwordCloud.m */,
 				181B383C1BC76E0E00698FC5 /* AlbumCell.h */,
@@ -1905,6 +1926,8 @@
 		18BA5E8A1B199BB100EEDB63 /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				8649B3B81C50FA9500BC96BF /* UITextField+LP.h */,
+				8649B3B91C50FA9500BC96BF /* UITextField+LP.m */,
 				18BA5E8C1B199BDB00EEDB63 /* UIView+LP.h */,
 				7E9FEBA41B43928900D06E0A /* NSDate+Extension.h */,
 				7E9FEBA51B43928900D06E0A /* NSDate+Extension.m */,
@@ -2236,7 +2259,6 @@
 			isa = PBXGroup;
 			children = (
 				18F630ED1B5C044300423658 /* View */,
-				180953891C0E5B51001E5B2E /* PagingView */,
 				187912D21BC06C9F0021AB3E /* CoreDataClasses */,
 				18AB8C7D1B8A3E3A0084934E /* VCTransition */,
 				1826B3F81B81BCEC00B712E0 /* Layout */,
@@ -2251,6 +2273,7 @@
 		18F630CC1B5C044300423658 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				8649B3731C50F4AA00BC96BF /* HomeViewController */,
 				18F630CD1B5C044300423658 /* LPWebViewController.h */,
 				18F630CE1B5C044300423658 /* LPWebViewController.m */,
 				18F630CF1B5C044300423658 /* MainNavigationController.h */,
@@ -2259,12 +2282,6 @@
 				18F630D21B5C044300423658 /* MainViewController.m */,
 				18EF3B411B6507CF0097F5A6 /* LPBaseViewController.h */,
 				18EF3B421B6507CF0097F5A6 /* LPBaseViewController.m */,
-				867ECA1A1C0E907A000930BF /* LPHomeViewController.h */,
-				867ECA1B1C0E907A000930BF /* LPHomeViewController.m */,
-				863BE5471C2E7D11004AFFFB /* LPHomeViewController+ChannelItemMenu.h */,
-				863BE5481C2E7D11004AFFFB /* LPHomeViewController+ChannelItemMenu.m */,
-				866465D41C2ECD7F00AA836A /* LPHomeViewController+PagingView.h */,
-				866465D51C2ECD7F00AA836A /* LPHomeViewController+PagingView.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2272,6 +2289,7 @@
 		18F630D31B5C044300423658 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				8649B3AE1C50F9D300BC96BF /* LPSearch */,
 				180894891C1E980100FBBADA /* Param */,
 				18F630D41B5C044300423658 /* LPCategory */,
 				18F630D71B5C044300423658 /* LPConcern */,
@@ -2352,6 +2370,8 @@
 		18F630ED1B5C044300423658 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				8649B3A41C50F9AB00BC96BF /* SearchView */,
+				8649B3971C50F92600BC96BF /* PagingView */,
 				86CC9B051C21465700D9364D /* HomeView */,
 				1826B39B1B7864D900B712E0 /* TagCloudView */,
 				18F630EE1B5C044300423658 /* CategoryView */,
@@ -2573,6 +2593,60 @@
 				7E9E723D1B3BF0E70038FE12 /* MBProgressHUD.m */,
 			);
 			path = MBProgressHUD;
+			sourceTree = "<group>";
+		};
+		8649B3731C50F4AA00BC96BF /* HomeViewController */ = {
+			isa = PBXGroup;
+			children = (
+				8649B3A11C50F96300BC96BF /* LPSearchViewController.h */,
+				8649B3A21C50F96300BC96BF /* LPSearchViewController.m */,
+				8649B3741C50F4AA00BC96BF /* LPHomeViewController+ChannelItemMenu.h */,
+				8649B3751C50F4AA00BC96BF /* LPHomeViewController+ChannelItemMenu.m */,
+				8649B3761C50F4AA00BC96BF /* LPHomeViewController+NewFeature.h */,
+				8649B3771C50F4AA00BC96BF /* LPHomeViewController+NewFeature.m */,
+				8649B3781C50F4AA00BC96BF /* LPHomeViewController+ContentView.h */,
+				8649B3791C50F4AA00BC96BF /* LPHomeViewController+ContentView.m */,
+				8649B37A1C50F4AA00BC96BF /* LPHomeViewController.h */,
+				8649B37B1C50F4AA00BC96BF /* LPHomeViewController.m */,
+			);
+			path = HomeViewController;
+			sourceTree = "<group>";
+		};
+		8649B3971C50F92600BC96BF /* PagingView */ = {
+			isa = PBXGroup;
+			children = (
+				8649B3981C50F92600BC96BF /* LPPagingView.h */,
+				8649B3991C50F92600BC96BF /* LPPagingView.m */,
+				8649B39A1C50F92600BC96BF /* LPPagingViewPage.h */,
+				8649B39B1C50F92600BC96BF /* LPPagingViewPage.m */,
+				8649B39C1C50F92600BC96BF /* UIView+LPReusePage.h */,
+				8649B39D1C50F92600BC96BF /* UIView+LPReusePage.m */,
+			);
+			path = PagingView;
+			sourceTree = "<group>";
+		};
+		8649B3A41C50F9AB00BC96BF /* SearchView */ = {
+			isa = PBXGroup;
+			children = (
+				8649B3A51C50F9AB00BC96BF /* LPHotWordCollectionViewCell.h */,
+				8649B3A61C50F9AB00BC96BF /* LPHotWordCollectionViewCell.m */,
+				8649B3A71C50F9AB00BC96BF /* LPSearchHistoryCollectionViewCell.h */,
+				8649B3A81C50F9AB00BC96BF /* LPSearchHistoryCollectionViewCell.m */,
+				8649B3A91C50F9AB00BC96BF /* LPSearchItemViewCell.h */,
+				8649B3AA1C50F9AB00BC96BF /* LPSearchItemViewCell.m */,
+			);
+			path = SearchView;
+			sourceTree = "<group>";
+		};
+		8649B3AE1C50F9D300BC96BF /* LPSearch */ = {
+			isa = PBXGroup;
+			children = (
+				8649B3AF1C50F9D300BC96BF /* LPSearchItem.h */,
+				8649B3B01C50F9D300BC96BF /* LPSearchItem.m */,
+				8649B3B11C50F9D300BC96BF /* LPSearchItemFrame.h */,
+				8649B3B21C50F9D300BC96BF /* LPSearchItemFrame.m */,
+			);
+			path = LPSearch;
 			sourceTree = "<group>";
 		};
 		86CC9B051C21465700D9364D /* HomeView */ = {
@@ -2825,6 +2899,7 @@
 				1846B1281B1C5178009EF8B9 /* LPSlidingShadowAnimation.m in Sources */,
 				18BA5E8E1B199BDB00EEDB63 /* UIView+LP.m in Sources */,
 				8680F8171BF046A6002C08EB /* LPRelateView.m in Sources */,
+				8649B39E1C50F92600BC96BF /* LPPagingView.m in Sources */,
 				86CC9B0E1C2168BF00D9364D /* CardFrame.m in Sources */,
 				18C9C4CC1B5C03C600064CED /* ConcernViewController.m in Sources */,
 				868D15BD1BFDA6A900E75E9A /* LPDetailTopView.m in Sources */,
@@ -2839,6 +2914,7 @@
 				1889FE691B4C2E91006D8E03 /* LPZhihuView.m in Sources */,
 				1889FDD11B4C2BFD006D8E03 /* CustomLoaddingView.m in Sources */,
 				18A65CCA1B203D330070DDD7 /* SDWebImagePrefetcher.m in Sources */,
+				8649B3AC1C50F9AB00BC96BF /* LPSearchHistoryCollectionViewCell.m in Sources */,
 				187564731C2110B600589320 /* Content+CoreDataProperties.m in Sources */,
 				1889FE651B4C2E91006D8E03 /* LPCommentView.m in Sources */,
 				1826B3DA1B786B3900B712E0 /* POPAnimatableProperty.mm in Sources */,
@@ -2854,6 +2930,7 @@
 				187564741C2110B600589320 /* Content.m in Sources */,
 				18095CD31B2A221100CB7666 /* LPWaterfallViewCell.m in Sources */,
 				1826B3DF1B786B3900B712E0 /* POPAnimationTracer.mm in Sources */,
+				8649B37D1C50F4AA00BC96BF /* LPHomeViewController+NewFeature.m in Sources */,
 				187564891C2110B600589320 /* Relate+CoreDataProperties.m in Sources */,
 				7E63BA621B3C022900BEA1CF /* Account.m in Sources */,
 				18F631141B5C044300423658 /* LPPress.m in Sources */,
@@ -2871,6 +2948,7 @@
 				187564861C2110B600589320 /* PressPhoto.m in Sources */,
 				18A0AA9E1C20602600E9AA44 /* Press+Timer.m in Sources */,
 				186866071B907E1500039AA3 /* AFURLConnectionOperation.m in Sources */,
+				8649B37F1C50F4AA00BC96BF /* LPHomeViewController.m in Sources */,
 				1826B3E81B786B3900B712E0 /* POPPropertyAnimation.mm in Sources */,
 				1826B3E71B786B3900B712E0 /* POPMath.mm in Sources */,
 				180894191C18FEBB00FBBADA /* CardTool.m in Sources */,
@@ -2883,7 +2961,6 @@
 				1868660D1B94006D00039AA3 /* DigButton.m in Sources */,
 				867ECA221C0EC109000930BF /* LPMenuView.m in Sources */,
 				1875647A1C2110B600589320 /* Photo.m in Sources */,
-				866465D61C2ECD7F00AA836A /* LPHomeViewController+PagingView.m in Sources */,
 				181B38371BC652B000698FC5 /* Thumbnailer.m in Sources */,
 				18F631661B5C0CEA00423658 /* MJRefreshStateHeader.m in Sources */,
 				18A65C7D1B1FDBCE0070DDD7 /* NSString+LP.m in Sources */,
@@ -2904,6 +2981,7 @@
 				1826B3F71B7DA00B00B712E0 /* LPFullPhotoCell.m in Sources */,
 				18A65CC91B203D330070DDD7 /* SDWebImageManager.m in Sources */,
 				18F6315E1B5C0CEA00423658 /* MJRefreshAutoGifFooter.m in Sources */,
+				8649B3A31C50F96300BC96BF /* LPSearchViewController.m in Sources */,
 				1826B3DD1B786B3900B712E0 /* POPAnimationExtras.mm in Sources */,
 				868367691C080A0A00732516 /* LPFullPhotoViewController.m in Sources */,
 				18A65CCE1B203D330070DDD7 /* UIImage+WebP.m in Sources */,
@@ -2920,6 +2998,7 @@
 				18F6312B1B5C04E400423658 /* LPConcernPressFrame.m in Sources */,
 				187912D81BC06CD10021AB3E /* CoreDataTVC.m in Sources */,
 				1889FE5C1B4C2E91006D8E03 /* LPDetailViewController.m in Sources */,
+				8649B3BA1C50FA9500BC96BF /* UITextField+LP.m in Sources */,
 				18D71FAE1B2572C5002A7375 /* NSObject+MJKeyValue.m in Sources */,
 				181B38BE1BD8FCA900698FC5 /* PressCell.m in Sources */,
 				187564771C2110B600589320 /* Zhihu+CoreDataProperties.m in Sources */,
@@ -2941,6 +3020,8 @@
 				1889FE681B4C2E91006D8E03 /* LPUpButton.m in Sources */,
 				867ECA1F1C0E95F3000930BF /* LPMenuButton.m in Sources */,
 				187564971C21160900589320 /* Card.m in Sources */,
+				8649B3B31C50F9D300BC96BF /* LPSearchItem.m in Sources */,
+				8649B3AD1C50F9AB00BC96BF /* LPSearchItemViewCell.m in Sources */,
 				18D71FAF1B2572C5002A7375 /* NSObject+MJProperty.m in Sources */,
 				18D71FAD1B2572C5002A7375 /* NSObject+MJCoding.m in Sources */,
 				18F631131B5C044300423658 /* LPPointview.m in Sources */,
@@ -2950,14 +3031,12 @@
 				18A65CC71B203D330070DDD7 /* SDWebImageDownloader.m in Sources */,
 				866F0CC81C15245800F8CA16 /* LPChannelItem.m in Sources */,
 				86BF699E1C254109009C967C /* LPDiggerHeader.m in Sources */,
-				180953921C0E5B51001E5B2E /* UIView+LPReusePage.m in Sources */,
 				187912D51BC06C9F0021AB3E /* CoreDataHelper.m in Sources */,
 				1875647D1C2110B600589320 /* CardRelate+CoreDataProperties.m in Sources */,
 				18F631A21B5F2F1000423658 /* FBShimmeringLayer.m in Sources */,
 				184BA0B31B3A106E001D871B /* LPNewfeatureViewController.m in Sources */,
 				86BF699D1C254109009C967C /* LPDiggerFooter.m in Sources */,
 				186866041B907E1500039AA3 /* AFHTTPSessionManager.m in Sources */,
-				180953911C0E5B51001E5B2E /* LPPagingViewPage.m in Sources */,
 				187564851C2110B600589320 /* PressPhoto+CoreDataProperties.m in Sources */,
 				865C12B61C21A208000303C8 /* LPHomeViewCell.m in Sources */,
 				18F631251B5C044300423658 /* LPSingleGraphOpinionsView.m in Sources */,
@@ -2968,10 +3047,10 @@
 				18F631261B5C044300423658 /* LPSingleGraphTopView.m in Sources */,
 				186866061B907E1500039AA3 /* AFSecurityPolicy.m in Sources */,
 				18F631701B5C249A00423658 /* LaunchViewController.m in Sources */,
-				180953901C0E5B51001E5B2E /* LPPagingView.m in Sources */,
 				18BA5E891B199B7300EEDB63 /* main.m in Sources */,
 				18F631201B5C044300423658 /* LPMultiGraphTopView.m in Sources */,
 				187564801C2110B600589320 /* CardImage.m in Sources */,
+				8649B39F1C50F92600BC96BF /* LPPagingViewPage.m in Sources */,
 				18F6311F1B5C044300423658 /* LPMultiGraphOpinionsView.m in Sources */,
 				18A65CC21B203D330070DDD7 /* MKAnnotationView+WebCache.m in Sources */,
 				18F631601B5C0CEA00423658 /* MJRefreshAutoStateFooter.m in Sources */,
@@ -2983,13 +3062,14 @@
 				187564761C2110B600589320 /* Press.m in Sources */,
 				186866581BB25AD900039AA3 /* AppDelegate+MOC.m in Sources */,
 				8689DDA71BECAF1700D425BC /* LPFullCommentViewController.m in Sources */,
+				8649B37E1C50F4AA00BC96BF /* LPHomeViewController+ContentView.m in Sources */,
 				186866051B907E1500039AA3 /* AFNetworkReachabilityManager.m in Sources */,
 				18095CD21B2A221100CB7666 /* LPWaterfallView.m in Sources */,
 				186866021B907E1500039AA3 /* AFHTTPRequestOperation.m in Sources */,
 				18F6311E1B5C044300423658 /* LPIconsView.m in Sources */,
 				18A65CC61B203D330070DDD7 /* SDWebImageDecoder.m in Sources */,
 				1889FE601B4C2E91006D8E03 /* LPOffset.m in Sources */,
-				863BE5491C2E7D11004AFFFB /* LPHomeViewController+ChannelItemMenu.m in Sources */,
+				8649B37C1C50F4AA00BC96BF /* LPHomeViewController+ChannelItemMenu.m in Sources */,
 				18F631241B5C044300423658 /* LPSingleGraphMidSeperaterView.m in Sources */,
 				18AB8C851B8A439D0084934E /* GenieTransition.m in Sources */,
 				1826B3E21B786B3900B712E0 /* POPCGUtils.mm in Sources */,
@@ -3015,6 +3095,7 @@
 				18D64E341BDF460E0077F673 /* ContentCell.m in Sources */,
 				18F631171B5C044300423658 /* TransitioningObject.m in Sources */,
 				1826B39E1B78651400B712E0 /* LPTagCloudView.m in Sources */,
+				8649B3B41C50F9D300BC96BF /* LPSearchItemFrame.m in Sources */,
 				18C9C4CD1B5C03C600064CED /* LPConcernPress.m in Sources */,
 				18F631A31B5F2F1000423658 /* FBShimmeringView.m in Sources */,
 				18F631211B5C044300423658 /* LPPhotoView.m in Sources */,
@@ -3025,6 +3106,7 @@
 				18F6311C1B5C044300423658 /* LPCategoryButton.m in Sources */,
 				1826B3891B722F7800B712E0 /* LPItemView.m in Sources */,
 				18A65CCF1B203D330070DDD7 /* UIImageView+HighlightedWebCache.m in Sources */,
+				8649B3AB1C50F9AB00BC96BF /* LPHotWordCollectionViewCell.m in Sources */,
 				1826B3E11B786B3900B712E0 /* POPBasicAnimation.mm in Sources */,
 				181B38B51BD09DB800698FC5 /* SectionColorLayoutAttributes.m in Sources */,
 				18F631A91B5F54C900423658 /* DiggerHeader.m in Sources */,
@@ -3036,13 +3118,15 @@
 				18F6316A1B5C0CEA00423658 /* UIScrollView+MJRefresh.m in Sources */,
 				18A0AA971C20602600E9AA44 /* Card+Create.m in Sources */,
 				18F6316B1B5C0CEA00423658 /* UIView+MJExtension.m in Sources */,
+				8649B3721C50F44F00BC96BF /* LPTriangleView.m in Sources */,
 				187564961C21160900589320 /* Card+CoreDataProperties.m in Sources */,
+				8649B3A01C50F92600BC96BF /* UIView+LPReusePage.m in Sources */,
 				187912E51BC1E90A0021AB3E /* CoreDataCVC.m in Sources */,
 				18F631281B5C044300423658 /* LPTabBarButton.m in Sources */,
 				1868665F1BB4212600039AA3 /* HotwordCloud.m in Sources */,
 				18A65CC31B203D330070DDD7 /* NSData+ImageContentType.m in Sources */,
+				8649B3B71C50FA2B00BC96BF /* UICollectionViewLeftAlignedLayout.m in Sources */,
 				18F6315C1B5C0CEA00423658 /* MJRefreshFooter.m in Sources */,
-				867ECA1C1C0E907A000930BF /* LPHomeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3094,8 +3178,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -3120,7 +3204,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "933f0a26-a38f-4fc7-a757-d967371917d6";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -3142,8 +3226,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -3160,7 +3244,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "933f0a26-a38f-4fc7-a757-d967371917d6";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -3171,8 +3255,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3198,9 +3282,9 @@
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_Extra_Frameworks/Wechat",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = YU.EveryoneNews;
+				PRODUCT_BUNDLE_IDENTIFIER = YU.EveryoneNews11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "933f0a26-a38f-4fc7-a757-d967371917d6";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -3210,8 +3294,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3237,9 +3321,9 @@
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_Extra_Frameworks/Wechat",
 				);
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = YU.EveryoneNews;
+				PRODUCT_BUNDLE_IDENTIFIER = YU.EveryoneNews11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "933f0a26-a38f-4fc7-a757-d967371917d6";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

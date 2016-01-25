@@ -18,38 +18,42 @@
 #import "CardTool.h"
 #import "CardParam.h"
 #import "Card+CoreDataProperties.h"
+#import "LPSearchViewController.h"
 
-
-@interface LPPagingViewPage () <UITableViewDataSource, UITableViewDelegate>
+@interface LPPagingViewPage () <UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) UIView *searchView;
 
-@property (nonatomic, strong) NSMutableDictionary *contentOffsetDictionary;
-
-@property (nonatomic, assign) CGFloat contentOffsetY;
 @end
 
 @implementation LPPagingViewPage
 
-- (NSMutableDictionary *)contentOffsetDictionary {
-    if (_contentOffsetDictionary == nil) {
-        _contentOffsetDictionary = [[NSMutableDictionary alloc] init];
-    }
-    return _contentOffsetDictionary;
-}
-
 - (void)prepareForReuse {
-//    [self.tableView setContentOffset:CGPointZero];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if(self = [super initWithFrame:frame]) {
+        UIView *searchView = [[UIView alloc] initWithFrame: CGRectMake(BodyPadding, 0, ScreenWidth, TabBarHeight)];
+        UIImageView *searchImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"首页搜索框"]];
+        searchImageView.backgroundColor = [UIColor colorFromHexString:@"#edefef"];
+        searchImageView.contentMode = UIViewContentModeScaleAspectFit;
+        searchImageView.frame =  CGRectMake(BodyPadding, 0, ScreenWidth - 2 * BodyPadding, TabBarHeight);
+        searchImageView.userInteractionEnabled = YES;
+        
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapImageView:)];
+        tapGesture.delegate = self;
+        [searchImageView addGestureRecognizer:tapGesture];
+        [searchView addSubview:searchImageView];
+        self.searchView = searchView;
+
         UITableView *tableView = [[UITableView alloc] init];
-        tableView.separatorStyle =UITableViewCellSeparatorStyleNone;
+        tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         tableView.backgroundColor =  [UIColor colorFromHexString:@"#edefef"];
         tableView.dataSource = self;
         tableView.delegate = self;
         tableView.showsVerticalScrollIndicator = NO;
+        tableView.tableHeaderView = searchView;
         [self addSubview:tableView];
         self.tableView = tableView;
         // 下拉刷新功能
@@ -61,17 +65,30 @@
         self.tableView.footer = [LPDiggerFooter footerWithRefreshingBlock:^{
             [weakSelf loadMoreData];
         }];
+    
     }
     return self;
 }
 
 - (void)layoutSubviews {
     self.tableView.frame = self.bounds;
+ 
+//    [self.tableView setContentOffset:CGPointMake(0, TabBarHeight)];
+ 
 }
 
 - (void)setCardFrames:(NSMutableArray *)cardFrames {
     _cardFrames = cardFrames;
     [self.tableView reloadData];
+    
+}
+
+#pragma mark - 跳转到搜索栏
+- (void)tapImageView:(UITapGestureRecognizer*)sender {
+    UIImageView *imageView = (UIImageView *)sender.view;
+    if ([self.delegate respondsToSelector:@selector(page:didClickSearchImageView:)]) {
+        [self.delegate page:self didClickSearchImageView:imageView];
+    }
 }
 
 #pragma mark - 自动加载最新数据
@@ -79,9 +96,8 @@
     [self.tableView.header beginRefreshing];
 }
 
-#pragma mark － 下拉刷新 如果超过24小时始终返回最新数据
+#pragma mark － 下拉刷新 如果超过12小时始终返回最新数据
 - (void)loadNewData{
-    NSLog(@"loadNewData");
     if (self.cardFrames.count != 0) {
         CardFrame *cardFrame = self.cardFrames[0];
         Card *card = cardFrame.card;
@@ -90,7 +106,6 @@
         param.channelID = [NSString stringWithFormat:@"%@", card.channelId];
         param.count = @20;
         param.startTime = cardFrame.card.updateTime;
-        NSLog(@"%@",param.startTime);
         __weak typeof(self) weakSelf = self;
         NSMutableArray *tempArray = [[NSMutableArray alloc] init];
         [CardTool cardsWithParam:param success:^(NSArray *cards) {
@@ -100,20 +115,19 @@
                 cardFrame.card = cards[i];
                 [tempArray addObject:cardFrame];
             }
-            
-            NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:
-                                   NSMakeRange(0,[tempArray count])];
-
-            [weakSelf.cardFrames insertObjects: tempArray atIndexes:indexes];
-            [weakSelf.tableView reloadData];
+                NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:
+                                       NSMakeRange(0,[tempArray count])];
+                [weakSelf.cardFrames insertObjects: tempArray atIndexes:indexes];
+                [weakSelf.tableView reloadData];
             }
             [weakSelf showNewCount:tempArray.count];
             [weakSelf.tableView.header endRefreshing];
         } failure:^(NSError *error) {
             [weakSelf.tableView.header endRefreshing];
-            NSLog(@"failure!");
+            [MBProgressHUD showError:@"网络连接中断"];
         }];
     } else {
+     
         [self.tableView.header endRefreshing];
     }
 }
@@ -121,13 +135,10 @@
 - (void)showNewCount:(NSInteger)count {
     UILabel *label = [[UILabel alloc] init];
     [self insertSubview:label belowSubview:self];
-    
     label.height = 30;
-    if (iPhone6Plus) {
-        label.height = 35;
-    }
     label.x = 0;
     label.y = -15;
+//    label.y =TabBarHeight  - label.height;
     label.width = ScreenWidth;
     
     label.backgroundColor = [UIColor colorFromHexString:@"#fafafa"];
@@ -167,15 +178,14 @@
     param.count = @20;
     param.startTime = card.updateTime;
     
-    NSMutableArray *newCardFrames = self.cardFrames;
-//    NSLog(@"%@", card.updateTime);
+    NSMutableArray *tempCardFrames = self.cardFrames;
     [CardTool cardsWithParam:param success:^(NSArray *cards) {
         for (Card *card in cards) {
             CardFrame *cardFrame = [[CardFrame alloc] init];
             cardFrame.card = card;
-            [newCardFrames addObject:cardFrame];
+            [tempCardFrames addObject:cardFrame];
         }
-        self.cardFrames = newCardFrames;
+        self.cardFrames = tempCardFrames;
     
     [self.tableView.footer endRefreshing];
     if (!cards.count) {
@@ -183,18 +193,22 @@
     }
     } failure:^(NSError *error) {
         [self.tableView.footer endRefreshing];
-        NSLog(@"failure!");
     }];
 
 }
 
+
 #pragma mark - tableView  datasource
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return 1;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.cardFrames.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    static NSString *cellIdentifier = @"cardCellIdentifier";
     NSString *cellIdentifier = self.cellIdentifier;
     LPHomeViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil) {
@@ -208,14 +222,25 @@
     CardFrame *cardFrame = self.cardFrames[indexPath.row];
     return cardFrame.cellHeight;
 }
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     CardFrame *cardFrame = self.cardFrames[indexPath.row];
-    if ([self.delegate respondsToSelector:@selector(pushDetailViewController:cardFrame:)]) {
-        [self.delegate pushDetailViewController:self cardFrame:cardFrame];
+    if ([self.delegate respondsToSelector:@selector(page:didSelectCellWithCardID:)]) {
+        [self.delegate page:self didSelectCellWithCardID:cardFrame.card.objectID];
     }
 }
 
+#pragma mark - scrollView Delegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGFloat offsetY = scrollView.contentOffset.y;
+    if ([self.delegate respondsToSelector:@selector(page:didSaveOffsetY:)]) {
+        offsetY = offsetY > TabBarHeight ? offsetY : TabBarHeight;
+        [self.delegate page:self didSaveOffsetY:offsetY];
+    }
+}
 
+#pragma mark - tableView contentOffsetY
+- (void)scrollToOffsetY:(CGFloat)offsetY {
+     [self.tableView setContentOffset:CGPointMake(0, offsetY)];
+}
 
 @end

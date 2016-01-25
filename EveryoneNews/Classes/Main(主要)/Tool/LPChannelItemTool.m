@@ -65,13 +65,8 @@
         LPChannelItem *item22 = [[LPChannelItem alloc] init];
         LPChannelItem *item23 = [[LPChannelItem alloc] init];
         LPChannelItem *item24 = [[LPChannelItem alloc] init];
-        LPChannelItem *item25 = [[LPChannelItem alloc] init];
+//        LPChannelItem *item25 = [[LPChannelItem alloc] init];
 
-        
-//        item0.channelID = @"1";
-//        item0.channelName = @"推荐";
-//        item0.channelIsSelected = @"1";
-        
         item1.channelID = @"2";
         item1.channelName = @"社会";
         item1.channelIsSelected = @"1";
@@ -168,11 +163,10 @@
         item24.channelName = @"科学";
         item24.channelIsSelected = @"0";
         
-        item25.channelID = @"26";
-        item25.channelName = @"美女";
-        item25.channelIsSelected = @"0";
+//        item25.channelID = @"26";
+//        item25.channelName = @"美女";
+//        item25.channelIsSelected = @"0";
         
-//        [channelItems addObject:item0];
         [channelItems addObject:item1];
         [channelItems addObject:item2];
         [channelItems addObject:item3];
@@ -197,7 +191,7 @@
         [channelItems addObject:item22];
         [channelItems addObject:item23];
         [channelItems addObject:item24];
-        [channelItems addObject:item25];
+//        [channelItems addObject:item25];
     }
     return channelItems;
 }
@@ -229,7 +223,7 @@
                                 @"趣图",@"23",
                                 @"健康",@"24",
                                 @"科学",@"25",
-                                @"美女",@"26",
+//                                @"美女",@"26",
                                 nil];
     NSString *channelID = @"0";
     for (NSString *key in dictionary) {

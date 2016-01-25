@@ -9,21 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @class LPContentFrame;
-@class LPContentCell;
-
-@protocol  LPContentCellDelegate <NSObject>
-
-@optional
-- (void)contentCellDidClickCommentView:(LPContentCell *)cell;
-- (void)contentCell:(LPContentCell *)cell didVisitOpinionURL:(NSString *)url;
-@end
 
 @interface LPContentCell : UITableViewCell
 
 @property (nonatomic, strong) LPContentFrame *contentFrame;
-@property (nonatomic, weak) id<LPContentCellDelegate> delegate;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
-//+ (instancetype)cellWithTableView:(UITableView *)tableView identifier:(NSInteger)identifier;
 
 @end

@@ -126,7 +126,7 @@ extern NSString * const HotwordsURL;
 #define PhotoTitlePadding 24
 
 #define TableHeaderViewH ScreenWidth * 0.75
-#define TableHeaderImageViewH TableHeaderViewH + 18.0
+#define TableHeaderImageViewH TableHeaderViewH + 17.0
 #define BodyFontSize 16
 #define BodyLineSpacing 6
 #define BodyPadding 13

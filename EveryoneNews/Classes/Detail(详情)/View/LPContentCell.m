@@ -21,6 +21,9 @@
 @property (nonatomic, strong) UILabel *photoLabel;
 
 @property (nonatomic, strong) LPSupplementView *supplementView;
+
+@property (nonatomic, strong) UIView *abstractSeperatorView;
+
 @end
 
 @implementation LPContentCell
@@ -30,7 +33,7 @@
     static NSString *ID = @"content";
     LPContentCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
     if (cell == nil) {
-        cell = [[LPContentCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
+        cell = [[LPContentCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];        
     }
     return cell;
 }
@@ -50,27 +53,17 @@
         [self.contentView addSubview:bodyLabel];
         self.bodyLabel = bodyLabel;
         
-        LPCommentView *commentView = [[LPCommentView alloc] init];
-        [self.contentView addSubview:commentView];
-        self.commentView = commentView;
-        [commentView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapComment)]];
-        
         UIImageView *photoView = [[UIImageView alloc] init];
         photoView.contentMode = UIViewContentModeScaleAspectFill;
         photoView.clipsToBounds = YES;
         [self.contentView addSubview:photoView];
         self.photoView = photoView;
         
-        UILabel *photoLabel = [[UILabel alloc] init];
-        photoLabel.numberOfLines = 0;
-        photoLabel.lineBreakMode = NSLineBreakByCharWrapping;
-        [self.contentView addSubview:photoLabel];
-        self.photoLabel = photoLabel;
+        UIView *abstractSeperatorView = [[UIView alloc] init];
+        abstractSeperatorView.backgroundColor = [UIColor colorFromHexString:@"#edefef"];
+        [self.contentView addSubview:abstractSeperatorView];
+        self.abstractSeperatorView = abstractSeperatorView;
         
-        LPSupplementView *supplementView = [[LPSupplementView alloc] init];
-        [self.contentView addSubview:supplementView];
-        self.supplementView = supplementView;
-        [supplementView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapOpinion)]];
     }
     return self;
 }
@@ -79,52 +72,25 @@
 {
     _contentFrame = contentFrame;
     LPContent *content = contentFrame.content;
-    
+    self.abstractSeperatorView.frame = self.contentFrame.abstractSeperatorViewF;
     if (!content.isPhoto) { // 非图
         self.bodyLabel.hidden = NO;
         self.photoView.hidden = YES;
-        self.photoLabel.hidden = YES;
-        self.commentView.hidden = content.isOpinion || content.isAbstract;
-        self.supplementView.hidden = !content.isOpinion;
         
         self.bodyLabel.frame = self.contentFrame.bodyLabelF;
         self.bodyLabel.attributedText = content.bodyString;
-        if (!self.commentView.hidden) {
-            [self setupCommentView];
-        }
-        if (!self.supplementView.hidden) {
-            self.supplementView.frame = self.contentFrame.supplementViewF;
-            self.supplementView.contentFrame = self.contentFrame;
-        }
-    } else { // 图文类型
-        self.supplementView.hidden = YES;
         
+    } else {
         self.bodyLabel.hidden = YES;
         self.photoView.hidden = NO;
         self.photoView.frame = self.contentFrame.photoViewF;
         [self.photoView sd_setImageWithURL:[NSURL URLWithString:content.photo] placeholderImage:[UIImage imageNamed:@"详情占位图"]];
-        if (!content.photoDesc || content.photoDesc.length == 0) {
-            self.commentView.hidden = YES;
-            self.photoLabel.hidden = YES;
-        } else {
-            self.commentView.hidden = NO;
-            self.photoLabel.hidden = NO;
-            self.photoLabel.frame = self.contentFrame.photoDescViewF;
-            self.photoLabel.attributedText = content.photoDescString;
-            [self setupCommentView];
-        }
     }
-}
-
-- (void)setupCommentView {
-    self.commentView.frame = self.contentFrame.commentViewF;
-    self.commentView.contentFrame = self.contentFrame;
 }
 
 - (void)setFrame:(CGRect)frame
 {
     frame.origin.x = DetailCellBilateralBorder;
-    frame.size.height -= DetailCellHeightBorder;
     frame.size.width -= 2 * DetailCellBilateralBorder;
     [super setFrame:frame];
 }
@@ -137,23 +103,5 @@
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
 {
     
-}
-
-- (void)tapComment
-{
-    if (self.contentFrame.content.hasComment) {
-        if ([self.delegate respondsToSelector:@selector(contentCellDidClickCommentView:)]) {
-            [self.delegate contentCellDidClickCommentView:self];
-        }
-    }
-}
-
-- (void)tapOpinion {
-    LPContent *content = self.contentFrame.content;
-    if (content.url) {
-        if ([self.delegate respondsToSelector:@selector(contentCell:didVisitOpinionURL:)]) {
-            [self.delegate contentCell:self didVisitOpinionURL:content.url];
-        }
-    }
 }
 @end

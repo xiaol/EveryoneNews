@@ -11,7 +11,6 @@
 #import "CardFrame.h"
 #import "Card.h"
 #import "CardImage.h"
- 
 
 @interface LPHomeViewCell ()
 // 无图
@@ -33,25 +32,33 @@
 @property (nonatomic, strong) UILabel *multipleSourceLabel;
 @property (nonatomic, strong) UIView *mutipleSeperatorLine;
 
-
 @end
 
 @implementation LPHomeViewCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    
+    CGFloat titleFontSize = ConcernPressTitleFontSize;
+    CGFloat sourceFontSize = 10;
+    
+    if (iPhone6Plus) {
+        titleFontSize = 18;
+        sourceFontSize = 12;
+    }
+    
     if(self) {
         // 无图
         UILabel *noImageLabel = [[UILabel alloc] init];
         noImageLabel.textColor = LPColor(43, 43 ,43);
-        noImageLabel.font = [UIFont fontWithName:OpinionFontName size:ConcernPressTitleFontSize];
+        noImageLabel.font = [UIFont fontWithName:OpinionFontName size:titleFontSize];
         noImageLabel.clipsToBounds = YES;
         noImageLabel.numberOfLines = 0;
         [self.contentView addSubview:noImageLabel];
         self.noImageLabel = noImageLabel;
         
         UILabel *noImageSourceLabel = [[UILabel alloc] init];
-        noImageSourceLabel.font = [UIFont fontWithName:OpinionFontName size:10];
+        noImageSourceLabel.font = [UIFont fontWithName:OpinionFontName size:sourceFontSize];
         noImageSourceLabel.textColor = [UIColor colorFromHexString:@"7c7c7c"];
         [self.contentView addSubview:noImageSourceLabel];
         self.noImageSourceLabel= noImageSourceLabel;
@@ -63,7 +70,7 @@
         
         // 单图
         UIImageView *iconView = [[UIImageView alloc] init];
-        iconView.layer.cornerRadius = 2.0;
+//        iconView.layer.cornerRadius = 2.0;
         iconView.contentMode = UIViewContentModeScaleAspectFill;
         iconView.clipsToBounds = YES;
         [self.contentView addSubview:iconView];
@@ -72,12 +79,12 @@
         UILabel *titleLabel = [[UILabel alloc] init];
         titleLabel.numberOfLines = 0;
         titleLabel.textColor = LPColor(43, 43 ,43);
-        titleLabel.font = [UIFont fontWithName:OpinionFontName size:ConcernPressTitleFontSize];
+        titleLabel.font = [UIFont fontWithName:OpinionFontName size:titleFontSize];
         [self.contentView addSubview:titleLabel];
         self.titleLabel = titleLabel;
         
         UILabel *singleSourceLabel = [[UILabel alloc] init];
-        singleSourceLabel.font = [UIFont fontWithName:OpinionFontName size:10];
+        singleSourceLabel.font = [UIFont fontWithName:OpinionFontName size:sourceFontSize];
         singleSourceLabel.textColor = [UIColor colorFromHexString:@"7c7c7c"];
         [self.contentView addSubview:singleSourceLabel];
         self.singleSourceLabel= singleSourceLabel;
@@ -90,34 +97,34 @@
         //  三图及其三图以上
         UILabel *multipleImageLabel = [[UILabel alloc] init];
         multipleImageLabel.numberOfLines = 0;
-        multipleImageLabel.font = [UIFont fontWithName:OpinionFontName size:ConcernPressTitleFontSize];
+        multipleImageLabel.font = [UIFont fontWithName:OpinionFontName size:titleFontSize];
         multipleImageLabel.textColor = LPColor(43, 43 ,43);
         [self.contentView addSubview:multipleImageLabel];
         self.multipleImageLabel = multipleImageLabel;
         
         UIImageView *firstMutipleImageView = [[UIImageView alloc] init];
-        firstMutipleImageView.layer.cornerRadius = 2.0;
+//        firstMutipleImageView.layer.cornerRadius = 2.0;
         firstMutipleImageView.contentMode = UIViewContentModeScaleAspectFill;
         firstMutipleImageView.clipsToBounds = YES;
         [self.contentView addSubview:firstMutipleImageView];
         self.firstMutipleImageView = firstMutipleImageView;
         
         UIImageView *secondMutipleImageView = [[UIImageView alloc] init];
-        secondMutipleImageView.layer.cornerRadius = 2.0;
+//        secondMutipleImageView.layer.cornerRadius = 2.0;
         secondMutipleImageView.contentMode = UIViewContentModeScaleAspectFill;
         secondMutipleImageView.clipsToBounds = YES;
         [self.contentView addSubview:secondMutipleImageView];
         self.secondMutipleImageView = secondMutipleImageView;
         
         UIImageView *thirdMutipleImageView = [[UIImageView alloc] init];
-        thirdMutipleImageView.layer.cornerRadius = 2.0;
+//        thirdMutipleImageView.layer.cornerRadius = 2.0;
         thirdMutipleImageView.contentMode = UIViewContentModeScaleAspectFill;
         thirdMutipleImageView.clipsToBounds = YES;
         [self.contentView addSubview:thirdMutipleImageView];
         self.thirdMutipleImageView = thirdMutipleImageView;
         
         UILabel *multipleSourceLabel = [[UILabel alloc] init];
-        multipleSourceLabel.font = [UIFont fontWithName:OpinionFontName size:10];
+        multipleSourceLabel.font = [UIFont fontWithName:OpinionFontName size:sourceFontSize];
         multipleSourceLabel.textColor = [UIColor colorFromHexString:@"7c7c7c"];
         [self.contentView addSubview:multipleSourceLabel];
         self.multipleSourceLabel = multipleSourceLabel;
@@ -184,11 +191,8 @@
         self.noImageSeperatorLine.frame = self.cardFrame.noImageSeperatorLineFrame;
         
     } else if (card.cardImages.count == 1 || card.cardImages.count == 2) {
-        NSMutableArray *imageArray = [[NSMutableArray alloc] init];
-        for (CardImage * cardImage in card.cardImages) {
-            [imageArray addObject:cardImage.imgUrl];
-        }
-       [self.iconView sd_setImageWithURL:[NSURL URLWithString:imageArray[0]] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
+        CardImage * cardImage = card.cardImages.anyObject;
+       [self.iconView sd_setImageWithURL:[NSURL URLWithString:cardImage.imgUrl] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
         
         self.noImageLabel.hidden = YES;
         self.noImageSourceLabel.hidden = YES;
@@ -243,7 +247,7 @@
         self.mutipleSeperatorLine.frame = self.cardFrame.mutipleImageSeperatorLineFrame;
         
         NSMutableArray *imageArray = [[NSMutableArray alloc] init];
-        for (CardImage * cardImage in card.cardImages) {
+        for (CardImage * cardImage in card.cardImages.allObjects) {
             [imageArray addObject:cardImage.imgUrl];
         }
         [self.firstMutipleImageView sd_setImageWithURL:[NSURL URLWithString:imageArray[0]] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
@@ -259,8 +263,6 @@
         self.secondMutipleImageView.frame = CGRectMake(x + w + 3, y, w, h);
         self.thirdMutipleImageView.frame = CGRectMake(x + 2 * w + 6, y, w, h);
     }
-    
-
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
