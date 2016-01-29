@@ -14,7 +14,9 @@
 
 @optional
 - (void)contentCell:(ContentCell *)contentCell didSavePhotoWithImageURL:(NSURL *)imageURL;
+- (void)contentCell:(ContentCell *)contentCell didDownloadPhoto:(UIImage *)photo;
 @end
+
 
 @interface ContentCell : UITableViewCell
 @property (nonatomic, strong) ContentFrame *contentFrame;

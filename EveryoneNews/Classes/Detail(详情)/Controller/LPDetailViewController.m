@@ -48,10 +48,11 @@ static const CGFloat CellAlpha =0.3;
 NSString * const PhotoCellReuseId = @"photoWallCell";
 
 @interface LPDetailViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate, LPZhihuViewDelegate,LPRelateViewDelegate,UICollectionViewDataSource, UICollectionViewDelegate, LPDetailTopViewDelegate>
-{
-    // 分享图片地址
-    NSString *detailImgUrl;
-}
+//{
+//    // 分享图片地址
+//    NSString *detailImgUrl;
+//    NSString *detailTitle;
+//}
 
 @property (nonatomic, strong) LPDetailTopView *topView;
 @property (nonatomic, strong) UITableView *tableView;
@@ -84,6 +85,13 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 @property (nonatomic, strong) LPHttpTool *http;
 @property (nonatomic, assign) BOOL requestSuccess;
 
+
+// 分享url
+@property (nonatomic, copy) NSString *shareURL;
+@property (nonatomic, copy) NSString *shareTitle;
+@property (nonatomic, copy) NSString *shareImageURL;
+@property (nonatomic, strong) NSMutableDictionary *heightCache;
+
 @end
 
 @implementation LPDetailViewController
@@ -91,6 +99,8 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.view.backgroundColor = [UIColor whiteColor];
     [self setupSubviews];
     [self setupDataWithCompletion:nil fulltextCommentsUpHandle:nil];
     [self setupNoteObserver];
@@ -99,12 +109,16 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     
 }
 
+ 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     if (self.http) {
         [self.http cancelRequest];
         self.http = nil;
     }
+}
+- (UIStatusBarStyle) preferredStatusBarStyle {
+    return UIStatusBarStyleDefault;
 }
 
 - (void)setupNoteObserver
@@ -116,7 +130,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 
 - (BOOL)prefersStatusBarHidden
 {
-    return YES;
+    return NO;
 }
 
 - (NSArray *)relates
@@ -125,6 +139,13 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
         _relates = [NSArray array];
     }
     return _relates;
+}
+
+- (NSMutableDictionary *)heightCache {
+    if (_heightCache) {
+        _heightCache = [[NSMutableDictionary alloc] init];
+    }
+    return _heightCache;
 }
 
 - (NSArray *)photos {
@@ -146,12 +167,21 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 {
     // 初始化tableview
     UITableView *tableView = [[UITableView alloc] init];
-    tableView.frame = self.view.bounds;
-    tableView.backgroundColor = [UIColor colorFromHexString:@"#edefef"];
+    
+    double topViewHeight = 64;
+    if (iPhone6Plus) {
+        topViewHeight = 64;
+    }
+//    tableView.frame = CGRectMake(0, topViewHeight, ScreenWidth, ScreenHeight - topViewHeight);
+    tableView.frame = CGRectMake(0, 20, ScreenWidth, ScreenHeight);
+    tableView.backgroundColor = [UIColor whiteColor];
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     tableView.showsVerticalScrollIndicator = NO;
     tableView.showsHorizontalScrollIndicator = NO;
-
+    
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 26)];
+    tableView.tableFooterView = footerView;
+    
     self.tableView = tableView;
     [self.view addSubview:tableView];
     self.tableView.delegate = self;
@@ -181,15 +211,14 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     
     // 弹出分享view
     LPShareViewController *shareVc = [[LPShareViewController alloc] init];
-    // 链接地址
-    NSString *detailURLEncode=((self.isConcernDetail==YES)?self.concernPress.sourceUrl:self.press.sourceUrl);
-    NSString *detailURL = [NSString stringWithFormat:@"http://deeporiginalx.com/news.html?type=%d&url=%@",self.isConcernDetail == YES ? 1:0, detailURLEncode];
-    shareVc.detailTitleWithUrl = [NSString stringWithFormat:@"%@ %@",self.isConcernDetail == YES ? self.concernPress.title : self.press.title, detailURL];
+ 
+//    NSString *detailURL = [NSString stringWithFormat:@"http://deeporiginalx.com/news.html?type=0&url=%@",self.shareURL];
+    NSString *detailURL = self.shareURL;
+    shareVc.detailTitleWithUrl = [NSString stringWithFormat:@"%@ %@",self.shareTitle, detailURL];
     shareVc.detailUrl = detailURL;
     shareVc.blurImageView = blurImageView;
-    shareVc.detailTitle = self.isConcernDetail ? self.concernPress.title : self.press.title;
-    shareVc.detailImageUrl = detailImgUrl;
-    
+    shareVc.detailTitle = self.shareTitle;;
+    shareVc.detailImageUrl = self.shareImageURL;
     [self.navigationController pushViewController:shareVc animated:NO];
 }
 
@@ -243,7 +272,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
             // 0. json字典转模型
             NSString *headerImg = json[@"imgUrl"];
             // 设置分享链接图片地址
-            detailImgUrl=headerImg;
+//            detailImgUrl=headerImg;
             NSString *title = json[@"title"];
             NSString *time = json[@"updateTime"];
             NSString *abstract = json[@"abs"];
@@ -378,58 +407,35 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 
 - (void)getDataWithUrl:(NSString *)url params:(NSDictionary *)params {
     [LPHttpTool getWithURL:url params:params success:^(id json) {
+        
         NSDictionary *dict = json[@"data"];
-    
         NSString *title = dict[@"title"];
-        NSString *time = dict[@"pubTime"];
+        NSString *pubTime = dict[@"pubTime"];
+        NSString *pubName = dict[@"pubName"];
+        NSString *pubURL = dict[@"url"];
+        
+        self.shareURL = pubURL;
+        self.shareTitle = title;
+    
+        [self setupHeaderView:title pubTime:pubTime pubName:pubName];
+        
         NSArray *zhihuArray = [LPZhihuPoint objectArrayWithKeyValuesArray:dict[@"zhihu"]];
-        NSString *descr = dict[@"descr"];
-        NSString *abstract = [NSString stringWithFormat:@"%@...", descr];
-        if ([descr isKindOfClass:[NSNull class]] || descr.length == 0) {
-            abstract = @"文章摘要";
-        }
         NSArray *commentArray = [LPComment objectArrayWithKeyValuesArray:dict[@"point"]];
+        
         NSArray *bodyArray = dict[@"content"];
         
-        // 设置头图 取详情页第一个图作为头图
-        NSString *headerImg = nil;
+        // 第一个图片作为分享图片
         for (NSDictionary *dict in bodyArray) {
-             LPContent *content = [[LPContent alloc] init];
-             content.photo = dict[@"img"];
+            LPContent *content = [[LPContent alloc] init];
+            content.photo = dict[@"img"];
             if (content.photo) {
-                headerImg = content.photo;
+                self.shareImageURL = content.photo;
                 break;
             }
         }
- 
-        detailImgUrl = headerImg;
-        [self setupHeaderWithImageURL:headerImg title:title time:time color:[UIColor colorFromHexString:@"#0087d1" alpha:0.1]];
         
-        LPContent *absContent = [[LPContent alloc] init];
-        absContent.isAbstract = YES;
-        absContent.body = abstract;
-        absContent.paragraphIndex = 0;
-        NSMutableArray *contents = [NSMutableArray arrayWithArray:@[absContent]];
-        LPContentFrame *absFrm = [[LPContentFrame alloc] init];
-        absFrm.content = absContent;
-        NSMutableArray *contentFrameArray = [NSMutableArray arrayWithArray:@[absFrm]];
-        // 全文评论
-        NSMutableArray *textComments=[NSMutableArray array];
-        // 获取所有的全文评论
-        for(LPComment *comment in commentArray)
-        {
-            //  判断是否为全文评论
-            if([comment.type isEqualToString:@"text_doc"])
-            {
-                [textComments addObject:comment];
-            }
-        }
-        self.fullTextComments = textComments;
-        
-        self.topView.badgeNumber = self.fullTextComments.count;
-        int i = 1;
+        NSMutableArray *contentFrameArray = [NSMutableArray array];
         for (NSDictionary *dict in bodyArray) {
-            
             LPContent *content = [[LPContent alloc] init];
             content.isAbstract = NO;
             content.index = dict[@"index"];
@@ -442,39 +448,69 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
             } else {
                 content.isPhoto = NO;
             }
-            NSMutableArray *comments = [NSMutableArray array];
-            if (!commentArray.count)
-            { // 首页给的数据 如果该标志为0 表示没有任何评论
-                content.hasComment = NO;
-            } else {
-                // 遍历point数组 根据索引确定每段的评论列表
-                for (LPComment *comment in commentArray) {
-                    if (comment.paragraphIndex.intValue == content.index.intValue && [comment.type isEqualToString:@"text_paragraph"])
-                    {
-                        [comments addObject:comment];
-                    }
-                }
-                content.hasComment = (comments.count > 0);
-                content.comments = comments;
-            }
-            if (!content.isPhoto || ![content.photo isEqualToString:headerImg]) {
-                content.paragraphIndex = i;
-                LPContentFrame *contentFrame = [[LPContentFrame alloc] init];
-                contentFrame.content = content;
-                [contents addObject:content];
-                [contentFrameArray addObject:contentFrame];
-                i++;
-            }
+            LPContentFrame *contentFrame = [[LPContentFrame alloc] init];
+            contentFrame.content = content;
+            [contentFrameArray addObject:contentFrame];
         }
         self.contentFrames = contentFrameArray;
-        
-        [self setupFooterWithPhotoWallArray:nil zhihu:zhihuArray relateArray:nil];
-        
         [self.tableView reloadData];
     } failure:^(NSError *error) {
         [MBProgressHUD showError:@"网络不给力"];
     }];
 }
+
+
+#pragma mark - 详情页标题
+- (void)setupHeaderView:(NSString *)title pubTime:(NSString *)pubtime pubName:(NSString *)pubName {
+    UIView *headerView = [[UIView alloc] init];
+    CGFloat titleFontSize = 23;
+    CGFloat titlePaddingLeft = 13;
+//    CGFloat titlePaddingTop = 25;
+    CGFloat titlePaddingTop = TabBarHeight;
+    CGFloat sourceFontSize = 14;
+    CGFloat sourcePaddingTop = 21;
+    
+    if (iPhone6Plus) {
+        titleFontSize = 23;
+        sourceFontSize = 14;
+    }
+    // 标题
+    UILabel *titleLabel = [[UILabel alloc] init];
+    titleLabel.numberOfLines = 0;
+//    NSMutableAttributedString *titleString = [title attributedStringWithFont:[UIFont fontWithName:@"SanFranciscoText-Bold" size:titleFontSize] color:[UIColor colorFromHexString:@"#060606"] lineSpacing:0];
+    
+    NSMutableAttributedString *titleString = [title attributedStringWithFont:[UIFont boldSystemFontOfSize:titleFontSize] color:[UIColor colorFromHexString:@"#060606"] lineSpacing:0];
+    
+    CGFloat titleX = titlePaddingLeft;
+    CGFloat titleW = ScreenWidth - titleX * 2;
+    CGFloat titleH = [titleString heightWithConstraintWidth:titleW];
+    CGFloat titleY = titlePaddingTop;
+    titleLabel.frame = CGRectMake(titleX, titleY, titleW, titleH);
+    titleLabel.attributedText = titleString;
+    [headerView addSubview:titleLabel];
+    
+    // 来源
+    UILabel *sourceLabel = [[UILabel alloc] init];
+    sourceLabel.textColor = [UIColor colorFromHexString:@"#747474"];
+    sourceLabel.font = [UIFont fontWithName:OpinionFontName size:sourceFontSize];
+    CGFloat sourceX = titlePaddingLeft;
+    CGFloat sourceY = sourcePaddingTop + CGRectGetMaxY(titleLabel.frame);
+    CGFloat sourceW = ScreenWidth - titleX * 2;
+    CGFloat sourceH = [@"123" sizeWithFont:[UIFont systemFontOfSize:sourceFontSize] maxSize:CGSizeMake(sourceW, MAXFLOAT)].height;
+    sourceLabel.frame = CGRectMake(sourceX, sourceY, sourceW, sourceH);
+    NSString *sourceSiteName = [pubName  isEqualToString: @""] ? @"未知来源": pubName;
+    NSString *source = [NSString stringWithFormat:@"%@    %@",pubtime, sourceSiteName];
+    sourceLabel.text = source;
+    [headerView addSubview:sourceLabel];
+    
+    headerView.frame = CGRectMake(0, 0, ScreenWidth, CGRectGetMaxY(sourceLabel.frame));
+    
+//    headerView.backgroundColor = [UIColor greenColor];
+    self.tableView.tableHeaderView = headerView;
+
+}
+
+
 
 
 # pragma mark - header view setting up
@@ -692,6 +728,25 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     LPContentCell *cell = [LPContentCell cellWithTableView:tableView];
     cell.layer.cornerRadius = 1.0;
     cell.contentFrame = self.contentFrames[indexPath.row];
+    
+    //cell.photoView set
+    
+   // cell.photoView sd_setImageWithURL:[NSURL URLWithString:cell.ContentUrl]  placeholderImage:<#(UIImage *)#> completed:<#^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL)completedBlock#>
+    
+//    [cell.photoView setImageWithURL:[NSURL URLWithString:@"http://www.domain.com/path/to/image.jpg"]
+//                   placeholderImage:[UIImage imageNamed:@"placeholder.png"]
+//                            success:^(UIImage *image, BOOL cached) {
+//                                
+//                                // save height of an image to some cache
+//                                [self.heightsCache setObject:[NSNumber numberWithFloat:imHeight]
+//                                                      forKey:urlKey];
+//                                
+//                                [tableView beginUpdates];
+//                                [tableView reloadRowsAtIndexPaths:@[indexPath]
+//                                                 withRowAnimation:UITableViewRowAnimationFade];
+//                                [tableView endUpdates];
+//                            }
+//                            failure:^(NSError *error) { }];
     [self setShadowForCell:cell];
     return cell;
 }

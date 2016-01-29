@@ -14,14 +14,20 @@ static const CGFloat PaddingVertical = 15;
 @implementation LPSearchItemFrame
 
 - (void)setSearchItem:(LPSearchItem *)searchItem {
+    CGFloat titleFontSize = 16;
+    CGFloat sourceFontSize = 10;
+    if (iPhone6Plus) {
+        titleFontSize = 18;
+        sourceFontSize = 12;
+    }
     _searchItem = searchItem;
     NSString *title = searchItem.title;    
     CGFloat titleW = ScreenWidth - PaddingHorizontal * 2;
-    CGFloat titleH = [title sizeWithFont:[UIFont systemFontOfSize:ConcernPressTitleFontSize] maxSize:CGSizeMake(titleW, MAXFLOAT)].height;
+    CGFloat titleH = [title sizeWithFont:[UIFont systemFontOfSize:titleFontSize] maxSize:CGSizeMake(titleW, MAXFLOAT)].height;
     _titleFrame = CGRectMake(PaddingHorizontal, PaddingVertical, titleW, titleH);
     
     CGFloat updateTimeY = CGRectGetMaxY(_titleFrame) + 10;
-    CGFloat updateTimeH = [@"123" sizeWithFont:[UIFont systemFontOfSize:10] maxSize:CGSizeMake(titleW, MAXFLOAT)].height;
+    CGFloat updateTimeH = [@"123" sizeWithFont:[UIFont systemFontOfSize:sourceFontSize] maxSize:CGSizeMake(titleW, MAXFLOAT)].height;
     _sourceFrame = CGRectMake(PaddingHorizontal, updateTimeY, titleW, updateTimeH);
     
     CGFloat seperatorLineY = CGRectGetMaxY(_sourceFrame) + PaddingVertical;

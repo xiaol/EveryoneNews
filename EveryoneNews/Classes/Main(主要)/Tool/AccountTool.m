@@ -86,7 +86,7 @@
     viewWrapper.backgroundColor = [UIColor clearColor];
     
     UILabel *firstLabel = [[UILabel alloc] init];
-    firstLabel.text = @"加入百家";
+    firstLabel.text = @"加入奇点";
     firstLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:20.0];
     firstLabel.frame = CGRectMake((ScreenWidth-230.0 / 375 * ScreenWidth) * 0.5 , ScreenHeight * 0.3, 100, 20);
     firstLabel.textColor = [UIColor whiteColor];

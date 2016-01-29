@@ -21,8 +21,9 @@
 #import "ZhihuView.h"
 #import "LPPressTool.h"
 #import "LPFullPhotoViewController.h"
+#import "RelateView.h"
 
-@interface LPDigDetailViewController () <UITableViewDataSource, UITableViewDelegate, ZhihuViewDelegate, ContentCellDelegate>
+@interface LPDigDetailViewController () <UITableViewDataSource, UITableViewDelegate, ZhihuViewDelegate, ContentCellDelegate, RelateViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *contentFrames;
 @end
@@ -152,6 +153,17 @@
         footerViewHeight = footerViewHeight + [zhihuView heightWithPointsArray:[press.zhihus allObjects]];
         [footerView addSubview:zhihuView];
     }
+
+    // 相关观点
+    RelateView *relateView=[[RelateView alloc] init];
+    relateView.backgroundColor=[UIColor whiteColor];
+    if (press.relates.count > 0) {
+        relateView.relateArray = [press.relates allObjects];
+        relateView.frame = CGRectMake(0, footerViewHeight, ScreenWidth, 60 + 79 * relateView.relateArray.count);
+        relateView.delegate = self;
+        [footerView addSubview:relateView];
+        footerViewHeight = footerViewHeight + 60+79*relateView.relateArray.count;
+    }
     footerView.frame = CGRectMake(0, 0, ScreenWidth, footerViewHeight);
     self.tableView.tableFooterView = footerView;
 }
@@ -164,6 +176,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     ContentCell *cell = [ContentCell cellWithTableView:tableView];
+
     cell.delegate = self;
     cell.contentFrame = self.contentFrames[indexPath.row];
     return cell;
@@ -187,4 +200,8 @@
     [self.navigationController pushViewController:fullPhotoVc animated:YES];
 }
 
+#pragma mark - relate view cell delegate
+- (void)relateView:(RelateView *)relateView didClickURL:(NSString *)url {
+     [LPPressTool loadWebViewWithURL:url viewController:self];
+}
 @end

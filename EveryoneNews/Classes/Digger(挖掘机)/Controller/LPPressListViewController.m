@@ -14,6 +14,7 @@
 #import "LPHttpTool.h"
 #import "Press+Timer.h"
 #import "Press+HTTP.h"
+#import "Press+HTTPStatus.h"
 #import "PressCell.h"
 #import "LPCollectToAlbumViewController.h"
 #import "AccountTool.h"
@@ -261,6 +262,7 @@ static const CGFloat headerH = 64.0f;
         for (Press *press in results) {
                 // 关联一个定时器(先杀死当前定时器)
                 [press stopTimer];
+//                press.httpStatus = @"100";
                 press.timer = [TimerTool timerWithCountdown:5];
                 [press startTimer];
                 NSLog(@"timer setting");
@@ -284,23 +286,30 @@ static const CGFloat headerH = 64.0f;
         NSLog(@"预判超时");
         return;
     }
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];    
     params[@"uid"] = [AccountTool account].userId;
-    params[@"album"] = @"ios";
+    params[@"aid"] = @"ios";
+    params[@"url"] = @"";
     params[@"key"] = press.title;
+    
+//    NSLog(@"标题--%@", params[@"key"]);
     __weak typeof(press) wPress = press;
     press.http = [LPHttpTool http];
-    [press.http postWithURL:@"http://api.deeporiginalx.com/news/baijia/dredgeUpStatusforiOS" params:params success:^(id json) {
-        NSString *status = json[@"status"];
+
+    [press.http postJSONWithURL:@"http://api.deeporiginalx.com/bdp/excavator/start" params:params success:^(id json) {
+        NSString *status = json[@"code"];
+//        press.httpStatus = status;
+        NSLog(@"httpStatus : %@", press.httpStatus);
         if (status && status.integerValue == 0) { // 成功
-            
+            NSDictionary *dict = json[@"data"];
             NSIndexPath *ip = [self.frc indexPathForObject:wPress];
             //  0. 清空timer
             [wPress stopTimer];
             //  1. 储存json数据
-            NSArray *contents = json[@"content"];
-            NSArray *zhihus = json[@"zhihu"];
-            NSArray *relates=json[@"relate"];
+            NSArray *contents = dict[@"content"][@"content"];
+            NSArray *zhihus = dict[@"zhihu"];
+            NSArray *relates= dict[@"searchItems"];
+            
             //  1.1 content
             NSUInteger index = 0;
             for (NSDictionary *dict in contents) {
@@ -308,8 +317,8 @@ static const CGFloat headerH = 64.0f;
                 [cdh.context obtainPermanentIDsForObjects:@[content] error:nil];
                 content.press = wPress;
                 content.paraID = @(index);
-                NSString *body = dict[@"text"];
-                NSString *photoURL = dict[@"src"];
+                NSString *body = dict[@"txt"];
+                NSString *photoURL = dict[@"img"];
                 if (body.length) {
                     content.isPhotoType = @(NO);
                     content.body = body;
@@ -319,7 +328,7 @@ static const CGFloat headerH = 64.0f;
                 }
                 index ++;
             }
-            
+
             // 1.2 relate
             index=0;
             for (NSDictionary *dict  in relates) {
@@ -327,14 +336,13 @@ static const CGFloat headerH = 64.0f;
                 [cdh.context obtainPermanentIDsForObjects:@[relate] error:nil];
                 relate.press=wPress;
                 relate.relateID=@(index);
-                relate.photoURL=dict[@"photoURL"];
+                relate.photoURL=dict[@"imgUrl"];
                 relate.sourceSite=dict[@"sourceSite"];
                 relate.title=dict[@"title"];
                 relate.updateTime=dict[@"updateTime"];
                 relate.url=dict[@"url"];
                 index++;
             }
-            
             
             //  1.3 zhihu
             index = 0;
@@ -343,15 +351,21 @@ static const CGFloat headerH = 64.0f;
                 [cdh.context obtainPermanentIDsForObjects:@[zhihu] error:nil];
                 zhihu.press = wPress;
                 zhihu.zhihuID = @(index);
-                zhihu.user = dict[@"user"];
+                zhihu.user = dict[@"author"];
                 // 数据是反的
                 zhihu.title = dict[@"url"];
                 zhihu.url = dict[@"title"];
                 index ++;
             }
-            
+            NSString *imgUrl;
             //  2. 处理头图
-            NSString *imgUrl = json[@"postImg"];
+            for (NSDictionary *dict in contents) {
+                NSString *firstImageUrl = dict[@"img"];
+                if (firstImageUrl.length > 0) {
+                    imgUrl = firstImageUrl;
+                    break;
+                }
+            }
             [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:imgUrl] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
                 
             } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
@@ -377,12 +391,8 @@ static const CGFloat headerH = 64.0f;
             wPress.isDownload = @(YES);
             //  4. 及时刷新cell
             [self.tableView reloadRowsAtIndexPaths:@[ip] withRowAnimation:UITableViewRowAnimationFade];
-//            // 5. 保存上下文
-//            [cdh saveBackgroundContext];
-
-            
             NSLog(@"完成!");
-        } else {
+        }  else {
             if (wPress.timeover) { // 超时, 设置状态并清空timer
                 wPress.isDownloading = @(NO);
                 [wPress stopTimer];

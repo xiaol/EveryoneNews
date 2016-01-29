@@ -58,11 +58,15 @@
 
 @property (nonatomic, strong) UIActivityIndicatorView *indictorView;
 
+// 网络出错
 @property (nonatomic, strong) UILabel *loadLabel;
 
 @property (nonatomic, strong) UIImageView *loadImageView;
 
 @property (nonatomic, strong) UILabel *noDataLabel;
+
+@property (nonatomic, strong) UIImageView *backgroundImageView;
+
 
 //@property (nonatomic, strong) UIScrollView *featureScrollView;
 

@@ -24,10 +24,16 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        CGFloat titleFontSize = 16;
+        CGFloat sourceFontSize = 10;
+        if (iPhone6Plus) {
+            titleFontSize = 18;
+            sourceFontSize = 12;
+        }
         UILabel *titleLabel = [[UILabel alloc] init];
         titleLabel.textColor = [UIColor colorFromHexString:@"#2b2b2b"];
         titleLabel.numberOfLines = 0;
-        titleLabel.font = [UIFont fontWithName:OpinionFontName size:ConcernPressTitleFontSize];
+        titleLabel.font = [UIFont fontWithName:OpinionFontName size:titleFontSize];
         titleLabel.numberOfLines = 0;
         titleLabel.clipsToBounds = YES;
         [self.contentView addSubview:titleLabel];
@@ -35,7 +41,7 @@
         
         UILabel *sourceLabel = [[UILabel alloc] init];
         sourceLabel.textColor = [UIColor colorFromHexString:@"#747474"];
-        sourceLabel.font = [UIFont fontWithName:OpinionFontName size:10];
+        sourceLabel.font = [UIFont fontWithName:OpinionFontName size:sourceFontSize];
         [self.contentView addSubview:sourceLabel];
         self.sourceLabel = sourceLabel;
         

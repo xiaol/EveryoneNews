@@ -64,7 +64,7 @@ NSString * const reuseIdentifierFirst = @"reuseIdentifierFirst";
 NSString * const reuseIdentifierSecond = @"reuseIdentifierSecond";
 NSString * const menuCellIdentifier = @"menuCollectionViewCell";
 NSString * const reusePageID = @"reusePageID";
-NSString * const firstChannelName = @"社会";
+NSString * const firstChannelName = @"科技";
 
 const static CGFloat menuViewHeight = 44;
 const static CGFloat statusBarHeight = 20;
@@ -127,6 +127,11 @@ const static CGFloat cellPadding = 15;
     [self setupDigButton];
     [self setupNoteObserver];
 }
+
+- (UIStatusBarStyle) preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
+}
+
 
 #pragma mark - 显示状态栏
 - (BOOL)prefersStatusBarHidden
@@ -229,13 +234,13 @@ const static CGFloat cellPadding = 15;
     CGFloat seperatorPaddingTop = 32;
     CGFloat seperatorH = 20;
     if (iPhone6Plus) {
-         menuImageWidth = 16.5;
-         menuImageHeight = 9;
+         menuImageWidth = 11;
+         menuImageHeight = 6;
          seperatorPaddingTop = 30;
          seperatorH = 25;
     }
     
-    CGFloat rightViewWidth = 2 * cellPadding + menuImageWidth + seperatorW + menuPaddingRight + menuPaddingRight;
+    CGFloat rightViewWidth = 2 * cellPadding + menuImageWidth + seperatorW + menuPaddingRight;
     // 菜单栏
     UICollectionViewFlowLayout *menuViewFlowLayout = [[UICollectionViewFlowLayout alloc] init];
     menuViewFlowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
@@ -336,10 +341,11 @@ const static CGFloat cellPadding = 15;
     [backgroundView addSubview:loadLabel];
     self.loadLabel = loadLabel;
 
-    UIImage *backgroundImage = [UIImage imageNamed:@"头条百家字"];
+    UIImage *backgroundImage = [UIImage imageNamed:@"占位字符"];
     UIImageView *backgroundImageView = [[UIImageView alloc] initWithImage:backgroundImage];
     backgroundImageView.center = CGPointMake(ScreenWidth / 2, (ScreenHeight - TabBarHeight) / 2);
     [backgroundView addSubview:backgroundImageView];
+    self.backgroundImageView = backgroundImageView;
     
     // 正在加载提示
     UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(loadCurrentPage)];
@@ -355,7 +361,7 @@ const static CGFloat cellPadding = 15;
     UILabel *noDataLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 30)];
     noDataLabel.centerY = CGRectGetMaxY(loadImageView.frame) + 20;
     NSString *text = @"网络出错，轻触屏幕重新加载";
-    NSMutableAttributedString *noDataString = [text attributedStringWithFont:[UIFont systemFontOfSize:12] color:[UIColor colorFromHexString:@"#c8c8c8"] lineSpacing:0];
+    NSMutableAttributedString *noDataString = [text attributedStringWithFont:[UIFont systemFontOfSize:13] color:[UIColor colorFromHexString:@"#c8c8c8"] lineSpacing:0];
     noDataLabel.attributedText = noDataString;
     noDataLabel.textAlignment = NSTextAlignmentCenter;
     [backgroundView addSubview:loadImageView];
@@ -379,12 +385,26 @@ const static CGFloat cellPadding = 15;
     [self channelItemDidAddToCoreData:self.pagingView.currentPageIndex];
 }
 
+#pragma mark - viewWillDisappear
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    if (pasteboard.string.length > 0) {
+        [userDefaults setObject:pasteboard.string forKey:@"diggerPasteboardString"];
+        [userDefaults synchronize];
+    }
+
+}
+
 #pragma mark - 挖掘机悬浮框
 - (void)setupDigAlterView {
    
     NSString *latestSearch = pasteboard.string;
-    if (latestSearch.length > 0) {
-
+    NSString *diggerPasteboardString;
+    if ([userDefaults objectForKey:@"diggerPasteboardString"] ) {
+        diggerPasteboardString = [userDefaults objectForKey:@"diggerPasteboardString"];
+    }
+    
+    if (latestSearch.length > 0 && ![diggerPasteboardString isEqualToString:latestSearch] ) {
     CGFloat cancelButtonWidth = 14;
     CGFloat cancelButtonHeight = 14;
     CGFloat confirmButtonWidth = 21;
@@ -479,13 +499,13 @@ const static CGFloat cellPadding = 15;
     } completion:^(BOOL finished) {
             }];
     
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        [UIView animateWithDuration:0.3 animations:^{
-//            self.digAlertView.alpha = 0.0f;
-//        }  completion:^(BOOL finished) {
-//            self.pagingView.userInteractionEnabled = YES;
-//        }];
-//    });
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [UIView animateWithDuration:0.3 animations:^{
+            self.digAlertView.alpha = 0.0f;
+        }  completion:^(BOOL finished) {
+            self.pagingView.userInteractionEnabled = YES;
+        }];
+    });
 
     }
 }
@@ -559,9 +579,8 @@ const static CGFloat cellPadding = 15;
     [self.view addSubview:btn];
     btn.x = DigButtonPadding;
     btn.y = ScreenHeight - DigButtonPadding - DigButtonHeight;
-    
-    if (iPhone6Plus) {
-         btn.y = ScreenHeight - 3 * DigButtonPadding - DigButtonHeight;
+     if (iPhone6Plus) {
+         btn.y = ScreenHeight - 2 * DigButtonPadding - DigButtonHeight;
     }
     
     btn.width = DigButtonWidth;
@@ -637,7 +656,7 @@ const static CGFloat cellPadding = 15;
     if (iPhone6Plus){
         loginBtnWidth += 2;
         loginBtnHeight += 2;
-        loginBtnY = ScreenHeight - 45 - loginBtnHeight;
+        loginBtnY = ScreenHeight - 30 - loginBtnHeight;
     }
     CGFloat loginBtnX = ScreenWidth - 15 - loginBtnWidth;
 

@@ -30,6 +30,16 @@
     return cell;
 }
 
+//+ (instancetype)cellWithTableView:(UITableView *)tableView photoCompleted:(PhotoCompletedHandler)handler {
+//    static NSString *ID = @"digContentCell";
+//    ContentCell *cell = [tableView dequeueReusableCellWithIdentifier:ID];
+//    if (cell == nil) {
+//        cell = [[ContentCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:ID];
+//    }
+//    cell.photoHandler = handler;
+//    return cell;
+//}
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
@@ -76,7 +86,16 @@
         self.textView.hidden = YES;
         self.imageURL = [NSURL URLWithString:content.photoURL];
         self.photoView.frame = contentFrame.photoF;
-        [self.photoView sd_setImageWithURL:self.imageURL placeholderImage:[UIImage imageNamed:@"详情占位图"]];
+        [self.photoView sd_setImageWithURL:self.imageURL placeholderImage:[UIImage imageNamed:@"dig详情页占位大图"]];
+//        [self.photoView sd_setImageWithURL:self.imageURL placeholderImage:[UIImage imageNamed:@""] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+//            _contentFrame.cellHeight = image.size.height;
+//            if([self.delegate respondsToSelector:@selector(contentCell:didDownloadPhoto:)])
+//            {
+//                [self.delegate contentCell:self didDownloadPhoto:image];
+//            }
+//           
+//        }];
+
     } else {
         self.photoView.hidden = YES;
         self.textView.hidden = NO;

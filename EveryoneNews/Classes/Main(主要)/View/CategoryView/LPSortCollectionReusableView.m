@@ -46,14 +46,18 @@
         
         UIButton *sortButton = [[UIButton alloc] initWithFrame:CGRectMake(sortButtonX , subtitleLabelY, subtitleLabelW, self.bounds.size.height)];
         sortButton.titleLabel.font = [UIFont systemFontOfSize:subtitleFontSize];
-        sortButton.layer.masksToBounds = YES;
-        sortButton.layer.cornerRadius = 5;
-        sortButton.layer.borderColor = [UIColor colorFromHexString:@"#747476"].CGColor;
-        sortButton.layer.borderWidth = 0.5;
+//        sortButton.layer.masksToBounds = YES;
+//        sortButton.layer.cornerRadius = 5;
+//        sortButton.layer.borderColor = [UIColor colorFromHexString:@"#747476"].CGColor;
+        sortButton.layer.borderWidth = 0.f;
         [sortButton setTitle:@"长按排序或删除" forState:UIControlStateNormal];
         [sortButton setTitle:@"完成" forState:UIControlStateSelected];
         [sortButton setTitleColor:[UIColor colorFromHexString:@"#747476"] forState:UIControlStateNormal];
         [sortButton setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
+        
+        [sortButton setBackgroundImage:[UIImage imageNamed:@"频道完成矩形"] forState:UIControlStateSelected];
+        [sortButton setBackgroundImage:[UIImage imageNamed:@"频道排序删除矩形"] forState:UIControlStateNormal];
+        
         [sortButton addTarget:self action:@selector(sortButtonClick:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:sortButton];
         self.sortButton = sortButton;
@@ -71,8 +75,10 @@
     self.sortButton.selected = !self.sortButton.selected;
     if (sender.selected) {
         self.sortButtonClickBlock(DeleteState);
+//        sender.layer.borderColor = [UIColor redColor].CGColor;
     } else {
         self.sortButtonClickBlock(FinishState);
+//        sender.layer.borderColor = [UIColor colorFromHexString:@"#747476"].CGColor;
     }
 }
 

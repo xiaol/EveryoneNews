@@ -41,6 +41,11 @@
             success:(void (^)(id))success
             failure:(void (^)(NSError *))failure;
 
+- (void)postJSONWithURL:(NSString *)url
+             params:(NSDictionary *)params
+            success:(void (^)(id json))success
+            failure:(void (^)(NSError *error))failure;
+
 /**
  *  发送一个POST请求(上传文件数据)
  *

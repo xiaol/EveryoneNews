@@ -9,6 +9,8 @@
 #import "PressCell.h"
 #import "Press.h"
 #import "PressPhoto.h"
+#import "Press+HTTPStatus.h"
+#import "Press+HTTP.h"
 
 static const CGFloat paddingVer = 12.0f;
 static const CGFloat paddingHor = 8.0f;
@@ -73,11 +75,11 @@ static NSString * const freshAnimationKey = @"freshRotation";
 
 - (void)setPress:(Press *)press {
     _press = press;
-    
+    NSLog(@"%@", press.http);
     if (press.thumbnail) {
         self.thumbnailView.image = [UIImage imageWithData:press.thumbnail];
     } else {
-        self.thumbnailView.image = [UIImage imageNamed:@"占位图"];
+        self.thumbnailView.image = [UIImage imageNamed:@"dig占位图"];
     }
     
     self.thumbnailView.x = paddingHor;
@@ -89,8 +91,10 @@ static NSString * const freshAnimationKey = @"freshRotation";
     self.freshView.height = 18;
     self.freshView.y = paddingVer + (pressThumbnailH - self.freshView.height) / 2;
     self.freshView.x = ScreenWidth - paddingHor - self.freshView.width;
+    
     if (press.isDownload.boolValue) {
-        self.freshView.hidden = YES;
+        [self.freshView setImage:[UIImage imageNamed:@"dig完成"]];
+//        self.freshView.hidden = YES;
         self.userInteractionEnabled = YES;
     } else {
         self.freshView.hidden = NO;
@@ -98,8 +102,16 @@ static NSString * const freshAnimationKey = @"freshRotation";
             self.userInteractionEnabled = NO;
             [self.freshView.layer addAnimation:self.anim forKey:freshAnimationKey];
         } else {
-            self.userInteractionEnabled = YES;
+             self.userInteractionEnabled = YES;
             [self.freshView.layer removeAnimationForKey:freshAnimationKey];
+
+//            if (press.httpStatus && [press.httpStatus isEqualToString:@"99"]) {
+//                self.userInteractionEnabled = NO;
+//                [self.freshView setImage:[UIImage imageNamed:@"dig未完成"]];
+//            } else {
+//                self.userInteractionEnabled = YES;
+//            }
+      
         }
     }
     

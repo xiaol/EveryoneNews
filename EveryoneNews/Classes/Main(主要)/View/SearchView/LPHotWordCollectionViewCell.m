@@ -17,8 +17,13 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
+        CGFloat titleFontSize = 16;
+        if (iPhone6Plus) {
+            titleFontSize = 18;
+        }
         UILabel *hotWordLabel = [[UILabel alloc] init];
-        hotWordLabel.font = [UIFont systemFontOfSize:16];
+        
+        hotWordLabel.font = [UIFont systemFontOfSize:titleFontSize];
         hotWordLabel.textColor = [UIColor colorFromHexString:@"#545454"];
         hotWordLabel.textAlignment = NSTextAlignmentCenter;
         hotWordLabel.layer.borderColor = [UIColor colorFromHexString:@"#d2d2d2"].CGColor;
@@ -33,11 +38,16 @@
 }
 
 - (void)setTitle:(NSString *)title {
+    CGFloat enlargeWidth = 8;
+    if (iPhone6Plus) {
+        enlargeWidth = 12;
+    }
+    
     UILabel *label = [[UILabel alloc] init];
     [label setText:title];
     [label sizeToFit];
-    CGFloat width = label.frame.size.width + 8;
-    CGFloat height = label.frame.size.height + 8;
+    CGFloat width = label.frame.size.width + enlargeWidth;
+    CGFloat height = label.frame.size.height + enlargeWidth;
     self.hotWordLabel.frame = CGRectMake(0, 0, width, height);
     self.hotWordLabel.text = title;
 }

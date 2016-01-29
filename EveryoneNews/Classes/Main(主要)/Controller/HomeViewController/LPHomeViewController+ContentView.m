@@ -53,7 +53,7 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
                 CardFrame *cf = [[CardFrame alloc] init];
                 cf.card = card;
                 [cfs addObject:cf];
-                NSLog(@"%@, %@", card.title, card.updateTime);
+//                NSLog(@"%@, %@", card.title, card.updateTime);
             }
             [self.channelItemDictionary setObject:cfs forKey:channelItem.channelName];
             if (i == self.selectedArray.count - 1) {
@@ -144,6 +144,7 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
     self.loadLabel.hidden = NO;
     [self.indictorView startAnimating];
     self.backgroundView.hidden = NO;
+    self.backgroundImageView.hidden = NO;
 }
 
 #pragma mark - 重新加载提示
@@ -155,6 +156,8 @@ NSString *isFirstLoadMark = @"isFirstLoadMark";
     
     self.loadImageView.hidden = NO;
     self.noDataLabel.hidden = NO;
+    self.backgroundImageView.hidden = YES;
+    
 }
 
 #pragma mark - 首次添加频道到数据库

@@ -140,7 +140,15 @@ static LPPoint bezierAxisIntersection(LPBezierCurve curve, LPAxis axis, CGFloat 
     self.containerView = containerView;
     
     CGFloat diggerRadius = DigButtonWidth / 2;
-    CGRect diggerRect = CGRectMake(DigButtonPadding + diggerRadius * 0.4, ScreenHeight - DigButtonPadding - diggerRadius, diggerRadius * 0.6 * 2, diggerRadius * 0.8);
+    
+    CGFloat diggerRectY = ScreenHeight - DigButtonPadding - diggerRadius;
+    
+    if (iPhone6Plus) {
+           diggerRectY = ScreenHeight - 2 * DigButtonPadding - diggerRadius;
+    }
+    
+    
+    CGRect diggerRect = CGRectMake(DigButtonPadding + diggerRadius * 0.4, diggerRectY, diggerRadius * 0.6 * 2, diggerRadius * 0.8);
    
     CGFloat originY = - DigButtonPadding - diggerRadius - 1;
     CGRect vcRect = CGRectMake(0, originY, ScreenWidth, ScreenHeight);
@@ -219,6 +227,11 @@ static LPPoint bezierAxisIntersection(LPBezierCurve curve, LPAxis axis, CGFloat 
     [self.containerView addSubview:btn];
     btn.x = DigButtonPadding;
     btn.y = ScreenHeight - DigButtonPadding - DigButtonHeight;
+    
+    if (iPhone6Plus) {
+        btn.y = ScreenHeight - 2 * DigButtonPadding - DigButtonHeight;
+    }
+    
     btn.width = DigButtonWidth;
     btn.height = DigButtonHeight;
     btn.layer.cornerRadius = btn.width / 2;

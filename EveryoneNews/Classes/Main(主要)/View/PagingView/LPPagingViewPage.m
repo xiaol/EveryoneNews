@@ -72,8 +72,7 @@
 
 - (void)layoutSubviews {
     self.tableView.frame = self.bounds;
- 
-//    [self.tableView setContentOffset:CGPointMake(0, TabBarHeight)];
+    [self.tableView setContentOffset:CGPointMake(0, TabBarHeight)];
  
 }
 
@@ -115,10 +114,10 @@
                 cardFrame.card = cards[i];
                 [tempArray addObject:cardFrame];
             }
-                NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:
-                                       NSMakeRange(0,[tempArray count])];
-                [weakSelf.cardFrames insertObjects: tempArray atIndexes:indexes];
-                [weakSelf.tableView reloadData];
+            NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:
+                                   NSMakeRange(0,[tempArray count])];
+            [weakSelf.cardFrames insertObjects: tempArray atIndexes:indexes];
+            [weakSelf.tableView reloadData];
             }
             [weakSelf showNewCount:tempArray.count];
             [weakSelf.tableView.header endRefreshing];
@@ -138,7 +137,6 @@
     label.height = 30;
     label.x = 0;
     label.y = -15;
-//    label.y =TabBarHeight  - label.height;
     label.width = ScreenWidth;
     
     label.backgroundColor = [UIColor colorFromHexString:@"#fafafa"];

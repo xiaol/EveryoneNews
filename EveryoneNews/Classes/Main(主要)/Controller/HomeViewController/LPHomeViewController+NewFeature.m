@@ -21,9 +21,13 @@
     self.featureBlurView = featureBlurView;
     
     // 添加新特性
-    UIView *featureView = [[UIView alloc] initWithFrame:CGRectMake(30, 100, ScreenWidth - 60, ScreenHeight - 200)];
+    UIView *featureView = [[UIView alloc] init];
     featureView.backgroundColor = [UIColor whiteColor];
     featureView.layer.cornerRadius = 10;
+    featureView.frame = CGRectMake(30, 100, ScreenWidth - 60, ScreenHeight - 200);
+    if (iPhone6Plus) {
+        featureView.frame = CGRectMake(30, 150, ScreenWidth - 60, ScreenHeight - 300);
+    }
     
     CGFloat headerImageHeight = 50;
     CGFloat headerImageWidth = 200;

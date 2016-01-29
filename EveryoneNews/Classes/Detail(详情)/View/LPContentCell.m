@@ -16,8 +16,8 @@
 @interface LPContentCell()
 @property (nonatomic, strong) UILabel *bodyLabel;
 @property (nonatomic, strong) LPCommentView *commentView;
-// 图片类型
-@property (nonatomic, strong) UIImageView *photoView;
+//// 图片类型
+//@property (nonatomic, strong) UIImageView *photoView;
 @property (nonatomic, strong) UILabel *photoLabel;
 
 @property (nonatomic, strong) LPSupplementView *supplementView;
@@ -59,10 +59,10 @@
         [self.contentView addSubview:photoView];
         self.photoView = photoView;
         
-        UIView *abstractSeperatorView = [[UIView alloc] init];
-        abstractSeperatorView.backgroundColor = [UIColor colorFromHexString:@"#edefef"];
-        [self.contentView addSubview:abstractSeperatorView];
-        self.abstractSeperatorView = abstractSeperatorView;
+//        UIView *abstractSeperatorView = [[UIView alloc] init];
+//        abstractSeperatorView.backgroundColor = [UIColor colorFromHexString:@"#edefef"];
+//        [self.contentView addSubview:abstractSeperatorView];
+//        self.abstractSeperatorView = abstractSeperatorView;
         
     }
     return self;
@@ -72,7 +72,7 @@
 {
     _contentFrame = contentFrame;
     LPContent *content = contentFrame.content;
-    self.abstractSeperatorView.frame = self.contentFrame.abstractSeperatorViewF;
+//    self.abstractSeperatorView.frame = self.contentFrame.abstractSeperatorViewF;
     if (!content.isPhoto) { // 非图
         self.bodyLabel.hidden = NO;
         self.photoView.hidden = YES;
@@ -84,16 +84,16 @@
         self.bodyLabel.hidden = YES;
         self.photoView.hidden = NO;
         self.photoView.frame = self.contentFrame.photoViewF;
-        [self.photoView sd_setImageWithURL:[NSURL URLWithString:content.photo] placeholderImage:[UIImage imageNamed:@"详情占位图"]];
+          [self.photoView sd_setImageWithURL:[NSURL URLWithString:content.photo] placeholderImage:[UIImage imageNamed:@"单图大图占位图"]];
     }
 }
 
-- (void)setFrame:(CGRect)frame
-{
-    frame.origin.x = DetailCellBilateralBorder;
-    frame.size.width -= 2 * DetailCellBilateralBorder;
-    [super setFrame:frame];
-}
+//- (void)setFrame:(CGRect)frame
+//{
+//    frame.origin.x = DetailCellBilateralBorder;
+//    frame.size.width -= 2 * DetailCellBilateralBorder;
+//    [super setFrame:frame];
+//}
 
 -(void)setSelected:(BOOL)selected animated:(BOOL)animated
 {

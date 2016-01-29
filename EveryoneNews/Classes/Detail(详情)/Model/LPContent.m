@@ -18,11 +18,17 @@
 
 - (NSMutableAttributedString *)bodyString
 {
-    if (self.isAbstract) {
-        return [self.body attributedStringWithFont:[UIFont fontWithName:@"Arial-BoldMT" size:BodyFontSize] color:[UIColor blackColor] lineSpacing:BodyLineSpacing];
-    } else {
-        return [self.body attributedStringWithFont:[UIFont systemFontOfSize:BodyFontSize] color:[UIColor blackColor] lineSpacing:BodyLineSpacing];
+    CGFloat fontSize = 21;
+    if (iPhone6Plus) {
+        fontSize = 21;
     }
+//    if (self.isAbstract) {
+//        return [self.body attributedStringWithFont:[UIFont fontWithName:@"Arial-BoldMT" size:BodyFontSize] color:[UIColor blackColor] lineSpacing:BodyLineSpacing];
+//    } else {
+    
+//      return [self.body attributedStringWithFont:[UIFont fontWithName:@"STHeitiSC-Light" size:fontSize] color:[UIColor colorFromHexString:@"#060606"] lineSpacing:BodyLineSpacing];
+        return [self.body attributedStringWithFont:[UIFont systemFontOfSize:fontSize] color:[UIColor colorFromHexString:@"#060606"] lineSpacing:BodyLineSpacing];
+//    }
 }
 
 - (NSMutableAttributedString *)photoDescString {

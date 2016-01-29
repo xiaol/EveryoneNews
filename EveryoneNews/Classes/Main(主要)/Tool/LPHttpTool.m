@@ -62,26 +62,32 @@
       }];
 }
 
-//+ (void)postWithURL:(NSString *)url params:(NSDictionary *)params formDataArray:(NSArray *)formDataArray success:(void (^)(id))success failure:(void (^)(NSError *))failure
-//{
-//    // 1.创建请求管理对象
-//    AFHTTPRequestOperationManager *mgr = [AFHTTPRequestOperationManager manager];
-//    
-//    // 2.发送请求
-//    [mgr POST:url parameters:params constructingBodyWithBlock:^(id<AFMultipartFormData> totalFormData) {
-//        for (IWFormData *formData in formDataArray) {
-//            [totalFormData appendPartWithFileData:formData.data name:formData.name fileName:formData.filename mimeType:formData.mimeType];
-//        }
-//    } success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        if (success) {
-//            success(responseObject);
-//        }
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        if (failure) {
-//            failure(error);
-//        }
-//    }];
-//}
+- (void)postJSONWithURL:(NSString *)url
+                 params:(NSDictionary *)params
+                success:(void (^)(id json))success
+                failure:(void (^)(NSError *error))failure {
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer.timeoutInterval = 5.0;
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    // 允许JSON字符串最外层既不是NSArray也不是NSDictionary，但必须是有效的JSON Fragment
+    manager.responseSerializer = [AFJSONResponseSerializer
+                                  serializerWithReadingOptions:NSJSONReadingAllowFragments];
+    [manager POST:url parameters:params
+                           success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                               if (success) {
+                                   success(responseObject);
+                                   
+//                                   NSLog(@"----%@", [responseObject description]);
+                               }
+                           } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                               if (failure) {
+                                   failure(error);
+                               }
+                               NSLog(@"%@", error);
+                            
+                           }];
+}
 
 - (void)getWithURL:(NSString *)url params:(NSDictionary *)params timeinterval:(CGFloat)interval success:(void (^)(id))success failure:(void (^)(NSError *))failure {
     // 1.创建请求管理对象

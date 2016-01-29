@@ -67,101 +67,105 @@
         LPChannelItem *item24 = [[LPChannelItem alloc] init];
 //        LPChannelItem *item25 = [[LPChannelItem alloc] init];
 
-        item1.channelID = @"2";
-        item1.channelName = @"社会";
+        item1.channelID = @"4";
+        item1.channelName = @"科技";
         item1.channelIsSelected = @"1";
         
-        item2.channelID = @"3";
-        item2.channelName = @"娱乐";
+        item2.channelID = @"2";
+        item2.channelName = @"社会";
         item2.channelIsSelected = @"1";
         
-        item3.channelID = @"4";
-        item3.channelName = @"科技";
+        item3.channelID = @"7";
+        item3.channelName = @"财经";
         item3.channelIsSelected = @"1";
         
-        item4.channelID = @"5";
-        item4.channelName = @"汽车";
+        item4.channelID = @"6";
+        item4.channelName = @"体育";
         item4.channelIsSelected = @"1";
         
-        item5.channelID = @"6";
-        item5.channelName = @"体育";
+        item5.channelID = @"5";
+        item5.channelName = @"汽车";
         item5.channelIsSelected = @"1";
         
-        item6.channelID = @"7";
-        item6.channelName = @"财经";
+        item6.channelID = @"9";
+        item6.channelName = @"国际";
         item6.channelIsSelected = @"1";
         
-        item7.channelID = @"8";
-        item7.channelName = @"军事";
+        item7.channelID = @"10";
+        item7.channelName = @"时尚";
         item7.channelIsSelected = @"1";
         
-        item8.channelID = @"9";
-        item8.channelName = @"国际";
+        item8.channelID = @"14";
+        item8.channelName = @"探索";
         item8.channelIsSelected = @"1";
         
-        item9.channelID = @"10";
-        item9.channelName = @"时尚";
+        item9.channelID = @"25";
+        item9.channelName = @"科学";
         item9.channelIsSelected = @"1";
         
-        item10.channelID = @"11";
-        item10.channelName = @"游戏";
+        item10.channelID = @"3";
+        item10.channelName = @"娱乐";
         item10.channelIsSelected = @"1";
         
-        item11.channelID = @"12";
-        item11.channelName = @"旅游";
-        item11.channelIsSelected = @"0";
+        item11.channelID = @"23";
+        item11.channelName = @"趣图";
+        item11.channelIsSelected = @"1";
+  
+        item12.channelID = @"21";
+        item12.channelName = @"搞笑";
+        item12.channelIsSelected = @"1";
         
-        item12.channelID = @"13";
-        item12.channelName = @"历史";
-        item12.channelIsSelected = @"0";
+        item13.channelID = @"17";
+        item13.channelName = @"养生";
+        item13.channelIsSelected = @"1";
         
-        item13.channelID = @"14";
-        item13.channelName = @"探索";
-        item13.channelIsSelected = @"0";
         
-        item14.channelID = @"15";
-        item14.channelName = @"美食";
-        item14.channelIsSelected = @"0";
+        item14.channelID = @"11";
+        item14.channelName = @"游戏";
+        item14.channelIsSelected = @"1";
+     
         
         item15.channelID = @"16";
         item15.channelName = @"育儿";
-        item15.channelIsSelected = @"0";
+        item15.channelIsSelected = @"1";
         
-        item16.channelID = @"17";
-        item16.channelName = @"养生";
-        item16.channelIsSelected = @"0";
+        item16.channelID = @"24";
+        item16.channelName = @"健康";
+        item16.channelIsSelected = @"1";
         
-        item17.channelID = @"18";
-        item17.channelName = @"故事";
+        item17.channelID = @"22";
+        item17.channelName = @"互联网";
         item17.channelIsSelected = @"0";
         
-        item18.channelID = @"19";
-        item18.channelName = @"美文";
+        item18.channelID = @"20";
+        item18.channelName = @"股票";
         item18.channelIsSelected = @"0";
         
-        item19.channelID = @"20";
-        item19.channelName = @"股票";
+        item19.channelID = @"8";
+        item19.channelName = @"军事";
         item19.channelIsSelected = @"0";
         
-        item20.channelID = @"21";
-        item20.channelName = @"搞笑";
+        item20.channelID = @"13";
+        item20.channelName = @"历史";
         item20.channelIsSelected = @"0";
         
-        item21.channelID = @"22";
-        item21.channelName = @"互联网";
-        item21.channelIsSelected = @"0";
         
-        item22.channelID = @"23";
-        item22.channelName = @"趣图";
+        item21.channelID = @"18";
+        item21.channelName = @"故事";
+        item21.channelIsSelected = @"0";
+   
+        item22.channelID = @"12";
+        item22.channelName = @"旅游";
         item22.channelIsSelected = @"0";
         
-        item23.channelID = @"24";
-        item23.channelName = @"健康";
+        item23.channelID = @"19";
+        item23.channelName = @"美文";
         item23.channelIsSelected = @"0";
         
-        item24.channelID = @"25";
-        item24.channelName = @"科学";
+        item24.channelID = @"15";
+        item24.channelName = @"美食";
         item24.channelIsSelected = @"0";
+
         
 //        item25.channelID = @"26";
 //        item25.channelName = @"美女";

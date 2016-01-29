@@ -43,8 +43,8 @@
     CGFloat sourceFontSize = 10;
     
     if (iPhone6Plus) {
-        titleFontSize = 18;
-        sourceFontSize = 12;
+        titleFontSize = 19;
+        sourceFontSize = 13;
     }
     
     if(self) {
