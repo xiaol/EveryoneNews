@@ -16,8 +16,8 @@
 @interface LPContentCell()
 @property (nonatomic, strong) UILabel *bodyLabel;
 @property (nonatomic, strong) LPCommentView *commentView;
-//// 图片类型
-//@property (nonatomic, strong) UIImageView *photoView;
+// 图片类型
+@property (nonatomic, strong) UIImageView *photoView;
 @property (nonatomic, strong) UILabel *photoLabel;
 
 @property (nonatomic, strong) LPSupplementView *supplementView;
@@ -72,7 +72,6 @@
 {
     _contentFrame = contentFrame;
     LPContent *content = contentFrame.content;
-//    self.abstractSeperatorView.frame = self.contentFrame.abstractSeperatorViewF;
     if (!content.isPhoto) { // 非图
         self.bodyLabel.hidden = NO;
         self.photoView.hidden = YES;
@@ -83,8 +82,25 @@
     } else {
         self.bodyLabel.hidden = YES;
         self.photoView.hidden = NO;
+        
         self.photoView.frame = self.contentFrame.photoViewF;
-          [self.photoView sd_setImageWithURL:[NSURL URLWithString:content.photo] placeholderImage:[UIImage imageNamed:@"单图大图占位图"]];
+        [self.photoView sd_setImageWithURL:[NSURL URLWithString:content.photo] placeholderImage:[UIImage imageNamed:@"单图大图占位图"]];
+        
+//        [self.photoView sd_setImageWithURL:[NSURL URLWithString:content.photo] placeholderImage:[UIImage imageNamed:@"单图大图占位图"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+//            if (!_contentFrame.isUpdated) {
+//                // 图片实际高度和宽度比例
+//                CGFloat scaleRate = image.size.height /  image.size.width ;
+//                CGFloat photoH = contentFrame.photoViewF.size.width * scaleRate;
+//                CGRect rect = CGRectMake(contentFrame.photoViewF.origin.x, contentFrame.photoViewF.origin.y, contentFrame.photoViewF.size.width, photoH);
+//                self.photoView.frame = rect;
+//                
+//                _contentFrame.cellHeight  = CGRectGetMaxY(rect);
+//                _contentFrame.updated = YES;
+//                if ([self.delegate respondsToSelector:@selector(tableViewDidReload:)]) {
+//                    [self.delegate tableViewDidReload:self];
+//                }
+//            }
+//        }];
     }
 }
 

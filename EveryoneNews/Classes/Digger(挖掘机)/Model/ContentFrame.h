@@ -14,4 +14,6 @@
 @property (nonatomic, assign, readonly) CGRect textF;
 @property (nonatomic, assign, readonly) CGRect photoF;
 @property (nonatomic, assign) CGFloat cellHeight;
+
+@property (nonatomic, assign, getter=isUpdated) BOOL updated;
 @end

@@ -18,7 +18,10 @@ static const CGFloat PaddingVertical = 15;
     CGFloat titleFontSize = ConcernPressTitleFontSize;
     CGFloat sourceFontSize = 10;
     CGFloat imageH = 75;
-    if (iPhone6Plus) {
+    if (iPhone6) {
+        titleFontSize = 18;
+        sourceFontSize = 12;
+    } else if (iPhone6Plus) {
         titleFontSize = 19;
         sourceFontSize = 13;
         imageH = 90;

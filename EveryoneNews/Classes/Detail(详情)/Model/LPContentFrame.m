@@ -30,7 +30,7 @@
         CGFloat photoW = ScreenWidth - 2 * BodyPadding;
         CGFloat photoH = photoW * 9 / 11;
          _photoViewF = CGRectMake(photoX, photoY, photoW, photoH);
-        // _photoViewF = CGRectMake(photoX, photoY, photoW, 0);
+//         _photoViewF = CGRectMake(photoX, photoY, photoW, 0);
         _cellHeight = CGRectGetMaxY(_photoViewF);
     }
 //    _cellHeight += DetailCellHeightBorder;

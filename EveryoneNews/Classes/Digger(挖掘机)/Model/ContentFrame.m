@@ -23,7 +23,10 @@ static const CGFloat paddingX = 13.0f;
         CGFloat photoH = photoW * 0.8;
         _photoF = CGRectMake(photoX, photoY, photoW, photoH);
         
+//        _photoF = CGRectMake(photoX, photoY, photoW, 0);
         _cellHeight = photoH + paddingY;
+        
+        
     } else {
         CGFloat textW = ScreenWidth - paddingX * 2;
         CGFloat textH = [[content attributedBodyText] heightWithConstraintWidth:textW] + 2.0;

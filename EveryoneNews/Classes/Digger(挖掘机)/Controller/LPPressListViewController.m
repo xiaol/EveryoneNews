@@ -262,7 +262,6 @@ static const CGFloat headerH = 64.0f;
         for (Press *press in results) {
                 // 关联一个定时器(先杀死当前定时器)
                 [press stopTimer];
-//                press.httpStatus = @"100";
                 press.timer = [TimerTool timerWithCountdown:5];
                 [press startTimer];
                 NSLog(@"timer setting");
@@ -291,18 +290,20 @@ static const CGFloat headerH = 64.0f;
     params[@"aid"] = @"ios";
     params[@"url"] = @"";
     params[@"key"] = press.title;
-    
-//    NSLog(@"标题--%@", params[@"key"]);
     __weak typeof(press) wPress = press;
+    
     press.http = [LPHttpTool http];
-
     [press.http postJSONWithURL:@"http://api.deeporiginalx.com/bdp/excavator/start" params:params success:^(id json) {
-        NSString *status = json[@"code"];
-//        press.httpStatus = status;
-        NSLog(@"httpStatus : %@", press.httpStatus);
+        NSString *status = [json[@"code"] stringValue];
+        //press.httpStatus = status;
+        
+        NSLog(@"%@,status:%@",press.title, status);
+         NSIndexPath *ip = [self.frc indexPathForObject:wPress];
+//           if ([status isEqualToString:@"0"]) { // 成功
+        
         if (status && status.integerValue == 0) { // 成功
             NSDictionary *dict = json[@"data"];
-            NSIndexPath *ip = [self.frc indexPathForObject:wPress];
+          //  NSIndexPath *ip = [self.frc indexPathForObject:wPress];
             //  0. 清空timer
             [wPress stopTimer];
             //  1. 储存json数据
@@ -388,11 +389,11 @@ static const CGFloat headerH = 64.0f;
             }];
             //  3. 下载成功更新属性
             wPress.isDownloading = @(NO);
-            wPress.isDownload = @(YES);
+            wPress.isDownload = @(1);
             //  4. 及时刷新cell
             [self.tableView reloadRowsAtIndexPaths:@[ip] withRowAnimation:UITableViewRowAnimationFade];
             NSLog(@"完成!");
-        }  else {
+        } else {
             if (wPress.timeover) { // 超时, 设置状态并清空timer
                 wPress.isDownloading = @(NO);
                 [wPress stopTimer];
@@ -424,6 +425,6 @@ static const CGFloat headerH = 64.0f;
 }
 
 - (void)dealloc {
-    NSLog(@"%@ dealloc!!!", self.class);
+//    NSLog(@"%@ dealloc!!!", self.class);
 }
 @end

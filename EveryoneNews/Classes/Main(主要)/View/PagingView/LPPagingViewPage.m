@@ -46,7 +46,7 @@
         [searchImageView addGestureRecognizer:tapGesture];
         [searchView addSubview:searchImageView];
         self.searchView = searchView;
-
+        
         UITableView *tableView = [[UITableView alloc] init];
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         tableView.backgroundColor =  [UIColor colorFromHexString:@"#edefef"];

@@ -9,13 +9,20 @@
 #import <UIKit/UIKit.h>
 
 @class LPContentFrame;
+@class LPContentCell;
+@protocol LPContentCellDelegate <NSObject>
+
+@optional
+- (void)tableViewDidReload:(LPContentCell *)contentCell;
+
+@end
 
 @interface LPContentCell : UITableViewCell
 
 @property (nonatomic, strong) LPContentFrame *contentFrame;
-// 图片类型
-@property (nonatomic, strong) UIImageView *photoView;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
+
+@property (nonatomic, weak) id<LPContentCellDelegate> delegate;
 
 @end

@@ -47,7 +47,7 @@
 static const CGFloat CellAlpha =0.3;
 NSString * const PhotoCellReuseId = @"photoWallCell";
 
-@interface LPDetailViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate, LPZhihuViewDelegate,LPRelateViewDelegate,UICollectionViewDataSource, UICollectionViewDelegate, LPDetailTopViewDelegate>
+@interface LPDetailViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate, LPZhihuViewDelegate,LPRelateViewDelegate,UICollectionViewDataSource, UICollectionViewDelegate, LPDetailTopViewDelegate, LPContentCellDelegate>
 //{
 //    // 分享图片地址
 //    NSString *detailImgUrl;
@@ -178,6 +178,7 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     tableView.showsVerticalScrollIndicator = NO;
     tableView.showsHorizontalScrollIndicator = NO;
+    tableView.delegate = self;
     
     UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 26)];
     tableView.tableFooterView = footerView;
@@ -728,25 +729,6 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
     LPContentCell *cell = [LPContentCell cellWithTableView:tableView];
     cell.layer.cornerRadius = 1.0;
     cell.contentFrame = self.contentFrames[indexPath.row];
-    
-    //cell.photoView set
-    
-   // cell.photoView sd_setImageWithURL:[NSURL URLWithString:cell.ContentUrl]  placeholderImage:<#(UIImage *)#> completed:<#^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL)completedBlock#>
-    
-//    [cell.photoView setImageWithURL:[NSURL URLWithString:@"http://www.domain.com/path/to/image.jpg"]
-//                   placeholderImage:[UIImage imageNamed:@"placeholder.png"]
-//                            success:^(UIImage *image, BOOL cached) {
-//                                
-//                                // save height of an image to some cache
-//                                [self.heightsCache setObject:[NSNumber numberWithFloat:imHeight]
-//                                                      forKey:urlKey];
-//                                
-//                                [tableView beginUpdates];
-//                                [tableView reloadRowsAtIndexPaths:@[indexPath]
-//                                                 withRowAnimation:UITableViewRowAnimationFade];
-//                                [tableView endUpdates];
-//                            }
-//                            failure:^(NSError *error) { }];
     [self setShadowForCell:cell];
     return cell;
 }
@@ -764,6 +746,10 @@ NSString * const PhotoCellReuseId = @"photoWallCell";
 {
     LPContentFrame *contentFrame = self.contentFrames[indexPath.row];
     return contentFrame.cellHeight;
+}
+
+- (void)tableViewDidReload:(LPContentCell *)contentCell {
+    [self.tableView reloadData];
 }
 
 #pragma mark - Scroll view delegate

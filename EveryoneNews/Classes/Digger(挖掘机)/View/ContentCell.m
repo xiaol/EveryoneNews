@@ -54,7 +54,8 @@
         
         UIImageView *photoView = [[UIImageView alloc] init];
         photoView.clipsToBounds = YES;
-        photoView.layer.cornerRadius = 4.0;
+//        photoView.layer.cornerRadius = 4.0;
+        
         photoView.contentMode = UIViewContentModeScaleAspectFill;
         
         // 必须设置
@@ -85,16 +86,31 @@
         self.photoView.hidden = NO;
         self.textView.hidden = YES;
         self.imageURL = [NSURL URLWithString:content.photoURL];
-        self.photoView.frame = contentFrame.photoF;
-        [self.photoView sd_setImageWithURL:self.imageURL placeholderImage:[UIImage imageNamed:@"dig详情页占位大图"]];
-//        [self.photoView sd_setImageWithURL:self.imageURL placeholderImage:[UIImage imageNamed:@""] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-//            _contentFrame.cellHeight = image.size.height;
-//            if([self.delegate respondsToSelector:@selector(contentCell:didDownloadPhoto:)])
-//            {
-//                [self.delegate contentCell:self didDownloadPhoto:image];
-//            }
-//           
-//        }];
+        
+//        self.photoView.frame = contentFrame.photoF;
+//        [self.photoView sd_setImageWithURL:self.imageURL placeholderImage:[UIImage imageNamed:@"dig详情页占位大图"]];
+        
+        __weak typeof(self) wself = self;
+        
+        [self.photoView sd_setImageWithURL:self.imageURL
+                          placeholderImage:[UIImage imageNamed:@"dig详情页占位大图"]
+                                 completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            if (!_contentFrame.isUpdated) {
+                // 图片实际高度和宽度比例
+                CGFloat scaleRate = image.size.height /  image.size.width ;
+                CGFloat photoH = contentFrame.photoF.size.width * scaleRate;
+                CGRect rect = CGRectMake(contentFrame.photoF.origin.x, contentFrame.photoF.origin.y, contentFrame.photoF.size.width, photoH);
+                wself.photoView.frame = rect;
+                _contentFrame.cellHeight  = photoH + 18.0;
+                _contentFrame.updated = YES;
+                if([wself.delegate respondsToSelector:@selector(contentCell:didDownloadPhoto:)])
+                {
+                    [wself.delegate contentCell:wself didDownloadPhoto:image];
+                    
+                    NSLog(@"load again");
+                }
+            }
+        }];
 
     } else {
         self.photoView.hidden = YES;
@@ -105,6 +121,50 @@
     }
 }
 
+
+- (void)contentFrame:(ContentFrame *)contentFrame reloadRowsAtIndexPaths:(NSIndexPath *)indexPath {
+    _contentFrame = contentFrame;
+    
+    Content *content = contentFrame.content;
+    
+    if (content.isPhotoType.boolValue) {
+        self.photoView.hidden = NO;
+        self.textView.hidden = YES;
+        self.imageURL = [NSURL URLWithString:content.photoURL];
+        
+        //        self.photoView.frame = contentFrame.photoF;
+        //        [self.photoView sd_setImageWithURL:self.imageURL placeholderImage:[UIImage imageNamed:@"dig详情页占位大图"]];
+        
+        [self.photoView sd_setImageWithURL:self.imageURL placeholderImage:[UIImage imageNamed:@"dig详情页占位大图"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+            if (!_contentFrame.isUpdated) {
+                // 图片实际高度和宽度比例
+                CGFloat scaleRate = image.size.height /  image.size.width ;
+                CGFloat photoH = contentFrame.photoF.size.width * scaleRate;
+                CGRect rect = CGRectMake(contentFrame.photoF.origin.x, contentFrame.photoF.origin.y, contentFrame.photoF.size.width, photoH);
+                self.photoView.frame = rect;
+                _contentFrame.cellHeight  = photoH + 18.0;
+                _contentFrame.updated = YES;
+                
+                if([self.delegate respondsToSelector:@selector(contentCell:didDownloadPhoto:indexPath:)])
+                {
+                    [self.delegate contentCell:self didDownloadPhoto:image indexPath:indexPath];
+                    
+                    NSLog(@"load again");
+                }
+                
+                
+                
+            }
+        }];
+        
+    } else {
+        self.photoView.hidden = YES;
+        self.textView.hidden = NO;
+        
+        self.textView.frame = contentFrame.textF;
+        self.textView.attributedText = [content attributedBodyText];
+    }
+}
 
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

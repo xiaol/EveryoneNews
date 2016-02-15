@@ -33,4 +33,6 @@
 @property (nonatomic, assign) CGRect supplementViewF;
 
 @property (nonatomic, assign) CGFloat cellHeight;
+
+@property (nonatomic, assign, getter=isUpdated) BOOL updated;
 @end

@@ -19,7 +19,10 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     CGFloat titleFontSize = 15;
-    if (iPhone6Plus) {
+    if (iPhone6) {
+        titleFontSize = 16;
+    }
+    else if (iPhone6Plus) {
         titleFontSize = 18;
     }
     

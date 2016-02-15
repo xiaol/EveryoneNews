@@ -36,6 +36,11 @@
     [self setupTableView];
     [self setupTableHeaderView];
 //    [self setupTableFooterView];
+
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
     [self setupData];
 }
 
@@ -166,6 +171,8 @@
     }
     footerView.frame = CGRectMake(0, 0, ScreenWidth, footerViewHeight);
     self.tableView.tableFooterView = footerView;
+    
+    [self.tableView reloadData];
 }
 
 #pragma mark - table view data source
@@ -179,6 +186,8 @@
 
     cell.delegate = self;
     cell.contentFrame = self.contentFrames[indexPath.row];
+    
+//    [cell contentFrame:self.contentFrames[indexPath.row] reloadRowsAtIndexPaths:indexPath];
     return cell;
 }
 
@@ -188,6 +197,7 @@
     return contentFrame.cellHeight;
 }
 
+#pragma mark - load zhihu view
 - (void)zhihuView:(ZhihuView *)zhihuView didClickURL:(NSString *)url
 {
     [LPPressTool loadWebViewWithURL:url viewController:self];
@@ -198,6 +208,20 @@
     LPFullPhotoViewController *fullPhotoVc = [[LPFullPhotoViewController alloc] init];
     fullPhotoVc.imageURL = imageURL;
     [self.navigationController pushViewController:fullPhotoVc animated:YES];
+}
+
+- (void)contentCell:(ContentCell *)contentCell didDownloadPhoto:(UIImage *)photo {
+    [self.tableView reloadData];
+//    [self.tableView  setNeedsLayout];
+//    [self.tableView  setNeedsDisplay];
+    
+}
+
+- (void)contentCell:(ContentCell *)contentCell didDownloadPhoto:(UIImage *)photo indexPath:(NSIndexPath *)indexPath {
+    [self.tableView beginUpdates];
+    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView endUpdates];
+    
 }
 
 #pragma mark - relate view cell delegate

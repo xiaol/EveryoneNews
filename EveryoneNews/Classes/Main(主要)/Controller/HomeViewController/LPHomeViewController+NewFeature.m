@@ -25,7 +25,9 @@
     featureView.backgroundColor = [UIColor whiteColor];
     featureView.layer.cornerRadius = 10;
     featureView.frame = CGRectMake(30, 100, ScreenWidth - 60, ScreenHeight - 200);
-    if (iPhone6Plus) {
+    if (iPhone6) {
+          featureView.frame = CGRectMake(30, 100, ScreenWidth - 60, ScreenHeight - 250);
+    } else if (iPhone6Plus) {
         featureView.frame = CGRectMake(30, 150, ScreenWidth - 60, ScreenHeight - 300);
     }
     
