@@ -40,12 +40,12 @@
 // 根据runtime特性, -class返回子类类型
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [MobClick beginLogPageView:[NSString stringWithFormat:@"%@ will push", NSStringFromClass([self class])]];
+//    [MobClick beginLogPageView:[NSString stringWithFormat:@"%@ will push", NSStringFromClass([self class])]];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [MobClick endLogPageView:[NSString stringWithFormat:@"%@ will pop", NSStringFromClass([self class])]];
+//    [MobClick endLogPageView:[NSString stringWithFormat:@"%@ will pop", NSStringFromClass([self class])]];
 }
 
 /*

@@ -8,26 +8,46 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
+#import "Card.h"
+#import "LPHttpTool.h"
+#import "MJExtension.h"
+#import "MJRefresh.h"
+#import "LPDiggerFooter.h"
+#import "LPDetailTopView.h"
+#import "LPDetailBottomView.h"
+#import "LPCommentFrame.h"
 
 @class LPPress;
 @class LPConcernPress;
 @class LPConcern;
 
-typedef void (^returnCommentsToUpBlock)(NSArray *contents);
-
-// 全文评论点赞
-typedef void (^fulltextCommentsUpHandler)(NSArray *fulltextComments);
-
 @interface LPDetailViewController : LPBaseViewController
+
 @property (nonatomic, strong) LPPress *press;
 @property (nonatomic, strong) LPConcernPress *concernPress;
-@property (nonatomic, assign) BOOL isConcernDetail;
 @property (nonatomic, strong) LPConcern *concern;
+
 // 存储全文评论内容
 @property (nonatomic,strong) NSArray *fullTextComments;
-- (void)returnContentsBlock:(returnCommentsToUpBlock)returnBlock;
-// 全文评论点赞block
-- (void)fulltextCommentsUpDidComposed:(fulltextCommentsUpHandler) fulltextCommentsUpHandle;
+@property (nonatomic, copy) NSString *docId;
+// 评论数量
+@property (nonatomic, copy) NSString *commentsCount;
+// 评论相关
+@property (nonatomic, strong) NSMutableArray *fulltextCommentFrames;
 
 @property (nonatomic, strong) NSManagedObjectID *cardID;
+@property (nonatomic, strong) Card *card;
+@property (nonatomic, strong) LPDetailTopView *topView;
+@property (nonatomic, strong) LPDetailBottomView *bottomView;
+
+// 分享url
+@property (nonatomic, copy) NSString *shareURL;
+@property (nonatomic, copy) NSString *shareTitle;
+@property (nonatomic, copy) NSString *shareImageURL;
+// 相关观点
+@property (nonatomic, strong) NSMutableArray *relatePointFrames;
+@property (nonatomic, strong) NSArray *relatePointArray;
+@property (nonatomic, assign) BOOL relatePointIsFinishedLoad;
+
+@property (nonatomic, strong) UITableView *tableView;
 @end

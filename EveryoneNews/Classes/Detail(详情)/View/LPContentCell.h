@@ -8,18 +8,26 @@
 
 #import <UIKit/UIKit.h>
 
-@class LPContentFrame;
+//@class LPContentFrame;
+
+@class LPContent;
 @class LPContentCell;
 @protocol LPContentCellDelegate <NSObject>
 
 @optional
-- (void)tableViewDidReload:(LPContentCell *)contentCell;
+- (void)contentCell:(LPContentCell *)contentCell height:(CGFloat)height atRow:(NSInteger)row imageURL:(NSString *)imageURL;
 
 @end
 
 @interface LPContentCell : UITableViewCell
 
-@property (nonatomic, strong) LPContentFrame *contentFrame;
+@property (nonatomic, strong) LPContent *content;
+
+@property (nonatomic, assign) NSInteger row;
+
+@property(nonatomic ,assign) BOOL isLoad;
+// 图片类型
+@property (nonatomic, strong) UIImageView *photoView;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 

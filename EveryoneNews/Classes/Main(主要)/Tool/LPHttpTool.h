@@ -30,6 +30,11 @@
             success:(void (^)(id))success
             failure:(void (^)(NSError *))failure;
 
+- (void)putWithURL:(NSString *)url
+            params:(NSDictionary *)params
+           success:(void (^)(id json))success
+           failure:(void (^)(NSError *error))failure;
+
 - (void)postWithURL:(NSString *)url
              params:(NSDictionary *)params
             success:(void (^)(id json))success

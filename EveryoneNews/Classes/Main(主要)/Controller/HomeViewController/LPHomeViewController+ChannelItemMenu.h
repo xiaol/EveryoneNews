@@ -9,13 +9,13 @@
 #import "LPHomeViewController.h"
 #import "LPSortCollectionReusableView.h"
 
+
+
 @interface LPHomeViewController (ChannelItemMenu) <UIGestureRecognizerDelegate, UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, LPSortCollectionReusableViewDelegate>
-/**
- *  设置所有频道CellIdentifier
- */
+
+// 设置所有频道唯一标识
 - (void)setCellIdentifierOfAllChannelItems;
 
-- (void)initAllChannelItems;
-
+// 设置频道和页码对应关系（用于添加删除和交换频道）
 - (void)updatePageindexMapToChannelItemDictionary;
 @end

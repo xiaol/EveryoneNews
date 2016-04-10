@@ -24,9 +24,5 @@ extern NSString * const AppDidReceiveReviewNotification;
 
 - (CoreDataHelper *)cdh;
 
-// 加载仿网易新闻新版本，运行旧版本需要注释相应的方法
-
-- (void)LoadHomeViewController;
-
 @end
 

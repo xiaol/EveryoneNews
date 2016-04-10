@@ -34,6 +34,7 @@
     }
     
     Protocol *protocol = @protocol(LPPagingViewDelegate);
+    // 获取协议中指定方法的方法描述
     struct objc_method_description desc = protocol_getMethodDescription(protocol, aSelector, YES, YES);
     if (desc.name == NULL) {
         desc = protocol_getMethodDescription(protocol, aSelector, NO, YES);
@@ -121,6 +122,8 @@
 @property (nonatomic, strong) NSMutableSet *visiblePages;
 @property (nonatomic, strong) LPPagingViewHelper *helper;
 @property (nonatomic, strong) LPPagingViewDelegateTrampline *delegateTrampoline;
+
+@property (nonatomic, strong) NSCache *cache;
 
 // private methods
 //- (CGRect)frameForPageIndex:(NSInteger)pageIndex;
@@ -231,6 +234,7 @@
     }
     [self.visiblePages removeAllObjects];
     [self.reusablePages removeAllObjects];
+    [self.cache removeAllObjects];
     
     self.helper = nil;
 }
@@ -258,7 +262,7 @@
     CGFloat pageLength = self.helper.pageWidth + self.helper.gutter;
     CGFloat offset = self.contentOffset.x;
     CGFloat ratio = offset / pageLength;
-    if (offset > 0 && ratio <= self.helper.numberOfPages - 1) {
+    if (offset >= 0 && ratio <= self.helper.numberOfPages - 1) {
         //        ratio -= floorf(ratio);
         if ([self.delegate respondsToSelector:@selector(pagingView:didScrollWithRatio:)]) {
             [self.delegate pagingView:self didScrollWithRatio:ratio];
@@ -292,7 +296,7 @@
 - (BOOL)isPageVisibleAtPageIndex:(NSInteger)index {
     BOOL visible = NO;
     for (UIView *page in self.visiblePages) {
-        if (page.tag == index) {
+        if (page.tag == [self tagFromPageIndex:index]) {
             visible = YES;
             break;
         }
@@ -366,7 +370,7 @@
     NSMutableSet *removedPages = [NSMutableSet set];
     
     for (UIView *page in self.visiblePages) {
-        if (page.tag < firstIndex || page.tag > lastIndex) {
+        if ([self pageIndexFromTag:page.tag] < firstIndex || [self pageIndexFromTag:page.tag] > lastIndex) {
             [page removeFromSuperview];         // 1.1
             [removedPages addObject:page];
             [self queueReusablePage:page];      // 1.3
@@ -377,10 +381,13 @@
     // 2. layout visible pages 如更新的可视集合中有新来的index, 从数据源获取对应的page(2.1)添加至pv(2.2), 并加入可视集合(2.3)
     for (NSInteger index = firstIndex; index <= lastIndex; index ++) {
         if (![self isPageVisibleAtPageIndex:index]) {
-            UIView *page = [self.dataSource pagingView:self pageForPageIndex:index]; // 2.1
+            UIView *page = [self.cache objectForKey:@(index)]; // 2.1
+            if (!page) {
+                page = [self.dataSource pagingView:self pageForPageIndex:index];
+            }
             page.frame = [self frameForPageIndex:index];
-            page.tag = index;
-            [self insertSubview:page atIndex:0];                                     // 2.2
+            page.tag = [self tagFromPageIndex:index];
+            [self addSubview:page];                                     // 2.2
             [self.visiblePages addObject:page];                                      // 2.3
         }
     }
@@ -396,10 +403,12 @@
 - (void)reloadPageAtPageIndex:(NSInteger)pageIndex {
     // 1. 要刷新的页面可见, 从数据源获取并取代旧的
     for (UIView *page in self.visiblePages) {
-        if (pageIndex == page.tag) {
+        if (pageIndex == [self pageIndexFromTag:page.tag]) {
             UIView *newPage = [self.dataSource pagingView:self pageForPageIndex:pageIndex];
             newPage.tag = page.tag;
             newPage.frame = page.frame;
+            
+            [self.cache removeObjectForKey:@(pageIndex)];
             
             [page removeFromSuperview];
             [self.visiblePages removeObject:page];
@@ -441,12 +450,29 @@
 }
 
 - (UIView *)currentPage {
-    for (UIView *page in self.subviews) {
-        if (page.tag == self.currentPageIndex) {
-            return page;
+    return [self pageAtPageIndex:self.currentPageIndex];
+}
+
+- (UIView *)pageAtPageIndex:(NSInteger)index {
+    UIView *page = nil;
+    for (UIView *view in self.subviews) {
+        if ([self pageIndexFromTag:view.tag] == index) {
+            page = view;
         }
     }
-    return nil;
+    if (!page) {
+        page = [self.dataSource pagingView:self pageForPageIndex:index];
+        [self.cache setObject:page forKey:@(index)];
+    }
+    return page;
+}
+
+- (NSInteger)tagFromPageIndex:(NSInteger)index {
+    return index + 1000;
+}
+
+- (NSInteger)pageIndexFromTag:(NSInteger)tag {
+    return tag - 1000;
 }
 
 @end

@@ -7,25 +7,26 @@
 //
 
 #import <UIKit/UIKit.h>
-@class ContentFrame;
+//@class ContentFrame;
 
+@class Content;
 @class ContentCell;
+
 @protocol ContentCellDelegate <NSObject>
 
 @optional
 - (void)contentCell:(ContentCell *)contentCell didSavePhotoWithImageURL:(NSURL *)imageURL;
 - (void)contentCell:(ContentCell *)contentCell didDownloadPhoto:(UIImage *)photo;
-- (void)contentCell:(ContentCell *)contentCell didDownloadPhoto:(UIImage *)photo indexPath:(NSIndexPath *)indexPath;
-
 @end
 
-
 @interface ContentCell : UITableViewCell
-@property (nonatomic, strong) ContentFrame *contentFrame;
+//@property (nonatomic, strong) ContentFrame *contentFrame;
+
+@property (nonatomic, strong) Content *content;
+
+
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 
 @property (nonatomic, weak) id<ContentCellDelegate> delegate;
-
-- (void)contentFrame:(ContentFrame *)contentFrame reloadRowsAtIndexPaths:(NSIndexPath *)indexPath;
 
 @end

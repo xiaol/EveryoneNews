@@ -39,4 +39,7 @@ typedef NS_ENUM(NSUInteger, HomeCardsFetchType) {
  */
 @property (nonatomic, copy) NSString *startTime;
 
+// 请求页码默认是第一页
+@property (nonatomic, strong) NSNumber *pageIndex;
+
 @end

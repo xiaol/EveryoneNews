@@ -18,12 +18,17 @@
 
 - (void)page:(LPPagingViewPage *)page didClickSearchImageView:(UIImageView *)imageView;
 
-- (void)page:(LPPagingViewPage *)page didSaveOffsetY:(CGFloat)offsetY;
+//- (void)page:(LPPagingViewPage *)page didSaveOffsetY:(CGFloat)offsetY;
+
+//- (void)page:(LPPagingViewPage *)page tableView:(UITableView *)tableView deleteAtIndexPath:(NSIndexPath *)indexPath;
+
+
+
 
 @end
-
+//
 @interface LPPagingViewPage : UIView
-
+//
 @property (nonatomic, strong) NSMutableArray *cardFrames;
 
 @property (nonatomic, copy) NSString *cellIdentifier;
@@ -33,12 +38,14 @@
 @property (nonatomic, weak) id<LPPagingViewPageDelegate> delegate;
 - (void)autotomaticLoadNewData;
 
-- (void)scrollToOffsetY:(CGFloat)offsetY;
+- (void)deleteRowAtIndexPath:(NSIndexPath *)indexPath;
+
+//- (void)scrollToOffsetY:(CGFloat)offsetY;
 
 /**
  *  复用前的准备工作(复写该方法)
  */
-//- (void)prepareForReuse;
+- (void)prepareForReuse;
 
 // table view, collection view, label, image view, ... and so on (your custom subviews)
 

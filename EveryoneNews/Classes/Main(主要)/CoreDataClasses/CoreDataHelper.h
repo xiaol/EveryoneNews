@@ -20,4 +20,6 @@
 - (void)setupCoreData;
 - (void)saveContext;
 - (void)saveBackgroundContext;
+- (void)saveImportContext;
+
 @end

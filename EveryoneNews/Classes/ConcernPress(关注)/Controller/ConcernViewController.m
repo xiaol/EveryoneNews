@@ -303,7 +303,6 @@
     LPConcernPressFrame *frm = self.concernPressFrames[indexPath.row];
     LPConcernPress *concernPress = frm.concernPress;
     LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
-    detailVc.isConcernDetail = YES;
     detailVc.concernPress = concernPress;
     detailVc.concern = self.concern;    
     [self.navigationController pushViewController:detailVc animated:YES];

@@ -9,10 +9,17 @@
 #import "LPHomeViewController.h"
 #import "LPPagingViewPage.h"
 
+
 @interface LPHomeViewController (PagingView) <LPPagingViewDataSource, LPPagingViewDelegate, LPPagingViewPageDelegate, UIGestureRecognizerDelegate>
 
-- (void)setInitialChannelItemDictionary;
+// 加载已选频道栏所有数据
+- (void)setupInitialPagingViewData;
+
 - (void)loadMoreDataInPageAtPageIndex:(NSInteger)pageIndex;
-- (void)loadIndictorShow;
+
 - (void)channelItemDidAddToCoreData:(NSInteger)pageIndex;
+
+- (void)showLoadingView;
+
+- (void)hideLoadingView;
 @end

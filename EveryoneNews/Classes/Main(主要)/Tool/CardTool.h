@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+
 @class CardParam;
 /**
  *  请求成功的回调类型
@@ -20,7 +21,6 @@ typedef void (^CardsFetchedSuccessHandler)(NSArray *cards);
  */
 typedef void (^CardsFetchedFailureHandler)(NSError *error);
 
-
 @interface CardTool : NSObject
 
 /**
@@ -31,8 +31,8 @@ typedef void (^CardsFetchedFailureHandler)(NSError *error);
  *  @param failure 失败时的回调
  */
 + (void)cardsWithParam:(CardParam *)param
+                channelID:(NSString *)channelID
                success:(CardsFetchedSuccessHandler)success
                failure:(CardsFetchedFailureHandler)failure;
-
 
 @end

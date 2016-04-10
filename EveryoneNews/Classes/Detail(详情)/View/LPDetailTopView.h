@@ -11,9 +11,9 @@
 
 @protocol LPDetailTopViewDelegate <NSObject>
 
-- (void)topViewBackBtnClick;
-- (void)shareBtnClick;
-- (void)fulltextCommentBtnClick;
+@optional
+- (void)backButtonDidClick:(LPDetailTopView *)detailTopView;
+- (void)fulltextCommentDidClick:(LPDetailTopView *)detailTopView;
 
 @end
 @interface LPDetailTopView : UIView

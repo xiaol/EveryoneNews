@@ -29,6 +29,8 @@ static const CGFloat headerH = 44;
 static const CGFloat padding = 10.0;
 
 NSString * const AlbumCellReuseId = @"albumCell";
+const NSInteger HotwordPageCapacity = 8;
+NSString * const HotwordsURL = @"http://api.deeporiginalx.com/news/baijia/fetchElementary";
 
 @interface LPDigViewController () <UITextViewDelegate, UIScrollViewDelegate, HotwordCloudDelegate>
 @property (nonatomic, strong) UIButton *dismissBtn;

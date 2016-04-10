@@ -9,6 +9,8 @@
 #import "Card.h"
 @class CardParam;
 
+typedef void (^cardsArrayBlock)(NSArray *cardsArray);
+
 @interface Card (Fetch)
 /**
  *  从数据库获取模型数组cards
@@ -16,8 +18,10 @@
  *  @param param 参数模型
  *
  */
-+ (NSArray *)fetchCardsWithCardParam:(CardParam *)param;
+//+ (NSArray *)fetchCardsWithCardParam:(CardParam *)param;
+//
+//+ (NSArray *)fetchCardsWithSourceSiteURL:(NSString *)sourceSiteURL;
 
-+ (NSArray *)fetchCardsWithSourceSiteURL:(NSString *)sourceSiteURL;
- 
++ (void)fetchCardsWithCardParam:(CardParam *)param cardsArrayBlock:(cardsArrayBlock)cardsArrayBlock;
+
 @end

@@ -14,7 +14,7 @@
 #import "Press.h"
 #import "Zhihu.h"
 #import "Relate.h"
-#import "ContentFrame.h"
+//#import "ContentFrame.h"
 #import "ContentCell.h"
 #import "Album.h"
 #import "SDWebImageManager.h"
@@ -22,10 +22,20 @@
 #import "LPPressTool.h"
 #import "LPFullPhotoViewController.h"
 #import "RelateView.h"
+#import "Content+PhotoDownloadCompletion.h"
+#import "UIImageView+WebCache.h"
+#import "Content+AttributedText.h"
+
+static const NSString * privateContext;
+static const CGFloat paddingY = 18.0f;
+static const CGFloat paddingX = 13.0f;
 
 @interface LPDigDetailViewController () <UITableViewDataSource, UITableViewDelegate, ZhihuViewDelegate, ContentCellDelegate, RelateViewDelegate>
+
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSMutableArray *contentFrames;
+//@property (nonatomic, strong) NSMutableArray *contentFrames;
+@property (nonatomic, strong) NSMutableArray *contentArray;
+
 @end
 
 @implementation LPDigDetailViewController
@@ -36,16 +46,26 @@
     [self setupTableView];
     [self setupTableHeaderView];
 //    [self setupTableFooterView];
+  
 
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self setupData];
+    if (self.isMovingToParentViewController) {
+        if (self.contentArray.count == 0) {
+            [self setupData];
+        }
+        
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
+    
+    
+    
+    
 //    CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
 //    Press *press = (Press *)[cdh.context existingObjectWithID:self.pressObjID error:nil];
 //    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Content"];
@@ -59,11 +79,18 @@
 //    }
 }
 
-- (NSMutableArray *)contentFrames {
-    if (_contentFrames == nil) {
-        _contentFrames = [NSMutableArray array];
+//- (NSMutableArray *)contentFrames {
+//    if (_contentFrames == nil) {
+//        _contentFrames = [NSMutableArray array];
+//    }
+//    return _contentFrames;
+//}
+
+- (NSMutableArray *)contentArray {
+    if (!_contentArray) {
+        _contentArray = [NSMutableArray array];
     }
-    return _contentFrames;
+    return _contentArray;
 }
 
 #pragma mark - 配置table view
@@ -140,13 +167,29 @@
     request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"paraID" ascending:YES]];
     request.predicate = [NSPredicate predicateWithFormat:@"press.title = %@", press.title];
     NSArray *contentArray = [cdh.context executeFetchRequest:request error:nil];
-    NSMutableArray *frms = [NSMutableArray array];
+    
+//    NSMutableArray *frms = [NSMutableArray array];
+    
     for (Content *content in contentArray) {
-        ContentFrame *contentFrame = [[ContentFrame alloc] init];
-        contentFrame.content = content;
-        [frms addObject:contentFrame];
+        content.image = [UIImage imageNamed:@"dig详情页占位大图"];
+        // 观察图片大小的变化 
+        [content addObserver:self forKeyPath:@"image" options:NSKeyValueObservingOptionNew context:&privateContext];
+
+        // 图片下载完成后获取图片大小
+        [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:content.photoURL] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+            
+        } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+            
+            content.image = image;
+        }];
+        [self.contentArray addObject:content];
+        
+//        ContentFrame *contentFrame = [[ContentFrame alloc] init];
+//        contentFrame.content = content;
+//        [frms addObject:contentFrame];
     }
-    self.contentFrames = frms;
+//    
+//    self.contentFrames = frms;
     CGFloat footerViewHeight = 20.0;
     UIView *footerView = [[UIView alloc] init];
     // 知乎页面
@@ -177,24 +220,27 @@
 
 #pragma mark - table view data source
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.contentFrames.count;
+    return self.contentArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     ContentCell *cell = [ContentCell cellWithTableView:tableView];
-
-    cell.delegate = self;
-    cell.contentFrame = self.contentFrames[indexPath.row];
-    
-//    [cell contentFrame:self.contentFrames[indexPath.row] reloadRowsAtIndexPaths:indexPath];
+    cell.content = self.contentArray[indexPath.row];
     return cell;
 }
 
 #pragma mark - table view delegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    ContentFrame *contentFrame = self.contentFrames[indexPath.row];
-    return contentFrame.cellHeight;
+    Content *content = self.contentArray[indexPath.row];
+    if (content.isPhotoType.boolValue) {
+        CGFloat photoW = ScreenWidth - paddingX * 2;
+        CGFloat photoH = photoW * (content.image.size.height / content.image.size.width);
+        return photoH + paddingY;
+    } else {
+        CGFloat textW = ScreenWidth - paddingX * 2;
+        return  [[content attributedBodyText] heightWithConstraintWidth:textW] + 2.0 + paddingY;
+    }
 }
 
 #pragma mark - load zhihu view
@@ -204,28 +250,37 @@
 }
 
 #pragma mark - content cell delegate
-- (void)contentCell:(ContentCell *)contentCell didSavePhotoWithImageURL:(NSURL *)imageURL {
-    LPFullPhotoViewController *fullPhotoVc = [[LPFullPhotoViewController alloc] init];
-    fullPhotoVc.imageURL = imageURL;
-    [self.navigationController pushViewController:fullPhotoVc animated:YES];
-}
-
-- (void)contentCell:(ContentCell *)contentCell didDownloadPhoto:(UIImage *)photo {
-    [self.tableView reloadData];
-//    [self.tableView  setNeedsLayout];
-//    [self.tableView  setNeedsDisplay];
-    
-}
-
-- (void)contentCell:(ContentCell *)contentCell didDownloadPhoto:(UIImage *)photo indexPath:(NSIndexPath *)indexPath {
-    [self.tableView beginUpdates];
-    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
-    [self.tableView endUpdates];
-    
-}
+//- (void)contentCell:(ContentCell *)contentCell didSavePhotoWithImageURL:(NSURL *)imageURL {
+//    LPFullPhotoViewController *fullPhotoVc = [[LPFullPhotoViewController alloc] init];
+//    fullPhotoVc.imageURL = imageURL;
+//    [self.navigationController pushViewController:fullPhotoVc animated:YES];
+//}
+//
+//- (void)contentCell:(ContentCell *)contentCell didDownloadPhoto:(UIImage *)photo {
+//    [self.tableView reloadData];
+//    
+//}
 
 #pragma mark - relate view cell delegate
 - (void)relateView:(RelateView *)relateView didClickURL:(NSString *)url {
      [LPPressTool loadWebViewWithURL:url viewController:self];
+}
+
+#pragma mark - dealloc
+- (void)dealloc {
+    for (Content *content in self.contentArray) {
+        [content removeObserver:self forKeyPath:@"image"];
+    }
+}
+
+#pragma mark - Observe image size
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
+    if(context == &privateContext) {
+        if ([keyPath isEqualToString:@"image"]) {
+            [self.tableView reloadData];
+        }
+    } else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
 }
 @end

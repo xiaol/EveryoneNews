@@ -16,6 +16,8 @@
 #import "LPSortCollectionViewCell.h"
 #import "LPMenuCollectionViewCell.h"
 #import "LPPagingViewPage.h"
+ 
+
 
 const static CGFloat cellPadding = 15;
 static NSString *reuseIdentifierFirst = @"reuseIdentifierFirst";
@@ -25,6 +27,13 @@ static NSString *cellIdentifier = @"sortCollectionViewCell";
 static NSString *cardCellIdentifier = @"CardCellIdentifier";
 
 @implementation LPHomeViewController (ChannelItemMenu)
+
+#pragma mark - 保存频道的plist文件
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self channelItemsDidSaved];
+    
+}
 
 #pragma mark - 初始化
 - (instancetype)init {
@@ -49,18 +58,9 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
     return self;
 }
 
-#pragma mark - 默认选中第一个按钮
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
 
-#pragma mark - 保存频道的plist文件
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    [self channelItemsDidSaved];
-    
-}
 
+#pragma mark - 保存已选频道到本地
 - (void)channelItemsDidSaved {
     [self.channelItemsArray removeAllObjects];
     for (LPChannelItem *channelItem in self.selectedArray) {
@@ -73,7 +73,8 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
     }
     [LPChannelItemTool saveChannelItems:self.channelItemsArray];
 }
-#pragma mark - 设置所有频道CellIdentifier
+
+#pragma mark - 设置所有频道唯一标识
 - (void)setCellIdentifierOfAllChannelItems {
     for (int i = 0; i < self.selectedArray.count; i++) {
         NSString *cellIdentifier = [NSString stringWithFormat:@"%@%d",cardCellIdentifier,i];
@@ -81,22 +82,6 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
     }
 }
 
-#pragma mark - 初始化所有频道名称
-- (void)initAllChannelItems {
-    self.channelItemsArray =  [LPChannelItemTool getChannelItems];
-    // 已选分类
-    for (LPChannelItem *channelItem in self.channelItemsArray) {
-        if([channelItem.channelIsSelected  isEqual: @"1"]) {
-            [self.selectedArray addObject:channelItem];
-        }
-    }
-    // 可选分类
-    for (LPChannelItem *channelItem in self.channelItemsArray) {
-        if([channelItem.channelIsSelected  isEqual: @"0"]) {
-            [self.optionalArray addObject:channelItem];
-        }
-    }
-}
 
 #pragma mark -  设置频道和页码的映射关系
 - (void)updatePageindexMapToChannelItemDictionary {
@@ -281,26 +266,29 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
         LPMenuButton *currentButton = currentCell.menuButton;
         self.selectedChannelTitle = currentButton.text;
         [self.pagingView setCurrentPageIndex:indexPath.item animated:NO];
-
+        
         // 超过5分钟自动刷新 第一次调用则加载
         LPChannelItem *channelItem = [currentCell channelItem];
         NSDate *currentDate = [NSDate date];
         NSDate *lastAccessDate = channelItem.lastAccessDate;
+        LPPagingViewPage *page = (LPPagingViewPage *)[self.pagingView currentPage];
+
+        [self channelItemDidAddToCoreData:indexPath.item];
         if (lastAccessDate == nil) {
-            
-            [self loadIndictorShow];
-            
-            [self loadMoreDataInPageAtPageIndex:indexPath.item];
+            [self showLoadingView];
             channelItem.lastAccessDate = currentDate;
-        } else {
-            int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60 ;
+        }
+        
+        if (lastAccessDate != nil) {
+            int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
             // 每5分钟做一次刷新操作
             if (interval > 5) {
-                LPPagingViewPage *page = (LPPagingViewPage *)[self.pagingView currentPage];
                 [page autotomaticLoadNewData];
                 channelItem.lastAccessDate = currentDate;
             }
         }
+        
+        
     } else {
         if (indexPath.section == 0) {
             LPSortCollectionViewCell *currentCell =  (LPSortCollectionViewCell *)[self.sortCollectionView cellForItemAtIndexPath:indexPath];
@@ -312,9 +300,12 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
                 [self.pagingView reloadData];
                 
                 LPChannelItem *channelItem = [currentCell channelItem];
+                
+                NSDate *currentDate = [NSDate date];
                 NSDate *lastAccessDate = channelItem.lastAccessDate;
                 if (lastAccessDate == nil) {
-                    [self loadIndictorShow];
+                    [self showLoadingView];
+                    channelItem.lastAccessDate = currentDate;
                 }
                 self.selectedChannelTitle = currentCell.contentLabel.text;
                 [self redirectToSelectedChanneItem:(int)indexPath.item];
@@ -444,16 +435,25 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
 
 #pragma mark - UICollectionView Style
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat height = 33;
-    CGFloat width = 50;
+    CGFloat height = 25;
+    CGFloat width = 60;
     if (iPhone6Plus) {
         height = 44;
         width = 60;
     }
+    
+    CGFloat channelBarHeight = 33;
+    CGFloat channelBarWidth = 50;
+    if (iPhone6Plus) {
+        channelBarHeight = 44;
+        channelBarWidth = 60;
+    }
+    
+    
     if([collectionView isKindOfClass:[LPMenuView class]]) {
         return CGSizeMake(width, height);
     } else {
-        return CGSizeMake((ScreenWidth - cellPadding) / 4.0, height);
+        return CGSizeMake((ScreenWidth - cellPadding) / 4.0, channelBarHeight);
     }
 }
 
@@ -471,7 +471,7 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-    return 5;
+    return 0;
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
@@ -500,4 +500,6 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
     return CGSizeMake(0, 0);
 }
+
+
 @end

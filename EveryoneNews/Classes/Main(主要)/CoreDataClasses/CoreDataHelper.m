@@ -163,6 +163,23 @@ NSString *storeFileName = @"EveryoneNews.sqlite";
     }
 }
 
+- (void)saveImportContext {
+    if (debug==1) {
+        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+    }
+    if (_importContext.hasChanges) {
+        NSError *error = nil;
+        if ([_importContext save:&error]) {
+            NSLog(@"_importContext saved changes to parent context");
+        } else {
+            NSLog(@"Failed to save _importContext: %@", error);
+            [self showValidationError:error];
+        }
+    } else {
+        //        NSLog(@"SKIPPED _context save, there are no changes!");
+    }
+}
+
 - (void)saveBackgroundContext {
     // 1.把子上下文保存到父上下文(执行于内存, 速度极快)
     [self saveContext];

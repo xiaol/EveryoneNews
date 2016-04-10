@@ -22,4 +22,11 @@
     }
     return _startTime;
 }
+
+- (NSNumber *)pageIndex {
+    if (_pageIndex == nil) {
+        return @(1);
+    }
+    return _pageIndex;
+}
 @end

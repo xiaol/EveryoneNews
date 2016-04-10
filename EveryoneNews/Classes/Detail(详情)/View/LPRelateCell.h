@@ -2,17 +2,26 @@
 //  LPRelateCell.h
 //  EveryoneNews
 //
-//  Created by apple on 15/6/12.
-//  Copyright (c) 2015年 apple. All rights reserved.
+//  Created by dongdan on 16/3/24.
+//  Copyright © 2016年 apple. All rights reserved.
 //
 
-#import "LPWaterfallViewCell.h"
-@class LPWaterfallView, LPRelatePoint;
+#import <UIKit/UIKit.h>
 
-@interface LPRelateCell : LPWaterfallViewCell
+@class LPRelateFrame;
+@class LPRelateCell;
 
-+ (instancetype)cellWithWaterfallView:(LPWaterfallView *)waterfallView;
+@protocol LPRelateCellDelegate <NSObject>
 
-@property (nonatomic, strong) LPRelatePoint *relatePoint;
+@optional
+- (void)relateCell:(LPRelateCell *)cell didClickURL:(NSString *)url;
+
+@end
+@interface LPRelateCell : UITableViewCell
+
+@property (nonatomic, strong) LPRelateFrame *relateFrame;
+
+@property (nonatomic, weak)  id<LPRelateCellDelegate> delegate;
++ (instancetype)cellWithTableView:(UITableView *)tableView;
 
 @end

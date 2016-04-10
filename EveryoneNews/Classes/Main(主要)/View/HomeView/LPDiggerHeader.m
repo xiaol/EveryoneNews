@@ -24,7 +24,7 @@
     [super prepare];
     
     // 设置控件高度
-    self.mj_h = TabBarHeight;
+    self.mj_h = 54.0f;
     // loading
     UIActivityIndicatorView *loading = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [self addSubview:loading];
@@ -80,7 +80,7 @@
     switch (state) {
         case MJRefreshStateIdle:
             [self.loading stopAnimating];
-            self.label.text = @"下拉可以刷新";
+            self.label.text = @"正在推荐";
             break;
         case MJRefreshStatePulling:
             [self.loading startAnimating];

@@ -11,7 +11,6 @@
 #import "UIImageView+WebCache.h"
 #import "LPNewfeatureViewController.h"
 #import "MobClick.h"
-//#import "WeiboSDK.h"
 #import "WXApi.h"
 #import "MainNavigationController.h"
 #import "MainViewController.h"
@@ -27,6 +26,7 @@
 #import "WXApiObject.h"
 #import "LPHomeViewController.h"
 #import "NSMutableAttributedString+LP.h"
+#import "UMessage.h"
 
 ////for mac
 //#include <sys/socket.h>
@@ -54,12 +54,11 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
 @implementation AppDelegate
 
 #define debug 0
+
 #pragma mark - core data helper
+
 // 获取CoreDataHelper实例
 - (CoreDataHelper*)cdh {
-//    if (debug==1) {
-//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-//    }
     if (!_coreDataHelper) {
         static dispatch_once_t onceToken;
         dispatch_once(&onceToken, ^{
@@ -73,8 +72,7 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     if (debug==1) {
         NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-    }
-
+    }    
     //  UMeng login & share
     [UMSocialData setAppKey:@"558b2ec267e58e64a00009db"];
     
@@ -84,7 +82,7 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     //设置微信AppId、appSecret，分享url
     [UMSocialWechatHandler setWXAppId:@"wxdc962221a58b59a5" appSecret:@"f60087313b3d5c42115d6bd0c89abfb6" url:@"http://www.umeng.com/social"];
     
-    //    打开新浪微博的SSO开关，设置新浪微博回调地址，这里必须要和你在新浪微博后台设置的回调地址一致。若在新浪后台设置我们的回调地址，“http://sns.////whalecloud.com/sina2/callback”，这里可以传nil ,需要 #import "UMSocialSinaHandler.h"
+    // 打开新浪微博的SSO开关，设置新浪微博回调地址，这里必须要和你在新浪微博后台设置的回调地址一致。若在新浪后台设置我们的回调地址，“http://sns.////whalecloud.com/sina2/callback”，这里可以传nil ,需要 #import "UMSocialSinaHandler.h"
     
     [UMSocialSinaHandler openSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
 
@@ -95,48 +93,42 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     // Mob statics
 #warning 发布时删除此句 setLogEnabled:
 //    [MobClick setLogEnabled:YES];
+    
     [MobClick setVersion:currentVersion];
+    
+    // 将channelId:@"Web" 中的Web 替换为您应用的推广渠道。channelId为nil或@""时，默认会被当作@"App Store"渠道。
+    // iOS平台数据发送策略包括BATCH（启动时发送）和SEND_INTERVAL（按间隔发送）两种，友盟默认使用启动时发送（更省流量），您可以在代码reportPolicy:BATCH中更改发送策略。
     [MobClick startWithAppkey:@"558b2ec267e58e64a00009db" reportPolicy:BATCH channelId:@""];
     
-    // 1. 注册APNs
-#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1
-    if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
-        //可以添加自定义categorie
-        [APService registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert) categories:nil];
-    } else {
-        //categories 必须为nil
-        [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert) categories:nil];
-    }
-#else
-        //categories 必须为nil
-    [APService registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert) categories:nil];
-#endif
-    [APService setupWithOption:launchOptions];
+    // 添加友盟推送
+    [UMessage startWithAppkey:@"558b2ec267e58e64a00009db" launchOptions:launchOptions];
+    UIMutableUserNotificationAction *action1 = [[UIMutableUserNotificationAction alloc] init];
+    action1.identifier = @"action1_identifier";
+    action1.title = @"Accept";
+    action1.activationMode = UIUserNotificationActivationModeForeground;//当点击的时候启动程序
     
-    // 2. 创建窗口
-    [application setApplicationIconBadgeNumber:0];
-    NSDictionary *userInfo = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
-    [APService handleRemoteNotification:userInfo];
+    UIMutableUserNotificationAction *action2 = [[UIMutableUserNotificationAction alloc] init];  //第二按钮
+    action2.identifier = @"action2_identifier";
+    action2.title = @"Reject";
+    action2.activationMode = UIUserNotificationActivationModeBackground;//当点击的时候不启动程序，在后台处理
+    action2.authenticationRequired = YES;//需要解锁才能处理，如果action.activationMode = UIUserNotificationActivationModeForeground;则这个属性被忽略；
+    action2.destructive = YES;
+    
+    UIMutableUserNotificationCategory *categorys = [[UIMutableUserNotificationCategory alloc] init];
+    categorys.identifier = @"category1";//这组动作的唯一标示
+    [categorys setActions:@[action1,action2] forContext:(UIUserNotificationActionContextDefault)];
+    
+    UIUserNotificationSettings *userSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge|UIUserNotificationTypeSound|UIUserNotificationTypeAlert
+                                                                                 categories:[NSSet setWithObject:categorys]];
+    [UMessage registerRemoteNotificationAndUserNotificationSettings:userSettings];
+    
+  
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     //3. 设置根控制器
-    if (!iPhone4 && !iPhone5 && !iPhone6 && !iPhone6Plus) {
-        LPHomeViewController *mainVc = [[LPHomeViewController alloc] init];
-        MainNavigationController *mainNavVc = [[MainNavigationController alloc] initWithRootViewController:mainVc];
-        self.window.rootViewController = mainNavVc;
-    } else {
-        if (userInfo[LPPushNotificationURL]) { // 如有推送 迅速处理推送
-            LPHomeViewController *mainVc = [[LPHomeViewController alloc] init];
-            MainNavigationController *mainNavVc = [[MainNavigationController alloc] initWithRootViewController:mainVc];
-            self.window.rootViewController = mainNavVc;
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.9 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [noteCenter postNotificationName:LPPushNotificationFromLaunching object:self userInfo:userInfo];
-            });
-        } else {
-             LPHomeViewController *mainVc = [[LPHomeViewController alloc] init];
-             MainNavigationController *mainNavVc = [[MainNavigationController alloc] initWithRootViewController:mainVc];
-            self.window.rootViewController = mainNavVc;
-        }
-    }
+    LPHomeViewController *mainVc = [[LPHomeViewController alloc] init];
+    MainNavigationController *mainNavVc = [[MainNavigationController alloc] initWithRootViewController:mainVc];
+    self.window.rootViewController = mainNavVc;
+    
     // 4. 显示窗口（成为主窗口）
     [self.window makeKeyAndVisible];
     // 5. 监控网络状态
@@ -186,29 +178,21 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
-    // 1.将token传给极光服务器
-    [APService registerDeviceToken:deviceToken];
+//    NSLog(@"%@",[[[[deviceToken description] stringByReplacingOccurrencesOfString: @"<" withString: @""]
+//                  stringByReplacingOccurrencesOfString: @">" withString: @""]
+//                 stringByReplacingOccurrencesOfString: @" " withString: @""]);
+    [UMessage registerDeviceToken:deviceToken];
 }
 
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-    [APService handleRemoteNotification:userInfo];
-    /**
-     *  处理推送
-     */
-    if (application.applicationState == UIApplicationStateBackground) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [noteCenter postNotificationName:LPPushNotificationFromBack object:self userInfo:userInfo];
-        });
-    }
-    [application setApplicationIconBadgeNumber:0];
-    completionHandler(UIBackgroundFetchResultNewData);
+    [UMessage didReceiveRemoteNotification:userInfo];
 }
 
-- (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo
-  completionHandler:(void (^)())completionHandler {
-    
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+   // NSLog(@"注册推送服务时，发生以下错误： %@",error);
 }
+
 
 - (void)applicationDidReceiveMemoryWarning:(UIApplication *)application
 {
@@ -239,16 +223,20 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     if (debug==1) {
         NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
     }
+    if (![userDefaults objectForKey:@"isVersion3FirstLoad"]) {
+        [userDefaults setObject:@"NO" forKey:@"isVersion3FirstLoad"];
+        [userDefaults synchronize];
+    }
     [[self cdh] saveBackgroundContext];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-    if (![userDefaults objectForKey:@"isFirstLoadMark"]) {
-        [userDefaults setObject:@"NO" forKey:@"isFirstLoadMark"];
-        [userDefaults synchronize];
-    }
     if (debug==1) {
         NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+    }
+    if (![userDefaults objectForKey:@"isVersion3FirstLoad"]) {
+        [userDefaults setObject:@"NO" forKey:@"isVersion3FirstLoad"];
+        [userDefaults synchronize];
     }
     [[self cdh] saveBackgroundContext];
     
@@ -273,6 +261,7 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     NSLog(@"%@ %ld", NSStringFromSelector(_cmd), application.applicationState);
+    
 }
 
 @end

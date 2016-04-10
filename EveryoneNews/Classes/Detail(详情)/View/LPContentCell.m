@@ -16,8 +16,7 @@
 @interface LPContentCell()
 @property (nonatomic, strong) UILabel *bodyLabel;
 @property (nonatomic, strong) LPCommentView *commentView;
-// 图片类型
-@property (nonatomic, strong) UIImageView *photoView;
+
 @property (nonatomic, strong) UILabel *photoLabel;
 
 @property (nonatomic, strong) LPSupplementView *supplementView;
@@ -42,7 +41,7 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
         self.layer.shouldRasterize = YES;
         self.layer.rasterizationScale = [UIScreen mainScreen].scale;
         
@@ -56,68 +55,46 @@
         UIImageView *photoView = [[UIImageView alloc] init];
         photoView.contentMode = UIViewContentModeScaleAspectFill;
         photoView.clipsToBounds = YES;
+        
         [self.contentView addSubview:photoView];
         self.photoView = photoView;
-        
-//        UIView *abstractSeperatorView = [[UIView alloc] init];
-//        abstractSeperatorView.backgroundColor = [UIColor colorFromHexString:@"#edefef"];
-//        [self.contentView addSubview:abstractSeperatorView];
-//        self.abstractSeperatorView = abstractSeperatorView;
-        
+                
     }
     return self;
 }
 
-- (void)setContentFrame:(LPContentFrame *)contentFrame
-{
-    _contentFrame = contentFrame;
-    LPContent *content = contentFrame.content;
+- (void)setContent:(LPContent *)content {
+    _content = content;
     if (!content.isPhoto) { // 非图
         self.bodyLabel.hidden = NO;
         self.photoView.hidden = YES;
-        
-        self.bodyLabel.frame = self.contentFrame.bodyLabelF;
+
+        CGFloat bodyX = 0;
+        CGFloat bodyY = BodyPadding * 2;
+        CGFloat bodyW = ScreenWidth - 2 * BodyPadding;
+        CGFloat bodyH = [self.content.bodyString heightWithConstraintWidth:bodyW];
+        self.bodyLabel.frame = CGRectMake(bodyX, bodyY, bodyW, bodyH);
         self.bodyLabel.attributedText = content.bodyString;
-        
+
     } else {
         self.bodyLabel.hidden = YES;
         self.photoView.hidden = NO;
+
+        CGFloat photoX = 0;
+        CGFloat photoY = BodyPadding * 2;
+        CGFloat photoW = ScreenWidth - 2 * BodyPadding;
+        CGFloat photoH =  photoW * (_content.image.size.height / _content.image.size.width);
+        self.photoView.frame = CGRectMake(photoX, photoY, photoW, photoH);
         
-        self.photoView.frame = self.contentFrame.photoViewF;
         [self.photoView sd_setImageWithURL:[NSURL URLWithString:content.photo] placeholderImage:[UIImage imageNamed:@"单图大图占位图"]];
-        
-//        [self.photoView sd_setImageWithURL:[NSURL URLWithString:content.photo] placeholderImage:[UIImage imageNamed:@"单图大图占位图"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-//            if (!_contentFrame.isUpdated) {
-//                // 图片实际高度和宽度比例
-//                CGFloat scaleRate = image.size.height /  image.size.width ;
-//                CGFloat photoH = contentFrame.photoViewF.size.width * scaleRate;
-//                CGRect rect = CGRectMake(contentFrame.photoViewF.origin.x, contentFrame.photoViewF.origin.y, contentFrame.photoViewF.size.width, photoH);
-//                self.photoView.frame = rect;
-//                
-//                _contentFrame.cellHeight  = CGRectGetMaxY(rect);
-//                _contentFrame.updated = YES;
-//                if ([self.delegate respondsToSelector:@selector(tableViewDidReload:)]) {
-//                    [self.delegate tableViewDidReload:self];
-//                }
-//            }
-//        }];
     }
 }
 
-//- (void)setFrame:(CGRect)frame
-//{
-//    frame.origin.x = DetailCellBilateralBorder;
-//    frame.size.width -= 2 * DetailCellBilateralBorder;
-//    [super setFrame:frame];
-//}
-
--(void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
+-(void)setSelected:(BOOL)selected animated:(BOOL)animated {
     
 }
 
-- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated
-{
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
     
 }
 @end

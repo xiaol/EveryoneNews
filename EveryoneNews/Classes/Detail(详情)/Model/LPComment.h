@@ -46,6 +46,8 @@
 
 @property (nonatomic, copy) NSString *commentId;
 
+@property (nonatomic, copy) NSString *Id;
+
 @property (nonatomic, copy) NSString *type;
 
 @property (nonatomic, copy) NSString *userIcon;
@@ -53,11 +55,6 @@
 @property (nonatomic, strong) UIColor *color;
 
 - (NSMutableAttributedString *)commentStringWithColor:(UIColor *)color;
-
-//- (NSMutableAttributedString *)commentStringWithCategory:(NSString *)category;
-//
-//- (NSMutableAttributedString *)commentStringWithConcern:(LPConcern *)concern;
-
-- (CGFloat)commentTextLineHeight;
+//- (CGFloat)commentTextLineHeight;
 
 @end

@@ -49,106 +49,107 @@
 //    nav.popRecognizer.enabled = YES;
 }
 
+#pragma mark - ViewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
-    if (self.footerBackgroundImage != nil) {
-        UIImageView *footerBackgroundView = [[UIImageView alloc] initWithImage:self.footerBackgroundImage];
-        footerBackgroundView.frame = CGRectMake(0, 0, self.footerBackgroundImage.size.width, self.footerBackgroundImage.size.height);
-        [self.view addSubview:footerBackgroundView];
-    }
-    UIImageView *headerBackgroundView = [[UIImageView alloc] initWithImage:self.headerBackgroundImage];
-    [self.view addSubview:headerBackgroundView];
-    UIView *mask = [[UIView alloc] initWithFrame:self.view.bounds];
-    mask.backgroundColor = [UIColor blackColor];
-    mask.alpha = 0.75;
-    [self.view addSubview:mask];
-    self.maskView = mask;
-    [self setupSubviews];
+    self.view.backgroundColor = [UIColor whiteColor];
+    [self setupSubViews];
+
+    
+    
+    
+    
+//    if (self.footerBackgroundImage != nil) {
+//        UIImageView *footerBackgroundView = [[UIImageView alloc] initWithImage:self.footerBackgroundImage];
+//        footerBackgroundView.frame = CGRectMake(0, 0, self.footerBackgroundImage.size.width, self.footerBackgroundImage.size.height);
+//        [self.view addSubview:footerBackgroundView];
+//    }
+//    UIImageView *headerBackgroundView = [[UIImageView alloc] initWithImage:self.headerBackgroundImage];
+//    [self.view addSubview:headerBackgroundView];
+//    UIView *mask = [[UIView alloc] initWithFrame:self.view.bounds];
+//    mask.backgroundColor = [UIColor blackColor];
+//    mask.alpha = 0.75;
+//    [self.view addSubview:mask];
+//    self.maskView = mask;
+//    [self setupSubviews];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
+- (void)setupSubViews {
+    CGFloat labelPaddingTop = 150;
+    if (iPhone6Plus) {
+        labelPaddingTop = 171;
+    }
+    CGFloat firstLabelHeight = [@"您好" heightForLineWithFont:[UIFont systemFontOfSize:20]];
+    UILabel *firstLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, labelPaddingTop, ScreenWidth, firstLabelHeight)];
+    firstLabel.textAlignment = NSTextAlignmentCenter;
+    firstLabel.font = [UIFont systemFontOfSize:20];
+    firstLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
+    firstLabel.text = @"智能推荐您喜欢的文章";
+    [self.view addSubview: firstLabel];
     
-    [UIView animateWithDuration:0.6 animations:^{
-        self.maskView.alpha = 0.85;
-        self.wrapperView.alpha = 1.0;
-    } completion:nil];
-}
-/**
- *  初始化和添加子views
- */
-- (void)setupSubviews{
-    UIView *viewWrapper = [[UIView alloc] init];
-    [self.view addSubview:viewWrapper];
-    self.wrapperView = viewWrapper;
-    viewWrapper.frame = self.view.bounds;
-    viewWrapper.backgroundColor = [UIColor clearColor];
     
-    UILabel *firstLabel = [[UILabel alloc] init];
-    firstLabel.text = @"加入奇点";
-    firstLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:20.0];
-    firstLabel.frame = CGRectMake((ScreenWidth-230.0 / 375 * ScreenWidth) * 0.5 , ScreenHeight * 0.3, 100, 20);
-    firstLabel.textColor = [UIColor whiteColor];
-    [viewWrapper addSubview:firstLabel];
+    CGFloat secondLabelHeight = [@"您好" heightForLineWithFont:[UIFont systemFontOfSize:16]];
+    UILabel *secondLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(firstLabel.frame) + 16, ScreenWidth, secondLabelHeight)];
+    secondLabel.textAlignment = NSTextAlignmentCenter;
+    secondLabel.font = [UIFont systemFontOfSize:16];
+    secondLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
+    secondLabel.text = @"只需一键登录";
+    [self.view addSubview: secondLabel];
     
-    UILabel *secondLabel = [[UILabel alloc] init];
-    secondLabel.text = @"与世界分享你的真知灼见";
-    secondLabel.font = [UIFont systemFontOfSize:15.0];
-    secondLabel.frame = CGRectMake((ScreenWidth-230.0 / 375 * ScreenWidth) * 0.5 , CGRectGetMaxY(firstLabel.frame) + 14, 200, 15);
-    secondLabel.textColor = [UIColor whiteColor];
-    [viewWrapper addSubview:secondLabel];
+    CGFloat casualLookButtonHeight = [@"您好" heightForLineWithFont:[UIFont systemFontOfSize:18]];
+    UIButton *casualLookButton = [[UIButton alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(secondLabel.frame) + 32, ScreenWidth, casualLookButtonHeight)];
+    [casualLookButton setEnlargedEdgeWithTop:20 left:0 bottom:20 right:0];
+    [casualLookButton setTitle:@"先随便看看 >" forState:UIControlStateNormal];
+    [casualLookButton setTitleColor:[UIColor colorFromHexString:@"#999999"] forState:UIControlStateNormal];
+    [casualLookButton addTarget:self action:@selector(closeBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview: casualLookButton];
     
-    //微博登录按钮
-    UIButton *weiboBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    weiboBtn.imageEdgeInsets = UIEdgeInsetsMake(8, 0, 10, 15);
-    weiboBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10);
-    weiboBtn.imageView.contentMode = UIViewContentModeCenter;
-    weiboBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
-    weiboBtn.titleLabel.font = [UIFont systemFontOfSize:16.0];
-    weiboBtn.frame = CGRectMake((ScreenWidth-230.0 / 375 * ScreenWidth) *0.5,CGRectGetMaxY(secondLabel.frame) + 30, 230.0 / 375 * ScreenWidth, 55.0 / 667 * ScreenHeight);
-    weiboBtn.backgroundColor = [UIColor colorFromHexString:@"ff5d5d"];
-    [weiboBtn setImage:[UIImage imageNamed:@"ic_login_weibo"] forState:UIControlStateNormal];
-    [weiboBtn setImage:[UIImage imageNamed:@"ic_login_weibo"] forState:UIControlStateHighlighted];
-    [weiboBtn setTitle:@"使用微博账号" forState:UIControlStateNormal];
-    [weiboBtn addTarget:self action:@selector(weiboLogin:) forControlEvents:UIControlEventTouchUpInside];
-    [viewWrapper addSubview:weiboBtn];
     
-    //微信登录按钮
+    CGFloat weixingPaddingLeft = 60;
+    if (iPhone6Plus) {
+        weixingPaddingLeft = 74;
+    }
     
-    UIButton *weixinBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    weixinBtn.frame=CGRectMake((ScreenWidth-230.0 / 375 * ScreenWidth) / 2, CGRectGetMaxY(weiboBtn.frame)+13, 230.0/375*ScreenWidth, 55.0/667*ScreenHeight);
-    weixinBtn.imageEdgeInsets = UIEdgeInsetsMake(8, 0, 10, 15);
-    weixinBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 10);
-    weixinBtn.imageView.contentMode = UIViewContentModeScaleAspectFit;
-    weixinBtn.titleLabel.textAlignment = NSTextAlignmentLeft;
-    weixinBtn.titleLabel.font=[UIFont systemFontOfSize:16.0];
-    weixinBtn.backgroundColor = [UIColor colorFromHexString:@"00e17f"];
-    [weixinBtn setImage:[UIImage imageNamed:@"ic_login_weixin"] forState:UIControlStateNormal];
-    [weixinBtn setImage:[UIImage imageNamed:@"ic_login_weixin"] forState:UIControlStateHighlighted];
-    [weixinBtn setTitle:@"使用微信账号" forState:UIControlStateNormal];
+    UIButton *weixinBtn = [[UIButton alloc] init];
+    [weixinBtn setBackgroundImage:[UIImage imageNamed:@"微信登录"] forState:UIControlStateNormal];
+    weixinBtn.frame = CGRectMake(weixingPaddingLeft, CGRectGetMaxY(casualLookButton.frame) + 113, 75, 75);
     [weixinBtn addTarget:self action:@selector(weixinLogin:) forControlEvents:UIControlEventTouchUpInside];
-    [viewWrapper addSubview:weixinBtn];
-//    NSLog(@"is wechat installed %d, support %d", [WXApi isWXAppInstalled], [WXApi isWXAppSupportApi]);
-    if (![WXApi isWXAppInstalled] || ![WXApi isWXAppSupportApi]) {
-        weixinBtn.hidden = YES;
-    } else {
-        weixinBtn.hidden = NO;
-    }
+    [self.view addSubview:weixinBtn];
     
-    //添加关闭按钮
-    UIButton *closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    closeBtn.frame = CGRectMake(ScreenWidth * 0.5 - 13, CGRectGetMaxY(weixinBtn.frame) + 24, 25, 25);
-    if(weixinBtn.hidden == YES) {
-        closeBtn.y = CGRectGetMaxY(weiboBtn.frame)+ 30;
-    }
-    closeBtn.enlargedEdge = 10;
-    [closeBtn setBackgroundImage:[UIImage imageNamed:@"ic_login_close"] forState:UIControlStateNormal];
-    [closeBtn addTarget:self action:@selector(closeBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [viewWrapper addSubview:closeBtn];
-    viewWrapper.alpha = 0.5;
+    CGFloat weixinLabelHeight = [@"您好" heightForLineWithFont:[UIFont systemFontOfSize:14]];
+    UILabel *weixinLabel = [[UILabel alloc] initWithFrame:CGRectMake(weixingPaddingLeft, CGRectGetMaxY(weixinBtn.frame) + 12 , 75, weixinLabelHeight)];
+    weixinLabel.textAlignment = NSTextAlignmentCenter;
+    weixinLabel.text = @"微信登录";
+    weixinLabel.font = [UIFont systemFontOfSize:14];
+    weixinLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
+    [self.view addSubview:weixinLabel];
+    
+    
+    UIButton *weiboBtn = [[UIButton alloc] init];
+    [weiboBtn setBackgroundImage:[UIImage imageNamed:@"微博登录"] forState:UIControlStateNormal];
+    weiboBtn.frame = CGRectMake(ScreenWidth - weixingPaddingLeft - 75,CGRectGetMaxY(casualLookButton.frame) + 113, 75, 75);
+    [weiboBtn addTarget:self action:@selector(weiboLogin:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:weiboBtn];
+    
+    UILabel *weiboLabel = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - weixingPaddingLeft - 75, CGRectGetMaxY(weixinBtn.frame) + 12 , 75, weixinLabelHeight)];
+    weiboLabel.text = @"微博登录";
+    weiboLabel.font = [UIFont systemFontOfSize:14];
+    weiboLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
+    weiboLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:weiboLabel];
 }
 
+#pragma mark - 显示状态栏
+- (UIStatusBarStyle) preferredStatusBarStyle {
+    return UIStatusBarStyleDefault;
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    return NO;
+}
+
+#pragma mark - 随便看看
 - (void)closeBtnClick {
     [self closeSelf];
     if (self.cancelBlock) {
@@ -156,26 +157,30 @@
     }
 }
 
-/**
- *  pop当前的viewcontroller
- */
-- (void)closeSelf
-{
-//    [self.navigationController popViewControllerAnimated:NO];
+
+- (void)closeSelf {
     [self dismissViewControllerAnimated:NO completion:nil];
 }
+#pragma mark - 微信登录
+- (void)weixinLogin:(UIButton *)weixinBtn {
+    [self loginWithPlatformName:UMShareToWechatSession];
+}
 
+
+#pragma mark - 微博登录
+- (void)weiboLogin:(UIButton *)weiboBtn {
+    [self loginWithPlatformName:UMShareToSina];
+}
+
+#pragma mark - 登录微信微博平台
 - (void)loginWithPlatformName:(NSString *)type {
+    
     UMSocialSnsPlatform *platform = [UMSocialSnsPlatformManager getSocialPlatformWithName:type];
     __weak typeof(self) wself = self;
-    [self.wrapperView removeFromSuperview];
-    [self.maskView removeFromSuperview];
     UMSocialControllerService *service = [UMSocialControllerService defaultControllerService];
     service.socialUIDelegate = self;
-//    NSLog(@"service %@", service.socialUIDelegate)
     platform.loginClickHandler(self, service , YES ,^(UMSocialResponseEntity *response) {
-//        NSLog(@"%@", [UMSocialControllerService defaultControllerService]);
-        NSLog(@"responseCode is %d, type is %@", response.responseCode, type);
+        
         if (response.responseCode == UMSResponseCodeSuccess) {
             UMSocialAccountEntity *accountEntity = [[UMSocialAccountManager socialAccountDictionary] valueForKey:type];
             NSMutableDictionary *dict = [NSMutableDictionary dictionary];
@@ -206,6 +211,7 @@
                 [wself closeSelf];
             }];
         } else {
+            
             if (wself.failureBlock) {
                 wself.failureBlock();
             }
@@ -214,26 +220,20 @@
     });
 }
 
-- (void)weiboLogin:(UIButton *)weiboBtn {
-    [self loginWithPlatformName:UMShareToSina];
-}
 
-- (void)weixinLogin:(UIButton *)weixinBtn{
-    [self loginWithPlatformName:UMShareToWechatSession];
-}
-
+#pragma mark - dealloc
 - (void)dealloc {
     NSLog(@"loginVC dealloc !");
 }
 
-#pragma mark - UMSocialUIDelegate
-//- (BOOL)closeOauthWebViewController:(UINavigationController *)navigationCtroller socialControllerService:(UMSocialControllerService *)socialControllerService {
-//    return YES;
+//#pragma mark - UMSocialUIDelegate
+////- (BOOL)closeOauthWebViewController:(UINavigationController *)navigationCtroller socialControllerService:(UMSocialControllerService *)socialControllerService {
+////    return YES;
+////}
+//
+//- (void)didCloseUIViewController:(UMSViewControllerType)fromViewControllerType {
+//    [self closeSelf];
 //}
-
-- (void)didCloseUIViewController:(UMSViewControllerType)fromViewControllerType {
-    [self closeSelf];
-}
 
 @end
 
@@ -246,12 +246,11 @@ singleton_m(AccountTool);
         return;
     }
     LPLoginViewController *loginVc = [[LPLoginViewController alloc] init];
-    loginVc.headerBackgroundImage = [UIImage captureWithView:viewVc.view];
     loginVc.successBlock = success;
     loginVc.failureBlock = failure;
     loginVc.cancelBlock = cancel;
-    //    [viewVc.navigationController pushViewController:loginVc animated:NO];
     [viewVc presentViewController:loginVc animated:NO completion:nil];
+    
 }
 
 + (Account *)account{

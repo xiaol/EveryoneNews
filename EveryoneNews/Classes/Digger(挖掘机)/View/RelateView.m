@@ -156,9 +156,8 @@ static const CGFloat HeaderViewHeight = 50;
         
         UIImageView *contentImageView = [[UIImageView alloc] init];
         contentImageView.frame = CGRectMake(contentPathX, Padding, contentPathW, contentPathH);
-        contentImageView.userInteractionEnabled=YES;
+//        contentImageView.userInteractionEnabled =YES;
         [cellView addSubview:contentImageView];
-        
         
         UILabel *contentLabel= [[UILabel alloc] init];
         CGFloat contentLabelPaddingH = 10;
@@ -170,23 +169,22 @@ static const CGFloat HeaderViewHeight = 50;
         contentLabel.contentMode = UIViewContentModeTop;
         [contentImageView addSubview:contentLabel];
         
-       //   有图片就加上图片，否则只显示文字
-        if (point.photoURL.length > 0) {
-            NSURL *url = [NSURL URLWithString:point.photoURL];
-            NSData *data = [NSData dataWithContentsOfURL:url];
-            // 目前由于某些url解析不了，首先判断data能否转换，能转换则添加图片边框
-            if (data) {
-                UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(contentLabel.frame) + 10, 12.5f, 50, 40)];
-                imageView.layer.masksToBounds = YES;
-                [imageView sd_setImageWithURL:[NSURL URLWithString:point.photoURL] placeholderImage:[UIImage imageNamed:@"dig详情页占位小图"]];
-                imageView.contentMode = UIViewContentModeScaleAspectFill;
-                [contentImageView addSubview:imageView];
-            }
-        } else {
+        if (point.photoURL.length > 0 && [point.photoURL rangeOfString:@","].location == NSNotFound) {
+         
+            CGFloat imageW = 50;
+            CGFloat imageY = 10;
+            CGFloat imageH = contentPathH - 2 * imageY;
+            // 有图片时，重新设置文字宽度
+            contentLabel.frame = CGRectMake(contentLabelPaddingH , contentLabelPaddingV, contentPathW - 2 * contentLabelPaddingH - imageW - 10, contentPathH - contentLabelPaddingV * 2);
             
-            contentLabel.frame=CGRectMake(10, 5, ScreenWidth - 85, 60);
-        }
+            UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(contentLabel.frame) + 10, imageY, imageW, imageH)];
+            [imageView sd_setImageWithURL:[NSURL URLWithString:point.photoURL] placeholderImage:[UIImage imageNamed:@"dig详情页占位小图"]];
+            imageView.clipsToBounds = YES;
+            imageView.contentMode = UIViewContentModeScaleAspectFill;
+            [contentImageView addSubview:imageView];
 
+        }
+        
         [cellView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(DidTapCellView:)]];
         cellView.userInteractionEnabled = YES;
         cellView.tag = i;

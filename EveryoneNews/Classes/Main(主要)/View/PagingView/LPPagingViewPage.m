@@ -20,42 +20,97 @@
 #import "Card+CoreDataProperties.h"
 #import "LPSearchViewController.h"
 
-@interface LPPagingViewPage () <UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
+@interface LPPagingViewPage () <UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate, LPHomeViewCellDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIView *searchView;
+
+@property (nonatomic, strong) UILabel *promptLabel;
 
 @end
 
 @implementation LPPagingViewPage
 
 - (void)prepareForReuse {
+    self.searchView.hidden = YES;
+    
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if(self = [super initWithFrame:frame]) {
-        UIView *searchView = [[UIView alloc] initWithFrame: CGRectMake(BodyPadding, 0, ScreenWidth, TabBarHeight)];
-        UIImageView *searchImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"首页搜索框"]];
-        searchImageView.backgroundColor = [UIColor colorFromHexString:@"#edefef"];
-        searchImageView.contentMode = UIViewContentModeScaleAspectFit;
-        searchImageView.frame =  CGRectMake(BodyPadding, 0, ScreenWidth - 2 * BodyPadding, TabBarHeight);
-        searchImageView.userInteractionEnabled = YES;
+        CGFloat searchViewHeight = 32;
+        CGFloat cornerRadius = 10;
+        CGFloat paddingTop = 9;
+        CGFloat searchImageH = 12;
+        CGFloat searchImageW = 12;
+        CGFloat searchLabelFontSize = 13;
+        
+        if (iPhone6Plus) {
+            searchViewHeight = 38;
+            cornerRadius = 15;
+            searchImageH = 15;
+            searchImageW = 15;
+            searchLabelFontSize = 16;
+        }
+        
+        UIView *searchView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, searchViewHeight)];
+        searchView.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
+        
+        CALayer *layer = [CALayer layer];
+        layer.frame = CGRectMake(12, paddingTop, ScreenWidth - 24, searchViewHeight - paddingTop);
+        layer.backgroundColor =[UIColor whiteColor].CGColor;
+        layer.cornerRadius = cornerRadius;
+        layer.borderColor = [UIColor colorFromHexString:@"e4e4e4"].CGColor;
+        layer.borderWidth = 0.5;
+        [searchView.layer addSublayer:layer];
+        
+        UIImageView *searchImageView = [[UIImageView alloc] initWithFrame:CGRectMake(23, 0, searchImageH, searchImageW)];
+        searchImageView.image = [UIImage imageNamed:@"首页搜索"];
+        searchImageView.centerY = (searchViewHeight + paddingTop) / 2;
+        [searchView addSubview:searchImageView];
+        
+        UILabel *searchLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(searchImageView.frame) + 7, 0, 40, 29)];
+        searchLabel.text = @"搜索";
+        searchLabel.textAlignment = NSTextAlignmentLeft;
+        searchLabel.textColor = [UIColor colorFromHexString:@"#cacaca"];
+        searchLabel.font = [UIFont systemFontOfSize:searchLabelFontSize];
+        searchLabel.centerY = (searchViewHeight + paddingTop) / 2;
+        [searchView addSubview:searchLabel];
         
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapImageView:)];
         tapGesture.delegate = self;
-        [searchImageView addGestureRecognizer:tapGesture];
-        [searchView addSubview:searchImageView];
+        [searchView addGestureRecognizer:tapGesture];
+        searchView.hidden = YES;
         self.searchView = searchView;
         
         UITableView *tableView = [[UITableView alloc] init];
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        tableView.backgroundColor =  [UIColor colorFromHexString:@"#edefef"];
+        tableView.backgroundColor =  [UIColor colorFromHexString:@"#f6f6f6"];
         tableView.dataSource = self;
         tableView.delegate = self;
         tableView.showsVerticalScrollIndicator = NO;
-        tableView.tableHeaderView = searchView;
+        
         [self addSubview:tableView];
-        self.tableView = tableView;
+         self.tableView = tableView;
+        
+        UILabel *label = [[UILabel alloc] init];
+        label.hidden = YES;
+        label.height = 30;
+        label.x = 0;
+        label.y = -15;
+        label.width = ScreenWidth;
+        
+        label.backgroundColor = [UIColor colorFromHexString:@"#fafafa"];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.textColor = [UIColor colorFromHexString:@"0087d1"];
+        label.font = [UIFont systemFontOfSize:14];
+        if (iPhone6Plus) {
+            label.font = [UIFont systemFontOfSize:16];
+        }
+        label.alpha = 0.9;
+        [self addSubview:label];
+        self.promptLabel = label;
+        
         // 下拉刷新功能
         __weak typeof(self) weakSelf = self;
         self.tableView.header = [LPDiggerHeader headerWithRefreshingBlock:^{
@@ -65,21 +120,22 @@
         self.tableView.footer = [LPDiggerFooter footerWithRefreshingBlock:^{
             [weakSelf loadMoreData];
         }];
-    
     }
     return self;
 }
 
 - (void)layoutSubviews {
+    [super layoutSubviews];
     self.tableView.frame = self.bounds;
-    [self.tableView setContentOffset:CGPointMake(0, TabBarHeight)];
- 
+    self.tableView.tableHeaderView = self.searchView;
 }
 
 - (void)setCardFrames:(NSMutableArray *)cardFrames {
     _cardFrames = cardFrames;
     [self.tableView reloadData];
-    
+    if (cardFrames.count > 0) {
+        self.searchView.hidden = NO;
+    }
 }
 
 #pragma mark - 跳转到搜索栏
@@ -92,7 +148,7 @@
 
 #pragma mark - 自动加载最新数据
 - (void)autotomaticLoadNewData {
-    [self.tableView.header beginRefreshing];
+      [self.tableView.header beginRefreshing];
 }
 
 #pragma mark － 下拉刷新 如果超过12小时始终返回最新数据
@@ -107,7 +163,7 @@
         param.startTime = cardFrame.card.updateTime;
         __weak typeof(self) weakSelf = self;
         NSMutableArray *tempArray = [[NSMutableArray alloc] init];
-        [CardTool cardsWithParam:param success:^(NSArray *cards) {
+        [CardTool cardsWithParam:param channelID: param.channelID success:^(NSArray *cards) {
             if (cards.count > 0) {
             for (int i = 0; i < (int)cards.count; i ++) {
                 CardFrame *cardFrame = [[CardFrame alloc] init];
@@ -132,36 +188,21 @@
 }
 
 - (void)showNewCount:(NSInteger)count {
-    UILabel *label = [[UILabel alloc] init];
-    [self insertSubview:label belowSubview:self];
-    label.height = 30;
-    label.x = 0;
-    label.y = -15;
-    label.width = ScreenWidth;
-    
-    label.backgroundColor = [UIColor colorFromHexString:@"#fafafa"];
-    label.textAlignment = NSTextAlignmentCenter;
-    label.textColor = [UIColor colorFromHexString:@"0087d1"];
-    label.font = [UIFont systemFontOfSize:14];
-    if (iPhone6Plus) {
-        label.font = [UIFont systemFontOfSize:16];
-    }
-    label.alpha = 0.9;
-    
+
+    self.promptLabel.hidden = NO;
     if (count) {
-        label.text = [NSString stringWithFormat:@"已为您推荐%d条新内容", count];
+        self.promptLabel.text = [NSString stringWithFormat:@"已为您推荐%d条新内容", count];
     } else {
-        label.text = @"已经是最新内容";
+        self.promptLabel.text = @"已经是最新内容";
     }
-    
-    [UIView animateWithDuration:0.8 animations:^{
-        label.transform = CGAffineTransformMakeTranslation(0, 15);
+    [UIView animateWithDuration:0.4 animations:^{
+        self.promptLabel.transform = CGAffineTransformMakeTranslation(0, 15);
     } completion:^(BOOL finished) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [UIView animateWithDuration:0.8 animations:^{
-                label.transform = CGAffineTransformIdentity;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:0.4 animations:^{
+                self.promptLabel.transform = CGAffineTransformIdentity;
             } completion:^(BOOL finished) {
-                [label removeFromSuperview];
+                self.promptLabel.hidden = YES;
             }];
         });
     }];
@@ -170,29 +211,27 @@
 - (void)loadMoreData {
     CardFrame *cardFrame = [self.cardFrames lastObject];
     Card *card = cardFrame.card;
-    CardParam *param = [[CardParam alloc] init];
-    param.channelID = [NSString stringWithFormat:@"%@", card.channelId];
-    param.type = HomeCardsFetchTypeMore;
-    param.count = @20;
-    param.startTime = card.updateTime;
+        CardParam *param = [[CardParam alloc] init];
+        param.channelID = [NSString stringWithFormat:@"%@", card.channelId];
+        param.type = HomeCardsFetchTypeMore;
+        param.count = @20;
+        param.startTime = card.updateTime;
     
-    NSMutableArray *tempCardFrames = self.cardFrames;
-    [CardTool cardsWithParam:param success:^(NSArray *cards) {
-        for (Card *card in cards) {
-            CardFrame *cardFrame = [[CardFrame alloc] init];
-            cardFrame.card = card;
-            [tempCardFrames addObject:cardFrame];
-        }
-        self.cardFrames = tempCardFrames;
-    
-    [self.tableView.footer endRefreshing];
-    if (!cards.count) {
-        [self.tableView.footer noticeNoMoreData];
-    }
-    } failure:^(NSError *error) {
+        NSMutableArray *tempCardFrames = self.cardFrames;
+        [CardTool cardsWithParam:param  channelID:param.channelID success:^(NSArray *cards) {
+            for (Card *card in cards) {
+                CardFrame *cardFrame = [[CardFrame alloc] init];
+                cardFrame.card = card;
+                [tempCardFrames addObject:cardFrame];
+            }
+            self.cardFrames = tempCardFrames;
         [self.tableView.footer endRefreshing];
-    }];
-
+        if (!cards.count) {
+            [self.tableView.footer noticeNoMoreData];
+          }
+        } failure:^(NSError *error) {
+            [self.tableView.footer endRefreshing];
+        }];
 }
 
 
@@ -209,10 +248,32 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *cellIdentifier = self.cellIdentifier;
     LPHomeViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    cell.delegate = self;
     if (cell == nil) {
         cell = [[LPHomeViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     cell.cardFrame = self.cardFrames[indexPath.row];
+    
+    
+////    __weak typeof(self) weakSelf = self;
+////    __weak typeof(cell) weakCell = cell;
+////    [weakCell setDidClickBlock:^(UIButton *button) {
+////        
+////        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 100, 100)];
+////        view.backgroundColor = [UIColor redColor];
+////        [weakCell addSubview:view];
+////        
+////        [UIView animateWithDuration:1.0f animations:^{
+////            
+////        } completion:^(BOOL finished) {
+////            [view removeFromSuperview];
+////        }];
+////        //NSLog(@"hhh");
+//////        [weakSelf.tableView beginUpdates];
+//////        [weakSelf.cardFrames removeObject:weakSelf.cardFrames[indexPath.row]];
+//////        [weakSelf.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationBottom];
+//////        [self.tableView endUpdates];
+////    }];
     return cell;
 }
 
@@ -227,18 +288,32 @@
     }
 }
 
-#pragma mark - scrollView Delegate
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    CGFloat offsetY = scrollView.contentOffset.y;
-    if ([self.delegate respondsToSelector:@selector(page:didSaveOffsetY:)]) {
-        offsetY = offsetY > TabBarHeight ? offsetY : TabBarHeight;
-        [self.delegate page:self didSaveOffsetY:offsetY];
-    }
+- (void)deleteRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    [self.tableView beginUpdates];
+    [self.cardFrames removeObject:self.cardFrames[indexPath.row]];
+    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationBottom];
+    [self.tableView endUpdates];
+    
 }
 
+
+
+#pragma mark - scrollView Delegate
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+//    CGFloat offsetY = scrollView.contentOffset.y;
+//    if ([self.delegate respondsToSelector:@selector(page:didSaveOffsetY:)]) {
+//        [self.delegate page:self didSaveOffsetY:offsetY];
+//    }
+//    
+////    NSLog(@"offsetY:%f", offsetY);
+//}
+
 #pragma mark - tableView contentOffsetY
-- (void)scrollToOffsetY:(CGFloat)offsetY {
-     [self.tableView setContentOffset:CGPointMake(0, offsetY)];
-}
+//- (void)scrollToOffsetY:(CGFloat)offsetY {
+//    [self.tableView setContentOffset:CGPointMake(0, offsetY) animated:NO];
+//    
+//}
+
 
 @end

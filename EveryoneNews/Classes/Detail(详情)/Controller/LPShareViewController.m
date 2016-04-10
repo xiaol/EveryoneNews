@@ -264,8 +264,7 @@ static const CGFloat MenuViewAnimationInterval= (MenuViewAnimationTime / 6);
         if (shareResponse.responseCode == UMSResponseCodeSuccess) {
             [self shareSucess];
         }
-        else
-        {
+        else {
             [self shareFailure];
         }
         
@@ -273,8 +272,7 @@ static const CGFloat MenuViewAnimationInterval= (MenuViewAnimationTime / 6);
 }
 
 // 短信分享
-- (void)shareToSmsBtnClick
-{
+- (void)shareToSmsBtnClick {
     NSString *url =self.detailTitleWithUrl;
     [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[UMShareToSms] content:url image:nil location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
         if (response.responseCode == UMSResponseCodeSuccess) {
@@ -284,10 +282,9 @@ static const CGFloat MenuViewAnimationInterval= (MenuViewAnimationTime / 6);
 }
 
 // 邮件分享
-- (void)shareToEmailBtnClick
-{
+- (void)shareToEmailBtnClick {
     NSString *url =self.detailTitleWithUrl;
-    [UMSocialData defaultData].extConfig.title =[NSString stringWithFormat:@"【头条百家】%@",self.detailTitle];
+    [UMSocialData defaultData].extConfig.title =[NSString stringWithFormat:@"【奇点资讯】%@",self.detailTitle];
     [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[UMShareToEmail] content:url image:nil location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
         if (response.responseCode == UMSResponseCodeSuccess) {
             [self shareSucess];
@@ -296,8 +293,7 @@ static const CGFloat MenuViewAnimationInterval= (MenuViewAnimationTime / 6);
 }
 
 // 转发链接
-- (void)shareToLinkBtn
-{
+- (void)shareToLinkBtn {
     NSString *url =self.detailTitleWithUrl;
     UIPasteboard *gpBoard = [UIPasteboard generalPasteboard];
     gpBoard.string=url;
@@ -307,8 +303,7 @@ static const CGFloat MenuViewAnimationInterval= (MenuViewAnimationTime / 6);
 }
 
 // 判断手势是否有效
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
-{
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
     if ([touch.view isKindOfClass:[UIControl class]]) {
         return NO;
     }else{
@@ -316,8 +311,7 @@ static const CGFloat MenuViewAnimationInterval= (MenuViewAnimationTime / 6);
     }
 }
 
--(void)dealloc
-{
+-(void)dealloc {
 //    NSLog(@"分享测试dealloc");
 }
 @end

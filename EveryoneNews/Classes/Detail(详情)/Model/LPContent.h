@@ -24,6 +24,8 @@
 @property (nonatomic, assign) BOOL isPhoto;
 @property (nonatomic, copy) NSString *photoDesc;
 @property (nonatomic, copy) NSString *photo;
+@property (nonatomic, strong) UIImage *image;
+
 
 @property (nonatomic, strong) NSNumber *index;
 @property (nonatomic, strong) UIColor *color;

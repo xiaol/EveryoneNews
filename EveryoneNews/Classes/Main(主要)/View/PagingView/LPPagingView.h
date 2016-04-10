@@ -124,4 +124,6 @@
 - (void)reloadPageAtPageIndex:(NSInteger)index;
 
 - (UIView *)currentPage;
+
+- (UIView *)pageAtPageIndex:(NSInteger)index;
 @end

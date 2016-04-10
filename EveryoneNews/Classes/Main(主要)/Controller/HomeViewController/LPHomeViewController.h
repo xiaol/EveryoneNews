@@ -12,76 +12,62 @@
 #import "LPPagingView.h"
 #import "LPMenuView.h"
 #import "LPMenuCollectionViewCell.h"
-#import "LPTabBar.h"
-@class GenieTransition;
+#import "LPLaunchLoginView.h"
+#import "LPChangeFontSizeView.h"
 
-@interface LPHomeViewController : LPBaseViewController
 
-@property (nonatomic, strong) UIView *topBackgroundView;
-// 所有频道集合
-@property (nonatomic, strong) NSMutableArray *channelItemsArray;
-// 内容页面
-@property (nonatomic, strong) LPPagingView *pagingView;
-// 菜单栏
-@property (nonatomic, strong) LPMenuView *menuView;
+@interface LPHomeViewController : LPBaseViewController 
+
+// 首页登录按钮
+@property (nonatomic,strong) UIButton *loginBtn;
 // 已选频道
 @property (nonatomic, strong) NSMutableArray *selectedArray;
 // 可选频道
 @property (nonatomic, strong) NSMutableArray *optionalArray;
-// 蒙层
-@property (nonatomic , strong) UIView *blurView;
-// 频道栏
-@property (nonatomic, strong) LPSortCollectionView *sortCollectionView;
-// 频道添加时
-@property (nonatomic, strong) UILabel *animationLabel;
-@property (nonatomic, assign) BOOL lastLabelIsHidden;
-// 频道栏是否展开
-//@property (nonatomic, assign) BOOL isSpread;
-@property (nonatomic, assign) BOOL isSort;
-@property (nonatomic, strong) LPMenuCollectionViewCell *firstCell;
+// 菜单栏
+@property (nonatomic, strong) LPMenuView *menuView;
+// 内容页面
+@property (nonatomic, strong) LPPagingView *pagingView;
+// 频道栏和页码对应关系
+@property (nonatomic, strong) NSMutableDictionary *pageindexMapToChannelItemDictionary;
+// 每个频道唯一标识
+@property (nonatomic, strong) NSMutableDictionary *cardCellIdentifierDictionary;
+// 所有频道名称
+@property (nonatomic, strong) NSMutableArray *channelItemsArray;
 // 记录选中菜单栏名称
 @property (nonatomic, copy) NSString *selectedChannelTitle;
-// 记录所有的样式，用于长按拖动
-@property (nonatomic, strong) NSMutableArray *cellAttributesArray;
 // 存储所有的模型数据
 @property (nonatomic, strong) NSMutableDictionary *channelItemDictionary;
-
-@property (nonatomic, strong) NSMutableDictionary *pageindexMapToChannelItemDictionary;
-
-@property (nonatomic, strong) NSUserDefaults *userDefault;
-
-@property (nonatomic, strong) NSMutableDictionary *cardCellIdentifierDictionary;
-
-@property (nonatomic, strong) NSMutableDictionary *pageContentOffsetDictionary;
-
-@property (nonatomic, strong) UIView *backgroundView;
-
-@property (nonatomic, strong) UIActivityIndicatorView *indictorView;
-
-// 网络出错
-@property (nonatomic, strong) UILabel *loadLabel;
-
-@property (nonatomic, strong) UIImageView *loadImageView;
-
-@property (nonatomic, strong) UILabel *noDataLabel;
-
-@property (nonatomic, strong) UIImageView *backgroundImageView;
-
-
-//@property (nonatomic, strong) UIScrollView *featureScrollView;
-
-@property (nonatomic, strong) UIPageControl *pageControl;
-
-@property (nonatomic, strong) UIView *featureBlurView;
-
-@property (nonatomic, strong) UIView *featureView;
-
-@property (nonatomic, strong) UIImageView *closeImageView;
-
-// 登录 挖掘机
-@property (nonatomic, strong) UIImageView *frontImageView;
-@property (nonatomic, assign) BOOL shouldPush;
-@property (nonatomic, strong) UIImage *userIcon;
-@property (nonatomic, strong) GenieTransition *genieTransition;
-
+// 记录所有的样式，用于长按拖动
+@property (nonatomic, strong) NSMutableArray *cellAttributesArray;
+// 菜单背景蓝色
+@property (nonatomic, strong) UIView *menuBackgroundView;
+// 频道添加时动画标签
+@property (nonatomic, strong) UILabel *animationLabel;
+// 频道栏
+@property (nonatomic, strong) LPSortCollectionView *sortCollectionView;
+// 是否完成频道切换
+@property (nonatomic, assign) BOOL isSort;
+@property (nonatomic, assign) BOOL lastLabelIsHidden;
+// 频道栏蒙层
+@property (nonatomic , strong) UIView *blurView;
+// 频道栏向上箭头
+@property (nonatomic, strong) UIButton *hideChannelItemButton;
+// 正在加载视图
+@property (nonatomic, strong) UIView *contentLoadingView;
+// 首页动画UIImageView
+@property (nonatomic, strong) UIImageView *animationImageView;
+// 正在加载文字提示
+@property (nonatomic, strong) UILabel *loadingLabel;
+// Launch View
+@property (nonatomic, strong) LPLaunchLoginView *loginView;
+// 首页第一次进入遮罩层
+@property (nonatomic, strong) UIView *homeBlurView;
+// 有新频道提示框
+@property (nonatomic, strong) UIImageView *channelBarImageView;
+// 调整文字提示框
+@property (nonatomic, strong) UIImageView *changeFontSizeTipImageView;
+// 底部调整文字大小视图
+@property (nonatomic, strong) LPChangeFontSizeView *changeFontSizeView;
+ 
 @end

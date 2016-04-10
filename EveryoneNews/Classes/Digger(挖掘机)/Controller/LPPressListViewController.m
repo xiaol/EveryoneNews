@@ -209,6 +209,8 @@ static const CGFloat headerH = 64.0f;
 
 #pragma mark - life cycle
 - (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
     // 如果从collect2AlbumVC进来, 则删除这个vc
     NSMutableArray *vcs = [self.navigationController.viewControllers mutableCopy];
     UIViewController *vc = vcs[self.navigationController.viewControllers.count - 2];

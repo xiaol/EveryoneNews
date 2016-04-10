@@ -8,6 +8,7 @@
 
 #import "LPContent.h"
 #import "SDWebImageManager.h"
+#import "LPFontSizeManager.h"
 
 @implementation LPContent
 
@@ -18,17 +19,9 @@
 
 - (NSMutableAttributedString *)bodyString
 {
-    CGFloat fontSize = 21;
-    if (iPhone6Plus) {
-        fontSize = 21;
-    }
-//    if (self.isAbstract) {
-//        return [self.body attributedStringWithFont:[UIFont fontWithName:@"Arial-BoldMT" size:BodyFontSize] color:[UIColor blackColor] lineSpacing:BodyLineSpacing];
-//    } else {
-    
-//      return [self.body attributedStringWithFont:[UIFont fontWithName:@"STHeitiSC-Light" size:fontSize] color:[UIColor colorFromHexString:@"#060606"] lineSpacing:BodyLineSpacing];
-        return [self.body attributedStringWithFont:[UIFont systemFontOfSize:fontSize] color:[UIColor colorFromHexString:@"#060606"] lineSpacing:BodyLineSpacing];
-//    }
+    CGFloat fontSize = [LPFontSizeManager sharedManager].currentDetailContentFontSize ;
+   
+    return [self.body attributedStringWithFont:[UIFont systemFontOfSize:fontSize] color:[UIColor colorFromHexString:@"#060606"] lineSpacing:BodyLineSpacing];
 }
 
 - (NSMutableAttributedString *)photoDescString {
@@ -46,10 +39,7 @@
 - (void)dealloc {
     if (self != nil) {
         if (self.isPhoto && !self.isAbstract) {
-//            if ([[SDWebImageManager sharedManager] cachedImageExistsForURL:[NSURL URLWithString:self.photo]]) {
-                    [[SDWebImageManager sharedManager].imageCache removeImageForKey:self.photo fromDisk:NO];
-
-//            }
+            [[SDWebImageManager sharedManager].imageCache removeImageForKey:self.photo fromDisk:NO];
         }
     }
 }

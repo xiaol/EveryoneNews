@@ -62,6 +62,28 @@
       }];
 }
 
+- (void)putWithURL:(NSString *)url
+            params:(NSDictionary *)params
+           success:(void (^)(id json))success
+           failure:(void (^)(NSError *error))failure {
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer.timeoutInterval = 5.0;
+    manager.responseSerializer = [AFJSONResponseSerializer
+                                  serializerWithReadingOptions:NSJSONReadingAllowFragments];
+
+    [manager PUT:url parameters:nil
+          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+              if (success) {
+                  success(responseObject);
+              }
+          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              if (failure) {
+                  failure(error);
+              }
+              NSLog(@"error:%@", error);
+          }];
+    
+}
 - (void)postJSONWithURL:(NSString *)url
                  params:(NSDictionary *)params
                 success:(void (^)(id json))success
@@ -77,15 +99,11 @@
                            success:^(AFHTTPRequestOperation *operation, id responseObject) {
                                if (success) {
                                    success(responseObject);
-                                   
-//                                   NSLog(@"----%@", [responseObject description]);
                                }
                            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                if (failure) {
                                    failure(error);
                                }
-                               NSLog(@"%@", error);
-                            
                            }];
 }
 
@@ -130,7 +148,7 @@
 }
 
 + (void)getWithURL:(NSString *)url params:(NSDictionary *)params success:(void (^)(id))success failure:(void (^)(NSError *))failure {
-    return [self getWithURL:url params:params timeinterval:5.0 success:success failure:failure];
+    return [self getWithURL:url params:params timeinterval:15.0 success:success failure:failure];
 }
 
 - (void)cancelRequest {

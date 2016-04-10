@@ -7,6 +7,7 @@ const CGFloat MJRefreshFooterHeight = 44.0;
 const CGFloat MJRefreshFastAnimationDuration = 0.25;
 const CGFloat MJRefreshSlowAnimationDuration = 0.4;
 
+
 NSString *const MJRefreshKeyPathContentOffset = @"contentOffset";
 NSString *const MJRefreshKeyPathContentInset = @"contentInset";
 NSString *const MJRefreshKeyPathContentSize = @"contentSize";

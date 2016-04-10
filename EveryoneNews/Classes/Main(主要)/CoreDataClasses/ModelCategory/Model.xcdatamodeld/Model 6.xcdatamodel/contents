@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9525" systemVersion="14F27" minimumToolsVersion="Xcode 4.3">
+    <entity name="Album" representedClassName="Album" syncable="YES">
+        <attribute name="albumID" optional="YES" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
+        <attribute name="isUpload" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="subtitle" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="thumbnail" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="photo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="AlbumPhoto" inverseName="album" inverseEntity="AlbumPhoto" syncable="YES"/>
+        <relationship name="presses" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Press" inverseName="album" inverseEntity="Press" syncable="YES"/>
+    </entity>
+    <entity name="AlbumPhoto" representedClassName="AlbumPhoto" parentEntity="Photo" syncable="YES">
+        <relationship name="album" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Album" inverseName="photo" inverseEntity="Album" syncable="YES"/>
+    </entity>
+    <entity name="Card" representedClassName="Card" syncable="YES">
+        <attribute name="channelId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="commentsCount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="docId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="newId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sourceSiteName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sourceSiteURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="updateTime" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="cardImages" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CardImage" inverseName="card" inverseEntity="CardImage" syncable="YES"/>
+        <relationship name="cardRelates" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="CardRelate" inverseName="card" inverseEntity="CardRelate" syncable="YES"/>
+    </entity>
+    <entity name="CardImage" representedClassName="CardImage" syncable="YES">
+        <attribute name="imgUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="card" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Card" inverseName="cardImages" inverseEntity="Card" syncable="YES"/>
+    </entity>
+    <entity name="CardRelate" representedClassName="CardRelate" syncable="YES">
+        <attribute name="compress" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="similarity" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="sourceSiteName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="sourceUrl" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="card" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Card" inverseName="cardRelates" inverseEntity="Card" syncable="YES"/>
+    </entity>
+    <entity name="Content" representedClassName="Content" syncable="YES">
+        <attribute name="body" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isPhotoType" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="paraID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="photoURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="thumbnail" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="thumbnailDesc" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="photo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ContentPhoto" inverseName="content" inverseEntity="ContentPhoto" syncable="YES"/>
+        <relationship name="press" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Press" inverseName="contents" inverseEntity="Press" syncable="YES"/>
+    </entity>
+    <entity name="ContentPhoto" representedClassName="ContentPhoto" parentEntity="Photo" syncable="YES">
+        <relationship name="content" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Content" inverseName="photo" inverseEntity="Content" syncable="YES"/>
+    </entity>
+    <entity name="Photo" representedClassName="Photo" syncable="YES">
+        <attribute name="data" optional="YES" attributeType="Binary" syncable="YES"/>
+    </entity>
+    <entity name="Press" representedClassName="Press" syncable="YES">
+        <attribute name="date" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="isDownload" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="isDownloading" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="pressID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="thumbnail" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="album" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Album" inverseName="presses" inverseEntity="Album" syncable="YES"/>
+        <relationship name="contents" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Content" inverseName="press" inverseEntity="Content" syncable="YES"/>
+        <relationship name="photo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PressPhoto" inverseName="press" inverseEntity="PressPhoto" syncable="YES"/>
+        <relationship name="relates" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Relate" inverseName="press" inverseEntity="Relate" syncable="YES"/>
+        <relationship name="zhihus" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Zhihu" inverseName="press" inverseEntity="Zhihu" syncable="YES"/>
+    </entity>
+    <entity name="PressPhoto" representedClassName="PressPhoto" parentEntity="Photo" syncable="YES">
+        <relationship name="press" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Press" inverseName="photo" inverseEntity="Press" syncable="YES"/>
+    </entity>
+    <entity name="Relate" representedClassName="Relate" syncable="YES">
+        <attribute name="photoURL" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="relateID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="sourceSite" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="thumbnailH" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="thumbnailW" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="updateTime" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="photo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RelatePhoto" inverseName="relate" inverseEntity="RelatePhoto" syncable="YES"/>
+        <relationship name="press" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Press" inverseName="relates" inverseEntity="Press" syncable="YES"/>
+    </entity>
+    <entity name="RelatePhoto" representedClassName="RelatePhoto" parentEntity="Photo" syncable="YES">
+        <relationship name="relate" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Relate" inverseName="photo" inverseEntity="Relate" syncable="YES"/>
+    </entity>
+    <entity name="Zhihu" representedClassName="Zhihu" syncable="YES">
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="user" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="zhihuID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <relationship name="press" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Press" inverseName="zhihus" inverseEntity="Press" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Album" positionX="-983" positionY="-346" width="128" height="148"/>
+        <element name="AlbumPhoto" positionX="-792" positionY="-558" width="128" height="58"/>
+        <element name="Card" positionX="-981" positionY="-147" width="128" height="210"/>
+        <element name="CardImage" positionX="-801" positionY="-81" width="128" height="73"/>
+        <element name="CardRelate" positionX="-801" positionY="9" width="128" height="118"/>
+        <element name="Content" positionX="-605" positionY="-369" width="128" height="165"/>
+        <element name="ContentPhoto" positionX="-452" positionY="-531" width="128" height="58"/>
+        <element name="Photo" positionX="-441" positionY="-648" width="128" height="58"/>
+        <element name="Press" positionX="-774" positionY="-319" width="128" height="210"/>
+        <element name="PressPhoto" positionX="-612" positionY="-540" width="128" height="58"/>
+        <element name="Relate" positionX="-603" positionY="-198" width="128" height="195"/>
+        <element name="RelatePhoto" positionX="-288" positionY="-466" width="128" height="58"/>
+        <element name="Zhihu" positionX="-605" positionY="27" width="128" height="120"/>
+    </elements>
+</model>

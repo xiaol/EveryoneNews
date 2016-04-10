@@ -19,7 +19,6 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if(self = [super initWithFrame:frame]) {
         LPMenuButton *menuButton = [[LPMenuButton alloc] initWithFrame:CGRectMake(0, 0, self.contentView.bounds.size.width, self.contentView.bounds.size.height)];
-        menuButton.alpha = 0.8f;
         [self.contentView addSubview:menuButton];
         self.menuButton = menuButton;
     }
@@ -33,21 +32,19 @@
 
 - (void)setSelected:(BOOL)selected {
     [super setSelected:selected];
-    if(selected) {
-        self.menuButton.alpha = 1.0f;
-        self.menuButton.textColor = LPSelectedColor;
-        [UIView animateWithDuration:0.2f animations:^{
-            self.menuButton.transform = CGAffineTransformMakeScale(1.2f, 1.2f);
-        }];
-    } else {
+    if (selected) {
+       self.menuButton.textColor = LPSelectedColor;
+//        self.layer.backgroundColor = [UIColor redColor].CGColor;
         
-        self.menuButton.alpha = 0.8f;
+    } else {
         self.menuButton.textColor = LPNormalColor;
-        self.menuButton.transform = CGAffineTransformIdentity;
+//                self.layer.backgroundColor = [UIColor whiteColor].CGColor;
     }
 }
 
-
+//- (void)drawRect:(CGRect)rect {
+//    [super drawRect:rect];
+//}
 
 
 @end

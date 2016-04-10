@@ -9,15 +9,23 @@
 #import <UIKit/UIKit.h>
 
 typedef void(^returnTextBlock)(NSString *text);
+@class LPComment;
 
+@protocol LPComposeViewControllerDelegate <NSObject>
+
+@optional
+- (void)insertComment:(LPComment *)comment;
+
+@end
 
 
 @interface LPComposeViewController : LPBaseViewController
 @property (nonatomic, copy) NSString *draftText;
-@property (nonatomic, strong) UIColor *color;
 @property (nonatomic, copy) returnTextBlock returnTextBlock;
-@property (nonatomic, copy) NSString *sourceURL;
-// 评论类别 （1 分段评论 2 全文评论）
-@property (nonatomic,assign) NSInteger commentType;
+@property (nonatomic, copy) NSString *docId;
+
 - (void)returnText:(returnTextBlock)returnTextBlock;
+
+@property (nonatomic, weak) id<LPComposeViewControllerDelegate> delegate;
 @end
+

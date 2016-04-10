@@ -16,26 +16,28 @@
 
 @implementation Card (Create)
 
-+ (NSArray *)createCardsWithDictArray:(NSArray *)dicts {
-    NSMutableArray *cards = [NSMutableArray array];
-     CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
-    for (NSDictionary *dict in dicts) {
-//        // 判断本地文件中是否存在相应的url，存在则不保存
-//        NSArray *array = [Card fetchCardsWithSourceSiteURL:dict[@"pubUrl"]];
-//        if (array.count < 1) {
-//            Card *card = [self createCardWithDict:dict inManagedObjectContext:cdh.context];
-//            [cards addObject:card];
-//        }
 
-         Card *card = [self createCardWithDict:dict inManagedObjectContext:cdh.context];
-         [cards addObject:card];
-    }
-    // optional !!
-    [cdh saveBackgroundContext];
-    return cards;
++ (void)createCardsWithDictArray:(NSArray *)dicts
+                    channelID:(NSString *)channelID cardsArrayBlock:(cardsArrayBlock)cardsArrayBlock {
+    CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    [cdh.importContext performBlock:^{
+        NSMutableArray *cards = [NSMutableArray array];
+        for (NSDictionary *dict in dicts) {
+            Card *card = [self createCardWithDict:dict channelID:channelID inManagedObjectContext:cdh.importContext];
+            [cards addObject:card];
+        }
+        NSError *error = nil;
+        [cdh.importContext save:&error];
+        [cdh.context performBlock:^{
+            [cdh saveBackgroundContext];
+        }];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            cardsArrayBlock([cards copy]);
+        });
+    }];
 }
 
-+ (Card *)createCardWithDict:(NSDictionary *)dict
++ (Card *)createCardWithDict:(NSDictionary *)dict channelID:(NSString *)channelID
       inManagedObjectContext:(NSManagedObjectContext *)context {
     Card *card = nil;
     card = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:context];
@@ -45,8 +47,13 @@
     card.sourceSiteURL = dict[@"pubUrl"];
     card.sourceSiteName = dict[@"pubName"];
     card.updateTime = [NSString stringWithFormat:@"%lld", (long long)([dict[@"pubTime"] timestampWithDateFormat:@"YYYY-MM-dd HH:mm:ss"] * 1000)];
-    card.channelId = dict[@"channelId"];
+    // 热点频道存入数据库需要更新当前频道编号
+    card.channelId = ([channelID  isEqual: @"1"] ? @(1):dict[@"channelId"]);
     card.type = dict[@"imgStyle"];
+    card.docId = dict[@"docid"];
+    card.commentsCount = dict[@"commentsCount"];
+    
+    
 //    [CardRelate createCardRelatesWithDictArray:dict[@"relatePointsList"]
 //                                          card:card
 //                        inManagedObjectContext:context];
