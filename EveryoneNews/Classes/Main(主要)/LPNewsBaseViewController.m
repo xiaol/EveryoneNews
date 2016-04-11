@@ -305,7 +305,7 @@ static const NSInteger kNavBarTag = 10000;
 - (void)backImageItem{
     self.navItem.hidesBackButton = YES;
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    UIImage *image = [LPNewsAssistant imageWithContentsOfFile:@"joyBack"];
+    UIImage *image = [LPNewsAssistant imageWithContentsOfFile:@"BackArrow_black"];
     
     CGFloat btnWidth = image.size.width+18.f;
     CGFloat btnHeight = image.size.height;
@@ -317,7 +317,7 @@ static const NSInteger kNavBarTag = 10000;
     }
     btn.frame = CGRectMake(0, 0, btnWidth, btnHeight);
     if (iOS8) {
-        [btn setImageEdgeInsets:UIEdgeInsetsMake(0, -30.f, 0, 0)];
+        [btn setImageEdgeInsets:UIEdgeInsetsMake(0, -68.f, 0, 0)];
     }else{
         [btn setImageEdgeInsets:UIEdgeInsetsMake(0, -20.f, 0, 0)];
     }

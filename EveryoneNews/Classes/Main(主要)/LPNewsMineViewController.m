@@ -274,10 +274,10 @@ CGSize const kAvatarImageViewSize = {70,70};
         NSArray *array = self.dataSource[indexPath.section];
         if (indexPath.row < array.count) {
             NSDictionary *dict = [array objectAtIndex:indexPath.row];
-            [cell setModel:dict];
-            
+            [cell setModel:dict IndexPath:indexPath];
         }
     }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
