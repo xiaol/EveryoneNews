@@ -153,6 +153,16 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     
     // 6. 判断是否要弹出真实头像框, 如需, 发通知
     [self checkoutAppReview];
+    
+    AppDelegate *myDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
+    if (kMainScreenHeight > 480) {
+        myDelegate.autoSizeScaleX = kMainScreenWidth/320;
+        myDelegate.autoSizeScaleY = kMainScreenHeight/568;
+    }else{
+        myDelegate.autoSizeScaleX = 1.0;
+        myDelegate.autoSizeScaleY = 1.0;
+    }
+    
     return YES;
 }
 

@@ -21,6 +21,8 @@ extern NSString * const AppDidReceiveReviewNotification;
 @property (strong, nonatomic) UIWindow *window;
 
 @property (nonatomic, strong) CoreDataHelper *coreDataHelper;
+@property float autoSizeScaleX;
+@property float autoSizeScaleY;
 
 - (CoreDataHelper *)cdh;
 

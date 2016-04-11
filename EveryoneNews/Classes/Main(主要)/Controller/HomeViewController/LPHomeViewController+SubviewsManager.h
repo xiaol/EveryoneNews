@@ -7,7 +7,7 @@
 //
 
 #import "LPHomeViewController.h"
-
+#import "LPNewsMineViewController.h"
  
 @interface LPHomeViewController (SubviewsManager)<LPLaunchLoginViewDelegate>
 
