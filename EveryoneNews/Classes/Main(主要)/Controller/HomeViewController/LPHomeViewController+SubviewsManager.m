@@ -17,6 +17,7 @@
 #import "LPChangeFontSizeView.h"
 #import "LPFontSizeManager.h"
 
+
 NSString * const firstChannelName = @"奇点";
 NSString * const menuCellIdentifier = @"menuCollectionViewCell";
 NSString * const cellIdentifier = @"sortCollectionViewCell";
@@ -52,7 +53,9 @@ const static CGFloat cellPadding = 15;
     
     // 添加首页登录按钮
     [self setupHomeViewLoginButton];
+    [self.loginBtn addTarget:self action:@selector(toUserCenter) forControlEvents:UIControlEventTouchUpInside];
     [headerView addSubview:self.loginBtn];
+    
  
     // 右上角添加按钮
     CGFloat addBtnW = 19.0f;
@@ -133,7 +136,7 @@ const static CGFloat cellPadding = 15;
     [self.hideChannelItemButton addTarget:self action:@selector(hideChannelItemButtonClick) forControlEvents:UIControlEventTouchUpInside];
     self.hideChannelItemButton.enlargedEdge = 10;
     [blurView addSubview:self.hideChannelItemButton];
-    
+    /*
     // 首次安装提示信息
     if (![userDefaults objectForKey:@"isVersion3FirstLoad"]) {
         
@@ -161,6 +164,7 @@ const static CGFloat cellPadding = 15;
         UIView *homeBlurView = [[UIView alloc] init];
         homeBlurView.backgroundColor = [UIColor blackColor];
         homeBlurView.alpha = 0.5;
+        homeBlurView.hidden =YES;
         
         UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(homeBlurViewPressed)];
         [homeBlurView addGestureRecognizer:tapGesture];
@@ -180,8 +184,16 @@ const static CGFloat cellPadding = 15;
         [self.view addSubview:loginView];
         self.loginView = loginView;
     }
-
+     */
 }
+
+- (void)toUserCenter{
+    
+    LPNewsMineViewController *mineView = [[LPNewsMineViewController alloc] initWithCustom];
+    [self.navigationController pushViewController:mineView animated:YES];
+}
+
+
 #pragma mark - 隐藏首页蒙版
 - (void)homeBlurViewPressed {
     self.homeBlurView.hidden = YES;

@@ -7,6 +7,28 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		11FBB1B71CBB4FA8001FFDA3 /* User_book@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 11FBB1AA1CBB4FA8001FFDA3 /* User_book@2x.png */; };
+		11FBB1B81CBB4FA8001FFDA3 /* User_book@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 11FBB1AB1CBB4FA8001FFDA3 /* User_book@3x.png */; };
+		11FBB1B91CBB4FA8001FFDA3 /* User_coll@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 11FBB1AC1CBB4FA8001FFDA3 /* User_coll@2x.png */; };
+		11FBB1BA1CBB4FA8001FFDA3 /* User_coll@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 11FBB1AD1CBB4FA8001FFDA3 /* User_coll@3x.png */; };
+		11FBB1BB1CBB4FA8001FFDA3 /* User_comment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 11FBB1AE1CBB4FA8001FFDA3 /* User_comment@2x.png */; };
+		11FBB1BC1CBB4FA8001FFDA3 /* User_comment@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 11FBB1AF1CBB4FA8001FFDA3 /* User_comment@3x.png */; };
+		11FBB1BD1CBB4FA8001FFDA3 /* User_mess@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 11FBB1B01CBB4FA8001FFDA3 /* User_mess@2x.png */; };
+		11FBB1BE1CBB4FA8001FFDA3 /* User_mess@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 11FBB1B11CBB4FA8001FFDA3 /* User_mess@3x.png */; };
+		11FBB1BF1CBB4FA8001FFDA3 /* User_setting@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 11FBB1B21CBB4FA8001FFDA3 /* User_setting@2x.png */; };
+		11FBB1C01CBB4FA8001FFDA3 /* User_setting@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 11FBB1B31CBB4FA8001FFDA3 /* User_setting@3x.png */; };
+		11FBB1C11CBB4FA8001FFDA3 /* User_singleArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 11FBB1B41CBB4FA8001FFDA3 /* User_singleArrow@2x.png */; };
+		11FBB1C21CBB4FA8001FFDA3 /* User_singleArrow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 11FBB1B51CBB4FA8001FFDA3 /* User_singleArrow@3x.png */; };
+		11FBB1C31CBB4FA8001FFDA3 /* UserDeafultImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 11FBB1B61CBB4FA8001FFDA3 /* UserDeafultImage@2x.png */; };
+		11FBB1C71CBB5004001FFDA3 /* LPNewsAssistant.m in Sources */ = {isa = PBXBuildFile; fileRef = 11FBB1C61CBB5004001FFDA3 /* LPNewsAssistant.m */; };
+		11FBB1CE1CBB5041001FFDA3 /* LPNewsBaseTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 11FBB1C91CBB5041001FFDA3 /* LPNewsBaseTableViewCell.m */; };
+		11FBB1CF1CBB5041001FFDA3 /* LPNewsBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11FBB1CB1CBB5041001FFDA3 /* LPNewsBaseViewController.m */; };
+		11FBB1D01CBB5041001FFDA3 /* LPNewsNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 11FBB1CD1CBB5041001FFDA3 /* LPNewsNavigationBar.m */; };
+		11FBB1D71CBB50C8001FFDA3 /* LPNewsMineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11FBB1D61CBB50C8001FFDA3 /* LPNewsMineViewController.m */; };
+		11FBB1DA1CBB50EC001FFDA3 /* LPNewsMineViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 11FBB1D91CBB50EC001FFDA3 /* LPNewsMineViewCell.m */; };
+		11FBB1E01CBB5174001FFDA3 /* LPNewsSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11FBB1DF1CBB5174001FFDA3 /* LPNewsSettingViewController.m */; };
+		11FBB1E51CBB5197001FFDA3 /* UIColor+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 11FBB1E21CBB5197001FFDA3 /* UIColor+Additions.m */; };
+		11FBB1E61CBB5197001FFDA3 /* UIImage+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 11FBB1E41CBB5197001FFDA3 /* UIImage+Additions.m */; };
 		180894191C18FEBB00FBBADA /* CardTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 180894181C18FEBB00FBBADA /* CardTool.m */; };
 		1808948C1C1E984B00FBBADA /* CardParam.m in Sources */ = {isa = PBXBuildFile; fileRef = 1808948B1C1E984B00FBBADA /* CardParam.m */; };
 		18095CD21B2A221100CB7666 /* LPWaterfallView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18095CCF1B2A221100CB7666 /* LPWaterfallView.m */; };
@@ -261,6 +283,7 @@
 		18F631A31B5F2F1000423658 /* FBShimmeringView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F631A11B5F2F1000423658 /* FBShimmeringView.m */; };
 		18F631A61B5F51CC00423658 /* DiggerFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F631A51B5F51CC00423658 /* DiggerFooter.m */; };
 		18F631A91B5F54C900423658 /* DiggerHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F631A81B5F54C900423658 /* DiggerHeader.m */; };
+		3ED5E5C760AEE671AD3DA89D /* libPods-EveryoneNews.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 89769146F1267C51D9E27AE8 /* libPods-EveryoneNews.a */; };
 		7E08E4791B3AB6AD00BB0DC0 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E08E4781B3AB6AD00BB0DC0 /* QuartzCore.framework */; };
 		7E63BA621B3C022900BEA1CF /* Account.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E63BA611B3C022900BEA1CF /* Account.m */; };
 		7E9E723E1B3BF0E70038FE12 /* MBProgressHUD.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7E9E723B1B3BF0E70038FE12 /* MBProgressHUD.bundle */; };
@@ -346,6 +369,38 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		11FBB1AA1CBB4FA8001FFDA3 /* User_book@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "User_book@2x.png"; sourceTree = "<group>"; };
+		11FBB1AB1CBB4FA8001FFDA3 /* User_book@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "User_book@3x.png"; sourceTree = "<group>"; };
+		11FBB1AC1CBB4FA8001FFDA3 /* User_coll@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "User_coll@2x.png"; sourceTree = "<group>"; };
+		11FBB1AD1CBB4FA8001FFDA3 /* User_coll@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "User_coll@3x.png"; sourceTree = "<group>"; };
+		11FBB1AE1CBB4FA8001FFDA3 /* User_comment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "User_comment@2x.png"; sourceTree = "<group>"; };
+		11FBB1AF1CBB4FA8001FFDA3 /* User_comment@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "User_comment@3x.png"; sourceTree = "<group>"; };
+		11FBB1B01CBB4FA8001FFDA3 /* User_mess@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "User_mess@2x.png"; sourceTree = "<group>"; };
+		11FBB1B11CBB4FA8001FFDA3 /* User_mess@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "User_mess@3x.png"; sourceTree = "<group>"; };
+		11FBB1B21CBB4FA8001FFDA3 /* User_setting@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "User_setting@2x.png"; sourceTree = "<group>"; };
+		11FBB1B31CBB4FA8001FFDA3 /* User_setting@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "User_setting@3x.png"; sourceTree = "<group>"; };
+		11FBB1B41CBB4FA8001FFDA3 /* User_singleArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "User_singleArrow@2x.png"; sourceTree = "<group>"; };
+		11FBB1B51CBB4FA8001FFDA3 /* User_singleArrow@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "User_singleArrow@3x.png"; sourceTree = "<group>"; };
+		11FBB1B61CBB4FA8001FFDA3 /* UserDeafultImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UserDeafultImage@2x.png"; sourceTree = "<group>"; };
+		11FBB1C41CBB4FEB001FFDA3 /* Configured.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Configured.h; sourceTree = "<group>"; };
+		11FBB1C51CBB5004001FFDA3 /* LPNewsAssistant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPNewsAssistant.h; sourceTree = "<group>"; };
+		11FBB1C61CBB5004001FFDA3 /* LPNewsAssistant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPNewsAssistant.m; sourceTree = "<group>"; };
+		11FBB1C81CBB5041001FFDA3 /* LPNewsBaseTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPNewsBaseTableViewCell.h; sourceTree = "<group>"; };
+		11FBB1C91CBB5041001FFDA3 /* LPNewsBaseTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPNewsBaseTableViewCell.m; sourceTree = "<group>"; };
+		11FBB1CA1CBB5041001FFDA3 /* LPNewsBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPNewsBaseViewController.h; sourceTree = "<group>"; };
+		11FBB1CB1CBB5041001FFDA3 /* LPNewsBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPNewsBaseViewController.m; sourceTree = "<group>"; };
+		11FBB1CC1CBB5041001FFDA3 /* LPNewsNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPNewsNavigationBar.h; sourceTree = "<group>"; };
+		11FBB1CD1CBB5041001FFDA3 /* LPNewsNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPNewsNavigationBar.m; sourceTree = "<group>"; };
+		11FBB1D51CBB50C8001FFDA3 /* LPNewsMineViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPNewsMineViewController.h; sourceTree = "<group>"; };
+		11FBB1D61CBB50C8001FFDA3 /* LPNewsMineViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPNewsMineViewController.m; sourceTree = "<group>"; };
+		11FBB1D81CBB50EC001FFDA3 /* LPNewsMineViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPNewsMineViewCell.h; sourceTree = "<group>"; };
+		11FBB1D91CBB50EC001FFDA3 /* LPNewsMineViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPNewsMineViewCell.m; sourceTree = "<group>"; };
+		11FBB1DE1CBB5174001FFDA3 /* LPNewsSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPNewsSettingViewController.h; sourceTree = "<group>"; };
+		11FBB1DF1CBB5174001FFDA3 /* LPNewsSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPNewsSettingViewController.m; sourceTree = "<group>"; };
+		11FBB1E11CBB5197001FFDA3 /* UIColor+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Additions.h"; sourceTree = "<group>"; };
+		11FBB1E21CBB5197001FFDA3 /* UIColor+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Additions.m"; sourceTree = "<group>"; };
+		11FBB1E31CBB5197001FFDA3 /* UIImage+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Additions.h"; sourceTree = "<group>"; };
+		11FBB1E41CBB5197001FFDA3 /* UIImage+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Additions.m"; sourceTree = "<group>"; };
 		180894171C18FEBB00FBBADA /* CardTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardTool.h; sourceTree = "<group>"; };
 		180894181C18FEBB00FBBADA /* CardTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardTool.m; sourceTree = "<group>"; };
 		1808948A1C1E984B00FBBADA /* CardParam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardParam.h; sourceTree = "<group>"; };
@@ -1004,6 +1059,9 @@
 		86CC9B0D1C2168BF00D9364D /* CardFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CardFrame.m; path = LPCategory/CardFrame.m; sourceTree = "<group>"; };
 		86E7DF2B1CB788F600E62092 /* LPHomeViewController+LaunchFontSizeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LPHomeViewController+LaunchFontSizeManager.h"; sourceTree = "<group>"; };
 		86E7DF2C1CB788F600E62092 /* LPHomeViewController+LaunchFontSizeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LPHomeViewController+LaunchFontSizeManager.m"; sourceTree = "<group>"; };
+		89769146F1267C51D9E27AE8 /* libPods-EveryoneNews.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EveryoneNews.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D5649AF1C72B34AF770A67A1 /* Pods-EveryoneNews.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EveryoneNews.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EveryoneNews/Pods-EveryoneNews.debug.xcconfig"; sourceTree = "<group>"; };
+		F0635658C92C5D2137CC1DFF /* Pods-EveryoneNews.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EveryoneNews.release.xcconfig"; path = "Pods/Target Support Files/Pods-EveryoneNews/Pods-EveryoneNews.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1038,6 +1096,7 @@
 				189083471B31DC9500ADDEDB /* CFNetwork.framework in Frameworks */,
 				189083451B31DC1700ADDEDB /* libPushSDK-1.8.3.a in Frameworks */,
 				18D512FB1BEB33A500875298 /* libUMSocial_Sdk_4.2.3.a in Frameworks */,
+				3ED5E5C760AEE671AD3DA89D /* libPods-EveryoneNews.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1051,6 +1110,132 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		11FBB1A51CBB4EAD001FFDA3 /* Assistant */ = {
+			isa = PBXGroup;
+			children = (
+				11FBB1C41CBB4FEB001FFDA3 /* Configured.h */,
+				11FBB1C51CBB5004001FFDA3 /* LPNewsAssistant.h */,
+				11FBB1C61CBB5004001FFDA3 /* LPNewsAssistant.m */,
+			);
+			name = Assistant;
+			path = "Main(主要)/Tool";
+			sourceTree = "<group>";
+		};
+		11FBB1A61CBB4EEC001FFDA3 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				11FBB1C81CBB5041001FFDA3 /* LPNewsBaseTableViewCell.h */,
+				11FBB1C91CBB5041001FFDA3 /* LPNewsBaseTableViewCell.m */,
+				11FBB1CA1CBB5041001FFDA3 /* LPNewsBaseViewController.h */,
+				11FBB1CB1CBB5041001FFDA3 /* LPNewsBaseViewController.m */,
+				11FBB1CC1CBB5041001FFDA3 /* LPNewsNavigationBar.h */,
+				11FBB1CD1CBB5041001FFDA3 /* LPNewsNavigationBar.m */,
+			);
+			name = Base;
+			path = "Main(主要)";
+			sourceTree = "<group>";
+		};
+		11FBB1A71CBB4F0C001FFDA3 /* Mine */ = {
+			isa = PBXGroup;
+			children = (
+				11FBB1D11CBB5054001FFDA3 /* MainBody */,
+				11FBB1D21CBB5063001FFDA3 /* Setting */,
+			);
+			name = Mine;
+			sourceTree = "<group>";
+		};
+		11FBB1A81CBB4F29001FFDA3 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				11FBB1E11CBB5197001FFDA3 /* UIColor+Additions.h */,
+				11FBB1E21CBB5197001FFDA3 /* UIColor+Additions.m */,
+				11FBB1E31CBB5197001FFDA3 /* UIImage+Additions.h */,
+				11FBB1E41CBB5197001FFDA3 /* UIImage+Additions.m */,
+			);
+			name = Utility;
+			path = "Main(主要)";
+			sourceTree = "<group>";
+		};
+		11FBB1A91CBB4F3D001FFDA3 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				11FBB1AA1CBB4FA8001FFDA3 /* User_book@2x.png */,
+				11FBB1AB1CBB4FA8001FFDA3 /* User_book@3x.png */,
+				11FBB1AC1CBB4FA8001FFDA3 /* User_coll@2x.png */,
+				11FBB1AD1CBB4FA8001FFDA3 /* User_coll@3x.png */,
+				11FBB1AE1CBB4FA8001FFDA3 /* User_comment@2x.png */,
+				11FBB1AF1CBB4FA8001FFDA3 /* User_comment@3x.png */,
+				11FBB1B01CBB4FA8001FFDA3 /* User_mess@2x.png */,
+				11FBB1B11CBB4FA8001FFDA3 /* User_mess@3x.png */,
+				11FBB1B21CBB4FA8001FFDA3 /* User_setting@2x.png */,
+				11FBB1B31CBB4FA8001FFDA3 /* User_setting@3x.png */,
+				11FBB1B41CBB4FA8001FFDA3 /* User_singleArrow@2x.png */,
+				11FBB1B51CBB4FA8001FFDA3 /* User_singleArrow@3x.png */,
+				11FBB1B61CBB4FA8001FFDA3 /* UserDeafultImage@2x.png */,
+			);
+			name = Resource;
+			sourceTree = "<group>";
+		};
+		11FBB1D11CBB5054001FFDA3 /* MainBody */ = {
+			isa = PBXGroup;
+			children = (
+				11FBB1D31CBB509A001FFDA3 /* Controller */,
+				11FBB1D41CBB50A4001FFDA3 /* View */,
+			);
+			name = MainBody;
+			sourceTree = "<group>";
+		};
+		11FBB1D21CBB5063001FFDA3 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				11FBB1DB1CBB5136001FFDA3 /* MainBody */,
+			);
+			name = Setting;
+			sourceTree = "<group>";
+		};
+		11FBB1D31CBB509A001FFDA3 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				11FBB1D51CBB50C8001FFDA3 /* LPNewsMineViewController.h */,
+				11FBB1D61CBB50C8001FFDA3 /* LPNewsMineViewController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		11FBB1D41CBB50A4001FFDA3 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				11FBB1D81CBB50EC001FFDA3 /* LPNewsMineViewCell.h */,
+				11FBB1D91CBB50EC001FFDA3 /* LPNewsMineViewCell.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		11FBB1DB1CBB5136001FFDA3 /* MainBody */ = {
+			isa = PBXGroup;
+			children = (
+				11FBB1DD1CBB5152001FFDA3 /* Controller */,
+				11FBB1DC1CBB5147001FFDA3 /* View */,
+			);
+			name = MainBody;
+			sourceTree = "<group>";
+		};
+		11FBB1DC1CBB5147001FFDA3 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		11FBB1DD1CBB5152001FFDA3 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				11FBB1DE1CBB5174001FFDA3 /* LPNewsSettingViewController.h */,
+				11FBB1DF1CBB5174001FFDA3 /* LPNewsSettingViewController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
 		1808941A1C1905BD00FBBADA /* CoreDataModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -1178,6 +1363,8 @@
 				1821BF9E1B033ABE003E6C94 /* EveryoneNews */,
 				1821BFB81B033ABE003E6C94 /* EveryoneNewsTests */,
 				1821BF9D1B033ABE003E6C94 /* Products */,
+				3FBF3D27DF210DB7C56EE5AB /* Pods */,
+				6CB9AF53D3E8FAFED21E3FBC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 			tabWidth = 5;
@@ -1770,6 +1957,9 @@
 				18C9C4C01B5C03C600064CED /* ConcernPress(关注) */,
 				1889FE3C1B4C2E91006D8E03 /* Detail(详情) */,
 				184BA0AD1B3A1044001D871B /* Newfeature(版本新特性) */,
+				11FBB1A51CBB4EAD001FFDA3 /* Assistant */,
+				11FBB1A61CBB4EEC001FFDA3 /* Base */,
+				11FBB1A81CBB4F29001FFDA3 /* Utility */,
 				18BA5E861B199B7300EEDB63 /* Other(其他) */,
 				18BAE6FE1B1352EA0052BDD0 /* Account(用户) */,
 				18BAE7061B1352EA0052BDD0 /* Compose(评论) */,
@@ -2050,6 +2240,8 @@
 				18F630D31B5C044300423658 /* Model */,
 				18F630E11B5C044300423658 /* Other */,
 				18F630E61B5C044300423658 /* Tool */,
+				11FBB1A71CBB4F0C001FFDA3 /* Mine */,
+				11FBB1A91CBB4F3D001FFDA3 /* Resource */,
 			);
 			path = "Main(主要)";
 			sourceTree = "<group>";
@@ -2354,6 +2546,23 @@
 				18F631A11B5F2F1000423658 /* FBShimmeringView.m */,
 			);
 			path = FBShimmering;
+			sourceTree = "<group>";
+		};
+		3FBF3D27DF210DB7C56EE5AB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D5649AF1C72B34AF770A67A1 /* Pods-EveryoneNews.debug.xcconfig */,
+				F0635658C92C5D2137CC1DFF /* Pods-EveryoneNews.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		6CB9AF53D3E8FAFED21E3FBC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				89769146F1267C51D9E27AE8 /* libPods-EveryoneNews.a */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		7E63BA5F1B3C022900BEA1CF /* model */ = {
@@ -2668,9 +2877,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1821BFBF1B033ABE003E6C94 /* Build configuration list for PBXNativeTarget "EveryoneNews" */;
 			buildPhases = (
+				13465737E2C6291160A9D8B4 /* Check Pods Manifest.lock */,
 				1821BF981B033ABE003E6C94 /* Sources */,
 				1821BF991B033ABE003E6C94 /* Frameworks */,
 				1821BF9A1B033ABE003E6C94 /* Resources */,
+				A63D37205AFC31493CC35301 /* Embed Pods Frameworks */,
+				B891A1F6B91257D8F830982B /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -2755,17 +2967,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				18D512FD1BEB33A500875298 /* UMSCommentInputController.xib in Resources */,
+				11FBB1BB1CBB4FA8001FFDA3 /* User_comment@2x.png in Resources */,
 				18D512FA1BEB33A500875298 /* UMSocialLocalizable.strings in Resources */,
+				11FBB1B81CBB4FA8001FFDA3 /* User_book@3x.png in Resources */,
+				11FBB1BA1CBB4FA8001FFDA3 /* User_coll@3x.png in Resources */,
 				18D513021BEB33A500875298 /* UMSnsAccountViewController.xib in Resources */,
 				86A6735F1C119D7D003509C3 /* Images.xcassets in Resources */,
 				18D513011BEB33A500875298 /* UMSLoginViewController.xib in Resources */,
 				18D513041BEB33A500875298 /* UMSocialSDKResourcesNew.bundle in Resources */,
+				11FBB1C11CBB4FA8001FFDA3 /* User_singleArrow@2x.png in Resources */,
+				11FBB1B71CBB4FA8001FFDA3 /* User_book@2x.png in Resources */,
 				18D513001BEB33A500875298 /* UMShareEditViewControlleriPad.xib in Resources */,
+				11FBB1C01CBB4FA8001FFDA3 /* User_setting@3x.png in Resources */,
+				11FBB1BD1CBB4FA8001FFDA3 /* User_mess@2x.png in Resources */,
+				11FBB1BF1CBB4FA8001FFDA3 /* User_setting@2x.png in Resources */,
 				18D512FF1BEB33A500875298 /* UMShareEditViewController.xib in Resources */,
+				11FBB1BE1CBB4FA8001FFDA3 /* User_mess@3x.png in Resources */,
 				18D513081BEB33A500875298 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				18D513031BEB33A500875298 /* UMSShareListController.xib in Resources */,
 				18D512FC1BEB33A500875298 /* UMSCommentDetailController.xib in Resources */,
+				11FBB1B91CBB4FA8001FFDA3 /* User_coll@2x.png in Resources */,
+				11FBB1BC1CBB4FA8001FFDA3 /* User_comment@3x.png in Resources */,
 				1890835A1B31DE8500ADDEDB /* PushConfig.plist in Resources */,
+				11FBB1C31CBB4FA8001FFDA3 /* UserDeafultImage@2x.png in Resources */,
+				11FBB1C21CBB4FA8001FFDA3 /* User_singleArrow@3x.png in Resources */,
 				18F631671B5C0CEA00423658 /* MJRefresh.bundle in Resources */,
 				18D512FE1BEB33A500875298 /* UMSCommentInputControlleriPad.xib in Resources */,
 				7E9E723E1B3BF0E70038FE12 /* MBProgressHUD.bundle in Resources */,
@@ -2780,6 +3005,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		13465737E2C6291160A9D8B4 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		A63D37205AFC31493CC35301 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EveryoneNews/Pods-EveryoneNews-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B891A1F6B91257D8F830982B /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EveryoneNews/Pods-EveryoneNews-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1821BF981B033ABE003E6C94 /* Sources */ = {
@@ -2831,6 +3104,7 @@
 				18F631591B5C0CEA00423658 /* MJRefreshAutoFooter.m in Sources */,
 				18F631651B5C0CEA00423658 /* MJRefreshNormalHeader.m in Sources */,
 				1875647F1C2110B600589320 /* CardImage+CoreDataProperties.m in Sources */,
+				11FBB1E61CBB5197001FFDA3 /* UIImage+Additions.m in Sources */,
 				18F631681B5C0CEA00423658 /* MJRefreshConst.m in Sources */,
 				1826B3EA1B786B3900B712E0 /* POPVector.mm in Sources */,
 				181B37EF1BC6135400698FC5 /* Faulter.m in Sources */,
@@ -2860,6 +3134,7 @@
 				18F631141B5C044300423658 /* LPPress.m in Sources */,
 				18162F111C229CA200FC947D /* ObserverManager.m in Sources */,
 				1808948C1C1E984B00FBBADA /* CardParam.m in Sources */,
+				11FBB1E51CBB5197001FFDA3 /* UIColor+Additions.m in Sources */,
 				18D71FAC1B2572C5002A7375 /* MJType.m in Sources */,
 				86A6CA621CB39AD4006258D3 /* LPChangeFontSizeView.m in Sources */,
 				18A0AA981C20602600E9AA44 /* Card+Fetch.m in Sources */,
@@ -2926,6 +3201,7 @@
 				18F6312B1B5C04E400423658 /* LPConcernPressFrame.m in Sources */,
 				187912D81BC06CD10021AB3E /* CoreDataTVC.m in Sources */,
 				86785A9E1CA2792F0088977C /* Card.m in Sources */,
+				11FBB1CF1CBB5041001FFDA3 /* LPNewsBaseViewController.m in Sources */,
 				1889FE5C1B4C2E91006D8E03 /* LPDetailViewController.m in Sources */,
 				8649B3BA1C50FA9500BC96BF /* UITextField+LP.m in Sources */,
 				18D71FAE1B2572C5002A7375 /* NSObject+MJKeyValue.m in Sources */,
@@ -2953,6 +3229,7 @@
 				18D71FAF1B2572C5002A7375 /* NSObject+MJProperty.m in Sources */,
 				18D71FAD1B2572C5002A7375 /* NSObject+MJCoding.m in Sources */,
 				18F631131B5C044300423658 /* LPPointview.m in Sources */,
+				11FBB1C71CBB5004001FFDA3 /* LPNewsAssistant.m in Sources */,
 				18EC95901BE0BCB30039486A /* LPEditAlbumViewController.m in Sources */,
 				18A65CD01B203D330070DDD7 /* UIImageView+WebCache.m in Sources */,
 				8664392F1CB649A7003E4DE8 /* LPHomeViewController+ChannelItemName.m in Sources */,
@@ -2966,6 +3243,7 @@
 				86BF699D1C254109009C967C /* LPDiggerFooter.m in Sources */,
 				86819F031CA3911D00C8BCFC /* LPRelateCell.m in Sources */,
 				186866041B907E1500039AA3 /* AFHTTPSessionManager.m in Sources */,
+				11FBB1D71CBB50C8001FFDA3 /* LPNewsMineViewController.m in Sources */,
 				187564851C2110B600589320 /* PressPhoto+CoreDataProperties.m in Sources */,
 				865C12B61C21A208000303C8 /* LPHomeViewCell.m in Sources */,
 				867D492B1CABD6240025765B /* LPFloodView.m in Sources */,
@@ -2984,9 +3262,11 @@
 				187564801C2110B600589320 /* CardImage.m in Sources */,
 				8649B39F1C50F92600BC96BF /* LPPagingViewPage.m in Sources */,
 				18F6311F1B5C044300423658 /* LPMultiGraphOpinionsView.m in Sources */,
+				11FBB1CE1CBB5041001FFDA3 /* LPNewsBaseTableViewCell.m in Sources */,
 				86819F091CA3DCDB00C8BCFC /* LPDetailBottomView.m in Sources */,
 				18A65CC21B203D330070DDD7 /* MKAnnotationView+WebCache.m in Sources */,
 				18F631601B5C0CEA00423658 /* MJRefreshAutoStateFooter.m in Sources */,
+				11FBB1D01CBB5041001FFDA3 /* LPNewsNavigationBar.m in Sources */,
 				181B38A61BCF7F6C00698FC5 /* LPPressListViewController.m in Sources */,
 				86571EDA1CB8AFC100BD1DC8 /* LPDetailViewController+Share.m in Sources */,
 				18EF3B431B6507CF0097F5A6 /* LPBaseViewController.m in Sources */,
@@ -2994,6 +3274,7 @@
 				1889FE661B4C2E91006D8E03 /* LPContentCell.m in Sources */,
 				8664392B1CB64518003E4DE8 /* LPHomeViewController+LaunchLoginManager.m in Sources */,
 				7E9FEBA61B43928900D06E0A /* NSDate+Extension.m in Sources */,
+				11FBB1DA1CBB50EC001FFDA3 /* LPNewsMineViewCell.m in Sources */,
 				187564761C2110B600589320 /* Press.m in Sources */,
 				86785AA41CA28BA50088977C /* LPCommentCell.m in Sources */,
 				186866581BB25AD900039AA3 /* AppDelegate+MOC.m in Sources */,
@@ -3038,6 +3319,7 @@
 				18C9C4CD1B5C03C600064CED /* LPConcernPress.m in Sources */,
 				18F631A31B5F2F1000423658 /* FBShimmeringView.m in Sources */,
 				18F631211B5C044300423658 /* LPPhotoView.m in Sources */,
+				11FBB1E01CBB5174001FFDA3 /* LPNewsSettingViewController.m in Sources */,
 				8689DDA41BECAEA600D425BC /* LPFullCommentCell.m in Sources */,
 				18A0AA9A1C20602600E9AA44 /* CardRelate+Create.m in Sources */,
 				18A0AA991C20602600E9AA44 /* CardImage+Create.m in Sources */,
@@ -3194,6 +3476,7 @@
 		};
 		1821BFC01B033ABE003E6C94 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D5649AF1C72B34AF770A67A1 /* Pods-EveryoneNews.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -3225,7 +3508,11 @@
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/UMAnalytics_Sdk_3.6.6",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/UMessage_Sdk_1.2.6",
 				);
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"Masonry\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = YU.EveryoneNews;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -3235,6 +3522,7 @@
 		};
 		1821BFC11B033ABE003E6C94 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F0635658C92C5D2137CC1DFF /* Pods-EveryoneNews.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -3266,7 +3554,11 @@
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/UMAnalytics_Sdk_3.6.6",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/UMessage_Sdk_1.2.6",
 				);
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"Masonry\"",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = YU.EveryoneNews;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
