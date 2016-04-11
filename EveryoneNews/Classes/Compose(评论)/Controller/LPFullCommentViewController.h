@@ -23,6 +23,8 @@ typedef void(^fulltextCommentHandle)(NSInteger count);
 @property (nonatomic, copy) NSString *docId;
 
 @property (nonatomic, copy) fulltextCommentHandle block;
+// 全文评论数量
+@property (nonatomic, assign) NSInteger commentsCount;
 
 - (void)fulltextCommentDidComposed:(fulltextCommentHandle) handle;
 

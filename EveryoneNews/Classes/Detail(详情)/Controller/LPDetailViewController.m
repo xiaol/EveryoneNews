@@ -269,9 +269,11 @@ const static CGFloat relatePointCellHeight = 79;
         
         self.shareTitle = title;
         self.docId = dict[@"docid"];
-        self.topView.badgeNumber = [dict[@"commentSize"] integerValue];
-        self.bottomView.badgeNumber = [dict[@"commentSize"] integerValue];
+        self.commentsCount = [dict[@"commentSize"] integerValue];
         
+        self.topView.badgeNumber = self.commentsCount;
+        self.bottomView.badgeNumber = self.commentsCount ;
+     
         [self setupHeaderView:title pubTime:pubTime pubName:pubName];
         
         NSArray *bodyArray = dict[@"content"];

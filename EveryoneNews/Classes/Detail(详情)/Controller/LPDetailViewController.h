@@ -31,7 +31,8 @@
 @property (nonatomic,strong) NSArray *fullTextComments;
 @property (nonatomic, copy) NSString *docId;
 // 评论数量
-@property (nonatomic, copy) NSString *commentsCount;
+@property (nonatomic, assign) NSInteger commentsCount;
+
 // 评论相关
 @property (nonatomic, strong) NSMutableArray *fulltextCommentFrames;
 

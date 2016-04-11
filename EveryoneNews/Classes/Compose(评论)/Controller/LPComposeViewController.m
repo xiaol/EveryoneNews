@@ -56,6 +56,10 @@ static const CGFloat  HeaderViewHeight = 64;
     self.returnTextBlock = returnTextBlock;
 }
 
+- (void)returnCommentsCount:(returnCommentsCountBlock)returnCommentsCountBlock {
+    self.returnCommentsCountBlock = returnCommentsCountBlock;
+}
+
 - (void)setupHeaderView
 {
     double topViewHeight = 64;
@@ -190,8 +194,12 @@ static const CGFloat  HeaderViewHeight = 64;
             comment.Id = [NSString stringWithFormat:@"%@", json[@"data"]];
             [self.delegate insertComment:comment];
         }
-        [MBProgressHUD showSuccess:@"发表成功"];
+        if (self.returnCommentsCountBlock != nil) {
+            NSLog(@"count3: %d", self.commentsCount);
+            self.returnCommentsCountBlock(self.commentsCount + 1);
+        }
         
+        [MBProgressHUD showSuccess:@"发表成功"];
         
     } failure:^(NSError *error) {
         [MBProgressHUD showError:@"发表失败"];

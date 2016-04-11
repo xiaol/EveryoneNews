@@ -50,7 +50,6 @@ static const CGFloat topViewHeight= 64;
     [self setupData];
     [self setupHeaderView];
     [self setupSubviews];
-
 }
 
 #pragma mark - viewDidDisappear
@@ -386,6 +385,12 @@ static const CGFloat topViewHeight= 64;
     LPComposeViewController *composeVc = [[LPComposeViewController alloc] init];
     composeVc.delegate = self;
     composeVc.docId = self.docId;
+    composeVc.commentsCount = self.commentsCount;
+    [composeVc returnCommentsCount:^(NSInteger count) {
+        self.commentsCount = count;
+        NSLog(@"count2-%d", count);
+        
+    }];
     [self.navigationController pushViewController:composeVc animated:YES];
 }
 
@@ -415,7 +420,8 @@ static const CGFloat topViewHeight= 64;
     [super viewDidAppear:animated];
     // 更新评论数量
     if (self.block != nil) {
-        self.block(self.fullTextCommentFrames.count);
+    
+        self.block(self.commentsCount);
     }
     
 }
