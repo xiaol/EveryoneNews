@@ -8,6 +8,10 @@
 
 #import "LPNewsSettingViewController.h"
 #import "LPNewsSettingCell.h"
+#import "Account.h"
+#import "AccountTool.h"
+#import "MBProgressHUD.h"
+#import "MBProgressHUD+MJ.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -125,6 +129,18 @@ static NSString * const kCellIdentify = @"JoySettingCell";
         }
     }else if (indexPath.section ==3){
         NSLog(@"退出登录");
+        if ([AccountTool account]!= nil) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"退出登录" message:@"退出登录后无法进行评论哦" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
+            [alert show];
+        } else {
+            [AccountTool accountLoginWithViewController:self success:^(Account *account) {
+                [MBProgressHUD showSuccess:@"登录成功"];
+            } failure:^{
+                [MBProgressHUD showError:@"登录失败"];
+            } cancel:^{
+                
+            }];
+        }
     }
 }
 
@@ -143,6 +159,7 @@ static NSString * const kCellIdentify = @"JoySettingCell";
     if (!_tableView) {
         UITableView *tableView = [[UITableView alloc] init];
         _tableView = tableView;
+        _tableView.scrollEnabled = NO;
         _tableView.dataSource = self;
         _tableView.delegate = self;
         _tableView.rowHeight = 51.f;

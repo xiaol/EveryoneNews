@@ -12,6 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface LPNewsMineViewController : LPNewsBaseViewController
 
-
+@property (nonatomic, strong) UIImageView *avatarImageView;
 @end
 NS_ASSUME_NONNULL_END

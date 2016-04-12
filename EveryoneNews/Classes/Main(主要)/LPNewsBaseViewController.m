@@ -283,8 +283,8 @@ static const NSInteger kNavBarTag = 10000;
 #pragma mark - TitleView
 
 - (void)setNavTitleView:(NSString *)title{
-    CGSize textSize = [[NSAttributedString alloc] initWithString:title attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.f]}].size;
-    UIFont *textFont = [UIFont systemFontOfSize:18.f];
+    CGSize textSize = [[NSAttributedString alloc] initWithString:title attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20.f]}].size;
+    UIFont *textFont = [UIFont systemFontOfSize:20.f];
     if (textSize.width > 150.f) {
         textFont = [UIFont systemFontOfSize:15.f];
         textSize = [[NSAttributedString alloc] initWithString:title attributes:@{NSFontAttributeName:textFont}].size;
@@ -293,7 +293,7 @@ static const NSInteger kNavBarTag = 10000;
     titleLabel.backgroundColor = [UIColor clearColor];
     titleLabel.font = textFont;
     titleLabel.text = title;
-    titleLabel.textColor = kNavTextColor;
+    titleLabel.textColor = [UIColor colorWithDesignIndex:7];
     titleLabel.textAlignment = NSTextAlignmentCenter;
     self.navItem.titleView = titleLabel;
 }

@@ -23,7 +23,6 @@ CGSize const kAvatarImageViewSize = {70,70};
 }
 
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) UIImageView *avatarImageView;
 @property (nonatomic, strong) UILabel *userNameLabel;
 @property(nonatomic, strong, nullable) NSArray *dataSource;
 
@@ -187,11 +186,14 @@ CGSize const kAvatarImageViewSize = {70,70};
     LPNewsSettingViewController *settingVC = [[LPNewsSettingViewController alloc] init];
     [self.navigationController pushViewController:settingVC animated:YES
      ];
-    NSLog(@"gotoSettingView");
 }
 
+#pragma mark- BackItemMethod
 
-
+- (void)doBackAction:(nullable id)sender
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 #pragma mark- Getters and Setters
 

@@ -18,6 +18,7 @@ typedef void(^DoBaseRigthItemMethodBlock)(void);
 @property(nonatomic, readonly, assign)BOOL isPresent;
 @property(nullable, nonatomic, copy) DoBaseRigthItemMethodBlock rigthItemMethodBlock;
 
+
 #pragma mark- init
 
 - (instancetype)initWithCustom;
