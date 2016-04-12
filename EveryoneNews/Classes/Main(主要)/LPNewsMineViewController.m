@@ -284,9 +284,13 @@ CGSize const kAvatarImageViewSize = {70,70};
 #pragma mark- UITableViewDelegate
 
 - (void)tableView:(nonnull UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-   
-    NSLog(@"nihao");
+    if (indexPath.row == 0) {
+        NSLog(@"我的评论");
+    }else if (indexPath.row ==1){
+        NSLog(@"我的收藏");
+    }else{
+        NSLog(@"消息中心");
+    }
 }
 
 

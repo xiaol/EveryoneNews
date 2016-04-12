@@ -113,8 +113,19 @@ static NSString * const kCellIdentify = @"JoySettingCell";
 }
 
 - (void)tableView:(nonnull UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
-    
-    NSLog(@"点击cell");
+    if (indexPath.section == 1) {
+        NSLog(@"清除缓存");
+    }else if (indexPath.section == 2){
+        if (indexPath.row == 0) {
+            NSLog(@"关于");
+        }else if (indexPath.row ==1){
+            NSLog(@"隐私政策");
+        }else{
+            NSLog(@"去appst评分");
+        }
+    }else if (indexPath.section ==3){
+        NSLog(@"退出登录");
+    }
 }
 
 #pragma mark- Event reponse

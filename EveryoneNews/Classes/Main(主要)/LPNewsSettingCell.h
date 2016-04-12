@@ -14,5 +14,8 @@ static const CGFloat kSetingCellHeight = 51.f;
 
 @interface LPNewsSettingCell : LPNewsBaseTableViewCell
 
+@property (nonatomic, strong)UISegmentedControl *fontSizeCtrBtn;
+@property (nonatomic, strong)UISwitch *infoPushSwitchBtn;
+
 @end
 NS_ASSUME_NONNULL_END

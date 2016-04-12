@@ -89,6 +89,16 @@ static const CGFloat kLeftMargin = 23.f;
                 make.left.mas_equalTo(@(kLeftMargin));
                 make.size.mas_equalTo(strongLeftImageView.image.size);
             }];
+            
+            [textLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+                __strong __typeof(weakSelf)strongSelf = weakSelf;
+                __strong __typeof(weakLeftImageView)strongLeftImageView = weakLeftImageView;
+                make.centerY.equalTo(strongSelf.mas_centerY);
+                make.left.equalTo(strongLeftImageView.mas_right).with.mas_offset(@20);
+                make.size.mas_equalTo(CGSizeMake(180.f, (kTextFont).lineHeight));
+            }];
+            
+            [signOutLabel removeFromSuperview];
         }else{
             signOutLabel.text = [dict.allValues objectAtIndex:0];
             [signOutLabel mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -96,6 +106,14 @@ static const CGFloat kLeftMargin = 23.f;
                 make.center.equalTo(strongSelf.contentView);
                 make.size.mas_equalTo(CGSizeMake(180.f, [UIFont systemFontOfSize:20.f].lineHeight));
             }];
+            
+            [leftImageView removeFromSuperview];
+            [textLabel removeFromSuperview];
+            [rightImageView removeFromSuperview];
+        }
+        
+        if (indexPath.section == 1) {
+            [rightImageView removeFromSuperview];
         }
         
         if (indexPath.section == 2) {
@@ -109,24 +127,73 @@ static const CGFloat kLeftMargin = 23.f;
                 make.size.mas_equalTo(strongRightImageView.image.size);
             }];
         }
-            
-        [textLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-            __strong __typeof(weakSelf)strongSelf = weakSelf;
-            __strong __typeof(weakLeftImageView)strongLeftImageView = weakLeftImageView;
-            make.centerY.equalTo(strongSelf.mas_centerY);
-            make.left.equalTo(strongLeftImageView.mas_right).with.mas_offset(@20);
-            make.size.mas_equalTo(CGSizeMake(180.f, (kTextFont).lineHeight));
-        }];
+        
+        if (indexPath.section == 0) {
+            if (indexPath.row == 0) {
+                [rightImageView removeFromSuperview];
+                [self.contentView addSubview:self.fontSizeCtrBtn];
+                [self.fontSizeCtrBtn mas_updateConstraints:^(MASConstraintMaker *make) {
+                    __weak typeof(weakSelf)strongSelf = weakSelf;
+                    make.centerY.equalTo(strongSelf.mas_centerY);
+                    make.right.mas_equalTo(@(-14));
+                    make.size.mas_equalTo(CGSizeMake(51.f*3, 36.f));
+                }];
+               [self.fontSizeCtrBtn addTarget:self action:@selector(modifyTextFontSize:) forControlEvents:(UIControlEventValueChanged)];
+            }else{
+                [rightImageView removeFromSuperview];
+                [self.contentView addSubview:self.infoPushSwitchBtn];
+                [self.infoPushSwitchBtn mas_updateConstraints:^(MASConstraintMaker *make) {
+                    __weak typeof(weakSelf)strongSelf = weakSelf;
+                    make.centerY.equalTo(strongSelf.mas_centerY);
+                    make.right.mas_equalTo(@(-14));
+                    make.size.mas_equalTo(CGSizeMake(51.f, 31.f));
+                }];
+                [self.infoPushSwitchBtn addTarget:self action:@selector(changeInfoPushStatus:) forControlEvents:UIControlEventValueChanged];
+            }
+        }
     }
+}
+
+#pragma mark- private methods
+
+- (void)modifyTextFontSize:(UISegmentedControl *)sender{
+    
+    NSLog(@"index:%ld",(long)sender.selectedSegmentIndex);
+}
+
+- (void)changeInfoPushStatus:(UISwitch *)sender{
+    NSLog(@"index:%ld",(long)sender.on);
 }
 
 - (void)setSelected:(BOOL)selected{
     [super setSelected:selected];
 }
 
+#pragma mark- Getters and Setters
 
+- (UISegmentedControl *)fontSizeCtrBtn{
+    if (!_fontSizeCtrBtn) {
+        NSArray *segmentedArray = [[NSArray alloc]initWithObjects:@"标准",@"大",@"超大",nil];
+        UISegmentedControl *btn = [[UISegmentedControl alloc] initWithItems:segmentedArray];
+        btn.tintColor = [UIColor colorWithDesignIndex:5];
+        btn.selectedSegmentIndex = 0;
+        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor redColor],UITextAttributeTextColor,[UIFont fontWithName:@"Helvetica" size:16.f],UITextAttributeFont,nil];
+        [btn setTitleTextAttributes:dic forState:UIControlStateSelected];
+        
+        NSDictionary *dic1 = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor],UITextAttributeTextColor,[UIFont fontWithName:@"Helvetica" size:16.f],UITextAttributeFont,nil];
+        [btn setTitleTextAttributes:dic1 forState:UIControlStateNormal];
+        _fontSizeCtrBtn = btn;
+    }
+    return _fontSizeCtrBtn;
+}
 
-
+- (UISwitch *)infoPushSwitchBtn{
+    if (!_infoPushSwitchBtn) {
+        UISwitch *btn = [[UISwitch alloc] init];
+        _infoPushSwitchBtn = btn;
+    }
+    return _infoPushSwitchBtn;
+}
 
 
 @end
