@@ -9,6 +9,8 @@
 #import "LPHomeViewController+SubviewsManager.h"
 #import "LPHomeViewController+LaunchLoginManager.h"
 #import "LPMenuButton.h"
+#import "Account.h"
+#import "AccountTool.h"
 #import "LPPagingViewPage.h"
 #import "LPHomeViewController+ChannelItemMenu.h"
 #import "LPHomeViewController+ContentView.h"
@@ -16,7 +18,8 @@
 #import "LPHomeViewController+LaunchFontSizeManager.h"
 #import "LPChangeFontSizeView.h"
 #import "LPFontSizeManager.h"
-
+#import "MainNavigationController.h"
+#import "LPNewsLoginViewController.h"
 
 NSString * const firstChannelName = @"奇点";
 NSString * const menuCellIdentifier = @"menuCollectionViewCell";
@@ -27,6 +30,12 @@ NSString * const reuseIdentifierSecond = @"reuseIdentifierSecond";
 const static CGFloat cellPadding = 15;
 
 @implementation LPHomeViewController (SubviewsManager)
+
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+}
 
 #pragma mark - 显示状态栏
 - (UIStatusBarStyle) preferredStatusBarStyle {
@@ -46,7 +55,7 @@ const static CGFloat cellPadding = 15;
     if (iPhone6Plus) {
         menuViewHeight = 51;
     }
-
+    
     // 导航视图
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, statusBarHeight + menuViewHeight)];
     [self.view addSubview:headerView];
@@ -56,7 +65,7 @@ const static CGFloat cellPadding = 15;
     [self.loginBtn addTarget:self action:@selector(toUserCenter) forControlEvents:UIControlEventTouchUpInside];
     [headerView addSubview:self.loginBtn];
     
- 
+    
     // 右上角添加按钮
     CGFloat addBtnW = 19.0f;
     CGFloat addBtnH = 19.0f;
@@ -67,7 +76,7 @@ const static CGFloat cellPadding = 15;
     addButton.frame = CGRectMake(addBtnX, addBtnY, addBtnW, addBtnH);
     [addButton addTarget:self action:@selector(addButtonClick) forControlEvents:UIControlEventTouchUpInside];
     [headerView addSubview:addButton];
-
+    
     // 底部分割线
     UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(0, statusBarHeight + menuViewHeight - 1, ScreenWidth, 1)];
     seperatorView.backgroundColor = [UIColor colorFromHexString:@"#0091fa"];
@@ -78,7 +87,7 @@ const static CGFloat cellPadding = 15;
     CGFloat menuViewY = statusBarHeight;
     CGFloat menuViewW = ScreenWidth - 94;
     CGFloat menuViewH = menuViewHeight - 1;
-
+    
     UICollectionViewFlowLayout *menuViewFlowLayout = [[UICollectionViewFlowLayout alloc] init];
     menuViewFlowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     LPMenuView *menuView = [[LPMenuView alloc] initWithFrame:CGRectMake(menuViewX, menuViewY , menuViewW, menuViewH) collectionViewLayout:menuViewFlowLayout];
@@ -92,7 +101,7 @@ const static CGFloat cellPadding = 15;
     
     // 默认选中第一个频道栏
     [self menuViewDidScrollToFirstChannelItem];
-
+    
     // 首页内容页面
     LPPagingView *pagingView = [[LPPagingView alloc] init];
     pagingView.frame = CGRectMake(0, statusBarHeight + menuViewHeight, ScreenWidth, ScreenHeight - statusBarHeight - menuViewHeight);
@@ -193,12 +202,21 @@ const static CGFloat cellPadding = 15;
         [userDefaults setObject:uuid forKey:@"uuid"];
         [userDefaults synchronize];
     }
+
 }
 
 - (void)toUserCenter{
     
-    LPNewsMineViewController *mineView = [[LPNewsMineViewController alloc] initWithCustom];
-    [self.navigationController pushViewController:mineView animated:YES];
+    Account *account = [AccountTool account];
+    if (account == nil) {// 用户未登录直接显示未登录图标
+        LPNewsLoginViewController *loginView = [[LPNewsLoginViewController alloc] initWithCustom];
+        MainNavigationController *loginNavVc = [[MainNavigationController alloc] initWithRootViewController:loginView];
+        [self presentViewController:loginNavVc animated:YES completion:nil];
+    } else {    //用户已登录
+        LPNewsMineViewController *mineView = [[LPNewsMineViewController alloc] initWithCustom];
+        MainNavigationController *mineNavVc = [[MainNavigationController alloc] initWithRootViewController:mineView];
+        [self presentViewController:mineNavVc animated:YES completion:nil];
+    }
 }
 
 
@@ -285,7 +303,7 @@ const static CGFloat cellPadding = 15;
         menuViewHeight = 51;
     }
     UIView *contentLoadingView = [[UIView alloc] initWithFrame:CGRectMake(0, statusBarHeight + menuViewHeight, ScreenWidth, ScreenHeight - statusBarHeight - menuViewHeight)];
- 
+    
     // Load images
     NSArray *imageNames = @[@"xl_1", @"xl_2", @"xl_3", @"xl_4"];
     
@@ -311,9 +329,9 @@ const static CGFloat cellPadding = 15;
     loadingLabel.textColor = [UIColor colorFromHexString:@"#999999"];
     [contentLoadingView addSubview:loadingLabel];
     self.loadingLabel = loadingLabel;
-
+    
     self.contentLoadingView = contentLoadingView;
-
+    
 }
 
 

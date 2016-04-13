@@ -19,6 +19,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self prefersStatusBarHidden];
+    
+   // [noteCenter addObserver:self selector:@selector(<#selector#>) name:<#(nullable NSString *)#> object:<#(nullable id)#>];
 }
 
 //- (void)setIsBuiltInPop:(BOOL)isBuiltInPop {

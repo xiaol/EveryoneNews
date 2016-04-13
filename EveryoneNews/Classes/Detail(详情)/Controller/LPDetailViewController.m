@@ -630,17 +630,6 @@ const static CGFloat relatePointCellHeight = 79;
         UILabel *bottomLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, bottomWidth, bottomHeight - 12)];
         bottomLabel.backgroundColor = [UIColor whiteColor];        
         [footerView addSubview:bottomLabel];
-        
-//        CAShapeLayer *lineLayer = [CAShapeLayer layer];
-//        UIBezierPath *linePath = [UIBezierPath bezierPath];
-//        [linePath moveToPoint:CGPointZero];
-//        [linePath addLineToPoint:CGPointMake(0, footerViewHeight - 12)];
-//        [linePath addLineToPoint:CGPointMake(bottomWidth, footerViewHeight - 12)];
-//        [linePath addLineToPoint:CGPointMake(bottomWidth, 0)];
-//        lineLayer.path = linePath.CGPath;
-//        lineLayer.fillColor = nil;
-//        lineLayer.strokeColor = [UIColor colorFromHexString:@"#e9e9e9"].CGColor;
-//        [footerView.layer addSublayer:lineLayer];
         return footerView;
        
     }

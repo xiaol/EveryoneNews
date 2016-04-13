@@ -1,8 +1,8 @@
 //
-//  LPNewsSettingViewController.h
+//  LPNewsPrivacyItemsController.h
 //  EveryoneNews
 //
-//  Created by Yesdgq on 16/4/11.
+//  Created by Yesdgq on 16/4/13.
 //  Copyright © 2016年 apple. All rights reserved.
 //
 
@@ -10,7 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface LPNewsSettingViewController : LPNewsBaseViewController
+@interface LPNewsPrivacyItemsController : LPNewsBaseViewController<UIWebViewDelegate>
 
 @end
+
 NS_ASSUME_NONNULL_END

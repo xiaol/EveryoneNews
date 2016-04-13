@@ -74,7 +74,7 @@ typedef NS_ENUM(NSInteger,LPFontSize) {
 #define LPPushNotificationFromBack @"pushNotificationFromBack"
 #define LPPushNotificationFromLaunching @"pushNotificationFromLaunching"
 #define LPPushNotificationURL @"url"
-
+#define LPFontSizeChangedNotofication @"fontSizeChanged"
 
 #define LPCommentWillComposeNotification @"willCompose"
 #define LPComposeParaIndex @"paraIndex"

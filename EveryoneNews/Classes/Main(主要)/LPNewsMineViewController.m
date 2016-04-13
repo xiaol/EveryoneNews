@@ -9,6 +9,12 @@
 #import "LPNewsMineViewController.h"
 #import "LPNewsMineViewCell.h"
 #import "LPNewsSettingViewController.h"
+#import "Account.h"
+#import "AccountTool.h"
+#import "SDWebImageManager.h"
+#import "MainNavigationController.h"
+#import "LPNewsNavigationController.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 static NSString * const kCellIdentify = @"JoyMineViewCell";
@@ -23,7 +29,6 @@ CGSize const kAvatarImageViewSize = {70,70};
 }
 
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) UIImageView *avatarImageView;
 @property (nonatomic, strong) UILabel *userNameLabel;
 @property(nonatomic, strong, nullable) NSArray *dataSource;
 
@@ -184,21 +189,26 @@ CGSize const kAvatarImageViewSize = {70,70};
 }
 
 - (void)gotoSettingView{
+    
     LPNewsSettingViewController *settingVC = [[LPNewsSettingViewController alloc] init];
-    [self.navigationController pushViewController:settingVC animated:YES
-     ];
-    NSLog(@"gotoSettingView");
+    [self.navigationController pushViewController:settingVC animated:YES];
+    
 }
 
+#pragma mark- BackItemMethod
 
-
+- (void)doBackAction:(nullable id)sender
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 #pragma mark- Getters and Setters
 
 - (UIImageView *__nonnull)avatarImageView{
     if (!_avatarImageView) {
+        Account *account = [AccountTool account];
         UIImageView *avatarImageView = [[UIImageView alloc] init];
-        avatarImageView.image = [LPNewsAssistant imageWithContentsOfFile:@"UserDeafultImage"];
+        
         avatarImageView.contentMode = UIViewContentModeScaleAspectFit;
         avatarImageView.layer.masksToBounds = YES;
         avatarImageView.layer.shouldRasterize = YES;
@@ -207,7 +217,19 @@ CGSize const kAvatarImageViewSize = {70,70};
         avatarImageView.layer.borderWidth = 0.5f;
         avatarImageView.layer.borderColor = [[UIColor colorWithDesignIndex:5] CGColor];
         _avatarImageView = avatarImageView;
+        
+        if (account == nil) {
+           avatarImageView.image = [LPNewsAssistant imageWithContentsOfFile:@"UserDeafultImage"];
+        }else{
+            __weak typeof(self) weakSelf = self;
+            [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:account.userIcon] options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                if (image && finished) {
+                    weakSelf.avatarImageView.image = image;
+                }
+            }];
+        }
     }
+    
     return _avatarImageView;
 }
 
@@ -274,19 +296,23 @@ CGSize const kAvatarImageViewSize = {70,70};
         NSArray *array = self.dataSource[indexPath.section];
         if (indexPath.row < array.count) {
             NSDictionary *dict = [array objectAtIndex:indexPath.row];
-            [cell setModel:dict];
-            
+            [cell setModel:dict IndexPath:indexPath];
         }
     }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
 #pragma mark- UITableViewDelegate
 
 - (void)tableView:(nonnull UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-   
-    NSLog(@"nihao");
+    if (indexPath.row == 0) {
+        NSLog(@"我的评论");
+    }else if (indexPath.row ==1){
+        NSLog(@"我的收藏");
+    }else{
+        NSLog(@"消息中心");
+    }
 }
 
 

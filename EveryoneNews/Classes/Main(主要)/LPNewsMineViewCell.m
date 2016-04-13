@@ -59,7 +59,7 @@
 
 static const CGFloat kLeftMargin = 23.f;
 
-- (void)setModel:(id)model {
+- (void)setModel:(nonnull id)model IndexPath:(NSIndexPath *)indexPath{
     if (model && [model isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dict = (NSDictionary *)model;
         NSString *keyStr = [dict.allKeys objectAtIndex:0];
@@ -90,7 +90,7 @@ static const CGFloat kLeftMargin = 23.f;
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             __strong __typeof(weakLeftImageView)strongLeftImageView = weakLeftImageView;
             make.centerY.equalTo(strongSelf.mas_centerY);
-            make.left.equalTo(strongLeftImageView.mas_right).with.mas_offset(@10);
+            make.left.equalTo(strongLeftImageView.mas_right).with.mas_offset(@23);
             make.size.mas_equalTo(CGSizeMake(180.f, (kTextFont).lineHeight));
         }];
     }

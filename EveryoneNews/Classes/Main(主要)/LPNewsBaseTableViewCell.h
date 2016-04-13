@@ -10,5 +10,5 @@
 
 @interface LPNewsBaseTableViewCell : UITableViewCell
 
-- (void)setModel:(nonnull id)model;
+- (void)setModel:(nonnull id)model IndexPath:(NSIndexPath *)indexPath;
 @end

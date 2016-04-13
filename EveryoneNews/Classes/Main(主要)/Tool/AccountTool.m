@@ -19,6 +19,7 @@
 #import "MainNavigationController.h"
 #import "UMSocialSnsPlatformManager.h"
 #import "WXApi.h"
+#import "LPNewsLoginViewController.h"
 
 
 @interface LPLoginViewController : LPBaseViewController <UMSocialUIDelegate>
@@ -245,10 +246,13 @@ singleton_m(AccountTool);
     if (account) {
         return;
     }
-    LPLoginViewController *loginVc = [[LPLoginViewController alloc] init];
-    loginVc.successBlock = success;
-    loginVc.failureBlock = failure;
-    loginVc.cancelBlock = cancel;
+//    LPLoginViewController *loginVc = [[LPLoginViewController alloc] init];
+    
+    LPNewsLoginViewController *loginVc = [[LPNewsLoginViewController alloc] init];
+    
+//    loginVc.successBlock = success;
+//    loginVc.failureBlock = failure;
+//    loginVc.cancelBlock = cancel;
     [viewVc presentViewController:loginVc animated:NO completion:nil];
     
 }

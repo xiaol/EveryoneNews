@@ -22,65 +22,68 @@
 
 @implementation LPHomeViewController (LaunchLoginManager)
 
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    Account *account = [AccountTool account];
+    [self displayLoginBtnIconWithAccount:account];
+
+}
+
 #pragma mark - 设置登录页面
 - (void)setupHomeViewLoginButton {
-    CGFloat statusBarHeight = 20.0f;
-    CGFloat menuViewHeight = 44.0f;
-    if (iPhone6Plus) {
-        menuViewHeight = 51;
-    }
     // 登录按钮
     self.loginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     self.loginBtn.enlargedEdge = 5.0;
-    //如果用户已经登录则在右下角显示用户图像
-    Account *account = [AccountTool account];
-
-    CGFloat unloginBtnX = 18;
-    CGFloat unloginBtnW = 18;
-    CGFloat unloginBtnH = 18;
-    CGFloat unloginBtnY = (menuViewHeight - unloginBtnH) / 2 + statusBarHeight;
-
-    // 用户未登录直接显示未登录图标
-    if (account == nil) {
-        self.loginBtn.layer.cornerRadius = 0;
-        self.loginBtn.layer.borderWidth = 0;
-        self.loginBtn.layer.masksToBounds = NO;
-
-        [self.loginBtn setBackgroundImage:[UIImage imageNamed:@"home_login"] forState:UIControlStateNormal];
-         self.loginBtn.frame = CGRectMake(unloginBtnX , unloginBtnY , unloginBtnW, unloginBtnH);
-    } else {
-        [self displayLoginBtnIconWithAccount:account];
-    }
-
-    //[self.loginBtn addTarget:self action:@selector(userLogin:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 #pragma mark - 设置用户头像
 - (void)displayLoginBtnIconWithAccount:(Account *)account
 {
-    __weak typeof(self) weakSelf = self;
-    [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:account.userIcon] options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-        if (image && finished) {
-            CGFloat statusBarHeight = 20.0f;
-            CGFloat menuViewHeight = 44.0f;
-            if (iPhone6Plus) {
-                menuViewHeight = 51;
+    CGFloat statusBarHeight = 20.0f;
+    CGFloat menuViewHeight = 44.0f;
+    if (iPhone6Plus) {
+        menuViewHeight = 51;
+    }
+    
+    CGFloat unloginBtnX = 18;
+    CGFloat unloginBtnW = 18;
+    CGFloat unloginBtnH = 18;
+    CGFloat unloginBtnY = (menuViewHeight - unloginBtnH) / 2 + statusBarHeight;
+    // 用户未登录直接显示未登录图标
+    if (account == nil) {
+        self.loginBtn.layer.cornerRadius = 0;
+        self.loginBtn.layer.borderWidth = 0;
+        self.loginBtn.layer.masksToBounds = NO;
+        
+        [self.loginBtn setBackgroundImage:[UIImage imageNamed:@"home_login"] forState:UIControlStateNormal];
+        self.loginBtn.frame = CGRectMake(unloginBtnX , unloginBtnY , unloginBtnW, unloginBtnH);
+    } else {
+        
+        __weak typeof(self) weakSelf = self;
+        [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:account.userIcon] options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+            if (image && finished) {
+                CGFloat statusBarHeight = 20.0f;
+                CGFloat menuViewHeight = 44.0f;
+                if (iPhone6Plus) {
+                    menuViewHeight = 51;
+                }
+                CGFloat loginBtnX = 12;
+                CGFloat loginBtnW = 29;
+                CGFloat loginBtnH = 29;
+                CGFloat loginBtnY = (menuViewHeight - loginBtnH) / 2 + statusBarHeight;
+                [weakSelf.loginBtn setBackgroundImage:image forState:UIControlStateNormal];
+                weakSelf.loginBtn.frame = CGRectMake(loginBtnX , loginBtnY , loginBtnW, loginBtnH);
+                weakSelf.loginBtn.layer.cornerRadius = loginBtnH / 2;
+                weakSelf.loginBtn.layer.borderWidth = 1;
+                weakSelf.loginBtn.layer.masksToBounds = YES;
+                weakSelf.loginBtn.layer.borderColor = [UIColor colorFromHexString:@"#e4e4e4"].CGColor;
             }
-            CGFloat loginBtnX = 12;
-            CGFloat loginBtnW = 29;
-            CGFloat loginBtnH = 29;
-            CGFloat loginBtnY = (menuViewHeight - loginBtnH) / 2 + statusBarHeight;
-            [weakSelf.loginBtn setBackgroundImage:image forState:UIControlStateNormal];
-            weakSelf.loginBtn.frame = CGRectMake(loginBtnX , loginBtnY , loginBtnW, loginBtnH);
-            weakSelf.loginBtn.layer.cornerRadius = loginBtnH / 2;
-            weakSelf.loginBtn.layer.borderWidth = 1;
-            weakSelf.loginBtn.layer.masksToBounds = YES;
-            weakSelf.loginBtn.layer.borderColor = [UIColor colorFromHexString:@"#e4e4e4"].CGColor;
-        }
-    }];
+        }];
+    }
 }
 
-#pragma mark - 用户登录
+#pragma mark - 用户退出登录
 - (void)userLogin:(UIButton *)loginBtn {
     if ([AccountTool account]!= nil) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"退出登录" message:@"退出登录后无法进行评论哦" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];

@@ -23,7 +23,17 @@
 #define kApplecationScreenWidth [[UIScreen mainScreen] applicationFrame].size.width
 #define kApplecationScreenHeight [[UIScreen mainScreen] applicationFrame].size.height
 
+#define kCustomNavigationBarHeight (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO((@"7.0")) ? (44.f +20.f) : (44.f))
+
 #define kNavTextColor   [UIColor blackColor]
+
+#define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
+#define SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
+#define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+#define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
+#define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
+
+static NSString * const kLPNewsSliderBackVCNotification = @"LPNewsSliderBackVCNotification";
 
 static const CGFloat kNavigationBarHEIGHT = 44.f;
 

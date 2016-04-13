@@ -150,6 +150,7 @@ static const NSInteger kNavBarTag = 10000;
         navBar = [[LPNewsNavigationBar alloc]initWithCustomFame:barFrame];
         navBar.tag = kNavBarTag;
         
+        
         CGRect lineLayerRect = CGRectMake(0.f, (barHeight-.5f), CGRectGetWidth(barFrame), .5f);
         CALayer *lineLayer = [CALayer layer];
         lineLayer.frame = lineLayerRect;
@@ -283,8 +284,8 @@ static const NSInteger kNavBarTag = 10000;
 #pragma mark - TitleView
 
 - (void)setNavTitleView:(NSString *)title{
-    CGSize textSize = [[NSAttributedString alloc] initWithString:title attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.f]}].size;
-    UIFont *textFont = [UIFont systemFontOfSize:18.f];
+    CGSize textSize = [[NSAttributedString alloc] initWithString:title attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:20.f]}].size;
+    UIFont *textFont = [UIFont systemFontOfSize:20.f];
     if (textSize.width > 150.f) {
         textFont = [UIFont systemFontOfSize:15.f];
         textSize = [[NSAttributedString alloc] initWithString:title attributes:@{NSFontAttributeName:textFont}].size;
@@ -293,7 +294,7 @@ static const NSInteger kNavBarTag = 10000;
     titleLabel.backgroundColor = [UIColor clearColor];
     titleLabel.font = textFont;
     titleLabel.text = title;
-    titleLabel.textColor = kNavTextColor;
+    titleLabel.textColor = [UIColor colorWithDesignIndex:7];
     titleLabel.textAlignment = NSTextAlignmentCenter;
     self.navItem.titleView = titleLabel;
 }
@@ -305,7 +306,7 @@ static const NSInteger kNavBarTag = 10000;
 - (void)backImageItem{
     self.navItem.hidesBackButton = YES;
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    UIImage *image = [LPNewsAssistant imageWithContentsOfFile:@"joyBack"];
+    UIImage *image = [LPNewsAssistant imageWithContentsOfFile:@"BackArrow_black"];
     
     CGFloat btnWidth = image.size.width+18.f;
     CGFloat btnHeight = image.size.height;
@@ -317,7 +318,7 @@ static const NSInteger kNavBarTag = 10000;
     }
     btn.frame = CGRectMake(0, 0, btnWidth, btnHeight);
     if (iOS8) {
-        [btn setImageEdgeInsets:UIEdgeInsetsMake(0, -30.f, 0, 0)];
+        [btn setImageEdgeInsets:UIEdgeInsetsMake(0, -58.f, 0, 0)];
     }else{
         [btn setImageEdgeInsets:UIEdgeInsetsMake(0, -20.f, 0, 0)];
     }
@@ -533,15 +534,18 @@ static const NSInteger kNavBarTag = 10000;
 #pragma mark- BackItemMethod
 
 - (void)doBackAction:(nullable id)sender
-{
+{   NSLog(@"backaction");
     if (self.isRootLevel) {
         
         [self.parentViewController.navigationController popViewControllerAnimated:YES];
         
+    }else if (self.isPresent){
+        
+    [self dismissViewControllerAnimated:YES completion:nil];
+        
     }else{
         
         [self.navigationController popViewControllerAnimated:YES];
-        
     }
 }
 

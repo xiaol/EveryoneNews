@@ -82,8 +82,19 @@
     [self setupInitialData];
     
     [self setupSubViews];
+    
+    [noteCenter addObserver:self selector:@selector(refreshTableViewFontSize) name:LPFontSizeChangedNotofication object:nil];
 }
 
+- (void)refreshTableViewFontSize {
+    [self setupInitialPagingViewData];
+    [self.pagingView reloadData];
+}
+
+#pragma mark - 移除通知
+- (void)dealloc {
+    [noteCenter removeObserver:self];
+}
 - (void)setupInitialData {
     // 设置频道名称
     [self initializeChannelItemName];
