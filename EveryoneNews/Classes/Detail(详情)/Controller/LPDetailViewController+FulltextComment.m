@@ -36,30 +36,41 @@
     LPFullCommentViewController *fullCommentVc = [[LPFullCommentViewController alloc] init];
     fullCommentVc.docId = self.docId;
     fullCommentVc.commentsCount = self.commentsCount;
-    
     [fullCommentVc fulltextCommentDidComposed:^(NSInteger count) {
         self.topView.badgeNumber = count;
-        NSLog(@"count1:%d",count);
+        self.bottomView.badgeNumber = count;
+        self.commentsCount = count;
     }];
     
     [self.navigationController pushViewController:fullCommentVc animated:YES];
 }
 
+#pragma mark - 底部直接发表评论
 - (void)pushFulltextCommentComposeVc {
     LPComposeViewController *composeVc = [[LPComposeViewController alloc] init];
     composeVc.delegate = self;
     composeVc.docId = self.docId;
-//    composeVc.commentsCount = self.commentsCount;
-//    [composeVc returnCommentsCount:^(NSInteger count) {
-//        NSLog(@"comment:%d", count);
-//    }];
+    composeVc.commentsCount = self.commentsCount;
+    [composeVc returnCommentsCount:^(NSInteger count) {
+        self.topView.badgeNumber = count;
+        self.bottomView.badgeNumber = count;
+        self.commentsCount = count;
+    }];
     
     [self.navigationController pushViewController:composeVc animated:YES];
 }
 
+#pragma mark - 底部点击发表评论
 - (void)pushCommentViewControllerWithDetailBottomView:(LPDetailBottomView *)detailBottomView {
     LPFullCommentViewController *fullCommentVc = [[LPFullCommentViewController alloc] init];
     fullCommentVc.docId = self.docId;
+    fullCommentVc.commentsCount = self.commentsCount;
+    [fullCommentVc fulltextCommentDidComposed:^(NSInteger count) {
+        self.topView.badgeNumber = count;
+        self.bottomView.badgeNumber = count;
+        self.commentsCount = count;
+    }];
+    
     [self.navigationController pushViewController:fullCommentVc animated:YES];
 }
 

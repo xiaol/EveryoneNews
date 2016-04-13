@@ -26,18 +26,9 @@
         // 本地首页字体大小是否存在
         if (![userDefaults objectForKey:@"homeViewFontSize"]) {
             
-            if (iPhone6) {
-                // 先从本地获取，获取不到就设置默认值
-                _currentHomeViewFontSize = LPFontSize17;
-                _currentDetailContentFontSize = LPFontSize21;
-                _currentDetaiTitleFontSize = LPFontSize23;
-                _currentDetailCommentFontSize = LPFontSize16;
-                _currentDetailRelatePointFontSize = LPFontSize14;
-                
-            } else if (iPhone6Plus) {
-                
+        if (iPhone6Plus) {
                 _currentHomeViewFontSize = LPFontSize18;
-                _currentDetailContentFontSize = LPFontSize21;
+                _currentDetailContentFontSize = LPFontSize20;
                 _currentDetaiTitleFontSize = LPFontSize23;
                 _currentDetailCommentFontSize = LPFontSize16;
                 _currentDetailRelatePointFontSize = LPFontSize14;
@@ -45,7 +36,7 @@
             } else {
                 
                 _currentHomeViewFontSize = LPFontSize16;
-                _currentDetailContentFontSize = LPFontSize21;
+                _currentDetailContentFontSize = LPFontSize18;
                 _currentDetaiTitleFontSize = LPFontSize23;
                 _currentDetailCommentFontSize = LPFontSize16;
                 _currentDetailRelatePointFontSize = LPFontSize14;

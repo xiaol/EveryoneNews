@@ -75,6 +75,11 @@
            success:(void (^)(id))success
            failure:(void (^)(NSError *))failure;
 
+- (void)getImageWithURL:(NSString *)url
+            params:(NSDictionary *)params
+           success:(void (^)(id))success
+           failure:(void (^)(NSError *))failure;
+
 /**
  *  发送一个GET请求
  *
@@ -86,6 +91,9 @@
 + (void)getWithURL:(NSString *)url params:(NSDictionary *)params success:(void (^)(id json))success failure:(void (^)(NSError *error))failure;
 
 + (void)getWithURL:(NSString *)url params:(NSDictionary *)params timeinterval:(CGFloat)interval success:(void (^)(id))success failure:(void (^)(NSError *))failure;
+
+
+
 
 - (void)cancelRequest;
 @end

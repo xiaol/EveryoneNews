@@ -37,10 +37,14 @@
 - (instancetype)stringByTrimmingWhitespaceAndNewline;
 - (instancetype)stringByTrimmingNewline;
 - (instancetype)stringByTrimmingString:(NSString *)string;
+// 去除中横线
+- (instancetype)stringByTrimmingHyphen;
 - (instancetype)absoluteDateString;
 
 - (instancetype)stringByBase64Encoding;
 - (instancetype)stringByBase64Decoding;
+
+
 
 // 获取时间戳
 - (double)timestampWithDateFormat:(NSString *)dateFormat;

@@ -150,6 +150,8 @@
         [self.pointImageView sd_setImageWithURL:[NSURL URLWithString:point.imgUrl] placeholderImage:[UIImage imageNamed:@"dig详情页占位小图"]];
         self.pointImageView.hidden = NO;
         self.pointImageView.frame = _relateFrame.imageViewF;
+       
+       NSLog(@"%@", point.imgUrl);
    } else {
        self.pointImageView.hidden = YES;
    }

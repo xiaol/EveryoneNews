@@ -62,6 +62,8 @@
     return string;
 }
 
+
+
 - (BOOL)isBlank
 {
     if (self == nil || self == NULL || [self isKindOfClass:[NSNull class]] || [self stringByTrimmingWhitespaceAndNewline].length == 0) {
@@ -80,6 +82,10 @@
 
 - (instancetype)stringByTrimmingString:(NSString *)string {
     return [self stringByReplacingOccurrencesOfString:string withString:@""];
+}
+
+- (instancetype)stringByTrimmingHyphen{
+    return [self stringByTrimmingString:@"-"];
 }
 
 - (instancetype)absoluteDateString {

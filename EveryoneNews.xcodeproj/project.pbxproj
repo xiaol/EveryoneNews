@@ -315,6 +315,7 @@
 		866439261CB63FB8003E4DE8 /* LPHomeViewController+SubviewsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 866439251CB63FB8003E4DE8 /* LPHomeViewController+SubviewsManager.m */; };
 		8664392B1CB64518003E4DE8 /* LPHomeViewController+LaunchLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8664392A1CB64518003E4DE8 /* LPHomeViewController+LaunchLoginManager.m */; };
 		8664392F1CB649A7003E4DE8 /* LPHomeViewController+ChannelItemName.m in Sources */ = {isa = PBXBuildFile; fileRef = 8664392E1CB649A7003E4DE8 /* LPHomeViewController+ChannelItemName.m */; };
+		866B9AAE1CBE37AE008CECA8 /* LPRelatePointFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 866B9AAD1CBE37AE008CECA8 /* LPRelatePointFooter.m */; };
 		866D85C51BF5923900D92E5D /* ZhihuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 866D85C41BF5923900D92E5D /* ZhihuView.m */; };
 		866F0CC81C15245800F8CA16 /* LPChannelItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 866F0CC71C15245800F8CA16 /* LPChannelItem.m */; };
 		866F0CCE1C152A1E00F8CA16 /* LPChannelItemTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 866F0CCD1C152A1E00F8CA16 /* LPChannelItemTool.m */; };
@@ -974,6 +975,8 @@
 		8664392A1CB64518003E4DE8 /* LPHomeViewController+LaunchLoginManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LPHomeViewController+LaunchLoginManager.m"; sourceTree = "<group>"; };
 		8664392D1CB649A7003E4DE8 /* LPHomeViewController+ChannelItemName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LPHomeViewController+ChannelItemName.h"; sourceTree = "<group>"; };
 		8664392E1CB649A7003E4DE8 /* LPHomeViewController+ChannelItemName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LPHomeViewController+ChannelItemName.m"; sourceTree = "<group>"; };
+		866B9AAC1CBE37AE008CECA8 /* LPRelatePointFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPRelatePointFooter.h; sourceTree = "<group>"; };
+		866B9AAD1CBE37AE008CECA8 /* LPRelatePointFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPRelatePointFooter.m; sourceTree = "<group>"; };
 		866D85C31BF5923900D92E5D /* ZhihuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhihuView.h; sourceTree = "<group>"; };
 		866D85C41BF5923900D92E5D /* ZhihuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhihuView.m; sourceTree = "<group>"; };
 		866F0CC61C15245800F8CA16 /* LPChannelItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPChannelItem.h; sourceTree = "<group>"; };
@@ -1611,6 +1614,7 @@
 		1889FE3D1B4C2E91006D8E03 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				866B9AAB1CBE3775008CECA8 /* 详情页相关观点上拉 */,
 				86571EDB1CB8B86800BD1DC8 /* 评论 */,
 				86571ED71CB8AFAA00BD1DC8 /* 分享 */,
 				86571ED31CB8AF0900BD1DC8 /* 相关观点 */,
@@ -2769,6 +2773,15 @@
 			name = "频道切换管理";
 			sourceTree = "<group>";
 		};
+		866B9AAB1CBE3775008CECA8 /* 详情页相关观点上拉 */ = {
+			isa = PBXGroup;
+			children = (
+				866B9AAC1CBE37AE008CECA8 /* LPRelatePointFooter.h */,
+				866B9AAD1CBE37AE008CECA8 /* LPRelatePointFooter.m */,
+			);
+			name = "详情页相关观点上拉";
+			sourceTree = "<group>";
+		};
 		867D49281CABA8B90025765B /* 过期代码 */ = {
 			isa = PBXGroup;
 			children = (
@@ -3067,6 +3080,7 @@
 				18EF3B4D1B6635200097F5A6 /* LPFeaturedCell.m in Sources */,
 				1826B3F41B7D9E0B00B712E0 /* LPPhotoWallViewController.m in Sources */,
 				187564791C2110B600589320 /* Photo+CoreDataProperties.m in Sources */,
+				866B9AAE1CBE37AE008CECA8 /* LPRelatePointFooter.m in Sources */,
 				86A87A3F1C1AB7A0006830E9 /* LPSortCollectionView.m in Sources */,
 				1826B3DE1B786B3900B712E0 /* POPAnimationRuntime.mm in Sources */,
 				1875648A1C2110B600589320 /* Relate.m in Sources */,

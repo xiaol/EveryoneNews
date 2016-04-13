@@ -81,9 +81,14 @@ static const CGFloat PaddingVertical = 15;
         // 新闻来源高度
         CGFloat sourceSiteNameH = [sourceSiteName sizeWithFont:[UIFont systemFontOfSize:sourceFontSize] maxSize:CGSizeMake(titleW, MAXFLOAT)].height;
     
-        CGFloat sourceSiteNameY = CGRectGetMaxY(_singleImageTitleLabelFrame) + 10;
+        
+        CGFloat sourceSiteNameY = 0.0;
+        
+    
         if (titleH + sourceSiteNameH + 10 > imageH) {
             sourceSiteNameY = CGRectGetMaxY(_singleImageImageViewFrame) + 10;
+        } else {
+            sourceSiteNameY = CGRectGetMaxY(_singleImageImageViewFrame) - sourceSiteNameH;
         }
         
         _singleImageSourceLabelFrame = CGRectMake(titleX, sourceSiteNameY, titleW, sourceSiteNameH);

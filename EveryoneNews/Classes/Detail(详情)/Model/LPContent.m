@@ -20,14 +20,23 @@
 - (NSMutableAttributedString *)bodyString
 {
     CGFloat fontSize = [LPFontSizeManager sharedManager].currentDetailContentFontSize ;
-   
     return [self.body attributedStringWithFont:[UIFont systemFontOfSize:fontSize] color:[UIColor colorFromHexString:@"#060606"] lineSpacing:BodyLineSpacing];
+}
+
+- (NSMutableAttributedString *)bodyHtmlString {
+     NSMutableAttributedString *mutableAttributeString = [[NSMutableAttributedString alloc] initWithData:[self.body dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType}
+                                         documentAttributes:nil error:nil];
+    return mutableAttributeString;
+}
+
+- (NSString *)body {
+    CGFloat fontSize = [LPFontSizeManager sharedManager].currentDetailContentFontSize ;
+    return [NSString stringWithFormat:@"<style> body{ line-height:1.6;text-indent:2em;font-size:%fpx; text-align:justify;}</style> %@ ",[UIFont systemFontOfSize:fontSize].pointSize, _body];
 }
 
 - (NSMutableAttributedString *)photoDescString {
     return [self.photoDesc attributedStringWithFont:[UIFont systemFontOfSize:BodyFontSize] color:[UIColor blackColor] lineSpacing:BodyLineSpacing];
 }
-
 
 - (NSMutableAttributedString *)opinionString {
     if (_opinion) {

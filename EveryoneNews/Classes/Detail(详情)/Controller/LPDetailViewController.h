@@ -12,7 +12,7 @@
 #import "LPHttpTool.h"
 #import "MJExtension.h"
 #import "MJRefresh.h"
-#import "LPDiggerFooter.h"
+//#import "LPDiggerFooter.h"
 #import "LPDetailTopView.h"
 #import "LPDetailBottomView.h"
 #import "LPCommentFrame.h"
@@ -38,6 +38,7 @@
 
 @property (nonatomic, strong) NSManagedObjectID *cardID;
 @property (nonatomic, strong) Card *card;
+@property (nonatomic, copy) NSString *channelID;
 @property (nonatomic, strong) LPDetailTopView *topView;
 @property (nonatomic, strong) LPDetailBottomView *bottomView;
 

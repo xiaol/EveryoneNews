@@ -33,6 +33,7 @@ const static CGFloat controlH = 70;
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+//        self.backgroundColor = [UIColor redColor];
         self.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         UIView *seperatorView = [[UIView alloc] init];
@@ -49,7 +50,7 @@ const static CGFloat controlH = 70;
         [self addSubview:titleLabel];
         self.titleLabel = titleLabel;
         
-        self.seperatorView.frame = CGRectMake(0, 40, ScreenWidth - BodyPadding * 2, 0.5);
+        self.seperatorView.frame = CGRectMake(0, 0, ScreenWidth - BodyPadding * 2, 0.5);
         CGSize titleLabelSize = [self.titleLabel.text sizeWithFont:[UIFont systemFontOfSize:14] maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)];
         self.titleLabel.frame = CGRectMake(0, 0, titleLabelSize.width + 40, titleLabelSize.height);
         self.titleLabel.center = self.seperatorView.center;

@@ -42,6 +42,10 @@
 #import "LPDetailViewController+RelatePoint.h"
 #import "LPDetailViewController+FulltextComment.h"
 #import "LPFontSizeManager.h"
+#import "UIControl+Swizzle.h"
+#import "NSTimer+Additions.h"
+#import "LPRelatePointFooter.h"
+
 
 static const NSString * privateContext;
 static const NSString * fulltextContext;
@@ -50,7 +54,7 @@ const static CGFloat headerViewHeight = 40;
 const static CGFloat footerViewHeight = 59;
 const static CGFloat relatePointCellHeight = 79;
 
-@interface LPDetailViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate,LPRelateCellDelegate, LPDetailTopViewDelegate, LPContentCellDelegate, LPShareViewDelegate,LPDetailBottomViewDelegate, LPShareCellDelegate>
+@interface LPDetailViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate,LPRelateCellDelegate, LPDetailTopViewDelegate, LPShareViewDelegate,LPDetailBottomViewDelegate, LPShareCellDelegate>
 
 @property (nonatomic, assign) CGFloat lastContentOffsetY;
 
@@ -59,6 +63,18 @@ const static CGFloat relatePointCellHeight = 79;
 @property (nonatomic, strong) NSArray *relates;
 
 @property (nonatomic, strong) LPHttpTool *http;
+
+@property (nonatomic, strong)   UIImageView *animationImageView;
+
+@property (nonatomic, strong) UILabel *loadingLabel;
+
+@property (nonatomic, strong) UIView *contentLoadingView;
+
+@property (nonatomic, strong) NSTimer *timer;
+
+@property (nonatomic, assign) NSInteger stayTimeInterval;
+
+@property (nonatomic, strong) NSMutableDictionary *contentDictionary;
 
 @end
 
@@ -82,13 +98,78 @@ const static CGFloat relatePointCellHeight = 79;
     [super viewWillAppear:animated];
     // 友盟统计打开详情页次数
 //    [MobClick beginLogPageView:@"DetailPage"];
-  
+    
+    self.stayTimeInterval = 0;
+    [self startTimer];
+}
+
+#pragma mark - 开启定时器
+- (void)startTimer {
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 firing:^{
+    self.stayTimeInterval++;
+    }];
+}
+
+#pragma mark - 清空定时器
+- (void)endTimer {
+    [self.timer invalidate];
+    self.timer = nil;
 }
 
 #pragma mark - viewWillDisappear
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
 //    [MobClick endLogPageView:@"DetailPage"];
+    [self endTimer];
+    // 提交用户日志
+    [self submitUserOperationLog];
+
+}
+
+#pragma mark - 上传用户操作日志
+- (void)submitUserOperationLog {
+    
+    NSString *uid= (NSString *)[userDefaults objectForKey:@"uuid"];
+    NSString *cou = @""; // 国家
+    NSString *pro = @""; // 省
+    NSString *cit = @""; // 城市
+    NSString *dis = @""; // 区，县
+    NSString *clas = @"0"; // 0 表示详情页，1表示列表页上报
+    NSString *nid = [self.card valueForKey:@"newId"];
+    NSString *cid = self.channelID; // 频道编号
+    NSString *tid= @""; // 包含置顶，热点 推荐 订阅 图片 兴趣探索 推广
+    NSString *stime = [NSString stringWithFormat:@"%d",self.stayTimeInterval];
+    NSString *sltime = @"";
+    NSString *from = @"1"; // 1表示列表页
+
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setObject:nid forKey:@"nid"];
+    [dic setObject:cid forKey:@"cid"];
+    [dic setObject:tid forKey:@"tid"];
+    [dic setObject:stime forKey:@"stime"];
+    [dic setObject:sltime forKey:@"sltime"];
+    [dic setObject:from forKey:@"from"];
+    
+    NSString *url = @"http://bdp.deeporiginalx.com/rep";
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"uid"] = uid;
+    params[@"cou"] = cou;
+    params[@"pro"] = pro;
+    params[@"cit"] = cit;
+    params[@"dis"] = dis;
+    params[@"clas"] = clas;
+    NSError *error = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic
+                                                       options:NSJSONWritingPrettyPrinted // Pass 0 if you don't care about the readability of the generated string
+                                                         error:&error];
+    params[@"data"] = [jsonData base64EncodedStringWithOptions:0];
+    if (!error) {
+        self.http = [LPHttpTool http];
+        [self.http getImageWithURL:url params:params success:^(id json) {
+           //NSLog(@"stime:%@", stime);
+        } failure:^(NSError *error) {
+        }];
+    }
 }
 
 #pragma mark - viewDidDisappear
@@ -140,6 +221,13 @@ const static CGFloat relatePointCellHeight = 79;
     }
     return _fulltextCommentFrames;
 }
+
+- (NSMutableDictionary *)contentDictionary {
+    if (_contentDictionary == nil) {
+        _contentDictionary = [NSMutableDictionary dictionary];
+    }
+    return _contentDictionary;
+}
 #pragma mark - 顶部视图隐藏和显示
 - (void)fadeIn
 {
@@ -167,23 +255,6 @@ const static CGFloat relatePointCellHeight = 79;
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if ([scrollView isKindOfClass:[UITableView class]]) {
         self.lastContentOffsetY < scrollView.contentOffset.y ? [self fadeOut] : [self fadeIn];
-        
-        // 固定Section顶部
-        CGFloat sectionHeaderHeight = headerViewHeight;
-        if (scrollView.contentOffset.y <= sectionHeaderHeight && scrollView.contentOffset.y >= 0) {
-            scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
-        } else if (scrollView.contentOffset.y >= sectionHeaderHeight) {
-            scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
-        }
-        
-        CGFloat sectionFooterHeight = 40;
-        CGFloat bottomHeight = scrollView.contentSize.height - self.tableView.frame.size.height;
-        
-        if (bottomHeight-sectionFooterHeight <= scrollView.contentOffset.y && scrollView.contentSize.height > 0) {
-            scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
-        } else  {
-            scrollView.contentInset = UIEdgeInsetsMake(0, 0, -(sectionFooterHeight), 0);
-        }
     }
 }
 
@@ -197,7 +268,7 @@ const static CGFloat relatePointCellHeight = 79;
 - (void)setupSubviews {
     
     // 文章内容
-    UITableView *tableView = [[UITableView alloc] initWithFrame: CGRectMake(BodyPadding, 20, ScreenWidth - BodyPadding * 2, ScreenHeight - 65) style:UITableViewStyleGrouped];
+    UITableView *tableView = [[UITableView alloc] initWithFrame: CGRectMake(BodyPadding, 20, ScreenWidth - BodyPadding * 2, ScreenHeight - 44) style:UITableViewStyleGrouped];
     //tableView.frame = CGRectMake(BodyPadding, 20, ScreenWidth - BodyPadding * 2, ScreenHeight - 65);
     tableView.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -212,7 +283,7 @@ const static CGFloat relatePointCellHeight = 79;
  
     __weak typeof(self) weakSelf = self;
     // 上拉加载更多
-    self.tableView.footer = [LPDiggerFooter footerWithRefreshingBlock:^{
+    self.tableView.footer = [LPRelatePointFooter footerWithRefreshingBlock:^{
         [weakSelf loadMoreRelateData];
     }];
     
@@ -221,6 +292,66 @@ const static CGFloat relatePointCellHeight = 79;
     topView.delegate = self;
     [self.view addSubview:topView];
     self.topView = topView;
+    
+    [self setupLoadingView];
+    [self showLoadingView];
+}
+
+#pragma mark - Loading View
+- (void)setupLoadingView {
+    CGFloat statusBarHeight = 20.0f;
+    CGFloat menuViewHeight = 44.0f;
+    if (iPhone6Plus) {
+        menuViewHeight = 51;
+    }
+    
+    UIView *contentLoadingView = [[UIView alloc] initWithFrame:CGRectMake(0, statusBarHeight + menuViewHeight, ScreenWidth, ScreenHeight - statusBarHeight - menuViewHeight)];
+    
+    // Load images
+    NSArray *imageNames = @[@"xl_1", @"xl_2", @"xl_3", @"xl_4"];
+    
+    NSMutableArray *images = [[NSMutableArray alloc] init];
+    for (int i = 0; i < imageNames.count; i++) {
+        [images addObject:[UIImage imageNamed:[imageNames objectAtIndex:i]]];
+    }
+    
+    // Normal Animation
+    UIImageView *animationImageView = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth - 36) / 2, (ScreenHeight - statusBarHeight - menuViewHeight) / 3, 36 , 36)];
+    animationImageView.animationImages = images;
+    animationImageView.animationDuration = 1;
+    [self.view addSubview:animationImageView];
+    self.animationImageView = animationImageView;
+    contentLoadingView.hidden = YES;
+    [contentLoadingView addSubview:animationImageView];
+    [self.view addSubview:contentLoadingView];
+    
+    UILabel *loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(animationImageView.frame), ScreenWidth, 40)];
+    loadingLabel.textAlignment = NSTextAlignmentCenter;
+    loadingLabel.text = @"正在努力加载...";
+    loadingLabel.font = [UIFont systemFontOfSize:12];
+    loadingLabel.textColor = [UIColor colorFromHexString:@"#999999"];
+    [contentLoadingView addSubview:loadingLabel];
+    self.loadingLabel = loadingLabel;
+    
+    self.contentLoadingView = contentLoadingView;
+    
+}
+
+#pragma mark - 首页显示正在加载提示
+- (void)showLoadingView {
+    [self.animationImageView startAnimating];
+    self.loadingLabel.hidden = NO;
+    self.contentLoadingView.hidden = NO;
+    
+}
+
+
+#pragma mark - 首页隐藏正在加载提示
+- (void)hideLoadingView {
+    
+    [self.animationImageView stopAnimating];
+    self.loadingLabel.hidden = YES;
+    self.contentLoadingView.hidden = YES;
 }
 
 #pragma mark - 创建底部视图
@@ -238,7 +369,7 @@ const static CGFloat relatePointCellHeight = 79;
     Card *card = (Card *)[cdh.context existingObjectWithID:self.cardID error:nil];
     self.card = card;
     self.docId = [self.card valueForKey:@"docId"];
-   // NSLog(@"%@", self.docId);
+    self.channelID = [self.card valueForKey:@"channelId"];
     
 }
 
@@ -255,7 +386,6 @@ const static CGFloat relatePointCellHeight = 79;
     NSLog(@"%@?url=%@", url, params[@"url"]);
     
     [self getDetailDataWithUrl:url params:params];
-    
 }
 
 - (void)getDetailDataWithUrl:(NSString *)url params:(NSDictionary *)params {
@@ -269,8 +399,8 @@ const static CGFloat relatePointCellHeight = 79;
         
         self.shareTitle = title;
         self.docId = dict[@"docid"];
+         // 更新详情页评论数量
         self.commentsCount = [dict[@"commentSize"] integerValue];
-        
         self.topView.badgeNumber = self.commentsCount;
         self.bottomView.badgeNumber = self.commentsCount ;
      
@@ -318,8 +448,10 @@ const static CGFloat relatePointCellHeight = 79;
             [self.contentArray addObject:content];
         }
         self.tableView.hidden = NO;
+        [self hideLoadingView];
     } failure:^(NSError *error) {
         [MBProgressHUD showError:@"网络不给力"];
+        [self hideLoadingView];
     }];
 }
 
@@ -350,7 +482,9 @@ const static CGFloat relatePointCellHeight = 79;
     if (indexPath.section == 0) {
         
         LPContentCell *cell = [LPContentCell cellWithTableView:tableView];
+        cell.cellHeight = [self.contentDictionary[@(indexPath.row)] floatValue];
         cell.content = self.contentArray[indexPath.row];
+    
         return cell;
         
     } else if (indexPath.section == 1) {
@@ -371,7 +505,6 @@ const static CGFloat relatePointCellHeight = 79;
         cell.relateFrame = self.relatePointFrames[indexPath.row];
         cell.delegate = self;
         return cell;
-        
     }
     return nil;
 }
@@ -394,12 +527,14 @@ const static CGFloat relatePointCellHeight = 79;
             
             CGFloat bodyY = BodyPadding * 2;
             CGFloat bodyW = ScreenWidth - 2 * BodyPadding;
-            CGFloat bodyH = [content.bodyString heightWithConstraintWidth:bodyW];
-            
+            if (self.contentDictionary[@(indexPath.row)] == nil) {
+                [self.contentDictionary setObject:@([content.bodyHtmlString heightWithConstraintWidth:bodyW]) forKey:@(indexPath.row)];
+            }
+            CGFloat bodyH = [self.contentDictionary[@(indexPath.row)] floatValue];
             return  bodyH + bodyY + BodyPadding - 5;
         }
     } else if (indexPath.section == 1) {
-        return 170;
+        return 100;
     } else if (indexPath.section == 2) {
         
         LPCommentFrame *commentFrame = self.fulltextCommentFrames[indexPath.row];
@@ -487,7 +622,7 @@ const static CGFloat relatePointCellHeight = 79;
     } else if (section == 3 && self.relatePointArray.count > 0) {
         // 底部视图
         CGFloat bottomWidth = ScreenWidth - BodyPadding * 2;
-        CGFloat bottomHeight = 59;
+        CGFloat bottomHeight = 24;
     
         UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, bottomWidth , bottomHeight)];
         
@@ -541,7 +676,7 @@ const static CGFloat relatePointCellHeight = 79;
         }
     } else if (section == 3){
         if (self.relatePointArray.count > 0 ) {
-            return footerViewHeight;
+            return 24;
         } else {
             return 0;
         }

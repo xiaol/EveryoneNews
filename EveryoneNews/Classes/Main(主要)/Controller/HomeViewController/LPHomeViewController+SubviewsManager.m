@@ -136,7 +136,7 @@ const static CGFloat cellPadding = 15;
     [self.hideChannelItemButton addTarget:self action:@selector(hideChannelItemButtonClick) forControlEvents:UIControlEventTouchUpInside];
     self.hideChannelItemButton.enlargedEdge = 10;
     [blurView addSubview:self.hideChannelItemButton];
-    /*
+  
     // 首次安装提示信息
     if (![userDefaults objectForKey:@"isVersion3FirstLoad"]) {
         
@@ -164,7 +164,6 @@ const static CGFloat cellPadding = 15;
         UIView *homeBlurView = [[UIView alloc] init];
         homeBlurView.backgroundColor = [UIColor blackColor];
         homeBlurView.alpha = 0.5;
-        homeBlurView.hidden =YES;
         
         UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(homeBlurViewPressed)];
         [homeBlurView addGestureRecognizer:tapGesture];
@@ -183,8 +182,17 @@ const static CGFloat cellPadding = 15;
         loginView.delegate = self;
         [self.view addSubview:loginView];
         self.loginView = loginView;
+        [self hideLoadingView];
     }
-     */
+    
+    // 存储用户的UUID
+    if (![userDefaults objectForKey:@"uuid"]) {
+        NSString *uuid = [[NSUUID UUID] UUIDString];
+        // 去除“-”字符 Base64加密 移除末尾等号"="
+        uuid = [[[uuid stringByTrimmingHyphen] stringByBase64Encoding] stringByTrimmingString:@"="];
+        [userDefaults setObject:uuid forKey:@"uuid"];
+        [userDefaults synchronize];
+    }
 }
 
 - (void)toUserCenter{

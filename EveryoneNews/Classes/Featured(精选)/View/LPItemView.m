@@ -54,7 +54,7 @@
     self.supplementView.hidden = !content.isOpinion;
         
     self.bodyLabel.frame = self.contentFrame.bodyLabelF;
-    self.bodyLabel.attributedText = content.bodyString;
+  //  self.bodyLabel.attributedText = content.bodyString;
     
     if (!self.commentView.hidden) {
         [self setupCommentView];

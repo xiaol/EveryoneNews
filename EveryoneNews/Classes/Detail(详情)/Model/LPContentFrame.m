@@ -15,11 +15,14 @@
 
 - (void)setContent:(LPContent *)content {
     _content = content;
-    if (!self.content.isPhoto) { // 普通类型(非图)g
+    if (!_content.isPhoto) { // 普通类型(非图)g
         CGFloat bodyX = 0;
         CGFloat bodyY = BodyPadding * 2;
         CGFloat bodyW = ScreenWidth - 2 * BodyPadding;
-        CGFloat bodyH = [self.content.bodyString heightWithConstraintWidth:bodyW];
+        CGFloat bodyH = [_content.bodyHtmlString heightWithConstraintWidth:bodyW];
+        
+//        CGFloat bodyH = [self.content.bodyString heightWithConstraintWidth:bodyW];
+        
         _bodyLabelF = CGRectMake(bodyX, bodyY, bodyW, bodyH);
         _cellHeight = CGRectGetMaxY(_bodyLabelF) + BodyPadding - 5;
       

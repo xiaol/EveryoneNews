@@ -51,6 +51,7 @@ extern NSString * const reusePageID;
 
 // 全局字体大小
 typedef NS_ENUM(NSInteger,LPFontSize) {
+    LPFontSize12 = 12,
     LPFontSize13 = 13,
     LPFontSize14 = 14,
     LPFontSize15 = 15,
@@ -190,7 +191,7 @@ typedef NS_ENUM(NSInteger,LPFontSize) {
 #define LPColorRGBA(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:a]
 
 // 默认字体颜色
-#define LPNormalColor LPColor(56, 56 ,56)
+#define LPNormalColor LPColor(51, 51 ,51)
 #define LPSelectedColor LPColor(0, 145, 250)
 
 // 随机色

@@ -52,15 +52,6 @@ static const CGFloat topViewHeight= 64;
     [self setupSubviews];
 }
 
-#pragma mark - viewDidDisappear
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    if (self.http) {
-        [self.http cancelRequest];
-        self.http = nil;
-    }
-}
-
 #pragma mark - statusBar
 - (BOOL)prefersStatusBarHidden
 {
@@ -388,8 +379,6 @@ static const CGFloat topViewHeight= 64;
     composeVc.commentsCount = self.commentsCount;
     [composeVc returnCommentsCount:^(NSInteger count) {
         self.commentsCount = count;
-        NSLog(@"count2-%d", count);
-        
     }];
     [self.navigationController pushViewController:composeVc animated:YES];
 }
@@ -416,16 +405,34 @@ static const CGFloat topViewHeight= 64;
 }
 
 #pragma mark - ViewDidAppear
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+//- (void)viewDidAppear:(BOOL)animated {
+//    [super viewDidAppear:animated];
+//    // 更新评论数量
+//    if (self.block != nil) {
+//    
+//        self.block(self.commentsCount);
+//    }
+//    
+//}
+
+//- (void)viewDidDisappear:(BOOL)animated {
+//    [super viewDidDisappear:animated];
+//    
+//}
+
+#pragma mark - viewDidDisappear
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    if (self.http) {
+        [self.http cancelRequest];
+        self.http = nil;
+    }
     // 更新评论数量
     if (self.block != nil) {
-    
+
         self.block(self.commentsCount);
     }
-    
 }
-
 #pragma mark - dealloc
 - (void)dealloc
 {

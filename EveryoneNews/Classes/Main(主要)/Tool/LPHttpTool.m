@@ -151,6 +151,30 @@
     return [self getWithURL:url params:params timeinterval:15.0 success:success failure:failure];
 }
 
+- (void)getImageWithURL:(NSString *)url
+                 params:(NSDictionary *)params
+                success:(void (^)(id))success
+                failure:(void (^)(NSError *))failure {
+    // 1.创建请求管理对象
+    AFHTTPRequestOperationManager *mgr = [AFHTTPRequestOperationManager manager];
+    mgr.responseSerializer = [AFImageResponseSerializer serializer];
+    mgr.requestSerializer.timeoutInterval = 5;
+    mgr.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringCacheData;
+    
+ 
+    // 2.发送请求
+    [mgr GET:url parameters:params
+     success:^(AFHTTPRequestOperation *operation, id responseObject) {
+         if (success) {
+             success(responseObject);
+         }
+     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+         if (failure) {
+             failure(error);
+         }
+     }];
+}
+
 - (void)cancelRequest {
     if (!self.operation) return;
     [self.operation cancel];

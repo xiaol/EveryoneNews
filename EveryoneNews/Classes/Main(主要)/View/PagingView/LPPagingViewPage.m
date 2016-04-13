@@ -95,7 +95,7 @@
         
         UILabel *label = [[UILabel alloc] init];
         label.hidden = YES;
-        label.height = 30;
+        label.height = searchViewHeight;
         label.x = 0;
         label.y = -15;
         label.width = ScreenWidth;

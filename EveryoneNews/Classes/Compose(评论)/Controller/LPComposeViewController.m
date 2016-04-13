@@ -189,23 +189,29 @@ static const CGFloat  HeaderViewHeight = 64;
     params[@"pid"] = @"";
     self.http = [LPHttpTool http];
     [self.http postJSONWithURL:url params:params success:^(id json) {
-        [self.navigationController popViewControllerAnimated:YES];
         if ([self.delegate respondsToSelector:@selector(insertComment:)]) {
             comment.Id = [NSString stringWithFormat:@"%@", json[@"data"]];
             [self.delegate insertComment:comment];
         }
         if (self.returnCommentsCountBlock != nil) {
-            NSLog(@"count3: %d", self.commentsCount);
-            self.returnCommentsCountBlock(self.commentsCount + 1);
+            self.commentsCount = self.commentsCount + 1;
+            self.returnCommentsCountBlock(self.commentsCount);
         }
-        
         [MBProgressHUD showSuccess:@"发表成功"];
+        [self.navigationController popViewControllerAnimated:YES];
         
     } failure:^(NSError *error) {
         [MBProgressHUD showError:@"发表失败"];
     }];
     
 }
+
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+ 
+}
+
+
 //- (void)keyboardWillShow:(NSNotification *)note
 //{
 //    // 键盘弹出时间

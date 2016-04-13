@@ -6,40 +6,6 @@
 //  Copyright (c) 2015年 apple. All rights reserved.
 //
 
-//#import "LPDiggerFooter.h"
-//
-//@implementation LPDiggerFooter
-//
-//-(void)prepare {
-//    [super prepare];
-//    [self setTitle:@"" forState:MJRefreshStateIdle];
-//}
-//
-//@end
-//
-//
-
-//#import "LPDiggerFooter.h"
-//
-//@implementation LPDiggerFooter
-//
-//-(void)prepare {
-//    [super prepare];
-//    [self setTitle:@"" forState:MJRefreshStateIdle];
-////    [self setTitle:@"正在载入" forState:MJRefreshStateRefreshing];
-//    NSMutableArray *refreshImages = [NSMutableArray array];
-//    for (NSUInteger i = 1; i <= 4; i++) {
-//        UIImage *image = [UIImage imageNamed:[NSString stringWithFormat:@"加载更多动画3000%zd", i]];
-//        [refreshImages addObject:image];
-//    }
-//    
-//    [self setImages:refreshImages duration:0.4 forState:MJRefreshStateRefreshing];
-//   
-//}
-//
-//@end
-
-
 
 #import "LPDiggerFooter.h"
 

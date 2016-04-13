@@ -164,6 +164,8 @@
     
     if (_badgeNumber == 0) {
         self.commentCountLabel.hidden = YES;
+    } else {
+        self.commentCountLabel.hidden = NO;
     }
     
     self.commentsBtn.frame = CGRectMake(self.commentCountLabel.frame.origin.x  - commentButtonPaddingRight - commentButtonWidth, bottomViewHeight / 2 - commentButtonHeight / 2 , commentButtonWidth, commentButtonHeight);

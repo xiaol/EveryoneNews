@@ -28,4 +28,5 @@
 {
     return [self sizeWithConstraintSize:CGSizeMake(MAXFLOAT, MAXFLOAT)].width > width ;
 }
+
 @end

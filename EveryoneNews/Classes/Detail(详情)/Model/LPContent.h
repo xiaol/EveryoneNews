@@ -38,5 +38,7 @@
 - (NSMutableAttributedString *)opinionString;
 - (LPComment *)displayingComment;
 - (NSMutableAttributedString *)bodyString;
+- (NSMutableAttributedString *)bodyHtmlString;
 - (NSMutableAttributedString *)photoDescString;
+
 @end

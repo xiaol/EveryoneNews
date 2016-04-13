@@ -16,7 +16,7 @@
 }
 
 + (id)scheduledTimerWithTimeInterval:(NSTimeInterval)interval firing:(LPFireHandler)handler {
-    return [self scheduledTimerWithTimeInterval:interval repeating:NO firing:handler];
+    return [self scheduledTimerWithTimeInterval:interval repeating:YES firing:handler];
 }
 
 + (id)scheduledTimerWithTimeInterval:(NSTimeInterval)interval repeating:(BOOL)repeating firing:(LPFireHandler)handler {

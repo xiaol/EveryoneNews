@@ -121,7 +121,7 @@
         [slider setValue:1];
         
         self.homeViewFontSize = LPFontSize16;
-        self.currentDetailContentFontSize = LPFontSize21;
+        self.currentDetailContentFontSize = LPFontSize18;
         self.currentDetaiTitleFontSize  = LPFontSize23;
         self.currentDetailCommentFontSize = LPFontSize16;
         self.currentDetailRelatePointFontSize = LPFontSize14;
@@ -129,7 +129,7 @@
         
         if (iPhone6Plus) {
             self.homeViewFontSize =  LPFontSize18;
-            self.currentDetailContentFontSize = LPFontSize21;
+            self.currentDetailContentFontSize = LPFontSize20;
             self.currentDetaiTitleFontSize  = LPFontSize23;
             self.currentDetailCommentFontSize = LPFontSize16;
             self.currentDetailRelatePointFontSize = LPFontSize14;
@@ -139,7 +139,7 @@
         [slider setValue:2];
         
         self.homeViewFontSize = LPFontSize18;
-        self.currentDetailContentFontSize = LPFontSize22;
+        self.currentDetailContentFontSize = LPFontSize20;
         self.currentDetaiTitleFontSize  = LPFontSize24;
         self.currentDetailCommentFontSize = LPFontSize17;
         self.currentDetailRelatePointFontSize = LPFontSize15;
@@ -156,14 +156,14 @@
         [slider setValue:3];
         
         self.homeViewFontSize = LPFontSize20;
-        self.currentDetailContentFontSize = LPFontSize23;
+        self.currentDetailContentFontSize = LPFontSize22;
         self.currentDetaiTitleFontSize  = LPFontSize25;
         self.currentDetailCommentFontSize = LPFontSize18;
         self.currentDetailRelatePointFontSize = LPFontSize16;
         
         if (iPhone6Plus) {
             self.homeViewFontSize =  LPFontSize22;
-            self.currentDetailContentFontSize = LPFontSize23;
+            self.currentDetailContentFontSize = LPFontSize24;
             self.currentDetaiTitleFontSize  = LPFontSize25;
             self.currentDetailCommentFontSize = LPFontSize18;
             self.currentDetailRelatePointFontSize = LPFontSize16;
@@ -183,7 +183,7 @@
     if (slider.value == 1) {
         
         self.homeViewFontSize =  LPFontSize16;
-        self.currentDetailContentFontSize = LPFontSize21;
+        self.currentDetailContentFontSize = LPFontSize18;
         self.currentDetaiTitleFontSize  = LPFontSize23;
         self.currentDetailCommentFontSize = LPFontSize16;
         self.currentDetailRelatePointFontSize = LPFontSize14;
@@ -191,7 +191,7 @@
         if (iPhone6Plus) {
             
             self.homeViewFontSize =  LPFontSize18;
-            self.currentDetailContentFontSize = LPFontSize21;
+            self.currentDetailContentFontSize = LPFontSize20;
             self.currentDetaiTitleFontSize  = LPFontSize23;
             self.currentDetailCommentFontSize = LPFontSize16;
             self.currentDetailRelatePointFontSize = LPFontSize14;
@@ -200,7 +200,7 @@
     } else if (slider.value == 2) {
         
         self.homeViewFontSize = LPFontSize18;
-        self.currentDetailContentFontSize = LPFontSize22;
+        self.currentDetailContentFontSize = LPFontSize20;
         self.currentDetaiTitleFontSize  = LPFontSize24;
         self.currentDetailCommentFontSize = LPFontSize17;
         self.currentDetailRelatePointFontSize = LPFontSize15;
@@ -217,14 +217,14 @@
     } else if (slider.value == 3) {
         
         self.homeViewFontSize = LPFontSize20;
-        self.currentDetailContentFontSize = LPFontSize23;
+        self.currentDetailContentFontSize = LPFontSize22;
         self.currentDetaiTitleFontSize  = LPFontSize25;
         self.currentDetailCommentFontSize = LPFontSize18;
         self.currentDetailRelatePointFontSize = LPFontSize16;
         
         if (iPhone6Plus) {
             self.homeViewFontSize =  LPFontSize22;
-            self.currentDetailContentFontSize = LPFontSize23;
+            self.currentDetailContentFontSize = LPFontSize24;
             self.currentDetaiTitleFontSize  = LPFontSize25;
             self.currentDetailCommentFontSize = LPFontSize18;
             self.currentDetailRelatePointFontSize = LPFontSize16;

@@ -46,8 +46,6 @@
         self.layer.rasterizationScale = [UIScreen mainScreen].scale;
         
         UILabel *bodyLabel = [[UILabel alloc] init];
-        bodyLabel.userInteractionEnabled = YES;
-        bodyLabel.lineBreakMode = NSLineBreakByCharWrapping;
         bodyLabel.numberOfLines = 0;
         [self.contentView addSubview:bodyLabel];
         self.bodyLabel = bodyLabel;
@@ -68,14 +66,14 @@
     if (!content.isPhoto) { // 非图
         self.bodyLabel.hidden = NO;
         self.photoView.hidden = YES;
-
         CGFloat bodyX = 0;
         CGFloat bodyY = BodyPadding * 2;
         CGFloat bodyW = ScreenWidth - 2 * BodyPadding;
-        CGFloat bodyH = [self.content.bodyString heightWithConstraintWidth:bodyW];
+//        CGFloat bodyH = [_content.bodyHtmlString heightWithConstraintWidth:bodyW];
+        CGFloat bodyH = self.cellHeight;
         self.bodyLabel.frame = CGRectMake(bodyX, bodyY, bodyW, bodyH);
-        self.bodyLabel.attributedText = content.bodyString;
-
+        self.bodyLabel.attributedText = _content.bodyHtmlString;
+    
     } else {
         self.bodyLabel.hidden = YES;
         self.photoView.hidden = NO;
