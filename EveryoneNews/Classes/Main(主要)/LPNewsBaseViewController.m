@@ -150,6 +150,7 @@ static const NSInteger kNavBarTag = 10000;
         navBar = [[LPNewsNavigationBar alloc]initWithCustomFame:barFrame];
         navBar.tag = kNavBarTag;
         
+        
         CGRect lineLayerRect = CGRectMake(0.f, (barHeight-.5f), CGRectGetWidth(barFrame), .5f);
         CALayer *lineLayer = [CALayer layer];
         lineLayer.frame = lineLayerRect;
@@ -317,7 +318,7 @@ static const NSInteger kNavBarTag = 10000;
     }
     btn.frame = CGRectMake(0, 0, btnWidth, btnHeight);
     if (iOS8) {
-        [btn setImageEdgeInsets:UIEdgeInsetsMake(0, -68.f, 0, 0)];
+        [btn setImageEdgeInsets:UIEdgeInsetsMake(0, -58.f, 0, 0)];
     }else{
         [btn setImageEdgeInsets:UIEdgeInsetsMake(0, -20.f, 0, 0)];
     }
@@ -533,15 +534,18 @@ static const NSInteger kNavBarTag = 10000;
 #pragma mark- BackItemMethod
 
 - (void)doBackAction:(nullable id)sender
-{
+{   NSLog(@"backaction");
     if (self.isRootLevel) {
         
         [self.parentViewController.navigationController popViewControllerAnimated:YES];
         
+    }else if (self.isPresent){
+        
+    [self dismissViewControllerAnimated:YES completion:nil];
+        
     }else{
         
         [self.navigationController popViewControllerAnimated:YES];
-        
     }
 }
 

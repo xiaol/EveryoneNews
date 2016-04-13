@@ -1,14 +1,12 @@
 //
-//  LPNewsLoginViewController.m
+//  LPNewsLonginViewFromSettingViewController.m
 //  EveryoneNews
 //
-//  Created by Yesdgq on 16/4/12.
+//  Created by Yesdgq on 16/4/13.
 //  Copyright © 2016年 apple. All rights reserved.
 //
 
-#import "LPNewsSettingViewController.h"
-#import "LPNewsLoginViewController.h"
-#import "LPHomeViewController+LaunchLoginManager.h"
+#import "LPNewsLonginViewFromSettingViewController.h"
 #import "Account.h"
 #import "AccountTool.h"
 #import "UIImageView+WebCache.h"
@@ -24,9 +22,10 @@
 #import "MainNavigationController.h"
 #import "LPNewsNavigationController.h"
 
+
 NS_ASSUME_NONNULL_BEGIN
 
-@interface LPNewsLoginViewController()<UMSocialUIDelegate>{
+@interface LPNewsLonginViewFromSettingViewController()<UMSocialUIDelegate>{
     UIButton *weixinBtn;
     UIButton *weiboBtn;
     UIButton *settingBtn;
@@ -38,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@implementation LPNewsLoginViewController
+@implementation LPNewsLonginViewFromSettingViewController
 
 #pragma mark- Initialize
 
@@ -88,8 +87,6 @@ NS_ASSUME_NONNULL_BEGIN
     if ([self.view window] == nil && [self isViewLoaded]) {
     }
 }
-
-
 
 #pragma mark- private methods
 
@@ -151,40 +148,6 @@ NS_ASSUME_NONNULL_BEGIN
         make.top.mas_equalTo(strongWeiboBtn.mas_bottom).with.offset(14);
         
     }];
-    
-    settingLabel = [[UILabel alloc] init];
-    settingLabel.text = @"设置";
-    settingLabel.textAlignment = NSTextAlignmentCenter;
-    settingLabel.textColor = [UIColor colorWithDesignIndex:1];
-    settingLabel.font = [UIFont boldSystemFontOfSize:15.f];
-    [self.view addSubview:settingLabel];
-    [settingLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        __strong __typeof(weakSelf)strongSelf = weakSelf;
-        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:settingLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.f]}];
-        make.size.mas_equalTo(CGSizeMake(ceilf(attStr.size.width), ceilf(attStr.size.height)));
-        make.centerX.equalTo(strongSelf.view);
-        make.bottom.mas_equalTo(strongSelf.view.mas_bottom).with.offset(-24);
-    }];
-    
-    settingBtn = [[UIButton alloc] init];
-    [settingBtn setImage:[LPNewsAssistant imageWithContentsOfFile:@"User_setting"] forState:UIControlStateNormal];
-    [settingBtn addTarget:self action:@selector(gotoSettingView) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:settingBtn];
-    __weak __typeof (settingBtn)weakSettingBtn = settingBtn;
-    __weak __typeof (settingLabel)weakSettingLabel = settingLabel;
-    [settingBtn mas_updateConstraints:^(MASConstraintMaker *make) {
-        __strong __typeof(weakSettingBtn)strongSetingBtn = weakSettingBtn;
-        __strong __typeof(weakSettingLabel)strongSettingLabel = weakSettingLabel;
-        make.centerX.equalTo(strongSettingLabel.mas_centerX);
-        make.bottom.equalTo(strongSettingLabel.mas_top).with.offset(-14);
-        make.size.mas_equalTo(strongSetingBtn.imageView.image.size);
-    }];
-}
-
-- (void)gotoSettingView{
-    
-    LPNewsSettingViewController *settingVC = [[LPNewsSettingViewController alloc] initWithPresent];
-    [self.navigationController pushViewController:settingVC animated:YES];
 }
 
 #pragma mark- BackItemMethod
@@ -241,5 +204,9 @@ NS_ASSUME_NONNULL_BEGIN
     });
 }
 
+
+
+
 @end
+
 NS_ASSUME_NONNULL_END

@@ -7,6 +7,8 @@
 //
 
 #import "LPNewsSettingCell.h"
+#import "Account.h"
+#import "AccountTool.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -100,7 +102,13 @@ static const CGFloat kLeftMargin = 23.f;
             
             [signOutLabel removeFromSuperview];
         }else{
-            signOutLabel.text = [dict.allValues objectAtIndex:0];
+            Account *account = [AccountTool account];
+            if (account == nil) {
+                signOutLabel.text = @"点击登录";
+            }else{
+                signOutLabel.text = [dict.allValues objectAtIndex:0];
+            }
+            
             [signOutLabel mas_updateConstraints:^(MASConstraintMaker *make) {
                 __strong __typeof(weakSelf)strongSelf = weakSelf;
                 make.center.equalTo(strongSelf.contentView);

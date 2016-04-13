@@ -31,6 +31,12 @@ const static CGFloat cellPadding = 15;
 
 @implementation LPHomeViewController (SubviewsManager)
 
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+}
+
 #pragma mark - 显示状态栏
 - (UIStatusBarStyle) preferredStatusBarStyle {
     return UIStatusBarStyleDefault;

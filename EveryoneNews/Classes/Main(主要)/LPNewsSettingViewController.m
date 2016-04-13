@@ -12,12 +12,15 @@
 #import "AccountTool.h"
 #import "MBProgressHUD.h"
 #import "MBProgressHUD+MJ.h"
+#import "LPNewsLonginViewFromSettingViewController.h"
+#import "MainNavigationController.h"
+#import "LPNewsPrivacyItemsController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 static NSString * const kCellIdentify = @"JoySettingCell";
 
-@interface LPNewsSettingViewController ()<UITabBarDelegate,UITableViewDataSource>
+@interface LPNewsSettingViewController ()<UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate>
 @property (nonatomic, strong) UITableView* tableView;
 @property(nonatomic, strong, nullable) NSArray *dataSource;
 @end
@@ -124,25 +127,40 @@ static NSString * const kCellIdentify = @"JoySettingCell";
             NSLog(@"关于");
         }else if (indexPath.row ==1){
             NSLog(@"隐私政策");
+            LPNewsPrivacyItemsController *priView = [[LPNewsPrivacyItemsController alloc] init];
+            [self.navigationController pushViewController:priView animated:YES];
+            
         }else{
             NSLog(@"去appst评分");
         }
     }else if (indexPath.section ==3){
-        NSLog(@"退出登录");
+        
         if ([AccountTool account]!= nil) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"退出登录" message:@"退出登录后无法进行评论哦" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
             [alert show];
         } else {
-            [AccountTool accountLoginWithViewController:self success:^(Account *account) {
-                [MBProgressHUD showSuccess:@"登录成功"];
-            } failure:^{
-                [MBProgressHUD showError:@"登录失败"];
-            } cancel:^{
-                
-            }];
+            
+            LPNewsLonginViewFromSettingViewController *loginView = [[LPNewsLonginViewFromSettingViewController alloc] init];
+            [self.navigationController pushViewController:loginView animated:YES];
         }
     }
 }
+
+#pragma mark- UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+   
+    switch (buttonIndex) {
+        case 0:
+            break;
+        case 1:
+            [AccountTool deleteAccount];
+            [self dismissViewControllerAnimated:YES completion:nil];
+            break;
+        
+    }
+}
+
 
 #pragma mark- Event reponse
 

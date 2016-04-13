@@ -33,6 +33,8 @@
 #define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 #define SYSTEM_VERSION_LESS_THAN_OR_EQUAL_TO(v)     ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedDescending)
 
+static NSString * const kLPNewsSliderBackVCNotification = @"LPNewsSliderBackVCNotification";
+
 static const CGFloat kNavigationBarHEIGHT = 44.f;
 
 typedef NS_ENUM(NSUInteger, NavItemPosition) {

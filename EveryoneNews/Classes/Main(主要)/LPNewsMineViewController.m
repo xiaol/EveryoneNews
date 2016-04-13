@@ -9,6 +9,12 @@
 #import "LPNewsMineViewController.h"
 #import "LPNewsMineViewCell.h"
 #import "LPNewsSettingViewController.h"
+#import "Account.h"
+#import "AccountTool.h"
+#import "SDWebImageManager.h"
+#import "MainNavigationController.h"
+#import "LPNewsNavigationController.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 static NSString * const kCellIdentify = @"JoyMineViewCell";
@@ -183,9 +189,10 @@ CGSize const kAvatarImageViewSize = {70,70};
 }
 
 - (void)gotoSettingView{
+    
     LPNewsSettingViewController *settingVC = [[LPNewsSettingViewController alloc] init];
-    [self.navigationController pushViewController:settingVC animated:YES
-     ];
+    [self.navigationController pushViewController:settingVC animated:YES];
+    
 }
 
 #pragma mark- BackItemMethod
@@ -199,8 +206,9 @@ CGSize const kAvatarImageViewSize = {70,70};
 
 - (UIImageView *__nonnull)avatarImageView{
     if (!_avatarImageView) {
+        Account *account = [AccountTool account];
         UIImageView *avatarImageView = [[UIImageView alloc] init];
-        avatarImageView.image = [LPNewsAssistant imageWithContentsOfFile:@"UserDeafultImage"];
+        
         avatarImageView.contentMode = UIViewContentModeScaleAspectFit;
         avatarImageView.layer.masksToBounds = YES;
         avatarImageView.layer.shouldRasterize = YES;
@@ -209,7 +217,19 @@ CGSize const kAvatarImageViewSize = {70,70};
         avatarImageView.layer.borderWidth = 0.5f;
         avatarImageView.layer.borderColor = [[UIColor colorWithDesignIndex:5] CGColor];
         _avatarImageView = avatarImageView;
+        
+        if (account == nil) {
+           avatarImageView.image = [LPNewsAssistant imageWithContentsOfFile:@"UserDeafultImage"];
+        }else{
+            __weak typeof(self) weakSelf = self;
+            [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:account.userIcon] options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                if (image && finished) {
+                    weakSelf.avatarImageView.image = image;
+                }
+            }];
+        }
     }
+    
     return _avatarImageView;
 }
 
