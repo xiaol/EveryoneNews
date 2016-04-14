@@ -10,7 +10,19 @@
 		1134047D1CBB7E77000351B1 /* BackArrow_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1134047B1CBB7E77000351B1 /* BackArrow_black@2x.png */; };
 		1134047E1CBB7E77000351B1 /* BackArrow_black3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1134047C1CBB7E77000351B1 /* BackArrow_black3x.png */; };
 		113BE0621CBCCD920040BC9B /* LPNewsLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 113BE0611CBCCD920040BC9B /* LPNewsLoginViewController.m */; };
-		11B63BA51CBDE3B700976070 /* UserDeafultImage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 11B63BA41CBDE3B700976070 /* UserDeafultImage@2x.png */; };
+		1165C9941CBF7AAE00857411 /* LP_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1165C9931CBF7AAE00857411 /* LP_icon@2x.png */; };
+		1165C99A1CBF7BD200857411 /* LPNewsAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1165C9991CBF7BD200857411 /* LPNewsAboutViewController.m */; };
+		1165C99D1CBF7C3200857411 /* LP_net@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1165C99B1CBF7C3200857411 /* LP_net@2x.png */; };
+		1165C99E1CBF7C3200857411 /* LP_net@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1165C99C1CBF7C3200857411 /* LP_net@3x.png */; };
+		1165C9A21CBF7E5F00857411 /* LPNewsAppStoreCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1165C9A11CBF7E5F00857411 /* LPNewsAppStoreCommentView.m */; };
+		1165C9A81CBF912200857411 /* LPNewsMyCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1165C9A71CBF912200857411 /* LPNewsMyCommentView.m */; };
+		1165C9AB1CBF914300857411 /* LPNewsMyCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1165C9AA1CBF914300857411 /* LPNewsMyCollectionView.m */; };
+		1165C9AE1CBF916600857411 /* LPNewsMyInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1165C9AD1CBF916600857411 /* LPNewsMyInfoView.m */; };
+		1165C9B11CBF939C00857411 /* LP_construction@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1165C9AF1CBF939C00857411 /* LP_construction@2x.png */; };
+		1165C9B21CBF939C00857411 /* LP_construction@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1165C9B01CBF939C00857411 /* LP_construction@3x.png */; };
+		1165C9B51CBF93DE00857411 /* LP_commBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1165C9B31CBF93DE00857411 /* LP_commBG@2x.png */; };
+		1165C9B61CBF93DE00857411 /* LP_commBG@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1165C9B41CBF93DE00857411 /* LP_commBG@3x.png */; };
+		11B63BA51CBDE3B700976070 /* LP_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 11B63BA41CBDE3B700976070 /* LP_icon@3x.png */; };
 		11B63BA81CBDF7A700976070 /* LPNewsNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11B63BA71CBDF7A700976070 /* LPNewsNavigationController.m */; };
 		11B63BAB1CBDF8C600976070 /* LCPanGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 11B63BAA1CBDF8C600976070 /* LCPanGestureRecognizer.m */; };
 		11B63BAE1CBE40BE00976070 /* LPNewsLonginViewFromSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11B63BAD1CBE40BE00976070 /* LPNewsLonginViewFromSettingViewController.m */; };
@@ -397,7 +409,24 @@
 		1134047C1CBB7E77000351B1 /* BackArrow_black3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BackArrow_black3x.png; sourceTree = "<group>"; };
 		113BE0601CBCCD920040BC9B /* LPNewsLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPNewsLoginViewController.h; sourceTree = "<group>"; };
 		113BE0611CBCCD920040BC9B /* LPNewsLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPNewsLoginViewController.m; sourceTree = "<group>"; };
-		11B63BA41CBDE3B700976070 /* UserDeafultImage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UserDeafultImage@2x.png"; sourceTree = "<group>"; };
+		1165C9931CBF7AAE00857411 /* LP_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LP_icon@2x.png"; sourceTree = "<group>"; };
+		1165C9981CBF7BD200857411 /* LPNewsAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPNewsAboutViewController.h; sourceTree = "<group>"; };
+		1165C9991CBF7BD200857411 /* LPNewsAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPNewsAboutViewController.m; sourceTree = "<group>"; };
+		1165C99B1CBF7C3200857411 /* LP_net@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LP_net@2x.png"; sourceTree = "<group>"; };
+		1165C99C1CBF7C3200857411 /* LP_net@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LP_net@3x.png"; sourceTree = "<group>"; };
+		1165C9A01CBF7E5F00857411 /* LPNewsAppStoreCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPNewsAppStoreCommentView.h; sourceTree = "<group>"; };
+		1165C9A11CBF7E5F00857411 /* LPNewsAppStoreCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPNewsAppStoreCommentView.m; sourceTree = "<group>"; };
+		1165C9A61CBF912200857411 /* LPNewsMyCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPNewsMyCommentView.h; sourceTree = "<group>"; };
+		1165C9A71CBF912200857411 /* LPNewsMyCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPNewsMyCommentView.m; sourceTree = "<group>"; };
+		1165C9A91CBF914300857411 /* LPNewsMyCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPNewsMyCollectionView.h; sourceTree = "<group>"; };
+		1165C9AA1CBF914300857411 /* LPNewsMyCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPNewsMyCollectionView.m; sourceTree = "<group>"; };
+		1165C9AC1CBF916600857411 /* LPNewsMyInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPNewsMyInfoView.h; sourceTree = "<group>"; };
+		1165C9AD1CBF916600857411 /* LPNewsMyInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPNewsMyInfoView.m; sourceTree = "<group>"; };
+		1165C9AF1CBF939C00857411 /* LP_construction@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LP_construction@2x.png"; sourceTree = "<group>"; };
+		1165C9B01CBF939C00857411 /* LP_construction@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LP_construction@3x.png"; sourceTree = "<group>"; };
+		1165C9B31CBF93DE00857411 /* LP_commBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LP_commBG@2x.png"; sourceTree = "<group>"; };
+		1165C9B41CBF93DE00857411 /* LP_commBG@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LP_commBG@3x.png"; sourceTree = "<group>"; };
+		11B63BA41CBDE3B700976070 /* LP_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LP_icon@3x.png"; sourceTree = "<group>"; };
 		11B63BA61CBDF7A700976070 /* LPNewsNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPNewsNavigationController.h; sourceTree = "<group>"; };
 		11B63BA71CBDF7A700976070 /* LPNewsNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPNewsNavigationController.m; sourceTree = "<group>"; };
 		11B63BA91CBDF8C600976070 /* LCPanGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LCPanGestureRecognizer.h; sourceTree = "<group>"; };
@@ -1200,6 +1229,67 @@
 			name = Controller;
 			sourceTree = "<group>";
 		};
+		1165C9951CBF7B4E00857411 /* About */ = {
+			isa = PBXGroup;
+			children = (
+				1165C9971CBF7B9700857411 /* Controller */,
+				1165C9961CBF7B8500857411 /* View */,
+			);
+			name = About;
+			sourceTree = "<group>";
+		};
+		1165C9961CBF7B8500857411 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		1165C9971CBF7B9700857411 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				1165C9981CBF7BD200857411 /* LPNewsAboutViewController.h */,
+				1165C9991CBF7BD200857411 /* LPNewsAboutViewController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		1165C99F1CBF7DE300857411 /* AppStoreComm */ = {
+			isa = PBXGroup;
+			children = (
+				1165C9A01CBF7E5F00857411 /* LPNewsAppStoreCommentView.h */,
+				1165C9A11CBF7E5F00857411 /* LPNewsAppStoreCommentView.m */,
+			);
+			name = AppStoreComm;
+			sourceTree = "<group>";
+		};
+		1165C9A31CBF8FE900857411 /* MyInfo */ = {
+			isa = PBXGroup;
+			children = (
+				1165C9AC1CBF916600857411 /* LPNewsMyInfoView.h */,
+				1165C9AD1CBF916600857411 /* LPNewsMyInfoView.m */,
+			);
+			name = MyInfo;
+			sourceTree = "<group>";
+		};
+		1165C9A41CBF904600857411 /* MyCollection */ = {
+			isa = PBXGroup;
+			children = (
+				1165C9A91CBF914300857411 /* LPNewsMyCollectionView.h */,
+				1165C9AA1CBF914300857411 /* LPNewsMyCollectionView.m */,
+			);
+			name = MyCollection;
+			sourceTree = "<group>";
+		};
+		1165C9A51CBF907200857411 /* MyComment */ = {
+			isa = PBXGroup;
+			children = (
+				1165C9A61CBF912200857411 /* LPNewsMyCommentView.h */,
+				1165C9A71CBF912200857411 /* LPNewsMyCommentView.m */,
+			);
+			name = MyComment;
+			sourceTree = "<group>";
+		};
 		11B63BAF1CBE482200976070 /* Privacy */ = {
 			isa = PBXGroup;
 			children = (
@@ -1238,13 +1328,16 @@
 			path = "Main(主要)";
 			sourceTree = "<group>";
 		};
-		11FBB1A71CBB4F0C001FFDA3 /* Mine */ = {
+		11FBB1A71CBB4F0C001FFDA3 /* UserCenter */ = {
 			isa = PBXGroup;
 			children = (
 				11FBB1D11CBB5054001FFDA3 /* MainBody */,
 				11FBB1D21CBB5063001FFDA3 /* Setting */,
+				1165C9A51CBF907200857411 /* MyComment */,
+				1165C9A41CBF904600857411 /* MyCollection */,
+				1165C9A31CBF8FE900857411 /* MyInfo */,
 			);
-			name = Mine;
+			name = UserCenter;
 			sourceTree = "<group>";
 		};
 		11FBB1A81CBB4F29001FFDA3 /* Utility */ = {
@@ -1275,7 +1368,8 @@
 				11FBB1B31CBB4FA8001FFDA3 /* User_setting@3x.png */,
 				11FBB1B41CBB4FA8001FFDA3 /* User_singleArrow@2x.png */,
 				11FBB1B51CBB4FA8001FFDA3 /* User_singleArrow@3x.png */,
-				11B63BA41CBDE3B700976070 /* UserDeafultImage@2x.png */,
+				1165C9931CBF7AAE00857411 /* LP_icon@2x.png */,
+				11B63BA41CBDE3B700976070 /* LP_icon@3x.png */,
 				1134047B1CBB7E77000351B1 /* BackArrow_black@2x.png */,
 				1134047C1CBB7E77000351B1 /* BackArrow_black3x.png */,
 				11C769761CBB994600CDC959 /* Privacy@2x.png */,
@@ -1292,9 +1386,15 @@
 				11C7698B1CBB99D300CDC959 /* About@3x.png */,
 				11C7698E1CBBA43E00CDC959 /* DoubleArrow@2x.png */,
 				11C7698F1CBBA43E00CDC959 /* DoubleArrow@3x.png */,
+				1165C99B1CBF7C3200857411 /* LP_net@2x.png */,
+				1165C99C1CBF7C3200857411 /* LP_net@3x.png */,
+				1165C9AF1CBF939C00857411 /* LP_construction@2x.png */,
+				1165C9B01CBF939C00857411 /* LP_construction@3x.png */,
+				1165C9B31CBF93DE00857411 /* LP_commBG@2x.png */,
+				1165C9B41CBF93DE00857411 /* LP_commBG@3x.png */,
 			);
 			name = Resource;
-			path = "Main(主要)";
+			path = "../Classes/Main(主要)";
 			sourceTree = "<group>";
 		};
 		11FBB1D11CBB5054001FFDA3 /* MainBody */ = {
@@ -1311,6 +1411,8 @@
 			children = (
 				11FBB1DB1CBB5136001FFDA3 /* MainBody */,
 				11B63BAF1CBE482200976070 /* Privacy */,
+				1165C9951CBF7B4E00857411 /* About */,
+				1165C99F1CBF7DE300857411 /* AppStoreComm */,
 			);
 			name = Setting;
 			sourceTree = "<group>";
@@ -1707,6 +1809,7 @@
 			isa = PBXGroup;
 			children = (
 				86A6735E1C119D7D003509C3 /* Images.xcassets */,
+				11FBB1A91CBB4F3D001FFDA3 /* Resource */,
 				189083581B31DD8800ADDEDB /* frameworks */,
 				189083591B31DE8500ADDEDB /* PushConfig.plist */,
 			);
@@ -2085,7 +2188,6 @@
 				11FBB1A51CBB4EAD001FFDA3 /* Assistant */,
 				11FBB1A61CBB4EEC001FFDA3 /* Base */,
 				11FBB1A81CBB4F29001FFDA3 /* Utility */,
-				11FBB1A91CBB4F3D001FFDA3 /* Resource */,
 				18BA5E861B199B7300EEDB63 /* Other(其他) */,
 				18BAE6FE1B1352EA0052BDD0 /* Account(用户) */,
 				18BAE7061B1352EA0052BDD0 /* Compose(评论) */,
@@ -2366,7 +2468,7 @@
 				18F630D31B5C044300423658 /* Model */,
 				18F630E11B5C044300423658 /* Other */,
 				18F630E61B5C044300423658 /* Tool */,
-				11FBB1A71CBB4F0C001FFDA3 /* Mine */,
+				11FBB1A71CBB4F0C001FFDA3 /* UserCenter */,
 				113BE05C1CBCCD270040BC9B /* Login */,
 			);
 			path = "Main(主要)";
@@ -3109,6 +3211,8 @@
 				18D512FA1BEB33A500875298 /* UMSocialLocalizable.strings in Resources */,
 				11FBB1B81CBB4FA8001FFDA3 /* User_book@3x.png in Resources */,
 				11FBB1BA1CBB4FA8001FFDA3 /* User_coll@3x.png in Resources */,
+				1165C9941CBF7AAE00857411 /* LP_icon@2x.png in Resources */,
+				1165C9B51CBF93DE00857411 /* LP_commBG@2x.png in Resources */,
 				18D513021BEB33A500875298 /* UMSnsAccountViewController.xib in Resources */,
 				1134047E1CBB7E77000351B1 /* BackArrow_black3x.png in Resources */,
 				86A6735F1C119D7D003509C3 /* Images.xcassets in Resources */,
@@ -3121,6 +3225,8 @@
 				18D513001BEB33A500875298 /* UMShareEditViewControlleriPad.xib in Resources */,
 				11FBB1C01CBB4FA8001FFDA3 /* User_setting@3x.png in Resources */,
 				11FBB1BD1CBB4FA8001FFDA3 /* User_mess@2x.png in Resources */,
+				1165C9B21CBF939C00857411 /* LP_construction@3x.png in Resources */,
+				1165C99D1CBF7C3200857411 /* LP_net@2x.png in Resources */,
 				11FBB1BF1CBB4FA8001FFDA3 /* User_setting@2x.png in Resources */,
 				18D512FF1BEB33A500875298 /* UMShareEditViewController.xib in Resources */,
 				11C7697D1CBB994600CDC959 /* FontSize@3x.png in Resources */,
@@ -3135,6 +3241,9 @@
 				11C769871CBB999D00CDC959 /* AppStoreComment@3x.png in Resources */,
 				11C7697C1CBB994600CDC959 /* FontSize@2x.png in Resources */,
 				11FBB1BC1CBB4FA8001FFDA3 /* User_comment@3x.png in Resources */,
+				1165C99E1CBF7C3200857411 /* LP_net@3x.png in Resources */,
+				1165C9B11CBF939C00857411 /* LP_construction@2x.png in Resources */,
+				1165C9B61CBF93DE00857411 /* LP_commBG@3x.png in Resources */,
 				11C7698C1CBB99D300CDC959 /* About@2x.png in Resources */,
 				11C769851CBB999D00CDC959 /* ClearCache@3x.png in Resources */,
 				1890835A1B31DE8500ADDEDB /* PushConfig.plist in Resources */,
@@ -3142,7 +3251,7 @@
 				11C7697B1CBB994600CDC959 /* Privacy@3x.png in Resources */,
 				11C7698D1CBB99D300CDC959 /* About@3x.png in Resources */,
 				18F631671B5C0CEA00423658 /* MJRefresh.bundle in Resources */,
-				11B63BA51CBDE3B700976070 /* UserDeafultImage@2x.png in Resources */,
+				11B63BA51CBDE3B700976070 /* LP_icon@3x.png in Resources */,
 				18D512FE1BEB33A500875298 /* UMSCommentInputControlleriPad.xib in Resources */,
 				7E9E723E1B3BF0E70038FE12 /* MBProgressHUD.bundle in Resources */,
 				11C769861CBB999D00CDC959 /* AppStoreComment@2x.png in Resources */,
@@ -3264,6 +3373,7 @@
 				181B37EF1BC6135400698FC5 /* Faulter.m in Sources */,
 				18A65CC81B203D330070DDD7 /* SDWebImageDownloaderOperation.m in Sources */,
 				1889FE691B4C2E91006D8E03 /* LPZhihuView.m in Sources */,
+				1165C9A81CBF912200857411 /* LPNewsMyCommentView.m in Sources */,
 				1889FDD11B4C2BFD006D8E03 /* CustomLoaddingView.m in Sources */,
 				18A65CCA1B203D330070DDD7 /* SDWebImagePrefetcher.m in Sources */,
 				8649B3AC1C50F9AB00BC96BF /* LPSearchHistoryCollectionViewCell.m in Sources */,
@@ -3325,6 +3435,7 @@
 				181B38AF1BD09C3100698FC5 /* SectionColorLayout.m in Sources */,
 				181B385D1BCA6E6A00698FC5 /* SineLayout.m in Sources */,
 				186866031B907E1500039AA3 /* AFHTTPRequestOperationManager.m in Sources */,
+				1165C9AE1CBF916600857411 /* LPNewsMyInfoView.m in Sources */,
 				18A65CC41B203D330070DDD7 /* SDImageCache.m in Sources */,
 				186866081B907E1500039AA3 /* AFURLRequestSerialization.m in Sources */,
 				18D71F731B24AEF4002A7375 /* UIImage+LP.m in Sources */,
@@ -3366,6 +3477,7 @@
 				187564771C2110B600589320 /* Zhihu+CoreDataProperties.m in Sources */,
 				18F6310E1B5C044300423658 /* LPWebViewController.m in Sources */,
 				7ED4FA571B41423300DF2B7D /* MBProgressHUD+MJ.m in Sources */,
+				1165C9AB1CBF914300857411 /* LPNewsMyCollectionView.m in Sources */,
 				18F6311D1B5C044300423658 /* LPConcernCell.m in Sources */,
 				18F631111B5C044300423658 /* LPCategory.m in Sources */,
 				1889FE641B4C2E91006D8E03 /* LPZhihuPoint.m in Sources */,
@@ -3412,6 +3524,7 @@
 				1826B3E61B786B3900B712E0 /* POPLayerExtras.mm in Sources */,
 				18F631261B5C044300423658 /* LPSingleGraphTopView.m in Sources */,
 				186866061B907E1500039AA3 /* AFSecurityPolicy.m in Sources */,
+				1165C99A1CBF7BD200857411 /* LPNewsAboutViewController.m in Sources */,
 				18F631701B5C249A00423658 /* LaunchViewController.m in Sources */,
 				18BA5E891B199B7300EEDB63 /* main.m in Sources */,
 				868203361CAE1CE2005B9E07 /* LPLaunchLoginView.m in Sources */,
@@ -3432,6 +3545,7 @@
 				8664392B1CB64518003E4DE8 /* LPHomeViewController+LaunchLoginManager.m in Sources */,
 				7E9FEBA61B43928900D06E0A /* NSDate+Extension.m in Sources */,
 				11FBB1DA1CBB50EC001FFDA3 /* LPNewsMineViewCell.m in Sources */,
+				1165C9A21CBF7E5F00857411 /* LPNewsAppStoreCommentView.m in Sources */,
 				187564761C2110B600589320 /* Press.m in Sources */,
 				86785AA41CA28BA50088977C /* LPCommentCell.m in Sources */,
 				186866581BB25AD900039AA3 /* AppDelegate+MOC.m in Sources */,

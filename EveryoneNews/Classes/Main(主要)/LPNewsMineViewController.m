@@ -14,6 +14,9 @@
 #import "SDWebImageManager.h"
 #import "MainNavigationController.h"
 #import "LPNewsNavigationController.h"
+#import "LPNewsMyInfoView.h"
+#import "LPNewsMyCollectionView.h"
+#import "LPNewsMyCommentView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -38,13 +41,6 @@ CGSize const kAvatarImageViewSize = {70,70};
 
 #pragma mark- Initialize
 
-- (instancetype)initWithCustom{
-    self = [super initWithCustom];
-    if (self) {
-       
-    }
-    return self;
-}
 
 - (void)dealloc{
     
@@ -92,7 +88,7 @@ CGSize const kAvatarImageViewSize = {70,70};
     __weak __typeof(self)weakSelf = self;
     [self.avatarImageView mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
-        make.top.equalTo(strongSelf.view).with.offset(64+75);
+        make.top.equalTo(strongSelf.view).with.offset(64+30);
         make.centerX.equalTo(strongSelf.view);
         make.size.mas_equalTo(CGSizeMake(70, 70));
     }];
@@ -100,10 +96,10 @@ CGSize const kAvatarImageViewSize = {70,70};
     [self.view addSubview:self.userNameLabel];
     [self.userNameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
-        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:strongSelf.userNameLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:36.f]}];
+        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:strongSelf.userNameLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.f]}];
         make.size.mas_equalTo(CGSizeMake(ceilf(attStr.size.width), ceilf(attStr.size.height)));
         make.centerX.mas_equalTo(strongSelf.view);
-        make.top.mas_equalTo(strongSelf.avatarImageView.mas_bottom).with.offset(12);
+        make.top.mas_equalTo(strongSelf.avatarImageView.mas_bottom).with.offset(10);
     }];
     
     [self.view addSubview:self.tableView];
@@ -112,7 +108,7 @@ CGSize const kAvatarImageViewSize = {70,70};
         make.top.mas_equalTo(strongSelf.userNameLabel.mas_bottom).with.offset(47);
         make.left.equalTo(strongSelf.view);
         make.width.mas_equalTo(kApplecationScreenWidth);
-        make.height.mas_equalTo(58*3);
+        make.height.mas_equalTo(48*3);
     }];
     
     UIImageView *separatorLine = [[UIImageView alloc] init];
@@ -129,14 +125,14 @@ CGSize const kAvatarImageViewSize = {70,70};
     userBookLabel.text = @"一订";
     userBookLabel.textAlignment = NSTextAlignmentCenter;
     userBookLabel.textColor = [UIColor colorWithDesignIndex:1];
-    userBookLabel.font = [UIFont boldSystemFontOfSize:15.f];
+    userBookLabel.font = [UIFont boldSystemFontOfSize:13.f];
     [self.view addSubview:userBookLabel];
     [userBookLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
-        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:userBookLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.f]}];
+        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:userBookLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13.f]}];
         make.size.mas_equalTo(CGSizeMake(ceilf(attStr.size.width), ceilf(attStr.size.height)));
         make.right.equalTo(strongSelf.view.mas_left).with.offset((kApplecationScreenWidth-73)/2);
-        make.bottom.mas_equalTo(strongSelf.view.mas_bottom).with.offset(-24);
+        make.bottom.mas_equalTo(strongSelf.view.mas_bottom).with.offset(-14);
         
     }];
     
@@ -144,39 +140,36 @@ CGSize const kAvatarImageViewSize = {70,70};
     userSetLabel.text = @"设置";
     userSetLabel.textAlignment = NSTextAlignmentCenter;
     userSetLabel.textColor = [UIColor colorWithDesignIndex:1];
-    userSetLabel.font = [UIFont boldSystemFontOfSize:15.f];
+    userSetLabel.font = [UIFont boldSystemFontOfSize:13.f];
     [self.view addSubview:userSetLabel];
     [userSetLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
-        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:userBookLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.f]}];
+        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:userBookLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13.f]}];
         make.size.mas_equalTo(CGSizeMake(ceilf(attStr.size.width), ceilf(attStr.size.height)));
         make.left.equalTo(userBookLabel.mas_right).with.offset(73);
-        make.bottom.mas_equalTo(strongSelf.view.mas_bottom).with.offset(-24);
+        make.bottom.mas_equalTo(strongSelf.view.mas_bottom).with.offset(-14);
         
     }];
     
     userBookBtn = [[UIButton alloc] init];
     [userBookBtn setImage:[LPNewsAssistant imageWithContentsOfFile:@"User_book"] forState:UIControlStateNormal];
     [userBookBtn addTarget:self action:@selector(doBookingAction) forControlEvents:UIControlEventTouchUpInside];
+    userBookBtn.enlargedEdge = 15;
     [self.view addSubview:userBookBtn];
-    __weak __typeof (userBookBtn)weakUserBookBtn = userBookBtn;
     [userBookBtn mas_updateConstraints:^(MASConstraintMaker *make) {
-        __strong __typeof(weakUserBookBtn)strongUserBookBtn = weakUserBookBtn;
         make.centerX.mas_equalTo(userBookLabel.mas_centerX);
-        make.bottom.mas_equalTo(userBookLabel.mas_top).with.offset(-14);
-        make.size.mas_equalTo(strongUserBookBtn.imageView.image.size);
+        make.bottom.mas_equalTo(userBookLabel.mas_top).with.offset(-10);
     }];
+    
     
     userSetBtn = [[UIButton alloc] init];
     [userSetBtn setImage:[LPNewsAssistant imageWithContentsOfFile:@"User_setting"] forState:UIControlStateNormal];
     [userSetBtn addTarget:self action:@selector(gotoSettingView) forControlEvents:UIControlEventTouchUpInside];
+    userSetBtn.enlargedEdge = 15;
     [self.view addSubview:userSetBtn];
-    __weak __typeof (userSetBtn)weakUserSetBtn = userSetBtn;
     [userSetBtn mas_updateConstraints:^(MASConstraintMaker *make) {
-        __strong __typeof(weakUserSetBtn)strongUserSetBtn = weakUserSetBtn;
         make.centerX.equalTo(userSetLabel.mas_centerX);
         make.centerY.mas_equalTo(userBookBtn.mas_centerY);
-        make.size.mas_equalTo(strongUserSetBtn.imageView.image.size);
     }];
 
     
@@ -219,7 +212,7 @@ CGSize const kAvatarImageViewSize = {70,70};
         _avatarImageView = avatarImageView;
         
         if (account == nil) {
-           avatarImageView.image = [LPNewsAssistant imageWithContentsOfFile:@"UserDeafultImage"];
+           avatarImageView.image = [LPNewsAssistant imageWithContentsOfFile:@"LP_icon"];
         }else{
             __weak typeof(self) weakSelf = self;
             [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:account.userIcon] options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
@@ -252,11 +245,15 @@ CGSize const kAvatarImageViewSize = {70,70};
 
 - (UILabel * __nonnull)userNameLabel{
     if (!_userNameLabel) {
+        Account *account = [AccountTool account];
         UILabel *userNameLabel = [[UILabel alloc] init];
         userNameLabel.text = @"奇点资讯";
+        if (account != nil) {
+            userNameLabel.text = account.userName;
+        }
         userNameLabel.textAlignment = NSTextAlignmentCenter;
         userNameLabel.textColor = [UIColor colorWithDesignIndex:1];
-        userNameLabel.font = [UIFont boldSystemFontOfSize:36.f];
+        userNameLabel.font = [UIFont boldSystemFontOfSize:16.f];
         _userNameLabel = userNameLabel;
     }
     return _userNameLabel;
@@ -307,16 +304,23 @@ CGSize const kAvatarImageViewSize = {70,70};
 
 - (void)tableView:(nonnull UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     if (indexPath.row == 0) {
-        NSLog(@"我的评论");
+        
+        LPNewsMyCommentView *commView = [[LPNewsMyCommentView alloc] init];
+        [self.navigationController pushViewController:commView animated:YES];
+        
     }else if (indexPath.row ==1){
-        NSLog(@"我的收藏");
+        
+        LPNewsMyCollectionView *colView = [[LPNewsMyCollectionView alloc] init];
+        [self.navigationController pushViewController:colView animated:YES];
+        
+        
     }else{
-        NSLog(@"消息中心");
+        
+        LPNewsMyInfoView *infoView = [[LPNewsMyInfoView alloc] init];
+        [self.navigationController pushViewController:infoView animated:YES];
+        
     }
 }
-
-
-
 
 
 

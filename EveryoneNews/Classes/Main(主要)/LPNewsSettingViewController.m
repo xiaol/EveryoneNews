@@ -15,6 +15,9 @@
 #import "LPNewsLonginViewFromSettingViewController.h"
 #import "MainNavigationController.h"
 #import "LPNewsPrivacyItemsController.h"
+#import "LPNewsAboutViewController.h"
+#import "LPNewsAppStoreCommentView.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -32,7 +35,7 @@ static NSString * const kCellIdentify = @"JoySettingCell";
 - (instancetype)initWithCustom{
     self = [super initWithCustom];
     if (self) {
-      
+                
     }
     return self;
 }
@@ -48,6 +51,10 @@ static NSString * const kCellIdentify = @"JoySettingCell";
     [super viewDidLoad];
     [self setNavTitleView:@"设置"];
     [self backImageItem];
+    
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithDesignIndex:9];
+    self.navigationController.navigationBar.translucent = NO;
+
     [self.view addSubview:self.tableView];
     __weak typeof(self)weakSelf = self;
     [self.tableView mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -121,17 +128,25 @@ static NSString * const kCellIdentify = @"JoySettingCell";
 
 - (void)tableView:(nonnull UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     if (indexPath.section == 1) {
+        
         NSLog(@"清除缓存");
+        
     }else if (indexPath.section == 2){
         if (indexPath.row == 0) {
-            NSLog(@"关于");
+            
+            LPNewsAboutViewController *aboutView = [[LPNewsAboutViewController alloc] init];
+            [self.navigationController pushViewController:aboutView animated:YES];
+            
         }else if (indexPath.row ==1){
-            NSLog(@"隐私政策");
+            
             LPNewsPrivacyItemsController *priView = [[LPNewsPrivacyItemsController alloc] init];
             [self.navigationController pushViewController:priView animated:YES];
             
         }else{
-            NSLog(@"去appst评分");
+            
+            LPNewsAppStoreCommentView *appStroeCommView = [[LPNewsAppStoreCommentView alloc] init];
+            [self.navigationController pushViewController:appStroeCommView animated:YES];
+            
         }
     }else if (indexPath.section ==3){
         
