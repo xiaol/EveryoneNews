@@ -36,27 +36,28 @@ CGSize const kAvatarImageViewSize1 = {70,70};
     
 }
 
+
 #pragma mark-  ViewLife Cycle
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    [self setNavTitleView:@"评论"];
-    [self backImageItem];
-//    self.navigationController.navigationBar.hidden = YES;
-//    self.navigationController.navigationBar.barTintColor = [UIColor clearColor];
-    self.navigationController.navigationBar.translucent = NO;
-//    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     self.view.backgroundColor = [UIColor colorWithDesignIndex:9];
     [self addContentView];
 }
 
+
+
+
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    [[self navigationController] setNavigationBarHidden:YES];
+    
 }
 
 
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -74,24 +75,37 @@ CGSize const kAvatarImageViewSize1 = {70,70};
 }
 
 #pragma mark- private methods
+
 -(void)addContentView{
     
     UIImageView *comBGImg = [[UIImageView alloc] init];
+    comBGImg.backgroundColor = [UIColor grayColor];
+    comBGImg.contentMode = UIViewContentModeScaleToFill;
     [comBGImg setImage:[UIImage imageNamed:@"LP_commBG"]];
     [self.view addSubview:comBGImg];
     __weak __typeof(self)weakSelf = self;
     [comBGImg mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         make.centerX.equalTo(strongSelf.view);
-        make.size.mas_equalTo(CGSizeMake(kApplecationScreenWidth, comBGImg.image.size.height));
+        make.size.mas_equalTo(CGSizeMake(kApplecationScreenWidth, 260));
         make.top.equalTo(strongSelf.view).with.offset(-64);
-        
     }];
+    
+    UIImageView *avatarBGImg = [[UIImageView alloc] init];
+    avatarBGImg.layer.cornerRadius = 77/2;
+    avatarBGImg.alpha = 0.5;
+    avatarBGImg.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:avatarBGImg];
+    [avatarBGImg mas_updateConstraints:^(MASConstraintMaker *make) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        make.top.equalTo(comBGImg.mas_top).with.offset(120);
+        make.centerX.equalTo(strongSelf.view);
+        make.size.mas_equalTo(CGSizeMake(77, 77));
+    }];
+    
     [self.view addSubview:self.avatarImageView];
     [self.avatarImageView mas_updateConstraints:^(MASConstraintMaker *make) {
-        __strong __typeof(weakSelf)strongSelf = weakSelf;
-        make.top.equalTo(comBGImg.mas_top).with.offset(85);
-        make.centerX.equalTo(strongSelf.view);
+        make.center.equalTo(avatarBGImg);
         make.size.mas_equalTo(CGSizeMake(70, 70));
     }];
     
@@ -101,9 +115,20 @@ CGSize const kAvatarImageViewSize1 = {70,70};
         NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:strongSelf.userNameLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.f]}];
         make.size.mas_equalTo(CGSizeMake(ceilf(attStr.size.width)+10, ceilf(attStr.size.height)));
         make.centerX.mas_equalTo(strongSelf.view);
-        make.top.mas_equalTo(strongSelf.avatarImageView.mas_bottom).with.offset(10);
+        make.top.mas_equalTo(avatarBGImg.mas_bottom).with.offset(10);
     }];
 
+    UIButton *backBtn = [[UIButton alloc] init];
+    [backBtn setImage:[UIImage imageNamed:@"BackArrow_black_white"] forState:UIControlStateNormal];
+    backBtn.enlargedEdge = 14;
+    [backBtn addTarget:self action:@selector(goBackAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:backBtn];
+    [backBtn mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(backBtn.imageView.image.size);
+        make.top.equalTo(self.view.mas_top).offset(34);
+        make.left.equalTo(self.view.mas_left).with.offset(12);
+        
+    }];
     
     UIImageView *noticeImg = [[UIImageView alloc] init];
     [noticeImg setImage:[UIImage imageNamed:@"LP_construction"]];
@@ -117,7 +142,7 @@ CGSize const kAvatarImageViewSize1 = {70,70};
     
     UILabel *noticeLabel = [[UILabel alloc] init];
     noticeLabel.text = @"正在建设中，请移步";
-    noticeLabel.font = [UIFont systemFontOfSize:20.f];
+    noticeLabel.font = [UIFont systemFontOfSize:17.f];
     noticeLabel.textColor = [UIColor colorWithDesignIndex:5];
     [self.view addSubview:noticeLabel];
     [noticeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -126,6 +151,10 @@ CGSize const kAvatarImageViewSize1 = {70,70};
         make.top.equalTo(noticeImg.mas_bottom).with.offset(20);
         
     }];
+}
+
+- (void)goBackAction{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark- Getters and Setters

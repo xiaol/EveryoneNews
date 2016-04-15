@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 static const NSInteger kNavBarTag = 10000;
 @interface LPNewsBaseViewController ()
 
-@property (nonatomic, strong ,nullable)UINavigationItem *navItem;
+
 
 @end
 
@@ -155,7 +155,7 @@ static const NSInteger kNavBarTag = 10000;
 //        navBar.translucent = YES;
 //        navBar.barStyle = UIBarStyleBlack;
         
-        CGRect lineLayerRect = CGRectMake(0.f, (barHeight-.5f), CGRectGetWidth(barFrame), .5f);
+        CGRect lineLayerRect = CGRectMake(0.f, (barHeight-1.f), CGRectGetWidth(barFrame), 0.5f);
         CALayer *lineLayer = [CALayer layer];
         lineLayer.frame = lineLayerRect;
         lineLayer.backgroundColor = [[UIColor colorWithDesignIndex:5] CGColor];

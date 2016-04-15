@@ -60,6 +60,15 @@ NS_ASSUME_NONNULL_BEGIN
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithDesignIndex:9];
     [self backItem:@"取消"];
+    
+    CGRect lineLayerRect = CGRectMake(0.f, (self.navigationController.navigationBar.size.height-1.f), kApplecationScreenWidth, 0.5f);
+    CALayer *lineLayer = [CALayer layer];
+    lineLayer.frame = lineLayerRect;
+    lineLayer.backgroundColor = [[UIColor colorWithDesignIndex:5] CGColor];
+    [self.navigationController.navigationBar.layer addSublayer:lineLayer];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithDesignIndex:9];
+    self.navigationController.navigationBar.translucent = NO;
+    
     [self setNavTitleView:@"奇点资讯"];
     [self addContent];
 }

@@ -56,6 +56,7 @@ CGSize const kAvatarImageViewSize = {70,70};
     [self addContent];
 }
 
+
 - (void)viewWillAppear:(BOOL)animated{
     
     [super viewWillAppear:animated];

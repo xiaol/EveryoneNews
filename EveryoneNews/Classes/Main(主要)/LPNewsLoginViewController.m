@@ -61,6 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithDesignIndex:9];
     [self backItem:@"取消"];
+    
     [self setNavTitleView:@"奇点资讯"];
     [self addContent];
 }

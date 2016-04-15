@@ -129,6 +129,9 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     MainNavigationController *mainNavVc = [[MainNavigationController alloc] initWithRootViewController:mainVc];
     self.window.rootViewController = mainNavVc;
     
+    [[UINavigationBar appearance]  setBackgroundImage:[[UIImage alloc] init] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
+    
     // 4. 显示窗口（成为主窗口）
     [self.window makeKeyAndVisible];
     // 5. 监控网络状态

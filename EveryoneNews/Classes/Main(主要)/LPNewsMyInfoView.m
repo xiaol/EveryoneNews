@@ -32,6 +32,11 @@
     [self setNavTitleView:@"消息"];
     [self backImageItem];
     
+    CGRect lineLayerRect = CGRectMake(0.f, (self.navigationController.navigationBar.size.height-1.f), kApplecationScreenWidth, 0.5f);
+    CALayer *lineLayer = [CALayer layer];
+    lineLayer.frame = lineLayerRect;
+    lineLayer.backgroundColor = [[UIColor colorWithDesignIndex:5] CGColor];
+    [self.navigationController.navigationBar.layer addSublayer:lineLayer];
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithDesignIndex:9];
     self.navigationController.navigationBar.translucent = NO;
     
@@ -66,7 +71,7 @@
     
     UILabel *noticeLabel = [[UILabel alloc] init];
     noticeLabel.text = @"暂时无消息内容";
-    noticeLabel.font = [UIFont systemFontOfSize:30.f];
+    noticeLabel.font = [UIFont systemFontOfSize:18.f];
     noticeLabel.textColor = [UIColor colorWithDesignIndex:5];
     [self.view addSubview:noticeLabel];
     __weak __typeof(self)weakSelf = self;

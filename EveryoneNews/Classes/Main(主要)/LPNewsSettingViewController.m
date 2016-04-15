@@ -17,11 +17,12 @@
 #import "LPNewsPrivacyItemsController.h"
 #import "LPNewsAboutViewController.h"
 #import "LPNewsAppStoreCommentView.h"
-
+#import "AppDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 static NSString * const kCellIdentify = @"JoySettingCell";
+static NSString * const kAppId = @"987333155";
 
 @interface LPNewsSettingViewController ()<UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate>
 @property (nonatomic, strong) UITableView* tableView;
@@ -52,6 +53,11 @@ static NSString * const kCellIdentify = @"JoySettingCell";
     [self setNavTitleView:@"设置"];
     [self backImageItem];
     
+    CGRect lineLayerRect = CGRectMake(0.f, (self.navigationController.navigationBar.size.height-1.f), kApplecationScreenWidth, 0.5f);
+    CALayer *lineLayer = [CALayer layer];
+    lineLayer.frame = lineLayerRect;
+    lineLayer.backgroundColor = [[UIColor colorWithDesignIndex:5] CGColor];
+    [self.navigationController.navigationBar.layer addSublayer:lineLayer];
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithDesignIndex:9];
     self.navigationController.navigationBar.translucent = NO;
 
@@ -143,10 +149,12 @@ static NSString * const kCellIdentify = @"JoySettingCell";
             [self.navigationController pushViewController:priView animated:YES];
             
         }else{
-            
-            LPNewsAppStoreCommentView *appStroeCommView = [[LPNewsAppStoreCommentView alloc] init];
-            [self.navigationController pushViewController:appStroeCommView animated:YES];
-            
+            NSLog(@"跳转到appst");
+//            LPNewsAppStoreCommentView *appStroeCommView = [[LPNewsAppStoreCommentView alloc] init];
+//            [self.navigationController pushViewController:appStroeCommView animated:YES];
+            NSString *str = @"itms://itunes.apple.com/cn/app/qi-dian-zi-xun/id987333155?l=en&mt=8";
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+        
         }
     }else if (indexPath.section ==3){
         

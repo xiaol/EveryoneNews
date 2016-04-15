@@ -13,7 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#define kTextFont [UIFont systemFontOfSize:16.f]
+#define kTextFont [UIFont systemFontOfSize:17.f]
 
 @implementation LPNewsSettingCell{
     

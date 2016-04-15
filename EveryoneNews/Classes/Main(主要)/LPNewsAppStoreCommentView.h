@@ -8,6 +8,6 @@
 
 #import "LPNewsBaseViewController.h"
 
-@interface LPNewsAppStoreCommentView : LPNewsBaseViewController
+@interface LPNewsAppStoreCommentView : LPNewsBaseViewController<UIWebViewDelegate>
 
 @end

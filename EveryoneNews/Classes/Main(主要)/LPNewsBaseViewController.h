@@ -14,6 +14,7 @@ typedef void(^DoBaseRigthItemMethodBlock)(void);
 
 @interface LPNewsBaseViewController : UIViewController
 
+@property (nonatomic, strong ,nullable)UINavigationItem *navItem;
 @property(nonatomic, readonly, assign)BOOL isRootLevel;
 @property(nonatomic, readonly, assign)BOOL isPresent;
 @property(nullable, nonatomic, copy) DoBaseRigthItemMethodBlock rigthItemMethodBlock;

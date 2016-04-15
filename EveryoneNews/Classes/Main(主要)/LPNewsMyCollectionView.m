@@ -32,6 +32,11 @@
     [self setNavTitleView:@"收藏"];
     [self backImageItem];
     
+    CGRect lineLayerRect = CGRectMake(0.f, (self.navigationController.navigationBar.size.height-1.f), kApplecationScreenWidth, 0.5f);
+    CALayer *lineLayer = [CALayer layer];
+    lineLayer.frame = lineLayerRect;
+    lineLayer.backgroundColor = [[UIColor colorWithDesignIndex:5] CGColor];
+    [self.navigationController.navigationBar.layer addSublayer:lineLayer];
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithDesignIndex:9];
     self.navigationController.navigationBar.translucent = NO;
     
@@ -76,7 +81,7 @@
     
     UILabel *noticeLabel = [[UILabel alloc] init];
     noticeLabel.text = @"正在建设中，请移步";
-    noticeLabel.font = [UIFont systemFontOfSize:20.f];
+    noticeLabel.font = [UIFont systemFontOfSize:17.f];
     noticeLabel.textColor = [UIColor colorWithDesignIndex:5];
     [self.view addSubview:noticeLabel];
     [noticeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
