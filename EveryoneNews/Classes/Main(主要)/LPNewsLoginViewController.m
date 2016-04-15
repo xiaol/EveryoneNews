@@ -169,6 +169,7 @@ NS_ASSUME_NONNULL_BEGIN
     settingBtn = [[UIButton alloc] init];
     [settingBtn setImage:[LPNewsAssistant imageWithContentsOfFile:@"User_setting"] forState:UIControlStateNormal];
     [settingBtn addTarget:self action:@selector(gotoSettingView) forControlEvents:UIControlEventTouchUpInside];
+    settingBtn.enlargedEdge = 10;
     [self.view addSubview:settingBtn];
     __weak __typeof (settingBtn)weakSettingBtn = settingBtn;
     __weak __typeof (settingLabel)weakSettingLabel = settingLabel;

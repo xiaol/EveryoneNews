@@ -97,7 +97,7 @@ CGSize const kAvatarImageViewSize = {70,70};
     [self.userNameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:strongSelf.userNameLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.f]}];
-        make.size.mas_equalTo(CGSizeMake(ceilf(attStr.size.width), ceilf(attStr.size.height)));
+        make.size.mas_equalTo(CGSizeMake(ceilf(attStr.size.width)+10, ceilf(attStr.size.height)));
         make.centerX.mas_equalTo(strongSelf.view);
         make.top.mas_equalTo(strongSelf.avatarImageView.mas_bottom).with.offset(10);
     }];
