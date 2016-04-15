@@ -152,7 +152,7 @@ static NSString * const kAppId = @"987333155";
             NSLog(@"跳转到appst");
 //            LPNewsAppStoreCommentView *appStroeCommView = [[LPNewsAppStoreCommentView alloc] init];
 //            [self.navigationController pushViewController:appStroeCommView animated:YES];
-            NSString *str = @"itms://itunes.apple.com/cn/app/qi-dian-zi-xun/id987333155?l=en&mt=8";
+            NSString *str = @"itms-apps://itunes.apple.com/cn/app/qi-dian-zi-xun/id987333155?l=en&mt=8";
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
         
         }
