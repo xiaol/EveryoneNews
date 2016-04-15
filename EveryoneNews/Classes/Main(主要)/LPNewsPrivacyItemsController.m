@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    [self setNavTitleView:@"使用政策"];
+    [self setNavTitleView:@"隐私政策"];
     [self backImageItem];
     [self addAboutWebView];
 }
@@ -69,6 +69,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark- private methods
 -(void)addAboutWebView{
+    if (webView == nil) {
+        webView = [[UIWebView alloc] init];
+    }
     [self.view addSubview:webView];
     __weak __typeof(self)weakSelf = self;
     [webView mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -77,37 +80,15 @@ NS_ASSUME_NONNULL_BEGIN
         make.size.equalTo(strongSelf.view);
     }];
     [self loadWebViewPage];
-    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 }
 
 - (void)loadWebViewPage{
-    
-    
     NSString *path = [[NSBundle mainBundle] pathForResource:@"Privacy" ofType:@"html"];
-    NSURL *url = [NSURL URLWithString:path];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
-//    NSString *basePath = [[NSBundle mainBundle] bundlePath];
-//    NSURL *baseURL = [NSURL fileURLWithPath:basePath];
-//    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:path relativeToURL:baseURL] cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:60.f];
+    NSString *basePath = [[NSBundle mainBundle] bundlePath];
+    NSURL *baseURL = [NSURL fileURLWithPath:basePath];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:path relativeToURL:baseURL] cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:60.f];
     [webView loadRequest:request];
 }
-
-#pragma mark- UIWebViewDelegate
-
-- (void)webViewDidStartLoad:(nonnull UIWebView *)webView{
-//    [super webViewDidStartLoad:webView];
-}
-
-- (void)webViewDidFinishLoad:(nonnull UIWebView *)webView{
-//    [super webViewDidFinishLoad:webView];
-    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-}
-
-- (void)webView:(nonnull UIWebView *)webView didFailLoadWithError:(nullable NSError *)error{
-//    [super webView:webView didFailLoadWithError:error];
-    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
-}
-
 
 @end
 

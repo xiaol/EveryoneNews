@@ -37,6 +37,8 @@ static NSString * const kLPNewsSliderBackVCNotification = @"LPNewsSliderBackVCNo
 
 static const CGFloat kNavigationBarHEIGHT = 44.f;
 
+
+
 typedef NS_ENUM(NSUInteger, NavItemPosition) {
     NavLeftItem = 0,
     NavRightItem,

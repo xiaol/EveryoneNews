@@ -20,6 +20,7 @@
 #import "LPFontSizeManager.h"
 #import "MainNavigationController.h"
 #import "LPNewsLoginViewController.h"
+#import "LPNewsNavigationController.h"
 
 NSString * const firstChannelName = @"奇点";
 NSString * const menuCellIdentifier = @"menuCollectionViewCell";
@@ -211,6 +212,7 @@ const static CGFloat cellPadding = 15;
     if (account == nil) {// 用户未登录直接显示未登录图标
         LPNewsLoginViewController *loginView = [[LPNewsLoginViewController alloc] initWithCustom];
         MainNavigationController *loginNavVc = [[MainNavigationController alloc] initWithRootViewController:loginView];
+        
         [self presentViewController:loginNavVc animated:YES completion:nil];
     } else {    //用户已登录
         LPNewsMineViewController *mineView = [[LPNewsMineViewController alloc] initWithCustom];

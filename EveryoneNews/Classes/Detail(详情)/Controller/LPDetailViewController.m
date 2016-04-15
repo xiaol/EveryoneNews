@@ -412,7 +412,7 @@ static int imageDownloadCount;
     params[@"url"] = [self.card valueForKey:@"newId"];
     // 分享页面地址
     self.shareURL = [NSString stringWithFormat:@"http://deeporiginalx.com/news.html?type=0&url=%@&interface", params[@"url"]];
-    NSLog(@"%@?url=%@", url, params[@"url"]);
+//    NSLog(@"%@?url=%@", url, params[@"url"]);
     
     [self getDetailDataWithUrl:url params:params];
 }
@@ -424,7 +424,7 @@ static int imageDownloadCount;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         if (!isRefreshTableView) {
             
-            NSLog(@"8 times");
+//            NSLog(@"8 times");
             [self.tableView reloadData];
         }
         
@@ -450,7 +450,7 @@ static int imageDownloadCount;
         
         // 第一个图片作为分享图片
         for (NSDictionary *dict in bodyArray) {
-            if (!dict[@"img"]) {
+            if (dict[@"img"]) {
                 self.shareImageURL = dict[@"img"];
                 break;
             }
@@ -482,8 +482,7 @@ static int imageDownloadCount;
                 if (self.contentFrames.count > 0 && imageDownloadCount == self.contentFrames.count) {
                     isRefreshTableView = YES;
                     [self.tableView reloadData];
-                    NSLog(@"go");
-                
+  
                 }
             }];
         }

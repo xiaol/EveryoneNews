@@ -86,7 +86,7 @@ static const CGFloat PaddingVertical = 15;
         
     
         if (titleH + sourceSiteNameH + 10 > imageH) {
-            sourceSiteNameY = CGRectGetMaxY(_singleImageImageViewFrame) + 10;
+            sourceSiteNameY = CGRectGetMaxY(_singleImageTitleLabelFrame) + 10;
         } else {
             sourceSiteNameY = CGRectGetMaxY(_singleImageImageViewFrame) - sourceSiteNameH;
         }

@@ -130,7 +130,6 @@ static const NSInteger kNavBarTag = 10000;
 - (void)constructionNaigationBar{
     
     UINavigationBar *navBar = (UINavigationBar *)[self.view viewWithTag:kNavBarTag];
-    
     if (!navBar) {
         CGRect barFrame;
         if (self.isRootLevel) {
@@ -150,6 +149,11 @@ static const NSInteger kNavBarTag = 10000;
         navBar = [[LPNewsNavigationBar alloc]initWithCustomFame:barFrame];
         navBar.tag = kNavBarTag;
         
+        // navBar的背景颜色
+        navBar.barTintColor = [UIColor colorWithDesignIndex:9];
+        //设置navigationbar为半透明状
+//        navBar.translucent = YES;
+//        navBar.barStyle = UIBarStyleBlack;
         
         CGRect lineLayerRect = CGRectMake(0.f, (barHeight-.5f), CGRectGetWidth(barFrame), .5f);
         CALayer *lineLayer = [CALayer layer];

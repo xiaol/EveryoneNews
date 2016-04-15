@@ -151,7 +151,7 @@
         self.pointImageView.hidden = NO;
         self.pointImageView.frame = _relateFrame.imageViewF;
        
-       NSLog(@"%@", point.imgUrl);
+//       NSLog(@"%@", point.imgUrl);
    } else {
        self.pointImageView.hidden = YES;
    }

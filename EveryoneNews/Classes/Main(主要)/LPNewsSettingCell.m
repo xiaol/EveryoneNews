@@ -167,7 +167,7 @@ static const CGFloat kLeftMargin = 23.f;
 
 - (void)modifyTextFontSize:(UISegmentedControl *)sender{
     
-    //[noteCenter addObserver:<#(nonnull id)#> selector:<#(nonnull SEL)#> name:<#(nullable NSString *)#> object:<#(nullable id)#>];
+//    [noteCenter addObserver:<#(nonnull id)#> selector:<#(nonnull SEL)#> name:<#(nullable NSString *)#> object:<#(nullable id)#>];
     
     
 //    NSLog(@"------index:%ld",(long)sender.selectedSegmentIndex);

@@ -8,7 +8,7 @@
 
 #import "LPNewsMineViewCell.h"
 
-#define kTextFont [UIFont systemFontOfSize:20.f]
+#define kTextFont [UIFont systemFontOfSize:18.f]
 
 @implementation LPNewsMineViewCell{
     UIImageView *leftImageView;
@@ -90,7 +90,7 @@ static const CGFloat kLeftMargin = 23.f;
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             __strong __typeof(weakLeftImageView)strongLeftImageView = weakLeftImageView;
             make.centerY.equalTo(strongSelf.mas_centerY);
-            make.left.equalTo(strongLeftImageView.mas_right).with.mas_offset(@23);
+            make.left.equalTo(strongLeftImageView.mas_right).with.mas_offset(@15);
             make.size.mas_equalTo(CGSizeMake(180.f, (kTextFont).lineHeight));
         }];
     }
