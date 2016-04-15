@@ -70,7 +70,7 @@
         noImageSourceLabel.font = [UIFont fontWithName:OpinionFontName size:sourceFontSize];
         noImageSourceLabel.textColor = [UIColor colorFromHexString:@"#999999"];
         [self.contentView addSubview:noImageSourceLabel];
-        self.noImageSourceLabel= noImageSourceLabel;
+        self.noImageSourceLabel = noImageSourceLabel;
         
         UIButton *noImageDeleteButton = [[UIButton alloc] init];
         noImageDeleteButton.userInteractionEnabled = YES;
@@ -337,6 +337,8 @@
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+//    [super setSelected:selected animated:NO];
+//    self.noImageLabel.textColor = [UIColor redColor];
     
 }
 
@@ -345,7 +347,9 @@
 }
 
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
-    
+//    self.multipleImageLabel.textColor = [UIColor redColor];
+//    self.noImageLabel.textColor = [UIColor redColor];
+//    self.titleLabel.textColor = [UIColor redColor];
 }
 
 //- (void)deleteCurrentCell:(UIButton *)button {

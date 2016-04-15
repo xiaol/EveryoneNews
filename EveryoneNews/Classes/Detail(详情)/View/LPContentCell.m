@@ -61,32 +61,50 @@
     return self;
 }
 
-- (void)setContent:(LPContent *)content {
-    _content = content;
+- (void)setContentFrame:(LPContentFrame *)contentFrame
+{
+    _contentFrame = contentFrame;
+    LPContent *content = contentFrame.content;
+    //    self.abstractSeperatorView.frame = self.contentFrame.abstractSeperatorViewF;
     if (!content.isPhoto) { // 非图
         self.bodyLabel.hidden = NO;
         self.photoView.hidden = YES;
-        CGFloat bodyX = 0;
-        CGFloat bodyY = BodyPadding * 2;
-        CGFloat bodyW = ScreenWidth - 2 * BodyPadding;
-//        CGFloat bodyH = [_content.bodyHtmlString heightWithConstraintWidth:bodyW];
-        CGFloat bodyH = self.cellHeight;
-        self.bodyLabel.frame = CGRectMake(bodyX, bodyY, bodyW, bodyH);
-        self.bodyLabel.attributedText = _content.bodyHtmlString;
-    
+        
+        self.bodyLabel.frame = self.contentFrame.bodyLabelF;
+        self.bodyLabel.attributedText = content.bodyHtmlString;
+        
     } else {
         self.bodyLabel.hidden = YES;
         self.photoView.hidden = NO;
-
-        CGFloat photoX = 0;
-        CGFloat photoY = BodyPadding * 2;
-        CGFloat photoW = ScreenWidth - 2 * BodyPadding;
-        CGFloat photoH =  photoW * (_content.image.size.height / _content.image.size.width);
-        self.photoView.frame = CGRectMake(photoX, photoY, photoW, photoH);
-        
-        [self.photoView sd_setImageWithURL:[NSURL URLWithString:content.photo] placeholderImage:[UIImage imageNamed:@"单图大图占位图"]];
+        self.photoView.frame = self.contentFrame.photoViewF;
+        self.photoView.image = content.image;
     }
+    
 }
+
+
+
+//- (void)setContent:(LP *)content {
+//    _content = content;
+//    if (!content.isPhoto) { // 非图
+//        self.bodyLabel.hidden = NO;
+//        self.photoView.hidden = YES;
+//        self.bodyLabel.frame = self.contentFrame.bodyLabelF;
+//        self.bodyLabel.attributedText = _content.bodyHtmlString;
+//    
+//    } else {
+//        self.bodyLabel.hidden = YES;
+//        self.photoView.hidden = NO;
+//
+//        CGFloat photoX = 0;
+//        CGFloat photoY = BodyPadding * 2;
+//        CGFloat photoW = ScreenWidth - 2 * BodyPadding;
+//        CGFloat photoH =  photoW * (_content.image.size.height / _content.image.size.width);
+//        self.photoView.frame = CGRectMake(photoX, photoY, photoW, photoH);
+//        
+//        [self.photoView sd_setImageWithURL:[NSURL URLWithString:content.photo] placeholderImage:[UIImage imageNamed:@"单图大图占位图"]];
+//    }
+//}
 
 -(void)setSelected:(BOOL)selected animated:(BOOL)animated {
     

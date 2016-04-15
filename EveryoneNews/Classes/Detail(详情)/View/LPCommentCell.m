@@ -91,6 +91,12 @@
 - (void)setCommentFrame:(LPCommentFrame *)commentFrame {
     _commentFrame = commentFrame;
     LPComment *comment = commentFrame.comment;
+    if ([comment.up isEqualToString:@"0"]) {
+        self.upCountLabel.hidden = YES;
+    } else {
+        self.upCountLabel.hidden = NO;
+    }
+    
     NSString *upCount = [NSString stringWithFormat:@"%@赞", comment.up];
     
     self.iconImageView.frame = self.commentFrame.iconF;
@@ -131,6 +137,7 @@
     self.lineLayer.path = linePath.CGPath;
     self.lineLayer.fillColor = nil;
     self.lineLayer.strokeColor = [UIColor colorFromHexString:@"#e9e9e9"].CGColor;
+
 }
 
 @end

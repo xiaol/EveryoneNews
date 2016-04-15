@@ -12,6 +12,14 @@
 
 @class LPConcern;
 
+typedef void(^imageDownLoadCompletionBlock)();
+//@protocol LPContentDelegate <NSObject>
+//
+//@optional
+//- (void)LPContent:(LPContent *)content contentWithDictionary
+//
+//@end
+
 @interface LPContent : NSObject
 @property (nonatomic, copy) NSString *category;
 @property (nonatomic, copy) NSString *body;

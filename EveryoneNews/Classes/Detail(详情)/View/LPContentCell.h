@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-//@class LPContentFrame;
+@class LPContentFrame;
 
 @class LPContent;
-@class LPContentCell;
+//@class LPContentCell;
 //@protocol LPContentCellDelegate <NSObject>
 //
 //@optional
@@ -21,7 +21,7 @@
 
 @interface LPContentCell : UITableViewCell
 
-@property (nonatomic, strong) LPContent *content;
+@property (nonatomic, strong) LPContentFrame *contentFrame;
 
 @property (nonatomic, assign) NSInteger row;
 
@@ -29,7 +29,7 @@
 // 图片类型
 @property (nonatomic, strong) UIImageView *photoView;
 
-@property (nonatomic, assign) CGFloat cellHeight;
+//@property (nonatomic, assign) CGFloat cellHeight;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 

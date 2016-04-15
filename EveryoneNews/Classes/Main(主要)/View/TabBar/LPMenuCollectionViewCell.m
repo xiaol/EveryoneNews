@@ -21,6 +21,11 @@
         LPMenuButton *menuButton = [[LPMenuButton alloc] initWithFrame:CGRectMake(0, 0, self.contentView.bounds.size.width, self.contentView.bounds.size.height)];
         [self.contentView addSubview:menuButton];
         self.menuButton = menuButton;
+//        self.menuButton.userInteractionEnabled = YES;
+        
+        UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] init];
+//        [tapGestureRecognizer addTarget:self action:@selector(clickMenuButton)];
+        [self.menuButton addGestureRecognizer:tapGestureRecognizer];
     }
     return self;
 }
@@ -34,17 +39,16 @@
     [super setSelected:selected];
     if (selected) {
        self.menuButton.textColor = LPSelectedColor;
-//        self.layer.backgroundColor = [UIColor redColor].CGColor;
         
     } else {
         self.menuButton.textColor = LPNormalColor;
-//                self.layer.backgroundColor = [UIColor whiteColor].CGColor;
     }
 }
 
-//- (void)drawRect:(CGRect)rect {
-//    [super drawRect:rect];
-//}
-
+- (void)clickMenuButton {
+    if ([self.delegate respondsToSelector:@selector(didClickMenuCollectionViewCell:)]) {
+        [self.delegate didClickMenuCollectionViewCell:self];
+    }
+}
 
 @end

@@ -45,6 +45,7 @@
 #import "UIControl+Swizzle.h"
 #import "NSTimer+Additions.h"
 #import "LPRelatePointFooter.h"
+#import <libkern/OSAtomic.h>
 
 
 static const NSString * privateContext;
@@ -53,6 +54,8 @@ static const CGFloat padding = 13.0f;
 const static CGFloat headerViewHeight = 40;
 const static CGFloat footerViewHeight = 59;
 const static CGFloat relatePointCellHeight = 79;
+
+static int imageDownloadCount;
 
 @interface LPDetailViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate,LPRelateCellDelegate, LPDetailTopViewDelegate, LPShareViewDelegate,LPDetailBottomViewDelegate, LPShareCellDelegate>
 
@@ -76,6 +79,12 @@ const static CGFloat relatePointCellHeight = 79;
 
 @property (nonatomic, strong) NSMutableDictionary *contentDictionary;
 
+@property (nonatomic, strong) NSMutableDictionary *heightDictionary;
+
+@property (nonatomic, strong) NSMutableArray *contentFrames;
+
+//@property (nonatomic, assign, getter=isrefreshTableView) BOOL refreshTableView;
+
 @end
 
 @implementation LPDetailViewController
@@ -91,6 +100,9 @@ const static CGFloat relatePointCellHeight = 79;
     [self setupDetailData];
     [self setupCommentsData];
     [self setupRelateData];
+    
+    
+    
 }
 
 #pragma mark - viewWillAppear
@@ -105,9 +117,10 @@ const static CGFloat relatePointCellHeight = 79;
 
 #pragma mark - 开启定时器
 - (void)startTimer {
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 firing:^{
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 repeating:YES firing:^{
     self.stayTimeInterval++;
     }];
+    [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:UITrackingRunLoopMode];
 }
 
 #pragma mark - 清空定时器
@@ -228,6 +241,22 @@ const static CGFloat relatePointCellHeight = 79;
     }
     return _contentDictionary;
 }
+
+- (NSMutableDictionary *)heightDictionary {
+    if (_contentDictionary == nil) {
+        _contentDictionary = [NSMutableDictionary dictionary];
+    }
+    return _contentDictionary;
+
+}
+
+- (NSMutableArray *)contentFrames {
+    if (_contentFrames == nil) {
+        _contentFrames = [NSMutableArray array];
+    }
+    return _contentFrames;
+}
+
 #pragma mark - 顶部视图隐藏和显示
 - (void)fadeIn
 {
@@ -390,6 +419,17 @@ const static CGFloat relatePointCellHeight = 79;
 
 - (void)getDetailDataWithUrl:(NSString *)url params:(NSDictionary *)params {
     
+    __block BOOL isRefreshTableView = NO;
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (!isRefreshTableView) {
+            
+            NSLog(@"8 times");
+            [self.tableView reloadData];
+        }
+        
+    });
+    
     [LPHttpTool getWithURL:url params:params success:^(id json) {
         
         NSDictionary *dict = json[@"data"];
@@ -410,10 +450,8 @@ const static CGFloat relatePointCellHeight = 79;
         
         // 第一个图片作为分享图片
         for (NSDictionary *dict in bodyArray) {
-            LPContent *content = [[LPContent alloc] init];
-            content.photo = dict[@"img"];
-            if (content.photo) {
-                self.shareImageURL = content.photo;
+            if (!dict[@"img"]) {
+                self.shareImageURL = dict[@"img"];
                 break;
             }
         }
@@ -425,29 +463,39 @@ const static CGFloat relatePointCellHeight = 79;
             content.isAbstract = NO;
             content.index = dict[@"index"];
             content.photo = dict[@"img"];
-            
             content.image = [UIImage imageNamed:@"单图大图占位图"];
-            [content addObserver:self forKeyPath:@"image" options:NSKeyValueObservingOptionNew context:&privateContext];
-            
-            // 图片下载完成后获取图片大小
-            [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:content.photo] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
-                
-            } completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-                
-                content.image = image;
-            }];
-            
             content.photoDesc = dict[@"img_info"];
             content.body = dict[@"txt"];
-            content.concern = self.concern;
+//            content.concern = self.concern;
             if (content.photo) {
                 content.isPhoto = YES;
+                
+                
             } else {
                 content.isPhoto = NO;
             }
-            [self.contentArray addObject:content];
+            LPContentFrame *contentFrame = [[LPContentFrame alloc] init];
+            contentFrame.content = content;
+            [self.contentFrames addObject:contentFrame];
+            [contentFrame downloadImageWithCompletionBlock:^{
+                ++ imageDownloadCount;
+                if (self.contentFrames.count > 0 && imageDownloadCount == self.contentFrames.count) {
+                    isRefreshTableView = YES;
+                    [self.tableView reloadData];
+                    NSLog(@"go");
+                
+                }
+            }];
         }
         self.tableView.hidden = NO;
+        
+        
+        static OSSpinLock aspect_lock = OS_SPINLOCK_INIT;
+        OSSpinLockLock(&aspect_lock);
+        [self.tableView reloadData];
+        OSSpinLockUnlock(&aspect_lock);
+        
+        
         [self hideLoadingView];
     } failure:^(NSError *error) {
         [MBProgressHUD showError:@"网络不给力"];
@@ -466,7 +514,7 @@ const static CGFloat relatePointCellHeight = 79;
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (section == 0) {
-        return self.contentArray.count;
+        return self.contentFrames.count;
     } else if (section == 1) {
         return 1;
     } else if (section == 2) {
@@ -482,9 +530,9 @@ const static CGFloat relatePointCellHeight = 79;
     if (indexPath.section == 0) {
         
         LPContentCell *cell = [LPContentCell cellWithTableView:tableView];
-        cell.cellHeight = [self.contentDictionary[@(indexPath.row)] floatValue];
-        cell.content = self.contentArray[indexPath.row];
-    
+//        cell.cellHeight = [self.contentDictionary[@(indexPath.row)] floatValue];
+//        cell.content = self.contentArray[indexPath.row];
+        cell.contentFrame = self.contentFrames[indexPath.row];
         return cell;
         
     } else if (indexPath.section == 1) {
@@ -513,26 +561,30 @@ const static CGFloat relatePointCellHeight = 79;
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        LPContent *content = self.contentArray[indexPath.row];
+        LPContentFrame *contentFrame = self.contentFrames[indexPath.row];
+        return contentFrame.cellHeight;
         
-        if (content.isPhoto) {
-            CGFloat photoX = 0;
-            CGFloat photoY = BodyPadding * 2;
-            CGFloat photoW = ScreenWidth - 2 * BodyPadding;
-            CGFloat photoH = photoW * (content.image.size.height / content.image.size.width);
-            CGRect photoViewFrame = CGRectMake(photoX, photoY, photoW, photoH);
-            
-            return CGRectGetMaxY(photoViewFrame);
-        } else {
-            
-            CGFloat bodyY = BodyPadding * 2;
-            CGFloat bodyW = ScreenWidth - 2 * BodyPadding;
-            if (self.contentDictionary[@(indexPath.row)] == nil) {
-                [self.contentDictionary setObject:@([content.bodyHtmlString heightWithConstraintWidth:bodyW]) forKey:@(indexPath.row)];
-            }
-            CGFloat bodyH = [self.contentDictionary[@(indexPath.row)] floatValue];
-            return  bodyH + bodyY + BodyPadding - 5;
-        }
+        
+//        LPContent *content = self.contentArray[indexPath.row];
+//        
+//        if (content.isPhoto) {
+//            CGFloat photoX = 0;
+//            CGFloat photoY = BodyPadding * 2;
+//            CGFloat photoW = ScreenWidth - 2 * BodyPadding;
+//            CGFloat photoH = photoW * (content.image.size.height / content.image.size.width);
+//            CGRect photoViewFrame = CGRectMake(photoX, photoY, photoW, photoH);
+//            
+//            return CGRectGetMaxY(photoViewFrame);
+//        } else {
+//            
+//            CGFloat bodyY = BodyPadding * 2;
+//            CGFloat bodyW = ScreenWidth - 2 * BodyPadding;
+//            if (self.contentDictionary[@(indexPath.row)] == nil) {
+//                [self.contentDictionary setObject:@([content.bodyHtmlString heightWithConstraintWidth:bodyW]) forKey:@(indexPath.row)];
+//            }
+//            CGFloat bodyH = [self.contentDictionary[@(indexPath.row)] floatValue];
+//            return  bodyH + bodyY + BodyPadding - 5;
+//        }
     } else if (indexPath.section == 1) {
         return 100;
     } else if (indexPath.section == 2) {
@@ -792,23 +844,25 @@ const static CGFloat relatePointCellHeight = 79;
 }
 
 #pragma mark - Observe Image Size
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
-    if(context == &privateContext) {
-        if ([keyPath isEqualToString:@"image"]) {
-            [self.tableView reloadData];
-        }
-    }
-     else {
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-    }
-}
+//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
+//    if(context == &privateContext) {
+//        if ([keyPath isEqualToString:@"image"]) {
+//            
+//           
+//            [self.tableView reloadData];
+//        }
+//    }
+//     else {
+//        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+//    }
+//}
 
 #pragma mark - dealloc
-- (void)dealloc {
-    // 移除相应的kvo
-    for (LPContent *content in self.contentArray) {
-        [content removeObserver:self forKeyPath:@"image"];
-    }
-}
+//- (void)dealloc {
+//    // 移除相应的kvo
+//    for (LPContent *content in self.contentArray) {
+//        [content removeObserver:self forKeyPath:@"image"];
+//    }
+//}
 
 @end

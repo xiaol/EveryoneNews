@@ -11,7 +11,7 @@
 
 
 
-@interface LPHomeViewController (ChannelItemMenu) <UIGestureRecognizerDelegate, UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, LPSortCollectionReusableViewDelegate>
+@interface LPHomeViewController (ChannelItemMenu) <UIGestureRecognizerDelegate, UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, LPSortCollectionReusableViewDelegate, LPMenuCollectionViewCellDelegate>
 
 // 设置所有频道唯一标识
 - (void)setCellIdentifierOfAllChannelItems;
