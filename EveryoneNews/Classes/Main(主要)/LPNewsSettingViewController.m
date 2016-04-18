@@ -22,7 +22,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 static NSString * const kCellIdentify = @"JoySettingCell";
 
-@interface LPNewsSettingViewController ()<UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate>
+@interface LPNewsSettingViewController ()<UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate>{
+    UIImageView *clearCacheView;
+}
 @property (nonatomic, strong) UITableView* tableView;
 @property(nonatomic, strong, nullable) NSArray *dataSource;
 @end
@@ -58,7 +60,7 @@ static NSString * const kCellIdentify = @"JoySettingCell";
     [self.navigationController.navigationBar.layer addSublayer:lineLayer];
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithDesignIndex:9];
     self.navigationController.navigationBar.translucent = NO;
-
+    
     [self.view addSubview:self.tableView];
     __weak typeof(self)weakSelf = self;
     [self.tableView mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -152,7 +154,30 @@ static NSString * const kCellIdentify = @"JoySettingCell";
 - (void)tableView:(nonnull UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     if (indexPath.section == 1) {
         
-        NSLog(@"清除缓存");
+        clearCacheView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kApplecationScreenWidth, 20.f)];
+        clearCacheView.backgroundColor = [UIColor blackColor];
+        
+        UIImageView *clearSucc = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ClearSucc"]];
+        [clearSucc setFrame:CGRectMake(12, 3, clearSucc.image.size.width, clearSucc.image.size.height)];
+        [clearCacheView addSubview:clearSucc];
+        
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12+10+clearSucc.image.size.width, 0, 200, 20)];
+        label.text = @"清理缓存成功";
+        label.textAlignment = NSTextAlignmentLeft;
+        label.font = [UIFont systemFontOfSize:28.f/2.2639];
+        label.textColor = [UIColor whiteColor];
+        [clearCacheView addSubview:label];
+       //动画
+        CGRect startFrame = clearCacheView.frame;
+        CGRect endFrame = startFrame;
+        startFrame.origin.y = -startFrame.size.height;
+        clearCacheView.frame = startFrame;
+        [UIView animateWithDuration:0.7 delay:0 options:(UIViewAnimationOptionCurveLinear | UIViewAnimationOptionAutoreverse  | UIViewAnimationOptionCurveEaseIn) animations:^{
+            clearCacheView.frame = endFrame;
+            [[UIApplication sharedApplication].keyWindow addSubview:clearCacheView];
+        } completion:^(BOOL finished) {
+            [clearCacheView removeFromSuperview];
+        }];
         
     }else if (indexPath.section == 2){
         if (indexPath.row == 0) {
@@ -205,8 +230,6 @@ static NSString * const kCellIdentify = @"JoySettingCell";
 #pragma mark- Public methods
 
 #pragma mark- private methods
-
-
 
 
 #pragma mark- Getters and Setters

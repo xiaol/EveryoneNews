@@ -169,6 +169,8 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     return YES;
 }
 
+
+
 - (void)networkChange:(NSNotification *)note {
     NSDictionary *info = note.userInfo;
     NSNumber *changeItem = info[AFNetworkingReachabilityNotificationStatusItem];
