@@ -89,7 +89,7 @@ CGSize const kAvatarImageViewSize = {70,70};
     __weak __typeof(self)weakSelf = self;
     [self.avatarImageView mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
-        make.top.equalTo(strongSelf.view).with.offset(64+30);
+        make.top.equalTo(strongSelf.view).with.offset(64+75);
         make.centerX.equalTo(strongSelf.view);
         make.size.mas_equalTo(CGSizeMake(70, 70));
     }];
@@ -97,10 +97,10 @@ CGSize const kAvatarImageViewSize = {70,70};
     [self.view addSubview:self.userNameLabel];
     [self.userNameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
-        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:strongSelf.userNameLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.f]}];
+        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:strongSelf.userNameLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:36.f/2.2639]}];
         make.size.mas_equalTo(CGSizeMake(ceilf(attStr.size.width)+10, ceilf(attStr.size.height)));
         make.centerX.mas_equalTo(strongSelf.view);
-        make.top.mas_equalTo(strongSelf.avatarImageView.mas_bottom).with.offset(10);
+        make.top.mas_equalTo(strongSelf.avatarImageView.mas_bottom).with.offset(12);
     }];
     
     [self.view addSubview:self.tableView];
@@ -109,31 +109,31 @@ CGSize const kAvatarImageViewSize = {70,70};
         make.top.mas_equalTo(strongSelf.userNameLabel.mas_bottom).with.offset(47);
         make.left.equalTo(strongSelf.view);
         make.width.mas_equalTo(kApplecationScreenWidth);
-        make.height.mas_equalTo(48*3);
+        make.height.mas_equalTo(kMineViewCellHeight*3);
     }];
     
-    UIImageView *separatorLine = [[UIImageView alloc] init];
-    separatorLine.backgroundColor = [UIColor colorWithDesignIndex:5];
-    [self.view addSubview:separatorLine];
-    [separatorLine mas_updateConstraints:^(MASConstraintMaker *make) {
+    UIImageView *separatorLineUp = [[UIImageView alloc] init];
+    separatorLineUp.backgroundColor = [UIColor colorWithDesignIndex:5];
+    [self.view addSubview:separatorLineUp];
+    [separatorLineUp mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         make.top.equalTo(strongSelf.tableView);
         make.width.mas_equalTo(kApplecationScreenWidth);
         make.height.mas_equalTo(0.5);
     }];
-    
+
     userBookLabel = [[UILabel alloc] init];
     userBookLabel.text = @"一订";
     userBookLabel.textAlignment = NSTextAlignmentCenter;
     userBookLabel.textColor = [UIColor colorWithDesignIndex:1];
-    userBookLabel.font = [UIFont boldSystemFontOfSize:13.f];
+    userBookLabel.font = [UIFont boldSystemFontOfSize:25.f/2.2639];
     [self.view addSubview:userBookLabel];
     [userBookLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
-        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:userBookLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13.f]}];
+        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:userBookLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:25.f/2.2639]}];
         make.size.mas_equalTo(CGSizeMake(ceilf(attStr.size.width), ceilf(attStr.size.height)));
         make.right.equalTo(strongSelf.view.mas_left).with.offset((kApplecationScreenWidth-73)/2);
-        make.bottom.mas_equalTo(strongSelf.view.mas_bottom).with.offset(-14);
+        make.bottom.mas_equalTo(strongSelf.view.mas_bottom).with.offset(-24);
         
     }];
     
@@ -141,30 +141,30 @@ CGSize const kAvatarImageViewSize = {70,70};
     userSetLabel.text = @"设置";
     userSetLabel.textAlignment = NSTextAlignmentCenter;
     userSetLabel.textColor = [UIColor colorWithDesignIndex:1];
-    userSetLabel.font = [UIFont boldSystemFontOfSize:13.f];
+    userSetLabel.font = [UIFont boldSystemFontOfSize:25.f/2.2639];
     [self.view addSubview:userSetLabel];
     [userSetLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
-        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:userBookLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13.f]}];
+        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:userBookLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:25.f/2.2639]}];
         make.size.mas_equalTo(CGSizeMake(ceilf(attStr.size.width), ceilf(attStr.size.height)));
         make.left.equalTo(userBookLabel.mas_right).with.offset(73);
-        make.bottom.mas_equalTo(strongSelf.view.mas_bottom).with.offset(-14);
+        make.bottom.mas_equalTo(strongSelf.view.mas_bottom).with.offset(-24);
         
     }];
     
     userBookBtn = [[UIButton alloc] init];
-    [userBookBtn setImage:[LPNewsAssistant imageWithContentsOfFile:@"User_book"] forState:UIControlStateNormal];
+    [userBookBtn setImage:[UIImage imageNamed:@"User_book"] forState:UIControlStateNormal];
     [userBookBtn addTarget:self action:@selector(doBookingAction) forControlEvents:UIControlEventTouchUpInside];
     userBookBtn.enlargedEdge = 15;
     [self.view addSubview:userBookBtn];
     [userBookBtn mas_updateConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(userBookLabel.mas_centerX);
-        make.bottom.mas_equalTo(userBookLabel.mas_top).with.offset(-10);
+        make.bottom.mas_equalTo(userBookLabel.mas_top).with.offset(-14);
     }];
     
     
     userSetBtn = [[UIButton alloc] init];
-    [userSetBtn setImage:[LPNewsAssistant imageWithContentsOfFile:@"User_setting"] forState:UIControlStateNormal];
+    [userSetBtn setImage:[UIImage imageNamed:@"User_setting"] forState:UIControlStateNormal];
     [userSetBtn addTarget:self action:@selector(gotoSettingView) forControlEvents:UIControlEventTouchUpInside];
     userSetBtn.enlargedEdge = 15;
     [self.view addSubview:userSetBtn];
@@ -213,7 +213,7 @@ CGSize const kAvatarImageViewSize = {70,70};
         _avatarImageView = avatarImageView;
         
         if (account == nil) {
-           avatarImageView.image = [LPNewsAssistant imageWithContentsOfFile:@"LP_icon"];
+           avatarImageView.image = [UIImage imageNamed:@"LP_icon"];
         }else{
             __weak typeof(self) weakSelf = self;
             [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:account.userIcon] options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
@@ -254,7 +254,7 @@ CGSize const kAvatarImageViewSize = {70,70};
         }
         userNameLabel.textAlignment = NSTextAlignmentCenter;
         userNameLabel.textColor = [UIColor colorWithDesignIndex:1];
-        userNameLabel.font = [UIFont boldSystemFontOfSize:16.f];
+        userNameLabel.font = [UIFont boldSystemFontOfSize:36.f/2.2639];
         _userNameLabel = userNameLabel;
     }
     return _userNameLabel;
@@ -322,6 +322,9 @@ CGSize const kAvatarImageViewSize = {70,70};
         
     }
 }
+
+
+
 
 
 

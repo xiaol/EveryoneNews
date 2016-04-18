@@ -8,12 +8,13 @@
 
 #import "LPNewsMineViewCell.h"
 
-#define kTextFont [UIFont systemFontOfSize:18.f]
+#define kTextFont [UIFont systemFontOfSize:36.f/2.2639]
 
 @implementation LPNewsMineViewCell{
     UIImageView *leftImageView;
     UILabel *textLabel;
     UIImageView *rightImageView;
+    CALayer *lineLayer;
 }
 
 - (nonnull instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(nullable NSString *)reuseIdentifier{
@@ -34,8 +35,8 @@
         textLabel.backgroundColor = self.backgroundColor;
         [self.contentView addSubview:textLabel];
         
-        CGRect lineLayerRect = CGRectMake(0.f, kMineViewCellHeight-1.f, kApplecationScreenWidth, 1.f);
-        CALayer *lineLayer = [CALayer layer];
+        CGRect lineLayerRect = CGRectMake(0, kMineViewCellHeight-1.f, kApplecationScreenWidth, 1.f);
+        lineLayer = [CALayer layer];
         lineLayer.frame = lineLayerRect;
         lineLayer.backgroundColor = [[UIColor colorWithDesignIndex:5] CGColor];
         [self.contentView.layer addSublayer:lineLayer];
@@ -63,7 +64,7 @@ static const CGFloat kLeftMargin = 23.f;
     if (model && [model isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dict = (NSDictionary *)model;
         NSString *keyStr = [dict.allKeys objectAtIndex:0];
-        leftImageView.image = [LPNewsAssistant imageWithContentsOfFile:[NSString stringWithFormat:@"%@",keyStr]];
+        leftImageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@",keyStr]];
         textLabel.text = [dict.allValues objectAtIndex:0];
         __weak __typeof(self)weakSelf = self;
         __weak __typeof(leftImageView)weakLeftImageView = leftImageView;
@@ -77,7 +78,7 @@ static const CGFloat kLeftMargin = 23.f;
         }];
         
         __weak __typeof(rightImageView)weakRightImageView = rightImageView;
-        rightImageView.image = [LPNewsAssistant imageWithContentsOfFile:@"User_singleArrow"];
+        rightImageView.image = [UIImage imageNamed:@"User_singleArrow"];
         [rightImageView mas_updateConstraints:^(MASConstraintMaker *make) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             __strong __typeof(weakRightImageView)strongRightImageView = weakRightImageView;
@@ -90,9 +91,14 @@ static const CGFloat kLeftMargin = 23.f;
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             __strong __typeof(weakLeftImageView)strongLeftImageView = weakLeftImageView;
             make.centerY.equalTo(strongSelf.mas_centerY);
-            make.left.equalTo(strongLeftImageView.mas_right).with.mas_offset(@15);
+            make.left.equalTo(strongLeftImageView.mas_right).with.mas_offset(@21);
             make.size.mas_equalTo(CGSizeMake(180.f, (kTextFont).lineHeight));
         }];
+        
+        if (indexPath.row == 0 || indexPath.row ==1) {
+            CGRect lineLayerRect = CGRectMake(23.f, kMineViewCellHeight-1.f, kApplecationScreenWidth-23.f, 1.f);
+            lineLayer.frame = lineLayerRect;
+        }
     }
     
 }

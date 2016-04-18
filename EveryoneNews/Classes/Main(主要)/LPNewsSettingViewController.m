@@ -16,13 +16,11 @@
 #import "MainNavigationController.h"
 #import "LPNewsPrivacyItemsController.h"
 #import "LPNewsAboutViewController.h"
-#import "LPNewsAppStoreCommentView.h"
 #import "AppDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 static NSString * const kCellIdentify = @"JoySettingCell";
-static NSString * const kAppId = @"987333155";
 
 @interface LPNewsSettingViewController ()<UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate>
 @property (nonatomic, strong) UITableView* tableView;
@@ -132,6 +130,25 @@ static NSString * const kAppId = @"987333155";
     return 18.f;
 }
 
+- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIImageView *view = [[UIImageView alloc] init];
+    view.frame = CGRectMake(0, 0, kApplecationScreenWidth, 18.f);
+    view.backgroundColor = [UIColor colorWithDesignIndex:9];
+    
+    UIImageView *separatorLineDown = [[UIImageView alloc] init];
+    separatorLineDown.backgroundColor = [UIColor colorWithDesignIndex:5];
+    [view addSubview:separatorLineDown];
+    [separatorLineDown mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(view.mas_bottom).offset(-0.5f);
+        make.width.mas_equalTo(kApplecationScreenWidth);
+        make.height.mas_equalTo(0.5);
+    }];
+    
+    return view;
+    
+}
+
 - (void)tableView:(nonnull UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     if (indexPath.section == 1) {
         
@@ -149,9 +166,7 @@ static NSString * const kAppId = @"987333155";
             [self.navigationController pushViewController:priView animated:YES];
             
         }else{
-            NSLog(@"跳转到appst");
-//            LPNewsAppStoreCommentView *appStroeCommView = [[LPNewsAppStoreCommentView alloc] init];
-//            [self.navigationController pushViewController:appStroeCommView animated:YES];
+
             NSString *str = @"itms-apps://itunes.apple.com/cn/app/qi-dian-zi-xun/id987333155?l=en&mt=8";
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
         

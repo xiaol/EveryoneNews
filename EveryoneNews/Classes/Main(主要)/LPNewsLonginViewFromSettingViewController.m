@@ -132,11 +132,11 @@ NS_ASSUME_NONNULL_BEGIN
     weixinLabel.text = @"微信登录";
     weixinLabel.textAlignment = NSTextAlignmentCenter;
     weixinLabel.textColor = [UIColor colorWithDesignIndex:1];
-    weixinLabel.font = [UIFont boldSystemFontOfSize:18.f];
+    weixinLabel.font = [UIFont boldSystemFontOfSize:32.f/2.2639];
     [self.view addSubview:weixinLabel];
     [weixinLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakWinxinBtn)strongWenxinBtn = weakWinxinBtn;
-        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:weixinLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.f]}];
+        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:weixinLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:32.f/2.2639]}];
         make.size.mas_equalTo(CGSizeMake(ceilf(attStr.size.width), ceilf(attStr.size.height)));
         make.centerX.equalTo(strongWenxinBtn.mas_centerX);
         make.top.mas_equalTo(strongWenxinBtn.mas_bottom).with.offset(14);
@@ -147,11 +147,11 @@ NS_ASSUME_NONNULL_BEGIN
     weiboLabel.text = @"微博登录";
     weiboLabel.textAlignment = NSTextAlignmentCenter;
     weiboLabel.textColor = [UIColor colorWithDesignIndex:1];
-    weiboLabel.font = [UIFont boldSystemFontOfSize:18.f];
+    weiboLabel.font = [UIFont boldSystemFontOfSize:32.f/2.2639];
     [self.view addSubview:weiboLabel];
     [weiboLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakWeiboBtn)strongWeiboBtn = weakWeiboBtn;
-        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:weixinLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.f]}];
+        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:weixinLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:32.f/2.2639]}];
         make.size.mas_equalTo(CGSizeMake(ceilf(attStr.size.width), ceilf(attStr.size.height)));
         make.centerX.equalTo(strongWeiboBtn.mas_centerX);
         make.top.mas_equalTo(strongWeiboBtn.mas_bottom).with.offset(14);

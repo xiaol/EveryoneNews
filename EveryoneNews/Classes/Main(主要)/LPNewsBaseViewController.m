@@ -282,7 +282,6 @@ static const NSInteger kNavBarTag = 10000;
     }else{
         return self.navigationItem;
     }
-    
 }
 
 #pragma mark - TitleView
@@ -310,7 +309,7 @@ static const NSInteger kNavBarTag = 10000;
 - (void)backImageItem{
     self.navItem.hidesBackButton = YES;
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    UIImage *image = [LPNewsAssistant imageWithContentsOfFile:@"BackArrow_black"];
+    UIImage *image = [UIImage imageNamed:@"BackArrow_black"];
     
     CGFloat btnWidth = image.size.width+18.f;
     CGFloat btnHeight = image.size.height;
@@ -322,7 +321,7 @@ static const NSInteger kNavBarTag = 10000;
     }
     btn.frame = CGRectMake(0, 0, btnWidth, btnHeight);
     if (iOS8) {
-        [btn setImageEdgeInsets:UIEdgeInsetsMake(0, -58.f, 0, 0)];
+        [btn setImageEdgeInsets:UIEdgeInsetsMake(0, -66.f, 0, 0)];
     }else{
         [btn setImageEdgeInsets:UIEdgeInsetsMake(0, -20.f, 0, 0)];
     }
@@ -340,19 +339,19 @@ static const NSInteger kNavBarTag = 10000;
     }
     self.navigationItem.hidesBackButton = YES;
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    UIImage *image = [LPNewsAssistant imageWithContentsOfFile:@"joyBack"];
+    UIImage *image = [UIImage imageNamed:@"joyBack"];
     [btn setImage:image forState:UIControlStateNormal];
     [btn setTitleColor:[UIColor colorWithDesignIndex:1] forState:UIControlStateNormal];
     [btn setTitle:title forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont boldSystemFontOfSize:18.f];
+    btn.titleLabel.font = [UIFont boldSystemFontOfSize:36.f/2.2639];
     
-    CGSize textSize = [[NSAttributedString alloc] initWithString:title attributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:18.f]}].size;
-    CGFloat btnWidth = (textSize.width +image.size.width+8.f);
+    CGSize textSize = [[NSAttributedString alloc] initWithString:title attributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:36.f/2.2639]}].size;
+    CGFloat btnWidth = (textSize.width +image.size.width+0.f);
     if (btnWidth > kApplecationScreenWidth/2) {
         btnWidth = kApplecationScreenWidth/2;
     }
     if (iOS8) {
-        [btn setImageEdgeInsets:UIEdgeInsetsMake(0, -10.f, 0, 0)];
+        [btn setImageEdgeInsets:UIEdgeInsetsMake(0, -20.f, 0, 0)];
     }else{
         [btn setTitleEdgeInsets:UIEdgeInsetsMake(0, 8.f, 0, 0)];
     }
@@ -361,7 +360,13 @@ static const NSInteger kNavBarTag = 10000;
     btn.frame = CGRectMake(0, 0, btnWidth, 44.f);
     [btn addTarget:self action:@selector(doBackAction:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
-    self.navItem.leftBarButtonItem = backItem;
+    //设置一个空位置使得左上角的btn与右边距没有过大的间距
+    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]
+                                       initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                       target:nil action:nil];
+    negativeSpacer.width = -5;
+    self.navItem.leftBarButtonItems = @[negativeSpacer,backItem];
+    
 }
 
 #pragma mark - LeftItem
@@ -401,7 +406,7 @@ static const NSInteger kNavBarTag = 10000;
     self.navigationItem.hidesBackButton = YES;
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     
-    UIImage *image = [LPNewsAssistant imageWithContentsOfFile:imageName];
+    UIImage *image = [UIImage imageNamed:imageName];
     
     CGFloat btnWidth = image.size.width+18.f;
     CGFloat btnHeight = image.size.height;
@@ -427,7 +432,7 @@ static const NSInteger kNavBarTag = 10000;
     self.navItem.hidesBackButton = YES;
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     
-    UIImage *image = [LPNewsAssistant imageWithContentsOfFile:imageName];
+    UIImage *image = [UIImage imageNamed:imageName];
     
     CGFloat btnWidth = image.size.width+18.f;
     CGFloat btnHeight = image.size.height;
@@ -504,7 +509,7 @@ static const NSInteger kNavBarTag = 10000;
     self.navigationItem.hidesBackButton = YES;
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     
-    UIImage *image = [LPNewsAssistant imageWithContentsOfFile:imageName];
+    UIImage *image = [UIImage imageNamed:imageName];
     
     CGFloat btnWidth = image.size.width+18.f;
     CGFloat btnHeight = image.size.height;

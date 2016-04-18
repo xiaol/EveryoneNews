@@ -81,13 +81,13 @@
     
     UILabel *noticeLabel = [[UILabel alloc] init];
     noticeLabel.text = @"正在建设中，请移步";
-    noticeLabel.font = [UIFont systemFontOfSize:17.f];
+    noticeLabel.font = [UIFont systemFontOfSize:32.f/2.2639];
     noticeLabel.textColor = [UIColor colorWithDesignIndex:5];
     [self.view addSubview:noticeLabel];
     [noticeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         make.centerX.equalTo(strongSelf.view);
-        make.top.equalTo(noticeImg.mas_bottom).with.offset(20);
+        make.top.equalTo(noticeImg.mas_bottom).with.offset(21);
         
     }];
 }

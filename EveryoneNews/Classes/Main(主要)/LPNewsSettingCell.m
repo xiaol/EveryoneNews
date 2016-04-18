@@ -13,7 +13,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#define kTextFont [UIFont systemFontOfSize:17.f]
+#define kTextFont [UIFont systemFontOfSize:36.f/2.2639]
 
 @implementation LPNewsSettingCell{
     
@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
     UILabel *textLabel;
     UIImageView *rightImageView;
     UILabel *signOutLabel;
-    
+    CALayer *lineLayer;
 }
 
 - (nonnull instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(nullable NSString *)reuseIdentifier{
@@ -43,14 +43,14 @@ NS_ASSUME_NONNULL_BEGIN
         
         signOutLabel = [[UILabel alloc] init];
         [self.contentView addSubview:signOutLabel];
-        signOutLabel.font = [UIFont systemFontOfSize:20.f];
+        signOutLabel.font = kTextFont;
         signOutLabel.textColor = [UIColor colorWithDesignIndex:2];
         signOutLabel.backgroundColor = self.backgroundColor;
         signOutLabel.textAlignment = NSTextAlignmentCenter;
         
         
-        CGRect lineLayerRect = CGRectMake(0.f, kSetingCellHeight-1.f, kApplecationScreenWidth, 1.f);
-        CALayer *lineLayer = [CALayer layer];
+        CGRect lineLayerRect = CGRectMake(59.f, kSetingCellHeight-1.f, kApplecationScreenWidth-59.f, 1.f);
+        lineLayer = [CALayer layer];
         lineLayer.frame = lineLayerRect;
         lineLayer.backgroundColor = [[UIColor colorWithDesignIndex:5] CGColor];
         [self.contentView.layer addSublayer:lineLayer];
@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 
-static const CGFloat kLeftMargin = 23.f;
+static const CGFloat kLeftMargin = 14.f;
 
 - (void)setModel:(nonnull id)model IndexPath:(NSIndexPath *)indexPath {
     
@@ -82,7 +82,7 @@ static const CGFloat kLeftMargin = 23.f;
         NSDictionary *dict = (NSDictionary *)model;
         NSString *keyStr = [dict.allKeys objectAtIndex:0];
         if (indexPath.section != 3) {
-            leftImageView.image = [LPNewsAssistant imageWithContentsOfFile:[NSString stringWithFormat:@"%@",keyStr]];
+            leftImageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@",keyStr]];
             textLabel.text = [dict.allValues objectAtIndex:0];
         
             [leftImageView mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -127,7 +127,7 @@ static const CGFloat kLeftMargin = 23.f;
         
         if (indexPath.section == 2) {
             __weak __typeof(rightImageView)weakRightImageView = rightImageView;
-            rightImageView.image = [LPNewsAssistant imageWithContentsOfFile:@"DoubleArrow"];
+            rightImageView.image = [UIImage imageNamed:@"DoubleArrow"];
             [rightImageView mas_updateConstraints:^(MASConstraintMaker *make) {
                 __strong __typeof(weakSelf)strongSelf = weakSelf;
                 __strong __typeof(weakRightImageView)strongRightImageView = weakRightImageView;
@@ -159,6 +159,29 @@ static const CGFloat kLeftMargin = 23.f;
                 }];
                 [self.infoPushSwitchBtn addTarget:self action:@selector(changeInfoPushStatus:) forControlEvents:UIControlEventValueChanged];
             }
+        }
+        if (indexPath.section == 0 && indexPath.row == 1) {
+            
+            CGRect lineLayerRect = CGRectMake(0, kSetingCellHeight-1.f, kApplecationScreenWidth, 1.f);
+            lineLayer.frame = lineLayerRect;
+        }
+        
+        if (indexPath.section == 1) {
+            
+            CGRect lineLayerRect = CGRectMake(0, kSetingCellHeight-1.f, kApplecationScreenWidth, 1.f);
+            lineLayer.frame = lineLayerRect;
+        }
+        
+        if (indexPath.section == 2 && indexPath.row == 2) {
+            
+            CGRect lineLayerRect = CGRectMake(0, kSetingCellHeight-1.f, kApplecationScreenWidth, 1.f);
+            lineLayer.frame = lineLayerRect;
+        }
+        
+        if (indexPath.section == 3) {
+            
+            CGRect lineLayerRect = CGRectMake(0, kSetingCellHeight-1.f, kApplecationScreenWidth, 1.f);
+            lineLayer.frame = lineLayerRect;
         }
     }
 }

@@ -77,15 +77,15 @@
     [iconImage mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         make.centerX.equalTo(strongSelf.view);
-        make.top.equalTo(strongSelf.view).with.offset(50);
+        make.top.equalTo(strongSelf.view).with.offset(74);
     }];
     
     appNameLabel = [[UILabel alloc] init];
     appNameLabel.text = @"奇点资讯";
     appNameLabel.textAlignment = NSTextAlignmentCenter;
     appNameLabel.textColor = [UIColor colorWithDesignIndex:1];
-    appNameLabel.font = [UIFont boldSystemFontOfSize:16.f];
-    NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:appNameLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.f]}];
+    appNameLabel.font = [UIFont boldSystemFontOfSize:38.f/2.26369];
+    NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:appNameLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:38.f/2.26369]}];
     [self.view addSubview:appNameLabel];
     [appNameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
@@ -99,8 +99,8 @@
     versionLabel.text = versionText;
     versionLabel.textAlignment = NSTextAlignmentCenter;
     versionLabel.textColor = [UIColor colorWithDesignIndex:2];
-    versionLabel.font = [UIFont boldSystemFontOfSize:25.f];
-    NSAttributedString *attStr1 = [[NSAttributedString alloc] initWithString:versionLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:26.f]}];
+    versionLabel.font = [UIFont boldSystemFontOfSize:38.f/2.26369];
+    NSAttributedString *attStr1 = [[NSAttributedString alloc] initWithString:versionLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:40.f/2.26369]}];
     [self.view addSubview:versionLabel];
     [versionLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
@@ -113,14 +113,14 @@
     copyRightLabel.text = @"Copyright ©2016 lieying.All Rights Reserved";
     copyRightLabel.textAlignment = NSTextAlignmentCenter;
     copyRightLabel.textColor = [UIColor colorWithDesignIndex:4];
-    copyRightLabel.font = [UIFont boldSystemFontOfSize:12.f];
-    NSAttributedString *attStr2 = [[NSAttributedString alloc] initWithString:copyRightLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:13.f]}];
+    copyRightLabel.font = [UIFont boldSystemFontOfSize:24.f/2.26369];
+    NSAttributedString *attStr2 = [[NSAttributedString alloc] initWithString:copyRightLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:26.f/2.26369]}];
     [self.view addSubview:copyRightLabel];
     [copyRightLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         make.size.mas_equalTo(CGSizeMake(ceilf(attStr2.size.width), ceilf(attStr.size.height)));
         make.centerX.equalTo(strongSelf.view);
-        make.bottom.equalTo(strongSelf.view.mas_bottom).with.offset(-10);
+        make.bottom.equalTo(strongSelf.view.mas_bottom).with.offset(-16);
     }];
     
     LPNetImage = [[UIImageView alloc] init];
@@ -129,7 +129,7 @@
     [LPNetImage mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         make.centerX.equalTo(strongSelf.view);
-        make.bottom.equalTo(copyRightLabel.mas_top).with.offset(-10);
+        make.bottom.equalTo(copyRightLabel.mas_top).with.offset(-18);
     }];
     
 }

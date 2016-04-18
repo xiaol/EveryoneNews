@@ -112,10 +112,10 @@ CGSize const kAvatarImageViewSize1 = {70,70};
     [self.view addSubview:self.userNameLabel];
     [self.userNameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
-        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:strongSelf.userNameLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.f]}];
+        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:strongSelf.userNameLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:36.f/2.2639]}];
         make.size.mas_equalTo(CGSizeMake(ceilf(attStr.size.width)+10, ceilf(attStr.size.height)));
         make.centerX.mas_equalTo(strongSelf.view);
-        make.top.mas_equalTo(avatarBGImg.mas_bottom).with.offset(10);
+        make.top.mas_equalTo(avatarBGImg.mas_bottom).with.offset(18);
     }];
 
     UIButton *backBtn = [[UIButton alloc] init];
@@ -142,13 +142,13 @@ CGSize const kAvatarImageViewSize1 = {70,70};
     
     UILabel *noticeLabel = [[UILabel alloc] init];
     noticeLabel.text = @"正在建设中，请移步";
-    noticeLabel.font = [UIFont systemFontOfSize:17.f];
+    noticeLabel.font = [UIFont systemFontOfSize:32.f/2.2639];
     noticeLabel.textColor = [UIColor colorWithDesignIndex:5];
     [self.view addSubview:noticeLabel];
     [noticeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         make.centerX.equalTo(strongSelf.view);
-        make.top.equalTo(noticeImg.mas_bottom).with.offset(20);
+        make.top.equalTo(noticeImg.mas_bottom).with.offset(21);
         
     }];
 }
@@ -174,7 +174,7 @@ CGSize const kAvatarImageViewSize1 = {70,70};
         _avatarImageView = avatarImageView;
         
         if (account == nil) {
-            avatarImageView.image = [LPNewsAssistant imageWithContentsOfFile:@"LP_icon"];
+            avatarImageView.image = [UIImage imageNamed:@"LP_icon"];
         }else{
             __weak typeof(self) weakSelf = self;
             [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:account.userIcon] options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
@@ -198,7 +198,7 @@ CGSize const kAvatarImageViewSize1 = {70,70};
         }
         userNameLabel.textAlignment = NSTextAlignmentCenter;
         userNameLabel.textColor = [UIColor whiteColor];
-        userNameLabel.font = [UIFont boldSystemFontOfSize:16.f];
+        userNameLabel.font = [UIFont boldSystemFontOfSize:36.f/2.2639];
         _userNameLabel = userNameLabel;
     }
     return _userNameLabel;
