@@ -136,6 +136,9 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     MainNavigationController *mainNavVc = [[MainNavigationController alloc] initWithRootViewController:mainVc];
     self.window.rootViewController = mainNavVc;
     
+    [[UINavigationBar appearance]  setBackgroundImage:[[UIImage alloc] init] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
+    [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
+    
     // 4. 显示窗口（成为主窗口）
     [self.window makeKeyAndVisible];
     // 5. 监控网络状态
@@ -173,6 +176,8 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     return YES;
 }
 
+
+
 - (void)networkChange:(NSNotification *)note {
     NSDictionary *info = note.userInfo;
     NSNumber *changeItem = info[AFNetworkingReachabilityNotificationStatusItem];
@@ -193,11 +198,20 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     }
 }
 
+- (void)application:(UIApplication*)application didRegisterUserNotificationSettings:(nonnull UIUserNotificationSettings *)notificationSettings{
+    
+    
+}
+
+
+
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
 //    NSLog(@"%@",[[[[deviceToken description] stringByReplacingOccurrencesOfString: @"<" withString: @""]
 //                  stringByReplacingOccurrencesOfString: @">" withString: @""]
 //                 stringByReplacingOccurrencesOfString: @" " withString: @""]);
+    
+    
     [UMessage registerDeviceToken:deviceToken];
 }
 
@@ -207,7 +221,7 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-   // NSLog(@"注册推送服务时，发生以下错误： %@",error);
+    NSLog(@"注册推送服务时，发生以下错误： %@",error);
 }
 
 

@@ -11,7 +11,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface LPNewsPrivacyItemsController(){
+@interface LPNewsPrivacyItemsController()<UIWebViewDelegate>{
     UIWebView *webView;
 }
 
@@ -73,6 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
         webView = [[UIWebView alloc] init];
     }
     [self.view addSubview:webView];
+    webView.delegate = self;
     __weak __typeof(self)weakSelf = self;
     [webView mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
@@ -88,6 +89,23 @@ NS_ASSUME_NONNULL_BEGIN
     NSURL *baseURL = [NSURL fileURLWithPath:basePath];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:path relativeToURL:baseURL] cachePolicy:NSURLRequestReloadIgnoringLocalAndRemoteCacheData timeoutInterval:60.f];
     [webView loadRequest:request];
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+}
+
+#pragma mark- UIWebViewDelegate
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+    
+    return YES;
+}
+
+- (void)webViewDidStartLoad:(UIWebView *)webView{
+    
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView{
+    [MBProgressHUD hideAllHUDsForView:self.view animated:YES];
 }
 
 @end

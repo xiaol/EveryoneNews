@@ -61,6 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithDesignIndex:9];
     [self backItem:@"取消"];
+    
     [self setNavTitleView:@"奇点资讯"];
     [self addContent];
 }
@@ -126,11 +127,11 @@ NS_ASSUME_NONNULL_BEGIN
     weixinLabel.text = @"微信登录";
     weixinLabel.textAlignment = NSTextAlignmentCenter;
     weixinLabel.textColor = [UIColor colorWithDesignIndex:1];
-    weixinLabel.font = [UIFont boldSystemFontOfSize:18.f];
+    weixinLabel.font = [UIFont boldSystemFontOfSize:32.f/2.2639];
     [self.view addSubview:weixinLabel];
     [weixinLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakWinxinBtn)strongWenxinBtn = weakWinxinBtn;
-        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:weixinLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.f]}];
+        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:weixinLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:32.f/2.2639]}];
         make.size.mas_equalTo(CGSizeMake(ceilf(attStr.size.width), ceilf(attStr.size.height)));
         make.centerX.equalTo(strongWenxinBtn.mas_centerX);
         make.top.mas_equalTo(strongWenxinBtn.mas_bottom).with.offset(14);
@@ -141,11 +142,11 @@ NS_ASSUME_NONNULL_BEGIN
     weiboLabel.text = @"微博登录";
     weiboLabel.textAlignment = NSTextAlignmentCenter;
     weiboLabel.textColor = [UIColor colorWithDesignIndex:1];
-    weiboLabel.font = [UIFont boldSystemFontOfSize:18.f];
+    weiboLabel.font = [UIFont boldSystemFontOfSize:32.f/2.2639];
     [self.view addSubview:weiboLabel];
     [weiboLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakWeiboBtn)strongWeiboBtn = weakWeiboBtn;
-        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:weixinLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18.f]}];
+        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:weixinLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:32.f/2.2639]}];
         make.size.mas_equalTo(CGSizeMake(ceilf(attStr.size.width), ceilf(attStr.size.height)));
         make.centerX.equalTo(strongWeiboBtn.mas_centerX);
         make.top.mas_equalTo(strongWeiboBtn.mas_bottom).with.offset(14);
@@ -156,18 +157,18 @@ NS_ASSUME_NONNULL_BEGIN
     settingLabel.text = @"设置";
     settingLabel.textAlignment = NSTextAlignmentCenter;
     settingLabel.textColor = [UIColor colorWithDesignIndex:1];
-    settingLabel.font = [UIFont boldSystemFontOfSize:15.f];
+    settingLabel.font = [UIFont boldSystemFontOfSize:28.f/2.2639];
     [self.view addSubview:settingLabel];
     [settingLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
-        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:settingLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15.f]}];
+        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:settingLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:28.f/2.2639]}];
         make.size.mas_equalTo(CGSizeMake(ceilf(attStr.size.width), ceilf(attStr.size.height)));
         make.centerX.equalTo(strongSelf.view);
         make.bottom.mas_equalTo(strongSelf.view.mas_bottom).with.offset(-24);
     }];
     
     settingBtn = [[UIButton alloc] init];
-    [settingBtn setImage:[LPNewsAssistant imageWithContentsOfFile:@"User_setting"] forState:UIControlStateNormal];
+    [settingBtn setImage:[UIImage imageNamed:@"User_setting"] forState:UIControlStateNormal];
     [settingBtn addTarget:self action:@selector(gotoSettingView) forControlEvents:UIControlEventTouchUpInside];
     settingBtn.enlargedEdge = 10;
     [self.view addSubview:settingBtn];

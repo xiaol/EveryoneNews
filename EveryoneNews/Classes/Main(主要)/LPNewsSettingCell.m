@@ -10,10 +10,11 @@
 #import "Account.h"
 #import "AccountTool.h"
 #import "LPFontSizeManager.h"
+#import "AppDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-#define kTextFont [UIFont systemFontOfSize:16.f]
+#define kTextFont [UIFont systemFontOfSize:36.f/2.2639]
 
 @implementation LPNewsSettingCell{
     
@@ -21,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
     UILabel *textLabel;
     UIImageView *rightImageView;
     UILabel *signOutLabel;
-    
+    CALayer *lineLayer;
 }
 
 - (nonnull instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(nullable NSString *)reuseIdentifier{
@@ -43,14 +44,14 @@ NS_ASSUME_NONNULL_BEGIN
         
         signOutLabel = [[UILabel alloc] init];
         [self.contentView addSubview:signOutLabel];
-        signOutLabel.font = [UIFont systemFontOfSize:20.f];
+        signOutLabel.font = kTextFont;
         signOutLabel.textColor = [UIColor colorWithDesignIndex:2];
         signOutLabel.backgroundColor = self.backgroundColor;
         signOutLabel.textAlignment = NSTextAlignmentCenter;
         
         
-        CGRect lineLayerRect = CGRectMake(0.f, kSetingCellHeight-1.f, kApplecationScreenWidth, 1.f);
-        CALayer *lineLayer = [CALayer layer];
+        CGRect lineLayerRect = CGRectMake(59.f, kSetingCellHeight-1.f, kApplecationScreenWidth-59.f, 1.f);
+        lineLayer = [CALayer layer];
         lineLayer.frame = lineLayerRect;
         lineLayer.backgroundColor = [[UIColor colorWithDesignIndex:5] CGColor];
         [self.contentView.layer addSublayer:lineLayer];
@@ -72,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 
-static const CGFloat kLeftMargin = 23.f;
+static const CGFloat kLeftMargin = 14.f;
 
 - (void)setModel:(nonnull id)model IndexPath:(NSIndexPath *)indexPath {
     
@@ -82,9 +83,9 @@ static const CGFloat kLeftMargin = 23.f;
         NSDictionary *dict = (NSDictionary *)model;
         NSString *keyStr = [dict.allKeys objectAtIndex:0];
         if (indexPath.section != 3) {
-            leftImageView.image = [LPNewsAssistant imageWithContentsOfFile:[NSString stringWithFormat:@"%@",keyStr]];
+            leftImageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@",keyStr]];
             textLabel.text = [dict.allValues objectAtIndex:0];
-        
+            
             [leftImageView mas_updateConstraints:^(MASConstraintMaker *make) {
                 __strong __typeof(weakSelf)strongSelf = weakSelf;
                 __strong __typeof(weakLeftImageView)strongLeftImageView = weakLeftImageView;
@@ -127,7 +128,7 @@ static const CGFloat kLeftMargin = 23.f;
         
         if (indexPath.section == 2) {
             __weak __typeof(rightImageView)weakRightImageView = rightImageView;
-            rightImageView.image = [LPNewsAssistant imageWithContentsOfFile:@"DoubleArrow"];
+            rightImageView.image = [UIImage imageNamed:@"DoubleArrow"];
             [rightImageView mas_updateConstraints:^(MASConstraintMaker *make) {
                 __strong __typeof(weakSelf)strongSelf = weakSelf;
                 __strong __typeof(weakRightImageView)strongRightImageView = weakRightImageView;
@@ -147,7 +148,7 @@ static const CGFloat kLeftMargin = 23.f;
                     make.right.mas_equalTo(@(-14));
                     make.size.mas_equalTo(CGSizeMake(51.f*3, 36.f));
                 }];
-               [self.fontSizeCtrBtn addTarget:self action:@selector(modifyTextFontSize:) forControlEvents:(UIControlEventValueChanged)];
+                [self.fontSizeCtrBtn addTarget:self action:@selector(modifyTextFontSize:) forControlEvents:(UIControlEventValueChanged)];
             }else{
                 [rightImageView removeFromSuperview];
                 [self.contentView addSubview:self.infoPushSwitchBtn];
@@ -160,6 +161,29 @@ static const CGFloat kLeftMargin = 23.f;
                 [self.infoPushSwitchBtn addTarget:self action:@selector(changeInfoPushStatus:) forControlEvents:UIControlEventValueChanged];
             }
         }
+        if (indexPath.section == 0 && indexPath.row == 1) {
+            
+            CGRect lineLayerRect = CGRectMake(0, kSetingCellHeight-1.f, kApplecationScreenWidth, 1.f);
+            lineLayer.frame = lineLayerRect;
+        }
+        
+        if (indexPath.section == 1) {
+            
+            CGRect lineLayerRect = CGRectMake(0, kSetingCellHeight-1.f, kApplecationScreenWidth, 1.f);
+            lineLayer.frame = lineLayerRect;
+        }
+        
+        if (indexPath.section == 2 && indexPath.row == 2) {
+            
+            CGRect lineLayerRect = CGRectMake(0, kSetingCellHeight-1.f, kApplecationScreenWidth, 1.f);
+            lineLayer.frame = lineLayerRect;
+        }
+        
+        if (indexPath.section == 3) {
+            
+            CGRect lineLayerRect = CGRectMake(0, kSetingCellHeight-1.f, kApplecationScreenWidth, 1.f);
+            lineLayer.frame = lineLayerRect;
+        }
     }
 }
 
@@ -167,10 +191,10 @@ static const CGFloat kLeftMargin = 23.f;
 
 - (void)modifyTextFontSize:(UISegmentedControl *)sender{
     
-//    [noteCenter addObserver:<#(nonnull id)#> selector:<#(nonnull SEL)#> name:<#(nullable NSString *)#> object:<#(nullable id)#>];
+    //    [noteCenter addObserver:<#(nonnull id)#> selector:<#(nonnull SEL)#> name:<#(nullable NSString *)#> object:<#(nullable id)#>];
     
     
-//    NSLog(@"------index:%ld",(long)sender.selectedSegmentIndex);
+    //    NSLog(@"------index:%ld",(long)sender.selectedSegmentIndex);
     
     NSInteger fontSize;
     NSString  *fontSizeType;
@@ -180,20 +204,20 @@ static const CGFloat kLeftMargin = 23.f;
     NSInteger currentDetailRelatePointFontSize;
     
     if (sender.selectedSegmentIndex == 0) {
-                fontSize =  LPFontSize16;
-                currentDetailContentFontSize = LPFontSize18;
-                currentDetaiTitleFontSize  = LPFontSize23;
-                currentDetailCommentFontSize = LPFontSize16;
-                currentDetailRelatePointFontSize = LPFontSize14;
-    
-            if (iPhone6Plus) {
-    
-                fontSize =  LPFontSize18;
-                currentDetailContentFontSize = LPFontSize20;
-                currentDetaiTitleFontSize  = LPFontSize23;
-                currentDetailCommentFontSize = LPFontSize16;
-                currentDetailRelatePointFontSize = LPFontSize14;
-            }
+        fontSize =  LPFontSize16;
+        currentDetailContentFontSize = LPFontSize18;
+        currentDetaiTitleFontSize  = LPFontSize23;
+        currentDetailCommentFontSize = LPFontSize16;
+        currentDetailRelatePointFontSize = LPFontSize14;
+        
+        if (iPhone6Plus) {
+            
+            fontSize =  LPFontSize18;
+            currentDetailContentFontSize = LPFontSize20;
+            currentDetaiTitleFontSize  = LPFontSize23;
+            currentDetailCommentFontSize = LPFontSize16;
+            currentDetailRelatePointFontSize = LPFontSize14;
+        }
         fontSizeType = @"standard";
         
     } else if (sender.selectedSegmentIndex == 1) {
@@ -212,7 +236,7 @@ static const CGFloat kLeftMargin = 23.f;
             currentDetailRelatePointFontSize = LPFontSize15;
         }
         fontSizeType = @"larger";
-          // 字体标准   standard / larger/ superlarger
+        // 字体标准   standard / larger/ superlarger
         
     } else if (sender.selectedSegmentIndex == 2) {
         fontSize =  LPFontSize20;
@@ -249,7 +273,29 @@ static const CGFloat kLeftMargin = 23.f;
 }
 
 - (void)changeInfoPushStatus:(UISwitch *)sender{
-    NSLog(@"index:%ld",(long)sender.on);
+    if (sender.on) {
+//        UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+//        UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+//        
+//        [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+//        
+//        [[UIApplication sharedApplication] registerForRemoteNotifications];
+        
+        NSURL *urlStr = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+        if ([[UIApplication sharedApplication] canOpenURL:urlStr]) {
+            [[UIApplication sharedApplication] openURL:urlStr];
+        }
+        
+        NSLog(@"打开推送");
+    }else{
+//        [[UIApplication sharedApplication] unregisterForRemoteNotifications];
+        NSLog(@"关闭推送");
+        
+        NSURL *urlStr = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+        if ([[UIApplication sharedApplication] canOpenURL:urlStr]) {
+            [[UIApplication sharedApplication] openURL:urlStr];
+        }
+    }
 }
 
 - (void)setSelected:(BOOL)selected{
@@ -267,18 +313,17 @@ static const CGFloat kLeftMargin = 23.f;
         
         NSString *fontSizeType = [LPFontSizeManager sharedManager].currentHomeViewFontSizeType;
         if ([fontSizeType isEqualToString:@"standard"]) {
-           btn.selectedSegmentIndex = 0;
+            btn.selectedSegmentIndex = 0;
         } else if ([fontSizeType isEqualToString:@"larger"]) {
-           btn.selectedSegmentIndex = 1;
+            btn.selectedSegmentIndex = 1;
         } else if ([fontSizeType isEqualToString:@"superlarger"]) {
-           btn.selectedSegmentIndex = 2;
+            btn.selectedSegmentIndex = 2;
         }
-
         
-        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor redColor],UITextAttributeTextColor,[UIFont fontWithName:@"Helvetica" size:16.f],UITextAttributeFont,nil];
+        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor redColor],NSForegroundColorAttributeName,[UIFont fontWithName:@"Helvetica" size:16.f],NSFontAttributeName,nil];
         [btn setTitleTextAttributes:dic forState:UIControlStateSelected];
         
-        NSDictionary *dic1 = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor],UITextAttributeTextColor,[UIFont fontWithName:@"Helvetica" size:16.f],UITextAttributeFont,nil];
+        NSDictionary *dic1 = [NSDictionary dictionaryWithObjectsAndKeys:[UIColor blackColor],NSForegroundColorAttributeName,[UIFont fontWithName:@"Helvetica" size:16.f],NSFontAttributeName,nil];
         [btn setTitleTextAttributes:dic1 forState:UIControlStateNormal];
         _fontSizeCtrBtn = btn;
     }
@@ -289,6 +334,12 @@ static const CGFloat kLeftMargin = 23.f;
     if (!_infoPushSwitchBtn) {
         UISwitch *btn = [[UISwitch alloc] init];
         _infoPushSwitchBtn = btn;
+    }
+    [_infoPushSwitchBtn setOn:NO];
+    
+    if ([[UIApplication sharedApplication] currentUserNotificationSettings].types !=UIUserNotificationTypeNone){
+        
+        [_infoPushSwitchBtn setOn:YES];
     }
     return _infoPushSwitchBtn;
 }

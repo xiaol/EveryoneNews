@@ -8,7 +8,7 @@
 
 #import "LPNewsBaseTableViewCell.h"
 
-static const CGFloat kMineViewCellHeight = 48.f;
+static const CGFloat kMineViewCellHeight = 58.f;
 
 @interface LPNewsMineViewCell : LPNewsBaseTableViewCell
 

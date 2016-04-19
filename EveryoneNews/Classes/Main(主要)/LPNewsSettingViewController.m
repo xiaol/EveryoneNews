@@ -16,16 +16,18 @@
 #import "MainNavigationController.h"
 #import "LPNewsPrivacyItemsController.h"
 #import "LPNewsAboutViewController.h"
-#import "LPNewsAppStoreCommentView.h"
-
+#import "AppDelegate.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 static NSString * const kCellIdentify = @"JoySettingCell";
 
-@interface LPNewsSettingViewController ()<UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate>
+@interface LPNewsSettingViewController ()<UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate>{
+    UIImageView *clearCacheView;
+}
 @property (nonatomic, strong) UITableView* tableView;
-@property(nonatomic, strong, nullable) NSArray *dataSource;
+@property (nonatomic, strong, nullable) NSArray *dataSource;
+@property (nonatomic, strong)UIWindow * statusWindow;
 @end
 
 @implementation LPNewsSettingViewController
@@ -52,9 +54,14 @@ static NSString * const kCellIdentify = @"JoySettingCell";
     [self setNavTitleView:@"设置"];
     [self backImageItem];
     
+    CGRect lineLayerRect = CGRectMake(0.f, (self.navigationController.navigationBar.size.height-1.f), kApplecationScreenWidth, 0.5f);
+    CALayer *lineLayer = [CALayer layer];
+    lineLayer.frame = lineLayerRect;
+    lineLayer.backgroundColor = [[UIColor colorWithDesignIndex:5] CGColor];
+    [self.navigationController.navigationBar.layer addSublayer:lineLayer];
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithDesignIndex:9];
     self.navigationController.navigationBar.translucent = NO;
-
+    
     [self.view addSubview:self.tableView];
     __weak typeof(self)weakSelf = self;
     [self.tableView mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -67,6 +74,7 @@ static NSString * const kCellIdentify = @"JoySettingCell";
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+ 
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -79,6 +87,7 @@ static NSString * const kCellIdentify = @"JoySettingCell";
 
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
+    
 }
 
 - (void)didReceiveMemoryWarning{
@@ -126,10 +135,28 @@ static NSString * const kCellIdentify = @"JoySettingCell";
     return 18.f;
 }
 
+- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIImageView *view = [[UIImageView alloc] init];
+    view.frame = CGRectMake(0, 0, kApplecationScreenWidth, 18.f);
+    view.backgroundColor = [UIColor colorWithDesignIndex:9];
+    
+    UIImageView *separatorLineDown = [[UIImageView alloc] init];
+    separatorLineDown.backgroundColor = [UIColor colorWithDesignIndex:5];
+    [view addSubview:separatorLineDown];
+    [separatorLineDown mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(view.mas_bottom).offset(-0.5f);
+        make.width.mas_equalTo(kApplecationScreenWidth);
+        make.height.mas_equalTo(0.5);
+    }];
+    
+    return view;
+}
+
 - (void)tableView:(nonnull UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     if (indexPath.section == 1) {
-        
-        NSLog(@"清除缓存");
+
+        [self clearSuccStatusBarNoticeAction];
         
     }else if (indexPath.section == 2){
         if (indexPath.row == 0) {
@@ -143,10 +170,10 @@ static NSString * const kCellIdentify = @"JoySettingCell";
             [self.navigationController pushViewController:priView animated:YES];
             
         }else{
-            
-            LPNewsAppStoreCommentView *appStroeCommView = [[LPNewsAppStoreCommentView alloc] init];
-            [self.navigationController pushViewController:appStroeCommView animated:YES];
-            
+
+            NSString *str = @"itms-apps://itunes.apple.com/cn/app/qi-dian-zi-xun/id987333155?l=en&mt=8";
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+        
         }
     }else if (indexPath.section ==3){
         
@@ -183,8 +210,52 @@ static NSString * const kCellIdentify = @"JoySettingCell";
 
 #pragma mark- private methods
 
+- (void)clearSuccStatusBarNoticeAction{
+  
+    self.statusWindow = [[UIWindow alloc] initWithFrame:[UIApplication sharedApplication].statusBarFrame];
+    [self.statusWindow setWindowLevel:UIWindowLevelAlert + 1];
+    [self.statusWindow setBackgroundColor:[UIColor clearColor]];
+    
+    clearCacheView = [[UIImageView alloc] initWithFrame:[UIApplication sharedApplication].statusBarFrame];
+    clearCacheView.backgroundColor = [UIColor blackColor];
+    
+    UIImageView *clearSucc = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ClearSucc"]];
+    [clearSucc setFrame:CGRectMake(12, 3, clearSucc.image.size.width, clearSucc.image.size.height)];
+    [clearCacheView addSubview:clearSucc];
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12+10+clearSucc.image.size.width, 0, 200, 20)];
+    label.text = @"清理缓存成功";
+    label.textAlignment = NSTextAlignmentLeft;
+    label.font = [UIFont systemFontOfSize:28.f/2.2639];
+    label.textColor = [UIColor whiteColor];
+    [clearCacheView addSubview:label];
+    //动画
+    CGRect startFrame = clearCacheView.frame;
+    CGRect endFrame = startFrame;
+    startFrame.origin.y = -startFrame.size.height;
+    clearCacheView.frame = startFrame;
+    [UIView animateWithDuration:0.6 delay:0 options:(UIViewAnimationOptionCurveEaseIn) animations:^{
+        clearCacheView.frame = endFrame;
+        
+    } completion:^(BOOL finished) {
+        [NSThread detachNewThreadSelector:@selector(countDownAction) toTarget:self withObject:nil];
+    }];
+    [self.statusWindow setHidden:NO];
+    [self.statusWindow setAlpha:1.0f];
+    [self.statusWindow addSubview:clearCacheView];
+    [self.statusWindow makeKeyAndVisible];
+}
 
+- (void)countDownAction{
+    
+    [NSThread sleepForTimeInterval:2];
+    [self performSelectorOnMainThread:@selector(updateUI) withObject:nil waitUntilDone:NO];
+}
 
+-(void)updateUI{
+    
+    [clearCacheView removeFromSuperview];
+}
 
 #pragma mark- Getters and Setters
 
