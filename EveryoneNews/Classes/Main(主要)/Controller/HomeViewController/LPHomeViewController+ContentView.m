@@ -61,7 +61,6 @@ NSString *const reusePageID = @"reusePageID";
                 [self.pagingView reloadData];
             }
         }];
-
     }
 }
 
@@ -93,7 +92,7 @@ NSString *const reusePageID = @"reusePageID";
 
 
 - (void)pagingView:(LPPagingView *)pagingView didScrollToPageIndex:(NSInteger)pageIndex {
-    
+
     // 获取频道相关信息
     LPChannelItem *channelItem = self.selectedArray[pageIndex];
     // 设置选中频道名称
@@ -106,13 +105,12 @@ NSString *const reusePageID = @"reusePageID";
     NSDate *lastAccessDate = channelItem.lastAccessDate;
     
     if (lastAccessDate == nil) {
-        [self showLoadingView];
         channelItem.lastAccessDate = currentDate;
     }
     // 加载当前频道数据
     [self channelItemDidAddToCoreData:pageIndex];
+    
     LPPagingViewPage *page = (LPPagingViewPage *)[pagingView currentPage];
-   
     // 每隔5分钟执行自动刷新
     if (lastAccessDate != nil) {
          int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
@@ -155,21 +153,7 @@ NSString *const reusePageID = @"reusePageID";
     self.contentLoadingView.hidden = YES;
 }
 
-
-#pragma mark - 重新加载提示
-//- (void)reloadIndictorShow {
-////    self.backgroundView.hidden = NO;
-////    
-////    [self.indictorView stopAnimating];
-////    self.loadLabel.hidden = YES;
-////    
-////    self.loadImageView.hidden = NO;
-////    self.noDataLabel.hidden = NO;
-////    self.backgroundImageView.hidden = YES;
-//    
-//}
-
-#pragma mark - 当前频道内容首次存入CoreData
+#pragma mark - 判断本地是否有数据 没有就请求网络 然后存入数据库
 - (void)channelItemDidAddToCoreData:(NSInteger)pageIndex {
     LPChannelItem *channelItem = self.pageindexMapToChannelItemDictionary[@(pageIndex)];
     CardParam *param = [[CardParam alloc] init];
@@ -180,8 +164,10 @@ NSString *const reusePageID = @"reusePageID";
     [Card fetchCardsWithCardParam:param cardsArrayBlock:^(NSArray *cardsArray) {
         NSArray *cards = cardsArray;
         if (cards.count == 0) {
-//            [self loadIndictorShow];
+            [self showLoadingView];
             [self loadMoreDataInPageAtPageIndex:pageIndex];
+        } else {
+            [self hideLoadingView];
         }
     }];
     
@@ -197,17 +183,20 @@ NSString *const reusePageID = @"reusePageID";
     param.channelID = channelItem.channelID;
     NSMutableArray *cfs = [NSMutableArray array];
     [CardTool cardsWithParam:param channelID:channelItem.channelID success:^(NSArray *cards) {
-        [self hideLoadingView];
         for (Card *card in cards) {
             CardFrame *cf = [[CardFrame alloc] init];
             cf.card = card;
             [cfs addObject:cf];
         }
+        if (cfs.count > 0) {
+            [self hideLoadingView];
+        }
         [self.channelItemDictionary setObject:cfs forKey:channelItem.channelName];
         [self.pagingView reloadData];
     } failure:^(NSError *error) {
-       // NSLog(@"%@", error);
-       // [self reloadIndictorShow];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self hideLoadingView];
+        });
     }];
 }
 

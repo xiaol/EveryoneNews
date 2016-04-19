@@ -9,6 +9,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "GenieAnimation.h"
 #import "DigButton.h"
+#import "NSString+LP.h"
 
 static const CGFloat presentDuration = 0.45;
 static const CGFloat dismissDuration = 0.5;
@@ -141,12 +142,14 @@ static LPPoint bezierAxisIntersection(LPBezierCurve curve, LPAxis axis, CGFloat 
     
     CGFloat diggerRadius = DigButtonWidth / 2;
     
-    CGFloat diggerRectY = ScreenHeight - DigButtonPadding - diggerRadius;
+    CGFloat diggerRectY  = ScreenHeight - [@"123" heightForLineWithFont:[UIFont systemFontOfSize:13]] + 23;
     
-    if (iPhone6Plus) {
-           diggerRectY = ScreenHeight - 2 * DigButtonPadding - diggerRadius;
-    }
-    
+//    CGFloat diggerRectY = ScreenHeight - DigButtonPadding - diggerRadius;
+//    
+//    if (iPhone6Plus) {
+//           diggerRectY = ScreenHeight - 2 * DigButtonPadding - diggerRadius;
+//    }
+//    
     
     CGRect diggerRect = CGRectMake(DigButtonPadding + diggerRadius * 0.4, diggerRectY, diggerRadius * 0.6 * 2, diggerRadius * 0.8);
    
@@ -169,21 +172,7 @@ static LPPoint bezierAxisIntersection(LPBezierCurve curve, LPAxis axis, CGFloat 
         fromView.frame = vcRect;
         [self transitionWithView:fromView duration:dismissDuration destRect:diggerRect reverse:NO];
     }
-    
-//    if (self.type == ModalTypePresent) {
-//        UIView *toView = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey].view;
-//        
-//        [containerView addSubview:toView];
-//        
-//        toView.frame = vcRect;
-//        
-//        [self transitionWithView:toView duration:presentDuration destRect:diggerRect reverse:YES];
-//    } else if (self.type == ModalTypeDismiss) {
-//         UIView *fromView = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey].view;
-////        fromView.transform = CGAffineTransformMakeTranslation(0, originY);
-//        fromView.frame = vcRect;
-//        [self transitionWithView:fromView duration:dismissDuration destRect:diggerRect reverse:NO];
-//    }
+
 }
 
 
@@ -225,15 +214,22 @@ static LPPoint bezierAxisIntersection(LPBezierCurve curve, LPAxis axis, CGFloat 
     [self.containerView insertSubview:hud belowSubview:view];
     __block DigButton *btn = [[DigButton alloc] init];
     [self.containerView addSubview:btn];
-    btn.x = DigButtonPadding;
-    btn.y = ScreenHeight - DigButtonPadding - DigButtonHeight;
     
-    if (iPhone6Plus) {
-        btn.y = ScreenHeight - 2 * DigButtonPadding - DigButtonHeight;
-    }
     
+    
+    
+//    btn.x = DigButtonPadding + 100;
+//    btn.y = ScreenHeight - DigButtonPadding - DigButtonHeight;
+//    
+//    if (iPhone6Plus) {
+//        btn.y = ScreenHeight - 2 * DigButtonPadding - DigButtonHeight;
+//    }
+//    
+    btn.x = (ScreenWidth - 73 - DigButtonWidth * 2) / 2;
+    btn.y  = ScreenHeight - [@"123" heightForLineWithFont:[UIFont systemFontOfSize:13]]  - 24 - DigButtonHeight;
     btn.width = DigButtonWidth;
     btn.height = DigButtonHeight;
+    btn.enlargedEdge = 10.0f;
     btn.layer.cornerRadius = btn.width / 2;
     btn.alpha = 0.9;
     [self.containerView bringSubviewToFront:btn];

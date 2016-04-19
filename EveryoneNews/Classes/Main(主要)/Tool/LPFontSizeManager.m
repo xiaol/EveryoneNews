@@ -27,7 +27,7 @@
         if (![userDefaults objectForKey:@"homeViewFontSize"]) {
             
         if (iPhone6Plus) {
-                _currentHomeViewFontSize = LPFontSize18;
+                _currentHomeViewFontSize = LPFontSize19;
                 _currentDetailContentFontSize = LPFontSize20;
                 _currentDetaiTitleFontSize = LPFontSize23;
                 _currentDetailCommentFontSize = LPFontSize16;

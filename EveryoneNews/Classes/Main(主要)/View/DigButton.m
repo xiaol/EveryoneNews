@@ -8,8 +8,8 @@
 
 #import "DigButton.h"
 
-const CGFloat DigButtonWidth = 40;
-const CGFloat DigButtonHeight = 40;
+const CGFloat DigButtonWidth = 26;
+const CGFloat DigButtonHeight = 26;
 const CGFloat DigButtonPadding = 15;
 
 @implementation DigButton
@@ -25,14 +25,16 @@ const CGFloat DigButtonPadding = 15;
 
 - (instancetype)init {
     if (self = [super init]) {
-        self.backgroundColor = [UIColor colorFromHexString:@"#000000" alpha:0.75];
-        [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [self setTitle:@"订" forState:UIControlStateNormal];
-        self.titleLabel.font = [UIFont systemFontOfSize:16];
-        self.layer.shadowRadius = 1;
-        self.layer.shadowColor = [UIColor whiteColor].CGColor;
-        self.layer.shadowOffset = CGSizeMake(0, 0);
-        self.layer.shadowOpacity = 1.0;
+        [self setImage:[UIImage imageNamed:@"一订"] forState:UIControlStateNormal];
+        
+//        self.backgroundColor = [UIColor colorFromHexString:@"#000000" alpha:0.75];
+//        [self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//        [self setTitle:@"订" forState:UIControlStateNormal];
+//        self.titleLabel.font = [UIFont systemFontOfSize:16];
+//        self.layer.shadowRadius = 1;
+//        self.layer.shadowColor = [UIColor whiteColor].CGColor;
+//        self.layer.shadowOffset = CGSizeMake(0, 0);
+//        self.layer.shadowOpacity = 1.0;
     }
     return self;
 }

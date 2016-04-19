@@ -14,8 +14,8 @@
 #import <objc/runtime.h>
 #import "Card+Fetch.h"
 
-@implementation Card (Create)
 
+@implementation Card (Create)
 
 + (void)createCardsWithDictArray:(NSArray *)dicts
                     channelID:(NSString *)channelID cardsArrayBlock:(cardsArrayBlock)cardsArrayBlock {
@@ -23,6 +23,7 @@
     [cdh.importContext performBlock:^{
         NSMutableArray *cards = [NSMutableArray array];
         for (NSDictionary *dict in dicts) {
+
             Card *card = [self createCardWithDict:dict channelID:channelID inManagedObjectContext:cdh.importContext];
             [cards addObject:card];
         }
@@ -39,27 +40,41 @@
 
 + (Card *)createCardWithDict:(NSDictionary *)dict channelID:(NSString *)channelID
       inManagedObjectContext:(NSManagedObjectContext *)context {
+
     Card *card = nil;
-    card = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:context];
-    [context obtainPermanentIDsForObjects:@[card] error:nil];
-    card.newId = [[dict[@"url"] stringByBase64Encoding] stringByTrimmingString:@"="];
-    card.title = dict[@"title"];
-    card.sourceSiteURL = dict[@"pubUrl"];
-    card.sourceSiteName = dict[@"pubName"];
-    card.updateTime = [NSString stringWithFormat:@"%lld", (long long)([dict[@"pubTime"] timestampWithDateFormat:@"YYYY-MM-dd HH:mm:ss"] * 1000)];
-    // 热点频道存入数据库需要更新当前频道编号
-    card.channelId = ([channelID  isEqual: @"1"] ? @(1):dict[@"channelId"]);
-    card.type = dict[@"imgStyle"];
-    card.docId = dict[@"docid"];
-    card.commentsCount = dict[@"commentsCount"];
+    // 判断本地种是否有相同的newId, 有就不做添加操作
+    NSFetchRequest *fetch = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Card" inManagedObjectContext:context];
+    [fetch setEntity:entityDescription];
+    NSString *newId = [[dict[@"url"] stringByBase64Encoding] stringByTrimmingString:@"="];
+    [fetch setPredicate:[NSPredicate predicateWithFormat:@"newId = %@ and channelId = %@",newId, channelID]];
     
+    NSError * error = nil;
+    NSArray *fetchedObjects;
+    fetchedObjects = [context executeFetchRequest:fetch error:&error];
     
-//    [CardRelate createCardRelatesWithDictArray:dict[@"relatePointsList"]
-//                                          card:card
-//                        inManagedObjectContext:context];
-    [CardImage createCardImagesWithURLArray:dict[@"imgList"]
-                                       card:card
-                     inManagedObjectContext:context];
+    if ([fetchedObjects count] == 0 ) {
+        card = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:context];
+        [context obtainPermanentIDsForObjects:@[card] error:nil];
+        card.newId = newId;
+        card.title = dict[@"title"];
+        card.sourceSiteURL = dict[@"pubUrl"];
+        card.sourceSiteName = dict[@"pubName"];
+        card.updateTime = [NSString stringWithFormat:@"%lld", (long long)([dict[@"pubTime"] timestampWithDateFormat:@"YYYY-MM-dd HH:mm:ss"] * 1000)];
+        // 热点频道存入数据库需要更新当前频道编号
+        card.channelId = ([channelID  isEqual: @"1"] ? @(1):dict[@"channelId"]);
+        card.type = dict[@"imgStyle"];
+        card.docId = dict[@"docid"];
+        card.commentsCount = dict[@"commentsCount"];
+        //    [CardRelate createCardRelatesWithDictArray:dict[@"relatePointsList"]
+        //                                          card:card
+        //                        inManagedObjectContext:context];
+        [CardImage createCardImagesWithURLArray:dict[@"imgList"]
+                                           card:card
+                         inManagedObjectContext:context];
+    } else {
+        card = [fetchedObjects objectAtIndex:0];
+    }
     return card;
 }
 

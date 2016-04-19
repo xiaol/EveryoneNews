@@ -16,6 +16,7 @@
     return [self boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin attributes:attrs context:nil].size;
 }
 
+
 - (CGFloat)heightForLineWithFont:(UIFont *)font
 {
     return [self boundingRectWithSize:CGSizeMake(MAXFLOAT, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : font} context:nil].size.height;
@@ -47,6 +48,20 @@
     [string addAttribute:NSParagraphStyleAttributeName value:style range:range];
     return string;
 }
+
+- (NSMutableAttributedString *)attributedStringWithFont:(UIFont *)font lineSpacing:(CGFloat)lineSpacing {
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:self];
+    NSRange range = NSMakeRange(0, self.length);
+    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+    
+//    style.alignment = NSTextAlignmentJustified;
+//    style.firstLineHeadIndent = 0.001f;
+    style.lineSpacing = lineSpacing;
+    [string addAttribute:NSFontAttributeName value:font range:range];
+    [string addAttribute:NSParagraphStyleAttributeName value:style range:range];
+    return string;
+}
+
 
 - (NSMutableAttributedString *)attributedStringWithFont:(UIFont *)font color:(UIColor *)color lineSpacing:(CGFloat)lineSpacing characterSpacing:(CGFloat)spacing firstLineSpacing:(CGFloat)firstSpacing {
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:self];

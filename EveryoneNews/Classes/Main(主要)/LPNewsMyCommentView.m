@@ -42,9 +42,10 @@ CGSize const kAvatarImageViewSize1 = {70,70};
     [super viewDidLoad];
     [self setNavTitleView:@"评论"];
     [self backImageItem];
-    self.navigationController.navigationBar.hidden = YES;
+
+//    self.navigationController.navigationBar.hidden = YES;
 //    self.navigationController.navigationBar.barTintColor = [UIColor clearColor];
-//    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBar.translucent = NO;
 //    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     self.view.backgroundColor = [UIColor colorWithDesignIndex:9];
     [self addContentView];
@@ -76,8 +77,7 @@ CGSize const kAvatarImageViewSize1 = {70,70};
 #pragma mark- private methods
 -(void)addContentView{
     
-    
-    
+
     UIImageView *comBGImg = [[UIImageView alloc] init];
     [comBGImg setImage:[UIImage imageNamed:@"LP_commBG"]];
     [self.view addSubview:comBGImg];
@@ -85,6 +85,7 @@ CGSize const kAvatarImageViewSize1 = {70,70};
     [comBGImg mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         make.centerX.equalTo(strongSelf.view);
+        make.size.mas_equalTo(CGSizeMake(kApplecationScreenWidth, comBGImg.image.size.height));
         make.top.equalTo(strongSelf.view).with.offset(-64);
         
     }];
@@ -100,7 +101,7 @@ CGSize const kAvatarImageViewSize1 = {70,70};
     [self.userNameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:strongSelf.userNameLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16.f]}];
-        make.size.mas_equalTo(CGSizeMake(ceilf(attStr.size.width), ceilf(attStr.size.height)));
+        make.size.mas_equalTo(CGSizeMake(ceilf(attStr.size.width)+10, ceilf(attStr.size.height)));
         make.centerX.mas_equalTo(strongSelf.view);
         make.top.mas_equalTo(strongSelf.avatarImageView.mas_bottom).with.offset(10);
     }];

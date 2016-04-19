@@ -293,5 +293,21 @@ NSString *storeFileName = @"EveryoneNews.sqlite";
     }
 }
 
-
+- (void)deleteCoreData {
+//    NSFileManager *fileManager = [NSFileManager defaultManager];
+//    NSURL *storeURL = [self storeURL];
+//    [fileManager removeItemAtURL:storeURL error:NULL];
+//    
+//    NSError* error = nil;
+//    
+//    if([fileManager fileExistsAtPath:[NSString stringWithContentsOfURL:storeURL encoding:NSASCIIStringEncoding error:&error]])
+//    {
+//        [fileManager removeItemAtURL:storeURL error:nil];
+//    }
+//    
+//    _coordinator = nil;
+//    _parentContext = nil;
+//    _context = nil;
+//    _importContext = nil;
+}
 @end

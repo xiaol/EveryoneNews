@@ -282,13 +282,10 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
         NSDate *currentDate = [NSDate date];
         NSDate *lastAccessDate = channelItem.lastAccessDate;
         LPPagingViewPage *page = (LPPagingViewPage *)[self.pagingView currentPage];
-
-        [self channelItemDidAddToCoreData:indexPath.item];
         if (lastAccessDate == nil) {
-            [self showLoadingView];
             channelItem.lastAccessDate = currentDate;
         }
-        
+        [self channelItemDidAddToCoreData:indexPath.item];
         if (lastAccessDate != nil) {
             int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
             // 每5分钟做一次刷新操作
@@ -511,7 +508,6 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
 
 
 - (void)didClickMenuCollectionViewCell:(LPMenuCollectionViewCell *)menuCollectionViewCell {
-    NSLog(@"juanjuan");
-}
+ }
 
 @end

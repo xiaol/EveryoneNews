@@ -21,5 +21,6 @@
 - (void)saveContext;
 - (void)saveBackgroundContext;
 - (void)saveImportContext;
+- (void)deleteCoreData;
 
 @end
