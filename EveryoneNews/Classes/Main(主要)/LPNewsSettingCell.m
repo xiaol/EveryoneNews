@@ -273,18 +273,29 @@ static const CGFloat kLeftMargin = 14.f;
 }
 
 - (void)changeInfoPushStatus:(UISwitch *)sender{
-    NSLog(@"index:%ld",(long)sender.on);
     if (sender.on) {
-        UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
-        UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
-        [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+//        UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+//        UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+//        
+//        [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+//        
+//        [[UIApplication sharedApplication] registerForRemoteNotifications];
+        
+        NSURL *urlStr = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+        if ([[UIApplication sharedApplication] canOpenURL:urlStr]) {
+            [[UIApplication sharedApplication] openURL:urlStr];
+        }
+        
         NSLog(@"打开推送");
     }else{
-        [[UIApplication sharedApplication] unregisterForRemoteNotifications];
+//        [[UIApplication sharedApplication] unregisterForRemoteNotifications];
         NSLog(@"关闭推送");
+        
+        NSURL *urlStr = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+        if ([[UIApplication sharedApplication] canOpenURL:urlStr]) {
+            [[UIApplication sharedApplication] openURL:urlStr];
+        }
     }
-//    [[UIApplication sharedApplication] currentUserNotificationSettings].types;
-    
 }
 
 - (void)setSelected:(BOOL)selected{
@@ -325,7 +336,9 @@ static const CGFloat kLeftMargin = 14.f;
         _infoPushSwitchBtn = btn;
     }
     [_infoPushSwitchBtn setOn:NO];
+    
     if ([[UIApplication sharedApplication] currentUserNotificationSettings].types !=UIUserNotificationTypeNone){
+        
         [_infoPushSwitchBtn setOn:YES];
     }
     return _infoPushSwitchBtn;

@@ -26,7 +26,8 @@ static NSString * const kCellIdentify = @"JoySettingCell";
     UIImageView *clearCacheView;
 }
 @property (nonatomic, strong) UITableView* tableView;
-@property(nonatomic, strong, nullable) NSArray *dataSource;
+@property (nonatomic, strong, nullable) NSArray *dataSource;
+@property (nonatomic, strong)UIWindow * statusWindow;
 @end
 
 @implementation LPNewsSettingViewController
@@ -73,6 +74,7 @@ static NSString * const kCellIdentify = @"JoySettingCell";
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+ 
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -85,6 +87,7 @@ static NSString * const kCellIdentify = @"JoySettingCell";
 
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
+    
 }
 
 - (void)didReceiveMemoryWarning{
@@ -148,36 +151,12 @@ static NSString * const kCellIdentify = @"JoySettingCell";
     }];
     
     return view;
-    
 }
 
 - (void)tableView:(nonnull UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     if (indexPath.section == 1) {
-        
-        clearCacheView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kApplecationScreenWidth, 20.f)];
-        clearCacheView.backgroundColor = [UIColor blackColor];
-        
-        UIImageView *clearSucc = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ClearSucc"]];
-        [clearSucc setFrame:CGRectMake(12, 3, clearSucc.image.size.width, clearSucc.image.size.height)];
-        [clearCacheView addSubview:clearSucc];
-        
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12+10+clearSucc.image.size.width, 0, 200, 20)];
-        label.text = @"清理缓存成功";
-        label.textAlignment = NSTextAlignmentLeft;
-        label.font = [UIFont systemFontOfSize:28.f/2.2639];
-        label.textColor = [UIColor whiteColor];
-        [clearCacheView addSubview:label];
-       //动画
-        CGRect startFrame = clearCacheView.frame;
-        CGRect endFrame = startFrame;
-        startFrame.origin.y = -startFrame.size.height;
-        clearCacheView.frame = startFrame;
-        [UIView animateWithDuration:0.7 delay:0 options:(UIViewAnimationOptionCurveLinear | UIViewAnimationOptionAutoreverse  | UIViewAnimationOptionCurveEaseIn) animations:^{
-            clearCacheView.frame = endFrame;
-            [[UIApplication sharedApplication].keyWindow addSubview:clearCacheView];
-        } completion:^(BOOL finished) {
-            [clearCacheView removeFromSuperview];
-        }];
+
+        [self clearSuccStatusBarNoticeAction];
         
     }else if (indexPath.section == 2){
         if (indexPath.row == 0) {
@@ -231,6 +210,52 @@ static NSString * const kCellIdentify = @"JoySettingCell";
 
 #pragma mark- private methods
 
+- (void)clearSuccStatusBarNoticeAction{
+  
+    self.statusWindow = [[UIWindow alloc] initWithFrame:[UIApplication sharedApplication].statusBarFrame];
+    [self.statusWindow setWindowLevel:UIWindowLevelAlert + 1];
+    [self.statusWindow setBackgroundColor:[UIColor clearColor]];
+    
+    clearCacheView = [[UIImageView alloc] initWithFrame:[UIApplication sharedApplication].statusBarFrame];
+    clearCacheView.backgroundColor = [UIColor blackColor];
+    
+    UIImageView *clearSucc = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ClearSucc"]];
+    [clearSucc setFrame:CGRectMake(12, 3, clearSucc.image.size.width, clearSucc.image.size.height)];
+    [clearCacheView addSubview:clearSucc];
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12+10+clearSucc.image.size.width, 0, 200, 20)];
+    label.text = @"清理缓存成功";
+    label.textAlignment = NSTextAlignmentLeft;
+    label.font = [UIFont systemFontOfSize:28.f/2.2639];
+    label.textColor = [UIColor whiteColor];
+    [clearCacheView addSubview:label];
+    //动画
+    CGRect startFrame = clearCacheView.frame;
+    CGRect endFrame = startFrame;
+    startFrame.origin.y = -startFrame.size.height;
+    clearCacheView.frame = startFrame;
+    [UIView animateWithDuration:0.6 delay:0 options:(UIViewAnimationOptionCurveEaseIn) animations:^{
+        clearCacheView.frame = endFrame;
+        
+    } completion:^(BOOL finished) {
+        [NSThread detachNewThreadSelector:@selector(countDownAction) toTarget:self withObject:nil];
+    }];
+    [self.statusWindow setHidden:NO];
+    [self.statusWindow setAlpha:1.0f];
+    [self.statusWindow addSubview:clearCacheView];
+    [self.statusWindow makeKeyAndVisible];
+}
+
+- (void)countDownAction{
+    
+    [NSThread sleepForTimeInterval:2];
+    [self performSelectorOnMainThread:@selector(updateUI) withObject:nil waitUntilDone:NO];
+}
+
+-(void)updateUI{
+    
+    [clearCacheView removeFromSuperview];
+}
 
 #pragma mark- Getters and Setters
 
