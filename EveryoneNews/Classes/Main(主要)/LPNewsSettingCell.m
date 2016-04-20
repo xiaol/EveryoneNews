@@ -266,7 +266,7 @@ static const CGFloat kLeftMargin = 14.f;
     
     [[LPFontSizeManager sharedManager] saveHomeViewFontSizeAndType];
     
-    [noteCenter postNotificationName:LPFontSizeChangedNotofication object:nil];
+    [noteCenter postNotificationName:LPFontSizeChangedNotification object:nil];
     
     
     

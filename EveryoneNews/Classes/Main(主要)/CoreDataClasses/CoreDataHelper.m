@@ -10,6 +10,7 @@
 #import "Album+Create.h"
 #import "Faulter.h"
 
+
 @implementation CoreDataHelper
 
 #define debug 0
@@ -90,6 +91,7 @@ NSString *storeFileName = @"EveryoneNews.sqlite";
     return self;
 }
 
+
 - (void)loadStore {
     if (debug==1) {
         NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
@@ -117,6 +119,10 @@ NSString *storeFileName = @"EveryoneNews.sqlite";
     }
     [self loadStore];
     [self importDefaultData];
+    if (![userDefaults objectForKey:@"isVersion3FirstLoad"] || ![userDefaults objectForKey:@"isFinishDeleteCoreData"]) {
+        [self deleteCoreData];
+        NSLog(@"sss");
+    }
 }
 
 #pragma mark - DEFAULT DATA
@@ -294,20 +300,29 @@ NSString *storeFileName = @"EveryoneNews.sqlite";
 }
 
 - (void)deleteCoreData {
-//    NSFileManager *fileManager = [NSFileManager defaultManager];
-//    NSURL *storeURL = [self storeURL];
-//    [fileManager removeItemAtURL:storeURL error:NULL];
-//    
-//    NSError* error = nil;
-//    
-//    if([fileManager fileExistsAtPath:[NSString stringWithContentsOfURL:storeURL encoding:NSASCIIStringEncoding error:&error]])
-//    {
-//        [fileManager removeItemAtURL:storeURL error:nil];
-//    }
-//    
-//    _coordinator = nil;
-//    _parentContext = nil;
-//    _context = nil;
-//    _importContext = nil;
+    
+    // 清理Core Data中相关表信息
+    NSManagedObjectModel *model = self.model;
+    NSDictionary *entities = [model entitiesByName];
+    NSArray *entityDescriptionArray = [entities allValues];
+    for (int count = 0; count < entityDescriptionArray.count; count++) {
+        NSEntityDescription *entityDescription = entityDescriptionArray[count];
+        NSFetchRequest *request = [[NSFetchRequest alloc]init];
+        [request setEntity:entityDescription];
+        NSError *error = nil;
+        NSArray *listData = [_importContext executeFetchRequest:request error:&error];
+        for(id record in listData) {
+            [_importContext deleteObject:record];
+        }
+    }
+    NSError *saveError = nil;
+    [_importContext save:&saveError];
+    [_context performBlock:^{
+        [self saveBackgroundContext];
+        [userDefaults setObject:@"YES" forKey:@"isFinishDeleteCoreData"];
+        [userDefaults synchronize];
+     
+    }];
 }
+
 @end

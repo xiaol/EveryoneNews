@@ -154,15 +154,14 @@
 #pragma mark － 下拉刷新 如果超过12小时始终返回最新数据
 - (void)loadNewData{
 //    for (CardFrame *cardFrame in self.cardFrames) {
-//        cardFrame.tipButtonHidden = YES;
-////        if (!cardFrame.tipButtonHidden) {
-////            cardFrame.tipButtonHidden = YES;
-////            break;
-////        }
+//        if (!cardFrame.tipButtonHidden) {
+//            cardFrame.tipButtonHidden = YES;
+//            break;
+//        }
 //    }
     
     if (self.cardFrames.count != 0) {
-        __block CardFrame *cardFrame = self.cardFrames[0];
+        CardFrame *cardFrame = self.cardFrames[0];
         Card *card = cardFrame.card;
         
         CardParam *param = [[CardParam alloc] init];
@@ -174,15 +173,17 @@
         NSMutableArray *tempArray = [[NSMutableArray alloc] init];
         [CardTool cardsWithParam:param channelID: param.channelID success:^(NSArray *cards) {
             if (cards.count > 0) {
-                
 //            [cardFrame setCard:card tipButtonHidden:NO];
-
             for (int i = 0; i < (int)cards.count; i ++) {
                 CardFrame *cardFrame = [[CardFrame alloc] init];
                 cardFrame.card = cards[i];
                 [tempArray addObject:cardFrame];
-                [weakSelf.cardFrames insertObject:cardFrame atIndex:0];
+               // [weakSelf.cardFrames insertObject:cardFrame atIndex:0];
             }
+            NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:
+                                   NSMakeRange(0,[tempArray count])];
+            [weakSelf.cardFrames insertObjects: tempArray atIndexes:indexes];
+                
             [weakSelf.tableView reloadData];
             }
             [weakSelf showNewCount:tempArray.count];
@@ -264,10 +265,10 @@
         cell = [[LPHomeViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     cell.cardFrame = self.cardFrames[indexPath.row];
-    __weak typeof(self) weakSelf = self;
-    [cell didClickTipButtonBlock:^() {
-        [weakSelf loadNewData];
-    }];
+//    __weak typeof(self) weakSelf = self;
+//    [cell didClickTipButtonBlock:^() {
+//        [weakSelf loadNewData];
+//    }];
     
     return cell;
 }
