@@ -16,10 +16,10 @@
 #import "LPNewsNavigationController.h"
 #import "LPNewsMyInfoView.h"
 #import "LPNewsMyCollectionView.h"
-#import "LPNewsMyCommentView.h"
 #import "LPSpringLayout.h"
 #import "LPDigViewController.h"
 #import "GenieTransition.h"
+#import "LPNewsMyCommViewController.h"
 
 
 NS_ASSUME_NONNULL_BEGIN
@@ -320,9 +320,9 @@ CGSize static const kAvatarImageViewSize = {70,70};
 - (void)tableView:(nonnull UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     if (indexPath.row == 0) {
         
-        LPNewsMyCommentView *commView = [[LPNewsMyCommentView alloc] init];
+        LPNewsMyCommViewController *commView = [[LPNewsMyCommViewController alloc] init];
         [self.navigationController pushViewController:commView animated:YES];
-        
+
     }else if (indexPath.row ==1){
         
         LPNewsMyCollectionView *colView = [[LPNewsMyCollectionView alloc] init];

@@ -75,7 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 static const CGFloat kLeftMargin = 14.f;
 
-- (void)setModel:(nonnull id)model IndexPath:(NSIndexPath *)indexPath {
+- (void)setModel:(nonnull id)model IndexPath:(nullable NSIndexPath *)indexPath {
     
     if (model && [model isKindOfClass:[NSDictionary class]]) {
         __weak __typeof(self)weakSelf = self;

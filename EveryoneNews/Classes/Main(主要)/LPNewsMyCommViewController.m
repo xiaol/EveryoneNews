@@ -12,11 +12,16 @@
 #import "SDWebImageManager.h"
 #import "LPNewsMineViewCell.h"
 #import "LPNewsMyCommCell.h"
+#import "LPNewsHeaderView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 CGSize static const kAvatarImageViewSize = {70,70};
+static const CGFloat kDefaultHeadHeight = (215.f);
+static const CGFloat kContentIndent = 0.f;
 static NSString * const kCellIdentify = @"LPNewsMyCommCell";
+static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
+
 @interface LPNewsMyCommViewController()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) UIImageView *avatarImageView;
@@ -49,9 +54,6 @@ static NSString * const kCellIdentify = @"LPNewsMyCommCell";
     [self addContentView];
 }
 
-
-
-
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [[self navigationController] setNavigationBarHidden:YES];
@@ -81,14 +83,166 @@ static NSString * const kCellIdentify = @"LPNewsMyCommCell";
 #pragma mark- private methods
 
 -(void)addContentView{
+   
+    [self.view addSubview:self.headImageView];
+    self.headImageView.image = [UIImage imageNamed:@"LP_commBG"];
+    __weak __typeof(self)weakSelf = self;
+    [self.headImageView mas_updateConstraints:^(MASConstraintMaker *make) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        make.left.top.equalTo(strongSelf.view);
+        make.size.mas_equalTo(CGSizeMake(kApplecationScreenWidth, kDefaultHeadHeight));
+    }];
     
+    self.dataSource = [self getDataSource];
+    [self.view addSubview:self.tableView];
+    [self.tableView mas_updateConstraints:^(MASConstraintMaker *make) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        make.left.top.equalTo(strongSelf.view);
+        make.size.equalTo(strongSelf.view);
+    }];
+    if (!self.tableView.tableHeaderView) {
+        UIView *tableHeadBgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kApplecationScreenWidth, kDefaultHeadHeight)];
+        tableHeadBgView.backgroundColor = [UIColor clearColor];
+        self.tableView.backgroundColor = [UIColor clearColor];
+        self.tableView.tableHeaderView = tableHeadBgView;
+    }
+   
+    UIImageView *avatarBGImg = [[UIImageView alloc] init];
+    avatarBGImg.layer.cornerRadius = 77/2;
+    avatarBGImg.alpha = 0.5;
+    avatarBGImg.backgroundColor = [UIColor whiteColor];
+    [self.tableView.tableHeaderView addSubview:avatarBGImg];
+    __weak __typeof(self.tableView.tableHeaderView)weakHeadView = self.tableView.tableHeaderView;
+    [avatarBGImg mas_updateConstraints:^(MASConstraintMaker *make) {
+        __strong __typeof(weakHeadView)strongHeadView = weakHeadView;
+        make.top.equalTo(strongHeadView.mas_top).with.offset(55);
+        make.centerX.equalTo(strongHeadView);
+        make.size.mas_equalTo(CGSizeMake(77, 77));
+    }];
+    [self.tableView.tableHeaderView addSubview:self.avatarImageView];
+    [self.avatarImageView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(avatarBGImg);
+        make.size.mas_equalTo(CGSizeMake(70, 70));
+    }];
+
+    [self.tableView.tableHeaderView addSubview:self.userNameLabel];
+    [self.userNameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:strongSelf.userNameLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:36.f/2.2639]}];
+        make.size.mas_equalTo(CGSizeMake(ceilf(attStr.size.width)+10, ceilf(attStr.size.height)));
+        make.centerX.mas_equalTo(strongSelf.view);
+        make.top.mas_equalTo(avatarBGImg.mas_bottom).with.offset(18);
+    }];
+
+    UIButton *backBtn = [[UIButton alloc] init];
+    [backBtn setImage:[UIImage imageNamed:@"BackArrow_black_white"] forState:UIControlStateNormal];
+    backBtn.enlargedEdge = 14;
+    [backBtn addTarget:self action:@selector(goBackAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:backBtn];
+    [backBtn mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(backBtn.imageView.image.size);
+        make.top.equalTo(self.view.mas_top).offset(34);
+        make.left.equalTo(self.view.mas_left).with.offset(12);
+        
+    }];
+    
+    UIImageView *noticeImg = [[UIImageView alloc] init];
+    [noticeImg setImage:[UIImage imageNamed:@"LP_construction"]];
+    [self.view addSubview:noticeImg];
+    [noticeImg mas_updateConstraints:^(MASConstraintMaker *make) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        make.centerX.equalTo(strongSelf.view);
+        make.top.equalTo(strongSelf.headImageView.mas_bottom).with.offset(55);
+        
+    }];
+    
+    UILabel *noticeLabel = [[UILabel alloc] init];
+    noticeLabel.text = @"正在建设中，请移步";
+    noticeLabel.font = [UIFont systemFontOfSize:32.f/2.2639];
+    noticeLabel.textColor = [UIColor colorWithDesignIndex:5];
+    [self.view addSubview:noticeLabel];
+    [noticeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        make.centerX.equalTo(strongSelf.view);
+        make.top.equalTo(noticeImg.mas_bottom).with.offset(21);
+    }];
+
 }
 
 - (void)goBackAction{
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (NSArray *)getDataSource{
+    NSArray *array = @[@[@{@"User_account":@"我的账户"},@{@"User_Purchase":@"我的购买"},@{@"User_Mine_Activity":@"活动"}]];
+    
+    return array;
+}
+
+#pragma mark- UITableViewDataSource
+
+- (NSInteger)numberOfSectionsInTableView:(nonnull UITableView *)tableView{
+    return self.dataSource.count;
+}
+
+- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (self.dataSource.count > section) {
+        NSArray *array = self.dataSource[section];
+        return array.count;
+    }
+    return 0;
+}
+
+
+- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
+    
+    LPNewsMyCommCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentify forIndexPath:indexPath];
+    if (!cell) {
+        cell = [[LPNewsMyCommCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kCellIdentify];
+    }
+    if (indexPath.section < self.dataSource.count) {
+        NSArray *array = self.dataSource[indexPath.section];
+        if (indexPath.row < array.count) {
+            NSDictionary *dict = [array objectAtIndex:indexPath.row];
+            [cell setModel:dict IndexPath:indexPath];
+            
+        }
+    }
+    return cell;
+}
+
+#pragma mark- UIScrollViewDelegate
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if(scrollView.contentOffset.y < 0){
+        [self setHeadImageViewConstraints:kDefaultHeadHeight - scrollView.contentOffset.y originalY:kContentIndent];
+    }else {
+        [self setHeadImageViewConstraints:kDefaultHeadHeight originalY:(0.f-scrollView.contentOffset.y)+kContentIndent];
+    }
+}
+
+-(void)setHeadImageViewConstraints:(CGFloat)height originalY:(CGFloat)y{
+    __weak __typeof(self)weakSelf = self;
+    [self.headImageView mas_updateConstraints:^(MASConstraintMaker *make) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        make.top.equalTo(strongSelf.view).offset(y);
+        make.left.equalTo(strongSelf.view);
+        make.size.mas_equalTo(CGSizeMake(kApplecationScreenWidth, height));
+    }];
+}
+
 #pragma mark- Getters and Setters
+
+- (UIImageView * __nonnull)headImageView{
+    if (!_headImageView) {
+        UIImageView *headImageView = [[UIImageView alloc] init];
+        headImageView.contentMode = UIViewContentModeScaleAspectFill;
+        headImageView.clipsToBounds = YES;
+        _headImageView = headImageView;
+    }
+    return _headImageView;
+}
 
 - (UIImageView *__nonnull)avatarImageView{
     if (!_avatarImageView) {
@@ -142,9 +296,9 @@ static NSString * const kCellIdentify = @"LPNewsMyCommCell";
         _tableView.delegate = self;
         _tableView.dataSource = self;
         _tableView.rowHeight = kMineViewCellHeight;
+        
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [_tableView registerClass:[LPNewsMyCommCell class] forCellReuseIdentifier:kCellIdentify];
-//        [_tableView registerClass:[JoyHeaderView class] forHeaderFooterViewReuseIdentifier:kHeaderViewIdentify];
     }
     return _tableView;
 }

@@ -212,7 +212,6 @@ static NSString * const kCellIdentify = @"JoySettingCell";
 
 - (void)clearSuccStatusBarNoticeAction{
     
-    
     self.statusWindow = [[UIWindow alloc] initWithFrame:[UIApplication sharedApplication].statusBarFrame];
     [self.statusWindow setWindowLevel:UIWindowLevelAlert + 1];
     [self.statusWindow setBackgroundColor:[UIColor clearColor]];

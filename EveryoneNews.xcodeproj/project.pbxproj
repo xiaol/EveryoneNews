@@ -14,7 +14,6 @@
 		1165C99A1CBF7BD200857411 /* LPNewsAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1165C9991CBF7BD200857411 /* LPNewsAboutViewController.m */; };
 		1165C99D1CBF7C3200857411 /* LP_net@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1165C99B1CBF7C3200857411 /* LP_net@2x.png */; };
 		1165C99E1CBF7C3200857411 /* LP_net@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1165C99C1CBF7C3200857411 /* LP_net@3x.png */; };
-		1165C9A81CBF912200857411 /* LPNewsMyCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1165C9A71CBF912200857411 /* LPNewsMyCommentView.m */; };
 		1165C9AB1CBF914300857411 /* LPNewsMyCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1165C9AA1CBF914300857411 /* LPNewsMyCollectionView.m */; };
 		1165C9AE1CBF916600857411 /* LPNewsMyInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1165C9AD1CBF916600857411 /* LPNewsMyInfoView.m */; };
 		1165C9B11CBF939C00857411 /* LP_construction@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1165C9AF1CBF939C00857411 /* LP_construction@2x.png */; };
@@ -416,8 +415,6 @@
 		1165C9991CBF7BD200857411 /* LPNewsAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPNewsAboutViewController.m; sourceTree = "<group>"; };
 		1165C99B1CBF7C3200857411 /* LP_net@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LP_net@2x.png"; sourceTree = "<group>"; };
 		1165C99C1CBF7C3200857411 /* LP_net@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LP_net@3x.png"; sourceTree = "<group>"; };
-		1165C9A61CBF912200857411 /* LPNewsMyCommentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPNewsMyCommentView.h; sourceTree = "<group>"; };
-		1165C9A71CBF912200857411 /* LPNewsMyCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPNewsMyCommentView.m; sourceTree = "<group>"; };
 		1165C9A91CBF914300857411 /* LPNewsMyCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPNewsMyCollectionView.h; sourceTree = "<group>"; };
 		1165C9AA1CBF914300857411 /* LPNewsMyCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPNewsMyCollectionView.m; sourceTree = "<group>"; };
 		1165C9AC1CBF916600857411 /* LPNewsMyInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPNewsMyInfoView.h; sourceTree = "<group>"; };
@@ -1281,8 +1278,6 @@
 		1165C9A51CBF907200857411 /* MyComment */ = {
 			isa = PBXGroup;
 			children = (
-				1165C9A61CBF912200857411 /* LPNewsMyCommentView.h */,
-				1165C9A71CBF912200857411 /* LPNewsMyCommentView.m */,
 				11FAA02F1CC636DB00F2115C /* MainBody */,
 				11FAA0301CC6370200F2115C /* View */,
 			);
@@ -3391,7 +3386,6 @@
 				181B37EF1BC6135400698FC5 /* Faulter.m in Sources */,
 				18A65CC81B203D330070DDD7 /* SDWebImageDownloaderOperation.m in Sources */,
 				1889FE691B4C2E91006D8E03 /* LPZhihuView.m in Sources */,
-				1165C9A81CBF912200857411 /* LPNewsMyCommentView.m in Sources */,
 				1889FDD11B4C2BFD006D8E03 /* CustomLoaddingView.m in Sources */,
 				18A65CCA1B203D330070DDD7 /* SDWebImagePrefetcher.m in Sources */,
 				8649B3AC1C50F9AB00BC96BF /* LPSearchHistoryCollectionViewCell.m in Sources */,

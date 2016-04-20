@@ -21,7 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
             lineLayer.backgroundColor = [lineColor CGColor];
             [self.contentView.layer addSublayer:lineLayer];
         }
-        
     }
     return self;
 }
