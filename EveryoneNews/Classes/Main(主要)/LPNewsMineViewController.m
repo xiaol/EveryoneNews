@@ -21,7 +21,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 static NSString * const kCellIdentify = @"JoyMineViewCell";
-CGSize const kAvatarImageViewSize = {70,70};
+CGSize static const kAvatarImageViewSize = {70,70};
 
 @interface LPNewsMineViewController () <UITableViewDelegate,UITableViewDataSource>{
     NSIndexPath * tempIndexPath;
