@@ -7,32 +7,38 @@
 //
 
 #import <Foundation/Foundation.h>
+
+typedef void(^imageDownLoadCompletionBlock)();
 @class LPContent;
 @interface LPContentFrame : NSObject
 @property (nonatomic, strong) LPContent *content;
-@property (nonatomic, assign) CGRect bodyLabelF;
-@property (nonatomic, assign) CGRect upBtnF;
-@property (nonatomic, assign) CGRect userIconF;
-@property (nonatomic, assign) CGRect commentLabelF;
-@property (nonatomic, assign) CGRect commentsCountBtnF;
-@property (nonatomic, assign) CGRect plusBtnF;
-@property (nonatomic, assign) CGRect commentViewF;
+@property (nonatomic, assign, readonly) CGRect bodyLabelF;
+@property (nonatomic, assign, readonly) CGRect upBtnF;
+@property (nonatomic, assign, readonly) CGRect userIconF;
+@property (nonatomic, assign, readonly) CGRect commentLabelF;
+@property (nonatomic, assign, readonly) CGRect commentsCountBtnF;
+@property (nonatomic, assign, readonly) CGRect plusBtnF;
+@property (nonatomic, assign, readonly) CGRect commentViewF;
 
-@property (nonatomic ,assign) CGRect abstractSeperatorViewF;
+@property (nonatomic ,assign, readonly) CGRect abstractSeperatorViewF;
 
 // 针对图像cell
-@property (nonatomic, assign) CGRect photoViewF;
-@property (nonatomic, assign) CGRect photoDescViewF;
+@property (nonatomic, assign, readonly) CGRect photoViewF;
+@property (nonatomic, assign, readonly) CGRect photoDescViewF;
 
 // opinion cell
-@property (nonatomic, assign) CGRect dividerViewF;
-@property (nonatomic, assign) CGRect arrowViewF;
-@property (nonatomic, assign) CGRect pointerViewF;
-@property (nonatomic, assign) CGRect iconViewF;
-@property (nonatomic, assign) CGRect sourceViewF;
-@property (nonatomic, assign) CGRect supplementViewF;
+@property (nonatomic, assign, readonly) CGRect dividerViewF;
+@property (nonatomic, assign, readonly) CGRect arrowViewF;
+@property (nonatomic, assign, readonly) CGRect pointerViewF;
+@property (nonatomic, assign, readonly) CGRect iconViewF;
+@property (nonatomic, assign, readonly) CGRect sourceViewF;
+@property (nonatomic, assign, readonly) CGRect supplementViewF;
 
-@property (nonatomic, assign) CGFloat cellHeight;
+@property (nonatomic, assign, readonly) CGFloat cellHeight;
 
-@property (nonatomic, assign, getter=isUpdated) BOOL updated;
+@property (nonatomic, assign, readonly, getter=isUpdated) BOOL updated;
+
+//@property (nonatomic, copy) imageDownLoadCompletionBlock block;
+
+- (void)downloadImageWithCompletionBlock:(imageDownLoadCompletionBlock)imageDownLoadCompletionBlock ;
 @end

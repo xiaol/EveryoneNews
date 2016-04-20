@@ -128,7 +128,7 @@
         
         
         if (iPhone6Plus) {
-            self.homeViewFontSize =  LPFontSize18;
+            self.homeViewFontSize =  LPFontSize19;
             self.currentDetailContentFontSize = LPFontSize20;
             self.currentDetaiTitleFontSize  = LPFontSize23;
             self.currentDetailCommentFontSize = LPFontSize16;
@@ -145,7 +145,7 @@
         self.currentDetailRelatePointFontSize = LPFontSize15;
         
         if (iPhone6Plus) {
-            self.homeViewFontSize =  LPFontSize20;
+            self.homeViewFontSize =  LPFontSize21;
             self.currentDetailContentFontSize = LPFontSize22;
             self.currentDetaiTitleFontSize  = LPFontSize24;
             self.currentDetailCommentFontSize = LPFontSize17;
@@ -162,7 +162,7 @@
         self.currentDetailRelatePointFontSize = LPFontSize16;
         
         if (iPhone6Plus) {
-            self.homeViewFontSize =  LPFontSize22;
+            self.homeViewFontSize =  LPFontSize23;
             self.currentDetailContentFontSize = LPFontSize24;
             self.currentDetaiTitleFontSize  = LPFontSize25;
             self.currentDetailCommentFontSize = LPFontSize18;
@@ -190,7 +190,7 @@
         
         if (iPhone6Plus) {
             
-            self.homeViewFontSize =  LPFontSize18;
+            self.homeViewFontSize =  LPFontSize19;
             self.currentDetailContentFontSize = LPFontSize20;
             self.currentDetaiTitleFontSize  = LPFontSize23;
             self.currentDetailCommentFontSize = LPFontSize16;
@@ -207,7 +207,7 @@
         
         if (iPhone6Plus) {
             
-            self.homeViewFontSize =  LPFontSize20;
+            self.homeViewFontSize =  LPFontSize21;
             self.currentDetailContentFontSize = LPFontSize22;
             self.currentDetaiTitleFontSize  = LPFontSize24;
             self.currentDetailCommentFontSize = LPFontSize17;
@@ -223,7 +223,7 @@
         self.currentDetailRelatePointFontSize = LPFontSize16;
         
         if (iPhone6Plus) {
-            self.homeViewFontSize =  LPFontSize22;
+            self.homeViewFontSize =  LPFontSize23;
             self.currentDetailContentFontSize = LPFontSize24;
             self.currentDetaiTitleFontSize  = LPFontSize25;
             self.currentDetailCommentFontSize = LPFontSize18;

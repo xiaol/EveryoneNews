@@ -195,6 +195,7 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
         LPMenuCollectionViewCell *cell = (LPMenuCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:menuCellIdentifier forIndexPath:indexPath];
         LPChannelItem *channelItem = [self.selectedArray objectAtIndex:indexPath.item];
         cell.channelItem = channelItem;
+        cell.delegate = self;
         return cell;
     } else {
         LPSortCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
@@ -258,7 +259,16 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
     [self loadMoreDataInPageAtPageIndex:index];
 }
 
+ 
+
 #pragma mark - UICollectionView Delegate
+
+//- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
+//        if([collectionView isKindOfClass:[LPMenuView class]]) {
+//            NSLog(@"sss");
+//        }
+//}
+
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     if([collectionView isKindOfClass:[LPMenuView class]]) {
@@ -272,13 +282,10 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
         NSDate *currentDate = [NSDate date];
         NSDate *lastAccessDate = channelItem.lastAccessDate;
         LPPagingViewPage *page = (LPPagingViewPage *)[self.pagingView currentPage];
-
-        [self channelItemDidAddToCoreData:indexPath.item];
         if (lastAccessDate == nil) {
-            [self showLoadingView];
             channelItem.lastAccessDate = currentDate;
         }
-        
+        [self channelItemDidAddToCoreData:indexPath.item];
         if (lastAccessDate != nil) {
             int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
             // 每5分钟做一次刷新操作
@@ -287,8 +294,6 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
                 channelItem.lastAccessDate = currentDate;
             }
         }
-        
-        
     } else {
         if (indexPath.section == 0) {
             LPSortCollectionViewCell *currentCell =  (LPSortCollectionViewCell *)[self.sortCollectionView cellForItemAtIndexPath:indexPath];
@@ -501,5 +506,8 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
     return CGSizeMake(0, 0);
 }
 
+
+- (void)didClickMenuCollectionViewCell:(LPMenuCollectionViewCell *)menuCollectionViewCell {
+ }
 
 @end

@@ -70,6 +70,8 @@
     if (album.title.length) {
         self.titleLabel.hidden = NO;
         CGFloat titleH = [album.title heightForLineWithFont:[UIFont systemFontOfSize:16]];
+        
+        
         self.titleLabel.x = 0;
         self.titleLabel.y = self.height / 2 - titleH - 5;
         self.titleLabel.height = titleH;

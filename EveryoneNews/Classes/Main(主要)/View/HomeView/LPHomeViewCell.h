@@ -12,7 +12,9 @@
 
 @class CardFrame;
 
-typedef void(^didClickButtonBlock)(UIButton * button);
+typedef void(^didClickButtonBlock)();
+
+typedef void(^didClickTipButtonBlock)();
 
 @protocol LPHomeViewCellDelegate<NSObject>
 
@@ -24,7 +26,10 @@ typedef void(^didClickButtonBlock)(UIButton * button);
 @property (nonatomic, strong) CardFrame *cardFrame;
 
 @property (nonatomic, copy) didClickButtonBlock didClickBlock;
-//- (void)setDidClickButtonBlock:(didClickButtonBlock)didClickButtonBlock;
+
+@property (nonatomic, copy) didClickTipButtonBlock didClickTipBlock;
 
 @property (nonatomic, weak) id<LPHomeViewCellDelegate> delegate;
+
+- (void)didClickTipButtonBlock:(didClickTipButtonBlock)didClickTipButtonBlock;
 @end

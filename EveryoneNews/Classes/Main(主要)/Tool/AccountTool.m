@@ -248,7 +248,7 @@ singleton_m(AccountTool);
     }
 //    LPLoginViewController *loginVc = [[LPLoginViewController alloc] init];
     
-    LPNewsLoginViewController *loginVc = [[LPNewsLoginViewController alloc] init];
+    LPNewsLoginViewController *loginVc = [[LPNewsLoginViewController alloc] initWithCustom];
     
 //    loginVc.successBlock = success;
 //    loginVc.failureBlock = failure;

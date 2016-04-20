@@ -17,6 +17,10 @@
 #import "LPNewsMyInfoView.h"
 #import "LPNewsMyCollectionView.h"
 #import "LPNewsMyCommentView.h"
+#import "LPSpringLayout.h"
+#import "LPDigViewController.h"
+#import "GenieTransition.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -34,6 +38,7 @@ CGSize static const kAvatarImageViewSize = {70,70};
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UILabel *userNameLabel;
 @property(nonatomic, strong, nullable) NSArray *dataSource;
+@property (nonatomic, strong) GenieTransition *genieTransition;
 
 @end
 
@@ -176,10 +181,19 @@ CGSize static const kAvatarImageViewSize = {70,70};
     
 }
 
+
+#pragma mark -  一订
 - (void)doBookingAction{
-    
-    NSLog(@"doBookingAction");
-    
+    LPDigViewController *diggerVc = [[LPDigViewController alloc] init];
+    //    diggerVc.hotwords = self.digTags;
+    diggerVc.presented = YES;
+    //    diggerVc.pasteURL = self.pasteURL;
+    MainNavigationController *nav = [[MainNavigationController alloc] initWithRootViewController:diggerVc];
+    //    _genieTransition = [[GenieTransition alloc] initWithToViewController:nav];
+    self.genieTransition = [[GenieTransition alloc] init];
+    nav.transitioningDelegate = self.genieTransition;
+    nav.modalPresentationStyle = UIModalPresentationCustom;
+    [self presentViewController:nav animated:YES completion:nil];
 }
 
 - (void)gotoSettingView{

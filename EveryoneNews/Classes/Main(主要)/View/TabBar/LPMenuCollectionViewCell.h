@@ -8,10 +8,21 @@
 
 #import <UIKit/UIKit.h>
 #import "LPChannelItem.h"
+
 @class LPMenuButton;
+@class LPMenuCollectionViewCell;
+@protocol LPMenuCollectionViewCellDelegate <NSObject>
+
+@optional
+- (void)didClickMenuCollectionViewCell:(LPMenuCollectionViewCell *)menuCollectionViewCell;
+
+@end
+
 @interface LPMenuCollectionViewCell : UICollectionViewCell
 
 @property (nonatomic, strong) LPChannelItem *channelItem;
 @property (nonatomic, strong) LPMenuButton *menuButton;
+
+@property (nonatomic, weak) id<LPMenuCollectionViewCellDelegate> delegate;
 
 @end

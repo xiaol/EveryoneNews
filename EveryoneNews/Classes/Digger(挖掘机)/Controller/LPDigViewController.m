@@ -451,6 +451,8 @@ NSString * const HotwordsURL = @"http://api.deeporiginalx.com/news/baijia/fetchE
     } completion:^(BOOL finished) {
         self.showBtn.userInteractionEnabled = YES;
     }];
+    
+     
 }
 
 - (void)albumUp {
@@ -471,17 +473,18 @@ NSString * const HotwordsURL = @"http://api.deeporiginalx.com/news/baijia/fetchE
     DigButton *dismissBtn = [[DigButton alloc] init];
 //    [self.digView addSubview:dismissBtn];
     [self.view addSubview:dismissBtn];
-    dismissBtn.x = DigButtonPadding;
-    dismissBtn.y = ScreenHeight - DigButtonPadding - DigButtonHeight;
+    //dismissBtn.x = DigButtonPadding;
+//    dismissBtn.y = ScreenHeight - DigButtonPadding - DigButtonHeight;
+//    if (iPhone6Plus) {
+//        dismissBtn.y = ScreenHeight - 2 * DigButtonPadding - DigButtonHeight;
+//    }
     
-    self.view.backgroundColor = [UIColor redColor];
     
-    if (iPhone6Plus) {
-        dismissBtn.y = ScreenHeight - 2 * DigButtonPadding - DigButtonHeight;
-    }
-
+    dismissBtn.x  = (ScreenWidth - 73 - DigButtonWidth * 2) / 2;
+    dismissBtn.y  = ScreenHeight - [@"123" heightForLineWithFont:[UIFont systemFontOfSize:13]] - 24 - DigButtonHeight;
     dismissBtn.width = DigButtonWidth;
     dismissBtn.height = DigButtonHeight;
+    dismissBtn.enlargedEdge = 10;
     dismissBtn.layer.cornerRadius = dismissBtn.width / 2;
     [dismissBtn addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
     dismissBtn.hidden = YES;

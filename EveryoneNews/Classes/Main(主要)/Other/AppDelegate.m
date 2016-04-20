@@ -27,6 +27,7 @@
 #import "LPHomeViewController.h"
 #import "NSMutableAttributedString+LP.h"
 #import "UMessage.h"
+#import "LPFontSizeManager.h"
 
 ////for mac
 //#include <sys/socket.h>
@@ -72,7 +73,13 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     if (debug==1) {
         NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-    }    
+    }
+    
+    if (![userDefaults objectForKey:@"isVersion3FirstLoad"]) {
+        [[self cdh] deleteCoreData];
+    }
+    
+    
     //  UMeng login & share
     [UMSocialData setAppKey:@"558b2ec267e58e64a00009db"];
     
@@ -252,6 +259,7 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
         [userDefaults synchronize];
     }
     [[self cdh] saveBackgroundContext];
+    [[LPFontSizeManager sharedManager] saveHomeViewFontSizeAndType];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -263,7 +271,7 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
         [userDefaults synchronize];
     }
     [[self cdh] saveBackgroundContext];
-    
+    [[LPFontSizeManager sharedManager] saveHomeViewFontSizeAndType];
     
 }
 

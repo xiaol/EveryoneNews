@@ -57,7 +57,7 @@ static NSString * const freshAnimationKey = @"freshRotation";
         
         UIImageView *freshView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"digshuaxin"]];
         freshView.contentMode = UIViewContentModeScaleAspectFill;
-        freshView.layer.geometryFlipped = YES;
+//        freshView.layer.geometryFlipped = YES;
         [self.contentView addSubview:freshView];
         self.freshView = freshView;
         
@@ -66,7 +66,9 @@ static NSString * const freshAnimationKey = @"freshRotation";
         anim.duration = 0.6;
         anim.cumulative = YES;
         anim.fromValue = 0;
-        anim.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(M_PI , 0, 0, 1.0)];
+        anim.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeRotation(3.14 , 0, 0, 1.0)];
+        
+        
         self.anim = anim;
         
         UITapGestureRecognizer *gr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapFresh:)];

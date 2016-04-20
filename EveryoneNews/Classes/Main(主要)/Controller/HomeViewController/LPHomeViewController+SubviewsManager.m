@@ -245,12 +245,31 @@ const static CGFloat cellPadding = 15;
                           scrollPosition:UICollectionViewScrollPositionNone];
     // 导航栏滑动时添加背景颜色
     UICollectionViewLayoutAttributes *attributes = [self.menuView layoutAttributesForItemAtIndexPath:indexPath];
-    CGRect cellRect = attributes.frame;
+    
+    CGFloat menuBackgroundViewX = attributes.frame.origin.x;
+    CGFloat menuBackgroundViewY = attributes.frame.origin.y;
+    CGFloat menuBackgroundViewW = attributes.frame.size.width;
+    CGFloat menuBackgroundViewH = attributes.frame.size.height;
+    
+    if (iPhone6Plus) {
+         menuBackgroundViewY = attributes.frame.origin.y + 8;
+        menuBackgroundViewH = attributes.frame.size.height - 16;
+    }
+
+    
+    CGRect cellRect = CGRectMake(menuBackgroundViewX, menuBackgroundViewY, menuBackgroundViewW, menuBackgroundViewH);
+    
+    
+    
     UIView *menuBackgroundView = [[UIView alloc] init];
     menuBackgroundView.frame = cellRect;
     menuBackgroundView.alpha = 0.15;
     menuBackgroundView.backgroundColor = [UIColor colorFromHexString:@"#0091fa"];
     menuBackgroundView.layer.cornerRadius = 10.0f;
+    if (iPhone6Plus) {
+        menuBackgroundView.layer.cornerRadius = 15.0f;
+    }
+    
     [self.menuView addSubview:menuBackgroundView];
     self.menuBackgroundView = menuBackgroundView;
 }
@@ -333,7 +352,6 @@ const static CGFloat cellPadding = 15;
     self.loadingLabel = loadingLabel;
     
     self.contentLoadingView = contentLoadingView;
-    
 }
 
 

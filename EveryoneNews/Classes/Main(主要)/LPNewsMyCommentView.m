@@ -41,6 +41,13 @@ CGSize const kAvatarImageViewSize1 = {70,70};
 
 - (void)viewDidLoad{
     [super viewDidLoad];
+    [self setNavTitleView:@"评论"];
+    [self backImageItem];
+//    self.navigationController.navigationBar.hidden = YES;
+//    self.navigationController.navigationBar.barTintColor = [UIColor clearColor];
+    self.navigationController.navigationBar.translucent = NO;
+//    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+
     self.view.backgroundColor = [UIColor colorWithDesignIndex:9];
     [self addContentView];
 }
@@ -78,6 +85,7 @@ CGSize const kAvatarImageViewSize1 = {70,70};
 
 -(void)addContentView{
     
+
     UIImageView *comBGImg = [[UIImageView alloc] init];
     comBGImg.backgroundColor = [UIColor grayColor];
     comBGImg.contentMode = UIViewContentModeScaleToFill;

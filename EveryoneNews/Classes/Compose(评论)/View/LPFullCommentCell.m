@@ -116,6 +116,12 @@
         [self.upButton setBackgroundImage:[UIImage imageNamed:@"点赞心0"] forState:UIControlStateNormal];
     }
     
+    if ([comment.up isEqualToString:@"0"]) {
+        self.upCountLabel.hidden = YES;
+    } else {
+        self.upCountLabel.hidden = NO;
+    }
+    
     self.upCountLabel.frame = self.fullCommentFrame.upCountsLabelF;
     self.upCountLabel.text = [NSString stringWithFormat:@"%@赞", comment.up];
     self.upCountLabel.centerY = self.upButton.centerY;
