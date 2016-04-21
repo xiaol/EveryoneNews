@@ -17,6 +17,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 CGSize static const kAvatarImageViewSize = {70,70};
+CGSize static const  kAvatarSize = {25,25};
 static const CGFloat kDefaultHeadHeight = (215.f);
 static const CGFloat kContentIndent = 0.f;
 static NSString * const kCellIdentify = @"LPNewsMyCommCell";
@@ -26,9 +27,10 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
 
 @property (nonatomic, strong) UIImageView *avatarImageView;
 @property (nonatomic, strong) UILabel *userNameLabel;
-@property(nonatomic, strong) UIImageView *headImageView;
-@property(nonatomic, strong) UITableView *tableView;
-@property(nonatomic, strong, nullable) NSArray *dataSource;
+@property (nonatomic, strong) UIImageView *headImageView;
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong, nullable) NSArray *dataSource;
+@property (nonatomic, strong) UIView *navBarView;
 @end
 
 @implementation LPNewsMyCommViewController
@@ -134,17 +136,6 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
         make.top.mas_equalTo(avatarBGImg.mas_bottom).with.offset(18);
     }];
 
-    UIButton *backBtn = [[UIButton alloc] init];
-    [backBtn setImage:[UIImage imageNamed:@"BackArrow_black_white"] forState:UIControlStateNormal];
-    backBtn.enlargedEdge = 14;
-    [backBtn addTarget:self action:@selector(goBackAction) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:backBtn];
-    [backBtn mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(backBtn.imageView.image.size);
-        make.top.equalTo(self.view.mas_top).offset(34);
-        make.left.equalTo(self.view.mas_left).with.offset(12);
-        
-    }];
     
     UIImageView *noticeImg = [[UIImageView alloc] init];
     [noticeImg setImage:[UIImage imageNamed:@"LP_construction"]];
@@ -167,16 +158,90 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
         make.top.equalTo(noticeImg.mas_bottom).with.offset(21);
     }];
 
+    UIButton *backBtn = [[UIButton alloc] init];
+    [backBtn setImage:[UIImage imageNamed:@"BackArrow_white"] forState:UIControlStateNormal];
+    backBtn.enlargedEdge = 14;
+    [backBtn addTarget:self action:@selector(goBackAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:backBtn];
+    [backBtn mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(backBtn.imageView.image.size);
+        make.top.equalTo(self.view.mas_top).offset(34);
+        make.left.equalTo(self.view.mas_left).with.offset(12);
+        
+    }];
+    
+//    [self addNavBarView];
+}
+
+
+- (NSArray *)getDataSource{
+    NSArray *array = @[@[@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"}]];
+    
+    return array;
+}
+
+- (void)addNavBarView{
+    
+    _navBarView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kApplecationScreenWidth, 44.f+20.f)];
+    _navBarView.backgroundColor = [UIColor cyanColor];
+    _navBarView.alpha = 0.f;
+    
+    UIImageView *avatar = nil;
+    if (!avatar) {
+        Account *account = [AccountTool account];
+        avatar = [[UIImageView alloc] init];
+        
+        avatar.contentMode = UIViewContentModeScaleAspectFit;
+        avatar.layer.masksToBounds = YES;
+        avatar.layer.shouldRasterize = YES;
+        avatar.layer.rasterizationScale = [UIScreen mainScreen].scale;
+        avatar.layer.cornerRadius = kAvatarSize.width/2;
+        
+        if (account == nil) {
+            avatar.image = [UIImage imageNamed:@"LP_icon"];
+        }else{
+            
+            [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:account.userIcon] options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                if (image && finished) {
+                    avatar.image = image;
+                }
+            }];
+        }
+    }
+    __weak __typeof(self.navBarView)weakNavBarView = self.navBarView;
+    [self.navBarView addSubview:avatar];
+    [avatar mas_updateConstraints:^(MASConstraintMaker *make) {
+        __strong __typeof(weakNavBarView)strongNavBarView = weakNavBarView;
+        make.centerX.equalTo(strongNavBarView.mas_centerX);
+        make.top.equalTo(strongNavBarView.mas_top).with.offset(29.5f);
+        make.size.mas_equalTo(kAvatarSize);
+    }];
+    
+    UIButton *scrollToTopBtn = [[UIButton alloc] initWithFrame:_navBarView.frame];
+    [scrollToTopBtn addTarget:self action:@selector(scrollToTop:) forControlEvents:UIControlEventTouchUpInside];
+    [_navBarView addSubview:scrollToTopBtn];
+    
+    UIButton *backBtn1 = [[UIButton alloc] init];
+    [backBtn1 setImage:[UIImage imageNamed:@"BackArrow_black"] forState:UIControlStateNormal];
+    backBtn1.enlargedEdge = 14;
+    [backBtn1 addTarget:self action:@selector(goBackAction) forControlEvents:UIControlEventTouchUpInside];
+    [_navBarView addSubview:backBtn1];
+    [backBtn1 mas_updateConstraints:^(MASConstraintMaker *make) {
+        __strong __typeof(weakNavBarView)strongNavBarView = weakNavBarView;
+        make.size.mas_equalTo(backBtn1.imageView.image.size);
+        make.top.equalTo(strongNavBarView.mas_top).offset(34);
+        make.left.equalTo(strongNavBarView.mas_left).with.offset(12);
+        
+    }];
+    [self.view addSubview:_navBarView];
 }
 
 - (void)goBackAction{
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (NSArray *)getDataSource{
-    NSArray *array = @[@[@{@"User_account":@"我的账户"},@{@"User_Purchase":@"我的购买"},@{@"User_Mine_Activity":@"活动"}]];
-    
-    return array;
+- (void)scrollToTop:(BOOL)animated {
+    [self.tableView setContentOffset:CGPointMake(0,0) animated:YES];
 }
 
 #pragma mark- UITableViewDataSource
@@ -215,10 +280,20 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    if(scrollView.contentOffset.y < 0){
+    if(scrollView.contentOffset.y < 0.f){
         [self setHeadImageViewConstraints:kDefaultHeadHeight - scrollView.contentOffset.y originalY:kContentIndent];
+        self.navBarView.alpha = 0.f;
+       
     }else {
         [self setHeadImageViewConstraints:kDefaultHeadHeight originalY:(0.f-scrollView.contentOffset.y)+kContentIndent];
+        
+        if (scrollView.contentOffset.y < 121.f){
+            self.navBarView.alpha = 0.f;
+        }else if(scrollView.contentOffset.y >= 121.f && scrollView.contentOffset.y <= 151.f){
+            self.navBarView.alpha = ((scrollView.contentOffset.y-121)/30.f)*0.8;
+        }else if (scrollView.contentOffset.y > 151.f){
+            self.navBarView.alpha = 0.8f;
+        }
     }
 }
 
