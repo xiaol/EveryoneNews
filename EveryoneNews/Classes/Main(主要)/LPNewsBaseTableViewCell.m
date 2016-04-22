@@ -45,7 +45,7 @@
     // Configure the view for the selected state
 }
 
-- (void)setModel:(id)model IndexPath:(NSIndexPath *)indexPath{
+- (void)setModel:(nonnull id)model IndexPath:(nullable NSIndexPath *)indexPath{
     
 }
 

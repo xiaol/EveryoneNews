@@ -31,7 +31,7 @@
 
 - (NSString *)body {
     CGFloat fontSize = [LPFontSizeManager sharedManager].currentDetailContentFontSize ;
-    return [NSString stringWithFormat:@"<style> body{ line-height:1.6;text-indent:2em;font-size:%fpx; text-align:justify;}</style> %@ ",[UIFont systemFontOfSize:fontSize].pointSize, _body];
+    return [NSString stringWithFormat:@"<style> body{  font-weight:100; line-height:1.49;text-indent:2em;font-size:%fpx; text-align:justify;}</style> %@ ",[UIFont systemFontOfSize:fontSize].pointSize, _body];
 }
 
 - (NSMutableAttributedString *)photoDescString {

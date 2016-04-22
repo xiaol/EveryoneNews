@@ -213,7 +213,7 @@ static NSString * const kCellIdentify = @"JoySettingCell";
 #pragma mark- private methods
 
 - (void)clearSuccStatusBarNoticeAction{
-  
+    
     self.statusWindow = [[UIWindow alloc] initWithFrame:[UIApplication sharedApplication].statusBarFrame];
     [self.statusWindow setWindowLevel:UIWindowLevelAlert + 1];
     [self.statusWindow setBackgroundColor:[UIColor clearColor]];
@@ -247,24 +247,27 @@ static NSString * const kCellIdentify = @"JoySettingCell";
         NSLog(@"清理完毕");
         
     } completion:^(BOOL finished) {
-        [NSThread detachNewThreadSelector:@selector(countDownAction) toTarget:self withObject:nil];
+        
+        dispatch_async(dispatch_get_global_queue
+                       (DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                           
+                           [NSThread sleepForTimeInterval:2];
+                           
+                           dispatch_async(dispatch_get_main_queue(), ^{
+                               
+                               [clearCacheView removeFromSuperview];
+                               
+                           });
+                       });
     }];
+    
     [self.statusWindow setHidden:NO];
     [self.statusWindow setAlpha:1.0f];
     [self.statusWindow addSubview:clearCacheView];
     [self.statusWindow makeKeyAndVisible];
+    
 }
 
-- (void)countDownAction{
-    
-    [NSThread sleepForTimeInterval:2];
-    [self performSelectorOnMainThread:@selector(updateUI) withObject:nil waitUntilDone:NO];
-}
-
--(void)updateUI{
-    
-    [clearCacheView removeFromSuperview];
-}
 
 #pragma mark- Getters and Setters
 

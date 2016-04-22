@@ -1,27 +1,37 @@
 //
-//  LPNewsMyCommentView.m
+//  LPNewsMyCommViewController.m
 //  EveryoneNews
 //
-//  Created by Yesdgq on 16/4/14.
+//  Created by Yesdgq on 16/4/19.
 //  Copyright © 2016年 apple. All rights reserved.
 //
 
-#import "LPNewsMyCommentView.h"
+#import "LPNewsMyCommViewController.h"
 #import "Account.h"
 #import "AccountTool.h"
 #import "SDWebImageManager.h"
+#import "LPNewsMineViewCell.h"
+#import "LPNewsMyCommCell.h"
+#import "LPNewsHeaderView.h"
 
-CGSize const kAvatarImageViewSize1 = {70,70};
+NS_ASSUME_NONNULL_BEGIN
 
-@interface LPNewsMyCommentView ()
+CGSize static const kAvatarImageViewSize = {70,70};
+static const CGFloat kDefaultHeadHeight = (215.f);
+static const CGFloat kContentIndent = 0.f;
+static NSString * const kCellIdentify = @"LPNewsMyCommCell";
+static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
+
+@interface LPNewsMyCommViewController()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) UIImageView *avatarImageView;
 @property (nonatomic, strong) UILabel *userNameLabel;
-
+@property(nonatomic, strong) UIImageView *headImageView;
+@property(nonatomic, strong) UITableView *tableView;
+@property(nonatomic, strong, nullable) NSArray *dataSource;
 @end
 
-@implementation LPNewsMyCommentView
-
+@implementation LPNewsMyCommViewController
 #pragma mark- Initialize
 
 - (instancetype)init{
@@ -41,19 +51,8 @@ CGSize const kAvatarImageViewSize1 = {70,70};
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    [self setNavTitleView:@"评论"];
-    [self backImageItem];
-//    self.navigationController.navigationBar.hidden = YES;
-//    self.navigationController.navigationBar.barTintColor = [UIColor clearColor];
-    self.navigationController.navigationBar.translucent = NO;
-//    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
-
-    self.view.backgroundColor = [UIColor colorWithDesignIndex:9];
     [self addContentView];
 }
-
-
-
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -84,40 +83,49 @@ CGSize const kAvatarImageViewSize1 = {70,70};
 #pragma mark- private methods
 
 -(void)addContentView{
-    
-
-    UIImageView *comBGImg = [[UIImageView alloc] init];
-    comBGImg.backgroundColor = [UIColor grayColor];
-    comBGImg.contentMode = UIViewContentModeScaleToFill;
-    [comBGImg setImage:[UIImage imageNamed:@"LP_commBG"]];
-    [self.view addSubview:comBGImg];
+   
+    [self.view addSubview:self.headImageView];
+    self.headImageView.image = [UIImage imageNamed:@"LP_commBG"];
     __weak __typeof(self)weakSelf = self;
-    [comBGImg mas_updateConstraints:^(MASConstraintMaker *make) {
+    [self.headImageView mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
-        make.centerX.equalTo(strongSelf.view);
-        make.size.mas_equalTo(CGSizeMake(kApplecationScreenWidth, 260));
-        make.top.equalTo(strongSelf.view).with.offset(-64);
+        make.left.top.equalTo(strongSelf.view);
+        make.size.mas_equalTo(CGSizeMake(kApplecationScreenWidth, kDefaultHeadHeight));
     }];
     
+    self.dataSource = [self getDataSource];
+    [self.view addSubview:self.tableView];
+    [self.tableView mas_updateConstraints:^(MASConstraintMaker *make) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        make.left.top.equalTo(strongSelf.view);
+        make.size.equalTo(strongSelf.view);
+    }];
+    if (!self.tableView.tableHeaderView) {
+        UIView *tableHeadBgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kApplecationScreenWidth, kDefaultHeadHeight)];
+        tableHeadBgView.backgroundColor = [UIColor clearColor];
+        self.tableView.backgroundColor = [UIColor clearColor];
+        self.tableView.tableHeaderView = tableHeadBgView;
+    }
+   
     UIImageView *avatarBGImg = [[UIImageView alloc] init];
     avatarBGImg.layer.cornerRadius = 77/2;
     avatarBGImg.alpha = 0.5;
     avatarBGImg.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:avatarBGImg];
+    [self.tableView.tableHeaderView addSubview:avatarBGImg];
+    __weak __typeof(self.tableView.tableHeaderView)weakHeadView = self.tableView.tableHeaderView;
     [avatarBGImg mas_updateConstraints:^(MASConstraintMaker *make) {
-        __strong __typeof(weakSelf)strongSelf = weakSelf;
-        make.top.equalTo(comBGImg.mas_top).with.offset(120);
-        make.centerX.equalTo(strongSelf.view);
+        __strong __typeof(weakHeadView)strongHeadView = weakHeadView;
+        make.top.equalTo(strongHeadView.mas_top).with.offset(55);
+        make.centerX.equalTo(strongHeadView);
         make.size.mas_equalTo(CGSizeMake(77, 77));
     }];
-    
-    [self.view addSubview:self.avatarImageView];
+    [self.tableView.tableHeaderView addSubview:self.avatarImageView];
     [self.avatarImageView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(avatarBGImg);
         make.size.mas_equalTo(CGSizeMake(70, 70));
     }];
-    
-    [self.view addSubview:self.userNameLabel];
+
+    [self.tableView.tableHeaderView addSubview:self.userNameLabel];
     [self.userNameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:strongSelf.userNameLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:36.f/2.2639]}];
@@ -144,7 +152,7 @@ CGSize const kAvatarImageViewSize1 = {70,70};
     [noticeImg mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         make.centerX.equalTo(strongSelf.view);
-        make.top.equalTo(comBGImg.mas_bottom).with.offset(55);
+        make.top.equalTo(strongSelf.headImageView.mas_bottom).with.offset(55);
         
     }];
     
@@ -157,15 +165,84 @@ CGSize const kAvatarImageViewSize1 = {70,70};
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         make.centerX.equalTo(strongSelf.view);
         make.top.equalTo(noticeImg.mas_bottom).with.offset(21);
-        
     }];
+
 }
 
 - (void)goBackAction{
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (NSArray *)getDataSource{
+    NSArray *array = @[@[@{@"User_account":@"我的账户"},@{@"User_Purchase":@"我的购买"},@{@"User_Mine_Activity":@"活动"}]];
+    
+    return array;
+}
+
+#pragma mark- UITableViewDataSource
+
+- (NSInteger)numberOfSectionsInTableView:(nonnull UITableView *)tableView{
+    return self.dataSource.count;
+}
+
+- (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (self.dataSource.count > section) {
+        NSArray *array = self.dataSource[section];
+        return array.count;
+    }
+    return 0;
+}
+
+
+- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
+    
+    LPNewsMyCommCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentify forIndexPath:indexPath];
+    if (!cell) {
+        cell = [[LPNewsMyCommCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kCellIdentify];
+    }
+    if (indexPath.section < self.dataSource.count) {
+        NSArray *array = self.dataSource[indexPath.section];
+        if (indexPath.row < array.count) {
+            NSDictionary *dict = [array objectAtIndex:indexPath.row];
+            [cell setModel:dict IndexPath:indexPath];
+            
+        }
+    }
+    return cell;
+}
+
+#pragma mark- UIScrollViewDelegate
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if(scrollView.contentOffset.y < 0){
+        [self setHeadImageViewConstraints:kDefaultHeadHeight - scrollView.contentOffset.y originalY:kContentIndent];
+    }else {
+        [self setHeadImageViewConstraints:kDefaultHeadHeight originalY:(0.f-scrollView.contentOffset.y)+kContentIndent];
+    }
+}
+
+-(void)setHeadImageViewConstraints:(CGFloat)height originalY:(CGFloat)y{
+    __weak __typeof(self)weakSelf = self;
+    [self.headImageView mas_updateConstraints:^(MASConstraintMaker *make) {
+        __strong __typeof(weakSelf)strongSelf = weakSelf;
+        make.top.equalTo(strongSelf.view).offset(y);
+        make.left.equalTo(strongSelf.view);
+        make.size.mas_equalTo(CGSizeMake(kApplecationScreenWidth, height));
+    }];
+}
+
 #pragma mark- Getters and Setters
+
+- (UIImageView * __nonnull)headImageView{
+    if (!_headImageView) {
+        UIImageView *headImageView = [[UIImageView alloc] init];
+        headImageView.contentMode = UIViewContentModeScaleAspectFill;
+        headImageView.clipsToBounds = YES;
+        _headImageView = headImageView;
+    }
+    return _headImageView;
+}
 
 - (UIImageView *__nonnull)avatarImageView{
     if (!_avatarImageView) {
@@ -176,7 +253,7 @@ CGSize const kAvatarImageViewSize1 = {70,70};
         avatarImageView.layer.masksToBounds = YES;
         avatarImageView.layer.shouldRasterize = YES;
         avatarImageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
-        avatarImageView.layer.cornerRadius = kAvatarImageViewSize1.width/2;
+        avatarImageView.layer.cornerRadius = kAvatarImageViewSize.width/2;
         avatarImageView.layer.borderWidth = 0.5f;
         avatarImageView.layer.borderColor = [[UIColor colorWithDesignIndex:5] CGColor];
         _avatarImageView = avatarImageView;
@@ -212,5 +289,20 @@ CGSize const kAvatarImageViewSize1 = {70,70};
     return _userNameLabel;
 }
 
+- (UITableView *)tableView{
+    if (!_tableView) {
+        UITableView *tableView = [[UITableView alloc] init];
+        _tableView = tableView;
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        _tableView.rowHeight = kMineViewCellHeight;
+        
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        [_tableView registerClass:[LPNewsMyCommCell class] forCellReuseIdentifier:kCellIdentify];
+    }
+    return _tableView;
+}
 
 @end
+
+NS_ASSUME_NONNULL_END

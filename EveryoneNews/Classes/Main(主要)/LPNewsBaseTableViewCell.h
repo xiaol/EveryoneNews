@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+
 @interface LPNewsBaseTableViewCell : UITableViewCell
 
-- (void)setModel:(nonnull id)model IndexPath:(NSIndexPath *)indexPath;
+- (void)setModel:(nonnull id)model IndexPath:(nullable NSIndexPath *)indexPath;
+
 @end

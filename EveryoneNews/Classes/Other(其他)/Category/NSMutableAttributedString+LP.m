@@ -16,7 +16,8 @@
 
 - (CGSize)sizeWithConstraintSize:(CGSize)maxSize
 {
-    return [self boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin context:nil].size;
+    return [self boundingRectWithSize:maxSize options:NSStringDrawingUsesLineFragmentOrigin| NSStringDrawingUsesFontLeading context:nil].size;
+    
 }
 
 - (CGFloat)heightWithConstraintWidth:(CGFloat)width
@@ -27,6 +28,18 @@
 - (BOOL)isMoreThanOneLineConstraintToWidth:(CGFloat)width
 {
     return [self sizeWithConstraintSize:CGSizeMake(MAXFLOAT, MAXFLOAT)].width > width ;
+}
+
+- (CGFloat)textViewHeightWithConstraintWidth:(CGFloat)width {
+    return [self textViewHeightForAttributedText:self width:width];
+}
+
+- (CGFloat)textViewHeightForAttributedText:(NSAttributedString *)text width:(CGFloat)width
+{
+    UITextView *textView = [[UITextView alloc] init];
+    [textView setAttributedText:text];
+    CGSize size = [textView sizeThatFits:CGSizeMake(width, FLT_MAX)];
+    return size.height;
 }
 
 @end

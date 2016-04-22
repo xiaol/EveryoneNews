@@ -20,15 +20,11 @@
     
     if (!_content.isPhoto) { // 普通类型(非图)g
         CGFloat bodyX = 0;
-        CGFloat bodyY = BodyPadding * 2;
+        CGFloat bodyY = 5;
         CGFloat bodyW = ScreenWidth - 2 * BodyPadding;
-        
-        CGFloat bodyH = [_content.bodyHtmlString heightWithConstraintWidth:bodyW];
-        
-        //        CGFloat bodyH = [self.content.bodyString heightWithConstraintWidth:bodyW];
-        
+        CGFloat bodyH = [_content.bodyHtmlString textViewHeightWithConstraintWidth:bodyW];
         _bodyLabelF = CGRectMake(bodyX, bodyY, bodyW, bodyH);
-        _cellHeight = CGRectGetMaxY(_bodyLabelF) + BodyPadding - 5;
+        _cellHeight = CGRectGetMaxY(_bodyLabelF) + 5;
         
     }
     
@@ -58,13 +54,13 @@
 
 - (void)setupPhotoFAndCellHWithImage:(UIImage *)image {
     CGFloat photoX = 0;
-    CGFloat photoY = BodyPadding * 2;
+    CGFloat photoY = 5;
     CGFloat photoW = ScreenWidth - 2 * BodyPadding;
     CGFloat photoH =  photoW * (image.size.height / image.size.width);
     
     //        CGFloat photoH = photoW * 9 / 11;
     _photoViewF = CGRectMake(photoX, photoY, photoW, photoH);
-    _cellHeight = CGRectGetMaxY(_photoViewF);
+    _cellHeight = CGRectGetMaxY(_photoViewF) + 5;
 
 }
 

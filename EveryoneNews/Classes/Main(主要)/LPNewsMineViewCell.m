@@ -60,7 +60,7 @@
 
 static const CGFloat kLeftMargin = 23.f;
 
-- (void)setModel:(nonnull id)model IndexPath:(NSIndexPath *)indexPath{
+- (void)setModel:(nonnull id)model IndexPath:(nullable NSIndexPath *)indexPath{
     if (model && [model isKindOfClass:[NSDictionary class]]) {
         NSDictionary *dict = (NSDictionary *)model;
         NSString *keyStr = [dict.allKeys objectAtIndex:0];

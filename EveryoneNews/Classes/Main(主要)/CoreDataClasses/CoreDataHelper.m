@@ -121,8 +121,8 @@ NSString *storeFileName = @"EveryoneNews.sqlite";
     [self importDefaultData];
     if (![userDefaults objectForKey:@"isVersion3FirstLoad"] || ![userDefaults objectForKey:@"isFinishDeleteCoreData"]) {
         [self deleteCoreData];
-        NSLog(@"sss");
     }
+ 
 }
 
 #pragma mark - DEFAULT DATA
@@ -302,19 +302,42 @@ NSString *storeFileName = @"EveryoneNews.sqlite";
 - (void)deleteCoreData {
     
     // 清理Core Data中相关表信息
-    NSManagedObjectModel *model = self.model;
-    NSDictionary *entities = [model entitiesByName];
-    NSArray *entityDescriptionArray = [entities allValues];
-    for (int count = 0; count < entityDescriptionArray.count; count++) {
-        NSEntityDescription *entityDescription = entityDescriptionArray[count];
-        NSFetchRequest *request = [[NSFetchRequest alloc]init];
-        [request setEntity:entityDescription];
-        NSError *error = nil;
-        NSArray *listData = [_importContext executeFetchRequest:request error:&error];
-        for(id record in listData) {
-            [_importContext deleteObject:record];
-        }
+//    NSManagedObjectModel *model = self.model;
+//    NSDictionary *entities = [model entitiesByName];
+//    NSArray *entityDescriptionArray = [entities allValues];
+//    for (int count = 0; count < entityDescriptionArray.count; count++) {
+//        NSEntityDescription *entityDescription = entityDescriptionArray[count];
+//        NSFetchRequest *request = [[NSFetchRequest alloc]init];
+//        [request setEntity:entityDescription];
+//        NSError *error = nil;
+//        NSArray *listData = [_importContext executeFetchRequest:request error:&error];
+//        for(id record in listData) {
+//            [_importContext deleteObject:record];
+//        }
+//    }
+    
+    // Card Image
+    NSFetchRequest *cardImageRequest = [[NSFetchRequest alloc] init];
+    [cardImageRequest setEntity:[NSEntityDescription entityForName:@"CardImage" inManagedObjectContext:_importContext]];
+    [cardImageRequest setIncludesPropertyValues:NO]; // only fetch the managedObjectID
+    NSError *cardImageError = nil;
+    NSArray *cardImages = [_importContext executeFetchRequest:cardImageRequest error:&cardImageError];
+    //error handling goes here
+    for (NSManagedObject *cardImage in cardImages) {
+        [_importContext deleteObject:cardImage];
     }
+
+    // Card
+    NSFetchRequest *cardRequest = [[NSFetchRequest alloc] init];
+    [cardRequest setEntity:[NSEntityDescription entityForName:@"Card" inManagedObjectContext:_importContext]];
+    [cardRequest setIncludesPropertyValues:NO]; // only fetch the managedObjectID
+    NSError *cardError = nil;
+    NSArray *cards = [_importContext executeFetchRequest:cardRequest error:&cardError];
+    //error handling goes here
+    for (NSManagedObject *card in cards) {
+        [_importContext deleteObject:card];
+    }
+    
     NSError *saveError = nil;
     [_importContext save:&saveError];
     [_context performBlock:^{
@@ -323,6 +346,7 @@ NSString *storeFileName = @"EveryoneNews.sqlite";
         [userDefaults synchronize];
      
     }];
+  
 }
 
 @end

@@ -57,7 +57,7 @@ const static CGFloat relatePointCellHeight = 79;
 
 static int imageDownloadCount;
 
-@interface LPDetailViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate,LPRelateCellDelegate, LPDetailTopViewDelegate, LPShareViewDelegate,LPDetailBottomViewDelegate, LPShareCellDelegate>
+@interface LPDetailViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate,LPRelateCellDelegate, LPDetailTopViewDelegate, LPShareViewDelegate,LPDetailBottomViewDelegate, LPShareCellDelegate, LPContentCellDelegate>
 
 @property (nonatomic, assign) CGFloat lastContentOffsetY;
 
@@ -293,6 +293,10 @@ static int imageDownloadCount;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+//- (void)viewDidLayoutSubviews {
+//    
+//}
+
 #pragma mark - 创建视图
 - (void)setupSubviews {
     
@@ -412,7 +416,7 @@ static int imageDownloadCount;
     params[@"url"] = [self.card valueForKey:@"newId"];
     // 分享页面地址
     self.shareURL = [NSString stringWithFormat:@"http://deeporiginalx.com/news.html?type=0&url=%@&interface", params[@"url"]];
-//    NSLog(@"%@?url=%@", url, params[@"url"]);
+    NSLog(@"%@?url=%@", url, params[@"url"]);
     
     [self getDetailDataWithUrl:url params:params];
 }
@@ -487,8 +491,6 @@ static int imageDownloadCount;
             }];
         }
         self.tableView.hidden = NO;
-        
-        
         static OSSpinLock aspect_lock = OS_SPINLOCK_INIT;
         OSSpinLockLock(&aspect_lock);
         [self.tableView reloadData];
@@ -529,8 +531,7 @@ static int imageDownloadCount;
     if (indexPath.section == 0) {
         
         LPContentCell *cell = [LPContentCell cellWithTableView:tableView];
-//        cell.cellHeight = [self.contentDictionary[@(indexPath.row)] floatValue];
-//        cell.content = self.contentArray[indexPath.row];
+        cell.delegate = self;
         cell.contentFrame = self.contentFrames[indexPath.row];
         return cell;
         
@@ -562,28 +563,6 @@ static int imageDownloadCount;
     if (indexPath.section == 0) {
         LPContentFrame *contentFrame = self.contentFrames[indexPath.row];
         return contentFrame.cellHeight;
-        
-        
-//        LPContent *content = self.contentArray[indexPath.row];
-//        
-//        if (content.isPhoto) {
-//            CGFloat photoX = 0;
-//            CGFloat photoY = BodyPadding * 2;
-//            CGFloat photoW = ScreenWidth - 2 * BodyPadding;
-//            CGFloat photoH = photoW * (content.image.size.height / content.image.size.width);
-//            CGRect photoViewFrame = CGRectMake(photoX, photoY, photoW, photoH);
-//            
-//            return CGRectGetMaxY(photoViewFrame);
-//        } else {
-//            
-//            CGFloat bodyY = BodyPadding * 2;
-//            CGFloat bodyW = ScreenWidth - 2 * BodyPadding;
-//            if (self.contentDictionary[@(indexPath.row)] == nil) {
-//                [self.contentDictionary setObject:@([content.bodyHtmlString heightWithConstraintWidth:bodyW]) forKey:@(indexPath.row)];
-//            }
-//            CGFloat bodyH = [self.contentDictionary[@(indexPath.row)] floatValue];
-//            return  bodyH + bodyY + BodyPadding - 5;
-//        }
     } else if (indexPath.section == 1) {
         return 100;
     } else if (indexPath.section == 2) {
@@ -729,18 +708,15 @@ static int imageDownloadCount;
     UIView *headerView = [[UIView alloc] init];
     CGFloat titleFontSize = [LPFontSizeManager sharedManager].currentDetaiTitleFontSize;
     CGFloat titlePaddingTop = TabBarHeight;
-    CGFloat sourceFontSize = 14;
+    CGFloat sourceFontSize = [LPFontSizeManager sharedManager].currentDetailSourceFontSize;;
     CGFloat sourcePaddingTop = 0;
-    
-    if (iPhone6Plus) {
-  
-        sourceFontSize = 14;
-    }
+
     // 标题
     UILabel *titleLabel = [[UILabel alloc] init];
     titleLabel.numberOfLines = 0;
     
-    NSMutableAttributedString *titleString = [title attributedStringWithFont:[UIFont boldSystemFontOfSize:titleFontSize] color:[UIColor colorFromHexString:@"#060606"] lineSpacing:0];
+    NSMutableAttributedString *titleString = [title attributedStringWithFont:[UIFont  systemFontOfSize:titleFontSize weight:0.5] color:[UIColor colorFromHexString:@"#060606"] lineSpacing:2.0f];
+    
     
     CGFloat titleX = 0;
     CGFloat titleW = ScreenWidth - BodyPadding * 2;
@@ -764,11 +740,16 @@ static int imageDownloadCount;
     sourceLabel.text = source;
     [headerView addSubview:sourceLabel];
     
-    headerView.frame = CGRectMake(0, 0, ScreenWidth, CGRectGetMaxY(sourceLabel.frame));
+    headerView.frame = CGRectMake(0, 0, ScreenWidth, CGRectGetMaxY(sourceLabel.frame) + 10);
     
     self.tableView.tableHeaderView = headerView;
 
 }
+#pragma mark - Content Cell Delegate
+-(void)contentCell:(LPContentCell *)contentCell didOpenURL:(NSString *)url {
+    [LPPressTool loadWebViewWithURL:url viewController:self];
+}
+
 
 #pragma mark - Bottom View Delegate
 - (void)didComposeCommentWithDetailBottomView:(LPDetailBottomView *)detailBottomView {
@@ -823,7 +804,6 @@ static int imageDownloadCount;
   [LPPressTool loadWebViewWithURL:url viewController:self];
 }
 
-
 #pragma mark - LPShareCell  Delegate
 - (void)cell:(LPShareCell *)shareCell shareIndex:(NSInteger)index {
     switch (index) {
@@ -841,27 +821,5 @@ static int imageDownloadCount;
             break;
     }
 }
-
-#pragma mark - Observe Image Size
-//- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
-//    if(context == &privateContext) {
-//        if ([keyPath isEqualToString:@"image"]) {
-//            
-//           
-//            [self.tableView reloadData];
-//        }
-//    }
-//     else {
-//        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-//    }
-//}
-
-#pragma mark - dealloc
-//- (void)dealloc {
-//    // 移除相应的kvo
-//    for (LPContent *content in self.contentArray) {
-//        [content removeObserver:self forKeyPath:@"image"];
-//    }
-//}
 
 @end

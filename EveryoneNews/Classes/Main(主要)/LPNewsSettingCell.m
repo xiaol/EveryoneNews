@@ -75,7 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 static const CGFloat kLeftMargin = 14.f;
 
-- (void)setModel:(nonnull id)model IndexPath:(NSIndexPath *)indexPath {
+- (void)setModel:(nonnull id)model IndexPath:(nullable NSIndexPath *)indexPath {
     
     if (model && [model isKindOfClass:[NSDictionary class]]) {
         __weak __typeof(self)weakSelf = self;
@@ -191,78 +191,69 @@ static const CGFloat kLeftMargin = 14.f;
 
 - (void)modifyTextFontSize:(UISegmentedControl *)sender{
     
-    //    [noteCenter addObserver:<#(nonnull id)#> selector:<#(nonnull SEL)#> name:<#(nullable NSString *)#> object:<#(nullable id)#>];
-    
-    
-    //    NSLog(@"------index:%ld",(long)sender.selectedSegmentIndex);
-    
-    NSInteger fontSize;
-    NSString  *fontSizeType;
-    NSInteger currentDetailContentFontSize;
-    NSInteger currentDetaiTitleFontSize;
-    NSInteger currentDetailCommentFontSize;
-    NSInteger currentDetailRelatePointFontSize;
-    
     if (sender.selectedSegmentIndex == 0) {
-        fontSize =  LPFontSize16;
-        currentDetailContentFontSize = LPFontSize18;
-        currentDetaiTitleFontSize  = LPFontSize23;
-        currentDetailCommentFontSize = LPFontSize16;
-        currentDetailRelatePointFontSize = LPFontSize14;
+        self.homeViewFontSize = iPhone5HomeTitleSizeStandard;
+        self.currentDetailContentFontSize = iPhone5DetailContentSizeStandard;
+        self.currentDetaiTitleFontSize  = iPhone5DetailTitleSizeStandard;
+        self.currentDetailCommentFontSize = iPhone5DetailCommentSizeStandard;
+        self.currentDetailRelatePointFontSize = iPhone5DetailRelateSizeStandard;
+        self.currentDetailSourceFontSize = iPhone5DetailSourceSizeStandard;
         
         if (iPhone6Plus) {
-            
-            fontSize =  LPFontSize18;
-            currentDetailContentFontSize = LPFontSize20;
-            currentDetaiTitleFontSize  = LPFontSize23;
-            currentDetailCommentFontSize = LPFontSize16;
-            currentDetailRelatePointFontSize = LPFontSize14;
+            self.homeViewFontSize = iPhone6PlusHomeTitleSizeStandard;
+            self.currentDetailContentFontSize = iPhone6PlusDetailContentSizeStandard;
+            self.currentDetaiTitleFontSize  = iPhone6PlusDetailTitleSizeStandard;
+            self.currentDetailCommentFontSize = iPhone6PlusDetailCommentSizeStandard;
+            self.currentDetailRelatePointFontSize = iPhone6PlusDetailRelateSizeStandard;
+            self.currentDetailSourceFontSize = iPhone6PlusDetailSourceSizeStandard;
         }
-        fontSizeType = @"standard";
+        self.fontSizeType = @"standard";
         
     } else if (sender.selectedSegmentIndex == 1) {
-        fontSize =  LPFontSize18;
-        currentDetailContentFontSize = LPFontSize20;
-        currentDetaiTitleFontSize  = LPFontSize24;
-        currentDetailCommentFontSize = LPFontSize17;
-        currentDetailRelatePointFontSize = LPFontSize15;
-        
+        self.homeViewFontSize = iPhone5HomeTitleSizeLarger;
+        self.currentDetailContentFontSize = iPhone5DetailContentSizeLarger;
+        self.currentDetaiTitleFontSize  = iPhone5DetailTitleSizeLarger;
+        self.currentDetailCommentFontSize = iPhone5DetailCommentSizeLarger;
+        self.currentDetailRelatePointFontSize = iPhone5DetailRelateSizeLarger;
+        self.currentDetailSourceFontSize = iPhone5DetailSourceSizeLarger;
+    
         if (iPhone6Plus) {
-            
-            fontSize =  LPFontSize20;
-            currentDetailContentFontSize = LPFontSize22;
-            currentDetaiTitleFontSize  = LPFontSize24;
-            currentDetailCommentFontSize = LPFontSize17;
-            currentDetailRelatePointFontSize = LPFontSize15;
+            self.homeViewFontSize = iPhone6PlusHomeTitleSizeLarger;
+            self.currentDetailContentFontSize = iPhone6PlusDetailContentSizeLarger;
+            self.currentDetaiTitleFontSize  = iPhone6PlusDetailTitleSizeLarger;
+            self.currentDetailCommentFontSize = iPhone6PlusDetailCommentSizeLarger;
+            self.currentDetailRelatePointFontSize = iPhone6PlusDetailRelateSizeLarger;
+            self.currentDetailSourceFontSize = iPhone6PlusDetailSourceSizeLarger;
         }
-        fontSizeType = @"larger";
-        // 字体标准   standard / larger/ superlarger
-        
+        self.fontSizeType = @"larger";
     } else if (sender.selectedSegmentIndex == 2) {
-        fontSize =  LPFontSize20;
-        currentDetailContentFontSize = LPFontSize22;
-        currentDetaiTitleFontSize  = LPFontSize25;
-        currentDetailCommentFontSize = LPFontSize18;
-        currentDetailRelatePointFontSize = LPFontSize16;
+        self.homeViewFontSize = iPhone5HomeTitleSizeSuperLarger;
+        self.currentDetailContentFontSize = iPhone5DetailContentSizeSuperLarger;
+        self.currentDetaiTitleFontSize  = iPhone5DetailTitleSizeSuperLarger;
+        self.currentDetailCommentFontSize = iPhone5DetailCommentSizeSuperLarger;
+        self.currentDetailRelatePointFontSize = iPhone5DetailRelateSizeSuperLarger;
+        self.currentDetailSourceFontSize = iPhone5DetailSourceSizeSuperLarger;
         
         if (iPhone6Plus) {
             
-            fontSize =  LPFontSize22;
-            currentDetailContentFontSize = LPFontSize24;
-            currentDetaiTitleFontSize  = LPFontSize25;
-            currentDetailCommentFontSize = LPFontSize18;
-            currentDetailRelatePointFontSize = LPFontSize16;
+            self.homeViewFontSize = iPhone6PlusHomeTitleSizeSuperLarger;
+            self.currentDetailContentFontSize = iPhone6PlusDetailContentSizeSuperLarger;
+            self.currentDetaiTitleFontSize  = iPhone6PlusDetailTitleSizeSuperLarger;
+            self.currentDetailCommentFontSize = iPhone6PlusDetailCommentSizeSuperLarger;
+            self.currentDetailRelatePointFontSize = iPhone6PlusDetailRelateSizeSuperLarger;
+            self.currentDetailSourceFontSize = iPhone6PlusDetailSourceSizeSuperLarger;
         }
-        fontSizeType = @"superlarger";
+        self.fontSizeType = @"superlarger";
         
     }
     
-    [LPFontSizeManager sharedManager].currentHomeViewFontSize = fontSize;
-    [LPFontSizeManager sharedManager].currentHomeViewFontSizeType = fontSizeType;
-    [LPFontSizeManager sharedManager].currentDetailContentFontSize = currentDetailContentFontSize;
-    [LPFontSizeManager sharedManager].currentDetaiTitleFontSize = currentDetaiTitleFontSize;
-    [LPFontSizeManager sharedManager].currentDetailCommentFontSize = currentDetailCommentFontSize;
-    [LPFontSizeManager sharedManager].currentDetailRelatePointFontSize = currentDetailRelatePointFontSize;
+    [LPFontSizeManager sharedManager].currentHomeViewFontSize = self.homeViewFontSize;
+    [LPFontSizeManager sharedManager].currentHomeViewFontSizeType = self.fontSizeType;
+    [LPFontSizeManager sharedManager].currentDetailContentFontSize = self.currentDetailContentFontSize;
+    [LPFontSizeManager sharedManager].currentDetaiTitleFontSize = self.currentDetaiTitleFontSize;
+    [LPFontSizeManager sharedManager].currentDetailCommentFontSize = self.currentDetailCommentFontSize;
+    [LPFontSizeManager sharedManager].currentDetailRelatePointFontSize = self.currentDetailRelatePointFontSize;
+    [LPFontSizeManager sharedManager].currentDetailSourceFontSize = self.currentDetailSourceFontSize;
     
     [[LPFontSizeManager sharedManager] saveHomeViewFontSizeAndType];
     

@@ -13,7 +13,7 @@
 @implementation LPHomeViewController (LaunchFontSizeManager)
 
 #pragma mark - LPChangeFontSizeView Delegate
-- (void)changeFontSizeView:(LPChangeFontSizeView *)changeFontSizeView reloadTableViewWithFontSize:(NSInteger)fontSize fontSizeType:(NSString *)fontSizeType currentDetailContentFontSize:(NSInteger)currentDetailContentFontSize currentDetaiTitleFontSize:(NSInteger)currentDetaiTitleFontSize  currentDetailCommentFontSize:(NSInteger)currentDetailCommentFontSize currentDetailRelatePointFontSize:(NSInteger)currentDetailRelatePointFontSize {
+- (void)changeFontSizeView:(LPChangeFontSizeView *)changeFontSizeView reloadTableViewWithFontSize:(NSInteger)fontSize fontSizeType:(NSString *)fontSizeType currentDetailContentFontSize:(NSInteger)currentDetailContentFontSize currentDetaiTitleFontSize:(NSInteger)currentDetaiTitleFontSize currentDetailCommentFontSize:(NSInteger)currentDetailCommentFontSize currentDetailRelatePointFontSize:(NSInteger)currentDetailRelatePointFontSize currentDetailSourceFontSize:(NSInteger)currentDetailSourceFontSize {
     
     [LPFontSizeManager sharedManager].currentHomeViewFontSize = fontSize;
     [LPFontSizeManager sharedManager].currentHomeViewFontSizeType = fontSizeType;
@@ -21,9 +21,12 @@
     [LPFontSizeManager sharedManager].currentDetaiTitleFontSize = currentDetaiTitleFontSize;
     [LPFontSizeManager sharedManager].currentDetailCommentFontSize = currentDetailCommentFontSize;
     [LPFontSizeManager sharedManager].currentDetailRelatePointFontSize = currentDetailRelatePointFontSize;
-    
+    [LPFontSizeManager sharedManager].currentDetailSourceFontSize = currentDetailSourceFontSize;
+
     [self setupInitialPagingViewData];
     [self.pagingView reloadData];
+    
+    
 }
 
 - (void)finishButtonDidClick:(LPChangeFontSizeView *)changeFontSizeView {
