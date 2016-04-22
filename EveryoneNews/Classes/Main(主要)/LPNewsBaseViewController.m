@@ -155,7 +155,7 @@ static const NSInteger kNavBarTag = 10000;
 //        navBar.translucent = YES;
 //        navBar.barStyle = UIBarStyleBlack;
         
-        CGRect lineLayerRect = CGRectMake(0.f, (barHeight-1.f), CGRectGetWidth(barFrame), 0.5f);
+        CGRect lineLayerRect = CGRectMake(0.f, (barHeight-1.5f), CGRectGetWidth(barFrame), 1.f);
         CALayer *lineLayer = [CALayer layer];
         lineLayer.frame = lineLayerRect;
         lineLayer.backgroundColor = [[UIColor colorWithDesignIndex:5] CGColor];
@@ -321,7 +321,7 @@ static const NSInteger kNavBarTag = 10000;
     }
     btn.frame = CGRectMake(0, 0, btnWidth, btnHeight);
     if (iOS8) {
-        [btn setImageEdgeInsets:UIEdgeInsetsMake(0, -66.f, 0, 0)];
+        [btn setImageEdgeInsets:UIEdgeInsetsMake(0, -55.f, 0, 0)];
     }else{
         [btn setImageEdgeInsets:UIEdgeInsetsMake(0, -20.f, 0, 0)];
     }
@@ -339,13 +339,13 @@ static const NSInteger kNavBarTag = 10000;
     }
     self.navigationItem.hidesBackButton = YES;
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    UIImage *image = [UIImage imageNamed:@"joyBack"];
+    UIImage *image = [UIImage imageNamed:@""];
     [btn setImage:image forState:UIControlStateNormal];
     [btn setTitleColor:[UIColor colorWithDesignIndex:1] forState:UIControlStateNormal];
     [btn setTitle:title forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont boldSystemFontOfSize:36.f/2.2639];
+    btn.titleLabel.font = [UIFont boldSystemFontOfSize:36.f/2];
     
-    CGSize textSize = [[NSAttributedString alloc] initWithString:title attributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:36.f/2.2639]}].size;
+    CGSize textSize = [[NSAttributedString alloc] initWithString:title attributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:36.f/2]}].size;
     CGFloat btnWidth = (textSize.width +image.size.width+0.f);
     if (btnWidth > kApplecationScreenWidth/2) {
         btnWidth = kApplecationScreenWidth/2;

@@ -17,6 +17,7 @@
 #import "LPNewsPrivacyItemsController.h"
 #import "LPNewsAboutViewController.h"
 #import "AppDelegate.h"
+#import "LPNewsMineViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -54,7 +55,7 @@ static NSString * const kCellIdentify = @"JoySettingCell";
     [self setNavTitleView:@"设置"];
     [self backImageItem];
     
-    CGRect lineLayerRect = CGRectMake(0.f, (self.navigationController.navigationBar.size.height-1.f), kApplecationScreenWidth, 0.5f);
+    CGRect lineLayerRect = CGRectMake(0.f, (self.navigationController.navigationBar.size.height-1.f), kApplecationScreenWidth, 1.f);
     CALayer *lineLayer = [CALayer layer];
     lineLayer.frame = lineLayerRect;
     lineLayer.backgroundColor = [[UIColor colorWithDesignIndex:5] CGColor];
@@ -74,6 +75,7 @@ static NSString * const kCellIdentify = @"JoySettingCell";
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    self.navigationController.navigationItem.hidesBackButton = YES;
  
 }
 
@@ -125,10 +127,21 @@ static NSString * const kCellIdentify = @"JoySettingCell";
         }
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     return cell;
 }
 
 #pragma mark- UITableViewDelegate
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section == 0 && indexPath.row == 1) {
+       
+        return kSetingCellHeight+22.f;
+    }else{
+        
+        return kSetingCellHeight;
+    }
+}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
@@ -145,9 +158,9 @@ static NSString * const kCellIdentify = @"JoySettingCell";
     separatorLineDown.backgroundColor = [UIColor colorWithDesignIndex:5];
     [view addSubview:separatorLineDown];
     [separatorLineDown mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(view.mas_bottom).offset(-0.5f);
+        make.bottom.equalTo(view.mas_bottom).offset(0.8f);
         make.width.mas_equalTo(kApplecationScreenWidth);
-        make.height.mas_equalTo(0.5);
+        make.height.mas_equalTo(0.8f);
     }];
     
     return view;
@@ -226,7 +239,7 @@ static NSString * const kCellIdentify = @"JoySettingCell";
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(12+10+clearSucc.image.size.width, 0, 200, 20)];
     label.text = @"清理缓存成功";
     label.textAlignment = NSTextAlignmentLeft;
-    label.font = [UIFont systemFontOfSize:28.f/2.2639];
+    label.font = [UIFont systemFontOfSize:28.f/fontSizePxToSystemMultiple];
     label.textColor = [UIColor whiteColor];
     [clearCacheView addSubview:label];
     //动画
@@ -269,7 +282,7 @@ static NSString * const kCellIdentify = @"JoySettingCell";
         _tableView.scrollEnabled = NO;
         _tableView.dataSource = self;
         _tableView.delegate = self;
-        _tableView.rowHeight = 51.f;
+//        _tableView.rowHeight = 51.f;
         UIView *backgroundView = [[UIView alloc] init];
         backgroundView.backgroundColor = [UIColor colorWithDesignIndex:9];
         _tableView.backgroundView = backgroundView;

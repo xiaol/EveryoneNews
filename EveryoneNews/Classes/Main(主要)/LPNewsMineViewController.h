@@ -12,6 +12,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+static const float fontSizePxToSystemMultiple = 2.f;
+
 @interface LPNewsMineViewController : LPNewsBaseViewController
 
 @property (nonatomic, strong) UIImageView *avatarImageView;

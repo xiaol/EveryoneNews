@@ -13,6 +13,7 @@
 #import "LPNewsMineViewCell.h"
 #import "LPNewsMyCommCell.h"
 #import "LPNewsHeaderView.h"
+#import "LPNewsMineViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -130,7 +131,7 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
     [self.tableView.tableHeaderView addSubview:self.userNameLabel];
     [self.userNameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
-        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:strongSelf.userNameLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:36.f/2.2639]}];
+        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:strongSelf.userNameLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:36.f/fontSizePxToSystemMultiple]}];
         make.size.mas_equalTo(CGSizeMake(ceilf(attStr.size.width)+10, ceilf(attStr.size.height)));
         make.centerX.mas_equalTo(strongSelf.view);
         make.top.mas_equalTo(avatarBGImg.mas_bottom).with.offset(18);
@@ -149,7 +150,7 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
     
     UILabel *noticeLabel = [[UILabel alloc] init];
     noticeLabel.text = @"正在建设中，请移步";
-    noticeLabel.font = [UIFont systemFontOfSize:32.f/2.2639];
+    noticeLabel.font = [UIFont systemFontOfSize:32.f/fontSizePxToSystemMultiple];
     noticeLabel.textColor = [UIColor colorWithDesignIndex:5];
     [self.view addSubview:noticeLabel];
     [noticeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -170,20 +171,20 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
         
     }];
     
-//    [self addNavBarView];
+    [self addNavBarView];
 }
 
 
 - (NSArray *)getDataSource{
-    NSArray *array = @[@[@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"}]];
+    NSArray *array = @[@[@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"}]];
     
     return array;
 }
 
 - (void)addNavBarView{
     
-    _navBarView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kApplecationScreenWidth, 44.f+20.f)];
-    _navBarView.backgroundColor = [UIColor cyanColor];
+    _navBarView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kApplecationScreenWidth, kNavigationBarHEIGHT+20.f)];
+    _navBarView.backgroundColor = [UIColor colorWithHexString:@"#FF69B4"];
     _navBarView.alpha = 0.f;
     
     UIImageView *avatar = nil;
@@ -358,7 +359,7 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
         }
         userNameLabel.textAlignment = NSTextAlignmentCenter;
         userNameLabel.textColor = [UIColor whiteColor];
-        userNameLabel.font = [UIFont boldSystemFontOfSize:36.f/2.2639];
+        userNameLabel.font = [UIFont boldSystemFontOfSize:36.f/fontSizePxToSystemMultiple];
         _userNameLabel = userNameLabel;
     }
     return _userNameLabel;
