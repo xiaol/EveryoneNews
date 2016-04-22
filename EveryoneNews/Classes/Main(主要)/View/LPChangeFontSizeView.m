@@ -120,59 +120,65 @@
     if (p.x <= (30 + (ScreenWidth - 60) / 4)) {
         [slider setValue:1];
         
-        self.homeViewFontSize = LPFontSize16;
-        self.currentDetailContentFontSize = LPFontSize18;
-        self.currentDetaiTitleFontSize  = LPFontSize23;
-        self.currentDetailCommentFontSize = LPFontSize16;
-        self.currentDetailRelatePointFontSize = LPFontSize14;
+        self.homeViewFontSize = iPhone5HomeTitleSizeStandard;
+        self.currentDetailContentFontSize = iPhone5DetailContentSizeStandard;
+        self.currentDetaiTitleFontSize  = iPhone5DetailTitleSizeStandard;
+        self.currentDetailCommentFontSize = iPhone5DetailCommentSizeStandard;
+        self.currentDetailRelatePointFontSize = iPhone5DetailRelateSizeStandard;
+        self.currentDetailSourceFontSize = iPhone5DetailSourceSizeStandard;
         
         
         if (iPhone6Plus) {
-            self.homeViewFontSize =  LPFontSize19;
-            self.currentDetailContentFontSize = LPFontSize20;
-            self.currentDetaiTitleFontSize  = LPFontSize23;
-            self.currentDetailCommentFontSize = LPFontSize16;
-            self.currentDetailRelatePointFontSize = LPFontSize14;
+            self.homeViewFontSize = iPhone6PlusHomeTitleSizeStandard;
+            self.currentDetailContentFontSize = iPhone6PlusDetailContentSizeStandard;
+            self.currentDetaiTitleFontSize  = iPhone6PlusDetailTitleSizeStandard;
+            self.currentDetailCommentFontSize = iPhone6PlusDetailCommentSizeStandard;
+            self.currentDetailRelatePointFontSize = iPhone6PlusDetailRelateSizeStandard;
+            self.currentDetailSourceFontSize = iPhone6PlusDetailSourceSizeStandard;
         }
         
     } else if (p.x <= (30 + (ScreenWidth - 60) * 3 / 4)) {
         [slider setValue:2];
         
-        self.homeViewFontSize = LPFontSize18;
-        self.currentDetailContentFontSize = LPFontSize20;
-        self.currentDetaiTitleFontSize  = LPFontSize24;
-        self.currentDetailCommentFontSize = LPFontSize17;
-        self.currentDetailRelatePointFontSize = LPFontSize15;
+        self.homeViewFontSize = iPhone5HomeTitleSizeLarger;
+        self.currentDetailContentFontSize = iPhone5DetailContentSizeLarger;
+        self.currentDetaiTitleFontSize  = iPhone5DetailTitleSizeLarger;
+        self.currentDetailCommentFontSize = iPhone5DetailCommentSizeLarger;
+        self.currentDetailRelatePointFontSize = iPhone5DetailRelateSizeLarger;
+        self.currentDetailSourceFontSize = iPhone5DetailSourceSizeLarger;
         
         if (iPhone6Plus) {
-            self.homeViewFontSize =  LPFontSize21;
-            self.currentDetailContentFontSize = LPFontSize22;
-            self.currentDetaiTitleFontSize  = LPFontSize24;
-            self.currentDetailCommentFontSize = LPFontSize17;
-            self.currentDetailRelatePointFontSize = LPFontSize15;
+            self.homeViewFontSize = iPhone6PlusHomeTitleSizeLarger;
+            self.currentDetailContentFontSize = iPhone6PlusDetailContentSizeLarger;
+            self.currentDetaiTitleFontSize  = iPhone6PlusDetailTitleSizeLarger;
+            self.currentDetailCommentFontSize = iPhone6PlusDetailCommentSizeLarger;
+            self.currentDetailRelatePointFontSize = iPhone6PlusDetailRelateSizeLarger;
+            self.currentDetailSourceFontSize = iPhone6PlusDetailSourceSizeLarger;
         }
     } else {
         
         [slider setValue:3];
         
-        self.homeViewFontSize = LPFontSize20;
-        self.currentDetailContentFontSize = LPFontSize22;
-        self.currentDetaiTitleFontSize  = LPFontSize25;
-        self.currentDetailCommentFontSize = LPFontSize18;
-        self.currentDetailRelatePointFontSize = LPFontSize16;
+        self.homeViewFontSize = iPhone5HomeTitleSizeSuperLarger;
+        self.currentDetailContentFontSize = iPhone5DetailContentSizeSuperLarger;
+        self.currentDetaiTitleFontSize  = iPhone5DetailTitleSizeSuperLarger;
+        self.currentDetailCommentFontSize = iPhone5DetailCommentSizeSuperLarger;
+        self.currentDetailRelatePointFontSize = iPhone5DetailRelateSizeSuperLarger;
+        self.currentDetailSourceFontSize = iPhone5DetailSourceSizeSuperLarger;
         
         if (iPhone6Plus) {
-            self.homeViewFontSize =  LPFontSize23;
-            self.currentDetailContentFontSize = LPFontSize24;
-            self.currentDetaiTitleFontSize  = LPFontSize25;
-            self.currentDetailCommentFontSize = LPFontSize18;
-            self.currentDetailRelatePointFontSize = LPFontSize16;
+            self.homeViewFontSize = iPhone6PlusHomeTitleSizeSuperLarger;
+            self.currentDetailContentFontSize = iPhone6PlusDetailContentSizeSuperLarger;
+            self.currentDetaiTitleFontSize  = iPhone6PlusDetailTitleSizeSuperLarger;
+            self.currentDetailCommentFontSize = iPhone6PlusDetailCommentSizeSuperLarger;
+            self.currentDetailRelatePointFontSize = iPhone6PlusDetailRelateSizeSuperLarger;
+            self.currentDetailSourceFontSize = iPhone6PlusDetailSourceSizeSuperLarger;
         }
     }
     NSString *homeViewFontSizeType = [self getCurrentHomeViewFontSizeTypeWithSliderValue:(NSInteger)slider.value];
     
-    if ([self.delegate respondsToSelector:@selector(changeFontSizeView:reloadTableViewWithFontSize:fontSizeType:currentDetailContentFontSize:currentDetaiTitleFontSize:currentDetailCommentFontSize:currentDetailRelatePointFontSize:)]) {
-        [self.delegate changeFontSizeView:self reloadTableViewWithFontSize:self.homeViewFontSize fontSizeType:homeViewFontSizeType currentDetailContentFontSize:self.currentDetailContentFontSize currentDetaiTitleFontSize:self.currentDetaiTitleFontSize currentDetailCommentFontSize:self.currentDetailCommentFontSize currentDetailRelatePointFontSize:self.currentDetailRelatePointFontSize];
+    if ([self.delegate respondsToSelector:@selector(changeFontSizeView:reloadTableViewWithFontSize:fontSizeType:currentDetailContentFontSize:currentDetaiTitleFontSize:currentDetailCommentFontSize:currentDetailRelatePointFontSize:currentDetailSourceFontSize:)]) {
+        [self.delegate changeFontSizeView:self reloadTableViewWithFontSize:self.homeViewFontSize fontSizeType:homeViewFontSizeType currentDetailContentFontSize:self.currentDetailContentFontSize currentDetaiTitleFontSize:self.currentDetaiTitleFontSize currentDetailCommentFontSize:self.currentDetailCommentFontSize currentDetailRelatePointFontSize:self.currentDetailRelatePointFontSize currentDetailSourceFontSize:self.currentDetailSourceFontSize];
     }
  
 }
@@ -182,58 +188,64 @@
     
     if (slider.value == 1) {
         
-        self.homeViewFontSize =  LPFontSize16;
-        self.currentDetailContentFontSize = LPFontSize18;
-        self.currentDetaiTitleFontSize  = LPFontSize23;
-        self.currentDetailCommentFontSize = LPFontSize16;
-        self.currentDetailRelatePointFontSize = LPFontSize14;
+        self.homeViewFontSize = iPhone5HomeTitleSizeStandard;
+        self.currentDetailContentFontSize = iPhone5DetailContentSizeStandard;
+        self.currentDetaiTitleFontSize  = iPhone5DetailTitleSizeStandard;
+        self.currentDetailCommentFontSize = iPhone5DetailCommentSizeStandard;
+        self.currentDetailRelatePointFontSize = iPhone5DetailRelateSizeStandard;
+        self.currentDetailSourceFontSize = iPhone5DetailSourceSizeStandard;
         
         if (iPhone6Plus) {
             
-            self.homeViewFontSize =  LPFontSize19;
-            self.currentDetailContentFontSize = LPFontSize20;
-            self.currentDetaiTitleFontSize  = LPFontSize23;
-            self.currentDetailCommentFontSize = LPFontSize16;
-            self.currentDetailRelatePointFontSize = LPFontSize14;
+            self.homeViewFontSize = iPhone6PlusHomeTitleSizeStandard;
+            self.currentDetailContentFontSize = iPhone6PlusDetailContentSizeStandard;
+            self.currentDetaiTitleFontSize  = iPhone6PlusDetailTitleSizeStandard;
+            self.currentDetailCommentFontSize = iPhone6PlusDetailCommentSizeStandard;
+            self.currentDetailRelatePointFontSize = iPhone6PlusDetailRelateSizeStandard;
+            self.currentDetailSourceFontSize = iPhone6PlusDetailSourceSizeStandard;
         }
         
     } else if (slider.value == 2) {
         
-        self.homeViewFontSize = LPFontSize18;
-        self.currentDetailContentFontSize = LPFontSize20;
-        self.currentDetaiTitleFontSize  = LPFontSize24;
-        self.currentDetailCommentFontSize = LPFontSize17;
-        self.currentDetailRelatePointFontSize = LPFontSize15;
+        self.homeViewFontSize = iPhone5HomeTitleSizeLarger;
+        self.currentDetailContentFontSize = iPhone5DetailContentSizeLarger;
+        self.currentDetaiTitleFontSize  = iPhone5DetailTitleSizeLarger;
+        self.currentDetailCommentFontSize = iPhone5DetailCommentSizeLarger;
+        self.currentDetailRelatePointFontSize = iPhone5DetailRelateSizeLarger;
+        self.currentDetailSourceFontSize = iPhone5DetailSourceSizeLarger;
         
         if (iPhone6Plus) {
             
-            self.homeViewFontSize =  LPFontSize21;
-            self.currentDetailContentFontSize = LPFontSize22;
-            self.currentDetaiTitleFontSize  = LPFontSize24;
-            self.currentDetailCommentFontSize = LPFontSize17;
-            self.currentDetailRelatePointFontSize = LPFontSize15;
+            self.homeViewFontSize = iPhone6PlusHomeTitleSizeLarger;
+            self.currentDetailContentFontSize = iPhone6PlusDetailContentSizeLarger;
+            self.currentDetaiTitleFontSize  = iPhone6PlusDetailTitleSizeLarger;
+            self.currentDetailCommentFontSize = iPhone6PlusDetailCommentSizeLarger;
+            self.currentDetailRelatePointFontSize = iPhone6PlusDetailRelateSizeLarger;
+            self.currentDetailSourceFontSize = iPhone6PlusDetailSourceSizeLarger;
         }
         
     } else if (slider.value == 3) {
         
-        self.homeViewFontSize = LPFontSize20;
-        self.currentDetailContentFontSize = LPFontSize22;
-        self.currentDetaiTitleFontSize  = LPFontSize25;
-        self.currentDetailCommentFontSize = LPFontSize18;
-        self.currentDetailRelatePointFontSize = LPFontSize16;
+        self.homeViewFontSize = iPhone5HomeTitleSizeSuperLarger;
+        self.currentDetailContentFontSize = iPhone5DetailContentSizeSuperLarger;
+        self.currentDetaiTitleFontSize  = iPhone5DetailTitleSizeSuperLarger;
+        self.currentDetailCommentFontSize = iPhone5DetailCommentSizeSuperLarger;
+        self.currentDetailRelatePointFontSize = iPhone5DetailRelateSizeSuperLarger;
+        self.currentDetailSourceFontSize = iPhone5DetailSourceSizeSuperLarger;
         
         if (iPhone6Plus) {
-            self.homeViewFontSize =  LPFontSize23;
-            self.currentDetailContentFontSize = LPFontSize24;
-            self.currentDetaiTitleFontSize  = LPFontSize25;
-            self.currentDetailCommentFontSize = LPFontSize18;
-            self.currentDetailRelatePointFontSize = LPFontSize16;
+            self.homeViewFontSize = iPhone6PlusHomeTitleSizeSuperLarger;
+            self.currentDetailContentFontSize = iPhone6PlusDetailContentSizeSuperLarger;
+            self.currentDetaiTitleFontSize  = iPhone6PlusDetailTitleSizeSuperLarger;
+            self.currentDetailCommentFontSize = iPhone6PlusDetailCommentSizeSuperLarger;
+            self.currentDetailRelatePointFontSize = iPhone6PlusDetailRelateSizeSuperLarger;
+            self.currentDetailSourceFontSize = iPhone6PlusDetailSourceSizeSuperLarger;
         }
     }
     NSString *homeViewFontSizeType = [self getCurrentHomeViewFontSizeTypeWithSliderValue:(NSInteger)slider.value];
     
-    if ([self.delegate respondsToSelector:@selector(changeFontSizeView:reloadTableViewWithFontSize:fontSizeType:currentDetailContentFontSize:currentDetaiTitleFontSize:currentDetailCommentFontSize:currentDetailRelatePointFontSize:)]) {
-        [self.delegate changeFontSizeView:self reloadTableViewWithFontSize:self.homeViewFontSize fontSizeType:homeViewFontSizeType currentDetailContentFontSize:self.currentDetailContentFontSize currentDetaiTitleFontSize:self.currentDetaiTitleFontSize currentDetailCommentFontSize:self.currentDetailCommentFontSize currentDetailRelatePointFontSize:self.currentDetailRelatePointFontSize];
+    if ([self.delegate respondsToSelector:@selector(changeFontSizeView:reloadTableViewWithFontSize:fontSizeType:currentDetailContentFontSize:currentDetaiTitleFontSize:currentDetailCommentFontSize:currentDetailRelatePointFontSize:currentDetailSourceFontSize:)]) {
+        [self.delegate changeFontSizeView:self reloadTableViewWithFontSize:self.homeViewFontSize fontSizeType:homeViewFontSizeType currentDetailContentFontSize:self.currentDetailContentFontSize currentDetaiTitleFontSize:self.currentDetaiTitleFontSize currentDetailCommentFontSize:self.currentDetailCommentFontSize currentDetailRelatePointFontSize:self.currentDetailRelatePointFontSize currentDetailSourceFontSize:self.currentDetailSourceFontSize];
     }
     
 }

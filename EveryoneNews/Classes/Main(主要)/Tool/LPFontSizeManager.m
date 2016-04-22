@@ -25,21 +25,22 @@
     if (self) {
         // 本地首页字体大小是否存在
         if (![userDefaults objectForKey:@"homeViewFontSize"]) {
-            
         if (iPhone6Plus) {
-                _currentHomeViewFontSize = LPFontSize19;
-                _currentDetailContentFontSize = LPFontSize20;
-                _currentDetaiTitleFontSize = LPFontSize23;
-                _currentDetailCommentFontSize = LPFontSize16;
-                _currentDetailRelatePointFontSize = LPFontSize14;
-                
+                _currentHomeViewFontSize = iPhone6PlusHomeTitleSizeStandard;
+                _currentDetailContentFontSize = iPhone6PlusDetailContentSizeStandard;
+                _currentDetaiTitleFontSize = iPhone6PlusDetailTitleSizeStandard;
+                _currentDetailCommentFontSize = iPhone6PlusDetailCommentSizeStandard;
+                _currentDetailRelatePointFontSize = iPhone6PlusDetailRelateSizeStandard;
+                _currentDetailSourceFontSize = iPhone6PlusDetailSourceSizeStandard;
+            
             } else {
                 
-                _currentHomeViewFontSize = LPFontSize16;
-                _currentDetailContentFontSize = LPFontSize18;
-                _currentDetaiTitleFontSize = LPFontSize23;
-                _currentDetailCommentFontSize = LPFontSize16;
-                _currentDetailRelatePointFontSize = LPFontSize14;
+                _currentHomeViewFontSize = iPhone5HomeTitleSizeStandard;
+                _currentDetailContentFontSize = iPhone5DetailContentSizeStandard;
+                _currentDetaiTitleFontSize = iPhone5DetailTitleSizeStandard;
+                _currentDetailCommentFontSize = iPhone5DetailCommentSizeStandard;
+                _currentDetailRelatePointFontSize = iPhone5DetailRelateSizeStandard;
+                _currentDetailSourceFontSize = iPhone5DetailSourceSizeStandard;
             }
             _currentHomeViewFontSizeType = @"standard";
             
@@ -50,6 +51,7 @@
             _currentDetaiTitleFontSize = [[userDefaults objectForKey:@"currentDetaiTitleFontSize"] intValue];
             _currentDetailCommentFontSize = [[userDefaults objectForKey:@"currentDetailCommentFontSize"] intValue];
             _currentDetailRelatePointFontSize =  [[userDefaults objectForKey:@"currentDetailRelatePointFontSize"] intValue];
+            _currentDetailSourceFontSize = [[userDefaults objectForKey:@"currentDetailSourceFontSize"] intValue];
             // 字体标准   standard / larger/ superlarger
             _currentHomeViewFontSizeType = (NSString *)[userDefaults objectForKey:@"homeViewFontSizeType"];
         }
@@ -74,8 +76,13 @@
     NSInteger currentDetailRelatePointFontSize = [LPFontSizeManager sharedManager].currentDetailRelatePointFontSize;
     [userDefaults setObject:[NSString stringWithFormat:@"%d",currentDetailRelatePointFontSize] forKey:@"currentDetailRelatePointFontSize"];
     
+    NSInteger currentDetailSourceFontSize = [LPFontSizeManager sharedManager].currentDetailSourceFontSize;
+    [userDefaults setObject:[NSString stringWithFormat:@"%d",currentDetailSourceFontSize] forKey:@"currentDetailSourceFontSize"];
+    
     NSString *homeViewFontSizeType = [LPFontSizeManager sharedManager].currentHomeViewFontSizeType;
     [userDefaults setObject:homeViewFontSizeType forKey:@"homeViewFontSizeType"];
+    
+    
     
     // 强制立即将数据写入磁盘
     [userDefaults synchronize];

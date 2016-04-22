@@ -13,7 +13,7 @@
 @protocol LPChangeFontSizeViewDelegate <NSObject>
 
 @optional
-- (void)changeFontSizeView:(LPChangeFontSizeView *)changeFontSizeView reloadTableViewWithFontSize:(NSInteger)fontSize fontSizeType:(NSString *)fontSizeType currentDetailContentFontSize:(NSInteger)currentDetailContentFontSize currentDetaiTitleFontSize:(NSInteger)currentDetaiTitleFontSize currentDetailCommentFontSize:(NSInteger)currentDetailCommentFontSize currentDetailRelatePointFontSize:(NSInteger)currentDetailRelatePointFontSize;
+- (void)changeFontSizeView:(LPChangeFontSizeView *)changeFontSizeView reloadTableViewWithFontSize:(NSInteger)fontSize fontSizeType:(NSString *)fontSizeType currentDetailContentFontSize:(NSInteger)currentDetailContentFontSize currentDetaiTitleFontSize:(NSInteger)currentDetaiTitleFontSize currentDetailCommentFontSize:(NSInteger)currentDetailCommentFontSize currentDetailRelatePointFontSize:(NSInteger)currentDetailRelatePointFontSize currentDetailSourceFontSize:(NSInteger)currentDetailSourceFontSize;
 
 - (void)finishButtonDidClick:(LPChangeFontSizeView *)changeFontSizeView;
 
@@ -27,7 +27,8 @@
 @property (nonatomic, assign) NSInteger currentDetailContentFontSize;
 // 详情页标题字体大小
 @property (nonatomic, assign) NSInteger currentDetaiTitleFontSize;
-
+// 详情页来源字体大小
+@property (nonatomic, assign) NSInteger currentDetailSourceFontSize;
 // 详情页评论字体大小
 @property (nonatomic, assign) NSInteger currentDetailCommentFontSize;
 

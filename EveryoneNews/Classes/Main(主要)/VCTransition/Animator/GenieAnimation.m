@@ -142,7 +142,7 @@ static LPPoint bezierAxisIntersection(LPBezierCurve curve, LPAxis axis, CGFloat 
     
     CGFloat diggerRadius = DigButtonWidth / 2;
     
-    CGFloat diggerRectY  = ScreenHeight - [@"123" heightForLineWithFont:[UIFont systemFontOfSize:13]] + 23;
+    CGFloat diggerRectY  = ScreenHeight - [@"123" heightForLineWithFont:[UIFont boldSystemFontOfSize:25.f/2.2639]] + 23;
     
 //    CGFloat diggerRectY = ScreenHeight - DigButtonPadding - diggerRadius;
 //    
@@ -226,7 +226,7 @@ static LPPoint bezierAxisIntersection(LPBezierCurve curve, LPAxis axis, CGFloat 
 //    }
 //    
     btn.x = (ScreenWidth - 73 - DigButtonWidth * 2) / 2;
-    btn.y  = ScreenHeight - [@"123" heightForLineWithFont:[UIFont systemFontOfSize:13]]  - 24 - DigButtonHeight;
+    btn.y  = ScreenHeight - [@"一订" heightForLineWithFont:[UIFont boldSystemFontOfSize:25.f/2.2639]]  - 38 - DigButtonHeight;
     btn.width = DigButtonWidth;
     btn.height = DigButtonHeight;
     btn.enlargedEdge = 10.0f;

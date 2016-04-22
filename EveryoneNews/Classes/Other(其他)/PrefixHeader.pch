@@ -50,22 +50,117 @@ extern NSString * const HotwordsURL;
 extern NSString * const reusePageID;
 
 // 全局字体大小
-typedef NS_ENUM(NSInteger,LPFontSize) {
-    LPFontSize12 = 12,
-    LPFontSize13 = 13,
-    LPFontSize14 = 14,
-    LPFontSize15 = 15,
-    LPFontSize16 = 16,
-    LPFontSize17 = 17,
-    LPFontSize18 = 18,
-    LPFontSize19 = 19,
-    LPFontSize20 = 20,
-    LPFontSize21 = 21,
-    LPFontSize22 = 22,
-    LPFontSize23 = 23,
-    LPFontSize24 = 24,
-    LPFontSize25 = 25
+//typedef NS_ENUM(NSInteger,LPFontSize) {
+//    LPFontSize12 = 12,
+//    LPFontSize13 = 13,
+//    LPFontSize14 = 14,
+//    LPFontSize15 = 15,
+//    LPFontSize16 = 16,
+//    LPFontSize17 = 17,
+//    LPFontSize18 = 18,
+//    LPFontSize19 = 19,
+//    LPFontSize20 = 20,
+//    LPFontSize21 = 21,
+//    LPFontSize22 = 22,
+//    LPFontSize23 = 23,
+//    LPFontSize24 = 24,
+//    LPFontSize25 = 25,
+//    LPFontSize26 = 26,
+//    LPFontSize27 = 27,
+//    LPFontSize28 = 28,
+//    LPFontSize29 = 29,
+//    LPFontSize30 = 30,
+//};
+
+
+// 首页字体 Plus
+typedef NS_ENUM(NSInteger, iPhone6PlusHomeTitleSize) {
+    iPhone6PlusHomeTitleSizeStandard = 19,
+    iPhone6PlusHomeTitleSizeLarger = 21,
+    iPhone6PlusHomeTitleSizeSuperLarger = 23
 };
+
+typedef NS_ENUM(NSInteger, iPhone5HomeTitleSize) {
+    iPhone5HomeTitleSizeStandard = 19,
+    iPhone5HomeTitleSizeLarger = 21,
+    iPhone5HomeTitleSizeSuperLarger = 23
+};
+
+// 详情页标题字体 Plus
+typedef NS_ENUM(NSInteger, iPhone6PlusDetailTitleSize) {
+    iPhone6PlusDetailTitleSizeStandard = 25,
+    iPhone6PlusDetailTitleSizeLarger = 28,
+    iPhone6PlusDetailTitleSizeSuperLarger = 30
+};
+
+typedef NS_ENUM(NSInteger, iPhone5DetailTitleSize) {
+    iPhone5DetailTitleSizeStandard = 25,
+    iPhone5DetailTitleSizeLarger = 28,
+    iPhone5DetailTitleSizeSuperLarger = 30
+};
+
+// 详情页来源字体 Plus
+typedef NS_ENUM(NSInteger, iPhone6PlusDetailSourceSize) {
+    iPhone6PlusDetailSourceSizeStandard = 13,
+    iPhone6PlusDetailSourceSizeLarger = 15,
+    iPhone6PlusDetailSourceSizeSuperLarger = 16
+};
+
+typedef NS_ENUM(NSInteger, iPhone5DetailSourceSize) {
+    iPhone5DetailSourceSizeStandard = 13,
+    iPhone5DetailSourceSizeLarger = 15,
+    iPhone5DetailSourceSizeSuperLarger = 16
+};
+
+// 详情页正文字体 Plus
+typedef NS_ENUM(NSInteger, iPhone6PlusDetailContentSize) {
+    iPhone6PlusDetailContentSizeStandard = 19,
+    iPhone6PlusDetailContentSizeLarger = 22,
+    iPhone6PlusDetailContentSizeSuperLarger = 24
+};
+
+typedef NS_ENUM(NSInteger, iPhone5DetailContentSize) {
+    iPhone5DetailContentSizeStandard = 19,
+    iPhone5DetailContentSizeLarger = 22,
+    iPhone5DetailContentSizeSuperLarger = 24
+};
+
+// 详情页相关观点字体 Plus
+typedef NS_ENUM(NSInteger, iPhone6PlusDetailRelateSize) {
+    iPhone6PlusDetailRelateSizeStandard = 18,
+    iPhone6PlusDetailRelateSizeLarger = 20,
+    iPhone6PlusDetailRelateSizeSuperLarger = 22
+};
+
+typedef NS_ENUM(NSInteger, iPhone5DetailRelateSize) {
+    iPhone5DetailRelateSizeStandard = 18,
+    iPhone5DetailRelateSizeLarger = 20,
+    iPhone5DetailRelateSizeSuperLarger = 22
+};
+
+// 详情页评论字体 Plus
+typedef NS_ENUM(NSInteger, iPhone6PlusDetailCommentSize) {
+    iPhone6PlusDetailCommentSizeStandard = 16,
+    iPhone6PlusDetailCommentSizeLarger = 18,
+    iPhone6PlusDetailCommentSizeSuperLarger = 20
+};
+
+typedef NS_ENUM(NSInteger, iPhone5DetailCommentSize) {
+    iPhone5DetailCommentSizeStandard = 16,
+    iPhone5DetailCommentSizeLarger = 18,
+    iPhone5DetailCommentSizeSuperLarger = 20
+};
+
+
+
+
+
+
+
+
+
+
+
 
 #define noteCenter [NSNotificationCenter defaultCenter]
 #define LPCategoryDidChangeNotification @"changeCategory"
@@ -74,7 +169,8 @@ typedef NS_ENUM(NSInteger,LPFontSize) {
 #define LPPushNotificationFromBack @"pushNotificationFromBack"
 #define LPPushNotificationFromLaunching @"pushNotificationFromLaunching"
 #define LPPushNotificationURL @"url"
-#define LPFontSizeChangedNotofication @"fontSizeChanged"
+#define LPFontSizeChangedNotification @"fontSizeChanged"
+#define LPDeleteCoreDataNotification @"LPDeleteCoreDataNotification"
 
 #define LPCommentWillComposeNotification @"willCompose"
 #define LPComposeParaIndex @"paraIndex"

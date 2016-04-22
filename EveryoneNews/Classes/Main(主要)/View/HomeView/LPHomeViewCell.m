@@ -50,13 +50,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     self.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
     CGFloat sourceFontSize = 10;
-    if (iPhone6) {
-        sourceFontSize = 12;
-        
-    } else if (iPhone6Plus) {
-        sourceFontSize = 13;
-    }
-    
     NSString *tipString = @"刚刚看到这里，点击加载更多";
     CGFloat tipFontSize = 16;
     if(self) {
@@ -230,7 +223,7 @@
 - (void)setCardFrame:(CardFrame *)cardFrame {
     _cardFrame = cardFrame;
     
-    CGFloat lineSpacing = 4.0;
+    CGFloat lineSpacing = 2.0;
     Card *card = _cardFrame.card;
     NSString *sourceSiteName = [card.sourceSiteName  isEqualToString: @""] ? @"未知来源": card.sourceSiteName;
     NSDate *currentDate = [NSDate date];

@@ -11,13 +11,12 @@
 @class LPContentFrame;
 
 @class LPContent;
-//@class LPContentCell;
-//@protocol LPContentCellDelegate <NSObject>
-//
-//@optional
-//- (void)contentCell:(LPContentCell *)contentCell height:(CGFloat)height atRow:(NSInteger)row imageURL:(NSString *)imageURL;
-//
-//@end
+@class LPContentCell;
+@protocol LPContentCellDelegate <NSObject>
+@optional
+- (void)contentCell:(LPContentCell *)contentCell didOpenURL:(NSString *)url;
+
+@end
 
 @interface LPContentCell : UITableViewCell
 
@@ -29,10 +28,9 @@
 // 图片类型
 @property (nonatomic, strong) UIImageView *photoView;
 
-//@property (nonatomic, assign) CGFloat cellHeight;
+@property (nonatomic, weak) id<LPContentCellDelegate> delegate;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 
-//@property (nonatomic, weak) id<LPContentCellDelegate> delegate;
 
 @end

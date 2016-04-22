@@ -14,5 +14,6 @@
 - (CGSize)sizeWithConstraintSize:(CGSize)maxSize;
 - (CGFloat)heightWithConstraintWidth:(CGFloat)width;
 - (BOOL)isMoreThanOneLineConstraintToWidth:(CGFloat)width;
+- (CGFloat)textViewHeightWithConstraintWidth:(CGFloat)width;
 
 @end

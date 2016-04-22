@@ -372,6 +372,7 @@
 		868203361CAE1CE2005B9E07 /* LPLaunchLoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 868203351CAE1CE2005B9E07 /* LPLaunchLoginView.m */; };
 		868203391CAE6B6F005B9E07 /* NSTimer+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 868203371CAE6B6F005B9E07 /* NSTimer+Additions.m */; };
 		868367691C080A0A00732516 /* LPFullPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 868367681C080A0A00732516 /* LPFullPhotoViewController.m */; };
+		8683E86D1CC8AF8E00C885A9 /* LPUITextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8683E86C1CC8AF8E00C885A9 /* LPUITextView.m */; };
 		8686D3761CA13FD1005AB9DD /* LPShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8686D3751CA13FD1005AB9DD /* LPShareViewController.m */; };
 		8686D38E1CA15652005AB9DD /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8686D3881CA15652005AB9DD /* Model.xcdatamodeld */; };
 		8689DDA41BECAEA600D425BC /* LPFullCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8689DDA31BECAEA600D425BC /* LPFullCommentCell.m */; };
@@ -1102,6 +1103,8 @@
 		868203381CAE6B6F005B9E07 /* NSTimer+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTimer+Additions.h"; sourceTree = "<group>"; };
 		868367671C080A0A00732516 /* LPFullPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPFullPhotoViewController.h; sourceTree = "<group>"; };
 		868367681C080A0A00732516 /* LPFullPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPFullPhotoViewController.m; sourceTree = "<group>"; };
+		8683E86B1CC8AF8E00C885A9 /* LPUITextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPUITextView.h; sourceTree = "<group>"; };
+		8683E86C1CC8AF8E00C885A9 /* LPUITextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPUITextView.m; sourceTree = "<group>"; };
 		8686D3741CA13FD1005AB9DD /* LPShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPShareViewController.h; sourceTree = "<group>"; };
 		8686D3751CA13FD1005AB9DD /* LPShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPShareViewController.m; sourceTree = "<group>"; };
 		8686D3891CA15652005AB9DD /* Model 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 2.xcdatamodel"; sourceTree = "<group>"; };
@@ -1197,41 +1200,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		113BE05C1CBCCD270040BC9B /* Login */ = {
-			isa = PBXGroup;
-			children = (
-				113BE05D1CBCCD410040BC9B /* MainBody */,
-			);
-			name = Login;
-			sourceTree = "<group>";
-		};
-		113BE05D1CBCCD410040BC9B /* MainBody */ = {
-			isa = PBXGroup;
-			children = (
-				113BE05F1CBCCD5A0040BC9B /* Controller */,
-				113BE05E1CBCCD530040BC9B /* View */,
-			);
-			name = MainBody;
-			sourceTree = "<group>";
-		};
-		113BE05E1CBCCD530040BC9B /* View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = View;
-			sourceTree = "<group>";
-		};
-		113BE05F1CBCCD5A0040BC9B /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				113BE0601CBCCD920040BC9B /* LPNewsLoginViewController.h */,
-				113BE0611CBCCD920040BC9B /* LPNewsLoginViewController.m */,
-				11B63BAC1CBE40BE00976070 /* LPNewsLonginViewFromSettingViewController.h */,
-				11B63BAD1CBE40BE00976070 /* LPNewsLonginViewFromSettingViewController.m */,
-			);
-			name = Controller;
-			sourceTree = "<group>";
-		};
 		1165C9951CBF7B4E00857411 /* About */ = {
 			isa = PBXGroup;
 			children = (
@@ -1278,7 +1246,7 @@
 		1165C9A51CBF907200857411 /* MyComment */ = {
 			isa = PBXGroup;
 			children = (
-				11FAA02F1CC636DB00F2115C /* MainBody */,
+				867B510A1CC9BE5100E872C1 /* Controller */,
 				11FAA0301CC6370200F2115C /* View */,
 			);
 			name = MyComment;
@@ -1296,8 +1264,10 @@
 		11FAA02F1CC636DB00F2115C /* MainBody */ = {
 			isa = PBXGroup;
 			children = (
-				11FAA02C1CC622F300F2115C /* LPNewsMyCommViewController.h */,
-				11FAA02D1CC622F300F2115C /* LPNewsMyCommViewController.m */,
+				113BE0601CBCCD920040BC9B /* LPNewsLoginViewController.h */,
+				113BE0611CBCCD920040BC9B /* LPNewsLoginViewController.m */,
+				11B63BAC1CBE40BE00976070 /* LPNewsLonginViewFromSettingViewController.h */,
+				11B63BAD1CBE40BE00976070 /* LPNewsLonginViewFromSettingViewController.m */,
 			);
 			name = MainBody;
 			sourceTree = "<group>";
@@ -1924,6 +1894,8 @@
 				86819F021CA3911D00C8BCFC /* LPRelateCell.m */,
 				86819F071CA3DCDB00C8BCFC /* LPDetailBottomView.h */,
 				86819F081CA3DCDB00C8BCFC /* LPDetailBottomView.m */,
+				8683E86B1CC8AF8E00C885A9 /* LPUITextView.h */,
+				8683E86C1CC8AF8E00C885A9 /* LPUITextView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2482,7 +2454,7 @@
 				18F630E11B5C044300423658 /* Other */,
 				18F630E61B5C044300423658 /* Tool */,
 				11FBB1A71CBB4F0C001FFDA3 /* UserCenter */,
-				113BE05C1CBCCD270040BC9B /* Login */,
+				867B51071CC9BD5200E872C1 /* Login */,
 			);
 			path = "Main(主要)";
 			sourceTree = "<group>";
@@ -3019,6 +2991,23 @@
 			name = "详情页相关观点上拉";
 			sourceTree = "<group>";
 		};
+		867B51071CC9BD5200E872C1 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				11FAA02F1CC636DB00F2115C /* MainBody */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		867B510A1CC9BE5100E872C1 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				11FAA02C1CC622F300F2115C /* LPNewsMyCommViewController.h */,
+				11FAA02D1CC622F300F2115C /* LPNewsMyCommViewController.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
 		867D49281CABA8B90025765B /* 过期代码 */ = {
 			isa = PBXGroup;
 			children = (
@@ -3492,6 +3481,7 @@
 				1165C9AB1CBF914300857411 /* LPNewsMyCollectionView.m in Sources */,
 				18F6311D1B5C044300423658 /* LPConcernCell.m in Sources */,
 				18F631111B5C044300423658 /* LPCategory.m in Sources */,
+				8683E86D1CC8AF8E00C885A9 /* LPUITextView.m in Sources */,
 				1889FE641B4C2E91006D8E03 /* LPZhihuPoint.m in Sources */,
 				11FAA02E1CC622F300F2115C /* LPNewsMyCommViewController.m in Sources */,
 				1826B3EE1B7C991300B712E0 /* LPPhoto.m in Sources */,

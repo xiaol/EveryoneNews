@@ -20,6 +20,7 @@
 #import "UMSocialSnsPlatformManager.h"
 #import "WXApi.h"
 #import "LPNewsLoginViewController.h"
+#import "MainNavigationController.h"
 
 
 @interface LPLoginViewController : LPBaseViewController <UMSocialUIDelegate>
@@ -160,7 +161,9 @@
 
 
 - (void)closeSelf {
-    [self dismissViewControllerAnimated:NO completion:nil];
+    
+    //[self.navigationController popViewControllerAnimated:NO];
+   [self dismissViewControllerAnimated:NO completion:nil];
 }
 #pragma mark - 微信登录
 - (void)weixinLogin:(UIButton *)weixinBtn {
@@ -249,6 +252,7 @@ singleton_m(AccountTool);
 //    LPLoginViewController *loginVc = [[LPLoginViewController alloc] init];
     
     LPNewsLoginViewController *loginVc = [[LPNewsLoginViewController alloc] initWithCustom];
+    
     
 //    loginVc.successBlock = success;
 //    loginVc.failureBlock = failure;

@@ -18,7 +18,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 CGSize static const kAvatarImageViewSize = {70,70};
-CGSize static const  kAvatarSize = {25,25};
+CGSize static const kAvatarSize = {25,25};
 static const CGFloat kDefaultHeadHeight = (215.f);
 static const CGFloat kContentIndent = 0.f;
 static NSString * const kCellIdentify = @"LPNewsMyCommCell";
@@ -28,9 +28,9 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
 
 @property (nonatomic, strong) UIImageView *avatarImageView;
 @property (nonatomic, strong) UILabel *userNameLabel;
-@property (nonatomic, strong) UIImageView *headImageView;
-@property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong, nullable) NSArray *dataSource;
+@property(nonatomic, strong) UIImageView *headImageView;
+@property(nonatomic, strong) UITableView *tableView;
+@property(nonatomic, strong, nullable) NSArray *dataSource;
 @property (nonatomic, strong) UIView *navBarView;
 @end
 
@@ -137,7 +137,6 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
         make.top.mas_equalTo(avatarBGImg.mas_bottom).with.offset(18);
     }];
 
-    
     UIImageView *noticeImg = [[UIImageView alloc] init];
     [noticeImg setImage:[UIImage imageNamed:@"LP_construction"]];
     [self.view addSubview:noticeImg];
@@ -235,15 +234,14 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
         
     }];
     [self.view addSubview:_navBarView];
+
 }
 
 - (void)goBackAction{
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (void)scrollToTop:(BOOL)animated {
-    [self.tableView setContentOffset:CGPointMake(0,0) animated:YES];
-}
+
 
 #pragma mark- UITableViewDataSource
 
@@ -281,20 +279,10 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    if(scrollView.contentOffset.y < 0.f){
+    if(scrollView.contentOffset.y < 0){
         [self setHeadImageViewConstraints:kDefaultHeadHeight - scrollView.contentOffset.y originalY:kContentIndent];
-        self.navBarView.alpha = 0.f;
-       
     }else {
         [self setHeadImageViewConstraints:kDefaultHeadHeight originalY:(0.f-scrollView.contentOffset.y)+kContentIndent];
-        
-        if (scrollView.contentOffset.y < 121.f){
-            self.navBarView.alpha = 0.f;
-        }else if(scrollView.contentOffset.y >= 121.f && scrollView.contentOffset.y <= 151.f){
-            self.navBarView.alpha = ((scrollView.contentOffset.y-121)/30.f)*0.8;
-        }else if (scrollView.contentOffset.y > 151.f){
-            self.navBarView.alpha = 0.8f;
-        }
     }
 }
 

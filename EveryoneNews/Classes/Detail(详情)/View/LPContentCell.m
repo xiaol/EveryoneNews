@@ -12,9 +12,14 @@
 #import "LPContent.h"
 #import "LPSupplementView.h"
 #import "UIImageView+WebCache.h"
+#import "LPPressTool.h"
+#import "LPUITextView.h"
 
-@interface LPContentCell()
-@property (nonatomic, strong) UILabel *bodyLabel;
+@interface LPContentCell()<UITextViewDelegate>
+//@property (nonatomic, strong) UILabel *bodyLabel;
+
+@property (nonatomic, strong) UITextView *bodyTextView;
+
 @property (nonatomic, strong) LPCommentView *commentView;
 
 @property (nonatomic, strong) UILabel *photoLabel;
@@ -22,6 +27,10 @@
 @property (nonatomic, strong) LPSupplementView *supplementView;
 
 @property (nonatomic, strong) UIView *abstractSeperatorView;
+
+@property (nonatomic, strong) NSTextContainer *textContainer;
+
+@property (nonatomic, strong) NSLayoutManager *layoutManager;
 
 @end
 
@@ -42,13 +51,21 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
-        self.layer.shouldRasterize = YES;
-        self.layer.rasterizationScale = [UIScreen mainScreen].scale;
+//        self.layer.shouldRasterize = YES;
+//        self.layer.rasterizationScale = [UIScreen mainScreen].scale;
         
-        UILabel *bodyLabel = [[UILabel alloc] init];
-        bodyLabel.numberOfLines = 0;
-        [self.contentView addSubview:bodyLabel];
-        self.bodyLabel = bodyLabel;
+//        UILabel *bodyLabel = [[UILabel alloc] init];
+//        bodyLabel.userInteractionEnabled = YES;
+//        bodyLabel.numberOfLines = 0;
+//        [self.contentView addSubview:bodyLabel];
+//        self.bodyLabel = bodyLabel;
+//
+        
+        LPUITextView *bodyTextView = [[LPUITextView alloc] init];
+        bodyTextView.delegate = self;
+
+        [self.contentView addSubview:bodyTextView];
+        self.bodyTextView = bodyTextView;
         
         UIImageView *photoView = [[UIImageView alloc] init];
         photoView.contentMode = UIViewContentModeScaleAspectFill;
@@ -61,28 +78,34 @@
     return self;
 }
 
+- (BOOL)textView:(UITextView *)textView shouldInteractWithURL:(NSURL *)URL inRange:(NSRange)characterRange {
+    if ([self.delegate respondsToSelector:@selector(contentCell:didOpenURL:)]) {
+        [self.delegate contentCell:self didOpenURL:[URL absoluteString]];
+    }
+    return NO;
+}
+
+
 - (void)setContentFrame:(LPContentFrame *)contentFrame
 {
     _contentFrame = contentFrame;
     LPContent *content = contentFrame.content;
-    //    self.abstractSeperatorView.frame = self.contentFrame.abstractSeperatorViewF;
     if (!content.isPhoto) { // 非图
-        self.bodyLabel.hidden = NO;
+        self.bodyTextView.hidden = NO;
         self.photoView.hidden = YES;
         
-        self.bodyLabel.frame = self.contentFrame.bodyLabelF;
-        self.bodyLabel.attributedText = content.bodyHtmlString;
-        
+        self.bodyTextView.frame = self.contentFrame.bodyLabelF;
+        self.bodyTextView.attributedText = content.bodyHtmlString;
+
     } else {
-        self.bodyLabel.hidden = YES;
+
+        self.bodyTextView.hidden = YES;
         self.photoView.hidden = NO;
         self.photoView.frame = self.contentFrame.photoViewF;
         self.photoView.image = content.image;
     }
     
 }
-
-
 
 //- (void)setContent:(LP *)content {
 //    _content = content;

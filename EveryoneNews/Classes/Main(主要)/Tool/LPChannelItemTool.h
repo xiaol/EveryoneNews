@@ -20,4 +20,5 @@
 
 + (NSString *)channelID:(NSString *)channelName;
 
++ (void)initializeLastAccessDate;
 @end

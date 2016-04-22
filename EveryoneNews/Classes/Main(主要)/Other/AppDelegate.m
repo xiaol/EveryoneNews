@@ -74,12 +74,6 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     if (debug==1) {
         NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
     }
-    
-    if (![userDefaults objectForKey:@"isVersion3FirstLoad"]) {
-        [[self cdh] deleteCoreData];
-    }
-    
-    
     //  UMeng login & share
     [UMSocialData setAppKey:@"558b2ec267e58e64a00009db"];
     

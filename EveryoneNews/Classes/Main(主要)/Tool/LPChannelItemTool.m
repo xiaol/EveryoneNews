@@ -11,6 +11,16 @@
 
 @implementation LPChannelItemTool
 
++ (void)initializeLastAccessDate {
+    NSMutableArray *channelItems = [LPChannelItemTool getChannelItems];
+    NSMutableArray *newChannelItems = [[NSMutableArray alloc] init];
+    for (LPChannelItem *channelItem in channelItems) {
+        channelItem.lastAccessDate = nil;
+        [newChannelItems addObject:channelItem];
+    }
+    [LPChannelItemTool saveChannelItems:newChannelItems];
+}
+
 #pragma mark - 保存频道到本地
 + (void)saveChannelItems:(NSMutableArray *)channelItems {
     NSMutableData *data = [[NSMutableData alloc] init];

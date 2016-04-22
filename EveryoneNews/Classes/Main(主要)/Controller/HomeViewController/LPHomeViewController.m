@@ -83,7 +83,36 @@
     
     [self setupSubViews];
     
-    [noteCenter addObserver:self selector:@selector(refreshTableViewFontSize) name:LPFontSizeChangedNotofication object:nil];
+    [noteCenter addObserver:self selector:@selector(refreshTableViewFontSize) name:LPFontSizeChangedNotification object:nil];
+    [noteCenter addObserver:self selector:@selector(reloadCurrentPageIndexData) name:LPDeleteCoreDataNotification object:nil];
+    
+}
+
+#pragma mark - 清理缓存后重新加载页面
+- (void)reloadCurrentPageIndexData {
+    // 清理缓存更新上次访问日期为空
+    for (int i = 0; i < self.selectedArray.count; i++) {
+        LPChannelItem *channelItem = self.selectedArray[i];
+        channelItem.lastAccessDate = nil;
+    }
+    [self.channelItemDictionary removeAllObjects];
+    
+    NSInteger pageIndex = self.pagingView.currentPageIndex;
+    // 获取频道相关信息
+    LPChannelItem *channelItem = self.selectedArray[pageIndex];
+    // 设置选中频道名称
+    self.selectedChannelTitle = channelItem.channelName;
+    // 设置本次访问时间
+    NSDate *currentDate = [NSDate date];
+    NSDate *lastAccessDate = channelItem.lastAccessDate;
+    
+    if (lastAccessDate == nil) {
+        channelItem.lastAccessDate = currentDate;
+    }
+    // 加载当前频道数据
+    [self channelItemDidAddToCoreData:pageIndex];
+    
+    [self.pagingView reloadData];
 }
 
 - (void)refreshTableViewFontSize {

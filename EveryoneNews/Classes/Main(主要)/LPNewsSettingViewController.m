@@ -18,6 +18,9 @@
 #import "LPNewsAboutViewController.h"
 #import "AppDelegate.h"
 #import "LPNewsMineViewController.h"
+#import "CoreDataHelper.h"
+#import "LPChannelItemTool.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -249,6 +252,13 @@ static NSString * const kCellIdentify = @"JoySettingCell";
     clearCacheView.frame = startFrame;
     [UIView animateWithDuration:0.6 delay:0 options:(UIViewAnimationOptionCurveEaseIn) animations:^{
         clearCacheView.frame = endFrame;
+        // 清理缓存
+        CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+        [cdh deleteCoreData];
+        // 清除缓存后重新加载页面
+        [noteCenter postNotificationName:LPDeleteCoreDataNotification object:self];
+        
+        NSLog(@"清理完毕");
         
     } completion:^(BOOL finished) {
         
