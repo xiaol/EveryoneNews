@@ -1200,41 +1200,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		113BE05C1CBCCD270040BC9B /* Login */ = {
-			isa = PBXGroup;
-			children = (
-				113BE05D1CBCCD410040BC9B /* MainBody */,
-			);
-			name = Login;
-			sourceTree = "<group>";
-		};
-		113BE05D1CBCCD410040BC9B /* MainBody */ = {
-			isa = PBXGroup;
-			children = (
-				113BE05F1CBCCD5A0040BC9B /* Controller */,
-				113BE05E1CBCCD530040BC9B /* View */,
-			);
-			name = MainBody;
-			sourceTree = "<group>";
-		};
-		113BE05E1CBCCD530040BC9B /* View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = View;
-			sourceTree = "<group>";
-		};
-		113BE05F1CBCCD5A0040BC9B /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				113BE0601CBCCD920040BC9B /* LPNewsLoginViewController.h */,
-				113BE0611CBCCD920040BC9B /* LPNewsLoginViewController.m */,
-				11B63BAC1CBE40BE00976070 /* LPNewsLonginViewFromSettingViewController.h */,
-				11B63BAD1CBE40BE00976070 /* LPNewsLonginViewFromSettingViewController.m */,
-			);
-			name = Controller;
-			sourceTree = "<group>";
-		};
 		1165C9951CBF7B4E00857411 /* About */ = {
 			isa = PBXGroup;
 			children = (
@@ -1281,7 +1246,7 @@
 		1165C9A51CBF907200857411 /* MyComment */ = {
 			isa = PBXGroup;
 			children = (
-				11FAA02F1CC636DB00F2115C /* MainBody */,
+				867B510A1CC9BE5100E872C1 /* Controller */,
 				11FAA0301CC6370200F2115C /* View */,
 			);
 			name = MyComment;
@@ -1299,8 +1264,10 @@
 		11FAA02F1CC636DB00F2115C /* MainBody */ = {
 			isa = PBXGroup;
 			children = (
-				11FAA02C1CC622F300F2115C /* LPNewsMyCommViewController.h */,
-				11FAA02D1CC622F300F2115C /* LPNewsMyCommViewController.m */,
+				113BE0601CBCCD920040BC9B /* LPNewsLoginViewController.h */,
+				113BE0611CBCCD920040BC9B /* LPNewsLoginViewController.m */,
+				11B63BAC1CBE40BE00976070 /* LPNewsLonginViewFromSettingViewController.h */,
+				11B63BAD1CBE40BE00976070 /* LPNewsLonginViewFromSettingViewController.m */,
 			);
 			name = MainBody;
 			sourceTree = "<group>";
@@ -2478,7 +2445,6 @@
 		18F630CB1B5C044300423658 /* Main(主要) */ = {
 			isa = PBXGroup;
 			children = (
-				113BE05C1CBCCD270040BC9B /* Login */,
 				18F630ED1B5C044300423658 /* View */,
 				187912D21BC06C9F0021AB3E /* CoreDataClasses */,
 				18AB8C7D1B8A3E3A0084934E /* VCTransition */,
@@ -2488,6 +2454,7 @@
 				18F630E11B5C044300423658 /* Other */,
 				18F630E61B5C044300423658 /* Tool */,
 				11FBB1A71CBB4F0C001FFDA3 /* UserCenter */,
+				867B51071CC9BD5200E872C1 /* Login */,
 			);
 			path = "Main(主要)";
 			sourceTree = "<group>";
@@ -3022,6 +2989,23 @@
 				866B9AAD1CBE37AE008CECA8 /* LPRelatePointFooter.m */,
 			);
 			name = "详情页相关观点上拉";
+			sourceTree = "<group>";
+		};
+		867B51071CC9BD5200E872C1 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				11FAA02F1CC636DB00F2115C /* MainBody */,
+			);
+			name = Login;
+			sourceTree = "<group>";
+		};
+		867B510A1CC9BE5100E872C1 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				11FAA02C1CC622F300F2115C /* LPNewsMyCommViewController.h */,
+				11FAA02D1CC622F300F2115C /* LPNewsMyCommViewController.m */,
+			);
+			name = Controller;
 			sourceTree = "<group>";
 		};
 		867D49281CABA8B90025765B /* 过期代码 */ = {
