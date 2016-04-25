@@ -20,6 +20,7 @@
 		1165C9B21CBF939C00857411 /* LP_construction@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1165C9B01CBF939C00857411 /* LP_construction@3x.png */; };
 		1165C9B51CBF93DE00857411 /* LP_commBG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1165C9B31CBF93DE00857411 /* LP_commBG@2x.png */; };
 		1165C9B61CBF93DE00857411 /* LP_commBG@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1165C9B41CBF93DE00857411 /* LP_commBG@3x.png */; };
+		117034191CCDE6C000B378CE /* insetsLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 117034181CCDE6C000B378CE /* insetsLabel.m */; };
 		11B63BA51CBDE3B700976070 /* LP_icon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 11B63BA41CBDE3B700976070 /* LP_icon@3x.png */; };
 		11B63BA81CBDF7A700976070 /* LPNewsNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 11B63BA71CBDF7A700976070 /* LPNewsNavigationController.m */; };
 		11B63BAB1CBDF8C600976070 /* LCPanGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 11B63BAA1CBDF8C600976070 /* LCPanGestureRecognizer.m */; };
@@ -424,6 +425,8 @@
 		1165C9B01CBF939C00857411 /* LP_construction@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LP_construction@3x.png"; sourceTree = "<group>"; };
 		1165C9B31CBF93DE00857411 /* LP_commBG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LP_commBG@2x.png"; sourceTree = "<group>"; };
 		1165C9B41CBF93DE00857411 /* LP_commBG@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LP_commBG@3x.png"; sourceTree = "<group>"; };
+		117034171CCDE6C000B378CE /* insetsLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = insetsLabel.h; sourceTree = "<group>"; };
+		117034181CCDE6C000B378CE /* insetsLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = insetsLabel.m; sourceTree = "<group>"; };
 		11B63BA41CBDE3B700976070 /* LP_icon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LP_icon@3x.png"; sourceTree = "<group>"; };
 		11B63BA61CBDF7A700976070 /* LPNewsNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPNewsNavigationController.h; sourceTree = "<group>"; };
 		11B63BA71CBDF7A700976070 /* LPNewsNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPNewsNavigationController.m; sourceTree = "<group>"; };
@@ -1331,6 +1334,8 @@
 				11FBB1E21CBB5197001FFDA3 /* UIColor+Additions.m */,
 				11FBB1E31CBB5197001FFDA3 /* UIImage+Additions.h */,
 				11FBB1E41CBB5197001FFDA3 /* UIImage+Additions.m */,
+				117034171CCDE6C000B378CE /* insetsLabel.h */,
+				117034181CCDE6C000B378CE /* insetsLabel.m */,
 			);
 			name = Utility;
 			path = "Main(主要)";
@@ -3392,6 +3397,7 @@
 				1875647C1C2110B600589320 /* Album.m in Sources */,
 				1826B3FB1B81BD1900B712E0 /* LPSpringLayout.m in Sources */,
 				187564741C2110B600589320 /* Content.m in Sources */,
+				117034191CCDE6C000B378CE /* insetsLabel.m in Sources */,
 				18095CD31B2A221100CB7666 /* LPWaterfallViewCell.m in Sources */,
 				86AD22E41CA2986A00758C21 /* LPCommentFrame.m in Sources */,
 				1826B3DF1B786B3900B712E0 /* POPAnimationTracer.mm in Sources */,

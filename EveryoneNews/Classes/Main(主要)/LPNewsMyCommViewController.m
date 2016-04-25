@@ -83,6 +83,8 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
     }
 }
 
+
+
 #pragma mark- private methods
 
 -(void)addContentView{
@@ -175,7 +177,7 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
 
 
 - (NSArray *)getDataSource{
-    NSArray *array = @[@[@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"}]];
+    NSArray *array = @[@[@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"}]];
     
     return array;
 }
@@ -213,7 +215,7 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
     [avatar mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakNavBarView)strongNavBarView = weakNavBarView;
         make.centerX.equalTo(strongNavBarView.mas_centerX);
-        make.top.equalTo(strongNavBarView.mas_top).with.offset(29.5f);
+        make.top.equalTo(strongNavBarView.mas_top).with.offset(33.f);
         make.size.mas_equalTo(kAvatarSize);
     }];
     
@@ -241,7 +243,15 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)scrollToTop:(BOOL)animated {
+    [self.tableView setContentOffset:CGPointMake(0,0) animated:YES];
+}
 
+#pragma mark - 设置状态栏样式
+- (UIStatusBarStyle) preferredStatusBarStyle {
+    
+    return UIStatusBarStyleLightContent;
+}
 
 #pragma mark- UITableViewDataSource
 
@@ -279,10 +289,20 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    if(scrollView.contentOffset.y < 0){
+    if(scrollView.contentOffset.y < 0.f){
         [self setHeadImageViewConstraints:kDefaultHeadHeight - scrollView.contentOffset.y originalY:kContentIndent];
+        self.navBarView.alpha = 0.f;
+        [self preferredStatusBarStyle];
     }else {
         [self setHeadImageViewConstraints:kDefaultHeadHeight originalY:(0.f-scrollView.contentOffset.y)+kContentIndent];
+        [self preferredStatusBarStyle];
+        if (scrollView.contentOffset.y < 121.f){
+            self.navBarView.alpha = 0.f;
+        }else if(scrollView.contentOffset.y >= 121.f && scrollView.contentOffset.y <= 151.f){
+            self.navBarView.alpha = ((scrollView.contentOffset.y-121)/30.f)*0.8;
+        }else if (scrollView.contentOffset.y > 151.f){
+            self.navBarView.alpha = 0.8f;
+        }
     }
 }
 
@@ -318,8 +338,6 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
         avatarImageView.layer.shouldRasterize = YES;
         avatarImageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
         avatarImageView.layer.cornerRadius = kAvatarImageViewSize.width/2;
-        avatarImageView.layer.borderWidth = 0.5f;
-        avatarImageView.layer.borderColor = [[UIColor colorWithDesignIndex:5] CGColor];
         _avatarImageView = avatarImageView;
         
         if (account == nil) {

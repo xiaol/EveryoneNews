@@ -48,7 +48,7 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    self.navigationController.navigationItem.hidesBackButton = YES;
+
 }
 
 
@@ -58,6 +58,8 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
+    
+
 }
 
 - (void)viewDidDisappear:(BOOL)animated{

@@ -100,10 +100,10 @@ NS_ASSUME_NONNULL_BEGIN
     weixinBtn = [[UIButton alloc] init];
     [weixinBtn setImage:[UIImage imageNamed:@"微信登录"] forState:UIControlStateNormal];
     //btn阴影
-    weixinBtn.layer.cornerRadius = weixinBtn.imageView.image.size.width/2;
-    weixinBtn.layer.shadowOffset =  CGSizeMake(1, 1);
-    weixinBtn.layer.shadowOpacity = 0.8;
-    weixinBtn.layer.shadowColor =  [UIColor blackColor].CGColor;
+//    weixinBtn.layer.cornerRadius = weixinBtn.imageView.image.size.width/2;
+//    weixinBtn.layer.shadowOffset =  CGSizeMake(1, 1);
+//    weixinBtn.layer.shadowOpacity = 0.8;
+//    weixinBtn.layer.shadowColor =  [UIColor blackColor].CGColor;
     
     [weixinBtn addTarget:self action:@selector(doWeixinLogin) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:weixinBtn];
@@ -120,10 +120,10 @@ NS_ASSUME_NONNULL_BEGIN
     weiboBtn = [[UIButton alloc] init];
     [weiboBtn setImage:[UIImage imageNamed:@"微博登录"] forState:UIControlStateNormal];
     //btn阴影
-    weiboBtn.layer.cornerRadius = weixinBtn.imageView.image.size.width/2;
-    weiboBtn.layer.shadowOffset =  CGSizeMake(1, 1);
-    weiboBtn.layer.shadowOpacity = 0.8;
-    weiboBtn.layer.shadowColor =  [UIColor blackColor].CGColor;
+//    weiboBtn.layer.cornerRadius = weixinBtn.imageView.image.size.width/2;
+//    weiboBtn.layer.shadowOffset =  CGSizeMake(1, 1);
+//    weiboBtn.layer.shadowOpacity = 0.8;
+//    weiboBtn.layer.shadowColor =  [UIColor blackColor].CGColor;
     [weiboBtn addTarget:self action:@selector(doWeiboLogin) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:weiboBtn];
     __weak __typeof(weiboBtn)weakWeiboBtn = weiboBtn;
@@ -209,12 +209,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)doWeixinLogin{
-    NSLog(@"微信登录");
+    
     [self loginWithPlatformName:UMShareToWechatSession];
 }
 
 - (void)doWeiboLogin{
-    NSLog(@"微博登录");
+    
     [self loginWithPlatformName:UMShareToSina];
 }
 

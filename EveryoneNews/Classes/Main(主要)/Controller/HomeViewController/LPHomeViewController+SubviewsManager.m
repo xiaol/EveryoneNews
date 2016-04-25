@@ -35,6 +35,7 @@ const static CGFloat cellPadding = 15;
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    self.navigationController.navigationItem.hidesBackButton = YES;
     
 }
 
@@ -212,14 +213,14 @@ const static CGFloat cellPadding = 15;
     if (account == nil) {// 用户未登录直接显示未登录图标
         LPNewsLoginViewController *loginView = [[LPNewsLoginViewController alloc] initWithCustom];
 //        MainNavigationController *loginNavVc = [[MainNavigationController alloc] initWithRootViewController:loginView];
-        LPNewsNavigationController *loginNavVc = [[LPNewsNavigationController alloc] initWithRootViewController:loginView];
-        
+        LPNewsNavigationController *loginNavVc = [[LPNewsNavigationController alloc] initWithCustomerRootViewController:loginView];
         [self presentViewController:loginNavVc animated:YES completion:nil];
     } else {    //用户已登录
         LPNewsMineViewController *mineView = [[LPNewsMineViewController alloc] initWithCustom];
 //        MainNavigationController *mineNavVc = [[MainNavigationController alloc] initWithRootViewController:mineView];
-        LPNewsNavigationController *mineNavVc = [[LPNewsNavigationController alloc] initWithRootViewController:mineView];
+        LPNewsNavigationController *mineNavVc = [[LPNewsNavigationController alloc] initWithCustomerRootViewController:mineView];
         [self presentViewController:mineNavVc animated:YES completion:nil];
+    
     }
 }
 

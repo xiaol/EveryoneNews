@@ -11,6 +11,7 @@
 
 #import "UIColor+Additions.h"
 #import "UIImage+Additions.h"
+#import "insetsLabel.h"
 #import "LPNewsAssistant.h"
 #import "AppDelegate.h"
 #import <Masonry.h>

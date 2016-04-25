@@ -47,7 +47,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    self.navigationController.navigationItem.hidesBackButton = YES;
 }
 
 
@@ -57,6 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
+
 }
 
 - (void)viewDidDisappear:(BOOL)animated{

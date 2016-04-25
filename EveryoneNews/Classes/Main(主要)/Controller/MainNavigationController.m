@@ -10,6 +10,7 @@
 #import "NavigationInteractiveTransition.h"
 #import <objc/runtime.h>
 
+
 @interface MainNavigationController () <UIGestureRecognizerDelegate>
 @property (nonatomic, strong) NavigationInteractiveTransition *navTransition;
 @end

@@ -95,7 +95,7 @@ CGSize static const kAvatarImageViewSize = {70,70};
     __weak __typeof(self)weakSelf = self;
     [self.avatarImageView mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
-        make.top.equalTo(strongSelf.view).with.offset(64+75);
+        make.top.equalTo(strongSelf.view).with.offset(71+75);
         make.centerX.equalTo(strongSelf.view);
         make.size.mas_equalTo(CGSizeMake(70, 70));
     }];
@@ -132,11 +132,11 @@ CGSize static const kAvatarImageViewSize = {70,70};
     userBookLabel.text = @"一订";
     userBookLabel.textAlignment = NSTextAlignmentCenter;
     userBookLabel.textColor = [UIColor colorWithDesignIndex:1];
-    userBookLabel.font = [UIFont boldSystemFontOfSize:25.f/fontSizePxToSystemMultiple];
+    userBookLabel.font = [UIFont boldSystemFontOfSize:28.f/fontSizePxToSystemMultiple];
     [self.view addSubview:userBookLabel];
     [userBookLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
-        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:userBookLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:25.f/fontSizePxToSystemMultiple]}];
+        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:userBookLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:28.f/fontSizePxToSystemMultiple]}];
         make.size.mas_equalTo(CGSizeMake(ceilf(attStr.size.width), ceilf(attStr.size.height)));
         make.right.equalTo(strongSelf.view.mas_left).with.offset((kApplecationScreenWidth-73)/2);
         make.bottom.mas_equalTo(strongSelf.view.mas_bottom).with.offset(-24);
@@ -147,11 +147,11 @@ CGSize static const kAvatarImageViewSize = {70,70};
     userSetLabel.text = @"设置";
     userSetLabel.textAlignment = NSTextAlignmentCenter;
     userSetLabel.textColor = [UIColor colorWithDesignIndex:1];
-    userSetLabel.font = [UIFont boldSystemFontOfSize:25.f/fontSizePxToSystemMultiple];
+    userSetLabel.font = [UIFont boldSystemFontOfSize:28.f/fontSizePxToSystemMultiple];
     [self.view addSubview:userSetLabel];
     [userSetLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
-        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:userBookLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:25.f/fontSizePxToSystemMultiple]}];
+        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:userBookLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:28.f/fontSizePxToSystemMultiple]}];
         make.size.mas_equalTo(CGSizeMake(ceilf(attStr.size.width), ceilf(attStr.size.height)));
         make.left.equalTo(userBookLabel.mas_right).with.offset(73);
         make.bottom.mas_equalTo(strongSelf.view.mas_bottom).with.offset(-24);

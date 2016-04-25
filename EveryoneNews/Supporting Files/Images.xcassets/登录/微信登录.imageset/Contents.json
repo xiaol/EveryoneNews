@@ -6,12 +6,12 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "登陆前－微信icon@2x.png",
+      "filename" : "微信登录@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "登陆前－微信icon.png",
+      "filename" : "微信登录@3x.png",
       "scale" : "3x"
     }
   ],
