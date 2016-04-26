@@ -65,6 +65,8 @@ static const NSString *contentFrameKey  = @"contentFrameKey";
 
 @implementation LPNewsNavigationController
 
+#pragma mark- init
+
 - (instancetype)initWithNibName:(nullable NSString *)nibNameOrNil bundle:(nullable NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -72,6 +74,31 @@ static const NSString *contentFrameKey  = @"contentFrameKey";
         // Custom initialization
     }
     return self;
+}
+
+- (instancetype)init {
+    self = [super initWithNavigationBarClass:[LPNewsNavigationBar class] toolbarClass:nil];
+    return self;
+}
+
+- (instancetype)initWithRootViewController:(UIViewController *)rootViewController {
+    self = [super initWithNavigationBarClass:[LPNewsNavigationBar class] toolbarClass:nil];
+    if(self) {
+        self.viewControllers = @[rootViewController];
+    }
+    
+    return self;
+}
+
+- (instancetype)initWithOtherPopStyleAndRootViewController:(UIViewController *)rootViewController{
+    
+    self = [super initWithNavigationBarClass:[LPNewsNavigationBar class] toolbarClass:nil];
+    if(self) {
+        self.viewControllers = @[rootViewController];
+    }
+    [self doOtherPopStyle];
+    return self;
+    
 }
 
 
@@ -116,21 +143,6 @@ static const NSString *contentFrameKey  = @"contentFrameKey";
     // Dispose of any resources that can be recreated.
 }
 
-
-
-- (instancetype)init {
-    self = [super initWithNavigationBarClass:[LPNewsNavigationBar class] toolbarClass:nil];
-    return self;
-}
-
-- (instancetype)initWithRootViewController:(UIViewController *)rootViewController {
-    self = [super initWithNavigationBarClass:[LPNewsNavigationBar class] toolbarClass:nil];
-    if(self) {
-        self.viewControllers = @[rootViewController];
-    }
-    
-    return self;
-}
 
 -(BOOL)shouldAutorotate
 {
@@ -585,20 +597,9 @@ static const NSString *contentFrameKey  = @"contentFrameKey";
 #endif
 
 
+#pragma mark- init OtherPopStyle
 
-
-- (instancetype)initWithCustomerRootViewController:(UIViewController *)rootViewController{
-    
-    self = [super initWithNavigationBarClass:[LPNewsNavigationBar class] toolbarClass:nil];
-    if(self) {
-        self.viewControllers = @[rootViewController];
-    }
-    [self doOtherPopSystem];
-    return self;
-    
-}
-
-- (void)doOtherPopSystem{
+- (void)doOtherPopStyle{
     self.navigationBar.hidden = YES;
     
     // built-in pop recognizer

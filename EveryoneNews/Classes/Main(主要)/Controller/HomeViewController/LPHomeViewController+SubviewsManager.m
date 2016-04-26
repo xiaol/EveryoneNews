@@ -201,7 +201,7 @@ const static CGFloat cellPadding = 15;
         NSString *uuid = [[NSUUID UUID] UUIDString];
         // 去除“-”字符 Base64加密 移除末尾等号"="
         uuid = [[[uuid stringByTrimmingHyphen] stringByBase64Encoding] stringByTrimmingString:@"="];
-        [userDefaults setObject:uuid forKey:@"uuid"];
+        NSLog(@"uuid:%@",uuid);
         [userDefaults synchronize];
     }
 
@@ -212,13 +212,11 @@ const static CGFloat cellPadding = 15;
     Account *account = [AccountTool account];
     if (account == nil) {// 用户未登录直接显示未登录图标
         LPNewsLoginViewController *loginView = [[LPNewsLoginViewController alloc] initWithCustom];
-//        MainNavigationController *loginNavVc = [[MainNavigationController alloc] initWithRootViewController:loginView];
-        LPNewsNavigationController *loginNavVc = [[LPNewsNavigationController alloc] initWithCustomerRootViewController:loginView];
+        LPNewsNavigationController *loginNavVc = [[LPNewsNavigationController alloc] initWithOtherPopStyleAndRootViewController:loginView];
         [self presentViewController:loginNavVc animated:YES completion:nil];
     } else {    //用户已登录
         LPNewsMineViewController *mineView = [[LPNewsMineViewController alloc] initWithCustom];
-//        MainNavigationController *mineNavVc = [[MainNavigationController alloc] initWithRootViewController:mineView];
-        LPNewsNavigationController *mineNavVc = [[LPNewsNavigationController alloc] initWithCustomerRootViewController:mineView];
+        LPNewsNavigationController *mineNavVc = [[LPNewsNavigationController alloc] initWithOtherPopStyleAndRootViewController:mineView];
         [self presentViewController:mineNavVc animated:YES completion:nil];
     
     }

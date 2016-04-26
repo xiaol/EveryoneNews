@@ -15,7 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, nonatomic) UIPanGestureRecognizer *panGestureRecognizer;
 @property (nonatomic, strong) UIPanGestureRecognizer *popRecognizer;
 
-- (instancetype)initWithCustomerRootViewController:(UIViewController *)rootViewController;
+- (instancetype)initWithOtherPopStyleAndRootViewController:(UIViewController *)rootViewController;
+
 @end
 
 

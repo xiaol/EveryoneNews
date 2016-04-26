@@ -24,7 +24,11 @@ static const CGFloat kContentIndent = 0.f;
 static NSString * const kCellIdentify = @"LPNewsMyCommCell";
 static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
 
-@interface LPNewsMyCommViewController()<UITableViewDelegate,UITableViewDataSource>
+@interface LPNewsMyCommViewController()<UITableViewDelegate,UITableViewDataSource>{
+    
+    CGFloat lastContentOffset;
+    CGFloat navAlpha;
+}
 
 @property (nonatomic, strong) UIImageView *avatarImageView;
 @property (nonatomic, strong) UILabel *userNameLabel;
@@ -177,7 +181,7 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
 
 
 - (NSArray *)getDataSource{
-    NSArray *array = @[@[@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"}]];
+    NSArray *array = @[@[@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"}]];
     
     return array;
 }
@@ -249,8 +253,10 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
 
 #pragma mark - 设置状态栏样式
 - (UIStatusBarStyle) preferredStatusBarStyle {
-    
-    return UIStatusBarStyleLightContent;
+    if (self.navBarView.alpha == 0) {
+        return UIStatusBarStyleLightContent;
+    }
+    return UIStatusBarStyleDefault;
 }
 
 #pragma mark- UITableViewDataSource
@@ -296,6 +302,7 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
     }else {
         [self setHeadImageViewConstraints:kDefaultHeadHeight originalY:(0.f-scrollView.contentOffset.y)+kContentIndent];
         [self preferredStatusBarStyle];
+        
         if (scrollView.contentOffset.y < 121.f){
             self.navBarView.alpha = 0.f;
         }else if(scrollView.contentOffset.y >= 121.f && scrollView.contentOffset.y <= 151.f){
@@ -304,7 +311,31 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
             self.navBarView.alpha = 0.8f;
         }
     }
+    
+    if (lastContentOffset > scrollView.contentOffset.y){    //向下滑动
+        
+        if (self.navBarView.alpha == 0 && self.navBarView.alpha != navAlpha) {
+//            [self preferredStatusBarStyle];
+//            [super preferredStatusBarStyle];
+            NSLog(@"self.alpha=0");
+        }
+        navAlpha = self.navBarView.alpha;
+    }else{   //向上滑动
+        
+        if (self.navBarView.alpha == 0.8f && self.navBarView.alpha != navAlpha) {
+//            [self preferredStatusBarStyle];
+//            [super preferredStatusBarStyle];
+            NSLog(@"self.alpha=0.8");
+        }
+        navAlpha = self.navBarView.alpha;
+    }
+    
+    lastContentOffset = scrollView.contentOffset.y;
+
+
+    
 }
+
 
 -(void)setHeadImageViewConstraints:(CGFloat)height originalY:(CGFloat)y{
     __weak __typeof(self)weakSelf = self;
