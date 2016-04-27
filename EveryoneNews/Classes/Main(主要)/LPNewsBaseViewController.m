@@ -47,6 +47,7 @@ static const NSInteger kNavBarTag = 10000;
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    self.navigationItem.hidesBackButton = YES;
     if (_isCustomBar) {
         if (self.isRootLevel) {
             [self.parentViewController.navigationController setNavigationBarHidden:YES animated:YES];
