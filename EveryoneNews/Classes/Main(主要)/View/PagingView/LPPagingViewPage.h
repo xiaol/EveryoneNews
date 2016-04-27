@@ -12,11 +12,15 @@
  *  自定义 page
  */
 @class LPPagingViewPage;
+@class CardFrame;
+@class Card;
 @protocol LPPagingViewPageDelegate <NSObject>
 @optional
-- (void)page:(LPPagingViewPage *)page didSelectCellWithCardID:(NSManagedObjectID *)cardID;
+- (void)page:(LPPagingViewPage *)page didSelectCellWithCardID:(NSManagedObjectID *)cardID cardFrame:(CardFrame *)cardFrame;
 
 - (void)page:(LPPagingViewPage *)page didClickSearchImageView:(UIImageView *)imageView;
+
+- (void)page:(LPPagingViewPage *)page didClickDeleteButtonWithCardFrame:(CardFrame *)cardFrame deleteButton:(UIButton *)deleteButton indexPath:(NSIndexPath *)indexPath;
 
 //- (void)page:(LPPagingViewPage *)page didSaveOffsetY:(CGFloat)offsetY;
 
@@ -38,9 +42,14 @@
 @property (nonatomic, weak) id<LPPagingViewPageDelegate> delegate;
 - (void)autotomaticLoadNewData;
 
-- (void)deleteRowAtIndexPath:(NSIndexPath *)indexPath;
+- (void)tableViewReloadData;
+//
+//- (void)scrollOffsetY:(CGFloat)offsetY cardFrame:(CardFrame *)cardFrame;
+//
+//- (void)scrollOffsetY:(CGFloat)offsetY;
 
-//- (void)scrollToOffsetY:(CGFloat)offsetY;
+- (void)deleteRowAtIndexPath:(NSIndexPath *)indexPath cardFrame:(CardFrame *)cardFrame;
+- (void)updateCardFramesWithCardFrame:(CardFrame *)cardFrame;
 
 /**
  *  复用前的准备工作(复写该方法)

@@ -86,6 +86,13 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     // 打开新浪微博的SSO开关，设置新浪微博回调地址，这里必须要和你在新浪微博后台设置的回调地址一致。若在新浪后台设置我们的回调地址，“http://sns.////whalecloud.com/sina2/callback”，这里可以传nil ,需要 #import "UMSocialSinaHandler.h"
     
     [UMSocialSinaHandler openSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
+    
+    
+//    
+//    [UMSocialSinaSSOHandler openNewSinaSSOWithAppKey:@"3921700954"
+//secret:@"04b48b094faeb16683c32669824ebdad"
+//RedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
+    
 
     NSString *versionKey = (__bridge NSString *) kCFBundleVersionKey;
 //    NSString *lastVersion = [userDefaults objectForKey:versionKey];

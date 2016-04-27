@@ -10,7 +10,6 @@
 
 @interface LPDetailViewController (RelatePoint)
 
-- (void)setupRelateData;
 - (void)loadMoreRelateData;
 
 @end

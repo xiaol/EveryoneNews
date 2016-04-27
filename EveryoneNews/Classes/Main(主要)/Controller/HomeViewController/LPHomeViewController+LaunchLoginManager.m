@@ -41,11 +41,7 @@
 - (void)displayLoginBtnIconWithAccount:(Account *)account
 {
     CGFloat statusBarHeight = 20.0f;
-    CGFloat menuViewHeight = 44.0f;
-    if (iPhone6Plus) {
-        menuViewHeight = 51;
-    }
-    
+    CGFloat menuViewHeight = 51.0;
     CGFloat unloginBtnX = 18;
     CGFloat unloginBtnW = 18;
     CGFloat unloginBtnH = 18;
@@ -64,10 +60,7 @@
         [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:account.userIcon] options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
             if (image && finished) {
                 CGFloat statusBarHeight = 20.0f;
-                CGFloat menuViewHeight = 44.0f;
-                if (iPhone6Plus) {
-                    menuViewHeight = 51;
-                }
+                CGFloat menuViewHeight = 51.0;
                 CGFloat loginBtnX = 12;
                 CGFloat loginBtnW = 29;
                 CGFloat loginBtnH = 29;

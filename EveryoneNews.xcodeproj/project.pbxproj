@@ -1821,7 +1821,6 @@
 		1889FE3D1B4C2E91006D8E03 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				866B9AAB1CBE3775008CECA8 /* 详情页相关观点上拉 */,
 				86571EDB1CB8B86800BD1DC8 /* 评论 */,
 				86571ED71CB8AFAA00BD1DC8 /* 分享 */,
 				86571ED31CB8AF0900BD1DC8 /* 相关观点 */,
@@ -1864,6 +1863,7 @@
 		1889FE511B4C2E91006D8E03 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				866B9AAB1CBE3775008CECA8 /* 详情页相关观点上拉 */,
 				8680F8151BF046A6002C08EB /* LPRelateView.h */,
 				8680F8161BF046A6002C08EB /* LPRelateView.m */,
 				1889FE521B4C2E91006D8E03 /* LPCommentView.h */,
@@ -2989,6 +2989,7 @@
 				866B9AAD1CBE37AE008CECA8 /* LPRelatePointFooter.m */,
 			);
 			name = "详情页相关观点上拉";
+			path = ../Controller;
 			sourceTree = "<group>";
 		};
 		867B51071CC9BD5200E872C1 /* Login */ = {
@@ -3705,7 +3706,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "b64f0ace-793a-44bb-aeb3-c892df1c0582";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -3745,7 +3746,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "b64f0ace-793a-44bb-aeb3-c892df1c0582";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

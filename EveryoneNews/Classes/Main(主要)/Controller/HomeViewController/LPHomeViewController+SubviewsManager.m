@@ -52,10 +52,10 @@ const static CGFloat cellPadding = 15;
 - (void)setupSubViews {
     self.view.backgroundColor = [UIColor whiteColor];
     CGFloat statusBarHeight = 20.0f;
-    CGFloat menuViewHeight = 44.0f;
-    if (iPhone6Plus) {
-        menuViewHeight = 51;
-    }
+    CGFloat menuViewHeight = 51.0f;
+//    if (iPhone6Plus) {
+//        menuViewHeight = 51;
+//    }
     
     // 导航视图
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, statusBarHeight + menuViewHeight)];

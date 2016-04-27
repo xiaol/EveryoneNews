@@ -14,5 +14,5 @@
 - (void)fulltextCommentDidClick;
 - (void)fulltextCommentDidClick:(LPDetailTopView *)detailTopView;
 - (void)pushFulltextCommentComposeVc;
-- (void)setupCommentsData;
+
 @end
