@@ -7,6 +7,7 @@
 //
 
 #import "LPNewsMyInfoView.h"
+#import "LPNewsMineViewController.h"
 
 @implementation LPNewsMyInfoView
 
@@ -71,7 +72,7 @@
     
     UILabel *noticeLabel = [[UILabel alloc] init];
     noticeLabel.text = @"暂时无消息内容";
-    noticeLabel.font = [UIFont systemFontOfSize:18.f];
+    noticeLabel.font = [UIFont systemFontOfSize:32.f/fontSizePxToSystemMultiple];
     noticeLabel.textColor = [UIColor colorWithDesignIndex:5];
     [self.view addSubview:noticeLabel];
     __weak __typeof(self)weakSelf = self;

@@ -11,6 +11,7 @@
 
 #import "UIColor+Additions.h"
 #import "UIImage+Additions.h"
+#import "insetsLabel.h"
 #import "LPNewsAssistant.h"
 #import "AppDelegate.h"
 #import <Masonry.h>
@@ -23,7 +24,9 @@
 #define kApplecationScreenWidth [[UIScreen mainScreen] applicationFrame].size.width
 #define kApplecationScreenHeight [[UIScreen mainScreen] applicationFrame].size.height
 
-#define kCustomNavigationBarHeight (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO((@"7.0")) ? (44.f +20.f) : (44.f))
+#define kStatusBarHeight [UIApplication sharedApplication].statusBarFrame.size.height
+
+#define kCustomNavigationBarHeight (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO((@"7.0")) ? (51.f +20.f) : (51.f))
 
 #define kNavTextColor   [UIColor blackColor]
 
@@ -35,7 +38,7 @@
 
 static NSString * const kLPNewsSliderBackVCNotification = @"LPNewsSliderBackVCNotification";
 
-static const CGFloat kNavigationBarHEIGHT = 44.f;
+static const CGFloat kNavigationBarHEIGHT = 51.f;
 
 
 

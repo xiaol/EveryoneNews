@@ -23,6 +23,7 @@
 #import "LPNewsMineViewController.h"
 #import "MainNavigationController.h"
 #import "LPNewsNavigationController.h"
+#import "LPNewsMineViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -98,6 +99,12 @@ NS_ASSUME_NONNULL_BEGIN
     
     weixinBtn = [[UIButton alloc] init];
     [weixinBtn setImage:[UIImage imageNamed:@"微信登录"] forState:UIControlStateNormal];
+    //btn阴影
+//    weixinBtn.layer.cornerRadius = weixinBtn.imageView.image.size.width/2;
+//    weixinBtn.layer.shadowOffset =  CGSizeMake(1, 1);
+//    weixinBtn.layer.shadowOpacity = 0.8;
+//    weixinBtn.layer.shadowColor =  [UIColor blackColor].CGColor;
+    
     [weixinBtn addTarget:self action:@selector(doWeixinLogin) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:weixinBtn];
     __weak __typeof(self)weakSelf = self;
@@ -112,6 +119,11 @@ NS_ASSUME_NONNULL_BEGIN
     
     weiboBtn = [[UIButton alloc] init];
     [weiboBtn setImage:[UIImage imageNamed:@"微博登录"] forState:UIControlStateNormal];
+    //btn阴影
+//    weiboBtn.layer.cornerRadius = weixinBtn.imageView.image.size.width/2;
+//    weiboBtn.layer.shadowOffset =  CGSizeMake(1, 1);
+//    weiboBtn.layer.shadowOpacity = 0.8;
+//    weiboBtn.layer.shadowColor =  [UIColor blackColor].CGColor;
     [weiboBtn addTarget:self action:@selector(doWeiboLogin) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:weiboBtn];
     __weak __typeof(weiboBtn)weakWeiboBtn = weiboBtn;
@@ -127,11 +139,11 @@ NS_ASSUME_NONNULL_BEGIN
     weixinLabel.text = @"微信登录";
     weixinLabel.textAlignment = NSTextAlignmentCenter;
     weixinLabel.textColor = [UIColor colorWithDesignIndex:1];
-    weixinLabel.font = [UIFont boldSystemFontOfSize:32.f/2.2639];
+    weixinLabel.font = [UIFont boldSystemFontOfSize:32.f/fontSizePxToSystemMultiple];
     [self.view addSubview:weixinLabel];
     [weixinLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakWinxinBtn)strongWenxinBtn = weakWinxinBtn;
-        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:weixinLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:32.f/2.2639]}];
+        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:weixinLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:32.f/fontSizePxToSystemMultiple]}];
         make.size.mas_equalTo(CGSizeMake(ceilf(attStr.size.width), ceilf(attStr.size.height)));
         make.centerX.equalTo(strongWenxinBtn.mas_centerX);
         make.top.mas_equalTo(strongWenxinBtn.mas_bottom).with.offset(14);
@@ -142,11 +154,11 @@ NS_ASSUME_NONNULL_BEGIN
     weiboLabel.text = @"微博登录";
     weiboLabel.textAlignment = NSTextAlignmentCenter;
     weiboLabel.textColor = [UIColor colorWithDesignIndex:1];
-    weiboLabel.font = [UIFont boldSystemFontOfSize:32.f/2.2639];
+    weiboLabel.font = [UIFont boldSystemFontOfSize:32.f/fontSizePxToSystemMultiple];
     [self.view addSubview:weiboLabel];
     [weiboLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakWeiboBtn)strongWeiboBtn = weakWeiboBtn;
-        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:weixinLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:32.f/2.2639]}];
+        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:weixinLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:32.f/fontSizePxToSystemMultiple]}];
         make.size.mas_equalTo(CGSizeMake(ceilf(attStr.size.width), ceilf(attStr.size.height)));
         make.centerX.equalTo(strongWeiboBtn.mas_centerX);
         make.top.mas_equalTo(strongWeiboBtn.mas_bottom).with.offset(14);
@@ -157,11 +169,11 @@ NS_ASSUME_NONNULL_BEGIN
     settingLabel.text = @"设置";
     settingLabel.textAlignment = NSTextAlignmentCenter;
     settingLabel.textColor = [UIColor colorWithDesignIndex:1];
-    settingLabel.font = [UIFont boldSystemFontOfSize:28.f/2.2639];
+    settingLabel.font = [UIFont boldSystemFontOfSize:28.f/fontSizePxToSystemMultiple];
     [self.view addSubview:settingLabel];
     [settingLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
-        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:settingLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:28.f/2.2639]}];
+        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:settingLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:28.f/fontSizePxToSystemMultiple]}];
         make.size.mas_equalTo(CGSizeMake(ceilf(attStr.size.width), ceilf(attStr.size.height)));
         make.centerX.equalTo(strongSelf.view);
         make.bottom.mas_equalTo(strongSelf.view.mas_bottom).with.offset(-24);
@@ -197,12 +209,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)doWeixinLogin{
-    NSLog(@"微信登录");
+    
     [self loginWithPlatformName:UMShareToWechatSession];
 }
 
 - (void)doWeiboLogin{
-    NSLog(@"微博登录");
+    
     [self loginWithPlatformName:UMShareToSina];
 }
 

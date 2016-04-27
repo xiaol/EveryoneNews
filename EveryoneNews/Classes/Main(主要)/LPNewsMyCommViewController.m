@@ -13,22 +13,28 @@
 #import "LPNewsMineViewCell.h"
 #import "LPNewsMyCommCell.h"
 #import "LPNewsHeaderView.h"
+#import "LPNewsMineViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 CGSize static const kAvatarImageViewSize = {70,70};
+CGSize static const kAvatarSize = {25,25};
 static const CGFloat kDefaultHeadHeight = (215.f);
 static const CGFloat kContentIndent = 0.f;
 static NSString * const kCellIdentify = @"LPNewsMyCommCell";
 static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
 
-@interface LPNewsMyCommViewController()<UITableViewDelegate,UITableViewDataSource>
+@interface LPNewsMyCommViewController()<UITableViewDelegate,UITableViewDataSource>{
+    CGFloat lastContentOffset;
+    CGFloat navAlpha;
+}
 
 @property (nonatomic, strong) UIImageView *avatarImageView;
 @property (nonatomic, strong) UILabel *userNameLabel;
 @property(nonatomic, strong) UIImageView *headImageView;
 @property(nonatomic, strong) UITableView *tableView;
 @property(nonatomic, strong, nullable) NSArray *dataSource;
+@property (nonatomic, strong) UIView *navBarView;
 @end
 
 @implementation LPNewsMyCommViewController
@@ -80,6 +86,8 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
     }
 }
 
+
+
 #pragma mark- private methods
 
 -(void)addContentView{
@@ -128,24 +136,12 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
     [self.tableView.tableHeaderView addSubview:self.userNameLabel];
     [self.userNameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
-        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:strongSelf.userNameLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:36.f/2.2639]}];
+        NSAttributedString *attStr = [[NSAttributedString alloc] initWithString:strongSelf.userNameLabel.text attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:36.f/fontSizePxToSystemMultiple]}];
         make.size.mas_equalTo(CGSizeMake(ceilf(attStr.size.width)+10, ceilf(attStr.size.height)));
         make.centerX.mas_equalTo(strongSelf.view);
         make.top.mas_equalTo(avatarBGImg.mas_bottom).with.offset(18);
     }];
 
-    UIButton *backBtn = [[UIButton alloc] init];
-    [backBtn setImage:[UIImage imageNamed:@"BackArrow_black_white"] forState:UIControlStateNormal];
-    backBtn.enlargedEdge = 14;
-    [backBtn addTarget:self action:@selector(goBackAction) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:backBtn];
-    [backBtn mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(backBtn.imageView.image.size);
-        make.top.equalTo(self.view.mas_top).offset(34);
-        make.left.equalTo(self.view.mas_left).with.offset(12);
-        
-    }];
-    
     UIImageView *noticeImg = [[UIImageView alloc] init];
     [noticeImg setImage:[UIImage imageNamed:@"LP_construction"]];
     [self.view addSubview:noticeImg];
@@ -158,7 +154,7 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
     
     UILabel *noticeLabel = [[UILabel alloc] init];
     noticeLabel.text = @"正在建设中，请移步";
-    noticeLabel.font = [UIFont systemFontOfSize:32.f/2.2639];
+    noticeLabel.font = [UIFont systemFontOfSize:32.f/fontSizePxToSystemMultiple];
     noticeLabel.textColor = [UIColor colorWithDesignIndex:5];
     [self.view addSubview:noticeLabel];
     [noticeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -167,16 +163,99 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
         make.top.equalTo(noticeImg.mas_bottom).with.offset(21);
     }];
 
+    UIButton *backBtn = [[UIButton alloc] init];
+    [backBtn setImage:[UIImage imageNamed:@"BackArrow_white"] forState:UIControlStateNormal];
+    backBtn.enlargedEdge = 14;
+    [backBtn addTarget:self action:@selector(goBackAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:backBtn];
+    [backBtn mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.size.mas_equalTo(backBtn.imageView.image.size);
+        make.top.equalTo(self.view.mas_top).offset(34);
+        make.left.equalTo(self.view.mas_left).with.offset(12);
+        
+    }];
+    
+    [self addNavBarView];
+}
+
+
+- (NSArray *)getDataSource{
+    NSArray *array = @[@[@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"},@{@"User_account":@"我的账户"}]];
+    
+    return array;
+}
+
+- (void)addNavBarView{
+    
+    _navBarView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kApplecationScreenWidth, kNavigationBarHEIGHT+20.f)];
+    _navBarView.backgroundColor = [UIColor colorWithHexString:@"#FF69B4"];
+    _navBarView.alpha = 0.f;
+    
+    UIImageView *avatar = nil;
+    if (!avatar) {
+        Account *account = [AccountTool account];
+        avatar = [[UIImageView alloc] init];
+        
+        avatar.contentMode = UIViewContentModeScaleAspectFit;
+        avatar.layer.masksToBounds = YES;
+        avatar.layer.shouldRasterize = YES;
+        avatar.layer.rasterizationScale = [UIScreen mainScreen].scale;
+        avatar.layer.cornerRadius = kAvatarSize.width/2;
+        
+        if (account == nil) {
+            avatar.image = [UIImage imageNamed:@"LP_icon"];
+        }else{
+            
+            [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:account.userIcon] options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+                if (image && finished) {
+                    avatar.image = image;
+                }
+            }];
+        }
+    }
+    __weak __typeof(self.navBarView)weakNavBarView = self.navBarView;
+    [self.navBarView addSubview:avatar];
+    [avatar mas_updateConstraints:^(MASConstraintMaker *make) {
+        __strong __typeof(weakNavBarView)strongNavBarView = weakNavBarView;
+        make.centerX.equalTo(strongNavBarView.mas_centerX);
+        make.top.equalTo(strongNavBarView.mas_top).with.offset(33.f);
+        make.size.mas_equalTo(kAvatarSize);
+    }];
+    
+    UIButton *scrollToTopBtn = [[UIButton alloc] initWithFrame:_navBarView.frame];
+    [scrollToTopBtn addTarget:self action:@selector(scrollToTop:) forControlEvents:UIControlEventTouchUpInside];
+    [_navBarView addSubview:scrollToTopBtn];
+    
+    UIButton *backBtn1 = [[UIButton alloc] init];
+    [backBtn1 setImage:[UIImage imageNamed:@"BackArrow_black"] forState:UIControlStateNormal];
+    backBtn1.enlargedEdge = 14;
+    [backBtn1 addTarget:self action:@selector(goBackAction) forControlEvents:UIControlEventTouchUpInside];
+    [_navBarView addSubview:backBtn1];
+    [backBtn1 mas_updateConstraints:^(MASConstraintMaker *make) {
+        __strong __typeof(weakNavBarView)strongNavBarView = weakNavBarView;
+        make.size.mas_equalTo(backBtn1.imageView.image.size);
+        make.top.equalTo(strongNavBarView.mas_top).offset(34);
+        make.left.equalTo(strongNavBarView.mas_left).with.offset(12);
+        
+    }];
+    [self.view addSubview:_navBarView];
+
 }
 
 - (void)goBackAction{
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-- (NSArray *)getDataSource{
-    NSArray *array = @[@[@{@"User_account":@"我的账户"},@{@"User_Purchase":@"我的购买"},@{@"User_Mine_Activity":@"活动"}]];
-    
-    return array;
+- (void)scrollToTop:(BOOL)animated {
+    [self.tableView setContentOffset:CGPointMake(0,0) animated:YES];
+}
+
+#pragma mark - 设置状态栏样式
+- (UIStatusBarStyle) preferredStatusBarStyle {
+    if (self.navBarView.alpha == 0) {
+        return UIStatusBarStyleLightContent;
+    }
+    return UIStatusBarStyleDefault;
 }
 
 #pragma mark- UITableViewDataSource
@@ -215,12 +294,45 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    if(scrollView.contentOffset.y < 0){
+    if(scrollView.contentOffset.y < 0.f){
         [self setHeadImageViewConstraints:kDefaultHeadHeight - scrollView.contentOffset.y originalY:kContentIndent];
+        self.navBarView.alpha = 0.f;
+        
     }else {
         [self setHeadImageViewConstraints:kDefaultHeadHeight originalY:(0.f-scrollView.contentOffset.y)+kContentIndent];
+        
+        float section = 30.f;
+        float sectionBegin = kDefaultHeadHeight - kNavigationBarHEIGHT -kStatusBarHeight - section;
+        float sectionEnd = kDefaultHeadHeight - kNavigationBarHEIGHT - kStatusBarHeight;
+        
+        if (scrollView.contentOffset.y < sectionBegin){
+            self.navBarView.alpha = 0.f;
+        }else if(scrollView.contentOffset.y >= sectionBegin && scrollView.contentOffset.y <= sectionEnd){
+            self.navBarView.alpha = ((scrollView.contentOffset.y-sectionBegin)/30.f)*0.8;
+        }else if (scrollView.contentOffset.y > sectionEnd){
+            self.navBarView.alpha = 0.8f;
+        }
     }
+    
+    if (lastContentOffset > scrollView.contentOffset.y){    //向下滑动
+        
+        if (self.navBarView.alpha == 0 && self.navBarView.alpha != navAlpha) {
+            
+            [self setNeedsStatusBarAppearanceUpdate];
+        }
+        navAlpha = self.navBarView.alpha;
+        
+    }else{                                                  //向上滑动
+
+        if (self.navBarView.alpha == 0.8f && self.navBarView.alpha != navAlpha) {
+           
+            [self setNeedsStatusBarAppearanceUpdate];
+        }
+        navAlpha = self.navBarView.alpha;
+    }
+    lastContentOffset = scrollView.contentOffset.y;
 }
+
 
 -(void)setHeadImageViewConstraints:(CGFloat)height originalY:(CGFloat)y{
     __weak __typeof(self)weakSelf = self;
@@ -254,8 +366,6 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
         avatarImageView.layer.shouldRasterize = YES;
         avatarImageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
         avatarImageView.layer.cornerRadius = kAvatarImageViewSize.width/2;
-        avatarImageView.layer.borderWidth = 0.5f;
-        avatarImageView.layer.borderColor = [[UIColor colorWithDesignIndex:5] CGColor];
         _avatarImageView = avatarImageView;
         
         if (account == nil) {
@@ -283,7 +393,7 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
         }
         userNameLabel.textAlignment = NSTextAlignmentCenter;
         userNameLabel.textColor = [UIColor whiteColor];
-        userNameLabel.font = [UIFont boldSystemFontOfSize:36.f/2.2639];
+        userNameLabel.font = [UIFont boldSystemFontOfSize:36.f/fontSizePxToSystemMultiple];
         _userNameLabel = userNameLabel;
     }
     return _userNameLabel;

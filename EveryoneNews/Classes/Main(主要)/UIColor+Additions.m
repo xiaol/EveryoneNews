@@ -64,7 +64,7 @@ UIColor *UIColorWithRGBFloatValue(CGFloat red,CGFloat green,CGFloat blue)
                      //    5         6          7          8          9
                      @"#e4e4e4",@"#bb1c1c",@"#666666",@"#d9effe",@"#f6f6f6",
                      //    10        11        12         13
-                     @"#f27861",@"#9d9d9d",@"#e65349",@"00c194"];
+                     @"#c0c0c0",@"#7e7e7e",@"#e65349",@"00c194"];
     }
     
     if ( (index >= 0 && index < [textColors count]) == NO) {

@@ -7,8 +7,9 @@
 //
 
 #import "LPNewsMineViewCell.h"
+#import "LPNewsMineViewController.h"
 
-#define kTextFont [UIFont systemFontOfSize:36.f/2.2639]
+#define kTextFont [UIFont systemFontOfSize:36.f/fontSizePxToSystemMultiple]
 
 @implementation LPNewsMineViewCell{
     UIImageView *leftImageView;

@@ -40,6 +40,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)viewDidLoad{
     [super viewDidLoad];
     [self setNavTitleView:@"隐私政策"];
+    
     [self backImageItem];
     [self addAboutWebView];
 }
@@ -55,6 +56,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
+
 }
 
 - (void)viewDidDisappear:(BOOL)animated{

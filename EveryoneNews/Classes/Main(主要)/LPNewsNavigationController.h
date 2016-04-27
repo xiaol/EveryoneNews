@@ -13,6 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 @interface LPNewsNavigationController : UINavigationController
 
 @property (readonly, nonatomic) UIPanGestureRecognizer *panGestureRecognizer;
+@property (nonatomic, strong) UIPanGestureRecognizer *popRecognizer;
+
+- (instancetype)initWithOtherPopStyleAndRootViewController:(UIViewController *)rootViewController;
 
 @end
 

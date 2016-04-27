@@ -318,7 +318,7 @@ static int imageDownloadCount;
     NSString *nid = [self.card valueForKey:@"newId"];
     NSString *cid = self.channelID; // 频道编号
     NSString *tid= @""; // 包含置顶，热点 推荐 订阅 图片 兴趣探索 推广
-    NSString *stime = [NSString stringWithFormat:@"%d",self.stayTimeInterval];
+    NSString *stime = [NSString stringWithFormat:@"%ld",(long)self.stayTimeInterval];
     NSString *sltime = @"";
     NSString *from = @"1"; // 1表示列表页
 

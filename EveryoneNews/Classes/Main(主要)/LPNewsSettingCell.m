@@ -11,10 +11,11 @@
 #import "AccountTool.h"
 #import "LPFontSizeManager.h"
 #import "AppDelegate.h"
+#import "LPNewsMineViewController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-#define kTextFont [UIFont systemFontOfSize:36.f/2.2639]
+#define kTextFont [UIFont systemFontOfSize:36.f/fontSizePxToSystemMultiple]
 
 @implementation LPNewsSettingCell{
     
@@ -23,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
     UIImageView *rightImageView;
     UILabel *signOutLabel;
     CALayer *lineLayer;
+    UILabel *noticeLabel;
 }
 
 - (nonnull instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(nullable NSString *)reuseIdentifier{
@@ -63,6 +65,15 @@ NS_ASSUME_NONNULL_BEGIN
         UIView *selectedBackgroundView = [[UIView alloc] init];
         selectedBackgroundView.backgroundColor = [UIColor colorWithDesignIndex:5];
         self.selectedBackgroundView = selectedBackgroundView;
+        
+        noticeLabel = [[UILabel alloc] init];
+        noticeLabel.text = @"关闭时，你可能错过重要资讯通知";
+        noticeLabel.backgroundColor = self.backgroundColor;
+        noticeLabel.font = [UIFont systemFontOfSize:24/fontSizePxToSystemMultiple];
+        noticeLabel.textColor = [UIColor colorWithDesignIndex:11];
+        noticeLabel.highlightedTextColor = [UIColor colorWithDesignIndex:11];
+        [self.contentView addSubview:noticeLabel];
+
     }
     return self;
 }
@@ -76,12 +87,12 @@ NS_ASSUME_NONNULL_BEGIN
 static const CGFloat kLeftMargin = 14.f;
 
 - (void)setModel:(nonnull id)model IndexPath:(nullable NSIndexPath *)indexPath {
-    
     if (model && [model isKindOfClass:[NSDictionary class]]) {
         __weak __typeof(self)weakSelf = self;
         __weak __typeof(leftImageView)weakLeftImageView = leftImageView;
         NSDictionary *dict = (NSDictionary *)model;
         NSString *keyStr = [dict.allKeys objectAtIndex:0];
+        
         if (indexPath.section != 3) {
             leftImageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@",keyStr]];
             textLabel.text = [dict.allValues objectAtIndex:0];
@@ -94,14 +105,31 @@ static const CGFloat kLeftMargin = 14.f;
                 make.size.mas_equalTo(strongLeftImageView.image.size);
             }];
             
-            [textLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-                __strong __typeof(weakSelf)strongSelf = weakSelf;
-                __strong __typeof(weakLeftImageView)strongLeftImageView = weakLeftImageView;
-                make.centerY.equalTo(strongSelf.mas_centerY);
-                make.left.equalTo(strongLeftImageView.mas_right).with.mas_offset(@20);
-                make.size.mas_equalTo(CGSizeMake(180.f, (kTextFont).lineHeight));
-            }];
-            
+            if (indexPath.section == 0 && indexPath.row ==1) {
+                
+                [textLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+                    __strong __typeof(weakSelf)strongSelf = weakSelf;
+                    __strong __typeof(weakLeftImageView)strongLeftImageView = weakLeftImageView;
+                    make.top.equalTo(strongSelf.contentView.mas_top).with.offset((73-textLabel.size.height-10-noticeLabel.size.height-38)/2);
+                    make.left.equalTo(strongLeftImageView.mas_right).with.mas_offset(@20);
+                    make.size.mas_equalTo(CGSizeMake(180.f, (kTextFont).lineHeight));
+                }];
+                
+                [noticeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+                    __strong __typeof(weakLeftImageView)strongLeftImageView = weakLeftImageView;
+                    make.top.equalTo(textLabel.mas_bottom).with.offset(10);
+                    make.left.equalTo(strongLeftImageView.mas_right).with.mas_offset(@20);
+                }];
+            }else{
+                [textLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+                    __strong __typeof(weakSelf)strongSelf = weakSelf;
+                    __strong __typeof(weakLeftImageView)strongLeftImageView = weakLeftImageView;
+                    make.centerY.equalTo(strongSelf.mas_centerY);
+                    make.left.equalTo(strongLeftImageView.mas_right).with.mas_offset(@20);
+                    make.size.mas_equalTo(CGSizeMake(180.f, (kTextFont).lineHeight));
+                }];
+            }
+        
             [signOutLabel removeFromSuperview];
         }else{
             Account *account = [AccountTool account];
@@ -119,14 +147,24 @@ static const CGFloat kLeftMargin = 14.f;
             
             [leftImageView removeFromSuperview];
             [textLabel removeFromSuperview];
+            [self.infoPushSwitchBtn removeFromSuperview];
             [rightImageView removeFromSuperview];
+            [self.fontSizeCtrBtn removeFromSuperview];
+            [noticeLabel removeFromSuperview];
         }
         
         if (indexPath.section == 1) {
             [rightImageView removeFromSuperview];
+            [noticeLabel removeFromSuperview];
+            [self.infoPushSwitchBtn removeFromSuperview];
+            [self.fontSizeCtrBtn removeFromSuperview];
         }
         
         if (indexPath.section == 2) {
+            [noticeLabel removeFromSuperview];
+            [self.infoPushSwitchBtn removeFromSuperview];
+            [self.fontSizeCtrBtn removeFromSuperview];
+            
             __weak __typeof(rightImageView)weakRightImageView = rightImageView;
             rightImageView.image = [UIImage imageNamed:@"DoubleArrow"];
             [rightImageView mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -151,6 +189,8 @@ static const CGFloat kLeftMargin = 14.f;
                 [self.fontSizeCtrBtn addTarget:self action:@selector(modifyTextFontSize:) forControlEvents:(UIControlEventValueChanged)];
             }else{
                 [rightImageView removeFromSuperview];
+                [self.fontSizeCtrBtn removeFromSuperview];
+
                 [self.contentView addSubview:self.infoPushSwitchBtn];
                 [self.infoPushSwitchBtn mas_updateConstraints:^(MASConstraintMaker *make) {
                     __weak typeof(weakSelf)strongSelf = weakSelf;
@@ -161,9 +201,10 @@ static const CGFloat kLeftMargin = 14.f;
                 [self.infoPushSwitchBtn addTarget:self action:@selector(changeInfoPushStatus:) forControlEvents:UIControlEventValueChanged];
             }
         }
+        
         if (indexPath.section == 0 && indexPath.row == 1) {
             
-            CGRect lineLayerRect = CGRectMake(0, kSetingCellHeight-1.f, kApplecationScreenWidth, 1.f);
+            CGRect lineLayerRect = CGRectMake(0, kSetingCellHeight+22.f-1.f, kApplecationScreenWidth, 1.f);
             lineLayer.frame = lineLayerRect;
         }
         

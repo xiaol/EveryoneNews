@@ -14,7 +14,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#define kGetCallBackOffset  (kApplecationScreenWidth/2)
+#define kGetCallBackOffset  (kApplecationScreenWidth)
 
 @interface UIView (Snapshot)
 - (UIImage *)snapshot;
@@ -65,6 +65,8 @@ static const NSString *contentFrameKey  = @"contentFrameKey";
 
 @implementation LPNewsNavigationController
 
+#pragma mark- init
+
 - (instancetype)initWithNibName:(nullable NSString *)nibNameOrNil bundle:(nullable NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -72,6 +74,32 @@ static const NSString *contentFrameKey  = @"contentFrameKey";
         // Custom initialization
     }
     return self;
+}
+
+- (instancetype)init {
+    self = [super initWithNavigationBarClass:[LPNewsNavigationBar class] toolbarClass:nil];
+    return self;
+}
+
+- (instancetype)initWithRootViewController:(UIViewController *)rootViewController {
+    self = [super initWithNavigationBarClass:[LPNewsNavigationBar class] toolbarClass:nil];
+    if(self) {
+        self.viewControllers = @[rootViewController];
+    }
+    
+    return self;
+}
+
+- (instancetype)initWithOtherPopStyleAndRootViewController:(UIViewController *)rootViewController{
+    
+    self = [super initWithNavigationBarClass:[LPNewsNavigationBar class] toolbarClass:nil];
+    if(self) {
+        self.viewControllers = @[rootViewController];
+        
+    }
+    [self doOtherPopStyle];
+    return self;
+    
 }
 
 
@@ -116,21 +144,6 @@ static const NSString *contentFrameKey  = @"contentFrameKey";
     // Dispose of any resources that can be recreated.
 }
 
-
-
-- (instancetype)init {
-    self = [super initWithNavigationBarClass:[LPNewsNavigationBar class] toolbarClass:nil];
-    return self;
-}
-
-- (instancetype)initWithRootViewController:(UIViewController *)rootViewController {
-    self = [super initWithNavigationBarClass:[LPNewsNavigationBar class] toolbarClass:nil];
-    if(self) {
-        self.viewControllers = @[rootViewController];
-    }
-    
-    return self;
-}
 
 -(BOOL)shouldAutorotate
 {
@@ -323,23 +336,23 @@ static const NSString *contentFrameKey  = @"contentFrameKey";
 
 #define MIN_TAN_VALUE tan(M_PI/6)
 
-- (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gestureRecognizer
-{
-    if (self.viewControllers.count < 2) return NO;
-    if (self.animatedFlag) return NO;
-    if (![self enablePanBack]) return NO; // 询问当前viewconroller 是否允许右滑返回
-    
-    CGPoint touchPoint = [gestureRecognizer locationInView:self.controllerWrapperView];
-    if (touchPoint.x < 0 || touchPoint.y < 10 || touchPoint.x > kGetCallBackOffset) return NO;
-    
-    CGPoint translation = [gestureRecognizer translationInView:self.view];
-    if (translation.x <= 0) return NO;
-    
-    // 是否是右滑
-    BOOL succeed = fabs(translation.y / translation.x) < MIN_TAN_VALUE;
-    
-    return succeed;
-}
+//- (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gestureRecognizer
+//{
+//    if (self.viewControllers.count < 2) return NO;
+//    if (self.animatedFlag) return NO;
+//    if (![self enablePanBack]) return NO; // 询问当前viewconroller 是否允许右滑返回
+//    
+//    CGPoint touchPoint = [gestureRecognizer locationInView:self.controllerWrapperView];
+//    if (touchPoint.x < 0 || touchPoint.y < 10 || touchPoint.x > kGetCallBackOffset) return NO;
+//    
+//    CGPoint translation = [gestureRecognizer translationInView:self.view];
+//    if (translation.x <= 0) return NO;
+//    
+//    // 是否是右滑
+//    BOOL succeed = fabs(translation.y / translation.x) < MIN_TAN_VALUE;
+//    
+//    return succeed;
+//}
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
@@ -583,6 +596,36 @@ static const NSString *contentFrameKey  = @"contentFrameKey";
     return UIStatusBarStyleDefault;
 }
 #endif
+
+
+#pragma mark- init OtherPopStyle
+
+- (void)doOtherPopStyle{
+    self.navigationBar.hidden = YES;
+    
+    // built-in pop recognizer
+    UIGestureRecognizer *recognizer = self.interactivePopGestureRecognizer;
+    recognizer.enabled = NO;
+    UIView *gestureView = recognizer.view;
+    
+    // pop recognizer
+    UIPanGestureRecognizer *popRecognizer = [[UIPanGestureRecognizer alloc] init];
+    popRecognizer.delegate = self;
+    popRecognizer.maximumNumberOfTouches = 1;
+    [gestureView addGestureRecognizer:popRecognizer];
+    self.popRecognizer = popRecognizer;
+    
+    // taget-action reflect
+    NSMutableArray *actionTargets = [recognizer valueForKey:@"_targets"];
+    id actionTarget = [actionTargets firstObject];
+    id target = [actionTarget valueForKey:@"_target"];
+    SEL action = NSSelectorFromString(@"handleNavigationTransition:");
+    [popRecognizer addTarget:target action:action];
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gestureRecognizer {
+    return self.viewControllers.count > 1 && ![[self valueForKey:@"_isTransitioning"] boolValue] && [gestureRecognizer translationInView:gestureRecognizer.view].x > 0;
+}
 
 
 

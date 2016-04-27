@@ -7,6 +7,7 @@
 //
 
 #import "LPNewsMyCollectionView.h"
+#import "LPNewsMineViewController.h"
 
 @implementation LPNewsMyCollectionView
 
@@ -45,8 +46,8 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
 }
-
 
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
@@ -81,7 +82,7 @@
     
     UILabel *noticeLabel = [[UILabel alloc] init];
     noticeLabel.text = @"正在建设中，请移步";
-    noticeLabel.font = [UIFont systemFontOfSize:32.f/2.2639];
+    noticeLabel.font = [UIFont systemFontOfSize:32.f/fontSizePxToSystemMultiple];
     noticeLabel.textColor = [UIColor colorWithDesignIndex:5];
     [self.view addSubview:noticeLabel];
     [noticeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
