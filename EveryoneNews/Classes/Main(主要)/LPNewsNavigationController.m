@@ -95,6 +95,7 @@ static const NSString *contentFrameKey  = @"contentFrameKey";
     self = [super initWithNavigationBarClass:[LPNewsNavigationBar class] toolbarClass:nil];
     if(self) {
         self.viewControllers = @[rootViewController];
+        
     }
     [self doOtherPopStyle];
     return self;

@@ -44,11 +44,12 @@
     [self backImageItem];
     self.view.backgroundColor = [UIColor colorWithDesignIndex:9];
     [self addAboutWebView];
+
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-
+    
 }
 
 

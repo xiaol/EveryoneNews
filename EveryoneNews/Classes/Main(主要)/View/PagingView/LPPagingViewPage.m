@@ -202,7 +202,7 @@
 
     self.promptLabel.hidden = NO;
     if (count) {
-        self.promptLabel.text = [NSString stringWithFormat:@"已为您推荐%d条新内容", count];
+        self.promptLabel.text = [NSString stringWithFormat:@"已为您推荐%ld条新内容", (long)count];
     } else {
         self.promptLabel.text = @"已经是最新内容";
     }
