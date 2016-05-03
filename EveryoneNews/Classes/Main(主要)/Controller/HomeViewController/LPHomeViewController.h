@@ -69,5 +69,6 @@
 @property (nonatomic, strong) UIImageView *changeFontSizeTipImageView;
 // 底部调整文字大小视图
 @property (nonatomic, strong) LPChangeFontSizeView *changeFontSizeView;
- 
+// 删除时黑色背景
+@property (nonatomic, strong) UIView *blackBackgroundView;
 @end

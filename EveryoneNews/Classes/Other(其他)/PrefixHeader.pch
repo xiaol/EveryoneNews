@@ -81,9 +81,9 @@ typedef NS_ENUM(NSInteger, iPhone6PlusHomeTitleSize) {
 };
 
 typedef NS_ENUM(NSInteger, iPhone5HomeTitleSize) {
-    iPhone5HomeTitleSizeStandard = 19,
-    iPhone5HomeTitleSizeLarger = 21,
-    iPhone5HomeTitleSizeSuperLarger = 23
+    iPhone5HomeTitleSizeStandard = 17,
+    iPhone5HomeTitleSizeLarger = 19,
+    iPhone5HomeTitleSizeSuperLarger = 21
 };
 
 // 详情页标题字体 Plus
@@ -201,6 +201,7 @@ typedef NS_ENUM(NSInteger, iPhone5DetailCommentSize) {
 #define ConcernDetailUrl @"http://api.deeporiginalx.com/news/baijia/newsFetchContent"
 
 
+#define HomeTopViewHeight 71
 #define ScreenWidth [UIScreen mainScreen].bounds.size.width
 #define ScreenHeight [UIScreen mainScreen].bounds.size.height
 #define CellHeightBorder 10  // cell高度缩减

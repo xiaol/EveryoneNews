@@ -78,7 +78,7 @@
         noImageDeleteButton.userInteractionEnabled = YES;
         noImageDeleteButton.enlargedEdge = 10;
   
-       // [noImageDeleteButton addTarget:self action:@selector(deleteCurrentCell:) forControlEvents:UIControlEventTouchUpInside];
+        [noImageDeleteButton addTarget:self action:@selector(didClickDeleteButton:) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:noImageDeleteButton];
         self.noImageDeleteButton = noImageDeleteButton;
         
@@ -109,7 +109,6 @@
         UILabel *titleLabel = [[UILabel alloc] init];
         titleLabel.numberOfLines = 0;
         titleLabel.textColor =  [UIColor colorFromHexString:@"#1a1a1a"];
-//        titleLabel.font = [UIFont fontWithName:OpinionFontName size:titleFontSize];
         [self.contentView addSubview:titleLabel];
         self.titleLabel = titleLabel;
         
@@ -136,7 +135,7 @@
         singleDeleteButton.userInteractionEnabled = YES;
         singleDeleteButton.enlargedEdge = 10;
         [self.contentView addSubview:singleDeleteButton];
-      //  [singleDeleteButton addTarget:self action:@selector(deleteCurrentCell:) forControlEvents:UIControlEventTouchUpInside];
+        [singleDeleteButton addTarget:self action:@selector(didClickDeleteButton:) forControlEvents:UIControlEventTouchUpInside];
         self.singleDeleteButton = singleDeleteButton;
         
         
@@ -154,7 +153,6 @@
         //  三图及其三图以上
         UILabel *multipleImageLabel = [[UILabel alloc] init];
         multipleImageLabel.numberOfLines = 0;
-//        multipleImageLabel.font = [UIFont fontWithName:OpinionFontName size:titleFontSize];
         multipleImageLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
         [self.contentView addSubview:multipleImageLabel];
         self.multipleImageLabel = multipleImageLabel;
@@ -195,8 +193,7 @@
         mutipleDeleteButton.userInteractionEnabled = YES;
         mutipleDeleteButton.enlargedEdge = 10;
         [self.contentView addSubview:mutipleDeleteButton];
-       // [mutipleDeleteButton addTarget:self action:@selector(deleteCurrentCell:) forControlEvents:UIControlEventTouchUpInside];
-
+        [mutipleDeleteButton addTarget:self action:@selector(didClickDeleteButton:) forControlEvents:UIControlEventTouchUpInside];
         self.mutipleDeleteButton = mutipleDeleteButton;
         
         UIButton *mutipleTipButton = [[UIButton alloc] init];
@@ -222,7 +219,6 @@
 
 - (void)setCardFrame:(CardFrame *)cardFrame {
     _cardFrame = cardFrame;
-    
     CGFloat lineSpacing = 2.0;
     Card *card = _cardFrame.card;
     NSString *sourceSiteName = [card.sourceSiteName  isEqualToString: @""] ? @"未知来源": card.sourceSiteName;
@@ -231,7 +227,7 @@
     NSString *publishTime = nil;
     int interval = (int)[currentDate timeIntervalSinceDate: updateTime] / 60;
     
-    if (interval < 60) {
+    if (interval>= 0 && interval < 60) {
         publishTime = [NSString stringWithFormat:@"%d分钟前",interval];
     } else {
         publishTime = @" ";
@@ -253,12 +249,24 @@
     NSString *commentsCount = [NSString stringWithFormat:@"%@评", card.commentsCount != nil ? card.commentsCount: @"0"];
     BOOL commentLabelHidden = [commentsCount isEqualToString:@"0评"] ? YES :NO;
     NSString *source = [NSString stringWithFormat:@"%@    %@",sourceSiteName, publishTime];
+    
+    if (card.isRead) {
+        self.noImageLabel.textColor = [UIColor grayColor];
+        self.titleLabel.textColor = [UIColor grayColor];
+        self.multipleImageLabel.textColor = [UIColor grayColor];
+    } else {
+        self.noImageLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
+        self.titleLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
+        self.multipleImageLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
+    }
+    
+    
     if(card.cardImages.count == 0) {
         self.noImageLabel.hidden = NO;
         self.noImageSourceLabel.hidden = NO;
         self.noImageSeperatorLine.hidden = NO;
         self.noImageCommentLabel.hidden = NO;
-        
+    
         self.titleLabel.hidden = YES;
         self.iconView.hidden = YES;
         self.singleSourceLabel.hidden = YES;
@@ -290,11 +298,11 @@
         self.noImageCommentLabel.hidden = commentLabelHidden;
         
         self.noImageCommentLabel.text = commentsCount;
+        
         self.noImageTipButton.frame = self.cardFrame.noImageTipButtonFrame;
         self.noImageTipButton.hidden = self.cardFrame.isTipButtonHidden;
-        
-        
-        
+        self.singleTipButton.hidden = YES;
+        self.mutipleTipButton.hidden = YES;
         
     } else if (card.cardImages.count == 1 || card.cardImages.count == 2) {
         CardImage * cardImage = card.cardImages.anyObject;
@@ -343,6 +351,8 @@
         
         self.singleTipButton.frame = self.cardFrame.singleTipButtonFrame;
         self.singleTipButton.hidden = self.cardFrame.isTipButtonHidden;
+        self.noImageTipButton.hidden = YES;
+        self.mutipleTipButton.hidden = YES;
         
         
     } else if (card.cardImages.count >= 3) {
@@ -403,13 +413,15 @@
         
         self.mutipleTipButton.frame = self.cardFrame.mutipleTipButtonFrame;
         self.mutipleTipButton.hidden = self.cardFrame.isTipButtonHidden;
+        self.noImageTipButton.hidden = YES;
+        self.singleTipButton.hidden = YES;
         
       
     }
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    
+
 }
 
 - (void)setHighlighted:(BOOL)highlighted {
@@ -417,13 +429,25 @@
 }
 
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
-
+ 
 }
 
+#pragma mark - 首页删除功能
+- (void)didClickDeleteButton:(UIButton *)deleteButton {
+    if (self.didClickDeleteBlock) {
+        self.didClickDeleteBlock(deleteButton);
+    }
+}
+
+- (void)didClickDeleteButtonBlock:(didClickDeleteButtonBlock)didClickDeleteButtonBlock {
+    self.didClickDeleteBlock = didClickDeleteButtonBlock;
+}
+
+#pragma mark - 首页上次看到哪里
 - (void)didClickTipButton{
-        if (self.didClickTipBlock) {
-            self.didClickTipBlock();
-        }
+    if (self.didClickTipBlock) {
+        self.didClickTipBlock();
+    }
 }
 
 - (void)didClickTipButtonBlock:(didClickTipButtonBlock)didClickTipButtonBlock {

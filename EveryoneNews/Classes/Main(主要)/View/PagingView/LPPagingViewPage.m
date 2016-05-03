@@ -27,6 +27,8 @@
 
 @property (nonatomic, strong) UILabel *promptLabel;
 
+@property (nonatomic, strong) UIView *blackBackgroundView;
+
 @end
 
 @implementation LPPagingViewPage
@@ -64,7 +66,7 @@
         layer.borderWidth = 0.5;
         [searchView.layer addSublayer:layer];
         
-        UIImageView *searchImageView = [[UIImageView alloc] initWithFrame:CGRectMake(23, 0, searchImageH, searchImageW)];
+        UIImageView *searchImageView = [[UIImageView alloc] initWithFrame:CGRectMake(23, 0, searchImageW, searchImageH)];
         searchImageView.image = [UIImage imageNamed:@"首页搜索"];
         searchImageView.centerY = (searchViewHeight + paddingTop) / 2;
         [searchView addSubview:searchImageView];
@@ -153,17 +155,18 @@
 
 #pragma mark － 下拉刷新 如果超过12小时始终返回最新数据
 - (void)loadNewData{
-//    for (CardFrame *cardFrame in self.cardFrames) {
-//        if (!cardFrame.tipButtonHidden) {
-//            cardFrame.tipButtonHidden = YES;
-//            break;
-//        }
-//    }
-    
+    // 隐藏上次看到位置的提示按钮
+    for (CardFrame *cardFrame in self.cardFrames) {
+        Card *card = cardFrame.card;
+        if (!cardFrame.isTipButtonHidden) {
+            [cardFrame setCard:card tipButtonHidden:YES];
+            break;
+        }
+    }
     if (self.cardFrames.count != 0) {
+        
         CardFrame *cardFrame = self.cardFrames[0];
         Card *card = cardFrame.card;
-        
         CardParam *param = [[CardParam alloc] init];
         param.type = HomeCardsFetchTypeNew;
         param.channelID = [NSString stringWithFormat:@"%@", card.channelId];
@@ -172,13 +175,15 @@
         __weak typeof(self) weakSelf = self;
         NSMutableArray *tempArray = [[NSMutableArray alloc] init];
         [CardTool cardsWithParam:param channelID: param.channelID success:^(NSArray *cards) {
+            
             if (cards.count > 0) {
-//            [cardFrame setCard:card tipButtonHidden:NO];
+                
+            [cardFrame setCard:card tipButtonHidden:NO];
+                
             for (int i = 0; i < (int)cards.count; i ++) {
                 CardFrame *cardFrame = [[CardFrame alloc] init];
                 cardFrame.card = cards[i];
                 [tempArray addObject:cardFrame];
-               // [weakSelf.cardFrames insertObject:cardFrame atIndex:0];
             }
             NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:
                                    NSMakeRange(0,[tempArray count])];
@@ -265,10 +270,19 @@
         cell = [[LPHomeViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     cell.cardFrame = self.cardFrames[indexPath.row];
-//    __weak typeof(self) weakSelf = self;
-//    [cell didClickTipButtonBlock:^() {
-//        [weakSelf loadNewData];
-//    }];
+    
+    
+    __weak typeof(self) weakSelf = self;
+    [cell didClickTipButtonBlock:^() {
+        [weakSelf autotomaticLoadNewData];
+        [weakSelf loadNewData];
+    }];
+    
+    [cell didClickDeleteButtonBlock:^(UIButton *deleteButton) {
+        if ([weakSelf.delegate respondsToSelector:@selector(page:didClickDeleteButtonWithCardFrame:deleteButton:indexPath:)]) {
+            [weakSelf.delegate page:self didClickDeleteButtonWithCardFrame:cell.cardFrame deleteButton:deleteButton indexPath:indexPath];
+        }
+    }];
     
     return cell;
 }
@@ -279,38 +293,33 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     CardFrame *cardFrame = self.cardFrames[indexPath.row];
-    if ([self.delegate respondsToSelector:@selector(page:didSelectCellWithCardID:)]) {
-        [self.delegate page:self didSelectCellWithCardID:cardFrame.card.objectID];
+    if ([self.delegate respondsToSelector:@selector(page:didSelectCellWithCardID:cardFrame:)]) {
+        [self.delegate page:self didSelectCellWithCardID:cardFrame.card.objectID cardFrame:cardFrame];
     }
 }
 
-- (void)deleteRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    [self.tableView beginUpdates];
-    [self.cardFrames removeObject:self.cardFrames[indexPath.row]];
-    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationBottom];
-    [self.tableView endUpdates];
-    
+
+#pragma mark - 删除某行数据
+- (void)deleteRowAtIndexPath:(NSIndexPath *)indexPath cardFrame:(CardFrame *)cardFrame {
+    [self.cardFrames removeObject:cardFrame];
+    [UIView animateWithDuration:0.5 animations:^{
+        [self.tableView  deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationBottom];
+    } completion:^(BOOL finished) {
+        [self.tableView reloadData];
+    }];
 }
 
+- (void)updateCardFramesWithCardFrame:(CardFrame *)cardFrame {
+    if ([self.cardFrames containsObject:cardFrame]) {
+        cardFrame.card.isRead = @(1);
+        [self.cardFrames replaceObjectAtIndex:[self.cardFrames indexOfObject:cardFrame] withObject:cardFrame];
+    }
+   
+}
 
-
-#pragma mark - scrollView Delegate
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-//    CGFloat offsetY = scrollView.contentOffset.y;
-//    if ([self.delegate respondsToSelector:@selector(page:didSaveOffsetY:)]) {
-//        [self.delegate page:self didSaveOffsetY:offsetY];
-//    }
-//    
-////    NSLog(@"offsetY:%f", offsetY);
-//}
-
-#pragma mark - tableView contentOffsetY
-//- (void)scrollToOffsetY:(CGFloat)offsetY {
-//    [self.tableView setContentOffset:CGPointMake(0, offsetY) animated:NO];
-//    
-//}
-
-
+#pragma mark - 刷新主页面
+- (void)tableViewReloadData {
+    [self.tableView reloadData];
+}
 
 @end

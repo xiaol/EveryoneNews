@@ -24,6 +24,12 @@
 #import "Card+Fetch.h"
 #import "CardParam.h"
 #import "LPSearchViewController.h"
+#import "NSString+LP.h"
+#import "UIButton+LP.h"
+#import "AppDelegate.h"
+#import "CoreDataHelper.h"
+#import "CardImage.h"
+#import "Card.h"
 
 NSString *const reusePageID = @"reusePageID";
 
@@ -175,11 +181,27 @@ NSString *const reusePageID = @"reusePageID";
 
 #pragma mark - 加载更多
 - (void)loadMoreDataInPageAtPageIndex:(NSInteger)pageIndex {
+    //-----------------------------------------------------------------------
+//        NSString *dateString = @"2016-04-22 10:00:00";
+//        //设置转换格式
+//        NSDateFormatter *formatter = [[NSDateFormatter alloc] init] ;
+//        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+//        //NSString转NSDate
+//        NSDate *date=[formatter dateFromString:dateString];
+//        param.startTime = [NSString stringWithFormat:@"%lld", (long long)([date timeIntervalSince1970] * 1000)];
+    //-----------------------------------------------------------------------
+    
     LPChannelItem *channelItem = self.pageindexMapToChannelItemDictionary[@(pageIndex)];
     CardParam *param = [[CardParam alloc] init];
     param.type = HomeCardsFetchTypeMore;
     param.count = @(20);
-    param.startTime = [NSString stringWithFormat:@"%lld", (long long)([[NSDate date] timeIntervalSince1970] * 1000)];
+    if (![userDefaults objectForKey:@"isVersion3FirstLoad"]) {
+        param.startTime = [NSString stringWithFormat:@"%lld", (long long)([[[NSDate date] dateByAddingTimeInterval:(-12 * 60 * 60)] timeIntervalSince1970] * 1000)];
+    } else {
+        param.startTime = [NSString stringWithFormat:@"%lld", (long long)([[NSDate date] timeIntervalSince1970] * 1000)];
+    }
+    
+
     param.channelID = channelItem.channelID;
     NSMutableArray *cfs = [NSMutableArray array];
     [CardTool cardsWithParam:param channelID:channelItem.channelID success:^(NSArray *cards) {
@@ -210,10 +232,29 @@ NSString *const reusePageID = @"reusePageID";
 }
 
 #pragma mark - LPagingViewPage delegate
-- (void)page:(LPPagingViewPage *)page didSelectCellWithCardID:(NSManagedObjectID *)cardID {
+- (void)page:(LPPagingViewPage *)page didSelectCellWithCardID:(NSManagedObjectID *)cardID cardFrame:(CardFrame *)cardFrame{
     LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
     detailVc.cardID = cardID;
+    
+    CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    Card *card = (Card *)[cdh.context existingObjectWithID:cardID error:nil];
+    if (!card.isRead) {
+        [self updateIsReadStatus:card page:(LPPagingViewPage *)page];
+        [page updateCardFramesWithCardFrame:cardFrame];
+  
+    }
+ 
+   
+    
+    
+//    [CATransaction begin];
     [self.navigationController pushViewController:detailVc animated:YES];
+//    [CATransaction setCompletionBlock:^{
+//        [page tableViewReloadData];
+//    }];
+//    [CATransaction commit];
+    
+   
     
 }
 
@@ -224,5 +265,234 @@ NSString *const reusePageID = @"reusePageID";
 
 - (void)page:(LPPagingViewPage *)page didSaveOffsetY:(CGFloat)offsetY {
 //    [self.pageContentOffsetDictionary setObject:@(offsetY) forKey:page.pageChannelName];
+}
+
+// 弹出删除选择框
+- (void)page:(LPPagingViewPage *)page didClickDeleteButtonWithCardFrame:(CardFrame *)cardFrame  deleteButton:(UIButton *)deleteButton indexPath:(NSIndexPath *)indexPath{
+    
+    UIView *blackBackgroundView = [[UIView alloc] init];
+    blackBackgroundView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
+    blackBackgroundView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.5];
+
+    [self.view addSubview:blackBackgroundView];
+    
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapBlackbackgroundView:)];
+    [blackBackgroundView addGestureRecognizer:tapGesture];
+ 
+    self.blackBackgroundView = blackBackgroundView;
+    
+    CGRect deleteButtonFrame = [deleteButton.superview convertRect:deleteButton.frame toView:self.view];
+    
+    CGFloat centerYInPagingView = (ScreenHeight + HomeTopViewHeight) / 2;
+    CGFloat deleteButtonY = deleteButtonFrame.origin.y;
+    
+    CGFloat imageViewW = 30.5f;
+    CGFloat imageViewH = 13.5f;
+    CGRect imageViewFrame;
+    CGFloat imageViewX = CGRectGetMidX(deleteButtonFrame) - imageViewW;
+    
+    UIImageView *imageView = [[UIImageView alloc] init];
+    
+    UIView *notInterestedView = [[UIView alloc] init];
+    notInterestedView.backgroundColor = [UIColor whiteColor];
+    notInterestedView.layer.cornerRadius = 10;
+    
+    CGFloat titleSize = 16;
+    UILabel *notInterestedTitleLabel = [[UILabel alloc] init];
+    notInterestedTitleLabel.text = @"请选择不感兴趣的原因:";
+    notInterestedTitleLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
+    notInterestedTitleLabel.font = [UIFont systemFontOfSize:titleSize];
+    
+    NSString *str = @"请";
+    CGFloat notInterestedTitleLabelH = [str sizeWithFont:[UIFont systemFontOfSize:titleSize] maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)].height;
+    
+    CGFloat contentFontSize = 14;
+    
+    CGFloat buttonPadding = 10;
+    CGFloat notInterestedContentH = [str sizeWithFont:[UIFont systemFontOfSize:contentFontSize] maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)].height + buttonPadding;
+    
+    CGFloat notInterestedViewH = 20 + notInterestedTitleLabelH + 16 + 1 + 18 * 3 + notInterestedContentH * 2;
+    CGFloat notInterestedViewX = BodyPadding;
+    CGFloat notInterestedViewW = ScreenWidth - BodyPadding * 2;
+    CGFloat notInterestedViewY;
+    
+    
+    CGFloat paddingLeft = 20;
+    // 不感兴趣标题
+    notInterestedTitleLabel.frame = CGRectMake(paddingLeft, paddingLeft, notInterestedViewW - paddingLeft * 2, notInterestedTitleLabelH);
+    [notInterestedView addSubview:notInterestedTitleLabel];
+    
+    // 分割线
+    UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(paddingLeft, 16 + CGRectGetMaxY(notInterestedTitleLabel.frame), notInterestedViewW - paddingLeft * 2, 1)];
+    seperatorView.backgroundColor = [UIColor colorFromHexString:@"#e4e4e4"];
+    [notInterestedView addSubview:seperatorView];
+    
+    // 不喜欢原因
+    CGFloat firstRowY = CGRectGetMaxY(seperatorView.frame) + 18;
+    
+    NSString *notLikeStr = @"不喜欢";
+    NSString *lowQualityStr = @"低质量";
+    NSString *repeatStr = @"重复、旧闻";
+    
+   
+    
+    CGFloat notLikeButtonW = [notLikeStr sizeWithFont:[UIFont systemFontOfSize:contentFontSize] maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)].width + buttonPadding;
+    CGFloat lowQualityButtonW = [lowQualityStr sizeWithFont:[UIFont systemFontOfSize:contentFontSize] maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)].width + buttonPadding ;
+    CGFloat repeatButtonW = [repeatStr sizeWithFont:[UIFont systemFontOfSize:contentFontSize] maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)].width + buttonPadding;
+    
+    // 不喜欢
+    UIButton *notLikeButton = [[UIButton alloc] initWithFrame:CGRectMake(paddingLeft, firstRowY, notLikeButtonW, notInterestedContentH)];
+    notLikeButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+    [notLikeButton setTitle:notLikeStr forState:UIControlStateNormal];
+    notLikeButton.titleLabel.font = [UIFont systemFontOfSize:contentFontSize];
+    [notLikeButton setTitleColor:[UIColor colorWithHexString:@"#666666"] forState:UIControlStateNormal];
+    notLikeButton.layer.borderColor = [UIColor colorWithHexString:@"#e4e4e4"].CGColor;
+    notLikeButton.layer.borderWidth = 0.5;
+    notLikeButton.layer.cornerRadius = 6;
+    [notLikeButton addTarget:self action:@selector(deleteCurrentRow:) forControlEvents:UIControlEventTouchUpInside];
+    
+       __weak typeof(self) weakSelf = self;
+    [notLikeButton handleControlEvent:UIControlEventTouchUpInside withBlock:^{
+        [page deleteRowAtIndexPath:indexPath cardFrame:cardFrame];
+        [weakSelf deleteCardFromCoreData:cardFrame];
+     
+    }];
+    notLikeButton.enlargedEdge = 5;
+    [notInterestedView addSubview:notLikeButton];
+    
+    
+    // 低质量
+    UIButton *lowQualityButton = [[UIButton alloc] initWithFrame:CGRectMake(paddingLeft + CGRectGetMaxX(notLikeButton.frame), firstRowY, lowQualityButtonW, notInterestedContentH)];
+    lowQualityButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+    [lowQualityButton setTitle:lowQualityStr forState:UIControlStateNormal];
+    lowQualityButton.titleLabel.font = [UIFont systemFontOfSize:contentFontSize];
+    [lowQualityButton setTitleColor:[UIColor colorWithHexString:@"#666666"] forState:UIControlStateNormal];
+    lowQualityButton.layer.borderColor = [UIColor colorWithHexString:@"#e4e4e4"].CGColor;
+    lowQualityButton.layer.borderWidth = 0.5;
+    lowQualityButton.layer.cornerRadius = 6;
+    [lowQualityButton addTarget:self action:@selector(deleteCurrentRow:) forControlEvents:UIControlEventTouchUpInside];
+    [lowQualityButton handleControlEvent:UIControlEventTouchUpInside withBlock:^{
+        [page deleteRowAtIndexPath:indexPath cardFrame:cardFrame];
+        [weakSelf deleteCardFromCoreData:cardFrame];
+    }];
+    lowQualityButton.enlargedEdge = 5;
+    [notInterestedView addSubview:lowQualityButton];
+    
+    // 重复 旧闻
+    UIButton *repeatButton = [[UIButton alloc] initWithFrame:CGRectMake(paddingLeft + CGRectGetMaxX(lowQualityButton.frame), firstRowY, repeatButtonW, notInterestedContentH)];
+    repeatButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+    [repeatButton setTitle:repeatStr forState:UIControlStateNormal];
+    repeatButton.titleLabel.font = [UIFont systemFontOfSize:contentFontSize];
+    [repeatButton setTitleColor:[UIColor colorWithHexString:@"#666666"] forState:UIControlStateNormal];
+    repeatButton.layer.borderColor = [UIColor colorWithHexString:@"#e4e4e4"].CGColor;
+    repeatButton.layer.borderWidth = 0.5;
+    repeatButton.layer.cornerRadius = 6;
+    [repeatButton addTarget:self action:@selector(deleteCurrentRow:) forControlEvents:UIControlEventTouchUpInside];
+    [repeatButton handleControlEvent:UIControlEventTouchUpInside withBlock:^{
+        [page deleteRowAtIndexPath:indexPath cardFrame:cardFrame];
+        [weakSelf deleteCardFromCoreData:cardFrame];
+    }];
+    repeatButton.enlargedEdge = 5;
+    [notInterestedView addSubview:repeatButton];
+    
+    CGFloat secondRowY = CGRectGetMaxY(notLikeButton.frame) + 18;
+    
+    // 来源
+    NSString *sourceStr = [NSString stringWithFormat:@"来源: %@", cardFrame.card.sourceSiteName] ;
+    CGFloat sourceButtonW = [sourceStr sizeWithFont:[UIFont systemFontOfSize:contentFontSize] maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)].width + buttonPadding;
+    UIButton *sourceButton = [[UIButton alloc] initWithFrame:CGRectMake(paddingLeft, secondRowY, sourceButtonW, notInterestedContentH)];
+    sourceButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+    [sourceButton setTitle:sourceStr forState:UIControlStateNormal];
+    sourceButton.titleLabel.font = [UIFont systemFontOfSize:contentFontSize];
+    [sourceButton setTitleColor:[UIColor colorWithHexString:@"#666666"] forState:UIControlStateNormal];
+    sourceButton.layer.borderColor = [UIColor colorWithHexString:@"#e4e4e4"].CGColor;
+    sourceButton.layer.borderWidth = 0.5;
+    sourceButton.layer.cornerRadius = 6;
+    [sourceButton addTarget:self action:@selector(deleteCurrentRow:) forControlEvents:UIControlEventTouchUpInside];
+    [sourceButton handleControlEvent:UIControlEventTouchUpInside withBlock:^{
+        [page deleteRowAtIndexPath:indexPath cardFrame:cardFrame];
+        [weakSelf deleteCardFromCoreData:cardFrame];
+    }];
+    sourceButton.enlargedEdge = 5;
+    [notInterestedView addSubview:sourceButton];
+    
+    if (deleteButtonY < centerYInPagingView) {
+        imageView.image = [UIImage imageNamed:@"不感兴趣向下"];
+        imageViewFrame = CGRectMake(imageViewX, CGRectGetMaxY(deleteButtonFrame) + 2, imageViewW, imageViewH);
+        notInterestedViewY = CGRectGetMaxY(imageViewFrame) - 1;
+     
+    } else {
+        imageView.image = [UIImage imageNamed:@"不感兴趣向上"];
+        imageViewFrame = CGRectMake(imageViewX, CGRectGetMinY(deleteButtonFrame) - imageViewH - 2, imageViewW, imageViewH);
+        notInterestedViewY = CGRectGetMinY(imageViewFrame) + 1 - notInterestedViewH ;
+    }
+    imageView.frame = imageViewFrame;
+    
+    notInterestedView.frame = CGRectMake(notInterestedViewX, notInterestedViewY, notInterestedViewW, notInterestedViewH);
+    
+    [self.blackBackgroundView addSubview:imageView];
+    [self.blackBackgroundView addSubview:notInterestedView];
+}
+
+- (void)tapBlackbackgroundView:(UITapGestureRecognizer *)tapGesture {
+     [self.blackBackgroundView removeFromSuperview];
+}
+
+- (void)deleteCurrentRow:(UIButton *)button {
+    [self.blackBackgroundView removeFromSuperview];
+}
+
+
+#pragma mark - 删除本地新闻
+- (void)deleteCardFromCoreData:(CardFrame *)cardFrame {
+    CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    Card *card = cardFrame.card;
+    [cdh.importContext performBlockAndWait:^{
+        NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Card"];
+        [request setPredicate:[NSPredicate predicateWithFormat:@"newId = %@ and channelId = %@",card.newId , card.channelId]];
+        NSError *error;
+        NSArray *fetchedObjects = [cdh.importContext executeFetchRequest:request error:&error];
+        for (Card  *cardObject in fetchedObjects) {
+            [cdh.importContext deleteObject:cardObject];
+         }
+        NSError *saveError = nil;
+        [cdh.importContext save:&saveError];
+        [cdh.context performBlock:^{
+            [cdh saveBackgroundContext];
+        }];
+        dispatch_async(dispatch_get_main_queue(), ^{
+           
+        });
+        
+    }];
+    
+}
+
+- (void)updateIsReadStatus:(Card *)card page:(LPPagingViewPage *)page {
+    CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    if (!card.isRead) {
+        card.isRead = @(1);
+        [cdh.importContext performBlockAndWait:^{
+            NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Card"];
+            [request setPredicate:[NSPredicate predicateWithFormat:@"newId = %@ and channelId = %@",card.newId , card.channelId]];
+            NSEntityDescription  *entity  = [NSEntityDescription entityForName:@"Card" inManagedObjectContext:cdh.importContext];
+            [request setEntity:entity];
+            NSError *error;
+            [cdh.importContext executeFetchRequest:request error:&error];
+            
+            NSError *saveError = nil;
+            [cdh.importContext save:&saveError];
+            [cdh.context performBlock:^{
+                [cdh saveBackgroundContext];
+            }];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [page tableViewReloadData];
+            });
+            
+        }];
+        
+    }
+
+
 }
 @end

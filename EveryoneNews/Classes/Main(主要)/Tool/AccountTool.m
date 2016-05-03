@@ -19,7 +19,7 @@
 #import "MainNavigationController.h"
 #import "UMSocialSnsPlatformManager.h"
 #import "WXApi.h"
-#import "LPNewsLoginViewController.h"
+#import "LPNewsLonginViewFromSettingViewController.h"
 #import "MainNavigationController.h"
 
 
@@ -251,7 +251,7 @@ singleton_m(AccountTool);
     }
 //    LPLoginViewController *loginVc = [[LPLoginViewController alloc] init];
     
-    LPNewsLoginViewController *loginVc = [[LPNewsLoginViewController alloc] initWithCustom];
+    LPNewsLonginViewFromSettingViewController *loginVc = [[LPNewsLonginViewFromSettingViewController alloc] initWithCustom];
     
     
 //    loginVc.successBlock = success;

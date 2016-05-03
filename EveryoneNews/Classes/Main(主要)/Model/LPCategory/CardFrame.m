@@ -33,16 +33,11 @@ static const CGFloat PaddingHorizontal = 12;
     CGFloat titleFontSize =  self.homeViewFontSize;
     CGFloat sourceFontSize = 10;
     CGFloat paddingVertical = 15;
-//    CGFloat imageH = 75;
-    
     CGFloat lineSpacing = 4.0;
-    
-    
     if (iPhone6) {
         sourceFontSize = 12;
     } else if (iPhone6Plus) {
         sourceFontSize = 13;
-//        imageH = 90;
     }
     // 删除按钮宽度和高度
     CGFloat deleteButtonW = 22;

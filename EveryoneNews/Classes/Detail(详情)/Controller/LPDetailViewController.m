@@ -46,6 +46,8 @@
 #import "NSTimer+Additions.h"
 #import "LPRelatePointFooter.h"
 #import <libkern/OSAtomic.h>
+#import "LPRelatePoint.h"
+#import "LPRelateFrame.h"
 
 
 static const NSString * privateContext;
@@ -97,12 +99,177 @@ static int imageDownloadCount;
     [self setupSubviews];
     [self setupBottomView];
     [self setupCardData];
-    [self setupDetailData];
-    [self setupCommentsData];
-    [self setupRelateData];
+    [self setupData];
+}
+
+#pragma mark - 加载详情页所有数据
+- (void)setupData {
+    
+    __weak typeof(self) weakSelf = self;
+    // 详情页block
+    void (^contentBlock)(id json) = ^(id json) {
+        
+        NSDictionary *dict = json[@"data"];
+        NSString *title = dict[@"title"];
+        NSString *pubTime = dict[@"pubTime"];
+        NSString *pubName = dict[@"pubName"];
+
+        weakSelf.shareTitle = title;
+        weakSelf.docId = dict[@"docid"];
+        // 更新详情页评论数量
+        weakSelf.commentsCount = [dict[@"commentSize"] integerValue];
+        weakSelf.topView.badgeNumber = self.commentsCount;
+        weakSelf.bottomView.badgeNumber = self.commentsCount ;
+
+        [weakSelf setupHeaderView:title pubTime:pubTime pubName:pubName];
+
+        NSArray *bodyArray = dict[@"content"];
+
+        // 第一个图片作为分享图片
+        for (NSDictionary *dict in bodyArray) {
+            if (dict[@"img"]) {
+                weakSelf.shareImageURL = dict[@"img"];
+                break;
+            }
+        }
+
+        for (NSDictionary *dict in bodyArray) {
+            
+            LPContent *content = [[LPContent alloc] init];
+            
+            content.isAbstract = NO;
+            content.index = dict[@"index"];
+            content.photo = dict[@"img"];
+            content.image = [UIImage imageNamed:@"单图大图占位图"];
+            content.photoDesc = dict[@"img_info"];
+            content.body = dict[@"txt"];
+            if (content.photo) {
+                content.isPhoto = YES;
+            } else {
+                content.isPhoto = NO;
+            }
+            LPContentFrame *contentFrame = [[LPContentFrame alloc] init];
+            contentFrame.content = content;
+            [weakSelf.contentFrames addObject:contentFrame];
+            [contentFrame downloadImageWithCompletionBlock:^{
+                ++ imageDownloadCount;
+                if (weakSelf.contentFrames.count > 0 && imageDownloadCount == weakSelf.contentFrames.count) {
+                    [weakSelf.tableView reloadData];
+                    
+                }
+            }];
+        }
+    };
+
+    // 评论block
+    void (^commentsBlock)(id json) = ^(id json) {
+        NSMutableArray *fulltextCommentArray = [NSMutableArray array];
+        if ([json[@"code"] integerValue] == 0) {
+            NSArray *commentsArray = json[@"data"];
+            for (NSDictionary *dict in commentsArray) {
+                LPComment *comment = [[LPComment alloc] init];
+                comment.srcText = dict[@"content"];
+                comment.createTime = dict[@"create_time"];
+                comment.up = [NSString stringWithFormat:@"%@", dict[@"love"]] ;
+                comment.userIcon = dict[@"profile"];
+                comment.commentId = dict[@"comment_id"];
+                comment.userName = dict[@"nickname"];
+                comment.color = [UIColor colorFromHexString:@"#747474"];
+                comment.isPraiseFlag = @"0";
+                comment.Id = dict[@"id"];
+                
+                LPCommentFrame *commentFrame = [[LPCommentFrame alloc] init];
+                commentFrame.comment = comment;
+                [weakSelf.fulltextCommentFrames addObject:commentFrame];
+                
+                [fulltextCommentArray addObject:comment];
+                if (fulltextCommentArray.count == 3) {
+                    break;
+                }
+            }
+        }
+    };
+
+    // 相关观点block
+    void (^relatePointBlock)(id json) = ^(id json) {
+        NSDictionary *dict = json[@"data"];
+        NSArray *relatePointArray = [LPRelatePoint objectArrayWithKeyValuesArray:dict[@"searchItems"]];
+        // 按照时间排序
+        NSArray *sortedRelateArray = [relatePointArray sortedArrayUsingComparator:^NSComparisonResult(LPRelatePoint *p1, LPRelatePoint *p2){
+            return [p2.updateTime compare:p1.updateTime];
+        }];
+        weakSelf.relatePointArray = sortedRelateArray;
+
+        for (int i = 0; i < sortedRelateArray.count; i ++) {
+            LPRelatePoint *point = sortedRelateArray[i];
+            LPRelateFrame *relateFrame = [[LPRelateFrame alloc] init];
+            relateFrame.relatePoint = point;
+            [weakSelf.relatePointFrames addObject:relateFrame];
+            if (i == 2) {
+                break;
+            }
+        }
+    };
+
+    // 详情页正文
+    NSMutableDictionary *detailContentParams = [NSMutableDictionary dictionary];
+    NSString *detailContentURL = @"http://api.deeporiginalx.com/bdp/news/content";
+    detailContentParams[@"url"] = [self.card valueForKey:@"newId"];
+
+//     NSLog(@"%@?url=%@",detailContentURL,  [self.card valueForKey:@"newId"]);
+    
+    // 详情页评论
+    NSString *detailCommentsURL = @"http://api.deeporiginalx.com/bdp/news/comment/ydzx";
+    NSMutableDictionary *detailCommentsParams = [NSMutableDictionary dictionary];
+    detailCommentsParams[@"docid"] = self.docId;
+    detailCommentsParams[@"page"] = @(1);
+    detailCommentsParams[@"offset"] = @"20";
+
+//    NSLog(@"%@?docid=%@&page=1&offset=20",detailCommentsURL,self.docId );
     
     
+    // 相关观点
+    NSMutableDictionary *detailRelatePointParams = [NSMutableDictionary dictionary];
+    detailRelatePointParams[@"url"] = [self.card valueForKey:@"newId"];
+    NSString *relateURL = @"http://api.deeporiginalx.com/bdp/news/related";
+
+    // GCD group 加载
+    dispatch_group_t detailGroup = dispatch_group_create();
+    dispatch_group_enter(detailGroup);
+    [LPHttpTool getWithURL:detailContentURL params:detailContentParams success:^(id json) {
+
+        contentBlock(json);
+        dispatch_group_leave(detailGroup);
+
+    } failure:^(NSError *error) {
+        dispatch_group_leave(detailGroup);
+    }];
+
+    dispatch_group_enter(detailGroup);
+    [LPHttpTool getWithURL:detailCommentsURL params:detailCommentsParams success:^(id json) {
+
+        commentsBlock(json);
+        dispatch_group_leave(detailGroup);
+
+    } failure:^(NSError *error) {
+        dispatch_group_leave(detailGroup);
+    }];
+
+    dispatch_group_enter(detailGroup);
+    [LPHttpTool getWithURL:relateURL params:detailRelatePointParams success:^(id json) {
+
+          relatePointBlock(json);
+          dispatch_group_leave(detailGroup);
+        
+    } failure:^(NSError *error) {
+        dispatch_group_leave(detailGroup);
+    }];
     
+    dispatch_group_notify(detailGroup,dispatch_get_main_queue(),^{
+        [weakSelf.tableView reloadData];
+        weakSelf.tableView.hidden = NO;
+        [weakSelf hideLoadingView];
+    });
 }
 
 #pragma mark - viewWillAppear
@@ -293,15 +460,12 @@ static int imageDownloadCount;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-//- (void)viewDidLayoutSubviews {
-//    
-//}
 
 #pragma mark - 创建视图
 - (void)setupSubviews {
     
     // 文章内容
-    UITableView *tableView = [[UITableView alloc] initWithFrame: CGRectMake(BodyPadding, 20, ScreenWidth - BodyPadding * 2, ScreenHeight - 44) style:UITableViewStyleGrouped];
+    UITableView *tableView = [[UITableView alloc] initWithFrame: CGRectMake(BodyPadding, 20, ScreenWidth - BodyPadding * 2, ScreenHeight - 51) style:UITableViewStyleGrouped];
     //tableView.frame = CGRectMake(BodyPadding, 20, ScreenWidth - BodyPadding * 2, ScreenHeight - 65);
     tableView.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -333,11 +497,7 @@ static int imageDownloadCount;
 #pragma mark - Loading View
 - (void)setupLoadingView {
     CGFloat statusBarHeight = 20.0f;
-    CGFloat menuViewHeight = 44.0f;
-    if (iPhone6Plus) {
-        menuViewHeight = 51;
-    }
-    
+    CGFloat menuViewHeight = 51;
     UIView *contentLoadingView = [[UIView alloc] initWithFrame:CGRectMake(0, statusBarHeight + menuViewHeight, ScreenWidth, ScreenHeight - statusBarHeight - menuViewHeight)];
     
     // Load images
@@ -405,106 +565,6 @@ static int imageDownloadCount;
     self.channelID = [self.card valueForKey:@"channelId"];
     
 }
-
-#pragma mark - 加载详情页正文数据
-- (void)setupDetailData {
-    
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    // 加载详情页数据
-    NSString *url = @"http://api.deeporiginalx.com/bdp/news/content";
-    // 必须通过kvc方式获取，否则会有bug
-    params[@"url"] = [self.card valueForKey:@"newId"];
-    // 分享页面地址
-    self.shareURL = [NSString stringWithFormat:@"http://deeporiginalx.com/news.html?type=0&url=%@&interface", params[@"url"]];
-    NSLog(@"%@?url=%@", url, params[@"url"]);
-    
-    [self getDetailDataWithUrl:url params:params];
-}
-
-- (void)getDetailDataWithUrl:(NSString *)url params:(NSDictionary *)params {
-    
-    __block BOOL isRefreshTableView = NO;
-    
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        if (!isRefreshTableView) {
-            
-//            NSLog(@"8 times");
-            [self.tableView reloadData];
-        }
-        
-    });
-    
-    [LPHttpTool getWithURL:url params:params success:^(id json) {
-        
-        NSDictionary *dict = json[@"data"];
-        NSString *title = dict[@"title"];
-        NSString *pubTime = dict[@"pubTime"];
-        NSString *pubName = dict[@"pubName"];
-        
-        self.shareTitle = title;
-        self.docId = dict[@"docid"];
-         // 更新详情页评论数量
-        self.commentsCount = [dict[@"commentSize"] integerValue];
-        self.topView.badgeNumber = self.commentsCount;
-        self.bottomView.badgeNumber = self.commentsCount ;
-     
-        [self setupHeaderView:title pubTime:pubTime pubName:pubName];
-        
-        NSArray *bodyArray = dict[@"content"];
-        
-        // 第一个图片作为分享图片
-        for (NSDictionary *dict in bodyArray) {
-            if (dict[@"img"]) {
-                self.shareImageURL = dict[@"img"];
-                break;
-            }
-        }
-        
-        for (NSDictionary *dict in bodyArray) {
-            
-            LPContent *content = [[LPContent alloc] init];
-            
-            content.isAbstract = NO;
-            content.index = dict[@"index"];
-            content.photo = dict[@"img"];
-            content.image = [UIImage imageNamed:@"单图大图占位图"];
-            content.photoDesc = dict[@"img_info"];
-            content.body = dict[@"txt"];
-//            content.concern = self.concern;
-            if (content.photo) {
-                content.isPhoto = YES;
-                
-                
-            } else {
-                content.isPhoto = NO;
-            }
-            LPContentFrame *contentFrame = [[LPContentFrame alloc] init];
-            contentFrame.content = content;
-            [self.contentFrames addObject:contentFrame];
-            [contentFrame downloadImageWithCompletionBlock:^{
-                ++ imageDownloadCount;
-                if (self.contentFrames.count > 0 && imageDownloadCount == self.contentFrames.count) {
-                    isRefreshTableView = YES;
-                    [self.tableView reloadData];
-  
-                }
-            }];
-        }
-        self.tableView.hidden = NO;
-        static OSSpinLock aspect_lock = OS_SPINLOCK_INIT;
-        OSSpinLockLock(&aspect_lock);
-        [self.tableView reloadData];
-        OSSpinLockUnlock(&aspect_lock);
-        
-        
-        [self hideLoadingView];
-    } failure:^(NSError *error) {
-        [MBProgressHUD showError:@"网络不给力"];
-        [self hideLoadingView];
-    }];
-}
-
-
 
 #pragma mark - Table view data source
 
@@ -707,7 +767,7 @@ static int imageDownloadCount;
 - (void)setupHeaderView:(NSString *)title pubTime:(NSString *)pubtime pubName:(NSString *)pubName {
     UIView *headerView = [[UIView alloc] init];
     CGFloat titleFontSize = [LPFontSizeManager sharedManager].currentDetaiTitleFontSize;
-    CGFloat titlePaddingTop = TabBarHeight;
+    CGFloat titlePaddingTop = TabBarHeight - 20;
     CGFloat sourceFontSize = [LPFontSizeManager sharedManager].currentDetailSourceFontSize;;
     CGFloat sourcePaddingTop = 0;
 
@@ -724,6 +784,7 @@ static int imageDownloadCount;
     CGFloat titleY = titlePaddingTop;
     titleLabel.frame = CGRectMake(titleX, titleY, titleW, titleH);
     titleLabel.attributedText = titleString;
+  
     [headerView addSubview:titleLabel];
     
     // 来源
@@ -740,7 +801,7 @@ static int imageDownloadCount;
     sourceLabel.text = source;
     [headerView addSubview:sourceLabel];
     
-    headerView.frame = CGRectMake(0, 0, ScreenWidth, CGRectGetMaxY(sourceLabel.frame) + 10);
+    headerView.frame = CGRectMake(0, 0, ScreenWidth, CGRectGetMaxY(sourceLabel.frame) + 20);
     
     self.tableView.tableHeaderView = headerView;
 
@@ -764,6 +825,7 @@ static int imageDownloadCount;
     } else {
         [self pushFulltextCommentComposeVc];
     }
+    
 }
 
 - (void)didShareWithDetailBottomView:(LPDetailBottomView *)detailBottomView {

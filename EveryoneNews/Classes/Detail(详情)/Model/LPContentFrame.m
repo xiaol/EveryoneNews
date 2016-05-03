@@ -39,7 +39,6 @@
         imageDownLoadCompletionBlock();
         return;
     }
-    
     // 图片下载完成后获取图片大小
         [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:self.content.photo] options:0 progress:^(NSInteger receivedSize, NSInteger expectedSize) {
             
@@ -47,8 +46,6 @@
             self.content.image = image;
             [self setupPhotoFAndCellHWithImage:image];
             imageDownLoadCompletionBlock();
-            
-            
         }];    
 }
 
