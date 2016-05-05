@@ -14,6 +14,7 @@
 @class LPPagingViewPage;
 @class CardFrame;
 @class Card;
+
 @protocol LPPagingViewPageDelegate <NSObject>
 @optional
 - (void)page:(LPPagingViewPage *)page didSelectCellWithCardID:(NSManagedObjectID *)cardID cardFrame:(CardFrame *)cardFrame;

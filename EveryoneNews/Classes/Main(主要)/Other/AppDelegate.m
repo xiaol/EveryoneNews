@@ -102,7 +102,7 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
 #warning 发布时删除此句 setLogEnabled:
 //    [MobClick setLogEnabled:YES];
     
-    [MobClick setVersion:currentVersion];
+    [MobClick setVersion:(NSInteger)currentVersion];
     
     // 将channelId:@"Web" 中的Web 替换为您应用的推广渠道。channelId为nil或@""时，默认会被当作@"App Store"渠道。
     // iOS平台数据发送策略包括BATCH（启动时发送）和SEND_INTERVAL（按间隔发送）两种，友盟默认使用启动时发送（更省流量），您可以在代码reportPolicy:BATCH中更改发送策略。

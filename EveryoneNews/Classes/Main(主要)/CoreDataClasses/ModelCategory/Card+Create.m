@@ -27,11 +27,7 @@
             Card *card = [self createCardWithDict:dict channelID:channelID inManagedObjectContext:cdh.importContext];
             [cards addObject:card];
         }
-        NSError *error = nil;
-        [cdh.importContext save:&error];
-        [cdh.context performBlock:^{
-            [cdh saveBackgroundContext];
-        }];
+        [cdh saveBackgroundContext];
         dispatch_async(dispatch_get_main_queue(), ^{
             cardsArrayBlock([cards copy]);
         });

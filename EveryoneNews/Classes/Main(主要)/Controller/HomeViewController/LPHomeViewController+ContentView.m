@@ -446,11 +446,7 @@ NSString *const reusePageID = @"reusePageID";
         for (Card  *cardObject in fetchedObjects) {
             [cdh.importContext deleteObject:cardObject];
          }
-        NSError *saveError = nil;
-        [cdh.importContext save:&saveError];
-        [cdh.context performBlock:^{
-            [cdh saveBackgroundContext];
-        }];
+        [cdh saveBackgroundContext];
         dispatch_async(dispatch_get_main_queue(), ^{
            
         });
@@ -470,12 +466,7 @@ NSString *const reusePageID = @"reusePageID";
             [request setEntity:entity];
             NSError *error;
             [cdh.importContext executeFetchRequest:request error:&error];
-            
-            NSError *saveError = nil;
-            [cdh.importContext save:&saveError];
-            [cdh.context performBlock:^{
-                [cdh saveBackgroundContext];
-            }];
+            [cdh saveBackgroundContext];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [page tableViewReloadData];
             });
