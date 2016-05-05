@@ -90,7 +90,7 @@ static const NSString *contentFrameKey  = @"contentFrameKey";
     return self;
 }
 
-- (instancetype)initWithOtherPopStyleAndRootViewController:(UIViewController *)rootViewController{
+- (instancetype)initWithRootViewControllerInOtherPopStyle:(UIViewController *)rootViewController{
     
     self = [super initWithNavigationBarClass:[LPNewsNavigationBar class] toolbarClass:nil];
     if(self) {

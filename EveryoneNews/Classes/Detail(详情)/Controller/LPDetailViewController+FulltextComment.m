@@ -16,14 +16,14 @@
 #pragma mark - 查看更多评论
 - (void)showMoreComment {
     LPFullCommentViewController *fullCommentVc = [[LPFullCommentViewController alloc] init];
-    fullCommentVc.docId = self.docId;
+    fullCommentVc.docId = [self docId];
     [self.navigationController pushViewController:fullCommentVc animated:YES];
 }
 
 #pragma maek -  全文评论
 - (void)fulltextCommentDidClick {
     LPFullCommentViewController *fullCommentVc = [[LPFullCommentViewController alloc] init];
-    fullCommentVc.docId = self.docId;
+    fullCommentVc.docId = [self docId];
     fullCommentVc.commentsCount = self.commentsCount;
     [fullCommentVc fulltextCommentDidComposed:^(NSInteger count) {
         self.topView.badgeNumber = count;

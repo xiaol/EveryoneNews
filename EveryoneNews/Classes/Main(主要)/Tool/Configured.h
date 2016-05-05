@@ -14,7 +14,7 @@
 #import "insetsLabel.h"
 #import "LPNewsAssistant.h"
 #import "AppDelegate.h"
-#import <Masonry.h>
+#import "Masonry.h"
 
 #define Screeen_3_5_INCH ([[UIScreen mainScreen] bounds].size.height == 480)
 

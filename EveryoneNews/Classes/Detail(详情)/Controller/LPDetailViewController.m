@@ -85,6 +85,12 @@ static int imageDownloadCount;
 
 @property (nonatomic, strong) NSMutableArray *contentFrames;
 
+@property (nonatomic, copy) NSString *submitDocID;
+
+@property (nonatomic, strong) Card *card;
+
+
+
 //@property (nonatomic, assign, getter=isrefreshTableView) BOOL refreshTableView;
 
 @end
@@ -98,14 +104,17 @@ static int imageDownloadCount;
     self.view.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
     [self setupSubviews];
     [self setupBottomView];
-    [self setupCardData];
+//    [self setupCardData];
     [self setupData];
+}
+
+- (void)dealloc {
+    NSLog(@"%@", NSStringFromSelector(_cmd));
 }
 
 #pragma mark - 加载详情页所有数据
 - (void)setupData {
     
-    __weak typeof(self) weakSelf = self;
     // 详情页block
     void (^contentBlock)(id json) = ^(id json) {
         
@@ -114,21 +123,21 @@ static int imageDownloadCount;
         NSString *pubTime = dict[@"pubTime"];
         NSString *pubName = dict[@"pubName"];
 
-        weakSelf.shareTitle = title;
-        weakSelf.docId = dict[@"docid"];
+        self.shareTitle = title;
+        self.submitDocID = dict[@"docid"];
         // 更新详情页评论数量
-        weakSelf.commentsCount = [dict[@"commentSize"] integerValue];
-        weakSelf.topView.badgeNumber = self.commentsCount;
-        weakSelf.bottomView.badgeNumber = self.commentsCount ;
+        self.commentsCount = [dict[@"commentSize"] integerValue];
+        self.topView.badgeNumber = self.commentsCount;
+        self.bottomView.badgeNumber = self.commentsCount ;
 
-        [weakSelf setupHeaderView:title pubTime:pubTime pubName:pubName];
+        [self setupHeaderView:title pubTime:pubTime pubName:pubName];
 
         NSArray *bodyArray = dict[@"content"];
 
         // 第一个图片作为分享图片
         for (NSDictionary *dict in bodyArray) {
             if (dict[@"img"]) {
-                weakSelf.shareImageURL = dict[@"img"];
+                self.shareImageURL = dict[@"img"];
                 break;
             }
         }
@@ -150,12 +159,12 @@ static int imageDownloadCount;
             }
             LPContentFrame *contentFrame = [[LPContentFrame alloc] init];
             contentFrame.content = content;
-            [weakSelf.contentFrames addObject:contentFrame];
+            [self.contentFrames addObject:contentFrame];
             [contentFrame downloadImageWithCompletionBlock:^{
                 ++ imageDownloadCount;
-                if (weakSelf.contentFrames.count > 0 && imageDownloadCount == weakSelf.contentFrames.count) {
-                    [weakSelf.tableView reloadData];
-                    
+                if (self.contentFrames.count > 0 && imageDownloadCount == self.contentFrames.count) {
+                    [self.tableView reloadData];
+                    self.tableView.hidden = NO;
                 }
             }];
         }
@@ -180,7 +189,7 @@ static int imageDownloadCount;
                 
                 LPCommentFrame *commentFrame = [[LPCommentFrame alloc] init];
                 commentFrame.comment = comment;
-                [weakSelf.fulltextCommentFrames addObject:commentFrame];
+                [self.fulltextCommentFrames addObject:commentFrame];
                 
                 [fulltextCommentArray addObject:comment];
                 if (fulltextCommentArray.count == 3) {
@@ -195,81 +204,77 @@ static int imageDownloadCount;
         NSDictionary *dict = json[@"data"];
         NSArray *relatePointArray = [LPRelatePoint objectArrayWithKeyValuesArray:dict[@"searchItems"]];
         // 按照时间排序
-        NSArray *sortedRelateArray = [relatePointArray sortedArrayUsingComparator:^NSComparisonResult(LPRelatePoint *p1, LPRelatePoint *p2){
+        NSArray *sortedRelateArray = [relatePointArray sortedArrayUsingComparator:^NSComparisonResult(LPRelatePoint *p1, LPRelatePoint *p2) {
             return [p2.updateTime compare:p1.updateTime];
         }];
-        weakSelf.relatePointArray = sortedRelateArray;
+        self.relatePointArray = sortedRelateArray;
 
         for (int i = 0; i < sortedRelateArray.count; i ++) {
             LPRelatePoint *point = sortedRelateArray[i];
             LPRelateFrame *relateFrame = [[LPRelateFrame alloc] init];
             relateFrame.relatePoint = point;
-            [weakSelf.relatePointFrames addObject:relateFrame];
+            [self.relatePointFrames addObject:relateFrame];
             if (i == 2) {
                 break;
             }
         }
     };
+    
+    void (^reloadTableViewBlock)() = ^{
+        
+        [self.tableView reloadData];
+        self.tableView.hidden = NO;
+        [self hideLoadingView];
+
+    };
 
     // 详情页正文
     NSMutableDictionary *detailContentParams = [NSMutableDictionary dictionary];
     NSString *detailContentURL = @"http://api.deeporiginalx.com/bdp/news/content";
-    detailContentParams[@"url"] = [self.card valueForKey:@"newId"];
+    detailContentParams[@"url"] = [self newID];
 
 //     NSLog(@"%@?url=%@",detailContentURL,  [self.card valueForKey:@"newId"]);
     
     // 详情页评论
     NSString *detailCommentsURL = @"http://api.deeporiginalx.com/bdp/news/comment/ydzx";
     NSMutableDictionary *detailCommentsParams = [NSMutableDictionary dictionary];
-    detailCommentsParams[@"docid"] = self.docId;
+    detailCommentsParams[@"docid"] = [self docId];
     detailCommentsParams[@"page"] = @(1);
     detailCommentsParams[@"offset"] = @"20";
-
-//    NSLog(@"%@?docid=%@&page=1&offset=20",detailCommentsURL,self.docId );
     
     
     // 相关观点
     NSMutableDictionary *detailRelatePointParams = [NSMutableDictionary dictionary];
-    detailRelatePointParams[@"url"] = [self.card valueForKey:@"newId"];
+    detailRelatePointParams[@"url"] = [self newID];
     NSString *relateURL = @"http://api.deeporiginalx.com/bdp/news/related";
 
-    // GCD group 加载
-    dispatch_group_t detailGroup = dispatch_group_create();
-    dispatch_group_enter(detailGroup);
     [LPHttpTool getWithURL:detailContentURL params:detailContentParams success:^(id json) {
 
         contentBlock(json);
-        dispatch_group_leave(detailGroup);
+        [LPHttpTool getWithURL:detailCommentsURL params:detailCommentsParams success:^(id json) {
+            
+            commentsBlock(json);
+            
+            [LPHttpTool getWithURL:relateURL params:detailRelatePointParams success:^(id json) {
+                
+                relatePointBlock(json);
+                reloadTableViewBlock();
+                
+            } failure:^(NSError *error) {
+                reloadTableViewBlock();
+
+            }];
+
+        } failure:^(NSError *error) {
+            reloadTableViewBlock();
+
+        }];
+
 
     } failure:^(NSError *error) {
-        dispatch_group_leave(detailGroup);
+        reloadTableViewBlock();
+//        dispatch_group_leave(detailGroup);
     }];
-
-    dispatch_group_enter(detailGroup);
-    [LPHttpTool getWithURL:detailCommentsURL params:detailCommentsParams success:^(id json) {
-
-        commentsBlock(json);
-        dispatch_group_leave(detailGroup);
-
-    } failure:^(NSError *error) {
-        dispatch_group_leave(detailGroup);
-    }];
-
-    dispatch_group_enter(detailGroup);
-    [LPHttpTool getWithURL:relateURL params:detailRelatePointParams success:^(id json) {
-
-          relatePointBlock(json);
-          dispatch_group_leave(detailGroup);
-        
-    } failure:^(NSError *error) {
-        dispatch_group_leave(detailGroup);
-    }];
-    
-    dispatch_group_notify(detailGroup,dispatch_get_main_queue(),^{
-        [weakSelf.tableView reloadData];
-        weakSelf.tableView.hidden = NO;
-        [weakSelf hideLoadingView];
-    });
 }
 
 #pragma mark - viewWillAppear
@@ -302,7 +307,7 @@ static int imageDownloadCount;
 //    [MobClick endLogPageView:@"DetailPage"];
     [self endTimer];
     // 提交用户日志
-    [self submitUserOperationLog];
+//    [self submitUserOperationLog];
 
 }
 
@@ -315,8 +320,10 @@ static int imageDownloadCount;
     NSString *cit = @""; // 城市
     NSString *dis = @""; // 区，县
     NSString *clas = @"0"; // 0 表示详情页，1表示列表页上报
-    NSString *nid = [self.card valueForKey:@"newId"];
-    NSString *cid = self.channelID; // 频道编号
+    NSString *nid = [self newID];
+//    NSString *nid =@"newId";
+
+    NSString *cid = [NSString stringWithFormat:@"%ld", [self channelID].integerValue]; // 频道编号
     NSString *tid= @""; // 包含置顶，热点 推荐 订阅 图片 兴趣探索 推广
     NSString *stime = [NSString stringWithFormat:@"%ld",(long)self.stayTimeInterval];
     NSString *sltime = @"";
@@ -345,9 +352,19 @@ static int imageDownloadCount;
     params[@"data"] = [jsonData base64EncodedStringWithOptions:0];
     if (!error) {
         self.http = [LPHttpTool http];
+//        [LPHttpTool getWithURL:url
+//                        params:params
+//                       success:^(id json) {
+//                           
+//                       } failure:^(NSError *error) {
+//                           NSLog(@"%@", NSStringFromSelector(_cmd))
+//                       }];
         [self.http getImageWithURL:url params:params success:^(id json) {
            //NSLog(@"stime:%@", stime);
+            NSLog(@"%@ --- success!", NSStringFromSelector(_cmd));
         } failure:^(NSError *error) {
+            NSLog(@"%@ --- failure!", NSStringFromSelector(_cmd));
+
         }];
     }
 }
@@ -355,10 +372,10 @@ static int imageDownloadCount;
 #pragma mark - viewDidDisappear
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    if (self.http) {
-        [self.http cancelRequest];
-        self.http = nil;
-    }
+//    if (self.http) {
+//        [self.http cancelRequest];
+//        self.http = nil;
+//    }
     
 }
 
@@ -478,10 +495,9 @@ static int imageDownloadCount;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
  
-    __weak typeof(self) weakSelf = self;
     // 上拉加载更多
     self.tableView.footer = [LPRelatePointFooter footerWithRefreshingBlock:^{
-        [weakSelf loadMoreRelateData];
+        [self loadMoreRelateData];
     }];
     
     // 顶部视图
@@ -556,14 +572,28 @@ static int imageDownloadCount;
 }
 
 #pragma mark - 获取Card内容
-- (void)setupCardData {
-    
-    CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
-    Card *card = (Card *)[cdh.context existingObjectWithID:self.cardID error:nil];
-    self.card = card;
-    self.docId = [self.card valueForKey:@"docId"];
-    self.channelID = [self.card valueForKey:@"channelId"];
-    
+- (Card *)card {
+    if (!_card) {
+        CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+        _card = (Card *)[cdh.context existingObjectWithID:self.cardID error:nil];
+        return _card;
+    }
+    return _card;
+}
+
+- (NSString *)newID {
+    if (![self card]) return nil;
+    return [[self card] valueForKey:@"newId"];
+}
+
+- (NSString *)docId {
+    if (![self card]) return nil;
+    return [[self card] valueForKey:@"docId"];
+}
+
+- (NSNumber *)channelID {
+    if (![self card]) return nil;
+    return [[self card] valueForKey:@"channelId"];
 }
 
 #pragma mark - Table view data source
@@ -816,7 +846,7 @@ static int imageDownloadCount;
 - (void)didComposeCommentWithDetailBottomView:(LPDetailBottomView *)detailBottomView {
     if (![AccountTool account]) {
         __weak typeof(self) weakSelf = self;
-        [AccountTool accountLoginWithViewController:weakSelf success:^(Account *account){
+        [AccountTool accountLoginWithViewController:self success:^(Account *account){
             [MBProgressHUD showSuccess:@"登录成功"];
             [weakSelf performSelector:@selector(pushFulltextCommentComposeVc) withObject:nil afterDelay:0.6];
         } failure:^{

@@ -29,7 +29,7 @@
 
 // 存储全文评论内容
 @property (nonatomic,strong) NSArray *fullTextComments;
-@property (nonatomic, copy) NSString *docId;
+//@property (nonatomic, copy) NSString *docId;
 // 评论数量
 @property (nonatomic, assign) NSInteger commentsCount;
 
@@ -37,8 +37,8 @@
 @property (nonatomic, strong) NSMutableArray *fulltextCommentFrames;
 
 @property (nonatomic, strong) NSManagedObjectID *cardID;
-@property (nonatomic, strong) Card *card;
-@property (nonatomic, copy) NSString *channelID;
+//@property (nonatomic, strong) Card *card;
+//@property (nonatomic, copy) NSString *channelID;
 @property (nonatomic, strong) LPDetailTopView *topView;
 @property (nonatomic, strong) LPDetailBottomView *bottomView;
 
@@ -52,4 +52,6 @@
 @property (nonatomic, assign) BOOL relatePointIsFinishedLoad;
 
 @property (nonatomic, strong) UITableView *tableView;
+
+- (NSString *)docId;
 @end

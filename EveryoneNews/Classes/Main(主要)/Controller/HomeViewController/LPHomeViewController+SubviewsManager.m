@@ -212,11 +212,11 @@ const static CGFloat cellPadding = 15;
     Account *account = [AccountTool account];
     if (account == nil) {// 用户未登录直接显示未登录图标
         LPNewsLoginViewController *loginView = [[LPNewsLoginViewController alloc] initWithCustom];
-        LPNewsNavigationController *loginNavVc = [[LPNewsNavigationController alloc] initWithOtherPopStyleAndRootViewController:loginView];
+        LPNewsNavigationController *loginNavVc = [[LPNewsNavigationController alloc] initWithRootViewControllerInOtherPopStyle:loginView];
         [self presentViewController:loginNavVc animated:YES completion:nil];
     } else {    //用户已登录
         LPNewsMineViewController *mineView = [[LPNewsMineViewController alloc] initWithCustom];
-        LPNewsNavigationController *mineNavVc = [[LPNewsNavigationController alloc] initWithOtherPopStyleAndRootViewController:mineView];
+        LPNewsNavigationController *mineNavVc = [[LPNewsNavigationController alloc] initWithRootViewControllerInOtherPopStyle:mineView];
         [self presentViewController:mineNavVc animated:YES completion:nil];
     
     }
@@ -338,7 +338,6 @@ const static CGFloat cellPadding = 15;
     UIImageView *animationImageView = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth - 36) / 2, (ScreenHeight - statusBarHeight - menuViewHeight) / 3, 36 , 36)];
     animationImageView.animationImages = images;
     animationImageView.animationDuration = 1;
-    [self.view addSubview:animationImageView];
     self.animationImageView = animationImageView;
     contentLoadingView.hidden = YES;
     [contentLoadingView addSubview:animationImageView];

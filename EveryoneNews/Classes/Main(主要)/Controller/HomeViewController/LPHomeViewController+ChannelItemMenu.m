@@ -132,8 +132,8 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
                             for (NSInteger index = cellIndexPath.row; index > attributes.indexPath.row; index -- ) {
                                 [self.selectedArray exchangeObjectAtIndex:index withObjectAtIndex:index - 1];
                                 // 交换CellIdentifier
-                                [self.cardCellIdentifierDictionary setObject:[NSString stringWithFormat:@"%@%d",cardCellIdentifier,index - 1] forKey:@(index)];
-                                [self.cardCellIdentifierDictionary setObject:[NSString stringWithFormat:@"%@%d",cardCellIdentifier,index] forKey:@(index - 1)];
+                                [self.cardCellIdentifierDictionary setObject:[NSString stringWithFormat:@"%@%ld",cardCellIdentifier,index - 1] forKey:@(index)];
+                                [self.cardCellIdentifierDictionary setObject:[NSString stringWithFormat:@"%@%ld",cardCellIdentifier,(long)index] forKey:@(index - 1)];
                             }
                         } else {
                             //前面跟后面交换
@@ -141,8 +141,8 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
                             for (NSInteger index = cellIndexPath.row; index < attributes.indexPath.row; index ++ ) {
                                 [self.selectedArray exchangeObjectAtIndex:index withObjectAtIndex:index + 1];
                                 
-                                [self.cardCellIdentifierDictionary setObject:[NSString stringWithFormat:@"%@%d",cardCellIdentifier,index + 1] forKey:@(index)];
-                                [self.cardCellIdentifierDictionary setObject:[NSString stringWithFormat:@"%@%d",cardCellIdentifier,index] forKey:@(index + 1)];
+                                [self.cardCellIdentifierDictionary setObject:[NSString stringWithFormat:@"%@%ld",cardCellIdentifier,index + 1] forKey:@(index)];
+                                [self.cardCellIdentifierDictionary setObject:[NSString stringWithFormat:@"%@%ld",cardCellIdentifier,(long)index] forKey:@(index + 1)];
                             }
                         }
                         ischange = YES;
@@ -340,7 +340,7 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
             self.lastLabelIsHidden = YES;
             [self.selectedArray addObject:[self.optionalArray objectAtIndex:indexPath.row]];
             
-            [self.cardCellIdentifierDictionary setObject:[NSString stringWithFormat:@"%@%d",cardCellIdentifier,indexPath.row] forKey:@(indexPath.row)];
+            [self.cardCellIdentifierDictionary setObject:[NSString stringWithFormat:@"%@%ld",cardCellIdentifier,(long)indexPath.row] forKey:@(indexPath.row)];
             
             [self.sortCollectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
             //移动开始的attributes
