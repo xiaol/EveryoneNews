@@ -447,7 +447,7 @@ NSString *const reusePageID = @"reusePageID";
 - (void)deleteCardFromCoreData:(CardFrame *)cardFrame {
     CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     Card *card = cardFrame.card;
-    [cdh.importContext performBlockAndWait:^{
+    [cdh.importContext performBlock:^{
         NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Card"];
         [request setPredicate:[NSPredicate predicateWithFormat:@"newId = %@ and channelId = %@",card.newId , card.channelId]];
         NSError *error;
@@ -455,11 +455,8 @@ NSString *const reusePageID = @"reusePageID";
         for (Card  *cardObject in fetchedObjects) {
             [cdh.importContext deleteObject:cardObject];
          }
-        NSError *saveError = nil;
-        [cdh.importContext save:&saveError];
-        [cdh.context performBlock:^{
-            [cdh saveBackgroundContext];
-        }];
+
+        [cdh saveBackgroundContext];
         dispatch_async(dispatch_get_main_queue(), ^{
            
         });
@@ -472,7 +469,7 @@ NSString *const reusePageID = @"reusePageID";
     CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     if (!card.isRead) {
         card.isRead = @(1);
-        [cdh.importContext performBlockAndWait:^{
+        [cdh.importContext performBlock:^{
             NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Card"];
             [request setPredicate:[NSPredicate predicateWithFormat:@"newId = %@ and channelId = %@",card.newId , card.channelId]];
             NSEntityDescription  *entity  = [NSEntityDescription entityForName:@"Card" inManagedObjectContext:cdh.importContext];
@@ -480,11 +477,7 @@ NSString *const reusePageID = @"reusePageID";
             NSError *error;
             [cdh.importContext executeFetchRequest:request error:&error];
             
-            NSError *saveError = nil;
-            [cdh.importContext save:&saveError];
-            [cdh.context performBlock:^{
-                [cdh saveBackgroundContext];
-            }];
+            [cdh saveBackgroundContext];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [page tableViewReloadData];
             });

@@ -575,7 +575,7 @@ static int imageDownloadCount;
 - (Card *)card {
     if (!_card) {
         CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
-        _card = (Card *)[cdh.context existingObjectWithID:self.cardID error:nil];
+        _card = (Card *)[cdh.importContext existingObjectWithID:self.cardID error:nil];
         return _card;
     }
     return _card;
@@ -584,6 +584,7 @@ static int imageDownloadCount;
 - (NSString *)newID {
     if (![self card]) return nil;
     return [[self card] valueForKey:@"newId"];
+//    return self.card.newId;
 }
 
 - (NSString *)docId {

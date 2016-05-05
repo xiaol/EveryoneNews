@@ -187,8 +187,9 @@ NSString *storeFileName = @"EveryoneNews.sqlite";
 }
 
 - (void)saveBackgroundContext {
+    [self saveImportContext];
     // 1.把子上下文保存到父上下文(执行于内存, 速度极快)
-    [self saveContext];
+//    [self saveContext];
     // 2.把父上下文保存到持久化存储区(在专用队列上异步执行)
     [_parentContext performBlock:^{
         if (_parentContext.hasChanges) {

@@ -11,7 +11,6 @@
 #import "AppDelegate.h"
 #import "CardImage+Create.h"
 #import "CardRelate+Create.h"
-#import <objc/runtime.h>
 #import "Card+Fetch.h"
 
 
@@ -27,11 +26,7 @@
             Card *card = [self createCardWithDict:dict channelID:channelID inManagedObjectContext:cdh.importContext];
             [cards addObject:card];
         }
-        NSError *error = nil;
-        [cdh.importContext save:&error];
-        [cdh.context performBlock:^{
-            [cdh saveBackgroundContext];
-        }];
+        [cdh saveBackgroundContext];
         dispatch_async(dispatch_get_main_queue(), ^{
             cardsArrayBlock([cards copy]);
         });
@@ -77,16 +72,5 @@
     }
     return card;
 }
-
-//- (NSString *)description {
-//    unsigned int count = 0;
-//    objc_property_t *properties = class_copyPropertyList(self.class, &count);
-//    for (NSInteger i = 0; i < count; i++) {
-//        const char *name = property_getName(properties[i]);
-//        NSLog(@"%s", name);
-//    }
-//    free(properties);
-//    return nil;
-//}
 
 @end
