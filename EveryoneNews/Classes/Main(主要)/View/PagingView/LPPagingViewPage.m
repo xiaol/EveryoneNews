@@ -280,8 +280,9 @@
     
     [cell didClickDeleteButtonBlock:^(UIButton *deleteButton) {
         if ([weakSelf.delegate respondsToSelector:@selector(page:didClickDeleteButtonWithCardFrame:deleteButton:indexPath:)]) {
-            [weakSelf.delegate page:self didClickDeleteButtonWithCardFrame:cell.cardFrame deleteButton:deleteButton indexPath:indexPath];
+            [weakSelf.delegate page:weakSelf didClickDeleteButtonWithCardFrame:cell.cardFrame deleteButton:deleteButton indexPath:indexPath];
         }
+        
     }];
     
     return cell;

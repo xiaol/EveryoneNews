@@ -161,7 +161,6 @@ typedef NS_ENUM(NSInteger, iPhone5DetailCommentSize) {
 
 
 
-
 #define noteCenter [NSNotificationCenter defaultCenter]
 #define LPCategoryDidChangeNotification @"changeCategory"
 #define LPCategoryFrom @"fromCategory"

@@ -14,6 +14,7 @@
 #import "LPMenuCollectionViewCell.h"
 #import "LPLaunchLoginView.h"
 #import "LPChangeFontSizeView.h"
+#import "LPPagingViewPage.h"
 
 
 @interface LPHomeViewController : LPBaseViewController 
@@ -71,4 +72,7 @@
 @property (nonatomic, strong) LPChangeFontSizeView *changeFontSizeView;
 // 删除时黑色背景
 @property (nonatomic, strong) UIView *blackBackgroundView;
+
+@property (nonatomic, weak) LPPagingViewPage *page;
+
 @end

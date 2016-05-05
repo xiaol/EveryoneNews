@@ -170,7 +170,12 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
     [self.view addSubview:backBtn];
     [backBtn mas_updateConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(backBtn.imageView.image.size);
-        make.top.equalTo(self.view.mas_top).offset(34);
+        if (iPhone6Plus) {
+            make.top.equalTo(self.view.mas_top).offset(26);
+        }else{
+          make.top.equalTo(self.view.mas_top).offset(34);
+        }
+        
         make.left.equalTo(self.view.mas_left).with.offset(12);
         
     }];
@@ -186,6 +191,11 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
 }
 
 - (void)addNavBarView{
+    
+    CGFloat kNavigationBarHEIGHT = 51.f;
+    if (iPhone6Plus) {
+        kNavigationBarHEIGHT = 44.f;
+    }
     
     _navBarView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kApplecationScreenWidth, kNavigationBarHEIGHT+20.f)];
     _navBarView.backgroundColor = [UIColor colorWithHexString:@"#FF69B4"];
@@ -218,7 +228,12 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
     [avatar mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakNavBarView)strongNavBarView = weakNavBarView;
         make.centerX.equalTo(strongNavBarView.mas_centerX);
-        make.top.equalTo(strongNavBarView.mas_top).with.offset(33.f);
+        if (iPhone6Plus) {
+            make.top.equalTo(strongNavBarView.mas_top).with.offset(27.f);
+        }else{
+            make.top.equalTo(strongNavBarView.mas_top).with.offset(33.f);
+        }
+        
         make.size.mas_equalTo(kAvatarSize);
     }];
     
@@ -226,15 +241,19 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
     [scrollToTopBtn addTarget:self action:@selector(scrollToTop:) forControlEvents:UIControlEventTouchUpInside];
     [_navBarView addSubview:scrollToTopBtn];
     
-    UIButton *backBtn1 = [[UIButton alloc] init];
-    [backBtn1 setImage:[UIImage imageNamed:@"BackArrow_black"] forState:UIControlStateNormal];
-    backBtn1.enlargedEdge = 14;
-    [backBtn1 addTarget:self action:@selector(goBackAction) forControlEvents:UIControlEventTouchUpInside];
-    [_navBarView addSubview:backBtn1];
-    [backBtn1 mas_updateConstraints:^(MASConstraintMaker *make) {
+    UIButton *backBtn = [[UIButton alloc] init];
+    [backBtn setImage:[UIImage imageNamed:@"BackArrow_black"] forState:UIControlStateNormal];
+    backBtn.enlargedEdge = 14;
+    [backBtn addTarget:self action:@selector(goBackAction) forControlEvents:UIControlEventTouchUpInside];
+    [_navBarView addSubview:backBtn];
+    [backBtn mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakNavBarView)strongNavBarView = weakNavBarView;
-        make.size.mas_equalTo(backBtn1.imageView.image.size);
-        make.top.equalTo(strongNavBarView.mas_top).offset(34);
+        make.size.mas_equalTo(backBtn.imageView.image.size);
+        if (iPhone6Plus) {
+             make.top.equalTo(strongNavBarView.mas_top).offset(26);
+        }else{
+            make.top.equalTo(strongNavBarView.mas_top).offset(34);
+        }
         make.left.equalTo(strongNavBarView.mas_left).with.offset(12);
         
     }];
@@ -294,6 +313,11 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    CGFloat kNavigationBarHEIGHT = 51.f;
+    if (iPhone6Plus) {
+        kNavigationBarHEIGHT = 44.f;
+    }
+    
     if(scrollView.contentOffset.y < 0.f){
         [self setHeadImageViewConstraints:kDefaultHeadHeight - scrollView.contentOffset.y originalY:kContentIndent];
         self.navBarView.alpha = 0.f;

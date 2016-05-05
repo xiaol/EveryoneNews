@@ -12,6 +12,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 static const NSInteger kNavBarTag = 10000;
+
 @interface LPNewsBaseViewController ()
 
 
@@ -129,6 +130,11 @@ static const NSInteger kNavBarTag = 10000;
 #pragma mark- CustomNavigationBar
 
 - (void)constructionNaigationBar{
+    
+    CGFloat kNavigationBarHEIGHT = 51.f;
+    if (iPhone6Plus) {
+        kNavigationBarHEIGHT = 44.f;
+    }
     
     UINavigationBar *navBar = (UINavigationBar *)[self.view viewWithTag:kNavBarTag];
     if (!navBar) {
@@ -296,6 +302,9 @@ static const NSInteger kNavBarTag = 10000;
     }
     
     insetsLabel *titleLabel = [[insetsLabel alloc] initWithFrame:CGRectMake(0, 0, textSize.width, 44.f)andInsets:UIEdgeInsetsMake(-7, 0, 0, 0)];
+    if (iPhone6Plus) {
+        titleLabel = [[insetsLabel alloc] initWithFrame:CGRectMake(0, 0, textSize.width, 44.f)andInsets:UIEdgeInsetsMake(0, 0, 0, 0)];
+    }
     titleLabel.backgroundColor = [UIColor clearColor];
     titleLabel.font = textFont;
     titleLabel.text = title;
@@ -311,6 +320,12 @@ static const NSInteger kNavBarTag = 10000;
 #pragma mark - BackItem
 
 - (void)backImageItem{
+    
+    CGFloat kNavigationBarHEIGHT = 51.f;
+    if (iPhone6Plus) {
+        kNavigationBarHEIGHT = 44.f;
+    }
+    
     self.navItem.hidesBackButton = YES;
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     UIImage *image = [UIImage imageNamed:@"BackArrow_black"];
@@ -325,7 +340,11 @@ static const NSInteger kNavBarTag = 10000;
     }
     btn.frame = CGRectMake(0, 0, btnWidth, btnHeight);
     if (iOS8) {
-        [btn setImageEdgeInsets:UIEdgeInsetsMake(-4, -55.f, 0, 0)];
+        if (iPhone6Plus) {
+            [btn setImageEdgeInsets:UIEdgeInsetsMake(-1, -60.f, 0, 0)];
+        }else{
+            [btn setImageEdgeInsets:UIEdgeInsetsMake(-4, -55.f, 0, 0)];
+        }
     }else{
         [btn setImageEdgeInsets:UIEdgeInsetsMake(0, -20.f, 0, 0)];
     }
