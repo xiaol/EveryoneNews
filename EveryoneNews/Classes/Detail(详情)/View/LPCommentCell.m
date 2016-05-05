@@ -39,7 +39,7 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        self.backgroundColor = [UIColor whiteColor];
+       self.backgroundColor = [UIColor colorFromHexString:LPColor9];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         
         UIImageView *iconImageView = [[UIImageView alloc] init];
@@ -127,16 +127,16 @@
         [self.upButton setBackgroundImage:[UIImage imageNamed:@"点赞心0"] forState:UIControlStateNormal];
     }
     
-    CGFloat cellWidth = ScreenWidth - BodyPadding * 2;
-    // 绘制边框
-    UIBezierPath *linePath = [UIBezierPath bezierPath];
-    [linePath moveToPoint:CGPointZero];
-    [linePath addLineToPoint:CGPointMake(0, _commentFrame.cellHeight)];
-    [linePath addLineToPoint:CGPointMake(cellWidth, _commentFrame.cellHeight)];
-    [linePath addLineToPoint:CGPointMake(cellWidth, 0)];
-    self.lineLayer.path = linePath.CGPath;
-    self.lineLayer.fillColor = nil;
-    self.lineLayer.strokeColor = [UIColor colorFromHexString:@"#e9e9e9"].CGColor;
+//    CGFloat cellWidth = ScreenWidth - BodyPadding * 2;
+//    // 绘制边框
+//    UIBezierPath *linePath = [UIBezierPath bezierPath];
+//    [linePath moveToPoint:CGPointZero];
+//    [linePath addLineToPoint:CGPointMake(0, _commentFrame.cellHeight)];
+//    [linePath addLineToPoint:CGPointMake(cellWidth, _commentFrame.cellHeight)];
+//    [linePath addLineToPoint:CGPointMake(cellWidth, 0)];
+//    self.lineLayer.path = linePath.CGPath;
+//    self.lineLayer.fillColor = nil;
+//    self.lineLayer.strokeColor = [UIColor colorFromHexString:@"#e9e9e9"].CGColor;
 
 }
 

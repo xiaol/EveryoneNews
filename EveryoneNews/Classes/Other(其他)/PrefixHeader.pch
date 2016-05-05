@@ -201,6 +201,31 @@ typedef NS_ENUM(NSInteger, iPhone5DetailCommentSize) {
 #define ConcernDetailUrl @"http://api.deeporiginalx.com/news/baijia/newsFetchContent"
 
 
+#define LPColor1 @"#333333"
+#define LPColor2 @"#0091fa"
+#define LPColor3 @"#1a1a1a"
+#define LPColor4 @"#999999"
+#define LPColor5 @"#e4e4e4"
+#define LPColor6 @"#bb1c1c"
+#define LPColor7 @"#666666"
+#define LPColor8 @"#d9effe"
+#define LPColor9 @"#f6f6f6"
+#define LPColor10 @"#c0c0c0"
+#define LPColor11 @"#f0f0f0"
+
+#define LPFont1 20
+#define LPFont2 19
+#define LPFont3 18
+#define LPFont4 16
+#define LPFont5 14
+#define LPFont6 12
+#define LPFont7 10
+#define LPFont8 21
+#define LPFont9 23
+
+
+
+
 #define HomeTopViewHeight 71
 #define ScreenWidth [UIScreen mainScreen].bounds.size.width
 #define ScreenHeight [UIScreen mainScreen].bounds.size.height

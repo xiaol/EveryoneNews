@@ -21,10 +21,7 @@
         LPMenuButton *menuButton = [[LPMenuButton alloc] initWithFrame:CGRectMake(0, 0, self.contentView.bounds.size.width, self.contentView.bounds.size.height)];
         [self.contentView addSubview:menuButton];
         self.menuButton = menuButton;
-//        self.menuButton.userInteractionEnabled = YES;
-        
         UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] init];
-//        [tapGestureRecognizer addTarget:self action:@selector(clickMenuButton)];
         [self.menuButton addGestureRecognizer:tapGestureRecognizer];
     }
     return self;

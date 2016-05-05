@@ -38,7 +38,8 @@
 {
     UITextView *textView = [[UITextView alloc] init];
     [textView setAttributedText:text];
-    CGSize size = [textView sizeThatFits:CGSizeMake(width, FLT_MAX)];
+    [textView updateConstraints];
+    CGSize size = [textView sizeThatFits:CGSizeMake(width, MAXFLOAT)];
     return size.height;
 }
 

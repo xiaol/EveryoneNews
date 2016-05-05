@@ -243,18 +243,9 @@ NSString *const reusePageID = @"reusePageID";
         [page updateCardFramesWithCardFrame:cardFrame];
   
     }
- 
-   
-    
-    
-//    [CATransaction begin];
+
     [self.navigationController pushViewController:detailVc animated:YES];
-//    [CATransaction setCompletionBlock:^{
-//        [page tableViewReloadData];
-//    }];
-//    [CATransaction commit];
-    
-   
+
     
 }
 

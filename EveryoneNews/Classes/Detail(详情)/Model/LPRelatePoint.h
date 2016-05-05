@@ -14,5 +14,9 @@
 @property (nonatomic, copy) NSString *imgUrl;
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy)  NSString *updateTime;
+@property (nonatomic, copy) NSString *sourceSite;
+@property (nonatomic, assign) NSInteger rank;
+- (NSMutableAttributedString *)titleString;
+- (NSMutableAttributedString *)sourceString;
 
 @end

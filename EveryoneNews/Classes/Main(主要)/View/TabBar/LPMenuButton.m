@@ -22,7 +22,7 @@
             menuFontSize = 16;
         }
         else if (iPhone6Plus) {
-            menuFontSize = 18;
+            menuFontSize = 17;
         }
         self.textColor = LPNormalColor;
         self.textAlignment = NSTextAlignmentCenter;

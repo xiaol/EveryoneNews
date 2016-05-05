@@ -40,26 +40,29 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if(self = [super initWithFrame:frame]) {
-        CGFloat searchViewHeight = 32;
+        CGFloat searchViewHeight = 40;
         CGFloat cornerRadius = 10;
         CGFloat paddingTop = 9;
         CGFloat searchImageH = 12;
         CGFloat searchImageW = 12;
         CGFloat searchLabelFontSize = 13;
+        CGFloat searchViewPadding = 9;
         
         if (iPhone6Plus) {
-            searchViewHeight = 38;
+            searchViewHeight = 42;
             cornerRadius = 15;
             searchImageH = 15;
             searchImageW = 15;
             searchLabelFontSize = 16;
+            paddingTop = 6;
+            searchViewPadding = 13;
         }
         
         UIView *searchView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, searchViewHeight)];
         searchView.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
         
         CALayer *layer = [CALayer layer];
-        layer.frame = CGRectMake(12, paddingTop, ScreenWidth - 24, searchViewHeight - paddingTop);
+        layer.frame = CGRectMake(searchViewPadding, paddingTop, ScreenWidth - searchViewPadding * 2, searchViewHeight - paddingTop * 2);
         layer.backgroundColor =[UIColor whiteColor].CGColor;
         layer.cornerRadius = cornerRadius;
         layer.borderColor = [UIColor colorFromHexString:@"e4e4e4"].CGColor;
@@ -68,7 +71,7 @@
         
         UIImageView *searchImageView = [[UIImageView alloc] initWithFrame:CGRectMake(23, 0, searchImageW, searchImageH)];
         searchImageView.image = [UIImage imageNamed:@"首页搜索"];
-        searchImageView.centerY = (searchViewHeight + paddingTop) / 2;
+        searchImageView.centerY = searchViewHeight / 2;
         [searchView addSubview:searchImageView];
         
         UILabel *searchLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(searchImageView.frame) + 7, 0, 40, 29)];
@@ -76,7 +79,7 @@
         searchLabel.textAlignment = NSTextAlignmentLeft;
         searchLabel.textColor = [UIColor colorFromHexString:@"#cacaca"];
         searchLabel.font = [UIFont systemFontOfSize:searchLabelFontSize];
-        searchLabel.centerY = (searchViewHeight + paddingTop) / 2;
+        searchLabel.centerY = searchViewHeight / 2;
         [searchView addSubview:searchLabel];
         
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapImageView:)];

@@ -440,11 +440,12 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
 
 #pragma mark - UICollectionView Style
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat height = 25;
+    CGFloat height = 24;
     CGFloat width = 60;
+    
     if (iPhone6Plus) {
-        height = 44;
-        width = 60;
+        height = 24;
+        width = 52;
     }
     
     CGFloat channelBarHeight = 33;
@@ -475,13 +476,20 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
     }
 }
 
+
+
+
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-    return 0;
+    if([collectionView isKindOfClass:[LPMenuView class]]) {
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
     if([collectionView isKindOfClass:[LPMenuView class]]) {
-        return cellPadding;
+        return 0;
     } else {
          return 0;
     }
@@ -494,7 +502,10 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
         return CGSizeMake(0, 0);
     } else {
         if (section == 0) {
-            return CGSizeMake(ScreenWidth, 30.0);
+            CGFloat menuViewHeight = 30.0f;
+            return CGSizeMake(ScreenWidth, menuViewHeight);
+            
+            
         } else {
             return CGSizeMake(ScreenWidth, 60.0);
         }

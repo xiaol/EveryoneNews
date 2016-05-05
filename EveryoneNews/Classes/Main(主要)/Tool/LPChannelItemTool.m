@@ -83,7 +83,7 @@
     LPChannelItem *item23 = [[LPChannelItem alloc] init];
     LPChannelItem *item24 = [[LPChannelItem alloc] init];
     LPChannelItem *item25 = [[LPChannelItem alloc] init];
-//    LPChannelItem *item26 = [[LPChannelItem alloc] init];
+    LPChannelItem *item26 = [[LPChannelItem alloc] init];
     
     item0.channelID = @"1";
     item0.channelName = @"奇点";
@@ -192,10 +192,10 @@
     item25.channelID = @"26";
     item25.channelName = @"美女";
     item25.channelIsSelected = @"0";
-//    
-//    item26.channelID = @"28";
-//    item26.channelName = @"北京";
-//    item26.channelIsSelected = @"0";
+
+    item26.channelID = @"35";
+    item26.channelName = @"APP";
+    item26.channelIsSelected = @"0";
     
     [channelItems addObject:item0];
     [channelItems addObject:item1];
@@ -223,7 +223,7 @@
     [channelItems addObject:item23];
     [channelItems addObject:item24];
     [channelItems addObject:item25];
-//    [channelItems addObject:item26];
+    [channelItems addObject:item26];
     
     return channelItems;
 }
@@ -258,7 +258,7 @@
                                 @"健康",@"24",
                                 @"科学",@"25",
                                 @"美女",@"26",
-                                @"北京",@"28",
+                                @"APP",@"35",
                                 nil];
     NSString *channelID = @"";
     for (NSString *key in dictionary) {

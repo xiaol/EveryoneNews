@@ -11,7 +11,7 @@
 #import "LPFontSizeManager.h"
 #import "NSString+LP.h"
 
-static const CGFloat PaddingHorizontal = 12;
+//static const CGFloat PaddingHorizontal = 12;
 //static const CGFloat PaddingVertical = 15;
 
 @implementation CardFrame
@@ -29,6 +29,11 @@ static const CGFloat PaddingHorizontal = 12;
 }
 
 - (void)setCard:(Card *)card {
+   CGFloat PaddingHorizontal = 12;
+    if (iPhone6Plus) {
+        PaddingHorizontal = 15;
+    }
+    
     self.homeViewFontSize = [LPFontSizeManager sharedManager].currentHomeViewFontSize;
     CGFloat titleFontSize =  self.homeViewFontSize;
     CGFloat sourceFontSize = 10;

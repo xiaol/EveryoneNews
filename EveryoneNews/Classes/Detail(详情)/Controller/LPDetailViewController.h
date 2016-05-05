@@ -16,6 +16,7 @@
 #import "LPDetailTopView.h"
 #import "LPDetailBottomView.h"
 #import "LPCommentFrame.h"
+#import "LPBottomShareView.h"
 
 @class LPPress;
 @class LPConcernPress;
@@ -52,4 +53,14 @@
 @property (nonatomic, assign) BOOL relatePointIsFinishedLoad;
 
 @property (nonatomic, strong) UITableView *tableView;
+
+@property (nonatomic, strong) UIView *detailBackgroundView;
+@property (nonatomic, strong) LPBottomShareView *bottomShareView;
+
+
+- (void)removeBackgroundView;
+
+
+
+
 @end
