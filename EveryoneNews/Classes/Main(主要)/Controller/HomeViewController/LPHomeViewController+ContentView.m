@@ -340,11 +340,13 @@ NSString *const reusePageID = @"reusePageID";
     notLikeButton.layer.borderColor = [UIColor colorWithHexString:@"#e4e4e4"].CGColor;
     notLikeButton.layer.borderWidth = 0.5;
     notLikeButton.layer.cornerRadius = 6;
-    [notLikeButton addTarget:self action:@selector(deleteCurrentRow:) forControlEvents:UIControlEventTouchUpInside];
     
-       __weak typeof(self) weakSelf = self;
+    __weak typeof(page) weakPage = page;
+    
+    [notLikeButton addTarget:self action:@selector(deleteCurrentRow:) forControlEvents:UIControlEventTouchUpInside];
+    __weak typeof(self) weakSelf = self;
     [notLikeButton handleControlEvent:UIControlEventTouchUpInside withBlock:^{
-        [page deleteRowAtIndexPath:indexPath cardFrame:cardFrame];
+        [weakPage deleteRowAtIndexPath:indexPath cardFrame:cardFrame];
         [weakSelf deleteCardFromCoreData:cardFrame];
      
     }];
@@ -363,7 +365,7 @@ NSString *const reusePageID = @"reusePageID";
     lowQualityButton.layer.cornerRadius = 6;
     [lowQualityButton addTarget:self action:@selector(deleteCurrentRow:) forControlEvents:UIControlEventTouchUpInside];
     [lowQualityButton handleControlEvent:UIControlEventTouchUpInside withBlock:^{
-        [page deleteRowAtIndexPath:indexPath cardFrame:cardFrame];
+        [weakPage deleteRowAtIndexPath:indexPath cardFrame:cardFrame];
         [weakSelf deleteCardFromCoreData:cardFrame];
     }];
     lowQualityButton.enlargedEdge = 5;
@@ -380,7 +382,7 @@ NSString *const reusePageID = @"reusePageID";
     repeatButton.layer.cornerRadius = 6;
     [repeatButton addTarget:self action:@selector(deleteCurrentRow:) forControlEvents:UIControlEventTouchUpInside];
     [repeatButton handleControlEvent:UIControlEventTouchUpInside withBlock:^{
-        [page deleteRowAtIndexPath:indexPath cardFrame:cardFrame];
+        [weakPage deleteRowAtIndexPath:indexPath cardFrame:cardFrame];
         [weakSelf deleteCardFromCoreData:cardFrame];
     }];
     repeatButton.enlargedEdge = 5;
@@ -401,7 +403,7 @@ NSString *const reusePageID = @"reusePageID";
     sourceButton.layer.cornerRadius = 6;
     [sourceButton addTarget:self action:@selector(deleteCurrentRow:) forControlEvents:UIControlEventTouchUpInside];
     [sourceButton handleControlEvent:UIControlEventTouchUpInside withBlock:^{
-        [page deleteRowAtIndexPath:indexPath cardFrame:cardFrame];
+        [weakPage deleteRowAtIndexPath:indexPath cardFrame:cardFrame];
         [weakSelf deleteCardFromCoreData:cardFrame];
     }];
     sourceButton.enlargedEdge = 5;
@@ -438,7 +440,7 @@ NSString *const reusePageID = @"reusePageID";
 - (void)deleteCardFromCoreData:(CardFrame *)cardFrame {
     CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     Card *card = cardFrame.card;
-    [cdh.importContext performBlockAndWait:^{
+    [cdh.importContext performBlock:^{
         NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Card"];
         [request setPredicate:[NSPredicate predicateWithFormat:@"newId = %@ and channelId = %@",card.newId , card.channelId]];
         NSError *error;
@@ -459,7 +461,7 @@ NSString *const reusePageID = @"reusePageID";
     CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     if (!card.isRead) {
         card.isRead = @(1);
-        [cdh.importContext performBlockAndWait:^{
+        [cdh.importContext performBlock:^{
             NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Card"];
             [request setPredicate:[NSPredicate predicateWithFormat:@"newId = %@ and channelId = %@",card.newId , card.channelId]];
             NSEntityDescription  *entity  = [NSEntityDescription entityForName:@"Card" inManagedObjectContext:cdh.importContext];

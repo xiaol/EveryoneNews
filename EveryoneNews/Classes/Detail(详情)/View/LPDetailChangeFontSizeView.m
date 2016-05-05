@@ -180,6 +180,7 @@
         [self.delegate changeFontSizeView:self reloadTableViewWithFontSize:self.homeViewFontSize fontSizeType:homeViewFontSizeType currentDetailContentFontSize:self.currentDetailContentFontSize currentDetaiTitleFontSize:self.currentDetaiTitleFontSize currentDetailCommentFontSize:self.currentDetailCommentFontSize currentDetailRelatePointFontSize:self.currentDetailRelatePointFontSize currentDetailSourceFontSize:self.currentDetailSourceFontSize];
     }
     
+    [noteCenter postNotificationName:LPFontSizeChangedNotification object:nil];
 }
 
 - (void)sliderTouchUpInside:(UISlider *)slider {
@@ -246,7 +247,7 @@
     if ([self.delegate respondsToSelector:@selector(changeFontSizeView:reloadTableViewWithFontSize:fontSizeType:currentDetailContentFontSize:currentDetaiTitleFontSize:currentDetailCommentFontSize:currentDetailRelatePointFontSize:currentDetailSourceFontSize:)]) {
         [self.delegate changeFontSizeView:self reloadTableViewWithFontSize:self.homeViewFontSize fontSizeType:homeViewFontSizeType currentDetailContentFontSize:self.currentDetailContentFontSize currentDetaiTitleFontSize:self.currentDetaiTitleFontSize currentDetailCommentFontSize:self.currentDetailCommentFontSize currentDetailRelatePointFontSize:self.currentDetailRelatePointFontSize currentDetailSourceFontSize:self.currentDetailSourceFontSize];
     }
-    
+   
 }
 
 - (NSString *)getCurrentHomeViewFontSizeTypeWithSliderValue:(NSInteger)value {
@@ -263,11 +264,9 @@
 
 #pragma mark - 点击完成按钮
 - (void)finishButtonClick {
-    NSLog(@"Finish Detail Change");
-    
-//    if ([self.delegate respondsToSelector:@selector(finishButtonDidClick:)]) {
-//        [self.delegate finishButtonDidClick:self];
-//    }
+    if ([self.delegate respondsToSelector:@selector(finishButtonDidClick:)]) {
+        [self.delegate finishButtonDidClick:self];
+    }
 }
 
 @end

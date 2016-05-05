@@ -85,7 +85,6 @@
     return NO;
 }
 
-
 - (void)setContentFrame:(LPContentFrame *)contentFrame
 {
     _contentFrame = contentFrame;

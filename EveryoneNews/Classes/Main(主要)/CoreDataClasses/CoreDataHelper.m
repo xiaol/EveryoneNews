@@ -339,12 +339,13 @@ NSString *storeFileName = @"EveryoneNews.sqlite";
         [_importContext deleteObject:card];
     }
     
-    NSError *saveError = nil;
-    [_importContext save:&saveError];
-    [_context performBlock:^{
+    [_importContext performBlock:^{
         [self saveBackgroundContext];
         [userDefaults setObject:@"YES" forKey:@"isFinishDeleteCoreData"];
         [userDefaults synchronize];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+        });
      
     }];
   

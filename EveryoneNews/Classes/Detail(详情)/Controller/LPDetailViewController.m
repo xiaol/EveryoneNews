@@ -95,6 +95,11 @@ static int imageDownloadCount;
 
 @property (nonatomic, strong) Card *card;
 
+@property (nonatomic, copy) NSString *contentTitle;
+
+@property (nonatomic, copy) NSString *pubTime;
+
+@property (nonatomic, copy) NSString *pubName;
 
 
 
@@ -111,7 +116,6 @@ static int imageDownloadCount;
     self.view.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
     [self setupSubviews];
     [self setupBottomView];
-//    [self setupCardData];
     [self setupData];
 }
 
@@ -131,6 +135,12 @@ static int imageDownloadCount;
         NSString *pubName = dict[@"pubName"];
         NSString *pubUrl = dict[@"pubUrl"];
 
+        self.contentTitle = title;
+        self.pubTime = pubTime;
+        self.pubName = pubName;
+        
+        
+        self.shareURL = pubUrl;
         self.shareTitle = title;
         self.submitDocID = dict[@"docid"];
         // 更新详情页评论数量
@@ -174,6 +184,7 @@ static int imageDownloadCount;
                 if (self.contentFrames.count > 0 && imageDownloadCount == self.contentFrames.count) {
                     [self.tableView reloadData];
                     self.tableView.hidden = NO;
+                    [self hideLoadingView];
                 }
             }];
         }
@@ -247,11 +258,9 @@ static int imageDownloadCount;
     };
     
     void (^reloadTableViewBlock)() = ^{
-        
         [self.tableView reloadData];
-        self.tableView.hidden = NO;
         [self hideLoadingView];
-
+        self.tableView.hidden = NO;
     };
 
     // 详情页正文
@@ -334,8 +343,9 @@ static int imageDownloadCount;
     [self endTimer];
     // 提交用户日志
 //    [self submitUserOperationLog];
-
+   [noteCenter postNotificationName:LPFontSizeChangedNotification object:nil];
 }
+
 
 #pragma mark - 上传用户操作日志
 - (void)submitUserOperationLog {
@@ -402,6 +412,7 @@ static int imageDownloadCount;
 //        [self.http cancelRequest];
 //        self.http = nil;
 //    }
+
     
 }
 
@@ -522,10 +533,12 @@ static int imageDownloadCount;
     self.tableView.dataSource = self;
  
     // 上拉加载更多
-    self.tableView.footer = [LPRelatePointFooter footerWithRefreshingBlock:^{
-        [self loadMoreRelateData];
-    }];
     
+       __weak typeof(self) weakSelf = self;
+    self.tableView.footer = [LPRelatePointFooter footerWithRefreshingBlock:^{
+        [weakSelf loadMoreRelateData];
+    }];
+
     // 顶部视图
     LPDetailTopView *topView = [[LPDetailTopView alloc] initWithFrame: self.view.bounds];
     topView.delegate = self;
@@ -601,7 +614,7 @@ static int imageDownloadCount;
 - (Card *)card {
     if (!_card) {
         CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
-        _card = (Card *)[cdh.context existingObjectWithID:self.cardID error:nil];
+        _card = (Card *)[cdh.importContext existingObjectWithID:self.cardID error:nil];
         return _card;
     }
     return _card;
@@ -610,6 +623,7 @@ static int imageDownloadCount;
 - (NSString *)newID {
     if (![self card]) return nil;
     return [[self card] valueForKey:@"newId"];
+//    return self.card.newId;
 }
 
 - (NSString *)docId {
@@ -797,7 +811,7 @@ static int imageDownloadCount;
         UILabel *rightLabel = [[UILabel alloc] initWithFrame:CGRectMake(rightLabelX, 0, rightLabelW, rightViewH)];
         rightLabel.text = friendsStr;
         rightLabel.font = [UIFont systemFontOfSize:LPFont4];
-        rightLabel.textColor = [UIColor colorFromHexString:LPColor5];
+        rightLabel.textColor = [UIColor colorFromHexString:LPColor4];
         
         [rightView addSubview:rightLabel];
         
@@ -817,7 +831,7 @@ static int imageDownloadCount;
         UILabel *concernLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, concernLabelY, concernLabelW, concernLabelH)];
         concernLabel.text = concernStr;
         concernLabel.font = [UIFont systemFontOfSize:LPFont4];
-        concernLabel.textColor = [UIColor colorFromHexString:LPColor5];
+        concernLabel.textColor = [UIColor colorFromHexString:LPColor4];
         
         [contentBottomView addSubview:concernLabel];
         [contentBottomView addSubview:rightView];
@@ -981,34 +995,6 @@ static int imageDownloadCount;
 #pragma mark - 底部分享按钮
 - (void)didShareWithDetailBottomView:(LPDetailBottomView *)detailBottomView {
     [self popShareView];
-//    
-//    UIView *detailBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
-//    detailBackgroundView.backgroundColor = [UIColor blackColor];
-//    detailBackgroundView.alpha = 0.6;
-//    
-//    
-//    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removeBackgroundView)];
-//    [detailBackgroundView addGestureRecognizer:tapGestureRecognizer];
-//    
-//    
-//    [self.view addSubview:detailBackgroundView];
-//    self.detailBackgroundView = detailBackgroundView;
-//    
-//    
-//    LPBottomShareView *bottomShareView = [[LPBottomShareView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
-//    bottomShareView.delegate = self;
-//    [self.view addSubview:bottomShareView];
-//    
-//    
-//    CGRect toFrame = CGRectMake(0, ScreenHeight - bottomShareView.size.height, ScreenWidth, bottomShareView.size.height);
-//    
-//    [UIView animateWithDuration:0.3f animations:^{
-//        bottomShareView.frame = toFrame;
-//    }];
-//    
-//    
-//    self.bottomShareView = bottomShareView;
-  
 }
 
 #pragma mark - 顶部分享按钮
@@ -1037,6 +1023,7 @@ static int imageDownloadCount;
     
     // 改变字体大小视图
     LPDetailChangeFontSizeView *changeFontSizeView = [[LPDetailChangeFontSizeView alloc] initWithFrame:CGRectMake(0, ScreenHeight, ScreenWidth, changeFontSizeViewH)];
+    changeFontSizeView.delegate = self;
     [self.view addSubview:changeFontSizeView];
     self.changeFontSizeView = changeFontSizeView;
     
@@ -1054,13 +1041,20 @@ static int imageDownloadCount;
 }
 
 - (void)removeBackgroundView {
-    CGRect toFrame = CGRectMake(0, ScreenHeight, ScreenWidth, self.bottomShareView.size.height);
+    CGRect bottomShareViewToFrame = CGRectMake(0, ScreenHeight, ScreenWidth, self.bottomShareView.size.height);
+    CGRect changeFontSizeViewToFrame = CGRectMake(0, ScreenHeight, ScreenWidth, self.changeFontSizeView.height);
 
     [UIView animateWithDuration:0.3f animations:^{
-        self.bottomShareView.frame = toFrame;
+        if (self.bottomShareView.origin.y == ScreenHeight - self.bottomShareView.size.height) {
+            self.bottomShareView.frame = bottomShareViewToFrame;
+        }
+        if (self.changeFontSizeView.origin.y == ScreenHeight - self.changeFontSizeView.size.height) {
+            self.changeFontSizeView.frame = changeFontSizeViewToFrame;
+        }
         self.detailBackgroundView.alpha = 0.0f;
     } completion:^(BOOL finished) {
         [self.bottomShareView removeFromSuperview];
+        [self.changeFontSizeView removeFromSuperview];
         [self.detailBackgroundView removeFromSuperview];
     }];
 }
@@ -1097,7 +1091,43 @@ static int imageDownloadCount;
 
 #pragma mark - 改变详情页字体大小
 - (void)changeDetailFontSize {
+    CGRect shareViewToFrame = CGRectMake(0, ScreenHeight, ScreenWidth, self.bottomShareView.size.height);
+    CGRect changeFontSizeViewToFrame = CGRectMake(0, ScreenHeight - changeFontSizeViewH, ScreenWidth, self.changeFontSizeView.height);
+    [UIView animateWithDuration:0.3f animations:^{
+        self.bottomShareView.frame = shareViewToFrame;
+        self.changeFontSizeView.frame = changeFontSizeViewToFrame;
+      
+    } completion:^(BOOL finished) {
+ 
+    }];
     
+}
+
+#pragma mark - LPDetailChangeFontSizeView delegate
+- (void)changeFontSizeView:(LPDetailChangeFontSizeView *)changeFontSizeView reloadTableViewWithFontSize:(NSInteger)fontSize fontSizeType:(NSString *)fontSizeType currentDetailContentFontSize:(NSInteger)currentDetailContentFontSize currentDetaiTitleFontSize:(NSInteger)currentDetaiTitleFontSize currentDetailCommentFontSize:(NSInteger)currentDetailCommentFontSize currentDetailRelatePointFontSize:(NSInteger)currentDetailRelatePointFontSize currentDetailSourceFontSize:(NSInteger)currentDetailSourceFontSize {
+    
+    [LPFontSizeManager sharedManager].currentHomeViewFontSize = fontSize;
+    [LPFontSizeManager sharedManager].currentHomeViewFontSizeType = fontSizeType;
+    [LPFontSizeManager sharedManager].currentDetailContentFontSize = currentDetailContentFontSize;
+    [LPFontSizeManager sharedManager].currentDetaiTitleFontSize = currentDetaiTitleFontSize;
+    [LPFontSizeManager sharedManager].currentDetailCommentFontSize = currentDetailCommentFontSize;
+    [LPFontSizeManager sharedManager].currentDetailRelatePointFontSize = currentDetailRelatePointFontSize;
+    [LPFontSizeManager sharedManager].currentDetailSourceFontSize = currentDetailSourceFontSize;
+
+    [[LPFontSizeManager sharedManager] saveHomeViewFontSizeAndType];
+   
+    for (LPContentFrame *contentFrame in self.contentFrames) {
+        [contentFrame setContentWhenFontSizeChanged:contentFrame];
+    }
+    
+    [self setupHeaderView:self.contentTitle pubTime:self.pubTime pubName:self.pubName];
+     [self.tableView reloadData];
+  
+    
+}
+
+- (void)finishButtonDidClick:(LPDetailChangeFontSizeView *)changeFontSizeView {
+    [self removeBackgroundView];
 }
 
 #pragma mark - LPZhihuView delegate
@@ -1130,5 +1160,6 @@ static int imageDownloadCount;
             break;
     }
 }
+
 
 @end

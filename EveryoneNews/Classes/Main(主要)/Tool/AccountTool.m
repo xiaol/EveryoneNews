@@ -249,14 +249,10 @@ singleton_m(AccountTool);
     if (account) {
         return;
     }
-//    LPLoginViewController *loginVc = [[LPLoginViewController alloc] init];
-    
-    LPNewsLonginViewFromSettingViewController *loginVc = [[LPNewsLonginViewFromSettingViewController alloc] initWithCustom];
-    
-    
-//    loginVc.successBlock = success;
-//    loginVc.failureBlock = failure;
-//    loginVc.cancelBlock = cancel;
+    LPLoginViewController *loginVc = [[LPLoginViewController alloc] init];
+    loginVc.successBlock = success;
+    loginVc.failureBlock = failure;
+    loginVc.cancelBlock = cancel;
     [viewVc presentViewController:loginVc animated:NO completion:nil];
     
 }
