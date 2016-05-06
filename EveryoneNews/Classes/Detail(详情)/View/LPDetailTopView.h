@@ -13,7 +13,7 @@
 
 @optional
 - (void)backButtonDidClick:(LPDetailTopView *)detailTopView;
-- (void)fulltextCommentDidClick:(LPDetailTopView *)detailTopView;
+- (void)shareButtonDidClick:(LPDetailTopView *)detailTopView;
 
 @end
 @interface LPDetailTopView : UIView

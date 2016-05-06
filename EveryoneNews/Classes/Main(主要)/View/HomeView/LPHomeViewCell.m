@@ -226,9 +226,10 @@
     NSDate *updateTime = [NSDate dateWithTimeIntervalSince1970:card.updateTime.longLongValue / 1000.0];
     NSString *publishTime = nil;
     int interval = (int)[currentDate timeIntervalSinceDate: updateTime] / 60;
-    
-    if (interval>= 0 && interval < 60) {
+    if (interval > 0 && interval < 60) {
         publishTime = [NSString stringWithFormat:@"%d分钟前",interval];
+    } else if (interval == 0) {
+        publishTime = @"3秒前";
     } else {
         publishTime = @" ";
     }

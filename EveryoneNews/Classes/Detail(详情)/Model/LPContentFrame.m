@@ -61,4 +61,8 @@
 
 }
 
+- (void)setContentWhenFontSizeChanged:(LPContentFrame *)contentFrame {
+    self.content = contentFrame.content;
+}
+
 @end

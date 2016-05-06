@@ -10,4 +10,11 @@
 
 @implementation LPRelatePoint
 
+- (NSMutableAttributedString *)titleString {
+    return [_title attributedStringWithFont:[UIFont systemFontOfSize:LPFont4] color:[UIColor colorFromHexString:LPColor3] lineSpacing:0];
+}
+
+- (NSMutableAttributedString *)sourceString {
+   return [_sourceSite attributedStringWithFont:[UIFont systemFontOfSize:LPFont7] color:[UIColor colorFromHexString:LPColor4] lineSpacing:0];
+}
 @end

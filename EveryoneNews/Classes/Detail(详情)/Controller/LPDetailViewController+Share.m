@@ -15,10 +15,12 @@
 
 // 提示信息
 -(void)shareSucess {
+    [self removeBackgroundView];
     [MBProgressHUD showSuccess:@"分享成功"];
 }
 
 -(void)shareFailure {
+    [self removeBackgroundView];
     [MBProgressHUD showError:@"分享失败"];
 }
 
@@ -77,5 +79,38 @@
         
     }];
 }
+
+// 短信分享
+- (void)shareToSmsBtnClick {
+    NSString *url = [NSString stringWithFormat:@"%@ %@", self.shareTitle, self.shareURL];
+    [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[UMShareToSms] content:url image:nil location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
+        if (response.responseCode == UMSResponseCodeSuccess) {
+            [self shareSucess];
+        }
+    }];
+}
+
+// 邮件分享
+- (void)shareToEmailBtnClick {
+    NSString *url = self.shareURL;
+    [UMSocialData defaultData].extConfig.title =[NSString stringWithFormat:@"【奇点资讯】%@",self.shareTitle];
+    [[UMSocialDataService defaultDataService]  postSNSWithTypes:@[UMShareToEmail] content:url image:nil location:nil urlResource:nil presentedController:self completion:^(UMSocialResponseEntity *response){
+        if (response.responseCode == UMSResponseCodeSuccess) {
+            [self shareSucess];
+        }
+    }];
+}
+
+// 转发链接
+- (void)shareToLinkBtn {
+    NSString *url = [NSString stringWithFormat:@"%@ %@", self.shareTitle, self.shareURL] ;
+    UIPasteboard *gpBoard = [UIPasteboard generalPasteboard];
+    gpBoard.string=url;
+    [self removeBackgroundView];
+    [MBProgressHUD showSuccess:@"复制成功"];
+}
+
+
+
 
 @end

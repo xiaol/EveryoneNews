@@ -243,18 +243,9 @@ NSString *const reusePageID = @"reusePageID";
         [page updateCardFramesWithCardFrame:cardFrame];
   
     }
- 
-   
-    
-    
-//    [CATransaction begin];
+
     [self.navigationController pushViewController:detailVc animated:YES];
-//    [CATransaction setCompletionBlock:^{
-//        [page tableViewReloadData];
-//    }];
-//    [CATransaction commit];
-    
-   
+
     
 }
 
@@ -350,11 +341,20 @@ NSString *const reusePageID = @"reusePageID";
     notLikeButton.layer.borderColor = [UIColor colorWithHexString:@"#e4e4e4"].CGColor;
     notLikeButton.layer.borderWidth = 0.5;
     notLikeButton.layer.cornerRadius = 6;
-    [notLikeButton addTarget:self action:@selector(deleteCurrentRow:) forControlEvents:UIControlEventTouchUpInside];
     
+<<<<<<< HEAD
        __weak typeof(self) weakSelf = self;
     __weak typeof(page) wpage = page;
     [notLikeButton handleControlEvent:UIControlEventTouchUpInside withBlock:^{
+=======
+    __weak typeof(page) weakPage = page;
+    
+    [notLikeButton addTarget:self action:@selector(deleteCurrentRow:) forControlEvents:UIControlEventTouchUpInside];
+    __weak typeof(self) weakSelf = self;
+    [notLikeButton handleControlEvent:UIControlEventTouchUpInside withBlock:^{
+        [weakPage deleteRowAtIndexPath:indexPath cardFrame:cardFrame];
+        [weakSelf deleteCardFromCoreData:cardFrame];
+>>>>>>> 453bbf20bb5fe5e64d16ab94cd351a8b57151516
      
     }];
     notLikeButton.enlargedEdge = 5;
@@ -372,9 +372,13 @@ NSString *const reusePageID = @"reusePageID";
     lowQualityButton.layer.cornerRadius = 6;
     [lowQualityButton addTarget:self action:@selector(deleteCurrentRow:) forControlEvents:UIControlEventTouchUpInside];
     [lowQualityButton handleControlEvent:UIControlEventTouchUpInside withBlock:^{
+<<<<<<< HEAD
         
         [page deleteRowAtIndexPath:indexPath cardFrame:cardFrame];
         
+=======
+        [weakPage deleteRowAtIndexPath:indexPath cardFrame:cardFrame];
+>>>>>>> 453bbf20bb5fe5e64d16ab94cd351a8b57151516
         [weakSelf deleteCardFromCoreData:cardFrame];
         
     }];
@@ -391,6 +395,13 @@ NSString *const reusePageID = @"reusePageID";
     repeatButton.layer.borderWidth = 0.5;
     repeatButton.layer.cornerRadius = 6;
     [repeatButton addTarget:self action:@selector(deleteCurrentRow:) forControlEvents:UIControlEventTouchUpInside];
+<<<<<<< HEAD
+=======
+    [repeatButton handleControlEvent:UIControlEventTouchUpInside withBlock:^{
+        [weakPage deleteRowAtIndexPath:indexPath cardFrame:cardFrame];
+        [weakSelf deleteCardFromCoreData:cardFrame];
+    }];
+>>>>>>> 453bbf20bb5fe5e64d16ab94cd351a8b57151516
     repeatButton.enlargedEdge = 5;
     [notInterestedView addSubview:repeatButton];
     
@@ -408,7 +419,14 @@ NSString *const reusePageID = @"reusePageID";
     sourceButton.layer.borderWidth = 0.5;
     sourceButton.layer.cornerRadius = 6;
     [sourceButton addTarget:self action:@selector(deleteCurrentRow:) forControlEvents:UIControlEventTouchUpInside];
+<<<<<<< HEAD
 
+=======
+    [sourceButton handleControlEvent:UIControlEventTouchUpInside withBlock:^{
+        [weakPage deleteRowAtIndexPath:indexPath cardFrame:cardFrame];
+        [weakSelf deleteCardFromCoreData:cardFrame];
+    }];
+>>>>>>> 453bbf20bb5fe5e64d16ab94cd351a8b57151516
     sourceButton.enlargedEdge = 5;
     [notInterestedView addSubview:sourceButton];
     
@@ -451,7 +469,6 @@ NSString *const reusePageID = @"reusePageID";
         for (Card  *cardObject in fetchedObjects) {
             [cdh.importContext deleteObject:cardObject];
          }
-
         [cdh saveBackgroundContext];
         
     }];
@@ -469,7 +486,6 @@ NSString *const reusePageID = @"reusePageID";
             [request setEntity:entity];
             NSError *error;
             [cdh.importContext executeFetchRequest:request error:&error];
-            
             [cdh saveBackgroundContext];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [page tableViewReloadData];

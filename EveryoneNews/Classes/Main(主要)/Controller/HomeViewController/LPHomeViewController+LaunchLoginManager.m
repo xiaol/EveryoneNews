@@ -41,10 +41,20 @@
 - (void)displayLoginBtnIconWithAccount:(Account *)account
 {
     CGFloat statusBarHeight = 20.0f;
-    CGFloat menuViewHeight = 51.0;
+    CGFloat menuViewHeight = 44.0;
+    
+    
+    
     CGFloat unloginBtnX = 18;
     CGFloat unloginBtnW = 18;
     CGFloat unloginBtnH = 18;
+    if (iPhone6Plus) {
+        unloginBtnX = 15.7f;
+        unloginBtnW = 17.3f;
+        unloginBtnH = 18.6f;
+    }
+    
+    
     CGFloat unloginBtnY = (menuViewHeight - unloginBtnH) / 2 + statusBarHeight;
     // 用户未登录直接显示未登录图标
     if (account == nil) {
@@ -60,11 +70,15 @@
         [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:account.userIcon] options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
             if (image && finished) {
                 CGFloat statusBarHeight = 20.0f;
-                CGFloat menuViewHeight = 51.0;
+                CGFloat menuViewHeight = 44.0;
                 CGFloat loginBtnX = 12;
                 CGFloat loginBtnW = 29;
                 CGFloat loginBtnH = 29;
                 CGFloat loginBtnY = (menuViewHeight - loginBtnH) / 2 + statusBarHeight;
+                if (iPhone6Plus) {
+                    loginBtnX = 10.0f;
+                }
+                
                 [weakSelf.loginBtn setBackgroundImage:image forState:UIControlStateNormal];
                 weakSelf.loginBtn.frame = CGRectMake(loginBtnX , loginBtnY , loginBtnW, loginBtnH);
                 weakSelf.loginBtn.layer.cornerRadius = loginBtnH / 2;

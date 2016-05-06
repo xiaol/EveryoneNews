@@ -30,20 +30,20 @@
     }];
 }
 
-#pragma mark - 顶部全文评论按钮
-- (void)fulltextCommentDidClick:(LPDetailTopView *)detailTopView
-{
-    LPFullCommentViewController *fullCommentVc = [[LPFullCommentViewController alloc] init];
-    fullCommentVc.docId = self.docId;
-    fullCommentVc.commentsCount = self.commentsCount;
-    [fullCommentVc fulltextCommentDidComposed:^(NSInteger count) {
-        self.topView.badgeNumber = count;
-        self.bottomView.badgeNumber = count;
-        self.commentsCount = count;
-    }];
-    
-    [self.navigationController pushViewController:fullCommentVc animated:YES];
-}
+//#pragma mark - 顶部全文评论按钮
+//- (void)fulltextCommentDidClick:(LPDetailTopView *)detailTopView
+//{
+//    LPFullCommentViewController *fullCommentVc = [[LPFullCommentViewController alloc] init];
+//    fullCommentVc.docId = self.docId;
+//    fullCommentVc.commentsCount = self.commentsCount;
+//    [fullCommentVc fulltextCommentDidComposed:^(NSInteger count) {
+//        self.topView.badgeNumber = count;
+//        self.bottomView.badgeNumber = count;
+//        self.commentsCount = count;
+//    }];
+//    
+//    [self.navigationController pushViewController:fullCommentVc animated:YES];
+//}
 
 #pragma mark - 底部直接发表评论
 - (void)pushFulltextCommentComposeVc {

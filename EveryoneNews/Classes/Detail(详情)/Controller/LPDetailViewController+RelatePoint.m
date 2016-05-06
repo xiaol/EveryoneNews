@@ -19,6 +19,7 @@
     if (self.relatePointArray.count > 3 && self.relatePointIsFinishedLoad == NO) {
         for (int i = 3; i < self.relatePointArray.count; i++) {
             LPRelateFrame *relateFrame = [[LPRelateFrame alloc] init];
+            relateFrame.currentRowIndex = i;
             relateFrame.relatePoint = self.relatePointArray[i];
             [self.relatePointFrames addObject:relateFrame];
         }

@@ -34,11 +34,13 @@ typedef void(^imageDownLoadCompletionBlock)();
 @property (nonatomic, assign, readonly) CGRect sourceViewF;
 @property (nonatomic, assign, readonly) CGRect supplementViewF;
 
-@property (nonatomic, assign, readonly) CGFloat cellHeight;
+@property (nonatomic, assign) CGFloat cellHeight;
 
 @property (nonatomic, assign, readonly, getter=isUpdated) BOOL updated;
 
 //@property (nonatomic, copy) imageDownLoadCompletionBlock block;
 
 - (void)downloadImageWithCompletionBlock:(imageDownLoadCompletionBlock)imageDownLoadCompletionBlock ;
+
+- (void)setContentWhenFontSizeChanged:(LPContentFrame *)contentFrame;
 @end

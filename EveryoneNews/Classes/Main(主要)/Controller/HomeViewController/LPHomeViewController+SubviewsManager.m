@@ -53,11 +53,8 @@ const static CGFloat cellPadding = 15;
 - (void)setupSubViews {
     self.view.backgroundColor = [UIColor whiteColor];
     CGFloat statusBarHeight = 20.0f;
-    CGFloat menuViewHeight = 51.0f;
-//    if (iPhone6Plus) {
-//        menuViewHeight = 51;
-//    }
-    
+    CGFloat menuViewHeight = 44.0f;
+
     // 导航视图
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, statusBarHeight + menuViewHeight)];
     [self.view addSubview:headerView];
@@ -86,10 +83,22 @@ const static CGFloat cellPadding = 15;
     
     // 频道栏
     CGFloat menuViewX = 53;
-    CGFloat menuViewY = statusBarHeight;
-    CGFloat menuViewW = ScreenWidth - 94;
-    CGFloat menuViewH = menuViewHeight - 1;
+    CGFloat menuViewPaddingRight = 34;
+    CGFloat menuViewPaddingTop = 30;
     
+    CGFloat menuViewY = menuViewPaddingTop;
+    CGFloat menuViewW = ScreenWidth - menuViewX - menuViewPaddingRight;
+    CGFloat menuViewH = 24.0;
+    
+    if (iPhone6Plus) {
+        
+        menuViewX = 46;
+        menuViewW = ScreenWidth - menuViewX - menuViewPaddingRight;
+        menuViewH = 24.0;
+        menuViewY = menuViewPaddingTop;
+    }
+    
+
     UICollectionViewFlowLayout *menuViewFlowLayout = [[UICollectionViewFlowLayout alloc] init];
     menuViewFlowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     LPMenuView *menuView = [[LPMenuView alloc] initWithFrame:CGRectMake(menuViewX, menuViewY , menuViewW, menuViewH) collectionViewLayout:menuViewFlowLayout];
@@ -249,28 +258,17 @@ const static CGFloat cellPadding = 15;
     
     CGFloat menuBackgroundViewX = attributes.frame.origin.x;
     CGFloat menuBackgroundViewY = attributes.frame.origin.y;
-    CGFloat menuBackgroundViewW = attributes.frame.size.width;
+    CGFloat menuBackgroundViewW = attributes.frame.size.width + 1;
     CGFloat menuBackgroundViewH = attributes.frame.size.height;
     
-    if (iPhone6Plus) {
-         menuBackgroundViewY = attributes.frame.origin.y + 8;
-        menuBackgroundViewH = attributes.frame.size.height - 16;
-    }
-
-    
     CGRect cellRect = CGRectMake(menuBackgroundViewX, menuBackgroundViewY, menuBackgroundViewW, menuBackgroundViewH);
-    
-    
-    
+
     UIView *menuBackgroundView = [[UIView alloc] init];
     menuBackgroundView.frame = cellRect;
     menuBackgroundView.alpha = 0.15;
     menuBackgroundView.backgroundColor = [UIColor colorFromHexString:@"#0091fa"];
-    menuBackgroundView.layer.cornerRadius = 10.0f;
-    if (iPhone6Plus) {
-        menuBackgroundView.layer.cornerRadius = 15.0f;
-    }
-    
+    menuBackgroundView.layer.cornerRadius = 12.0f;
+   
     [self.menuView addSubview:menuBackgroundView];
     self.menuBackgroundView = menuBackgroundView;
 }
@@ -322,7 +320,7 @@ const static CGFloat cellPadding = 15;
     CGFloat statusBarHeight = 20.0f;
     CGFloat menuViewHeight = 44.0f;
     if (iPhone6Plus) {
-        menuViewHeight = 51;
+        menuViewHeight = 44.0f;
     }
     UIView *contentLoadingView = [[UIView alloc] initWithFrame:CGRectMake(0, statusBarHeight + menuViewHeight, ScreenWidth, ScreenHeight - statusBarHeight - menuViewHeight)];
     

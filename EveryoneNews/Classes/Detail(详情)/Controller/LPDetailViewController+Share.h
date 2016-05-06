@@ -17,4 +17,10 @@
 - (void)shareToQQBtnClick;
 
 - (void)shareToSinaBtnClick;
+
+- (void)shareToSmsBtnClick;
+
+- (void)shareToEmailBtnClick;
+
+- (void)shareToLinkBtn;
 @end

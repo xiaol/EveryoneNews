@@ -13,13 +13,17 @@
 
 @property (nonatomic, strong) LPRelatePoint *relatePoint;
 
-@property (nonatomic, assign) CGRect datelayerF;
-@property (nonatomic, assign) CGRect dateF;
-@property (nonatomic, assign) CGPoint circlePoint;
+@property (nonatomic, assign) CGPoint yearPoint;
+@property (nonatomic, assign) CGPoint monthDayPoint;
 @property (nonatomic, assign) CGFloat circleRadius;
-@property (nonatomic, assign) CGRect contentLayerF;
-@property (nonatomic, assign) CGRect contentImageViewF;
-@property (nonatomic, assign) CGRect contentF;
+@property (nonatomic, assign) CGRect yearF;
+@property (nonatomic, assign) CGRect monthDayF;
+@property (nonatomic, assign) CGRect titleF;
 @property (nonatomic, assign) CGRect imageViewF;
+@property (nonatomic, assign) CGRect sourceSiteF;
+@property (nonatomic, assign) CGRect seperatorViewF;
+@property (nonatomic, assign) CGFloat cellHeight;
+@property (nonatomic, assign) CGRect cellViewF;
+@property (nonatomic, assign) NSInteger currentRowIndex;
 
 @end
