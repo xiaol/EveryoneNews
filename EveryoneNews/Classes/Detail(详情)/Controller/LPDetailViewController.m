@@ -584,7 +584,6 @@ static int imageDownloadCount;
 - (NSString *)newID {
     if (![self card]) return nil;
     return [[self card] valueForKey:@"newId"];
-//    return self.card.newId;
 }
 
 - (NSString *)docId {
