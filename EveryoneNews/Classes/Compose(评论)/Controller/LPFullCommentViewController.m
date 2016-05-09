@@ -333,6 +333,7 @@ static const CGFloat topViewHeight= 64;
         [MBProgressHUD showError:@"您已赞过"];
     } else {
         NSString *url = [NSString stringWithFormat:@"%@/bdp/news/comment/ydzx/love?cid=%@&unam=%@&uuid=%@", ServerUrl, comment.Id , account.userName, account.userId];
+        url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
         self.http = [LPHttpTool http];
         [self.http putWithURL:url params:nil success:^(id json) {
             comment.isPraiseFlag = @"1";
