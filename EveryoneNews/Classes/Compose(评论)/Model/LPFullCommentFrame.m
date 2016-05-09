@@ -15,15 +15,13 @@ static const CGFloat namePaddingLeft = 6;
 static const CGFloat namePaddingTop = 18;
 
 static const CGFloat userIconWidth = 25.0f;
-static const CGFloat upButtonWidth = 14;
-static const CGFloat upButtonHeight = 13;
 
 @implementation LPFullCommentFrame
 
 - (void)setComment:(LPComment *)comment
 {
     _comment = comment;
-    NSString *upCount = [NSString stringWithFormat:@"%@赞", comment.up];
+    NSString *upCount = [NSString stringWithFormat:@"%@", comment.up];
     
     CGFloat iconX = iconPaddingLeft;
     CGFloat iconY = iconPaddingTop;
@@ -47,19 +45,35 @@ static const CGFloat upButtonHeight = 13;
     CGFloat textY = CGRectGetMaxY(_timeLabelF) + 16;
     CGFloat textW = ScreenWidth - textX * 2 - iconPaddingLeft;
     CGFloat textH = [[comment commentStringWithColor:comment.color] heightWithConstraintWidth:textW];
-    
     _commentLabelF = CGRectMake(textX, textY, textW, textH);
     
-    CGSize size = [upCount sizeWithFont:[UIFont systemFontOfSize:12] maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)];
-    CGFloat upCountsW = size.width + 6;
+    CGFloat upButtonW = 17.0f;
+    CGFloat upButtonH = 17.0f;
+    CGFloat upButtonX = ScreenWidth - BodyPadding * 2 - upButtonW;
+    CGFloat upButtonY =  nameY;
+    _upButtonF = CGRectMake(upButtonX, upButtonY, upButtonW, upButtonH);
+    
+    
+    CGSize size = [upCount sizeWithFont:[UIFont systemFontOfSize:LPFont5] maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)];
+    CGFloat upCountsW = size.width + 7;
     CGFloat upCountsH = size.height;
-    CGFloat upCountsX = ScreenWidth - upCountsW - iconPaddingLeft;
-    CGFloat upCountsY = iconPaddingLeft + (iconH -  upCountsH) / 2;
+    CGFloat upCountsX = upButtonX - upButtonW;
+    CGFloat upCountsY = 0;
     _upCountsLabelF = CGRectMake(upCountsX, upCountsY, upCountsW, upCountsH);
     
-    CGFloat upButtonX = CGRectGetMinX(_upCountsLabelF) - upButtonWidth;
-    CGFloat upButtonY =  iconPaddingLeft + (iconH -  upCountsH) / 2;
-    _upButtonF = CGRectMake(upButtonX, upButtonY, upButtonWidth, upButtonHeight);
+    
+    
+    
+//    CGSize size = [upCount sizeWithFont:[UIFont systemFontOfSize:12] maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)];
+//    CGFloat upCountsW = size.width + 6;
+//    CGFloat upCountsH = size.height;
+//    CGFloat upCountsX = ScreenWidth - upCountsW - iconPaddingLeft;
+//    CGFloat upCountsY = iconPaddingLeft + (iconH -  upCountsH) / 2;
+//    _upCountsLabelF = CGRectMake(upCountsX, upCountsY, upCountsW, upCountsH);
+//    
+//    CGFloat upButtonX = CGRectGetMinX(_upCountsLabelF) - upButtonWidth;
+//    CGFloat upButtonY =  iconPaddingLeft + (iconH -  upCountsH) / 2;
+//    _upButtonF = CGRectMake(upButtonX, upButtonY, upButtonWidth, upButtonHeight);
     
     _cellHeight = CGRectGetMaxY(_commentLabelF) + iconPaddingLeft + 16;
 }

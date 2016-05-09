@@ -169,6 +169,24 @@ NSString *storeFileName = @"EveryoneNews.sqlite";
     }
 }
 
+- (void)saveContextAndParentContext {
+    [self saveContext];
+    // 2.把父上下文保存到持久化存储区(在专用队列上异步执行)
+    [_parentContext performBlock:^{
+        if (_parentContext.hasChanges) {
+            NSError *error = nil;
+            if ([_parentContext save:&error]) {
+                NSLog(@"_parentContext saved changes to persistent store");
+            } else {
+                NSLog(@"_parentContext Failed to save _context: %@", error);
+                [self showValidationError:error];
+            }
+        } else {
+            //            NSLog(@"SKIPPED _parentContext save, there are no changes!");
+        }
+    }];
+}
+
 - (void)saveImportContext {
     if (debug==1) {
         NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
@@ -205,6 +223,8 @@ NSString *storeFileName = @"EveryoneNews.sqlite";
         }
     }];
 }
+
+
 
 #pragma mark - VALIDATION ERROR HANDLING
 - (void)showValidationError:(NSError *)anError {
@@ -318,15 +338,15 @@ NSString *storeFileName = @"EveryoneNews.sqlite";
 //    }
     
     // Card Image
-    NSFetchRequest *cardImageRequest = [[NSFetchRequest alloc] init];
-    [cardImageRequest setEntity:[NSEntityDescription entityForName:@"CardImage" inManagedObjectContext:_importContext]];
-    [cardImageRequest setIncludesPropertyValues:NO]; // only fetch the managedObjectID
-    NSError *cardImageError = nil;
-    NSArray *cardImages = [_importContext executeFetchRequest:cardImageRequest error:&cardImageError];
-    //error handling goes here
-    for (NSManagedObject *cardImage in cardImages) {
-        [_importContext deleteObject:cardImage];
-    }
+//    NSFetchRequest *cardImageRequest = [[NSFetchRequest alloc] init];
+//    [cardImageRequest setEntity:[NSEntityDescription entityForName:@"CardImage" inManagedObjectContext:_importContext]];
+//    [cardImageRequest setIncludesPropertyValues:NO]; // only fetch the managedObjectID
+//    NSError *cardImageError = nil;
+//    NSArray *cardImages = [_importContext executeFetchRequest:cardImageRequest error:&cardImageError];
+//    //error handling goes here
+//    for (NSManagedObject *cardImage in cardImages) {
+//        [_importContext deleteObject:cardImage];
+//    }
 
     // Card
     NSFetchRequest *cardRequest = [[NSFetchRequest alloc] init];
@@ -341,10 +361,10 @@ NSString *storeFileName = @"EveryoneNews.sqlite";
     
     [_importContext performBlock:^{
         [self saveBackgroundContext];
-        [userDefaults setObject:@"YES" forKey:@"isFinishDeleteCoreData"];
-        [userDefaults synchronize];
+   
         dispatch_async(dispatch_get_main_queue(), ^{
-            
+            [userDefaults setObject:@"YES" forKey:@"isFinishDeleteCoreData"];
+            [userDefaults synchronize];
         });
      
     }];

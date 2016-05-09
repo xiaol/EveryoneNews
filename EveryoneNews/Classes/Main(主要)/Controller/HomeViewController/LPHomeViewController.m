@@ -85,7 +85,6 @@
     
     [noteCenter addObserver:self selector:@selector(refreshTableViewFontSize) name:LPFontSizeChangedNotification object:nil];
     [noteCenter addObserver:self selector:@selector(reloadCurrentPageIndexData) name:LPDeleteCoreDataNotification object:nil];
-    
 }
 
 #pragma mark - 清理缓存后重新加载页面

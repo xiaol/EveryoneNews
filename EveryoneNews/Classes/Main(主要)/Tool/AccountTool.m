@@ -22,6 +22,194 @@
 #import "LPNewsLonginViewFromSettingViewController.h"
 #import "MainNavigationController.h"
 
+@interface LPDetailLoginViewController : LPBaseViewController <UMSocialUIDelegate>
+
+//tabbar的背景图
+@property (nonatomic,strong) UIImage *headerBackgroundImage;
+//非tabbar的背景图
+@property (nonatomic,strong) UIImage *footerBackgroundImage;
+
+@property (nonatomic,strong) UIView *wrapperView;
+
+@property (nonatomic,strong) UIView *maskView;
+
+@property (nonatomic, copy) LoginSuccessHandler successBlock;
+
+@property (nonatomic, copy) LoginFailureHandler failureBlock;
+
+@property (nonatomic, copy) LoginCancelHandler cancelBlock;
+
+@end
+
+@implementation LPDetailLoginViewController
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    //    MainNavigationController *nav = (MainNavigationController *)self.navigationController;
+    //    nav.popRecognizer.enabled = YES;
+}
+
+#pragma mark - ViewDidLoad
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
+    [self setupSubViews];
+}
+
+- (void)setupSubViews {
+    
+    // 导航栏
+    UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, StatusBarHeight, ScreenWidth, TabBarHeight)];
+    // 取消按钮
+    UIButton *cancelButton = [[UIButton alloc] initWithFrame:CGRectMake(12, 0, 100, TabBarHeight - 0.5)];
+    cancelButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    cancelButton.titleLabel.font = [UIFont systemFontOfSize:LPFont3];
+    [cancelButton setTitle:@"取消" forState:UIControlStateNormal];
+    [cancelButton setTitleColor:[UIColor colorFromHexString:LPColor1] forState:UIControlStateNormal];
+    [cancelButton addTarget:self action:@selector(closeBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [topView addSubview: cancelButton];
+    
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, TabBarHeight - 0.5)];
+    titleLabel.centerX = topView.centerX;
+    titleLabel.text = @"奇点资讯";
+    titleLabel.font = [UIFont systemFontOfSize:LPFont8];
+    titleLabel.textColor = [UIColor colorFromHexString:LPColor7];
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    
+    UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(0, TabBarHeight - 0.5, ScreenWidth, 0.5)];
+    seperatorView.backgroundColor = [UIColor colorFromHexString:LPColor5];
+    
+    [topView addSubview:titleLabel];
+    [topView addSubview:seperatorView];
+    [self.view addSubview:topView];
+    
+    // 微信
+    CGFloat weixinBtnW = 75;
+    CGFloat weixinBtnH = 75;
+    CGFloat padding = 76;
+    CGFloat weixinBtnX = (ScreenWidth - weixinBtnW * 2 - padding) / 2;
+    CGFloat weixinBtnY = StatusBarHeight + TabBarHeight + 75;
+    
+    UIButton *weixinBtn = [[UIButton alloc] init];
+    [weixinBtn setBackgroundImage:[UIImage imageNamed:@"微信登录"] forState:UIControlStateNormal];
+    weixinBtn.frame = CGRectMake(weixinBtnX,weixinBtnY, weixinBtnW, weixinBtnH);
+    [weixinBtn addTarget:self action:@selector(weixinLogin:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:weixinBtn];
+
+    CGFloat weixinLabelHeight = [@"您好" heightForLineWithFont:[UIFont systemFontOfSize:LPFont4]];
+    UILabel *weixinLabel = [[UILabel alloc] initWithFrame:CGRectMake(weixinBtnX, CGRectGetMaxY(weixinBtn.frame) + 14 , weixinBtnW, weixinLabelHeight)];
+    weixinLabel.textAlignment = NSTextAlignmentCenter;
+    weixinLabel.text = @"微信登录";
+    weixinLabel.font = [UIFont systemFontOfSize:LPFont4];
+    weixinLabel.textColor = [UIColor colorFromHexString:LPColor1];
+    [self.view addSubview:weixinLabel];
+
+    // 微博
+    UIButton *weiboBtn = [[UIButton alloc] init];
+    [weiboBtn setBackgroundImage:[UIImage imageNamed:@"微博登录"] forState:UIControlStateNormal];
+    weiboBtn.frame = CGRectMake(ScreenWidth - weixinBtnX - weixinBtnW,weixinBtnY, weixinBtnW, weixinBtnH);
+    [weiboBtn addTarget:self action:@selector(weiboLogin:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:weiboBtn];
+
+    UILabel *weiboLabel = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - weixinBtnX - weixinBtnW, CGRectGetMaxY(weiboBtn.frame) + 14 , weixinBtnW, weixinLabelHeight)];
+    weiboLabel.text = @"微博登录";
+    weiboLabel.font = [UIFont systemFontOfSize:LPFont4];
+    weiboLabel.textColor = [UIColor colorFromHexString:LPColor1];
+    weiboLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:weiboLabel];
+}
+
+
+#pragma mark - 显示状态栏
+- (UIStatusBarStyle) preferredStatusBarStyle {
+    return UIStatusBarStyleDefault;
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    return NO;
+}
+
+#pragma mark - 取消
+- (void)closeBtnClick {
+    [self closeSelf];
+    if (self.cancelBlock) {
+        self.cancelBlock();
+    }
+}
+
+
+- (void)closeSelf {
+    [self dismissViewControllerAnimated:NO completion:nil];
+}
+#pragma mark - 微信登录
+- (void)weixinLogin:(UIButton *)weixinBtn {
+    [self loginWithPlatformName:UMShareToWechatSession];
+}
+
+
+#pragma mark - 微博登录
+- (void)weiboLogin:(UIButton *)weiboBtn {
+    [self loginWithPlatformName:UMShareToSina];
+}
+
+#pragma mark - 登录微信微博平台
+- (void)loginWithPlatformName:(NSString *)type {
+    
+    UMSocialSnsPlatform *platform = [UMSocialSnsPlatformManager getSocialPlatformWithName:type];
+    __weak typeof(self) wself = self;
+    UMSocialControllerService *service = [UMSocialControllerService defaultControllerService];
+    service.socialUIDelegate = self;
+    platform.loginClickHandler(self, service , YES ,^(UMSocialResponseEntity *response) {
+        
+        if (response.responseCode == UMSResponseCodeSuccess) {
+            UMSocialAccountEntity *accountEntity = [[UMSocialAccountManager socialAccountDictionary] valueForKey:type];
+            NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+            dict[@"userId"] = accountEntity.usid;
+            dict[@"userGender"] = @(0);
+            dict[@"userName"] = accountEntity.userName;
+            dict[@"userIcon"] = accountEntity.iconURL;
+            dict[@"platformType"] = accountEntity.platformName;
+            dict[@"deviceType"] = @"ios";
+            dict[@"token"] = accountEntity.accessToken;
+            dict[@"expiresTime"] = @([NSDate dateToMilliSeconds:accountEntity.expirationDate]);
+            Account *account = [Account objectWithKeyValues:dict];
+            [AccountTool saveAccount:account];
+            //将用户授权信息上传到服务器
+            NSDictionary *params = [NSDictionary dictionary];
+            params = account.keyValues;
+            [LPHttpTool getWithURL:AccountLoginUrl params:params success:^(id json) {
+                [AccountTool saveAccount:account];
+                [noteCenter postNotificationName:AccountLoginNotification object:wself];
+                if (wself.successBlock) {
+                    wself.successBlock(account);
+                }
+                [wself closeSelf];
+            } failure:^(NSError *error) {
+                if (wself.failureBlock) {
+                    wself.failureBlock();
+                }
+                [wself closeSelf];
+            }];
+        } else {
+            
+            if (wself.failureBlock) {
+                wself.failureBlock();
+            }
+            [wself closeSelf];
+        }
+    });
+}
+
+
+#pragma mark - dealloc
+- (void)dealloc {
+    NSLog(@"loginVC dealloc !");
+}
+
+
+@end
 
 @interface LPLoginViewController : LPBaseViewController <UMSocialUIDelegate>
 
@@ -56,24 +244,6 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     [self setupSubViews];
-
-    
-    
-    
-    
-//    if (self.footerBackgroundImage != nil) {
-//        UIImageView *footerBackgroundView = [[UIImageView alloc] initWithImage:self.footerBackgroundImage];
-//        footerBackgroundView.frame = CGRectMake(0, 0, self.footerBackgroundImage.size.width, self.footerBackgroundImage.size.height);
-//        [self.view addSubview:footerBackgroundView];
-//    }
-//    UIImageView *headerBackgroundView = [[UIImageView alloc] initWithImage:self.headerBackgroundImage];
-//    [self.view addSubview:headerBackgroundView];
-//    UIView *mask = [[UIView alloc] initWithFrame:self.view.bounds];
-//    mask.backgroundColor = [UIColor blackColor];
-//    mask.alpha = 0.75;
-//    [self.view addSubview:mask];
-//    self.maskView = mask;
-//    [self setupSubviews];
 }
 
 - (void)setupSubViews {
@@ -249,11 +419,21 @@ singleton_m(AccountTool);
     if (account) {
         return;
     }
-    LPLoginViewController *loginVc = [[LPLoginViewController alloc] init];
-    loginVc.successBlock = success;
-    loginVc.failureBlock = failure;
-    loginVc.cancelBlock = cancel;
-    [viewVc presentViewController:loginVc animated:NO completion:nil];
+    if (![userDefaults objectForKey:@"isVersion3FirstLoad"]) {
+        LPLoginViewController *loginVc = [[LPLoginViewController alloc] init];
+        loginVc.successBlock = success;
+        loginVc.failureBlock = failure;
+        loginVc.cancelBlock = cancel;
+        [viewVc presentViewController:loginVc animated:NO completion:nil];
+    } else {
+        LPDetailLoginViewController *loginVc = [[LPDetailLoginViewController alloc] init];
+        loginVc.successBlock = success;
+        loginVc.failureBlock = failure;
+        loginVc.cancelBlock = cancel;
+        [viewVc presentViewController:loginVc animated:NO completion:nil];
+    }
+    
+
     
 }
 

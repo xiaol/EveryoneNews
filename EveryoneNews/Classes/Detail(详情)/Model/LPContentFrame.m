@@ -17,7 +17,6 @@
 - (void)setContent:(LPContent *)content {
     
     _content = content;
-    
     if (!_content.isPhoto) { // 普通类型(非图)g
         CGFloat bodyX = 0;
         CGFloat bodyY = 5;
@@ -25,18 +24,15 @@
         CGFloat bodyH = [_content.bodyHtmlString textViewHeightWithConstraintWidth:bodyW];
         _bodyLabelF = CGRectMake(bodyX, bodyY, bodyW, bodyH);
         _cellHeight = CGRectGetMaxY(_bodyLabelF) + 5;
-        
     }
-    
     else { // 图像类型
         [self setupPhotoFAndCellHWithImage:_content.image];
-        
     }
 }
 
 - (void)downloadImageWithCompletionBlock:(imageDownLoadCompletionBlock)imageDownLoadCompletionBlock  {
     if (!self.content.isPhoto) {
-        imageDownLoadCompletionBlock();
+        //imageDownLoadCompletionBlock();
         return;
     }
     // 图片下载完成后获取图片大小
@@ -54,8 +50,6 @@
     CGFloat photoY = 5;
     CGFloat photoW = ScreenWidth - 2 * BodyPadding;
     CGFloat photoH =  photoW * (image.size.height / image.size.width);
-    
-    //        CGFloat photoH = photoW * 9 / 11;
     _photoViewF = CGRectMake(photoX, photoY, photoW, photoH);
     _cellHeight = CGRectGetMaxY(_photoViewF) + 5;
 

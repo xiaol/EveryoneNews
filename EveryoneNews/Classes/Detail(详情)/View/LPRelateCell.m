@@ -88,7 +88,6 @@
         
         // 标题
         UILabel *titelLabel = [[UILabel alloc] init];
-        titelLabel.font = [UIFont systemFontOfSize:LPFont4];
         titelLabel.textColor = [UIColor colorFromHexString:LPColor3];
         titelLabel.numberOfLines = 0;
         [self.cellView addSubview:titelLabel];
@@ -144,17 +143,21 @@
         
         
         self.yearLabel.hidden = NO;
+        self.yearLayer.hidden = NO;
         self.monthDayLabel.text = [point.updateTime substringFromIndex:5];
         
         
         UIBezierPath *linePathYear = [UIBezierPath bezierPath];
         
+        
+        if (_relateFrame.currentRowIndex != 0) {
      
             [linePathYear moveToPoint:CGPointMake(_relateFrame.yearPoint.x,0)];
             [linePathYear addLineToPoint:CGPointMake(_relateFrame.yearPoint.x, _relateFrame.yearPoint.y - 2)];
-            
-            [linePathYear moveToPoint:CGPointMake(_relateFrame.yearPoint.x,_relateFrame.yearPoint.y + 2)];
-            [linePathYear addLineToPoint:CGPointMake(_relateFrame.yearPoint.x, _relateFrame.monthDayPoint.y - 2)];
+        }
+        
+        [linePathYear moveToPoint:CGPointMake(_relateFrame.yearPoint.x,_relateFrame.yearPoint.y + 2)];
+        [linePathYear addLineToPoint:CGPointMake(_relateFrame.yearPoint.x, _relateFrame.monthDayPoint.y - 2)];
         
         
         self.dashYearLayer.lineWidth = 1.0;
@@ -167,6 +170,7 @@
     } else {
         // 不包含年份
         self.yearLabel.hidden = YES;
+        self.yearLayer.hidden = YES;
         self.monthDayLabel.text = point.updateTime;
         
         if (_relateFrame.currentRowIndex != 0) {
@@ -190,7 +194,6 @@
                                                         startAngle:0
                                                           endAngle:M_PI * 2
                                                          clockwise:YES];
-    self.monthDayLayer.lineWidth = 1.0;
     self.monthDayLayer.path = monthDayPath.CGPath;
     self.monthDayLayer.fillColor = nil;
     self.monthDayLayer.strokeColor = [UIColor colorFromHexString:@"#b3b3b3"].CGColor;
@@ -198,7 +201,7 @@
     self.cellView.frame = _relateFrame.cellViewF;
     
     self.titleLabel.frame = _relateFrame.titleF;
-    self.titleLabel.text = point.title;
+    self.titleLabel.attributedText = point.titleString;
     
     self.sourceLabel.frame = _relateFrame.sourceSiteF;
     self.sourceLabel.text = point.sourceSite;

@@ -14,8 +14,10 @@
 #import "LPMenuCollectionViewCell.h"
 #import "LPLaunchLoginView.h"
 #import "LPChangeFontSizeView.h"
+#import "CoreDataHelper.h"
 
-
+@class LPPagingViewPage;
+@class CardFrame;
 @interface LPHomeViewController : LPBaseViewController 
 
 // 首页登录按钮
@@ -71,4 +73,12 @@
 @property (nonatomic, strong) LPChangeFontSizeView *changeFontSizeView;
 // 删除时黑色背景
 @property (nonatomic, strong) UIView *blackBackgroundView;
+
+// 删除时传递参数
+@property (nonatomic, strong) LPPagingViewPage *currentPage;
+@property (nonatomic, strong) CardFrame *currentCardFrame;
+@property (nonatomic, strong) NSIndexPath *currentIndexPath;
+
+
+
 @end

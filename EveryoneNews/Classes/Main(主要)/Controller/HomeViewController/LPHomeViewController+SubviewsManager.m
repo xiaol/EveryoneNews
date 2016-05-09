@@ -74,6 +74,7 @@ const static CGFloat cellPadding = 15;
     [addButton setBackgroundImage:[UIImage imageNamed:@"添加频道"] forState:UIControlStateNormal];
     addButton.frame = CGRectMake(addBtnX, addBtnY, addBtnW, addBtnH);
     [addButton addTarget:self action:@selector(addButtonClick) forControlEvents:UIControlEventTouchUpInside];
+    addButton.enlargedEdge = 5;
     [headerView addSubview:addButton];
     
     // 底部分割线
@@ -154,7 +155,7 @@ const static CGFloat cellPadding = 15;
     self.hideChannelItemButton.userInteractionEnabled = YES;
     self.hideChannelItemButton.frame = CGRectMake(addButton.frame.origin.x ,addButton.frame.origin.y, menuImageWidth, menuImageHeight);
     [self.hideChannelItemButton addTarget:self action:@selector(hideChannelItemButtonClick) forControlEvents:UIControlEventTouchUpInside];
-    self.hideChannelItemButton.enlargedEdge = 10;
+    self.hideChannelItemButton.enlargedEdge = 5;
     [blurView addSubview:self.hideChannelItemButton];
   
     // 首次安装提示信息

@@ -52,16 +52,9 @@
 
 
 static const NSString * privateContext;
-static const NSString * fulltextContext;
-static const CGFloat padding = 13.0f;
-const static CGFloat headerViewHeight = 40;
 const static CGFloat footerViewHeight = 59;
-const static CGFloat relatePointCellHeight = 79;
 const static CGFloat contentBottomViewH = 100;
-const static CGFloat paddingLeft = 18;
 const static CGFloat changeFontSizeViewH = 150;
-
-static int imageDownloadCount;
 
 @interface LPDetailViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate,LPRelateCellDelegate, LPDetailTopViewDelegate, LPShareViewDelegate,LPDetailBottomViewDelegate, LPShareCellDelegate, LPContentCellDelegate, LPBottomShareViewDelegate, LPDetailChangeFontSizeViewDelegate>
 
@@ -101,10 +94,6 @@ static int imageDownloadCount;
 
 @property (nonatomic, copy) NSString *pubName;
 
-
-
-//@property (nonatomic, assign, getter=isrefreshTableView) BOOL refreshTableView;
-
 @end
 
 @implementation LPDetailViewController
@@ -119,6 +108,7 @@ static int imageDownloadCount;
     [self setupData];
 }
 
+#pragma mark - dealloc
 - (void)dealloc {
     NSLog(@"%@", NSStringFromSelector(_cmd));
 }
@@ -129,18 +119,18 @@ static int imageDownloadCount;
     // 详情页block
     void (^contentBlock)(id json) = ^(id json) {
         
+        __block int imageCount = 0;
         NSDictionary *dict = json[@"data"];
         NSString *title = dict[@"title"];
         NSString *pubTime = dict[@"pubTime"];
         NSString *pubName = dict[@"pubName"];
-        NSString *pubUrl = dict[@"pubUrl"];
+        NSInteger imgNum = [dict[@"imgNum"] integerValue];
 
         self.contentTitle = title;
         self.pubTime = pubTime;
         self.pubName = pubName;
         
-        
-        self.shareURL = pubUrl;
+        self.shareURL = [NSString stringWithFormat:@"http://deeporiginalx.com/news.html?type=0&url=%@&interface", [self newID]] ;
         self.shareTitle = title;
         self.submitDocID = dict[@"docid"];
         // 更新详情页评论数量
@@ -179,9 +169,8 @@ static int imageDownloadCount;
             contentFrame.content = content;
             [self.contentFrames addObject:contentFrame];
             [contentFrame downloadImageWithCompletionBlock:^{
-                ++ imageDownloadCount;
-
-                if (self.contentFrames.count > 0 && imageDownloadCount == self.contentFrames.count) {
+                ++ imageCount;
+                if (self.contentFrames.count > 0 && imageCount == imgNum) {
                     [self.tableView reloadData];
                     self.tableView.hidden = NO;
                     [self hideLoadingView];
@@ -308,7 +297,6 @@ static int imageDownloadCount;
 
     } failure:^(NSError *error) {
         reloadTableViewBlock();
-//        dispatch_group_leave(detailGroup);
     }];
 }
 
@@ -317,9 +305,25 @@ static int imageDownloadCount;
     [super viewWillAppear:animated];
     // 友盟统计打开详情页次数
 //    [MobClick beginLogPageView:@"DetailPage"];
-    
     self.stayTimeInterval = 0;
     [self startTimer];
+}
+
+#pragma mark - viewDidDisappear
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    if (!self.isRead) {
+        [self.card setValue:@(1) forKey:@"isRead"];
+         CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+        [cdh saveBackgroundContext];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+             NSLog(@"success");
+        });
+    }
+    [self endTimer];
+    // 提交用户日志
+    [self submitUserOperationLog];
 }
 
 #pragma mark - 开启定时器
@@ -340,10 +344,7 @@ static int imageDownloadCount;
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
 //    [MobClick endLogPageView:@"DetailPage"];
-    [self endTimer];
-    // 提交用户日志
-//    [self submitUserOperationLog];
-   [noteCenter postNotificationName:LPFontSizeChangedNotification object:nil];
+
 }
 
 
@@ -359,7 +360,7 @@ static int imageDownloadCount;
     NSString *nid = [self newID];
 //    NSString *nid =@"newId";
 
-    NSString *cid = [NSString stringWithFormat:@"%ld", [self channelID].integerValue]; // 频道编号
+    NSString *cid = [NSString stringWithFormat:@"%d", [self channelID].integerValue]; // 频道编号
     NSString *tid= @""; // 包含置顶，热点 推荐 订阅 图片 兴趣探索 推广
     NSString *stime = [NSString stringWithFormat:@"%ld",(long)self.stayTimeInterval];
     NSString *sltime = @"";
@@ -388,13 +389,6 @@ static int imageDownloadCount;
     params[@"data"] = [jsonData base64EncodedStringWithOptions:0];
     if (!error) {
         self.http = [LPHttpTool http];
-//        [LPHttpTool getWithURL:url
-//                        params:params
-//                       success:^(id json) {
-//                           
-//                       } failure:^(NSError *error) {
-//                           NSLog(@"%@", NSStringFromSelector(_cmd))
-//                       }];
         [self.http getImageWithURL:url params:params success:^(id json) {
            //NSLog(@"stime:%@", stime);
             NSLog(@"%@ --- success!", NSStringFromSelector(_cmd));
@@ -403,17 +397,6 @@ static int imageDownloadCount;
 
         }];
     }
-}
-
-#pragma mark - viewDidDisappear
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-//    if (self.http) {
-//        [self.http cancelRequest];
-//        self.http = nil;
-//    }
-
-    
 }
 
 #pragma mark - 设置状态栏样式
@@ -519,8 +502,7 @@ static int imageDownloadCount;
 - (void)setupSubviews {
     
     // 文章内容
-    UITableView *tableView = [[UITableView alloc] initWithFrame: CGRectMake(BodyPadding, 20, ScreenWidth - BodyPadding * 2, ScreenHeight - 51) style:UITableViewStyleGrouped];
-    //tableView.frame = CGRectMake(BodyPadding, 20, ScreenWidth - BodyPadding * 2, ScreenHeight - 65);
+    UITableView *tableView = [[UITableView alloc] initWithFrame: CGRectMake(BodyPadding, StatusBarHeight, ScreenWidth - BodyPadding * 2, ScreenHeight - TabBarHeight) style:UITableViewStyleGrouped];
     tableView.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     tableView.showsVerticalScrollIndicator = NO;
@@ -533,8 +515,7 @@ static int imageDownloadCount;
     self.tableView.dataSource = self;
  
     // 上拉加载更多
-    
-       __weak typeof(self) weakSelf = self;
+    __weak typeof(self) weakSelf = self;
     self.tableView.footer = [LPRelatePointFooter footerWithRefreshingBlock:^{
         [weakSelf loadMoreRelateData];
     }];
@@ -551,9 +532,7 @@ static int imageDownloadCount;
 
 #pragma mark - Loading View
 - (void)setupLoadingView {
-    CGFloat statusBarHeight = 20.0f;
-    CGFloat menuViewHeight = 51;
-    UIView *contentLoadingView = [[UIView alloc] initWithFrame:CGRectMake(0, statusBarHeight + menuViewHeight, ScreenWidth, ScreenHeight - statusBarHeight - menuViewHeight)];
+    UIView *contentLoadingView = [[UIView alloc] initWithFrame:CGRectMake(0, StatusBarHeight + TabBarHeight, ScreenWidth, ScreenHeight - StatusBarHeight - TabBarHeight)];
     
     // Load images
     NSArray *imageNames = @[@"xl_1", @"xl_2", @"xl_3", @"xl_4"];
@@ -564,7 +543,7 @@ static int imageDownloadCount;
     }
     
     // Normal Animation
-    UIImageView *animationImageView = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth - 36) / 2, (ScreenHeight - statusBarHeight - menuViewHeight) / 3, 36 , 36)];
+    UIImageView *animationImageView = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth - 36) / 2, (ScreenHeight - StatusBarHeight - TabBarHeight) / 3, 36 , 36)];
     animationImageView.animationImages = images;
     animationImageView.animationDuration = 1;
     [self.view addSubview:animationImageView];
@@ -623,7 +602,6 @@ static int imageDownloadCount;
 - (NSString *)newID {
     if (![self card]) return nil;
     return [[self card] valueForKey:@"newId"];
-//    return self.card.newId;
 }
 
 - (NSString *)docId {
@@ -703,26 +681,36 @@ static int imageDownloadCount;
 }
 
 #pragma mark - TableView header and footer
+
+
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     
+    // 距离两边间距
+    CGFloat padding = 18;
+    CGFloat headerTitleFontSize = 15;
+    CGFloat headerViewHeight = 40;
+    
+    // 评论和相关观点标题高度
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth - padding * 2, headerViewHeight)];
+  
+    CGSize fontSize = [@"热门评论" sizeWithFont:[UIFont systemFontOfSize:headerTitleFontSize] maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)];
     
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(4, 0, 200, headerViewHeight - 1)];
+    // 标题
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, headerViewHeight - fontSize.height - 7, fontSize.width, fontSize.height)];
     titleLabel.textColor = [UIColor colorFromHexString:LPColor7];
- 
-    titleLabel.font = [UIFont systemFontOfSize:15];
+    titleLabel.font = [UIFont systemFontOfSize:headerTitleFontSize];
     [headerView addSubview:titleLabel];
+    // 分割线
+    UIView *firstSeperatorView = [[UIView alloc] initWithFrame:CGRectMake(0,CGRectGetMaxY(titleLabel.frame) + 6 , fontSize.width, 1)];
+    firstSeperatorView.backgroundColor = [UIColor colorFromHexString:LPColor2];
     
-    CGSize fontSize = [@"热门评论" sizeWithFont:[UIFont systemFontOfSize:15] maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)];
-    UIView *firstView = [[UIView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(titleLabel.frame), fontSize.width, 1)];
-    firstView.backgroundColor = [UIColor colorFromHexString:LPColor2];
+    [headerView addSubview:firstSeperatorView];
     
-    [headerView addSubview:firstView];
+    UIView *secondSeperatorView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(firstSeperatorView.frame), CGRectGetMaxY(titleLabel.frame) + 6, ScreenWidth - padding - CGRectGetMaxX(firstSeperatorView.frame), 1)];
+    secondSeperatorView.backgroundColor = [UIColor colorFromHexString:LPColor5];
     
-    UIView *secondView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(firstView.frame), CGRectGetMaxY(titleLabel.frame), ScreenWidth - 18 - CGRectGetMaxX(firstView.frame), 1)];
-    secondView.backgroundColor = [UIColor colorFromHexString:LPColor5];
-    
-    [headerView addSubview:secondView];
+    [headerView addSubview:secondSeperatorView];
 
     if (section == 1) {
         if (self.fulltextCommentFrames.count > 0) {
@@ -844,7 +832,7 @@ static int imageDownloadCount;
         
         UIButton *bottomButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, bottomWidth, bottomHeight - 12)];
         bottomButton.backgroundColor = [UIColor colorFromHexString:@"#f0f0f0"];
-        [bottomButton setTitle:@"查看更多评论" forState:UIControlStateNormal];
+        [bottomButton setTitle:@"查看全部评论 >" forState:UIControlStateNormal];
         [bottomButton setTitleColor:[UIColor colorFromHexString:@"#0086d1"] forState:UIControlStateNormal];
         [bottomButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
         [bottomButton addTarget:self action:@selector(showMoreComment) forControlEvents:UIControlEventTouchUpInside];
@@ -885,6 +873,7 @@ static int imageDownloadCount;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    CGFloat headerViewHeight = 40;
     if (section == 1) {
         if (self.fulltextCommentFrames.count > 0) {
              return headerViewHeight;
@@ -931,9 +920,8 @@ static int imageDownloadCount;
 - (void)setupHeaderView:(NSString *)title pubTime:(NSString *)pubtime pubName:(NSString *)pubName {
     UIView *headerView = [[UIView alloc] init];
     CGFloat titleFontSize = [LPFontSizeManager sharedManager].currentDetaiTitleFontSize;
-    CGFloat titlePaddingTop = TabBarHeight - 20;
+    CGFloat titlePaddingTop = TabBarHeight - StatusBarHeight;
     CGFloat sourceFontSize = [LPFontSizeManager sharedManager].currentDetailSourceFontSize;;
-    CGFloat sourcePaddingTop = 0;
 
     // 标题
     UILabel *titleLabel = [[UILabel alloc] init];
@@ -953,10 +941,10 @@ static int imageDownloadCount;
     
     // 来源
     UILabel *sourceLabel = [[UILabel alloc] init];
-    sourceLabel.textColor = [UIColor colorFromHexString:@"#747474"];
+    sourceLabel.textColor = [UIColor colorFromHexString:LPColor4];
     sourceLabel.font = [UIFont fontWithName:OpinionFontName size:sourceFontSize];
     CGFloat sourceX = 0;
-    CGFloat sourceY = sourcePaddingTop + CGRectGetMaxY(titleLabel.frame);
+    CGFloat sourceY = CGRectGetMaxY(titleLabel.frame) - 10;
     CGFloat sourceW = ScreenWidth - titleX * 2;
     CGFloat sourceH = [@"123" sizeWithFont:[UIFont systemFontOfSize:sourceFontSize] maxSize:CGSizeMake(sourceW, MAXFLOAT)].height;
     sourceLabel.frame = CGRectMake(sourceX, sourceY, sourceW, sourceH);
@@ -967,6 +955,11 @@ static int imageDownloadCount;
     
     headerView.frame = CGRectMake(0, 0, ScreenWidth, CGRectGetMaxY(sourceLabel.frame) + 20);
     
+    
+    UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(0, headerView.frame.size.height - 8, titleW, 0.5)];
+    seperatorView.backgroundColor = [UIColor colorFromHexString:LPColor5];
+    
+    [headerView addSubview:seperatorView];
     self.tableView.tableHeaderView = headerView;
 
 }
@@ -1123,7 +1116,7 @@ static int imageDownloadCount;
     [self setupHeaderView:self.contentTitle pubTime:self.pubTime pubName:self.pubName];
      [self.tableView reloadData];
   
-    
+     [noteCenter postNotificationName:LPFontSizeChangedNotification object:nil];
 }
 
 - (void)finishButtonDidClick:(LPDetailChangeFontSizeView *)changeFontSizeView {

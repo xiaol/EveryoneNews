@@ -11,61 +11,57 @@
 
 @implementation LPCommentFrame
 
-const static CGFloat headerViewHeight = 40;
-const static CGFloat bottomViewHeight = 47;
-
 const static CGFloat padding = 13;
-const static CGFloat contentPadding = 10;
-
-static const CGFloat iconPaddingLeft = 10.0f;
-static const CGFloat iconPaddingTop = 15.0f;
-static const CGFloat namePaddingLeft = 6;
+static const CGFloat iconPaddingTop = 21.0f;
+static const CGFloat namePaddingLeft = 12.0f;
 static const CGFloat namePaddingTop = 18;
+static const CGFloat userIconWidth = 38.0f;
 
-static const CGFloat userIconWidth = 25.0f;
-static const CGFloat upButtonWidth = 14;
-static const CGFloat upButtonHeight = 13;
 
 - (void)setComment:(LPComment *)comment {
     _comment = comment;
-    NSString *upCount = [NSString stringWithFormat:@"%@赞", comment.up];
+    NSString *upCount = [NSString stringWithFormat:@"%@", comment.up];
     
-    CGFloat iconX = iconPaddingLeft;
     CGFloat iconY = iconPaddingTop;
     CGFloat iconW = userIconWidth;
     CGFloat iconH = userIconWidth;
-    _iconF = CGRectMake(iconX, iconY, iconW, iconH);
+    _iconF = CGRectMake(0, iconY, iconW, iconH);
     
     CGFloat nameX = CGRectGetMaxX(_iconF) + namePaddingLeft;
-    CGFloat nameY = namePaddingTop;
+    CGFloat nameY = iconPaddingTop;
     CGFloat nameW = 200;
-    CGFloat nameH = [@"123" heightForLineWithFont:[UIFont systemFontOfSize:15]];
+    CGFloat nameH = [@"123" heightForLineWithFont:[UIFont systemFontOfSize:LPFont4]];
     _nameF = CGRectMake(nameX, nameY, nameW, nameH);
     
     CGFloat timeX = nameX;
     CGFloat timeY = CGRectGetMaxY(_nameF) + 8;
     CGFloat timeW = nameW;
-    CGFloat timeH = [@"123" heightForLineWithFont:[UIFont systemFontOfSize:10]];
+    CGFloat timeH = [@"123" heightForLineWithFont:[UIFont systemFontOfSize:LPFont7]];
     _timeF = CGRectMake(timeX, timeY, timeW, timeH);
     
     CGFloat textX = nameX;
-    CGFloat textY = CGRectGetMaxY(_timeF) + 16;
-    CGFloat textW = ScreenWidth - textX * 2 - iconPaddingLeft;
+    CGFloat textY = CGRectGetMaxY(_timeF) + 12;
+    CGFloat textW = ScreenWidth - textX - BodyPadding * 2;
     CGFloat textH = [[comment commentStringWithColor:comment.color] heightWithConstraintWidth:textW];
     _textF = CGRectMake(textX, textY, textW, textH);
     
-    CGSize size = [upCount sizeWithFont:[UIFont systemFontOfSize:12] maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)];
-    CGFloat upCountsW = size.width + 6;
+    // 点赞位置
+    
+    CGFloat upButtonW = 17.0f;
+    CGFloat upButtonH = 17.0f;
+    CGFloat upButtonX = ScreenWidth - BodyPadding * 2 - upButtonW;
+    CGFloat upButtonY =  nameY;
+    _upButtonF = CGRectMake(upButtonX, upButtonY, upButtonW, upButtonH);
+    
+    
+    CGSize size = [upCount sizeWithFont:[UIFont systemFontOfSize:LPFont5] maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)];
+    CGFloat upCountsW = size.width + 7;
     CGFloat upCountsH = size.height;
-    CGFloat upCountsX = ScreenWidth - upCountsW - iconPaddingLeft - padding * 2;
+    CGFloat upCountsX = upButtonX - upButtonW;
     CGFloat upCountsY = 0;
     _upCountF = CGRectMake(upCountsX, upCountsY, upCountsW, upCountsH);
     
-    CGFloat upButtonX = CGRectGetMinX(_upCountF) - upButtonWidth;
-    CGFloat upButtonY =  0;
-    _upButtonF = CGRectMake(upButtonX, upButtonY, upButtonWidth, upButtonHeight);
-    
-    _cellHeight = 18 + 8 + 16 + 16 + nameH + timeH + textH;
+    _cellHeight = iconPaddingTop * 2 + 8 + 12 + nameH + timeH + textH;
     
 }
 

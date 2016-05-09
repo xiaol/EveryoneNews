@@ -1739,6 +1739,7 @@
 		1889FE401B4C2E91006D8E03 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				866ECEDC1CDECA5400BC7551 /* 评论 */,
 				869BB8931CD1E575005F7DDA /* 相关观点 */,
 				1889FE411B4C2E91006D8E03 /* LPComment.h */,
 				1889FE421B4C2E91006D8E03 /* LPComment.m */,
@@ -1754,8 +1755,6 @@
 				1889FE501B4C2E91006D8E03 /* LPZhihuPoint.m */,
 				1826B3EC1B7C991300B712E0 /* LPPhoto.h */,
 				1826B3ED1B7C991300B712E0 /* LPPhoto.m */,
-				86AD22E21CA2986A00758C21 /* LPCommentFrame.h */,
-				86AD22E31CA2986A00758C21 /* LPCommentFrame.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2889,6 +2888,15 @@
 			);
 			name = "详情页相关观点上拉";
 			path = ../Controller;
+			sourceTree = "<group>";
+		};
+		866ECEDC1CDECA5400BC7551 /* 评论 */ = {
+			isa = PBXGroup;
+			children = (
+				86AD22E21CA2986A00758C21 /* LPCommentFrame.h */,
+				86AD22E31CA2986A00758C21 /* LPCommentFrame.m */,
+			);
+			name = "评论";
 			sourceTree = "<group>";
 		};
 		866F805C1CDAE18F0070A453 /* 详情页字体大小 */ = {

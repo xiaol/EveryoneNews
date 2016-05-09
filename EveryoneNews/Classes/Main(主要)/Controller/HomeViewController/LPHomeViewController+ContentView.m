@@ -27,7 +27,6 @@
 #import "NSString+LP.h"
 #import "UIButton+LP.h"
 #import "AppDelegate.h"
-#import "CoreDataHelper.h"
 #import "CardImage.h"
 #import "Card.h"
 
@@ -235,16 +234,16 @@ NSString *const reusePageID = @"reusePageID";
 - (void)page:(LPPagingViewPage *)page didSelectCellWithCardID:(NSManagedObjectID *)cardID cardFrame:(CardFrame *)cardFrame{
     LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
     detailVc.cardID = cardID;
-    
     CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
-    Card *card = (Card *)[cdh.context existingObjectWithID:cardID error:nil];
+    Card *card = (Card *)[cdh.importContext existingObjectWithID:cardID error:nil];
+    detailVc.isRead = card.isRead;
     if (!card.isRead) {
-        [self updateIsReadStatus:card page:(LPPagingViewPage *)page];
+        //[self updateIsReadStatus:card page:page];
         [page updateCardFramesWithCardFrame:cardFrame];
   
     }
-
     [self.navigationController pushViewController:detailVc animated:YES];
+
 
     
 }
@@ -260,6 +259,9 @@ NSString *const reusePageID = @"reusePageID";
 
 // 弹出删除选择框
 - (void)page:(LPPagingViewPage *)page didClickDeleteButtonWithCardFrame:(CardFrame *)cardFrame  deleteButton:(UIButton *)deleteButton indexPath:(NSIndexPath *)indexPath{
+    self.currentPage = page;
+    self.currentCardFrame = cardFrame;
+    self.currentIndexPath = indexPath;
     
     UIView *blackBackgroundView = [[UIView alloc] init];
     blackBackgroundView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
@@ -341,15 +343,7 @@ NSString *const reusePageID = @"reusePageID";
     notLikeButton.layer.borderWidth = 0.5;
     notLikeButton.layer.cornerRadius = 6;
     
-    __weak typeof(page) weakPage = page;
-    
     [notLikeButton addTarget:self action:@selector(deleteCurrentRow:) forControlEvents:UIControlEventTouchUpInside];
-    __weak typeof(self) weakSelf = self;
-    [notLikeButton handleControlEvent:UIControlEventTouchUpInside withBlock:^{
-        [weakPage deleteRowAtIndexPath:indexPath cardFrame:cardFrame];
-        [weakSelf deleteCardFromCoreData:cardFrame];
-     
-    }];
     notLikeButton.enlargedEdge = 5;
     [notInterestedView addSubview:notLikeButton];
     
@@ -364,10 +358,6 @@ NSString *const reusePageID = @"reusePageID";
     lowQualityButton.layer.borderWidth = 0.5;
     lowQualityButton.layer.cornerRadius = 6;
     [lowQualityButton addTarget:self action:@selector(deleteCurrentRow:) forControlEvents:UIControlEventTouchUpInside];
-    [lowQualityButton handleControlEvent:UIControlEventTouchUpInside withBlock:^{
-        [weakPage deleteRowAtIndexPath:indexPath cardFrame:cardFrame];
-        [weakSelf deleteCardFromCoreData:cardFrame];
-    }];
     lowQualityButton.enlargedEdge = 5;
     [notInterestedView addSubview:lowQualityButton];
     
@@ -381,10 +371,6 @@ NSString *const reusePageID = @"reusePageID";
     repeatButton.layer.borderWidth = 0.5;
     repeatButton.layer.cornerRadius = 6;
     [repeatButton addTarget:self action:@selector(deleteCurrentRow:) forControlEvents:UIControlEventTouchUpInside];
-    [repeatButton handleControlEvent:UIControlEventTouchUpInside withBlock:^{
-        [weakPage deleteRowAtIndexPath:indexPath cardFrame:cardFrame];
-        [weakSelf deleteCardFromCoreData:cardFrame];
-    }];
     repeatButton.enlargedEdge = 5;
     [notInterestedView addSubview:repeatButton];
     
@@ -402,10 +388,6 @@ NSString *const reusePageID = @"reusePageID";
     sourceButton.layer.borderWidth = 0.5;
     sourceButton.layer.cornerRadius = 6;
     [sourceButton addTarget:self action:@selector(deleteCurrentRow:) forControlEvents:UIControlEventTouchUpInside];
-    [sourceButton handleControlEvent:UIControlEventTouchUpInside withBlock:^{
-        [weakPage deleteRowAtIndexPath:indexPath cardFrame:cardFrame];
-        [weakSelf deleteCardFromCoreData:cardFrame];
-    }];
     sourceButton.enlargedEdge = 5;
     [notInterestedView addSubview:sourceButton];
     
@@ -433,6 +415,9 @@ NSString *const reusePageID = @"reusePageID";
 
 - (void)deleteCurrentRow:(UIButton *)button {
     [self.blackBackgroundView removeFromSuperview];
+    [self.currentPage deleteRowAtIndexPath:self.currentIndexPath cardFrame:self.currentCardFrame];
+    [self deleteCardFromCoreData:self.currentCardFrame];
+    
 }
 
 
@@ -441,42 +426,41 @@ NSString *const reusePageID = @"reusePageID";
     CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     Card *card = cardFrame.card;
     [cdh.importContext performBlock:^{
-        NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Card"];
-        [request setPredicate:[NSPredicate predicateWithFormat:@"newId = %@ and channelId = %@",card.newId , card.channelId]];
-        NSError *error;
-        NSArray *fetchedObjects = [cdh.importContext executeFetchRequest:request error:&error];
-        for (Card  *cardObject in fetchedObjects) {
-            [cdh.importContext deleteObject:cardObject];
-         }
+        [cdh.importContext deleteObject:card];
         [cdh saveBackgroundContext];
         dispatch_async(dispatch_get_main_queue(), ^{
-           
+            self.currentPage = nil;
+            self.currentCardFrame = nil;
+            self.currentIndexPath = nil;
         });
-        
     }];
-    
 }
 
-- (void)updateIsReadStatus:(Card *)card page:(LPPagingViewPage *)page {
-    CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
-    if (!card.isRead) {
-        card.isRead = @(1);
-        [cdh.importContext performBlock:^{
-            NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Card"];
-            [request setPredicate:[NSPredicate predicateWithFormat:@"newId = %@ and channelId = %@",card.newId , card.channelId]];
-            NSEntityDescription  *entity  = [NSEntityDescription entityForName:@"Card" inManagedObjectContext:cdh.importContext];
-            [request setEntity:entity];
-            NSError *error;
-            [cdh.importContext executeFetchRequest:request error:&error];
-            [cdh saveBackgroundContext];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [page tableViewReloadData];
-            });
-            
-        }];
-        
-    }
 
-
-}
+//- (void)updateIsReadStatus:(Card *)card page:(LPPagingViewPage *)page {
+//    CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+//    if (!card.isRead) {
+//        card.isRead = @(1);
+//        [cdh.importContext performBlock:^{
+//            
+//            
+//            
+//            NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Card"];
+//            [request setPredicate:[NSPredicate predicateWithFormat:@"newId = %@ and channelId = %@",card.newId , card.channelId]];
+//            NSEntityDescription  *entity  = [NSEntityDescription entityForName:@"Card" inManagedObjectContext:cdh.importContext];
+//            [request setEntity:entity];
+//            NSError *error;
+//            [cdh.importContext executeFetchRequest:request error:&error];
+//            [cdh saveBackgroundContext];
+//            __weak typeof(page) weakPage = page;
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                [weakPage tableViewReloadData];
+//            });
+//            
+//        }];
+//        
+//    }
+//
+//
+//}
 @end

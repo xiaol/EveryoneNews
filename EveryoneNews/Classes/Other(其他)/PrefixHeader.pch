@@ -49,30 +49,6 @@ extern const NSInteger HotwordPageCapacity;
 extern NSString * const HotwordsURL;
 extern NSString * const reusePageID;
 
-// 全局字体大小
-//typedef NS_ENUM(NSInteger,LPFontSize) {
-//    LPFontSize12 = 12,
-//    LPFontSize13 = 13,
-//    LPFontSize14 = 14,
-//    LPFontSize15 = 15,
-//    LPFontSize16 = 16,
-//    LPFontSize17 = 17,
-//    LPFontSize18 = 18,
-//    LPFontSize19 = 19,
-//    LPFontSize20 = 20,
-//    LPFontSize21 = 21,
-//    LPFontSize22 = 22,
-//    LPFontSize23 = 23,
-//    LPFontSize24 = 24,
-//    LPFontSize25 = 25,
-//    LPFontSize26 = 26,
-//    LPFontSize27 = 27,
-//    LPFontSize28 = 28,
-//    LPFontSize29 = 29,
-//    LPFontSize30 = 30,
-//};
-
-
 // 首页字体 Plus
 typedef NS_ENUM(NSInteger, iPhone6PlusHomeTitleSize) {
     iPhone6PlusHomeTitleSizeStandard = 19,
@@ -152,16 +128,6 @@ typedef NS_ENUM(NSInteger, iPhone5DetailCommentSize) {
 };
 
 
-
-
-
-
-
-
-
-
-
-
 #define noteCenter [NSNotificationCenter defaultCenter]
 #define LPCategoryDidChangeNotification @"changeCategory"
 #define LPCategoryFrom @"fromCategory"
@@ -232,6 +198,7 @@ typedef NS_ENUM(NSInteger, iPhone5DetailCommentSize) {
 #define CellHeightBorder 10  // cell高度缩减
 #define PhotoH 208  // 大图模式图片高度
 #define TabBarHeight 44
+#define StatusBarHeight 20
 #define TabBarColor @"#0096ff"
 #define TabBarButtonSelectedColor @"#ffffff"
 #define TabBarButtonNormalColor @"#007ed7"

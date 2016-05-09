@@ -55,6 +55,7 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIView *detailBackgroundView;
 @property (nonatomic, strong) LPBottomShareView *bottomShareView;
+@property (nonatomic, strong) NSNumber *isRead;
 
 - (void)removeBackgroundView;
 

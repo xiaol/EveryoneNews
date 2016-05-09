@@ -18,7 +18,7 @@
 #pragma mark - 初始化
 - (instancetype)initWithFrame:(CGRect)frame {
     // 分享，评论，添加按钮边距设置
-    double topViewHeight = 71;
+    double topViewHeight = TabBarHeight + StatusBarHeight;
     double padding = 15;
     
     double returnButtonWidth = 10;
@@ -28,11 +28,6 @@
     double shareButtonW = 25;
     double shareButtonH = 5;
     double shareButtonX = ScreenWidth - padding - shareButtonW;
-    
-//    double commentButtonWidth = 50;
-//    double commentButtonHeight = 20;
-//    double commentButtonPaddingTop = 33.5;
-//    double commentButtonPaddingRight = 15;
     
     if(iPhone6Plus)
     {
@@ -63,35 +58,9 @@
         [shareBtn addTarget:self action:@selector(shareButtonClick) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:shareBtn];
         
-        
-        
-//        // 评论数矩形框
-//        UIImage *image = [UIImage imageNamed:@"评论数矩形框"];
-//        
-//        // 设置端盖的值
-//        CGFloat top = image.size.height * 0.5;
-//        CGFloat left = image.size.width * 0.5;
-//        CGFloat bottom = image.size.height * 0.5;
-//        CGFloat right = image.size.width * 0.5;
-//
-//        UIEdgeInsets edgeInsets = UIEdgeInsetsMake(top, left, bottom, right);
-//        
-//        // 拉伸图片
-//        UIImage *newImage = [image resizableImageWithCapInsets:edgeInsets];
-//        UIButton *commentsCountButton = [[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth - commentButtonPaddingRight - commentButtonWidth, commentButtonPaddingTop, commentButtonWidth, commentButtonHeight)];
-//        [commentsCountButton setBackgroundImage:newImage forState:UIControlStateNormal];
-//        commentsCountButton.titleLabel.font = [UIFont systemFontOfSize:12];//title字体大小
-//        commentsCountButton.titleEdgeInsets = UIEdgeInsetsMake(-3, 0, 0, 0);
-//        [commentsCountButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];//设置title在一般情况下为白色字体
-//        commentsCountButton.hidden = YES;
-//        [commentsCountButton addTarget:self action:@selector(fulltextCommentBtnClick) forControlEvents:UIControlEventTouchUpInside];
-//        [self addSubview:commentsCountButton];
-//        self.commentsCountButton = commentsCountButton;
-        
-        
         // 分割线
         UILabel *seperatorLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, topViewHeight - 0.5, ScreenWidth, 0.5)];
-        seperatorLabel.backgroundColor = [UIColor colorFromHexString:@"#cbcbcb"];
+        seperatorLabel.backgroundColor = [UIColor colorFromHexString:@"#dddddd"];
         [self addSubview:seperatorLabel];
     }
     return self;
@@ -112,51 +81,4 @@
     }
     
 }
-    
-
-
-
-//// 评论
-//- (void)fulltextCommentBtnClick {
-//    if([self.delegate respondsToSelector:@selector(fulltextCommentDidClick:)]){
-//        [self.delegate fulltextCommentDidClick:self];
-//    }
-//}
-
-// 判断评论数量是否为0
-//- (void) setBadgeNumber:(NSInteger)badgeNumber {
-//    _badgeNumber = badgeNumber;
-//    NSString *fulltextCommentCount = [NSString stringWithFormat:@"%d评论", _badgeNumber];
-//
-//    double commentButtonWidth = 50;
-//    double commentButtonHeight = 20;
-//    double commentButtonPaddingTop = 33.5;
-//    double commentButtonPaddingRight = 15;
-//   
-//    if (_badgeNumber < 10 ) {
-//        commentButtonWidth = 50;
-//        self.commentsCountButton.frame = CGRectMake(ScreenWidth - commentButtonPaddingRight - commentButtonWidth, commentButtonPaddingTop, commentButtonWidth, commentButtonHeight);
-//    } else if (_badgeNumber < 100) {
-//        commentButtonWidth = 50;
-//        self.commentsCountButton.frame = CGRectMake(ScreenWidth - commentButtonPaddingRight - commentButtonWidth, commentButtonPaddingTop, commentButtonWidth, commentButtonHeight);
-//    } else if (_badgeNumber < 1000) {
-//        commentButtonWidth = 60;
-//        self.commentsCountButton.frame = CGRectMake(ScreenWidth - commentButtonPaddingRight - commentButtonWidth, commentButtonPaddingTop, commentButtonWidth, commentButtonHeight);
-//    } else if (_badgeNumber < 10000) {
-//        commentButtonWidth = 70;
-//        self.commentsCountButton.frame = CGRectMake(ScreenWidth - commentButtonPaddingRight - commentButtonWidth, commentButtonPaddingTop, commentButtonWidth, commentButtonHeight);
-//    } else {
-//        commentButtonWidth = 80;
-//        fulltextCommentCount = @"10000+评论";
-//        self.commentsCountButton.frame = CGRectMake(ScreenWidth - commentButtonPaddingRight - commentButtonWidth, commentButtonPaddingTop, commentButtonWidth, commentButtonHeight);
-//    }
-//    [self.commentsCountButton setTitle:fulltextCommentCount forState:UIControlStateNormal];
-//    if(_badgeNumber != 0 ) {
-//        self.commentsCountButton.hidden = NO;
-//    }
-//    else {
-//        self.commentsCountButton.hidden = YES;
-//    }
-// 
-//}
 @end

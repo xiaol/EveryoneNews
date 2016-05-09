@@ -49,29 +49,28 @@
         
         UILabel *nameLabel = [[UILabel alloc] init];
         nameLabel.numberOfLines = 0;
-        nameLabel.font = [UIFont systemFontOfSize:15];
-        nameLabel.textColor = [UIColor colorFromHexString:@"#5d5d5d"];
+        nameLabel.font = [UIFont systemFontOfSize:LPFont4];
+        nameLabel.textColor = [UIColor colorFromHexString:LPColor2];
         [self addSubview:nameLabel];
         self.nameLabel = nameLabel;
 
         UILabel *timeLabel = [[UILabel alloc] init];
         timeLabel.numberOfLines = 0;
-        timeLabel.font = [UIFont systemFontOfSize:10];
-        timeLabel.textColor = [UIColor colorFromHexString:@"#808080"];
+        timeLabel.font = [UIFont systemFontOfSize:LPFont7];
+        timeLabel.textColor = [UIColor colorFromHexString:LPColor4];
         [self addSubview:timeLabel];
         self.timeLabel = timeLabel;
         
         UILabel *commentLabel = [[UILabel alloc] init];
         commentLabel.numberOfLines = 0;
-        commentLabel.textColor = [UIColor colorFromHexString:@"#060606"];
+        commentLabel.textColor = [UIColor colorFromHexString:LPColor1];
         commentLabel.font = [UIFont systemFontOfSize:[LPFontSizeManager sharedManager].currentDetailCommentFontSize];
         [self addSubview:commentLabel];
         self.commentLabel = commentLabel;
         
         UILabel *upCountLabel = [[UILabel alloc] init];
-        upCountLabel.textAlignment = NSTextAlignmentRight;
-        upCountLabel.font = [UIFont systemFontOfSize:12];
-        upCountLabel.textColor = [UIColor colorFromHexString:@"#808080"];
+        upCountLabel.font = [UIFont systemFontOfSize:LPFont5];
+        upCountLabel.textColor = [UIColor colorFromHexString:@"#4d4f51"];
         [self addSubview:upCountLabel];
         self.upCountLabel = upCountLabel;
         
@@ -97,7 +96,7 @@
         self.upCountLabel.hidden = NO;
     }
     
-    NSString *upCount = [NSString stringWithFormat:@"%@赞", comment.up];
+    NSString *upCount = [NSString stringWithFormat:@"%@", comment.up];
     
     self.iconImageView.frame = self.commentFrame.iconF;
     [self.iconImageView sd_setImageWithURL:[NSURL URLWithString:comment.userIcon] placeholderImage:[UIImage imageNamed:@"评论用户占位图"]];
@@ -115,28 +114,27 @@
     self.commentLabel.frame = self.commentFrame.textF;
     self.commentLabel.text = comment.srcText;
     
+    self.upButton.frame = self.commentFrame.upButtonF;
+    
     self.upCountLabel.frame = self.commentFrame.upCountF;
     self.upCountLabel.text = upCount;
     self.upCountLabel.centerY = self.nameLabel.centerY;
     
-    self.upButton.frame = self.commentFrame.upButtonF;
-    self.upButton.centerY = self.nameLabel.centerY;
     if (comment.isPraiseFlag.boolValue) {
-        [self.upButton setBackgroundImage:[UIImage imageNamed:@"点赞心1"] forState:UIControlStateNormal];
+        [self.upButton setBackgroundImage:[UIImage imageNamed:@"详情页已点赞"] forState:UIControlStateNormal];
     } else {
-        [self.upButton setBackgroundImage:[UIImage imageNamed:@"点赞心0"] forState:UIControlStateNormal];
+        [self.upButton setBackgroundImage:[UIImage imageNamed:@"详情页未点赞"] forState:UIControlStateNormal];
     }
     
-//    CGFloat cellWidth = ScreenWidth - BodyPadding * 2;
-//    // 绘制边框
-//    UIBezierPath *linePath = [UIBezierPath bezierPath];
-//    [linePath moveToPoint:CGPointZero];
-//    [linePath addLineToPoint:CGPointMake(0, _commentFrame.cellHeight)];
-//    [linePath addLineToPoint:CGPointMake(cellWidth, _commentFrame.cellHeight)];
-//    [linePath addLineToPoint:CGPointMake(cellWidth, 0)];
-//    self.lineLayer.path = linePath.CGPath;
-//    self.lineLayer.fillColor = nil;
-//    self.lineLayer.strokeColor = [UIColor colorFromHexString:@"#e9e9e9"].CGColor;
+    CGFloat cellWidth = ScreenWidth - BodyPadding * 2;
+    // 绘制边框
+    UIBezierPath *linePath = [UIBezierPath bezierPath];
+    [linePath moveToPoint:CGPointMake(0, _commentFrame.cellHeight)];
+    [linePath addLineToPoint:CGPointMake(cellWidth, _commentFrame.cellHeight)];
+    self.lineLayer.path = linePath.CGPath;
+    self.lineLayer.fillColor = nil;
+    self.lineLayer.lineWidth = 1.0f;
+    self.lineLayer.strokeColor = [UIColor colorFromHexString:LPColor5].CGColor;
 
 }
 

@@ -12,7 +12,6 @@
 @interface LPDetailViewController (FulltextComment)<LPComposeViewControllerDelegate>
 - (void)showMoreComment ;
 - (void)fulltextCommentDidClick;
-//- (void)fulltextCommentDidClick:(LPDetailTopView *)detailTopView;
 - (void)pushFulltextCommentComposeVc;
 
 @end

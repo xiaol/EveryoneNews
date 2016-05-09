@@ -341,7 +341,7 @@ static const CGFloat topViewHeight= 64;
             // 点赞动画效果
             UIImageView *imageView = [[UIImageView alloc] initWithFrame:cell.upButton.frame];
             imageView.tag = -100;
-            imageView.image = [UIImage imageNamed:@"点赞心1"];
+            imageView.image = [UIImage imageNamed:@"详情页已点赞"];
             imageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.0, 0.0);
             [cell addSubview:imageView];
             

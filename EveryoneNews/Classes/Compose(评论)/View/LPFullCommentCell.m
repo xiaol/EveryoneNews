@@ -68,7 +68,6 @@
         
         
         UILabel *upCountLabel = [[UILabel alloc] init];
-        upCountLabel.textAlignment = NSTextAlignmentRight;
         upCountLabel.font = [UIFont systemFontOfSize:12];
         upCountLabel.textColor = [UIColor colorFromHexString:@"#808080"];
         [self.contentView addSubview:upCountLabel];
@@ -111,9 +110,9 @@
     
     
     if (comment.isPraiseFlag.boolValue) {
-        [self.upButton setBackgroundImage:[UIImage imageNamed:@"点赞心1"] forState:UIControlStateNormal];
+        [self.upButton setBackgroundImage:[UIImage imageNamed:@"详情页已点赞"] forState:UIControlStateNormal];
     } else {
-        [self.upButton setBackgroundImage:[UIImage imageNamed:@"点赞心0"] forState:UIControlStateNormal];
+        [self.upButton setBackgroundImage:[UIImage imageNamed:@"详情页未点赞"] forState:UIControlStateNormal];
     }
     
     if ([comment.up isEqualToString:@"0"]) {
@@ -123,7 +122,7 @@
     }
     
     self.upCountLabel.frame = self.fullCommentFrame.upCountsLabelF;
-    self.upCountLabel.text = [NSString stringWithFormat:@"%@赞", comment.up];
+    self.upCountLabel.text = [NSString stringWithFormat:@"%@", comment.up];
     self.upCountLabel.centerY = self.upButton.centerY;
 }
 

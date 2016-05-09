@@ -19,6 +19,10 @@
 #import "CardParam.h"
 #import "Card+CoreDataProperties.h"
 #import "LPSearchViewController.h"
+#import "CoreDataHelper.h"
+#import "Card.h"
+#import "CardImage.h"
+
 
 @interface LPPagingViewPage () <UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate, LPHomeViewCellDelegate>
 
@@ -87,6 +91,11 @@
         [searchView addGestureRecognizer:tapGesture];
         searchView.hidden = YES;
         self.searchView = searchView;
+        
+        UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(0, searchViewHeight - 0.5, ScreenWidth, 0.5)];
+        seperatorView.backgroundColor = [UIColor colorFromHexString:LPColor5];
+        [searchView addSubview:seperatorView];
+        
         
         UITableView *tableView = [[UITableView alloc] init];
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -282,8 +291,8 @@
     }];
     
     [cell didClickDeleteButtonBlock:^(UIButton *deleteButton) {
-        if ([weakSelf.delegate respondsToSelector:@selector(page:didClickDeleteButtonWithCardFrame:deleteButton:indexPath:)]) {
-            [weakSelf.delegate page:self didClickDeleteButtonWithCardFrame:cell.cardFrame deleteButton:deleteButton indexPath:indexPath];
+        if ([self.delegate respondsToSelector:@selector(page:didClickDeleteButtonWithCardFrame:deleteButton:indexPath:)]) {
+            [self.delegate page:self didClickDeleteButtonWithCardFrame:cell.cardFrame deleteButton:deleteButton indexPath:indexPath];
         }
     }];
     
@@ -317,6 +326,7 @@
     if ([self.cardFrames containsObject:cardFrame]) {
         cardFrame.card.isRead = @(1);
         [self.cardFrames replaceObjectAtIndex:[self.cardFrames indexOfObject:cardFrame] withObject:cardFrame];
+        [self.tableView reloadData];
     }
    
 }
