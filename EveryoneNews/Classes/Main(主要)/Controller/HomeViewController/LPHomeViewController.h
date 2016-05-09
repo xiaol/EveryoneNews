@@ -15,6 +15,7 @@
 #import "LPLaunchLoginView.h"
 #import "LPChangeFontSizeView.h"
 #import "CoreDataHelper.h"
+#import "LPPagingViewPage.h"
 
 @class LPPagingViewPage;
 @class CardFrame;
@@ -78,7 +79,6 @@
 @property (nonatomic, strong) LPPagingViewPage *currentPage;
 @property (nonatomic, strong) CardFrame *currentCardFrame;
 @property (nonatomic, strong) NSIndexPath *currentIndexPath;
-
 
 
 @end

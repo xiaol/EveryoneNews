@@ -71,6 +71,10 @@ static NSString * const kCellIdentify = @"JoySettingCell";
     [self.tableView mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         make.top.equalTo(strongSelf.view.mas_top).with.offset(7);
+        if (iPhone6Plus) {
+            make.top.equalTo(strongSelf.view.mas_top).with.offset(0);
+        }
+        
         make.left.equalTo(strongSelf.view);
         make.size.mas_equalTo(CGSizeMake(strongSelf.view.frame.size.width, strongSelf.view.frame.size.height-kCustomNavigationBarHeight));
     }];

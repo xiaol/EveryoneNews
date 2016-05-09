@@ -257,6 +257,7 @@ NSString *const reusePageID = @"reusePageID";
 //    [self.pageContentOffsetDictionary setObject:@(offsetY) forKey:page.pageChannelName];
 }
 
+
 // 弹出删除选择框
 - (void)page:(LPPagingViewPage *)page didClickDeleteButtonWithCardFrame:(CardFrame *)cardFrame  deleteButton:(UIButton *)deleteButton indexPath:(NSIndexPath *)indexPath{
     self.currentPage = page;
@@ -342,7 +343,6 @@ NSString *const reusePageID = @"reusePageID";
     notLikeButton.layer.borderColor = [UIColor colorWithHexString:@"#e4e4e4"].CGColor;
     notLikeButton.layer.borderWidth = 0.5;
     notLikeButton.layer.cornerRadius = 6;
-    
     [notLikeButton addTarget:self action:@selector(deleteCurrentRow:) forControlEvents:UIControlEventTouchUpInside];
     notLikeButton.enlargedEdge = 5;
     [notInterestedView addSubview:notLikeButton];

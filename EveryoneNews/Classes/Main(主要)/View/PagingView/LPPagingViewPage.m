@@ -282,8 +282,6 @@
         cell = [[LPHomeViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     cell.cardFrame = self.cardFrames[indexPath.row];
-    
-    
     __weak typeof(self) weakSelf = self;
     [cell didClickTipButtonBlock:^() {
         [weakSelf autotomaticLoadNewData];
@@ -291,9 +289,10 @@
     }];
     
     [cell didClickDeleteButtonBlock:^(UIButton *deleteButton) {
-        if ([self.delegate respondsToSelector:@selector(page:didClickDeleteButtonWithCardFrame:deleteButton:indexPath:)]) {
-            [self.delegate page:self didClickDeleteButtonWithCardFrame:cell.cardFrame deleteButton:deleteButton indexPath:indexPath];
+        if ([weakSelf.delegate respondsToSelector:@selector(page:didClickDeleteButtonWithCardFrame:deleteButton:indexPath:)]) {
+            [weakSelf.delegate page:weakSelf didClickDeleteButtonWithCardFrame:cell.cardFrame deleteButton:deleteButton indexPath:indexPath];
         }
+        
     }];
     
     return cell;

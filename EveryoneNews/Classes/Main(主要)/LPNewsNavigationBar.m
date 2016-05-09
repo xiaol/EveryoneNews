@@ -31,6 +31,12 @@ NS_ASSUME_NONNULL_BEGIN
 }
 
 - (void)layoutSubviews {
+    
+    CGFloat kNavigationBarHEIGHT = 51.f;
+    if (iPhone6Plus) {
+        kNavigationBarHEIGHT = 44.f;
+    }
+    
     [super layoutSubviews];
     CGRect barFrame = self.frame;
     if (isCustomBar) {
