@@ -68,7 +68,7 @@ const static CGFloat cellPadding = 15;
     // 右上角添加按钮
     CGFloat addBtnW = 19.0f;
     CGFloat addBtnH = 19.0f;
-    CGFloat addBtnX = ScreenWidth - addBtnW - 11;
+    CGFloat addBtnX = ScreenWidth - addBtnW - 8;
     CGFloat addBtnY = (menuViewHeight - addBtnH) / 2 + statusBarHeight;
     UIButton *addButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [addButton setBackgroundImage:[UIImage imageNamed:@"添加频道"] forState:UIControlStateNormal];

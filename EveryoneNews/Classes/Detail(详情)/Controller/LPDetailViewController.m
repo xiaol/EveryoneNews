@@ -60,6 +60,8 @@ const static CGFloat changeFontSizeViewH = 150;
 
 @property (nonatomic, assign) CGFloat lastContentOffsetY;
 
+@property (nonatomic, assign) CGFloat lastContentOffsetX;
+
 @property (nonatomic, strong) NSMutableArray *contentArray;
 
 @property (nonatomic, strong) NSArray *relates;
@@ -93,6 +95,15 @@ const static CGFloat changeFontSizeViewH = 150;
 @property (nonatomic, copy) NSString *pubTime;
 
 @property (nonatomic, copy) NSString *pubName;
+
+@property (nonatomic, strong) UIPageControl *pageControl;
+
+// 精选评论
+@property (nonatomic, strong) NSMutableArray *excellentCommentsFrames;
+
+
+
+
 
 @end
 
@@ -185,23 +196,24 @@ const static CGFloat changeFontSizeViewH = 150;
         if ([json[@"code"] integerValue] == 0) {
             NSArray *commentsArray = json[@"data"];
             for (NSDictionary *dict in commentsArray) {
-                LPComment *comment = [[LPComment alloc] init];
-                comment.srcText = dict[@"content"];
-                comment.createTime = dict[@"create_time"];
-                comment.up = [NSString stringWithFormat:@"%@", dict[@"love"]] ;
-                comment.userIcon = dict[@"profile"];
-                comment.commentId = dict[@"comment_id"];
-                comment.userName = dict[@"nickname"];
-                comment.color = [UIColor colorFromHexString:@"#747474"];
-                comment.isPraiseFlag = @"0";
-                comment.Id = dict[@"id"];
                 
-                LPCommentFrame *commentFrame = [[LPCommentFrame alloc] init];
-                commentFrame.comment = comment;
-                [self.fulltextCommentFrames addObject:commentFrame];
+                // 精选评论
+                LPComment *excellentComment = [[LPComment alloc] init];
+                excellentComment.srcText = dict[@"content"];
+                excellentComment.createTime = dict[@"create_time"];
+                excellentComment.up = [NSString stringWithFormat:@"%@", dict[@"love"]] ;
+                excellentComment.userIcon = dict[@"profile"];
+                excellentComment.commentId = dict[@"comment_id"];
+                excellentComment.userName = dict[@"nickname"];
+                excellentComment.color = [UIColor colorFromHexString:@"#747474"];
+                excellentComment.isPraiseFlag = @"0";
+                excellentComment.Id = dict[@"id"];
                 
-                [fulltextCommentArray addObject:comment];
-                if (fulltextCommentArray.count == 3) {
+                LPCommentFrame *excellentCommentFrame = [[LPCommentFrame alloc] init];
+                excellentCommentFrame.comment = excellentComment;
+                [self.excellentCommentsFrames addObject:excellentCommentFrame];
+                
+                if (self.excellentCommentsFrames.count == 3) {
                     break;
                 }
             }
@@ -439,6 +451,13 @@ const static CGFloat changeFontSizeViewH = 150;
     return _fulltextCommentFrames;
 }
 
+- (NSMutableArray *)excellentCommentsFrames {
+    if (_excellentCommentsFrames == nil) {
+        _excellentCommentsFrames = [NSMutableArray array];
+    }
+    return _excellentCommentsFrames;
+}
+
 - (NSMutableDictionary *)contentDictionary {
     if (_contentDictionary == nil) {
         _contentDictionary = [NSMutableDictionary dictionary];
@@ -464,30 +483,49 @@ const static CGFloat changeFontSizeViewH = 150;
 #pragma mark - 顶部视图隐藏和显示
 - (void)fadeIn
 {
-    [UIView animateWithDuration:0.1 animations:^{
-        self.topView.alpha = 0.9;
-    }];
+//    [UIView animateWithDuration:0.1 animations:^{
+//        self.topView.alpha = 0.9;
+//    }];
 }
 
 - (void)fadeOut
 {
-    [UIView animateWithDuration:0.1 animations:^{
-        self.topView.alpha = 0.0;;
-    }];
+//    [UIView animateWithDuration:0.1 animations:^{
+//        self.topView.alpha = 0.0;;
+//    }];
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
     if ([scrollView isKindOfClass:[UITableView class]]) {
         self.lastContentOffsetY = self.tableView.contentOffset.y;
+    } else if ([scrollView isKindOfClass:[UIScrollView class]]) {
+        self.lastContentOffsetX = scrollView.contentOffset.x;
     }
 }
 
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    if ([scrollView isKindOfClass:[UIScrollView class]]) {
+    if (self.lastContentOffsetX < scrollView.contentOffset.x) {
+        NSLog(@"right");
+    } else if (self.lastContentOffsetX > scrollView.contentOffset.x) {
+       NSLog(@"left");
+     }
+    }
+}
 #pragma mark - scrollViewDidScroll
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if ([scrollView isKindOfClass:[UITableView class]]) {
-        self.lastContentOffsetY < scrollView.contentOffset.y ? [self fadeOut] : [self fadeIn];
+        // self.lastContentOffsetY < scrollView.contentOffset.y ? [self fadeOut] : [self fadeIn];
+    } else if ([scrollView isKindOfClass:[UIScrollView class]]) {
+        int page = scrollView.contentOffset.x / self.view.frame.size.width;
+        self.pageControl.currentPage = page;
+//        if (scrollView.contentOffset.x < 0) {
+//            [self.navigationController popViewControllerAnimated:YES];
+//        }
+        
+       
     }
 }
 
@@ -497,29 +535,50 @@ const static CGFloat changeFontSizeViewH = 150;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-
 #pragma mark - 创建视图
 - (void)setupSubviews {
+    CGFloat bottomViewHeight = 40.0f;
+    if (iPhone6Plus) {
+        bottomViewHeight = 48.5f;
+        
+    }
     
+    CGFloat tableViewX = 0;
+    CGFloat tableViewY = StatusBarHeight + TabBarHeight + 0.5;
+    CGFloat tableViewW = ScreenWidth;
+    CGFloat tableViewH = ScreenHeight - tableViewY;
+    
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(tableViewX, tableViewY, tableViewW, tableViewH)];
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    scrollView.contentInset = UIEdgeInsetsZero;
+    scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0.0,0.0,0.0,0.0);
+    scrollView.contentSize = CGSizeMake(tableViewW * 2, tableViewH);
+    scrollView.scrollEnabled = YES;
+    scrollView.pagingEnabled=YES;
+    scrollView.showsHorizontalScrollIndicator = YES;
+    scrollView.showsVerticalScrollIndicator = NO;
+    scrollView.delegate = self;
+    [self.view addSubview:scrollView];
+
     // 文章内容
-    UITableView *tableView = [[UITableView alloc] initWithFrame: CGRectMake(BodyPadding, StatusBarHeight, ScreenWidth - BodyPadding * 2, ScreenHeight - TabBarHeight) style:UITableViewStyleGrouped];
+    UITableView *tableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 0,tableViewW, tableViewH) style:UITableViewStyleGrouped];
     tableView.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    tableView.showsVerticalScrollIndicator = NO;
+    tableView.showsVerticalScrollIndicator = YES;
     tableView.showsHorizontalScrollIndicator = NO;
     tableView.hidden = YES;
- 
+    
     self.tableView = tableView;
-    [self.view addSubview:tableView];
+    [scrollView addSubview:tableView];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
- 
+    
     // 上拉加载更多
     __weak typeof(self) weakSelf = self;
     self.tableView.footer = [LPRelatePointFooter footerWithRefreshingBlock:^{
         [weakSelf loadMoreRelateData];
     }];
-
+    
     // 顶部视图
     LPDetailTopView *topView = [[LPDetailTopView alloc] initWithFrame: self.view.bounds];
     topView.delegate = self;
@@ -528,7 +587,60 @@ const static CGFloat changeFontSizeViewH = 150;
     
     [self setupLoadingView];
     [self showLoadingView];
+ 
+    //UITableView *commentsTableView = [[UITableView alloc] initWithFrame:CGRectMake(0.5, 0, tableViewW - 0.5, tableViewH)];
+    UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(ScreenWidth + 0.5, 0, 0.5, tableViewH)];
+    seperatorView.backgroundColor = [UIColor colorFromHexString:LPColor10];
+    [scrollView addSubview:seperatorView];
+    
+    
+    UIPageControl *pageControl = [[UIPageControl alloc] init];
+    pageControl.numberOfPages = 2;
+    [self.view addSubview:pageControl];
+    
+    self.pageControl= pageControl;
+    
+    // 评论列表
+    UITableView *commentsTableView = [[UITableView alloc] initWithFrame:CGRectMake(ScreenWidth + 1, 0, ScreenWidth - 1, tableViewH)];
+    commentsTableView.delegate = self;
+    self.commentsTableView = commentsTableView;
+    
+    [scrollView addSubview:commentsTableView];
+    
+    
+    
+    
+    
+    
+//    // 文章内容
+//    UITableView *tableView = [[UITableView alloc] initWithFrame: CGRectMake(BodyPadding, StatusBarHeight, ScreenWidth - BodyPadding * 2, ScreenHeight - TabBarHeight) style:UITableViewStyleGrouped];
+//    tableView.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
+//    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+//    tableView.showsVerticalScrollIndicator = NO;
+//    tableView.showsHorizontalScrollIndicator = NO;
+//    tableView.hidden = YES;
+// 
+//    self.tableView = tableView;
+//    [self.view addSubview:tableView];
+//    self.tableView.delegate = self;
+//    self.tableView.dataSource = self;
+// 
+//    // 上拉加载更多
+//    __weak typeof(self) weakSelf = self;
+//    self.tableView.footer = [LPRelatePointFooter footerWithRefreshingBlock:^{
+//        [weakSelf loadMoreRelateData];
+//    }];
+//
+//    // 顶部视图
+//    LPDetailTopView *topView = [[LPDetailTopView alloc] initWithFrame: self.view.bounds];
+//    topView.delegate = self;
+//    [self.view addSubview:topView];
+//    self.topView = topView;
+//    
+//    [self setupLoadingView];
+//    [self showLoadingView];
 }
+
 
 #pragma mark - Loading View
 - (void)setupLoadingView {
@@ -617,255 +729,293 @@ const static CGFloat changeFontSizeViewH = 150;
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    if (tableView == self.tableView) {
+        return 3;
+    } else if (tableView == self.commentsTableView) {
+        return 1;
+    } else {
+        return 1;
+    }
+ 
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0) {
-        return self.contentFrames.count;
-    } else if (section == 1) {
-        return self.fulltextCommentFrames.count;
-    } else if(section == 2) {
-        return self.relatePointFrames.count;
+    if (tableView == self.tableView) {
+        if (section == 0) {
+            return self.contentFrames.count;
+        } else if (section == 1) {
+            return self.excellentCommentsFrames.count;
+        } else if(section == 2) {
+            return self.relatePointFrames.count;
+        } else {
+            return 1;
+        }
+    } else if (tableView == self.commentsTableView) {
+        return 1;
     } else {
         return 1;
     }
+
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
-        
-        LPContentCell *cell = [LPContentCell cellWithTableView:tableView];
-        cell.delegate = self;
-        cell.contentFrame = self.contentFrames[indexPath.row];
-        return cell;
-        
-    } else if (indexPath.section == 1) {
-        
-        LPCommentCell *cell = [LPCommentCell cellWithTableView:tableView];
-        cell.commentFrame = self.fulltextCommentFrames[indexPath.row];
-        return cell;
-        
-    } else if (indexPath.section == 2) {
-        
-        LPRelateCell *cell = [LPRelateCell cellWithTableView:tableView];
-        cell.relateFrame = self.relatePointFrames[indexPath.row];
-        cell.delegate = self;
-        return cell;
+    if (tableView == self.tableView) {
+        if (indexPath.section == 0) {
+            
+            LPContentCell *cell = [LPContentCell cellWithTableView:tableView];
+            cell.delegate = self;
+            cell.contentFrame = self.contentFrames[indexPath.row];
+            return cell;
+            
+        } else if (indexPath.section == 1) {
+            
+            LPCommentCell *cell = [LPCommentCell cellWithTableView:tableView];
+            cell.commentFrame = self.excellentCommentsFrames[indexPath.row];
+            return cell;
+            
+        } else if (indexPath.section == 2) {
+            
+            LPRelateCell *cell = [LPRelateCell cellWithTableView:tableView];
+            cell.relateFrame = self.relatePointFrames[indexPath.row];
+            cell.delegate = self;
+            return cell;
+        } else {
+            return nil;
+        }
+    } else if (tableView == self.commentsTableView) {
+        return nil;
     } else {
         return nil;
     }
+  
 }
 
 #pragma mark - Table view delegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) {
-        LPContentFrame *contentFrame = self.contentFrames[indexPath.row];
-        return contentFrame.cellHeight;
-    } else if (indexPath.section == 1) {
-        
-        LPCommentFrame *commentFrame = self.fulltextCommentFrames[indexPath.row];
-        return commentFrame.cellHeight;
-    } else if (indexPath.section == 2) {
-        
-        LPRelateFrame *relateFrame = self.relatePointFrames[indexPath.row];
-        return relateFrame.cellHeight;
+    if (tableView == self.tableView) {
+        if (indexPath.section == 0) {
+            LPContentFrame *contentFrame = self.contentFrames[indexPath.row];
+            return contentFrame.cellHeight;
+        } else if (indexPath.section == 1) {
+            
+            LPCommentFrame *commentFrame = self.excellentCommentsFrames[indexPath.row];
+            return commentFrame.cellHeight;
+        } else if (indexPath.section == 2) {
+            
+            LPRelateFrame *relateFrame = self.relatePointFrames[indexPath.row];
+            return relateFrame.cellHeight;
+        } else {
+            return 0.0;
+            
+        }
+    } else if (tableView == self.commentsTableView) {
+        return 0.0;
     } else {
         return 0.0;
- 
     }
+
     
 }
 
 #pragma mark - TableView header and footer
-
-
-
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    
-    // 距离两边间距
-    CGFloat padding = 18;
-    CGFloat headerTitleFontSize = 15;
-    CGFloat headerViewHeight = 40;
-    
-    // 评论和相关观点标题高度
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth - padding * 2, headerViewHeight)];
-  
-    CGSize fontSize = [@"热门评论" sizeWithFont:[UIFont systemFontOfSize:headerTitleFontSize] maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)];
-    
-    // 标题
-    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, headerViewHeight - fontSize.height - 7, fontSize.width, fontSize.height)];
-    titleLabel.textColor = [UIColor colorFromHexString:LPColor7];
-    titleLabel.font = [UIFont systemFontOfSize:headerTitleFontSize];
-    [headerView addSubview:titleLabel];
-    // 分割线
-    UIView *firstSeperatorView = [[UIView alloc] initWithFrame:CGRectMake(0,CGRectGetMaxY(titleLabel.frame) + 6 , fontSize.width, 1)];
-    firstSeperatorView.backgroundColor = [UIColor colorFromHexString:LPColor2];
-    
-    [headerView addSubview:firstSeperatorView];
-    
-    UIView *secondSeperatorView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(firstSeperatorView.frame), CGRectGetMaxY(titleLabel.frame) + 6, ScreenWidth - padding - CGRectGetMaxX(firstSeperatorView.frame), 1)];
-    secondSeperatorView.backgroundColor = [UIColor colorFromHexString:LPColor5];
-    
-    [headerView addSubview:secondSeperatorView];
-
-    if (section == 1) {
-        if (self.fulltextCommentFrames.count > 0) {
-            titleLabel.text = @"热门评论";
-            return headerView;
-        } else {
-            return nil;
-        }
+    if (tableView == self.tableView) {
+        // 距离两边间距
+        CGFloat padding = 18;
+        CGFloat headerTitleFontSize = 15;
+        CGFloat headerViewHeight = 40;
         
-    } else if(section == 2) {
-        if (self.relatePointArray.count > 0) {
-            titleLabel.text = @"相关观点";
-            return headerView;
+        // 评论和相关观点标题高度
+        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(padding, 0, ScreenWidth - padding * 2, headerViewHeight)];
+        
+        CGSize fontSize = [@"热门评论" sizeWithFont:[UIFont systemFontOfSize:headerTitleFontSize] maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)];
+        
+        // 标题
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(padding, headerViewHeight - fontSize.height - 7, fontSize.width, fontSize.height)];
+        titleLabel.textColor = [UIColor colorFromHexString:LPColor7];
+        titleLabel.font = [UIFont systemFontOfSize:headerTitleFontSize];
+        [headerView addSubview:titleLabel];
+        // 分割线
+        UIView *firstSeperatorView = [[UIView alloc] initWithFrame:CGRectMake(padding,CGRectGetMaxY(titleLabel.frame) + 6 , fontSize.width, 1)];
+        firstSeperatorView.backgroundColor = [UIColor colorFromHexString:LPColor2];
+        
+        [headerView addSubview:firstSeperatorView];
+        
+        UIView *secondSeperatorView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(firstSeperatorView.frame), CGRectGetMaxY(titleLabel.frame) + 6, ScreenWidth - padding - CGRectGetMaxX(firstSeperatorView.frame), 1)];
+        secondSeperatorView.backgroundColor = [UIColor colorFromHexString:LPColor5];
+        
+        [headerView addSubview:secondSeperatorView];
+        
+        if (section == 1) {
+            if (self.excellentCommentsFrames.count > 0) {
+                titleLabel.text = @"热门评论";
+                return headerView;
+            } else {
+                return nil;
+            }
+            
+        } else if(section == 2) {
+            if (self.relatePointArray.count > 0) {
+                titleLabel.text = @"相关观点";
+                return headerView;
+            } else {
+                return nil;
+            }
+            
         } else {
             return nil;
         }
-      
+    } else if (tableView == self.commentsTableView) {
+        return nil;
     } else {
         return nil;
     }
+
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    CGFloat bottomWidth = ScreenWidth - BodyPadding * 2;
-    CGFloat bottomHeight = footerViewHeight;
-    CGFloat bottomPaddingY = 30;
-    
-    if (section == 0) {
-        UIView *contentBottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, contentBottomViewH)];
-        
-        CGFloat concernImageViewX = 18;
-        CGFloat concernImageViewH = 18;
-        CGFloat concernImageViewW = 21;
-        CGFloat concernImageViewY = 5 + bottomPaddingY;
-        UIImageView *concernImageView = [[UIImageView alloc] initWithFrame:CGRectMake(concernImageViewX, concernImageViewY, concernImageViewW, concernImageViewH)];
-        concernImageView.image = [UIImage imageNamed:@"详情页心未关注"];
-        [contentBottomView addSubview:concernImageView];
-        
-        NSString *concernCount = @"2";
-        CGFloat labelFontSize = 13;
-        CGFloat labelW = [concernCount sizeWithFont:[UIFont systemFontOfSize:labelFontSize] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].width;
-        CGFloat labelY = concernImageViewY;
-        CGFloat labelH = concernImageViewH;
-        UILabel *concernCountLabel = [[UILabel alloc] initWithFrame:CGRectMake((CGRectGetMaxX(concernImageView.frame) + 7), labelY, labelW, labelH)];
-        concernCountLabel.text = concernCount;
-        concernCountLabel.font = [UIFont systemFontOfSize:labelFontSize];
-        concernCountLabel.textColor = [UIColor colorFromHexString:@"#e94221"];
-     
-        [contentBottomView addSubview:concernCountLabel];
-        
-        CALayer *layerLeft = [CALayer layer];
-        CGFloat leftLayerX = 0;
-        CGFloat leftLayerY = bottomPaddingY;
-        CGFloat leftLayerW = concernImageViewW + labelW + 43;
-        CGFloat leftLayerH = 28;
-        CGFloat borderRadius = 12.0f;
-        
-        layerLeft.frame = CGRectMake(leftLayerX, leftLayerY, leftLayerW, leftLayerH);
-        layerLeft.borderWidth = 1;
-        layerLeft.borderColor = [UIColor colorFromHexString:LPColor5].CGColor;
-        layerLeft.cornerRadius = borderRadius;
-        [contentBottomView.layer addSublayer:layerLeft];
-        
-        // 朋友圈
-        CGFloat rightViewH = leftLayerH;
-        CGFloat friendsPaddingRight = 10;
-        NSString *friendsStr = @"朋友圈";
-        CGFloat rightLabelW = [friendsStr sizeWithFont:[UIFont systemFontOfSize:LPFont4] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].width;
-      
-        CGFloat rightImageViewW = 21;
-        CGFloat rightViewW = rightImageViewW + rightLabelW + 28;
-        CGFloat rightViewX = bottomWidth - rightViewW;
-        CGFloat rightViewY = bottomPaddingY;
-        
-        UIView *rightView = [[UIView alloc] initWithFrame:CGRectMake(rightViewX, rightViewY, rightViewW, rightViewH)];
-        rightView.layer.borderColor = [UIColor colorFromHexString:LPColor5].CGColor;
-        rightView.layer.borderWidth = 1.0f;
-        rightView.layer.cornerRadius = borderRadius;
-        rightView.userInteractionEnabled = YES;
-        
-        UITapGestureRecognizer *friendsTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(friendsTap)];
-        [rightView addGestureRecognizer:friendsTapGesture];
-        
-        
-        CGFloat rightLabelX = rightViewW - rightLabelW - friendsPaddingRight;
-        UILabel *rightLabel = [[UILabel alloc] initWithFrame:CGRectMake(rightLabelX, 0, rightLabelW, rightViewH)];
-        rightLabel.text = friendsStr;
-        rightLabel.font = [UIFont systemFontOfSize:LPFont4];
-        rightLabel.textColor = [UIColor colorFromHexString:LPColor4];
-        
-        [rightView addSubview:rightLabel];
-        
-        CGFloat rightImageViewH = 21;
-        CGFloat rightImageViewY = (rightViewH - rightImageViewH) / 2;
-        CGFloat rightImageViewX = CGRectGetMinX(rightLabel.frame) - 8 - rightImageViewW;
-
-        UIImageView *rightImageView = [[UIImageView alloc] initWithFrame:CGRectMake(rightImageViewX, rightImageViewY, rightImageViewW, rightImageViewH)];
-        rightImageView.image = [UIImage imageNamed:@"详情页朋友圈"];
-        [rightView addSubview:rightImageView];
-        
-        CGFloat concernLabelY = CGRectGetMaxY(rightView.frame) + 13;
-        NSString *concernStr = @"关心本文，会推荐更多类似内容";
-        CGFloat concernLabelW = [concernStr sizeWithFont:[UIFont systemFontOfSize:LPFont4] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].width;
-        CGFloat concernLabelH = [concernStr sizeWithFont:[UIFont systemFontOfSize:LPFont4] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].height;
-        
-        UILabel *concernLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, concernLabelY, concernLabelW, concernLabelH)];
-        concernLabel.text = concernStr;
-        concernLabel.font = [UIFont systemFontOfSize:LPFont4];
-        concernLabel.textColor = [UIColor colorFromHexString:LPColor4];
-        
-        [contentBottomView addSubview:concernLabel];
-        [contentBottomView addSubview:rightView];
-        
-        return contentBottomView;
-    }
-    else if (section == 1 && self.fulltextCommentFrames.count > 0) {
-        
-        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, bottomWidth , bottomHeight)];
-        
-        UIButton *bottomButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, bottomWidth, bottomHeight - 12)];
-        bottomButton.backgroundColor = [UIColor colorFromHexString:@"#f0f0f0"];
-        [bottomButton setTitle:@"查看全部评论 >" forState:UIControlStateNormal];
-        [bottomButton setTitleColor:[UIColor colorFromHexString:@"#0086d1"] forState:UIControlStateNormal];
-        [bottomButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
-        [bottomButton addTarget:self action:@selector(showMoreComment) forControlEvents:UIControlEventTouchUpInside];
-        [footerView addSubview:bottomButton];
-        
-        UILabel *bottomLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, bottomWidth, bottomHeight - 12)];
-        bottomLabel.backgroundColor = [UIColor colorFromHexString:@"#f0f0f0"];
-        bottomLabel.text = @"已加载完毕";
-        bottomLabel.textColor = [UIColor colorFromHexString:@"#0086d1"];
-        bottomLabel.font = [UIFont systemFontOfSize:15];
-        bottomLabel.textAlignment = NSTextAlignmentCenter;
-        [footerView addSubview:bottomLabel];
-        
-        bottomButton.hidden = (self.fulltextCommentFrames.count < 3);
-        bottomLabel.hidden = !bottomButton.hidden;
-        
-        return footerView;
-    } else if (section == 2 && self.relatePointArray.count > 0) {
-        // 底部视图
+    if (tableView == self.tableView) {
         CGFloat bottomWidth = ScreenWidth - BodyPadding * 2;
-        CGFloat bottomHeight = 24;
-    
-        UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, bottomWidth , bottomHeight)];
+        CGFloat bottomHeight = footerViewHeight;
+        CGFloat bottomPaddingY = 30;
         
-        
-        UILabel *bottomLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, bottomWidth, bottomHeight - 12)];
-        bottomLabel.backgroundColor = [UIColor colorFromHexString:LPColor9];
-        [footerView addSubview:bottomLabel];
-        return footerView;
-       
+        if (section == 0) {
+            UIView *contentBottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, contentBottomViewH)];
+            
+            CGFloat concernImageViewX = 18;
+            CGFloat concernImageViewH = 18;
+            CGFloat concernImageViewW = 21;
+            CGFloat concernImageViewY = 5 + bottomPaddingY;
+            UIImageView *concernImageView = [[UIImageView alloc] initWithFrame:CGRectMake(concernImageViewX, concernImageViewY, concernImageViewW, concernImageViewH)];
+            concernImageView.image = [UIImage imageNamed:@"详情页心未关注"];
+            [contentBottomView addSubview:concernImageView];
+            
+            NSString *concernCount = @"2";
+            CGFloat labelFontSize = 13;
+            CGFloat labelW = [concernCount sizeWithFont:[UIFont systemFontOfSize:labelFontSize] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].width;
+            CGFloat labelY = concernImageViewY;
+            CGFloat labelH = concernImageViewH;
+            UILabel *concernCountLabel = [[UILabel alloc] initWithFrame:CGRectMake((CGRectGetMaxX(concernImageView.frame) + 7), labelY, labelW, labelH)];
+            concernCountLabel.text = concernCount;
+            concernCountLabel.font = [UIFont systemFontOfSize:labelFontSize];
+            concernCountLabel.textColor = [UIColor colorFromHexString:@"#e94221"];
+            
+            [contentBottomView addSubview:concernCountLabel];
+            
+            CALayer *layerLeft = [CALayer layer];
+            CGFloat leftLayerX = 0;
+            CGFloat leftLayerY = bottomPaddingY;
+            CGFloat leftLayerW = concernImageViewW + labelW + 43;
+            CGFloat leftLayerH = 28;
+            CGFloat borderRadius = 12.0f;
+            
+            layerLeft.frame = CGRectMake(leftLayerX, leftLayerY, leftLayerW, leftLayerH);
+            layerLeft.borderWidth = 1;
+            layerLeft.borderColor = [UIColor colorFromHexString:LPColor5].CGColor;
+            layerLeft.cornerRadius = borderRadius;
+            [contentBottomView.layer addSublayer:layerLeft];
+            
+            // 朋友圈
+            CGFloat rightViewH = leftLayerH;
+            CGFloat friendsPaddingRight = 10;
+            NSString *friendsStr = @"朋友圈";
+            CGFloat rightLabelW = [friendsStr sizeWithFont:[UIFont systemFontOfSize:LPFont4] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].width;
+            
+            CGFloat rightImageViewW = 21;
+            CGFloat rightViewW = rightImageViewW + rightLabelW + 28;
+            CGFloat rightViewX = bottomWidth - rightViewW;
+            CGFloat rightViewY = bottomPaddingY;
+            
+            UIView *rightView = [[UIView alloc] initWithFrame:CGRectMake(rightViewX, rightViewY, rightViewW, rightViewH)];
+            rightView.layer.borderColor = [UIColor colorFromHexString:LPColor5].CGColor;
+            rightView.layer.borderWidth = 1.0f;
+            rightView.layer.cornerRadius = borderRadius;
+            rightView.userInteractionEnabled = YES;
+            
+            UITapGestureRecognizer *friendsTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(friendsTap)];
+            [rightView addGestureRecognizer:friendsTapGesture];
+            
+            
+            CGFloat rightLabelX = rightViewW - rightLabelW - friendsPaddingRight;
+            UILabel *rightLabel = [[UILabel alloc] initWithFrame:CGRectMake(rightLabelX, 0, rightLabelW, rightViewH)];
+            rightLabel.text = friendsStr;
+            rightLabel.font = [UIFont systemFontOfSize:LPFont4];
+            rightLabel.textColor = [UIColor colorFromHexString:LPColor4];
+            
+            [rightView addSubview:rightLabel];
+            
+            CGFloat rightImageViewH = 21;
+            CGFloat rightImageViewY = (rightViewH - rightImageViewH) / 2;
+            CGFloat rightImageViewX = CGRectGetMinX(rightLabel.frame) - 8 - rightImageViewW;
+            
+            UIImageView *rightImageView = [[UIImageView alloc] initWithFrame:CGRectMake(rightImageViewX, rightImageViewY, rightImageViewW, rightImageViewH)];
+            rightImageView.image = [UIImage imageNamed:@"详情页朋友圈"];
+            [rightView addSubview:rightImageView];
+            
+            CGFloat concernLabelY = CGRectGetMaxY(rightView.frame) + 13;
+            NSString *concernStr = @"关心本文，会推荐更多类似内容";
+            CGFloat concernLabelW = [concernStr sizeWithFont:[UIFont systemFontOfSize:LPFont4] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].width;
+            CGFloat concernLabelH = [concernStr sizeWithFont:[UIFont systemFontOfSize:LPFont4] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].height;
+            
+            UILabel *concernLabel = [[UILabel alloc] initWithFrame:CGRectMake(BodyPadding, concernLabelY, concernLabelW, concernLabelH)];
+            concernLabel.text = concernStr;
+            concernLabel.font = [UIFont systemFontOfSize:LPFont4];
+            concernLabel.textColor = [UIColor colorFromHexString:LPColor4];
+            
+            [contentBottomView addSubview:concernLabel];
+            [contentBottomView addSubview:rightView];
+            
+            return contentBottomView;
+        }
+        else if (section == 1 && self.excellentCommentsFrames.count > 0) {
+            
+            UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(BodyPadding, 0, bottomWidth , bottomHeight)];
+            
+            UIButton *bottomButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, bottomWidth, bottomHeight - 12)];
+            bottomButton.backgroundColor = [UIColor colorFromHexString:@"#f0f0f0"];
+            [bottomButton setTitle:@"查看全部评论 >" forState:UIControlStateNormal];
+            [bottomButton setTitleColor:[UIColor colorFromHexString:@"#0086d1"] forState:UIControlStateNormal];
+            [bottomButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
+            [bottomButton addTarget:self action:@selector(showMoreComment) forControlEvents:UIControlEventTouchUpInside];
+            [footerView addSubview:bottomButton];
+            
+            UILabel *bottomLabel = [[UILabel alloc] initWithFrame:CGRectMake(BodyPadding, 0, bottomWidth, bottomHeight - 12)];
+            bottomLabel.backgroundColor = [UIColor colorFromHexString:@"#f0f0f0"];
+            bottomLabel.text = @"已加载完毕";
+            bottomLabel.textColor = [UIColor colorFromHexString:@"#0086d1"];
+            bottomLabel.font = [UIFont systemFontOfSize:15];
+            bottomLabel.textAlignment = NSTextAlignmentCenter;
+            [footerView addSubview:bottomLabel];
+            
+            bottomButton.hidden = (self.excellentCommentsFrames.count < 3);
+            bottomLabel.hidden = !bottomButton.hidden;
+            
+            return footerView;
+        } else if (section == 2 && self.relatePointArray.count > 0) {
+            // 底部视图
+            CGFloat bottomWidth = ScreenWidth - BodyPadding * 2;
+            CGFloat bottomHeight = 24;
+            
+            UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(BodyPadding, 0, bottomWidth , bottomHeight)];
+            
+            
+            UILabel *bottomLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, bottomWidth, bottomHeight - 12)];
+            bottomLabel.backgroundColor = [UIColor colorFromHexString:LPColor9];
+            [footerView addSubview:bottomLabel];
+            return footerView;
+            
+        } else {
+            return nil;
+        }
+    } else if (tableView == self.commentsTableView) {
+        return nil;
     } else {
         return nil;
     }
+
 }
 
 - (void)friendsTap {
@@ -873,54 +1023,75 @@ const static CGFloat changeFontSizeViewH = 150;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    CGFloat headerViewHeight = 40;
-    if (section == 1) {
-        if (self.fulltextCommentFrames.count > 0) {
-             return headerViewHeight;
+    if (tableView == self.tableView) {
+        CGFloat headerViewHeight = 40;
+        if (section == 1) {
+            if (self.excellentCommentsFrames.count > 0) {
+                return headerViewHeight;
+            } else {
+                return 0;
+            }
+            
+        } else if (section == 2) {
+            if (self.relatePointArray.count > 0) {
+                return headerViewHeight;
+            } else {
+                return 0;
+            }
+            
         } else {
-            return 0;
+            return 0.0;
         }
-       
-    } else if (section == 2) {
-        if (self.relatePointArray.count > 0) {
-             return headerViewHeight;
-        } else {
-            return 0;
-        }
-       
+    } else if (tableView == self.commentsTableView) {
+        return 0.0;
     } else {
         return 0.0;
     }
+
     
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (section == 0) {
-      
-        return contentBottomViewH;
-        
-    } else if (section == 1) {
-        if (self.fulltextCommentFrames.count > 0) {
-             return footerViewHeight;
+    if (tableView == self.tableView) {
+        if (section == 0) {
+            
+            return contentBottomViewH;
+            
+        } else if (section == 1) {
+            if (self.excellentCommentsFrames.count > 0) {
+                return footerViewHeight;
+            } else {
+                return 0;
+            }
+        } else if (section == 2){
+            if (self.relatePointArray.count > 0 ) {
+                return 24;
+            } else {
+                return 0;
+            }
         } else {
-            return 0;
+            return 0.0;
         }
-    } else if (section == 2){
-        if (self.relatePointArray.count > 0 ) {
-            return 24;
-        } else {
-            return 0;
-        }
+    } else if (tableView == self.commentsTableView) {
+        return 0.0;
     } else {
         return 0.0;
     }
+
 }
 
 #pragma mark - 详情页标题
 - (void)setupHeaderView:(NSString *)title pubTime:(NSString *)pubtime pubName:(NSString *)pubName {
+    
+    CGFloat bottomViewHeight = 40.0f;
+    if (iPhone6Plus) {
+        bottomViewHeight = 48.5f;
+        
+    }
+    
+    // 内容页面标题
     UIView *headerView = [[UIView alloc] init];
     CGFloat titleFontSize = [LPFontSizeManager sharedManager].currentDetaiTitleFontSize;
-    CGFloat titlePaddingTop = TabBarHeight - StatusBarHeight;
     CGFloat sourceFontSize = [LPFontSizeManager sharedManager].currentDetailSourceFontSize;;
 
     // 标题
@@ -929,11 +1100,10 @@ const static CGFloat changeFontSizeViewH = 150;
     
     NSMutableAttributedString *titleString = [title attributedStringWithFont:[UIFont  systemFontOfSize:titleFontSize weight:0.5] color:[UIColor colorFromHexString:@"#060606"] lineSpacing:2.0f];
     
-    
-    CGFloat titleX = 0;
+    CGFloat titleX = BodyPadding;
     CGFloat titleW = ScreenWidth - BodyPadding * 2;
     CGFloat titleH = [titleString heightWithConstraintWidth:titleW] + 30;
-    CGFloat titleY = titlePaddingTop;
+    CGFloat titleY = 0;
     titleLabel.frame = CGRectMake(titleX, titleY, titleW, titleH);
     titleLabel.attributedText = titleString;
   
@@ -943,7 +1113,7 @@ const static CGFloat changeFontSizeViewH = 150;
     UILabel *sourceLabel = [[UILabel alloc] init];
     sourceLabel.textColor = [UIColor colorFromHexString:LPColor4];
     sourceLabel.font = [UIFont fontWithName:OpinionFontName size:sourceFontSize];
-    CGFloat sourceX = 0;
+    CGFloat sourceX = BodyPadding;
     CGFloat sourceY = CGRectGetMaxY(titleLabel.frame) - 10;
     CGFloat sourceW = ScreenWidth - titleX * 2;
     CGFloat sourceH = [@"123" sizeWithFont:[UIFont systemFontOfSize:sourceFontSize] maxSize:CGSizeMake(sourceW, MAXFLOAT)].height;
@@ -952,15 +1122,36 @@ const static CGFloat changeFontSizeViewH = 150;
     NSString *source = [NSString stringWithFormat:@"%@    %@",pubtime, sourceSiteName];
     sourceLabel.text = source;
     [headerView addSubview:sourceLabel];
-    
     headerView.frame = CGRectMake(0, 0, ScreenWidth, CGRectGetMaxY(sourceLabel.frame) + 20);
-    
-    
-    UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(0, headerView.frame.size.height - 8, titleW, 0.5)];
+    UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(BodyPadding, headerView.frame.size.height - 8, titleW, 0.5)];
     seperatorView.backgroundColor = [UIColor colorFromHexString:LPColor5];
-    
     [headerView addSubview:seperatorView];
     self.tableView.tableHeaderView = headerView;
+    
+    
+    // 评论列表标题
+    UIView *headerView1 = [[UIView alloc] init];
+    // 标题
+    UILabel *titleLabel1 = [[UILabel alloc] init];
+    titleLabel1.numberOfLines = 0;
+    titleLabel1.frame = CGRectMake(titleX, titleY, titleW, titleH);
+    titleLabel1.attributedText = titleString;
+    
+    [headerView1 addSubview:titleLabel1];
+    
+    // 来源
+    UILabel *sourceLabel1 = [[UILabel alloc] init];
+    sourceLabel1.textColor = [UIColor colorFromHexString:LPColor4];
+    sourceLabel1.font = [UIFont fontWithName:OpinionFontName size:sourceFontSize];
+    sourceLabel1.frame = CGRectMake(sourceX, sourceY, sourceW, sourceH);
+    sourceLabel1.text = source;
+    [headerView1 addSubview:sourceLabel1];
+    headerView1.frame = CGRectMake(0, 0, ScreenWidth - 1, CGRectGetMaxY(sourceLabel.frame) + 20);
+    
+    UIView *seperatorView1 = [[UIView alloc] initWithFrame:CGRectMake(BodyPadding, headerView.frame.size.height - 8, titleW, 0.5)];
+    seperatorView1.backgroundColor = [UIColor colorFromHexString:LPColor5];
+    [headerView1 addSubview:seperatorView1];
+    self.commentsTableView.tableHeaderView = headerView1;
 
 }
 #pragma mark - Content Cell Delegate
@@ -993,6 +1184,12 @@ const static CGFloat changeFontSizeViewH = 150;
 #pragma mark - 顶部分享按钮
 - (void)shareButtonDidClick:(LPDetailTopView *)detailTopView {
     [self popShareView];
+}
+
+#pragma mark - 收藏文章
+- (void)didFavoriteWithDetailBottomView:(LPDetailBottomView *)detailBottomView {
+    // self.card 获取card对象
+     NSLog(@"%@",  self.card.title);
 }
 
 #pragma mark - 底部弹出分享对话框

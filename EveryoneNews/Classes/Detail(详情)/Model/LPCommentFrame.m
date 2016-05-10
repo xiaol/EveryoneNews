@@ -25,7 +25,7 @@ static const CGFloat userIconWidth = 38.0f;
     CGFloat iconY = iconPaddingTop;
     CGFloat iconW = userIconWidth;
     CGFloat iconH = userIconWidth;
-    _iconF = CGRectMake(0, iconY, iconW, iconH);
+    _iconF = CGRectMake(BodyPadding, iconY, iconW, iconH);
     
     CGFloat nameX = CGRectGetMaxX(_iconF) + namePaddingLeft;
     CGFloat nameY = iconPaddingTop;

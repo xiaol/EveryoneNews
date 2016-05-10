@@ -19,6 +19,8 @@
 
 - (void)didShareWithDetailBottomView:(LPDetailBottomView *)detailBottomView;
 
+- (void)didFavoriteWithDetailBottomView:(LPDetailBottomView *)detailBottomView;
+
 @end
 
 @interface LPDetailBottomView : UIView

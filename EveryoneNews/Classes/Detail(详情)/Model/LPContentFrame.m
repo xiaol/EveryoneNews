@@ -18,7 +18,7 @@
     
     _content = content;
     if (!_content.isPhoto) { // 普通类型(非图)g
-        CGFloat bodyX = 0;
+        CGFloat bodyX = BodyPadding;
         CGFloat bodyY = 5;
         CGFloat bodyW = ScreenWidth - 2 * BodyPadding;
         CGFloat bodyH = [_content.bodyHtmlString textViewHeightWithConstraintWidth:bodyW];
@@ -46,7 +46,7 @@
 }
 
 - (void)setupPhotoFAndCellHWithImage:(UIImage *)image {
-    CGFloat photoX = 0;
+    CGFloat photoX = BodyPadding;
     CGFloat photoY = 5;
     CGFloat photoW = ScreenWidth - 2 * BodyPadding;
     CGFloat photoH =  photoW * (image.size.height / image.size.width);

@@ -53,6 +53,9 @@
 @property (nonatomic, assign) BOOL relatePointIsFinishedLoad;
 
 @property (nonatomic, strong) UITableView *tableView;
+
+@property (nonatomic, strong) UITableView *commentsTableView;
+
 @property (nonatomic, strong) UIView *detailBackgroundView;
 @property (nonatomic, strong) LPBottomShareView *bottomShareView;
 @property (nonatomic, strong) NSNumber *isRead;

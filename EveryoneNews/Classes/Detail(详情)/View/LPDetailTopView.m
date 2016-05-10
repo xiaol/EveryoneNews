@@ -18,7 +18,7 @@
 #pragma mark - 初始化
 - (instancetype)initWithFrame:(CGRect)frame {
     // 分享，评论，添加按钮边距设置
-    double topViewHeight = TabBarHeight + StatusBarHeight;
+    double topViewHeight = TabBarHeight + StatusBarHeight + 0.5;
     double padding = 15;
     
     double returnButtonWidth = 10;

@@ -129,7 +129,7 @@
     CGFloat cellWidth = ScreenWidth - BodyPadding * 2;
     // 绘制边框
     UIBezierPath *linePath = [UIBezierPath bezierPath];
-    [linePath moveToPoint:CGPointMake(0, _commentFrame.cellHeight)];
+    [linePath moveToPoint:CGPointMake(BodyPadding, _commentFrame.cellHeight)];
     [linePath addLineToPoint:CGPointMake(cellWidth, _commentFrame.cellHeight)];
     self.lineLayer.path = linePath.CGPath;
     self.lineLayer.fillColor = nil;

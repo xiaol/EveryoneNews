@@ -63,7 +63,7 @@
         }
         
         UIView *searchView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, searchViewHeight)];
-        searchView.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
+        searchView.backgroundColor = [UIColor colorFromHexString:@"#f0f0f0"];
         
         CALayer *layer = [CALayer layer];
         layer.frame = CGRectMake(searchViewPadding, paddingTop, ScreenWidth - searchViewPadding * 2, searchViewHeight - paddingTop * 2);
@@ -73,12 +73,12 @@
         layer.borderWidth = 0.5;
         [searchView.layer addSublayer:layer];
         
-        UIImageView *searchImageView = [[UIImageView alloc] initWithFrame:CGRectMake(23, 0, searchImageW, searchImageH)];
+        UIImageView *searchImageView = [[UIImageView alloc] initWithFrame:CGRectMake(26, 0, searchImageW, searchImageH)];
         searchImageView.image = [UIImage imageNamed:@"首页搜索"];
         searchImageView.centerY = searchViewHeight / 2;
         [searchView addSubview:searchImageView];
         
-        UILabel *searchLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(searchImageView.frame) + 7, 0, 40, 29)];
+        UILabel *searchLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(searchImageView.frame) + 6, 0, 40, 29)];
         searchLabel.text = @"搜索";
         searchLabel.textAlignment = NSTextAlignmentLeft;
         searchLabel.textColor = [UIColor colorFromHexString:@"#cacaca"];

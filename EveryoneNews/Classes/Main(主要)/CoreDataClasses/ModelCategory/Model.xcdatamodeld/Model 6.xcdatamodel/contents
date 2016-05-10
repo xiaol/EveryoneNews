@@ -16,6 +16,8 @@
         <attribute name="channelId" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="commentsCount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="docId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isCardDeleted" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="isCollected" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="isRead" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="newId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sourceSiteName" optional="YES" attributeType="String" syncable="YES"/>
@@ -94,7 +96,7 @@
     <elements>
         <element name="Album" positionX="-983" positionY="-346" width="128" height="148"/>
         <element name="AlbumPhoto" positionX="-792" positionY="-558" width="128" height="58"/>
-        <element name="Card" positionX="-981" positionY="-147" width="128" height="225"/>
+        <element name="Card" positionX="-981" positionY="-147" width="128" height="255"/>
         <element name="CardImage" positionX="-801" positionY="-81" width="128" height="73"/>
         <element name="CardRelate" positionX="-801" positionY="9" width="128" height="118"/>
         <element name="Content" positionX="-605" positionY="-369" width="128" height="165"/>
