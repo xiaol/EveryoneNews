@@ -361,6 +361,10 @@
 		86CC9B0E1C2168BF00D9364D /* CardFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 86CC9B0D1C2168BF00D9364D /* CardFrame.m */; };
 		86D7163B1CD0CD4C00F7C7CC /* LPBottomShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86D7163A1CD0CD4C00F7C7CC /* LPBottomShareView.m */; };
 		86E7DF2D1CB788F600E62092 /* LPHomeViewController+LaunchFontSizeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 86E7DF2C1CB788F600E62092 /* LPHomeViewController+LaunchFontSizeManager.m */; };
+		AEF14AA11CE1EF2F00E9EB5E /* Collection.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AEF14A9D1CE1EF2F00E9EB5E /* Collection.storyboard */; };
+		AEF14AA21CE1EF2F00E9EB5E /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AEF14A9F1CE1EF2F00E9EB5E /* CollectionViewCell.m */; };
+		AEF14AA31CE1EF2F00E9EB5E /* CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF14AA01CE1EF2F00E9EB5E /* CollectionViewController.swift */; };
+		AEF14AA61CE1EF7800E9EB5E /* BorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF14AA51CE1EF7800E9EB5E /* BorderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1087,6 +1091,12 @@
 		86E7DF2B1CB788F600E62092 /* LPHomeViewController+LaunchFontSizeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LPHomeViewController+LaunchFontSizeManager.h"; sourceTree = "<group>"; };
 		86E7DF2C1CB788F600E62092 /* LPHomeViewController+LaunchFontSizeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LPHomeViewController+LaunchFontSizeManager.m"; sourceTree = "<group>"; };
 		89769146F1267C51D9E27AE8 /* libPods-EveryoneNews.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-EveryoneNews.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AEF14A961CE1DC5900E9EB5E /* EveryoneNews-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EveryoneNews-Bridging-Header.h"; sourceTree = "<group>"; };
+		AEF14A9D1CE1EF2F00E9EB5E /* Collection.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Collection.storyboard; sourceTree = "<group>"; };
+		AEF14A9E1CE1EF2F00E9EB5E /* CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
+		AEF14A9F1CE1EF2F00E9EB5E /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
+		AEF14AA01CE1EF2F00E9EB5E /* CollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewController.swift; sourceTree = "<group>"; };
+		AEF14AA51CE1EF7800E9EB5E /* BorderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderView.swift; sourceTree = "<group>"; };
 		D5649AF1C72B34AF770A67A1 /* Pods-EveryoneNews.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EveryoneNews.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EveryoneNews/Pods-EveryoneNews.debug.xcconfig"; sourceTree = "<group>"; };
 		F0635658C92C5D2137CC1DFF /* Pods-EveryoneNews.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EveryoneNews.release.xcconfig"; path = "Pods/Target Support Files/Pods-EveryoneNews/Pods-EveryoneNews.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -2061,6 +2071,7 @@
 		18BAE6FD1B1352EA0052BDD0 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				AEF14A931CE1DC5900E9EB5E /* Swift(组件) */,
 				18AB8C861B8A47E80084934E /* Digger(挖掘机) */,
 				18EF3B441B661F260097F5A6 /* Featured(精选) */,
 				18F6316C1B5C247900423658 /* Launch(启动) */,
@@ -3073,6 +3084,35 @@
 			name = "字体大小管理";
 			sourceTree = "<group>";
 		};
+		AEF14A931CE1DC5900E9EB5E /* Swift(组件) */ = {
+			isa = PBXGroup;
+			children = (
+				AEF14A9C1CE1EF1400E9EB5E /* 收藏 */,
+				AEF14A961CE1DC5900E9EB5E /* EveryoneNews-Bridging-Header.h */,
+			);
+			path = "Swift(组件)";
+			sourceTree = "<group>";
+		};
+		AEF14A9C1CE1EF1400E9EB5E /* 收藏 */ = {
+			isa = PBXGroup;
+			children = (
+				AEF14AA41CE1EF3800E9EB5E /* util */,
+				AEF14A9D1CE1EF2F00E9EB5E /* Collection.storyboard */,
+				AEF14AA01CE1EF2F00E9EB5E /* CollectionViewController.swift */,
+			);
+			path = "收藏";
+			sourceTree = "<group>";
+		};
+		AEF14AA41CE1EF3800E9EB5E /* util */ = {
+			isa = PBXGroup;
+			children = (
+				AEF14A9E1CE1EF2F00E9EB5E /* CollectionViewCell.h */,
+				AEF14A9F1CE1EF2F00E9EB5E /* CollectionViewCell.m */,
+				AEF14AA51CE1EF7800E9EB5E /* BorderView.swift */,
+			);
+			name = util;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -3180,6 +3220,7 @@
 				11B63BB41CBE4DDE00976070 /* Privacy.html in Resources */,
 				18D513081BEB33A500875298 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				18D513031BEB33A500875298 /* UMSShareListController.xib in Resources */,
+				AEF14AA11CE1EF2F00E9EB5E /* Collection.storyboard in Resources */,
 				18D512FC1BEB33A500875298 /* UMSCommentDetailController.xib in Resources */,
 				1890835A1B31DE8500ADDEDB /* PushConfig.plist in Resources */,
 				18F631671B5C0CEA00423658 /* MJRefresh.bundle in Resources */,
@@ -3326,6 +3367,7 @@
 				86AD22E41CA2986A00758C21 /* LPCommentFrame.m in Sources */,
 				1826B3DF1B786B3900B712E0 /* POPAnimationTracer.mm in Sources */,
 				187564891C2110B600589320 /* Relate+CoreDataProperties.m in Sources */,
+				AEF14AA61CE1EF7800E9EB5E /* BorderView.swift in Sources */,
 				7E63BA621B3C022900BEA1CF /* Account.m in Sources */,
 				18F631141B5C044300423658 /* LPPress.m in Sources */,
 				86D7163B1CD0CD4C00F7C7CC /* LPBottomShareView.m in Sources */,
@@ -3376,6 +3418,7 @@
 				18EC41E31B71B8C600548DD9 /* LPSupplementView.m in Sources */,
 				18F631191B5C044300423658 /* LPHttpTool.m in Sources */,
 				18162F0E1C229C2400FC947D /* KeyValueObserver.m in Sources */,
+				AEF14AA21CE1EF2F00E9EB5E /* CollectionViewCell.m in Sources */,
 				1860F85E1B6A184B0012E11D /* LPFeatureFrame.m in Sources */,
 				1826B3F71B7DA00B00B712E0 /* LPFullPhotoCell.m in Sources */,
 				18A65CC91B203D330070DDD7 /* SDWebImageManager.m in Sources */,
@@ -3558,6 +3601,7 @@
 				8686D38E1CA15652005AB9DD /* Model.xcdatamodeld in Sources */,
 				18A65CC31B203D330070DDD7 /* NSData+ImageContentType.m in Sources */,
 				8649B3B71C50FA2B00BC96BF /* UICollectionViewLeftAlignedLayout.m in Sources */,
+				AEF14AA31CE1EF2F00E9EB5E /* CollectionViewController.swift in Sources */,
 				18F6315C1B5C0CEA00423658 /* MJRefreshFooter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3638,6 +3682,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
 			name = Debug;
 		};
@@ -3724,6 +3769,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = YU.EveryoneNews;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "EveryoneNews/Classes/Swift(组件)/EveryoneNews-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -3770,6 +3816,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = YU.EveryoneNews;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "EveryoneNews/Classes/Swift(组件)/EveryoneNews-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

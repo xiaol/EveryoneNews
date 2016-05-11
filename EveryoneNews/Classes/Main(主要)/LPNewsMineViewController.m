@@ -22,6 +22,8 @@
 #import "LPNewsMyCommViewController.h"
 
 
+#import "EveryoneNews-Swift.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 static NSString * const kCellIdentify = @"JoyMineViewCell";
@@ -326,7 +328,8 @@ CGSize static const kAvatarImageViewSize = {70,70};
 
     }else if (indexPath.row ==1){
         
-        LPNewsMyCollectionView *colView = [[LPNewsMyCollectionView alloc] init];
+        UIViewController *colView = [[UIStoryboard shareCollectionBoard] getCollectionViewController];
+//        LPNewsMyCollectionView *colView = [[LPNewsMyCollectionView alloc] init];
         [self.navigationController pushViewController:colView animated:YES];
         
         

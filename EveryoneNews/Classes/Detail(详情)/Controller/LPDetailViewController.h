@@ -17,6 +17,7 @@
 #import "LPDetailBottomView.h"
 #import "LPCommentFrame.h"
 #import "LPBottomShareView.h"
+#import "LPBaseViewController.h"
 
 @class LPPress;
 @class LPConcernPress;
