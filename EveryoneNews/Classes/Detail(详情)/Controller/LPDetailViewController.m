@@ -51,6 +51,9 @@
 #import "LPDetailChangeFontSizeView.h"
 
 
+#import "Card+Create.h"
+
+
 static const NSString * privateContext;
 const static CGFloat footerViewHeight = 59;
 const static CGFloat contentBottomViewH = 100;
@@ -1189,6 +1192,11 @@ const static CGFloat changeFontSizeViewH = 150;
 #pragma mark - 收藏文章
 - (void)didFavoriteWithDetailBottomView:(LPDetailBottomView *)detailBottomView {
     // self.card 获取card对象
+    
+    [self.card Collected];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"UserCollectionedChangeer" object:nil userInfo:nil];
+    
      NSLog(@"%@",  self.card.title);
 }
 

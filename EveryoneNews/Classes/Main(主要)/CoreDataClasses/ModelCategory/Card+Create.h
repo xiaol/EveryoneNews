@@ -28,5 +28,12 @@ typedef void (^cardsArrayBlock)(NSArray *cardsArray);
 + (void)createCardsWithDictArray:(NSArray *)dicts
                        channelID:(NSString *)channelID cardsArrayBlock:(cardsArrayBlock)cardsArrayBlock;
 
+/**
+ *  取消或者开始收藏
+ *
+ *  @return <#return value description#>
+ */
+-(BOOL)Collected;
+
 
 @end
