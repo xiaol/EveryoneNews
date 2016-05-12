@@ -33,8 +33,21 @@
                 _currentDetailRelatePointFontSize = iPhone6PlusDetailRelateSizeStandard;
                 _currentDetailSourceFontSize = iPhone6PlusDetailSourceSizeStandard;
             
+            } else if(iPhone5){
+                _currentHomeViewFontSize = iPhone5HomeTitleSizeStandard;
+                _currentDetailContentFontSize = iPhone5DetailContentSizeStandard;
+                _currentDetaiTitleFontSize = iPhone5DetailTitleSizeStandard;
+                _currentDetailCommentFontSize = iPhone5DetailCommentSizeStandard;
+                _currentDetailRelatePointFontSize = iPhone5DetailRelateSizeStandard;
+                _currentDetailSourceFontSize = iPhone5DetailSourceSizeStandard;
+            } else if (iPhone6) {
+                _currentHomeViewFontSize = iPhone6HomeTitleSizeStandard;
+                _currentDetailContentFontSize = iPhone6DetailContentSizeStandard;
+                _currentDetaiTitleFontSize = iPhone6DetailTitleSizeStandard;
+                _currentDetailCommentFontSize = iPhone6DetailCommentSizeStandard;
+                _currentDetailRelatePointFontSize = iPhone6DetailRelateSizeStandard;
+                _currentDetailSourceFontSize = iPhone6DetailSourceSizeStandard;
             } else {
-                
                 _currentHomeViewFontSize = iPhone5HomeTitleSizeStandard;
                 _currentDetailContentFontSize = iPhone5DetailContentSizeStandard;
                 _currentDetaiTitleFontSize = iPhone5DetailTitleSizeStandard;

@@ -446,6 +446,12 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
     if (iPhone6Plus) {
         height = 24;
         width = 52;
+    } else if (iPhone6) {
+        height = 24;
+        width = 52;
+    } else if (iPhone5) {
+        height = 24;
+        width = 52;
     }
     
     CGFloat channelBarHeight = 33;

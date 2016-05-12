@@ -21,11 +21,20 @@
 
 - (void)didFavoriteWithDetailBottomView:(LPDetailBottomView *)detailBottomView;
 
+- (void)didClickCommentsWithDetailBottomView:(LPDetailBottomView *)detailBottomView;
+
+- (void)didClickContentsWithDetailBottomView:(LPDetailBottomView *)detailBottomView;
+
 @end
 
 @interface LPDetailBottomView : UIView
 
 @property (nonatomic, assign) NSInteger badgeNumber;
 @property (nonatomic, weak) id<LPDetailBottomViewDelegate> delegate;
+@property (nonatomic, strong) UIButton *contentBtn;
+@property (nonatomic, strong) UIButton *commentsBtn;
+@property (nonatomic, strong) UIButton *noCommentsBtn;
+@property (nonatomic, strong) UILabel *commentCountLabel;
+@property (nonatomic, strong) UIView *commentsCountView;
 
 @end

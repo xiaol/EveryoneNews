@@ -10,16 +10,16 @@
 #import "NSString+LP.h"
 
 
-const static CGFloat commentsLabelFontSize = 12;
+const static CGFloat commentsLabelFontSize = 11;
 @interface LPDetailBottomView ()
 
-@property (nonatomic, strong) UILabel *commentCountLabel;
+
+
 @property (nonatomic, strong) UIButton *shareButton;
-@property (nonatomic, strong) UIButton *commentsBtn;
-@property (nonatomic, strong) UIButton *noCommentsBtn;
+
 @property (nonatomic, strong) UIView *composeView;
 @property (nonatomic, strong) UIButton *favoriteBtn;
-@property (nonatomic, strong) UIView *commentsCountView;
+
 
 
 @end
@@ -34,29 +34,27 @@ const static CGFloat commentsLabelFontSize = 12;
         if (iPhone6Plus) {
             bottomViewHeight = 48.5f;
       
+        } else if (iPhone5) {
+             bottomViewHeight = 40.0f;
         }
         self.frame = CGRectMake(0, ScreenHeight - bottomViewHeight, ScreenWidth, bottomViewHeight);
         self.backgroundColor = [UIColor colorFromHexString:@"#f5f5f5"];
         
-        double shareButtonWidth = 25;
-        double shareButtonHeight = 26;
+        double shareButtonWidth = 24;
+        double shareButtonHeight = 25;
         double shareButtonPaddingRight = 20;
-        
-        double commentButtonWidth = 18;
-        double commentButtonHeight = 17;
-        double commentButtonPaddingTop = 33.5;
-        double commentButtonPaddingRight = 5;
-        
+    
         if(iPhone6Plus)
         {
             shareButtonWidth = 25;
             shareButtonHeight = 26;
             shareButtonPaddingRight = 20;
-            
-            commentButtonWidth = 21;
-            commentButtonHeight = 19;
-            commentButtonPaddingTop = 30.5;
-            commentButtonPaddingRight = 5;
+
+        } else if (iPhone5) {
+           
+            shareButtonWidth = 21;
+            shareButtonHeight = 21;
+            shareButtonPaddingRight = 16;
         }
         
         // 添加分享按钮
@@ -69,13 +67,17 @@ const static CGFloat commentsLabelFontSize = 12;
         self.shareButton = shareBtn;
         
         // 收藏按钮
-        double favoriteBtnW = 28;
-        double favoriteBtnH = 27;
+        double favoriteBtnW = 27;
+        double favoriteBtnH = 26;
         double favoriteBtnPaddingRight = 37;
         if (iPhone6Plus) {
             favoriteBtnW = 28;
             favoriteBtnH = 27;
             favoriteBtnPaddingRight = 37;
+        } else if (iPhone5) {
+            favoriteBtnW = 24;
+            favoriteBtnH = 22;
+             favoriteBtnPaddingRight = 31;
         }
     
         // 收藏按钮
@@ -89,18 +91,39 @@ const static CGFloat commentsLabelFontSize = 12;
         
         // 沙发  评论
         CGFloat commentsPaddingRight = 37;
-        CGFloat commentsBtnW = 27;
-        CGFloat commentsBtnH = 26;
+        CGFloat commentsBtnW = 26;
+        CGFloat commentsBtnH = 25;
         
         if (iPhone6Plus) {
            commentsPaddingRight = 37;
-           commentsBtnW = 27;
-           commentsBtnH = 26;
+           commentsBtnW = 26;
+           commentsBtnH = 25;
+        } else if (iPhone5) {
+            commentsPaddingRight = 30.5;
+            commentsBtnW = 21;
+            commentsBtnH = 22;
         }
         
+        CGFloat noCommentsPaddingRight = 37;
+        CGFloat noCommentsBtnW = 26;
+        CGFloat noCommentsBtnH = 25;
+        
+        if (iPhone6Plus) {
+            noCommentsPaddingRight = 37;
+            noCommentsBtnW = 26;
+            noCommentsBtnH = 25;
+        } else if (iPhone5) {
+            noCommentsPaddingRight = 30.5;
+            noCommentsBtnW = 22.5;
+            noCommentsBtnH = 21;
+        }
+        
+        
         // 没有评论
-        UIButton *noCommentsBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMinX(favoriteBtn.frame) - commentsPaddingRight - commentsBtnW, (bottomViewHeight - commentsBtnH) / 2, commentsBtnW, commentsBtnH)];
+        UIButton *noCommentsBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMinX(favoriteBtn.frame) - noCommentsPaddingRight - noCommentsBtnW, (bottomViewHeight - noCommentsBtnH) / 2, noCommentsBtnW, noCommentsBtnH)];
         [noCommentsBtn setBackgroundImage:[UIImage imageNamed:@"详情页未评论"] forState:UIControlStateNormal];
+        [noCommentsBtn addTarget:self action:@selector(noCommentsBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        noCommentsBtn.enlargedEdge = 10;
         [self addSubview:noCommentsBtn];
         self.noCommentsBtn = noCommentsBtn;
         
@@ -108,13 +131,29 @@ const static CGFloat commentsLabelFontSize = 12;
         // 有评论
         UIButton *commentsBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMinX(favoriteBtn.frame) - commentsPaddingRight - commentsBtnW, (bottomViewHeight - commentsBtnH) / 2, commentsBtnW, commentsBtnH)];
         [commentsBtn setBackgroundImage:[UIImage imageNamed:@"详情页已评论"] forState:UIControlStateNormal];
+        [commentsBtn addTarget:self action:@selector(commentsBtnBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        commentsBtn.enlargedEdge = 10;
         commentsBtn.hidden = YES;
         [self addSubview:commentsBtn];
         self.commentsBtn = commentsBtn;
         
+        // 原文按钮
+        CGFloat contentsBtnW = 35.0f;
+        CGFloat contentsBtnH = 25.0f;
+        
+        UIButton *contentBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMinX(favoriteBtn.frame) - commentsPaddingRight - contentsBtnW, (bottomViewHeight - contentsBtnH) / 2, contentsBtnW, contentsBtnH)];
+        [contentBtn setBackgroundImage:[UIImage imageNamed:@"详情页原文"] forState:UIControlStateNormal];
+        [contentBtn addTarget:self action:@selector(contentsBtnBtnClick) forControlEvents:UIControlEventTouchUpInside];
+        contentBtn.hidden = YES;
+        contentBtn.enlargedEdge = 10;
+        [self addSubview:contentBtn];
+        self.contentBtn = contentBtn;
+        
+        
         UIView *commentsCountView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMinX(commentsBtn.frame) - 4, bottomViewHeight - 13 - commentsBtnH / 2, commentsBtnW, commentsBtnH / 2)];
         commentsCountView.backgroundColor = [UIColor whiteColor];
         commentsCountView.layer.cornerRadius = 4.0f;
+        commentsCountView.hidden = YES;
         
         // 评论数量
         UILabel *commentCountLabel = [[UILabel alloc] init];
@@ -125,29 +164,12 @@ const static CGFloat commentsLabelFontSize = 12;
         commentCountLabel.layer.cornerRadius = 3.0f;
         commentCountLabel.clipsToBounds = YES;
         commentCountLabel.hidden = YES;
-
+        
         [commentsCountView addSubview:commentCountLabel];
         self.commentCountLabel = commentCountLabel;
         self.commentsCountView = commentsCountView;
         
         [self addSubview:self.commentsCountView];
-        
-//        // 评论数量
-//        UILabel *commentCountLabel = [[UILabel alloc] init];
-//        commentCountLabel.textColor = [UIColor colorFromHexString:@"#909090"];
-//        commentCountLabel.font = [UIFont systemFontOfSize:14];
-//        [self addSubview:commentCountLabel];
-//        self.commentCountLabel = commentCountLabel;
-//        
-//        // 全文评论
-//        UIButton *commentsBtn = [[UIButton alloc] init];
-//        [commentsBtn setBackgroundImage:[UIImage imageNamed:@"详情页评论"]  forState:UIControlStateNormal];
-//        commentsBtn.enlargedEdge = 15;
-//        
-//        [commentsBtn addTarget:self action:@selector(fulltextCommentDidClick) forControlEvents:UIControlEventTouchUpInside];
-//        commentsBtn.frame = CGRectMake(self.shareButton.frame.origin.x - 20  - commentButtonPaddingRight - commentButtonWidth, bottomViewHeight / 2- commentButtonHeight / 2 , commentButtonWidth, commentButtonHeight);;
-//        [self addSubview:commentsBtn];
-//        self.commentsBtn = commentsBtn;
         
         UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 0.5)];
         seperatorView.backgroundColor = [UIColor colorFromHexString:@"#dadada"];
@@ -159,31 +181,45 @@ const static CGFloat commentsLabelFontSize = 12;
         composeView.layer.borderWidth = 0.5;
         composeView.layer.borderColor = [UIColor colorFromHexString:@"#efefef"].CGColor;
         composeView.layer.cornerRadius = 16;
+        
+        if (iPhone5) {
+            composeView.layer.cornerRadius = 12;
+        }
+        
         composeView.backgroundColor = [UIColor whiteColor];
-      
         UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(commentDidComposed)];
         [composeView addGestureRecognizer:tapGestureRecognizer];
         
         CGFloat composeViewPaddingTop = 8;
         
-        UILabel *composeLabel = [[UILabel alloc] initWithFrame:CGRectMake(12, 0, 100, bottomViewHeight - 2 * composeViewPaddingTop)];
+        if (iPhone5) {
+            composeViewPaddingTop = 7;
+        }
+        
+        UILabel *composeLabel = [[UILabel alloc] initWithFrame:CGRectMake(12, 0, 100, bottomViewHeight - 2 * composeViewPaddingTop - 1)];
         composeLabel.text = @"说一下...";
         composeLabel.textColor = [UIColor colorFromHexString:@"#909090"];
         composeLabel.textAlignment = NSTextAlignmentLeft;
         if (iPhone6Plus) {
             composeLabel.font = [UIFont systemFontOfSize:18];
+        } else if(iPhone5){
+            composeLabel.font = [UIFont systemFontOfSize:16];
         } else {
-            composeLabel.font = [UIFont systemFontOfSize:15];
+             composeLabel.font = [UIFont systemFontOfSize:16];
         }
         
         [composeView addSubview:composeLabel];
         
         CGFloat composeViewX = 18;
-        CGFloat composeViewW = 169;
+        CGFloat composeViewW = 116;
         if (iPhone6Plus) {
             composeViewX = 18;
             composeViewPaddingTop = 8;
             composeViewW = 169;
+        } else if (iPhone5) {
+            composeViewX = 15;
+            composeViewPaddingTop = 8;
+            composeViewW = 116;
         }
         
         composeView.frame = CGRectMake(composeViewX, composeViewPaddingTop, composeViewW, bottomViewHeight - composeViewPaddingTop * 2);
@@ -197,61 +233,7 @@ const static CGFloat commentsLabelFontSize = 12;
 }
 
 - (void)setBadgeNumber:(NSInteger)badgeNumber {
-//    CGFloat bottomViewHeight = 40.0f;
-//    if (iPhone6Plus) {
-//        bottomViewHeight = 48.5f;
-//        
-//    }
-//    double shareButtonWidth = 17;
-//    double shareButtonHeight = 17;
-//    double shareButtonPaddingRight = 15;
-//    
-//    double commentButtonWidth = 18;
-//    double commentButtonHeight = 17;
-//    double commentButtonPaddingTop = 33.5;
-//    double commentButtonPaddingRight = 5;
-//    
-//    if(iPhone6Plus)
-//    {
-//        shareButtonWidth = 17;
-//        shareButtonHeight = 19;
-//        
-//        commentButtonWidth = 21;
-//        commentButtonHeight = 19;
-//        commentButtonPaddingTop = 30.5;
-//        commentButtonPaddingRight = 5;
-//    }
-//
-//    self.shareButton.frame = CGRectMake(ScreenWidth  - shareButtonPaddingRight - shareButtonWidth, bottomViewHeight / 2 - shareButtonHeight / 2 , shareButtonWidth, shareButtonHeight);
-//    
-//    _badgeNumber = badgeNumber;
-//    
-//    NSString *commentCountText = [NSString stringWithFormat:@"%@",@(_badgeNumber)];
-//    
-//    CGFloat commentCountLabelWidth = [commentCountText sizeWithFont:[UIFont systemFontOfSize:14] maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)].width;
-//    CGFloat commentCountLabelHeight = bottomViewHeight;
-//    CGFloat commentCountLabelX = CGRectGetMinX(self.shareButton.frame) - commentCountLabelWidth - 15;
-//    
-//    self.commentCountLabel.frame = CGRectMake(commentCountLabelX, 0, commentCountLabelWidth, commentCountLabelHeight);
-//    self.commentCountLabel.text = commentCountText;
-//    
-//    if (_badgeNumber == 0) {
-//        self.commentCountLabel.hidden = YES;
-//    } else {
-//        self.commentCountLabel.hidden = NO;
-//    }
-//    
-//    self.commentsBtn.frame = CGRectMake(self.commentCountLabel.frame.origin.x  - commentButtonPaddingRight - commentButtonWidth, bottomViewHeight / 2 - commentButtonHeight / 2 , commentButtonWidth, commentButtonHeight);
-//    
-//    CGFloat composeViewPaddingTop = 8;
-    
-//    CGFloat composeViewX = 18;
-//    if (iPhone6Plus) {
-//        composeViewX = 18;
-//        composeViewPaddingTop = 8;
-//    }
-//    
-//    self.composeView.frame = CGRectMake(composeViewX, composeViewPaddingTop, CGRectGetMinX(self.commentsBtn.frame)- BodyPadding - 15, bottomViewHeight - composeViewPaddingTop * 2);
+
     
      _badgeNumber = badgeNumber;
     //self.composeView.hidden = YES;
@@ -259,6 +241,8 @@ const static CGFloat commentsLabelFontSize = 12;
     if (iPhone6Plus) {
         bottomViewHeight = 48.5f;
         
+    } else if (iPhone5) {
+        bottomViewHeight = 40.0f;
     }
     if (_badgeNumber == 0) {
         self.noCommentsBtn.hidden = NO;
@@ -274,25 +258,17 @@ const static CGFloat commentsLabelFontSize = 12;
         CGSize fontSize = [commentCountStr sizeWithFont:[UIFont systemFontOfSize:commentsLabelFontSize] maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)];
         self.commentCountLabel.text = commentCountStr;
         
-        self.commentsCountView.frame = CGRectMake(CGRectGetMinX(self.commentsBtn.frame) - 4, bottomViewHeight -  fontSize.height - 13, fontSize.width + 8, fontSize.height + 4);
-        CGFloat commentsCountLabelW = fontSize.width + 4;
-        CGFloat commentsCountLabelH = fontSize.height + 2;
-        CGFloat commentsCountLabelX = 2;
-        CGFloat commentsCountLabelY = 1;
+        self.commentsCountView.frame = CGRectMake(CGRectGetMinX(self.commentsBtn.frame) - 1, bottomViewHeight -  fontSize.height - 10, fontSize.width + 2, fontSize.height );
         
-        self.commentCountLabel.frame = CGRectMake(commentsCountLabelX, commentsCountLabelY, commentsCountLabelW, commentsCountLabelH);
+        if (iPhone5) {
+            self.commentsCountView.frame = CGRectMake(CGRectGetMinX(self.commentsBtn.frame) - 1, bottomViewHeight -  fontSize.height - 8, fontSize.width + 4, fontSize.height );
+        }
         
+        CGFloat commentsCountLabelW = fontSize.width + 1 ;
+        CGFloat commentsCountLabelH = fontSize.height;
+        self.commentCountLabel.frame = CGRectMake(0, 0, commentsCountLabelW, commentsCountLabelH);
         
-        
-//        self.commentsCountView.frame  = CGRectMake(CGRectGetMinX(self.commentsBtn.frame) - 4, bottomViewHeight -  fontSize.height - 13, fontSize.width + 8, fontSize.height + 4);
-//  
-//        self.commentCountLabel.frame = CGRectMake(0, 0,  self.commentsCountView.frame.size.width, self.commentsCountView.frame.size.height);
-//        self.commentCountLabel.center = CGPointMake(self.commentCountLabel.frame.size.width / 2, self.commentCountLabel.frame.size.height / 2);
-        
-        
-        
-//        self.commentCountLabel.center = self.commentsCountView.center;
-//        self.commentCountLabel.layer.cornerRadius = 2.0f;
+    
     }
     
     
@@ -326,6 +302,27 @@ const static CGFloat commentsLabelFontSize = 12;
         [self.delegate didFavoriteWithDetailBottomView:self];
     }
 }
+
+#pragma mark - 评论
+- (void)noCommentsBtnClick {
+    if ([self.delegate respondsToSelector:@selector(didClickCommentsWithDetailBottomView:)]) {
+        [self.delegate didClickCommentsWithDetailBottomView:self];
+    }
+}
+
+- (void)commentsBtnBtnClick {
+    if ([self.delegate respondsToSelector:@selector(didClickCommentsWithDetailBottomView:)]) {
+        [self.delegate didClickCommentsWithDetailBottomView:self];
+    }
+}
+
+#pragma mark - 原文
+- (void)contentsBtnBtnClick {
+    if ([self.delegate respondsToSelector:@selector(didClickContentsWithDetailBottomView:)]) {
+        [self.delegate didClickContentsWithDetailBottomView:self];
+    }
+}
+
 
 
 @end

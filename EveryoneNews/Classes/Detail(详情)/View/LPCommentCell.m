@@ -126,16 +126,20 @@
         [self.upButton setBackgroundImage:[UIImage imageNamed:@"详情页未点赞"] forState:UIControlStateNormal];
     }
     
-    CGFloat cellWidth = ScreenWidth - BodyPadding * 2;
-    // 绘制边框
-    UIBezierPath *linePath = [UIBezierPath bezierPath];
-    [linePath moveToPoint:CGPointMake(BodyPadding, _commentFrame.cellHeight)];
-    [linePath addLineToPoint:CGPointMake(cellWidth, _commentFrame.cellHeight)];
-    self.lineLayer.path = linePath.CGPath;
-    self.lineLayer.fillColor = nil;
-    self.lineLayer.lineWidth = 1.0f;
-    self.lineLayer.strokeColor = [UIColor colorFromHexString:LPColor5].CGColor;
-
+    CGFloat padding = 18.0f;
+    
+    CGFloat cellWidth = ScreenWidth - padding ;
+    
+    if (_commentFrame.currentIndex < _commentFrame.totalCount) {
+        // 绘制边框
+        UIBezierPath *linePath = [UIBezierPath bezierPath];
+        [linePath moveToPoint:CGPointMake(padding, _commentFrame.cellHeight)];
+        [linePath addLineToPoint:CGPointMake(cellWidth, _commentFrame.cellHeight)];
+        self.lineLayer.path = linePath.CGPath;
+        self.lineLayer.fillColor = nil;
+        self.lineLayer.lineWidth = 1.0f;
+        self.lineLayer.strokeColor = [UIColor colorFromHexString:LPColor5].CGColor;
+    }
 }
 
 @end

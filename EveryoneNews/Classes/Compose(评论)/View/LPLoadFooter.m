@@ -1,21 +1,19 @@
 //
-//  DiggerFooter.m
+//  LPLoadFooter.m
 //  EveryoneNews
 //
-//  Created by apple on 15/7/22.
-//  Copyright (c) 2015年 apple. All rights reserved.
+//  Created by dongdan on 16/5/11.
+//  Copyright © 2016年 apple. All rights reserved.
 //
 
-
-#import "LPDiggerFooter.h"
+#import "LPLoadFooter.h"
 
 static NSString * const loadMoreAnimationKey = @"loadMoreRotation";
 static const CGFloat imageViewWidth = 14;
 static const CGFloat imageViewHeitht = 14;
-static const CGFloat loadMoreHeight = 40;
-static const CGFloat fontSize = 12;
+static const CGFloat fontSize = 16;
 
-@interface LPDiggerFooter()
+@interface LPLoadFooter()
 @property (nonatomic, weak) UIView *view;
 @property (weak, nonatomic) UILabel *label;
 @property (nonatomic, weak) UIImageView *imageView;
@@ -23,7 +21,7 @@ static const CGFloat fontSize = 12;
 
 @end
 
-@implementation LPDiggerFooter
+@implementation LPLoadFooter
 #pragma mark - 重写方法
 #pragma mark 在这里做一些初始化配置（比如添加子控件）
 - (void)prepare
@@ -31,12 +29,9 @@ static const CGFloat fontSize = 12;
     [super prepare];
     
     // 设置控件的高度
-    self.mj_h = 50;
+    self.mj_h = 30;
     
     UIView *view = [[UIView alloc] init];
-
-
-    
     // 添加label
     UILabel *label = [[UILabel alloc] init];
     label.font = [UIFont systemFontOfSize:fontSize];
@@ -49,7 +44,7 @@ static const CGFloat fontSize = 12;
     imageView.contentMode = UIViewContentModeScaleAspectFit;
     [view addSubview:imageView];
     self.imageView = imageView;
-
+    
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform"];
     animation.repeatCount = FLT_MAX;
     animation.duration = 0.5;
@@ -59,7 +54,7 @@ static const CGFloat fontSize = 12;
     
     [self addSubview:view];
     self.view = view;
- 
+    
 }
 
 #pragma mark 在这里设置子控件的位置和尺寸
@@ -68,9 +63,9 @@ static const CGFloat fontSize = 12;
     NSString *loadStr = @"正在载入";
     CGSize size = [loadStr sizeWithFont:[UIFont systemFontOfSize:fontSize] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)];
     [super placeSubviews];
-    self.view.frame = CGRectMake(0, 0, size.width + imageViewWidth, loadMoreHeight);
+    self.view.frame = CGRectMake(0, 0, size.width + imageViewWidth, size.height);
     self.view.centerX = self.centerX;
- 
+    
     self.imageView.frame = CGRectMake(0, 0, imageViewWidth, imageViewHeitht);
     self.imageView.centerY = self.view.centerY;
     
@@ -118,13 +113,13 @@ static const CGFloat fontSize = 12;
         case MJRefreshStateRefreshing:
             self.label.text = @"正在载入";
             self.imageView.hidden = NO;
-            self.label.frame = CGRectMake(CGRectGetMaxX(self.imageView.frame) + 10, 0, size1.width, loadMoreHeight);
+            self.label.frame = CGRectMake(CGRectGetMaxX(self.imageView.frame) + 10, 0, size1.width, size1.height);
             [self.imageView.layer addAnimation:self.animation forKey:loadMoreAnimationKey];
             break;
         case MJRefreshStateNoMoreData:
             self.label.text = @"加载已完成";
             self.imageView.hidden = YES;
-            self.label.frame = CGRectMake(CGRectGetMinX(self.imageView.frame), 0, size2.width, loadMoreHeight);
+            self.label.frame = CGRectMake(CGRectGetMinX(self.imageView.frame), 0, size2.width, size2.height);
             [self.imageView.layer removeAnimationForKey:loadMoreAnimationKey];
             break;
         default:

@@ -56,6 +56,14 @@ typedef NS_ENUM(NSInteger, iPhone6PlusHomeTitleSize) {
     iPhone6PlusHomeTitleSizeSuperLarger = 23
 };
 
+// 首页字体 6
+typedef NS_ENUM(NSInteger, iPhone6HomeTitleSize) {
+    iPhone6HomeTitleSizeStandard = 17,
+    iPhone6HomeTitleSizeLarger = 19,
+    iPhone6HomeTitleSizeSuperLarger = 21
+};
+
+// 首页字体 5
 typedef NS_ENUM(NSInteger, iPhone5HomeTitleSize) {
     iPhone5HomeTitleSizeStandard = 17,
     iPhone5HomeTitleSizeLarger = 19,
@@ -68,18 +76,32 @@ typedef NS_ENUM(NSInteger, iPhone6PlusDetailTitleSize) {
     iPhone6PlusDetailTitleSizeLarger = 28,
     iPhone6PlusDetailTitleSizeSuperLarger = 30
 };
+// 详情页标题字体 6
+typedef NS_ENUM(NSInteger, iPhone6DetailTitleSize) {
+    iPhone6DetailTitleSizeStandard = 25,
+    iPhone6DetailTitleSizeLarger = 28,
+    iPhone6DetailTitleSizeSuperLarger = 30
+};
 
+// 详情页标题字体 5
 typedef NS_ENUM(NSInteger, iPhone5DetailTitleSize) {
     iPhone5DetailTitleSizeStandard = 25,
     iPhone5DetailTitleSizeLarger = 28,
     iPhone5DetailTitleSizeSuperLarger = 30
 };
 
+
 // 详情页来源字体 Plus
 typedef NS_ENUM(NSInteger, iPhone6PlusDetailSourceSize) {
     iPhone6PlusDetailSourceSizeStandard = 13,
     iPhone6PlusDetailSourceSizeLarger = 15,
     iPhone6PlusDetailSourceSizeSuperLarger = 16
+};
+
+typedef NS_ENUM(NSInteger, iPhone6DetailSourceSize) {
+    iPhone6DetailSourceSizeStandard = 13,
+    iPhone6DetailSourceSizeLarger = 15,
+    iPhone6DetailSourceSizeSuperLarger = 16
 };
 
 typedef NS_ENUM(NSInteger, iPhone5DetailSourceSize) {
@@ -95,6 +117,12 @@ typedef NS_ENUM(NSInteger, iPhone6PlusDetailContentSize) {
     iPhone6PlusDetailContentSizeSuperLarger = 24
 };
 
+typedef NS_ENUM(NSInteger, iPhone6DetailContentSize) {
+    iPhone6DetailContentSizeStandard = 19,
+    iPhone6DetailContentSizeLarger = 22,
+    iPhone6DetailContentSizeSuperLarger = 24
+};
+
 typedef NS_ENUM(NSInteger, iPhone5DetailContentSize) {
     iPhone5DetailContentSizeStandard = 19,
     iPhone5DetailContentSizeLarger = 22,
@@ -108,6 +136,12 @@ typedef NS_ENUM(NSInteger, iPhone6PlusDetailRelateSize) {
     iPhone6PlusDetailRelateSizeSuperLarger = 22
 };
 
+typedef NS_ENUM(NSInteger, iPhone6DetailRelateSize) {
+    iPhone6DetailRelateSizeStandard = 18,
+    iPhone6DetailRelateSizeLarger = 20,
+    iPhone6DetailRelateSizeSuperLarger = 22
+};
+
 typedef NS_ENUM(NSInteger, iPhone5DetailRelateSize) {
     iPhone5DetailRelateSizeStandard = 18,
     iPhone5DetailRelateSizeLarger = 20,
@@ -119,6 +153,12 @@ typedef NS_ENUM(NSInteger, iPhone6PlusDetailCommentSize) {
     iPhone6PlusDetailCommentSizeStandard = 16,
     iPhone6PlusDetailCommentSizeLarger = 18,
     iPhone6PlusDetailCommentSizeSuperLarger = 20
+};
+
+typedef NS_ENUM(NSInteger, iPhone6DetailCommentSize) {
+    iPhone6DetailCommentSizeStandard = 16,
+    iPhone6DetailCommentSizeLarger = 18,
+    iPhone6DetailCommentSizeSuperLarger = 20
 };
 
 typedef NS_ENUM(NSInteger, iPhone5DetailCommentSize) {

@@ -32,7 +32,7 @@
     
     // 添加loading
     UILabel *label = [[UILabel alloc] init];
-    label.font = [UIFont systemFontOfSize:10];
+    label.font = [UIFont systemFontOfSize:12];
     label.textColor = [UIColor colorFromHexString:@"#969696"];
     label.textAlignment = NSTextAlignmentCenter;
     [self addSubview:label];

@@ -18,7 +18,8 @@
 @property (nonatomic, assign) CGRect textF;
 @property (nonatomic, assign) CGRect upCountF;
 @property (nonatomic, assign) CGRect upButtonF;
-
 @property (nonatomic, assign) CGFloat cellHeight;
+@property (nonatomic, assign) CGFloat currentIndex;
+@property (nonatomic, assign) NSInteger totalCount;
 
 @end

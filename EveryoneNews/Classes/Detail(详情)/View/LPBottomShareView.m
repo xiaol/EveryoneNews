@@ -8,21 +8,39 @@
 
 #import "LPBottomShareView.h"
 
-const static CGFloat controlPadding = 19;
-const static CGFloat controlW = 66;
-const static CGFloat padding1 = 30;
-const static CGFloat padding2 = 32;
-const static CGFloat padding3 = 50.5;
-const static CGFloat cancelButtonH = 47;
 
 
 
 @implementation LPBottomShareView
 
 - (instancetype)initWithFrame:(CGRect)frame {
+    
+    CGFloat controlPadding = 19;
+    CGFloat controlW = 66;
+    CGFloat padding1 = 30;
+    CGFloat padding2 = 32;
+    CGFloat padding3 = 50.5;
+    CGFloat cancelButtonH = 47;
+    CGFloat padding4 = 10;
+
+    if (iPhone5) {
+        padding1 = 26;
+        controlW = 57;
+        padding2 = 27;
+        cancelButtonH = 40;
+        padding3 = 48.5;
+        padding4 = 8;
+    }
+    
     CGSize fontSize = [@"微信" sizeWithFont:[UIFont systemFontOfSize:LPFont6] maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)];
-    CGFloat controlH = controlW + 10 + fontSize.height;
+    
+    
+    
+    CGFloat controlH = controlW + padding4 + fontSize.height;
     CGFloat frameH = controlH * 2 + padding1 + padding2 + padding3 + cancelButtonH;
+    
+    
+    
     if (self = [super initWithFrame:frame]) {
         self.frame = CGRectMake(0, ScreenHeight, ScreenWidth, frameH);
         
@@ -61,6 +79,21 @@ const static CGFloat cancelButtonH = 47;
 
 
 - (void)addIconName:(NSString *)iconName title:(NSString *)title index:(NSInteger) index controlY:(CGFloat)controlY {
+    
+    CGFloat controlPadding = 19;
+    CGFloat controlW = 66;
+    CGFloat padding1 = 30;
+    CGFloat padding2 = 32;
+     CGFloat padding4 = 10;
+    CGFloat cancelButtonH = 47;
+
+    if (iPhone5) {
+        padding1 = 26;
+        controlW = 57;
+        padding2 = 27;
+        cancelButtonH = 40;
+        padding4 = 8;
+    }
     
     CGSize fontSize = [@"微信" sizeWithFont:[UIFont systemFontOfSize:LPFont6] maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)];
     

@@ -17,6 +17,7 @@
 @property (nonatomic, strong) UILabel *timeLabel;
 @property (nonatomic, strong) UILabel *commentLabel;
 @property (nonatomic, strong) UILabel *upCountLabel;
+@property (nonatomic, strong) CAShapeLayer *lineLayer;
 
 
 @end
@@ -38,7 +39,7 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor colorFromHexString:LPColor9];        
         UIImageView *iconView = [[UIImageView alloc] init];
         iconView.contentMode = UIViewContentModeScaleAspectFill;
         [self.contentView addSubview:iconView];
@@ -47,20 +48,20 @@
         UILabel *nameLabel = [[UILabel alloc] init];
         nameLabel.numberOfLines = 0;
         nameLabel.font = [UIFont systemFontOfSize:15];
-        nameLabel.textColor = [UIColor colorFromHexString:@"#5d5d5d"];
+        nameLabel.textColor = [UIColor colorFromHexString:LPColor2];
         [self.contentView addSubview:nameLabel];
         self.nameLabel = nameLabel;
         
         UILabel *timeLabel = [[UILabel alloc] init];
         timeLabel.numberOfLines = 0;
         timeLabel.font = [UIFont systemFontOfSize:10];
-        timeLabel.textColor = [UIColor colorFromHexString:@"#808080"];
+        timeLabel.textColor = [UIColor colorFromHexString:LPColor4];
         [self.contentView addSubview:timeLabel];
         self.timeLabel = timeLabel;
 
         UILabel *commentLabel = [[UILabel alloc] init];
         commentLabel.numberOfLines = 0;
-        commentLabel.textColor = [UIColor colorFromHexString:@"#060606"];
+        commentLabel.textColor = [UIColor colorFromHexString:LPColor1];
         commentLabel.font = [UIFont systemFontOfSize:16];
         [self.contentView addSubview:commentLabel];
         self.commentLabel = commentLabel;
@@ -69,7 +70,7 @@
         
         UILabel *upCountLabel = [[UILabel alloc] init];
         upCountLabel.font = [UIFont systemFontOfSize:12];
-        upCountLabel.textColor = [UIColor colorFromHexString:@"#808080"];
+        upCountLabel.textColor = [UIColor colorFromHexString:@"#4d4f51"];
         [self.contentView addSubview:upCountLabel];
         self.upCountLabel = upCountLabel;
         
@@ -77,6 +78,10 @@
         [self.contentView addSubview:upButton];
         self.upButton = upButton;
         [self.upButton addTarget:self action:@selector(upButtonClick) forControlEvents:UIControlEventTouchUpInside];
+        
+        CAShapeLayer *lineLayer= [CAShapeLayer layer];
+        [self.layer addSublayer:lineLayer];
+        self.lineLayer = lineLayer;
     }
     return self;
 }
@@ -123,12 +128,36 @@
     
     self.upCountLabel.frame = self.fullCommentFrame.upCountsLabelF;
     self.upCountLabel.text = [NSString stringWithFormat:@"%@", comment.up];
-    self.upCountLabel.centerY = self.upButton.centerY;
+  
+    
+    CGFloat padding = 18.0f;
+    
+    CGFloat cellWidth = ScreenWidth - padding ;
+    // 绘制边框
+    UIBezierPath *linePath = [UIBezierPath bezierPath];
+    [linePath moveToPoint:CGPointMake(padding, _fullCommentFrame.cellHeight - 1)];
+    [linePath addLineToPoint:CGPointMake(cellWidth, _fullCommentFrame.cellHeight - 1)];
+    self.lineLayer.path = linePath.CGPath;
+    self.lineLayer.fillColor = nil;
+    self.lineLayer.lineWidth = 1.0f;
+    self.lineLayer.strokeColor = [UIColor colorFromHexString:LPColor5].CGColor;
 }
 
 - (void)upButtonClick {
     if ([self.delegate respondsToSelector:@selector(fullCommentCell:comment:)]) {
         [self.delegate fullCommentCell:self comment:self.fullCommentFrame.comment];
     }
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    
+}
+
+- (void)setHighlighted:(BOOL)highlighted {
+    
+}
+
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
+    
 }
 @end

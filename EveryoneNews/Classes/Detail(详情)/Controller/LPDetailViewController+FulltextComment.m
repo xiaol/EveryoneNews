@@ -14,11 +14,11 @@
 @implementation LPDetailViewController (FulltextComment)
 
 #pragma mark - 查看更多评论
-- (void)showMoreComment {
-    LPFullCommentViewController *fullCommentVc = [[LPFullCommentViewController alloc] init];
-    fullCommentVc.docId = [self docId];
-    [self.navigationController pushViewController:fullCommentVc animated:YES];
-}
+//- (void)showMoreComment {
+//    LPFullCommentViewController *fullCommentVc = [[LPFullCommentViewController alloc] init];
+//    fullCommentVc.docId = [self docId];
+//    [self.navigationController pushViewController:fullCommentVc animated:YES];
+//}
 
 #pragma maek -  全文评论
 - (void)fulltextCommentDidClick {
@@ -58,5 +58,7 @@
     
     [self.navigationController pushViewController:fullCommentVc animated:YES];
 }
+
+
 
 @end

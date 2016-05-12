@@ -17,11 +17,8 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        CGFloat menuFontSize = 16;
-        if (iPhone6) {
-            menuFontSize = 16;
-        }
-        else if (iPhone6Plus) {
+        CGFloat menuFontSize = 17;
+        if (iPhone5 || iPhone6Plus) {
             menuFontSize = 17;
         }
         self.textColor = LPNormalColor;

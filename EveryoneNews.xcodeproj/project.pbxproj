@@ -294,6 +294,7 @@
 		861BE9551C591981008FFFBB /* UINavigationController+LP.m in Sources */ = {isa = PBXBuildFile; fileRef = 861BE9541C591981008FFFBB /* UINavigationController+LP.m */; };
 		862779F91C97FEF20071AF9D /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 862779F61C97FEF20071AF9D /* libMobClickLibrary.a */; };
 		862779FE1C981E840071AF9D /* libUMessage_Sdk_1.2.6.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 862779FC1C981E840071AF9D /* libUMessage_Sdk_1.2.6.a */; };
+		863D13321CE4782900C263C9 /* CardFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 863D13311CE4782900C263C9 /* CardFrame.m */; };
 		8649B3721C50F44F00BC96BF /* LPTriangleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8649B3711C50F44F00BC96BF /* LPTriangleView.m */; };
 		8649B37C1C50F4AA00BC96BF /* LPHomeViewController+ChannelItemMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 8649B3751C50F4AA00BC96BF /* LPHomeViewController+ChannelItemMenu.m */; };
 		8649B37E1C50F4AA00BC96BF /* LPHomeViewController+ContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8649B3791C50F4AA00BC96BF /* LPHomeViewController+ContentView.m */; };
@@ -323,6 +324,7 @@
 		866F805F1CDAE1DC0070A453 /* LPDetailChangeFontSizeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 866F805E1CDAE1DC0070A453 /* LPDetailChangeFontSizeView.m */; };
 		8670E4F21C5B13BD009053ED /* RelateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8670E4F11C5B13BD009053ED /* RelateView.m */; };
 		8670E4F81C5B6090009053ED /* Press+HTTPStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 8670E4F71C5B6090009053ED /* Press+HTTPStatus.m */; };
+		86768C3C1CE4537D004A593E /* LPDetailScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86768C3B1CE4537D004A593E /* LPDetailScrollView.m */; };
 		86785A9D1CA2792F0088977C /* Card+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 86785A9A1CA2792F0088977C /* Card+CoreDataProperties.m */; };
 		86785A9E1CA2792F0088977C /* Card.m in Sources */ = {isa = PBXBuildFile; fileRef = 86785A9C1CA2792F0088977C /* Card.m */; };
 		86785AA11CA280170088977C /* LPShareCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 86785AA01CA280170088977C /* LPShareCell.m */; };
@@ -339,6 +341,7 @@
 		868203391CAE6B6F005B9E07 /* NSTimer+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 868203371CAE6B6F005B9E07 /* NSTimer+Additions.m */; };
 		868367691C080A0A00732516 /* LPFullPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 868367681C080A0A00732516 /* LPFullPhotoViewController.m */; };
 		8683E86D1CC8AF8E00C885A9 /* LPUITextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8683E86C1CC8AF8E00C885A9 /* LPUITextView.m */; };
+		8685C1201CE340E600C5D582 /* LPLoadFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 8685C11F1CE340E600C5D582 /* LPLoadFooter.m */; };
 		8686D3761CA13FD1005AB9DD /* LPShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8686D3751CA13FD1005AB9DD /* LPShareViewController.m */; };
 		8686D38E1CA15652005AB9DD /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8686D3881CA15652005AB9DD /* Model.xcdatamodeld */; };
 		8689DDA41BECAEA600D425BC /* LPFullCommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8689DDA31BECAEA600D425BC /* LPFullCommentCell.m */; };
@@ -358,7 +361,6 @@
 		86BDF4451C9C130A004742BA /* LPFulltextCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86BDF4441C9C130A004742BA /* LPFulltextCommentView.m */; };
 		86BF699D1C254109009C967C /* LPDiggerFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 86BF699A1C254109009C967C /* LPDiggerFooter.m */; };
 		86BF699E1C254109009C967C /* LPDiggerHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 86BF699C1C254109009C967C /* LPDiggerHeader.m */; };
-		86CC9B0E1C2168BF00D9364D /* CardFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 86CC9B0D1C2168BF00D9364D /* CardFrame.m */; };
 		86D7163B1CD0CD4C00F7C7CC /* LPBottomShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86D7163A1CD0CD4C00F7C7CC /* LPBottomShareView.m */; };
 		86E7DF2D1CB788F600E62092 /* LPHomeViewController+LaunchFontSizeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 86E7DF2C1CB788F600E62092 /* LPHomeViewController+LaunchFontSizeManager.m */; };
 /* End PBXBuildFile section */
@@ -949,6 +951,7 @@
 		862779F81C97FEF20071AF9D /* MobClickSocialAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClickSocialAnalytics.h; sourceTree = "<group>"; };
 		862779FC1C981E840071AF9D /* libUMessage_Sdk_1.2.6.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMessage_Sdk_1.2.6.a; sourceTree = "<group>"; };
 		862779FD1C981E840071AF9D /* UMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMessage.h; sourceTree = "<group>"; };
+		863D13311CE4782900C263C9 /* CardFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardFrame.m; sourceTree = "<group>"; };
 		8649B3701C50F44F00BC96BF /* LPTriangleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPTriangleView.h; sourceTree = "<group>"; };
 		8649B3711C50F44F00BC96BF /* LPTriangleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPTriangleView.m; sourceTree = "<group>"; };
 		8649B3741C50F4AA00BC96BF /* LPHomeViewController+ChannelItemMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LPHomeViewController+ChannelItemMenu.h"; sourceTree = "<group>"; };
@@ -1007,6 +1010,8 @@
 		8670E4F11C5B13BD009053ED /* RelateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RelateView.m; sourceTree = "<group>"; };
 		8670E4F61C5B6090009053ED /* Press+HTTPStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Press+HTTPStatus.h"; sourceTree = "<group>"; };
 		8670E4F71C5B6090009053ED /* Press+HTTPStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Press+HTTPStatus.m"; sourceTree = "<group>"; };
+		86768C3A1CE4537D004A593E /* LPDetailScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPDetailScrollView.h; sourceTree = "<group>"; };
+		86768C3B1CE4537D004A593E /* LPDetailScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPDetailScrollView.m; sourceTree = "<group>"; };
 		86785A921CA278A90088977C /* Model 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 6.xcdatamodel"; sourceTree = "<group>"; };
 		86785A991CA2792F0088977C /* Card+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Card+CoreDataProperties.h"; sourceTree = "<group>"; };
 		86785A9A1CA2792F0088977C /* Card+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Card+CoreDataProperties.m"; sourceTree = "<group>"; };
@@ -1040,6 +1045,8 @@
 		868367681C080A0A00732516 /* LPFullPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPFullPhotoViewController.m; sourceTree = "<group>"; };
 		8683E86B1CC8AF8E00C885A9 /* LPUITextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPUITextView.h; sourceTree = "<group>"; };
 		8683E86C1CC8AF8E00C885A9 /* LPUITextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPUITextView.m; sourceTree = "<group>"; };
+		8685C11E1CE340E600C5D582 /* LPLoadFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPLoadFooter.h; sourceTree = "<group>"; };
+		8685C11F1CE340E600C5D582 /* LPLoadFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPLoadFooter.m; sourceTree = "<group>"; };
 		8686D3741CA13FD1005AB9DD /* LPShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPShareViewController.h; sourceTree = "<group>"; };
 		8686D3751CA13FD1005AB9DD /* LPShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPShareViewController.m; sourceTree = "<group>"; };
 		8686D3891CA15652005AB9DD /* Model 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 2.xcdatamodel"; sourceTree = "<group>"; };
@@ -1081,7 +1088,6 @@
 		86BF699B1C254109009C967C /* LPDiggerHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPDiggerHeader.h; sourceTree = "<group>"; };
 		86BF699C1C254109009C967C /* LPDiggerHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPDiggerHeader.m; sourceTree = "<group>"; };
 		86CC9B0C1C2168BF00D9364D /* CardFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CardFrame.h; path = LPCategory/CardFrame.h; sourceTree = "<group>"; };
-		86CC9B0D1C2168BF00D9364D /* CardFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CardFrame.m; path = LPCategory/CardFrame.m; sourceTree = "<group>"; };
 		86D716391CD0CD4C00F7C7CC /* LPBottomShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPBottomShareView.h; sourceTree = "<group>"; };
 		86D7163A1CD0CD4C00F7C7CC /* LPBottomShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPBottomShareView.m; sourceTree = "<group>"; };
 		86E7DF2B1CB788F600E62092 /* LPHomeViewController+LaunchFontSizeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LPHomeViewController+LaunchFontSizeManager.h"; sourceTree = "<group>"; };
@@ -1762,6 +1768,7 @@
 		1889FE511B4C2E91006D8E03 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				866CBAD71CE1D342004808C2 /* 详情页正文 */,
 				866F805C1CDAE18F0070A453 /* 详情页字体大小 */,
 				869BB8921CD1C0DC005F7DDA /* 详情页相关观点 */,
 				869BB8911CD1BB4F005F7DDA /* 详情页评论 */,
@@ -1772,8 +1779,6 @@
 				8680F8161BF046A6002C08EB /* LPRelateView.m */,
 				1889FE521B4C2E91006D8E03 /* LPCommentView.h */,
 				1889FE531B4C2E91006D8E03 /* LPCommentView.m */,
-				1889FE541B4C2E91006D8E03 /* LPContentCell.h */,
-				1889FE551B4C2E91006D8E03 /* LPContentCell.m */,
 				1889FE581B4C2E91006D8E03 /* LPUpButton.h */,
 				1889FE591B4C2E91006D8E03 /* LPUpButton.m */,
 				1889FE5A1B4C2E91006D8E03 /* LPZhihuView.h */,
@@ -1794,6 +1799,8 @@
 				86819F081CA3DCDB00C8BCFC /* LPDetailBottomView.m */,
 				8683E86B1CC8AF8E00C885A9 /* LPUITextView.h */,
 				8683E86C1CC8AF8E00C885A9 /* LPUITextView.m */,
+				86768C3A1CE4537D004A593E /* LPDetailScrollView.h */,
+				86768C3B1CE4537D004A593E /* LPDetailScrollView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2135,6 +2142,7 @@
 		18BAE7091B1352EA0052BDD0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				8685C11D1CE340BB00C5D582 /* 加载更多 */,
 				8689DDA21BECAEA600D425BC /* LPFullCommentCell.h */,
 				8689DDA31BECAEA600D425BC /* LPFullCommentCell.m */,
 				1877D5221B42594C00C042E6 /* LPTextView.h */,
@@ -2890,6 +2898,15 @@
 			path = ../Controller;
 			sourceTree = "<group>";
 		};
+		866CBAD71CE1D342004808C2 /* 详情页正文 */ = {
+			isa = PBXGroup;
+			children = (
+				1889FE541B4C2E91006D8E03 /* LPContentCell.h */,
+				1889FE551B4C2E91006D8E03 /* LPContentCell.m */,
+			);
+			name = "详情页正文";
+			sourceTree = "<group>";
+		};
 		866ECEDC1CDECA5400BC7551 /* 评论 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2939,8 +2956,8 @@
 		867F9FF11CB4B122001EE47B /* CardFrame */ = {
 			isa = PBXGroup;
 			children = (
+				863D13311CE4782900C263C9 /* CardFrame.m */,
 				86CC9B0C1C2168BF00D9364D /* CardFrame.h */,
-				86CC9B0D1C2168BF00D9364D /* CardFrame.m */,
 			);
 			name = CardFrame;
 			sourceTree = "<group>";
@@ -2952,6 +2969,15 @@
 				868203351CAE1CE2005B9E07 /* LPLaunchLoginView.m */,
 			);
 			name = "Launch页面";
+			sourceTree = "<group>";
+		};
+		8685C11D1CE340BB00C5D582 /* 加载更多 */ = {
+			isa = PBXGroup;
+			children = (
+				8685C11E1CE340E600C5D582 /* LPLoadFooter.h */,
+				8685C11F1CE340E600C5D582 /* LPLoadFooter.m */,
+			);
+			name = "加载更多";
 			sourceTree = "<group>";
 		};
 		86972A7E1C86D72C00C77DCB /* 首页内容 */ = {
@@ -3289,7 +3315,6 @@
 				18BA5E8E1B199BDB00EEDB63 /* UIView+LP.m in Sources */,
 				8680F8171BF046A6002C08EB /* LPRelateView.m in Sources */,
 				8649B39E1C50F92600BC96BF /* LPPagingView.m in Sources */,
-				86CC9B0E1C2168BF00D9364D /* CardFrame.m in Sources */,
 				18C9C4CC1B5C03C600064CED /* ConcernViewController.m in Sources */,
 				868D15BD1BFDA6A900E75E9A /* LPDetailTopView.m in Sources */,
 				18EC95961BE21E6F0039486A /* TimerTool.m in Sources */,
@@ -3312,6 +3337,7 @@
 				1826B3DA1B786B3900B712E0 /* POPAnimatableProperty.mm in Sources */,
 				11B63BB21CBE485E00976070 /* LPNewsPrivacyItemsController.m in Sources */,
 				18AB8C821B8A3E6B0084934E /* GenieAnimation.m in Sources */,
+				8685C1201CE340E600C5D582 /* LPLoadFooter.m in Sources */,
 				18AB8C8C1B8A48110084934E /* LPDigViewController.m in Sources */,
 				18F631691B5C0CEA00423658 /* UIScrollView+MJExtension.m in Sources */,
 				181B38A91BCFC06C00698FC5 /* CollectCell.m in Sources */,
@@ -3447,6 +3473,7 @@
 				86819F031CA3911D00C8BCFC /* LPRelateCell.m in Sources */,
 				186866041B907E1500039AA3 /* AFHTTPSessionManager.m in Sources */,
 				11FBB1D71CBB50C8001FFDA3 /* LPNewsMineViewController.m in Sources */,
+				863D13321CE4782900C263C9 /* CardFrame.m in Sources */,
 				187564851C2110B600589320 /* PressPhoto+CoreDataProperties.m in Sources */,
 				865C12B61C21A208000303C8 /* LPHomeViewCell.m in Sources */,
 				867D492B1CABD6240025765B /* LPFloodView.m in Sources */,
@@ -3474,6 +3501,7 @@
 				18F631601B5C0CEA00423658 /* MJRefreshAutoStateFooter.m in Sources */,
 				11FBB1D01CBB5041001FFDA3 /* LPNewsNavigationBar.m in Sources */,
 				181B38A61BCF7F6C00698FC5 /* LPPressListViewController.m in Sources */,
+				86768C3C1CE4537D004A593E /* LPDetailScrollView.m in Sources */,
 				86571EDA1CB8AFC100BD1DC8 /* LPDetailViewController+Share.m in Sources */,
 				18EF3B431B6507CF0097F5A6 /* LPBaseViewController.m in Sources */,
 				1889FE611B4C2E91006D8E03 /* LPRelatePoint.m in Sources */,

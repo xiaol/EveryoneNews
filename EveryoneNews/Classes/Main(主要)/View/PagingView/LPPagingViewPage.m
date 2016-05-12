@@ -44,13 +44,13 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if(self = [super initWithFrame:frame]) {
-        CGFloat searchViewHeight = 40;
+        CGFloat searchViewHeight = 35;
         CGFloat cornerRadius = 10;
-        CGFloat paddingTop = 9;
+        CGFloat paddingTop = 5;
         CGFloat searchImageH = 12;
         CGFloat searchImageW = 12;
-        CGFloat searchLabelFontSize = 13;
-        CGFloat searchViewPadding = 9;
+        CGFloat searchLabelFontSize = 12;
+        CGFloat searchViewPadding = 10;
         
         if (iPhone6Plus) {
             searchViewHeight = 42;
@@ -60,6 +60,12 @@
             searchLabelFontSize = 16;
             paddingTop = 6;
             searchViewPadding = 13;
+        } else if (iPhone5) {
+            searchViewHeight = 35;
+            paddingTop = 5;
+            cornerRadius = 12;
+            searchViewPadding = 10;
+            searchLabelFontSize = 12;
         }
         
         UIView *searchView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, searchViewHeight)];

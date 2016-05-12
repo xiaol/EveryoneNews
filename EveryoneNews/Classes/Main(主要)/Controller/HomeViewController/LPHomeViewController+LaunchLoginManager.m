@@ -43,15 +43,17 @@
     CGFloat statusBarHeight = 20.0f;
     CGFloat menuViewHeight = 44.0;
     
-    
-    
-    CGFloat unloginBtnX = 18;
-    CGFloat unloginBtnW = 18;
-    CGFloat unloginBtnH = 18;
+    CGFloat unloginBtnX = 15.0;
+    CGFloat unloginBtnW = 16.0;
+    CGFloat unloginBtnH = 16.0;
     if (iPhone6Plus) {
         unloginBtnX = 15.7f;
         unloginBtnW = 17.3f;
         unloginBtnH = 18.6f;
+    } else if (iPhone5) {
+        unloginBtnX = 15.0f;
+        unloginBtnW = 16.0f;
+        unloginBtnH = 16.0f;
     }
     
     
@@ -71,13 +73,18 @@
             if (image && finished) {
                 CGFloat statusBarHeight = 20.0f;
                 CGFloat menuViewHeight = 44.0;
-                CGFloat loginBtnX = 12;
+                CGFloat loginBtnX = 10;
                 CGFloat loginBtnW = 29;
                 CGFloat loginBtnH = 29;
-                CGFloat loginBtnY = (menuViewHeight - loginBtnH) / 2 + statusBarHeight;
+             
                 if (iPhone6Plus) {
                     loginBtnX = 10.0f;
+                } else if (iPhone5) {
+                    loginBtnX = 10.0f;
+                    loginBtnW = 25;
+                    loginBtnH = 25;
                 }
+            CGFloat loginBtnY = (menuViewHeight - loginBtnH) / 2 + statusBarHeight;
                 
                 [weakSelf.loginBtn setBackgroundImage:image forState:UIControlStateNormal];
                 weakSelf.loginBtn.frame = CGRectMake(loginBtnX , loginBtnY , loginBtnW, loginBtnH);

@@ -15,15 +15,20 @@
 @implementation LPContentFrame
 
 - (void)setContent:(LPContent *)content {
-    
+    CGFloat bodyPadding = 13;
+    if (iPhone6Plus) {
+        bodyPadding = 15;
+    } else if (iPhone5) {
+        bodyPadding = 10;
+    }
     _content = content;
     if (!_content.isPhoto) { // 普通类型(非图)g
-        CGFloat bodyX = BodyPadding;
-        CGFloat bodyY = 5;
-        CGFloat bodyW = ScreenWidth - 2 * BodyPadding;
+        CGFloat bodyX = bodyPadding;
+        CGFloat bodyY = 0;
+        CGFloat bodyW = ScreenWidth - 2 * bodyPadding;
         CGFloat bodyH = [_content.bodyHtmlString textViewHeightWithConstraintWidth:bodyW];
         _bodyLabelF = CGRectMake(bodyX, bodyY, bodyW, bodyH);
-        _cellHeight = CGRectGetMaxY(_bodyLabelF) + 5;
+        _cellHeight = CGRectGetMaxY(_bodyLabelF) + 3.5f;
     }
     else { // 图像类型
         [self setupPhotoFAndCellHWithImage:_content.image];
@@ -46,12 +51,18 @@
 }
 
 - (void)setupPhotoFAndCellHWithImage:(UIImage *)image {
-    CGFloat photoX = BodyPadding;
-    CGFloat photoY = 5;
-    CGFloat photoW = ScreenWidth - 2 * BodyPadding;
+    CGFloat bodyPadding = 13;
+    if (iPhone6Plus) {
+        bodyPadding = 19;
+    } else if (iPhone5) {
+        bodyPadding = 15;
+    }
+    CGFloat photoX = bodyPadding;
+    CGFloat photoY = 0;
+    CGFloat photoW = ScreenWidth - 2 * bodyPadding;
     CGFloat photoH =  photoW * (image.size.height / image.size.width);
     _photoViewF = CGRectMake(photoX, photoY, photoW, photoH);
-    _cellHeight = CGRectGetMaxY(_photoViewF) + 5;
+    _cellHeight = CGRectGetMaxY(_photoViewF) + 3.5f;
 
 }
 

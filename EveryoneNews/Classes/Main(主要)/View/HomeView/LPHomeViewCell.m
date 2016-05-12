@@ -49,7 +49,13 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     self.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
-    CGFloat sourceFontSize = 10;
+    CGFloat sourceFontSize = 9;
+    if (iPhone6Plus) {
+        sourceFontSize = 10;
+    } else if(iPhone6) {
+       sourceFontSize = 9;
+    }
+    
     NSString *tipString = @"刚刚看到这里，点击加载更多";
     CGFloat tipFontSize = 16;
     if(self) {

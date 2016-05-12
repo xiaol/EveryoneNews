@@ -10,7 +10,7 @@
 #import "LPComposeViewController.h"
 
 @interface LPDetailViewController (FulltextComment)<LPComposeViewControllerDelegate>
-- (void)showMoreComment ;
+//- (void)showMoreComment ;
 - (void)fulltextCommentDidClick;
 - (void)pushFulltextCommentComposeVc;
 

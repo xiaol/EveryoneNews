@@ -66,9 +66,21 @@ const static CGFloat cellPadding = 15;
     
     
     // 右上角添加按钮
-    CGFloat addBtnW = 19.0f;
-    CGFloat addBtnH = 19.0f;
-    CGFloat addBtnX = ScreenWidth - addBtnW - 8;
+    CGFloat addBtnW = 15.5f;
+    CGFloat addBtnH = 15.5f;
+    CGFloat addBtnPaddingRight = 10;
+    
+    if (iPhone6Plus) {
+        addBtnW = 19.0f;
+        addBtnH = 19.0f;
+        addBtnPaddingRight = 8;
+    } else if (iPhone5) {
+         addBtnW = 15.5f;
+         addBtnH = 15.5f;
+         addBtnPaddingRight = 10;
+    }
+    
+    CGFloat addBtnX = ScreenWidth - addBtnW - addBtnPaddingRight;
     CGFloat addBtnY = (menuViewHeight - addBtnH) / 2 + statusBarHeight;
     UIButton *addButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [addButton setBackgroundImage:[UIImage imageNamed:@"添加频道"] forState:UIControlStateNormal];
@@ -83,17 +95,22 @@ const static CGFloat cellPadding = 15;
     [headerView addSubview:seperatorView];
     
     // 频道栏
-    CGFloat menuViewX = 53;
-    CGFloat menuViewPaddingRight = 34;
+    CGFloat menuViewX = 46;
+    CGFloat menuViewPaddingRight = 35.5;
     CGFloat menuViewPaddingTop = 30;
     
     CGFloat menuViewY = menuViewPaddingTop;
     CGFloat menuViewW = ScreenWidth - menuViewX - menuViewPaddingRight;
     CGFloat menuViewH = 24.0;
-    
     if (iPhone6Plus) {
-        
         menuViewX = 46;
+        menuViewPaddingRight = 34;
+        menuViewW = ScreenWidth - menuViewX - menuViewPaddingRight;
+        menuViewH = 24.0;
+        menuViewY = menuViewPaddingTop;
+    } else if (iPhone5) {
+        menuViewX = 46;
+        menuViewPaddingRight = 35.5f;
         menuViewW = ScreenWidth - menuViewX - menuViewPaddingRight;
         menuViewH = 24.0;
         menuViewY = menuViewPaddingTop;

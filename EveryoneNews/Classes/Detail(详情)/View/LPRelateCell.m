@@ -72,7 +72,7 @@
         // 年
         UILabel *yearLabel = [[UILabel alloc] init];
         yearLabel.textColor = [UIColor colorFromHexString:LPColor2];
-        yearLabel.font = [UIFont systemFontOfSize:13];
+        yearLabel.font = [UIFont systemFontOfSize:14];
         [self.cellView addSubview:yearLabel];
         self.yearLabel = yearLabel;
         
@@ -81,7 +81,9 @@
         monthDayLabel.backgroundColor = [UIColor colorFromHexString:@"#0091fa"];
         monthDayLabel.textColor = [UIColor whiteColor];
         monthDayLabel.textAlignment = NSTextAlignmentCenter;
-        monthDayLabel.font = [UIFont systemFontOfSize:LPFont7];
+        monthDayLabel.font = [UIFont systemFontOfSize:13];
+        monthDayLabel.layer.cornerRadius = 2.0f;
+        monthDayLabel.clipsToBounds = YES;
         [self.cellView addSubview:monthDayLabel];
         self.monthDayLabel = monthDayLabel;
         
@@ -103,6 +105,8 @@
         
         // 图片
         UIImageView *pointImageView = [[UIImageView alloc] init];
+        pointImageView.contentMode = UIViewContentModeScaleAspectFill;
+        pointImageView.clipsToBounds = YES;
         [self.cellView addSubview:pointImageView];
         self.pointImageView = pointImageView;
         

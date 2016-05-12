@@ -12,36 +12,40 @@
 @implementation LPCommentFrame
 
 const static CGFloat padding = 13;
-static const CGFloat iconPaddingTop = 21.0f;
 static const CGFloat namePaddingLeft = 12.0f;
 static const CGFloat namePaddingTop = 18;
 static const CGFloat userIconWidth = 38.0f;
 
 
 - (void)setComment:(LPComment *)comment {
+
+    CGFloat iconPaddingTop = 22.0f;
+    CGFloat iconPaddingLeft = 18.0f;
+    
+    
     _comment = comment;
     NSString *upCount = [NSString stringWithFormat:@"%@", comment.up];
     
     CGFloat iconY = iconPaddingTop;
     CGFloat iconW = userIconWidth;
     CGFloat iconH = userIconWidth;
-    _iconF = CGRectMake(BodyPadding, iconY, iconW, iconH);
+    _iconF = CGRectMake(iconPaddingLeft, iconY, iconW, iconH);
     
     CGFloat nameX = CGRectGetMaxX(_iconF) + namePaddingLeft;
-    CGFloat nameY = iconPaddingTop;
+    CGFloat nameY = iconPaddingTop - 2;
     CGFloat nameW = 200;
     CGFloat nameH = [@"123" heightForLineWithFont:[UIFont systemFontOfSize:LPFont4]];
     _nameF = CGRectMake(nameX, nameY, nameW, nameH);
     
     CGFloat timeX = nameX;
-    CGFloat timeY = CGRectGetMaxY(_nameF) + 8;
+    CGFloat timeY = CGRectGetMaxY(_nameF) + 5;
     CGFloat timeW = nameW;
     CGFloat timeH = [@"123" heightForLineWithFont:[UIFont systemFontOfSize:LPFont7]];
     _timeF = CGRectMake(timeX, timeY, timeW, timeH);
     
     CGFloat textX = nameX;
-    CGFloat textY = CGRectGetMaxY(_timeF) + 12;
-    CGFloat textW = ScreenWidth - textX - BodyPadding * 2;
+    CGFloat textY = CGRectGetMaxY(_timeF) + 9;
+    CGFloat textW = ScreenWidth - textX - iconPaddingLeft * 2;
     CGFloat textH = [[comment commentStringWithColor:comment.color] heightWithConstraintWidth:textW];
     _textF = CGRectMake(textX, textY, textW, textH);
     
@@ -49,7 +53,7 @@ static const CGFloat userIconWidth = 38.0f;
     
     CGFloat upButtonW = 17.0f;
     CGFloat upButtonH = 17.0f;
-    CGFloat upButtonX = ScreenWidth - BodyPadding * 2 - upButtonW;
+    CGFloat upButtonX = ScreenWidth - iconPaddingLeft  - upButtonW - 1;
     CGFloat upButtonY =  nameY;
     _upButtonF = CGRectMake(upButtonX, upButtonY, upButtonW, upButtonH);
     
@@ -61,7 +65,7 @@ static const CGFloat userIconWidth = 38.0f;
     CGFloat upCountsY = 0;
     _upCountF = CGRectMake(upCountsX, upCountsY, upCountsW, upCountsH);
     
-    _cellHeight = iconPaddingTop * 2 + 8 + 12 + nameH + timeH + textH;
+    _cellHeight = iconPaddingTop * 2 + 4 + 9 + nameH + timeH + textH;
     
 }
 
