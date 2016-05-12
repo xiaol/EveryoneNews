@@ -73,4 +73,25 @@
     return card;
 }
 
+
+-(BOOL)Collected{
+
+    CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    
+    Card *card = [cdh.context existingObjectWithID:self.objectID error:nil];
+    
+    if ([card.isCollected isEqual:[[NSNumber alloc]initWithInt:1]]) {
+        
+        card.isCollected = [[NSNumber alloc]initWithInt:0];
+    }else{
+        card.isCollected = [[NSNumber alloc]initWithInt:1];
+    }
+    
+//    card.isCollected = (card.isCollected == [[NSNumber alloc]initWithInt:1] ? [[NSNumber alloc]initWithInt:0] : [[NSNumber alloc]initWithInt:1]);
+    
+    return [cdh.context save:nil];
+}
+
+
+
 @end
