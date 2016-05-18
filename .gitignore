@@ -1,6 +1,0 @@
-# Created by https://www.gitignore.io
-
-Pods/*
-
-# FileSystem
-.DS_Store
