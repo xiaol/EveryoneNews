@@ -7,7 +7,6 @@
 //
 
 import RealmSwift
-import SwiftyJSON
 import SwaggerClient
 
 class ChannelUtil: NSObject {
@@ -19,7 +18,7 @@ class ChannelUtil: NSObject {
      */
     class func RefreshChannleObjects(finish:(()->Void)?){
         let realm = try! Realm()
-        ConfigsAPI.channelsGet(online: nil) { (data, error) in
+        ChannelsAPI.channelsGet(online: nil) { (data, error) in
             if let _ = error {return}
             if let code = data?.objectForKey("code") as? Int {
                 if code != 0 {return}
@@ -44,7 +43,7 @@ class ChannelUtil: NSObject {
      */
     class func GetChannelRealmObjects() -> Results<Channel>{
         let realm = try! Realm()
-        let channles = realm.objects(Channel).sorted("orderindex", ascending: true).filter("isdelete == 0")
+        let channles = realm.objects(Channel).sorted("orderindex", ascending: true)
         return channles
     }
     

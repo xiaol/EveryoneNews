@@ -51,7 +51,7 @@ extension HomeViewController{
         
         self.reloadViewControllers.removeAll()
         
-        for channel in channels {
+        for channel in channels.filter("isdelete == 0") {
             
             let viewControllers = standardViewControllers.filter({ (view) -> Bool in return view.title == channel.cname })
             
@@ -72,5 +72,18 @@ extension HomeViewController{
         }
         
         self.reloadPagerTabStripView()
+    }
+}
+
+// 进行频道管理的相关方法
+extension HomeViewController {
+    
+    @IBAction func ClickManagerChannelButton(sender: AnyObject) {
+    
+        UIView.animateWithDuration(0.3) { 
+            
+            self.channelManagerButton.transform = CGAffineTransformRotate(self.channelManagerButton.transform, CGFloat(M_PI_4))
+            
+        }
     }
 }

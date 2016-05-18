@@ -153,6 +153,46 @@ class Decoders {
                 return instance
             }
 			
+
+			// Decoder for [News]
+            Decoders.addDecoder(clazz: [News].self) { (source: AnyObject) -> [News] in
+                return Decoders.decode(clazz: [News].self, source: source)
+            }
+			// Decoder for News
+            Decoders.addDecoder(clazz: News.self) { (source: AnyObject) -> News in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = News()
+                instance.code = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["code"])
+                instance.message = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["message"])
+                instance.data = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["data"])
+                return instance
+            }
+			
+
+			// Decoder for [NewsData]
+            Decoders.addDecoder(clazz: [NewsData].self) { (source: AnyObject) -> [NewsData] in
+                return Decoders.decode(clazz: [NewsData].self, source: source)
+            }
+			// Decoder for NewsData
+            Decoders.addDecoder(clazz: NewsData.self) { (source: AnyObject) -> NewsData in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = NewsData()
+                instance.pubName = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["pubName"])
+                instance.imgStyle = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["imgStyle"])
+                instance.city = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["city"])
+                instance.docid = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["docid"])
+                instance.pubTime = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["pubTime"])
+                instance.title = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["title"])
+                instance.url = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["url"])
+                instance.pubUrl = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["pubUrl"])
+                instance.province = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["province"])
+                instance.commentsCount = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["commentsCount"])
+                instance.district = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["district"])
+                instance.channelId = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["channelId"])
+                instance.imgList = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["imgList"])
+                return instance
+            }
+			
         }
     }
 }
