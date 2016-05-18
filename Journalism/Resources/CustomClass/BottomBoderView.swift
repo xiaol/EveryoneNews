@@ -10,21 +10,6 @@ import UIKit
 
 ///按钮扩展类
 @IBDesignable
-class HeadPhotoView:UIImageView{
-    
-    @IBInspectable var cornerRadius:CGFloat = 0{
-    
-        didSet{
-        
-            self.layer.cornerRadius = cornerRadius
-            self.clipsToBounds = true
-        }
-    }
-}
-
-
-///按钮扩展类
-@IBDesignable
 class BottomBoderView:UIView{
     
     @IBInspectable var bottomBorder:Bool = false

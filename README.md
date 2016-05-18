@@ -2,10 +2,12 @@
 
 Journalism 是 `奇点资讯` 的pro版本.
 
+ [emiji](http://www.emoji-cheat-sheet.com/)
+
 主要是会使用:
 
 - `Realm` 进行数据持久化的操作。
-- `MVVM` 进行代码框架的编写
+- ~~`MVVM` 进行代码框架的编写~~ :arrow_right: 改用自己的了
 - 希望可以使用到 `AsyncDisplayKit` 框架进行页面的搭建，但是估计可能可行性不大
 - 尽量使用 `ReactiveCocoa` 进行变量的变化检测
 

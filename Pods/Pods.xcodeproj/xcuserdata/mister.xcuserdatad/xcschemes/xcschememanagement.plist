@@ -4,7 +4,32 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Alamofire.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Pods-Journalism.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>Realm.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>RealmSwift.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SwaggerClient.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SwiftyJSON.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -22,17 +47,42 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>57AB776D2FFC7009CB2E3C77AA0162FC</key>
+		<key>0FA3DCFDF1984F0A0B7C8A9B873C97CD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>93F8334B6B184C10B4A0BE3F75A2D22F</key>
+		<key>2A9D01915FFC28A20A09D92ADC147CE9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>CFD497ECCB15B11AFD6017E46F3456A7</key>
+		<key>432ECC54282C84882B482CCB4CF227FC</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>45EE41AD3D70DB2189C90F3289B43BC4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>46459C9A51DAD1A6FF856BC46DB7527D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>6275D4470493FEA90D795C2C7DB5EB0B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>653242E78D961D08221EA23F3AECCC6B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A01B2DC2E7BB3ACD50F8FAD4069716F6</key>
 		<dict>
 			<key>primary</key>
 			<true/>
