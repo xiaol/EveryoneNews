@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6211" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6204"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="Journalism" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -15,11 +16,112 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EOm-wF-XPU">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                            </scrollView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tsz-SP-gzc" customClass="BottomBoderView" customModule="Journalism" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                                <subviews>
+                                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="5yD-Hh-ctP" customClass="CircularButtonBarView" customModule="Journalism" customModuleProvider="target">
+                                        <rect key="frame" x="44" y="0.0" width="512" height="43"/>
+                                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="3Ni-Sa-0Te">
+                                            <size key="itemSize" width="50" height="50"/>
+                                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        </collectionViewFlowLayout>
+                                        <cells/>
+                                    </collectionView>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pdy-Li-RG9">
+                                        <rect key="frame" x="0.0" y="0.0" width="44" height="43"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="产品经理头像" translatesAutoresizingMaskIntoConstraints="NO" id="hcH-39-s68" customClass="HeadPhotoView" customModule="Journalism" customModuleProvider="target">
+                                                <rect key="frame" x="6" y="6" width="32" height="31"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                        <real key="value" value="16"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </imageView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="hcH-39-s68" firstAttribute="top" secondItem="Pdy-Li-RG9" secondAttribute="top" constant="6" id="4XS-r9-O5i"/>
+                                            <constraint firstItem="hcH-39-s68" firstAttribute="leading" secondItem="Pdy-Li-RG9" secondAttribute="leading" constant="6" id="XA1-ly-6Yk"/>
+                                            <constraint firstAttribute="bottom" secondItem="hcH-39-s68" secondAttribute="bottom" constant="6" id="qNf-sM-kHd"/>
+                                            <constraint firstAttribute="trailing" secondItem="hcH-39-s68" secondAttribute="trailing" constant="6" id="qf1-OP-VOe"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zaj-QN-Pst">
+                                        <rect key="frame" x="556" y="0.0" width="44" height="43"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="添加频道" translatesAutoresizingMaskIntoConstraints="NO" id="6nY-Lc-Lz2" customClass="HeadPhotoView" customModule="Journalism" customModuleProvider="target">
+                                                <rect key="frame" x="13" y="12" width="19" height="19"/>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                        <real key="value" value="16"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                </userDefinedRuntimeAttributes>
+                                            </imageView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="44" id="7SW-C2-beP"/>
+                                            <constraint firstItem="6nY-Lc-Lz2" firstAttribute="centerY" secondItem="zaj-QN-Pst" secondAttribute="centerY" id="SDX-zh-9Ot"/>
+                                            <constraint firstItem="6nY-Lc-Lz2" firstAttribute="centerX" secondItem="zaj-QN-Pst" secondAttribute="centerX" id="bX3-LQ-1Fu"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="zaj-QN-Pst" firstAttribute="top" secondItem="tsz-SP-gzc" secondAttribute="top" id="2Rh-aq-I4b"/>
+                                    <constraint firstItem="Pdy-Li-RG9" firstAttribute="top" secondItem="tsz-SP-gzc" secondAttribute="top" id="4ic-MB-u2C"/>
+                                    <constraint firstAttribute="bottom" secondItem="5yD-Hh-ctP" secondAttribute="bottom" constant="1" id="ASQ-J0-heh"/>
+                                    <constraint firstItem="5yD-Hh-ctP" firstAttribute="leading" secondItem="Pdy-Li-RG9" secondAttribute="trailing" id="Eit-95-H3q"/>
+                                    <constraint firstAttribute="height" constant="44" id="Mgv-jQ-YyA"/>
+                                    <constraint firstAttribute="bottom" secondItem="zaj-QN-Pst" secondAttribute="bottom" constant="1" id="NDo-Z9-50r"/>
+                                    <constraint firstItem="5yD-Hh-ctP" firstAttribute="leading" secondItem="tsz-SP-gzc" secondAttribute="leading" constant="44" id="Pgv-KV-ct3"/>
+                                    <constraint firstItem="5yD-Hh-ctP" firstAttribute="top" secondItem="tsz-SP-gzc" secondAttribute="top" id="TgY-FC-Gqd"/>
+                                    <constraint firstAttribute="trailing" secondItem="zaj-QN-Pst" secondAttribute="trailing" id="Vcy-Au-7jx"/>
+                                    <constraint firstAttribute="bottom" secondItem="Pdy-Li-RG9" secondAttribute="bottom" constant="1" id="byk-YQ-6BN"/>
+                                    <constraint firstItem="Pdy-Li-RG9" firstAttribute="leading" secondItem="tsz-SP-gzc" secondAttribute="leading" id="iFw-2z-kh3"/>
+                                    <constraint firstItem="zaj-QN-Pst" firstAttribute="leading" secondItem="5yD-Hh-ctP" secondAttribute="trailing" id="kEC-7B-JD4"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="bottomBorder" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="bottomBorderWidth">
+                                        <real key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="bottomBorderColor">
+                                        <color key="value" red="0.20784313725490194" green="0.65098039215686276" blue="0.98431372549019602" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="tsz-SP-gzc" secondAttribute="trailing" id="ASY-xz-eV8"/>
+                            <constraint firstItem="tsz-SP-gzc" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="Cju-do-kMa"/>
+                            <constraint firstItem="EOm-wF-XPU" firstAttribute="top" secondItem="tsz-SP-gzc" secondAttribute="bottom" id="Ekv-1k-X43"/>
+                            <constraint firstAttribute="trailing" secondItem="EOm-wF-XPU" secondAttribute="trailing" id="XCa-wi-YiS"/>
+                            <constraint firstItem="tsz-SP-gzc" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="paC-92-IyL"/>
+                            <constraint firstItem="EOm-wF-XPU" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="vpL-QY-2P8"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="EOm-wF-XPU" secondAttribute="bottom" id="wgX-2O-R3w"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="buttonBarView" destination="5yD-Hh-ctP" id="edR-1z-ykO"/>
+                        <outlet property="containerView" destination="EOm-wF-XPU" id="izq-Iu-LyY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="331" y="429"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="产品经理头像" width="53" height="53"/>
+        <image name="添加频道" width="19" height="19"/>
+    </resources>
 </document>
