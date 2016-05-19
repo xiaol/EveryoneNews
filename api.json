@@ -193,7 +193,8 @@
                             },
                             "pubTime": {
                                 "description": "上线时间",
-                                "type": "string"
+                                "type": "string",
+                                "format": "date-time"
                             },
                             "url": {
                                 "description": "新闻原始地址",

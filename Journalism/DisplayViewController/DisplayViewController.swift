@@ -7,8 +7,17 @@
 //
 
 import UIKit
+import RealmSwift
+import PINRemoteImage
 
 class DisplayViewController: UIViewController {
     
+    var newsResults:Results<New>!
+    
+    internal var currentPage = 1
+    
     internal var channel:Channel? // 该新闻列表的频道对象
+    
+    @IBOutlet var tableView: UITableView! // UITableView 视图对象
+    
 }

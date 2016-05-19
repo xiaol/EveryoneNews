@@ -15,6 +15,7 @@ extension HomeViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.InitChannelViewMethod()
         self.ReloadChannelHttpRequest()
         self.initialPagerTabStripMethod()
     }
@@ -40,9 +41,11 @@ extension HomeViewController{
     private func ReloadChannelHttpRequest(){
         
         self.ReloadViewControllers()
-        ChannelUtil.RefreshChannleObjects {
+        
+        ChannelUtil.RefreshChannleObjects({
             self.ReloadViewControllers()
-        }
+            self.ChannelManagerContainerCollectionView.reloadData()
+            }, fail: nil)
     }
     
     
@@ -59,7 +62,10 @@ extension HomeViewController{
             
             if viewControllers.count <= 0 {
                 let ex = UIStoryboard.shareStoryBoard.get_DisplayViewController(channel)
+                
                 ex.title = channel.cname
+                ex.newsResults = self.newsResults.filter("channelId = %@",channel.id)
+                
                 viewController = ex
                 self.standardViewControllers.append(viewController)
                 
@@ -72,18 +78,5 @@ extension HomeViewController{
         }
         
         self.reloadPagerTabStripView()
-    }
-}
-
-// 进行频道管理的相关方法
-extension HomeViewController {
-    
-    @IBAction func ClickManagerChannelButton(sender: AnyObject) {
-    
-        UIView.animateWithDuration(0.3) { 
-            
-            self.channelManagerButton.transform = CGAffineTransformRotate(self.channelManagerButton.transform, CGFloat(M_PI_4))
-            
-        }
     }
 }

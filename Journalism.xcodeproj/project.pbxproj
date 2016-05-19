@@ -22,7 +22,13 @@
 		AEC09CDB1CE9776800D5A5CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AEC09CDA1CE9776800D5A5CC /* Assets.xcassets */; };
 		AEC09CDE1CE9776800D5A5CC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AEC09CDC1CE9776800D5A5CC /* LaunchScreen.storyboard */; };
 		AEC09CF01CE9A50800D5A5CC /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC09CEF1CE9A50800D5A5CC /* HomeViewController.swift */; };
-		AEFE8F931CEC78B00095DBB4 /* HomeViewControllerChannelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFE8F911CEC78B00095DBB4 /* HomeViewControllerChannelExtension.swift */; };
+		AEC1D5BB1CED601400B1F00C /* ChannelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC1D5BA1CED601400B1F00C /* ChannelManager.swift */; };
+		AEC1D5BD1CED960100B1F00C /* New.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC1D5BC1CED960100B1F00C /* New.swift */; };
+		AEC1D5BF1CED9BBD00B1F00C /* NewsUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC1D5BE1CED9BBD00B1F00C /* NewsUtil.swift */; };
+		AEC1D5C21CEDB2E100B1F00C /* NewBaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC1D5C11CEDB2E100B1F00C /* NewBaseTableViewCell.swift */; };
+		AEC1D5C41CEDC22700B1F00C /* DateExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC1D5C31CEDC22700B1F00C /* DateExt.swift */; };
+		AEC1D5C61CEDC34600B1F00C /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AEC1D5C51CEDC34600B1F00C /* NSDateTimeAgo.bundle */; };
+		AEFE8F931CEC78B00095DBB4 /* HomeViewControllerChannelDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFE8F911CEC78B00095DBB4 /* HomeViewControllerChannelDataSource.swift */; };
 		AEFE8F941CEC78B00095DBB4 /* KDRearrangeableCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFE8F921CEC78B00095DBB4 /* KDRearrangeableCollectionViewFlowLayout.swift */; };
 /* End PBXBuildFile section */
 
@@ -45,7 +51,13 @@
 		AEC09CDD1CE9776800D5A5CC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AEC09CDF1CE9776800D5A5CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AEC09CEF1CE9A50800D5A5CC /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
-		AEFE8F911CEC78B00095DBB4 /* HomeViewControllerChannelExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewControllerChannelExtension.swift; sourceTree = "<group>"; };
+		AEC1D5BA1CED601400B1F00C /* ChannelManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelManager.swift; sourceTree = "<group>"; };
+		AEC1D5BC1CED960100B1F00C /* New.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = New.swift; sourceTree = "<group>"; };
+		AEC1D5BE1CED9BBD00B1F00C /* NewsUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsUtil.swift; sourceTree = "<group>"; };
+		AEC1D5C11CEDB2E100B1F00C /* NewBaseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewBaseTableViewCell.swift; sourceTree = "<group>"; };
+		AEC1D5C31CEDC22700B1F00C /* DateExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExt.swift; sourceTree = "<group>"; };
+		AEC1D5C51CEDC34600B1F00C /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = NSDateTimeAgo.bundle; sourceTree = "<group>"; };
+		AEFE8F911CEC78B00095DBB4 /* HomeViewControllerChannelDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewControllerChannelDataSource.swift; sourceTree = "<group>"; };
 		AEFE8F921CEC78B00095DBB4 /* KDRearrangeableCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KDRearrangeableCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		F68B44A9454D029CD2156A30 /* Pods_Journalism.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Journalism.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -74,6 +86,7 @@
 		AEBCAEE61CEC278500EBFC0A /* Objects */ = {
 			isa = PBXGroup;
 			children = (
+				AEC1D5BC1CED960100B1F00C /* New.swift */,
 				AEBCAEE71CEC27A900EBFC0A /* Channel.swift */,
 			);
 			path = Objects;
@@ -82,6 +95,7 @@
 		AEBCAEE91CEC2AD100EBFC0A /* ObjectsUtils */ = {
 			isa = PBXGroup;
 			children = (
+				AEC1D5BE1CED9BBD00B1F00C /* NewsUtil.swift */,
 				AEBCAEEA1CEC2ADB00EBFC0A /* ChannelUtil.swift */,
 			);
 			path = ObjectsUtils;
@@ -90,6 +104,7 @@
 		AEBCAEEE1CEC3EC100EBFC0A /* DisplayViewController */ = {
 			isa = PBXGroup;
 			children = (
+				AEC1D5C01CEDB2C100B1F00C /* custom */,
 				AEBCAEFE1CEC456300EBFC0A /* extension */,
 				AEBCAEEF1CEC3EF700EBFC0A /* DisplayViewController.swift */,
 			);
@@ -100,6 +115,8 @@
 			isa = PBXGroup;
 			children = (
 				AEBCAEF21CEC3F4300EBFC0A /* UIStoryBoard.swift */,
+				AEC1D5C51CEDC34600B1F00C /* NSDateTimeAgo.bundle */,
+				AEC1D5C31CEDC22700B1F00C /* DateExt.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -183,10 +200,19 @@
 			path = HomeViewController;
 			sourceTree = "<group>";
 		};
+		AEC1D5C01CEDB2C100B1F00C /* custom */ = {
+			isa = PBXGroup;
+			children = (
+				AEC1D5C11CEDB2E100B1F00C /* NewBaseTableViewCell.swift */,
+			);
+			path = custom;
+			sourceTree = "<group>";
+		};
 		AEFE8F901CEC78990095DBB4 /* ChannelManager */ = {
 			isa = PBXGroup;
 			children = (
-				AEFE8F911CEC78B00095DBB4 /* HomeViewControllerChannelExtension.swift */,
+				AEC1D5BA1CED601400B1F00C /* ChannelManager.swift */,
+				AEFE8F911CEC78B00095DBB4 /* HomeViewControllerChannelDataSource.swift */,
 				AEFE8F921CEC78B00095DBB4 /* KDRearrangeableCollectionViewFlowLayout.swift */,
 			);
 			path = ChannelManager;
@@ -271,6 +297,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AEC09CDE1CE9776800D5A5CC /* LaunchScreen.storyboard in Resources */,
+				AEC1D5C61CEDC34600B1F00C /* NSDateTimeAgo.bundle in Resources */,
 				AEC09CDB1CE9776800D5A5CC /* Assets.xcassets in Resources */,
 				AEC09CD91CE9776800D5A5CC /* Main.storyboard in Resources */,
 			);
@@ -331,11 +358,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AEC1D5C21CEDB2E100B1F00C /* NewBaseTableViewCell.swift in Sources */,
 				AEC09CF01CE9A50800D5A5CC /* HomeViewController.swift in Sources */,
-				AEFE8F931CEC78B00095DBB4 /* HomeViewControllerChannelExtension.swift in Sources */,
+				AEFE8F931CEC78B00095DBB4 /* HomeViewControllerChannelDataSource.swift in Sources */,
 				AEBCAEFD1CEC43B900EBFC0A /* HomeViewControllerExtension.swift in Sources */,
+				AEC1D5BD1CED960100B1F00C /* New.swift in Sources */,
+				AEC1D5BF1CED9BBD00B1F00C /* NewsUtil.swift in Sources */,
 				AEBCAEF01CEC3EF700EBFC0A /* DisplayViewController.swift in Sources */,
 				AEBCAEE81CEC27A900EBFC0A /* Channel.swift in Sources */,
+				AEC1D5BB1CED601400B1F00C /* ChannelManager.swift in Sources */,
 				AEBCAF001CEC457000EBFC0A /* DisplayViewControllerExtension.swift in Sources */,
 				AEBCAEF31CEC3F4300EBFC0A /* UIStoryBoard.swift in Sources */,
 				AEC09CD41CE9776800D5A5CC /* AppDelegate.swift in Sources */,
@@ -344,6 +375,7 @@
 				AEBCAEFA1CEC419600EBFC0A /* HeadPhotoView.swift in Sources */,
 				AEBCAEF71CEC418200EBFC0A /* BottomBoderView.swift in Sources */,
 				AEBCAEF81CEC418200EBFC0A /* CircularButtonBarView.swift in Sources */,
+				AEC1D5C41CEDC22700B1F00C /* DateExt.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,6 +13,13 @@ class HomeViewControllerChannelDataSource:NSObject,UICollectionViewDataSource{
 
     internal let channels = ChannelUtil.GetChannelRealmObjects() // 获取所有数据库中的频道
     
+    private var didSelectItemAtIndexPathBlock:((indexPath:NSIndexPath)->Void)?
+    
+    func setDidSelectItemAtIndexPathBlock(didSelectItemAtIndexPathBlock:((indexPath:NSIndexPath)->Void)?){
+    
+        self.didSelectItemAtIndexPathBlock = didSelectItemAtIndexPathBlock
+    }
+    
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         
         return 2
@@ -30,18 +37,6 @@ class HomeViewControllerChannelDataSource:NSObject,UICollectionViewDataSource{
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        let channels:Results<Channel>!
-        
-        if indexPath.section == 0 {
-            
-            channels = self.channels.filter("isdelete == 0")
-        }else{
-            
-            channels = self.channels.filter("isdelete == 1")
-        }
-        
-        
-        
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("channelCell", forIndexPath: indexPath) as! HomeChannelCollectionViewCell
         
         cell.backgroundColor = UIColor(red: CGFloat(drand48()), green: CGFloat(drand48()), blue: CGFloat(drand48()), alpha: 1)
@@ -50,7 +45,19 @@ class HomeViewControllerChannelDataSource:NSObject,UICollectionViewDataSource{
         
         cell.clipsToBounds = true
         
-        cell.titleLabel.text = channels[indexPath.item].cname
+        if indexPath.section == 0 {
+            
+            cell.titleLabel.text = self.channels.filter("isdelete == 0")[indexPath.item].cname
+            
+        }else{
+            
+            cell.titleLabel.text = self.channels.filter("isdelete == 1")[indexPath.item].cname
+        }
+        
+        if cell.titleLabel.text == "热点" {
+            
+            cell.backgroundColor = UIColor.clearColor()
+        }
         
         return cell
     }
@@ -72,6 +79,11 @@ class HomeViewControllerChannelDataSource:NSObject,UICollectionViewDataSource{
 
 extension HomeViewControllerChannelDataSource:UICollectionViewDelegateFlowLayout{
 
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        
+        self.didSelectItemAtIndexPathBlock?(indexPath: indexPath)
+    }
+    
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize{
     
         return CGSize(width: (collectionView.frame.width-5*25)/4, height: 30)

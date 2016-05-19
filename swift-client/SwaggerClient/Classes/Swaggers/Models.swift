@@ -181,7 +181,7 @@ class Decoders {
                 instance.imgStyle = Decoders.decodeOptional(clazz: Int.self, source: sourceDictionary["imgStyle"])
                 instance.city = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["city"])
                 instance.docid = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["docid"])
-                instance.pubTime = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["pubTime"])
+                instance.pubTime = Decoders.decodeOptional(clazz: NSDate.self, source: sourceDictionary["pubTime"])
                 instance.title = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["title"])
                 instance.url = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["url"])
                 instance.pubUrl = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["pubUrl"])

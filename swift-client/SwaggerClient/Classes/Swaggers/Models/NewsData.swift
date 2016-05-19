@@ -19,7 +19,7 @@ public class NewsData: JSONEncodable {
     /** \u4EC0\u4E48\u51E0\u628A\u73A9\u610F */
     public var docid: String?
     /** \u4E0A\u7EBF\u65F6\u95F4 */
-    public var pubTime: String?
+    public var pubTime: NSDate?
     /** \u65B0\u95FB\u6807\u9898 */
     public var title: String?
     /** \u65B0\u95FB\u539F\u59CB\u5730\u5740 */
@@ -47,7 +47,7 @@ public class NewsData: JSONEncodable {
         nillableDictionary["imgStyle"] = self.imgStyle
         nillableDictionary["city"] = self.city
         nillableDictionary["docid"] = self.docid
-        nillableDictionary["pubTime"] = self.pubTime
+        nillableDictionary["pubTime"] = self.pubTime?.encodeToJSON()
         nillableDictionary["title"] = self.title
         nillableDictionary["url"] = self.url
         nillableDictionary["pubUrl"] = self.pubUrl

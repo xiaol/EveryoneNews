@@ -14,7 +14,7 @@ class Channel: Object {
     dynamic var cname = ""
     dynamic var online = 0
     
-    dynamic var orderindex = 0
+    dynamic var orderindex = 1
     dynamic var isdelete = 0
     
     override static func primaryKey() -> String? {

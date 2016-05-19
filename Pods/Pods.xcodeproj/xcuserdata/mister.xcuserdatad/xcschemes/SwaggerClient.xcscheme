@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '46459C9A51DAD1A6FF856BC46DB7527D'
+               BlueprintIdentifier = '13BADA5B8E26A1AB0DB12EF7A8BC6579'
                BlueprintName = 'SwaggerClient'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'SwaggerClient.framework'>
