@@ -10,7 +10,8 @@ import UIKit
 
 @objc protocol KDRearrangeableCollectionViewDelegate : UICollectionViewDelegate {
     func moveDataItem(fromIndexPath : NSIndexPath, toIndexPath: NSIndexPath) -> Void
-//    optional func disabledMove() -> Int
+    optional func ChannelManagerBeginDraggind() // 开始
+    optional func ChannelManagerEndDraggind() // 结束
 }
 
 enum KDDraggingAxis {
@@ -26,7 +27,9 @@ class KDRearrangeableCollectionViewFlowLayout: UICollectionViewFlowLayout, UIGes
     
     var draggable : Bool = true
     
+    var CollectionViewDragIng : Bool = false
     
+    var delegate:KDRearrangeableCollectionViewDelegate!
     
     var collectionViewFrameInCanvas : CGRect = CGRectZero
     
@@ -75,6 +78,13 @@ class KDRearrangeableCollectionViewFlowLayout: UICollectionViewFlowLayout, UIGes
             longPressGestureRecogniser.delegate = self
 
             collectionView.addGestureRecognizer(longPressGestureRecogniser)
+            
+            let panGestureRecogniser = UIPanGestureRecognizer(target: self, action: #selector(KDRearrangeableCollectionViewFlowLayout.handleGesture(_:)))
+            
+            panGestureRecogniser.delegate = self
+            
+            collectionView.addGestureRecognizer(panGestureRecogniser)
+            
             
             if self.canvas == nil {
                 
@@ -134,6 +144,11 @@ class KDRearrangeableCollectionViewFlowLayout: UICollectionViewFlowLayout, UIGes
    
     func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
         
+        if gestureRecognizer is UIPanGestureRecognizer && self.CollectionViewDragIng == false{
+        
+            return false
+        }
+        
         if draggable == false {
             return false
         }
@@ -149,10 +164,12 @@ class KDRearrangeableCollectionViewFlowLayout: UICollectionViewFlowLayout, UIGes
                     
                     if CGRectContainsPoint(cellInCanvasFrame, pointPressedInCanvas ) {
                         
-//                        if let kdcell = cell as? KDRearrangeableCollectionViewCell {
-//                            // Override he dragging setter to apply and change in style that you want
-//                            kdcell.dragging = true
-//                        }
+                        if let begin = self.delegate.ChannelManagerBeginDraggind{
+                            
+                            self.CollectionViewDragIng = true
+                            
+                            begin() // 开始拖拽
+                        }
                         
                         
                         UIGraphicsBeginImageContextWithOptions(cell.bounds.size, cell.opaque, 0)
@@ -166,10 +183,10 @@ class KDRearrangeableCollectionViewFlowLayout: UICollectionViewFlowLayout, UIGes
                         
                         let offset = CGPointMake(pointPressedInCanvas.x - cellInCanvasFrame.origin.x, pointPressedInCanvas.y - cellInCanvasFrame.origin.y)
                         
-                        let indexPath : NSIndexPath = cv.indexPathForCell(cell as UICollectionViewCell)!
+                        if let indexPath : NSIndexPath = cv.indexPathForCell(cell as UICollectionViewCell){
                         
-                        self.bundle = Bundle(offset: offset, sourceCell: cell, representationImageView:representationImage, currentIndexPath: indexPath)
-                        
+                            self.bundle = Bundle(offset: offset, sourceCell: cell, representationImageView:representationImage, currentIndexPath: indexPath)
+                        }
                         
                         break
                     }
@@ -288,14 +305,18 @@ class KDRearrangeableCollectionViewFlowLayout: UICollectionViewFlowLayout, UIGes
             
             bundle.sourceCell.hidden = false
             
+            if let begin = self.delegate.ChannelManagerEndDraggind{
+                
+                begin() // 开始拖拽
+            }
             
             bundle.representationImageView.removeFromSuperview()
             
             // if we have a proper data source then we can reload and have the data displayed correctly
-            if let cv = self.collectionView where cv.delegate is KDRearrangeableCollectionViewDelegate {
-                
-                cv.reloadData()
-            }
+//            if let cv = self.collectionView where cv.delegate is KDRearrangeableCollectionViewDelegate {
+//                
+//                cv.reloadData()
+//            }
             
             self.bundle = nil
         }
@@ -363,15 +384,10 @@ class KDRearrangeableCollectionViewFlowLayout: UICollectionViewFlowLayout, UIGes
                 
                 self.checkForDraggingAtTheEdgeAndAnimatePaging(gesture)
                 
-                print("\(indexPath.section) -- \(indexPath.item)")
-                
                 if indexPath.isEqual(bundle.currentIndexPath) == false && indexPath.section == 0 && (indexPath.section != 0 || indexPath.item != 0 ){
                     
                     // If we have a collection view controller that implements the delegate we call the method first
-                    if let delegate = self.collectionView!.delegate as? KDRearrangeableCollectionViewDelegate {
-//                        if (delegate.disabledMove?() ?? -1) == indexPath.section {return}
-                        delegate.moveDataItem(bundle.currentIndexPath, toIndexPath: indexPath)
-                    }
+                    delegate.moveDataItem(bundle.currentIndexPath, toIndexPath: indexPath)
                     
                     self.collectionView!.moveItemAtIndexPath(bundle.currentIndexPath, toIndexPath: indexPath)
                     self.bundle!.currentIndexPath = indexPath

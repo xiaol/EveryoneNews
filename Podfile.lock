@@ -12,11 +12,11 @@ PODS:
   - PINRemoteImage/FLAnimatedImage (2.1.4):
     - FLAnimatedImage (>= 1.0)
     - PINRemoteImage/Core
-  - Realm (0.103.0):
-    - Realm/Headers (= 0.103.0)
-  - Realm/Headers (0.103.0)
-  - RealmSwift (0.103.0):
-    - Realm (= 0.103.0)
+  - Realm (0.103.1):
+    - Realm/Headers (= 0.103.1)
+  - Realm/Headers (0.103.1)
+  - RealmSwift (0.103.1):
+    - Realm (= 0.103.1)
   - SwaggerClient (0.0.1):
     - Alamofire (~> 3.1.4)
   - SwiftyJSON (2.3.2)
@@ -44,8 +44,8 @@ SPEC CHECKSUMS:
   ObjectMapper: 4eb08a726e9791a93b2632049951b56a7c17e471
   PINCache: 078426d356ab95ef875e9e62e5c35a2ea3333c28
   PINRemoteImage: 4ac4011c5caefd6befd99758e09becede05d3226
-  Realm: 99c44c3a9e075638478d4134e28d9026a6de07c4
-  RealmSwift: daaa1789eb581f2f8c2a05a25f463a6f70df5a5f
+  Realm: 9ed57109332e95bdc48a7caedff80b70c51d5ef4
+  RealmSwift: 56629adb4acd2dc33eb2c8199fe856585dfd3ba3
   SwaggerClient: 18b6f6d694d7736b2c8d590bb71488b2fb2600a6
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
   XLPagerTabStrip: 87b8b705f9a7178e76a063ffaa2d70045944a965

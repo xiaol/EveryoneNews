@@ -12,9 +12,8 @@
 		AEBCAEEB1CEC2ADB00EBFC0A /* ChannelUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBCAEEA1CEC2ADB00EBFC0A /* ChannelUtil.swift */; };
 		AEBCAEF01CEC3EF700EBFC0A /* DisplayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBCAEEF1CEC3EF700EBFC0A /* DisplayViewController.swift */; };
 		AEBCAEF31CEC3F4300EBFC0A /* UIStoryBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBCAEF21CEC3F4300EBFC0A /* UIStoryBoard.swift */; };
-		AEBCAEF71CEC418200EBFC0A /* BottomBoderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBCAEF51CEC418200EBFC0A /* BottomBoderView.swift */; };
 		AEBCAEF81CEC418200EBFC0A /* CircularButtonBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBCAEF61CEC418200EBFC0A /* CircularButtonBarView.swift */; };
-		AEBCAEFA1CEC419600EBFC0A /* HeadPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBCAEF91CEC419600EBFC0A /* HeadPhotoView.swift */; };
+		AEBCAEFA1CEC419600EBFC0A /* CustomExtensionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBCAEF91CEC419600EBFC0A /* CustomExtensionView.swift */; };
 		AEBCAEFD1CEC43B900EBFC0A /* HomeViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBCAEFC1CEC43B900EBFC0A /* HomeViewControllerExtension.swift */; };
 		AEBCAF001CEC457000EBFC0A /* DisplayViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBCAEFF1CEC457000EBFC0A /* DisplayViewControllerExtension.swift */; };
 		AEC09CD41CE9776800D5A5CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC09CD31CE9776800D5A5CC /* AppDelegate.swift */; };
@@ -39,9 +38,8 @@
 		AEBCAEEA1CEC2ADB00EBFC0A /* ChannelUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelUtil.swift; sourceTree = "<group>"; };
 		AEBCAEEF1CEC3EF700EBFC0A /* DisplayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayViewController.swift; sourceTree = "<group>"; };
 		AEBCAEF21CEC3F4300EBFC0A /* UIStoryBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStoryBoard.swift; sourceTree = "<group>"; };
-		AEBCAEF51CEC418200EBFC0A /* BottomBoderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomBoderView.swift; sourceTree = "<group>"; };
 		AEBCAEF61CEC418200EBFC0A /* CircularButtonBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircularButtonBarView.swift; sourceTree = "<group>"; };
-		AEBCAEF91CEC419600EBFC0A /* HeadPhotoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeadPhotoView.swift; sourceTree = "<group>"; };
+		AEBCAEF91CEC419600EBFC0A /* CustomExtensionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomExtensionView.swift; sourceTree = "<group>"; };
 		AEBCAEFC1CEC43B900EBFC0A /* HomeViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewControllerExtension.swift; sourceTree = "<group>"; };
 		AEBCAEFF1CEC457000EBFC0A /* DisplayViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayViewControllerExtension.swift; sourceTree = "<group>"; };
 		AEC09CD01CE9776800D5A5CC /* Journalism.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journalism.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -124,9 +122,8 @@
 		AEBCAEF41CEC415800EBFC0A /* CustomClass */ = {
 			isa = PBXGroup;
 			children = (
-				AEBCAEF51CEC418200EBFC0A /* BottomBoderView.swift */,
 				AEBCAEF61CEC418200EBFC0A /* CircularButtonBarView.swift */,
-				AEBCAEF91CEC419600EBFC0A /* HeadPhotoView.swift */,
+				AEBCAEF91CEC419600EBFC0A /* CustomExtensionView.swift */,
 			);
 			path = CustomClass;
 			sourceTree = "<group>";
@@ -372,8 +369,7 @@
 				AEC09CD41CE9776800D5A5CC /* AppDelegate.swift in Sources */,
 				AEFE8F941CEC78B00095DBB4 /* KDRearrangeableCollectionViewFlowLayout.swift in Sources */,
 				AEBCAEEB1CEC2ADB00EBFC0A /* ChannelUtil.swift in Sources */,
-				AEBCAEFA1CEC419600EBFC0A /* HeadPhotoView.swift in Sources */,
-				AEBCAEF71CEC418200EBFC0A /* BottomBoderView.swift in Sources */,
+				AEBCAEFA1CEC419600EBFC0A /* CustomExtensionView.swift in Sources */,
 				AEBCAEF81CEC418200EBFC0A /* CircularButtonBarView.swift in Sources */,
 				AEC1D5C41CEDC22700B1F00C /* DateExt.swift in Sources */,
 			);
@@ -494,7 +490,7 @@
 				INFOPLIST_FILE = Journalism/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Eyepetizer.Journalism;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yktx.Sokme;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -507,7 +503,7 @@
 				INFOPLIST_FILE = Journalism/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Eyepetizer.Journalism;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yktx.Sokme;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

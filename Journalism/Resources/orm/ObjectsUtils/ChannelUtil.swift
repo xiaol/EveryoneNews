@@ -52,4 +52,12 @@ class ChannelUtil: NSObject {
         return channles
     }
     
+    class func ChannelUpdate(id:Int,isdelete:Int,orderIndex:Int){
+        let realm = try! Realm()
+        
+        try! realm.write({
+            realm.create(Channel.self, value: ["id":id,"orderindex":orderIndex,"isdelete":isdelete], update: true)
+        })
+    }
+    
 }

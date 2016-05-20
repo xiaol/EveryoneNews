@@ -22,7 +22,10 @@ extension DisplayViewController:IndicatorInfoProvider{
         self.tableView.layoutMargins = UIEdgeInsetsZero
         self.tableView.separatorInset = UIEdgeInsetsZero
         
+        
         if let channelId = self.channel?.id {
+            
+            self.newsResults.filter("channelId = \(channelId)")
             
             if newsResults.count <= 0 || newsResults.first?.pubTimes.hoursAfterDate(NSDate()) > 1{
             

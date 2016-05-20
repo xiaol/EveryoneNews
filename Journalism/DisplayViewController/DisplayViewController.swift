@@ -12,7 +12,7 @@ import PINRemoteImage
 
 class DisplayViewController: UIViewController {
     
-    var newsResults:Results<New>!
+    var newsResults = NewsUtil.NewArray()
     
     internal var currentPage = 1
     

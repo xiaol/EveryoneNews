@@ -24,6 +24,11 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xDF-gU-rE7">
                                 <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <subviews>
+                                    <tabBar contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y7j-jQ-hbR">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <items/>
+                                    </tabBar>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="e5h-le-IPa">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -34,17 +39,20 @@
                                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                         </collectionViewFlowLayout>
                                         <cells>
-                                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="channelCell" id="cxt-PI-d7o" customClass="HomeChannelCollectionViewCell" customModule="Journalism" customModuleProvider="target">
+                                            <collectionViewCell opaque="NO" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="channelCell" id="cxt-PI-d7o" customClass="HomeChannelCollectionViewCell" customModule="Journalism" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="33" width="50" height="50"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                                     <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <subviews>
+                                                        <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="分类删除" translatesAutoresizingMaskIntoConstraints="NO" id="hm7-fh-MAe">
+                                                            <rect key="frame" x="37" y="0.0" width="13" height="13"/>
+                                                        </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="7" translatesAutoresizingMaskIntoConstraints="NO" id="NLz-JR-SQ4">
                                                             <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                     </subviews>
@@ -56,8 +64,11 @@
                                                     <constraint firstAttribute="trailing" secondItem="NLz-JR-SQ4" secondAttribute="trailing" id="Am8-S7-HtE"/>
                                                     <constraint firstItem="NLz-JR-SQ4" firstAttribute="leading" secondItem="cxt-PI-d7o" secondAttribute="leading" id="E13-yI-ZY4"/>
                                                     <constraint firstAttribute="bottom" secondItem="NLz-JR-SQ4" secondAttribute="bottom" id="Xl4-PD-a0G"/>
+                                                    <constraint firstAttribute="trailing" secondItem="hm7-fh-MAe" secondAttribute="trailing" id="YFp-rk-jUT"/>
+                                                    <constraint firstItem="hm7-fh-MAe" firstAttribute="top" secondItem="cxt-PI-d7o" secondAttribute="top" id="rlA-hD-dhC"/>
                                                 </constraints>
                                                 <connections>
+                                                    <outlet property="channelDeleteView" destination="hm7-fh-MAe" id="BSq-c3-fyq"/>
                                                     <outlet property="titleLabel" destination="NLz-JR-SQ4" id="aTo-ie-pLt"/>
                                                 </connections>
                                             </collectionViewCell>
@@ -66,10 +77,10 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="33"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="点击添加更多栏目" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Md4-Js-MQx">
-                                                    <rect key="frame" x="8" y="10" width="104" height="16"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="点击添加更多栏目" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Md4-Js-MQx">
+                                                    <rect key="frame" x="8" y="9" width="104" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -85,11 +96,15 @@
                                         </connections>
                                     </collectionView>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="0.76578336148648651" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="y7j-jQ-hbR" firstAttribute="leading" secondItem="xDF-gU-rE7" secondAttribute="leading" id="CVL-MI-xFU"/>
                                     <constraint firstAttribute="trailing" secondItem="e5h-le-IPa" secondAttribute="trailing" id="N11-E0-yir"/>
                                     <constraint firstItem="e5h-le-IPa" firstAttribute="top" secondItem="xDF-gU-rE7" secondAttribute="top" id="N2k-xP-nuL"/>
+                                    <constraint firstAttribute="bottom" secondItem="y7j-jQ-hbR" secondAttribute="bottom" id="Qeg-Tu-gwT"/>
+                                    <constraint firstAttribute="trailing" secondItem="y7j-jQ-hbR" secondAttribute="trailing" id="b8d-XM-w0s"/>
                                     <constraint firstItem="e5h-le-IPa" firstAttribute="leading" secondItem="xDF-gU-rE7" secondAttribute="leading" id="bFh-t8-Amr"/>
+                                    <constraint firstItem="y7j-jQ-hbR" firstAttribute="top" secondItem="xDF-gU-rE7" secondAttribute="top" id="cJA-V7-vLx"/>
                                     <constraint firstAttribute="bottom" secondItem="e5h-le-IPa" secondAttribute="bottom" id="sXk-Ja-l3Q"/>
                                 </constraints>
                             </view>
@@ -111,11 +126,6 @@
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="产品经理头像" translatesAutoresizingMaskIntoConstraints="NO" id="hcH-39-s68" customClass="HeadPhotoView" customModule="Journalism" customModuleProvider="target">
                                                 <rect key="frame" x="6" y="6" width="32" height="31"/>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                        <real key="value" value="16"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
                                             </imageView>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -132,15 +142,27 @@
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="切换栏目" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yqj-V5-fOm">
                                                 <rect key="frame" x="8" y="14" width="52" height="16"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pXM-rA-Yga" customClass="CircularEditButton" customModule="Journalism" customModuleProvider="target">
+                                                <rect key="frame" x="513" y="11" width="35" height="22"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="22" id="pqg-Q9-2nr"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                <state key="normal" title="Button"/>
+                                                <connections>
+                                                    <action selector="ClickEditButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4f0-2w-uMF"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="44" id="8Jw-kd-jaU"/>
                                             <constraint firstItem="yqj-V5-fOm" firstAttribute="centerY" secondItem="sCz-2N-lgt" secondAttribute="centerY" id="CYy-1M-k38"/>
                                             <constraint firstItem="yqj-V5-fOm" firstAttribute="leading" secondItem="sCz-2N-lgt" secondAttribute="leading" constant="8" id="DIZ-1x-Ux6"/>
+                                            <constraint firstItem="pXM-rA-Yga" firstAttribute="centerY" secondItem="sCz-2N-lgt" secondAttribute="centerY" id="ZUY-Jo-Cns"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zaj-QN-Pst">
@@ -181,16 +203,8 @@
                                     <constraint firstAttribute="bottom" secondItem="Pdy-Li-RG9" secondAttribute="bottom" constant="1" id="byk-YQ-6BN"/>
                                     <constraint firstItem="Pdy-Li-RG9" firstAttribute="leading" secondItem="tsz-SP-gzc" secondAttribute="leading" id="iFw-2z-kh3"/>
                                     <constraint firstItem="zaj-QN-Pst" firstAttribute="leading" secondItem="5yD-Hh-ctP" secondAttribute="trailing" id="kEC-7B-JD4"/>
+                                    <constraint firstItem="zaj-QN-Pst" firstAttribute="leading" secondItem="pXM-rA-Yga" secondAttribute="trailing" constant="8" id="tAF-7w-6m9"/>
                                 </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="boolean" keyPath="bottomBorder" value="YES"/>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="bottomBorderWidth">
-                                        <real key="value" value="1"/>
-                                    </userDefinedRuntimeAttribute>
-                                    <userDefinedRuntimeAttribute type="color" keyPath="bottomBorderColor">
-                                        <color key="value" red="0.20784313725490194" green="0.65098039215686276" blue="0.98431372549019602" alpha="1" colorSpace="calibratedRGB"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LRX-Fl-HFM">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="20"/>
@@ -217,12 +231,13 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="ChannelDataSource" destination="8Ht-yf-Bbh" id="3Kd-OX-oxh"/>
+                        <outlet property="ChannelDragButton" destination="pXM-rA-Yga" id="5fe-2T-Jn5"/>
                         <outlet property="ChannelManagerButton" destination="1LI-Zc-q7Q" id="liW-Ok-0el"/>
                         <outlet property="ChannelManagerContainerCollectionView" destination="e5h-le-IPa" id="FCN-IQ-Uhv"/>
                         <outlet property="ChannelManagerContainerView" destination="xDF-gU-rE7" id="AIg-k8-E4u"/>
                         <outlet property="ChannelManagerTitleView" destination="sCz-2N-lgt" id="fK9-Be-B0L"/>
                         <outlet property="buttonBarView" destination="5yD-Hh-ctP" id="edR-1z-ykO"/>
-                        <outlet property="channelDataSource" destination="8Ht-yf-Bbh" id="izk-bV-ec3"/>
                         <outlet property="containerView" destination="EOm-wF-XPU" id="izq-Iu-LyY"/>
                     </connections>
                 </viewController>
@@ -320,6 +335,9 @@
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="习近平今日上午离京访问捷克" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U0L-PN-Otd">
                                                     <rect key="frame" x="12" y="15" width="434" height="21"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" relation="lessThanOrEqual" constant="56" id="RaH-6v-9je"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.1019607843" green="0.1019607843" blue="0.1019607843" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -631,6 +649,7 @@
     <resources>
         <image name="不感兴趣叉号" width="22" height="13"/>
         <image name="产品经理头像" width="53" height="53"/>
+        <image name="分类删除" width="13" height="13"/>
         <image name="添加频道" width="19" height="19"/>
     </resources>
 </document>

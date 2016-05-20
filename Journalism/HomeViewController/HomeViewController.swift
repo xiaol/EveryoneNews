@@ -9,14 +9,19 @@
 import Foundation
 import XLPagerTabStrip
 
+
+
+
 class HomeViewController: ButtonBarPagerTabStripViewController {
     
     
     internal let newsResults = NewsUtil.NewArray() // 获取所有新闻的频道
     internal let channels = ChannelUtil.GetChannelRealmObjects() // 获取所有数据库中的频道
     
+    var CollectionViewDragIng = false // 是否正在编辑状态 如果正在为编辑状态的话，需要重新加载频道列表UICollectionView，是否显示删除按钮
     
-    @IBOutlet var channelDataSource: HomeViewControllerChannelDataSource! // 频道管理视图的数据源
+    @IBOutlet var ChannelDragButton: CircularEditButton! // 频道管理拖拽按钮
+    @IBOutlet var ChannelDataSource: HomeViewControllerChannelDataSource! // 频道管理视图的数据源
     
     @IBOutlet var ChannelManagerButton: UIButton! // 频道管理按钮
     @IBOutlet var ChannelManagerTitleView: UIView! // 频道管理标题视图

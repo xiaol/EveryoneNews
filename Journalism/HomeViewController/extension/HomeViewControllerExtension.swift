@@ -32,6 +32,11 @@ extension HomeViewController{
         
         changeCurrentIndexProgressive = { (oldCell: ButtonBarViewCell?, newCell: ButtonBarViewCell?, progressPercentage: CGFloat, changeCurrentIndex: Bool, animated: Bool) -> Void in // 设置滑动时改编字体
             guard changeCurrentIndex == true else { return }
+            
+            self.ReloadVisCellsSelectedMethod(self.currentIndex) // 刷新这个频道管理的额标题颜色
+            
+            self.ChannelDataSource.ChannelCurrentIndex = self.currentIndex
+            
             oldCell?.label.textColor = UIColor.blackColor().colorWithAlphaComponent(0.8)
             newCell?.label.textColor = UIColor(red: 53/255, green:166/255, blue: 251/255, alpha: 1)
         }
@@ -50,7 +55,7 @@ extension HomeViewController{
     
     
     // 刷新频道列表
-    private func ReloadViewControllers(){
+    internal func ReloadViewControllers(){
         
         self.reloadViewControllers.removeAll()
         
