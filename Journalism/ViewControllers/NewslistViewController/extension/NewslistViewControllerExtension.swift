@@ -1,5 +1,5 @@
 //
-//  DisplayViewControllerExtension.swift
+//  NewslistViewControllerExtension.swift
 //  Journalism
 //
 //  Created by Mister on 16/5/18.
@@ -13,7 +13,7 @@ import SwaggerClient
 import PINRemoteImage
 import XLPagerTabStrip
 
-extension DisplayViewController:IndicatorInfoProvider{
+extension NewslistViewController:IndicatorInfoProvider{
 
     override func viewDidLoad() {
         
@@ -22,10 +22,7 @@ extension DisplayViewController:IndicatorInfoProvider{
         self.tableView.layoutMargins = UIEdgeInsetsZero
         self.tableView.separatorInset = UIEdgeInsetsZero
         
-        
         if let channelId = self.channel?.id {
-            
-            self.newsResults.filter("channelId = \(channelId)")
             
             if newsResults.count <= 0 || newsResults.first?.pubTimes.hoursAfterDate(NSDate()) > 1{
             
@@ -35,6 +32,8 @@ extension DisplayViewController:IndicatorInfoProvider{
                 })
             }
         }
+        
+        self.TextForChangehandleMethod()
     }
     
     func indicatorInfoForPagerTabStrip(pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
@@ -43,11 +42,28 @@ extension DisplayViewController:IndicatorInfoProvider{
         
         return info
     }
+    
+    // 当系统的文字发生变化的时候出发的方法
+    private func TextForChangehandleMethod(){
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(HomeViewController.preferredContentSizeChanged(_:)), name: UIContentSizeCategoryDidChangeNotification, object: nil)
+    }
+    
+    // 刷新当前页面
+    func preferredContentSizeChanged(notifi:NSNotification){
+        
+        self.tableView.beginUpdates()
+        
+        self.tableView.reloadData()
+        
+        self.tableView.endUpdates()
+        
+    }
 }
 
 
 
-extension DisplayViewController:UITableViewDataSource{
+extension NewslistViewController:UITableViewDataSource{
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
@@ -99,13 +115,22 @@ extension DisplayViewController:UITableViewDataSource{
     
 }
 
-extension DisplayViewController:UITableViewDelegate{
+extension NewslistViewController:UITableViewDelegate{
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        let new = newsResults[indexPath.row]
+        
+        let viewController = UIStoryboard.shareStoryBoard.get_DetailViewController(new)
+        
+        self.navigationController?.showDetailViewController(viewController, sender: nil)
+    }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         let new = newsResults[indexPath.row]
         
-        return new.HeightByNewConstraint()
+        return new.HeightByNewConstraint(tableView)
     }
     
 }

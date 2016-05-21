@@ -1,5 +1,5 @@
 //
-//  DisplayViewController.swift
+//  NewslistViewController.swift
 //  Journalism
 //
 //  Created by Mister on 16/5/18.
@@ -10,9 +10,9 @@ import UIKit
 import RealmSwift
 import PINRemoteImage
 
-class DisplayViewController: UIViewController {
+class NewslistViewController: UIViewController {
     
-    var newsResults = NewsUtil.NewArray()
+    var newsResults:Results<New>!
     
     internal var currentPage = 1
     

@@ -86,7 +86,11 @@ extension HomeViewControllerChannelDataSource:UICollectionViewDelegateFlowLayout
     }
     
     // 设置频道的cell大小
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize{return CGSize(width: (collectionView.frame.width-5*25)/4, height: 30)}
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize{
+        
+        let width = UIScreen.mainScreen().bounds.width > UIScreen.mainScreen().bounds.height ? collectionView.bounds.height : collectionView.bounds.width
+        
+        return CGSize(width: (width-5*25)/4, height: 30)}
     // 设置每一个Section的 上下左右 的 间距
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets{return UIEdgeInsets(top: 15, left: 25, bottom: 15, right: 25)}
     // 设置每一个UIcollectionView行数的间距

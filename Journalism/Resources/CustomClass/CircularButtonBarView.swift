@@ -9,10 +9,42 @@
 import UIKit
 import XLPagerTabStrip
 
+public class CircularButtonBarPagerTabStripViewController:ButtonBarPagerTabStripViewController{
+
+    public override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+
+        let childController = viewControllers[indexPath.item] as! IndicatorInfoProvider
+        
+        let indicatorInfo = childController.indicatorInfoForPagerTabStrip(self)
+        
+        let size = CGSize(width: 500, height: 200)
+        
+        let returnSize = NSString(string:indicatorInfo.title).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)], context: nil).size
+   
+        return CGSize(width: returnSize.width+(returnSize.width/2), height: returnSize.height)
+    
+    }
+    
+    override public func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        
+        guard let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as? ButtonBarViewCell else {
+            
+            return super.collectionView(collectionView, cellForItemAtIndexPath: indexPath)
+        }
+        
+        cell.label.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+        
+        return cell
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAtIndex section: Int) -> CGFloat{
+        
+        return 5
+    }
+}
+
 public class CircularButtonBarView: UICollectionView,UIScrollViewDelegate {
 
-
-    
     public lazy var selectedBar: UIView = { [unowned self] in
         let bar  = UIView(frame: CGRectMake(0, self.frame.size.height - CGFloat(self.selectedBarHeight), 0, 24))
         bar.layer.zPosition = -10

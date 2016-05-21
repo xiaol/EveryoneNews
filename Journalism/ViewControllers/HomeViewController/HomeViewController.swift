@@ -9,11 +9,7 @@
 import Foundation
 import XLPagerTabStrip
 
-
-
-
-class HomeViewController: ButtonBarPagerTabStripViewController {
-    
+class HomeViewController: CircularButtonBarPagerTabStripViewController {
     
     internal let newsResults = NewsUtil.NewArray() // 获取所有新闻的频道
     internal let channels = ChannelUtil.GetChannelRealmObjects() // 获取所有数据库中的频道
@@ -33,7 +29,7 @@ class HomeViewController: ButtonBarPagerTabStripViewController {
     
     // MARK: - PagerTabStripDataSource
     override func viewControllersForPagerTabStrip(pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
-        if self.reloadViewControllers.count <= 0 {reloadViewControllers.append(UIStoryboard.shareStoryBoard.get_DisplayViewController())}
+        if self.reloadViewControllers.count <= 0 {reloadViewControllers.append(UIStoryboard.shareStoryBoard.get_NewslistViewController())}
         return reloadViewControllers
     }
 }

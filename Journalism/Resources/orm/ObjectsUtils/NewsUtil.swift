@@ -21,7 +21,7 @@ class NewsUtil: NSObject {
         
         let times = "\(Int(NSDate().timeIntervalSince1970*1000))"
         
-        NewsAPI.loadGet(cid: "\(channelId)", tstart: times, page: nil, offset: nil) { (data, error) in
+        NewsAPI.refreshGet(cid: "\(channelId)", page: nil, offset: nil, tstart: times) { (data, error) in
             
             let realm = try! Realm()
             
@@ -84,15 +84,19 @@ class NewsUtil: NSObject {
 
 extension New {
 
-    func HeightByNewConstraint() -> CGFloat{
-    
+    func HeightByNewConstraint(tableView:UITableView) -> CGFloat{
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier("NewNormalTableViewCell") as! NewBaseTableViewCell
+        
+        let width = tableView.frame.width
+        
         if self.imgStyle == 0 {
         
-            let size = CGSize(width: UIScreen.mainScreen().bounds.width-24, height: 1000)
+            let size = CGSize(width: width-24, height: 1000)
             
-            let titleHeight = NSString(string:self.title).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(17)], context: nil).height
+            let titleHeight = NSString(string:self.title).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:cell.titleLabel.font], context: nil).height
             
-            let pubHeight = NSString(string:self.pubName).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(10)], context: nil).height
+            let pubHeight = NSString(string:self.pubName).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.preferredFontForTextStyle(UIFontTextStyleCaption2)], context: nil).height
             
             return 15+18+17+pubHeight+titleHeight
         }else if self.imgStyle == 1{
@@ -101,21 +105,22 @@ extension New {
             return 15+77+17
         }else if self.imgStyle == 2{
             
-            let size = CGSize(width: UIScreen.mainScreen().bounds.width-24, height: 1000)
+            let size = CGSize(width: width-24, height: 1000)
             
-            let titleHeight = NSString(string:self.title).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(17)], context: nil).height
             
-            let pubHeight = NSString(string:self.pubName).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(10)], context: nil).height
+            let titleHeight = NSString(string:self.title).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:cell.titleLabel.font], context: nil).height
+            
+            let pubHeight = NSString(string:self.pubName).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.preferredFontForTextStyle(UIFontTextStyleCaption2)], context: nil).height
             
             return titleHeight+15+17+8+183+pubHeight+7
             
         }else if self.imgStyle == 3{
             
-            let size = CGSize(width: UIScreen.mainScreen().bounds.width-24, height: 1000)
+            let size = CGSize(width: width-24, height: 1000)
             
-            let titleHeight = NSString(string:self.title).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(17)], context: nil).height
+            let titleHeight = NSString(string:self.title).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:cell.titleLabel.font], context: nil).height
             
-            let pubHeight = NSString(string:self.pubName).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(10)], context: nil).height
+            let pubHeight = NSString(string:self.pubName).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.preferredFontForTextStyle(UIFontTextStyleCaption2)], context: nil).height
             
             return 77+15+7+8+titleHeight+pubHeight+17
         }

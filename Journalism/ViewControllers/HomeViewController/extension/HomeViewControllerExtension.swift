@@ -18,6 +18,8 @@ extension HomeViewController{
         self.InitChannelViewMethod()
         self.ReloadChannelHttpRequest()
         self.initialPagerTabStripMethod()
+        
+        self.TextForChangehandleMethod()
     }
     
     // 初始化分页视图方法
@@ -53,6 +55,25 @@ extension HomeViewController{
             }, fail: nil)
     }
     
+    // 当系统的文字发生变化的时候出发的方法
+    private func TextForChangehandleMethod(){
+    
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(HomeViewController.preferredContentSizeChanged(_:)), name: UIContentSizeCategoryDidChangeNotification, object: nil)
+    }
+    
+    // 刷新当前页面
+    func preferredContentSizeChanged(notifi:NSNotification){
+        
+        
+        self.view.setNeedsLayout()
+        self.view.setNeedsDisplay()
+        self.view.layoutIfNeeded()
+        self.view.layoutIfNeeded()
+        
+        self.view.invalidateIntrinsicContentSize()
+        
+        self.reloadPagerTabStripView()
+    }
     
     // 刷新频道列表
     internal func ReloadViewControllers(){
@@ -63,17 +84,13 @@ extension HomeViewController{
             
             let viewControllers = standardViewControllers.filter({ (view) -> Bool in return view.title == channel.cname })
             
-            let viewController:UIViewController!
+            var viewController:UIViewController!
             
             if viewControllers.count <= 0 {
-                let ex = UIStoryboard.shareStoryBoard.get_DisplayViewController(channel)
+
+                viewController = self.getDisplayViewController(channel)
                 
-                ex.title = channel.cname
-                ex.newsResults = self.newsResults.filter("channelId = %@",channel.id)
-                
-                viewController = ex
                 self.standardViewControllers.append(viewController)
-                
             }else{
                 
                 viewController = viewControllers.first!
@@ -83,5 +100,19 @@ extension HomeViewController{
         }
         
         self.reloadPagerTabStripView()
+    }
+    
+    // 获取详情页面
+    private func getDisplayViewController(channel:Channel) -> UIViewController{
+    
+        let displayViewController = UIStoryboard.shareStoryBoard.get_NewslistViewController(channel)
+        
+        displayViewController.title = channel.cname
+        
+        displayViewController.newsResults = self.newsResults.filter("channelId = %@",channel.id)
+        
+        let _ = displayViewController.newsResults.count
+        
+        return displayViewController
     }
 }

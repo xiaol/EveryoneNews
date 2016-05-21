@@ -57,8 +57,6 @@ class CircularEditButton:UIButton {
         self.layer.borderColor = UIColor.redColor().CGColor
         self.layer.cornerRadius = 11
         
-        print(self.frame.height)
-        
         self.clipsToBounds = true
         
         self.setTitleStatus()

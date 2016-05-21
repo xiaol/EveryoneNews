@@ -7,56 +7,58 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6DC4FDCB1CF0314700D25A99 /* HomeViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDC01CF0314700D25A99 /* HomeViewControllerExtension.swift */; };
+		6DC4FDCC1CF0314700D25A99 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDC11CF0314700D25A99 /* HomeViewController.swift */; };
+		6DC4FDCD1CF0314700D25A99 /* NewBaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDC41CF0314700D25A99 /* NewBaseTableViewCell.swift */; };
+		6DC4FDCE1CF0314700D25A99 /* NewslistViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDC61CF0314700D25A99 /* NewslistViewControllerExtension.swift */; };
+		6DC4FDCF1CF0314700D25A99 /* NewslistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDC71CF0314700D25A99 /* NewslistViewController.swift */; };
+		6DC4FDD51CF031E000D25A99 /* ChannelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDD21CF031E000D25A99 /* ChannelManager.swift */; };
+		6DC4FDD61CF031E000D25A99 /* HomeViewControllerChannelDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDD31CF031E000D25A99 /* HomeViewControllerChannelDataSource.swift */; };
+		6DC4FDD71CF031E000D25A99 /* KDRearrangeableCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDD41CF031E000D25A99 /* KDRearrangeableCollectionViewFlowLayout.swift */; };
+		6DC4FDD91CF0321100D25A99 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDD81CF0321100D25A99 /* DetailViewController.swift */; };
 		994B705F63994332F79B2AA5 /* Pods_Journalism.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68B44A9454D029CD2156A30 /* Pods_Journalism.framework */; };
 		AEBCAEE81CEC27A900EBFC0A /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBCAEE71CEC27A900EBFC0A /* Channel.swift */; };
 		AEBCAEEB1CEC2ADB00EBFC0A /* ChannelUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBCAEEA1CEC2ADB00EBFC0A /* ChannelUtil.swift */; };
-		AEBCAEF01CEC3EF700EBFC0A /* DisplayViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBCAEEF1CEC3EF700EBFC0A /* DisplayViewController.swift */; };
 		AEBCAEF31CEC3F4300EBFC0A /* UIStoryBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBCAEF21CEC3F4300EBFC0A /* UIStoryBoard.swift */; };
 		AEBCAEF81CEC418200EBFC0A /* CircularButtonBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBCAEF61CEC418200EBFC0A /* CircularButtonBarView.swift */; };
 		AEBCAEFA1CEC419600EBFC0A /* CustomExtensionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBCAEF91CEC419600EBFC0A /* CustomExtensionView.swift */; };
-		AEBCAEFD1CEC43B900EBFC0A /* HomeViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBCAEFC1CEC43B900EBFC0A /* HomeViewControllerExtension.swift */; };
-		AEBCAF001CEC457000EBFC0A /* DisplayViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBCAEFF1CEC457000EBFC0A /* DisplayViewControllerExtension.swift */; };
 		AEC09CD41CE9776800D5A5CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC09CD31CE9776800D5A5CC /* AppDelegate.swift */; };
 		AEC09CD91CE9776800D5A5CC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AEC09CD71CE9776800D5A5CC /* Main.storyboard */; };
 		AEC09CDB1CE9776800D5A5CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AEC09CDA1CE9776800D5A5CC /* Assets.xcassets */; };
 		AEC09CDE1CE9776800D5A5CC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AEC09CDC1CE9776800D5A5CC /* LaunchScreen.storyboard */; };
-		AEC09CF01CE9A50800D5A5CC /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC09CEF1CE9A50800D5A5CC /* HomeViewController.swift */; };
-		AEC1D5BB1CED601400B1F00C /* ChannelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC1D5BA1CED601400B1F00C /* ChannelManager.swift */; };
 		AEC1D5BD1CED960100B1F00C /* New.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC1D5BC1CED960100B1F00C /* New.swift */; };
 		AEC1D5BF1CED9BBD00B1F00C /* NewsUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC1D5BE1CED9BBD00B1F00C /* NewsUtil.swift */; };
-		AEC1D5C21CEDB2E100B1F00C /* NewBaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC1D5C11CEDB2E100B1F00C /* NewBaseTableViewCell.swift */; };
 		AEC1D5C41CEDC22700B1F00C /* DateExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC1D5C31CEDC22700B1F00C /* DateExt.swift */; };
 		AEC1D5C61CEDC34600B1F00C /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AEC1D5C51CEDC34600B1F00C /* NSDateTimeAgo.bundle */; };
-		AEFE8F931CEC78B00095DBB4 /* HomeViewControllerChannelDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFE8F911CEC78B00095DBB4 /* HomeViewControllerChannelDataSource.swift */; };
-		AEFE8F941CEC78B00095DBB4 /* KDRearrangeableCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFE8F921CEC78B00095DBB4 /* KDRearrangeableCollectionViewFlowLayout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		159FDBAECFB9DE4E3ACF1E70 /* Pods-Journalism.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Journalism.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Journalism/Pods-Journalism.debug.xcconfig"; sourceTree = "<group>"; };
+		6DC4FDC01CF0314700D25A99 /* HomeViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewControllerExtension.swift; sourceTree = "<group>"; };
+		6DC4FDC11CF0314700D25A99 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		6DC4FDC41CF0314700D25A99 /* NewBaseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewBaseTableViewCell.swift; sourceTree = "<group>"; };
+		6DC4FDC61CF0314700D25A99 /* NewslistViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewslistViewControllerExtension.swift; sourceTree = "<group>"; };
+		6DC4FDC71CF0314700D25A99 /* NewslistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewslistViewController.swift; sourceTree = "<group>"; };
+		6DC4FDD21CF031E000D25A99 /* ChannelManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelManager.swift; sourceTree = "<group>"; };
+		6DC4FDD31CF031E000D25A99 /* HomeViewControllerChannelDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewControllerChannelDataSource.swift; sourceTree = "<group>"; };
+		6DC4FDD41CF031E000D25A99 /* KDRearrangeableCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KDRearrangeableCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
+		6DC4FDD81CF0321100D25A99 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		81231C5CF554FB534D99E67C /* Pods-Journalism.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Journalism.release.xcconfig"; path = "Pods/Target Support Files/Pods-Journalism/Pods-Journalism.release.xcconfig"; sourceTree = "<group>"; };
 		AEBCAEE71CEC27A900EBFC0A /* Channel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		AEBCAEEA1CEC2ADB00EBFC0A /* ChannelUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelUtil.swift; sourceTree = "<group>"; };
-		AEBCAEEF1CEC3EF700EBFC0A /* DisplayViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayViewController.swift; sourceTree = "<group>"; };
 		AEBCAEF21CEC3F4300EBFC0A /* UIStoryBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStoryBoard.swift; sourceTree = "<group>"; };
 		AEBCAEF61CEC418200EBFC0A /* CircularButtonBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircularButtonBarView.swift; sourceTree = "<group>"; };
 		AEBCAEF91CEC419600EBFC0A /* CustomExtensionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomExtensionView.swift; sourceTree = "<group>"; };
-		AEBCAEFC1CEC43B900EBFC0A /* HomeViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewControllerExtension.swift; sourceTree = "<group>"; };
-		AEBCAEFF1CEC457000EBFC0A /* DisplayViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayViewControllerExtension.swift; sourceTree = "<group>"; };
 		AEC09CD01CE9776800D5A5CC /* Journalism.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journalism.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEC09CD31CE9776800D5A5CC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AEC09CD81CE9776800D5A5CC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AEC09CDA1CE9776800D5A5CC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AEC09CDD1CE9776800D5A5CC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AEC09CDF1CE9776800D5A5CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		AEC09CEF1CE9A50800D5A5CC /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
-		AEC1D5BA1CED601400B1F00C /* ChannelManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelManager.swift; sourceTree = "<group>"; };
 		AEC1D5BC1CED960100B1F00C /* New.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = New.swift; sourceTree = "<group>"; };
 		AEC1D5BE1CED9BBD00B1F00C /* NewsUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsUtil.swift; sourceTree = "<group>"; };
-		AEC1D5C11CEDB2E100B1F00C /* NewBaseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewBaseTableViewCell.swift; sourceTree = "<group>"; };
 		AEC1D5C31CEDC22700B1F00C /* DateExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExt.swift; sourceTree = "<group>"; };
 		AEC1D5C51CEDC34600B1F00C /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = NSDateTimeAgo.bundle; sourceTree = "<group>"; };
-		AEFE8F911CEC78B00095DBB4 /* HomeViewControllerChannelDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewControllerChannelDataSource.swift; sourceTree = "<group>"; };
-		AEFE8F921CEC78B00095DBB4 /* KDRearrangeableCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KDRearrangeableCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		F68B44A9454D029CD2156A30 /* Pods_Journalism.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Journalism.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -72,6 +74,78 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6DC4FDB91CF0314700D25A99 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				6DC4FDBA1CF0314700D25A99 /* HomeViewController */,
+				6DC4FDC21CF0314700D25A99 /* NewslistViewController */,
+				6DC4FDD01CF031A500D25A99 /* DetailViewController */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		6DC4FDBA1CF0314700D25A99 /* HomeViewController */ = {
+			isa = PBXGroup;
+			children = (
+				6DC4FDD11CF031E000D25A99 /* ChannelManager */,
+				6DC4FDBB1CF0314700D25A99 /* extension */,
+				6DC4FDC11CF0314700D25A99 /* HomeViewController.swift */,
+			);
+			path = HomeViewController;
+			sourceTree = "<group>";
+		};
+		6DC4FDBB1CF0314700D25A99 /* extension */ = {
+			isa = PBXGroup;
+			children = (
+				6DC4FDC01CF0314700D25A99 /* HomeViewControllerExtension.swift */,
+			);
+			path = extension;
+			sourceTree = "<group>";
+		};
+		6DC4FDC21CF0314700D25A99 /* NewslistViewController */ = {
+			isa = PBXGroup;
+			children = (
+				6DC4FDC31CF0314700D25A99 /* custom */,
+				6DC4FDC51CF0314700D25A99 /* extension */,
+				6DC4FDC71CF0314700D25A99 /* NewslistViewController.swift */,
+			);
+			path = NewslistViewController;
+			sourceTree = "<group>";
+		};
+		6DC4FDC31CF0314700D25A99 /* custom */ = {
+			isa = PBXGroup;
+			children = (
+				6DC4FDC41CF0314700D25A99 /* NewBaseTableViewCell.swift */,
+			);
+			path = custom;
+			sourceTree = "<group>";
+		};
+		6DC4FDC51CF0314700D25A99 /* extension */ = {
+			isa = PBXGroup;
+			children = (
+				6DC4FDC61CF0314700D25A99 /* NewslistViewControllerExtension.swift */,
+			);
+			path = extension;
+			sourceTree = "<group>";
+		};
+		6DC4FDD01CF031A500D25A99 /* DetailViewController */ = {
+			isa = PBXGroup;
+			children = (
+				6DC4FDD81CF0321100D25A99 /* DetailViewController.swift */,
+			);
+			path = DetailViewController;
+			sourceTree = "<group>";
+		};
+		6DC4FDD11CF031E000D25A99 /* ChannelManager */ = {
+			isa = PBXGroup;
+			children = (
+				6DC4FDD21CF031E000D25A99 /* ChannelManager.swift */,
+				6DC4FDD31CF031E000D25A99 /* HomeViewControllerChannelDataSource.swift */,
+				6DC4FDD41CF031E000D25A99 /* KDRearrangeableCollectionViewFlowLayout.swift */,
+			);
+			path = ChannelManager;
+			sourceTree = "<group>";
+		};
 		AEBCAEE51CEC25AD00EBFC0A /* orm */ = {
 			isa = PBXGroup;
 			children = (
@@ -99,16 +173,6 @@
 			path = ObjectsUtils;
 			sourceTree = "<group>";
 		};
-		AEBCAEEE1CEC3EC100EBFC0A /* DisplayViewController */ = {
-			isa = PBXGroup;
-			children = (
-				AEC1D5C01CEDB2C100B1F00C /* custom */,
-				AEBCAEFE1CEC456300EBFC0A /* extension */,
-				AEBCAEEF1CEC3EF700EBFC0A /* DisplayViewController.swift */,
-			);
-			path = DisplayViewController;
-			sourceTree = "<group>";
-		};
 		AEBCAEF11CEC3F2C00EBFC0A /* Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -126,23 +190,6 @@
 				AEBCAEF91CEC419600EBFC0A /* CustomExtensionView.swift */,
 			);
 			path = CustomClass;
-			sourceTree = "<group>";
-		};
-		AEBCAEFB1CEC43A800EBFC0A /* extension */ = {
-			isa = PBXGroup;
-			children = (
-				AEFE8F901CEC78990095DBB4 /* ChannelManager */,
-				AEBCAEFC1CEC43B900EBFC0A /* HomeViewControllerExtension.swift */,
-			);
-			path = extension;
-			sourceTree = "<group>";
-		};
-		AEBCAEFE1CEC456300EBFC0A /* extension */ = {
-			isa = PBXGroup;
-			children = (
-				AEBCAEFF1CEC457000EBFC0A /* DisplayViewControllerExtension.swift */,
-			);
-			path = extension;
 			sourceTree = "<group>";
 		};
 		AEC09CC71CE9776800D5A5CC = {
@@ -167,8 +214,7 @@
 			isa = PBXGroup;
 			children = (
 				AEC09CE91CE98C3A00D5A5CC /* Resources */,
-				AEBCAEEE1CEC3EC100EBFC0A /* DisplayViewController */,
-				AEC09CEC1CE9A4C600D5A5CC /* HomeViewController */,
+				6DC4FDB91CF0314700D25A99 /* ViewControllers */,
 				AEC09CD31CE9776800D5A5CC /* AppDelegate.swift */,
 				AEC09CD71CE9776800D5A5CC /* Main.storyboard */,
 				AEC09CDA1CE9776800D5A5CC /* Assets.xcassets */,
@@ -186,33 +232,6 @@
 				AEBCAEE51CEC25AD00EBFC0A /* orm */,
 			);
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		AEC09CEC1CE9A4C600D5A5CC /* HomeViewController */ = {
-			isa = PBXGroup;
-			children = (
-				AEBCAEFB1CEC43A800EBFC0A /* extension */,
-				AEC09CEF1CE9A50800D5A5CC /* HomeViewController.swift */,
-			);
-			path = HomeViewController;
-			sourceTree = "<group>";
-		};
-		AEC1D5C01CEDB2C100B1F00C /* custom */ = {
-			isa = PBXGroup;
-			children = (
-				AEC1D5C11CEDB2E100B1F00C /* NewBaseTableViewCell.swift */,
-			);
-			path = custom;
-			sourceTree = "<group>";
-		};
-		AEFE8F901CEC78990095DBB4 /* ChannelManager */ = {
-			isa = PBXGroup;
-			children = (
-				AEC1D5BA1CED601400B1F00C /* ChannelManager.swift */,
-				AEFE8F911CEC78B00095DBB4 /* HomeViewControllerChannelDataSource.swift */,
-				AEFE8F921CEC78B00095DBB4 /* KDRearrangeableCollectionViewFlowLayout.swift */,
-			);
-			path = ChannelManager;
 			sourceTree = "<group>";
 		};
 		B7552ACA73A8862EA1A3935E /* Frameworks */ = {
@@ -267,6 +286,7 @@
 				TargetAttributes = {
 					AEC09CCF1CE9776800D5A5CC = {
 						CreatedOnToolsVersion = 7.3;
+						DevelopmentTeam = CAY8P2B9Z3;
 					};
 				};
 			};
@@ -355,23 +375,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AEC1D5C21CEDB2E100B1F00C /* NewBaseTableViewCell.swift in Sources */,
-				AEC09CF01CE9A50800D5A5CC /* HomeViewController.swift in Sources */,
-				AEFE8F931CEC78B00095DBB4 /* HomeViewControllerChannelDataSource.swift in Sources */,
-				AEBCAEFD1CEC43B900EBFC0A /* HomeViewControllerExtension.swift in Sources */,
+				6DC4FDD61CF031E000D25A99 /* HomeViewControllerChannelDataSource.swift in Sources */,
+				6DC4FDCF1CF0314700D25A99 /* NewslistViewController.swift in Sources */,
 				AEC1D5BD1CED960100B1F00C /* New.swift in Sources */,
 				AEC1D5BF1CED9BBD00B1F00C /* NewsUtil.swift in Sources */,
-				AEBCAEF01CEC3EF700EBFC0A /* DisplayViewController.swift in Sources */,
 				AEBCAEE81CEC27A900EBFC0A /* Channel.swift in Sources */,
-				AEC1D5BB1CED601400B1F00C /* ChannelManager.swift in Sources */,
-				AEBCAF001CEC457000EBFC0A /* DisplayViewControllerExtension.swift in Sources */,
+				6DC4FDCE1CF0314700D25A99 /* NewslistViewControllerExtension.swift in Sources */,
+				6DC4FDCC1CF0314700D25A99 /* HomeViewController.swift in Sources */,
 				AEBCAEF31CEC3F4300EBFC0A /* UIStoryBoard.swift in Sources */,
 				AEC09CD41CE9776800D5A5CC /* AppDelegate.swift in Sources */,
-				AEFE8F941CEC78B00095DBB4 /* KDRearrangeableCollectionViewFlowLayout.swift in Sources */,
+				6DC4FDD91CF0321100D25A99 /* DetailViewController.swift in Sources */,
 				AEBCAEEB1CEC2ADB00EBFC0A /* ChannelUtil.swift in Sources */,
 				AEBCAEFA1CEC419600EBFC0A /* CustomExtensionView.swift in Sources */,
+				6DC4FDCB1CF0314700D25A99 /* HomeViewControllerExtension.swift in Sources */,
+				6DC4FDD51CF031E000D25A99 /* ChannelManager.swift in Sources */,
 				AEBCAEF81CEC418200EBFC0A /* CircularButtonBarView.swift in Sources */,
 				AEC1D5C41CEDC22700B1F00C /* DateExt.swift in Sources */,
+				6DC4FDD71CF031E000D25A99 /* KDRearrangeableCollectionViewFlowLayout.swift in Sources */,
+				6DC4FDCD1CF0314700D25A99 /* NewBaseTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -487,11 +508,14 @@
 			baseConfigurationReference = 159FDBAECFB9DE4E3ACF1E70 /* Pods-Journalism.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Journalism/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yktx.Sokme;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -500,11 +524,14 @@
 			baseConfigurationReference = 81231C5CF554FB534D99E67C /* Pods-Journalism.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Journalism/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yktx.Sokme;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};

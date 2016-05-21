@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift
 
 extension UIStoryboard{
-
+    
     /// 获取单例模式下的UIStoryBoard对象
     class var shareStoryBoard:UIStoryboard!{
         
@@ -34,11 +34,31 @@ extension UIStoryboard{
 }
 
 extension UIStoryboard{
-
-    func get_DisplayViewController(channel:Channel?=nil)->DisplayViewController{
     
-        let viewController = self.instantiateViewControllerWithIdentifier("DisplayViewController") as! DisplayViewController
+    // 获取新闻列表视图
+    func get_NewslistViewController(channel:Channel?=nil)-> NewslistViewController{
+        
+        let viewController = self.instantiateViewControllerWithIdentifier("NewslistViewController") as! NewslistViewController
         viewController.channel = channel
+        return viewController
+    }
+    
+    // 获得子母视图
+    func get_UISplitViewController() -> UISplitViewController {
+        
+        let viewController = self.instantiateViewControllerWithIdentifier("UISplitViewController") as! UISplitViewController
+        return viewController
+    }
+    
+    // 获得详情视图
+    func get_DetailViewController (new:New)-> UIViewController{
+        
+        let viewController = self.instantiateViewControllerWithIdentifier("DetailViewController") as! UINavigationController
+        
+        let detail = viewController.topViewController as! DetailViewController
+        
+        detail.title = new.title
+        
         return viewController
     }
 }
