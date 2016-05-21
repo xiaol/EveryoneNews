@@ -48,3 +48,4 @@ Xcode 7.0 or above
 - [ ] 网络数据的请求模块的导入。使用`Swagger`
 - [ ] 完成登录页面的 微信 qq 登陆。
 - [ ] 商量一下是不是使用动态字体替换现在的最原始的文字大小修改方法。`handleContentSizeCategoryDidChanged`
+- [ ] 使用 `NSURLCache.sharedURLCache().removeAllCachedResponses()` 清除缓存
