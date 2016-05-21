@@ -22,9 +22,11 @@ extension NewslistViewController:IndicatorInfoProvider{
         self.tableView.layoutMargins = UIEdgeInsetsZero
         self.tableView.separatorInset = UIEdgeInsetsZero
         
-        if let channelId = self.channel?.id {
+        if let channelId = self.channel?.id ,time = newsResults.first?.pubTimes.hoursAfterDate(NSDate()){
             
-            if newsResults.count <= 0 || newsResults.first?.pubTimes.hoursAfterDate(NSDate()) > 1{
+            print(time)
+            
+            if newsResults.count <= 0 ||  time < -1{
             
                 NewsUtil.RefreshChannleObjects(channelId, finish: {
                     

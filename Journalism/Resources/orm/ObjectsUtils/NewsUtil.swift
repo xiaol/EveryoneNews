@@ -21,7 +21,7 @@ class NewsUtil: NSObject {
         
         let times = "\(Int(NSDate().timeIntervalSince1970*1000))"
         
-        NewsAPI.refreshGet(cid: "\(channelId)", page: nil, offset: nil, tstart: times) { (data, error) in
+        NewsAPI.loadGet(cid: "\(channelId)", tstart: times, page: nil, offset: nil) { (data, error) in
             
             let realm = try! Realm()
             
@@ -41,8 +41,6 @@ class NewsUtil: NSObject {
                             
                                 let date = NSDate(fromString: objcid, format: DateFormat.Custom("yyyy-MM-dd HH:mm:ss"))
                                 
-//                                realm.objects(New).filter("docid = '热点'")
-                                
                                 realm.create(New.self, value: ["docid":objcid,"pubTimes":date], update: true)
                             }
                             
@@ -60,6 +58,8 @@ class NewsUtil: NSObject {
                                 realm.create(New.self, value: ["docid":objcid,"imgLists":array], update: true)
                             }
                         }
+                        
+                        print(data.count)
                     })
                     
                     finish?()
