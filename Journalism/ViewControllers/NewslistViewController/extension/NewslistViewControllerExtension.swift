@@ -22,17 +22,12 @@ extension NewslistViewController:IndicatorInfoProvider{
         self.tableView.layoutMargins = UIEdgeInsetsZero
         self.tableView.separatorInset = UIEdgeInsetsZero
         
-        if let channelId = self.channel?.id ,time = newsResults.first?.pubTimes.hoursAfterDate(NSDate()){
+        if let channelId = self.channel?.id {
             
-            print(time)
-            
-            if newsResults.count <= 0 ||  time < -1{
-            
-                NewsUtil.RefreshChannleObjects(channelId, finish: {
-                    
-                    self.tableView.reloadData()
-                })
-            }
+            NewsUtil.RefreshChannleObjects(channelId, finish: {
+                
+                self.tableView.reloadData()
+            })
         }
         
         self.TextForChangehandleMethod()
@@ -68,6 +63,8 @@ extension NewslistViewController:IndicatorInfoProvider{
 extension NewslistViewController:UITableViewDataSource{
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        if newsResults == nil {return 0}
         
         return newsResults.count
     }
