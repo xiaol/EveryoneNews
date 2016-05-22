@@ -125,6 +125,11 @@ extension NewslistViewController:UITableViewDelegate{
         self.showDetailViewController(viewController, sender: nil)
     }
     
+    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+        return 100
+    }
+    
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         let new = newsResults[indexPath.row]

@@ -27,6 +27,8 @@ class DetailViewAndCommitViewControllerPopAnimatedTransitioning:NSObject,UIViewC
         
         cv.insertSubview(toVC.view, belowSubview: fromVC.view)
         
+        toVC.view.transform = CGAffineTransformIdentity
+        
         toVC.view.transform = CGAffineTransformTranslate(toVC.view.transform, -(UIScreen.mainScreen().bounds.width)/2, 0)
         
          UIView.animateWithDuration(self.transitionDuration(transitionContext), animations: {

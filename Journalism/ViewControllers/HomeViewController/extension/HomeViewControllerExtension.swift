@@ -115,7 +115,7 @@ extension HomeViewController{
         
         displayViewController.newsResults = self.newsResults.filter("channelId = %@",channel.id)
         
-        let _ = displayViewController.newsResults.count
+        let count = displayViewController.newsResults.count
         
         return displayViewController
     }
