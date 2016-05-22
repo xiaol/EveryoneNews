@@ -120,9 +120,9 @@ extension NewslistViewController:UITableViewDelegate{
         
         let new = newsResults[indexPath.row]
         
-        let viewController = UIStoryboard.shareStoryBoard.get_DetailViewController(new)
+        let viewController = UIStoryboard.shareStoryBoard.get_DetailAndCommitViewController(new)
         
-        self.navigationController?.showDetailViewController(viewController, sender: nil)
+        self.showDetailViewController(viewController, sender: nil)
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

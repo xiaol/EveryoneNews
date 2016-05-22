@@ -18,8 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UISplitViewControllerDele
         // Override point for customization after application launch.
         
         let splitViewController = self.window!.rootViewController as! UISplitViewController
-        let navigationController = splitViewController.viewControllers[splitViewController.viewControllers.count-1] as! UINavigationController
-        navigationController.topViewController!.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem()
         splitViewController.delegate = self
         
         return true
@@ -48,8 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UISplitViewControllerDele
     }
 
     func splitViewController(splitViewController: UISplitViewController, collapseSecondaryViewController secondaryViewController:UIViewController, ontoPrimaryViewController primaryViewController:UIViewController) -> Bool {
-        guard let secondaryAsNavController = secondaryViewController as? UINavigationController else { return false }
-        guard let _ = secondaryAsNavController.topViewController as? DetailViewController else { return false }
+        guard secondaryViewController is DetailAndCommitViewController else { return false }
         return true
     }
 }

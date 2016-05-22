@@ -27,7 +27,37 @@ class BottomBoderView:UIView{
     }
 }
 
+class TopBorderView:UIView{
+
+    override func drawRect(rect: CGRect) {
+        super.drawRect(rect)
+        
+        let layout = CAShapeLayer()
+        let path = UIBezierPath()
+        path.moveToPoint(CGPoint(x: 0, y: 0))
+        path.addLineToPoint(CGPoint(x: self.frame.size.width, y: 0))
+        
+        path.lineWidth = 0.5
+        UIColor(red: 200/255, green:200/255, blue: 200/255, alpha: 0.8).setStroke()
+        path.stroke()
+        
+        layout.path = path.CGPath
+    }
+}
+
 ///按钮扩展类
+class CircularTextField:UIView{
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        self.layer.cornerRadius = self.frame.height/2
+        self.layer.borderColor = UIColor.lightTextColor().CGColor
+        self.layer.borderWidth = 0.1
+    }
+    
+}
+
+///圆形图片
 class HeadPhotoView:UIImageView{
     
     required init?(coder aDecoder: NSCoder) {

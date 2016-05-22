@@ -20,6 +20,8 @@ extension HomeViewController{
         self.initialPagerTabStripMethod()
         
         self.TextForChangehandleMethod()
+        
+        
     }
     
     // 初始化分页视图方法

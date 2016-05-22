@@ -58,8 +58,6 @@ class NewsUtil: NSObject {
                                 realm.create(New.self, value: ["docid":objcid,"imgLists":array], update: true)
                             }
                         }
-                        
-                        print(data.count)
                     })
                     
                     finish?()
