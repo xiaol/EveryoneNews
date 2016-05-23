@@ -21,35 +21,38 @@
 
 - (void)page:(LPPagingViewPage *)page didClickSearchImageView:(UIImageView *)imageView;
 
-- (void)page:(LPPagingViewPage *)page didClickDeleteButtonWithCardFrame:(CardFrame *)cardFrame deleteButton:(UIButton *)deleteButton indexPath:(NSIndexPath *)indexPath;
+- (void)page:(LPPagingViewPage *)page didClickDeleteButtonWithCardFrame:(CardFrame *)cardFrame deleteButton:(UIButton *)deleteButton;
 
-//- (void)page:(LPPagingViewPage *)page didSaveOffsetY:(CGFloat)offsetY;
-
-//- (void)page:(LPPagingViewPage *)page tableView:(UITableView *)tableView deleteAtIndexPath:(NSIndexPath *)indexPath;
-
-
-
+- (void)didClickReloadPage:(LPPagingViewPage *)page;
 
 @end
 //
 @interface LPPagingViewPage : UIView
-//
+
+
 @property (nonatomic, strong) NSMutableArray *cardFrames;
 
 @property (nonatomic, copy) NSString *cellIdentifier;
 
 @property (nonatomic, copy) NSString *pageChannelName;
 
+@property (nonatomic, strong) UIView *reloadPage;
+
+// 正在加载视图
+@property (nonatomic, strong) UIView *contentLoadingView;
+// 首页动画UIImageView
+@property (nonatomic, strong) UIImageView *animationImageView;
+//// 正在加载文字提示
+//@property (nonatomic, strong) UILabel *loadingLabel;
+
 @property (nonatomic, weak) id<LPPagingViewPageDelegate> delegate;
 - (void)autotomaticLoadNewData;
 
 - (void)tableViewReloadData;
-//
-//- (void)scrollOffsetY:(CGFloat)offsetY cardFrame:(CardFrame *)cardFrame;
-//
-//- (void)scrollOffsetY:(CGFloat)offsetY;
 
-- (void)deleteRowAtIndexPath:(NSIndexPath *)indexPath cardFrame:(CardFrame *)cardFrame;
+- (void)tapStatusBarScrollToTop;
+
+- (void)deleteRowAtIndexPath:(CardFrame *)cardFrame;
 - (void)updateCardFramesWithCardFrame:(CardFrame *)cardFrame;
 
 /**

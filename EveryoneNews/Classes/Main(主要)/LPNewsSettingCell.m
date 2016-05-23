@@ -29,6 +29,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nonnull instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(nullable NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    
+    CGFloat kSetingCellHeight = 44.0f;
+    if (iPhone6) {
+        kSetingCellHeight = 51.0f;
+    }
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
         leftImageView = [[UIImageView alloc] init];
@@ -87,6 +92,12 @@ NS_ASSUME_NONNULL_BEGIN
 static const CGFloat kLeftMargin = 14.f;
 
 - (void)setModel:(nonnull id)model IndexPath:(nullable NSIndexPath *)indexPath {
+    CGFloat kSetingCellHeight = 44.0f;
+    
+    if (iPhone6) {
+        kSetingCellHeight = 51.0f;
+    }
+    
     if (model && [model isKindOfClass:[NSDictionary class]]) {
         __weak __typeof(self)weakSelf = self;
         __weak __typeof(leftImageView)weakLeftImageView = leftImageView;

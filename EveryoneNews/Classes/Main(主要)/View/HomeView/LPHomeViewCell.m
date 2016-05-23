@@ -323,6 +323,7 @@
         self.titleLabel.hidden = NO;
         self.iconView.hidden = NO;
         self.singleSourceLabel.hidden = NO;
+
         self.singleSeperatorLine.hidden = NO;
         self.singleCommentLabel.hidden = NO;
     
@@ -431,11 +432,15 @@
 
 }
 
-- (void)setHighlighted:(BOOL)highlighted {
-    
-}
+//- (void)setHighlighted:(BOOL)highlighted {
+//    
+//}
 
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
+    
+    [super setHighlighted:highlighted animated:animated];
+    
+   
  
 }
 

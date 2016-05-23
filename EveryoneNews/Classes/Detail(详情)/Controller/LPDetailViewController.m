@@ -54,18 +54,18 @@
 #import "LPLoadFooter.h"
 #import "LPTextView.h"
 #import "LPDetailScrollView.h"
-
-
+#import "LPDetailTipView.h"
 #import "Card+Create.h"
-
+#import <SafariServices/SafariServices.h>
 
 static const NSString * privateContext;
 
-const static CGFloat contentBottomViewH = 100;
 const static CGFloat changeFontSizeViewH = 150;
 
-@interface LPDetailViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate,LPRelateCellDelegate, LPDetailTopViewDelegate, LPShareViewDelegate,LPDetailBottomViewDelegate, LPShareCellDelegate, LPContentCellDelegate, LPBottomShareViewDelegate, LPDetailChangeFontSizeViewDelegate, LPFullCommentCellDelegate, UITextViewDelegate>
+@interface LPDetailViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate,LPRelateCellDelegate, LPDetailTopViewDelegate, LPShareViewDelegate,LPDetailBottomViewDelegate, LPShareCellDelegate, LPContentCellDelegate, LPBottomShareViewDelegate, LPDetailChangeFontSizeViewDelegate, LPFullCommentCellDelegate, UITextViewDelegate,SFSafariViewControllerDelegate,LPCommentCellDelegate>
 
+
+#pragma mark - 属性声明
 @property (nonatomic, assign) CGFloat lastContentOffsetY;
 
 @property (nonatomic, assign) CGFloat lastContentOffsetX;
@@ -117,6 +117,16 @@ const static CGFloat changeFontSizeViewH = 150;
 @property (nonatomic, strong) UITextView *textView;
 @property (nonatomic, strong) UIButton *composeButton;
 
+@property (nonatomic, strong) UIView *leftView;
+// 关心本文图标
+@property (nonatomic, strong) UIImageView *concernImageView;
+// 关心本文数量
+@property (nonatomic, strong) UILabel *concernCountLabel;
+
+@property (nonatomic, strong) UIView *contentBottomView;
+// 重新加载提示信息
+@property (nonatomic, strong) UIView *reloadPage;
+
 @end
 
 @implementation LPDetailViewController
@@ -124,32 +134,111 @@ const static CGFloat changeFontSizeViewH = 150;
 #pragma mark - viewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.view.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
+    self.statusWindow.hidden = YES;
+    
     [self setupSubviews];
     [self setupBottomView];
     [self setupData];
+    [self collectedButtonStatusChange];
     
-    //增加监听，当键盘出现或改变时收出消息
-    [noteCenter addObserver:self
-                                             selector:@selector(keyboardWillShow:)
-                                                 name:UIKeyboardWillShowNotification
-                                               object:nil];
+    [noteCenter addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [noteCenter addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    
 }
 
+#pragma mark - viewWillAppear
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    // 友盟统计打开详情页次数
+    //    [MobClick beginLogPageView:@"DetailPage"];
+    self.stayTimeInterval = 0;
+    [self startTimer];
+}
+
+#pragma mark - 懒加载
+- (NSArray *)relates
+{
+    if (_relates == nil) {
+        _relates = [NSArray array];
+    }
+    return _relates;
+}
+
+- (NSMutableArray *)relatePointFrames {
+    if (!_relatePointFrames) {
+        _relatePointFrames = [NSMutableArray array];
+    }
+    return _relatePointFrames;
+}
+
+- (NSMutableArray *)contentArray {
+    if (!_contentArray) {
+        _contentArray = [NSMutableArray array];
+    }
+    return _contentArray;
+}
+
+- (NSMutableArray*)fulltextCommentFrames {
+    if (_fulltextCommentFrames == nil) {
+        _fulltextCommentFrames = [NSMutableArray array];
+    }
+    return _fulltextCommentFrames;
+}
+
+- (NSMutableArray *)excellentCommentsFrames {
+    if (_excellentCommentsFrames == nil) {
+        _excellentCommentsFrames = [NSMutableArray array];
+    }
+    return _excellentCommentsFrames;
+}
+
+- (NSMutableDictionary *)contentDictionary {
+    if (_contentDictionary == nil) {
+        _contentDictionary = [NSMutableDictionary dictionary];
+    }
+    return _contentDictionary;
+}
+
+- (NSMutableDictionary *)heightDictionary {
+    if (_contentDictionary == nil) {
+        _contentDictionary = [NSMutableDictionary dictionary];
+    }
+    return _contentDictionary;
+    
+}
+
+- (NSMutableArray *)contentFrames {
+    if (_contentFrames == nil) {
+        _contentFrames = [NSMutableArray array];
+    }
+    return _contentFrames;
+}
+
+#pragma mark - 收藏按钮状态变化
+- (void)collectedButtonStatusChange {
+    if ([AccountTool account]) {
+        if (![self.card.isCollected isEqual:@(1)]) {
+            [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页未收藏"] forState:UIControlStateNormal];
+
+        } else {
+            [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页已收藏"] forState:UIControlStateNormal];
+        }
+    }
+}
+
+
 //当键盘出现或改变时调用
-- (void)keyboardWillShow:(NSNotification *)aNotification
+- (void)keyboardWillShow:(NSNotification *)note
 {
     //获取键盘的高度
-    NSDictionary *userInfo = [aNotification userInfo];
-    NSValue *aValue = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
-    CGRect keyboardRect = [aValue CGRectValue];
+    NSDictionary *userInfo = [note userInfo];
+    CGFloat duration = [userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    NSValue *value = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
+    CGRect keyboardRect = [value CGRectValue];
     CGFloat height = keyboardRect.size.height;
-    
-    
     CGRect toFrame = CGRectMake(0, ScreenHeight - self.textViewBg.height - height, ScreenWidth, self.textViewBg.height);
-    
-    [UIView animateWithDuration:0.4 animations:^{
+    [UIView animateWithDuration:duration animations:^{
         self.textViewBg.frame = toFrame;
         self.composeCommentBackgroundView.alpha = 1.0f;
     } completion:^(BOOL finished) {
@@ -157,6 +246,24 @@ const static CGFloat changeFontSizeViewH = 150;
     }];
     
 }
+
+- (void)keyboardWillHide:(NSNotification *)note {
+    //获取键盘的高度
+    NSDictionary *userInfo = [note userInfo];
+    CGFloat duration = [userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+    CGRect toFrame = CGRectMake(0, ScreenHeight, ScreenWidth, self.textViewBg.height);
+    [UIView animateWithDuration:duration animations:^{
+        self.textViewBg.frame = toFrame;
+        self.composeCommentBackgroundView.alpha = 0.0f;
+    } completion:^(BOOL finished) {
+        self.composeCommentBackgroundView.hidden = YES;
+        self.composeButton.backgroundColor = [UIColor colorFromHexString:@"#eaeaea"];
+        [self.composeButton setTitleColor:[UIColor colorFromHexString:LPColor4] forState:UIControlStateNormal];
+        self.composeButton.layer.borderColor  =  [UIColor colorFromHexString:LPColor4].CGColor;
+    }];
+}
+
+
 
 #pragma mark - 发表评论文字变化
 - (void)textViewDidChange:(UITextView*)textView {
@@ -168,9 +275,9 @@ const static CGFloat changeFontSizeViewH = 150;
             [self.composeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         } else {
             self.composeButton.enabled = NO;
-            self.composeButton.backgroundColor = [UIColor colorFromHexString:LPColor4];
+             self.composeButton.backgroundColor = [UIColor colorFromHexString:@"#eaeaea"];
+            [self.composeButton setTitleColor:[UIColor colorFromHexString:LPColor4] forState:UIControlStateNormal];
             self.composeButton.layer.borderColor  =  [UIColor colorFromHexString:LPColor4].CGColor;
-            [self.composeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         }
         
     }
@@ -179,28 +286,15 @@ const static CGFloat changeFontSizeViewH = 150;
 
 #pragma mark - 结束编辑
 - (void)composeCommentBackgroundViewTap {
-    CGRect toFrame = CGRectMake(0, ScreenHeight, ScreenWidth, self.textViewBg.height);
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        self.textViewBg.frame = toFrame;
-        [self.textView endEditing:YES];
-        self.composeCommentBackgroundView.alpha = 0.0;
-        
-    } completion:^(BOOL finished) {
-    
-        [self.textView setText:@""];
-        self.composeCommentBackgroundView.hidden = YES;
-        self.composeButton.enabled = NO;
-        self.composeButton.backgroundColor = [UIColor colorFromHexString:LPColor4];
-        self.composeButton.layer.borderColor  =  [UIColor colorFromHexString:LPColor4].CGColor;
-    }];
+    [self.textView endEditing:YES];
+    [self.textView setText:@""];
 }
 
 
 #pragma mark - dealloc
 - (void)dealloc {
     [noteCenter removeObserver:self];
-//    NSLog(@"%@", NSStringFromSelector(_cmd));
+    NSLog(@"%@", NSStringFromSelector(_cmd));
 }
 
 #pragma mark - 加载详情页所有数据
@@ -208,13 +302,16 @@ const static CGFloat changeFontSizeViewH = 150;
     
     // 详情页block
     void (^contentBlock)(id json) = ^(id json) {
+        [self.contentFrames removeAllObjects];
+        __block int downloadImageCount = 0;
+        NSInteger imageCount = 0;
+        NSInteger i = 0;
         
-        __block int imageCount = 0;
         NSDictionary *dict = json[@"data"];
         NSString *title = dict[@"title"];
         NSString *pubTime = dict[@"pubTime"];
         NSString *pubName = dict[@"pubName"];
-        NSInteger imgNum = [dict[@"imgNum"] integerValue];
+//        NSInteger imgNum = [dict[@"imgNum"] integerValue];
 
         self.contentTitle = title;
         self.pubTime = pubTime;
@@ -234,9 +331,12 @@ const static CGFloat changeFontSizeViewH = 150;
 
         // 第一个图片作为分享图片
         for (NSDictionary *dict in bodyArray) {
-            if (dict[@"img"]) {
+            i++;
+            if (dict[@"img"] && i == 0) {
                 self.shareImageURL = dict[@"img"];
-                break;
+            }
+            if (dict[@"img"]) {
+                ++ imageCount;
             }
         }
 
@@ -259,8 +359,10 @@ const static CGFloat changeFontSizeViewH = 150;
             contentFrame.content = content;
             [self.contentFrames addObject:contentFrame];
             [contentFrame downloadImageWithCompletionBlock:^{
-                ++ imageCount;
-                if (self.contentFrames.count > 0 && imageCount == imgNum) {
+//                NSInteger  index = [self.contentFrames indexOfObject:contentFrame];
+//                [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
+                ++ downloadImageCount;
+                if (self.contentFrames.count > 0 && downloadImageCount == imageCount) {
                     [self.tableView reloadData];
                     [self noCommentsViewTip];
                     [self.commentsTableView reloadData];
@@ -274,6 +376,7 @@ const static CGFloat changeFontSizeViewH = 150;
     // 精选评论block
     void (^excellentCommentsBlock)(id json) = ^(id json) {
         if ([json[@"code"] integerValue] == 0) {
+            [self.excellentCommentsFrames removeAllObjects];
             NSArray *commentsArray = json[@"data"];
             int i = 0;
             for (NSDictionary *dict in commentsArray) {
@@ -306,6 +409,7 @@ const static CGFloat changeFontSizeViewH = 150;
     // 全文评论
     void (^commentsBlock)(id json) = ^(id json) {
         if ([json[@"code"] integerValue] == 0) {
+            [self.fulltextCommentFrames removeAllObjects];
             NSArray *commentsArray = json[@"data"];
             for (NSDictionary *dict in commentsArray) {
                 
@@ -335,38 +439,47 @@ const static CGFloat changeFontSizeViewH = 150;
 
     // 相关观点block
     void (^relatePointBlock)(id json) = ^(id json) {
-        NSDictionary *dict = json[@"data"];
-        NSArray *relatePointArray = [LPRelatePoint objectArrayWithKeyValuesArray:dict[@"searchItems"]];
-        // 按照时间排序
-        NSArray *sortedRelateArray = [relatePointArray sortedArrayUsingComparator:^NSComparisonResult(LPRelatePoint *p1, LPRelatePoint *p2) {
-            return [p2.updateTime compare:p1.updateTime];
-        }];
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"yyyy"];
-        NSString *currentYear = [formatter stringFromDate:[NSDate date]];
-       
-        for (int i = 0; i < sortedRelateArray.count; i++) {
-            LPRelatePoint *point = sortedRelateArray[i];
-            NSString *updateTime = point.updateTime;
-            NSString *updateYear = [updateTime substringToIndex:4];
-            NSString *updateMonthDay = [[updateTime substringWithRange:NSMakeRange(5, 5)] stringByReplacingOccurrencesOfString:@"-"withString:@"/"];
-            if ([updateYear isEqualToString:currentYear]) {
-                point.updateTime = updateMonthDay;
-            } else {
-                point.updateTime = [NSString stringWithFormat:@"%@/%@", updateYear,updateMonthDay];
+        if ([json[@"code"] integerValue] == 0) {
+            [self.relatePointFrames removeAllObjects];
+            NSDictionary *dict = json[@"data"];
+            NSArray *relatePointArray = [LPRelatePoint objectArrayWithKeyValuesArray:dict[@"searchItems"]];
+            // 按照时间排序
+            NSArray *sortedRelateArray = [relatePointArray sortedArrayUsingComparator:^NSComparisonResult(LPRelatePoint *p1, LPRelatePoint *p2) {
+                return [p2.updateTime compare:p1.updateTime];
+            }];
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            [formatter setDateFormat:@"yyyy"];
+            NSString *currentYear = [formatter stringFromDate:[NSDate date]];
+            
+            for (int i = 0; i < sortedRelateArray.count; i++) {
+                LPRelatePoint *point = sortedRelateArray[i];
+                NSString *updateTime = point.updateTime;
+                NSString *updateYear = [updateTime substringToIndex:4];
+                NSString *updateMonthDay = [[updateTime substringWithRange:NSMakeRange(5, 5)] stringByReplacingOccurrencesOfString:@"-"withString:@"/"];
+                if ([updateYear isEqualToString:currentYear]) {
+                    point.updateTime = updateMonthDay;
+                } else {
+                    point.updateTime = [NSString stringWithFormat:@"%@/%@", updateYear,updateMonthDay];
+                }
+                currentYear = updateYear;
+                if ([point.searchFrom isEqualToString:@"Google"]) {
+                    self.googleSourceExistsInRelatePoint = true;
+                }
+               
             }
-            currentYear = updateYear;
-        }
-        
-        self.relatePointArray = sortedRelateArray;
-        for (int i = 0; i < sortedRelateArray.count; i ++) {
-            LPRelatePoint *point = sortedRelateArray[i];
-            LPRelateFrame *relateFrame = [[LPRelateFrame alloc] init];
-            relateFrame.currentRowIndex = i;
-            relateFrame.relatePoint = point;
-            [self.relatePointFrames addObject:relateFrame];
-            if (i == 2) {
-                break;
+            
+            self.relatePointArray = sortedRelateArray;
+            for (int i = 0; i < sortedRelateArray.count; i ++) {
+                LPRelatePoint *point = sortedRelateArray[i];
+                LPRelateFrame *relateFrame = [[LPRelateFrame alloc] init];
+                relateFrame.currentRowIndex = i;
+                relateFrame.relatePoint = point;
+                relateFrame.totalCount = sortedRelateArray.count;
+                relateFrame.googleSourceExistsInRelatePoint = self.googleSourceExistsInRelatePoint;
+                [self.relatePointFrames addObject:relateFrame];
+                if (i == 2) {
+                    break;
+                }
             }
         }
     };
@@ -377,6 +490,16 @@ const static CGFloat changeFontSizeViewH = 150;
         [self.commentsTableView reloadData];
         [self hideLoadingView];
         self.tableView.hidden = NO;
+        self.reloadPage.hidden = YES;
+        self.bottomView.userInteractionEnabled = YES;
+        self.topView.shareButton.enabled = YES;
+    };
+    
+    void (^showReloadPageBlock)() = ^{
+        self.tableView.hidden = YES;
+        self.reloadPage.hidden = NO;
+        self.bottomView.userInteractionEnabled = NO;
+        self.topView.shareButton.enabled = NO;
     };
 
     // 详情页正文
@@ -384,7 +507,7 @@ const static CGFloat changeFontSizeViewH = 150;
     NSString *detailContentURL = @"http://api.deeporiginalx.com/bdp/news/content";
     detailContentParams[@"url"] = [self newID];
 
-    NSLog(@"%@?url=%@",detailContentURL,  [self.card valueForKey:@"newId"]);
+    //NSLog(@"%@?url=%@",detailContentURL,  [self.card valueForKey:@"newId"]);
     
     // 精选评论
     NSString *excellentDetailCommentsURL = @"http://api.deeporiginalx.com/bdp/news/comment/ydzx";
@@ -399,6 +522,8 @@ const static CGFloat changeFontSizeViewH = 150;
     detailRelatePointParams[@"url"] = [self newID];
     NSString *relateURL = @"http://api.deeporiginalx.com/bdp/news/related";
 
+    NSLog(@"%@?url=%@",relateURL,  [self.card valueForKey:@"newId"]);
+    
     // 全文评论
     NSString *detailCommentsURL = @"http://api.deeporiginalx.com/bdp/news/comment/ydzx";
     NSMutableDictionary *detailCommentsParams = [NSMutableDictionary dictionary];
@@ -423,29 +548,23 @@ const static CGFloat changeFontSizeViewH = 150;
                 relatePointBlock(json);
                 // 全文评论
                 [LPHttpTool getWithURL:detailCommentsURL params:detailCommentsParams success:^(id json) {
-                    
                     commentsBlock(json);
                     reloadTableViewBlock();
                 } failure:^(NSError *error) {
-                     reloadTableViewBlock();
+                    showReloadPageBlock();
                 }];
                 
-                
-                reloadTableViewBlock();
-                
             } failure:^(NSError *error) {
-                reloadTableViewBlock();
+               showReloadPageBlock();
 
             }];
 
         } failure:^(NSError *error) {
-            reloadTableViewBlock();
-
+            showReloadPageBlock();
         }];
 
-
     } failure:^(NSError *error) {
-        reloadTableViewBlock();
+        showReloadPageBlock();
     }];
 }
 
@@ -458,30 +577,26 @@ const static CGFloat changeFontSizeViewH = 150;
     }
 }
 
-#pragma mark - viewWillAppear
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    // 友盟统计打开详情页次数
-//    [MobClick beginLogPageView:@"DetailPage"];
-    self.stayTimeInterval = 0;
-    [self startTimer];
-}
+
 
 #pragma mark - viewDidDisappear
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    if (!self.isRead) {
-        [self.card setValue:@(1) forKey:@"isRead"];
-         CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
-        [cdh saveBackgroundContext];
-
-        dispatch_async(dispatch_get_main_queue(), ^{
-             NSLog(@"success");
-        });
+    if (self.navigationController.viewControllers.count == 0) {
+        if (!self.isRead) {
+            [self.card setValue:@(1) forKey:@"isRead"];
+            CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+            [cdh saveBackgroundContext];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSLog(@"success");
+            });
+        }
+        [self endTimer];
+        // 提交用户日志
+        [self submitUserOperationLog];
     }
-    [self endTimer];
-    // 提交用户日志
-    [self submitUserOperationLog];
+    self.statusWindow.hidden = NO;
 }
 
 #pragma mark - 开启定时器
@@ -509,7 +624,7 @@ const static CGFloat changeFontSizeViewH = 150;
 #pragma mark - 上传用户操作日志
 - (void)submitUserOperationLog {
     
-    NSString *uid= (NSString *)[userDefaults objectForKey:@"uuid"];
+    NSString *uid= (NSString *)[userDefaults objectForKey:@"uniqueDeviceIDÏ"];
     NSString *cou = @""; // 国家
     NSString *pro = @""; // 省
     NSString *cit = @""; // 城市
@@ -567,64 +682,7 @@ const static CGFloat changeFontSizeViewH = 150;
     return NO;
 }
 
-#pragma mark - 懒加载
-- (NSArray *)relates
-{
-    if (_relates == nil) {
-        _relates = [NSArray array];
-    }
-    return _relates;
-}
 
-- (NSMutableArray *)relatePointFrames {
-    if (!_relatePointFrames) {
-        _relatePointFrames = [NSMutableArray array];
-    }
-    return _relatePointFrames;
-}
-
-- (NSMutableArray *)contentArray {
-    if (!_contentArray) {
-        _contentArray = [NSMutableArray array];
-    }
-    return _contentArray;
-}
-
-- (NSMutableArray*)fulltextCommentFrames {
-    if (_fulltextCommentFrames == nil) {
-        _fulltextCommentFrames = [NSMutableArray array];
-    }
-    return _fulltextCommentFrames;
-}
-
-- (NSMutableArray *)excellentCommentsFrames {
-    if (_excellentCommentsFrames == nil) {
-        _excellentCommentsFrames = [NSMutableArray array];
-    }
-    return _excellentCommentsFrames;
-}
-
-- (NSMutableDictionary *)contentDictionary {
-    if (_contentDictionary == nil) {
-        _contentDictionary = [NSMutableDictionary dictionary];
-    }
-    return _contentDictionary;
-}
-
-- (NSMutableDictionary *)heightDictionary {
-    if (_contentDictionary == nil) {
-        _contentDictionary = [NSMutableDictionary dictionary];
-    }
-    return _contentDictionary;
-
-}
-
-- (NSMutableArray *)contentFrames {
-    if (_contentFrames == nil) {
-        _contentFrames = [NSMutableArray array];
-    }
-    return _contentFrames;
-}
 
 #pragma mark - 顶部视图隐藏和显示
 - (void)fadeIn
@@ -650,15 +708,15 @@ const static CGFloat changeFontSizeViewH = 150;
     }
 }
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    if ([scrollView isKindOfClass:[UIScrollView class]]) {
-    if (self.lastContentOffsetX < scrollView.contentOffset.x) {
-        NSLog(@"right");
-    } else if (self.lastContentOffsetX > scrollView.contentOffset.x) {
-       NSLog(@"left");
-     }
-    }
-}
+//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+//    if ([scrollView isKindOfClass:[UIScrollView class]]) {
+//    if (self.lastContentOffsetX < scrollView.contentOffset.x) {
+//        NSLog(@"right");
+//    } else if (self.lastContentOffsetX > scrollView.contentOffset.x) {
+//       NSLog(@"left");
+//     }
+//    }
+//}
 #pragma mark - scrollViewDidScroll
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -672,8 +730,6 @@ const static CGFloat changeFontSizeViewH = 150;
         } else {
             [self hideCommentBtn];
         }
-        
-       
     }
 }
 
@@ -698,6 +754,7 @@ const static CGFloat changeFontSizeViewH = 150;
     
     LPDetailScrollView *scrollView = [[LPDetailScrollView alloc] initWithFrame:CGRectMake(tableViewX, tableViewY, tableViewW, tableViewH)] ;
     self.automaticallyAdjustsScrollViewInsets = NO;
+    scrollView.bounces = NO;
     scrollView.contentInset = UIEdgeInsetsZero;
     scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(0.0,0.0,0.0,0.0);
     scrollView.contentSize = CGSizeMake(tableViewW * 2, tableViewH);
@@ -706,6 +763,7 @@ const static CGFloat changeFontSizeViewH = 150;
     scrollView.showsHorizontalScrollIndicator = YES;
     scrollView.showsVerticalScrollIndicator = NO;
     scrollView.delegate = self;
+    scrollView.scrollsToTop = NO;
     [self.view addSubview:scrollView];
     self.scrollView = scrollView;
 
@@ -716,7 +774,7 @@ const static CGFloat changeFontSizeViewH = 150;
     tableView.showsVerticalScrollIndicator = YES;
     tableView.showsHorizontalScrollIndicator = NO;
     tableView.hidden = YES;
-    
+    tableView.scrollsToTop = YES;
     self.tableView = tableView;
     [scrollView addSubview:tableView];
     self.tableView.delegate = self;
@@ -736,6 +794,7 @@ const static CGFloat changeFontSizeViewH = 150;
     commentsTableView.delegate = self;
     commentsTableView.dataSource = self;
     commentsTableView.scrollEnabled = NO;
+    commentsTableView.scrollsToTop = NO;
     
     self.commentsTableView = commentsTableView;
     // 上拉加载更多
@@ -777,8 +836,6 @@ const static CGFloat changeFontSizeViewH = 150;
     [self.view addSubview:composeCommentBackgroundView];
     self.composeCommentBackgroundView = composeCommentBackgroundView;
  
-
-    
     // 发表评论输入框
     CGFloat textViewX = 15;
     CGFloat textViewY = 18;
@@ -787,6 +844,7 @@ const static CGFloat changeFontSizeViewH = 150;
     
     UITextView *textView = [[UITextView alloc] initWithFrame:CGRectMake(textViewX, textViewY,textViewW, textViewH)];
     textView.layer.cornerRadius = 4.0f;
+    textView.scrollsToTop = NO;
     textView.textColor = [UIColor colorFromHexString:LPColor3];
     textView.font = [UIFont systemFontOfSize:LPFont4];
     textView.delegate = self;
@@ -802,9 +860,11 @@ const static CGFloat changeFontSizeViewH = 150;
     composeButton.titleLabel.font = [UIFont systemFontOfSize:17];
     composeButton.layer.cornerRadius = 4.0;
     composeButton.layer.borderColor = [UIColor colorFromHexString:LPColor4].CGColor;
+    composeButton.backgroundColor = [UIColor colorFromHexString:@"#eaeaea"];
     composeButton.layer.borderWidth = 1;
     [composeButton setTitle:@"发表" forState:UIControlStateNormal];
     [composeButton setTitleColor:[UIColor colorFromHexString:LPColor4] forState:UIControlStateNormal];
+
     [composeButton addTarget:self action:@selector(composeButtonClick) forControlEvents:UIControlEventTouchUpInside];
     composeButton.enabled = NO;
     self.composeButton = composeButton;
@@ -824,7 +884,68 @@ const static CGFloat changeFontSizeViewH = 150;
     [self.view addSubview:textViewBg];
     self.textViewBg = textViewBg;
     
+    // 详情页重新加载
+    [self setupReloadPage];
+    
+    
 }
+
+#pragma mark - 重新加载
+- (void)setupReloadPage {
+    CGFloat bottomViewHeight = 40.0f;
+    
+    if (iPhone6Plus) {
+        bottomViewHeight = 48.5f;
+        
+    }
+    double topViewHeight = TabBarHeight + StatusBarHeight + 0.5;
+    if (iPhone6) {
+        topViewHeight = 72;
+    }
+    // 重新加载提示框
+    UIView *reloadPage = [[UIView alloc] initWithFrame:CGRectMake(0, topViewHeight, ScreenWidth, ScreenHeight - topViewHeight - bottomViewHeight)];
+    reloadPage.backgroundColor = [UIColor colorFromHexString:LPColor9];
+    reloadPage.userInteractionEnabled = YES;
+    UITapGestureRecognizer *reloadTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapReloadPage)];
+    [reloadPage addGestureRecognizer:reloadTapGesture];
+    reloadPage.hidden = YES;
+    self.reloadPage = reloadPage;
+    
+    CGFloat reloadImageViewW = 107;
+    CGFloat reloadImageViewH = 109;
+    CGFloat reloadImageViewX = (ScreenWidth - reloadImageViewW) / 2;
+    CGFloat reloadImageViewY = (ScreenHeight - reloadImageViewH) / 2 - topViewHeight;
+    
+    UIImageView *reloadImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"重新加载"]];
+    reloadImageView.frame = CGRectMake(reloadImageViewX, reloadImageViewY, reloadImageViewW, reloadImageViewH);
+    [reloadPage addSubview:reloadImageView];
+    
+    NSString *reloadStr = @"点击屏幕重新加载";
+    CGFloat fontSize = 12;
+    CGSize size = [reloadStr sizeWithFont:[UIFont systemFontOfSize:fontSize] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)];
+    CGFloat labelW = size.width;
+    CGFloat labelH = size.height;
+    CGFloat labelX = (ScreenWidth - labelW) / 2;
+    CGFloat labelY = CGRectGetMaxY(reloadImageView.frame) + 20;
+    
+    UILabel *reloadLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelX, labelY, labelW, labelH)];
+    reloadLabel.text = reloadStr;
+    reloadLabel.font = [UIFont systemFontOfSize:fontSize];
+    reloadLabel.textColor = [UIColor colorFromHexString:LPColor4];
+    [reloadPage addSubview:reloadLabel];
+    
+    [self.view addSubview:reloadPage];
+}
+
+
+- (void)tapReloadPage {
+    [self showLoadingView];
+    [self setupData];
+    [self.tableView reloadData];
+    [self.commentsTableView reloadData];
+}
+
+
 
 #pragma mark - 全文评论加载更多
 - (void)loadMoreCommentsData {
@@ -907,9 +1028,8 @@ const static CGFloat changeFontSizeViewH = 150;
 #pragma mark - 首页显示正在加载提示
 - (void)showLoadingView {
     [self.animationImageView startAnimating];
-    self.loadingLabel.hidden = NO;
     self.contentLoadingView.hidden = NO;
-    
+    self.reloadPage.hidden = YES;
 }
 
 
@@ -917,7 +1037,6 @@ const static CGFloat changeFontSizeViewH = 150;
 - (void)hideLoadingView {
     
     [self.animationImageView stopAnimating];
-    self.loadingLabel.hidden = YES;
     self.contentLoadingView.hidden = YES;
 }
 
@@ -1001,6 +1120,7 @@ const static CGFloat changeFontSizeViewH = 150;
             
             LPCommentCell *cell = [LPCommentCell cellWithTableView:tableView];
             cell.commentFrame = self.excellentCommentsFrames[indexPath.row];
+            cell.delegate = self;
             return cell;
             
         } else if (indexPath.section == 2) {
@@ -1059,11 +1179,10 @@ const static CGFloat changeFontSizeViewH = 150;
         // 距离两边间距
         CGFloat padding = 18;
         CGFloat headerTitleFontSize = 15;
-        CGFloat headerViewHeight = 40;
+        CGFloat headerViewHeight = 42;
         
         // 评论和相关观点标题高度
         UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(padding, 0, ScreenWidth - padding * 2, headerViewHeight)];
-        
         CGSize fontSize = [@"热门评论" sizeWithFont:[UIFont systemFontOfSize:headerTitleFontSize] maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)];
         
         // 标题
@@ -1108,7 +1227,7 @@ const static CGFloat changeFontSizeViewH = 150;
         CGFloat headerViewHeight = 40;
         
         // 评论和相关观点标题高度
-        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(padding, 0, ScreenWidth - padding * 2, 40)];
+        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(padding, 0, ScreenWidth - padding * 2, headerViewHeight)];
         
         CGSize fontSize = [@"热门评论" sizeWithFont:[UIFont systemFontOfSize:headerTitleFontSize] maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)];
         
@@ -1136,24 +1255,56 @@ const static CGFloat changeFontSizeViewH = 150;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    
+    UIView *commonFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 0.1)];
     if (tableView == self.tableView) {
 
         CGFloat bottomPaddingY = 30;
+        CGFloat contentBottomViewH = 100;
+        if (iPhone6) {
+            bottomPaddingY = 22;
+            contentBottomViewH = 92;
+        }
         
         if (section == 0) {
+            
             UIView *contentBottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, contentBottomViewH)];
             
-            CGFloat concernImageViewX = 37;
-            CGFloat concernImageViewH = 18;
-            CGFloat concernImageViewW = 21;
-            CGFloat concernImageViewY = 5 + bottomPaddingY;
-            UIImageView *concernImageView = [[UIImageView alloc] initWithFrame:CGRectMake(concernImageViewX, concernImageViewY, concernImageViewW, concernImageViewH)];
-            concernImageView.image = [UIImage imageNamed:@"详情页心未关注"];
-            [contentBottomView addSubview:concernImageView];
-            
+            // 关心本文数量
             NSString *concernCount = @"2";
             CGFloat labelFontSize = 13;
             CGFloat labelW = [concernCount sizeWithFont:[UIFont systemFontOfSize:labelFontSize] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].width;
+            
+            CGFloat concernImageViewH = 18;
+            CGFloat concernImageViewW = 21;
+            CGFloat concernImageViewY = 5;
+            
+            CGFloat leftViewX = 18;
+            CGFloat leftViewY = bottomPaddingY;
+            CGFloat leftViewW = concernImageViewW + labelW + 43;
+            CGFloat leftViewH = 29;
+            
+            if (iPhone6) {
+                leftViewH = 28;
+            }
+            
+            CGFloat concernImageViewX = 19;
+            if (iPhone6) {
+                concernImageViewX = 18;
+            }
+            
+            UIView *leftView = [[UIView alloc] init];
+            UIImageView *concernImageView = [[UIImageView alloc] initWithFrame:CGRectMake(concernImageViewX, concernImageViewY, concernImageViewW, concernImageViewH)];
+            
+            UITapGestureRecognizer *tapConcernGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapConcern)];
+           [leftView addGestureRecognizer:tapConcernGesture];
+            concernImageView.image = [UIImage imageNamed:@"详情页心未关注"];
+            leftView.userInteractionEnabled = YES;
+            [leftView addSubview:concernImageView];
+            self.concernImageView = concernImageView;
+            
+            self.leftView = leftView;
+            
             CGFloat labelY = concernImageViewY;
             CGFloat labelH = concernImageViewH;
             UILabel *concernCountLabel = [[UILabel alloc] initWithFrame:CGRectMake((CGRectGetMaxX(concernImageView.frame) + 7), labelY, labelW, labelH)];
@@ -1161,24 +1312,21 @@ const static CGFloat changeFontSizeViewH = 150;
             concernCountLabel.font = [UIFont systemFontOfSize:labelFontSize];
             concernCountLabel.textColor = [UIColor colorFromHexString:@"#e94221"];
             
-            [contentBottomView addSubview:concernCountLabel];
-            
-            CALayer *layerLeft = [CALayer layer];
-            
-            CGFloat leftLayerX = 18;
-            CGFloat leftLayerY = bottomPaddingY;
-            CGFloat leftLayerW = concernImageViewW + labelW + 43;
-            CGFloat leftLayerH = 29;
+            [leftView addSubview:concernCountLabel];
+            self.concernCountLabel = concernCountLabel;
+           
             CGFloat borderRadius = 14.0f;
             
-            layerLeft.frame = CGRectMake(leftLayerX, leftLayerY, leftLayerW, leftLayerH);
-            layerLeft.borderWidth = 1;
-            layerLeft.borderColor = [UIColor colorFromHexString:LPColor5].CGColor;
-            layerLeft.cornerRadius = borderRadius;
-            [contentBottomView.layer addSublayer:layerLeft];
+            leftView.frame = CGRectMake(leftViewX, leftViewY, leftViewW, leftViewH);
+            leftView.layer.borderWidth = 1;
+            leftView.layer.borderColor = [UIColor colorFromHexString:LPColor5].CGColor;
+            leftView.layer.cornerRadius = borderRadius;
+            [contentBottomView addSubview:leftView];
+            self.contentBottomView = contentBottomView;
+      
             
             // 朋友圈
-            CGFloat rightViewH = leftLayerH;
+            CGFloat rightViewH = leftViewH;
             CGFloat friendsPaddingRight = 11;
             NSString *friendsStr = @"朋友圈";
             CGFloat rightLabelW = [friendsStr sizeWithFont:[UIFont systemFontOfSize:13] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].width;
@@ -1220,27 +1368,48 @@ const static CGFloat changeFontSizeViewH = 150;
             CGFloat concernLabelW = [concernStr sizeWithFont:[UIFont systemFontOfSize:12] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].width;
             CGFloat concernLabelH = [concernStr sizeWithFont:[UIFont systemFontOfSize:12] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].height;
             
+            if (iPhone6) {
+                 concernLabelW = [concernStr sizeWithFont:[UIFont systemFontOfSize:13] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].width;
+                 concernLabelH = [concernStr sizeWithFont:[UIFont systemFontOfSize:13] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].height;
+            }
+            
+            
             UILabel *concernLabel = [[UILabel alloc] initWithFrame:CGRectMake(17, concernLabelY, concernLabelW, concernLabelH)];
             concernLabel.text = concernStr;
             concernLabel.font = [UIFont systemFontOfSize:12];
+            if (iPhone6) {
+                concernLabel.font = [UIFont systemFontOfSize:13];
+            }
+            
+            
             concernLabel.textColor = [UIColor colorFromHexString:LPColor4];
             
             [contentBottomView addSubview:concernLabel];
             [contentBottomView addSubview:rightView];
             
+            self.contentBottomView = contentBottomView;
+            
             return contentBottomView;
         }
         else if (section == 1 && self.excellentCommentsFrames.count > 0) {
             
+            // 查看全部评论
             CGFloat padding = 18;
             CGFloat bottomWidth = ScreenWidth - padding * 2;
-            CGFloat bottomHeight = 53;
+            CGFloat bottomHeight = 51;
+            CGFloat paddingTop = 11;
+            
+            if (iPhone6) {
+                bottomHeight = 51;
+                paddingTop = 11;
+            }
+            
+    
             UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(padding, 0, bottomWidth , bottomHeight)];
-
             footerView.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6®"];
             
             
-            UIButton *bottomButton = [[UIButton alloc] initWithFrame:CGRectMake(padding, 0, bottomWidth, 40 )];
+            UIButton *bottomButton = [[UIButton alloc] initWithFrame:CGRectMake(padding, 0, bottomWidth, bottomHeight - paddingTop)];
             bottomButton.backgroundColor = [UIColor colorFromHexString:@"#f0f0f0"];
             
             
@@ -1252,11 +1421,13 @@ const static CGFloat changeFontSizeViewH = 150;
             bottomButton.clipsToBounds = YES;
             [footerView addSubview:bottomButton];
             
-            UILabel *bottomLabel = [[UILabel alloc] initWithFrame:CGRectMake(padding, 0, bottomWidth, 40)];
+            UILabel *bottomLabel = [[UILabel alloc] initWithFrame:CGRectMake(padding, 0, bottomWidth, bottomHeight - paddingTop)];
             bottomLabel.layer.cornerRadius = 4.0f;
             bottomLabel.clipsToBounds = YES;
             bottomLabel.backgroundColor = [UIColor colorFromHexString:@"#f0f0f0"];
-            bottomLabel.text = @"已加载完毕";
+            bottomLabel.text = @"已显示全部评论";
+            
+         
             bottomLabel.textColor = [UIColor colorFromHexString:@"#0086d1"];
             bottomLabel.font = [UIFont systemFontOfSize:15];
             bottomLabel.textAlignment = NSTextAlignmentCenter;
@@ -1280,20 +1451,58 @@ const static CGFloat changeFontSizeViewH = 150;
             return footerView;
             
         } else {
-            return nil;
+            return commonFooterView;
         }
     } else if (tableView == self.commentsTableView) {
-        return nil;
+        return commonFooterView;
     } else {
-        return nil;
+        return commonFooterView;
     }
 
 }
 
+
+#pragma mark - 关心本文
+- (void)tapConcern {
+    if ([self.concernCountLabel.text isEqualToString:@"2"]) {
+        self.concernImageView.image = [UIImage imageNamed:@"详情页心已关注"];
+        self.concernImageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.1, 1.1);
+        [self tipViewWithCondition:3];
+        
+        // 加1
+        CGFloat plusLabelX = self.leftView.frame.origin.x + self.concernImageView.frame.origin.x;
+        CGFloat plusLabelY = self.leftView.frame.origin.y + self.concernImageView.frame.origin.y;
+        CGFloat plusLabelW = self.concernImageView.frame.size.width;
+        CGFloat plusLabelH = self.concernImageView.frame.size.height;
+        
+        UILabel *plusLabel = [[UILabel alloc] initWithFrame:CGRectMake(plusLabelX, plusLabelY, plusLabelW, plusLabelH)];
+        plusLabel.textColor = [UIColor colorFromHexString:@"#e94220"];
+        plusLabel.font = [UIFont boldSystemFontOfSize:LPFont4];
+        plusLabel.text = @"+1";
+        [self.contentBottomView addSubview:plusLabel];
+        
+        [UIView animateWithDuration:0.8 animations:^{
+            self.concernImageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.0, 1.0);
+            plusLabel.frame = CGRectMake(plusLabelX, plusLabelY - 40, plusLabelW, plusLabelH);
+            plusLabel.alpha = 0.2;
+        } completion:^(BOOL finished) {
+            self.concernCountLabel.text = @"3";
+            [plusLabel removeFromSuperview];
+        }];
+    } else {
+        self.concernImageView.image = [UIImage imageNamed:@"详情页心未关注"];
+        self.concernCountLabel.text = @"2";
+    }
+    
+
+}
+
+#pragma mark - 分享到朋友圈
 - (void)friendsTap {
     [self shareToWechatTimelineBtnClick];
 }
 
+#pragma mark - 查看更多评论
 - (void)showMoreComment {
     [self hideCommentBtn];
      self.pageControl.currentPage = 1;
@@ -1304,36 +1513,48 @@ const static CGFloat changeFontSizeViewH = 150;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    CGFloat headerViewHeight = 40;
+    CGFloat headerViewHeight = 42;
+    
+    if (iPhone6) {
+        headerViewHeight = 42;
+    }
+    
     if (tableView == self.tableView) {
 
         if (section == 1) {
             if (self.excellentCommentsFrames.count > 0) {
                 return headerViewHeight;
             } else {
-                return 0;
+                return 0.1f;
             }
             
         } else if (section == 2) {
             if (self.relatePointArray.count > 0) {
                 return headerViewHeight + 4;
             } else {
-                return 0;
+                return 0.1f;
             }
             
         } else {
-            return 0.0;
+            return 0.1f;
         }
     } else if (tableView == self.commentsTableView) {
           return headerViewHeight ;
     } else {
-        return 0.0;
+        return 0.1f;
     }
 
     
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    CGFloat contentBottomViewH = 100;
+    CGFloat commentsBottomViewH = 40;
+ 
+    if (iPhone6) {
+        contentBottomViewH = 92;
+        commentsBottomViewH = 51;
+    }
     if (tableView == self.tableView) {
         if (section == 0) {
             
@@ -1341,23 +1562,23 @@ const static CGFloat changeFontSizeViewH = 150;
             
         } else if (section == 1) {
             if (self.excellentCommentsFrames.count > 0) {
-                return 53;
+                return commentsBottomViewH;
             } else {
-                return 0;
+                return 0.1f;
             }
         } else if (section == 2){
             if (self.relatePointArray.count > 0 ) {
                 return 24;
             } else {
-                return 0;
+                return 0.1f;
             }
         } else {
-            return 0.0;
+            return 0.1f;
         }
     } else if (tableView == self.commentsTableView) {
-        return 0.0;
+        return 10.0f;
     } else {
-        return 0.0;
+        return 0.1f;
     }
 
 }
@@ -1370,6 +1591,8 @@ const static CGFloat changeFontSizeViewH = 150;
     if (iPhone6Plus) {
         bottomViewHeight = 48.5f;
         padding = 19;
+    } else if (iPhone6) {
+        padding = 16;
     }
     
     // 内容页面标题
@@ -1388,6 +1611,10 @@ const static CGFloat changeFontSizeViewH = 150;
     CGFloat titleW = ScreenWidth - padding * 2;
     CGFloat titleH = [titleString heightWithConstraintWidth:titleW] + 30;
     CGFloat titleY = 0;
+    
+    if (iPhone6) {
+        titleY = 7;
+    }
     titleLabel.frame = CGRectMake(titleX, titleY, titleW, titleH);
     titleLabel.attributedText = titleString;
   
@@ -1399,6 +1626,11 @@ const static CGFloat changeFontSizeViewH = 150;
     sourceLabel.font = [UIFont fontWithName:OpinionFontName size:sourceFontSize];
     CGFloat sourceX = padding;
     CGFloat sourceY = CGRectGetMaxY(titleLabel.frame) - 7;
+    
+    if (iPhone6) {
+        sourceY = CGRectGetMaxY(titleLabel.frame) - 10;
+    }
+    
     CGFloat sourceW = ScreenWidth - titleX * 2;
     CGFloat sourceH = [@"123" sizeWithFont:[UIFont systemFontOfSize:sourceFontSize] maxSize:CGSizeMake(sourceW, MAXFLOAT)].height;
     sourceLabel.frame = CGRectMake(sourceX, sourceY, sourceW, sourceH);
@@ -1408,7 +1640,18 @@ const static CGFloat changeFontSizeViewH = 150;
     [headerView addSubview:sourceLabel];
     headerView.frame = CGRectMake(0, 0, ScreenWidth, CGRectGetMaxY(sourceLabel.frame) + 30);
     
+    if (iPhone6) {
+        headerView.frame = CGRectMake(0, 0, ScreenWidth, CGRectGetMaxY(sourceLabel.frame) + 24);
+    }
+    
+    if (iPhone6) {
+        titleW = titleW - 2;
+    }
+    
     UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(padding, headerView.frame.size.height - 11, titleW, 0.5)];
+    
+    
+    
     seperatorView.backgroundColor = [UIColor colorFromHexString:LPColor5];
     [headerView addSubview:seperatorView];
     self.tableView.tableHeaderView = headerView;
@@ -1477,6 +1720,7 @@ const static CGFloat changeFontSizeViewH = 150;
 
 #pragma mark - Bottom View Delegate
 - (void)didComposeCommentWithDetailBottomView:(LPDetailBottomView *)detailBottomView {
+
     self.composeCommentBackgroundView.hidden = NO;
     [self.textView becomeFirstResponder];
 }
@@ -1515,7 +1759,7 @@ const static CGFloat changeFontSizeViewH = 150;
         self.composeCommentBackgroundView.hidden = YES;
         [self.textView setText:@""];
         self.composeButton.enabled = NO;
-        self.composeButton.backgroundColor = [UIColor colorFromHexString:LPColor4];
+        self.composeButton.backgroundColor = [UIColor colorFromHexString:@"#eaeaea"];
         self.composeButton.layer.borderColor  =  [UIColor colorFromHexString:LPColor4].CGColor;
         [self.composeButton setTitleColor:[UIColor colorFromHexString:LPColor4] forState:UIControlStateNormal];
     }];
@@ -1585,6 +1829,145 @@ const static CGFloat changeFontSizeViewH = 150;
     }];
 }
 
+#pragma mark - 精选评论点赞 delegate
+- (void)excellentCommentCell:(LPCommentCell *)commentCell commentFrame:(LPCommentFrame *)commentFrame {
+    
+    __block Account *account = [AccountTool account];
+    // 如果已经登录直接点赞，没有登录登录成功后才能点赞
+    if ([AccountTool account]) {
+        [self excellentCommentUp:commentCell account:account commentFrame:commentFrame];
+    } else {
+        [AccountTool accountLoginWithViewController:self success:^(Account *account){
+             [self excellentCommentUp:commentCell account:account commentFrame:commentFrame];
+        } failure:^{
+            [MBProgressHUD showError:@"登录失败"];
+        } cancel:^{
+            
+        }];
+    }
+}
+
+- (void)excellentCommentUp:(LPCommentCell *)commentCell account:(Account *)account commentFrame:(LPCommentFrame *)commentFrame {
+        LPComment *comment = commentFrame.comment;
+        if (comment.isPraiseFlag.intValue) {
+            [MBProgressHUD showError:@"您已赞过"];
+        } else {
+            NSString *url = [NSString stringWithFormat:@"%@/bdp/news/comment/ydzx/love?cid=%@&unam=%@&uuid=%@", ServerUrl, comment.Id , account.userName, account.userId];
+            url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+            self.http = [LPHttpTool http];
+            [self.http putWithURL:url params:nil success:^(id json) {
+                comment.isPraiseFlag = @"1";
+                comment.up = [NSString stringWithFormat:@"%@", json[@"data"]];
+    
+                // 点赞动画效果
+                UIImageView *imageView = [[UIImageView alloc] initWithFrame:commentCell.upButton.frame];
+                imageView.tag = -100;
+                imageView.image = [UIImage imageNamed:@"详情页已点赞"];
+                imageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.0, 0.0);
+                [commentCell addSubview:imageView];
+    
+    
+                CGFloat plusLabelX = commentCell.upButton.frame.origin.x - 2;
+                CGFloat plusLabelY =  commentCell.upButton.frame.origin.y;
+                CGFloat plusLabelW = commentCell.upButton.frame.size.width;
+                CGFloat plusLabelH = commentCell.upButton.frame.size.height;
+    
+    
+                UILabel *plusLabel = [[UILabel alloc] initWithFrame:CGRectMake(plusLabelX, plusLabelY, plusLabelW, plusLabelH)];
+                plusLabel.textColor = [UIColor colorFromHexString:@"#e94220"];
+                plusLabel.font = [UIFont boldSystemFontOfSize:LPFont5];
+                plusLabel.text = @"+1";
+                [commentCell addSubview:plusLabel];
+    
+                [UIView animateWithDuration:0.6 animations:^{
+                    imageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.0, 1.0);
+                    plusLabel.frame = CGRectMake(plusLabelX, plusLabelY - 20, plusLabelW , plusLabelH);
+                    plusLabel.alpha = 0.2;
+                } completion:^(BOOL finished) {
+                    NSInteger index = [self.excellentCommentsFrames indexOfObject:commentFrame];
+                   
+                    // 刷新当前行
+                    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:1]]  withRowAnimation:UITableViewRowAnimationNone];
+                    
+                    [imageView removeFromSuperview];
+                    [plusLabel removeFromSuperview];
+                }];
+            } failure:^(NSError *error) {
+                [MBProgressHUD showError:@"网络不给力 :("];
+            }];
+        }
+}
+
+#pragma mark -  全文评论点赞 delegate
+- (void)fullCommentCell:(LPFullCommentCell *)cell fullCommentFrame:(LPFullCommentFrame *)fullCommentFrame {
+    
+    __block Account *account = [AccountTool account];
+    // 如果已经登录直接点赞，没有登录登录成功后才能点赞
+    if ([AccountTool account]) {
+        [self commentUp:cell account:account fullCommentFrame:fullCommentFrame];
+    } else {
+        [AccountTool accountLoginWithViewController:self success:^(Account *account){
+            [self commentUp:cell account:account fullCommentFrame:fullCommentFrame];
+        } failure:^{
+            [MBProgressHUD showError:@"登录失败"];
+        } cancel:^{
+            
+        }];
+    }
+}
+
+- (void)commentUp:(LPFullCommentCell *)cell account:(Account *)account fullCommentFrame:(LPFullCommentFrame *)fullCommentFrame
+{
+    LPComment *comment = fullCommentFrame.comment;
+    if (comment.isPraiseFlag.intValue) {
+        [MBProgressHUD showError:@"您已赞过"];
+    } else {
+        NSString *url = [NSString stringWithFormat:@"%@/bdp/news/comment/ydzx/love?cid=%@&unam=%@&uuid=%@", ServerUrl, comment.Id , account.userName, account.userId];
+        url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+        self.http = [LPHttpTool http];
+        [self.http putWithURL:url params:nil success:^(id json) {
+            comment.isPraiseFlag = @"1";
+            comment.up = [NSString stringWithFormat:@"%@", json[@"data"]];
+            
+            // 点赞动画效果
+            UIImageView *imageView = [[UIImageView alloc] initWithFrame:cell.upButton.frame];
+            imageView.tag = -100;
+            imageView.image = [UIImage imageNamed:@"详情页已点赞"];
+            imageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.0, 0.0);
+            [cell addSubview:imageView];
+            
+            
+            CGFloat plusLabelX = cell.upButton.frame.origin.x - 2;
+            CGFloat plusLabelY =  cell.upButton.frame.origin.y;
+            CGFloat plusLabelW = cell.upButton.frame.size.width;
+            CGFloat plusLabelH = cell.upButton.frame.size.height;
+            
+            
+            UILabel *plusLabel = [[UILabel alloc] initWithFrame:CGRectMake(plusLabelX, plusLabelY, plusLabelW, plusLabelH)];
+            plusLabel.textColor = [UIColor colorFromHexString:@"#e94220"];
+            plusLabel.font = [UIFont boldSystemFontOfSize:LPFont5];
+            plusLabel.text = @"+1";
+            [cell addSubview:plusLabel];
+            
+            [UIView animateWithDuration:0.6 animations:^{
+                imageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.0, 1.0);
+                plusLabel.frame = CGRectMake(plusLabelX, plusLabelY - 20, plusLabelW , plusLabelH);
+                plusLabel.alpha = 0.2;
+            } completion:^(BOOL finished) {
+                // 刷新单元格
+                NSInteger index = [self.fulltextCommentFrames indexOfObject:fullCommentFrame];
+                [self.commentsTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+                [imageView removeFromSuperview];
+                [plusLabel removeFromSuperview];
+            }];
+        } failure:^(NSError *error) {
+            [MBProgressHUD showError:@"网络不给力 :("];
+        }];
+    }
+}
+
+
+
 #pragma mark - 底部分享按钮
 - (void)didShareWithDetailBottomView:(LPDetailBottomView *)detailBottomView {
     [self popShareView];
@@ -1595,15 +1978,76 @@ const static CGFloat changeFontSizeViewH = 150;
     [self popShareView];
 }
 
+#pragma mark - 顶部Tap
+
+- (void)detailTopViewDidTap:(LPDetailTopView *)detailTopView {
+    [self.tableView setContentOffset:CGPointZero animated:YES];
+}
+
 #pragma mark - 收藏文章
 - (void)didFavoriteWithDetailBottomView:(LPDetailBottomView *)detailBottomView {
-    // self.card 获取card对象
     
-    [self.card Collected];
+    if ([AccountTool account] ==  nil) {
+        [AccountTool accountLoginWithViewController:self success:^(Account *account){
+            if ([self.card.isCollected  isEqual: @(1)]) {
+                [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页已收藏"] forState:UIControlStateNormal];
+            } else {
+                [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页未收藏"] forState:UIControlStateNormal];
+            }
+            
+            
+            //[self collectOrNot];
+        } failure:^{
+        } cancel:nil];
+    } else {
+        [self collectOrNot];
+    }
+}
+
+#pragma mark - 收藏和取消收藏
+- (void)collectOrNot {
+    if ([self.card.isCollected isEqual:@(1)]) {
+        [self tipViewWithCondition:2];
+    } else {
+       [self tipViewWithCondition:1];
+    }
+    [self updateCardCollectedStatus];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"UserCollectionedChangeer" object:nil userInfo:nil];
+}
+
+
+#pragma mark - 提示信息
+- (void)tipViewWithCondition:(NSInteger)condition {
+    LPDetailTipView *tipView = [[LPDetailTipView alloc] initWithCondition:condition];
+    [self.view addSubview:tipView];
     
-     NSLog(@"%@",  self.card.title);
+    [UIView animateWithDuration:0.4f delay:0.8f options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         tipView.alpha = 0.2f;
+                     } completion:^(BOOL finished) {
+                         [tipView removeFromSuperview];
+                     }];
+}
+
+#pragma mark - 修改收藏状态
+- (void)updateCardCollectedStatus {
+    // 修改按钮图标禁用收藏按钮
+    if (![self.card.isCollected  isEqual: @(1)]) {
+        [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页已收藏"] forState:UIControlStateNormal];
+        [self.card setValue:@(1) forKey:@"isCollected"];
+        [Card updateCard:self.card];
+        [noteCenter postNotificationName:@"UserCollectionedChangeer" object:nil userInfo:nil];
+        
+        
+        
+        
+    } else {
+        [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页未收藏"] forState:UIControlStateNormal];
+        [self.card setValue:@(0) forKey:@"isCollected"];
+        [Card updateCard:self.card];
+        [noteCenter postNotificationName:@"UserCollectionedChangeer" object:nil userInfo:nil];
+
+    }
 }
 
 #pragma mark - 底部弹出分享对话框
@@ -1744,7 +2188,25 @@ const static CGFloat changeFontSizeViewH = 150;
 #pragma mark - LPRelateCell delegate
 
 - (void)relateCell:(LPRelateCell *)cell didClickURL:(NSString *)url {
-  [LPPressTool loadWebViewWithURL:url viewController:self];
+    
+    if([[[UIDevice currentDevice] systemVersion] floatValue] > 9.0) {
+       
+        SFSafariViewController *safariVC = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:url]];
+        safariVC.delegate = self;
+        [self presentViewController:safariVC animated:YES completion:^{
+          
+        }];
+        
+    } else {
+      [LPPressTool loadWebViewWithURL:url viewController:self];
+    }
+    
+  
+}
+
+#pragma mark- 外链返回
+- (void)safariViewControllerDidFinish:(SFSafariViewController *)controller {
+   [controller dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark - LPShareCell  Delegate
@@ -1765,60 +2227,9 @@ const static CGFloat changeFontSizeViewH = 150;
     }
 }
 
-#pragma -mark 点赞 delegate
-- (void)fullCommentCell:(LPFullCommentCell *)cell comment:(LPComment *)comment {
-    
-    __block Account *account = [AccountTool account];
-    // 如果已经登录直接点赞，没有登录登录成功后才能点赞
-    if ([AccountTool account]) {
-        [self upComment:comment withAccount:account cell:cell];
-    } else {
-        [AccountTool accountLoginWithViewController:self success:^(Account *account){
-            [self upComment:comment withAccount:account cell:cell];
-        } failure:^{
-            [MBProgressHUD showError:@"登录失败"];
-        } cancel:^{
-            
-        }];
-    }
-}
-
-- (void)upComment:(LPComment *)comment withAccount:(Account *)account cell:(LPFullCommentCell *)cell
-{
-    if (comment.isPraiseFlag.intValue) {
-        [MBProgressHUD showError:@"您已赞过"];
-    } else {
-        NSString *url = [NSString stringWithFormat:@"%@/bdp/news/comment/ydzx/love?cid=%@&unam=%@&uuid=%@", ServerUrl, comment.Id , account.userName, account.userId];
-        url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-        self.http = [LPHttpTool http];
-        [self.http putWithURL:url params:nil success:^(id json) {
-            comment.isPraiseFlag = @"1";
-            comment.up = [NSString stringWithFormat:@"%@", json[@"data"]];
-            
-            // 点赞动画效果
-            UIImageView *imageView = [[UIImageView alloc] initWithFrame:cell.upButton.frame];
-            imageView.tag = -100;
-            imageView.image = [UIImage imageNamed:@"详情页已点赞"];
-            imageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.0, 0.0);
-            [cell addSubview:imageView];
-            
-            [UIView animateWithDuration:0.6 animations:^{
-                imageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.0, 1.0);
-            } completion:^(BOOL finished) {
-                [self.commentsTableView reloadData];
-                [imageView removeFromSuperview];
-            }];
-        } failure:^(NSError *error) {
-            [MBProgressHUD showError:@"网络不给力 :("];
-        }];
-    }
-}
 
 #pragma mark - 底部评论按钮
 - (void)didClickCommentsWithDetailBottomView:(LPDetailBottomView *)detailBottomView {
-
-    [self hideCommentBtn];
-    self.pageControl.currentPage = 1;
     CGRect frame = self.scrollView.frame;
     frame.origin.x = frame.size.width ;
     frame.origin.y = 0;
@@ -1826,14 +2237,20 @@ const static CGFloat changeFontSizeViewH = 150;
  
 }
 
+#pragma mark - 隐藏评论按钮
 - (void)hideCommentBtn {
     self.bottomView.noCommentsBtn.hidden = YES;
     self.bottomView.commentsBtn.hidden = YES;
     self.bottomView.commentsCountView.hidden = YES;
     self.bottomView.commentCountLabel.hidden = YES;
     self.bottomView.contentBtn.hidden = NO;
+    
+    self.tableView.scrollsToTop = NO;
+    self.commentsTableView.scrollsToTop = YES;
 }
 
+
+#pragma mark -  隐藏内容按钮
 - (void)hideContentBtn {
     if (self.fulltextCommentFrames.count > 0) {
         self.bottomView.commentsBtn.hidden = NO;
@@ -1847,9 +2264,12 @@ const static CGFloat changeFontSizeViewH = 150;
         self.bottomView.commentCountLabel.hidden = YES;
     }
     self.bottomView.contentBtn.hidden = YES;
+    self.tableView.scrollsToTop = YES;
+    self.commentsTableView.scrollsToTop = NO;
+    
 }
 
-#pragma mark - 原文
+#pragma mark - Scroll To Page 0
 - (void)didClickContentsWithDetailBottomView:(LPDetailBottomView *)detailBottomView {
     [self hideContentBtn];
     self.pageControl.currentPage = 0;
@@ -1857,8 +2277,9 @@ const static CGFloat changeFontSizeViewH = 150;
     frame.origin.x = 0;
     frame.origin.y = 0;
     [self.scrollView scrollRectToVisible:frame animated:YES];
+    
+    
 }
-
 
 
 

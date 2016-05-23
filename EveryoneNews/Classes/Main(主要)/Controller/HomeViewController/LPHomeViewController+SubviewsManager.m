@@ -21,6 +21,9 @@
 #import "MainNavigationController.h"
 #import "LPNewsLoginViewController.h"
 #import "LPNewsNavigationController.h"
+#import "SSKeychainQuery.h"
+#import "SSKeychain.h"
+#import "AppDelegate.h"
 
 NSString * const firstChannelName = @"奇点";
 NSString * const menuCellIdentifier = @"menuCollectionViewCell";
@@ -30,9 +33,10 @@ NSString * const reuseIdentifierSecond = @"reuseIdentifierSecond";
 
 const static CGFloat cellPadding = 15;
 
-@implementation LPHomeViewController (SubviewsManager)
+@implementation LPHomeViewController (SubviewsManager) 
 
 
+#pragma mark - viewWillAppear
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.navigationController.navigationItem.hidesBackButton = YES;
@@ -49,14 +53,28 @@ const static CGFloat cellPadding = 15;
     return NO;
 }
 
-#pragma mark - 设置界面
+#pragma mark - setupSubViews
 - (void)setupSubViews {
     self.view.backgroundColor = [UIColor whiteColor];
     CGFloat statusBarHeight = 20.0f;
     CGFloat menuViewHeight = 44.0f;
 
+    if (iPhone6) {
+        menuViewHeight = 52.0;
+    }
+    
+    // 状态栏window
+    UIWindow *statusWindow = [[UIWindow alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, statusBarHeight)];
+    statusWindow.windowLevel = UIWindowLevelStatusBar + 1;
+    statusWindow.hidden = NO;
+    self.statusWindow = statusWindow;
+     UITapGestureRecognizer *tapStatusBarWindowGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapStatusBarView)];
+    
+    [statusWindow addGestureRecognizer:tapStatusBarWindowGesture];
+    
     // 导航视图
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, statusBarHeight + menuViewHeight)];
+     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, statusBarHeight + menuViewHeight)];
+   
     [self.view addSubview:headerView];
     
     // 添加首页登录按钮
@@ -78,6 +96,10 @@ const static CGFloat cellPadding = 15;
          addBtnW = 15.5f;
          addBtnH = 15.5f;
          addBtnPaddingRight = 10;
+    } else if (iPhone6) {
+        addBtnW = 19.0f;
+        addBtnH = 19.0f;
+        addBtnPaddingRight = 11;
     }
     
     CGFloat addBtnX = ScreenWidth - addBtnW - addBtnPaddingRight;
@@ -114,6 +136,12 @@ const static CGFloat cellPadding = 15;
         menuViewW = ScreenWidth - menuViewX - menuViewPaddingRight;
         menuViewH = 24.0;
         menuViewY = menuViewPaddingTop;
+    } else {
+        menuViewX = 54;
+        menuViewPaddingRight = 41;
+        menuViewW = ScreenWidth - menuViewX - menuViewPaddingRight;
+        menuViewH = 28.0;
+        menuViewY = (menuViewHeight - menuViewH) / 2 + statusBarHeight;
     }
     
 
@@ -122,6 +150,7 @@ const static CGFloat cellPadding = 15;
     LPMenuView *menuView = [[LPMenuView alloc] initWithFrame:CGRectMake(menuViewX, menuViewY , menuViewW, menuViewH) collectionViewLayout:menuViewFlowLayout];
     menuView.backgroundColor = [UIColor whiteColor];
     menuView.showsHorizontalScrollIndicator = NO;
+    menuView.scrollsToTop = NO;
     menuView.delegate = self;
     menuView.dataSource = self;
     [menuView registerClass:[LPMenuCollectionViewCell class] forCellWithReuseIdentifier:menuCellIdentifier];
@@ -137,13 +166,13 @@ const static CGFloat cellPadding = 15;
     pagingView.contentSize = CGSizeMake(self.selectedArray.count * pagingView.width, 0);
     pagingView.alwaysBounceVertical = NO;
     pagingView.alwaysBounceHorizontal = NO;
+    pagingView.showsHorizontalScrollIndicator = NO;
+    pagingView.scrollsToTop = NO;
     pagingView.delegate = self;
     pagingView.dataSource = self;
     [pagingView registerClass:[LPPagingViewPage class] forPageWithReuseIdentifier:reusePageID];
     [self.view addSubview:pagingView];
     self.pagingView = pagingView;
-    
-    [self setupLoadingView];
     
     // 频道管理
     UIView *blurView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
@@ -159,6 +188,7 @@ const static CGFloat cellPadding = 15;
     self.sortCollectionView.delegate = self;
     self.sortCollectionView.dataSource = self;
     self.sortCollectionView.backgroundColor = [UIColor whiteColor];
+    self.sortCollectionView.scrollsToTop = NO;
     [self.sortCollectionView registerClass:[LPSortCollectionViewCell class] forCellWithReuseIdentifier:cellIdentifier];
     [self.sortCollectionView registerClass:[LPSortCollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:reuseIdentifierFirst];
     [self.sortCollectionView registerClass:[LPSortCollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:reuseIdentifierSecond];
@@ -177,62 +207,80 @@ const static CGFloat cellPadding = 15;
   
     // 首次安装提示信息
     if (![userDefaults objectForKey:@"isVersion3FirstLoad"]) {
-        
+        // 添加黑色透明功能
+        UIView *homeBlackBlurView = [[UIView alloc] initWithFrame:self.view.bounds];
+        homeBlackBlurView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
+        homeBlackBlurView.hidden = YES;
+    
+        UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(homeBlurViewPressed)];
+        [homeBlackBlurView addGestureRecognizer:tapGesture];
+        [self.view addSubview:homeBlackBlurView];
+        self.homeBlackBlurView = homeBlackBlurView;
+
         // 点击添加频道
         CGFloat changeBarImageViewY = CGRectGetMaxY(addButton.frame);
         CGFloat changeBarImageViewW = 131;
         CGFloat changeBarImageViewH = 49;
         UIImageView *channelBarImageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth - changeBarImageViewW, changeBarImageViewY, changeBarImageViewW, changeBarImageViewH)];
         channelBarImageView.image = [UIImage imageNamed:@"点击频道管理"];
-        [self.view addSubview:channelBarImageView];
+        [self.homeBlackBlurView addSubview:channelBarImageView];
         self.channelBarImageView = channelBarImageView;
-       
+
         // 字体大小调整和新频道提示
         CGFloat changeFontSizeViewH = 150;
         CGFloat changeFontSizeTipW = 182;
         CGFloat changeFontSizeTipH = 38;
         
-        UIImageView *changeFontSizeTipImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, ScreenHeight - changeFontSizeViewH - changeFontSizeTipH - 10, changeFontSizeTipW, changeFontSizeTipH)];
+        UIImageView *changeFontSizeTipImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, ScreenHeight - changeFontSizeViewH - changeFontSizeTipH - 7, changeFontSizeTipW, changeFontSizeTipH)];
         changeFontSizeTipImageView.image = [UIImage imageNamed:@"改变字体大小"];
         changeFontSizeTipImageView.centerX = self.view.centerX;
-        [self.view addSubview:changeFontSizeTipImageView];
+        [self.homeBlackBlurView addSubview:changeFontSizeTipImageView];
         self.changeFontSizeTipImageView = changeFontSizeTipImageView;
-        
-        // 添加蒙版
-        UIView *homeBlurView = [[UIView alloc] init];
-        homeBlurView.backgroundColor = [UIColor blackColor];
-        homeBlurView.alpha = 0.5;
-        
-        UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(homeBlurViewPressed)];
-        [homeBlurView addGestureRecognizer:tapGesture];
-     
-        [self.view addSubview:homeBlurView];
-        self.homeBlurView = homeBlurView;
-        
+
         // 改变字体大小
         LPChangeFontSizeView *changeFontSizeView = [[LPChangeFontSizeView alloc] initWithFrame:CGRectMake(0, ScreenHeight - changeFontSizeViewH, ScreenWidth, changeFontSizeViewH)];
         changeFontSizeView.delegate = self;
-        [self.view addSubview:changeFontSizeView];
+        [self.homeBlackBlurView addSubview:changeFontSizeView];
         self.changeFontSizeView = changeFontSizeView;
-        
+
         // 登录提示
         LPLaunchLoginView *loginView = [[LPLaunchLoginView alloc] init];
         loginView.delegate = self;
         [self.view addSubview:loginView];
         self.loginView = loginView;
-        [self hideLoadingView];
     }
     
     // 存储用户的UUID
-    if (![userDefaults objectForKey:@"uuid"]) {
-        NSString *uuid = [[NSUUID UUID] UUIDString];
+    if (![userDefaults objectForKey:@"uniqueDeviceID"]) {
+        NSString *uuid = [self getDeviceId];
         // 去除“-”字符 Base64加密 移除末尾等号"="
         uuid = [[[uuid stringByTrimmingHyphen] stringByBase64Encoding] stringByTrimmingString:@"="];
-        NSLog(@"uuid:%@",uuid);
+        [userDefaults setObject:uuid forKey:@"uniqueDeviceID"];
         [userDefaults synchronize];
     }
-
 }
+
+#pragma mark - 点击Status Bar
+- (void)tapStatusBarView {
+    LPPagingViewPage *page = (LPPagingViewPage *)self.pagingView.currentPage;
+    [page tapStatusBarScrollToTop];
+}
+
+#pragma mark - 获取机器唯一编号
+- (NSString *)getDeviceId
+{
+    NSString * currentDeviceUUIDStr = [SSKeychain passwordForService:@" "account:@"uniqueDeviceID"];
+    if (currentDeviceUUIDStr == nil || [currentDeviceUUIDStr isEqualToString:@""])
+    {
+        NSUUID * currentDeviceUUID  = [UIDevice currentDevice].identifierForVendor;
+        currentDeviceUUIDStr = currentDeviceUUID.UUIDString;
+        currentDeviceUUIDStr = [currentDeviceUUIDStr stringByReplacingOccurrencesOfString:@"-" withString:@""];
+        currentDeviceUUIDStr = [currentDeviceUUIDStr lowercaseString];
+        [SSKeychain setPassword: currentDeviceUUIDStr forService:@" "account:@"uniqueDeviceID"];
+    }
+    return currentDeviceUUIDStr;
+}
+
 
 - (void)toUserCenter{
     
@@ -252,10 +300,7 @@ const static CGFloat cellPadding = 15;
 
 #pragma mark - 隐藏首页蒙版
 - (void)homeBlurViewPressed {
-    self.homeBlurView.hidden = YES;
-    self.channelBarImageView.hidden = YES;
-    self.changeFontSizeTipImageView.hidden = YES;
-    self.changeFontSizeView.hidden = YES;
+    [self.homeBlackBlurView removeFromSuperview];
     // 保存字体大小
     [[LPFontSizeManager sharedManager] saveHomeViewFontSizeAndType];
 }
@@ -286,6 +331,10 @@ const static CGFloat cellPadding = 15;
     menuBackgroundView.alpha = 0.15;
     menuBackgroundView.backgroundColor = [UIColor colorFromHexString:@"#0091fa"];
     menuBackgroundView.layer.cornerRadius = 12.0f;
+    
+    if(iPhone6) {
+        menuBackgroundView.layer.cornerRadius = 14.0f;
+    }
    
     [self.menuView addSubview:menuBackgroundView];
     self.menuBackgroundView = menuBackgroundView;
@@ -332,43 +381,5 @@ const static CGFloat cellPadding = 15;
         
     }];
 }
-
-#pragma mark - 首页正在加载提示
-- (void)setupLoadingView {
-    CGFloat statusBarHeight = 20.0f;
-    CGFloat menuViewHeight = 44.0f;
-    if (iPhone6Plus) {
-        menuViewHeight = 44.0f;
-    }
-    UIView *contentLoadingView = [[UIView alloc] initWithFrame:CGRectMake(0, statusBarHeight + menuViewHeight, ScreenWidth, ScreenHeight - statusBarHeight - menuViewHeight)];
-    
-    // Load images
-    NSArray *imageNames = @[@"xl_1", @"xl_2", @"xl_3", @"xl_4"];
-    
-    NSMutableArray *images = [[NSMutableArray alloc] init];
-    for (int i = 0; i < imageNames.count; i++) {
-        [images addObject:[UIImage imageNamed:[imageNames objectAtIndex:i]]];
-    }
-    
-    // Normal Animation
-    UIImageView *animationImageView = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth - 36) / 2, (ScreenHeight - statusBarHeight - menuViewHeight) / 3, 36 , 36)];
-    animationImageView.animationImages = images;
-    animationImageView.animationDuration = 1;
-    self.animationImageView = animationImageView;
-    contentLoadingView.hidden = YES;
-    [contentLoadingView addSubview:animationImageView];
-    [self.view addSubview:contentLoadingView];
-    
-    UILabel *loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(animationImageView.frame), ScreenWidth, 40)];
-    loadingLabel.textAlignment = NSTextAlignmentCenter;
-    loadingLabel.text = @"正在努力加载...";
-    loadingLabel.font = [UIFont systemFontOfSize:12];
-    loadingLabel.textColor = [UIColor colorFromHexString:@"#999999"];
-    [contentLoadingView addSubview:loadingLabel];
-    self.loadingLabel = loadingLabel;
-    
-    self.contentLoadingView = contentLoadingView;
-}
-
 
 @end

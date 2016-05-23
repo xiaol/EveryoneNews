@@ -481,7 +481,7 @@ NSString * const HotwordsURL = @"http://api.deeporiginalx.com/news/baijia/fetchE
     
     
     dismissBtn.x  = (ScreenWidth - 73 - DigButtonWidth * 2) / 2;
-    dismissBtn.y  = ScreenHeight - [@"123" heightForLineWithFont: [UIFont boldSystemFontOfSize:25.f/2.2639]] - 38 - DigButtonHeight;
+    dismissBtn.y  = ScreenHeight - [@"一订" heightForLineWithFont: [UIFont boldSystemFontOfSize:14]] - 38 - DigButtonHeight;
     dismissBtn.width = DigButtonWidth;
     dismissBtn.height = DigButtonHeight;
     dismissBtn.enlargedEdge = 10;

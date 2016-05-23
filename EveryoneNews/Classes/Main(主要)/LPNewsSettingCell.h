@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-static const CGFloat kSetingCellHeight = 51.f;
+//static const CGFloat kSetingCellHeight = 51.f;
 
 @interface LPNewsSettingCell : LPNewsBaseTableViewCell
 

@@ -73,25 +73,15 @@
     return card;
 }
 
-
--(BOOL)Collected{
-
+#pragma mark - 收藏
++ (void)updateCard:(Card *)card {
     CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
-    
-    Card *card = [cdh.context existingObjectWithID:self.objectID error:nil];
-    
-    if ([card.isCollected isEqual:[[NSNumber alloc]initWithInt:1]]) {
-        
-        card.isCollected = [[NSNumber alloc]initWithInt:0];
-    }else{
-        card.isCollected = [[NSNumber alloc]initWithInt:1];
-    }
-    
-//    card.isCollected = (card.isCollected == [[NSNumber alloc]initWithInt:1] ? [[NSNumber alloc]initWithInt:0] : [[NSNumber alloc]initWithInt:1]);
-    
-    return [cdh.context save:nil];
+    [cdh.importContext performBlock:^{
+        [cdh saveBackgroundContext];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"更新成功");
+        });
+    }];
 }
-
-
 
 @end

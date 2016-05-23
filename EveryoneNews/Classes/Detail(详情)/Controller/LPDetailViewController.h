@@ -52,6 +52,7 @@
 @property (nonatomic, strong) NSMutableArray *relatePointFrames;
 @property (nonatomic, strong) NSArray *relatePointArray;
 @property (nonatomic, assign) BOOL relatePointIsFinishedLoad;
+@property (nonatomic, assign) BOOL googleSourceExistsInRelatePoint;
 
 @property (nonatomic, strong) UITableView *tableView;
 
@@ -60,6 +61,8 @@
 @property (nonatomic, strong) UIView *detailBackgroundView;
 @property (nonatomic, strong) LPBottomShareView *bottomShareView;
 @property (nonatomic, strong) NSNumber *isRead;
+
+@property (nonatomic, strong) UIWindow *statusWindow;
 
 - (void)removeBackgroundView;
 

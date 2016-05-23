@@ -11,7 +11,6 @@
 typedef void (^cardsArrayBlock)(NSArray *cardsArray);
 @interface Card (Create)
 
-//@property (nonatomic, copy) cardsBlock cardsBlock;
 + (Card *)createCardWithDict:(NSDictionary *)dict channelID:(NSString *)channelID inManagedObjectContext:(NSManagedObjectContext *)context;
 /**
  *  依据字典数组(json)创建模型数组cards, 并存入数据库
@@ -28,12 +27,6 @@ typedef void (^cardsArrayBlock)(NSArray *cardsArray);
 + (void)createCardsWithDictArray:(NSArray *)dicts
                        channelID:(NSString *)channelID cardsArrayBlock:(cardsArrayBlock)cardsArrayBlock;
 
-/**
- *  取消或者开始收藏
- *
- *  @return <#return value description#>
- */
--(BOOL)Collected;
 
-
++ (void)updateCard:(Card *)card;
 @end

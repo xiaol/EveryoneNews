@@ -10,6 +10,7 @@
 #import "LPFullCommentFrame.h"
 #import "LPComment.h"
 #import "UIImageView+WebCache.h"
+#import "LPFontSizeManager.h"
 
 @interface LPFullCommentCell ()
 @property (nonatomic, strong) UIImageView *iconView;
@@ -47,14 +48,14 @@
         
         UILabel *nameLabel = [[UILabel alloc] init];
         nameLabel.numberOfLines = 0;
-        nameLabel.font = [UIFont systemFontOfSize:15];
+        nameLabel.font = [UIFont systemFontOfSize:LPFont4];
         nameLabel.textColor = [UIColor colorFromHexString:LPColor2];
         [self.contentView addSubview:nameLabel];
         self.nameLabel = nameLabel;
         
         UILabel *timeLabel = [[UILabel alloc] init];
         timeLabel.numberOfLines = 0;
-        timeLabel.font = [UIFont systemFontOfSize:10];
+        timeLabel.font = [UIFont systemFontOfSize:LPFont7];
         timeLabel.textColor = [UIColor colorFromHexString:LPColor4];
         [self.contentView addSubview:timeLabel];
         self.timeLabel = timeLabel;
@@ -62,17 +63,19 @@
         UILabel *commentLabel = [[UILabel alloc] init];
         commentLabel.numberOfLines = 0;
         commentLabel.textColor = [UIColor colorFromHexString:LPColor1];
-        commentLabel.font = [UIFont systemFontOfSize:16];
+        commentLabel.font = [UIFont systemFontOfSize:[LPFontSizeManager sharedManager].currentDetailCommentFontSize];
         [self.contentView addSubview:commentLabel];
         self.commentLabel = commentLabel;
         
         
         
         UILabel *upCountLabel = [[UILabel alloc] init];
-        upCountLabel.font = [UIFont systemFontOfSize:12];
+        upCountLabel.font = [UIFont systemFontOfSize:LPFont5];
         upCountLabel.textColor = [UIColor colorFromHexString:@"#4d4f51"];
         [self.contentView addSubview:upCountLabel];
         self.upCountLabel = upCountLabel;
+        
+        
         
         UIButton *upButton = [[UIButton alloc] init];
         [self.contentView addSubview:upButton];
@@ -101,7 +104,8 @@
     self.iconView.layer.masksToBounds = YES;
     
     self.nameLabel.frame = self.fullCommentFrame.nameLabelF;
-    self.nameLabel.text = comment.userName;
+ 
+    self.nameLabel.text = [comment.userName isEqualToString: @""] ? @"匿名": comment.userName;
     
     self.timeLabel.frame = self.fullCommentFrame.timeLabelF;
     self.timeLabel.text = comment.createTime;
@@ -110,7 +114,7 @@
     self.commentLabel.text = comment.srcText;
 
     self.upButton.frame = self.fullCommentFrame.upButtonF;
-    self.upButton.enlargedEdge = 10;
+    self.upButton.enlargedEdge = 15;
     self.upButton.centerY = self.nameLabel.centerY;
     
     
@@ -128,7 +132,7 @@
     
     self.upCountLabel.frame = self.fullCommentFrame.upCountsLabelF;
     self.upCountLabel.text = [NSString stringWithFormat:@"%@", comment.up];
-  
+
     
     CGFloat padding = 18.0f;
     
@@ -144,8 +148,8 @@
 }
 
 - (void)upButtonClick {
-    if ([self.delegate respondsToSelector:@selector(fullCommentCell:comment:)]) {
-        [self.delegate fullCommentCell:self comment:self.fullCommentFrame.comment];
+    if ([self.delegate respondsToSelector:@selector(fullCommentCell:fullCommentFrame:)]) {
+        [self.delegate fullCommentCell:self fullCommentFrame:self.fullCommentFrame];
     }
 }
 

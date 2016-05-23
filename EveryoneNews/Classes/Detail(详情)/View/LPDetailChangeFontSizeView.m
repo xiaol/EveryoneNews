@@ -14,20 +14,22 @@
     if (self = [super initWithFrame:frame]) {
         self.backgroundColor = [UIColor whiteColor];
         
-        CGFloat fontSize = 14;
+     
         
         NSString *strFinish = @"完成";
-        CGFloat finishButtonWidth = [strFinish sizeWithFont:[UIFont systemFontOfSize:fontSize] maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)].width;
+        CGFloat finishButtonWidth = [strFinish sizeWithFont:[UIFont systemFontOfSize:LPFont3] maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)].width;
         UIButton *finishButton = [[UIButton alloc] initWithFrame:CGRectMake(ScreenWidth - finishButtonWidth - 15, 0, finishButtonWidth, 40)];
         [finishButton setTitle:@"完成" forState:UIControlStateNormal];
-        [finishButton setTitleColor:[UIColor colorFromHexString:@"#999999"] forState:UIControlStateNormal];
-        finishButton.titleLabel.font = [UIFont systemFontOfSize:fontSize];
+        [finishButton setTitleColor:[UIColor colorFromHexString:LPColor7] forState:UIControlStateNormal];
+        finishButton.titleLabel.font = [UIFont systemFontOfSize:LPFont3];
         [finishButton addTarget:self action:@selector(finishButtonClick) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:finishButton];
         
-        UILabel *fontSizeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 40)];
-        fontSizeLabel.font = [UIFont systemFontOfSize:fontSize];
-        fontSizeLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
+        NSString *fontSizeStr = @"字体大小";
+        CGFloat fontSizeWidth = [fontSizeStr sizeWithFont:[UIFont systemFontOfSize:LPFont3] maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)].width;
+        UILabel *fontSizeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, fontSizeWidth, 40)];
+        fontSizeLabel.font = [UIFont systemFontOfSize:LPFont3];
+        fontSizeLabel.textColor = [UIColor colorFromHexString:LPColor3];
         fontSizeLabel.centerX = self.centerX;
         fontSizeLabel.text = @"字体大小";
         [self addSubview:fontSizeLabel];
@@ -37,20 +39,23 @@
         [self addSubview:seperatorView];
         
         UILabel *standardLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 45, finishButtonWidth, 40)];
-        standardLabel.font = [UIFont systemFontOfSize:fontSize];
+        standardLabel.font = [UIFont systemFontOfSize:15];
+        standardLabel.textColor = [UIColor colorFromHexString:LPColor3];
         standardLabel.textAlignment = NSTextAlignmentLeft;
         standardLabel.text = @"标准";
         [self addSubview:standardLabel];
         
         UILabel *bigLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 45, finishButtonWidth, 40)];
-        bigLabel.font = [UIFont systemFontOfSize:fontSize];
+        bigLabel.font = [UIFont systemFontOfSize:15];
+        bigLabel.textColor = [UIColor colorFromHexString:LPColor3];
         bigLabel.textAlignment = NSTextAlignmentCenter;
         bigLabel.centerX = self.centerX;
         bigLabel.text = @"大";
         [self addSubview:bigLabel];
         
         UILabel *superLabel = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - finishButtonWidth - 30, 45, finishButtonWidth, 40)];
-        superLabel.font = [UIFont systemFontOfSize:fontSize];
+        superLabel.font = [UIFont systemFontOfSize:15];
+        superLabel.textColor = [UIColor colorFromHexString:LPColor3];
         superLabel.textAlignment = NSTextAlignmentRight;
         superLabel.text = @"超大";
         [self addSubview:superLabel];

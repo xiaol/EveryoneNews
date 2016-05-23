@@ -29,6 +29,7 @@
 #import "AppDelegate.h"
 #import "CardImage.h"
 #import "Card.h"
+#import "Card+Create.h"
 
 NSString *const reusePageID = @"reusePageID";
 
@@ -116,6 +117,7 @@ NSString *const reusePageID = @"reusePageID";
     [self channelItemDidAddToCoreData:pageIndex];
     
     LPPagingViewPage *page = (LPPagingViewPage *)[pagingView currentPage];
+    
     // 每隔5分钟执行自动刷新
     if (lastAccessDate != nil) {
          int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
@@ -125,37 +127,23 @@ NSString *const reusePageID = @"reusePageID";
                 channelItem.lastAccessDate = currentDate;
             }
      }
-    
-//    // 记录上次滚动的位置
-//    if (self.pageContentOffsetDictionary[page.pageChannelName]) {
-//        NSNumber *contentOffsetY = self.pageContentOffsetDictionary[page.pageChannelName];
-//        [page scrollToOffsetY:[contentOffsetY floatValue]];
-//    } else {
-//        [page scrollToOffsetY:TabBarHeight];
-////        NSLog(@"%@", page.pageChannelName);
-////        
-////        NSLog(@"%@", self.pageContentOffsetDictionary[page.pageChannelName]);
-//    }
-    
- 
-    
 }
 
 #pragma mark - 首页显示正在加载提示
 - (void)showLoadingView {
-    [self.animationImageView startAnimating];
-    self.loadingLabel.hidden = NO;
-    self.contentLoadingView.hidden = NO;
+    LPPagingViewPage *page =  (LPPagingViewPage*)self.pagingView.currentPage;
+    [page.animationImageView startAnimating];
+    page.contentLoadingView.hidden = NO;
+    page.reloadPage.hidden = YES;
   
 }
 
 
 #pragma mark - 首页隐藏正在加载提示
 - (void)hideLoadingView {
-
-    [self.animationImageView stopAnimating];
-    self.loadingLabel.hidden = YES;
-    self.contentLoadingView.hidden = YES;
+    LPPagingViewPage *page =  (LPPagingViewPage*)self.pagingView.currentPage;
+    [page.animationImageView stopAnimating];
+    page.contentLoadingView.hidden = YES;
 }
 
 #pragma mark - 判断本地是否有数据 没有就请求网络 然后存入数据库
@@ -168,6 +156,7 @@ NSString *const reusePageID = @"reusePageID";
     param.channelID = channelItem.channelID;
     [Card fetchCardsWithCardParam:param cardsArrayBlock:^(NSArray *cardsArray) {
         NSArray *cards = cardsArray;
+        // 本地没有数据
         if (cards.count == 0) {
             [self showLoadingView];
             [self loadMoreDataInPageAtPageIndex:pageIndex];
@@ -176,6 +165,11 @@ NSString *const reusePageID = @"reusePageID";
         }
     }];
     
+}
+
+#pragma mark reloadPage Delegate
+- (void)didClickReloadPage:(LPPagingViewPage *)page {
+    [self channelItemDidAddToCoreData:self.pagingView.currentPageIndex];
 }
 
 #pragma mark - 加载更多
@@ -200,7 +194,6 @@ NSString *const reusePageID = @"reusePageID";
         param.startTime = [NSString stringWithFormat:@"%lld", (long long)([[NSDate date] timeIntervalSince1970] * 1000)];
     }
     
-
     param.channelID = channelItem.channelID;
     NSMutableArray *cfs = [NSMutableArray array];
     [CardTool cardsWithParam:param channelID:channelItem.channelID success:^(NSArray *cards) {
@@ -217,7 +210,14 @@ NSString *const reusePageID = @"reusePageID";
     } failure:^(NSError *error) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self hideLoadingView];
+            LPPagingViewPage *page = (LPPagingViewPage *)self.pagingView.currentPage;
+            if (page.cardFrames.count == 0) {
+                 page.reloadPage.hidden = NO;
+            }
+
         });
+      
+        
     }];
 }
 
@@ -238,10 +238,10 @@ NSString *const reusePageID = @"reusePageID";
     Card *card = (Card *)[cdh.importContext existingObjectWithID:cardID error:nil];
     detailVc.isRead = card.isRead;
     if (!card.isRead) {
-        //[self updateIsReadStatus:card page:page];
         [page updateCardFramesWithCardFrame:cardFrame];
   
     }
+    detailVc.statusWindow = self.statusWindow;
     [self.navigationController pushViewController:detailVc animated:YES];
 
 
@@ -257,12 +257,10 @@ NSString *const reusePageID = @"reusePageID";
 //    [self.pageContentOffsetDictionary setObject:@(offsetY) forKey:page.pageChannelName];
 }
 
-
 // 弹出删除选择框
-- (void)page:(LPPagingViewPage *)page didClickDeleteButtonWithCardFrame:(CardFrame *)cardFrame  deleteButton:(UIButton *)deleteButton indexPath:(NSIndexPath *)indexPath{
+- (void)page:(LPPagingViewPage *)page didClickDeleteButtonWithCardFrame:(CardFrame *)cardFrame  deleteButton:(UIButton *)deleteButton {
     self.currentPage = page;
     self.currentCardFrame = cardFrame;
-    self.currentIndexPath = indexPath;
     
     UIView *blackBackgroundView = [[UIView alloc] init];
     blackBackgroundView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
@@ -415,52 +413,17 @@ NSString *const reusePageID = @"reusePageID";
 
 - (void)deleteCurrentRow:(UIButton *)button {
     [self.blackBackgroundView removeFromSuperview];
-    [self.currentPage deleteRowAtIndexPath:self.currentIndexPath cardFrame:self.currentCardFrame];
+    [self.currentPage deleteRowAtIndexPath:self.currentCardFrame];
     [self deleteCardFromCoreData:self.currentCardFrame];
     
 }
 
-
 #pragma mark - 删除本地新闻
 - (void)deleteCardFromCoreData:(CardFrame *)cardFrame {
     CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
-    Card *card = cardFrame.card;
-    [cdh.importContext performBlock:^{
-        [cdh.importContext deleteObject:card];
-        [cdh saveBackgroundContext];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.currentPage = nil;
-            self.currentCardFrame = nil;
-            self.currentIndexPath = nil;
-        });
-    }];
+    Card *card = (Card *)[cdh.importContext existingObjectWithID:cardFrame.card.objectID error:nil];
+    [card setValue:@(1) forKey:@"isCardDeleted"];
+    [Card updateCard:card];
 }
 
-
-//- (void)updateIsReadStatus:(Card *)card page:(LPPagingViewPage *)page {
-//    CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
-//    if (!card.isRead) {
-//        card.isRead = @(1);
-//        [cdh.importContext performBlock:^{
-//            
-//            
-//            
-//            NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Card"];
-//            [request setPredicate:[NSPredicate predicateWithFormat:@"newId = %@ and channelId = %@",card.newId , card.channelId]];
-//            NSEntityDescription  *entity  = [NSEntityDescription entityForName:@"Card" inManagedObjectContext:cdh.importContext];
-//            [request setEntity:entity];
-//            NSError *error;
-//            [cdh.importContext executeFetchRequest:request error:&error];
-//            [cdh saveBackgroundContext];
-//            __weak typeof(page) weakPage = page;
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [weakPage tableViewReloadData];
-//            });
-//            
-//        }];
-//        
-//    }
-//
-//
-//}
 @end

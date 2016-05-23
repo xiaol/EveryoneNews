@@ -22,14 +22,13 @@
         request.fetchLimit = param.count.integerValue;
         request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"updateTime" ascending:NO]];
         if (param.startTime) {
-            request.predicate = [NSPredicate predicateWithFormat:@"channelId = %@ && updateTime < %@", param.channelID, param.startTime];
+            request.predicate = [NSPredicate predicateWithFormat:@"channelId = %@ && isCardDeleted <> 1 && updateTime < %@ ", param.channelID, param.startTime];
         }
         [cdh.importContext performBlock:^{
             NSError *error = nil;
             NSArray *results  = [cdh.importContext executeFetchRequest:request error:&error];
             dispatch_async(dispatch_get_main_queue(), ^{
                 cardsArrayBlock(results);
-                
             });
             if (error) {
                 NSLog(@"importContext error: %@", error);

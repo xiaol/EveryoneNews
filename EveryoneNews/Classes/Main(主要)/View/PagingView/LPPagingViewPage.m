@@ -39,7 +39,6 @@
 
 - (void)prepareForReuse {
     self.searchView.hidden = YES;
-    
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -66,6 +65,14 @@
             cornerRadius = 12;
             searchViewPadding = 10;
             searchLabelFontSize = 12;
+        } else if (iPhone6) {
+            searchViewHeight = 47;
+            paddingTop = 9;
+            searchViewPadding = 10;
+            searchLabelFontSize = LPFont4;
+            cornerRadius = 14;
+            searchImageH = 15;
+            searchImageW = 15;
         }
         
         UIView *searchView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, searchViewHeight)];
@@ -105,11 +112,12 @@
         
         UITableView *tableView = [[UITableView alloc] init];
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        tableView.backgroundColor =  [UIColor colorFromHexString:@"#f6f6f6"];
+        tableView.backgroundColor =  [UIColor colorFromHexString:LPColor9];
         tableView.dataSource = self;
         tableView.delegate = self;
         tableView.showsVerticalScrollIndicator = NO;
-        
+        tableView.scrollsToTop = NO;
+              
         [self addSubview:tableView];
          self.tableView = tableView;
         
@@ -140,8 +148,102 @@
         self.tableView.footer = [LPDiggerFooter footerWithRefreshingBlock:^{
             [weakSelf loadMoreData];
         }];
+        
+        // 重新加载提示
+        [self setupReloadPage];
+        
+        // 正在加载
+        [self setupLoadingView];
     }
     return self;
+}
+
+
+#pragma mark - 重新加载
+- (void)setupReloadPage {
+    double topViewHeight = TabBarHeight + StatusBarHeight;
+    if (iPhone6) {
+        topViewHeight = 72;
+    }
+    // 重新加载提示框
+    UIView *reloadPage = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - topViewHeight)];
+    reloadPage.backgroundColor = [UIColor colorFromHexString:LPColor9];
+    reloadPage.userInteractionEnabled = YES;
+    UITapGestureRecognizer *reloadTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapReloadPage)];
+    [reloadPage addGestureRecognizer:reloadTapGesture];
+    reloadPage.hidden = YES;
+    self.reloadPage = reloadPage;
+    
+    CGFloat reloadImageViewW = 107;
+    CGFloat reloadImageViewH = 109;
+    CGFloat reloadImageViewX = (ScreenWidth - reloadImageViewW) / 2;
+    CGFloat reloadImageViewY = (ScreenHeight - reloadImageViewH) / 2 - topViewHeight;
+    
+    UIImageView *reloadImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"重新加载"]];
+    reloadImageView.frame = CGRectMake(reloadImageViewX, reloadImageViewY, reloadImageViewW, reloadImageViewH);
+    [reloadPage addSubview:reloadImageView];
+    
+    NSString *reloadStr = @"点击屏幕重新加载";
+    CGFloat fontSize = 12;
+    CGSize size = [reloadStr sizeWithFont:[UIFont systemFontOfSize:fontSize] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)];
+    CGFloat labelW = size.width;
+    CGFloat labelH = size.height;
+    CGFloat labelX = (ScreenWidth - labelW) / 2;
+    CGFloat labelY = CGRectGetMaxY(reloadImageView.frame) + 20;
+    
+    UILabel *reloadLabel = [[UILabel alloc] initWithFrame:CGRectMake(labelX, labelY, labelW, labelH)];
+    reloadLabel.text = reloadStr;
+    reloadLabel.font = [UIFont systemFontOfSize:fontSize];
+    reloadLabel.textColor = [UIColor colorFromHexString:LPColor4];
+    [reloadPage addSubview:reloadLabel];
+    
+    [self addSubview:reloadPage];
+}
+
+#pragma mark - 正在加载
+- (void)setupLoadingView {
+    
+    double topViewHeight = TabBarHeight + StatusBarHeight;
+    if (iPhone6) {
+        topViewHeight = 72;
+    }
+    UIView *contentLoadingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - topViewHeight)];
+    contentLoadingView.hidden = YES;
+    // Load images
+    NSArray *imageNames = @[@"xl_1", @"xl_2", @"xl_3", @"xl_4"];
+
+    NSMutableArray *images = [[NSMutableArray alloc] init];
+    for (int i = 0; i < imageNames.count; i++) {
+        [images addObject:[UIImage imageNamed:[imageNames objectAtIndex:i]]];
+    }
+
+    CGFloat animationImageViewW = 36;
+    CGFloat animationImageViewH = 36;
+    CGFloat animationImageViewX = (ScreenWidth - animationImageViewW) / 2;
+    CGFloat animationImageViewY = (ScreenHeight - animationImageViewH) / 2 - topViewHeight;
+    // Normal Animation
+    UIImageView *animationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(animationImageViewX, animationImageViewY, animationImageViewW , animationImageViewH)];
+    animationImageView.animationImages = images;
+    animationImageView.animationDuration = 1;
+    [contentLoadingView addSubview:animationImageView];
+     self.animationImageView = animationImageView;
+
+    UILabel *loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(animationImageView.frame), ScreenWidth, 40)];
+    loadingLabel.textAlignment = NSTextAlignmentCenter;
+    loadingLabel.text = @"正在努力加载...";
+    loadingLabel.font = [UIFont systemFontOfSize:12];
+    loadingLabel.textColor = [UIColor colorFromHexString:LPColor4];
+    
+    [contentLoadingView addSubview:loadingLabel];
+    [self addSubview:contentLoadingView];
+    
+    self.contentLoadingView = contentLoadingView;
+}
+
+- (void)tapReloadPage {
+    if ([self.delegate respondsToSelector:@selector(didClickReloadPage:)]) {
+        [self.delegate didClickReloadPage:self];
+    }
 }
 
 - (void)layoutSubviews {
@@ -295,8 +397,8 @@
     }];
     
     [cell didClickDeleteButtonBlock:^(UIButton *deleteButton) {
-        if ([weakSelf.delegate respondsToSelector:@selector(page:didClickDeleteButtonWithCardFrame:deleteButton:indexPath:)]) {
-            [weakSelf.delegate page:weakSelf didClickDeleteButtonWithCardFrame:cell.cardFrame deleteButton:deleteButton indexPath:indexPath];
+        if ([weakSelf.delegate respondsToSelector:@selector(page:didClickDeleteButtonWithCardFrame:deleteButton:)]) {
+            [weakSelf.delegate page:weakSelf didClickDeleteButtonWithCardFrame:cell.cardFrame deleteButton:deleteButton];
         }
         
     }];
@@ -318,13 +420,20 @@
 
 
 #pragma mark - 删除某行数据
-- (void)deleteRowAtIndexPath:(NSIndexPath *)indexPath cardFrame:(CardFrame *)cardFrame {
+- (void)deleteRowAtIndexPath:(CardFrame *)cardFrame {
+    NSInteger index = [self.cardFrames indexOfObject:cardFrame];
     [self.cardFrames removeObject:cardFrame];
-    [UIView animateWithDuration:0.5 animations:^{
-        [self.tableView  deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationBottom];
-    } completion:^(BOOL finished) {
-        [self.tableView reloadData];
-    }];
+    [self.tableView  deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+    
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [self.tableView reloadData];
+//    });
+    
+//    [UIView animateWithDuration:0.5 animations:^{
+//        [self.tableView  deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationBottom];
+//    } completion:^(BOOL finished) {
+//        [self.tableView reloadData];
+//    }];
 }
 
 - (void)updateCardFramesWithCardFrame:(CardFrame *)cardFrame {
@@ -339,6 +448,10 @@
 #pragma mark - 刷新主页面
 - (void)tableViewReloadData {
     [self.tableView reloadData];
+}
+
+- (void)tapStatusBarScrollToTop{
+    [self.tableView setContentOffset:CGPointZero animated:YES];
 }
 
 @end

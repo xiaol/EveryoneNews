@@ -13,7 +13,7 @@
 
 @protocol  LPFullCommentCellDelegate <NSObject>
 @optional
-- (void)fullCommentCell:(LPFullCommentCell *)cell comment:(LPComment *)comment;
+- (void)fullCommentCell:(LPFullCommentCell *)cell fullCommentFrame:(LPFullCommentFrame *)fullCommentFrame;
 @end
 
 @interface LPFullCommentCell : UITableViewCell

@@ -3,6 +3,7 @@
 //
 
 
+#import "Card+Create.h"
 #import "Card.h"
 #import "CardFrame.h"
 #import "CoreDataHelper.h"

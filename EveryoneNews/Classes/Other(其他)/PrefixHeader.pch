@@ -58,9 +58,9 @@ typedef NS_ENUM(NSInteger, iPhone6PlusHomeTitleSize) {
 
 // 首页字体 6
 typedef NS_ENUM(NSInteger, iPhone6HomeTitleSize) {
-    iPhone6HomeTitleSizeStandard = 17,
-    iPhone6HomeTitleSizeLarger = 19,
-    iPhone6HomeTitleSizeSuperLarger = 21
+    iPhone6HomeTitleSizeStandard = 19,
+    iPhone6HomeTitleSizeLarger = 21,
+    iPhone6HomeTitleSizeSuperLarger = 23
 };
 
 // 首页字体 5
@@ -137,15 +137,15 @@ typedef NS_ENUM(NSInteger, iPhone6PlusDetailRelateSize) {
 };
 
 typedef NS_ENUM(NSInteger, iPhone6DetailRelateSize) {
-    iPhone6DetailRelateSizeStandard = 18,
-    iPhone6DetailRelateSizeLarger = 20,
-    iPhone6DetailRelateSizeSuperLarger = 22
+    iPhone6DetailRelateSizeStandard = 17,
+    iPhone6DetailRelateSizeLarger = 19,
+    iPhone6DetailRelateSizeSuperLarger = 21
 };
 
 typedef NS_ENUM(NSInteger, iPhone5DetailRelateSize) {
-    iPhone5DetailRelateSizeStandard = 18,
-    iPhone5DetailRelateSizeLarger = 20,
-    iPhone5DetailRelateSizeSuperLarger = 22
+    iPhone5DetailRelateSizeStandard = 16,
+    iPhone5DetailRelateSizeLarger = 18,
+    iPhone5DetailRelateSizeSuperLarger = 20
 };
 
 // 详情页评论字体 Plus
@@ -156,9 +156,9 @@ typedef NS_ENUM(NSInteger, iPhone6PlusDetailCommentSize) {
 };
 
 typedef NS_ENUM(NSInteger, iPhone6DetailCommentSize) {
-    iPhone6DetailCommentSizeStandard = 16,
-    iPhone6DetailCommentSizeLarger = 18,
-    iPhone6DetailCommentSizeSuperLarger = 20
+    iPhone6DetailCommentSizeStandard = 18,
+    iPhone6DetailCommentSizeLarger = 20,
+    iPhone6DetailCommentSizeSuperLarger = 22
 };
 
 typedef NS_ENUM(NSInteger, iPhone5DetailCommentSize) {
@@ -217,6 +217,7 @@ typedef NS_ENUM(NSInteger, iPhone5DetailCommentSize) {
 #define LPColor9 @"#f6f6f6"
 #define LPColor10 @"#c0c0c0"
 #define LPColor11 @"#f0f0f0"
+#define LPColor12 @"#aaaaaa"
 
 #define LPFont1 20
 #define LPFont2 19

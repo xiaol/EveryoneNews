@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)layoutSubviews {
     
     CGFloat kNavigationBarHEIGHT = 51.f;
-    if (iPhone6Plus) {
+    if (iPhone6Plus || iPhone5) {
         kNavigationBarHEIGHT = 44.f;
     }
     

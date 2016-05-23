@@ -36,5 +36,6 @@
 @property (nonatomic, strong) UIButton *noCommentsBtn;
 @property (nonatomic, strong) UILabel *commentCountLabel;
 @property (nonatomic, strong) UIView *commentsCountView;
+@property (nonatomic, strong) UIButton *favoriteBtn;
 
 @end

@@ -21,6 +21,8 @@
             LPRelateFrame *relateFrame = [[LPRelateFrame alloc] init];
             relateFrame.currentRowIndex = i;
             relateFrame.relatePoint = self.relatePointArray[i];
+            relateFrame.totalCount = self.relatePointArray.count;
+            relateFrame.googleSourceExistsInRelatePoint = self.googleSourceExistsInRelatePoint;
             [self.relatePointFrames addObject:relateFrame];
         }
         [self.tableView reloadData];

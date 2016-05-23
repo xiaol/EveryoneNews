@@ -27,7 +27,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 static NSString * const kCellIdentify = @"JoyMineViewCell";
-CGSize static const kAvatarImageViewSize = {70,70};
+//CGSize static const kAvatarImageViewSize = {70,70};
 
 @interface LPNewsMineViewController () <UITableViewDelegate,UITableViewDataSource>{
     NSIndexPath * tempIndexPath;
@@ -50,7 +50,7 @@ CGSize static const kAvatarImageViewSize = {70,70};
 
 
 - (void)dealloc{
-    
+    NSLog(@"dealloc");
 }
 
 #pragma mark-  ViewLife Cycle
@@ -59,35 +59,76 @@ CGSize static const kAvatarImageViewSize = {70,70};
     
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithDesignIndex:9];
-    [self backItem:@"关闭"];
+    
+    // 分享，评论，添加按钮边距设置
+    double topViewHeight = TabBarHeight + StatusBarHeight + 0.5;
+    
+    if (iPhone6) {
+        topViewHeight = 72;
+    }
+    
+    double padding = 11;
+    if (iPhone6Plus) {
+        padding = 12;
+    }
+    
+    CGFloat fontSize = 16;
+    if (iPhone6Plus || iPhone6) {
+        fontSize = 18;
+    } else if (iPhone5) {
+        fontSize = 16;
+    }
+    NSString *strClose = @"关闭";
+    
+    CGSize size = [strClose sizeWithFont:[UIFont systemFontOfSize:fontSize] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)];
+    CGFloat returnButtonW = size.width ;
+    CGFloat returnButtonH = size.height;
+    CGFloat returnButtonX = padding;
+    CGFloat returnButtonY = (topViewHeight - returnButtonH - StatusBarHeight) / 2 + StatusBarHeight;
+    
+    
+    // 返回button
+    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(returnButtonX, returnButtonY, returnButtonW, returnButtonH)];
+    [backBtn setTitle:@"关闭" forState:UIControlStateNormal];
+    backBtn.titleLabel.font = [UIFont systemFontOfSize:fontSize];
+    [backBtn setTitleColor:[UIColor colorFromHexString:LPColor1] forState:UIControlStateNormal];
+    backBtn.enlargedEdge = 15;
+    [backBtn addTarget:self action:@selector(doBackAction) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:backBtn];
+    
+    // 分割线
+    UILabel *seperatorLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, topViewHeight - 0.5, ScreenWidth, 0.5)];
+    seperatorLabel.backgroundColor = [UIColor colorFromHexString:@"#dddddd"];
+    [self.view addSubview:seperatorLabel];
+    
     [self addContent];
 }
 
 
-- (void)viewWillAppear:(BOOL)animated{
-    
-    [super viewWillAppear:animated];
-    [[self navigationController] setNavigationBarHidden:YES];
-}
-
-
-- (void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated{
-    [super viewDidDisappear:animated];
-}
-
-- (void)didReceiveMemoryWarning{
-    [super didReceiveMemoryWarning];
-    if ([self.view window] == nil && [self isViewLoaded]) {
-    }
-}
+//- (void)viewWillAppear:(BOOL)animated{
+//    
+//    [super viewWillAppear:animated];
+//    [[self navigationController] setNavigationBarHidden:YES];
+//}
+//
+//
+//- (void)viewWillDisappear:(BOOL)animated{
+//    [super viewWillDisappear:animated];
+//}
+//
+//- (void)viewDidAppear:(BOOL)animated{
+//    [super viewDidAppear:animated];
+//}
+//
+//- (void)viewDidDisappear:(BOOL)animated{
+//    [super viewDidDisappear:animated];
+//}
+//
+//- (void)didReceiveMemoryWarning{
+//    [super didReceiveMemoryWarning];
+//    if ([self.view window] == nil && [self isViewLoaded]) {
+//    }
+//}
 
 #pragma mark- private methods
 
@@ -98,10 +139,23 @@ CGSize static const kAvatarImageViewSize = {70,70};
     [self.avatarImageView mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         make.top.equalTo(strongSelf.view).with.offset(71+75);
+        
+        if (iPhone5) {
+            make.top.equalTo(strongSelf.view).with.offset(71+75-17);
+        }
+        
         make.centerX.equalTo(strongSelf.view);
-        make.size.mas_equalTo(CGSizeMake(70, 70));
+       
+        if (iPhone5) {
+            make.size.mas_equalTo(CGSizeMake(60, 60));
+        }else{
+             make.size.mas_equalTo(CGSizeMake(70, 70));
+        }
+        
+        
     }];
     
+    // 用户名
     [self.view addSubview:self.userNameLabel];
     [self.userNameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
@@ -109,6 +163,10 @@ CGSize static const kAvatarImageViewSize = {70,70};
         make.size.mas_equalTo(CGSizeMake(ceilf(attStr.size.width)+10, ceilf(attStr.size.height)));
         make.centerX.mas_equalTo(strongSelf.view);
         make.top.mas_equalTo(strongSelf.avatarImageView.mas_bottom).with.offset(12);
+        if (iPhone5) {
+            make.top.mas_equalTo(strongSelf.avatarImageView.mas_bottom).with.offset(8);
+        }
+        
     }];
     
     [self.view addSubview:self.tableView];
@@ -208,7 +266,7 @@ CGSize static const kAvatarImageViewSize = {70,70};
 
 #pragma mark- BackItemMethod
 
-- (void)doBackAction:(nullable id)sender
+- (void)doBackAction
 {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -220,11 +278,17 @@ CGSize static const kAvatarImageViewSize = {70,70};
         Account *account = [AccountTool account];
         UIImageView *avatarImageView = [[UIImageView alloc] init];
         
+        CGSize  kAvatarImageViewSize = CGSizeMake(70, 70);
+        
+        if (iPhone5) {
+            kAvatarImageViewSize =  CGSizeMake(60, 60);
+        }
+        
         avatarImageView.contentMode = UIViewContentModeScaleAspectFit;
         avatarImageView.layer.masksToBounds = YES;
         avatarImageView.layer.shouldRasterize = YES;
         avatarImageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
-        avatarImageView.layer.cornerRadius = kAvatarImageViewSize.width/2;
+        avatarImageView.layer.cornerRadius = kAvatarImageViewSize.width / 2;
         avatarImageView.layer.borderWidth = 0.5f;
         avatarImageView.layer.borderColor = [[UIColor colorWithDesignIndex:5] CGColor];
         _avatarImageView = avatarImageView;
@@ -236,6 +300,8 @@ CGSize static const kAvatarImageViewSize = {70,70};
             [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:account.userIcon] options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
                 if (image && finished) {
                     weakSelf.avatarImageView.image = image;
+                    
+                    
                 }
             }];
         }
@@ -271,7 +337,7 @@ CGSize static const kAvatarImageViewSize = {70,70};
         }
         userNameLabel.textAlignment = NSTextAlignmentCenter;
         userNameLabel.textColor = [UIColor colorWithDesignIndex:1];
-        userNameLabel.font = [UIFont boldSystemFontOfSize:36.f/fontSizePxToSystemMultiple];
+        userNameLabel.font = [UIFont systemFontOfSize:36.f/fontSizePxToSystemMultiple];
         _userNameLabel = userNameLabel;
     }
     return _userNameLabel;

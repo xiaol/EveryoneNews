@@ -12,6 +12,7 @@
 #import "Card+Create.h"
 #import "Card+Fetch.h"
 #import "MJExtension.h"
+#import "CoreDataHelper.h"
 
 @implementation CardTool
 
@@ -62,5 +63,19 @@
         NSLog(@"%@ --- param is invalid !!!", NSStringFromClass([self class]));
     }
 }
+
+//- (void)deleteCardFromCoreData:(CardFrame *)cardFrame {
+//    CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+//    Card *card = cardFrame.card;
+//    [cdh.importContext performBlock:^{
+//        [cdh.importContext deleteObject:card];
+//        [cdh saveBackgroundContext];
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            self.currentPage = nil;
+//            self.currentCardFrame = nil;
+//            self.currentIndexPath = nil;
+//        });
+//    }];
+//}
 
 @end

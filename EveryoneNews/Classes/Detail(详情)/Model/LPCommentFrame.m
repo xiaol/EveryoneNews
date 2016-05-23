@@ -22,7 +22,6 @@ static const CGFloat userIconWidth = 38.0f;
     CGFloat iconPaddingTop = 22.0f;
     CGFloat iconPaddingLeft = 18.0f;
     
-    
     _comment = comment;
     NSString *upCount = [NSString stringWithFormat:@"%@", comment.up];
     
@@ -45,7 +44,7 @@ static const CGFloat userIconWidth = 38.0f;
     
     CGFloat textX = nameX;
     CGFloat textY = CGRectGetMaxY(_timeF) + 9;
-    CGFloat textW = ScreenWidth - textX - iconPaddingLeft * 2;
+    CGFloat textW = ScreenWidth - textX - iconPaddingLeft ;
     CGFloat textH = [[comment commentStringWithColor:comment.color] heightWithConstraintWidth:textW];
     _textF = CGRectMake(textX, textY, textW, textH);
     
@@ -54,6 +53,8 @@ static const CGFloat userIconWidth = 38.0f;
     CGFloat upButtonW = 17.0f;
     CGFloat upButtonH = 17.0f;
     CGFloat upButtonX = ScreenWidth - iconPaddingLeft  - upButtonW - 1;
+        
+    
     CGFloat upButtonY =  nameY;
     _upButtonF = CGRectMake(upButtonX, upButtonY, upButtonW, upButtonH);
     
@@ -61,7 +62,7 @@ static const CGFloat userIconWidth = 38.0f;
     CGSize size = [upCount sizeWithFont:[UIFont systemFontOfSize:LPFont5] maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)];
     CGFloat upCountsW = size.width + 7;
     CGFloat upCountsH = size.height;
-    CGFloat upCountsX = upButtonX - upButtonW;
+    CGFloat upCountsX = CGRectGetMinX(_upButtonF) - upCountsW;
     CGFloat upCountsY = 0;
     _upCountF = CGRectMake(upCountsX, upCountsY, upCountsW, upCountsH);
     

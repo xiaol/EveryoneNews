@@ -14,11 +14,13 @@
 @optional
 - (void)backButtonDidClick:(LPDetailTopView *)detailTopView;
 - (void)shareButtonDidClick:(LPDetailTopView *)detailTopView;
+- (void)detailTopViewDidTap:(LPDetailTopView *)detailTopView;
 
 @end
 @interface LPDetailTopView : UIView
 
 @property (nonatomic, assign) NSInteger badgeNumber;
+@property (nonatomic, strong) UIButton *shareButton;
 @property (nonatomic, weak) id<LPDetailTopViewDelegate> delegate;
 
 @end

@@ -20,6 +20,8 @@
         CGFloat menuFontSize = 17;
         if (iPhone5 || iPhone6Plus) {
             menuFontSize = 17;
+        } else if (iPhone6) {
+            menuFontSize = 19;
         }
         self.textColor = LPNormalColor;
         self.textAlignment = NSTextAlignmentCenter;

@@ -207,13 +207,13 @@ NS_ASSUME_NONNULL_BEGIN
             dict[@"deviceType"] = @"ios";
             dict[@"token"] = accountEntity.accessToken;
             dict[@"expiresTime"] = @([NSDate dateToMilliSeconds:accountEntity.expirationDate]);
+            dict[@"uniqueDeviceID"] = [userDefaults objectForKey:@"uniqueDeviceID"];
             Account *account = [Account objectWithKeyValues:dict];
             [AccountTool saveAccount:account];
             //将用户授权信息上传到服务器
             NSDictionary *params = [NSDictionary dictionary];
             params = account.keyValues;
             [LPHttpTool getWithURL:AccountLoginUrl params:params success:^(id json) {
-                [AccountTool saveAccount:account];
                 [self dismissViewControllerAnimated:YES completion:nil];
             } failure:^(NSError *error) {
                 [MBProgressHUD showError:@"登录失败"];

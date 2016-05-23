@@ -67,6 +67,9 @@ static const CGFloat kLeftMargin = 23.f;
         NSString *keyStr = [dict.allKeys objectAtIndex:0];
         leftImageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@",keyStr]];
         textLabel.text = [dict.allValues objectAtIndex:0];
+        
+        NSLog(@"%d", indexPath.row);
+        
         __weak __typeof(self)weakSelf = self;
         __weak __typeof(leftImageView)weakLeftImageView = leftImageView;
         
@@ -76,6 +79,8 @@ static const CGFloat kLeftMargin = 23.f;
             make.centerY.equalTo(strongSelf.mas_centerY);
             make.left.mas_equalTo(@(kLeftMargin));
             make.size.mas_equalTo(strongLeftImageView.image.size);
+            
+            
         }];
         
         __weak __typeof(rightImageView)weakRightImageView = rightImageView;
@@ -92,7 +97,15 @@ static const CGFloat kLeftMargin = 23.f;
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             __strong __typeof(weakLeftImageView)strongLeftImageView = weakLeftImageView;
             make.centerY.equalTo(strongSelf.mas_centerY);
-            make.left.equalTo(strongLeftImageView.mas_right).with.mas_offset(@21);
+         
+            if (indexPath.row == 0) {
+                  make.left.equalTo(strongLeftImageView.mas_right).with.mas_offset(@21);
+            } else if (indexPath.row == 1) {
+                   make.left.equalTo(strongLeftImageView.mas_right).with.mas_offset(@19);
+            } else if (indexPath.row == 2) {
+                   make.left.equalTo(strongLeftImageView.mas_right).with.mas_offset(@21);
+            }
+            
             make.size.mas_equalTo(CGSizeMake(180.f, (kTextFont).lineHeight));
         }];
         

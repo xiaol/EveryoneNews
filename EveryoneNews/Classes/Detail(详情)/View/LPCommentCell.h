@@ -10,11 +10,21 @@
 
 @class LPComment;
 @class LPCommentFrame;
+@class LPCommentCell;
+@protocol LPCommentCellDelegate<NSObject>
+
+@optional
+- (void)excellentCommentCell:(LPCommentCell *)commentCell commentFrame:(LPCommentFrame *)commentFrame;
+
+@end
+
 @interface LPCommentCell : UITableViewCell
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 
 @property (nonatomic, strong) LPComment *comment;
 @property (nonatomic, strong) LPCommentFrame *commentFrame;
+@property (nonatomic, weak) id<LPCommentCellDelegate> delegate;
+@property (nonatomic, strong) UIButton *upButton;
 
 @end

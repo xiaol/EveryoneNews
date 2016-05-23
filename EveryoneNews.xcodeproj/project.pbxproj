@@ -318,12 +318,15 @@
 		8664392B1CB64518003E4DE8 /* LPHomeViewController+LaunchLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8664392A1CB64518003E4DE8 /* LPHomeViewController+LaunchLoginManager.m */; };
 		8664392F1CB649A7003E4DE8 /* LPHomeViewController+ChannelItemName.m in Sources */ = {isa = PBXBuildFile; fileRef = 8664392E1CB649A7003E4DE8 /* LPHomeViewController+ChannelItemName.m */; };
 		866B9AAE1CBE37AE008CECA8 /* LPRelatePointFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 866B9AAD1CBE37AE008CECA8 /* LPRelatePointFooter.m */; };
+		866B9ED71CE6FF46001081A2 /* LPDetailTipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 866B9ED61CE6FF46001081A2 /* LPDetailTipView.m */; };
 		866D85C51BF5923900D92E5D /* ZhihuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 866D85C41BF5923900D92E5D /* ZhihuView.m */; };
 		866F0CC81C15245800F8CA16 /* LPChannelItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 866F0CC71C15245800F8CA16 /* LPChannelItem.m */; };
 		866F0CCE1C152A1E00F8CA16 /* LPChannelItemTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 866F0CCD1C152A1E00F8CA16 /* LPChannelItemTool.m */; };
 		866F805F1CDAE1DC0070A453 /* LPDetailChangeFontSizeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 866F805E1CDAE1DC0070A453 /* LPDetailChangeFontSizeView.m */; };
 		8670E4F21C5B13BD009053ED /* RelateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8670E4F11C5B13BD009053ED /* RelateView.m */; };
 		8670E4F81C5B6090009053ED /* Press+HTTPStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 8670E4F71C5B6090009053ED /* Press+HTTPStatus.m */; };
+		8675216D1CEDCEEF00785BD6 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 8675216A1CEDCEEF00785BD6 /* SSKeychain.m */; };
+		8675216E1CEDCEEF00785BD6 /* SSKeychainQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 8675216C1CEDCEEF00785BD6 /* SSKeychainQuery.m */; };
 		86768C3C1CE4537D004A593E /* LPDetailScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86768C3B1CE4537D004A593E /* LPDetailScrollView.m */; };
 		86785A9D1CA2792F0088977C /* Card+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 86785A9A1CA2792F0088977C /* Card+CoreDataProperties.m */; };
 		86785A9E1CA2792F0088977C /* Card.m in Sources */ = {isa = PBXBuildFile; fileRef = 86785A9C1CA2792F0088977C /* Card.m */; };
@@ -1002,6 +1005,8 @@
 		8664392E1CB649A7003E4DE8 /* LPHomeViewController+ChannelItemName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LPHomeViewController+ChannelItemName.m"; sourceTree = "<group>"; };
 		866B9AAC1CBE37AE008CECA8 /* LPRelatePointFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPRelatePointFooter.h; sourceTree = "<group>"; };
 		866B9AAD1CBE37AE008CECA8 /* LPRelatePointFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPRelatePointFooter.m; sourceTree = "<group>"; };
+		866B9ED51CE6FF46001081A2 /* LPDetailTipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPDetailTipView.h; sourceTree = "<group>"; };
+		866B9ED61CE6FF46001081A2 /* LPDetailTipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPDetailTipView.m; sourceTree = "<group>"; };
 		866D85C31BF5923900D92E5D /* ZhihuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZhihuView.h; sourceTree = "<group>"; };
 		866D85C41BF5923900D92E5D /* ZhihuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZhihuView.m; sourceTree = "<group>"; };
 		866F0CC61C15245800F8CA16 /* LPChannelItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPChannelItem.h; sourceTree = "<group>"; };
@@ -1014,6 +1019,10 @@
 		8670E4F11C5B13BD009053ED /* RelateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RelateView.m; sourceTree = "<group>"; };
 		8670E4F61C5B6090009053ED /* Press+HTTPStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Press+HTTPStatus.h"; sourceTree = "<group>"; };
 		8670E4F71C5B6090009053ED /* Press+HTTPStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Press+HTTPStatus.m"; sourceTree = "<group>"; };
+		867521691CEDCEEF00785BD6 /* SSKeychain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSKeychain.h; sourceTree = "<group>"; };
+		8675216A1CEDCEEF00785BD6 /* SSKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychain.m; sourceTree = "<group>"; };
+		8675216B1CEDCEEF00785BD6 /* SSKeychainQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSKeychainQuery.h; sourceTree = "<group>"; };
+		8675216C1CEDCEEF00785BD6 /* SSKeychainQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychainQuery.m; sourceTree = "<group>"; };
 		86768C3A1CE4537D004A593E /* LPDetailScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPDetailScrollView.h; sourceTree = "<group>"; };
 		86768C3B1CE4537D004A593E /* LPDetailScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPDetailScrollView.m; sourceTree = "<group>"; };
 		86785A921CA278A90088977C /* Model 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 6.xcdatamodel"; sourceTree = "<group>"; };
@@ -1778,10 +1787,12 @@
 		1889FE511B4C2E91006D8E03 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				866B9ED41CE6FE60001081A2 /* 详情页提示框 */,
+				868510B21CE6CECE004C83E5 /* 详情页底部 */,
 				866CBAD71CE1D342004808C2 /* 详情页正文 */,
 				866F805C1CDAE18F0070A453 /* 详情页字体大小 */,
 				869BB8921CD1C0DC005F7DDA /* 详情页相关观点 */,
-				869BB8911CD1BB4F005F7DDA /* 详情页评论 */,
+				869BB8911CD1BB4F005F7DDA /* 精选评论 */,
 				86D716381CD0CD2C00F7C7CC /* 详情页底部分享 */,
 				86D716371CD0C74300F7C7CC /* 详情页顶部 */,
 				866B9AAB1CBE3775008CECA8 /* 详情页相关观点上拉 */,
@@ -1805,8 +1816,6 @@
 				86BDF4441C9C130A004742BA /* LPFulltextCommentView.m */,
 				86785A9F1CA280170088977C /* LPShareCell.h */,
 				86785AA01CA280170088977C /* LPShareCell.m */,
-				86819F071CA3DCDB00C8BCFC /* LPDetailBottomView.h */,
-				86819F081CA3DCDB00C8BCFC /* LPDetailBottomView.m */,
 				8683E86B1CC8AF8E00C885A9 /* LPUITextView.h */,
 				8683E86C1CC8AF8E00C885A9 /* LPUITextView.m */,
 				86768C3A1CE4537D004A593E /* LPDetailScrollView.h */,
@@ -2012,6 +2021,7 @@
 		18BA5E861B199B7300EEDB63 /* Other(其他) */ = {
 			isa = PBXGroup;
 			children = (
+				867521671CEDCEB500785BD6 /* Tools */,
 				1889FE8A1B4C3156006D8E03 /* LPActivityIndicator.h */,
 				1889FE8B1B4C3156006D8E03 /* LPActivityIndicator.m */,
 				18CB19E31B2F97A90005D3E3 /* Singleton.h */,
@@ -2754,7 +2764,7 @@
 				866439231CB63EC8003E4DE8 /* 首页视图管理 */,
 				866439221CB639C6003E4DE8 /* 首页主控制器 */,
 				86972A801C86D7BF00C77DCB /* 频道栏管理 */,
-				86972A7E1C86D72C00C77DCB /* 首页内容 */,
+				86972A7E1C86D72C00C77DCB /* 新闻内容 */,
 			);
 			name = "HomeViewController(首页)";
 			path = HomeViewController;
@@ -2909,6 +2919,15 @@
 			path = ../Controller;
 			sourceTree = "<group>";
 		};
+		866B9ED41CE6FE60001081A2 /* 详情页提示框 */ = {
+			isa = PBXGroup;
+			children = (
+				866B9ED51CE6FF46001081A2 /* LPDetailTipView.h */,
+				866B9ED61CE6FF46001081A2 /* LPDetailTipView.m */,
+			);
+			name = "详情页提示框";
+			sourceTree = "<group>";
+		};
 		866CBAD71CE1D342004808C2 /* 详情页正文 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2934,6 +2953,25 @@
 				866F805E1CDAE1DC0070A453 /* LPDetailChangeFontSizeView.m */,
 			);
 			name = "详情页字体大小";
+			sourceTree = "<group>";
+		};
+		867521671CEDCEB500785BD6 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				867521681CEDCEBD00785BD6 /* SSKeychainTool */,
+			);
+			name = Tools;
+			sourceTree = "<group>";
+		};
+		867521681CEDCEBD00785BD6 /* SSKeychainTool */ = {
+			isa = PBXGroup;
+			children = (
+				867521691CEDCEEF00785BD6 /* SSKeychain.h */,
+				8675216A1CEDCEEF00785BD6 /* SSKeychain.m */,
+				8675216B1CEDCEEF00785BD6 /* SSKeychainQuery.h */,
+				8675216C1CEDCEEF00785BD6 /* SSKeychainQuery.m */,
+			);
+			name = SSKeychainTool;
 			sourceTree = "<group>";
 		};
 		867B51071CC9BD5200E872C1 /* Login */ = {
@@ -2967,8 +3005,8 @@
 		867F9FF11CB4B122001EE47B /* CardFrame */ = {
 			isa = PBXGroup;
 			children = (
-				863D13311CE4782900C263C9 /* CardFrame.m */,
 				86CC9B0C1C2168BF00D9364D /* CardFrame.h */,
+				863D13311CE4782900C263C9 /* CardFrame.m */,
 			);
 			name = CardFrame;
 			sourceTree = "<group>";
@@ -2982,6 +3020,15 @@
 			name = "Launch页面";
 			sourceTree = "<group>";
 		};
+		868510B21CE6CECE004C83E5 /* 详情页底部 */ = {
+			isa = PBXGroup;
+			children = (
+				86819F071CA3DCDB00C8BCFC /* LPDetailBottomView.h */,
+				86819F081CA3DCDB00C8BCFC /* LPDetailBottomView.m */,
+			);
+			name = "详情页底部";
+			sourceTree = "<group>";
+		};
 		8685C11D1CE340BB00C5D582 /* 加载更多 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2991,13 +3038,13 @@
 			name = "加载更多";
 			sourceTree = "<group>";
 		};
-		86972A7E1C86D72C00C77DCB /* 首页内容 */ = {
+		86972A7E1C86D72C00C77DCB /* 新闻内容 */ = {
 			isa = PBXGroup;
 			children = (
 				8649B3781C50F4AA00BC96BF /* LPHomeViewController+ContentView.h */,
 				8649B3791C50F4AA00BC96BF /* LPHomeViewController+ContentView.m */,
 			);
-			name = "首页内容";
+			name = "新闻内容";
 			sourceTree = "<group>";
 		};
 		86972A801C86D7BF00C77DCB /* 频道栏管理 */ = {
@@ -3009,13 +3056,13 @@
 			name = "频道栏管理";
 			sourceTree = "<group>";
 		};
-		869BB8911CD1BB4F005F7DDA /* 详情页评论 */ = {
+		869BB8911CD1BB4F005F7DDA /* 精选评论 */ = {
 			isa = PBXGroup;
 			children = (
 				86785AA21CA28BA50088977C /* LPCommentCell.h */,
 				86785AA31CA28BA50088977C /* LPCommentCell.m */,
 			);
-			name = "详情页评论";
+			name = "精选评论";
 			sourceTree = "<group>";
 		};
 		869BB8921CD1C0DC005F7DDA /* 详情页相关观点 */ = {
@@ -3440,6 +3487,7 @@
 				186866081B907E1500039AA3 /* AFURLRequestSerialization.m in Sources */,
 				18D71F731B24AEF4002A7375 /* UIImage+LP.m in Sources */,
 				18A65C801B2007060070DDD7 /* NSMutableAttributedString+LP.m in Sources */,
+				866B9ED71CE6FF46001081A2 /* LPDetailTipView.m in Sources */,
 				18F631161B5C044300423658 /* AppDelegate.m in Sources */,
 				18EC41E31B71B8C600548DD9 /* LPSupplementView.m in Sources */,
 				18F631191B5C044300423658 /* LPHttpTool.m in Sources */,
@@ -3520,6 +3568,7 @@
 				187564851C2110B600589320 /* PressPhoto+CoreDataProperties.m in Sources */,
 				865C12B61C21A208000303C8 /* LPHomeViewCell.m in Sources */,
 				867D492B1CABD6240025765B /* LPFloodView.m in Sources */,
+				8675216E1CEDCEEF00785BD6 /* SSKeychainQuery.m in Sources */,
 				18F631251B5C044300423658 /* LPSingleGraphOpinionsView.m in Sources */,
 				1826B3E91B786B3900B712E0 /* POPSpringAnimation.mm in Sources */,
 				11FAA0331CC63B1000F2115C /* LPNewsMyCommCell.m in Sources */,
@@ -3565,6 +3614,7 @@
 				18A65CC61B203D330070DDD7 /* SDWebImageDecoder.m in Sources */,
 				1889FE601B4C2E91006D8E03 /* LPOffset.m in Sources */,
 				8649B37C1C50F4AA00BC96BF /* LPHomeViewController+ChannelItemMenu.m in Sources */,
+				8675216D1CEDCEEF00785BD6 /* SSKeychain.m in Sources */,
 				18F631241B5C044300423658 /* LPSingleGraphMidSeperaterView.m in Sources */,
 				18AB8C851B8A439D0084934E /* GenieTransition.m in Sources */,
 				86A8CD611CA0049400379EFB /* UIControl+Swizzle.m in Sources */,

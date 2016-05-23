@@ -18,7 +18,7 @@
 - (void)prepare {
     [super prepare];
     // 设置控件的高度
-    self.mj_h = 1;
+    self.mj_h = 48;
 }
 
 #pragma mark 在这里设置子控件的位置和尺寸

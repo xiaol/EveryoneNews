@@ -21,20 +21,23 @@
     double topViewHeight = TabBarHeight + StatusBarHeight + 0.5;
     double padding = 15;
     
-    double returnButtonWidth = 10;
-    double returnButtonHeight = 17;
-    double returnButtonPaddingTop = 33.5f;
+    double returnButtonWidth = 13;
+    double returnButtonHeight = 22;
+    
+    if (iPhone6Plus) {
+        returnButtonWidth = 12;
+        returnButtonHeight = 21;
+    }
+   
     
     double shareButtonW = 25;
     double shareButtonH = 5;
     double shareButtonX = ScreenWidth - padding - shareButtonW;
     
-    if(iPhone6Plus)
-    {
-        returnButtonWidth = 11;
-        returnButtonHeight = 19;
-        returnButtonPaddingTop = 30.5f;
+    if (iPhone6) {
+        topViewHeight = 72;
     }
+    double returnButtonPaddingTop = (topViewHeight - returnButtonHeight + StatusBarHeight) / 2;
 
     self = [super initWithFrame:frame];
     if (self) {
@@ -57,11 +60,15 @@
         shareBtn.enlargedEdge = 15;
         [shareBtn addTarget:self action:@selector(shareButtonClick) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:shareBtn];
+        self.shareButton = shareBtn;
         
         // 分割线
         UILabel *seperatorLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, topViewHeight - 0.5, ScreenWidth, 0.5)];
         seperatorLabel.backgroundColor = [UIColor colorFromHexString:@"#dddddd"];
         [self addSubview:seperatorLabel];
+        
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollsToTopTap)];
+       // [self addGestureRecognizer:tapGesture];
     }
     return self;
 }
@@ -80,5 +87,11 @@
         [self.delegate shareButtonDidClick:self];
     }
     
+}
+
+- (void)scrollsToTopTap {
+    if ([self.delegate respondsToSelector:@selector(detailTopViewDidTap:)]) {
+        [self.delegate detailTopViewDidTap:self];
+    }
 }
 @end

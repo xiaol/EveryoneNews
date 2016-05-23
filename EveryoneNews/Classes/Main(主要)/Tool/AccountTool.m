@@ -174,13 +174,13 @@
             dict[@"deviceType"] = @"ios";
             dict[@"token"] = accountEntity.accessToken;
             dict[@"expiresTime"] = @([NSDate dateToMilliSeconds:accountEntity.expirationDate]);
+            dict[@"uniqueDeviceID"] = [userDefaults objectForKey:@"uniqueDeviceID"];
             Account *account = [Account objectWithKeyValues:dict];
             [AccountTool saveAccount:account];
             //将用户授权信息上传到服务器
             NSDictionary *params = [NSDictionary dictionary];
             params = account.keyValues;
             [LPHttpTool getWithURL:AccountLoginUrl params:params success:^(id json) {
-                [AccountTool saveAccount:account];
                 [noteCenter postNotificationName:AccountLoginNotification object:wself];
                 if (wself.successBlock) {
                     wself.successBlock(account);
@@ -366,13 +366,13 @@
             dict[@"deviceType"] = @"ios";
             dict[@"token"] = accountEntity.accessToken;
             dict[@"expiresTime"] = @([NSDate dateToMilliSeconds:accountEntity.expirationDate]);
+            dict[@"uuid"] = [userDefaults objectForKey:@"uuid"];
             Account *account = [Account objectWithKeyValues:dict];
             [AccountTool saveAccount:account];
             //将用户授权信息上传到服务器
             NSDictionary *params = [NSDictionary dictionary];
             params = account.keyValues;
             [LPHttpTool getWithURL:AccountLoginUrl params:params success:^(id json) {
-                [AccountTool saveAccount:account];
                 [noteCenter postNotificationName:AccountLoginNotification object:wself];
                 if (wself.successBlock) {
                     wself.successBlock(account);

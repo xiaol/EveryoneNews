@@ -11,17 +11,22 @@
 #import "LPRelatePoint.h"
 #import "UIImageView+WebCache.h"
 #import "LPFontSizeManager.h"
+#import "LPUITextView.h"
 
 @interface LPRelateCell ()
 
 @property (nonatomic, strong) CAShapeLayer *yearLayer;
 @property (nonatomic, strong) CAShapeLayer *monthDayLayer;
-@property (nonatomic, strong) CAShapeLayer *dashMonthLayer;
-@property (nonatomic, strong) CAShapeLayer *dashYearLayer;
+@property (nonatomic, strong) CAShapeLayer *dashMonthLayerUp;
+@property (nonatomic, strong) CAShapeLayer *dashYearLayerUp;
+@property (nonatomic, strong) CAShapeLayer *dashMonthLayerDown;
+@property (nonatomic, strong) CAShapeLayer *dashYearLayerDown;
+
+
 
 @property (nonatomic, strong) UIImageView *pointImageView;
 @property (nonatomic, strong) UIView *seperatorView;
-@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) LPUITextView *titleLabel;
 @property (nonatomic, strong) UILabel *sourceLabel;
 @property (nonatomic, strong) NSString *relatePointURL;
 @property (nonatomic, strong) UIView *cellView;
@@ -56,13 +61,22 @@
         [self.layer addSublayer:monthDayLayer];
         self.monthDayLayer = monthDayLayer;
         
-        CAShapeLayer *dashMonthLayer = [CAShapeLayer layer];
-        [self.layer addSublayer:dashMonthLayer];
-        self.dashMonthLayer = dashMonthLayer;
+        CAShapeLayer *dashMonthLayerUp = [CAShapeLayer layer];
+        [self.layer addSublayer:dashMonthLayerUp];
+        self.dashMonthLayerUp = dashMonthLayerUp;
         
-        CAShapeLayer *dashYearLayer = [CAShapeLayer layer];
-        [self.layer addSublayer:dashYearLayer];
-        self.dashYearLayer = dashYearLayer;
+        CAShapeLayer *dashYearLayerUp = [CAShapeLayer layer];
+        [self.layer addSublayer:dashYearLayerUp];
+        self.dashYearLayerUp = dashYearLayerUp;
+        
+        CAShapeLayer *dashMonthLayerDown = [CAShapeLayer layer];
+        [self.layer addSublayer:dashMonthLayerDown];
+        self.dashMonthLayerDown = dashMonthLayerDown;
+        
+        CAShapeLayer *dashYearLayerDown = [CAShapeLayer layer];
+        [self.layer addSublayer:dashYearLayerDown];
+        self.dashYearLayerDown = dashYearLayerDown;
+        
         
         UIView *cellView = [[UIView alloc] init];
         cellView.userInteractionEnabled = YES;
@@ -78,20 +92,21 @@
         
         // 月日
         UILabel *monthDayLabel = [[UILabel alloc] init];
-        monthDayLabel.backgroundColor = [UIColor colorFromHexString:@"#0091fa"];
+        monthDayLabel.backgroundColor = [UIColor colorFromHexString:LPColor2];
         monthDayLabel.textColor = [UIColor whiteColor];
         monthDayLabel.textAlignment = NSTextAlignmentCenter;
         monthDayLabel.font = [UIFont systemFontOfSize:13];
         monthDayLabel.layer.cornerRadius = 2.0f;
+        monthDayLabel.layer.borderWidth = 0.f;
+        
         monthDayLabel.clipsToBounds = YES;
         [self.cellView addSubview:monthDayLabel];
         self.monthDayLabel = monthDayLabel;
         
         
         // 标题
-        UILabel *titelLabel = [[UILabel alloc] init];
+        LPUITextView *titelLabel = [[LPUITextView alloc] init];
         titelLabel.textColor = [UIColor colorFromHexString:LPColor3];
-        titelLabel.numberOfLines = 0;
         [self.cellView addSubview:titelLabel];
         self.titleLabel = titelLabel;
         
@@ -118,6 +133,8 @@
        
         UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapCellView)];
         [self.cellView addGestureRecognizer:gesture];
+        
+    
 
     }
     return self;
@@ -125,10 +142,32 @@
 
 - (void)setRelateFrame:(LPRelateFrame *)relateFrame {
     _relateFrame = relateFrame;
+
     LPRelatePoint *point = _relateFrame.relatePoint;
     self.relatePointURL = point.url;
     
-    UIBezierPath *linePathMonth = [UIBezierPath bezierPath];
+    // 搜索来源是google google背景高亮
+    if (relateFrame.googleSourceExistsInRelatePoint) {
+        if ([point.searchFrom isEqualToString:@"Google"]) {
+            self.monthDayLabel.backgroundColor = [UIColor colorFromHexString:LPColor2];
+        } else {
+            self.monthDayLabel.backgroundColor = [UIColor colorFromHexString:LPColor12];
+        }
+        
+        
+    } else {
+        if ([point.searchFrom isEqualToString:@"Baidu"]) {
+            self.monthDayLabel.backgroundColor = [UIColor colorFromHexString:LPColor2];
+        } else {
+            self.monthDayLabel.backgroundColor = [UIColor colorFromHexString:LPColor12];
+        }
+    }
+    
+    UIBezierPath *linePathMonthUp = [UIBezierPath bezierPath];
+    UIBezierPath *linePathMonthDown = [UIBezierPath bezierPath];
+    UIBezierPath *linePathYearUp = [UIBezierPath bezierPath];
+    UIBezierPath *linePathYearDown = [UIBezierPath bezierPath];
+    
     // 包含年份
     if (point.updateTime.length > 5) {
         // 年份
@@ -150,25 +189,26 @@
         self.yearLayer.hidden = NO;
         self.monthDayLabel.text = [point.updateTime substringFromIndex:5];
         
-        
-        UIBezierPath *linePathYear = [UIBezierPath bezierPath];
-        
-        
+        // 非0行
         if (_relateFrame.currentRowIndex != 0) {
      
-            [linePathYear moveToPoint:CGPointMake(_relateFrame.yearPoint.x,0)];
-            [linePathYear addLineToPoint:CGPointMake(_relateFrame.yearPoint.x, _relateFrame.yearPoint.y - 2)];
+            self.dashYearLayerUp.hidden = NO;
+            [linePathYearUp moveToPoint:CGPointMake(_relateFrame.yearPoint.x,0)];
+            [linePathYearUp addLineToPoint:CGPointMake(_relateFrame.yearPoint.x, _relateFrame.yearPoint.y - 2)];
+            
+            
+        } else {
+            self.dashYearLayerUp.hidden = YES;
         }
-        
-        [linePathYear moveToPoint:CGPointMake(_relateFrame.yearPoint.x,_relateFrame.yearPoint.y + 2)];
-        [linePathYear addLineToPoint:CGPointMake(_relateFrame.yearPoint.x, _relateFrame.monthDayPoint.y - 2)];
+        self.dashMonthLayerUp.hidden = NO;
         
         
-        self.dashYearLayer.lineWidth = 1.0;
-        self.dashYearLayer.lineDashPattern = @[@1, @1];
-        self.dashYearLayer.path = linePathYear.CGPath;
-        self.dashYearLayer.fillColor = nil;
-        self.dashYearLayer.strokeColor = [UIColor colorFromHexString:@"#b3b3b3"].CGColor;
+        
+        [linePathMonthUp moveToPoint:CGPointMake(_relateFrame.yearPoint.x,_relateFrame.yearPoint.y + 2)];
+        [linePathMonthUp addLineToPoint:CGPointMake(_relateFrame.yearPoint.x, _relateFrame.monthDayPoint.y - 2)];
+    
+        [linePathYearDown moveToPoint:CGPointMake(_relateFrame.yearPoint.x,_relateFrame.yearPoint.y + 2)];
+        [linePathYearDown addLineToPoint:CGPointMake(_relateFrame.yearPoint.x, _relateFrame.monthDayPoint.y - 2)];
         
         
     } else {
@@ -176,21 +216,56 @@
         self.yearLabel.hidden = YES;
         self.yearLayer.hidden = YES;
         self.monthDayLabel.text = point.updateTime;
+        self.dashYearLayerUp.hidden = YES;
+        self.dashYearLayerDown.hidden = YES;
+        
         
         if (_relateFrame.currentRowIndex != 0) {
-            [linePathMonth moveToPoint:CGPointMake(_relateFrame.monthDayPoint.x, 0)];
-            [linePathMonth addLineToPoint:CGPointMake(_relateFrame.monthDayPoint.x, _relateFrame.monthDayPoint.y - 2)];
+           self.dashMonthLayerUp.hidden = NO;
+            [linePathMonthUp moveToPoint:CGPointMake(_relateFrame.monthDayPoint.x, 0)];
+            [linePathMonthUp addLineToPoint:CGPointMake(_relateFrame.monthDayPoint.x, _relateFrame.monthDayPoint.y - 2)];
+        } else {
+            self.dashMonthLayerUp.hidden = YES;
         }
     }
+ 
     
-    [linePathMonth moveToPoint:CGPointMake(_relateFrame.monthDayPoint.x, _relateFrame.monthDayPoint.y + 2)];
-    [linePathMonth addLineToPoint:CGPointMake(_relateFrame.monthDayPoint.x, _relateFrame.cellHeight)];
+    if (_relateFrame.currentRowIndex == _relateFrame.totalCount - 1) {
+        [linePathMonthDown moveToPoint:CGPointMake(_relateFrame.monthDayPoint.x, _relateFrame.monthDayPoint.y + 2)];
+        [linePathMonthDown addLineToPoint:CGPointMake(_relateFrame.monthDayPoint.x, CGRectGetMaxY(_relateFrame.sourceSiteF))];
+    } else {
+        [linePathMonthDown moveToPoint:CGPointMake(_relateFrame.monthDayPoint.x, _relateFrame.monthDayPoint.y + 2)];
+        [linePathMonthDown addLineToPoint:CGPointMake(_relateFrame.monthDayPoint.x, _relateFrame.cellHeight)];
+    }
     
-    self.dashMonthLayer.lineWidth = 1.0;
-    self.dashMonthLayer.lineDashPattern = @[@1, @1];
-    self.dashMonthLayer.path = linePathMonth.CGPath;
-    self.dashMonthLayer.fillColor = nil;
-    self.dashMonthLayer.strokeColor = [UIColor colorFromHexString:@"#b3b3b3"].CGColor;
+    
+    
+    self.dashMonthLayerUp.lineWidth = 1.0;
+    self.dashMonthLayerUp.lineDashPattern = @[@1, @1];
+    self.dashMonthLayerUp.path = linePathMonthUp.CGPath;
+    self.dashMonthLayerUp.fillColor = nil;
+    self.dashMonthLayerUp.strokeColor = [UIColor colorFromHexString:@"#b3b3b3"].CGColor;
+    
+    
+    self.dashYearLayerUp.lineWidth = 1.0;
+    self.dashYearLayerUp.lineDashPattern = @[@1, @1];
+    self.dashYearLayerUp.path = linePathYearUp.CGPath;
+    self.dashYearLayerUp.fillColor = nil;
+    self.dashYearLayerUp.strokeColor = [UIColor colorFromHexString:@"#b3b3b3"].CGColor;
+    
+    
+    self.dashMonthLayerDown.lineWidth = 1.0;
+    self.dashMonthLayerDown.lineDashPattern = @[@1, @1];
+    self.dashMonthLayerDown.path = linePathMonthDown.CGPath;
+    self.dashMonthLayerDown.fillColor = nil;
+    self.dashMonthLayerDown.strokeColor = [UIColor colorFromHexString:@"#b3b3b3"].CGColor;
+    
+    self.dashYearLayerDown.lineWidth = 1.0;
+    self.dashYearLayerDown.lineDashPattern = @[@1, @1];
+    self.dashYearLayerDown.path = linePathYearDown.CGPath;
+    self.dashYearLayerDown.fillColor = nil;
+    self.dashYearLayerDown.strokeColor = [UIColor colorFromHexString:@"#b3b3b3"].CGColor;
+
     
     // 月份
     UIBezierPath *monthDayPath = [UIBezierPath bezierPathWithArcCenter:_relateFrame.monthDayPoint
@@ -205,7 +280,7 @@
     self.cellView.frame = _relateFrame.cellViewF;
     
     self.titleLabel.frame = _relateFrame.titleF;
-    self.titleLabel.attributedText = point.titleString;
+    self.titleLabel.attributedText = point.titleHtmlString;
     
     self.sourceLabel.frame = _relateFrame.sourceSiteF;
     self.sourceLabel.text = point.sourceSite;

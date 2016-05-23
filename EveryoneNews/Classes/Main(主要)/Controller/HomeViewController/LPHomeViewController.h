@@ -56,16 +56,11 @@
 @property (nonatomic , strong) UIView *blurView;
 // 频道栏向上箭头
 @property (nonatomic, strong) UIButton *hideChannelItemButton;
-// 正在加载视图
-@property (nonatomic, strong) UIView *contentLoadingView;
-// 首页动画UIImageView
-@property (nonatomic, strong) UIImageView *animationImageView;
-// 正在加载文字提示
-@property (nonatomic, strong) UILabel *loadingLabel;
+
 // Launch View
 @property (nonatomic, strong) LPLaunchLoginView *loginView;
 // 首页第一次进入遮罩层
-@property (nonatomic, strong) UIView *homeBlurView;
+@property (nonatomic, strong) UIView *homeBlackBlurView;
 // 有新频道提示框
 @property (nonatomic, strong) UIImageView *channelBarImageView;
 // 调整文字提示框
@@ -78,7 +73,8 @@
 // 删除时传递参数
 @property (nonatomic, strong) LPPagingViewPage *currentPage;
 @property (nonatomic, strong) CardFrame *currentCardFrame;
-@property (nonatomic, strong) NSIndexPath *currentIndexPath;
+
+@property (nonatomic, strong) UIWindow *statusWindow;
 
 
 @end

@@ -134,6 +134,10 @@ static const NSInteger kNavBarTag = 10000;
     CGFloat kNavigationBarHEIGHT = 51.f;
     if (iPhone6Plus) {
         kNavigationBarHEIGHT = 44.f;
+    } else if (iPhone5) {
+        kNavigationBarHEIGHT = 44.0f;
+    } else if (iPhone6) {
+        kNavigationBarHEIGHT = 51.0f;
     }
     
     UINavigationBar *navBar = (UINavigationBar *)[self.view viewWithTag:kNavBarTag];
@@ -322,9 +326,11 @@ static const NSInteger kNavBarTag = 10000;
 - (void)backImageItem{
     
     CGFloat kNavigationBarHEIGHT = 51.f;
-    if (iPhone6Plus) {
+    if (iPhone6Plus || iPhone5) {
         kNavigationBarHEIGHT = 44.f;
     }
+    
+    NSLog(@"%f",kNavigationBarHEIGHT);
     
     self.navItem.hidesBackButton = YES;
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -367,9 +373,20 @@ static const NSInteger kNavBarTag = 10000;
     [btn setImage:image forState:UIControlStateNormal];
     [btn setTitleColor:[UIColor colorWithDesignIndex:1] forState:UIControlStateNormal];
     [btn setTitle:title forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont boldSystemFontOfSize:36.f/2];
     
-    CGSize textSize = [[NSAttributedString alloc] initWithString:title attributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:36.f/2]}].size;
+    CGFloat textFontSize = 18.0f;
+    
+    btn.titleLabel.font = [UIFont systemFontOfSize:textFontSize];
+    
+    CGSize textSize = [title sizeWithFont:[UIFont systemFontOfSize:textFontSize] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)];
+    
+    
+//    btn.titleLabel.font = [UIFont boldSystemFontOfSize:36.f/2];
+    
+//    CGSize textSize = [[NSAttributedString alloc] initWithString:title attributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:36.f/2]}].size;
+    
+    
+    
     CGFloat btnWidth = (textSize.width +image.size.width+0.f);
     if (btnWidth > kApplecationScreenWidth/2) {
         btnWidth = kApplecationScreenWidth/2;
@@ -382,6 +399,9 @@ static const NSInteger kNavBarTag = 10000;
     
     
     btn.frame = CGRectMake(0, 0, btnWidth, 44.f);
+    
+   
+    
     [btn addTarget:self action:@selector(doBackAction:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithCustomView:btn];
     //设置一个空位置使得左上角的btn与右边距没有过大的间距
@@ -390,6 +410,8 @@ static const NSInteger kNavBarTag = 10000;
                                        target:nil action:nil];
     negativeSpacer.width = -5;
     self.navItem.leftBarButtonItems = @[negativeSpacer,backItem];
+    
+    
     
 }
 

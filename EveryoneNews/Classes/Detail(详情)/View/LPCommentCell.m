@@ -19,7 +19,7 @@
 @property (nonatomic, strong) UILabel *timeLabel;
 @property (nonatomic, strong) UILabel  *commentLabel;
 @property (nonatomic, strong) UILabel *upCountLabel;
-@property (nonatomic, strong) UIButton *upButton;
+
 
 @property (nonatomic, strong) CAShapeLayer *lineLayer;
 
@@ -40,6 +40,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
        self.backgroundColor = [UIColor colorFromHexString:LPColor9];
+        
         self.selectionStyle = UITableViewCellSelectionStyleNone;
         
         UIImageView *iconImageView = [[UIImageView alloc] init];
@@ -76,6 +77,8 @@
         
         UIButton *upButton = [[UIButton alloc] init];
         [self addSubview:upButton];
+        [upButton addTarget:self action:@selector(upButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
+        upButton.enlargedEdge = 10;
         self.upButton = upButton;
         
         CAShapeLayer *lineLayer= [CAShapeLayer layer];
@@ -106,7 +109,8 @@
     self.iconImageView.layer.masksToBounds = YES;
     
     self.nameLabel.frame = self.commentFrame.nameF;
-    self.nameLabel.text = comment.userName;
+    self.nameLabel.text = [comment.userName isEqualToString: @""] ? @"匿名": comment.userName;
+    
     
     self.timeLabel.frame = self.commentFrame.timeF;
     self.timeLabel.text = comment.createTime;
@@ -139,6 +143,13 @@
         self.lineLayer.fillColor = nil;
         self.lineLayer.lineWidth = 1.0f;
         self.lineLayer.strokeColor = [UIColor colorFromHexString:LPColor5].CGColor;
+    }
+}
+
+#pragma mark - 精选评论点赞
+- (void)upButtonDidClick {
+    if ([self.delegate respondsToSelector:@selector(excellentCommentCell:commentFrame:)]) {
+        [self.delegate excellentCommentCell:self commentFrame:self.commentFrame];
     }
 }
 

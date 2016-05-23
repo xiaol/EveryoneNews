@@ -25,5 +25,7 @@
 @property (nonatomic, assign) CGFloat cellHeight;
 @property (nonatomic, assign) CGRect cellViewF;
 @property (nonatomic, assign) NSInteger currentRowIndex;
+@property (nonatomic, assign) NSInteger totalCount;
+@property (nonatomic, assign) BOOL googleSourceExistsInRelatePoint;
 
 @end

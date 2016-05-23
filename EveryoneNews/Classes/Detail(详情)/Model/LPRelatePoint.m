@@ -17,4 +17,16 @@
 - (NSMutableAttributedString *)sourceString {
    return [_sourceSite attributedStringWithFont:[UIFont systemFontOfSize:LPFont7] color:[UIColor colorFromHexString:LPColor4] lineSpacing:0];
 }
+
+- (NSMutableAttributedString *)titleHtmlString {
+    NSMutableAttributedString *mutableAttributeString = [[NSMutableAttributedString alloc] initWithData:[self.title  dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType}
+                                                                                     documentAttributes:nil error:nil];
+    return mutableAttributeString;
+}
+
+- (NSString *)title {
+    CGFloat fontSize = [LPFontSizeManager sharedManager].currentDetailRelatePointFontSize ;
+    return [NSString stringWithFormat:@"<style> body{ font-size:%fpx; text-align:justify;  }</style> %@ ",
+            [UIFont systemFontOfSize:fontSize].pointSize, _title];
+}
 @end

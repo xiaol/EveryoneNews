@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
     </dependencies>
     <scenes>
         <!--Collection View Controller-->
@@ -32,8 +32,8 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vpH-sY-Lhp">
                                         <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DUq-tb-b5x">
-                                                <rect key="frame" x="8" y="11" width="93" height="23"/>
+                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DUq-tb-b5x">
+                                                <rect key="frame" x="8" y="12" width="93" height="22"/>
                                                 <state key="normal" title="                 " image="BackArrow_black"/>
                                                 <connections>
                                                     <action selector="PopViewController:" destination="1wO-ev-lfF" eventType="touchUpInside" id="XNB-UH-Ji4"/>
@@ -139,7 +139,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="BackArrow_black" width="13" height="23"/>
+        <image name="BackArrow_black" width="13" height="22"/>
         <image name="LP_construction" width="54" height="51"/>
     </resources>
 </document>

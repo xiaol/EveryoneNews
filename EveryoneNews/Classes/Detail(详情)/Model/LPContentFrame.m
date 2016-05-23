@@ -20,6 +20,8 @@
         bodyPadding = 15;
     } else if (iPhone5) {
         bodyPadding = 10;
+    } else if (iPhone6) {
+        bodyPadding = 13;
     }
     _content = content;
     if (!_content.isPhoto) { // 普通类型(非图)g
@@ -56,6 +58,8 @@
         bodyPadding = 19;
     } else if (iPhone5) {
         bodyPadding = 15;
+    } else if (iPhone6) {
+        bodyPadding = 18;
     }
     CGFloat photoX = bodyPadding;
     CGFloat photoY = 0;

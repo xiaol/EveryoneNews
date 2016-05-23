@@ -54,10 +54,20 @@
         unloginBtnX = 15.0f;
         unloginBtnW = 16.0f;
         unloginBtnH = 16.0f;
+    } else if (iPhone6) {
+        menuViewHeight = 52;
+        unloginBtnW = 18.0f;
+        unloginBtnH = 18.0f;
+        unloginBtnX = 17.0f;
     }
     
     
     CGFloat unloginBtnY = (menuViewHeight - unloginBtnH) / 2 + statusBarHeight;
+    
+    if (iPhone6) {
+        unloginBtnY = unloginBtnY - 0.5;
+    }
+    
     // 用户未登录直接显示未登录图标
     if (account == nil) {
         self.loginBtn.layer.cornerRadius = 0;
@@ -83,6 +93,11 @@
                     loginBtnX = 10.0f;
                     loginBtnW = 25;
                     loginBtnH = 25;
+                } else if (iPhone6) {
+                    loginBtnX = 12.0f;
+                    loginBtnW = 29;
+                    loginBtnH = 29;
+                    menuViewHeight = 52;
                 }
             CGFloat loginBtnY = (menuViewHeight - loginBtnH) / 2 + statusBarHeight;
                 
@@ -116,28 +131,21 @@
 #pragma mark - LPLaunchLoginView Delegate
 - (void)didCloseLoginView:(LPLaunchLoginView *)loginView {
     self.loginView.hidden = YES;
-    [self setHomeBlurViewFrame];
+    self.homeBlackBlurView.hidden = NO;
 }
 
 // 微信登录
 - (void)didWeixinLoginWithLoginView:(LPLaunchLoginView *)loginView {
 
     [self loginWithPlatformName:UMShareToWechatSession];
-     [self setHomeBlurViewFrame];
+ 
 }
 
 // 新浪登录
 - (void)didSinaLoginWithLoginView:(LPLaunchLoginView *)loginView {
     [self loginWithPlatformName:UMShareToSina];
-    [self setHomeBlurViewFrame];
 }
 
-
-- (void)setHomeBlurViewFrame {
-    CGFloat changeFontSizeViewH = 150;
-    self.homeBlurView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight - changeFontSizeViewH);
-  
-}
 
 
 #pragma mark - 登录微信微博平台
@@ -159,14 +167,15 @@
             dict[@"deviceType"] = @"ios";
             dict[@"token"] = accountEntity.accessToken;
             dict[@"expiresTime"] = @([NSDate dateToMilliSeconds:accountEntity.expirationDate]);
+            dict[@"uniqueDeviceID"] = [userDefaults objectForKey:@"uniqueDeviceID"];
             Account *account = [Account objectWithKeyValues:dict];
             [AccountTool saveAccount:account];
             //将用户授权信息上传到服务器
             NSDictionary *params = [NSDictionary dictionary];
             params = account.keyValues;
             [LPHttpTool getWithURL:AccountLoginUrl params:params success:^(id json) {
-                [AccountTool saveAccount:account];
                 self.loginView.hidden = YES;
+                self.homeBlackBlurView.hidden = NO;
                 [self displayLoginBtnIconWithAccount:[AccountTool account]];
                 
             } failure:^(NSError *error) {

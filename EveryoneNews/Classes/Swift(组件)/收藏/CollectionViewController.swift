@@ -67,8 +67,8 @@ class CollectionViewController:UIViewController{
     override func viewDidLoad() {
         
         super.viewDidLoad()
-       // NSNotificationCenter.defaultCenter().addObserver(self, selector: , name: <#T##String?#>, object: <#T##AnyObject?#>)
-//        NSNotificationCenter .defaultCenter().addObserver(self, selector:,, #selector(CollectionViewController.UserCollectionedChangeer(_:)), name: "UserCollectionedChangeer", object: nil) // 注册一个当数据库某个对象的收藏属性发生变化的监听者
+   
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "UserCollectionedChangeer:", name: "UserCollectionedChangeer", object: nil)// 注册一个当数据库某个对象的收藏属性发生变化的监听者
         
         self.reloadTableViewDataSource()
         self.tableView.reloadData()
@@ -200,11 +200,16 @@ extension CollectionViewController{
             
             let card = dataSource[indexPath.row].card
             
-            let cardd = try! self.importContext.existingObjectWithID(card.objectID) as! Card
+            card.isCollected = NSNumber(integer: 0)
             
-            cardd.isCollected = NSNumber(integer: 0)
+            Card.updateCard(card)
+            //card.updateCard(card)
             
-            try! self.importContext.save()
+//            let cardd = try! self.importContext.existingObjectWithID(card.objectID) as! Card
+//            
+//            cardd.isCollected = NSNumber(integer: 0)
+//            
+//            try! self.importContext.save()
             
             self.reloadTableViewDataSource()
             

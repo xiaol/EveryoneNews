@@ -108,27 +108,27 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     // iOS平台数据发送策略包括BATCH（启动时发送）和SEND_INTERVAL（按间隔发送）两种，友盟默认使用启动时发送（更省流量），您可以在代码reportPolicy:BATCH中更改发送策略。
     [MobClick startWithAppkey:@"558b2ec267e58e64a00009db" reportPolicy:BATCH channelId:@""];
     
-    // 添加友盟推送
-    [UMessage startWithAppkey:@"558b2ec267e58e64a00009db" launchOptions:launchOptions];
-    UIMutableUserNotificationAction *action1 = [[UIMutableUserNotificationAction alloc] init];
-    action1.identifier = @"action1_identifier";
-    action1.title = @"Accept";
-    action1.activationMode = UIUserNotificationActivationModeForeground;//当点击的时候启动程序
+//    // 添加友盟推送
+//    [UMessage startWithAppkey:@"558b2ec267e58e64a00009db" launchOptions:launchOptions];
+//    UIMutableUserNotificationAction *action1 = [[UIMutableUserNotificationAction alloc] init];
+//    action1.identifier = @"action1_identifier";
+//    action1.title = @"Accept";
+//    action1.activationMode = UIUserNotificationActivationModeForeground;//当点击的时候启动程序
+//    
+//    UIMutableUserNotificationAction *action2 = [[UIMutableUserNotificationAction alloc] init];  //第二按钮
+//    action2.identifier = @"action2_identifier";
+//    action2.title = @"Reject";
+//    action2.activationMode = UIUserNotificationActivationModeBackground;//当点击的时候不启动程序，在后台处理
+//    action2.authenticationRequired = YES;//需要解锁才能处理，如果action.activationMode = UIUserNotificationActivationModeForeground;则这个属性被忽略；
+//    action2.destructive = YES;
+//    
+//    UIMutableUserNotificationCategory *categorys = [[UIMutableUserNotificationCategory alloc] init];
+//    categorys.identifier = @"category1";//这组动作的唯一标示
+//    [categorys setActions:@[action1,action2] forContext:(UIUserNotificationActionContextDefault)];
     
-    UIMutableUserNotificationAction *action2 = [[UIMutableUserNotificationAction alloc] init];  //第二按钮
-    action2.identifier = @"action2_identifier";
-    action2.title = @"Reject";
-    action2.activationMode = UIUserNotificationActivationModeBackground;//当点击的时候不启动程序，在后台处理
-    action2.authenticationRequired = YES;//需要解锁才能处理，如果action.activationMode = UIUserNotificationActivationModeForeground;则这个属性被忽略；
-    action2.destructive = YES;
-    
-    UIMutableUserNotificationCategory *categorys = [[UIMutableUserNotificationCategory alloc] init];
-    categorys.identifier = @"category1";//这组动作的唯一标示
-    [categorys setActions:@[action1,action2] forContext:(UIUserNotificationActionContextDefault)];
-    
-    UIUserNotificationSettings *userSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge|UIUserNotificationTypeSound|UIUserNotificationTypeAlert
-                                                                                 categories:[NSSet setWithObject:categorys]];
-    [UMessage registerRemoteNotificationAndUserNotificationSettings:userSettings];
+//    UIUserNotificationSettings *userSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge|UIUserNotificationTypeSound|UIUserNotificationTypeAlert
+//                                                                                 categories:[NSSet setWithObject:categorys]];
+//    [UMessage registerRemoteNotificationAndUserNotificationSettings:userSettings];
     
   
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -213,7 +213,7 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
 //                 stringByReplacingOccurrencesOfString: @" " withString: @""]);
     
     
-    [UMessage registerDeviceToken:deviceToken];
+//    [UMessage registerDeviceToken:deviceToken];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo

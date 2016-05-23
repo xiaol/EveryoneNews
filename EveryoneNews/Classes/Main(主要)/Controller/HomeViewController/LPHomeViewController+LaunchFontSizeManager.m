@@ -30,10 +30,12 @@
 }
 
 - (void)finishButtonDidClick:(LPChangeFontSizeView *)changeFontSizeView {
-    self.homeBlurView.hidden = YES;
-    self.channelBarImageView.hidden = YES;
-    self.changeFontSizeTipImageView.hidden = YES;
-    self.changeFontSizeView.hidden = YES;
+//    self.homeBlurView.hidden = YES;
+//    self.channelBarImageView.hidden = YES;
+//    self.changeFontSizeTipImageView.hidden = YES;
+//    self.changeFontSizeView.hidden = YES;
+    [self.homeBlackBlurView removeFromSuperview];
+    
     // 保存字体大小
     [[LPFontSizeManager sharedManager] saveHomeViewFontSizeAndType];
 }

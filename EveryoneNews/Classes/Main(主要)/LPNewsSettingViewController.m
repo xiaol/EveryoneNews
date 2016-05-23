@@ -71,7 +71,7 @@ static NSString * const kCellIdentify = @"JoySettingCell";
     [self.tableView mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         make.top.equalTo(strongSelf.view.mas_top).with.offset(7);
-        if (iPhone6Plus) {
+        if (iPhone6Plus || iPhone5) {
             make.top.equalTo(strongSelf.view.mas_top).with.offset(0);
         }
         
@@ -141,6 +141,12 @@ static NSString * const kCellIdentify = @"JoySettingCell";
 #pragma mark- UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    CGFloat kSetingCellHeight = 44.0f;
+    
+    if (iPhone6) {
+        kSetingCellHeight = 51.0f;
+    }
+    
     if (indexPath.section == 0 && indexPath.row == 1) {
        
         return kSetingCellHeight+22.f;

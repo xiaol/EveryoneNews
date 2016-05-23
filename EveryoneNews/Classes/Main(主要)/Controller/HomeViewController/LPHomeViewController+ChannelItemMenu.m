@@ -447,8 +447,8 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
         height = 24;
         width = 52;
     } else if (iPhone6) {
-        height = 24;
-        width = 52;
+        height = 28;
+        width = 59;
     } else if (iPhone5) {
         height = 24;
         width = 52;

@@ -85,7 +85,21 @@
     
     [noteCenter addObserver:self selector:@selector(refreshTableViewFontSize) name:LPFontSizeChangedNotification object:nil];
     [noteCenter addObserver:self selector:@selector(reloadCurrentPageIndexData) name:LPDeleteCoreDataNotification object:nil];
+    
+   // [self checkForScrollViewInView:self.view];
 }
+
+- (void)checkForScrollViewInView:(UIView *)view {
+    for (UIView *subview in [view subviews]) {
+        if ([subview isKindOfClass:[UIScrollView class]]) {
+            NSLog(@"scrollsToTop enabled: %i in scroll view %@", ((UIScrollView *)subview).scrollsToTop, subview);
+        }
+        if (subview.subviews.count > 0) {
+            [self checkForScrollViewInView:subview];
+        }
+    }
+}
+
 
 #pragma mark - 清理缓存后重新加载页面
 - (void)reloadCurrentPageIndexData {

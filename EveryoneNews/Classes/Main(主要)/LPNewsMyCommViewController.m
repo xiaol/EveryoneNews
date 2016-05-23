@@ -193,7 +193,7 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
 - (void)addNavBarView{
     
     CGFloat kNavigationBarHEIGHT = 51.f;
-    if (iPhone6Plus) {
+    if (iPhone6Plus || iPhone5) {
         kNavigationBarHEIGHT = 44.f;
     }
     
@@ -314,7 +314,7 @@ static NSString *const kHeaderViewIdentify = @"LPNewsMineHeadViewIdentify";
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     CGFloat kNavigationBarHEIGHT = 51.f;
-    if (iPhone6Plus) {
+    if (iPhone6Plus || iPhone5) {
         kNavigationBarHEIGHT = 44.f;
     }
     

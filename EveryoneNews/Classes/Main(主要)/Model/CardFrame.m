@@ -29,25 +29,28 @@
 }
 
 - (void)setCard:(Card *)card {
-   CGFloat PaddingHorizontal = 10;
-    if (iPhone6Plus) {
-        PaddingHorizontal = 15;
-    } else if (iPhone5) {
-        PaddingHorizontal = 10;
-    }
     
+    CGFloat PaddingHorizontal = 10;
     CGFloat sourceFontSize = 10;
-    if (iPhone6) {
-        sourceFontSize = 9;
-    } else if (iPhone6Plus) {
-        sourceFontSize = 10;
-    }
-    
     CGFloat paddingVertical = 11;
-    if (iPhone6Plus) {
-        paddingVertical = 10;
-    }
     
+    if (iPhone6Plus) {
+        
+        PaddingHorizontal = 15;
+        sourceFontSize = 10;
+        paddingVertical = 10;
+        
+    } else if (iPhone5) {
+        
+        PaddingHorizontal = 10;
+        
+    } else if (iPhone6) {
+        
+        PaddingHorizontal = 12;
+        sourceFontSize = 11;
+        
+    }
+
     self.homeViewFontSize = [LPFontSizeManager sharedManager].currentHomeViewFontSize;
     CGFloat titleFontSize =  self.homeViewFontSize;
 
@@ -84,15 +87,10 @@
              titlePaddingTop = 11;
         } else if (iPhone6Plus) {
             titlePaddingTop = 10;
+        } else if (iPhone6) {
+            titlePaddingTop = 12;
         }
         
-        
-        
-        
-//        if (iPhone5) {
-//            paddingVertical = 11;
-//        }
-//   
         _noImageTipButtonFrame = CGRectMake(tipButtonX, tipButtonY, tipButtonW, tipButtonH);
         
         
@@ -112,13 +110,21 @@
             sourcePaddingTop = 11;
         } else if (iPhone5) {
             sourcePaddingTop = 10;
+        } else if (iPhone6) {
+            sourcePaddingTop = 11;
         }
         
         CGFloat sourceSiteNameY = CGRectGetMaxY(_noImageLabelFrame) + sourcePaddingTop;
         
         _noImageSourceLabelFrame = CGRectMake(PaddingHorizontal, sourceSiteNameY, titleW, sourceSiteNameH);
         
+        if (iPhone6) {
+            paddingBottom = 15.5f;
+        }
+        
         CGFloat noImageSeperatorLineY = CGRectGetMaxY(_noImageSourceLabelFrame) + paddingBottom;
+        
+       
         
         _noImageSeperatorLineFrame = CGRectMake(0, noImageSeperatorLineY, ScreenWidth, 0.5);
         
@@ -145,14 +151,10 @@
              paddingVertical = 13;
         } else if (iPhone5) {
             paddingVertical = 13;
+        } else if (iPhone6) {
+            paddingVertical = 15;
         }
-        
-//        CGFloat titlePaddingTop = 11;
-//        if (iPhone5) {
-//            titlePaddingTop = 9.5f;
-//        } else if (iPhone6Plus) {
-//            titlePaddingTop = 13;
-//        }
+
         
         _singleTipButtonFrame = CGRectMake(tipButtonX, tipButtonY, tipButtonW, tipButtonH);
         
@@ -171,74 +173,56 @@
         // 图片
         CGFloat imageX = ScreenWidth - PaddingHorizontal - imageW;
         CGFloat imageY =   CGRectGetMaxY(_singleTipButtonFrame) + paddingVertical;
+        
+        
+        
         CGFloat imageH = 76 * imageW / 114;
         
         // 图片高度
         _singleImageImageViewFrame = CGRectMake(imageX, imageY, imageW, imageH);
         // 新闻来源高度
         CGFloat sourceSiteNameH = [sourceSiteName sizeWithFont:[UIFont systemFontOfSize:sourceFontSize] maxSize:CGSizeMake(titleW, MAXFLOAT)].height;
-        
-        // 判断图片和标题+来源高度
+  
+
         CGFloat sourcePaddingTop1 = 10.0f;
-        CGFloat titlePaddingTop = 6;
-        
-        if (iPhone5) {
-            titlePaddingTop = 6;
-        } else if (iPhone6Plus) {
-            titlePaddingTop = 9;
-        }
-        
+
         if (iPhone6Plus) {
             sourcePaddingTop1 = 20.0f;
         } else if (iPhone5) {
-            sourcePaddingTop1 = 10.0f;
+            sourcePaddingTop1 = 5.0f;
+        } else if (iPhone6) {
+            sourcePaddingTop1 = 16;
         }
         
-        CGFloat titleY = 0.0f;
-        CGFloat sourceSiteNameY = 0.0f;
-        if (titleH + sourceSiteNameH + sourcePaddingTop1 > imageH) {
-            
-            if (iPhone6Plus) {
-                sourcePaddingTop1 = 18;
-            } else if (iPhone5) {
-                sourcePaddingTop1 = 10;
-            }
-            
-            titleY =  CGRectGetMaxY(_singleTipButtonFrame) + titlePaddingTop;
-            
+        CGFloat titleY = CGRectGetMaxY(_singleTipButtonFrame) + paddingVertical - lineSpacing;
+        // 判断图片和标题+来源高度
+        if ((titleH - lineSpacing * 2 + sourceSiteNameH + sourcePaddingTop1 )> imageH) {
+            titleY =  CGRectGetMaxY(_singleTipButtonFrame) + paddingVertical - lineSpacing;
             
         } else {
-            titleY = (imageH - (titleH + sourceSiteNameH + sourcePaddingTop1) ) / 2 +  CGRectGetMaxY(_singleTipButtonFrame)  + paddingVertical;
+            titleY =  CGRectGetMaxY(_singleTipButtonFrame) + paddingVertical + (imageH - (titleH + lineSpacing  + sourceSiteNameH + sourcePaddingTop1)) / 2 ;
+
         }
         
         _singleImageTitleLabelFrame = CGRectMake(titleX, titleY, titleW, titleH);
-        
-        sourceSiteNameY = CGRectGetMaxY(_singleImageTitleLabelFrame) + sourcePaddingTop1;
-        
+         CGFloat sourceSiteNameY = CGRectGetMaxY(_singleImageTitleLabelFrame) + sourcePaddingTop1;
         _singleImageSourceLabelFrame = CGRectMake(titleX, sourceSiteNameY, titleW, sourceSiteNameH);
-        
         CGFloat singleImageSeperatorLineY = 0.f;
+
+        CGFloat deleteButtonY = sourceSiteNameY ;
         
-        CGFloat deleteButtonPaddingTop = 0;
-        
-        if (iPhone6Plus) {
-            deleteButtonPaddingTop = 0;
-        } else if (iPhone5) {
-            deleteButtonPaddingTop = 0;
-        }
-        
-        CGFloat deleteButtonY = sourceSiteNameY + deleteButtonPaddingTop;
-        if ( titleH + sourceSiteNameH  > imageH) {
+        if ( (titleH - lineSpacing * 2) + sourceSiteNameH + sourcePaddingTop1 > imageH) {
             CGFloat deleteButtonX = ScreenWidth - PaddingHorizontal - deleteButtonW;
             _singleImageDeleteButtonFrame = CGRectMake(deleteButtonX, deleteButtonY, deleteButtonW, deleteButtonH);
-            
             singleImageSeperatorLineY = CGRectGetMaxY(_singleImageSourceLabelFrame) + paddingBottom;
+            
         } else {
-            CGFloat deleteButtonX = ScreenWidth - PaddingHorizontal - deleteButtonW - 13 - imageW;
+            CGFloat deleteButtonX = ScreenWidth - PaddingHorizontal - deleteButtonW - PaddingHorizontal - imageW;
             
             _singleImageDeleteButtonFrame = CGRectMake(deleteButtonX, deleteButtonY, deleteButtonW, deleteButtonH);
+      
             singleImageSeperatorLineY = CGRectGetMaxY(_singleImageImageViewFrame)+ paddingBottom;
-          
+        
         }
         _singleImageSeperatorLineFrame = CGRectMake(0, singleImageSeperatorLineY, ScreenWidth, 0.5);
         
@@ -259,6 +243,9 @@
         NSMutableAttributedString *attrStr =  [title attributedStringWithFont:[UIFont systemFontOfSize:titleFontSize] lineSpacing:lineSpacing];
         CGRect rect = [attrStr boundingRectWithSize:CGSizeMake(titleW, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
         CGFloat titleH = rect.size.height;
+        
+
+        
         _multipleImageTitleLabelFrame = CGRectMake(PaddingHorizontal,   CGRectGetMaxY(_mutipleTipButtonFrame) + paddingVertical, titleW, titleH);
         
         CGFloat imageY =   CGRectGetMaxY(_mutipleTipButtonFrame) + titleH + 3 + paddingVertical;
@@ -276,6 +263,8 @@
             sourcePaddingTop = 4;
         } else if(iPhone6Plus){
             sourcePaddingTop = 5;
+        } else if (iPhone6) {
+            sourcePaddingTop = 6;
         }
         
         CGFloat sourceSiteNameY = CGRectGetMaxY(_multipleImageViewFrame) + sourcePaddingTop;
@@ -285,21 +274,19 @@
         
         CGFloat deleteButtonX = ScreenWidth - PaddingHorizontal - deleteButtonW;
         
-        CGFloat deleteButtonPaddingTop = 0;
+
         
-        if (iPhone6Plus) {
-            deleteButtonPaddingTop = 0;
-        } else if (iPhone5) {
-            deleteButtonPaddingTop = 0;
-        }
-        
-        CGFloat deleteButtonY = sourceSiteNameY + deleteButtonPaddingTop;
+        CGFloat deleteButtonY = sourceSiteNameY ;
         _mutipleImageDeleteButtonFrame = CGRectMake(deleteButtonX, deleteButtonY, deleteButtonW, deleteButtonH);
-        
-        
         _mutipleImageCommentLabelFrame = CGRectMake(CGRectGetMinX(_mutipleImageDeleteButtonFrame) - commentLabelW - commentLabelPaddingRight, sourceSiteNameY, commentLabelW, sourceSiteNameH);
+        
+        if (iPhone6) {
+            paddingBottom = 15;
+        }
         // 分割线
          CGFloat mutipleImageSeperatorLineY = CGRectGetMaxY(_multipleImageSourceLabelFrame)+ paddingBottom;
+        
+    
         _mutipleImageSeperatorLineFrame = CGRectMake(0, mutipleImageSeperatorLineY, ScreenWidth, 0.5);
         
         _cellHeight = CGRectGetMaxY(_mutipleImageSeperatorLineFrame);
