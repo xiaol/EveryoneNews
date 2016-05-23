@@ -7,9 +7,7 @@
 //
 
 import UIKit
-import RealmSwift
-import AFDateHelper
-import SwaggerClient
+import MJRefresh
 import PINRemoteImage
 import XLPagerTabStrip
 
@@ -19,16 +17,26 @@ extension NewslistViewController:IndicatorInfoProvider{
         
         super.viewDidLoad()
         
+        let header = MJRefreshNormalHeader(refreshingBlock: {
+            
+            if let channelId = self.channel?.id {
+                
+                NewsUtil.RefreshChannleObjects(channelId, finish: {
+                    
+                    self.tableView.mj_header.endRefreshing()
+                    
+                    self.tableView.reloadData()
+                })
+            }
+        })
+        
+        header.lastUpdatedTimeLabel.hidden = true
+        header.stateLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleSubheadline)
+        
+        self.tableView.mj_header = header
+        
         self.tableView.layoutMargins = UIEdgeInsetsZero
         self.tableView.separatorInset = UIEdgeInsetsZero
-        
-        if let channelId = self.channel?.id {
-            
-            NewsUtil.RefreshChannleObjects(channelId, finish: {
-                
-                self.tableView.reloadData()
-            })
-        }
         
         self.TextForChangehandleMethod()
     }

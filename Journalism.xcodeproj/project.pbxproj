@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6D7893161CF15DC5004EAC89 /* DetailAndCommitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7893151CF15DC5004EAC89 /* DetailAndCommitViewController.swift */; };
-		6D78931A1CF15E0D004EAC89 /* CommitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D7893191CF15E0D004EAC89 /* CommitViewController.swift */; };
-		6D78931C1CF15E31004EAC89 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D78931B1CF15E31004EAC89 /* DetailViewController.swift */; };
 		6DC4FDCB1CF0314700D25A99 /* HomeViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDC01CF0314700D25A99 /* HomeViewControllerExtension.swift */; };
 		6DC4FDCC1CF0314700D25A99 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDC11CF0314700D25A99 /* HomeViewController.swift */; };
 		6DC4FDCD1CF0314700D25A99 /* NewBaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDC41CF0314700D25A99 /* NewBaseTableViewCell.swift */; };
@@ -19,6 +16,12 @@
 		6DC4FDD61CF031E000D25A99 /* HomeViewControllerChannelDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDD31CF031E000D25A99 /* HomeViewControllerChannelDataSource.swift */; };
 		6DC4FDD71CF031E000D25A99 /* KDRearrangeableCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDD41CF031E000D25A99 /* KDRearrangeableCollectionViewFlowLayout.swift */; };
 		994B705F63994332F79B2AA5 /* Pods_Journalism.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68B44A9454D029CD2156A30 /* Pods_Journalism.framework */; };
+		AE0FE51D1CF2AB90007DA198 /* CommitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0FE5191CF2AB90007DA198 /* CommitViewController.swift */; };
+		AE0FE51E1CF2AB90007DA198 /* DetailAndCommitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0FE51A1CF2AB90007DA198 /* DetailAndCommitViewController.swift */; };
+		AE0FE51F1CF2AB90007DA198 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0FE51C1CF2AB90007DA198 /* DetailViewController.swift */; };
+		AE0FE5221CF2AC5D007DA198 /* DetailViewAndCommitViewControllerPopAnimatedTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0FE5211CF2AC5D007DA198 /* DetailViewAndCommitViewControllerPopAnimatedTransitioning.swift */; };
+		AE0FE5241CF2AC97007DA198 /* DetailAndCommitViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0FE5231CF2AC97007DA198 /* DetailAndCommitViewControllerExtension.swift */; };
+		AE0FE5441CF301E8007DA198 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0FE5431CF301E8007DA198 /* UIImageExtension.swift */; };
 		AEBCAEE81CEC27A900EBFC0A /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBCAEE71CEC27A900EBFC0A /* Channel.swift */; };
 		AEBCAEEB1CEC2ADB00EBFC0A /* ChannelUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBCAEEA1CEC2ADB00EBFC0A /* ChannelUtil.swift */; };
 		AEBCAEF31CEC3F4300EBFC0A /* UIStoryBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBCAEF21CEC3F4300EBFC0A /* UIStoryBoard.swift */; };
@@ -36,9 +39,6 @@
 
 /* Begin PBXFileReference section */
 		159FDBAECFB9DE4E3ACF1E70 /* Pods-Journalism.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Journalism.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Journalism/Pods-Journalism.debug.xcconfig"; sourceTree = "<group>"; };
-		6D7893151CF15DC5004EAC89 /* DetailAndCommitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailAndCommitViewController.swift; sourceTree = "<group>"; };
-		6D7893191CF15E0D004EAC89 /* CommitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommitViewController.swift; sourceTree = "<group>"; };
-		6D78931B1CF15E31004EAC89 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		6DC4FDC01CF0314700D25A99 /* HomeViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewControllerExtension.swift; sourceTree = "<group>"; };
 		6DC4FDC11CF0314700D25A99 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		6DC4FDC41CF0314700D25A99 /* NewBaseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewBaseTableViewCell.swift; sourceTree = "<group>"; };
@@ -48,6 +48,12 @@
 		6DC4FDD31CF031E000D25A99 /* HomeViewControllerChannelDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewControllerChannelDataSource.swift; sourceTree = "<group>"; };
 		6DC4FDD41CF031E000D25A99 /* KDRearrangeableCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KDRearrangeableCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		81231C5CF554FB534D99E67C /* Pods-Journalism.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Journalism.release.xcconfig"; path = "Pods/Target Support Files/Pods-Journalism/Pods-Journalism.release.xcconfig"; sourceTree = "<group>"; };
+		AE0FE5191CF2AB90007DA198 /* CommitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommitViewController.swift; sourceTree = "<group>"; };
+		AE0FE51A1CF2AB90007DA198 /* DetailAndCommitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailAndCommitViewController.swift; sourceTree = "<group>"; };
+		AE0FE51C1CF2AB90007DA198 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		AE0FE5211CF2AC5D007DA198 /* DetailViewAndCommitViewControllerPopAnimatedTransitioning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewAndCommitViewControllerPopAnimatedTransitioning.swift; sourceTree = "<group>"; };
+		AE0FE5231CF2AC97007DA198 /* DetailAndCommitViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailAndCommitViewControllerExtension.swift; sourceTree = "<group>"; };
+		AE0FE5431CF301E8007DA198 /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		AEBCAEE71CEC27A900EBFC0A /* Channel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
 		AEBCAEEA1CEC2ADB00EBFC0A /* ChannelUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelUtil.swift; sourceTree = "<group>"; };
 		AEBCAEF21CEC3F4300EBFC0A /* UIStoryBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStoryBoard.swift; sourceTree = "<group>"; };
@@ -78,28 +84,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		6D7893171CF15DE4004EAC89 /* CommitViewController */ = {
-			isa = PBXGroup;
-			children = (
-				6D7893191CF15E0D004EAC89 /* CommitViewController.swift */,
-			);
-			path = CommitViewController;
-			sourceTree = "<group>";
-		};
-		6D7893181CF15DE4004EAC89 /* DetailViewController */ = {
-			isa = PBXGroup;
-			children = (
-				6D78931B1CF15E31004EAC89 /* DetailViewController.swift */,
-			);
-			path = DetailViewController;
-			sourceTree = "<group>";
-		};
 		6DC4FDB91CF0314700D25A99 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
 				6DC4FDBA1CF0314700D25A99 /* HomeViewController */,
 				6DC4FDC21CF0314700D25A99 /* NewslistViewController */,
-				6DC4FDD01CF031A500D25A99 /* DetailViewController */,
+				AE0FE5171CF2AB90007DA198 /* DetailAndCommitViewController */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -148,16 +138,6 @@
 			path = extension;
 			sourceTree = "<group>";
 		};
-		6DC4FDD01CF031A500D25A99 /* DetailViewController */ = {
-			isa = PBXGroup;
-			children = (
-				6D7893171CF15DE4004EAC89 /* CommitViewController */,
-				6D7893181CF15DE4004EAC89 /* DetailViewController */,
-				6D7893151CF15DC5004EAC89 /* DetailAndCommitViewController.swift */,
-			);
-			path = DetailViewController;
-			sourceTree = "<group>";
-		};
 		6DC4FDD11CF031E000D25A99 /* ChannelManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -166,6 +146,42 @@
 				6DC4FDD41CF031E000D25A99 /* KDRearrangeableCollectionViewFlowLayout.swift */,
 			);
 			path = ChannelManager;
+			sourceTree = "<group>";
+		};
+		AE0FE5171CF2AB90007DA198 /* DetailAndCommitViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AE0FE5201CF2AC4E007DA198 /* Extension And Custom Classes */,
+				AE0FE5181CF2AB90007DA198 /* CommitViewController */,
+				AE0FE51B1CF2AB90007DA198 /* DetailViewController */,
+				AE0FE51A1CF2AB90007DA198 /* DetailAndCommitViewController.swift */,
+			);
+			path = DetailAndCommitViewController;
+			sourceTree = "<group>";
+		};
+		AE0FE5181CF2AB90007DA198 /* CommitViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AE0FE5191CF2AB90007DA198 /* CommitViewController.swift */,
+			);
+			path = CommitViewController;
+			sourceTree = "<group>";
+		};
+		AE0FE51B1CF2AB90007DA198 /* DetailViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AE0FE51C1CF2AB90007DA198 /* DetailViewController.swift */,
+			);
+			path = DetailViewController;
+			sourceTree = "<group>";
+		};
+		AE0FE5201CF2AC4E007DA198 /* Extension And Custom Classes */ = {
+			isa = PBXGroup;
+			children = (
+				AE0FE5211CF2AC5D007DA198 /* DetailViewAndCommitViewControllerPopAnimatedTransitioning.swift */,
+				AE0FE5231CF2AC97007DA198 /* DetailAndCommitViewControllerExtension.swift */,
+			);
+			path = "Extension And Custom Classes";
 			sourceTree = "<group>";
 		};
 		AEBCAEE51CEC25AD00EBFC0A /* orm */ = {
@@ -201,6 +217,7 @@
 				AEBCAEF21CEC3F4300EBFC0A /* UIStoryBoard.swift */,
 				AEC1D5C51CEDC34600B1F00C /* NSDateTimeAgo.bundle */,
 				AEC1D5C31CEDC22700B1F00C /* DateExt.swift */,
+				AE0FE5431CF301E8007DA198 /* UIImageExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -398,23 +415,26 @@
 			buildActionMask = 2147483647;
 			files = (
 				6DC4FDD61CF031E000D25A99 /* HomeViewControllerChannelDataSource.swift in Sources */,
+				AE0FE5221CF2AC5D007DA198 /* DetailViewAndCommitViewControllerPopAnimatedTransitioning.swift in Sources */,
+				AE0FE5441CF301E8007DA198 /* UIImageExtension.swift in Sources */,
 				6DC4FDCF1CF0314700D25A99 /* NewslistViewController.swift in Sources */,
 				AEC1D5BD1CED960100B1F00C /* New.swift in Sources */,
 				AEC1D5BF1CED9BBD00B1F00C /* NewsUtil.swift in Sources */,
 				AEBCAEE81CEC27A900EBFC0A /* Channel.swift in Sources */,
 				6DC4FDCE1CF0314700D25A99 /* NewslistViewControllerExtension.swift in Sources */,
 				6DC4FDCC1CF0314700D25A99 /* HomeViewController.swift in Sources */,
-				6D78931C1CF15E31004EAC89 /* DetailViewController.swift in Sources */,
+				AE0FE51F1CF2AB90007DA198 /* DetailViewController.swift in Sources */,
 				AEBCAEF31CEC3F4300EBFC0A /* UIStoryBoard.swift in Sources */,
+				AE0FE5241CF2AC97007DA198 /* DetailAndCommitViewControllerExtension.swift in Sources */,
 				AEC09CD41CE9776800D5A5CC /* AppDelegate.swift in Sources */,
 				AEBCAEEB1CEC2ADB00EBFC0A /* ChannelUtil.swift in Sources */,
 				AEBCAEFA1CEC419600EBFC0A /* CustomExtensionView.swift in Sources */,
 				6DC4FDCB1CF0314700D25A99 /* HomeViewControllerExtension.swift in Sources */,
 				6DC4FDD51CF031E000D25A99 /* ChannelManager.swift in Sources */,
 				AEBCAEF81CEC418200EBFC0A /* CircularButtonBarView.swift in Sources */,
-				6D78931A1CF15E0D004EAC89 /* CommitViewController.swift in Sources */,
-				6D7893161CF15DC5004EAC89 /* DetailAndCommitViewController.swift in Sources */,
+				AE0FE51E1CF2AB90007DA198 /* DetailAndCommitViewController.swift in Sources */,
 				AEC1D5C41CEDC22700B1F00C /* DateExt.swift in Sources */,
+				AE0FE51D1CF2AB90007DA198 /* CommitViewController.swift in Sources */,
 				6DC4FDD71CF031E000D25A99 /* KDRearrangeableCollectionViewFlowLayout.swift in Sources */,
 				6DC4FDCD1CF0314700D25A99 /* NewBaseTableViewCell.swift in Sources */,
 			);

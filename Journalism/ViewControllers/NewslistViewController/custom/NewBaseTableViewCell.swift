@@ -60,14 +60,17 @@ class NewNormalTableViewCell: NewBaseTableViewCell {
 class NewOneTableViewCell: NewBaseTableViewCell {
     
     @IBOutlet var imageView1: UIImageView!
-    
+
     override func setNewObject(new:New){
         
         super.setNewObject(new)
         
+        
+        self.imageView1.pin_updateWithProgress = true
+        
         if let url = NSURL(string: new.imgLists[0].value) {
             
-            imageView1.pin_setImageFromURL(url, placeholderImage: UIImage(named: "单图小图占位图"))
+            imageView1.pin_setImageFromURL(url, placeholderImage: UIImage.sharePlaceholderImage)
         }
     }
 }
@@ -76,19 +79,22 @@ class NewTwoTableViewCell: NewBaseTableViewCell {
     
     @IBOutlet var imageView1: UIImageView!
     @IBOutlet var imageView2: UIImageView!
-    
+
     override func setNewObject(new:New){
         
         super.setNewObject(new)
         
+        self.imageView1.pin_updateWithProgress = true
+        self.imageView2.pin_updateWithProgress = true
+        
         if let url = NSURL(string: new.imgLists[0].value) {
             
-            imageView1.pin_setImageFromURL(url, placeholderImage: UIImage(named: "单图大图占位图"))
+            imageView1.pin_setImageFromURL(url, placeholderImage: UIImage.sharePlaceholderImage)
         }
         
         if let url = NSURL(string: new.imgLists[1].value) {
             
-            imageView2.pin_setImageFromURL(url, placeholderImage: UIImage(named: "单图大图占位图"))
+            imageView2.pin_setImageFromURL(url, placeholderImage: UIImage.sharePlaceholderImage)
         }
         
     }
@@ -100,23 +106,28 @@ class NewThreeTableViewCell: NewBaseTableViewCell {
     @IBOutlet var imageView2: UIImageView!
     @IBOutlet var imageView3: UIImageView!
     
+
     override func setNewObject(new:New){
         
         super.setNewObject(new)
         
+        self.imageView1.pin_updateWithProgress = true
+        self.imageView2.pin_updateWithProgress = true
+        self.imageView3.pin_updateWithProgress = true
+        
         if let url = NSURL(string: new.imgLists[0].value) {
             
-            imageView1.pin_setImageFromURL(url, placeholderImage: UIImage(named: "单图小图占位图"))
+            imageView1.pin_setImageFromURL(url, placeholderImage: UIImage.sharePlaceholderImage)
         }
         
         if let url = NSURL(string: new.imgLists[1].value) {
             
-            imageView2.pin_setImageFromURL(url, placeholderImage: UIImage(named: "单图小图占位图"))
+            imageView2.pin_setImageFromURL(url, placeholderImage: UIImage.sharePlaceholderImage)
         }
         
         if let url = NSURL(string: new.imgLists[2].value) {
             
-            imageView3.pin_setImageFromURL(url, placeholderImage: UIImage(named: "单图小图占位图"))
+            imageView3.pin_setImageFromURL(url, placeholderImage: UIImage.sharePlaceholderImage)
         }
     }
 }

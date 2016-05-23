@@ -24,6 +24,17 @@ extension HomeViewController{
         
     }
     
+    
+    override func willTransitionToTraitCollection(newCollection: UITraitCollection, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        
+        coordinator.animateAlongsideTransition({ (_) in // 横评的时候，处理频道管理显示视图的大小问题
+            
+            self.ChannelManagerContainerCollectionView.reloadData()
+            
+            }, completion: nil)
+        
+    }
+    
     // 初始化分页视图方法
     private func initialPagerTabStripMethod(){
     
@@ -114,8 +125,6 @@ extension HomeViewController{
         displayViewController.title = channel.cname
         
         displayViewController.newsResults = self.newsResults.filter("channelId = %@",channel.id)
-        
-        let count = displayViewController.newsResults.count
         
         return displayViewController
     }

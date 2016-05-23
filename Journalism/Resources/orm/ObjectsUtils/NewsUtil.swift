@@ -37,36 +37,43 @@ class NewsUtil: NSObject {
                             
                             realm.create(New.self, value: channel, update: true)
                             
-                            if let objcid = channel.objectForKey("docid") as? String {
-                            
-                                let date = NSDate(fromString: objcid, format: DateFormat.Custom("yyyy-MM-dd HH:mm:ss"))
-                                
-                                realm.create(New.self, value: ["docid":objcid,"pubTimes":date], update: true)
-                            }
-                            
-                            if let objcid = channel.objectForKey("docid") as? String,imageList = channel.objectForKey("imgList") as? NSArray {
-                            
-                                var array = [StringObject]()
-                                
-                                imageList.enumerateObjectsUsingBlock({ (imageUrl, _, _) in
-                                    
-                                    let sp = StringObject()
-                                    sp.value = imageUrl as! String
-                                    array.append(sp)
-                                })
-                                
-                                realm.create(New.self, value: ["docid":objcid,"imgLists":array], update: true)
-                            }
+                            self.AnalysisPutTimeAndImageList(channel as! NSDictionary, realm: realm)
                         }
                     })
                     
                     finish?()
                 }
             }
-            
         }
     }
     
+    // 完善新闻事件
+    private class func AnalysisPutTimeAndImageList(channel:NSDictionary,realm:Realm){
+    
+        if let objcid = channel.objectForKey("docid") as? String {
+            
+            if let pubTime = channel.objectForKey("pubTime") as? String {
+                
+                let date = NSDate(fromString: pubTime, format: DateFormat.Custom("yyyy-MM-dd HH:mm:ss"))
+                
+                realm.create(New.self, value: ["docid":objcid,"pubTimes":date], update: true)
+            }
+            
+            if let imageList = channel.objectForKey("imgList") as? NSArray {
+                
+                var array = [StringObject]()
+                
+                imageList.enumerateObjectsUsingBlock({ (imageUrl, _, _) in
+                    
+                    let sp = StringObject()
+                    sp.value = imageUrl as! String
+                    array.append(sp)
+                })
+                
+                realm.create(New.self, value: ["docid":objcid,"imgLists":array], update: true)
+            }
+        }
+    }
     
     class func NewArray() -> Results<New>{
         
@@ -104,7 +111,6 @@ extension New {
         }else if self.imgStyle == 2{
             
             let size = CGSize(width: width-24, height: 1000)
-            
             
             let titleHeight = NSString(string:self.title).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:cell.titleLabel.font], context: nil).height
             
