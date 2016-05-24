@@ -8,6 +8,8 @@
 
 import UIKit
 
+let IS_PLUS = UIScreen.mainScreen().bounds.size == CGSize(width: 414,height: 736) || UIScreen.mainScreen().bounds.size == CGSize(width: 736,height: 414)
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate ,UISplitViewControllerDelegate{
 
@@ -49,5 +51,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UISplitViewControllerDele
         guard secondaryViewController is DetailAndCommitViewController else { return false }
         return true
     }
+    
+    
+    func application(application: UIApplication, supportedInterfaceOrientationsForWindow window: UIWindow?) -> UIInterfaceOrientationMask{
+    
+        if IS_PLUS {
+        
+            return [UIInterfaceOrientationMask.LandscapeLeft,UIInterfaceOrientationMask.LandscapeRight,UIInterfaceOrientationMask.Portrait]
+        }else{
+        
+            return UIInterfaceOrientationMask.Portrait
+        }
+    }
+    
 }
 

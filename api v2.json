@@ -1,0 +1,280 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "v2",
+        "title": "奇点资讯",
+        "description": "这是奇点资讯的第二版本，第二版本主要加入了一些用户权限的认证，使不是注册用户的用户不可以访问我们的很多信息，频道信息，评论，等等。\n\n 其次增加了很多接口某些字段的支持，包括市区列表获取，包括新闻详情赞的支持等等方面",
+        "termsOfService": "http://instagram.com/about/legal/terms/api"
+    },
+    "host": "api.deeporiginalx.com",
+    "schemes": [
+        "http"
+    ],
+    "basePath": "/bdp/news",
+    "produces": [
+        "application/json"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "paths": {
+        "/channels": {
+            "get": {
+                "summary": "获取频道",
+                "description": "频道列表查询",
+                "tags": [
+                    "Channels"
+                ],
+                "parameters": [{
+                    "name": "online",
+                    "in": "query",
+                    "type": "string",
+                    "description": "标示所请求的频道是不是上线的",
+                    "required": false
+                }, {
+                    "name": "token",
+                    "in": "header",
+                    "type": "string",
+                    "description": "标示所请求的频道是不是上线的",
+                    "required": false
+                }],
+                "responses": {
+                    "200": {
+                        "description": "完成请求",
+                        "headers": {
+                            "X-Rate-Limit-Limit": {
+                                "description": "The number of allowed requests in the current period",
+                                "type": "integer"
+                            },
+                            "X-Rate-Limit-Remaining": {
+                                "description": "The number of remaining requests in the current period",
+                                "type": "integer"
+                            },
+                            "X-Rate-Limit-Reset": {
+                                "description": "The number of seconds left in the current period",
+                                "type": "integer"
+                            }
+                        },
+                        "schema": {
+                            "type": "object",
+                            "items": {
+                                "$ref": "#/definitions/channel"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/load": {
+            "get": {
+                "summary": "新闻列表页加载 － 上拉加载",
+                "description": "新闻客户端-上拉新闻列表页加载",
+                "tags": [
+                    "News"
+                ],
+                "parameters": [{
+                    "name": "cid",
+                    "in": "query",
+                    "type": "string",
+                    "description": "频道ID",
+                    "required": true
+                }, {
+                    "name": "page",
+                    "in": "query",
+                    "type": "string",
+                    "description": "页数",
+                    "required": false
+                }, {
+                    "name": "offset",
+                    "in": "query",
+                    "type": "string",
+                    "description": "条数",
+                    "required": false
+                }, {
+                    "name": "tstart",
+                    "in": "query",
+                    "type": "string",
+                    "description": "起始时间",
+                    "required": true
+                }],
+                "responses": {
+                    "200": {
+                        "description": "完成请求",
+                        "schema": {
+                            "type": "object",
+                            "items": {
+                                "$ref": "#/definitions/news"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/refresh": {
+            "get": {
+                "summary": "新闻列表页加载 - 下拉刷新",
+                "description": "新闻客户端-下拉新闻列表页刷新",
+                "tags": [
+                    "News"
+                ],
+                "parameters": [{
+                    "name": "cid",
+                    "in": "query",
+                    "type": "string",
+                    "description": "频道ID",
+                    "required": true
+                }, {
+                    "name": "page",
+                    "in": "query",
+                    "type": "string",
+                    "description": "页数",
+                    "required": false
+                }, {
+                    "name": "offset",
+                    "in": "query",
+                    "type": "string",
+                    "description": "条数",
+                    "required": false
+                }, {
+                    "name": "tstart",
+                    "in": "query",
+                    "type": "string",
+                    "description": "起始时间",
+                    "required": false
+                }],
+                "responses": {
+                    "200": {
+                        "description": "完成请求",
+                        "schema": {
+                            "type": "object",
+                            "items": {
+                                "$ref": "#/definitions/news"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "channel": {
+            "type": "object",
+            "properties": {
+                "code": {
+
+                    "description": "返回请求状态码",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "message": {
+                    "description": "返回消息",
+                    "type": "string"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "cname": {
+                                "description": "频道名称",
+                                "type": "string"
+                            },
+                            "online": {
+                                "description": "是否上线",
+                                "type": "string"
+                            },
+                            "id": {
+                                "description": "频道ID",
+                                "type": "integer",
+                                "format": "int32"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "news": {
+            "type": "object",
+            "properties": {
+                "code": {
+
+                    "description": "返回请求状态码",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "message": {
+                    "description": "返回消息",
+                    "type": "string"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "city": {
+                                "description": "新闻位置：城市",
+                                "type": "string"
+                            },
+                            "pubTime": {
+                                "description": "上线时间",
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "url": {
+                                "description": "新闻原始地址",
+                                "type": "string"
+                            },
+                            "docid": {
+                                "description": "什么几把玩意",
+                                "type": "string"
+                            },
+                            "commentsCount": {
+                                "description": "评论个数",
+                                "type": "integer",
+                                "format": "int32"
+                            },
+                            "pubName": {
+                                "description": "新闻来源名称",
+                                "type": "string"
+                            },
+                            "pubUrl": {
+                                "description": "来源的URl地址",
+                                "type": "string"
+                            },
+                            "province": {
+                                "description": "新闻位置：省份",
+                                "type": "string"
+                            },
+                            "imgStyle": {
+                                "description": "图片个数类型",
+                                "type": "integer",
+                                "format": "int32"
+                            },
+                            "title": {
+                                "description": "新闻标题",
+                                "type": "string"
+                            },
+                            "district": {
+                                "description": "新闻位置：区",
+                                "type": "string"
+                            },
+                            "channelId": {
+                                "description": "新闻原始地址",
+                                "type": "integer",
+                                "format": "int32"
+                            },
+                            "imgList": {
+                                "description": "新闻原始地址",
+                                "type": "array",
+                                "items": {
+
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

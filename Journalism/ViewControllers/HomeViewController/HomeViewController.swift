@@ -11,6 +11,15 @@ import XLPagerTabStrip
 
 class HomeViewController: CircularButtonBarPagerTabStripViewController {
     
+    @IBOutlet var button1: ReasonButton!
+    @IBOutlet var button2: ReasonButton!
+    @IBOutlet var button3: ReasonButton!
+    @IBOutlet var button4: ReasonButton!
+    
+    @IBOutlet var noLikeChosseView: UIView!
+    @IBOutlet var noLikeChosseViewTopCOnstraint: NSLayoutConstraint!
+    
+    
     internal let newsResults = NewsUtil.NewArray() // 获取所有新闻的频道
     internal let channels = ChannelUtil.GetChannelRealmObjects() // 获取所有数据库中的频道
     

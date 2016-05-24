@@ -89,15 +89,11 @@ extension NewslistViewController:UITableViewDataSource{
             
             cell.setNewObject(new)
             
-            return cell
-            
         }else if new.imgStyle == 1 {
             
             cell =  tableView.dequeueReusableCellWithIdentifier("NewOneTableViewCell") as! NewOneTableViewCell
             
             cell.setNewObject(new)
-            
-            return cell
             
         }else if new.imgStyle == 2 {
             
@@ -105,19 +101,57 @@ extension NewslistViewController:UITableViewDataSource{
             
             cell.setNewObject(new)
             
-            return cell
-            
         }else if new.imgStyle == 3 {
             
             cell =  tableView.dequeueReusableCellWithIdentifier("NewThreeTableViewCell") as! NewThreeTableViewCell
             
             cell.setNewObject(new)
-            
-            return cell
         }
         
+        cell.noLikeButton.removeActions(UIControlEvents.TouchUpInside)
+        cell.noLikeButton.addAction(UIControlEvents.TouchUpInside) { (_) in
+            
+            self.handleActionMethod(cell, indexPath: indexPath)
+        }
         
         return cell
+    }
+    
+    private func handleActionMethod(cell :NewBaseTableViewCell,indexPath:NSIndexPath){
+        
+        var delayInSeconds = 0.0
+        
+        let porint = cell.convertRect(cell.bounds, toView: self.view).origin
+        
+        if porint.y < 0 {
+            
+            delayInSeconds = 0.5
+            
+            self.tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Top, animated: true)
+        }
+        
+        let needHeight = porint.y+cell.frame.height+128
+        
+        if  needHeight > self.tableView.frame.height {
+            
+            delayInSeconds = 0.5
+            
+            let result = needHeight-self.tableView.frame.height
+            
+            let toPoint = CGPoint(x: 0, y: self.tableView.contentOffset.y+result)
+            
+            self.tableView.setContentOffset(toPoint, animated: true)
+        }
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW,Int64(delayInSeconds * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { // 2
+            self.delegate.ClickNoLikeButtonOfUITableViewCell?(cell, finish: { (cancel) in
+                
+                if cancel {
+                    
+                    self.tableView.reloadData()
+                }
+            })
+        }
     }
     
 }
@@ -130,7 +164,14 @@ extension NewslistViewController:UITableViewDelegate{
         
         let viewController = UIStoryboard.shareStoryBoard.get_DetailAndCommitViewController(new)
         
-        self.showDetailViewController(viewController, sender: nil)
+        if IS_PLUS {
+            
+            self.showDetailViewController(viewController, sender: nil)
+        }else{
+        
+            self.showViewController(viewController, sender: nil)
+        }
+        
     }
     
     func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

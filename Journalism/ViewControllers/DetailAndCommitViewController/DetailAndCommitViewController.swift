@@ -42,7 +42,7 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
         
         let horizontal = UIScreen.mainScreen().bounds.width > UIScreen.mainScreen().bounds.height
         
-        if horizontal {
+        if horizontal && IS_PLUS{
             
             self.splitViewController?.preferredDisplayMode = self.splitViewController?.preferredDisplayMode == .AllVisible ? .PrimaryHidden : .AllVisible
             

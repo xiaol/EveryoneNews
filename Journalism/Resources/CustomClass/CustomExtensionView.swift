@@ -8,6 +8,130 @@
 
 import UIKit
 
+@IBDesignable
+class AllTypeBoderView:UIView{
+    
+    @IBInspectable var topBorder:Bool = false
+    @IBInspectable var topBorderWidth:CGFloat = 0
+    @IBInspectable var topBorderColor:UIColor = UIColor.clearColor()
+    @IBInspectable var topBorderInsets:UIEdgeInsets = UIEdgeInsetsZero
+    
+    
+    @IBInspectable var bottomBorder:Bool = false
+    @IBInspectable var bottomBorderWidth:CGFloat = 0
+    @IBInspectable var bottomBorderColor:UIColor = UIColor.clearColor()
+    @IBInspectable var bottomBorderInsets:UIEdgeInsets = UIEdgeInsetsZero
+    
+    
+    @IBInspectable var LeftBorder:Bool = false
+    @IBInspectable var LeftBorderWidth:CGFloat = 0
+    @IBInspectable var LeftBorderColor:UIColor = UIColor.clearColor()
+    @IBInspectable var LeftBorderInsets:UIEdgeInsets = UIEdgeInsetsZero
+    
+    
+    @IBInspectable var RightBorder:Bool = false
+    @IBInspectable var RightBorderWidth:CGFloat = 0
+    @IBInspectable var RightBorderColor:UIColor = UIColor.clearColor()
+    @IBInspectable var RightBorderInsets:UIEdgeInsets = UIEdgeInsetsZero
+    
+    
+    override func drawRect(rect: CGRect) {
+        super.drawRect(rect)
+        
+        if topBorder {
+        
+            let layout = CAShapeLayer()
+            let path = UIBezierPath()
+            path.moveToPoint(CGPoint(x: topBorderInsets.left, y: topBorderInsets.top))
+            path.addLineToPoint(CGPoint(x: self.frame.size.width-topBorderInsets.right, y: topBorderInsets.top))
+            
+            path.lineWidth = topBorderWidth
+            topBorderColor.setStroke()
+            path.stroke()
+            
+            layout.path = path.CGPath
+        }
+        
+        if bottomBorder {
+            
+            let layout = CAShapeLayer()
+            let path = UIBezierPath()
+            path.moveToPoint(CGPoint(x: bottomBorderInsets.left, y: self.frame.size.width-bottomBorderInsets.bottom))
+            path.addLineToPoint(CGPoint(x: self.frame.size.width-topBorderInsets.right, y: self.frame.size.width-bottomBorderInsets.bottom))
+            
+            path.lineWidth = bottomBorderWidth
+            bottomBorderColor.setStroke()
+            path.stroke()
+            
+            layout.path = path.CGPath
+        }
+    }
+}
+
+
+
+
+
+///按钮扩展类
+class UserToptoBottomBoderView:UIView{
+    
+    override func drawRect(rect: CGRect) {
+        super.drawRect(rect)
+        
+        let layout1 = CAShapeLayer()
+        let path1 = UIBezierPath()
+        path1.moveToPoint(CGPoint(x: 0, y: 0))
+        path1.addLineToPoint(CGPoint(x: self.frame.size.width, y: 0))
+        
+        path1.lineWidth = 0.5
+        UIColor(red: 228/255, green:228/255, blue: 228/255, alpha: 1).setStroke()
+        path1.stroke()
+        layout1.path = path1.CGPath
+        
+        
+        let layout2 = CAShapeLayer()
+        let path2 = UIBezierPath()
+        path2.moveToPoint(CGPoint(x: 23, y: self.frame.size.height))
+        path2.addLineToPoint(CGPoint(x: self.frame.size.width, y: self.frame.size.height))
+        
+        path2.lineWidth = 0.5
+        UIColor(red: 228/255, green:228/255, blue: 228/255, alpha: 1).setStroke()
+        path2.stroke()
+        
+        layout2.path = path2.CGPath
+    }
+}
+
+class UserBottomtoTopBoderView:UIView{
+    
+    override func drawRect(rect: CGRect) {
+        super.drawRect(rect)
+        
+        let layout1 = CAShapeLayer()
+        let path1 = UIBezierPath()
+        path1.moveToPoint(CGPoint(x: 23, y: 0))
+        path1.addLineToPoint(CGPoint(x: self.frame.size.width, y: 0))
+        
+        path1.lineWidth = 0.5
+        UIColor(red: 228/255, green:228/255, blue: 228/255, alpha: 1).setStroke()
+        path1.stroke()
+        layout1.path = path1.CGPath
+        
+        
+        let layout2 = CAShapeLayer()
+        let path2 = UIBezierPath()
+        path2.moveToPoint(CGPoint(x: 0, y: self.frame.size.height))
+        path2.addLineToPoint(CGPoint(x: self.frame.size.width, y: self.frame.size.height))
+        
+        path2.lineWidth = 0.5
+        UIColor(red: 228/255, green:228/255, blue: 228/255, alpha: 1).setStroke()
+        path2.stroke()
+        
+        layout2.path = path2.CGPath
+    }
+}
+
+
 ///按钮扩展类
 class BottomBoderView:UIView{
     
@@ -21,6 +145,26 @@ class BottomBoderView:UIView{
         
         path.lineWidth = 0.5
         UIColor(red: 53/255, green:166/255, blue: 251/255, alpha: 0.8).setStroke()
+        path.stroke()
+        
+        layout.path = path.CGPath
+    }
+}
+
+
+///按钮扩展类
+class LoginBoderView:UIView{
+    
+    override func drawRect(rect: CGRect) {
+        super.drawRect(rect)
+        
+        let layout = CAShapeLayer()
+        let path = UIBezierPath()
+        path.moveToPoint(CGPoint(x: 0, y: self.frame.size.height))
+        path.addLineToPoint(CGPoint(x: self.frame.size.width, y: self.frame.size.height))
+        
+        path.lineWidth = 0.5
+        UIColor(red: 228/255, green:228/255, blue: 228/255, alpha: 0.8).setStroke()
         path.stroke()
         
         layout.path = path.CGPath
@@ -63,9 +207,35 @@ class HeadPhotoView:UIImageView{
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.layer.cornerRadius = self.frame.height/2
+        self.layer.borderColor = UIColor(red: 228/255, green: 228/255, blue: 228/255, alpha: 1).CGColor
+        self.layer.borderWidth = 0.5
     }
 }
 
+///  原因按钮
+class ReasonButton:UIButton {
+    
+    var clickSelected = false{
+    
+        didSet{
+        
+            self.layer.borderColor = clickSelected ? UIColor.redColor().colorWithAlphaComponent(0.7).CGColor : UIColor.lightGrayColor().CGColor
+        }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        self.layer.borderColor = UIColor.lightGrayColor().CGColor
+        self.layer.borderWidth = 1
+    }
+    
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        super.touchesEnded(touches, withEvent: event)
+        
+        self.clickSelected = !clickSelected
+    }
+}
 
 class CircularEditButton:UIButton {
  

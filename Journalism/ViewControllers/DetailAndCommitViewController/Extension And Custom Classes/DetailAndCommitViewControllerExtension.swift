@@ -42,7 +42,7 @@ extension DetailAndCommitViewController{
             
             if view.contentOffset.x > 0 || point.x < 0 {return} // 如果滑动视图的 offset 小于0 或者 移动的位置不是向 右滑的话，也不进行操作
             let horizontal = UIScreen.mainScreen().bounds.width > UIScreen.mainScreen().bounds.height // 判断屏幕是不是横屏
-            if horizontal {return} // 如果横屏，就不再进行接下来的操作
+            if horizontal && IS_PLUS{return} // 如果横屏，就不再进行接下来的操作
             
             self.detailViewTransitioning.isInteraction = true
             self.navigationController?.popViewControllerAnimated(true)

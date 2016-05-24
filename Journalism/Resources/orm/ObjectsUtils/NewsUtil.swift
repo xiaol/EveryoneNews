@@ -19,7 +19,7 @@ class NewsUtil: NSObject {
      */
     class func RefreshChannleObjects(channelId:Int,finish:(()->Void)?){
         
-        let times = "\(Int(NSDate().timeIntervalSince1970*1000))"
+        let times = "\(Int64(NSDate().timeIntervalSince1970*1000))"
         
         NewsAPI.loadGet(cid: "\(channelId)", tstart: times, page: nil, offset: nil) { (data, error) in
             

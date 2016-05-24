@@ -35,6 +35,9 @@
 		AEC1D5BF1CED9BBD00B1F00C /* NewsUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC1D5BE1CED9BBD00B1F00C /* NewsUtil.swift */; };
 		AEC1D5C41CEDC22700B1F00C /* DateExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC1D5C31CEDC22700B1F00C /* DateExt.swift */; };
 		AEC1D5C61CEDC34600B1F00C /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AEC1D5C51CEDC34600B1F00C /* NSDateTimeAgo.bundle */; };
+		AEFB55151CF41407005FC23E /* Curly.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFB55141CF41407005FC23E /* Curly.swift */; };
+		AEFB55171CF41F10005FC23E /* NotLikeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFB55161CF41F10005FC23E /* NotLikeExtension.swift */; };
+		AEFB551A1CF462CD005FC23E /* UserCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFB55191CF462CD005FC23E /* UserCenterViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,6 +72,9 @@
 		AEC1D5BE1CED9BBD00B1F00C /* NewsUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsUtil.swift; sourceTree = "<group>"; };
 		AEC1D5C31CEDC22700B1F00C /* DateExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExt.swift; sourceTree = "<group>"; };
 		AEC1D5C51CEDC34600B1F00C /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = NSDateTimeAgo.bundle; sourceTree = "<group>"; };
+		AEFB55141CF41407005FC23E /* Curly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Curly.swift; sourceTree = "<group>"; };
+		AEFB55161CF41F10005FC23E /* NotLikeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotLikeExtension.swift; sourceTree = "<group>"; };
+		AEFB55191CF462CD005FC23E /* UserCenterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCenterViewController.swift; sourceTree = "<group>"; };
 		F68B44A9454D029CD2156A30 /* Pods_Journalism.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Journalism.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -90,6 +96,7 @@
 				6DC4FDBA1CF0314700D25A99 /* HomeViewController */,
 				6DC4FDC21CF0314700D25A99 /* NewslistViewController */,
 				AE0FE5171CF2AB90007DA198 /* DetailAndCommitViewController */,
+				AEFB55181CF462B3005FC23E /* UserCenterViewController */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -108,6 +115,7 @@
 			isa = PBXGroup;
 			children = (
 				6DC4FDC01CF0314700D25A99 /* HomeViewControllerExtension.swift */,
+				AEFB55161CF41F10005FC23E /* NotLikeExtension.swift */,
 			);
 			path = extension;
 			sourceTree = "<group>";
@@ -227,6 +235,7 @@
 			children = (
 				AEBCAEF61CEC418200EBFC0A /* CircularButtonBarView.swift */,
 				AEBCAEF91CEC419600EBFC0A /* CustomExtensionView.swift */,
+				AEFB55141CF41407005FC23E /* Curly.swift */,
 			);
 			path = CustomClass;
 			sourceTree = "<group>";
@@ -271,6 +280,14 @@
 				AEBCAEE51CEC25AD00EBFC0A /* orm */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		AEFB55181CF462B3005FC23E /* UserCenterViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AEFB55191CF462CD005FC23E /* UserCenterViewController.swift */,
+			);
+			path = UserCenterViewController;
 			sourceTree = "<group>";
 		};
 		B7552ACA73A8862EA1A3935E /* Frameworks */ = {
@@ -419,6 +436,7 @@
 				AE0FE5441CF301E8007DA198 /* UIImageExtension.swift in Sources */,
 				6DC4FDCF1CF0314700D25A99 /* NewslistViewController.swift in Sources */,
 				AEC1D5BD1CED960100B1F00C /* New.swift in Sources */,
+				AEFB55151CF41407005FC23E /* Curly.swift in Sources */,
 				AEC1D5BF1CED9BBD00B1F00C /* NewsUtil.swift in Sources */,
 				AEBCAEE81CEC27A900EBFC0A /* Channel.swift in Sources */,
 				6DC4FDCE1CF0314700D25A99 /* NewslistViewControllerExtension.swift in Sources */,
@@ -430,10 +448,12 @@
 				AEBCAEEB1CEC2ADB00EBFC0A /* ChannelUtil.swift in Sources */,
 				AEBCAEFA1CEC419600EBFC0A /* CustomExtensionView.swift in Sources */,
 				6DC4FDCB1CF0314700D25A99 /* HomeViewControllerExtension.swift in Sources */,
+				AEFB55171CF41F10005FC23E /* NotLikeExtension.swift in Sources */,
 				6DC4FDD51CF031E000D25A99 /* ChannelManager.swift in Sources */,
 				AEBCAEF81CEC418200EBFC0A /* CircularButtonBarView.swift in Sources */,
 				AE0FE51E1CF2AB90007DA198 /* DetailAndCommitViewController.swift in Sources */,
 				AEC1D5C41CEDC22700B1F00C /* DateExt.swift in Sources */,
+				AEFB551A1CF462CD005FC23E /* UserCenterViewController.swift in Sources */,
 				AE0FE51D1CF2AB90007DA198 /* CommitViewController.swift in Sources */,
 				6DC4FDD71CF031E000D25A99 /* KDRearrangeableCollectionViewFlowLayout.swift in Sources */,
 				6DC4FDCD1CF0314700D25A99 /* NewBaseTableViewCell.swift in Sources */,

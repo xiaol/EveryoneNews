@@ -10,9 +10,17 @@ import UIKit
 import RealmSwift
 import PINRemoteImage
 
+@objc protocol NewslistViewControllerNoLikeDelegate{
+
+    optional func ClickNoLikeButtonOfUITableViewCell(cell:NewBaseTableViewCell,finish:((cancel:Bool)->Void)) -> Void
+}
+
+
 class NewslistViewController: UIViewController {
     
     var newsResults:Results<New>!
+    
+    var delegate:NewslistViewControllerNoLikeDelegate!
     
     internal var currentPage = 1
     

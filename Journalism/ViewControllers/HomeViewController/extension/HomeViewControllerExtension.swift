@@ -126,6 +126,8 @@ extension HomeViewController{
         
         displayViewController.newsResults = self.newsResults.filter("channelId = %@",channel.id)
         
+        displayViewController.delegate = self
+        
         return displayViewController
     }
 }
