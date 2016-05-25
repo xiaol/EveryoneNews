@@ -35,6 +35,10 @@
 		AEC1D5BF1CED9BBD00B1F00C /* NewsUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC1D5BE1CED9BBD00B1F00C /* NewsUtil.swift */; };
 		AEC1D5C41CEDC22700B1F00C /* DateExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC1D5C31CEDC22700B1F00C /* DateExt.swift */; };
 		AEC1D5C61CEDC34600B1F00C /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AEC1D5C51CEDC34600B1F00C /* NSDateTimeAgo.bundle */; };
+		AEC9659E1CF5A2E70053A88D /* User.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AEC9659D1CF5A2E70053A88D /* User.storyboard */; };
+		AEC965A11CF5A4EF0053A88D /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC965A01CF5A4EF0053A88D /* CustomView.swift */; };
+		AEC965A51CF5AC900053A88D /* UserSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC965A41CF5AC900053A88D /* UserSettingViewController.swift */; };
+		AEC965A81CF5AFE70053A88D /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC965A71CF5AFE70053A88D /* AboutViewController.swift */; };
 		AEFB55151CF41407005FC23E /* Curly.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFB55141CF41407005FC23E /* Curly.swift */; };
 		AEFB55171CF41F10005FC23E /* NotLikeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFB55161CF41F10005FC23E /* NotLikeExtension.swift */; };
 		AEFB551A1CF462CD005FC23E /* UserCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFB55191CF462CD005FC23E /* UserCenterViewController.swift */; };
@@ -72,6 +76,10 @@
 		AEC1D5BE1CED9BBD00B1F00C /* NewsUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsUtil.swift; sourceTree = "<group>"; };
 		AEC1D5C31CEDC22700B1F00C /* DateExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExt.swift; sourceTree = "<group>"; };
 		AEC1D5C51CEDC34600B1F00C /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = NSDateTimeAgo.bundle; sourceTree = "<group>"; };
+		AEC9659D1CF5A2E70053A88D /* User.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = User.storyboard; sourceTree = "<group>"; };
+		AEC965A01CF5A4EF0053A88D /* CustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
+		AEC965A41CF5AC900053A88D /* UserSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingViewController.swift; sourceTree = "<group>"; };
+		AEC965A71CF5AFE70053A88D /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
 		AEFB55141CF41407005FC23E /* Curly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Curly.swift; sourceTree = "<group>"; };
 		AEFB55161CF41F10005FC23E /* NotLikeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotLikeExtension.swift; sourceTree = "<group>"; };
 		AEFB55191CF462CD005FC23E /* UserCenterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCenterViewController.swift; sourceTree = "<group>"; };
@@ -282,10 +290,46 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		AEC9659F1CF5A4DF0053A88D /* custom */ = {
+			isa = PBXGroup;
+			children = (
+				AEC965A01CF5A4EF0053A88D /* CustomView.swift */,
+			);
+			path = custom;
+			sourceTree = "<group>";
+		};
+		AEC965A21CF5AC800053A88D /* UIViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AEC965A61CF5AFDD0053A88D /* AboutViewController */,
+				AEC965A31CF5AC800053A88D /* SettingViewController */,
+			);
+			path = UIViewController;
+			sourceTree = "<group>";
+		};
+		AEC965A31CF5AC800053A88D /* SettingViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AEC965A41CF5AC900053A88D /* UserSettingViewController.swift */,
+			);
+			path = SettingViewController;
+			sourceTree = "<group>";
+		};
+		AEC965A61CF5AFDD0053A88D /* AboutViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AEC965A71CF5AFE70053A88D /* AboutViewController.swift */,
+			);
+			path = AboutViewController;
+			sourceTree = "<group>";
+		};
 		AEFB55181CF462B3005FC23E /* UserCenterViewController */ = {
 			isa = PBXGroup;
 			children = (
+				AEC965A21CF5AC800053A88D /* UIViewController */,
+				AEC9659F1CF5A4DF0053A88D /* custom */,
 				AEFB55191CF462CD005FC23E /* UserCenterViewController.swift */,
+				AEC9659D1CF5A2E70053A88D /* User.storyboard */,
 			);
 			path = UserCenterViewController;
 			sourceTree = "<group>";
@@ -370,6 +414,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AEC09CDE1CE9776800D5A5CC /* LaunchScreen.storyboard in Resources */,
+				AEC9659E1CF5A2E70053A88D /* User.storyboard in Resources */,
 				AEC1D5C61CEDC34600B1F00C /* NSDateTimeAgo.bundle in Resources */,
 				AEC09CDB1CE9776800D5A5CC /* Assets.xcassets in Resources */,
 				AEC09CD91CE9776800D5A5CC /* Main.storyboard in Resources */,
@@ -437,6 +482,7 @@
 				6DC4FDCF1CF0314700D25A99 /* NewslistViewController.swift in Sources */,
 				AEC1D5BD1CED960100B1F00C /* New.swift in Sources */,
 				AEFB55151CF41407005FC23E /* Curly.swift in Sources */,
+				AEC965A51CF5AC900053A88D /* UserSettingViewController.swift in Sources */,
 				AEC1D5BF1CED9BBD00B1F00C /* NewsUtil.swift in Sources */,
 				AEBCAEE81CEC27A900EBFC0A /* Channel.swift in Sources */,
 				6DC4FDCE1CF0314700D25A99 /* NewslistViewControllerExtension.swift in Sources */,
@@ -452,9 +498,11 @@
 				6DC4FDD51CF031E000D25A99 /* ChannelManager.swift in Sources */,
 				AEBCAEF81CEC418200EBFC0A /* CircularButtonBarView.swift in Sources */,
 				AE0FE51E1CF2AB90007DA198 /* DetailAndCommitViewController.swift in Sources */,
+				AEC965A11CF5A4EF0053A88D /* CustomView.swift in Sources */,
 				AEC1D5C41CEDC22700B1F00C /* DateExt.swift in Sources */,
 				AEFB551A1CF462CD005FC23E /* UserCenterViewController.swift in Sources */,
 				AE0FE51D1CF2AB90007DA198 /* CommitViewController.swift in Sources */,
+				AEC965A81CF5AFE70053A88D /* AboutViewController.swift in Sources */,
 				6DC4FDD71CF031E000D25A99 /* KDRearrangeableCollectionViewFlowLayout.swift in Sources */,
 				6DC4FDCD1CF0314700D25A99 /* NewBaseTableViewCell.swift in Sources */,
 			);

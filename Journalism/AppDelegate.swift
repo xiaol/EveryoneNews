@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwaggerClient
 
 let IS_PLUS = UIScreen.mainScreen().bounds.size == CGSize(width: 414,height: 736) || UIScreen.mainScreen().bounds.size == CGSize(width: 736,height: 414)
 
@@ -19,8 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate ,UISplitViewControllerDele
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
-        let splitViewController = self.window!.rootViewController as! UISplitViewController
-        splitViewController.delegate = self
+//        let splitViewController = self.window!.rootViewController as! UISplitViewController
+//        splitViewController.delegate = self
         
         return true
     }

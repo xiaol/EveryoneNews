@@ -21,30 +21,30 @@ class NewsUtil: NSObject {
         
         let times = "\(Int64(NSDate().timeIntervalSince1970*1000))"
         
-        NewsAPI.loadGet(cid: "\(channelId)", tstart: times, page: nil, offset: nil) { (data, error) in
-            
-            let realm = try! Realm()
-            
-            if let _ = error {return }
-            
-            if let code = data?.objectForKey("code") as? Int {
-                if code != 0 {return}
-                if let data = data?.objectForKey("data") as? NSArray {
-                    
-                    try! realm.write({
-                        
-                        for channel in data {
-                            
-                            realm.create(New.self, value: channel, update: true)
-                            
-                            self.AnalysisPutTimeAndImageList(channel as! NSDictionary, realm: realm)
-                        }
-                    })
-                    
-                    finish?()
-                }
-            }
-        }
+//        NewsAPI.loadGet(cid: "\(channelId)", tstart: times, page: nil, offset: nil) { (data, error) in
+//            
+//            let realm = try! Realm()
+//            
+//            if let _ = error {return }
+//            
+//            if let code = data?.objectForKey("code") as? Int {
+//                if code != 0 {return}
+//                if let data = data?.objectForKey("data") as? NSArray {
+//                    
+//                    try! realm.write({
+//                        
+//                        for channel in data {
+//                            
+//                            realm.create(New.self, value: channel, update: true)
+//                            
+//                            self.AnalysisPutTimeAndImageList(channel as! NSDictionary, realm: realm)
+//                        }
+//                    })
+//                    
+//                    finish?()
+//                }
+//            }
+//        }
     }
     
     // 完善新闻事件
