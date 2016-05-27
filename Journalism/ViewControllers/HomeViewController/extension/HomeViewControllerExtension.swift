@@ -25,6 +25,14 @@ extension HomeViewController{
     }
     
     
+    // 点击用户头像所触发的事件
+    @IBAction func ClickUserHeadPhotoAction(sender: AnyObject) {
+        
+        let viewController = UIStoryboard.shareUserStoryBoard.get_UserCenterViewController()
+        
+        self.presentViewController(viewController, animated: true, completion: nil)
+    }
+    
     override func willTransitionToTraitCollection(newCollection: UITraitCollection, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         
         coordinator.animateAlongsideTransition({ (_) in // 横评的时候，处理频道管理显示视图的大小问题
@@ -32,7 +40,6 @@ extension HomeViewController{
             self.ChannelManagerContainerCollectionView.reloadData()
             
             }, completion: nil)
-        
     }
     
     // 初始化分页视图方法

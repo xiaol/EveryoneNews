@@ -71,8 +71,34 @@ class UserBottomtoTopBoderView:UIView{
 
 // - ---- - - - -  设置 UIView
 
+class touchView:UIView{
+
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        
+        super.touchesBegan(touches, withEvent: event)
+     
+        self.backgroundColor = UIColor.lightTextColor()
+    }
+    
+    
+    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        
+        super.touchesEnded(touches, withEvent: event)
+        
+        self.backgroundColor = UIColor.whiteColor()
+    }
+    
+    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+        
+        super.touchesCancelled(touches, withEvent: event)
+        
+        self.backgroundColor = UIColor.whiteColor()
+    }
+}
+
+
 ///按钮扩展类
-class SetttingToptoBottomBoderView:UIView{
+class SetttingToptoBottomBoderView:touchView{
     
     override func drawRect(rect: CGRect) {
         super.drawRect(rect)
@@ -101,7 +127,7 @@ class SetttingToptoBottomBoderView:UIView{
     }
 }
 
-class SetttingBottomtoTopBoderView:UIView{
+class SetttingBottomtoTopBoderView:touchView{
     
     override func drawRect(rect: CGRect) {
         super.drawRect(rect)
@@ -131,7 +157,7 @@ class SetttingBottomtoTopBoderView:UIView{
 }
 
 ///按钮扩展类
-class SetttingTopAndBottomBoderView:UIView{
+class SetttingTopAndBottomBoderView:touchView{
     
     override func drawRect(rect: CGRect) {
         super.drawRect(rect)
@@ -162,7 +188,7 @@ class SetttingTopAndBottomBoderView:UIView{
 
 
 ///按钮扩展类
-class SetttingBottomBoderView:UIView{
+class SetttingBottomBoderView:touchView{
     
     override func drawRect(rect: CGRect) {
         super.drawRect(rect)

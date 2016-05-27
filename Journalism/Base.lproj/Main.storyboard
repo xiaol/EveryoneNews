@@ -166,20 +166,22 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pdy-Li-RG9">
                                         <rect key="frame" x="0.0" y="0.0" width="44" height="43"/>
                                         <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="home_login" translatesAutoresizingMaskIntoConstraints="NO" id="hcH-39-s68" customClass="HeadPhotoView" customModule="Journalism" customModuleProvider="target">
-                                                <rect key="frame" x="6" y="6" width="32" height="31"/>
+                                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="产品经理头像" translatesAutoresizingMaskIntoConstraints="NO" id="hcH-39-s68" customClass="HeadPhotoView" customModule="Journalism" customModuleProvider="target">
+                                                <rect key="frame" x="6" y="6" width="32" height="32"/>
+                                                <gestureRecognizers/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="32" id="GeX-Rn-1Hy"/>
-                                                    <constraint firstAttribute="height" constant="31" id="jog-zf-wR6"/>
+                                                    <constraint firstAttribute="height" constant="32" id="GUr-d6-fX9"/>
+                                                    <constraint firstAttribute="width" constant="32" id="Ue7-77-4g9"/>
                                                 </constraints>
+                                                <connections>
+                                                    <outletCollection property="gestureRecognizers" destination="AIr-GZ-Ybe" appends="YES" id="ECf-GR-Kmh"/>
+                                                </connections>
                                             </imageView>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
-                                            <constraint firstItem="hcH-39-s68" firstAttribute="top" secondItem="Pdy-Li-RG9" secondAttribute="top" constant="6" id="4XS-r9-O5i"/>
-                                            <constraint firstItem="hcH-39-s68" firstAttribute="leading" secondItem="Pdy-Li-RG9" secondAttribute="leading" constant="6" id="XA1-ly-6Yk"/>
-                                            <constraint firstAttribute="bottom" secondItem="hcH-39-s68" secondAttribute="bottom" constant="6" id="qNf-sM-kHd"/>
-                                            <constraint firstAttribute="trailing" secondItem="hcH-39-s68" secondAttribute="trailing" constant="6" id="qf1-OP-VOe"/>
+                                            <constraint firstItem="hcH-39-s68" firstAttribute="centerX" secondItem="Pdy-Li-RG9" secondAttribute="centerX" id="aap-vN-iUO"/>
+                                            <constraint firstItem="hcH-39-s68" firstAttribute="centerY" secondItem="Pdy-Li-RG9" secondAttribute="centerY" id="f0D-O7-lso"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sCz-2N-lgt">
@@ -289,8 +291,8 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="56z-Av-Rbx">
                                                 <rect key="frame" x="100" y="0.0" width="100" height="50"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WNI-wk-aJW" customClass="ReasonButton" customModule="Journalism" customModuleProvider="target">
-                                                        <rect key="frame" x="5" y="11" width="90" height="28"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WNI-wk-aJW" customClass="ReasonButton" customModule="Journalism" customModuleProvider="target">
+                                                        <rect key="frame" x="5" y="12" width="90" height="27"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                         <state key="normal" title="  低质量  ">
                                                             <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -443,6 +445,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <customObject id="8Ht-yf-Bbh" customClass="HomeViewControllerChannelDataSource" customModule="Journalism" customModuleProvider="target"/>
+                <tapGestureRecognizer id="AIr-GZ-Ybe" userLabel="点击用户头像">
+                    <connections>
+                        <action selector="ClickUserHeadPhotoAction:" destination="BYZ-38-t0r" id="pMR-Wd-Enj"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="148" y="429"/>
         </scene>
@@ -1223,8 +1230,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="home_login" width="18" height="18"/>
         <image name="不感兴趣叉号" width="22" height="13"/>
+        <image name="产品经理头像" width="53" height="53"/>
         <image name="分类删除" width="13" height="13"/>
         <image name="添加频道" width="19" height="19"/>
         <image name="详情页分享" width="24" height="25"/>
