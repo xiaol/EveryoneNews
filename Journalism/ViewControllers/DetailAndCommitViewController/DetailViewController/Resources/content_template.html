@@ -1,0 +1,28 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <script src="jquery.js"></script>
+    <script src="jquery.lazyloadxt.js"></script>
+</head>
+
+<body id = "container" class="{{theme}}">
+    
+    <div id="title_section">
+        <div id='title'>{{title}}</div>
+        <div id='subtitle'>{{source}} <span aria-hidden="true">{{ptime}}</span></div>
+    </div>
+    <div id="body_section">
+        {{body}}
+    </div>
+</body>
+
+<script langue='javascript'>
+    window.onload=function(){
+     alert('页面加载完成！！'+document.body.scrollHeight);
+    }
+
+</script>
+
+</html>

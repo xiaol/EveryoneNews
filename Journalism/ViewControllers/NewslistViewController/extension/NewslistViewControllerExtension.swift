@@ -21,11 +21,15 @@ extension NewslistViewController:IndicatorInfoProvider{
             
             if let channelId = self.channel?.id {
                 
-                NewsUtil.RefreshChannleObjects(channelId, finish: {
+                NewsUtil.LoadNewsListArrayData(channelId,refresh:true, finish: {
                     
                     self.tableView.mj_header.endRefreshing()
                     
                     self.tableView.reloadData()
+                    
+                    }, fail: { 
+                        
+                        self.tableView.mj_header.endRefreshing()
                 })
             }
         })
@@ -35,10 +39,31 @@ extension NewslistViewController:IndicatorInfoProvider{
         
         self.tableView.mj_header = header
         
+        let footer = MJRefreshAutoNormalFooter {
+            
+            if let channelId = self.channel?.id,last = self.newsResults.last {
+                
+                NewsUtil.LoadNewsListArrayData(channelId,times: "\(Int64(last.ptimes.timeIntervalSince1970*1000))",finish: {
+                    
+                    self.tableView.mj_footer.endRefreshing()
+                    
+                    self.tableView.reloadData()
+                    
+                    }, fail: {
+                        
+                        self.tableView.mj_footer.endRefreshing()
+                })
+            }
+        }
+        
+        self.tableView.mj_footer = footer
+        
         self.tableView.layoutMargins = UIEdgeInsetsZero
         self.tableView.separatorInset = UIEdgeInsetsZero
         
         self.TextForChangehandleMethod()
+        
+        self.tableView.mj_header.beginRefreshing()
     }
     
     func indicatorInfoForPagerTabStrip(pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
@@ -83,25 +108,25 @@ extension NewslistViewController:UITableViewDataSource{
         
         let new = newsResults[indexPath.row]
         
-        if new.imgStyle == 0 {
+        if new.style == 0 {
         
             cell =  tableView.dequeueReusableCellWithIdentifier("NewNormalTableViewCell") as! NewNormalTableViewCell
             
             cell.setNewObject(new)
             
-        }else if new.imgStyle == 1 {
+        }else if new.style == 1 {
             
             cell =  tableView.dequeueReusableCellWithIdentifier("NewOneTableViewCell") as! NewOneTableViewCell
             
             cell.setNewObject(new)
             
-        }else if new.imgStyle == 2 {
+        }else if new.style == 2 {
             
             cell =  tableView.dequeueReusableCellWithIdentifier("NewTwoTableViewCell") as! NewTwoTableViewCell
             
             cell.setNewObject(new)
             
-        }else if new.imgStyle == 3 {
+        }else if new.style == 3 {
             
             cell =  tableView.dequeueReusableCellWithIdentifier("NewThreeTableViewCell") as! NewThreeTableViewCell
             

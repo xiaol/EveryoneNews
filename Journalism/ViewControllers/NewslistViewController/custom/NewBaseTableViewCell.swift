@@ -21,10 +21,10 @@ class NewBaseTableViewCell: UITableViewCell {
     func setNewObject(new:New){
     
         self.titleLabel.text = new.title
-        self.pubLabel.text = new.pubName
-        self.commentCountLabel.text = "\(new.commentsCount)评"
-        self.timeLabel.text = new.pubTimes.weiboTimeDescription
-        self.commentCountLabel.hidden = new.commentsCount > 0 ? false : true
+        self.pubLabel.text = new.pname
+        self.commentCountLabel.text = "\(new.comment)评"
+        self.timeLabel.text = new.ptimes.weiboTimeDescription
+        self.commentCountLabel.hidden = new.comment > 0 ? false : true
         
         
         self.layoutMargins = UIEdgeInsetsZero
@@ -68,7 +68,7 @@ class NewOneTableViewCell: NewBaseTableViewCell {
         
         self.imageView1.pin_updateWithProgress = true
         
-        if let url = NSURL(string: new.imgLists[0].value) {
+        if let url = NSURL(string: new.imgsList[0].value) {
             
             imageView1.pin_setImageFromURL(url, placeholderImage: UIImage.sharePlaceholderImage)
         }
@@ -87,12 +87,12 @@ class NewTwoTableViewCell: NewBaseTableViewCell {
         self.imageView1.pin_updateWithProgress = true
         self.imageView2.pin_updateWithProgress = true
         
-        if let url = NSURL(string: new.imgLists[0].value) {
+        if let url = NSURL(string: new.imgsList[0].value) {
             
             imageView1.pin_setImageFromURL(url, placeholderImage: UIImage.sharePlaceholderImage)
         }
         
-        if let url = NSURL(string: new.imgLists[1].value) {
+        if let url = NSURL(string: new.imgsList[1].value) {
             
             imageView2.pin_setImageFromURL(url, placeholderImage: UIImage.sharePlaceholderImage)
         }
@@ -115,17 +115,17 @@ class NewThreeTableViewCell: NewBaseTableViewCell {
         self.imageView2.pin_updateWithProgress = true
         self.imageView3.pin_updateWithProgress = true
         
-        if let url = NSURL(string: new.imgLists[0].value) {
+        if let url = NSURL(string: new.imgsList[0].value) {
             
             imageView1.pin_setImageFromURL(url, placeholderImage: UIImage.sharePlaceholderImage)
         }
         
-        if let url = NSURL(string: new.imgLists[1].value) {
+        if let url = NSURL(string: new.imgsList[1].value) {
             
             imageView2.pin_setImageFromURL(url, placeholderImage: UIImage.sharePlaceholderImage)
         }
         
-        if let url = NSURL(string: new.imgLists[2].value) {
+        if let url = NSURL(string: new.imgsList[2].value) {
             
             imageView3.pin_setImageFromURL(url, placeholderImage: UIImage.sharePlaceholderImage)
         }

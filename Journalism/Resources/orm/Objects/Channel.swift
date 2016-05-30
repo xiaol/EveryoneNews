@@ -12,9 +12,9 @@ import RealmSwift
 class Channel: Object {
     dynamic var id = 0 //
     dynamic var cname = ""
-    dynamic var online = 0
+    dynamic var state = 0
     
-    dynamic var orderindex = 1
+    dynamic var orderindex = 100
     dynamic var isdelete = 0
     
     override static func primaryKey() -> String? {

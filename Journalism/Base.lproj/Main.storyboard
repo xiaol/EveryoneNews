@@ -670,19 +670,54 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="详情页面" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x4A-o7-uXz">
-                                <rect key="frame" x="266" y="289" width="68" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Bg1-PT-JNq">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <webView key="tableHeaderView" userInteractionEnabled="NO" contentMode="scaleToFill" id="bDy-2b-QHI">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
+                                    <connections>
+                                        <outlet property="delegate" destination="LQe-oP-tyr" id="Wiz-Ut-7dA"/>
+                                    </connections>
+                                </webView>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" textLabel="X9X-YK-Vgo" style="IBUITableViewCellStyleDefault" id="mnY-7g-ahh">
+                                        <rect key="frame" x="0.0" y="228" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mnY-7g-ahh" id="Li1-BB-huD">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="X9X-YK-Vgo">
+                                                    <rect key="frame" x="15" y="0.0" width="570" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="LQe-oP-tyr" id="c05-0M-w6L"/>
+                                    <outlet property="delegate" destination="LQe-oP-tyr" id="dBr-Yi-kO3"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="x4A-o7-uXz" firstAttribute="centerX" secondItem="ho6-zb-kDd" secondAttribute="centerX" id="Mt1-9O-ahX"/>
-                            <constraint firstItem="x4A-o7-uXz" firstAttribute="centerY" secondItem="ho6-zb-kDd" secondAttribute="centerY" id="iSc-to-67o"/>
+                            <constraint firstAttribute="trailing" secondItem="Bg1-PT-JNq" secondAttribute="trailing" id="iD0-Zm-Jm2"/>
+                            <constraint firstItem="Esw-xE-DZB" firstAttribute="top" secondItem="Bg1-PT-JNq" secondAttribute="bottom" id="nYo-Gu-FL0"/>
+                            <constraint firstItem="Bg1-PT-JNq" firstAttribute="leading" secondItem="ho6-zb-kDd" secondAttribute="leading" id="rsK-l8-Fl1"/>
+                            <constraint firstItem="Bg1-PT-JNq" firstAttribute="top" secondItem="ho6-zb-kDd" secondAttribute="top" id="zfF-1s-2H5"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="Bg1-PT-JNq" id="LJf-BC-6sr"/>
+                        <outlet property="webView" destination="bDy-2b-QHI" id="ihi-mg-ITV"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N0n-GP-Yd0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

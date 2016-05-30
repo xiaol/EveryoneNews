@@ -10,4 +10,5 @@ target :'Journalism' do
     pod 'RealmSwift'                                         ## Realm ORM 持久化组件
     pod 'XLPagerTabStrip'                                    ## 滑动切换ViewController分页组件
     pod 'SwaggerClient', :path => 'swift-client/'            ## Swagger model Request组件
+    pod 'MGTemplateEngine', :path => 'MGTemplateEngine/'     ## MGTemplateEngine组件
 end

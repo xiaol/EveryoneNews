@@ -18,27 +18,24 @@ class ChannelUtil: NSObject {
      */
     class func RefreshChannleObjects(finish:(()->Void)?=nil,fail:(()->Void)?=nil){
         let realm = try! Realm()
-        
-//        ChannelsAPI.channelsGet(online: nil) { (data, error) in
-//            
-//            if let _ = error {fail?(); return }
-//            if let code = data?.objectForKey("code") as? Int {
-//                if code != 0 {fail?();return}
-//                if let data = data?.objectForKey("data") as? NSArray {
-//                    try! realm.write({
-//                        for channel in data {
-//                            realm.create(Channel.self, value: channel, update: true)
-//                        }
-//                    })
-//                    
-//                    try! realm.write({
-//                        realm.objects(Channel).filter("cname = '热点'").setValue(0, forKey: "orderindex")
-//                    })
-////                    let channles = realm.objects(Channel).sorted("orderindex", ascending: true).filter("isdelete == 0")
-//                    finish?()
-//                }else{fail?();return}
-//            }
-//        }
+        ChannelAPI.nsChsGet(s: nil) { (data, error) in
+            if let _ = error {fail?(); return }
+            if let code = data?.objectForKey("code") as? Int {
+                if code != 2000 {fail?();return}
+                if let data = data?.objectForKey("data") as? NSArray {
+                    try! realm.write({
+                        for channel in data {
+                            realm.create(Channel.self, value: channel, update: true)
+                        }
+                    })
+                    
+                    try! realm.write({
+                        realm.objects(Channel).filter("cname = '热点'").setValue(0, forKey: "orderindex")
+                    })
+                    finish?()
+                }else{fail?();return}
+            }
+        }
     }
     
     /**

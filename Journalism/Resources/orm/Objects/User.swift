@@ -14,6 +14,11 @@ let SDK_SHANGHAIUSERTOKEN = "SHANGHAISDKUSERTOKEN"
 
 class SDK_User:NSObject{
     
+    class var token:String?{
+    
+     return NSUserDefaults.standardUserDefaults().stringForKey(SDK_SHANGHAIUSERTOKEN)
+    }
+    
     // 获得用户的Token
     class func getSdkUserToken(finish:((token:String)->Void)?){
         

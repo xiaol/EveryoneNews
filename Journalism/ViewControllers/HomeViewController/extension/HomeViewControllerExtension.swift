@@ -20,8 +20,6 @@ extension HomeViewController{
         self.initialPagerTabStripMethod()
         
         self.TextForChangehandleMethod()
-        
-        
     }
     
     
@@ -131,7 +129,7 @@ extension HomeViewController{
         
         displayViewController.title = channel.cname
         
-        displayViewController.newsResults = self.newsResults.filter("channelId = %@",channel.id)
+        displayViewController.newsResults = self.newsResults.filter("channel = %@",channel.id)
         
         displayViewController.delegate = self
         

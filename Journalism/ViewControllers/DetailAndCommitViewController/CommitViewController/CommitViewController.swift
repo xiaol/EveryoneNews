@@ -11,6 +11,8 @@ import XLPagerTabStrip
 
 class CommitViewController: UIViewController,IndicatorInfoProvider {
     
+    var new:New!
+    
     func indicatorInfoForPagerTabStrip(pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
         
         let info = IndicatorInfo(title: "评论")

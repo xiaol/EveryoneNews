@@ -7,15 +7,20 @@
 //
 
 import UIKit
+import RealmSwift
 import XLPagerTabStrip
 
 class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavigationControllerDelegate,UIViewControllerTransitioningDelegate{
 
+    var new:New?
+    
     @IBOutlet weak var titleLabel: UILabel!
     
     let detailViewTransitioning = DetailViewAndCommitViewControllerPopAnimatedTransitioning() // Dismiss 反悔动画
     let detailViewInteractiveTransitioning = UIPercentDrivenInteractiveTransition() // 完成 process 渐进行动画
 
+    let dataSource = [UIViewController]()
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -54,11 +59,9 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
     
     override func viewControllersForPagerTabStrip(pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
         
-        let detailViewController = UIStoryboard.shareStoryBoard.get_DetailViewController()
-        let commitViewController = UIStoryboard.shareStoryBoard.get_CommitViewController()
+        let detailViewController = UIStoryboard.shareStoryBoard.get_DetailViewController(new)
+        let commitViewController = UIStoryboard.shareStoryBoard.get_CommitViewController(new)
         
         return [detailViewController,commitViewController]
     }
-
-
 }

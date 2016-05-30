@@ -55,23 +55,27 @@ extension UIStoryboard{
         
         let viewController = self.instantiateViewControllerWithIdentifier("DetailAndCommitViewController") as! DetailAndCommitViewController
         
-        viewController.title = new.title
+        viewController.new = new
         
         return viewController
     }
     
     // 获得详情视图
-    func get_DetailViewController ()-> UIViewController{
+    func get_DetailViewController (new:New?)-> UIViewController{
         
-        let viewController = self.instantiateViewControllerWithIdentifier("DetailViewController") 
+        let viewController = self.instantiateViewControllerWithIdentifier("DetailViewController") as! DetailViewController
 
+        viewController.new = new
+        
         return viewController
     }
     
     // 获得详情视图
-    func get_CommitViewController ()-> UIViewController{
+    func get_CommitViewController (new:New?)-> UIViewController{
         
-        let viewController = self.instantiateViewControllerWithIdentifier("CommitViewController")
+        let viewController = self.instantiateViewControllerWithIdentifier("CommitViewController") as! CommitViewController
+        
+        viewController.new = new
         
         return viewController
     }
