@@ -33,7 +33,6 @@ class NewContentUtil: NSObject {
                 self.AnalysisPutTimeAndImageList(datas, realm: realm)
             })
             
-            
             let newContengt = realm.objects(NewContent.self).filter("nid = \(nid)").first
             
             finish?(newCon: newContengt!)

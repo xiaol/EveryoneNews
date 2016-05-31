@@ -35,16 +35,18 @@ class DetailViewAndCommitViewControllerPopAnimatedTransitioning:NSObject,UIViewC
         fromVC.view.layer.shadowColor = UIColor.lightGrayColor().CGColor
         fromVC.view.layer.shadowOffset = CGSize(width: -1.5, height: 0)
         
-        toVC.view.transform = CGAffineTransformTranslate(toVC.view.transform, -(UIScreen.mainScreen().bounds.width)/2, 0)
+        toVC.view.transform = CGAffineTransformIdentity
+        
+        toVC.view.transform = CGAffineTransformMakeTranslation(-(UIScreen.mainScreen().bounds.width)/2, 0)
         
         UIView.animateWithDuration(self.transitionDuration(transitionContext), animations: {
             
-            fromVC.view.transform = CGAffineTransformTranslate(fromVC.view.transform, UIScreen.mainScreen().bounds.width, 0)
-            
             toVC.view.transform = CGAffineTransformIdentity
+            fromVC.view.transform = CGAffineTransformTranslate(fromVC.view.transform, UIScreen.mainScreen().bounds.width, 0)
             
         }) { (_) in
             
+            toVC.view.transform = CGAffineTransformIdentity
             
             fromVC.view.clipsToBounds = true
             

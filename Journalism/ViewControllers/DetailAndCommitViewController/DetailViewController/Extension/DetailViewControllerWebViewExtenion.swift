@@ -31,8 +31,11 @@ extension DetailViewController:UIWebViewDelegate{
         if let n = new {
             
             NewContentUtil.LoadNewsContentData(n.nid, finish: { (newCon) in
-            
+                
                 self.initWebViewString(newCon)
+                }, fail: { 
+                    
+                    print("失败")
             })
         }
     }
