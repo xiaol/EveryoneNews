@@ -28,7 +28,6 @@ class VisitorViewController: UIViewController,UISplitViewControllerDelegate {
     }
     
     func splitViewController(splitViewController: UISplitViewController, collapseSecondaryViewController secondaryViewController:UIViewController, ontoPrimaryViewController primaryViewController:UIViewController) -> Bool {
-
         guard let secondaryAsDetailController = secondaryViewController as? DetailAndCommitViewController else { return false }
         if let _ = secondaryAsDetailController.new {return true}
         return true

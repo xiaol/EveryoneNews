@@ -31,7 +31,32 @@ extension UIStoryboard{
             return backTaskLeton.bgTask
         }
     }
+    
+    /// 获取单例模式下的UIStoryBoard对象
+    /// 获取单例模式下的UIStoryBoard对象
+    var shareSplistViewController:UISplitViewController!{
+        
+        get{
+            
+            struct backTaskLeton{
+                
+                static var predicate:dispatch_once_t = 0
+                
+                static var bgTask:UISplitViewController? = nil
+            }
+            
+            dispatch_once(&backTaskLeton.predicate, { () -> Void in
+                
+                backTaskLeton.bgTask = self.instantiateViewControllerWithIdentifier("UISplitViewController") as? UISplitViewController
+            })
+            
+            return backTaskLeton.bgTask
+        }
+    }
 }
+
+
+
 
 extension UIStoryboard{
     

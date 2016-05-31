@@ -145,7 +145,7 @@ class HeadPhotoView:UIImageView{
         super.init(coder: aDecoder)
         self.layer.cornerRadius = self.frame.height/2
         self.layer.borderColor = UIColor(red: 228/255, green: 228/255, blue: 228/255, alpha: 1).CGColor
-        self.layer.borderWidth = 0.5
+        self.layer.borderWidth = 1
     }
 }
 

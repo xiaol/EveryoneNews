@@ -8,113 +8,40 @@
 
 import UIKit
 import RealmSwift
-import XLPagerTabStrip
 import MGTemplateEngine
+import WebViewJavascriptBridge
 
-class DetailViewController: UIViewController,IndicatorInfoProvider,UIWebViewDelegate {
+class DetailViewController: UIViewController {
     
-    var new:New?
+    var new:New? // 当前要展示的新闻对象
+    var engine:MGTemplateEngine! // 当前Html解析器，生成
+    var bridge:WebViewJavascriptBridge! // JS 交互侨联
     
-    @IBOutlet var tableView: UITableView!
-    
-    private var engine:MGTemplateEngine!
     
     @IBOutlet var webView: UIWebView!
-    
-    @IBOutlet var webViewHeightConstraint: NSLayoutConstraint!
-    func indicatorInfoForPagerTabStrip(pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
-        
-        let info = IndicatorInfo(title: "评论")
-        
-        return info
-    }
-    
-    
+    @IBOutlet var tableView: UITableView!
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
         
-        
+        webView.delegate = self
+        webView.hidden = true
+        webView.scrollView.scrollEnabled = false
         webView.scrollView.scrollsToTop = false
+        webView.scrollView.bounces = false
         
         engine = MGTemplateEngine()
         engine.matcher = ICUTemplateMatcher(templateEngine: engine)
         
+        webView.dataDetectorTypes = UIDataDetectorTypes.All
+        
         self.loadContentObjects()
         
-    }
-    
-    
-    private func loadContentObjects(){
-    
-        if let n = new {
-            
-            NewContentUtil.LoadNewsContentData(n.nid, finish: { (newCon) in
-                
-                self.initWebViewString(newCon)
-                
-            }) {
-                
-            }
-        }
-    }
-    
-    private func initWebViewString(newCon:NewContent){
-    
-        var body = ""
-        
-        for conten in newCon.content{
-        
-            if let img = conten.img {
-            
-                body += "<p><img data-src=\"\(img)\" width=\"100%\"></p>"
-            }
-            
-            
-            if let vid = conten.vid {
-                body += "<p>\(vid)</p>"
-            }
-            
-            
-            if let txt = conten.txt {
-                body += "<p>\(txt)</p>"
-            }
-            
-        }
-        
-        
-        let templatePath = NSBundle.mainBundle().pathForResource("content_template", ofType: "html")
-        
-        let variables = ["title":newCon.title,"source":newCon.pname,"ptime":newCon.ptime,"theme":"normal","body":body]
-        
-        let result = engine.processTemplateInFileAtPath(templatePath, withVariables: variables)
-        
-        print(result)
-        
-        webView.loadHTMLString(result, baseURL: NSBundle.mainBundle().bundleURL)
-    }
-    
-    
-    func webViewDidFinishLoad(webView: UIWebView) {
-        
-        webView.setNeedsLayout()
-        webView.layoutIfNeeded()
-
-        
-        let string = webView.stringByEvaluatingJavaScriptFromString("document.getElementById(\"container\").offsetHeight;")
-        
-        let con = CGFloat((string! as NSString).floatValue)
-        
-        print("高度",con)
-        
-        webView.frame.size.height = con+35
-        
         tableView.tableHeaderView = self.webView
+        
+        self.setWebViewJavascriptBridge()
     }
-    
-    
-    
 }
 
 
@@ -122,15 +49,46 @@ extension DetailViewController:UITableViewDelegate,UITableViewDataSource {
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 200
+        return 3
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell")! as UITableViewCell
+        if indexPath.row == 0 {
+            
+            let cell = tableView.dequeueReusableCellWithIdentifier("likeandpyq")! as UITableViewCell
+            
+            return cell
+        }else if indexPath.row == 1 {
+            
+            let cell = tableView.dequeueReusableCellWithIdentifier("comments")! as UITableViewCell
+            
+            return cell
+        }else if indexPath.row == 2 {
+            
+            let cell = tableView.dequeueReusableCellWithIdentifier("morecell")! as UITableViewCell
+            
+            return cell
+        }
         
-        cell.textLabel?.text = "\(indexPath.row)"
+        let cell = tableView.dequeueReusableCellWithIdentifier("likeandpyq")! as UITableViewCell
         
         return cell
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        
+        if indexPath.row == 0 {
+        
+            return 106
+        }else if indexPath.row == 1 {
+            
+            return 116
+        }else if indexPath.row == 2 {
+            
+            return 101
+        }
+        
+        return 106
     }
 }

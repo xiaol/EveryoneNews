@@ -56,6 +56,9 @@ public class New: Object {
     dynamic var city = "" // 城市
     dynamic var district = "" // 区
     
+    dynamic var isdelete = 0 // 区
+    
+    
     override public static func primaryKey() -> String? {
         return "nid"
     }

@@ -19,51 +19,61 @@ extension NewslistViewController:IndicatorInfoProvider{
         
         let header = MJRefreshNormalHeader(refreshingBlock: {
             
-            if let channelId = self.channel?.id {
-                
-                NewsUtil.LoadNewsListArrayData(channelId,refresh:true, finish: {
-                    
-                    self.tableView.mj_header.endRefreshing()
-                    
-                    self.tableView.reloadData()
-                    
-                    }, fail: { 
-                        
-                        self.tableView.mj_header.endRefreshing()
-                })
-            }
+            self.refreshNewsDataMethod()
         })
         
         header.lastUpdatedTimeLabel.hidden = true
         header.stateLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleSubheadline)
         
-        self.tableView.mj_header = header
-        
         let footer = MJRefreshAutoNormalFooter {
             
-            if let channelId = self.channel?.id,last = self.newsResults.last {
-                
-                NewsUtil.LoadNewsListArrayData(channelId,times: "\(Int64(last.ptimes.timeIntervalSince1970*1000))",finish: {
-                    
-                    self.tableView.mj_footer.endRefreshing()
-                    
-                    self.tableView.reloadData()
-                    
-                    }, fail: {
-                        
-                        self.tableView.mj_footer.endRefreshing()
-                })
-            }
+            self.loadNewsDataMethod()
         }
         
+        self.tableView.mj_header = header
         self.tableView.mj_footer = footer
         
         self.tableView.layoutMargins = UIEdgeInsetsZero
         self.tableView.separatorInset = UIEdgeInsetsZero
         
         self.TextForChangehandleMethod()
-        
-        self.tableView.mj_header.beginRefreshing()
+        self.refreshNewsDataMethod()
+    }
+    
+    /// 刷新新闻内容方法
+    private func refreshNewsDataMethod(){
+    
+        if let channelId = self.channel?.id {
+            
+            NewsUtil.LoadNewsListArrayData(channelId,refresh:true, finish: {
+                
+                self.tableView.mj_header.endRefreshing()
+                
+                self.tableView.reloadData()
+                
+                }, fail: {
+                    
+                    self.tableView.mj_header.endRefreshing()
+            })
+        }
+    }
+    
+    // 加载新闻内容方法
+    private func loadNewsDataMethod(){
+    
+        if let channelId = self.channel?.id,last = self.newsResults.last {
+            
+            NewsUtil.LoadNewsListArrayData(channelId,times: "\(Int64(last.ptimes.timeIntervalSince1970*1000))",finish: {
+                
+                self.tableView.mj_footer.endRefreshing()
+                
+                self.tableView.reloadData()
+                
+                }, fail: {
+                    
+                    self.tableView.mj_footer.endRefreshing()
+            })
+        }
     }
     
     func indicatorInfoForPagerTabStrip(pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {

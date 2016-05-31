@@ -25,6 +25,8 @@ class DetailViewAndCommitViewControllerPopAnimatedTransitioning:NSObject,UIViewC
             return transitionContext.completeTransition(true)
         }
         
+        toVC.view.frame = transitionContext.finalFrameForViewController(toVC)
+        
         cv.insertSubview(toVC.view, belowSubview: fromVC.view)
         
         fromVC.view.clipsToBounds = false
@@ -32,9 +34,6 @@ class DetailViewAndCommitViewControllerPopAnimatedTransitioning:NSObject,UIViewC
         fromVC.view.layer.shadowRadius = 5
         fromVC.view.layer.shadowColor = UIColor.lightGrayColor().CGColor
         fromVC.view.layer.shadowOffset = CGSize(width: -1.5, height: 0)
-        
-        
-        toVC.view.transform = CGAffineTransformIdentity
         
         toVC.view.transform = CGAffineTransformTranslate(toVC.view.transform, -(UIScreen.mainScreen().bounds.width)/2, 0)
         

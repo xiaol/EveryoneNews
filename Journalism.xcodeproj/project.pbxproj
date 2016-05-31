@@ -46,6 +46,14 @@
 		AEC1D5BF1CED9BBD00B1F00C /* NewsUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC1D5BE1CED9BBD00B1F00C /* NewsUtil.swift */; };
 		AEC1D5C41CEDC22700B1F00C /* DateExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC1D5C31CEDC22700B1F00C /* DateExt.swift */; };
 		AEC1D5C61CEDC34600B1F00C /* NSDateTimeAgo.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AEC1D5C51CEDC34600B1F00C /* NSDateTimeAgo.bundle */; };
+		AEC735321CFD2DEC00FB66D9 /* content.css in Resources */ = {isa = PBXBuildFile; fileRef = AEC735311CFD2DEC00FB66D9 /* content.css */; };
+		AEC735351CFD32D100FB66D9 /* DetailViewControllerWebViewExtenion.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC735341CFD32D100FB66D9 /* DetailViewControllerWebViewExtenion.swift */; };
+		AEC735371CFD32FE00FB66D9 /* DetailViewControllerExtenion.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC735361CFD32FE00FB66D9 /* DetailViewControllerExtenion.swift */; };
+		AEC735391CFD427B00FB66D9 /* bootstrap.min.css in Resources */ = {isa = PBXBuildFile; fileRef = AEC735381CFD427B00FB66D9 /* bootstrap.min.css */; };
+		AEC7353B1CFD469800FB66D9 /* jquery.lazyload.js in Resources */ = {isa = PBXBuildFile; fileRef = AEC7353A1CFD469800FB66D9 /* jquery.lazyload.js */; };
+		AEC7353D1CFD489900FB66D9 /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = AEC7353C1CFD489900FB66D9 /* home.png */; };
+		AEC735401CFD734E00FB66D9 /* BorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC7353F1CFD734E00FB66D9 /* BorderView.swift */; };
+		AEC735421CFD73DA00FB66D9 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC735411CFD73DA00FB66D9 /* CustomTableViewCell.swift */; };
 		AEC9659E1CF5A2E70053A88D /* User.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AEC9659D1CF5A2E70053A88D /* User.storyboard */; };
 		AEC965A11CF5A4EF0053A88D /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC965A01CF5A4EF0053A88D /* CustomView.swift */; };
 		AEC965A51CF5AC900053A88D /* UserSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC965A41CF5AC900053A88D /* UserSettingViewController.swift */; };
@@ -99,6 +107,14 @@
 		AEC1D5BE1CED9BBD00B1F00C /* NewsUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsUtil.swift; sourceTree = "<group>"; };
 		AEC1D5C31CEDC22700B1F00C /* DateExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExt.swift; sourceTree = "<group>"; };
 		AEC1D5C51CEDC34600B1F00C /* NSDateTimeAgo.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = NSDateTimeAgo.bundle; sourceTree = "<group>"; };
+		AEC735311CFD2DEC00FB66D9 /* content.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = content.css; sourceTree = "<group>"; };
+		AEC735341CFD32D100FB66D9 /* DetailViewControllerWebViewExtenion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewControllerWebViewExtenion.swift; sourceTree = "<group>"; };
+		AEC735361CFD32FE00FB66D9 /* DetailViewControllerExtenion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewControllerExtenion.swift; sourceTree = "<group>"; };
+		AEC735381CFD427B00FB66D9 /* bootstrap.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = bootstrap.min.css; sourceTree = "<group>"; };
+		AEC7353A1CFD469800FB66D9 /* jquery.lazyload.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.lazyload.js; sourceTree = "<group>"; };
+		AEC7353C1CFD489900FB66D9 /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home.png; sourceTree = "<group>"; };
+		AEC7353F1CFD734E00FB66D9 /* BorderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderView.swift; sourceTree = "<group>"; };
+		AEC735411CFD73DA00FB66D9 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		AEC9659D1CF5A2E70053A88D /* User.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = User.storyboard; sourceTree = "<group>"; };
 		AEC965A01CF5A4EF0053A88D /* CustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
 		AEC965A41CF5AC900053A88D /* UserSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingViewController.swift; sourceTree = "<group>"; };
@@ -211,6 +227,8 @@
 		AE0FE51B1CF2AB90007DA198 /* DetailViewController */ = {
 			isa = PBXGroup;
 			children = (
+				AEC7353E1CFD734300FB66D9 /* Custom */,
+				AEC735331CFD32B700FB66D9 /* Extension */,
 				AE7B1F761CFC467000090148 /* Resources */,
 				AE0FE51C1CF2AB90007DA198 /* DetailViewController.swift */,
 			);
@@ -229,9 +247,13 @@
 		AE7B1F761CFC467000090148 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				AEC7353C1CFD489900FB66D9 /* home.png */,
+				AEC735381CFD427B00FB66D9 /* bootstrap.min.css */,
+				AEC735311CFD2DEC00FB66D9 /* content.css */,
 				AE7B1F8D1CFC4E8D00090148 /* jquery.js */,
 				AE7B1F8E1CFC4E8D00090148 /* jquery.lazyloadxt.js */,
 				AE7B1F771CFC467000090148 /* content_template.html */,
+				AEC7353A1CFD469800FB66D9 /* jquery.lazyload.js */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -343,6 +365,24 @@
 				AEBCAEE51CEC25AD00EBFC0A /* orm */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		AEC735331CFD32B700FB66D9 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				AEC735361CFD32FE00FB66D9 /* DetailViewControllerExtenion.swift */,
+				AEC735341CFD32D100FB66D9 /* DetailViewControllerWebViewExtenion.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		AEC7353E1CFD734300FB66D9 /* Custom */ = {
+			isa = PBXGroup;
+			children = (
+				AEC7353F1CFD734E00FB66D9 /* BorderView.swift */,
+				AEC735411CFD73DA00FB66D9 /* CustomTableViewCell.swift */,
+			);
+			path = Custom;
 			sourceTree = "<group>";
 		};
 		AEC9659F1CF5A4DF0053A88D /* custom */ = {
@@ -481,13 +521,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AEC735391CFD427B00FB66D9 /* bootstrap.min.css in Resources */,
 				AE7B1F901CFC4E8D00090148 /* jquery.lazyloadxt.js in Resources */,
 				AEC09CDE1CE9776800D5A5CC /* LaunchScreen.storyboard in Resources */,
 				AEC9659E1CF5A2E70053A88D /* User.storyboard in Resources */,
+				AEC735321CFD2DEC00FB66D9 /* content.css in Resources */,
 				AEC1D5C61CEDC34600B1F00C /* NSDateTimeAgo.bundle in Resources */,
 				AE2968321CF69DFB00D2782D /* Privacy.html in Resources */,
+				AEC7353B1CFD469800FB66D9 /* jquery.lazyload.js in Resources */,
 				AE7B1F8F1CFC4E8D00090148 /* jquery.js in Resources */,
 				AE7B1F7D1CFC467000090148 /* content_template.html in Resources */,
+				AEC7353D1CFD489900FB66D9 /* home.png in Resources */,
 				AEC09CDB1CE9776800D5A5CC /* Assets.xcassets in Resources */,
 				AEC09CD91CE9776800D5A5CC /* Main.storyboard in Resources */,
 			);
@@ -550,6 +594,7 @@
 			files = (
 				6DC4FDD61CF031E000D25A99 /* HomeViewControllerChannelDataSource.swift in Sources */,
 				AE0FE5221CF2AC5D007DA198 /* DetailViewAndCommitViewControllerPopAnimatedTransitioning.swift in Sources */,
+				AEC735421CFD73DA00FB66D9 /* CustomTableViewCell.swift in Sources */,
 				AE2968341CF6AA3B00D2782D /* CustomTransitioning.swift in Sources */,
 				AE0FE5441CF301E8007DA198 /* UIImageExtension.swift in Sources */,
 				AEB8E9D71CFBE35900A105C4 /* SplitManagerViewController.swift in Sources */,
@@ -563,10 +608,12 @@
 				6DC4FDCC1CF0314700D25A99 /* HomeViewController.swift in Sources */,
 				AE0FE51F1CF2AB90007DA198 /* DetailViewController.swift in Sources */,
 				AEBCAEF31CEC3F4300EBFC0A /* UIStoryBoard.swift in Sources */,
+				AEC735371CFD32FE00FB66D9 /* DetailViewControllerExtenion.swift in Sources */,
 				AE0FE5241CF2AC97007DA198 /* DetailAndCommitViewControllerExtension.swift in Sources */,
 				AEC09CD41CE9776800D5A5CC /* AppDelegate.swift in Sources */,
 				AEBCAEEB1CEC2ADB00EBFC0A /* ChannelUtil.swift in Sources */,
 				AEBCAEFA1CEC419600EBFC0A /* CustomExtensionView.swift in Sources */,
+				AEC735351CFD32D100FB66D9 /* DetailViewControllerWebViewExtenion.swift in Sources */,
 				AE2968301CF69D4400D2782D /* PrivacyViewController.swift in Sources */,
 				AEB8E9D91CFBF42100A105C4 /* NewContent.swift in Sources */,
 				6DC4FDCB1CF0314700D25A99 /* HomeViewControllerExtension.swift in Sources */,
@@ -574,6 +621,7 @@
 				AEF420B41CF8019700CFAF73 /* UIViewControllerExtension.swift in Sources */,
 				AEFB55171CF41F10005FC23E /* NotLikeExtension.swift in Sources */,
 				6DC4FDD51CF031E000D25A99 /* ChannelManager.swift in Sources */,
+				AEC735401CFD734E00FB66D9 /* BorderView.swift in Sources */,
 				AEAEEBD91CF827A700E8DF08 /* User.swift in Sources */,
 				AEBCAEF81CEC418200EBFC0A /* CircularButtonBarView.swift in Sources */,
 				AE0FE51E1CF2AB90007DA198 /* DetailAndCommitViewController.swift in Sources */,
