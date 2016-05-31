@@ -50,6 +50,7 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
 
 @interface AppDelegate () <WXApiDelegate>
 @property (nonatomic, assign) AFNetworkReachabilityStatus networkStatus;
+
 @end
 
 @implementation AppDelegate
@@ -69,8 +70,24 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     }
     return _coreDataHelper;
 }
+//-(BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+//{
+//    [UIView animateWithDuration:0.2
+//                          delay:0
+//                        options: UIViewAnimationCurveEaseIn // change effect here.
+//                     animations:^{
+//                         self.window.viewForBaselineLayout.alpha = 0; // and at this alpha
+//                     }
+//                     completion:^(BOOL finished){
+//                     }];
+//    
+//    return YES;
+//}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
+    
+    
     if (debug==1) {
         NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
     }
@@ -140,8 +157,22 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     [[UINavigationBar appearance]  setBackgroundImage:[[UIImage alloc] init] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
     
+//        UIView *blurView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+//        blurView.backgroundColor = [UIColor redColor];
+//        [self.window addSubview:blurView];
     // 4. 显示窗口（成为主窗口）
     [self.window makeKeyAndVisible];
+    
+    
+
+//    
+    
+//    [UIView animateWithDuration:0.3f animations:^{
+//        
+//    } completion:^(BOOL finished) {
+//        [blurView removeFromSuperview];
+//    }];
+//    
     // 5. 监控网络状态
     AFNetworkReachabilityManager *mgr = [AFNetworkReachabilityManager sharedManager];
     [mgr setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
@@ -174,6 +205,40 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
         myDelegate.autoSizeScaleY = 1.0;
     }
     
+    
+
+
+    if (![userDefaults objectForKey:@"uauthorization"]) {
+        // 第一次进入存储游客Authorization
+        NSString *url = @"http://bdp.deeporiginalx.com/v2/au/sin/g";
+        NSMutableDictionary *paramUser = [NSMutableDictionary dictionary];
+        // 2 游客用户
+        paramUser[@"utype"] = @(2);
+        // 1 iOS 平台
+        paramUser[@"platform"] = @(1);
+        paramUser[@"province"]  = @"";
+        paramUser[@"city"] = @"";
+        paramUser[@"district"] = @"";
+        [LPHttpTool postJSONResponseAuthorizationWithURL:url params:paramUser success:^(id json, NSString *authorization) {
+            if ([json[@"code"] integerValue] == 2000) {
+                NSDictionary *dict = (NSDictionary *)json[@"data"];
+                [userDefaults setObject:dict[@"uid"] forKey:@"uid"];
+                [userDefaults setObject:dict[@"utype"] forKey:@"utype"];
+                [userDefaults setObject:authorization forKey:@"uauthorization"];
+                [userDefaults synchronize];
+                
+            
+            }
+        }  failure:^(NSError *error) {
+            NSString *authorization = @"Basic YWlxZXZ+d35wcSdvNmR3amw0NHh1eGpycnZwNnZ0M2tpcXh2NDl1eHluc2M0KWlzZjByKmJqajR6KH4uJ242Kg";
+            [userDefaults setObject:@"383" forKey:@"uid"];
+            [userDefaults setObject:@"2" forKey:@"utype"];
+            [userDefaults setObject:authorization forKey:@"uauthorization"];
+            [userDefaults synchronize];
+            NSLog(@"%@", error);
+        }];
+    }
+
     return YES;
 }
 

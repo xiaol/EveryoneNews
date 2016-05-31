@@ -26,7 +26,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface LPNewsLonginViewFromSettingViewController()<UMSocialUIDelegate>{
+@interface LPNewsLonginViewFromSettingViewController()<UMSocialUIDelegate> {
+
     UIButton *weixinBtn;
     UIButton *weiboBtn;
     UIButton *settingBtn;
@@ -34,12 +35,15 @@ NS_ASSUME_NONNULL_BEGIN
     UILabel *weixinLabel;
     UILabel *weiboLabel;
     UILabel *settingLabel;
+    
+
 }
+
+
 
 @end
 
 @implementation LPNewsLonginViewFromSettingViewController
-
 #pragma mark- Initialize
 
 - (instancetype)initWithCustom{
@@ -210,14 +214,58 @@ NS_ASSUME_NONNULL_BEGIN
             dict[@"uniqueDeviceID"] = [userDefaults objectForKey:@"uniqueDeviceID"];
             Account *account = [Account objectWithKeyValues:dict];
             [AccountTool saveAccount:account];
+            
             //将用户授权信息上传到服务器
-            NSDictionary *params = [NSDictionary dictionary];
-            params = account.keyValues;
-            [LPHttpTool getWithURL:AccountLoginUrl params:params success:^(id json) {
-                [self dismissViewControllerAnimated:YES completion:nil];
-            } failure:^(NSError *error) {
+            NSMutableDictionary *params = [NSMutableDictionary dictionary];
+            params[@"muid"] = ![userDefaults objectForKey:@"uid"] ? @(0):[userDefaults objectForKey:@"uid"];
+            params[@"msuid"] = accountEntity.usid;
+            
+            // 3 微博  4 微信 (wxsession    sina)
+            if([accountEntity.platformName isEqualToString:@"wxsession"]) {
+                params[@"utype"] = @(4);
+            } else if ([accountEntity.platformName isEqualToString:@"sina"]) {
+                params[@"utype"] = @(3);
+            }
+            params[@"platform"] = @(1);
+            params[@"suid"] = accountEntity.usid;
+            params[@"stoken"] = accountEntity.accessToken;
+            
+            //用于格式化NSDate对象
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            //设置格式：zzz表示时区
+            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+            //NSDate转NSString
+            NSString *currentDateString = [dateFormatter stringFromDate:accountEntity.expirationDate];
+            params[@"sexpires"] = currentDateString;
+            params[@"uname"] = accountEntity.userName;
+            params[@"gender"] = @(0);
+            params[@"avatar"] = accountEntity.iconURL;
+            params[@"averse"] = @[];
+            params[@"prefer"] = @[];
+            params[@"province"] = @"";
+            params[@"city"] = @"";
+            params[@"district"] = @"";
+            
+            // 第三方注册
+            NSString *url = @"http://bdp.deeporiginalx.com/v2/au/sin/s";
+            [LPHttpTool postJSONResponseAuthorizationWithURL:url params:params success:^(id json, NSString *authorization) {
+                if ([json[@"code"] integerValue] == 2000) {
+                    NSDictionary *dictData = (NSDictionary *)json[@"data"];
+                    [userDefaults setObject:dictData[@"uid"] forKey:@"uid"];
+                    [userDefaults setObject:dictData[@"utype"] forKey:@"utype"];
+                    [userDefaults setObject:authorization forKey:@"uauthorization"];
+                    [userDefaults synchronize];
+                    [self dismissViewControllerAnimated:YES completion:nil];
+//                    NSLog(@"%@", [userDefaults objectForKey:@"uauthorization"]);
+//                    
+//                    NSLog(@"%@", [userDefaults objectForKey:@"uid"]);
+//                    
+//                    NSLog(@"%@", [userDefaults objectForKey:@"utype"]);
+                }
+            }  failure:^(NSError *error) {
                 [MBProgressHUD showError:@"登录失败"];
             }];
+            
         } else {
             [MBProgressHUD showError:@"登录失败"];
         }

@@ -157,6 +157,51 @@
 #pragma mark - 登录微信微博平台
 - (void)loginWithPlatformName:(NSString *)type {
     
+//    UMSocialSnsPlatform *platform = [UMSocialSnsPlatformManager getSocialPlatformWithName:type];
+//    __weak typeof(self) wself = self;
+//    UMSocialControllerService *service = [UMSocialControllerService defaultControllerService];
+//    service.socialUIDelegate = self;
+//    platform.loginClickHandler(self, service , YES ,^(UMSocialResponseEntity *response) {
+//        
+//        if (response.responseCode == UMSResponseCodeSuccess) {
+//            UMSocialAccountEntity *accountEntity = [[UMSocialAccountManager socialAccountDictionary] valueForKey:type];
+//            NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+//            dict[@"userId"] = accountEntity.usid;
+//            dict[@"userGender"] = @(0);
+//            dict[@"userName"] = accountEntity.userName;
+//            dict[@"userIcon"] = accountEntity.iconURL;
+//            dict[@"platformType"] = accountEntity.platformName;
+//            dict[@"deviceType"] = @"ios";
+//            dict[@"token"] = accountEntity.accessToken;
+//            dict[@"expiresTime"] = @([NSDate dateToMilliSeconds:accountEntity.expirationDate]);
+//            dict[@"uniqueDeviceID"] = [userDefaults objectForKey:@"uniqueDeviceID"];
+//            Account *account = [Account objectWithKeyValues:dict];
+//            [AccountTool saveAccount:account];
+//            //将用户授权信息上传到服务器
+//            NSDictionary *params = [NSDictionary dictionary];
+//            params = account.keyValues;
+//            [LPHttpTool getWithURL:AccountLoginUrl params:params success:^(id json) {
+//                [noteCenter postNotificationName:AccountLoginNotification object:wself];
+//                if (wself.successBlock) {
+//                    wself.successBlock(account);
+//                }
+//                [wself closeSelf];
+//            } failure:^(NSError *error) {
+//                if (wself.failureBlock) {
+//                    wself.failureBlock();
+//                }
+//                [wself closeSelf];
+//            }];
+//        } else {
+//            
+//            if (wself.failureBlock) {
+//                wself.failureBlock();
+//            }
+//            [wself closeSelf];
+//        }
+//    });
+    
+    
     UMSocialSnsPlatform *platform = [UMSocialSnsPlatformManager getSocialPlatformWithName:type];
     __weak typeof(self) wself = self;
     UMSocialControllerService *service = [UMSocialControllerService defaultControllerService];
@@ -164,6 +209,7 @@
     platform.loginClickHandler(self, service , YES ,^(UMSocialResponseEntity *response) {
         
         if (response.responseCode == UMSResponseCodeSuccess) {
+            
             UMSocialAccountEntity *accountEntity = [[UMSocialAccountManager socialAccountDictionary] valueForKey:type];
             NSMutableDictionary *dict = [NSMutableDictionary dictionary];
             dict[@"userId"] = accountEntity.usid;
@@ -177,15 +223,53 @@
             dict[@"uniqueDeviceID"] = [userDefaults objectForKey:@"uniqueDeviceID"];
             Account *account = [Account objectWithKeyValues:dict];
             [AccountTool saveAccount:account];
+            
+            
+            
             //将用户授权信息上传到服务器
-            NSDictionary *params = [NSDictionary dictionary];
-            params = account.keyValues;
-            [LPHttpTool getWithURL:AccountLoginUrl params:params success:^(id json) {
-                [noteCenter postNotificationName:AccountLoginNotification object:wself];
-                if (wself.successBlock) {
-                    wself.successBlock(account);
+            NSMutableDictionary *paramsUser = [NSMutableDictionary dictionary];
+            paramsUser[@"muid"] = ![userDefaults objectForKey:@"uid"] ? @(0):[userDefaults objectForKey:@"uid"];
+            paramsUser[@"msuid"] = accountEntity.usid;
+            
+            // 3 微博  4 微信 (wxsession    sina)
+            if([accountEntity.platformName isEqualToString:@"wxsession"]) {
+                paramsUser[@"utype"] = @(4);
+            } else if ([accountEntity.platformName isEqualToString:@"sina"]) {
+                paramsUser[@"utype"] = @(3);
+            }
+            paramsUser[@"platform"] = @(1);
+            paramsUser[@"suid"] =[NSString stringWithFormat:@"%@", accountEntity.usid ] ;
+            paramsUser[@"stoken"] = accountEntity.accessToken;
+            
+            //用于格式化NSDate对象
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            //设置格式：zzz表示时区
+            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+            //NSDate转NSString
+            NSString *currentDateString = [dateFormatter stringFromDate:accountEntity.expirationDate];
+            paramsUser[@"sexpires"] = currentDateString;
+            paramsUser[@"uname"] = accountEntity.userName;
+            paramsUser[@"gender"] = @(0);
+            paramsUser[@"avatar"] =  accountEntity.iconURL;
+            paramsUser[@"province"] = @"";
+            paramsUser[@"city"] = @"";
+            paramsUser[@"district"] = @"";
+            
+            // 第三方注册
+            NSString *url = [NSString stringWithFormat:@"%@/v2/au/sin/s", ServerUrlVersion2];
+            
+            [LPHttpTool postJSONResponseAuthorizationWithURL:url params:paramsUser success:^(id json, NSString *authorization) {
+                if ([json[@"code"] integerValue] == 2000) {
+                    NSDictionary *dictData = (NSDictionary *)json[@"data"];
+                    [userDefaults setObject:dictData[@"uid"] forKey:@"uid"];
+                    [userDefaults setObject:dictData[@"utype"] forKey:@"utype"];
+                    [userDefaults setObject:authorization forKey:@"uauthorization"];
+                    [userDefaults synchronize];
+                    if (wself.successBlock) {
+                        wself.successBlock(account);
+                    }
+                    [wself closeSelf];
                 }
-                [wself closeSelf];
             } failure:^(NSError *error) {
                 if (wself.failureBlock) {
                     wself.failureBlock();
@@ -193,7 +277,6 @@
                 [wself closeSelf];
             }];
         } else {
-            
             if (wself.failureBlock) {
                 wself.failureBlock();
             }
@@ -348,14 +431,60 @@
 
 #pragma mark - 登录微信微博平台
 - (void)loginWithPlatformName:(NSString *)type {
+//    
+//    UMSocialSnsPlatform *platform = [UMSocialSnsPlatformManager getSocialPlatformWithName:type];
+//    __weak typeof(self) wself = self;
+//    UMSocialControllerService *service = [UMSocialControllerService defaultControllerService];
+//    service.socialUIDelegate = self;
+//    platform.loginClickHandler(self, service , YES ,^(UMSocialResponseEntity *response) {
+//        
+//        if (response.responseCode == UMSResponseCodeSuccess) {
+//            UMSocialAccountEntity *accountEntity = [[UMSocialAccountManager socialAccountDictionary] valueForKey:type];
+//            NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+//            dict[@"userId"] = accountEntity.usid;
+//            dict[@"userGender"] = @(0);
+//            dict[@"userName"] = accountEntity.userName;
+//            dict[@"userIcon"] = accountEntity.iconURL;
+//            dict[@"platformType"] = accountEntity.platformName;
+//            dict[@"deviceType"] = @"ios";
+//            dict[@"token"] = accountEntity.accessToken;
+//            dict[@"expiresTime"] = @([NSDate dateToMilliSeconds:accountEntity.expirationDate]);
+//            dict[@"uuid"] = [userDefaults objectForKey:@"uuid"];
+//            Account *account = [Account objectWithKeyValues:dict];
+//            [AccountTool saveAccount:account];
+//            //将用户授权信息上传到服务器
+//            NSDictionary *params = [NSDictionary dictionary];
+//            params = account.keyValues;
+//            [LPHttpTool getWithURL:AccountLoginUrl params:params success:^(id json) {
+//                [noteCenter postNotificationName:AccountLoginNotification object:wself];
+//                if (wself.successBlock) {
+//                    wself.successBlock(account);
+//                }
+//                [wself closeSelf];
+//            } failure:^(NSError *error) {
+//                if (wself.failureBlock) {
+//                    wself.failureBlock();
+//                }
+//                [wself closeSelf];
+//            }];
+//        } else {
+//            
+//            if (wself.failureBlock) {
+//                wself.failureBlock();
+//            }
+//            [wself closeSelf];
+//        }
+//    });
+    
     
     UMSocialSnsPlatform *platform = [UMSocialSnsPlatformManager getSocialPlatformWithName:type];
-    __weak typeof(self) wself = self;
+     __weak typeof(self) wself = self;
     UMSocialControllerService *service = [UMSocialControllerService defaultControllerService];
     service.socialUIDelegate = self;
     platform.loginClickHandler(self, service , YES ,^(UMSocialResponseEntity *response) {
         
         if (response.responseCode == UMSResponseCodeSuccess) {
+            
             UMSocialAccountEntity *accountEntity = [[UMSocialAccountManager socialAccountDictionary] valueForKey:type];
             NSMutableDictionary *dict = [NSMutableDictionary dictionary];
             dict[@"userId"] = accountEntity.usid;
@@ -366,30 +495,67 @@
             dict[@"deviceType"] = @"ios";
             dict[@"token"] = accountEntity.accessToken;
             dict[@"expiresTime"] = @([NSDate dateToMilliSeconds:accountEntity.expirationDate]);
-            dict[@"uuid"] = [userDefaults objectForKey:@"uuid"];
+            dict[@"uniqueDeviceID"] = [userDefaults objectForKey:@"uniqueDeviceID"];
             Account *account = [Account objectWithKeyValues:dict];
             [AccountTool saveAccount:account];
+            
+ 
+        
             //将用户授权信息上传到服务器
-            NSDictionary *params = [NSDictionary dictionary];
-            params = account.keyValues;
-            [LPHttpTool getWithURL:AccountLoginUrl params:params success:^(id json) {
-                [noteCenter postNotificationName:AccountLoginNotification object:wself];
-                if (wself.successBlock) {
-                    wself.successBlock(account);
+            NSMutableDictionary *paramsUser = [NSMutableDictionary dictionary];
+            paramsUser[@"muid"] = ![userDefaults objectForKey:@"uid"] ? @(0):[userDefaults objectForKey:@"uid"];
+            paramsUser[@"msuid"] = accountEntity.usid;
+            
+            // 3 微博  4 微信 (wxsession    sina)
+            if([accountEntity.platformName isEqualToString:@"wxsession"]) {
+                paramsUser[@"utype"] = @(4);
+            } else if ([accountEntity.platformName isEqualToString:@"sina"]) {
+                paramsUser[@"utype"] = @(3);
+            }
+            paramsUser[@"platform"] = @(1);
+            paramsUser[@"suid"] =[NSString stringWithFormat:@"%@", accountEntity.usid ] ;
+            paramsUser[@"stoken"] = accountEntity.accessToken;
+            
+            //用于格式化NSDate对象
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            //设置格式：zzz表示时区
+            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+            //NSDate转NSString
+            NSString *currentDateString = [dateFormatter stringFromDate:accountEntity.expirationDate];
+            paramsUser[@"sexpires"] = currentDateString;
+            paramsUser[@"uname"] = accountEntity.userName;
+            paramsUser[@"gender"] = @(0);
+            paramsUser[@"avatar"] =  accountEntity.iconURL;
+            paramsUser[@"province"] = @"";
+            paramsUser[@"city"] = @"";
+            paramsUser[@"district"] = @"";
+            
+            // 第三方注册
+            NSString *url = [NSString stringWithFormat:@"%@/v2/au/sin/s", ServerUrlVersion2];
+            
+            [LPHttpTool postJSONResponseAuthorizationWithURL:url params:paramsUser success:^(id json, NSString *authorization) {
+                if ([json[@"code"] integerValue] == 2000) {
+                    NSDictionary *dictData = (NSDictionary *)json[@"data"];
+                    [userDefaults setObject:dictData[@"uid"] forKey:@"uid"];
+                    [userDefaults setObject:dictData[@"utype"] forKey:@"utype"];
+                    [userDefaults setObject:authorization forKey:@"uauthorization"];
+                    [userDefaults synchronize];
+                    if (wself.successBlock) {
+                        wself.successBlock(account);
+                    }
+                    [wself closeSelf];
                 }
-                [wself closeSelf];
             } failure:^(NSError *error) {
+                    if (wself.failureBlock) {
+                        wself.failureBlock();
+                    }
+                    [wself closeSelf];
+            }];
+        } else {
                 if (wself.failureBlock) {
                     wself.failureBlock();
                 }
                 [wself closeSelf];
-            }];
-        } else {
-            
-            if (wself.failureBlock) {
-                wself.failureBlock();
-            }
-            [wself closeSelf];
         }
     });
 }

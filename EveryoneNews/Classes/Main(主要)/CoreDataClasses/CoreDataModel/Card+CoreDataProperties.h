@@ -2,7 +2,7 @@
 //  Card+CoreDataProperties.h
 //  EveryoneNews
 //
-//  Created by dongdan on 16/5/10.
+//  Created by dongdan on 16/5/26.
 //  Copyright © 2016年 apple. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -18,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSNumber *channelId;
 @property (nullable, nonatomic, retain) NSNumber *commentsCount;
 @property (nullable, nonatomic, retain) NSString *docId;
+@property (nullable, nonatomic, retain) NSNumber *isCardDeleted;
+@property (nullable, nonatomic, retain) NSNumber *isCollected;
 @property (nullable, nonatomic, retain) NSNumber *isRead;
 @property (nullable, nonatomic, retain) NSString *newId;
 @property (nullable, nonatomic, retain) NSString *sourceSiteName;
@@ -25,8 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSString *title;
 @property (nullable, nonatomic, retain) NSNumber *type;
 @property (nullable, nonatomic, retain) NSString *updateTime;
-@property (nullable, nonatomic, retain) NSNumber *isCardDeleted;
-@property (nullable, nonatomic, retain) NSNumber *isCollected;
+@property (nullable, nonatomic, retain) NSNumber *nid;
 @property (nullable, nonatomic, retain) NSSet<CardImage *> *cardImages;
 @property (nullable, nonatomic, retain) NSSet<CardRelate *> *cardRelates;
 

@@ -50,7 +50,7 @@ const static CGFloat padding5 = 10.0f;
     CGFloat sourceH = 0.0f;
     CGFloat sourceW = 0.0f;
     // 日期包含年份
-    if (_relatePoint.updateTime.length > 5) {
+    if (_relatePoint.ptime.length > 5) {
         
         _yearPoint = CGPointMake(padding + circleHeight / 2, padding5 + yearSize.height / 2);
         _monthDayPoint = CGPointMake(padding + circleHeight / 2 , yearSize.height + padding5 * 2 + monthSize.height / 2);
@@ -74,7 +74,7 @@ const static CGFloat padding5 = 10.0f;
         
     }
     // 有图样式
-    if (_relatePoint.imgUrl.length > 0 && [_relatePoint.imgUrl rangeOfString:@","].location == NSNotFound) {
+    if (_relatePoint.img.length > 0 && [_relatePoint.img rangeOfString:@","].location == NSNotFound) {
         
     
         titleW = ScreenWidth - imageW - circleWidth - padding2 - padding3 - padding * 2 ;

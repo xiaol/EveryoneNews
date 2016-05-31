@@ -122,6 +122,7 @@ const static CGFloat changeFontSizeViewH = 150;
 @property (nonatomic, strong) UIImageView *concernImageView;
 // 关心本文数量
 @property (nonatomic, strong) UILabel *concernCountLabel;
+@property (nonatomic, copy) NSString *concernCount;
 
 @property (nonatomic, strong) UIView *contentBottomView;
 // 重新加载提示信息
@@ -302,80 +303,103 @@ const static CGFloat changeFontSizeViewH = 150;
     
     // 详情页block
     void (^contentBlock)(id json) = ^(id json) {
-        [self.contentFrames removeAllObjects];
-        __block int downloadImageCount = 0;
-        NSInteger imageCount = 0;
-        NSInteger i = 0;
-        
-        NSDictionary *dict = json[@"data"];
-        NSString *title = dict[@"title"];
-        NSString *pubTime = dict[@"pubTime"];
-        NSString *pubName = dict[@"pubName"];
-//        NSInteger imgNum = [dict[@"imgNum"] integerValue];
-
-        self.contentTitle = title;
-        self.pubTime = pubTime;
-        self.pubName = pubName;
-        
-        self.shareURL = [NSString stringWithFormat:@"http://deeporiginalx.com/news.html?type=0&url=%@&interface", [self newID]] ;
-        self.shareTitle = title;
-        self.submitDocID = dict[@"docid"];
-        // 更新详情页评论数量
-        self.commentsCount = [dict[@"commentSize"] integerValue];
-        self.topView.badgeNumber = self.commentsCount;
-        self.bottomView.badgeNumber = self.commentsCount ;
-
-        [self setupHeaderView:title pubTime:pubTime pubName:pubName];
-
-        NSArray *bodyArray = dict[@"content"];
-
-        // 第一个图片作为分享图片
-        for (NSDictionary *dict in bodyArray) {
-            i++;
-            if (dict[@"img"] && i == 0) {
-                self.shareImageURL = dict[@"img"];
-            }
-            if (dict[@"img"]) {
-                ++ imageCount;
-            }
-        }
-
-        for (NSDictionary *dict in bodyArray) {
+        if ([json[@"code"] integerValue] == 2000) {
+            [self.contentFrames removeAllObjects];
+            __block int downloadImageCount = 0;
+            NSInteger imageCount = 0;
+            NSInteger i = 0;
             
-            LPContent *content = [[LPContent alloc] init];
+            NSMutableDictionary *dict = json[@"data"];
             
-            content.isAbstract = NO;
-            content.index = dict[@"index"];
-            content.photo = dict[@"img"];
-            content.image = [UIImage imageNamed:@"单图大图占位图"];
-            content.photoDesc = dict[@"img_info"];
-            content.body = dict[@"txt"];
-            if (content.photo) {
-                content.isPhoto = YES;
-            } else {
-                content.isPhoto = NO;
-            }
-            LPContentFrame *contentFrame = [[LPContentFrame alloc] init];
-            contentFrame.content = content;
-            [self.contentFrames addObject:contentFrame];
-            [contentFrame downloadImageWithCompletionBlock:^{
-//                NSInteger  index = [self.contentFrames indexOfObject:contentFrame];
-//                [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationAutomatic];
-                ++ downloadImageCount;
-                if (self.contentFrames.count > 0 && downloadImageCount == imageCount) {
-                    [self.tableView reloadData];
-                    [self noCommentsViewTip];
-                    [self.commentsTableView reloadData];
-                    self.tableView.hidden = NO;
-                    [self hideLoadingView];
+//            NSString *html = @"<!DOCTYPE html><html><head lang='en'><meta charset='UTF-8'><meta name='viewport' content='‘width=device-width,' initial-scale='1.0,' user-scalable='yes,target-densitydpi=device-dpi'><title></title></head><body><iframe class='video_iframe' style='z-index:1;width:300px!important;height:200px!important;overflow:hidden' frameborder='0' data-src='https://v.qq.com/iframe/preview.html?vid=l13054ewlm4&amp;width=300&amp;height=200&amp;auto=0' allowfullscreen src='http://v.qq.com/iframe/player.html?vid=l13054ewlm4&amp;width=300&amp;height=200&amp;auto=0' scrolling='no'></iframe></body></html>";
+            
+            NSString *title = dict[@"title"];
+            NSString *pubTime = dict[@"ptime"];
+            NSString *pubName = dict[@"pname"];
+            NSString *concern = [NSString stringWithFormat:@"%@", dict[@"concern"]] ;
+            
+            self.concernCount = concern;
+            
+            self.contentTitle = title;
+            self.pubTime = pubTime;
+            self.pubName = pubName;
+            
+            self.shareURL = [NSString stringWithFormat:@"http://deeporiginalx.com/news.html?type=0&nid=%@", [self nid] ] ;
+
+            self.shareTitle = title;
+            self.submitDocID = dict[@"docid"];
+            // 更新详情页评论数量
+            self.commentsCount = [dict[@"comment"] integerValue];
+            self.topView.badgeNumber = self.commentsCount;
+            self.bottomView.badgeNumber = self.commentsCount ;
+
+            [self setupHeaderView:title pubTime:pubTime pubName:pubName];
+
+            NSMutableArray *bodyArray = [[NSMutableArray alloc] initWithArray:dict[@"content"]];
+
+            // 测试专用
+//            [bodyArray addObject:[NSDictionary dictionaryWithObject:html forKey:@"video"]];
+//            
+//            NSString *html2 = @"<video id='vjs_video_3_html5_api' class='vjs-tech' preload='auto' autoplay="" src='http://v6.pstatp.com/video/c/fb7a64d1bef04ee8bc471970ee99acf4/?Signature=2j2KBE4WeVPA6dAdxHELVPFhCXA%3D&amp;Expires=1464577090&amp;KSSAccessKeyId=qh0h9TdcEMrm1VlR2ad/'><source type='video/mp4' src='http://v6.pstatp.com/video/c/fb7a64d1bef04ee8bc471970ee99acf4/?Signature=2j2KBE4WeVPA6dAdxHELVPFhCXA%3D&amp;Expires=1464577090&amp;KSSAccessKeyId=qh0h9TdcEMrm1VlR2ad/'></video>";
+//            // 测试专用
+//            [bodyArray addObject:[NSDictionary dictionaryWithObject:html2 forKey:@"video"]];
+            
+            // 第一个图片作为分享图片
+            for (NSDictionary *dict in bodyArray) {
+                i++;
+                if (dict[@"img"] && i == 0) {
+                    self.shareImageURL = dict[@"img"];
                 }
-            }];
+                if (dict[@"img"]) {
+                    ++ imageCount;
+                }
+            }
+
+            for (NSDictionary *dict in bodyArray) {
+                
+                LPContent *content = [[LPContent alloc] init];
+                
+                content.isAbstract = NO;
+                content.index = dict[@"index"];
+                content.photo = dict[@"img"];
+                content.image = [UIImage imageNamed:@"单图大图占位图"];
+                content.photoDesc = dict[@"img_info"];
+                content.body = dict[@"txt"];
+                content.video = dict[@"video"];
+                if (content.photo) {
+                    content.isPhoto = YES;
+                    content.contentType = 1;
+                    
+                } else if(content.video){
+                    
+                    content.contentType = 3;
+                    content.isPhoto = NO;
+                } else if(content.body) {
+                    
+                    content.contentType = 2;
+                    content.isPhoto = NO;
+                }
+                LPContentFrame *contentFrame = [[LPContentFrame alloc] init];
+                contentFrame.content = content;
+                [self.contentFrames addObject:contentFrame];
+                [contentFrame downloadImageWithCompletionBlock:^{
+
+                    ++ downloadImageCount;
+                    if (self.contentFrames.count > 0 && downloadImageCount == imageCount) {
+                        [self.tableView reloadData];
+                        [self noCommentsViewTip];
+                        [self.commentsTableView reloadData];
+                        self.tableView.hidden = NO;
+                        [self hideLoadingView];
+                    }
+                }];
+            }
         }
     };
 
     // 精选评论block
     void (^excellentCommentsBlock)(id json) = ^(id json) {
-        if ([json[@"code"] integerValue] == 0) {
+        if ([json[@"code"] integerValue] == 2000) {
             [self.excellentCommentsFrames removeAllObjects];
             NSArray *commentsArray = json[@"data"];
             int i = 0;
@@ -384,15 +408,14 @@ const static CGFloat changeFontSizeViewH = 150;
                 // 精选评论
                 LPComment *excellentComment = [[LPComment alloc] init];
                 excellentComment.srcText = dict[@"content"];
-                excellentComment.createTime = dict[@"create_time"];
-                excellentComment.up = [NSString stringWithFormat:@"%@", dict[@"love"]] ;
-                excellentComment.userIcon = dict[@"profile"];
-                excellentComment.commentId = dict[@"comment_id"];
-                excellentComment.userName = dict[@"nickname"];
+                excellentComment.createTime = dict[@"ctime"];
+                excellentComment.up = [NSString stringWithFormat:@"%@", dict[@"commend"]] ;
+                excellentComment.userIcon = dict[@"avatar"];
+                excellentComment.userName = dict[@"uname"];
                 excellentComment.color = [UIColor colorFromHexString:@"#747474"];
-                excellentComment.isPraiseFlag = @"0";
+                excellentComment.isPraiseFlag = [NSString stringWithFormat:@"%@", dict[@"upflag"]] ;
                 excellentComment.Id = dict[@"id"];
-                
+
                 LPCommentFrame *excellentCommentFrame = [[LPCommentFrame alloc] init];
                 excellentCommentFrame.comment = excellentComment;
                 excellentCommentFrame.currentIndex = i;
@@ -408,21 +431,21 @@ const static CGFloat changeFontSizeViewH = 150;
     
     // 全文评论
     void (^commentsBlock)(id json) = ^(id json) {
-        if ([json[@"code"] integerValue] == 0) {
+        if ([json[@"code"] integerValue] == 2000) {
             [self.fulltextCommentFrames removeAllObjects];
             NSArray *commentsArray = json[@"data"];
             for (NSDictionary *dict in commentsArray) {
                 
-                // 精选评论
                 LPComment *comment = [[LPComment alloc] init];
                 comment.srcText = dict[@"content"];
-                comment.createTime = dict[@"create_time"];
-                comment.up = [NSString stringWithFormat:@"%@", dict[@"love"]] ;
-                comment.userIcon = dict[@"profile"];
-                comment.commentId = dict[@"comment_id"];
-                comment.userName = dict[@"nickname"];
+                comment.createTime = dict[@"ctime"];
+                comment.up = [NSString stringWithFormat:@"%@", dict[@"commend"]] ;
+                comment.userIcon = dict[@"avatar"];
+                comment.userName = dict[@"uname"];
                 comment.color = [UIColor colorFromHexString:@"#747474"];
-                comment.isPraiseFlag = @"0";
+                comment.isPraiseFlag = [NSString stringWithFormat:@"%@", dict[@"upflag"]] ;
+           
+                
                 comment.Id = dict[@"id"];
                 
                 LPFullCommentFrame *commentFrame = [[LPFullCommentFrame alloc] init];
@@ -433,19 +456,29 @@ const static CGFloat changeFontSizeViewH = 150;
                     self.commentsTableView.scrollEnabled = YES;
                 }
             }
+          self.pageIndex = 1;
         }
-        self.pageIndex = 1;
     };
 
     // 相关观点block
     void (^relatePointBlock)(id json) = ^(id json) {
-        if ([json[@"code"] integerValue] == 0) {
+        
+//        NSLog(@"%@", json);
+        
+         NSString *jsonString =  @"[{ \"url\": \"http://news.163.com/16/0520/08/BNGEG7ID00014Q4P.html\",\"title\": \"但愿雷洋事件不是一个小插曲\",\"from\": \"Baidu\",\"rank\": 1,\"pname\": \"网易新闻\",\"ptime\": \"2016-05-20 08:47:45\",\"img\": \"\",\"abs\": \"据@平安北京19日发布...\"}]" ;
+        NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+        id jsonTest = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+     //   NSLog(@"%@", json);
+//        if ([json[@"code"] integerValue] == 2000) {
             [self.relatePointFrames removeAllObjects];
-            NSDictionary *dict = json[@"data"];
-            NSArray *relatePointArray = [LPRelatePoint objectArrayWithKeyValuesArray:dict[@"searchItems"]];
+//            NSDictionary *dict = json[@"data"];
+        
+            NSDictionary *dict = jsonTest;
+        
+            NSArray *relatePointArray = [LPRelatePoint objectArrayWithKeyValuesArray:dict];
             // 按照时间排序
             NSArray *sortedRelateArray = [relatePointArray sortedArrayUsingComparator:^NSComparisonResult(LPRelatePoint *p1, LPRelatePoint *p2) {
-                return [p2.updateTime compare:p1.updateTime];
+                return [p2.ptime compare:p1.ptime];
             }];
             NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
             [formatter setDateFormat:@"yyyy"];
@@ -453,16 +486,16 @@ const static CGFloat changeFontSizeViewH = 150;
             
             for (int i = 0; i < sortedRelateArray.count; i++) {
                 LPRelatePoint *point = sortedRelateArray[i];
-                NSString *updateTime = point.updateTime;
+                NSString *updateTime = point.ptime;
                 NSString *updateYear = [updateTime substringToIndex:4];
                 NSString *updateMonthDay = [[updateTime substringWithRange:NSMakeRange(5, 5)] stringByReplacingOccurrencesOfString:@"-"withString:@"/"];
                 if ([updateYear isEqualToString:currentYear]) {
-                    point.updateTime = updateMonthDay;
+                    point.ptime = updateMonthDay;
                 } else {
-                    point.updateTime = [NSString stringWithFormat:@"%@/%@", updateYear,updateMonthDay];
+                    point.ptime = [NSString stringWithFormat:@"%@/%@", updateYear,updateMonthDay];
                 }
                 currentYear = updateYear;
-                if ([point.searchFrom isEqualToString:@"Google"]) {
+                if ([point.from isEqualToString:@"Google"]) {
                     self.googleSourceExistsInRelatePoint = true;
                 }
                
@@ -481,7 +514,7 @@ const static CGFloat changeFontSizeViewH = 150;
                     break;
                 }
             }
-        }
+//        }
     };
     
     void (^reloadTableViewBlock)() = ^{
@@ -504,47 +537,47 @@ const static CGFloat changeFontSizeViewH = 150;
 
     // 详情页正文
     NSMutableDictionary *detailContentParams = [NSMutableDictionary dictionary];
-    NSString *detailContentURL = @"http://api.deeporiginalx.com/bdp/news/content";
-    detailContentParams[@"url"] = [self newID];
-
-    //NSLog(@"%@?url=%@",detailContentURL,  [self.card valueForKey:@"newId"]);
+    NSString *detailContentURL = [NSString stringWithFormat:@"%@/v2/ns/con", ServerUrlVersion2];
+    detailContentParams[@"nid"] = [self nid];
+//    NSLog(@"%@?nid=%@",detailContentURL,  [self nid]);
     
     // 精选评论
-    NSString *excellentDetailCommentsURL = @"http://api.deeporiginalx.com/bdp/news/comment/ydzx";
+    NSString *excellentDetailCommentsURL = [NSString stringWithFormat:@"%@/v2/ns/coms/h", ServerUrlVersion2];
     NSMutableDictionary *excellentDetailCommentsParams = [NSMutableDictionary dictionary];
-    excellentDetailCommentsParams[@"docid"] = [self docId];
-    excellentDetailCommentsParams[@"page"] = @(1);
-    excellentDetailCommentsParams[@"offset"] = @"20";
+    excellentDetailCommentsParams[@"did"] = [[[self docId] stringByBase64Encoding] stringByTrimmingString:@"="];
+    excellentDetailCommentsParams[@"uid"] = [userDefaults objectForKey:@"uid"];
+ 
+//    NSLog(@"%@", excellentDetailCommentsParams);
     
     
     // 相关观点
     NSMutableDictionary *detailRelatePointParams = [NSMutableDictionary dictionary];
-    detailRelatePointParams[@"url"] = [self newID];
-    NSString *relateURL = @"http://api.deeporiginalx.com/bdp/news/related";
+    detailRelatePointParams[@"nid"] = [self nid];
+    NSString *relateURL = [NSString stringWithFormat:@"%@/v2/ns/asc", ServerUrlVersion2];
 
-    NSLog(@"%@?url=%@",relateURL,  [self.card valueForKey:@"newId"]);
+//    NSLog(@"%@?url=%@",relateURL,  [self.card valueForKey:@"newId"]);
     
     // 全文评论
-    NSString *detailCommentsURL = @"http://api.deeporiginalx.com/bdp/news/comment/ydzx";
+    NSString *detailCommentsURL = [NSString stringWithFormat:@"%@/v2/ns/coms/c", ServerUrlVersion2];
     NSMutableDictionary *detailCommentsParams = [NSMutableDictionary dictionary];
-    detailCommentsParams[@"docid"] = [self docId];
-    detailCommentsParams[@"page"] = @(1);
-    detailCommentsParams[@"offset"] = @"20";
+    detailCommentsParams[@"did"] = [[[self docId] stringByBase64Encoding] stringByTrimmingString:@"="];
+    detailCommentsParams[@"p"] = @(1);
+    detailCommentsParams[@"c"] = @"20";
+    detailCommentsParams[@"uid"] = [userDefaults objectForKey:@"uid"];
+    
+   // NSLog(@"%@",    detailCommentsParams[@"did"] );
     
     
     // 详情页正文
     [LPHttpTool getWithURL:detailContentURL params:detailContentParams success:^(id json) {
-
-        contentBlock(json);
         
-        // 详情页精选
+        contentBlock(json);
+        // 详情页精选评论
         [LPHttpTool getWithURL:excellentDetailCommentsURL params:excellentDetailCommentsParams success:^(id json) {
-            
+
             excellentCommentsBlock(json);
-            
             // 相关观点
             [LPHttpTool getWithURL:relateURL params:detailRelatePointParams success:^(id json) {
-                
                 relatePointBlock(json);
                 // 全文评论
                 [LPHttpTool getWithURL:detailCommentsURL params:detailCommentsParams success:^(id json) {
@@ -593,8 +626,10 @@ const static CGFloat changeFontSizeViewH = 150;
             });
         }
         [self endTimer];
+        
+        NSLog(@"%d", self.stayTimeInterval);
         // 提交用户日志
-        [self submitUserOperationLog];
+     
     }
     self.statusWindow.hidden = NO;
 }
@@ -611,6 +646,7 @@ const static CGFloat changeFontSizeViewH = 150;
 - (void)endTimer {
     [self.timer invalidate];
     self.timer = nil;
+    [self submitUserOperationLog];
 }
 
 #pragma mark - viewWillDisappear
@@ -624,49 +660,35 @@ const static CGFloat changeFontSizeViewH = 150;
 #pragma mark - 上传用户操作日志
 - (void)submitUserOperationLog {
     
-    NSString *uid= (NSString *)[userDefaults objectForKey:@"uniqueDeviceIDÏ"];
-    NSString *cou = @""; // 国家
-    NSString *pro = @""; // 省
-    NSString *cit = @""; // 城市
-    NSString *dis = @""; // 区，县
-    NSString *clas = @"0"; // 0 表示详情页，1表示列表页上报
-    NSString *nid = [self newID];
-//    NSString *nid =@"newId";
-
-    NSString *cid = [NSString stringWithFormat:@"%d", [self channelID].integerValue]; // 频道编号
-    NSString *tid= @""; // 包含置顶，热点 推荐 订阅 图片 兴趣探索 推广
-    NSString *stime = [NSString stringWithFormat:@"%ld",(long)self.stayTimeInterval];
-    NSString *sltime = @"";
-    NSString *from = @"1"; // 1表示列表页
-
-    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    [dic setObject:nid forKey:@"nid"];
-    [dic setObject:cid forKey:@"cid"];
-    [dic setObject:tid forKey:@"tid"];
-    [dic setObject:stime forKey:@"stime"];
-    [dic setObject:sltime forKey:@"sltime"];
-    [dic setObject:from forKey:@"from"];
+    NSString *uid = (NSString *)[userDefaults objectForKey:@"uid"];
+    NSString *province = @""; // 省
+    NSString *city = @""; // 城市
+    NSString *county  = @""; // 区，县
+    NSString *n = [self nid];
+    NSString *c = [NSString stringWithFormat:@"%ld", (long)[self channelID].integerValue]; // 频道编号
+    NSString *t = @"0";
+    NSString *s = [NSString stringWithFormat:@"%d",self.stayTimeInterval];
+    NSString *f = @"0";
     
-    NSString *url = @"http://bdp.deeporiginalx.com/rep";
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"uid"] = uid;
-    params[@"cou"] = cou;
-    params[@"pro"] = pro;
-    params[@"cit"] = cit;
-    params[@"dis"] = dis;
-    params[@"clas"] = clas;
+    NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+    [dic setValue:n forKey:@"n"];
+    [dic setValue:c forKey:@"c"];
+    [dic setValue:t forKey:@"t"];
+    [dic setValue:s forKey:@"s"];
+    [dic setValue:f forKey:@"f"];
+   
     NSError *error = nil;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic
-                                                       options:NSJSONWritingPrettyPrinted // Pass 0 if you don't care about the readability of the generated string
+                                                       options:0 // Pass 0 if you don't care about the readability of the generated string
                                                          error:&error];
-    params[@"data"] = [jsonData base64EncodedStringWithOptions:0];
+    NSString *data  = [[jsonData base64EncodedStringWithOptions:0] stringByTrimmingString:@"="];
+    NSString *url = [NSString stringWithFormat:@"http://bdp.deeporiginalx.com/rep/v2/c?u=%@&p=%@t=%@&i=%@&d=%@", uid,province,city,county,data];
+
     if (!error) {
         self.http = [LPHttpTool http];
-        [self.http getImageWithURL:url params:params success:^(id json) {
-           //NSLog(@"stime:%@", stime);
-            NSLog(@"%@ --- success!", NSStringFromSelector(_cmd));
+        [self.http getImageWithURL:url params:nil success:^(id json) {
         } failure:^(NSError *error) {
-            NSLog(@"%@ --- failure!", NSStringFromSelector(_cmd));
+            NSLog(@"%@", error);
 
         }];
     }
@@ -950,26 +972,28 @@ const static CGFloat changeFontSizeViewH = 150;
 #pragma mark - 全文评论加载更多
 - (void)loadMoreCommentsData {
         self.pageIndex = self.pageIndex + 1;
-        NSString *url = @"http://api.deeporiginalx.com/bdp/news/comment/ydzx";
+    
+        NSString *url = [NSString stringWithFormat:@"%@/v2/ns/coms/c", ServerUrlVersion2];
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
-        params[@"docid"] = self.docId;
-        params[@"page"] = @(self.pageIndex);
-        params[@"offset"] = @"20";
-        
+        params[@"did"] = [[[self docId] stringByBase64Encoding] stringByTrimmingString:@"="];
+        params[@"p"] = @(self.pageIndex);
+        params[@"c"] = @"20";
+        params[@"uid"] = [userDefaults objectForKey:@"uid"];
+    
         __weak typeof(self) weakSelf = self;
         [LPHttpTool getWithURL:url params:params success:^(id json) {
-            if ([json[@"code"] integerValue] == 0) {
+            if ([json[@"code"] integerValue] == 2000) {
                 NSArray *commentsArray = json[@"data"];
                 for (NSDictionary *dict in commentsArray) {
                     LPComment *comment = [[LPComment alloc] init];
                     comment.srcText = dict[@"content"];
-                    comment.createTime = dict[@"create_time"];
-                    comment.up = [NSString stringWithFormat:@"%@", dict[@"love"]] ;
-                    comment.userIcon = dict[@"profile"];
-                    comment.commentId = dict[@"comment_id"];
-                    comment.userName = dict[@"nickname"];
+                    comment.createTime = dict[@"ctime"];
+                    comment.up = [NSString stringWithFormat:@"%@", dict[@"commend"]] ;
+                    comment.userIcon = dict[@"avatar"];
+                    comment.Id = dict[@"id"];
+                    comment.userName = dict[@"uname"];
                     comment.color = [UIColor colorFromHexString:@"#747474"];
-                    comment.isPraiseFlag = @"0";
+                    comment.isPraiseFlag = [NSString stringWithFormat:@"%@", dict[@"upflag"]] ;
                     
                     LPFullCommentFrame *commentFrame = [[LPFullCommentFrame alloc] init];
                     commentFrame.comment = comment;
@@ -1058,9 +1082,9 @@ const static CGFloat changeFontSizeViewH = 150;
     return _card;
 }
 
-- (NSString *)newID {
+- (NSString *)nid {
     if (![self card]) return nil;
-    return [[self card] valueForKey:@"newId"];
+    return [[self card] valueForKey:@"nid"];
 }
 
 - (NSString *)docId {
@@ -1271,9 +1295,8 @@ const static CGFloat changeFontSizeViewH = 150;
             UIView *contentBottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, contentBottomViewH)];
             
             // 关心本文数量
-            NSString *concernCount = @"2";
             CGFloat labelFontSize = 13;
-            CGFloat labelW = [concernCount sizeWithFont:[UIFont systemFontOfSize:labelFontSize] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].width;
+            CGFloat labelW = [self.concernCount sizeWithFont:[UIFont systemFontOfSize:labelFontSize] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].width;
             
             CGFloat concernImageViewH = 18;
             CGFloat concernImageViewW = 21;
@@ -1308,10 +1331,9 @@ const static CGFloat changeFontSizeViewH = 150;
             CGFloat labelY = concernImageViewY;
             CGFloat labelH = concernImageViewH;
             UILabel *concernCountLabel = [[UILabel alloc] initWithFrame:CGRectMake((CGRectGetMaxX(concernImageView.frame) + 7), labelY, labelW, labelH)];
-            concernCountLabel.text = concernCount;
             concernCountLabel.font = [UIFont systemFontOfSize:labelFontSize];
             concernCountLabel.textColor = [UIColor colorFromHexString:@"#e94221"];
-            
+            concernCountLabel.text = self.concernCount;
             [leftView addSubview:concernCountLabel];
             self.concernCountLabel = concernCountLabel;
            
@@ -1464,37 +1486,95 @@ const static CGFloat changeFontSizeViewH = 150;
 
 #pragma mark - 关心本文
 - (void)tapConcern {
-    if ([self.concernCountLabel.text isEqualToString:@"2"]) {
-        self.concernImageView.image = [UIImage imageNamed:@"详情页心已关注"];
-        self.concernImageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.1, 1.1);
-        [self tipViewWithCondition:3];
-        
-        // 加1
-        CGFloat plusLabelX = self.leftView.frame.origin.x + self.concernImageView.frame.origin.x;
-        CGFloat plusLabelY = self.leftView.frame.origin.y + self.concernImageView.frame.origin.y;
-        CGFloat plusLabelW = self.concernImageView.frame.size.width;
-        CGFloat plusLabelH = self.concernImageView.frame.size.height;
-        
-        UILabel *plusLabel = [[UILabel alloc] initWithFrame:CGRectMake(plusLabelX, plusLabelY, plusLabelW, plusLabelH)];
-        plusLabel.textColor = [UIColor colorFromHexString:@"#e94220"];
-        plusLabel.font = [UIFont boldSystemFontOfSize:LPFont4];
-        plusLabel.text = @"+1";
-        [self.contentBottomView addSubview:plusLabel];
-        
-        [UIView animateWithDuration:0.8 animations:^{
-            self.concernImageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.0, 1.0);
-            plusLabel.frame = CGRectMake(plusLabelX, plusLabelY - 40, plusLabelW, plusLabelH);
-            plusLabel.alpha = 0.2;
-        } completion:^(BOOL finished) {
-            self.concernCountLabel.text = @"3";
-            [plusLabel removeFromSuperview];
-        }];
-    } else {
-        self.concernImageView.image = [UIImage imageNamed:@"详情页心未关注"];
-        self.concernCountLabel.text = @"2";
-    }
     
+    if ([AccountTool account] ==  nil) {
+        [AccountTool accountLoginWithViewController:self success:^(Account *account){
+            [self concernCurrentArticle];
+        } failure:^{
+        } cancel:nil];
+    } else {
+      [self concernCurrentArticle];
+    }
+}
 
+- (void)concernCurrentArticle {
+    // 未关心状态
+    if ([self.concernCountLabel.text isEqualToString:self.concernCount]) {
+
+        NSString *url = [NSString stringWithFormat:@"%@/v2/ns/cocs?nid=%@&&uid=%@", ServerUrlVersion2,[self nid], [userDefaults objectForKey:@"uid"]];
+        NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
+        
+        [LPHttpTool postAuthorizationJSONWithURL:url authorization:authorization params:nil success:^(id json) {
+            if ([json[@"code"] integerValue] == 2000) {
+                self.concernImageView.image = [UIImage imageNamed:@"详情页心已关注"];
+                self.concernImageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.1, 1.1);
+                [self tipViewWithCondition:3];
+        
+                // 加1
+                CGFloat plusLabelX = self.leftView.frame.origin.x + self.concernImageView.frame.origin.x;
+                CGFloat plusLabelY = self.leftView.frame.origin.y + self.concernImageView.frame.origin.y;
+                CGFloat plusLabelW = self.concernImageView.frame.size.width;
+                CGFloat plusLabelH = self.concernImageView.frame.size.height;
+        
+                UILabel *plusLabel = [[UILabel alloc] initWithFrame:CGRectMake(plusLabelX, plusLabelY, plusLabelW, plusLabelH)];
+                plusLabel.textColor = [UIColor colorFromHexString:@"#e94220"];
+                plusLabel.font = [UIFont boldSystemFontOfSize:LPFont4];
+                plusLabel.text = @"+1";
+                [self.contentBottomView addSubview:plusLabel];
+        
+                [UIView animateWithDuration:0.8 animations:^{
+                    self.concernImageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.0, 1.0);
+                    plusLabel.frame = CGRectMake(plusLabelX, plusLabelY - 40, plusLabelW, plusLabelH);
+                    plusLabel.alpha = 0.2;
+                } completion:^(BOOL finished) {
+                    NSInteger concernCount = [self.concernCount integerValue] + 1;
+                    self.concernCountLabel.text = [NSString stringWithFormat:@"%d", concernCount];
+                    [plusLabel removeFromSuperview];
+                }];
+       
+            } else if ([json[@"code"] integerValue] == 2003) {
+                
+            }
+        } failure:^(NSError *error) {
+           // NSLog(@"%@", error);
+        }];
+        
+
+    } else {
+        
+        NSString *url = [NSString stringWithFormat:@"%@/v2/ns/cocs?nid=%@&&uid=%@", ServerUrlVersion2,[self nid], [userDefaults objectForKey:@"uid"]];
+        NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
+        
+        [LPHttpTool deleteAuthorizationJSONWithURL:url authorization:authorization params:nil success:^(id json) {
+            // NSLog(@"%@", json);
+            if ([json[@"code"] integerValue] == 2000) {
+                self.concernImageView.image = [UIImage imageNamed:@"详情页心未关注"];
+                NSInteger concernCount = [self.concernCount integerValue];
+                self.concernCountLabel.text = [NSString stringWithFormat:@"%d", concernCount];
+                
+            }
+        } failure:^(NSError *error) {
+           // NSLog(@"%@", error);
+        }];
+    }
+}
+
+#pragma mark - 关心本文状态 (接口待完善)
+- (void)getConcernStatus {
+    
+    NSString *url = [NSString stringWithFormat:@"%@/v2/ns/au/cocs?uid=%@", ServerUrlVersion2, [userDefaults objectForKey:@"uid"]];
+    NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
+    
+    [LPHttpTool getJsonAuthorizationWithURL:url authorization:authorization params:nil success:^(id json) {
+        NSLog(@"%@", json);
+        if ([json[@"code"] integerValue] == 2000) {
+
+            
+        }
+    } failure:^(NSError *error) {
+        NSLog(@"%@", error);
+    }];
+    
 }
 
 #pragma mark - 分享到朋友圈
@@ -1602,7 +1682,6 @@ const static CGFloat changeFontSizeViewH = 150;
 
     // 标题
     UILabel *titleLabel = [[UILabel alloc] init];
-//    titleLabel.backgroundColor = [UIColor redColor];
     titleLabel.numberOfLines = 0;
     
     NSMutableAttributedString *titleString = [title attributedStringWithFont:[UIFont  systemFontOfSize:titleFontSize weight:0.5] color:[UIColor colorFromHexString:@"#060606"] lineSpacing:2.0f];
@@ -1649,9 +1728,6 @@ const static CGFloat changeFontSizeViewH = 150;
     }
     
     UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(padding, headerView.frame.size.height - 11, titleW, 0.5)];
-    
-    
-    
     seperatorView.backgroundColor = [UIColor colorFromHexString:LPColor5];
     [headerView addSubview:seperatorView];
     self.tableView.tableHeaderView = headerView;
@@ -1769,10 +1845,7 @@ const static CGFloat changeFontSizeViewH = 150;
     Account *account = [AccountTool account];
     // 1.1 创建comment对象
     LPComment *comment = [[LPComment alloc] init];
-    NSString *commentId =[[NSUUID UUID] UUIDString];
-    comment.commentId = commentId;
     comment.srcText = self.textView.text;
-    comment.uuid = account.userId;
     comment.userIcon = account.userIcon;
     comment.userName = account.userName;
     comment.createTime = [NSString stringFromNowDate];
@@ -1781,52 +1854,52 @@ const static CGFloat changeFontSizeViewH = 150;
     comment.isPraiseFlag = @"0";
     
     // 2. 发送post请求
-    NSString *url = [NSString stringWithFormat:@"%@/bdp/news/comment/ydzx", ServerUrl];
+    NSString *url = [NSString stringWithFormat:@"%@/v2/ns/coms", ServerUrlVersion2];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"comment_id"] = comment.commentId;
     params[@"content"] = comment.srcText;
-    params[@"nickname"]  = comment.userName;
-    params[@"uuid"] = comment.uuid;
-    params[@"love"]  = @(0);
-    params[@"create_time"]  = comment.createTime;
-    params[@"profile"] = comment.userIcon;
+    params[@"uname"]  = comment.userName;
+    params[@"uid"] = @([[userDefaults objectForKey:@"uid"] integerValue]);
+    params[@"commend"]  = @(0);
+    params[@"ctime"]  = comment.createTime;
+    params[@"avatar"] = comment.userIcon;
     params[@"docid"] = self.docId;
-    params[@"pid"] = @"";
-    self.http = [LPHttpTool http];
-    
-    [self.http postJSONWithURL:url params:params success:^(id json) {
-        // 评论主键编号
-        comment.Id = [NSString stringWithFormat:@"%@", json[@"data"]];
-        
-        NSLog(@"%@", comment.Id);
-        LPFullCommentFrame *commentFrame = [[LPFullCommentFrame alloc] init];
-        commentFrame.comment = comment;
-        [self.fulltextCommentFrames insertObject:commentFrame atIndex:0];
-        self.commentsTableView.scrollEnabled = YES;
-        [self.commentsTableView reloadData];
-        [self.commentsTableView setContentOffset:CGPointZero animated:NO];
-         self.noCommentView.hidden = YES;
-        
-        self.commentsCount = self.commentsCount + 1;
-        self.bottomView.badgeNumber = self.commentsCount ;
-        
-        if (self.pageControl.currentPage == 1) {
-           self.bottomView.noCommentsBtn.hidden = YES;
-            self.bottomView.commentsBtn.hidden = YES;
-            self.bottomView.commentCountLabel.hidden = YES;
-            self.bottomView.commentsCountView.hidden = YES;
-        }
-        
-        // 发表成功禁用按钮
-        self.composeButton.enabled = NO;
-        self.composeButton.backgroundColor = [UIColor colorFromHexString:LPColor4];
-        self.composeButton.layer.borderColor  =  [UIColor colorFromHexString:LPColor4].CGColor;
-        [self.composeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        
-         [MBProgressHUD showSuccess:@"发表成功"];
-    } failure:^(NSError *error) {
-        [MBProgressHUD showError:@"发表失败"];
-    }];
+    NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
+    if (authorization) {
+        [LPHttpTool postAuthorizationJSONWithURL:url authorization:authorization params:params success:^(id json) {
+            if ([json[@"code"] integerValue] == 2000) {
+                
+                [self tipViewWithCondition:4];
+                comment.Id = [NSString stringWithFormat:@"%@", json[@"data"]];
+                LPFullCommentFrame *commentFrame = [[LPFullCommentFrame alloc] init];
+                commentFrame.comment = comment;
+                [self.fulltextCommentFrames insertObject:commentFrame atIndex:0];
+                self.commentsTableView.scrollEnabled = YES;
+                [self.commentsTableView reloadData];
+                [self.commentsTableView setContentOffset:CGPointZero animated:NO];
+                self.noCommentView.hidden = YES;
+                
+                self.commentsCount = self.commentsCount + 1;
+                self.bottomView.badgeNumber = self.commentsCount ;
+                
+                if (self.pageControl.currentPage == 1) {
+                    self.bottomView.noCommentsBtn.hidden = YES;
+                    self.bottomView.commentsBtn.hidden = YES;
+                    self.bottomView.commentCountLabel.hidden = YES;
+                    self.bottomView.commentsCountView.hidden = YES;
+                }
+                
+                // 发表成功禁用按钮
+                self.composeButton.enabled = NO;
+                self.composeButton.backgroundColor = [UIColor colorFromHexString:LPColor4];
+                self.composeButton.layer.borderColor  =  [UIColor colorFromHexString:LPColor4].CGColor;
+                [self.composeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            }
+            
+        } failure:^(NSError *error) {
+            
+            [self tipViewWithCondition:5];
+        }];
+    }
 }
 
 #pragma mark - 精选评论点赞 delegate
@@ -1849,51 +1922,71 @@ const static CGFloat changeFontSizeViewH = 150;
 
 - (void)excellentCommentUp:(LPCommentCell *)commentCell account:(Account *)account commentFrame:(LPCommentFrame *)commentFrame {
         LPComment *comment = commentFrame.comment;
-        if (comment.isPraiseFlag.intValue) {
-            [MBProgressHUD showError:@"您已赞过"];
-        } else {
-            NSString *url = [NSString stringWithFormat:@"%@/bdp/news/comment/ydzx/love?cid=%@&unam=%@&uuid=%@", ServerUrl, comment.Id , account.userName, account.userId];
-            url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-            self.http = [LPHttpTool http];
-            [self.http putWithURL:url params:nil success:^(id json) {
-                comment.isPraiseFlag = @"1";
-                comment.up = [NSString stringWithFormat:@"%@", json[@"data"]];
     
-                // 点赞动画效果
-                UIImageView *imageView = [[UIImageView alloc] initWithFrame:commentCell.upButton.frame];
-                imageView.tag = -100;
-                imageView.image = [UIImage imageNamed:@"详情页已点赞"];
-                imageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.0, 0.0);
-                [commentCell addSubview:imageView];
-    
-    
-                CGFloat plusLabelX = commentCell.upButton.frame.origin.x - 2;
-                CGFloat plusLabelY =  commentCell.upButton.frame.origin.y;
-                CGFloat plusLabelW = commentCell.upButton.frame.size.width;
-                CGFloat plusLabelH = commentCell.upButton.frame.size.height;
-    
-    
-                UILabel *plusLabel = [[UILabel alloc] initWithFrame:CGRectMake(plusLabelX, plusLabelY, plusLabelW, plusLabelH)];
-                plusLabel.textColor = [UIColor colorFromHexString:@"#e94220"];
-                plusLabel.font = [UIFont boldSystemFontOfSize:LPFont5];
-                plusLabel.text = @"+1";
-                [commentCell addSubview:plusLabel];
-    
-                [UIView animateWithDuration:0.6 animations:^{
-                    imageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.0, 1.0);
-                    plusLabel.frame = CGRectMake(plusLabelX, plusLabelY - 20, plusLabelW , plusLabelH);
-                    plusLabel.alpha = 0.2;
-                } completion:^(BOOL finished) {
+        // 已经赞过
+        if ([comment.isPraiseFlag isEqualToString:@"1"]) {
+            
+            NSString *url = [NSString stringWithFormat:@"%@/v2/ns/coms/up?cid=%@&&uid=%@", ServerUrlVersion2,comment.Id, [userDefaults objectForKey:@"uid"]];
+            NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
+            
+            [LPHttpTool deleteAuthorizationJSONWithURL:url authorization:authorization params:nil success:^(id json) {
+                
+               if ([json[@"code"] integerValue] == 2000) {
+                    comment.isPraiseFlag = @"0";
+                    comment.up = [NSString stringWithFormat:@"%@", json[@"data"]];
                     NSInteger index = [self.excellentCommentsFrames indexOfObject:commentFrame];
-                   
-                    // 刷新当前行
-                    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:1]]  withRowAnimation:UITableViewRowAnimationNone];
-                    
-                    [imageView removeFromSuperview];
-                    [plusLabel removeFromSuperview];
-                }];
+                    [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
+                }
             } failure:^(NSError *error) {
-                [MBProgressHUD showError:@"网络不给力 :("];
+                NSLog(@"%@", error);
+            }];
+        } else {
+            NSString *url = [NSString stringWithFormat:@"%@/v2/ns/coms/up?cid=%@&&uid=%@", ServerUrlVersion2,comment.Id, [userDefaults objectForKey:@"uid"]];
+            NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
+            
+            [LPHttpTool postAuthorizationJSONWithURL:url authorization:authorization params:nil success:^(id json) {
+                
+                if ([json[@"code"] integerValue] == 4001) {
+                    [self tipViewWithCondition:7];
+                } else if ([json[@"code"] integerValue] == 2000) {
+                    comment.isPraiseFlag = @"1";
+                    comment.up = [NSString stringWithFormat:@"%@", json[@"data"]];
+                    
+                    // 点赞动画效果
+                    UIImageView *imageView = [[UIImageView alloc] initWithFrame:commentCell.upButton.frame];
+                    imageView.tag = -100;
+                    imageView.image = [UIImage imageNamed:@"详情页已点赞"];
+                    imageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.0, 0.0);
+                    [commentCell addSubview:imageView];
+                    
+                    
+                    CGFloat plusLabelX = commentCell.upButton.frame.origin.x - 2;
+                    CGFloat plusLabelY =  commentCell.upButton.frame.origin.y;
+                    CGFloat plusLabelW = commentCell.upButton.frame.size.width;
+                    CGFloat plusLabelH = commentCell.upButton.frame.size.height;
+                    
+                    
+                    UILabel *plusLabel = [[UILabel alloc] initWithFrame:CGRectMake(plusLabelX, plusLabelY, plusLabelW, plusLabelH)];
+                    plusLabel.textColor = [UIColor colorFromHexString:@"#e94220"];
+                    plusLabel.font = [UIFont boldSystemFontOfSize:LPFont5];
+                    plusLabel.text = @"+1";
+                    [commentCell addSubview:plusLabel];
+                    
+                    [UIView animateWithDuration:0.6 animations:^{
+                        imageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.0, 1.0);
+                        plusLabel.frame = CGRectMake(plusLabelX, plusLabelY - 20, plusLabelW , plusLabelH);
+                        plusLabel.alpha = 0.2;
+                    } completion:^(BOOL finished) {
+                        // 刷新单元格
+                        NSInteger index = [self.excellentCommentsFrames indexOfObject:commentFrame];
+                        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
+                        [imageView removeFromSuperview];
+                        [plusLabel removeFromSuperview];
+                    }];
+                }
+            } failure:^(NSError *error) {
+                [self tipViewWithCondition:6];
+                
             }];
         }
 }
@@ -1919,54 +2012,70 @@ const static CGFloat changeFontSizeViewH = 150;
 - (void)commentUp:(LPFullCommentCell *)cell account:(Account *)account fullCommentFrame:(LPFullCommentFrame *)fullCommentFrame
 {
     LPComment *comment = fullCommentFrame.comment;
-    if (comment.isPraiseFlag.intValue) {
-        [MBProgressHUD showError:@"您已赞过"];
-    } else {
-        NSString *url = [NSString stringWithFormat:@"%@/bdp/news/comment/ydzx/love?cid=%@&unam=%@&uuid=%@", ServerUrl, comment.Id , account.userName, account.userId];
-        url = [url stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-        self.http = [LPHttpTool http];
-        [self.http putWithURL:url params:nil success:^(id json) {
-            comment.isPraiseFlag = @"1";
-            comment.up = [NSString stringWithFormat:@"%@", json[@"data"]];
-            
-            // 点赞动画效果
-            UIImageView *imageView = [[UIImageView alloc] initWithFrame:cell.upButton.frame];
-            imageView.tag = -100;
-            imageView.image = [UIImage imageNamed:@"详情页已点赞"];
-            imageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.0, 0.0);
-            [cell addSubview:imageView];
-            
-            
-            CGFloat plusLabelX = cell.upButton.frame.origin.x - 2;
-            CGFloat plusLabelY =  cell.upButton.frame.origin.y;
-            CGFloat plusLabelW = cell.upButton.frame.size.width;
-            CGFloat plusLabelH = cell.upButton.frame.size.height;
-            
-            
-            UILabel *plusLabel = [[UILabel alloc] initWithFrame:CGRectMake(plusLabelX, plusLabelY, plusLabelW, plusLabelH)];
-            plusLabel.textColor = [UIColor colorFromHexString:@"#e94220"];
-            plusLabel.font = [UIFont boldSystemFontOfSize:LPFont5];
-            plusLabel.text = @"+1";
-            [cell addSubview:plusLabel];
-            
-            [UIView animateWithDuration:0.6 animations:^{
-                imageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.0, 1.0);
-                plusLabel.frame = CGRectMake(plusLabelX, plusLabelY - 20, plusLabelW , plusLabelH);
-                plusLabel.alpha = 0.2;
-            } completion:^(BOOL finished) {
-                // 刷新单元格
-                NSInteger index = [self.fulltextCommentFrames indexOfObject:fullCommentFrame];
+    NSString *url = [NSString stringWithFormat:@"%@/v2/ns/coms/up?cid=%@&&uid=%@", ServerUrlVersion2,comment.Id, [userDefaults objectForKey:@"uid"]];
+    NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
+    if ([comment.isPraiseFlag isEqualToString:@"1"]) {
+        [LPHttpTool deleteAuthorizationJSONWithURL:url authorization:authorization params:nil success:^(id json) {
+            if ([json[@"code"] integerValue] == 2000) {
+                comment.isPraiseFlag = @"0";
+                comment.up = [NSString stringWithFormat:@"%@", json[@"data"]];
+                NSInteger index = [self.excellentCommentsFrames indexOfObject:fullCommentFrame];
                 [self.commentsTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-                [imageView removeFromSuperview];
-                [plusLabel removeFromSuperview];
-            }];
+            }
         } failure:^(NSError *error) {
-            [MBProgressHUD showError:@"网络不给力 :("];
+          //  NSLog(@"%@", error);
+        }];
+        
+        
+    } else {
+   
+        [LPHttpTool postAuthorizationJSONWithURL:url authorization:authorization params:nil success:^(id json) {
+          
+           // NSLog(@"%@",json);
+            if ([json[@"code"] integerValue] == 4001) {
+                 [self tipViewWithCondition:7];
+            } else if ([json[@"code"] integerValue] == 2000) {
+                comment.isPraiseFlag = @"1";
+                comment.up = [NSString stringWithFormat:@"%@", json[@"data"]];
+                
+                // 点赞动画效果
+                UIImageView *imageView = [[UIImageView alloc] initWithFrame:cell.upButton.frame];
+                imageView.tag = -100;
+                imageView.image = [UIImage imageNamed:@"详情页已点赞"];
+                imageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.0, 0.0);
+                [cell addSubview:imageView];
+                
+                
+                CGFloat plusLabelX = cell.upButton.frame.origin.x - 2;
+                CGFloat plusLabelY =  cell.upButton.frame.origin.y;
+                CGFloat plusLabelW = cell.upButton.frame.size.width;
+                CGFloat plusLabelH = cell.upButton.frame.size.height;
+                
+                
+                UILabel *plusLabel = [[UILabel alloc] initWithFrame:CGRectMake(plusLabelX, plusLabelY, plusLabelW, plusLabelH)];
+                plusLabel.textColor = [UIColor colorFromHexString:@"#e94220"];
+                plusLabel.font = [UIFont boldSystemFontOfSize:LPFont5];
+                plusLabel.text = @"+1";
+                [cell addSubview:plusLabel];
+                
+                [UIView animateWithDuration:0.6 animations:^{
+                    imageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.0, 1.0);
+                    plusLabel.frame = CGRectMake(plusLabelX, plusLabelY - 20, plusLabelW , plusLabelH);
+                    plusLabel.alpha = 0.2;
+                } completion:^(BOOL finished) {
+                    // 刷新单元格
+                    NSInteger index = [self.fulltextCommentFrames indexOfObject:fullCommentFrame];
+                    [self.commentsTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+                    [imageView removeFromSuperview];
+                    [plusLabel removeFromSuperview];
+                }];
+            }
+        } failure:^(NSError *error) {
+            [self tipViewWithCondition:6];
+        
         }];
     }
 }
-
-
 
 #pragma mark - 底部分享按钮
 - (void)didShareWithDetailBottomView:(LPDetailBottomView *)detailBottomView {
@@ -1994,9 +2103,6 @@ const static CGFloat changeFontSizeViewH = 150;
             } else {
                 [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页未收藏"] forState:UIControlStateNormal];
             }
-            
-            
-            //[self collectOrNot];
         } failure:^{
         } cancel:nil];
     } else {
@@ -2189,7 +2295,7 @@ const static CGFloat changeFontSizeViewH = 150;
 
 - (void)relateCell:(LPRelateCell *)cell didClickURL:(NSString *)url {
     
-    if([[[UIDevice currentDevice] systemVersion] floatValue] > 9.0) {
+    if([[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0) {
        
         SFSafariViewController *safariVC = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:url]];
         safariVC.delegate = self;

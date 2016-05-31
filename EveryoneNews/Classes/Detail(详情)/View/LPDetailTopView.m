@@ -68,7 +68,7 @@
         [self addSubview:seperatorLabel];
         
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollsToTopTap)];
-       // [self addGestureRecognizer:tapGesture];
+        [self addGestureRecognizer:tapGesture];
     }
     return self;
 }

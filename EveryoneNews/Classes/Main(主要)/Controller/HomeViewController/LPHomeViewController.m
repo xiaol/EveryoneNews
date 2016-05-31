@@ -11,6 +11,7 @@
 #import "LPHomeViewController+ChannelItemName.h"
 #import "LPHomeViewController+ContentView.h"
 #import "LPHomeViewController+ChannelItemMenu.h"
+#import "AccountTool.h"
 
 
 @interface LPHomeViewController ()
@@ -85,20 +86,43 @@
     
     [noteCenter addObserver:self selector:@selector(refreshTableViewFontSize) name:LPFontSizeChangedNotification object:nil];
     [noteCenter addObserver:self selector:@selector(reloadCurrentPageIndexData) name:LPDeleteCoreDataNotification object:nil];
+
     
-   // [self checkForScrollViewInView:self.view];
 }
 
-- (void)checkForScrollViewInView:(UIView *)view {
-    for (UIView *subview in [view subviews]) {
-        if ([subview isKindOfClass:[UIScrollView class]]) {
-            NSLog(@"scrollsToTop enabled: %i in scroll view %@", ((UIScrollView *)subview).scrollsToTop, subview);
-        }
-        if (subview.subviews.count > 0) {
-            [self checkForScrollViewInView:subview];
-        }
-    }
-}
+#pragma mark - 频道栏发生改变
+//- (void)channelItemDidChanged:(NSNotification *)notification {
+//    NSDictionary *userInfo = notification.userInfo;
+//    
+//    self.selectedChannelTitle = [userInfo objectForKey:@"selectedChannelTitle"];
+//    self.selectedArray = (NSMutableArray *)[userInfo objectForKey:@"selectedArray"];
+//    self.optionalArray = (NSMutableArray *)[userInfo objectForKey:@"optionalArray"];
+//  
+//    // 当前选中频道索引值
+//    int index = 0;
+//    for (int i = 0; i < self.selectedArray.count; i++) {
+//        LPChannelItem *channelItem = self.selectedArray[i];
+//        if([channelItem.channelName isEqualToString:self.selectedChannelTitle]) {
+//            index = i;
+//            break;
+//        }
+//    }
+//    if(index == 0) {
+//        self.selectedChannelTitle = firstChannelName;
+//    }
+//
+//    [self updatePageindexMapToChannelItemDictionary];
+//    [self.menuView reloadData];
+//    
+//    NSIndexPath *menuIndexPath = [NSIndexPath indexPathForItem:index
+//                                                     inSection:0];
+//    [self.menuView selectItemAtIndexPath:menuIndexPath
+//                                animated:NO
+//                          scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+//    [self.pagingView reloadData];
+//    [self.pagingView setCurrentPageIndex:index animated:NO];
+//    [self loadMoreDataInPageAtPageIndex:index];
+//}
 
 
 #pragma mark - 清理缓存后重新加载页面
@@ -149,6 +173,10 @@
     
     // 频道切换时频道和页码的对应关系
     [self updatePageindexMapToChannelItemDictionary];
+    
+    if (![AccountTool account]) {
+        self.isTourist = YES;
+    }
     
 }
 

@@ -24,7 +24,19 @@
         bodyPadding = 13;
     }
     _content = content;
-    if (!_content.isPhoto) { // 普通类型(非图)g
+//    if (!_content.isPhoto) { // 普通类型(非图)g
+//        CGFloat bodyX = bodyPadding;
+//        CGFloat bodyY = 0;
+//        CGFloat bodyW = ScreenWidth - 2 * bodyPadding;
+//        CGFloat bodyH = [_content.bodyHtmlString textViewHeightWithConstraintWidth:bodyW];
+//        _bodyLabelF = CGRectMake(bodyX, bodyY, bodyW, bodyH);
+//        _cellHeight = CGRectGetMaxY(_bodyLabelF) + 3.5f;
+//    }
+//    else { // 图像类型
+//        [self setupPhotoFAndCellHWithImage:_content.image];
+//    }
+//    
+    if ( _content.contentType == 2) {
         CGFloat bodyX = bodyPadding;
         CGFloat bodyY = 0;
         CGFloat bodyW = ScreenWidth - 2 * bodyPadding;
@@ -32,8 +44,14 @@
         _bodyLabelF = CGRectMake(bodyX, bodyY, bodyW, bodyH);
         _cellHeight = CGRectGetMaxY(_bodyLabelF) + 3.5f;
     }
-    else { // 图像类型
+    else if(_content.contentType == 1){ // 图像类型
         [self setupPhotoFAndCellHWithImage:_content.image];
+    } else if (_content.contentType == 3) {
+        
+        CGFloat width = ScreenWidth - 2 * bodyPadding;
+        CGFloat height = 3 * width / 4;
+        _webViewF = CGRectMake(bodyPadding, 0, width , height);
+        _cellHeight = CGRectGetMaxY(_webViewF) + 3.5f;
     }
 }
 

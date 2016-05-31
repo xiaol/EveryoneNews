@@ -148,7 +148,7 @@
     
     // 搜索来源是google google背景高亮
     if (relateFrame.googleSourceExistsInRelatePoint) {
-        if ([point.searchFrom isEqualToString:@"Google"]) {
+        if ([point.from isEqualToString:@"Google"]) {
             self.monthDayLabel.backgroundColor = [UIColor colorFromHexString:LPColor2];
         } else {
             self.monthDayLabel.backgroundColor = [UIColor colorFromHexString:LPColor12];
@@ -156,7 +156,7 @@
         
         
     } else {
-        if ([point.searchFrom isEqualToString:@"Baidu"]) {
+        if ([point.from isEqualToString:@"Baidu"]) {
             self.monthDayLabel.backgroundColor = [UIColor colorFromHexString:LPColor2];
         } else {
             self.monthDayLabel.backgroundColor = [UIColor colorFromHexString:LPColor12];
@@ -169,7 +169,7 @@
     UIBezierPath *linePathYearDown = [UIBezierPath bezierPath];
     
     // 包含年份
-    if (point.updateTime.length > 5) {
+    if (point.ptime.length > 5) {
         // 年份
         UIBezierPath *yearPath = [UIBezierPath bezierPathWithArcCenter:_relateFrame.yearPoint
                                                                 radius:_relateFrame.circleRadius
@@ -182,12 +182,12 @@
         self.yearLayer.strokeColor = [UIColor colorFromHexString:@"#b3b3b3"].CGColor;
         
         self.yearLabel.frame = _relateFrame.yearF;
-        self.yearLabel.text = [point.updateTime substringToIndex:4];
+        self.yearLabel.text = [point.ptime substringToIndex:4];
         
         
         self.yearLabel.hidden = NO;
         self.yearLayer.hidden = NO;
-        self.monthDayLabel.text = [point.updateTime substringFromIndex:5];
+        self.monthDayLabel.text = [point.ptime substringFromIndex:5];
         
         // 非0行
         if (_relateFrame.currentRowIndex != 0) {
@@ -215,7 +215,7 @@
         // 不包含年份
         self.yearLabel.hidden = YES;
         self.yearLayer.hidden = YES;
-        self.monthDayLabel.text = point.updateTime;
+        self.monthDayLabel.text = point.ptime;
         self.dashYearLayerUp.hidden = YES;
         self.dashYearLayerDown.hidden = YES;
         
@@ -283,15 +283,15 @@
     self.titleLabel.attributedText = point.titleHtmlString;
     
     self.sourceLabel.frame = _relateFrame.sourceSiteF;
-    self.sourceLabel.text = point.sourceSite;
+    self.sourceLabel.text = point.pname;
     
     self.seperatorView.frame = _relateFrame.seperatorViewF;
  
     self.monthDayLabel.frame = _relateFrame.monthDayF;
  
     
-   if (point.imgUrl.length > 0 && [point.imgUrl rangeOfString:@","].location == NSNotFound) {
-        [self.pointImageView sd_setImageWithURL:[NSURL URLWithString:point.imgUrl] placeholderImage:[UIImage imageNamed:@"dig详情页占位小图"]];
+   if (point.img.length > 0 && [point.img rangeOfString:@","].location == NSNotFound) {
+        [self.pointImageView sd_setImageWithURL:[NSURL URLWithString:point.img] placeholderImage:[UIImage imageNamed:@"dig详情页占位小图"]];
         self.pointImageView.hidden = NO;
         self.pointImageView.frame = _relateFrame.imageViewF;
    } else {

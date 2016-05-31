@@ -43,6 +43,22 @@
                 tipImageView.frame = CGRectMake(imageX, imageY, 21, 18);
                 tipStr = @"将推荐更多此类文章";
                 break;
+                
+            case 4:
+                tipStr = @"发表成功";
+                break;
+            case 5:
+                tipStr = @"发表失败";
+                break;
+            case 6:
+                tipStr = @"点赞失败";
+                break;
+            case 7:
+                tipStr = @"不能给自己点赞";
+                break;
+            case 8:
+                tipStr = @"您已赞过";
+                break;
             default:
                 break;
         }

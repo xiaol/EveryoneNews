@@ -41,8 +41,8 @@
     NSFetchRequest *fetch = [[NSFetchRequest alloc] init];
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Card" inManagedObjectContext:context];
     [fetch setEntity:entityDescription];
-    NSString *newId = [[dict[@"url"] stringByBase64Encoding] stringByTrimmingString:@"="];
-    [fetch setPredicate:[NSPredicate predicateWithFormat:@"newId = %@ and channelId = %@",newId, channelID]];
+   // NSString *newId = [[dict[@"url"] stringByBase64Encoding] stringByTrimmingString:@"="];
+    [fetch setPredicate:[NSPredicate predicateWithFormat:@"nid = %@ and channelId = %@",dict[@"nid"], channelID]];
     
     NSError * error = nil;
     NSArray *fetchedObjects;
@@ -51,20 +51,20 @@
     if ([fetchedObjects count] == 0 ) {
         card = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:context];
         [context obtainPermanentIDsForObjects:@[card] error:nil];
-        card.newId = newId;
+        card.nid = dict[@"nid"];
         card.title = dict[@"title"];
-        card.sourceSiteURL = dict[@"pubUrl"];
-        card.sourceSiteName = dict[@"pubName"];
-        card.updateTime = [NSString stringWithFormat:@"%lld", (long long)([dict[@"pubTime"] timestampWithDateFormat:@"YYYY-MM-dd HH:mm:ss"] * 1000)];
+        card.sourceSiteURL = dict[@"purl"];
+        card.sourceSiteName = dict[@"pname"];
+        card.updateTime = [NSString stringWithFormat:@"%lld", (long long)([dict[@"ptime"] timestampWithDateFormat:@"YYYY-MM-dd HH:mm:ss"] * 1000)];
         // 热点频道存入数据库需要更新当前频道编号
-        card.channelId = ([channelID  isEqual: @"1"] ? @(1):dict[@"channelId"]);
-        card.type = dict[@"imgStyle"];
+        card.channelId = ([channelID  isEqual: @"1"] ? @(1):dict[@"channel"]);
+        card.type = dict[@"style"];
         card.docId = dict[@"docid"];
-        card.commentsCount = dict[@"commentsCount"];
+        card.commentsCount = dict[@"comment"];
         //    [CardRelate createCardRelatesWithDictArray:dict[@"relatePointsList"]
         //                                          card:card
         //                        inManagedObjectContext:context];
-        [CardImage createCardImagesWithURLArray:dict[@"imgList"]
+        [CardImage createCardImagesWithURLArray:dict[@"imgs"]
                                            card:card
                          inManagedObjectContext:context];
     } else {

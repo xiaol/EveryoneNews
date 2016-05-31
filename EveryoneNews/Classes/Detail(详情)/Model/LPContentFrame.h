@@ -13,6 +13,7 @@ typedef void(^imageDownLoadCompletionBlock)();
 @interface LPContentFrame : NSObject
 @property (nonatomic, strong) LPContent *content;
 @property (nonatomic, assign, readonly) CGRect bodyLabelF;
+@property (nonatomic, assign, readonly) CGRect webViewF;
 @property (nonatomic, assign, readonly) CGRect upBtnF;
 @property (nonatomic, assign, readonly) CGRect userIconF;
 @property (nonatomic, assign, readonly) CGRect commentLabelF;

@@ -16,6 +16,9 @@
 #import "LPChangeFontSizeView.h"
 #import "CoreDataHelper.h"
 #import "LPPagingViewPage.h"
+#import "LPHttpTool.h"
+
+
 
 @class LPPagingViewPage;
 @class CardFrame;
@@ -76,5 +79,8 @@
 
 @property (nonatomic, strong) UIWindow *statusWindow;
 
+@property (nonatomic, assign) BOOL isTourist;
 
+@property (nonatomic, strong) LPHttpTool *http;
+ 
 @end

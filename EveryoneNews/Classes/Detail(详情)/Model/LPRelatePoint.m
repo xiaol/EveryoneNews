@@ -15,7 +15,7 @@
 }
 
 - (NSMutableAttributedString *)sourceString {
-   return [_sourceSite attributedStringWithFont:[UIFont systemFontOfSize:LPFont7] color:[UIColor colorFromHexString:LPColor4] lineSpacing:0];
+   return [_pname attributedStringWithFont:[UIFont systemFontOfSize:LPFont7] color:[UIColor colorFromHexString:LPColor4] lineSpacing:0];
 }
 
 - (NSMutableAttributedString *)titleHtmlString {

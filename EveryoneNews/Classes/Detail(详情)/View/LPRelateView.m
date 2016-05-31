@@ -103,7 +103,7 @@ const static CGFloat contentPadding = 10;
         dateLayer.strokeColor = [UIColor colorFromHexString:@"#cbcbcb"].CGColor;
         [cellView.layer addSublayer:dateLayer];
         
-        NSString *currentDate = point.updateTime;
+        NSString *currentDate = point.ptime;
         //  如果日期有问题则设置为当前日期
         if(currentDate.length < 10)
         {
@@ -201,7 +201,7 @@ const static CGFloat contentPadding = 10;
         contentLabel.contentMode = UIViewContentModeTop;
         [contentImageView addSubview:contentLabel];
         
-        if (point.imgUrl.length > 0 && [point.imgUrl rangeOfString:@","].location == NSNotFound) {
+        if (point.img.length > 0 && [point.img rangeOfString:@","].location == NSNotFound) {
             
             CGFloat imageW = 50;
             CGFloat imageY = 10;
@@ -210,7 +210,7 @@ const static CGFloat contentPadding = 10;
             contentLabel.frame = CGRectMake(contentLabelPaddingH , contentLabelPaddingV, contentPathW - 2 * contentLabelPaddingH - imageW - 10, contentPathH - contentLabelPaddingV * 2);
             
             UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(contentLabel.frame) + 10, imageY, imageW, imageH)];
-            [imageView sd_setImageWithURL:[NSURL URLWithString:point.imgUrl] placeholderImage:[UIImage imageNamed:@"dig详情页占位小图"]];
+            [imageView sd_setImageWithURL:[NSURL URLWithString:point.img] placeholderImage:[UIImage imageNamed:@"dig详情页占位小图"]];
             imageView.clipsToBounds = YES;
             imageView.contentMode = UIViewContentModeScaleAspectFill;
             [contentImageView addSubview:imageView];

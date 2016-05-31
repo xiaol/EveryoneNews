@@ -7,6 +7,7 @@
 //
 
 #import "LPLaunchLoginView.h"
+#import "LPHttpTool.h"
 
 @implementation LPLaunchLoginView
 

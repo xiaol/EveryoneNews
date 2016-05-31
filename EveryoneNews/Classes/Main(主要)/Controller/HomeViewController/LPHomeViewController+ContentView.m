@@ -154,6 +154,7 @@ NSString *const reusePageID = @"reusePageID";
     param.count = @(20);
     param.startTime = [NSString stringWithFormat:@"%lld", (long long)([[NSDate date] timeIntervalSince1970] * 1000)];
     param.channelID = channelItem.channelID;
+    
     [Card fetchCardsWithCardParam:param cardsArrayBlock:^(NSArray *cardsArray) {
         NSArray *cards = cardsArray;
         // 本地没有数据
@@ -196,6 +197,7 @@ NSString *const reusePageID = @"reusePageID";
     
     param.channelID = channelItem.channelID;
     NSMutableArray *cfs = [NSMutableArray array];
+
     [CardTool cardsWithParam:param channelID:channelItem.channelID success:^(NSArray *cards) {
         for (Card *card in cards) {
             CardFrame *cf = [[CardFrame alloc] init];
@@ -206,7 +208,7 @@ NSString *const reusePageID = @"reusePageID";
             [self hideLoadingView];
         }
         [self.channelItemDictionary setObject:cfs forKey:channelItem.channelName];
-        [self.pagingView reloadData];
+        [self.pagingView reloadPageAtPageIndex:pageIndex];
     } failure:^(NSError *error) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self hideLoadingView];
@@ -216,8 +218,6 @@ NSString *const reusePageID = @"reusePageID";
             }
 
         });
-      
-        
     }];
 }
 
@@ -257,7 +257,7 @@ NSString *const reusePageID = @"reusePageID";
 //    [self.pageContentOffsetDictionary setObject:@(offsetY) forKey:page.pageChannelName];
 }
 
-// 弹出删除选择框
+#pragma mark - 弹出删除提示框
 - (void)page:(LPPagingViewPage *)page didClickDeleteButtonWithCardFrame:(CardFrame *)cardFrame  deleteButton:(UIButton *)deleteButton {
     self.currentPage = page;
     self.currentCardFrame = cardFrame;

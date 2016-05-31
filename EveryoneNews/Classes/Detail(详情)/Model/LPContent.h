@@ -30,6 +30,11 @@ typedef void(^imageDownLoadCompletionBlock)();
 @property (nonatomic, strong) LPConcern *concern;
 // 针对图像cell
 @property (nonatomic, assign) BOOL isPhoto;
+
+// 1 图像 2 文字 3 视频
+@property (nonatomic, assign) NSInteger contentType;
+@property (nonatomic, copy) NSString *video;
+
 @property (nonatomic, copy) NSString *photoDesc;
 @property (nonatomic, copy) NSString *photo;
 @property (nonatomic, strong) UIImage *image;

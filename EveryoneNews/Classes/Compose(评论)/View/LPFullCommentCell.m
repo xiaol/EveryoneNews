@@ -118,7 +118,7 @@
     self.upButton.centerY = self.nameLabel.centerY;
     
     
-    if (comment.isPraiseFlag.boolValue) {
+    if ([comment.isPraiseFlag isEqualToString:@"1"]) {
         [self.upButton setBackgroundImage:[UIImage imageNamed:@"详情页已点赞"] forState:UIControlStateNormal];
     } else {
         [self.upButton setBackgroundImage:[UIImage imageNamed:@"详情页未点赞"] forState:UIControlStateNormal];

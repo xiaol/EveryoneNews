@@ -19,4 +19,6 @@
 @property (nonatomic,copy) NSString *token;
 @property (nonatomic,strong) NSNumber *expiresTime;
 @property (nonatomic, copy) NSString *uniqueDeviceID;
+
+
 @end

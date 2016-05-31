@@ -11,7 +11,6 @@
  
 @interface LPHomeViewController (SubviewsManager)<LPLaunchLoginViewDelegate>
 
-
 - (void)setupSubViews;
 
 @end

@@ -24,12 +24,14 @@
 #import "SSKeychainQuery.h"
 #import "SSKeychain.h"
 #import "AppDelegate.h"
+#import "LPHomeChannelItemController.h"
 
 NSString * const firstChannelName = @"奇点";
 NSString * const menuCellIdentifier = @"menuCollectionViewCell";
 NSString * const cellIdentifier = @"sortCollectionViewCell";
 NSString * const reuseIdentifierFirst = @"reuseIdentifierFirst";
 NSString * const reuseIdentifierSecond = @"reuseIdentifierSecond";
+NSString * const cardCellIdentifier = @"CardCellIdentifier";
 
 const static CGFloat cellPadding = 15;
 
@@ -204,6 +206,8 @@ const static CGFloat cellPadding = 15;
     [self.hideChannelItemButton addTarget:self action:@selector(hideChannelItemButtonClick) forControlEvents:UIControlEventTouchUpInside];
     self.hideChannelItemButton.enlargedEdge = 5;
     [blurView addSubview:self.hideChannelItemButton];
+    
+    
   
     // 首次安装提示信息
     if (![userDefaults objectForKey:@"isVersion3FirstLoad"]) {
@@ -342,44 +346,93 @@ const static CGFloat cellPadding = 15;
 
 #pragma mark - 展开我的频道
 - (void)addButtonClick {
-    __weak __typeof(self)weakSelf = self;
-    // 选中某个按钮后需要刷新频道
-    [self.sortCollectionView reloadData];
-    [UIView animateWithDuration:0.3 animations:^{
-        weakSelf.blurView.alpha = 1.0;
-    } completion:^(BOOL finished) {
-    }];
+//    __weak __typeof(self)weakSelf = self;
+//    // 选中某个按钮后需要刷新频道
+//    [self.sortCollectionView reloadData];
+//    [UIView animateWithDuration:0.3 animations:^{
+//        weakSelf.blurView.alpha = 1.0;
+//    } completion:^(BOOL finished) {
+//    }];
+    
+    LPHomeChannelItemController *homeChannelItemController = [[LPHomeChannelItemController alloc] init];
+    homeChannelItemController.selectedArray = self.selectedArray;
+    homeChannelItemController.optionalArray = self.optionalArray;
+    homeChannelItemController.selectedChannelTitle = self.selectedChannelTitle;
+    
+    homeChannelItemController.channelItemDidChangedBlock = ^(NSDictionary *dict) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            self.selectedChannelTitle = [dict objectForKey:@"selectedChannelTitle"];
+            self.selectedArray = (NSMutableArray *)[dict objectForKey:@"selectedArray"];
+            self.optionalArray = (NSMutableArray *)[dict objectForKey:@"optionalArray"];
+            
+            // 当前选中频道索引值
+            int index = 0;
+            for (int i = 0; i < self.selectedArray.count; i++) {
+                LPChannelItem *channelItem = self.selectedArray[i];
+                if([channelItem.channelName isEqualToString:self.selectedChannelTitle]) {
+                    index = i;
+                    break;
+                }
+                // 设置每个每页唯一标识
+                [self.cardCellIdentifierDictionary setObject:[NSString stringWithFormat:@"%@%d",cardCellIdentifier,i] forKey:@(i)];
+            }
+            if(index == 0) {
+                self.selectedChannelTitle = firstChannelName;
+            }
+            
+            [self updatePageindexMapToChannelItemDictionary];
+            
+            NSIndexPath *menuIndexPath = [NSIndexPath indexPathForItem:index
+                                                             inSection:0];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.menuView reloadData];
+                [self.menuView selectItemAtIndexPath:menuIndexPath
+                                            animated:NO
+                                      scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+                [self.pagingView reloadData];
+                [self.pagingView setCurrentPageIndex:index animated:NO];
+                [self channelItemDidAddToCoreData:index];
+            });
+        });
+        
+     };
+    [self.navigationController pushViewController:homeChannelItemController animated:YES];
+    
+  
+    
+    
 }
 
 #pragma mark - 折叠我的频道
 - (void)hideChannelItemButtonClick {
-    __weak __typeof(self)weakSelf = self;
-    self.isSort = NO;
-    [self.menuView reloadData];
-    // 当前选中频道索引值
-    int index = 0;
-    for (int i = 0; i < self.selectedArray.count; i++) {
-        LPChannelItem *channelItem = self.selectedArray[i];
-        if([channelItem.channelName isEqualToString:self.selectedChannelTitle]) {
-            index = i;
-            break;
-        }
-    }
-    if(index == 0) {
-        self.selectedChannelTitle = firstChannelName;
-    }
-    NSIndexPath *menuIndexPath = [NSIndexPath indexPathForItem:index
-                                                     inSection:0];
-    [self.menuView selectItemAtIndexPath:menuIndexPath
-                                animated:NO
-                          scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
-    [self.pagingView reloadData];
-    [self.pagingView setCurrentPageIndex:index animated:NO];
-    [UIView animateWithDuration:0.3 animations:^{
-        weakSelf.blurView.alpha = 0.0;
-    } completion:^(BOOL finished) {
-        
-    }];
+//    __weak __typeof(self)weakSelf = self;
+//    self.isSort = NO;
+//    [self.menuView reloadData];
+//    // 当前选中频道索引值
+//    int index = 0;
+//    for (int i = 0; i < self.selectedArray.count; i++) {
+//        LPChannelItem *channelItem = self.selectedArray[i];
+//        if([channelItem.channelName isEqualToString:self.selectedChannelTitle]) {
+//            index = i;
+//            break;
+//        }
+//    }
+//    if(index == 0) {
+//        self.selectedChannelTitle = firstChannelName;
+//    }
+//    NSIndexPath *menuIndexPath = [NSIndexPath indexPathForItem:index
+//                                                     inSection:0];
+//    [self.menuView selectItemAtIndexPath:menuIndexPath
+//                                animated:NO
+//                          scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+//    [self.pagingView reloadData];
+//    [self.pagingView setCurrentPageIndex:index animated:NO];
+//    [UIView animateWithDuration:0.3 animations:^{
+//        weakSelf.blurView.alpha = 0.0;
+//    } completion:^(BOOL finished) {
+//        
+//    }];
 }
 
 @end

@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface LPNewsLonginViewFromSettingViewController : LPNewsBaseViewController
 
 @property (nonatomic, strong)id<LPNewsLonginViewFromSettingViewController> delegate;
+ 
 
 @end
 NS_ASSUME_NONNULL_END

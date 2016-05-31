@@ -14,6 +14,7 @@
 #import "UIImageView+WebCache.h"
 #import "LPPressTool.h"
 #import "LPUITextView.h"
+#import <WebKit/WebKit.h>
 
 @interface LPContentCell()<UITextViewDelegate>
 //@property (nonatomic, strong) UILabel *bodyLabel;
@@ -31,6 +32,8 @@
 @property (nonatomic, strong) NSTextContainer *textContainer;
 
 @property (nonatomic, strong) NSLayoutManager *layoutManager;
+
+@property (nonatomic, strong) UIWebView *webView;
 
 @end
 
@@ -73,6 +76,12 @@
         
         [self.contentView addSubview:photoView];
         self.photoView = photoView;
+        
+        UIWebView *webView = [[UIWebView alloc] init];
+        webView.scrollView.scrollEnabled = NO;
+        webView.scrollView.bounces = NO;
+        [self addSubview:webView];
+        self.webView = webView;
                 
     }
     return self;
@@ -89,19 +98,48 @@
 {
     _contentFrame = contentFrame;
     LPContent *content = contentFrame.content;
-    if (!content.isPhoto) { // 非图
+//    if (!content.isPhoto) { // 非图
+//        self.bodyTextView.hidden = NO;
+//        self.photoView.hidden = YES;
+//        
+//        self.bodyTextView.frame = self.contentFrame.bodyLabelF;
+//        self.bodyTextView.attributedText = content.bodyHtmlString;
+//
+//    } else {
+//
+//        self.bodyTextView.hidden = YES;
+//        self.photoView.hidden = NO;
+//        self.photoView.frame = self.contentFrame.photoViewF;
+//        self.photoView.image = content.image;
+//    }
+    
+    
+    if (content.contentType == 1) { // 图像
+        self.bodyTextView.hidden = YES;
+        self.photoView.hidden = NO;
+        self.webView.hidden = YES;
+        
+        self.photoView.frame = self.contentFrame.photoViewF;
+        self.photoView.image = content.image;
+        
+     
+        // 文字
+    } else if(content.contentType == 2) {
         self.bodyTextView.hidden = NO;
         self.photoView.hidden = YES;
+        self.webView.hidden = YES;
         
         self.bodyTextView.frame = self.contentFrame.bodyLabelF;
         self.bodyTextView.attributedText = content.bodyHtmlString;
-
-    } else {
-
+     
+    } else if (content.contentType == 3) {
         self.bodyTextView.hidden = YES;
-        self.photoView.hidden = NO;
-        self.photoView.frame = self.contentFrame.photoViewF;
-        self.photoView.image = content.image;
+        self.photoView.hidden = YES;
+        self.webView.hidden = NO;
+        
+        self.webView.frame = self.contentFrame.webViewF;
+        [self.webView loadHTMLString:content.video baseURL:nil];
+  
     }
     
 }

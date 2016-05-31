@@ -32,7 +32,6 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [self channelItemsDidSaved];
-    
 }
 
 #pragma mark - 初始化
@@ -262,13 +261,6 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
  
 
 #pragma mark - UICollectionView Delegate
-
-//- (void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
-//        if([collectionView isKindOfClass:[LPMenuView class]]) {
-//            NSLog(@"sss");
-//        }
-//}
-
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     if([collectionView isKindOfClass:[LPMenuView class]]) {

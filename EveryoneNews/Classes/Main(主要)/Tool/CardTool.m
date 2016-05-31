@@ -14,55 +14,60 @@
 #import "MJExtension.h"
 #import "CoreDataHelper.h"
 
+@interface CardTool ()
+
+@end
+
 @implementation CardTool
 
 + (void)cardsWithParam:(CardParam *)param
                channelID:(NSString *)channelID
                success:(CardsFetchedSuccessHandler)success
                failure:(CardsFetchedFailureHandler)failure {
+    
+    NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
     NSMutableDictionary *paramDict = [NSMutableDictionary dictionary];
+    paramDict[@"cid"] = channelID;
+    paramDict[@"tcr"] = param.startTime;
+    
     if (param.type == HomeCardsFetchTypeNew) { // 下拉刷新, 直接发送网络请求, 成功后存入数据库
-        paramDict[@"cid"]    = param.channelID;
-        paramDict[@"offset"] = param.count;
-        paramDict[@"tstart"] = param.startTime;
-        NSString *url = [NSString stringWithFormat:@"%@/bdp/news/refresh", ServerUrl];
-        [LPHttpTool getWithURL:url
-                        params:paramDict
-                       success:^(id json) {
-                           [Card createCardsWithDictArray:json[@"data"] channelID:param.channelID cardsArrayBlock:^(NSArray *cardsArray) {
-                               success(cardsArray);
-                           }];
-                       }
-                       failure:^(NSError *error) {
-                           failure(error);
-                       }];
+        
+        NSString *url = [NSString stringWithFormat:@"%@/v2/ns/fed/r", ServerUrlVersion2];
+        [LPHttpTool getJsonAuthorizationWithURL:url authorization:authorization params:paramDict success:^(id json) {
+            // 有数据
+            if ([json[@"code"] integerValue] == 2000) {
+                [Card createCardsWithDictArray:json[@"data"] channelID:param.channelID cardsArrayBlock:^(NSArray *cardsArray) {
+                    success(cardsArray);
+                }];
+            }
+            // 没有数据
+            else if ([json[@"code"] integerValue] == 2002) {
+                NSArray *cardsArray = [[NSArray alloc] init];
+                success(cardsArray);
+            }
+        } failure:^(NSError *error) {
+             failure(error);
+        }];
     } else if (param.type == HomeCardsFetchTypeMore) { // 上拉加载更多，先从网络取数据，获取不到再从本地数据库拿数据
-        paramDict[@"cid"]    = param.channelID;
-        paramDict[@"offset"] = param.count;
-        paramDict[@"tstart"] = param.startTime;
-        NSString *url = [NSString stringWithFormat:@"%@/bdp/news/load", ServerUrl];
-        [LPHttpTool getWithURL:url
-                        params:paramDict
-                       success:^(id json) {
-                           [Card createCardsWithDictArray:json[@"data"] channelID:param.channelID cardsArrayBlock:^(NSArray *cardsArray) {
-                               success(cardsArray);
-                           }];
-                       }
-                       failure:^(NSError *error) {
-                            [Card fetchCardsWithCardParam:param cardsArrayBlock:^(NSArray *cardsArray) {
-                                if (cardsArray.count) {      // 命中, 直接返回结果
-                                    success(cardsArray);
-                                } else {
-                                    failure(error);
-                                }
-                            }];
-                           
-                       }];
-
-    } else {
-        NSLog(@"%@ --- param is invalid !!!", NSStringFromClass([self class]));
+        
+        NSString *url = [NSString stringWithFormat:@"%@/v2/ns/fed/l", ServerUrlVersion2];
+        [LPHttpTool getJsonAuthorizationWithURL:url authorization:authorization params:paramDict success:^(id json) {
+            if ([json[@"code"] integerValue] == 2000) {
+                [Card createCardsWithDictArray:json[@"data"] channelID:param.channelID cardsArrayBlock:^(NSArray *cardsArray) {
+                    success(cardsArray);
+                }];
+            }
+            // 没有数据
+            else if ([json[@"code"] integerValue] == 2002) {
+                NSArray *cardsArray = [[NSArray alloc] init];
+                success(cardsArray);
+            }
+        } failure:^(NSError *error) {
+            failure(error);
+        }];
     }
 }
+
 
 //- (void)deleteCardFromCoreData:(CardFrame *)cardFrame {
 //    CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];

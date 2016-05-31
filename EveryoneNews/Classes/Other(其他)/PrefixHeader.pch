@@ -176,6 +176,7 @@ typedef NS_ENUM(NSInteger, iPhone5DetailCommentSize) {
 #define LPPushNotificationURL @"url"
 #define LPFontSizeChangedNotification @"fontSizeChanged"
 #define LPDeleteCoreDataNotification @"LPDeleteCoreDataNotification"
+#define LPChannelItemChangedNotification @"LPChannelItemChangedNotification"
 
 #define LPCommentWillComposeNotification @"willCompose"
 #define LPComposeParaIndex @"paraIndex"
@@ -193,6 +194,8 @@ typedef NS_ENUM(NSInteger, iPhone5DetailCommentSize) {
 #define AccountLoginNotification @"accountLoginNotification"
 
 #define ServerUrl       @"http://api.deeporiginalx.com"
+#define ServerUrlVersion2 @"http://bdp.deeporiginalx.com"
+
 #define kTimenews       @"/news/baijia/fetchHome?timenews=1"
 #define CountdownUrl    @"/news/baijia/fetchTime?timefeedback=1"
 #define ConcernsUrl     @"/news/baijia/FetchChannelList"
@@ -228,9 +231,6 @@ typedef NS_ENUM(NSInteger, iPhone5DetailCommentSize) {
 #define LPFont7 10
 #define LPFont8 21
 #define LPFont9 23
-
-
-
 
 #define HomeTopViewHeight 71
 #define ScreenWidth [UIScreen mainScreen].bounds.size.width

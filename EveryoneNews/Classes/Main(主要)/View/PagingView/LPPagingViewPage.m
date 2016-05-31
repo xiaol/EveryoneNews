@@ -270,7 +270,10 @@
 
 #pragma mark - 自动加载最新数据
 - (void)autotomaticLoadNewData {
-      [self.tableView.header beginRefreshing];
+    if (self.cardFrames.count > 0) {
+        [self.tableView.header beginRefreshing];
+    }
+    
 }
 
 #pragma mark － 下拉刷新 如果超过12小时始终返回最新数据
