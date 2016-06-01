@@ -1,11 +1,11 @@
 /*
  global
  */
-body{font-family:arial,sans-serif;margin: 17 18 0 18; font-weight:normal; background-color:#f6f6f6;word-wrap: break-word;-webkit-user-select: none;}
+body{font-family:arial,sans-serif;margin: 17 18 0 18; font-weight:normal; background-color:#ffffff;word-wrap: break-word;-webkit-user-select: none;}
 
-#title_section{padding:0 0 10 0;-webkit-user-select: text;}
+#title_section{padding:0 0 0 0;-webkit-user-select: text;}
 #title{padding: 0 0 0 0;color:#1a1a1a;font-size:25px;}
-#subtitle{padding: 10 0 0 0;color:#808080;font-size:12px;-webkit-user-select:text;}
+#subtitle{padding: 10 0 0 0;color:#808080;font-size:13px;-webkit-user-select:text;}
 
 #body_section{color:#1f1f1f;overflow-x:hidden;-webkit-user-select: text;}
 #body_section[lang=zh]{text-align:justify;letter-spacing:-0.2px;-webkit-hyphenate-limit-after:1;-webkit-hyphenate-limit-before:1;line-height:155%;-webkit-hyphens: auto;}

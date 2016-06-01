@@ -9,23 +9,21 @@ import Foundation
 
 
 public class ChannelsData: JSONEncodable {
-
-    /** \u9891\u9053\u7684\u540D\u79F0 */
+    /** 频道的ID */
+    public var id: Int32?
+    /** 频道的名称 */
     public var cname: String?
-    /** \u9891\u9053\u7684ID */
-    public var id: Int?
-    /** \u9891\u9053\u72B6\u6001 */
-    public var state: Int?
-    
+    /** 频道状态 */
+    public var state: Int32?
 
     public init() {}
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
+        nillableDictionary["id"] = self.id?.encodeToJSON()
         nillableDictionary["cname"] = self.cname
-        nillableDictionary["id"] = self.id
-        nillableDictionary["state"] = self.state
+        nillableDictionary["state"] = self.state?.encodeToJSON()
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

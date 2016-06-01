@@ -9,53 +9,51 @@ import Foundation
 
 
 public class UserRegister: JSONEncodable {
-
-    /** \u6E38\u5BA2ID \uFF0C \u6CE8\u518C\u7B2C\u4E09\u65B9\u7528\u6237\u7684\u65F6\u5019\uFF0C\u5FC5\u987B\u672C\u5B63\u5DF2\u7ECF\u5B58\u5728\u4E00\u4E2A\u6E38\u5BA2\u7684\u65F6\u5019\u3002 */
-    public var muid: Int?
-    /** \u4E09\u65B9\u7528\u6237\u76F8\u4E92\u5408\u5E76\u65F6\u63D0\u4F9B\u5BF9\u5E94\u7684\u4E09\u65B9\u7528\u6237ID */
+    /** 游客ID ， 注册第三方用户的时候，必须本季已经存在一个游客的时候。 */
+    public var muid: Int32?
+    /** 三方用户相互合并时提供对应的三方用户ID */
     public var msuid: String?
-    /** \u7528\u6237\u7C7B\u578B\u6CE8\u91CA1.\u672C\u5730\u6CE8\u518C\u7528\u6237 2\u6E38\u5BA2\u7528\u6237 3\u5FAE\u535A\u7528\u6237 4\u5FAE\u4FE1\u7528\u6237 */
+    /** 用户类型注释1.本地注册用户 2游客用户 3微博用户 4微信用户 */
     public var utype: String?
-    /** \u7528\u6237\u5E73\u53F0\u6CE8\u91CA 1.IOS 2\u5B89\u5353 3\u7F51\u9875 4\u65E0\u6CD5\u8BC6\u522B */
-    public var platform: Int?
-    /** \u4E09\u65B9\u7528\u6237ID */
+    /** 用户平台注释 1.IOS 2安卓 3网页 4无法识别 */
+    public var platform: Int32?
+    /** 三方用户ID */
     public var suid: String?
-    /** \u4E09\u65B9\u7528\u6237Token */
+    /** 三方用户Token */
     public var stoken: String?
-    /** \u4E09\u623Ftoken \u8FC7\u671F\u65F6\u95F4 */
+    /** 三房token 过期时间 */
     public var sexpires: String?
-    /** \u7528\u6237\u540D\u79F0 */
+    /** 用户名称 */
     public var uname: String?
-    /** \u7528\u6237\u6027\u522B */
-    public var gender: Int?
-    /** \u7528\u6237\u5934\u50CF */
+    /** 用户性别 */
+    public var gender: Int32?
+    /** 用户头像 */
     public var avatar: String?
-    /** \u7528\u6237\u7684\u4E0D\u559C\u6B22\u7684\u6807\u7B7E\u5217\u8868 */
+    /** 用户的不喜欢的标签列表 */
     public var averse: [String]?
-    /** \u7528\u6237\u7684\u559C\u6B22\u7684\u6807\u7B7E\u5217\u8868 */
+    /** 用户的喜欢的标签列表 */
     public var prefer: [String]?
-    /** \u7528\u6237\u6CE8\u518C\u65F6\u6240\u5728\u7684\u7701\u4EFD */
+    /** 用户注册时所在的省份 */
     public var province: String?
-    /** \u7528\u6237\u6CE8\u518C\u65F6\u6240\u5728\u7684\u57CE\u5E02 */
+    /** 用户注册时所在的城市 */
     public var city: String?
-    /** \u7528\u6237\u6CE8\u518C\u65F6\u6240\u5728\u7684\u5E02\u533A */
+    /** 用户注册时所在的市区 */
     public var district: String?
-    
 
     public init() {}
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["muid"] = self.muid
+        nillableDictionary["muid"] = self.muid?.encodeToJSON()
         nillableDictionary["msuid"] = self.msuid
         nillableDictionary["utype"] = self.utype
-        nillableDictionary["platform"] = self.platform
+        nillableDictionary["platform"] = self.platform?.encodeToJSON()
         nillableDictionary["suid"] = self.suid
         nillableDictionary["stoken"] = self.stoken
         nillableDictionary["sexpires"] = self.sexpires
         nillableDictionary["uname"] = self.uname
-        nillableDictionary["gender"] = self.gender
+        nillableDictionary["gender"] = self.gender?.encodeToJSON()
         nillableDictionary["avatar"] = self.avatar
         nillableDictionary["averse"] = self.averse?.encodeToJSON()
         nillableDictionary["prefer"] = self.prefer?.encodeToJSON()

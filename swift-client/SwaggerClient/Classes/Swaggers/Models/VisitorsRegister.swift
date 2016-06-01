@@ -9,26 +9,24 @@ import Foundation
 
 
 public class VisitorsRegister: JSONEncodable {
-
-    /** \u7528\u6237\u7C7B\u578B\u6CE8\u91CA1.\u672C\u5730\u6CE8\u518C\u7528\u6237 2\u6E38\u5BA2\u7528\u6237 3\u5FAE\u535A\u7528\u6237 4\u5FAE\u4FE1\u7528\u6237 */
-    public var utype: Int?
-    /** \u7528\u6237\u5E73\u53F0\u6CE8\u91CA 1.IOS 2\u5B89\u5353 3\u7F51\u9875 4\u65E0\u6CD5\u8BC6\u522B */
-    public var platform: Int?
-    /** \u7528\u6237\u6CE8\u518C\u65F6\u6240\u5728\u7684\u7701\u4EFD */
+    /** 用户类型注释1.本地注册用户 2游客用户 3微博用户 4微信用户 */
+    public var utype: Int32?
+    /** 用户平台注释 1.IOS 2安卓 3网页 4无法识别 */
+    public var platform: Int32?
+    /** 用户注册时所在的省份 */
     public var province: String?
-    /** \u7528\u6237\u6CE8\u518C\u65F6\u6240\u5728\u7684\u57CE\u5E02 */
+    /** 用户注册时所在的城市 */
     public var city: String?
-    /** \u7528\u6237\u6CE8\u518C\u65F6\u6240\u5728\u7684\u5E02\u533A */
+    /** 用户注册时所在的市区 */
     public var district: String?
-    
 
     public init() {}
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["utype"] = self.utype
-        nillableDictionary["platform"] = self.platform
+        nillableDictionary["utype"] = self.utype?.encodeToJSON()
+        nillableDictionary["platform"] = self.platform?.encodeToJSON()
         nillableDictionary["province"] = self.province
         nillableDictionary["city"] = self.city
         nillableDictionary["district"] = self.district

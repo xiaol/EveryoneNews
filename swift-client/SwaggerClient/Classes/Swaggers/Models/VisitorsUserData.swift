@@ -9,25 +9,23 @@ import Foundation
 
 
 public class VisitorsUserData: JSONEncodable {
-
-    /** \u7528\u6237\u7684id \u552F\u4E00\u6807\u793A */
-    public var uid: Int?
-    /** \u7528\u6237\u7684 token */
+    /** 用户的类型 */
+    public var utype: Int32?
+    /** 用户的id 唯一标示 */
+    public var uid: Int32?
+    /** 用户的 token */
     public var password: String?
-    /** \u7528\u6237\u7684\u7C7B\u578B */
-    public var utype: Int?
-    /** \u7528\u6237\u7684\u9891\u9053\u5217\u8868 */
+    /** 用户的频道列表 */
     public var channel: [String]?
-    
 
     public init() {}
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["uid"] = self.uid
+        nillableDictionary["utype"] = self.utype?.encodeToJSON()
+        nillableDictionary["uid"] = self.uid?.encodeToJSON()
         nillableDictionary["password"] = self.password
-        nillableDictionary["utype"] = self.utype
         nillableDictionary["channel"] = self.channel?.encodeToJSON()
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary

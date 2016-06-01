@@ -60,6 +60,9 @@ extension UIStoryboard{
 
 extension UIStoryboard{
     
+    
+    
+    
     // 获取新闻列表视图
     func get_NewslistViewController(channel:Channel?=nil)-> NewslistViewController{
         
@@ -71,8 +74,7 @@ extension UIStoryboard{
     // 获得子母视图
     func get_UISplitViewController() -> UISplitViewController {
         
-        let viewController = self.instantiateViewControllerWithIdentifier("UISplitViewController") as! UISplitViewController
-        return viewController
+        return self.shareSplistViewController
     }
     
     // 获得详情和评论朱世玉视图

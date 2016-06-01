@@ -58,6 +58,12 @@
 		AEC965A11CF5A4EF0053A88D /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC965A01CF5A4EF0053A88D /* CustomView.swift */; };
 		AEC965A51CF5AC900053A88D /* UserSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC965A41CF5AC900053A88D /* UserSettingViewController.swift */; };
 		AEC965A81CF5AFE70053A88D /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC965A71CF5AFE70053A88D /* AboutViewController.swift */; };
+		AED93BA31CFE90F20085E3CB /* CommitViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED93BA21CFE90F20085E3CB /* CommitViewControllerExtension.swift */; };
+		AED93BA51CFE91C20085E3CB /* CommetnstableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED93BA41CFE91C20085E3CB /* CommetnstableViewCell.swift */; };
+		AEEE61981CFE9CEF00C5FF08 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEE61971CFE9CEF00C5FF08 /* Comment.swift */; };
+		AEEE619A1CFE9DE900C5FF08 /* CommentUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEE61991CFE9DE900C5FF08 /* CommentUtil.swift */; };
+		AEEE619C1CFED03000C5FF08 /* CommentDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEE619B1CFED03000C5FF08 /* CommentDataSource.swift */; };
+		AEEE619F1CFEE6C200C5FF08 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEE619E1CFEE6C200C5FF08 /* ShareViewController.swift */; };
 		AEF420B41CF8019700CFAF73 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF420B31CF8019700CFAF73 /* UIViewControllerExtension.swift */; };
 		AEFB55151CF41407005FC23E /* Curly.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFB55141CF41407005FC23E /* Curly.swift */; };
 		AEFB55171CF41F10005FC23E /* NotLikeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFB55161CF41F10005FC23E /* NotLikeExtension.swift */; };
@@ -119,6 +125,12 @@
 		AEC965A01CF5A4EF0053A88D /* CustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
 		AEC965A41CF5AC900053A88D /* UserSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingViewController.swift; sourceTree = "<group>"; };
 		AEC965A71CF5AFE70053A88D /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		AED93BA21CFE90F20085E3CB /* CommitViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommitViewControllerExtension.swift; sourceTree = "<group>"; };
+		AED93BA41CFE91C20085E3CB /* CommetnstableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommetnstableViewCell.swift; sourceTree = "<group>"; };
+		AEEE61971CFE9CEF00C5FF08 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		AEEE61991CFE9DE900C5FF08 /* CommentUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentUtil.swift; sourceTree = "<group>"; };
+		AEEE619B1CFED03000C5FF08 /* CommentDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentDataSource.swift; sourceTree = "<group>"; };
+		AEEE619E1CFEE6C200C5FF08 /* ShareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		AEF420B31CF8019700CFAF73 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		AEFB55141CF41407005FC23E /* Curly.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Curly.swift; sourceTree = "<group>"; };
 		AEFB55161CF41F10005FC23E /* NotLikeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotLikeExtension.swift; sourceTree = "<group>"; };
@@ -209,6 +221,7 @@
 			isa = PBXGroup;
 			children = (
 				AE0FE5201CF2AC4E007DA198 /* Extension And Custom Classes */,
+				AEEE619D1CFEE6BA00C5FF08 /* ShareViewController */,
 				AE0FE5181CF2AB90007DA198 /* CommitViewController */,
 				AE0FE51B1CF2AB90007DA198 /* DetailViewController */,
 				AE0FE51A1CF2AB90007DA198 /* DetailAndCommitViewController.swift */,
@@ -219,6 +232,8 @@
 		AE0FE5181CF2AB90007DA198 /* CommitViewController */ = {
 			isa = PBXGroup;
 			children = (
+				AED93BA01CFE90E10085E3CB /* Custom */,
+				AED93BA11CFE90E10085E3CB /* Extension */,
 				AE0FE5191CF2AB90007DA198 /* CommitViewController.swift */,
 			);
 			path = CommitViewController;
@@ -290,6 +305,7 @@
 				AEBCAEE71CEC27A900EBFC0A /* Channel.swift */,
 				AEAEEBD81CF827A700E8DF08 /* User.swift */,
 				AEB8E9D81CFBF42100A105C4 /* NewContent.swift */,
+				AEEE61971CFE9CEF00C5FF08 /* Comment.swift */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -300,6 +316,7 @@
 				AEC1D5BE1CED9BBD00B1F00C /* NewsUtil.swift */,
 				AEBCAEEA1CEC2ADB00EBFC0A /* ChannelUtil.swift */,
 				AEB8E9DA1CFBF53300A105C4 /* NewContentUtil.swift */,
+				AEEE61991CFE9DE900C5FF08 /* CommentUtil.swift */,
 			);
 			path = ObjectsUtils;
 			sourceTree = "<group>";
@@ -420,6 +437,31 @@
 				AEC965A71CF5AFE70053A88D /* AboutViewController.swift */,
 			);
 			path = AboutViewController;
+			sourceTree = "<group>";
+		};
+		AED93BA01CFE90E10085E3CB /* Custom */ = {
+			isa = PBXGroup;
+			children = (
+				AED93BA41CFE91C20085E3CB /* CommetnstableViewCell.swift */,
+			);
+			path = Custom;
+			sourceTree = "<group>";
+		};
+		AED93BA11CFE90E10085E3CB /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				AED93BA21CFE90F20085E3CB /* CommitViewControllerExtension.swift */,
+				AEEE619B1CFED03000C5FF08 /* CommentDataSource.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		AEEE619D1CFEE6BA00C5FF08 /* ShareViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AEEE619E1CFEE6C200C5FF08 /* ShareViewController.swift */,
+			);
+			path = ShareViewController;
 			sourceTree = "<group>";
 		};
 		AEF2FCB41CF69D08003266B0 /* PrivacyViewController */ = {
@@ -610,6 +652,7 @@
 				AEBCAEF31CEC3F4300EBFC0A /* UIStoryBoard.swift in Sources */,
 				AEC735371CFD32FE00FB66D9 /* DetailViewControllerExtenion.swift in Sources */,
 				AE0FE5241CF2AC97007DA198 /* DetailAndCommitViewControllerExtension.swift in Sources */,
+				AEEE619F1CFEE6C200C5FF08 /* ShareViewController.swift in Sources */,
 				AEC09CD41CE9776800D5A5CC /* AppDelegate.swift in Sources */,
 				AEBCAEEB1CEC2ADB00EBFC0A /* ChannelUtil.swift in Sources */,
 				AEBCAEFA1CEC419600EBFC0A /* CustomExtensionView.swift in Sources */,
@@ -623,14 +666,19 @@
 				6DC4FDD51CF031E000D25A99 /* ChannelManager.swift in Sources */,
 				AEC735401CFD734E00FB66D9 /* BorderView.swift in Sources */,
 				AEAEEBD91CF827A700E8DF08 /* User.swift in Sources */,
+				AEEE61981CFE9CEF00C5FF08 /* Comment.swift in Sources */,
 				AEBCAEF81CEC418200EBFC0A /* CircularButtonBarView.swift in Sources */,
 				AE0FE51E1CF2AB90007DA198 /* DetailAndCommitViewController.swift in Sources */,
 				AEC965A11CF5A4EF0053A88D /* CustomView.swift in Sources */,
+				AEEE619A1CFE9DE900C5FF08 /* CommentUtil.swift in Sources */,
 				AEC1D5C41CEDC22700B1F00C /* DateExt.swift in Sources */,
 				AEB8E9DB1CFBF53300A105C4 /* NewContentUtil.swift in Sources */,
 				AEFB551A1CF462CD005FC23E /* UserCenterViewController.swift in Sources */,
 				AE0FE51D1CF2AB90007DA198 /* CommitViewController.swift in Sources */,
+				AED93BA51CFE91C20085E3CB /* CommetnstableViewCell.swift in Sources */,
 				AEC965A81CF5AFE70053A88D /* AboutViewController.swift in Sources */,
+				AEEE619C1CFED03000C5FF08 /* CommentDataSource.swift in Sources */,
+				AED93BA31CFE90F20085E3CB /* CommitViewControllerExtension.swift in Sources */,
 				6DC4FDD71CF031E000D25A99 /* KDRearrangeableCollectionViewFlowLayout.swift in Sources */,
 				6DC4FDCD1CF0314700D25A99 /* NewBaseTableViewCell.swift in Sources */,
 			);

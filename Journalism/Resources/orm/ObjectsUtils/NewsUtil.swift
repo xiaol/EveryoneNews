@@ -12,18 +12,16 @@ import SwaggerClient
 
 class NewsUtil: NSObject {
     
-    class func LoadNewsListArrayData(channelId:Int,refresh:Bool=false,times:String = "\(Int64(NSDate().timeIntervalSince1970*1000))",finish:(()->Void)?=nil,fail:(()->Void)?=nil){
+    class func LoadNewsListArrayData(channelId:Int,refresh:Bool=false,isHot:Int = 0,times:String = "\(Int64(NSDate().timeIntervalSince1970*1000))",finish:(()->Void)?=nil,fail:(()->Void)?=nil){
     
         guard let token = SDK_User.token else{ fail?();return }
         
-        
         let requestBudile = NewAPI.nsFedLGetWithRequestBuilder(cid: "\(channelId)", tcr: times, p: nil, c: nil)
-        
-        print(times)
         
         requestBudile.addHeaders(["Authorization":token])
         
         requestBudile.execute { (response, error) in
+            
             guard let body = response?.body,let data = body.objectForKey("data") as? NSArray else{  fail?();return}
             
             let realm = try! Realm()
@@ -35,20 +33,32 @@ class NewsUtil: NSObject {
                 }
                 
                 for channel in data {
+                    
+                    if let pubTime = channel.objectForKey("ptime") as? String { // 强行逆转 定能胜天～～  呜呼呼呼呼呼
+                        
+                        let date = NSDate(fromString: pubTime, format: DateFormat.Custom("yyyy-MM-dd HH:mm:ss")).timeIntervalSince1970*1000
+                        
+                        if (times as NSString).doubleValue < date {
+                        
+                            continue
+                        }
+                    }
+                    
                     realm.create(New.self, value: channel, update: true)
-                    self.AnalysisPutTimeAndImageList(channel as! NSDictionary, realm: realm)
+                    self.AnalysisPutTimeAndImageList(channel as! NSDictionary, realm: realm,ishot:(channelId == 1 ? 1 : 0))
                 }
             })
+            
             finish?()
         }
     }
     
     // 完善新闻事件
-    private class func AnalysisPutTimeAndImageList(channel:NSDictionary,realm:Realm){
+    private class func AnalysisPutTimeAndImageList(channel:NSDictionary,realm:Realm,ishot:Int=0){
     
         if let nid = channel.objectForKey("nid") as? Int {
             
-            if let pubTime = channel.objectForKey("pubTime") as? String {
+            if let pubTime = channel.objectForKey("ptime") as? String {
                 
                 let date = NSDate(fromString: pubTime, format: DateFormat.Custom("yyyy-MM-dd HH:mm:ss"))
                 
@@ -68,6 +78,8 @@ class NewsUtil: NSObject {
                 
                 realm.create(New.self, value: ["nid":nid,"imgsList":array], update: true)
             }
+            
+            realm.create(New.self, value: ["nid":nid,"ishotnew":ishot], update: true)
         }
     }
     
@@ -78,6 +90,8 @@ class NewsUtil: NSObject {
         return channles
     }
     
+ 
+    
 }
 
 
@@ -85,6 +99,27 @@ class NewsUtil: NSObject {
 
 extension New {
 
+    /// 自杀
+    func suicide(){
+    
+        let realm = try! Realm()
+        
+        try! realm.write({
+            
+            realm.create(New.self, value: ["nid":self.nid,"isdelete":1], update: true)
+        })
+    }
+    
+    func docidBase64() -> String{
+        
+        if let plainData = self.docid.dataUsingEncoding(NSUTF8StringEncoding){
+        
+            return plainData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.init(rawValue: 0))
+        }
+        
+        return ""
+    }
+    
     func HeightByNewConstraint(tableView:UITableView) -> CGFloat{
         
         let cell = tableView.dequeueReusableCellWithIdentifier("NewNormalTableViewCell") as! NewBaseTableViewCell

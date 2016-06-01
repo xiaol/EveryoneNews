@@ -12,13 +12,15 @@ import SwaggerClient
 let IS_PLUS = UIScreen.mainScreen().bounds.size == CGSize(width: 414,height: 736) || UIScreen.mainScreen().bounds.size == CGSize(width: 736,height: 414)
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate{
+class AppDelegate: UIResponder, UIApplicationDelegate,UISplitViewControllerDelegate{
 
     var window: UIWindow?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
 
+        UIStoryboard.shareStoryBoard.get_UISplitViewController().delegate = self
+        
         return true
     }
 
@@ -44,7 +46,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
 
-
+    func splitViewController(splitViewController: UISplitViewController, collapseSecondaryViewController secondaryViewController:UIViewController, ontoPrimaryViewController primaryViewController:UIViewController) -> Bool {
+        
+        guard let secondaryAsDetailController = secondaryViewController as? DetailAndCommitViewController else { return false }
+        guard let _ = secondaryAsDetailController.new else {return true}
+        return false
+    }
     
     
     func application(application: UIApplication, supportedInterfaceOrientationsForWindow window: UIWindow?) -> UIInterfaceOrientationMask{

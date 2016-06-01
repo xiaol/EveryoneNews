@@ -8,7 +8,17 @@
 
 import UIKit
 
-class VisitorViewController: UIViewController,UISplitViewControllerDelegate {
+class VisitorViewController: UIViewController {
+    
+    override func shouldAutorotate() -> Bool {
+        
+        return false
+    }
+    
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        
+        return UIInterfaceOrientationMask.Portrait
+    }
     
     var splistViewController:UISplitViewController!
     
@@ -18,21 +28,12 @@ class VisitorViewController: UIViewController,UISplitViewControllerDelegate {
         
         splistViewController = UIStoryboard.shareStoryBoard.get_UISplitViewController()
         
-        splistViewController.delegate = self
-        
         guard let _ = SDK_User.token else{
             return
         }
         
         (UIApplication.sharedApplication().delegate as! AppDelegate).window?.rootViewController = splistViewController
     }
-    
-    func splitViewController(splitViewController: UISplitViewController, collapseSecondaryViewController secondaryViewController:UIViewController, ontoPrimaryViewController primaryViewController:UIViewController) -> Bool {
-        guard let secondaryAsDetailController = secondaryViewController as? DetailAndCommitViewController else { return false }
-        if let _ = secondaryAsDetailController.new {return true}
-        return true
-    }
-    
     // 随便看看
     @IBAction func casualLook(sender: AnyObject) {
         

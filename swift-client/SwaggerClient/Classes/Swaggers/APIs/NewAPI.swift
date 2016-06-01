@@ -11,10 +11,9 @@ import Alamofire
 
 public class NewAPI: APIBase {
     /**
+     新闻-列表页加载
      
-     \u65B0\u95FB-\u5217\u8868\u9875\u52A0\u8F7D
-     
-     - parameter nid: (query) \u65B0\u95FBID 
+     - parameter nid: (query) 新闻ID 
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func nsConGet(nid nid: String, completion: ((data: AnyObject?, error: ErrorType?) -> Void)) {
@@ -25,42 +24,42 @@ public class NewAPI: APIBase {
 
 
     /**
-     
-     \u65B0\u95FB-\u5217\u8868\u9875\u52A0\u8F7D
-     
+     新闻-列表页加载
      - GET /ns/con
-     - \u4ECE\u670D\u52A1\u5668\u83B7\u53D6 \u65B0\u95FB-\u5217\u8868\u9875\u52A0\u8F7D
+     - 从服务器获取 新闻-列表页加载
      - examples: [{contentType=application/json, example="{}"}]
      
-     - parameter nid: (query) \u65B0\u95FBID 
+     - parameter nid: (query) 新闻ID 
 
      - returns: RequestBuilder<AnyObject> 
      */
     public class func nsConGetWithRequestBuilder(nid nid: String) -> RequestBuilder<AnyObject> {
         let path = "/ns/con"
         let URLString = SwaggerClientAPI.basePath + path
-        
+
         let nillableParameters: [String:AnyObject?] = [
             "nid": nid
         ]
+ 
         let parameters = APIHelper.rejectNil(nillableParameters)
-
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
         let requestBuilder: RequestBuilder<AnyObject>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
     }
 
     /**
+     新闻-列表页加载
      
-     \u65B0\u95FB-\u5217\u8868\u9875\u52A0\u8F7D
-     
-     - parameter cid: (query) \u9891\u9053id 
-     - parameter tcr: (query) \u8D77\u59CB\u65F6\u95F4\uFF0C13\u4F4D\u65F6\u95F4\u6233 
-     - parameter p: (query) \u9875\u6570 (optional, default to 1)
-     - parameter c: (query) \u6761\u6570 (optional, default to 20)
+     - parameter cid: (query) 频道id 
+     - parameter tcr: (query) 起始时间，13位时间戳 
+     - parameter p: (query) 页数 (optional, default to 1)
+     - parameter c: (query) 条数 (optional, default to 20)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func nsFedLGet(cid cid: String, tcr: String, p: String?, c: String?, completion: ((data: AnyObject?, error: ErrorType?) -> Void)) {
+    public class func nsFedLGet(cid cid: String, tcr: String, p: String? = nil, c: String? = nil, completion: ((data: AnyObject?, error: ErrorType?) -> Void)) {
         nsFedLGetWithRequestBuilder(cid: cid, tcr: tcr, p: p, c: c).execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
@@ -68,48 +67,48 @@ public class NewAPI: APIBase {
 
 
     /**
-     
-     \u65B0\u95FB-\u5217\u8868\u9875\u52A0\u8F7D
-     
+     新闻-列表页加载
      - GET /ns/fed/l
-     - \u4ECE\u670D\u52A1\u5668\u83B7\u53D6 \u65B0\u95FB-\u5217\u8868\u9875\u52A0\u8F7D
+     - 从服务器获取 新闻-列表页加载
      - examples: [{contentType=application/json, example="{}"}]
      
-     - parameter cid: (query) \u9891\u9053id 
-     - parameter tcr: (query) \u8D77\u59CB\u65F6\u95F4\uFF0C13\u4F4D\u65F6\u95F4\u6233 
-     - parameter p: (query) \u9875\u6570 (optional, default to 1)
-     - parameter c: (query) \u6761\u6570 (optional, default to 20)
+     - parameter cid: (query) 频道id 
+     - parameter tcr: (query) 起始时间，13位时间戳 
+     - parameter p: (query) 页数 (optional, default to 1)
+     - parameter c: (query) 条数 (optional, default to 20)
 
      - returns: RequestBuilder<AnyObject> 
      */
-    public class func nsFedLGetWithRequestBuilder(cid cid: String, tcr: String, p: String?, c: String?) -> RequestBuilder<AnyObject> {
+    public class func nsFedLGetWithRequestBuilder(cid cid: String, tcr: String, p: String? = nil, c: String? = nil) -> RequestBuilder<AnyObject> {
         let path = "/ns/fed/l"
         let URLString = SwaggerClientAPI.basePath + path
-        
+
         let nillableParameters: [String:AnyObject?] = [
             "cid": cid,
             "tcr": tcr,
             "p": p,
             "c": c
         ]
+ 
         let parameters = APIHelper.rejectNil(nillableParameters)
-
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
         let requestBuilder: RequestBuilder<AnyObject>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
     }
 
     /**
+     新闻-列表页刷新
      
-     \u65B0\u95FB-\u5217\u8868\u9875\u5237\u65B0
-     
-     - parameter cid: (query) \u9891\u9053id 
-     - parameter tcr: (query) \u8D77\u59CB\u65F6\u95F4\uFF0C13\u4F4D\u65F6\u95F4\u6233 
-     - parameter p: (query) \u9875\u6570 (optional, default to 1)
-     - parameter c: (query) \u6761\u6570 (optional, default to 20)
+     - parameter cid: (query) 频道id 
+     - parameter tcr: (query) 起始时间，13位时间戳 
+     - parameter p: (query) 页数 (optional, default to 1)
+     - parameter c: (query) 条数 (optional, default to 20)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func nsFedRGet(cid cid: String, tcr: String, p: String?, c: String?, completion: ((data: AnyObject?, error: ErrorType?) -> Void)) {
+    public class func nsFedRGet(cid cid: String, tcr: String, p: String? = nil, c: String? = nil, completion: ((data: AnyObject?, error: ErrorType?) -> Void)) {
         nsFedRGetWithRequestBuilder(cid: cid, tcr: tcr, p: p, c: c).execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
@@ -117,35 +116,36 @@ public class NewAPI: APIBase {
 
 
     /**
-     
-     \u65B0\u95FB-\u5217\u8868\u9875\u5237\u65B0
-     
+     新闻-列表页刷新
      - GET /ns/fed/r
-     - \u4ECE\u670D\u52A1\u5668\u83B7\u53D6 \u65B0\u95FB-\u5217\u8868\u9875\u5237\u65B0
+     - 从服务器获取 新闻-列表页刷新
      - examples: [{contentType=application/json, example="{}"}]
      
-     - parameter cid: (query) \u9891\u9053id 
-     - parameter tcr: (query) \u8D77\u59CB\u65F6\u95F4\uFF0C13\u4F4D\u65F6\u95F4\u6233 
-     - parameter p: (query) \u9875\u6570 (optional, default to 1)
-     - parameter c: (query) \u6761\u6570 (optional, default to 20)
+     - parameter cid: (query) 频道id 
+     - parameter tcr: (query) 起始时间，13位时间戳 
+     - parameter p: (query) 页数 (optional, default to 1)
+     - parameter c: (query) 条数 (optional, default to 20)
 
      - returns: RequestBuilder<AnyObject> 
      */
-    public class func nsFedRGetWithRequestBuilder(cid cid: String, tcr: String, p: String?, c: String?) -> RequestBuilder<AnyObject> {
+    public class func nsFedRGetWithRequestBuilder(cid cid: String, tcr: String, p: String? = nil, c: String? = nil) -> RequestBuilder<AnyObject> {
         let path = "/ns/fed/r"
         let URLString = SwaggerClientAPI.basePath + path
-        
+
         let nillableParameters: [String:AnyObject?] = [
             "cid": cid,
             "tcr": tcr,
             "p": p,
             "c": c
         ]
+ 
         let parameters = APIHelper.rejectNil(nillableParameters)
-
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
         let requestBuilder: RequestBuilder<AnyObject>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
     }
 
 }

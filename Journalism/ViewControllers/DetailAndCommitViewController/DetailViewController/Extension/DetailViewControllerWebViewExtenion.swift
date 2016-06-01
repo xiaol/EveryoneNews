@@ -63,7 +63,9 @@ extension DetailViewController:UIWebViewDelegate{
         
         let templatePath = NSBundle.mainBundle().pathForResource("content_template", ofType: "html")
         
-        let variables = ["title":newCon.title,"source":newCon.pname,"ptime":newCon.ptime,"theme":"normal","body":body]
+        let comment = newCon.comment > 0 ? "   \(newCon.comment)评" : ""
+        
+        let variables = ["title":newCon.title,"source":newCon.pname,"ptime":newCon.ptime,"theme":"normal","body":body,"comment":comment]
         
         let result = engine.processTemplateInFileAtPath(templatePath, withVariables: variables)
         

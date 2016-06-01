@@ -10,6 +10,7 @@ import UIKit
 import SwaggerClient
 
 
+let SDK_SHANGHAIUSERUID = "SHANGHAISDKUSERUID"
 let SDK_SHANGHAIUSERTOKEN = "SHANGHAISDKUSERTOKEN"
 
 class SDK_User:NSObject{
@@ -19,6 +20,10 @@ class SDK_User:NSObject{
      return NSUserDefaults.standardUserDefaults().stringForKey(SDK_SHANGHAIUSERTOKEN)
     }
     
+    class var uid:Int?{
+        
+        return NSUserDefaults.standardUserDefaults().integerForKey(SDK_SHANGHAIUSERUID)
+    }
     // 获得用户的Token
     class func getSdkUserToken(finish:((token:String)->Void)?){
         
@@ -48,6 +53,11 @@ public class SDK_UserRequest: NSObject {
                 return
             }
             
+            if let data = response?.body,uid = data.objectForKey("data")?.objectForKey("uid") as? Int {
+                
+                NSUserDefaults.standardUserDefaults().setObject(uid, forKey: SDK_SHANGHAIUSERUID)
+            }
+            
             NSUserDefaults.standardUserDefaults().setObject(token, forKey: SDK_SHANGHAIUSERTOKEN)
             finish(token: token)
         }
@@ -57,7 +67,7 @@ public class SDK_UserRequest: NSObject {
 
 extension VisitorsRegister{
     
-    convenience public init(utype: Int,platform: Int){
+    convenience public init(utype: Int32,platform: Int32){
         self.init()
         self.utype = utype
         self.platform = platform

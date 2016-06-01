@@ -9,20 +9,18 @@ import Foundation
 
 
 public class NewinfoDataContent: JSONEncodable {
-
-    public var vid: String?
     public var txt: String?
     public var img: String?
-    
+    public var vid: String?
 
     public init() {}
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["vid"] = self.vid
         nillableDictionary["txt"] = self.txt
         nillableDictionary["img"] = self.img
+        nillableDictionary["vid"] = self.vid
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

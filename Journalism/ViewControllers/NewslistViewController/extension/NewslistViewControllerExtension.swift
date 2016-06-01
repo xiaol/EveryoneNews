@@ -36,7 +36,7 @@ extension NewslistViewController:IndicatorInfoProvider{
         self.tableView.layoutMargins = UIEdgeInsetsZero
         self.tableView.separatorInset = UIEdgeInsetsZero
         
-        self.TextForChangehandleMethod()
+//        self.TextForChangehandleMethod()
         self.refreshNewsDataMethod()
     }
     
@@ -83,22 +83,22 @@ extension NewslistViewController:IndicatorInfoProvider{
         return info
     }
     
-    // 当系统的文字发生变化的时候出发的方法
-    private func TextForChangehandleMethod(){
-        
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(HomeViewController.preferredContentSizeChanged(_:)), name: UIContentSizeCategoryDidChangeNotification, object: nil)
-    }
-    
-    // 刷新当前页面
-    func preferredContentSizeChanged(notifi:NSNotification){
-        
-        self.tableView.beginUpdates()
-        
-        self.tableView.reloadData()
-        
-        self.tableView.endUpdates()
-        
-    }
+//    // 当系统的文字发生变化的时候出发的方法
+//    private func TextForChangehandleMethod(){
+//        
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(HomeViewController.preferredContentSizeChanged(_:)), name: UIContentSizeCategoryDidChangeNotification, object: nil)
+//    }
+//    
+//    // 刷新当前页面
+//    func preferredContentSizeChanged(notifi:NSNotification){
+//        
+//        self.tableView.beginUpdates()
+//        
+//        self.tableView.reloadData()
+//        
+//        self.tableView.endUpdates()
+//        
+//    }
 }
 
 
@@ -181,9 +181,18 @@ extension NewslistViewController:UITableViewDataSource{
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW,Int64(delayInSeconds * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { // 2
             self.delegate.ClickNoLikeButtonOfUITableViewCell?(cell, finish: { (cancel) in
                 
-                if cancel {
+                self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
+                
+                if !cancel {
+                
+                    self.newsResults[indexPath.row].suicide()
                     
-                    self.tableView.reloadData()
+                    self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+                    
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { // 2
+                        
+                        self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
+                    }
                 }
             })
         }

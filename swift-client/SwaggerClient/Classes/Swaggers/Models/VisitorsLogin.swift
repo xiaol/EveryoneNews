@@ -9,19 +9,17 @@ import Foundation
 
 
 public class VisitorsLogin: JSONEncodable {
-
-    /** \u7528\u6237\u7684ID */
-    public var uid: Int?
-    /** \u7528\u6237\u767B\u5F55\u5BC6\u7801 */
+    /** 用户的ID */
+    public var uid: Int32?
+    /** 用户登录密码 */
     public var password: String?
-    
 
     public init() {}
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["uid"] = self.uid
+        nillableDictionary["uid"] = self.uid?.encodeToJSON()
         nillableDictionary["password"] = self.password
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary

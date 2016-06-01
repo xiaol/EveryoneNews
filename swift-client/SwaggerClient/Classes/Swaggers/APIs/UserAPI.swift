@@ -11,10 +11,9 @@ import Alamofire
 
 public class UserAPI: APIBase {
     /**
+     游客用户登录
      
-     \u6E38\u5BA2\u7528\u6237\u767B\u5F55
-     
-     - parameter userLoginInfo: (body) \u7528\u6237\u6CE8\u518C\u4FE1\u606F 
+     - parameter userLoginInfo: (body) 用户注册信息 
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func auLinGPost(userLoginInfo userLoginInfo: VisitorsLogin, completion: ((data: AnyObject?, error: ErrorType?) -> Void)) {
@@ -25,33 +24,31 @@ public class UserAPI: APIBase {
 
 
     /**
-     
-     \u6E38\u5BA2\u7528\u6237\u767B\u5F55
-     
+     游客用户登录
      - POST /au/lin/g
-     - \u5411\u670D\u52A1\u5668\u767B\u9646\u4E00\u4E2A\u6E38\u5BA2
+     - 向服务器登陆一个游客
      - examples: [{contentType=application/json, example="{}"}]
      
-     - parameter userLoginInfo: (body) \u7528\u6237\u6CE8\u518C\u4FE1\u606F 
+     - parameter userLoginInfo: (body) 用户注册信息 
 
      - returns: RequestBuilder<AnyObject> 
      */
     public class func auLinGPostWithRequestBuilder(userLoginInfo userLoginInfo: VisitorsLogin) -> RequestBuilder<AnyObject> {
         let path = "/au/lin/g"
         let URLString = SwaggerClientAPI.basePath + path
-        
         let parameters = userLoginInfo.encodeToJSON() as? [String:AnyObject]
-
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
         let requestBuilder: RequestBuilder<AnyObject>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
 
     /**
+     游客用户注册
      
-     \u6E38\u5BA2\u7528\u6237\u6CE8\u518C
-     
-     - parameter userRegisterInfo: (body) \u7528\u6237\u6CE8\u518C\u4FE1\u606F 
+     - parameter userRegisterInfo: (body) 用户注册信息 
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func auSinGPost(userRegisterInfo userRegisterInfo: VisitorsRegister, completion: ((data: AnyObject?, error: ErrorType?) -> Void)) {
@@ -62,33 +59,31 @@ public class UserAPI: APIBase {
 
 
     /**
-     
-     \u6E38\u5BA2\u7528\u6237\u6CE8\u518C
-     
+     游客用户注册
      - POST /au/sin/g
-     - \u60F3\u670D\u52A1\u5668\u6CE8\u518C\u4E00\u4E2A\u7528\u4E8E\u57FA\u672C\u6D4F\u89C8\u7684\u6E38\u5BA2\u7528\u6237
+     - 想服务器注册一个用于基本浏览的游客用户
      - examples: [{contentType=application/json, example="{}"}]
      
-     - parameter userRegisterInfo: (body) \u7528\u6237\u6CE8\u518C\u4FE1\u606F 
+     - parameter userRegisterInfo: (body) 用户注册信息 
 
      - returns: RequestBuilder<AnyObject> 
      */
     public class func auSinGPostWithRequestBuilder(userRegisterInfo userRegisterInfo: VisitorsRegister) -> RequestBuilder<AnyObject> {
         let path = "/au/sin/g"
         let URLString = SwaggerClientAPI.basePath + path
-        
         let parameters = userRegisterInfo.encodeToJSON() as? [String:AnyObject]
-
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
         let requestBuilder: RequestBuilder<AnyObject>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
 
     /**
+     第三方用户注册
      
-     \u7B2C\u4E09\u65B9\u7528\u6237\u6CE8\u518C
-     
-     - parameter userRegisterInfo: (body) \u7528\u6237\u6CE8\u518C\u4FE1\u606F 
+     - parameter userRegisterInfo: (body) 用户注册信息 
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func auSinSPost(userRegisterInfo userRegisterInfo: UserRegister, completion: ((data: AnyObject?, error: ErrorType?) -> Void)) {
@@ -99,26 +94,25 @@ public class UserAPI: APIBase {
 
 
     /**
-     
-     \u7B2C\u4E09\u65B9\u7528\u6237\u6CE8\u518C
-     
+     第三方用户注册
      - POST /au/sin/s
-     - \u5411\u670D\u52A1\u5668\u6CE8\u518C\u7B2C\u4E09\u65B9\u7528\u6237
+     - 向服务器注册第三方用户
      - examples: [{contentType=application/json, example="{}"}]
      
-     - parameter userRegisterInfo: (body) \u7528\u6237\u6CE8\u518C\u4FE1\u606F 
+     - parameter userRegisterInfo: (body) 用户注册信息 
 
      - returns: RequestBuilder<AnyObject> 
      */
     public class func auSinSPostWithRequestBuilder(userRegisterInfo userRegisterInfo: UserRegister) -> RequestBuilder<AnyObject> {
         let path = "/au/sin/s"
         let URLString = SwaggerClientAPI.basePath + path
-        
         let parameters = userRegisterInfo.encodeToJSON() as? [String:AnyObject]
-
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
         let requestBuilder: RequestBuilder<AnyObject>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: parameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
 
 }

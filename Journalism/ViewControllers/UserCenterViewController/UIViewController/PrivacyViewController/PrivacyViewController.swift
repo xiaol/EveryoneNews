@@ -23,6 +23,11 @@ class PrivacyViewController: UIViewController,UIViewControllerTransitioningDeleg
         return false
     }
     
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        
+        return UIInterfaceOrientationMask.Portrait
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         
         super.init(coder: aDecoder)

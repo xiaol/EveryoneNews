@@ -16,6 +16,11 @@ class AboutViewController: UIViewController,UIViewControllerTransitioningDelegat
         return false
     }
     
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        
+        return UIInterfaceOrientationMask.Portrait
+    }
+    
     @IBOutlet var pan: UIPanGestureRecognizer!
     @IBOutlet var scrollView: UIScrollView!
     

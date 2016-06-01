@@ -129,7 +129,13 @@ extension HomeViewController{
         
         displayViewController.title = channel.cname
         
-        displayViewController.newsResults = self.newsResults.filter("channel = %@",channel.id)
+        if channel.id == 1{
+            
+            displayViewController.newsResults = self.newsResults.filter("ishotnew = 1 AND isdelete = 0")
+        }else{
+        
+            displayViewController.newsResults = self.newsResults.filter("channel = %@ AND isdelete = 0",channel.id)
+        }
         
         displayViewController.delegate = self
         

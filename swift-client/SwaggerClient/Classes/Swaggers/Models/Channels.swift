@@ -9,18 +9,16 @@ import Foundation
 
 
 public class Channels: JSONEncodable {
-
-    /** \u8FD4\u56DE\u8BF7\u6C42\u72B6\u6001\u7801 */
-    public var code: Int?
+    /** 返回请求状态码 */
+    public var code: Int32?
     public var data: ChannelsData?
-    
 
     public init() {}
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["code"] = self.code
+        nillableDictionary["code"] = self.code?.encodeToJSON()
         nillableDictionary["data"] = self.data?.encodeToJSON()
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary

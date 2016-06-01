@@ -20,7 +20,7 @@ extension HomeViewController:NewslistViewControllerNoLikeDelegate{
         
         if !self.noLikeChosseView.hidden{
         
-            self.HideNoLikeHandleViewButton(WTFFFFF.finish)
+            self.HideNoLikeHandleViewButton(finish:WTFFFFF.finish)
         }
     }
     
@@ -28,7 +28,7 @@ extension HomeViewController:NewslistViewControllerNoLikeDelegate{
         
         if !self.noLikeChosseView.hidden {
             
-            self.HideNoLikeHandleViewButton(finish)
+            self.HideNoLikeHandleViewButton(finish:finish)
         }else{
             
             WTFFFFF.finish = finish
@@ -37,7 +37,7 @@ extension HomeViewController:NewslistViewControllerNoLikeDelegate{
         }
     }
     
-    private func HideNoLikeHandleViewButton(finish: ((cancel: Bool) -> Void)){
+    private func HideNoLikeHandleViewButton(cancel:Bool=true,finish: ((cancel: Bool) -> Void)){
   
         UIView.animateWithDuration(0.2) { 
             
@@ -59,7 +59,7 @@ extension HomeViewController:NewslistViewControllerNoLikeDelegate{
                     
                     }, completion: { (_) in
                         
-                        finish(cancel: true)
+                        finish(cancel: cancel)
                 })
         }
         
@@ -73,14 +73,14 @@ extension HomeViewController:NewslistViewControllerNoLikeDelegate{
             
             cell.removeGestureRecognizer(tap)
             
-            self.HideNoLikeHandleViewButton(finish)
+            self.HideNoLikeHandleViewButton(finish:finish)
         }
   
         cell.addGestureRecognizer(tapCell)
         
         self.shareBackView.addGestureRecognizer(UITapGestureRecognizer(block: { (_) in
             
-            self.HideNoLikeHandleViewButton(finish)
+            self.HideNoLikeHandleViewButton(finish:finish)
         }))
         
         
@@ -123,6 +123,11 @@ extension HomeViewController:NewslistViewControllerNoLikeDelegate{
         }
     }
     
+    
+    @IBAction func ClickNoLikeButton(sender: AnyObject) {
+        
+        self.HideNoLikeHandleViewButton(false,finish:WTFFFFF.finish)
+    }
     
     private var shareBackView:UIView!{
         

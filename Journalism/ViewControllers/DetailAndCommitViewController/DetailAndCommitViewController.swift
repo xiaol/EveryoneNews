@@ -14,12 +14,12 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
 
     var new:New?
     
-    @IBOutlet var OcclusionView: UIView!
+    @IBOutlet var OcclusionView: UIView! // 当没有新闻的时候现实的提示页面
     @IBOutlet var CommentAndPostButton: UIButton! // 评论和原文
+    @IBOutlet weak var titleLabel: UILabel! // 标题Label
     
-    @IBOutlet weak var titleLabel: UILabel!
-    
-    @IBOutlet var moreButton: UIButton!
+    @IBOutlet var dissButton: UIButton! // 左上角更多按钮
+    @IBOutlet var moreButton: UIButton! // 右上角更多按钮
     let detailViewTransitioning = DetailViewAndCommitViewControllerPopAnimatedTransitioning() // Dismiss 反悔动画
     let detailViewInteractiveTransitioning = UIPercentDrivenInteractiveTransition() // 完成 process 渐进行动画
 
@@ -33,12 +33,30 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
         self.buttonBarView.hidden = true
         self.titleLabel.text = self.title
         
+        self.dissButton.hidden = new == nil
         self.moreButton.hidden = new == nil
         self.OcclusionView.hidden = new != nil
         
         self.navigationController?.delegate = self
         
         self.containerView.panGestureRecognizer.addTarget(self, action: #selector(DetailAndCommitViewController.pan(_:)))
+        
+        
+        if let n = new {
+        
+            
+            CommentUtil.LoadHotsCommentsList(n, finish: { 
+                
+                }, fail: { 
+                    
+            })
+            
+            CommentUtil.LoadNoramlCommentsList(n, finish: {
+                
+                }, fail: {
+                    
+            })
+        }
     }
 
     

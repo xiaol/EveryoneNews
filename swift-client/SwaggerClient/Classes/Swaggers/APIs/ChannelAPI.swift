@@ -11,13 +11,12 @@ import Alamofire
 
 public class ChannelAPI: APIBase {
     /**
+     新闻-频道列表
      
-     \u65B0\u95FB-\u9891\u9053\u5217\u8868
-     
-     - parameter s: (query) \u5426(\u9ED8\u8BA4 1)\t\u4E0A\u7EBF\u72B6\u6001\uFF0C0 \u6216 1 (optional, default to 1)
+     - parameter s: (query) 否(默认 1) 上线状态，0 或 1 (optional, default to 1)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func nsChsGet(s s: String?, completion: ((data: AnyObject?, error: ErrorType?) -> Void)) {
+    public class func nsChsGet(s s: String? = nil, completion: ((data: AnyObject?, error: ErrorType?) -> Void)) {
         nsChsGetWithRequestBuilder(s: s).execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
@@ -25,29 +24,30 @@ public class ChannelAPI: APIBase {
 
 
     /**
-     
-     \u65B0\u95FB-\u9891\u9053\u5217\u8868
-     
+     新闻-频道列表
      - GET /ns/chs
-     - \u4ECE\u670D\u52A1\u5668\u83B7\u53D6 \u9891\u9053\u7684\u5217\u8868
+     - 从服务器获取 频道的列表
      - examples: [{contentType=application/json, example="{}"}]
      
-     - parameter s: (query) \u5426(\u9ED8\u8BA4 1)\t\u4E0A\u7EBF\u72B6\u6001\uFF0C0 \u6216 1 (optional, default to 1)
+     - parameter s: (query) 否(默认 1) 上线状态，0 或 1 (optional, default to 1)
 
      - returns: RequestBuilder<AnyObject> 
      */
-    public class func nsChsGetWithRequestBuilder(s s: String?) -> RequestBuilder<AnyObject> {
+    public class func nsChsGetWithRequestBuilder(s s: String? = nil) -> RequestBuilder<AnyObject> {
         let path = "/ns/chs"
         let URLString = SwaggerClientAPI.basePath + path
-        
+
         let nillableParameters: [String:AnyObject?] = [
             "s": s
         ]
+ 
         let parameters = APIHelper.rejectNil(nillableParameters)
-
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
         let requestBuilder: RequestBuilder<AnyObject>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: URLString, parameters: parameters, isBody: false)
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
     }
 
 }

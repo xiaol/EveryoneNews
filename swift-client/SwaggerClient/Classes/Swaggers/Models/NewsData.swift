@@ -9,62 +9,60 @@ import Foundation
 
 
 public class NewsData: JSONEncodable {
-
-    /** \u65B0\u95FB\u7684\u56FE\u7247\u5217\u8868 */
-    public var imgs: [String]?
-    /** \u6240\u5728\u7684\u57CE\u5E02 */
-    public var city: String?
-    /** \u7528\u6237\u8BC4\u8BBA\u4FE1\u606F\u5730\u5740 */
-    public var docid: String?
-    /** \u6765\u6E90\u540D\u79F0 */
-    public var pname: String?
-    /** \u65B0\u95FB\u7684ID */
-    public var nid: Int?
-    /** \u9891\u9053ID */
-    public var channel: Int?
-    /** \u65B0\u95FB\u6765\u6E90\u5730\u5740 */
-    public var purl: String?
-    /** \u65B0\u95FB\u6807\u9898 */
-    public var title: String?
-    /** \u65B0\u95FB\u7684\u539F\u5730\u5740 */
+    /** 新闻的ID */
+    public var nid: Int64?
+    /** 新闻的原地址 */
     public var url: String?
-    /** \u5173\u5FC3\u6570 */
-    public var concern: Int?
-    /** \u6240\u5728\u7684\u7701\u4EFD */
-    public var province: String?
-    /** \u6240\u5728\u7684\u5E02\u533A */
-    public var district: String?
-    /** \u8BC4\u8BBA\u6570\u76EE */
-    public var comment: Int?
-    /** \u56FE\u7247\u7C7B\u578B */
-    public var style: Int?
-    /** \u65B0\u95FB\u53D1\u751F\u65F6\u95F4 */
+    /** 用户评论信息地址 */
+    public var docid: String?
+    /** 新闻标题 */
+    public var title: String?
+    /** 新闻发生时间 */
     public var ptime: String?
-    /** \u6536\u85CF\u6570 */
-    public var collect: Int?
-    
+    /** 来源名称 */
+    public var pname: String?
+    /** 新闻来源地址 */
+    public var purl: String?
+    /** 频道ID */
+    public var channel: Int32?
+    /** 收藏数 */
+    public var collect: Int32?
+    /** 关心数 */
+    public var concern: Int32?
+    /** 评论数目 */
+    public var comment: Int32?
+    /** 图片类型 */
+    public var style: Int32?
+    /** 所在的省份 */
+    public var province: String?
+    /** 所在的城市 */
+    public var city: String?
+    /** 所在的市区 */
+    public var district: String?
+    /** 新闻的图片列表 */
+    public var imgs: [String]?
 
     public init() {}
 
     // MARK: JSONEncodable
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
-        nillableDictionary["imgs"] = self.imgs?.encodeToJSON()
-        nillableDictionary["city"] = self.city
-        nillableDictionary["docid"] = self.docid
-        nillableDictionary["pname"] = self.pname
-        nillableDictionary["nid"] = self.nid
-        nillableDictionary["channel"] = self.channel
-        nillableDictionary["purl"] = self.purl
-        nillableDictionary["title"] = self.title
+        nillableDictionary["nid"] = self.nid?.encodeToJSON()
         nillableDictionary["url"] = self.url
-        nillableDictionary["concern"] = self.concern
-        nillableDictionary["province"] = self.province
-        nillableDictionary["district"] = self.district
-        nillableDictionary["comment"] = self.comment
-        nillableDictionary["style"] = self.style
+        nillableDictionary["docid"] = self.docid
+        nillableDictionary["title"] = self.title
         nillableDictionary["ptime"] = self.ptime
-        nillableDictionary["collect"] = self.collect
+        nillableDictionary["pname"] = self.pname
+        nillableDictionary["purl"] = self.purl
+        nillableDictionary["channel"] = self.channel?.encodeToJSON()
+        nillableDictionary["collect"] = self.collect?.encodeToJSON()
+        nillableDictionary["concern"] = self.concern?.encodeToJSON()
+        nillableDictionary["comment"] = self.comment?.encodeToJSON()
+        nillableDictionary["style"] = self.style?.encodeToJSON()
+        nillableDictionary["province"] = self.province
+        nillableDictionary["city"] = self.city
+        nillableDictionary["district"] = self.district
+        nillableDictionary["imgs"] = self.imgs?.encodeToJSON()
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
         return dictionary
     }

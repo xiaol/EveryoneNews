@@ -248,6 +248,95 @@
                     }
                 }
             }
+        },
+        "/ns/coms/c": {
+            "get": {
+                "tags": ["comment"],
+                "summary": "新闻普通评论列表",
+                "description": "从服务器获取 新闻普通评论列表",
+                "parameters": [{
+                    "name": "did",
+                    "in": "query",
+                    "description": "新闻 docid",
+                    "required": true,
+                    "type": "string"
+                }, {
+                    "name": "uid",
+                    "in": "query",
+                    "description": "注册用户ID，提供该ID会在响应中设置该用户的点赞标记 upflag",
+                    "required": false,
+                    "type": "string"
+                }, {
+                    "name": "p",
+                    "in": "query",
+                    "description": "新闻ID",
+                    "required": false,
+                    "default": "1",
+                    "type": "string"
+                }, {
+                    "name": "c",
+                    "in": "query",
+                    "description": "新闻ID",
+                    "required": false,
+                    "default": "20",
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "完成请求",
+                        "schema": {
+                            "type": "object",
+                            "items": {
+                                "$ref": "#/definitions/comments"
+                            }
+                        }
+                    }
+                }
+            }
+        },"/ns/coms/h": {
+            "get": {
+                "tags": ["comment"],
+                "summary": "新闻热点评论列表",
+                "description": "从服务器获取 新闻热点评论列表",
+                "parameters": [{
+                    "name": "did",
+                    "in": "query",
+                    "description": "新闻 docid",
+                    "required": true,
+                    "type": "string"
+                }, {
+                    "name": "uid",
+                    "in": "query",
+                    "description": "注册用户ID，提供该ID会在响应中设置该用户的点赞标记 upflag",
+                    "required": false,
+                    "type": "string"
+                }, {
+                    "name": "p",
+                    "in": "query",
+                    "description": "新闻ID",
+                    "required": false,
+                    "default": "1",
+                    "type": "string"
+                }, {
+                    "name": "c",
+                    "in": "query",
+                    "description": "新闻ID",
+                    "required": false,
+                    "default": "20",
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "完成请求",
+                        "schema": {
+                            "type": "object",
+                            "items": {
+                                "$ref": "#/definitions/comments"
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -657,6 +746,62 @@
                             }
                         }
                     }
+                }
+            }
+        }
+
+
+        ,
+        "comments": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "返回请求状态码",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "description": "评论ID",
+                                "type": "integer",
+                                "format": "int32"
+                            },
+                            "content": {
+                                "description": "评论正文",
+                                "type": "string"
+                            },
+                            "commend": {
+                                "description": "赞数",
+                                "type": "integer",
+                                "format": "int32"
+                            },"ctime": {
+                                "description": "创建时间",
+                                "type": "string"
+                            },"uid": {
+                                "description": "创建该评论的用户ID",
+                                "type": "integer",
+                                "format": "int32"
+                            },"uname": {
+                                "description": "创建该评论的用户名",
+                                "type": "string"
+                            },"avatar": {
+                                "description": "评论头像",
+                                "type": "string"
+                            },"docid": {
+                                "description": "该评论对应的新闻 docid",
+                                "type": "string"
+                            },"upflag": {
+                                "description": "用户是否能对该条评论点赞，0、1 对应 可点、不可点",
+                                "type": "integer",
+                                "format": "int32"
+                            }
+                        }
+                    }
+
                 }
             }
         }

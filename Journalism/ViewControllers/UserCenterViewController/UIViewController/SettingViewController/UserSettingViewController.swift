@@ -24,10 +24,6 @@ class UserSettingViewController: UIViewController,UIGestureRecognizerDelegate {
         super.init(coder: aDecoder)
         
         self.transitioningDelegate = self
-        
-        //        self.providesPresentationContextTransitionStyle = true
-        //        self.definesPresentationContext = true
-        //        self.modalPresentationStyle = UIModalPresentationStyle.Custom
     }
     
     let DismissedAnimation = CustomViewControllerDismissedAnimation()
@@ -45,6 +41,10 @@ extension UserSettingViewController:UIViewControllerTransitioningDelegate{
         return false
     }
     
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        
+        return UIInterfaceOrientationMask.Portrait
+    }
     
     override func viewDidLoad() {
         
@@ -52,6 +52,9 @@ extension UserSettingViewController:UIViewControllerTransitioningDelegate{
         
         scrollView.panGestureRecognizer.requireGestureRecognizerToFail(pan)
         pan.delegate = self
+        
+        NSFileManager.defaultManager()
+        
     }
     
     func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
