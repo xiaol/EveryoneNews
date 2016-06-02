@@ -11,11 +11,13 @@ import MJRefresh
 import PINRemoteImage
 import XLPagerTabStrip
 
-extension NewslistViewController:IndicatorInfoProvider{
+extension NewslistViewController{
 
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        self.messageHandleMethod(hidden:true, anmaiter: false) // 隐藏提示视图
         
         let header = MJRefreshNormalHeader(refreshingBlock: {
             
@@ -37,23 +39,46 @@ extension NewslistViewController:IndicatorInfoProvider{
         self.tableView.separatorInset = UIEdgeInsetsZero
         
 //        self.TextForChangehandleMethod()
-        self.refreshNewsDataMethod()
+        self.refreshNewsDataMethod(false)
     }
     
     /// 刷新新闻内容方法
-    private func refreshNewsDataMethod(){
+    private func refreshNewsDataMethod(show:Bool = true){
     
-        if let channelId = self.channel?.id {
+        guard let channelId = self.channel?.id else{return}
+        
+        if newsResults.count <= 0 {
             
-            NewsUtil.LoadNewsListArrayData(channelId,refresh:true, finish: {
+            return NewsUtil.LoadNewsListArrayData(channelId,times: "\(Int64(NSDate().timeIntervalSince1970*1000))",finish: {
                 
-                self.tableView.mj_header.endRefreshing()
+                self.tableView.mj_footer.endRefreshing()
                 
                 self.tableView.reloadData()
                 
                 }, fail: {
                     
+                    self.tableView.mj_footer.endRefreshing()
+            })
+        }
+        
+        
+        if let last = self.newsResults.first{
+
+            NewsUtil.RefreshNewsListArrayData(channelId, times: "\(Int64(last.ptimes.timeIntervalSince1970*1000))", finish: { (count) in
+                
+                self.tableView.mj_header.endRefreshing()
+                
+                self.tableView.reloadData()
+                
+                if !show {return}
+                
+                self.messageHandleMethod("一共刷新了\(count)条数据")
+                
+                }, fail: {
                     self.tableView.mj_header.endRefreshing()
+                    
+                    if !show {return}
+                    self.messageHandleMethod("没有加载到数据")
             })
         }
     }
@@ -76,12 +101,33 @@ extension NewslistViewController:IndicatorInfoProvider{
         }
     }
     
-    func indicatorInfoForPagerTabStrip(pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
+    
+    private func messageHandleMethod(message:String = "",hidden:Bool = false,anmaiter:Bool = true){
         
-        let info = IndicatorInfo(title: channel?.cname ?? "")
+        self.messageLabel.text = message
         
-        return info
+        let show = CGAffineTransformIdentity // 显示视图
+        let hiddent = CGAffineTransformTranslate(self.messageLabel.transform, 0, -self.messageLabel.frame.height) // 隐藏加载视图
+        
+        UIView.animateWithDuration(anmaiter ? 0.3 : 0) {
+            
+            self.messageLabel.transform = hidden ? hiddent : show
+        }
+        
+        if hidden {return}
+        
+        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1.5 * Double(NSEC_PER_SEC)))
+        
+        dispatch_after(delayTime, dispatch_get_main_queue(), {
+            
+          UIView.animateWithDuration(0.5, animations: { 
+            
+            self.messageLabel.transform = hiddent
+          })
+        })
     }
+    
+
     
 //    // 当系统的文字发生变化的时候出发的方法
 //    private func TextForChangehandleMethod(){
@@ -102,132 +148,12 @@ extension NewslistViewController:IndicatorInfoProvider{
 }
 
 
+extension NewslistViewController:IndicatorInfoProvider{
 
-extension NewslistViewController:UITableViewDataSource{
-
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func indicatorInfoForPagerTabStrip(pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
         
-        if newsResults == nil {return 0}
+        let info = IndicatorInfo(title: channel?.cname ?? "")
         
-        return newsResults.count
+        return info
     }
-    
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        var cell :NewBaseTableViewCell!
-        
-        let new = newsResults[indexPath.row]
-        
-        if new.style == 0 {
-        
-            cell =  tableView.dequeueReusableCellWithIdentifier("NewNormalTableViewCell") as! NewNormalTableViewCell
-            
-            cell.setNewObject(new)
-            
-        }else if new.style == 1 {
-            
-            cell =  tableView.dequeueReusableCellWithIdentifier("NewOneTableViewCell") as! NewOneTableViewCell
-            
-            cell.setNewObject(new)
-            
-        }else if new.style == 2 {
-            
-            cell =  tableView.dequeueReusableCellWithIdentifier("NewTwoTableViewCell") as! NewTwoTableViewCell
-            
-            cell.setNewObject(new)
-            
-        }else if new.style == 3 {
-            
-            cell =  tableView.dequeueReusableCellWithIdentifier("NewThreeTableViewCell") as! NewThreeTableViewCell
-            
-            cell.setNewObject(new)
-        }
-        
-        cell.noLikeButton.removeActions(UIControlEvents.TouchUpInside)
-        cell.noLikeButton.addAction(UIControlEvents.TouchUpInside) { (_) in
-            
-            self.handleActionMethod(cell, indexPath: indexPath)
-        }
-        
-        return cell
-    }
-    
-    private func handleActionMethod(cell :NewBaseTableViewCell,indexPath:NSIndexPath){
-        
-        var delayInSeconds = 0.0
-        
-        let porint = cell.convertRect(cell.bounds, toView: self.view).origin
-        
-        if porint.y < 0 {
-            
-            delayInSeconds = 0.5
-            
-            self.tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Top, animated: true)
-        }
-        
-        let needHeight = porint.y+cell.frame.height+128
-        
-        if  needHeight > self.tableView.frame.height {
-            
-            delayInSeconds = 0.5
-            
-            let result = needHeight-self.tableView.frame.height
-            
-            let toPoint = CGPoint(x: 0, y: self.tableView.contentOffset.y+result)
-            
-            self.tableView.setContentOffset(toPoint, animated: true)
-        }
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW,Int64(delayInSeconds * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { // 2
-            self.delegate.ClickNoLikeButtonOfUITableViewCell?(cell, finish: { (cancel) in
-                
-                self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
-                
-                if !cancel {
-                
-                    self.newsResults[indexPath.row].suicide()
-                    
-                    self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
-                    
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { // 2
-                        
-                        self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
-                    }
-                }
-            })
-        }
-    }
-    
-}
-
-extension NewslistViewController:UITableViewDelegate{
-    
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-        let new = newsResults[indexPath.row]
-        
-        let viewController = UIStoryboard.shareStoryBoard.get_DetailAndCommitViewController(new)
-        
-        if IS_PLUS {
-            
-            self.showDetailViewController(viewController, sender: nil)
-        }else{
-        
-            self.showViewController(viewController, sender: nil)
-        }
-        
-    }
-    
-    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        
-        return 100
-    }
-    
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        
-        let new = newsResults[indexPath.row]
-        
-        return new.HeightByNewConstraint(tableView)
-    }
-    
 }

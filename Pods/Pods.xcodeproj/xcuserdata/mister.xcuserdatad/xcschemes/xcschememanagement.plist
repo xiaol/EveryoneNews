@@ -19,17 +19,17 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>FileKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>MGTemplateEngine.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
 		<key>MJRefresh.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>ObjectMapper.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
@@ -64,11 +64,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>SwiftyJSON.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>WebViewJavascriptBridge.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -87,17 +82,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0D1A4840465C287D0C64F9043E74A4FE</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>22393314BD84357CB62E2F569D7F4AA5</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>42A0CC6FF12BB79C1B806D35951561E4</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -107,7 +92,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6183C7706EF14567DC71E7E2FA69E3B8</key>
+		<key>4CD573100DBB73BA5AC94B02EF00B058</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>61E9D96B3F0E7043FEE4133A4E80AC15</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -117,7 +107,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6CBB0DCE2A72A580468AFE76CD772099</key>
+		<key>778845E44708D0DFB00DF25087801B05</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>7CAF0F09ADC6153E1437350C60E91D2A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -132,32 +127,27 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>9BAAEFDF08DC556EC63B6D949F6C06DA</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9CC67AB776870E529B2D35E1A6A5B906</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>ACF7B19ACE5D342F8BCB8F6722CCE105</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>CDB08C07D47BCDB5C433A0880B4EE4C4</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D234DA1A7F13DD93BC45910F20B65725</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>D5D6200D4BE741574DBD4FB768A6F55B</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>D655404E7DD8B0147449650F28DBD269</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>E043DF8EE9653331A411B0AFBC8FF07F</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>E428E3A5E2DE8625DF64046922DC46BF</key>
+		<key>FD5F256418B37CAD01A959FF14B499AA</key>
 		<dict>
 			<key>primary</key>
 			<true/>

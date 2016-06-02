@@ -11,6 +11,52 @@ import Alamofire
 
 public class CommentAPI: APIBase {
     /**
+     新闻热点评论列表
+     
+     - parameter nid: (query) 新闻ID 
+     - parameter p: (query) 新闻ID (optional, default to 1)
+     - parameter c: (query) 新闻ID (optional, default to 20)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func nsAscGet(nid nid: String, p: String? = nil, c: String? = nil, completion: ((data: AnyObject?, error: ErrorType?) -> Void)) {
+        nsAscGetWithRequestBuilder(nid: nid, p: p, c: c).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     新闻热点评论列表
+     - GET /ns/asc
+     - 从服务器获取 新闻热点评论列表
+     - examples: [{contentType=application/json, example="{}"}]
+     
+     - parameter nid: (query) 新闻ID 
+     - parameter p: (query) 新闻ID (optional, default to 1)
+     - parameter c: (query) 新闻ID (optional, default to 20)
+
+     - returns: RequestBuilder<AnyObject> 
+     */
+    public class func nsAscGetWithRequestBuilder(nid nid: String, p: String? = nil, c: String? = nil) -> RequestBuilder<AnyObject> {
+        let path = "/ns/asc"
+        let URLString = SwaggerClientAPI.basePath + path
+
+        let nillableParameters: [String:AnyObject?] = [
+            "nid": nid,
+            "p": p,
+            "c": c
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<AnyObject>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
      新闻普通评论列表
      
      - parameter did: (query) 新闻 docid 

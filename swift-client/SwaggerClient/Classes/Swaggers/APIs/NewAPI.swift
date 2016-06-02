@@ -55,12 +55,13 @@ public class NewAPI: APIBase {
      
      - parameter cid: (query) 频道id 
      - parameter tcr: (query) 起始时间，13位时间戳 
+     - parameter tmk: (query) 是(1)否(0)模拟实时发布时间(部分新闻的发布时间修改为5分钟以内) (optional, default to 1)
      - parameter p: (query) 页数 (optional, default to 1)
      - parameter c: (query) 条数 (optional, default to 20)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func nsFedLGet(cid cid: String, tcr: String, p: String? = nil, c: String? = nil, completion: ((data: AnyObject?, error: ErrorType?) -> Void)) {
-        nsFedLGetWithRequestBuilder(cid: cid, tcr: tcr, p: p, c: c).execute { (response, error) -> Void in
+    public class func nsFedLGet(cid cid: String, tcr: String, tmk: String? = nil, p: String? = nil, c: String? = nil, completion: ((data: AnyObject?, error: ErrorType?) -> Void)) {
+        nsFedLGetWithRequestBuilder(cid: cid, tcr: tcr, tmk: tmk, p: p, c: c).execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
     }
@@ -74,18 +75,20 @@ public class NewAPI: APIBase {
      
      - parameter cid: (query) 频道id 
      - parameter tcr: (query) 起始时间，13位时间戳 
+     - parameter tmk: (query) 是(1)否(0)模拟实时发布时间(部分新闻的发布时间修改为5分钟以内) (optional, default to 1)
      - parameter p: (query) 页数 (optional, default to 1)
      - parameter c: (query) 条数 (optional, default to 20)
 
      - returns: RequestBuilder<AnyObject> 
      */
-    public class func nsFedLGetWithRequestBuilder(cid cid: String, tcr: String, p: String? = nil, c: String? = nil) -> RequestBuilder<AnyObject> {
+    public class func nsFedLGetWithRequestBuilder(cid cid: String, tcr: String, tmk: String? = nil, p: String? = nil, c: String? = nil) -> RequestBuilder<AnyObject> {
         let path = "/ns/fed/l"
         let URLString = SwaggerClientAPI.basePath + path
 
         let nillableParameters: [String:AnyObject?] = [
             "cid": cid,
             "tcr": tcr,
+            "tmk": tmk,
             "p": p,
             "c": c
         ]
@@ -104,12 +107,13 @@ public class NewAPI: APIBase {
      
      - parameter cid: (query) 频道id 
      - parameter tcr: (query) 起始时间，13位时间戳 
+     - parameter tmk: (query) 是(1)否(0)模拟实时发布时间(部分新闻的发布时间修改为5分钟以内) (optional, default to 1)
      - parameter p: (query) 页数 (optional, default to 1)
      - parameter c: (query) 条数 (optional, default to 20)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func nsFedRGet(cid cid: String, tcr: String, p: String? = nil, c: String? = nil, completion: ((data: AnyObject?, error: ErrorType?) -> Void)) {
-        nsFedRGetWithRequestBuilder(cid: cid, tcr: tcr, p: p, c: c).execute { (response, error) -> Void in
+    public class func nsFedRGet(cid cid: String, tcr: String, tmk: String? = nil, p: String? = nil, c: String? = nil, completion: ((data: AnyObject?, error: ErrorType?) -> Void)) {
+        nsFedRGetWithRequestBuilder(cid: cid, tcr: tcr, tmk: tmk, p: p, c: c).execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
     }
@@ -123,18 +127,20 @@ public class NewAPI: APIBase {
      
      - parameter cid: (query) 频道id 
      - parameter tcr: (query) 起始时间，13位时间戳 
+     - parameter tmk: (query) 是(1)否(0)模拟实时发布时间(部分新闻的发布时间修改为5分钟以内) (optional, default to 1)
      - parameter p: (query) 页数 (optional, default to 1)
      - parameter c: (query) 条数 (optional, default to 20)
 
      - returns: RequestBuilder<AnyObject> 
      */
-    public class func nsFedRGetWithRequestBuilder(cid cid: String, tcr: String, p: String? = nil, c: String? = nil) -> RequestBuilder<AnyObject> {
+    public class func nsFedRGetWithRequestBuilder(cid cid: String, tcr: String, tmk: String? = nil, p: String? = nil, c: String? = nil) -> RequestBuilder<AnyObject> {
         let path = "/ns/fed/r"
         let URLString = SwaggerClientAPI.basePath + path
 
         let nillableParameters: [String:AnyObject?] = [
             "cid": cid,
             "tcr": tcr,
+            "tmk": tmk,
             "p": p,
             "c": c
         ]

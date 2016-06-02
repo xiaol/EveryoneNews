@@ -130,6 +130,40 @@ class Decoders {
                 fatalError("formatter failed to parse \(source)")
             } 
 
+            // Decoder for [Aboutnews]
+            Decoders.addDecoder(clazz: [Aboutnews].self) { (source: AnyObject) -> [Aboutnews] in
+                return Decoders.decode(clazz: [Aboutnews].self, source: source)
+            }
+            // Decoder for Aboutnews
+            Decoders.addDecoder(clazz: Aboutnews.self) { (source: AnyObject) -> Aboutnews in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = Aboutnews()
+                instance.code = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["code"])
+                instance.data = Decoders.decodeOptional(clazz: Array.self, source: sourceDictionary["data"])
+                return instance
+            }
+
+
+            // Decoder for [AboutnewsData]
+            Decoders.addDecoder(clazz: [AboutnewsData].self) { (source: AnyObject) -> [AboutnewsData] in
+                return Decoders.decode(clazz: [AboutnewsData].self, source: source)
+            }
+            // Decoder for AboutnewsData
+            Decoders.addDecoder(clazz: AboutnewsData.self) { (source: AnyObject) -> AboutnewsData in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = AboutnewsData()
+                instance.url = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["url"])
+                instance.title = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["title"])
+                instance.from = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["from"])
+                instance.rank = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["rank"])
+                instance.ptime = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["ptime"])
+                instance.pname = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["pname"])
+                instance.img = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["img"])
+                instance.abs = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["abs"])
+                return instance
+            }
+
+
             // Decoder for [Channels]
             Decoders.addDecoder(clazz: [Channels].self) { (source: AnyObject) -> [Channels] in
                 return Decoders.decode(clazz: [Channels].self, source: source)

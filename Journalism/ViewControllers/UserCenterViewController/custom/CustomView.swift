@@ -77,7 +77,7 @@ class touchView:UIView{
         
         super.touchesBegan(touches, withEvent: event)
      
-        self.backgroundColor = UIColor.lightTextColor()
+        self.backgroundColor = UIColor.lightGrayColor()
     }
     
     
@@ -158,7 +158,7 @@ class SetttingBottomtoTopBoderView:touchView{
 
 ///按钮扩展类
 class SetttingTopAndBottomBoderView:touchView{
-    
+
     override func drawRect(rect: CGRect) {
         super.drawRect(rect)
         

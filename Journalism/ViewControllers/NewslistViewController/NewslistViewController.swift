@@ -18,6 +18,8 @@ import PINRemoteImage
 
 class NewslistViewController: UIViewController {
     
+    @IBOutlet var messageLabel: UILabel! // 加载完成消息提示
+    
     var newsResults:Results<New>!
     
     var delegate:NewslistViewControllerNoLikeDelegate!

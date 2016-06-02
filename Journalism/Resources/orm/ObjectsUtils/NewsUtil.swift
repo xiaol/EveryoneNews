@@ -12,11 +12,41 @@ import SwaggerClient
 
 class NewsUtil: NSObject {
     
-    class func LoadNewsListArrayData(channelId:Int,refresh:Bool=false,isHot:Int = 0,times:String = "\(Int64(NSDate().timeIntervalSince1970*1000))",finish:(()->Void)?=nil,fail:(()->Void)?=nil){
+    class func RefreshNewsListArrayData(channelId:Int,times:String = "\(Int64(NSDate().timeIntervalSince1970*1000))",finish:((count:Int)->Void)?=nil,fail:(()->Void)?=nil){
+        
+        guard let token = SDK_User.token else{ fail?();return }
+        
+        let requestBudile = NewAPI.nsFedRGetWithRequestBuilder(cid: "\(channelId)", tcr: times, tmk: "0")
+        
+        requestBudile.addHeaders(["Authorization":token])
+        
+        requestBudile.execute { (response, error) in
+            
+            guard let body = response?.body,let data = body.objectForKey("data") as? NSArray else{  fail?();return}
+            
+            let realm = try! Realm()
+            
+            try! realm.write({
+                
+                realm.delete(realm.objects(New).filter("channel = \(channelId)"))
+                
+                for channel in data {
+                    
+                    realm.create(New.self, value: channel, update: true)
+                    self.AnalysisPutTimeAndImageList(channel as! NSDictionary, realm: realm,ishot:(channelId == 1 ? 1 : 0))
+                }
+            })
+            
+            finish?(count: data.count)
+        }
+    }
+    
+    
+    class func LoadNewsListArrayData(channelId:Int,refresh:Bool=false,times:String = "\(Int64(NSDate().timeIntervalSince1970*1000))",finish:(()->Void)?=nil,fail:(()->Void)?=nil){
     
         guard let token = SDK_User.token else{ fail?();return }
         
-        let requestBudile = NewAPI.nsFedLGetWithRequestBuilder(cid: "\(channelId)", tcr: times, p: nil, c: nil)
+        let requestBudile = NewAPI.nsFedLGetWithRequestBuilder(cid: "\(channelId)", tcr: times, tmk: "0")
         
         requestBudile.addHeaders(["Authorization":token])
         
@@ -33,16 +63,6 @@ class NewsUtil: NSObject {
                 }
                 
                 for channel in data {
-                    
-                    if let pubTime = channel.objectForKey("ptime") as? String { // 强行逆转 定能胜天～～  呜呼呼呼呼呼
-                        
-                        let date = NSDate(fromString: pubTime, format: DateFormat.Custom("yyyy-MM-dd HH:mm:ss")).timeIntervalSince1970*1000
-                        
-                        if (times as NSString).doubleValue < date {
-                        
-                            continue
-                        }
-                    }
                     
                     realm.create(New.self, value: channel, update: true)
                     self.AnalysisPutTimeAndImageList(channel as! NSDictionary, realm: realm,ishot:(channelId == 1 ? 1 : 0))

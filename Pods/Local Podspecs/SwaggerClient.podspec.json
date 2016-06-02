@@ -9,7 +9,7 @@
     "ios": "8.0",
     "osx": "10.9"
   },
-  "version": "0.0.1",
+  "version": "2.3.0",
   "source": {
     "git": "git@github.com:swagger-api/swagger-mustache.git",
     "tag": "v1.0.0"

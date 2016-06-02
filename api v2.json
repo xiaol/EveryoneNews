@@ -145,6 +145,13 @@
                     "required": true,
                     "type": "string"
                 }, {
+                    "name": "tmk",
+                    "in": "query",
+                    "description": "是(1)否(0)模拟实时发布时间(部分新闻的发布时间修改为5分钟以内)",
+                    "required": false,
+                    "default": "1",
+                    "type": "string"
+                }, {
                     "name": "p",
                     "in": "query",
                     "description": "页数",
@@ -194,6 +201,13 @@
                     "in": "query",
                     "description": "起始时间，13位时间戳",
                     "required": true,
+                    "type": "string"
+                }, {
+                    "name": "tmk",
+                    "in": "query",
+                    "description": "是(1)否(0)模拟实时发布时间(部分新闻的发布时间修改为5分钟以内)",
+                    "required": false,
+                    "default": "1",
                     "type": "string"
                 }, {
                     "name": "p",
@@ -293,7 +307,8 @@
                     }
                 }
             }
-        },"/ns/coms/h": {
+        },
+        "/ns/coms/h": {
             "get": {
                 "tags": ["comment"],
                 "summary": "新闻热点评论列表",
@@ -332,6 +347,45 @@
                             "type": "object",
                             "items": {
                                 "$ref": "#/definitions/comments"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ns/asc": {
+            "get": {
+                "tags": ["comment"],
+                "summary": "新闻热点评论列表",
+                "description": "从服务器获取 新闻热点评论列表",
+                "parameters": [{
+                    "name": "nid",
+                    "in": "query",
+                    "description": "新闻ID",
+                    "required": true,
+                    "type": "string"
+                }, {
+                    "name": "p",
+                    "in": "query",
+                    "description": "新闻ID",
+                    "required": false,
+                    "default": "1",
+                    "type": "string"
+                }, {
+                    "name": "c",
+                    "in": "query",
+                    "description": "新闻ID",
+                    "required": false,
+                    "default": "20",
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "完成请求",
+                        "schema": {
+                            "type": "object",
+                            "items": {
+                                "$ref": "#/definitions/aboutnews"
                             }
                         }
                     }
@@ -748,10 +802,7 @@
                     }
                 }
             }
-        }
-
-
-        ,
+        },
         "comments": {
             "type": "object",
             "properties": {
@@ -778,23 +829,29 @@
                                 "description": "赞数",
                                 "type": "integer",
                                 "format": "int32"
-                            },"ctime": {
+                            },
+                            "ctime": {
                                 "description": "创建时间",
                                 "type": "string"
-                            },"uid": {
+                            },
+                            "uid": {
                                 "description": "创建该评论的用户ID",
                                 "type": "integer",
                                 "format": "int32"
-                            },"uname": {
+                            },
+                            "uname": {
                                 "description": "创建该评论的用户名",
                                 "type": "string"
-                            },"avatar": {
+                            },
+                            "avatar": {
                                 "description": "评论头像",
                                 "type": "string"
-                            },"docid": {
+                            },
+                            "docid": {
                                 "description": "该评论对应的新闻 docid",
                                 "type": "string"
-                            },"upflag": {
+                            },
+                            "upflag": {
                                 "description": "用户是否能对该条评论点赞，0、1 对应 可点、不可点",
                                 "type": "integer",
                                 "format": "int32"
@@ -802,6 +859,57 @@
                         }
                     }
 
+                }
+            }
+        },
+        "aboutnews": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "description": "返回请求状态码",
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "data": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "url": {
+                                "description": "新闻地址",
+                                "type": "string"
+                            },
+                            "title": {
+                                "description": "新闻标题",
+                                "type": "string"
+                            },
+                            "from": {
+                                "description": "新闻来源",
+                                "type": "string"
+                            },
+                            "rank": {
+                                "description": "赞数",
+                                "type": "integer",
+                                "format": "int32"
+                            },
+                            "ptime": {
+                                "description": "创建时间",
+                                "type": "string"
+                            },
+                            "pname": {
+                                "description": "来源地址",
+                                "type": "string"
+                            },
+                            "img": {
+                                "description": "图片地址",
+                                "type": "string"
+                            },
+                            "abs": {
+                                "description": "描述",
+                                "type": "string"
+                            }
+                        }
+                    }
                 }
             }
         }

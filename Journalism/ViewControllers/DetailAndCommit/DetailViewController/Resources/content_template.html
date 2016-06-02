@@ -1,0 +1,67 @@
+<html manifest="appcache.manifest">
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+
+    <script src="jquery.js"></script>
+    <!--    <script src="jquery.lazyloadxt.js"></script>-->
+    <script src="jquery.lazyload.js"></script>
+</head>
+
+<body id="container">
+    <div id="title_section">
+        <div id='title'>{{title}}</div>
+        <div id='subtitle'>{{source}} <span aria-hidden="true">{{ptime}}</span><span aria-hidden="true">{{comment}}</span></div>
+    </div>
+    <HR color=#e4e4e4 size=0.5/>
+    <div id="body_section">
+        {{body}}
+
+        <script>
+        </script>
+    </div>
+</body>
+<link href='bootstrap.min.css' rel='stylesheet' />
+<link href='content.css' rel='stylesheet' />
+<script>
+    
+
+    
+    
+    function setupWebViewJavascriptBridge(callback) {
+        if (window.WebViewJavascriptBridge) {
+            return callback(WebViewJavascriptBridge);
+        }
+        if (window.WVJBCallbacks) {
+            return window.WVJBCallbacks.push(callback);
+        }
+        window.WVJBCallbacks = [callback];
+        var WVJBIframe = document.createElement('iframe');
+        WVJBIframe.style.display = 'none';
+        WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
+        document.documentElement.appendChild(WVJBIframe);
+        setTimeout(function() {
+            document.documentElement.removeChild(WVJBIframe)
+        }, 0)
+    }
+
+    setupWebViewJavascriptBridge(function(bridge) {
+
+        $("img").lazyload({
+            load: {
+              call:function(a, b, c) {
+                          
+                bridge.callHandler('testObjcCallback', {
+                    'height': document.body.offsetHeight,
+                }, function(response) {})
+
+              }
+            }
+        });
+
+
+    })
+</script>
+
+</html>

@@ -7,17 +7,64 @@
 //
 
 import UIKit
+import PINCache
+import PINRemoteImage
+import FileKit
+
+private extension Path{
+    
+    static var cachePath:Path{ return (Path.UserHome+"Library"+"Caches")}
+    
+     func getFileSize() ->String{
+        var size:UInt64 = 0
+        for path in self.children(recursive: true) {
+            size += path.fileSize ?? 0
+        }
+        return  size.FileSizeFormat()
+    }
+    
+    func deleteFilesMethod() ->String{
+        
+        NSURLCache.sharedURLCache().removeAllCachedResponses()
+        
+        PINCache.sharedCache().removeAllObjects()
+        
+        PINRemoteImageManager.sharedImageManager().cache.removeAllObjects()
+        
+        return self.getFileSize()
+    }
+    
+}
+
+
+private extension UInt64 {
+
+    ///  返回文件的大小
+    func FileSizeFormat() -> String{
+        
+        var fileSizeStr = ""
+        let size = Double(self)
+        if size > 1024*1024*1024{
+            fileSizeStr = "\(String(format: "%.2f", size/1024/1024/1024)) G"
+        }else if size > 1024*1024 {
+            fileSizeStr = "\(String(format: "%.2f", size/1024/1024)) M"
+        }else if size > 1024 {
+            fileSizeStr = "\(String(format: "%.2f", size/1024)) KB"
+        }else{
+            fileSizeStr = "\(size) B"
+        }
+        return fileSizeStr
+    }
+}
+
 
 class UserSettingViewController: UIViewController,UIGestureRecognizerDelegate {
     
+    @IBOutlet var cacheSizeLable: UILabel!
     @IBOutlet var pan: UIPanGestureRecognizer!
     @IBOutlet var scrollView: UIScrollView!
     
-    // 清理缓存
-    @IBAction func ClearCacher(sender: AnyObject) {
-        
-        NSURLCache.sharedURLCache().removeAllCachedResponses()
-    }
+   
     
     required init?(coder aDecoder: NSCoder) {
         
@@ -53,7 +100,14 @@ extension UserSettingViewController:UIViewControllerTransitioningDelegate{
         scrollView.panGestureRecognizer.requireGestureRecognizerToFail(pan)
         pan.delegate = self
         
-        NSFileManager.defaultManager()
+    }
+    
+    
+    override func viewDidAppear(animated: Bool) {
+        
+        super.viewDidAppear(animated)
+        
+        self.cacheSizeLable.text = Path.cachePath.getFileSize()
         
     }
     
@@ -64,7 +118,14 @@ extension UserSettingViewController:UIViewControllerTransitioningDelegate{
         return fabs(point.x) > fabs(point.y)
     }
     
+    // 清理缓存
+    @IBAction func ClearCacher(sender: AnyObject) {
+        
+        self.cacheSizeLable.text = Path.cachePath.deleteFilesMethod()
+    }
+    
     @IBAction func dismissButtonTouch(sender: AnyObject) {
+        
         
         self.dismissViewControllerAnimated(true, completion: nil)
     }

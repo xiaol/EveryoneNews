@@ -217,14 +217,14 @@ class CircularEditButton:UIButton {
     }
 }
 
-private extension UIButton {
+extension UIButton {
     func setBackgroundColor(color: UIColor?, forState state: UIControlState) {
         guard let color = color else { return setBackgroundImage(nil, forState: state) }
         setBackgroundImage(UIImage.imageColored(color), forState: state)
     }
 }
 
-private extension UIImage {
+extension UIImage {
     class func imageColored(color: UIColor) -> UIImage! {
         let onePixel = 1 / UIScreen.mainScreen().scale
         let rect = CGRect(x: 0, y: 0, width: onePixel, height: onePixel)

@@ -398,6 +398,12 @@
                                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1EZ-hW-b5e">
+                                                        <rect key="frame" x="586" y="26" width="0.0" height="0.0"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
@@ -405,7 +411,9 @@
                                                     <constraint firstAttribute="height" constant="51" id="AAs-CW-RW7"/>
                                                     <constraint firstItem="Exe-6B-CyE" firstAttribute="leading" secondItem="zwQ-CG-BGp" secondAttribute="leading" constant="14" id="RmH-xG-jR8"/>
                                                     <constraint firstItem="8Iv-Qo-qW5" firstAttribute="leading" secondItem="Exe-6B-CyE" secondAttribute="trailing" constant="20" id="UKA-Bb-6W8"/>
+                                                    <constraint firstItem="1EZ-hW-b5e" firstAttribute="centerY" secondItem="zwQ-CG-BGp" secondAttribute="centerY" id="W7G-st-toC"/>
                                                     <constraint firstItem="8Iv-Qo-qW5" firstAttribute="centerY" secondItem="Exe-6B-CyE" secondAttribute="centerY" id="YSz-JB-1uh"/>
+                                                    <constraint firstAttribute="trailing" secondItem="1EZ-hW-b5e" secondAttribute="trailing" constant="14" id="nSX-M0-8gA"/>
                                                 </constraints>
                                                 <connections>
                                                     <outletCollection property="gestureRecognizers" destination="kIV-7X-z84" appends="YES" id="Qi8-fc-4wx"/>
@@ -575,6 +583,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="cacheSizeLable" destination="1EZ-hW-b5e" id="Cxx-CU-Qx4"/>
                         <outlet property="pan" destination="vGQ-Mt-dkx" id="eI3-jU-oJ5"/>
                         <outlet property="scrollView" destination="jE9-2K-qUb" id="Gz6-ci-bk1"/>
                     </connections>
