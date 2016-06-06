@@ -465,15 +465,13 @@ const static CGFloat changeFontSizeViewH = 150;
         
 //        NSLog(@"%@", json);
         
-         NSString *jsonString =  @"[{ \"url\": \"http://news.163.com/16/0520/08/BNGEG7ID00014Q4P.html\",\"title\": \"但愿雷洋事件不是一个小插曲\",\"from\": \"Baidu\",\"rank\": 1,\"pname\": \"网易新闻\",\"ptime\": \"2016-05-20 08:47:45\",\"img\": \"\",\"abs\": \"据@平安北京19日发布...\"}]" ;
-        NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-        id jsonTest = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-     //   NSLog(@"%@", json);
-//        if ([json[@"code"] integerValue] == 2000) {
-            [self.relatePointFrames removeAllObjects];
-//            NSDictionary *dict = json[@"data"];
+//         NSString *jsonString =  @"[{ \"url\": \"http://news.163.com/16/0520/08/BNGEG7ID00014Q4P.html\",\"title\": \"但愿雷洋事件不是一个小插曲\",\"from\": \"Baidu\",\"rank\": 1,\"pname\": \"网易新闻\",\"ptime\": \"2016-05-20 08:47:45\",\"img\": \"\",\"abs\": \"据@平安北京19日发布...\"}]" ;
+//        NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
+//        id jsonTest = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
         
-            NSDictionary *dict = jsonTest;
+        if ([json[@"code"] integerValue] == 2000) {
+            [self.relatePointFrames removeAllObjects];
+            NSDictionary *dict = json[@"data"];
         
             NSArray *relatePointArray = [LPRelatePoint objectArrayWithKeyValuesArray:dict];
             // 按照时间排序
@@ -514,7 +512,7 @@ const static CGFloat changeFontSizeViewH = 150;
                     break;
                 }
             }
-//        }
+        }
     };
     
     void (^reloadTableViewBlock)() = ^{
@@ -539,7 +537,7 @@ const static CGFloat changeFontSizeViewH = 150;
     NSMutableDictionary *detailContentParams = [NSMutableDictionary dictionary];
     NSString *detailContentURL = [NSString stringWithFormat:@"%@/v2/ns/con", ServerUrlVersion2];
     detailContentParams[@"nid"] = [self nid];
-//    NSLog(@"%@?nid=%@",detailContentURL,  [self nid]);
+    NSLog(@"%@?nid=%@",detailContentURL,  [self nid]);
     
     // 精选评论
     NSString *excellentDetailCommentsURL = [NSString stringWithFormat:@"%@/v2/ns/coms/h", ServerUrlVersion2];
@@ -626,9 +624,8 @@ const static CGFloat changeFontSizeViewH = 150;
             });
         }
         [self endTimer];
-        
-        NSLog(@"%d", self.stayTimeInterval);
         // 提交用户日志
+        [self submitUserOperationLog];
      
     }
     self.statusWindow.hidden = NO;
@@ -646,7 +643,7 @@ const static CGFloat changeFontSizeViewH = 150;
 - (void)endTimer {
     [self.timer invalidate];
     self.timer = nil;
-    [self submitUserOperationLog];
+
 }
 
 #pragma mark - viewWillDisappear
@@ -1504,6 +1501,7 @@ const static CGFloat changeFontSizeViewH = 150;
         NSString *url = [NSString stringWithFormat:@"%@/v2/ns/cocs?nid=%@&&uid=%@", ServerUrlVersion2,[self nid], [userDefaults objectForKey:@"uid"]];
         NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
         
+//        NSLog(@"%@", url);
         [LPHttpTool postAuthorizationJSONWithURL:url authorization:authorization params:nil success:^(id json) {
             if ([json[@"code"] integerValue] == 2000) {
                 self.concernImageView.image = [UIImage imageNamed:@"详情页心已关注"];

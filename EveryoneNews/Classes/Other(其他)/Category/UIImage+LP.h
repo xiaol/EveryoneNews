@@ -21,4 +21,5 @@
 + (instancetype)circleImageWithImage:(UIImage *)image;
 - (UIImage *)applyBlurWithRadius:(CGFloat)blurRadius tintColor:(UIColor *)tintColor saturationDeltaFactor:(CGFloat)saturationDeltaFactor maskImage:(UIImage *)maskImage;
 + (UIImage*) blur:(UIImage*)theImage;
+- (UIImage *)scaleImageToSize:(CGSize)newSize;
 @end

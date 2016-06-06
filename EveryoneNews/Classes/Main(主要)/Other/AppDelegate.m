@@ -70,19 +70,6 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     }
     return _coreDataHelper;
 }
-//-(BOOL)application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-//{
-//    [UIView animateWithDuration:0.2
-//                          delay:0
-//                        options: UIViewAnimationCurveEaseIn // change effect here.
-//                     animations:^{
-//                         self.window.viewForBaselineLayout.alpha = 0; // and at this alpha
-//                     }
-//                     completion:^(BOOL finished){
-//                     }];
-//    
-//    return YES;
-//}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
@@ -152,6 +139,11 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     //3. 设置根控制器
     LPHomeViewController *mainVc = [[LPHomeViewController alloc] init];
     MainNavigationController *mainNavVc = [[MainNavigationController alloc] initWithRootViewController:mainVc];
+    
+//    UIView *splashScreen = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+//    splashScreen.backgroundColor = [UIColor redColor];
+//    [self.window.rootViewController.view addSubview: splashScreen];
+    
     self.window.rootViewController = mainNavVc;
     
     [[UINavigationBar appearance]  setBackgroundImage:[[UIImage alloc] init] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
@@ -163,16 +155,6 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     // 4. 显示窗口（成为主窗口）
     [self.window makeKeyAndVisible];
     
-    
-
-//    
-    
-//    [UIView animateWithDuration:0.3f animations:^{
-//        
-//    } completion:^(BOOL finished) {
-//        [blurView removeFromSuperview];
-//    }];
-//    
     // 5. 监控网络状态
     AFNetworkReachabilityManager *mgr = [AFNetworkReachabilityManager sharedManager];
     [mgr setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
@@ -206,6 +188,40 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     }
     
     
+    CGSize viewSize = self.window.bounds.size;
+    NSString *viewOrientation = @"Portrait";    //横屏请设置成 @"Landscape"
+    NSString *launchImage = nil;
+    
+    NSArray* imagesDict = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"UILaunchImages"];
+    for (NSDictionary* dict in imagesDict)
+    {
+        CGSize imageSize = CGSizeFromString(dict[@"UILaunchImageSize"]);
+        
+        if (CGSizeEqualToSize(imageSize, viewSize) && [viewOrientation isEqualToString:dict[@"UILaunchImageOrientation"]])
+        {
+            launchImage = dict[@"UILaunchImageName"];
+        }
+    }
+    UIImageView *launchView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:launchImage]];
+    launchView.frame = self.window.bounds;
+    launchView.contentMode = UIViewContentModeScaleAspectFill;
+    [self.window addSubview:launchView];
+    
+    [UIView animateWithDuration:1.0f
+                          delay:0.0f
+                        options:UIViewAnimationOptionBeginFromCurrentState
+                     animations:^{
+                         
+                         launchView.alpha = 0.0f;
+                         launchView.layer.transform = CATransform3DScale(CATransform3DIdentity, 1.2, 1.2, 1);
+                         
+                     }
+                     completion:^(BOOL finished) {
+                         [launchView removeFromSuperview];
+                         
+                     }];
+    
+
 
 
     if (![userDefaults objectForKey:@"uauthorization"]) {
@@ -230,13 +246,18 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
             
             }
         }  failure:^(NSError *error) {
-            NSString *authorization = @"Basic YWlxZXZ+d35wcSdvNmR3amw0NHh1eGpycnZwNnZ0M2tpcXh2NDl1eHluc2M0KWlzZjByKmJqajR6KH4uJ242Kg";
-            [userDefaults setObject:@"383" forKey:@"uid"];
+            NSString *authorization = @"Basic c21mNW15MGUzdmxmZTQyfilleDYqKmpxYykpdDJ3ZWJuajdkJ3Byd24nNTE2bCdjN3FvNTVqdCdxd2owZ2EyZg";
+            [userDefaults setObject:@"148" forKey:@"uid"];
             [userDefaults setObject:@"2" forKey:@"utype"];
             [userDefaults setObject:authorization forKey:@"uauthorization"];
             [userDefaults synchronize];
             NSLog(@"%@", error);
         }];
+    } else {
+//        NSLog(@"%@",[userDefaults objectForKey:@"uid"]);
+//        NSLog(@"%@",[userDefaults objectForKey:@"utype"]);
+//        NSLog(@"%@",[userDefaults objectForKey:@"uauthorization"]);
+      
     }
 
     return YES;
