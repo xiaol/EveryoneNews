@@ -44,7 +44,7 @@ class DetailViewController: UIViewController {
             
             AboutUtil.getAboutListArrayData(new, finish: { (count) in
                 
-                print(self.aboutResults.count)
+                self.tableView.reloadData()
                 
                 }, fail: { 
                     
@@ -148,7 +148,7 @@ extension DetailViewController:UITableViewDelegate,UITableViewDataSource {
             return cell
         }
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("likeandpyq")! as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("aboutcell")! as UITableViewCell
         
         return cell
     }
@@ -170,7 +170,7 @@ extension DetailViewController:UITableViewDelegate,UITableViewDataSource {
         }
 
         
-        return 106
+        return 116
     }
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
