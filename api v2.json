@@ -240,8 +240,8 @@
         "/ns/con": {
             "get": {
                 "tags": ["new"],
-                "summary": "新闻-列表页加载",
-                "description": "从服务器获取 新闻-列表页加载",
+                "summary": "新闻-新闻详情页",
+                "description": "从服务器获取 新闻详情页",
                 "parameters": [{
                     "name": "nid",
                     "in": "query",
@@ -356,8 +356,8 @@
         "/ns/asc": {
             "get": {
                 "tags": ["comment"],
-                "summary": "新闻热点评论列表",
-                "description": "从服务器获取 新闻热点评论列表",
+                "summary": "新闻相关搜索列表",
+                "description": "从服务器获取 新闻相关搜索列表",
                 "parameters": [{
                     "name": "nid",
                     "in": "query",

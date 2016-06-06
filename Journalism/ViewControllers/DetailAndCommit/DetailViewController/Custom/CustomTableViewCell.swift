@@ -20,7 +20,6 @@ class CommentsTableViewCell:UITableViewCell{
     @IBOutlet var praiseButton: UIButton!
     
     func setCommentMethod(comment:Comment){
-    
         praiseLabel.hidden = comment.comment <= 0
         praiseButton.hidden = comment.uid == SDK_User.uid
         

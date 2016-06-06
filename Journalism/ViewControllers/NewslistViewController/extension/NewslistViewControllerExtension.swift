@@ -64,7 +64,7 @@ extension NewslistViewController{
         
         if let last = self.newsResults.first{
 
-            NewsUtil.RefreshNewsListArrayData(channelId, times: "\(Int64(last.ptimes.timeIntervalSince1970*1000))", finish: { (count) in
+            NewsUtil.RefreshNewsListArrayData(channelId, create: true,times: "\(Int64(last.ptimes.timeIntervalSince1970*1000))", finish: { (count) in
                 
                 self.tableView.mj_header.endRefreshing()
                 

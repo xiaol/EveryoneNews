@@ -11,7 +11,7 @@ import Alamofire
 
 public class NewAPI: APIBase {
     /**
-     新闻-列表页加载
+     新闻-新闻详情页
      
      - parameter nid: (query) 新闻ID 
      - parameter completion: completion handler to receive the data and the error objects
@@ -24,9 +24,9 @@ public class NewAPI: APIBase {
 
 
     /**
-     新闻-列表页加载
+     新闻-新闻详情页
      - GET /ns/con
-     - 从服务器获取 新闻-列表页加载
+     - 从服务器获取 新闻详情页
      - examples: [{contentType=application/json, example="{}"}]
      
      - parameter nid: (query) 新闻ID 

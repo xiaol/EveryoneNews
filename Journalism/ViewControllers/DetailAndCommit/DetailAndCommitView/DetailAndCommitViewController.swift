@@ -55,22 +55,12 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
         self.containerView.panGestureRecognizer.addTarget(self, action: #selector(DetailAndCommitViewController.pan(_:)))
         
         self.shreContentViewMethod(true, animate: false)
-        
-        if let n = new {
-        
-            
-            CommentUtil.LoadHotsCommentsList(n, finish: {
-                
-                }, fail: { 
-                    
-            })
-            
-            CommentUtil.LoadNoramlCommentsList(n, finish: {
-                
-                }, fail: {
-                    
-            })
-        }
+//        
+//        if let n = new {
+//        
+//            CommentUtil.LoadHotsCommentsList(n)
+//            CommentUtil.LoadNoramlCommentsList(n)
+//        }
     }
     
     

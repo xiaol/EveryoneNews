@@ -14,6 +14,8 @@ class CommitViewController: UIViewController,IndicatorInfoProvider {
     
     var new:New?
     
+    var currentPage = 1
+    
     var hotResults:Results<Comment>!
     var normalResults:Results<Comment>!
     

@@ -13,9 +13,16 @@ import SwaggerClient
 class CommentUtil: NSObject {
     
     /// 获取普通评论列表
-    class func LoadNoramlCommentsList(new:New,finish:(()->Void)?=nil,fail:(()->Void)?=nil) {
+    class func LoadNoramlCommentsList(new:New,p: String?=nil, c: String?=nil,finish:((count:Int)->Void)?=nil,fail:(()->Void)?=nil) {
         
-        CommentAPI.nsComsCGet(did: new.docidBase64()) { (datas, error) in
+        CommentAPI.nsComsCGet(did: new.docidBase64(), uid: "\(SDK_User.uid!)", p: p, c: c) { (datas, error) in
+            
+            if let code = datas?.objectForKey("code") as? Int{
+                if code == 2002 {
+                    finish?(count: 0)
+                    return
+                }
+            }
             
             guard let da = datas,let data = da.objectForKey("data") as? NSArray else{ fail?();return}
             let realm = try! Realm()
@@ -25,7 +32,7 @@ class CommentUtil: NSObject {
                     self.AnalysisComment(channel as! NSDictionary, realm: realm,new:new)
                 }
             })
-            finish?()
+            finish?(count: data.count)
         }
     }
     
@@ -41,7 +48,10 @@ class CommentUtil: NSObject {
                 for channel in data {
                     
                     realm.create(Comment.self, value: channel, update: true)
-                    self.AnalysisComment(channel as! NSDictionary, realm: realm,new:new,hot: 1)
+                    self.AnalysisComment(channel as! NSDictionary, realm: realm,new:new)
+                    if let nid = channel.objectForKey("id") as? Int {
+                        realm.create(Comment.self, value: ["id":nid,"ishot":1], update: true)
+                    }
                 }
             })
             finish?()
@@ -49,7 +59,7 @@ class CommentUtil: NSObject {
     }
     
     // 完善新闻事件
-    private class func AnalysisComment(channel:NSDictionary,realm:Realm,new:New,hot:Int=0){
+    private class func AnalysisComment(channel:NSDictionary,realm:Realm,new:New){
         
         if let nid = channel.objectForKey("id") as? Int {
             
@@ -60,7 +70,7 @@ class CommentUtil: NSObject {
                 date = NSDate(fromString: pubTime, format: DateFormat.Custom("yyyy-MM-dd HH:mm:ss"))
             }
             
-            realm.create(Comment.self, value: ["id":nid,"nid":new.nid,"ctimes":date,"ishot":hot], update: true)
+            realm.create(Comment.self, value: ["id":nid,"nid":new.nid,"ctimes":date], update: true)
         }
     }
 }

@@ -20,6 +20,8 @@
 		AE2968301CF69D4400D2782D /* PrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE29682F1CF69D4400D2782D /* PrivacyViewController.swift */; };
 		AE2968321CF69DFB00D2782D /* Privacy.html in Resources */ = {isa = PBXBuildFile; fileRef = AE2968311CF69DFB00D2782D /* Privacy.html */; };
 		AE2968341CF6AA3B00D2782D /* CustomTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2968331CF6AA3B00D2782D /* CustomTransitioning.swift */; };
+		AEA103511D056FAD0086968B /* About.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA103501D056FAD0086968B /* About.swift */; };
+		AEA103531D0571F80086968B /* AboutUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA103521D0571F80086968B /* AboutUtil.swift */; };
 		AEAEEBD71CF81FA300E8DF08 /* VisitorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAEEBD61CF81FA300E8DF08 /* VisitorViewController.swift */; };
 		AEAEEBD91CF827A700E8DF08 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAEEBD81CF827A700E8DF08 /* User.swift */; };
 		AEB8E9D71CFBE35900A105C4 /* SplitManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB8E9D61CFBE35900A105C4 /* SplitManagerViewController.swift */; };
@@ -88,6 +90,8 @@
 		AE29682F1CF69D4400D2782D /* PrivacyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyViewController.swift; sourceTree = "<group>"; };
 		AE2968311CF69DFB00D2782D /* Privacy.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Privacy.html; sourceTree = "<group>"; };
 		AE2968331CF6AA3B00D2782D /* CustomTransitioning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTransitioning.swift; sourceTree = "<group>"; };
+		AEA103501D056FAD0086968B /* About.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = About.swift; sourceTree = "<group>"; };
+		AEA103521D0571F80086968B /* AboutUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutUtil.swift; sourceTree = "<group>"; };
 		AEAEEBD61CF81FA300E8DF08 /* VisitorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitorViewController.swift; sourceTree = "<group>"; };
 		AEAEEBD81CF827A700E8DF08 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		AEB8E9D61CFBE35900A105C4 /* SplitManagerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplitManagerViewController.swift; sourceTree = "<group>"; };
@@ -257,6 +261,7 @@
 				AEAEEBD81CF827A700E8DF08 /* User.swift */,
 				AEB8E9D81CFBF42100A105C4 /* NewContent.swift */,
 				AEEE61971CFE9CEF00C5FF08 /* Comment.swift */,
+				AEA103501D056FAD0086968B /* About.swift */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -268,6 +273,7 @@
 				AEBCAEEA1CEC2ADB00EBFC0A /* ChannelUtil.swift */,
 				AEB8E9DA1CFBF53300A105C4 /* NewContentUtil.swift */,
 				AEEE61991CFE9DE900C5FF08 /* CommentUtil.swift */,
+				AEA103521D0571F80086968B /* AboutUtil.swift */,
 			);
 			path = ObjectsUtils;
 			sourceTree = "<group>";
@@ -666,6 +672,7 @@
 				AEC1D5BF1CED9BBD00B1F00C /* NewsUtil.swift in Sources */,
 				AEBCAEE81CEC27A900EBFC0A /* Channel.swift in Sources */,
 				6DC4FDCE1CF0314700D25A99 /* NewslistViewControllerExtension.swift in Sources */,
+				AEA103531D0571F80086968B /* AboutUtil.swift in Sources */,
 				AEC47B401D00334A0055936D /* DetailAndCommitExtension.swift in Sources */,
 				6DC4FDCC1CF0314700D25A99 /* HomeViewController.swift in Sources */,
 				AEC47B3F1D00334A0055936D /* PopAnimatedTransitioning.swift in Sources */,
@@ -700,6 +707,7 @@
 				AEC47B261D0032E20055936D /* CommitViewController.swift in Sources */,
 				6DC4FDD71CF031E000D25A99 /* KDRearrangeableCollectionViewFlowLayout.swift in Sources */,
 				AEC47B281D0032E20055936D /* CommentDataSource.swift in Sources */,
+				AEA103511D056FAD0086968B /* About.swift in Sources */,
 				6DC4FDCD1CF0314700D25A99 /* NewBaseTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -24,6 +24,13 @@ extension NewslistViewController:UITableViewDataSource{
         
         let new = newsResults[indexPath.row]
         
+        if new.isidentification == 1 {
+         
+            let cell = tableView.dequeueReusableCellWithIdentifier("refreshcell")! as UITableViewCell
+            
+            return cell
+        }
+        
         if new.style == 0 {
             
             cell =  tableView.dequeueReusableCellWithIdentifier("NewNormalTableViewCell") as! NewNormalTableViewCell
@@ -112,6 +119,13 @@ extension NewslistViewController:UITableViewDelegate{
         
         let new = newsResults[indexPath.row]
         
+        if new.isidentification == 1 {
+            
+            self.tableView.mj_header.beginRefreshing()
+            
+            return
+        }
+        
         let viewController = UIStoryboard.shareStoryBoard.get_DetailAndCommitViewController(new)
         
         if IS_PLUS {
@@ -132,6 +146,11 @@ extension NewslistViewController:UITableViewDelegate{
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         let new = newsResults[indexPath.row]
+        
+        if new.isidentification == 1 {
+        
+            return 40
+        }
         
         return new.HeightByNewConstraint(tableView)
 }

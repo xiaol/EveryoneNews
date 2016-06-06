@@ -17,8 +17,10 @@ class DetailViewController: UIViewController {
     var engine:MGTemplateEngine! // 当前Html解析器，生成
     var bridge:WebViewJavascriptBridge! // JS 交互侨联
     
+    let realm = try! Realm()
+    
     var hotResults:Results<Comment>!
-    var aboutResults:Results<Comment>!
+    var aboutResults:Results<About>!
     
     @IBOutlet var webView: UIWebView!
     @IBOutlet var tableView: UITableView!
@@ -29,15 +31,24 @@ class DetailViewController: UIViewController {
         
         if let new = new {
             
-            let realm = try! Realm()
+            aboutResults = realm.objects(About.self).filter("nid = \(new.nid)")
             hotResults = realm.objects(Comment.self).filter("nid = \(new.nid) AND ishot = 1")
             
             CommentUtil.LoadHotsCommentsList(new, finish: {
                 
-                self.tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.Automatic)
+                self.tableView.reloadData()
                 
                 }, fail: {
                     
+            })
+            
+            AboutUtil.getAboutListArrayData(new, finish: { (count) in
+                
+                print(self.aboutResults.count)
+                
+                }, fail: { 
+                    
+                    print(self.aboutResults.count)
             })
         }
         
@@ -92,8 +103,7 @@ extension DetailViewController:UITableViewDelegate,UITableViewDataSource {
         if section == 0 {return 0}
         if (hotResults == nil || hotResults.count <= 0 ) && section == 1 {return 0}
         if (aboutResults == nil || aboutResults.count <= 0 ) && section == 2 {return 0}
-        
-        return 24
+        return 26
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -102,7 +112,7 @@ extension DetailViewController:UITableViewDelegate,UITableViewDataSource {
         
         if section == 1 && (hotResults != nil && hotResults.count > 0 ){
         
-            return hotResults.count
+            return hotResults.count > 3 ? 4 : hotResults.count
         }
         
         if section == 2 && (aboutResults != nil && aboutResults.count > 0 ){
@@ -115,19 +125,25 @@ extension DetailViewController:UITableViewDelegate,UITableViewDataSource {
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        if indexPath.row == 0 {
-            
+        if indexPath.section == 0 {
+        
             let cell = tableView.dequeueReusableCellWithIdentifier("likeandpyq")! as UITableViewCell
             
             return cell
-        }else if indexPath.row == 1 {
+        }
+        
+        if indexPath.section == 1 {
+        
+            if indexPath.row == 3 {
             
-            let cell = tableView.dequeueReusableCellWithIdentifier("comments")! as UITableViewCell
+                let cell = tableView.dequeueReusableCellWithIdentifier("morecell")! as UITableViewCell
+                
+                return cell
+            }
             
-            return cell
-        }else if indexPath.row == 2 {
+            let cell = tableView.dequeueReusableCellWithIdentifier("comments") as! CommentsTableViewCell
             
-            let cell = tableView.dequeueReusableCellWithIdentifier("morecell")! as UITableViewCell
+            cell.setCommentMethod(hotResults[indexPath.row])
             
             return cell
         }
@@ -139,16 +155,20 @@ extension DetailViewController:UITableViewDelegate,UITableViewDataSource {
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
-        if indexPath.row == 0 {
+        if indexPath.section == 0 {
         
-            return 62
-        }else if indexPath.row == 1 {
-            
-            return 116
-        }else if indexPath.row == 2 {
-            
-            return 101
+            return 76
         }
+        
+        if indexPath.section == 1 {
+        
+            if indexPath.row == 3 {
+                
+                return 101
+            }
+            return hotResults[indexPath.row].HeightByNewConstraint(tableView)
+        }
+
         
         return 106
     }

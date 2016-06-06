@@ -11,7 +11,7 @@ import Alamofire
 
 public class CommentAPI: APIBase {
     /**
-     新闻热点评论列表
+     新闻相关搜索列表
      
      - parameter nid: (query) 新闻ID 
      - parameter p: (query) 新闻ID (optional, default to 1)
@@ -26,9 +26,9 @@ public class CommentAPI: APIBase {
 
 
     /**
-     新闻热点评论列表
+     新闻相关搜索列表
      - GET /ns/asc
-     - 从服务器获取 新闻热点评论列表
+     - 从服务器获取 新闻相关搜索列表
      - examples: [{contentType=application/json, example="{}"}]
      
      - parameter nid: (query) 新闻ID 

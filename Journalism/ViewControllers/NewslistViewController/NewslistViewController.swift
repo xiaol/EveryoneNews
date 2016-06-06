@@ -24,8 +24,6 @@ class NewslistViewController: UIViewController {
     
     var delegate:NewslistViewControllerNoLikeDelegate!
     
-    internal var currentPage = 1
-    
     internal var channel:Channel? // 该新闻列表的频道对象
     
     @IBOutlet var tableView: UITableView! // UITableView 视图对象

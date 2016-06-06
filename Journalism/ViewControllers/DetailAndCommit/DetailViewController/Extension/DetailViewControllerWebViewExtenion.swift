@@ -69,8 +69,6 @@ extension DetailViewController:UIWebViewDelegate{
         
         let result = engine.processTemplateInFileAtPath(templatePath, withVariables: variables)
         
-        print(result)
-        
         webView.loadHTMLString(result, baseURL: NSBundle.mainBundle().bundleURL)
     }
     
@@ -86,6 +84,8 @@ extension DetailViewController:UIWebViewDelegate{
         self.webView.hidden = false
         webView.frame.size.height = con+35
         
+        webView.scrollView.scrollsToTop = false
+        
         tableView.tableHeaderView = self.webView
     }
     
@@ -96,6 +96,8 @@ extension DetailViewController:UIWebViewDelegate{
 //        webView.frame.size.height = height+35
 //        
         webView.frame.size =  webView.sizeThatFits(CGSizeZero)
+        
+        webView.scrollView.scrollsToTop = false
         
         tableView.tableHeaderView = self.webView
     }

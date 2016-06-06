@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MJRefresh
 import RealmSwift
 
 extension CommitViewController{
@@ -17,6 +18,30 @@ extension CommitViewController{
         
         self.setResults()
         self.setHeaderView()
+        
+        if let new = new {
+            
+            let footer = MJRefreshAutoNormalFooter {
+                CommentUtil.LoadNoramlCommentsList(new, p: "\(self.currentPage++)", c: "20", finish: { (count) in
+                    
+                    if count < 20 {
+                        
+                        self.tableView.mj_footer.endRefreshingWithNoMoreData()
+                        
+                    }else{
+                        
+                        self.tableView.mj_footer.endRefreshing()
+                    }
+                    
+                    self.tableView.reloadData()
+                    }, fail: {
+                        
+                        self.tableView.mj_footer.endRefreshing()
+                })
+            }
+            
+            self.tableView.mj_footer = footer
+        }
     }
     
     
