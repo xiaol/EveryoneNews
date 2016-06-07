@@ -95,8 +95,6 @@ class NewsUtil: NSObject {
             
             if let pubTime = channel.objectForKey("ptime") as? String {
                 
-                print(pubTime)
-                
                 let date = NSDate(fromString: pubTime, format: DateFormat.Custom("yyyy-MM-dd HH:mm:ss"))
                 
                 realm.create(New.self, value: ["nid":nid,"ptimes":date], update: true)

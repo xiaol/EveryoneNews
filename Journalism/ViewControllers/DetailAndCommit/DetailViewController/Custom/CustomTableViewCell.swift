@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AFDateHelper
 import PINRemoteImage
 
 class CommentsTableViewCell:UITableViewCell{
@@ -70,7 +71,43 @@ class circularView:UIView{
 
 class AboutTableViewCell:UITableViewCell{
 
+    @IBOutlet var YearLabel: UILabel! // 年份label
+    @IBOutlet var MAndDLabel: UILabel! // 月 日 label
+    @IBOutlet var contentLabel: UILabel! // 内容Label
+    @IBOutlet var descImageView: UIImageView! // 图片视图
+    @IBOutlet var pnameLabel: UILabel! // 来源名称
     
+    @IBOutlet var descImageWidthConstraint: NSLayoutConstraint! // 图片宽度约束对象
+    @IBOutlet var cntentRightSpaceConstraint: NSLayoutConstraint! // 图片宽度约束对象
+    
+    func setAboutMethod(about:About){
+    
+        pnameLabel.text = about.pname
+        YearLabel.text = "\(about.ptimes.year())"
+        MAndDLabel.text = about.ptimes.toString(format: DateFormat.Custom("MM/dd"))
+        contentLabel.text = about.title
+        
+        
+        if let im = about.img,let url = NSURL(string: im) {
+            
+            if im.characters.count <= 0 {
+            
+                cntentRightSpaceConstraint.constant = 17
+                descImageView.hidden = true
+            }else{
+            
+                cntentRightSpaceConstraint.constant = 17+81+15
+                descImageView.hidden = false
+                descImageView.pin_setImageFromURL(url, placeholderImage: UIImage.sharePlaceholderImage)
+            }
+            
+        }else{
+        
+
+        }
+        
+        self.layoutIfNeeded()
+    }
     
     override func drawRect(rect: CGRect) {
         

@@ -31,7 +31,7 @@ class DetailViewController: UIViewController {
         
         if let new = new {
             
-            aboutResults = realm.objects(About.self).filter("nid = \(new.nid)")
+            aboutResults = realm.objects(About.self).filter("nid = \(new.nid)").sorted("ptimes", ascending: false)
             hotResults = realm.objects(Comment.self).filter("nid = \(new.nid) AND ishot = 1")
             
             CommentUtil.LoadHotsCommentsList(new, finish: {
@@ -148,7 +148,11 @@ extension DetailViewController:UITableViewDelegate,UITableViewDataSource {
             return cell
         }
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("aboutcell")! as UITableViewCell
+        let about = self.aboutResults[indexPath.row]
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier("aboutcell") as! AboutTableViewCell
+        
+        cell.setAboutMethod(about)
         
         return cell
     }
@@ -169,6 +173,10 @@ extension DetailViewController:UITableViewDelegate,UITableViewDataSource {
             return hotResults[indexPath.row].HeightByNewConstraint(tableView)
         }
 
+        if indexPath.section == 2 {
+        
+            return aboutResults[indexPath.row].HeightByNewConstraint(tableView)
+        }
         
         return 116
     }

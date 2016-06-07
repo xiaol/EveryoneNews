@@ -29,3 +29,60 @@ class AboutUtil: NSObject {
         }
     }
 }
+
+
+
+extension About {
+
+    func HeightByNewConstraint(tableView:UITableView) -> CGFloat{
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier("aboutcell") as! AboutTableViewCell
+        
+        let width = tableView.frame.width
+        
+        var content:CGFloat = 60
+        
+        if self.img == nil  {
+        
+            let size = CGSize(width: width-17-17-7, height: 1000)
+            
+            content = NSString(string:self.title).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:cell.contentLabel.font], context: nil).height
+        }
+        
+//        if self.style == 0 {
+//            
+//            let size = CGSize(width: width-24, height: 1000)
+////            
+//            let titleHeight = NSString(string:self.title).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:cell.titleLabel.font], context: nil).height
+//
+//            let pubHeight = NSString(string:self.pname).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.preferredFontForTextStyle(UIFontTextStyleCaption2)], context: nil).height
+//            
+//            return 15+18+17+pubHeight+titleHeight
+//        }else if self.style == 1{
+//            
+//            
+//            return 15+77+17
+//        }else if self.style == 2{
+//            
+//            let size = CGSize(width: width-24, height: 1000)
+//            
+//            let titleHeight = NSString(string:self.title).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:cell.titleLabel.font], context: nil).height
+//            
+//            let pubHeight = NSString(string:self.pname).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.preferredFontForTextStyle(UIFontTextStyleCaption2)], context: nil).height
+//            
+//            return titleHeight+15+17+8+183+pubHeight+7
+//            
+//        }else if self.style == 3{
+//            
+//            let size = CGSize(width: width-24, height: 1000)
+//            
+//            let titleHeight = NSString(string:self.title).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:cell.titleLabel.font], context: nil).height
+//            
+//            let pubHeight = NSString(string:self.pname).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.preferredFontForTextStyle(UIFontTextStyleCaption2)], context: nil).height
+//            
+//            return 77+15+7+8+titleHeight+pubHeight+17
+//        }
+        
+        return 10+21+21+10+10+content
+    }
+}
