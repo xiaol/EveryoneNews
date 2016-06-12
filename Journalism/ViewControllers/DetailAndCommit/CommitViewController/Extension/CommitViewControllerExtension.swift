@@ -22,7 +22,7 @@ extension CommitViewController{
         if let new = new {
             
             let footer = MJRefreshAutoNormalFooter {
-                CommentUtil.LoadNoramlCommentsList(new, p: "\(self.currentPage++)", c: "20", finish: { (count) in
+                CommentUtil.LoadNoramlCommentsList(new, p: "\(self.currentPage+=1)", c: "20", finish: { (count) in
                     
                     if count < 20 {
                         

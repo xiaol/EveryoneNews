@@ -11,6 +11,29 @@ import UIKit
 
 extension NewslistViewController:UITableViewDataSource{
     
+    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 0
+    }
+    
+    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        
+        return 53
+    }
+    
+    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        let view = tableView.dequeueReusableCellWithIdentifier("search")
+        
+        view?.addGestureRecognizer(UITapGestureRecognizer(block: { (_) in
+            
+            self.fuckHeaderCellView = view
+            
+            self.presentViewController(UIStoryboard.shareStoryBoard.get_SearchViewController(), animated: true, completion: nil)
+        }))
+        
+        return view
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if newsResults == nil {return 0}

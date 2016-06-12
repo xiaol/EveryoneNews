@@ -34,7 +34,7 @@ class AboutUtil: NSObject {
 
 extension About {
 
-    func HeightByNewConstraint(tableView:UITableView) -> CGFloat{
+    func HeightByNewConstraint(tableView:UITableView,hiddenY:Bool) -> CGFloat{
         
         let cell = tableView.dequeueReusableCellWithIdentifier("aboutcell") as! AboutTableViewCell
         
@@ -42,47 +42,29 @@ extension About {
         
         var content:CGFloat = 60
         
-        if self.img == nil  {
+        if self.img?.characters.count <= 0  {
         
-            let size = CGSize(width: width-17-17-7, height: 1000)
+            let size = CGSize(width: width-17-17-7-7, height: 1000)
             
             content = NSString(string:self.title).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:cell.contentLabel.font], context: nil).height
+            
+            content += NSString(string:self.pname).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:cell.pnameLabel.font], context: nil).height
+            
+            content += 10
+        }else{
+            
+            let size = CGSize(width: (width-34-14-81-15), height: 1000)
+            
+            content = NSString(string:self.title).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:cell.contentLabel.font], context: nil).height
+            
+            content += NSString(string:self.pname).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:cell.pnameLabel.font], context: nil).height
+            
+            content += 10
+            
         }
         
-//        if self.style == 0 {
-//            
-//            let size = CGSize(width: width-24, height: 1000)
-////            
-//            let titleHeight = NSString(string:self.title).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:cell.titleLabel.font], context: nil).height
-//
-//            let pubHeight = NSString(string:self.pname).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.preferredFontForTextStyle(UIFontTextStyleCaption2)], context: nil).height
-//            
-//            return 15+18+17+pubHeight+titleHeight
-//        }else if self.style == 1{
-//            
-//            
-//            return 15+77+17
-//        }else if self.style == 2{
-//            
-//            let size = CGSize(width: width-24, height: 1000)
-//            
-//            let titleHeight = NSString(string:self.title).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:cell.titleLabel.font], context: nil).height
-//            
-//            let pubHeight = NSString(string:self.pname).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.preferredFontForTextStyle(UIFontTextStyleCaption2)], context: nil).height
-//            
-//            return titleHeight+15+17+8+183+pubHeight+7
-//            
-//        }else if self.style == 3{
-//            
-//            let size = CGSize(width: width-24, height: 1000)
-//            
-//            let titleHeight = NSString(string:self.title).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:cell.titleLabel.font], context: nil).height
-//            
-//            let pubHeight = NSString(string:self.pname).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.preferredFontForTextStyle(UIFontTextStyleCaption2)], context: nil).height
-//            
-//            return 77+15+7+8+titleHeight+pubHeight+17
-//        }
+        content = hiddenY ? content-21 : content
         
-        return 10+21+21+10+10+content
+        return 10+21+17+10+7+10+content
     }
 }

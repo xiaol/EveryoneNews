@@ -3,6 +3,8 @@
  */
 body{font-family:arial,sans-serif;margin: 17 18 0 18; font-weight:normal; background-color:#ffffff;word-wrap: break-word;-webkit-user-select: none;}
 
+
+
 #title_section{padding:0 0 0 0;-webkit-user-select: text;}
 #title{padding: 0 0 0 0;color:#1a1a1a;font-size:25px;}
 #subtitle{padding: 10 0 0 0;color:#808080;font-size:13px;-webkit-user-select:text;}
@@ -23,5 +25,46 @@ body.night #body_section{color:#909090;}
 #body_section.font_large[lang=en]{font-size:34px;}
 #body_section.font_normal[lang=en]{font-size:30px;}
 #body_section.font_small[lang=en]{font-size:26px;}
+
+html {
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    line-height: 1.6
+}
+
+body {
+    -webkit-touch-callout: none;
+    line-height: inherit
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 400;
+    font-size: 16px
+}
+* {
+    margin: 0;
+    padding: 0
+}
+a {
+    color: #607fa6;
+    text-decoration: none
+}
+
+img {
+    height: auto!important
+}
+@media(min-device-width:375px) and (max-device-width:667px) and (-webkit-min-device-pixel-ratio:2) {
+    .mm_appmsg .rich_media_inner, .mm_appmsg .rich_media_meta, .mm_appmsg .discuss_list, .mm_appmsg .rich_media_extra, .mm_appmsg .title_tips .tips {
+        font-size: 17px
+    }
+    .mm_appmsg .meta_original_tag {
+        font-size: 15px
+    }
+}
+@media(min-device-width:414px) and (max-device-width:736px) and (-webkit-min-device-pixel-ratio:3) {
+    .mm_appmsg .rich_media_title {
+        font-size: 25px
+    }
+}
 
 HR{padding: 0 18 0 18}

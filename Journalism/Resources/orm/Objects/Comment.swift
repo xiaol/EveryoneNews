@@ -14,7 +14,7 @@ public class Comment: Object {
     dynamic var id = 1 // 新闻评论ID
     dynamic var nid = 1 // 新闻ID
     dynamic var uid = 1 // 创建该评论的用户ID
-    dynamic var comment = 0 //点赞数
+    dynamic var commend = 0 //点赞数
     dynamic var upflag = 0 // 用户是否能对该条评论点赞，0、1 对应 可点、不可点
     
     dynamic var content = "" // 评论正文

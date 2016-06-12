@@ -1127,7 +1127,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="115" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Bg1-PT-JNq">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="115" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="Bg1-PT-JNq">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <webView key="tableHeaderView" contentMode="scaleToFill" id="bDy-2b-QHI">
@@ -1140,7 +1140,7 @@
                                 </webView>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="likeandpyq" rowHeight="60" id="mnY-7g-ahh" customClass="LikeAndPYQTableViewCell" customModule="Journalism" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="228" width="600" height="60"/>
+                                        <rect key="frame" x="0.0" y="250" width="600" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mnY-7g-ahh" id="Li1-BB-huD">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="60"/>
@@ -1208,10 +1208,15 @@
                                                 <constraint firstItem="AdN-Tu-Cy6" firstAttribute="leading" secondItem="Li1-BB-huD" secondAttribute="leading" constant="18" id="aGq-mK-eDW"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <outlet property="contentLabel" destination="gIb-yy-INW" id="fTC-Lf-Ipp"/>
+                                            <outlet property="contentWidthConstraint" destination="Rfn-WL-wPl" id="POt-GD-YbA"/>
+                                            <outlet property="weChatCriButton" destination="fvL-Gs-oQI" id="eyj-3q-Ort"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="comments" rowHeight="116" id="FaE-9N-Rge" customClass="CommentsTableViewCell" customModule="Journalism" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="288" width="600" height="116"/>
+                                        <rect key="frame" x="0.0" y="310" width="600" height="116"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FaE-9N-Rge" id="ViQ-eP-UjJ">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="116"/>
@@ -1236,8 +1241,8 @@
                                                     <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="主要是没钱了，嫁个老公不争气" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pgt-4A-fyq">
-                                                    <rect key="frame" x="71" y="73" width="517" height="22"/>
+                                                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="主要是没钱了，嫁个老公不争气" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pgt-4A-fyq" customClass="CopyLabel" customModule="Journalism" customModuleProvider="target">
+                                                    <rect key="frame" x="71" y="73" width="252" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -1260,7 +1265,7 @@
                                                 <constraint firstItem="d52-4p-nc6" firstAttribute="top" secondItem="ViQ-eP-UjJ" secondAttribute="top" constant="21" id="HdG-gl-fee"/>
                                                 <constraint firstItem="Ter-ZS-aJw" firstAttribute="centerY" secondItem="zc7-s7-s4e" secondAttribute="centerY" id="Hfd-gv-csP"/>
                                                 <constraint firstItem="rwi-n6-27u" firstAttribute="centerY" secondItem="Ter-ZS-aJw" secondAttribute="centerY" id="O8N-ho-0gD"/>
-                                                <constraint firstAttribute="trailing" secondItem="pgt-4A-fyq" secondAttribute="trailing" constant="12" id="SaQ-2r-i28"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="pgt-4A-fyq" secondAttribute="trailing" constant="12" id="SaQ-2r-i28"/>
                                                 <constraint firstItem="pgt-4A-fyq" firstAttribute="leading" secondItem="d52-4p-nc6" secondAttribute="trailing" constant="15" id="VGn-dU-oCb"/>
                                                 <constraint firstItem="zFm-sT-lKc" firstAttribute="leading" secondItem="d52-4p-nc6" secondAttribute="trailing" constant="12" id="VoQ-4x-9Vb"/>
                                                 <constraint firstItem="zc7-s7-s4e" firstAttribute="leading" secondItem="d52-4p-nc6" secondAttribute="trailing" constant="12" id="Yfr-kF-6CN"/>
@@ -1281,7 +1286,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="newcomments" rowHeight="24" id="Y7a-br-eMl" customClass="CommentsTableViewHeader" customModule="Journalism" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="404" width="600" height="24"/>
+                                        <rect key="frame" x="0.0" y="426" width="600" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Y7a-br-eMl" id="ahE-ht-z7R">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="24"/>
@@ -1306,7 +1311,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="morecell" rowHeight="101" id="6Ex-dZ-HL3" customClass="MoreTableViewCell" customModule="Journalism" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="428" width="600" height="101"/>
+                                        <rect key="frame" x="0.0" y="450" width="600" height="101"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6Ex-dZ-HL3" id="Ccc-XZ-LWz">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="101"/>
@@ -1315,7 +1320,7 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jX8-xQ-1v8" customClass="DetailBorderView" customModule="Journalism" customModuleProvider="target">
                                                     <rect key="frame" x="18" y="31" width="564" height="39"/>
                                                     <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yqe-r7-IHX">
+                                                        <button opaque="NO" tag="10" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yqe-r7-IHX">
                                                             <rect key="frame" x="230" y="5" width="104" height="30"/>
                                                             <state key="normal" title="查看全部评论 &gt;">
                                                                 <color key="titleColor" red="0.0" green="0.56862745098039214" blue="0.98039215686274506" alpha="1" colorSpace="calibratedRGB"/>
@@ -1337,17 +1342,17 @@
                                                 <constraint firstItem="jX8-xQ-1v8" firstAttribute="leading" secondItem="Ccc-XZ-LWz" secondAttribute="leading" constant="18" id="SQj-NU-Glg"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="aboutcell" rowHeight="119" id="G6z-O0-bPU" customClass="AboutTableViewCell" customModule="Journalism" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="529" width="600" height="119"/>
+                                        <rect key="frame" x="0.0" y="551" width="600" height="119"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="G6z-O0-bPU" id="hkR-ef-7F4">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="119"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2zJ-Fy-PxD">
-                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="21"/>
+                                                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2zJ-Fy-PxD">
+                                                    <rect key="frame" x="0.0" y="10" width="600" height="21"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="emW-Tp-OU5" customClass="circularView" customModule="Journalism" customModuleProvider="target">
                                                             <rect key="frame" x="17" y="7" width="7" height="7"/>
@@ -1374,10 +1379,10 @@
                                                     </constraints>
                                                 </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vQ6-vr-OJJ">
-                                                    <rect key="frame" x="0.0" y="29" width="600" height="21"/>
+                                                    <rect key="frame" x="0.0" y="41" width="600" height="17"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V5p-44-5a6" customClass="circularView" customModule="Journalism" customModuleProvider="target">
-                                                            <rect key="frame" x="17" y="7" width="7" height="7"/>
+                                                            <rect key="frame" x="17" y="5" width="7" height="7"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="6.5" id="F8c-ly-ErH"/>
@@ -1385,7 +1390,7 @@
                                                             </constraints>
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="08/10" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ty6-Wm-AHY">
-                                                            <rect key="frame" x="31" y="2" width="38" height="17"/>
+                                                            <rect key="frame" x="31" y="0.0" width="38" height="17"/>
                                                             <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1395,34 +1400,34 @@
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstItem="Ty6-Wm-AHY" firstAttribute="leading" secondItem="V5p-44-5a6" secondAttribute="trailing" constant="7" id="416-Ry-a8h"/>
-                                                        <constraint firstAttribute="height" constant="21" id="M4z-HJ-Z6Q"/>
-                                                        <constraint firstItem="V5p-44-5a6" firstAttribute="centerY" secondItem="vQ6-vr-OJJ" secondAttribute="centerY" id="XZ4-dY-JHZ"/>
+                                                        <constraint firstItem="V5p-44-5a6" firstAttribute="centerY" secondItem="Ty6-Wm-AHY" secondAttribute="centerY" id="fuz-ft-PXf"/>
                                                         <constraint firstItem="V5p-44-5a6" firstAttribute="leading" secondItem="vQ6-vr-OJJ" secondAttribute="leading" constant="17" id="hsE-0l-ZiY"/>
-                                                        <constraint firstItem="Ty6-Wm-AHY" firstAttribute="centerY" secondItem="V5p-44-5a6" secondAttribute="centerY" id="rNS-8S-Lxe"/>
+                                                        <constraint firstItem="Ty6-Wm-AHY" firstAttribute="top" secondItem="vQ6-vr-OJJ" secondAttribute="top" id="k3o-Ig-wuL"/>
+                                                        <constraint firstAttribute="height" constant="17" id="nkY-SH-K0q"/>
                                                     </constraints>
                                                 </view>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Qjy-CM-3nA">
-                                                    <rect key="frame" x="502" y="60" width="81" height="60"/>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Qjy-CM-3nA">
+                                                    <rect key="frame" x="502" y="68" width="81" height="60"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="60" id="dLp-NS-yiw"/>
                                                         <constraint firstAttribute="width" constant="81" id="kbX-tP-pkA"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="主要是没钱了，嫁个老公不争气" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S99-9J-7hC">
-                                                    <rect key="frame" x="31" y="60" width="552" height="22"/>
+                                                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="主要是没钱了，嫁个老公不争气" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S99-9J-7hC" customClass="CopyLabel" customModule="Journalism" customModuleProvider="target">
+                                                    <rect key="frame" x="31" y="68" width="552" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="腾讯科技" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I8h-Rm-Aza">
-                                                    <rect key="frame" x="31" y="108" width="40" height="12"/>
+                                                    <rect key="frame" x="31" y="100" width="40" height="12"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                     <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="2zJ-Fy-PxD" firstAttribute="top" secondItem="hkR-ef-7F4" secondAttribute="top" id="Av0-L1-Ryg"/>
+                                                <constraint firstItem="2zJ-Fy-PxD" firstAttribute="top" secondItem="hkR-ef-7F4" secondAttribute="top" constant="10" id="Av0-L1-Ryg"/>
                                                 <constraint firstItem="I8h-Rm-Aza" firstAttribute="leading" secondItem="S99-9J-7hC" secondAttribute="leading" id="Do9-eO-NNe"/>
                                                 <constraint firstItem="2zJ-Fy-PxD" firstAttribute="leading" secondItem="hkR-ef-7F4" secondAttribute="leading" id="Gxj-4G-qDP"/>
                                                 <constraint firstItem="S99-9J-7hC" firstAttribute="leading" secondItem="Ty6-Wm-AHY" secondAttribute="leading" id="JgL-Gi-YUf"/>
@@ -1431,12 +1436,13 @@
                                                 <constraint firstItem="Qjy-CM-3nA" firstAttribute="top" secondItem="vQ6-vr-OJJ" secondAttribute="bottom" constant="10" id="ahB-bN-HEa"/>
                                                 <constraint firstAttribute="trailing" secondItem="2zJ-Fy-PxD" secondAttribute="trailing" id="dq7-dG-RxV"/>
                                                 <constraint firstItem="S99-9J-7hC" firstAttribute="top" secondItem="Qjy-CM-3nA" secondAttribute="top" id="iua-b9-hP5"/>
+                                                <constraint firstItem="I8h-Rm-Aza" firstAttribute="top" secondItem="S99-9J-7hC" secondAttribute="bottom" constant="10" id="kuJ-1w-l8R"/>
                                                 <constraint firstAttribute="trailing" secondItem="Qjy-CM-3nA" secondAttribute="trailing" constant="17" id="nLM-gg-RUX"/>
                                                 <constraint firstAttribute="trailing" secondItem="vQ6-vr-OJJ" secondAttribute="trailing" id="oa9-Zj-jOo"/>
-                                                <constraint firstItem="vQ6-vr-OJJ" firstAttribute="top" secondItem="2zJ-Fy-PxD" secondAttribute="bottom" constant="8" id="wnX-Tz-DNh"/>
-                                                <constraint firstItem="I8h-Rm-Aza" firstAttribute="bottom" secondItem="Qjy-CM-3nA" secondAttribute="bottom" id="yB2-9f-WZo"/>
+                                                <constraint firstItem="vQ6-vr-OJJ" firstAttribute="top" secondItem="2zJ-Fy-PxD" secondAttribute="bottom" constant="10" id="wnX-Tz-DNh"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <connections>
                                             <outlet property="MAndDLabel" destination="Ty6-Wm-AHY" id="cK5-5h-mx0"/>
                                             <outlet property="YearLabel" destination="aUq-TO-EnE" id="p0Z-9B-Lzj"/>
@@ -1445,6 +1451,7 @@
                                             <outlet property="descImageView" destination="Qjy-CM-3nA" id="JrY-pZ-u2W"/>
                                             <outlet property="descImageWidthConstraint" destination="kbX-tP-pkA" id="697-m7-wJR"/>
                                             <outlet property="pnameLabel" destination="I8h-Rm-Aza" id="e4Y-bg-jK8"/>
+                                            <outlet property="titleHeadightConstraint" destination="iRZ-Dt-3OK" id="HRa-De-0h0"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -1470,6 +1477,102 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N0n-GP-Yd0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="148" y="1165"/>
+        </scene>
+        <!--Search View Controller-->
+        <scene sceneID="Hpb-Gf-5At">
+            <objects>
+                <viewController storyboardIdentifier="SearchViewController" id="fkr-IJ-dnf" customClass="SearchViewController" customModule="Journalism" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="EI0-wc-fCJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="Dug-TD-5Rl"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="BwI-Id-lQ1">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tVd-0q-M7R">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" red="0.94117647058823528" green="0.94117647058823528" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bsS-m1-iRu">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="20"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QTQ-nE-4td">
+                                <rect key="frame" x="0.0" y="20" width="600" height="53"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7BY-CT-yIE">
+                                        <rect key="frame" x="558" y="12" width="30" height="30"/>
+                                        <state key="normal" title="取消">
+                                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="dismissAction:" destination="fkr-IJ-dnf" eventType="touchUpInside" id="N7y-fI-G6d"/>
+                                        </connections>
+                                    </button>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iUB-wO-gsj" customClass="SearchView" customModule="Journalism" customModuleProvider="target">
+                                        <rect key="frame" x="12" y="9" width="576" height="35"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="首页搜索" translatesAutoresizingMaskIntoConstraints="NO" id="jEQ-H9-bRg">
+                                                <rect key="frame" x="11" y="10" width="15" height="15"/>
+                                            </imageView>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="搜索" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="60f-l7-Ofo">
+                                                <rect key="frame" x="33" y="0.0" width="543" height="35"/>
+                                                <color key="tintColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <textInputTraits key="textInputTraits" returnKeyType="search" enablesReturnKeyAutomatically="YES"/>
+                                            </textField>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="jEQ-H9-bRg" firstAttribute="leading" secondItem="iUB-wO-gsj" secondAttribute="leading" constant="11" id="4cI-sk-OqG"/>
+                                            <constraint firstItem="60f-l7-Ofo" firstAttribute="leading" secondItem="jEQ-H9-bRg" secondAttribute="trailing" constant="7" id="OiP-Ab-6j5"/>
+                                            <constraint firstAttribute="bottom" secondItem="60f-l7-Ofo" secondAttribute="bottom" id="SUD-G6-ozi"/>
+                                            <constraint firstItem="60f-l7-Ofo" firstAttribute="top" secondItem="iUB-wO-gsj" secondAttribute="top" id="aZl-3h-QTs"/>
+                                            <constraint firstItem="jEQ-H9-bRg" firstAttribute="centerY" secondItem="iUB-wO-gsj" secondAttribute="centerY" id="ck8-ix-PMb"/>
+                                            <constraint firstAttribute="trailing" secondItem="60f-l7-Ofo" secondAttribute="trailing" id="jRw-V2-d0Z"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="iUB-wO-gsj" secondAttribute="trailing" constant="12" id="07b-Px-HJ6"/>
+                                    <constraint firstItem="7BY-CT-yIE" firstAttribute="centerY" secondItem="iUB-wO-gsj" secondAttribute="centerY" id="1kW-gV-OLd"/>
+                                    <constraint firstItem="iUB-wO-gsj" firstAttribute="leading" secondItem="QTQ-nE-4td" secondAttribute="leading" constant="12" id="1ng-D1-e6B"/>
+                                    <constraint firstAttribute="bottom" secondItem="iUB-wO-gsj" secondAttribute="bottom" constant="9" id="DWm-UT-xsb"/>
+                                    <constraint firstAttribute="height" constant="53" id="RYj-yv-wPS"/>
+                                    <constraint firstAttribute="trailing" secondItem="7BY-CT-yIE" secondAttribute="trailing" constant="12" id="Swa-fv-qxY"/>
+                                    <constraint firstItem="iUB-wO-gsj" firstAttribute="top" secondItem="QTQ-nE-4td" secondAttribute="top" constant="9" id="iuX-9Q-IeB"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="0.67625633445945943" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="bsS-m1-iRu" secondAttribute="trailing" id="09r-MT-qKD"/>
+                            <constraint firstItem="QTQ-nE-4td" firstAttribute="top" secondItem="EI0-wc-fCJ" secondAttribute="bottom" id="78N-Ty-aYK"/>
+                            <constraint firstItem="bsS-m1-iRu" firstAttribute="leading" secondItem="BwI-Id-lQ1" secondAttribute="leading" id="C0x-XO-B3H"/>
+                            <constraint firstItem="QTQ-nE-4td" firstAttribute="top" secondItem="bsS-m1-iRu" secondAttribute="bottom" id="DbJ-IR-LUg"/>
+                            <constraint firstItem="QTQ-nE-4td" firstAttribute="leading" secondItem="BwI-Id-lQ1" secondAttribute="leading" id="G6k-Dz-UV9"/>
+                            <constraint firstItem="Dug-TD-5Rl" firstAttribute="top" secondItem="tVd-0q-M7R" secondAttribute="bottom" id="NpA-bv-tEE"/>
+                            <constraint firstItem="bsS-m1-iRu" firstAttribute="top" secondItem="BwI-Id-lQ1" secondAttribute="top" id="Ta3-yI-qpU"/>
+                            <constraint firstAttribute="trailing" secondItem="tVd-0q-M7R" secondAttribute="trailing" id="bMr-Bc-0d3"/>
+                            <constraint firstItem="tVd-0q-M7R" firstAttribute="top" secondItem="BwI-Id-lQ1" secondAttribute="top" id="tnk-9j-G47"/>
+                            <constraint firstItem="tVd-0q-M7R" firstAttribute="leading" secondItem="BwI-Id-lQ1" secondAttribute="leading" id="tvG-UY-3rM"/>
+                            <constraint firstAttribute="trailing" secondItem="QTQ-nE-4td" secondAttribute="trailing" id="uIe-xt-qsi"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="backView" destination="tVd-0q-M7R" id="un5-O0-NK8"/>
+                        <outlet property="searchInputViewRightConstraint" destination="07b-Px-HJ6" id="mYR-zw-Y1Y"/>
+                        <outlet property="searchViewRightSpaceConstraint" destination="uIe-xt-qsi" id="rky-qj-LvV"/>
+                        <outlet property="searchViewTopSpaceConstraint" destination="78N-Ty-aYK" id="6PY-nC-n8E"/>
+                        <outlet property="textFiled" destination="60f-l7-Ofo" id="D7g-fm-z1x"/>
+                        <outlet property="topView" destination="bsS-m1-iRu" id="Qeg-gX-mHu"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CfN-q3-Opt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="915" y="1165"/>
         </scene>
         <!--Commit View Controller-->
         <scene sceneID="SuA-qr-Pca">
@@ -1540,8 +1643,8 @@
                                                     <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="主要是没钱了，嫁个老公不争气" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vh4-r3-e3E">
-                                                    <rect key="frame" x="71" y="73" width="517" height="22"/>
+                                                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="主要是没钱了，嫁个老公不争气" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vh4-r3-e3E" customClass="CopyLabel" customModule="Journalism" customModuleProvider="target">
+                                                    <rect key="frame" x="71" y="73" width="252" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -1565,7 +1668,7 @@
                                                 <constraint firstItem="vh4-r3-e3E" firstAttribute="leading" secondItem="GC4-Cm-IpW" secondAttribute="trailing" constant="15" id="JeV-c0-JQp"/>
                                                 <constraint firstItem="9Sq-3h-MpI" firstAttribute="centerY" secondItem="JN0-8z-Ce4" secondAttribute="centerY" id="LKJ-eN-K4q"/>
                                                 <constraint firstItem="JYD-38-vc7" firstAttribute="leading" secondItem="GC4-Cm-IpW" secondAttribute="trailing" constant="12" id="WIj-Mq-dEt"/>
-                                                <constraint firstAttribute="trailing" secondItem="vh4-r3-e3E" secondAttribute="trailing" constant="12" id="XTJ-fL-fnR"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="vh4-r3-e3E" secondAttribute="trailing" constant="12" id="XTJ-fL-fnR"/>
                                                 <constraint firstAttribute="trailing" secondItem="JN0-8z-Ce4" secondAttribute="trailing" constant="18" id="dAO-bn-rSC"/>
                                                 <constraint firstItem="SpY-e0-yqB" firstAttribute="leading" secondItem="GC4-Cm-IpW" secondAttribute="trailing" constant="12" id="irw-an-7wn"/>
                                                 <constraint firstItem="SpY-e0-yqB" firstAttribute="top" secondItem="JYD-38-vc7" secondAttribute="bottom" constant="8" id="j8k-uO-fJD"/>
@@ -1675,17 +1778,66 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" rowHeight="84" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="OXJ-Hd-huy">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="84" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="OXJ-Hd-huy">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" red="0.89411764709999997" green="0.89411764709999997" blue="0.89411764709999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="search" rowHeight="53" id="8Bc-YR-eiD">
+                                        <rect key="frame" x="0.0" y="50" width="600" height="53"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8Bc-YR-eiD" id="bw8-wd-rQX">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="53"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O6g-w5-C1O">
+                                                    <rect key="frame" x="0.0" y="0.0" width="600" height="53"/>
+                                                    <subviews>
+                                                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SVH-oU-AUj" customClass="SearchView" customModule="Journalism" customModuleProvider="target">
+                                                            <rect key="frame" x="12" y="9" width="576" height="42"/>
+                                                            <subviews>
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="首页搜索" translatesAutoresizingMaskIntoConstraints="NO" id="RSR-FN-X7E">
+                                                                    <rect key="frame" x="11" y="14" width="15" height="15"/>
+                                                                </imageView>
+                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="搜索" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YHf-Rq-fq2">
+                                                                    <rect key="frame" x="33" y="12" width="32" height="20"/>
+                                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                                    <color key="textColor" red="0.792156862745098" green="0.792156862745098" blue="0.792156862745098" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    <nil key="highlightedColor"/>
+                                                                </label>
+                                                            </subviews>
+                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <constraints>
+                                                                <constraint firstItem="RSR-FN-X7E" firstAttribute="centerY" secondItem="SVH-oU-AUj" secondAttribute="centerY" id="L0l-45-U7h"/>
+                                                                <constraint firstItem="YHf-Rq-fq2" firstAttribute="centerY" secondItem="RSR-FN-X7E" secondAttribute="centerY" id="Xgt-VA-lcW"/>
+                                                                <constraint firstItem="YHf-Rq-fq2" firstAttribute="leading" secondItem="RSR-FN-X7E" secondAttribute="trailing" constant="7" id="cLX-LK-DgE"/>
+                                                                <constraint firstItem="RSR-FN-X7E" firstAttribute="leading" secondItem="SVH-oU-AUj" secondAttribute="leading" constant="11" id="nNd-Rw-nwp"/>
+                                                            </constraints>
+                                                        </view>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstItem="SVH-oU-AUj" firstAttribute="top" secondItem="O6g-w5-C1O" secondAttribute="top" constant="9" id="AGZ-93-QJs"/>
+                                                        <constraint firstAttribute="bottom" secondItem="SVH-oU-AUj" secondAttribute="bottom" constant="9" id="jfs-T2-n0a"/>
+                                                        <constraint firstAttribute="trailing" secondItem="SVH-oU-AUj" secondAttribute="trailing" constant="12" id="mXi-vG-X5i"/>
+                                                        <constraint firstItem="SVH-oU-AUj" firstAttribute="leading" secondItem="O6g-w5-C1O" secondAttribute="leading" constant="12" id="rMh-ur-0p6"/>
+                                                    </constraints>
+                                                </view>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="O6g-w5-C1O" firstAttribute="leading" secondItem="bw8-wd-rQX" secondAttribute="leading" id="WKW-D3-xVE"/>
+                                                <constraint firstAttribute="trailing" secondItem="O6g-w5-C1O" secondAttribute="trailing" id="j8C-9g-s1u"/>
+                                                <constraint firstAttribute="bottom" secondItem="O6g-w5-C1O" secondAttribute="bottom" id="lRN-pr-HHG"/>
+                                                <constraint firstItem="O6g-w5-C1O" firstAttribute="top" secondItem="bw8-wd-rQX" secondAttribute="top" id="yxH-kM-P7E"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="0.0" reuseIdentifier="NewNormalTableViewCell" rowHeight="84" id="Xzb-jO-5Oa" customClass="NewNormalTableViewCell" customModule="Journalism" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="600" height="84"/>
+                                        <rect key="frame" x="0.0" y="103" width="600" height="84"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Xzb-jO-5Oa" id="YBt-UB-1Mf">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="83"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="84"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="腾讯新闻" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KBE-Bs-PEW">
@@ -1710,7 +1862,7 @@
                                                     <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="习近平今日上午离京访问捷克" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V39-h9-QH1">
+                                                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="习近平今日上午离京访问捷克" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V39-h9-QH1" customClass="CopyLabel" customModule="Journalism" customModuleProvider="target">
                                                     <rect key="frame" x="12" y="15" width="576" height="23"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
                                                     <color key="textColor" red="0.10196078431372549" green="0.10196078431372549" blue="0.10196078431372549" alpha="1" colorSpace="calibratedRGB"/>
@@ -1768,13 +1920,13 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="NewOneTableViewCell" rowHeight="108" id="mdg-2l-hHz" customClass="NewOneTableViewCell" customModule="Journalism" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="112" width="600" height="108"/>
+                                        <rect key="frame" x="0.0" y="187" width="600" height="108"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mdg-2l-hHz" id="zMy-JF-eU0">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="107"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="108"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="习近平今日上午离京访问捷克" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U0L-PN-Otd">
+                                                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="习近平今日上午离京访问捷克" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U0L-PN-Otd" customClass="CopyLabel" customModule="Journalism" customModuleProvider="target">
                                                     <rect key="frame" x="12" y="15" width="434" height="23"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" relation="lessThanOrEqual" constant="56" id="RaH-6v-9je"/>
@@ -1867,13 +2019,13 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="NewTwoTableViewCell" rowHeight="261" id="eYC-bO-1M2" customClass="NewTwoTableViewCell" customModule="Journalism" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="220" width="600" height="261"/>
+                                        <rect key="frame" x="0.0" y="295" width="600" height="261"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eYC-bO-1M2" id="gBA-ZK-VaZ">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="260"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="261"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="习近平今日上午离京访问捷克" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hgB-Ct-QRI">
+                                                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="习近平今日上午离京访问捷克" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hgB-Ct-QRI" customClass="CopyLabel" customModule="Journalism" customModuleProvider="target">
                                                     <rect key="frame" x="12" y="15" width="576" height="23"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
                                                     <color key="textColor" red="0.1019607843" green="0.1019607843" blue="0.1019607843" alpha="1" colorSpace="calibratedRGB"/>
@@ -1980,13 +2132,13 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="NewThreeTableViewCell" rowHeight="157" id="ubA-HX-cLE" customClass="NewThreeTableViewCell" customModule="Journalism" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="481" width="600" height="157"/>
+                                        <rect key="frame" x="0.0" y="556" width="600" height="157"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ubA-HX-cLE" id="uqq-zf-c5h">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="156"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="157"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="习近平今日上午离京访问捷克" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CZv-Oc-xbO">
+                                                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="习近平今日上午离京访问捷克" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CZv-Oc-xbO" customClass="CopyLabel" customModule="Journalism" customModuleProvider="target">
                                                     <rect key="frame" x="12" y="15" width="576" height="23"/>
                                                     <fontDescription key="fontDescription" style="UICTFontTextStyleTitle3"/>
                                                     <color key="textColor" red="0.1019607843" green="0.1019607843" blue="0.1019607843" alpha="1" colorSpace="calibratedRGB"/>
@@ -2155,10 +2307,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="refreshcell" rowHeight="52" id="7Hu-Ef-JVx">
-                                        <rect key="frame" x="0.0" y="638" width="600" height="52"/>
+                                        <rect key="frame" x="0.0" y="713" width="600" height="52"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7Hu-Ef-JVx" id="k0O-dO-Md7">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="51"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="52"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="上次看到这里，点击刷新" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bwj-wH-AMq">
@@ -2236,5 +2388,6 @@
         <image name="详情页转发链接" width="66" height="66"/>
         <image name="详情页返回" width="10" height="17"/>
         <image name="详情页邮件" width="66" height="66"/>
+        <image name="首页搜索" width="15" height="15"/>
     </resources>
 </document>

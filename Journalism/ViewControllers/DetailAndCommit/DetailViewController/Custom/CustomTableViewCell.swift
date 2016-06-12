@@ -21,10 +21,10 @@ class CommentsTableViewCell:UITableViewCell{
     @IBOutlet var praiseButton: UIButton!
     
     func setCommentMethod(comment:Comment){
-        praiseLabel.hidden = comment.comment <= 0
+        praiseLabel.hidden = comment.commend <= 0
         praiseButton.hidden = comment.uid == SDK_User.uid
         
-        praiseLabel.text = "\(comment.comment)"
+        praiseLabel.text = "\(comment.commend)"
         
         contentLabel.text = comment.content
         infoLabel.text = comment.ctimes.weiboTimeDescription
@@ -47,8 +47,12 @@ class CommentsTableViewCell:UITableViewCell{
     }
 }
 
+
 class LikeAndPYQTableViewCell:UITableViewCell{
     
+    @IBOutlet var contentLabel: UILabel!
+    @IBOutlet var weChatCriButton: HeadPhotoView!
+    @IBOutlet var contentWidthConstraint: NSLayoutConstraint!
     
 }
 
@@ -79,31 +83,40 @@ class AboutTableViewCell:UITableViewCell{
     
     @IBOutlet var descImageWidthConstraint: NSLayoutConstraint! // 图片宽度约束对象
     @IBOutlet var cntentRightSpaceConstraint: NSLayoutConstraint! // 图片宽度约束对象
+    @IBOutlet var titleHeadightConstraint: NSLayoutConstraint! // 图片宽度约束对象
     
-    func setAboutMethod(about:About){
+    var isHeader = false
+    var hiddenYear = false
     
+    func setAboutMethod(about:About,hiddenY:Bool){
+    
+        self.hiddenYear = hiddenY
+        
+        let fromStr = about.from.lowercaseString
+        let yesabout = UIColor(red: 0, green: 145/255, blue: 250/255, alpha: 1)
+        let noabout = UIColor(red: 170/255, green: 170/255, blue: 170/255, alpha: 1)
+        
+        MAndDLabel.backgroundColor = (fromStr == "baidu" || fromStr == "google") ? yesabout : noabout
+        
         pnameLabel.text = about.pname
         YearLabel.text = "\(about.ptimes.year())"
-        MAndDLabel.text = about.ptimes.toString(format: DateFormat.Custom("MM/dd"))
+        MAndDLabel.text = about.ptimes.toString(format: DateFormat.Custom(" MM/dd "))
         contentLabel.text = about.title
         
+        self.titleHeadightConstraint.constant = hiddenY ? 0 : 21
         
         if let im = about.img,let url = NSURL(string: im) {
             
             if im.characters.count <= 0 {
-            
+                
                 cntentRightSpaceConstraint.constant = 17
                 descImageView.hidden = true
             }else{
-            
+                
                 cntentRightSpaceConstraint.constant = 17+81+15
                 descImageView.hidden = false
                 descImageView.pin_setImageFromURL(url, placeholderImage: UIImage.sharePlaceholderImage)
             }
-            
-        }else{
-        
-
         }
         
         self.layoutIfNeeded()
@@ -116,9 +129,9 @@ class AboutTableViewCell:UITableViewCell{
         CGContextFillRect(context, rect)
         //下分割线
         CGContextSetStrokeColorWithColor(context, UIColor(red: 228/255, green:228/255, blue: 228/255, alpha: 1).CGColor)
-        CGContextStrokeRect(context, CGRectMake(30, rect.height, rect.width - 36, 1));
+        CGContextStrokeRect(context, CGRectMake(30, rect.height, rect.width - 17-17-7-6.5, 1));
         
-        CGContextMoveToPoint(context, 20, 0)       //移到線段的第一個點
+        CGContextMoveToPoint(context, 20, self.isHeader ? (hiddenYear ? 20+6 : 20)  : 0)       //移到線段的第一個點
         CGContextAddLineToPoint(context, 20, rect.height)       //畫出一條線
         CGContextSetLineDash(context, 0, [1,1], 2)    //設定虛線
         CGContextSetLineWidth(context, 1)               //設定線段粗細

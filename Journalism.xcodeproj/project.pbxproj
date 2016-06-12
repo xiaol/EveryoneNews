@@ -10,7 +10,7 @@
 		6DC4FDCB1CF0314700D25A99 /* HomeViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDC01CF0314700D25A99 /* HomeViewControllerExtension.swift */; };
 		6DC4FDCC1CF0314700D25A99 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDC11CF0314700D25A99 /* HomeViewController.swift */; };
 		6DC4FDCD1CF0314700D25A99 /* NewBaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDC41CF0314700D25A99 /* NewBaseTableViewCell.swift */; };
-		6DC4FDCE1CF0314700D25A99 /* NewslistViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDC61CF0314700D25A99 /* NewslistViewControllerExtension.swift */; };
+		6DC4FDCE1CF0314700D25A99 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDC61CF0314700D25A99 /* Extension.swift */; };
 		6DC4FDCF1CF0314700D25A99 /* NewslistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDC71CF0314700D25A99 /* NewslistViewController.swift */; };
 		6DC4FDD51CF031E000D25A99 /* ChannelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDD21CF031E000D25A99 /* ChannelManager.swift */; };
 		6DC4FDD61CF031E000D25A99 /* HomeViewControllerChannelDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDD31CF031E000D25A99 /* HomeViewControllerChannelDataSource.swift */; };
@@ -20,6 +20,7 @@
 		AE2968301CF69D4400D2782D /* PrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE29682F1CF69D4400D2782D /* PrivacyViewController.swift */; };
 		AE2968321CF69DFB00D2782D /* Privacy.html in Resources */ = {isa = PBXBuildFile; fileRef = AE2968311CF69DFB00D2782D /* Privacy.html */; };
 		AE2968341CF6AA3B00D2782D /* CustomTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2968331CF6AA3B00D2782D /* CustomTransitioning.swift */; };
+		AE7C51A41D0D6893005E6A5A /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7C51A31D0D6893005E6A5A /* SearchViewController.swift */; };
 		AEA103511D056FAD0086968B /* About.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA103501D056FAD0086968B /* About.swift */; };
 		AEA103531D0571F80086968B /* AboutUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA103521D0571F80086968B /* AboutUtil.swift */; };
 		AEAEEBD71CF81FA300E8DF08 /* VisitorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAEEBD61CF81FA300E8DF08 /* VisitorViewController.swift */; };
@@ -48,8 +49,8 @@
 		AEC47B2E1D0032E20055936D /* BorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B171D0032E20055936D /* BorderView.swift */; };
 		AEC47B2F1D0032E20055936D /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B181D0032E20055936D /* CustomTableViewCell.swift */; };
 		AEC47B301D0032E20055936D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B191D0032E20055936D /* DetailViewController.swift */; };
-		AEC47B311D0032E20055936D /* DetailViewControllerExtenion.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B1B1D0032E20055936D /* DetailViewControllerExtenion.swift */; };
-		AEC47B321D0032E20055936D /* DetailViewControllerWebViewExtenion.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B1C1D0032E20055936D /* DetailViewControllerWebViewExtenion.swift */; };
+		AEC47B311D0032E20055936D /* Extenion.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B1B1D0032E20055936D /* Extenion.swift */; };
+		AEC47B321D0032E20055936D /* WebViewExtenion.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B1C1D0032E20055936D /* WebViewExtenion.swift */; };
 		AEC47B331D0032E20055936D /* bootstrap.min.css in Resources */ = {isa = PBXBuildFile; fileRef = AEC47B1E1D0032E20055936D /* bootstrap.min.css */; };
 		AEC47B341D0032E20055936D /* content.css in Resources */ = {isa = PBXBuildFile; fileRef = AEC47B1F1D0032E20055936D /* content.css */; };
 		AEC47B351D0032E20055936D /* content_template.html in Resources */ = {isa = PBXBuildFile; fileRef = AEC47B201D0032E20055936D /* content_template.html */; };
@@ -67,6 +68,10 @@
 		AEC965A11CF5A4EF0053A88D /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC965A01CF5A4EF0053A88D /* CustomView.swift */; };
 		AEC965A51CF5AC900053A88D /* UserSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC965A41CF5AC900053A88D /* UserSettingViewController.swift */; };
 		AEC965A81CF5AFE70053A88D /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC965A71CF5AFE70053A88D /* AboutViewController.swift */; };
+		AEDECF291D0D11D100CDCE2B /* DataSourceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDECF281D0D11D100CDCE2B /* DataSourceExtension.swift */; };
+		AEDECF2B1D0D19A700CDCE2B /* CopyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDECF2A1D0D19A700CDCE2B /* CopyLabel.swift */; };
+		AEDECF4D1D0D29B200CDCE2B /* GDWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDECF4B1D0D29B200CDCE2B /* GDWebViewController.swift */; };
+		AEDECF4E1D0D29B200CDCE2B /* GDWebViewNavigationToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDECF4C1D0D29B200CDCE2B /* GDWebViewNavigationToolbar.swift */; };
 		AEEE61981CFE9CEF00C5FF08 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEE61971CFE9CEF00C5FF08 /* Comment.swift */; };
 		AEEE619A1CFE9DE900C5FF08 /* CommentUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEE61991CFE9DE900C5FF08 /* CommentUtil.swift */; };
 		AEF420B41CF8019700CFAF73 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF420B31CF8019700CFAF73 /* UIViewControllerExtension.swift */; };
@@ -80,7 +85,7 @@
 		6DC4FDC01CF0314700D25A99 /* HomeViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewControllerExtension.swift; sourceTree = "<group>"; };
 		6DC4FDC11CF0314700D25A99 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		6DC4FDC41CF0314700D25A99 /* NewBaseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewBaseTableViewCell.swift; sourceTree = "<group>"; };
-		6DC4FDC61CF0314700D25A99 /* NewslistViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewslistViewControllerExtension.swift; sourceTree = "<group>"; };
+		6DC4FDC61CF0314700D25A99 /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		6DC4FDC71CF0314700D25A99 /* NewslistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewslistViewController.swift; sourceTree = "<group>"; };
 		6DC4FDD21CF031E000D25A99 /* ChannelManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelManager.swift; sourceTree = "<group>"; };
 		6DC4FDD31CF031E000D25A99 /* HomeViewControllerChannelDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewControllerChannelDataSource.swift; sourceTree = "<group>"; };
@@ -90,6 +95,7 @@
 		AE29682F1CF69D4400D2782D /* PrivacyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyViewController.swift; sourceTree = "<group>"; };
 		AE2968311CF69DFB00D2782D /* Privacy.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Privacy.html; sourceTree = "<group>"; };
 		AE2968331CF6AA3B00D2782D /* CustomTransitioning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTransitioning.swift; sourceTree = "<group>"; };
+		AE7C51A31D0D6893005E6A5A /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		AEA103501D056FAD0086968B /* About.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = About.swift; sourceTree = "<group>"; };
 		AEA103521D0571F80086968B /* AboutUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutUtil.swift; sourceTree = "<group>"; };
 		AEAEEBD61CF81FA300E8DF08 /* VisitorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitorViewController.swift; sourceTree = "<group>"; };
@@ -120,8 +126,8 @@
 		AEC47B171D0032E20055936D /* BorderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderView.swift; sourceTree = "<group>"; };
 		AEC47B181D0032E20055936D /* CustomTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		AEC47B191D0032E20055936D /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
-		AEC47B1B1D0032E20055936D /* DetailViewControllerExtenion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewControllerExtenion.swift; sourceTree = "<group>"; };
-		AEC47B1C1D0032E20055936D /* DetailViewControllerWebViewExtenion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewControllerWebViewExtenion.swift; sourceTree = "<group>"; };
+		AEC47B1B1D0032E20055936D /* Extenion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extenion.swift; sourceTree = "<group>"; };
+		AEC47B1C1D0032E20055936D /* WebViewExtenion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewExtenion.swift; sourceTree = "<group>"; };
 		AEC47B1E1D0032E20055936D /* bootstrap.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = bootstrap.min.css; sourceTree = "<group>"; };
 		AEC47B1F1D0032E20055936D /* content.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = content.css; sourceTree = "<group>"; };
 		AEC47B201D0032E20055936D /* content_template.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = content_template.html; sourceTree = "<group>"; };
@@ -139,6 +145,10 @@
 		AEC965A01CF5A4EF0053A88D /* CustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
 		AEC965A41CF5AC900053A88D /* UserSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingViewController.swift; sourceTree = "<group>"; };
 		AEC965A71CF5AFE70053A88D /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		AEDECF281D0D11D100CDCE2B /* DataSourceExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSourceExtension.swift; sourceTree = "<group>"; };
+		AEDECF2A1D0D19A700CDCE2B /* CopyLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CopyLabel.swift; sourceTree = "<group>"; };
+		AEDECF4B1D0D29B200CDCE2B /* GDWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GDWebViewController.swift; sourceTree = "<group>"; };
+		AEDECF4C1D0D29B200CDCE2B /* GDWebViewNavigationToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GDWebViewNavigationToolbar.swift; sourceTree = "<group>"; };
 		AEEE61971CFE9CEF00C5FF08 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		AEEE61991CFE9DE900C5FF08 /* CommentUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentUtil.swift; sourceTree = "<group>"; };
 		AEF420B31CF8019700CFAF73 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
@@ -168,6 +178,7 @@
 				6DC4FDBA1CF0314700D25A99 /* HomeViewController */,
 				6DC4FDC21CF0314700D25A99 /* NewslistViewController */,
 				AEFB55181CF462B3005FC23E /* UserCenterViewController */,
+				AE7C51A21D0D687B005E6A5A /* SearchViewController */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -212,7 +223,7 @@
 		6DC4FDC51CF0314700D25A99 /* extension */ = {
 			isa = PBXGroup;
 			children = (
-				6DC4FDC61CF0314700D25A99 /* NewslistViewControllerExtension.swift */,
+				6DC4FDC61CF0314700D25A99 /* Extension.swift */,
 				AEC47B011CFFF39D0055936D /* NewListDataSource.swift */,
 			);
 			path = extension;
@@ -226,6 +237,14 @@
 				6DC4FDD41CF031E000D25A99 /* KDRearrangeableCollectionViewFlowLayout.swift */,
 			);
 			path = ChannelManager;
+			sourceTree = "<group>";
+		};
+		AE7C51A21D0D687B005E6A5A /* SearchViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AE7C51A31D0D6893005E6A5A /* SearchViewController.swift */,
+			);
+			path = SearchViewController;
 			sourceTree = "<group>";
 		};
 		AEAEEBD51CF81F9300E8DF08 /* VisitorViewController */ = {
@@ -295,6 +314,7 @@
 				AEBCAEF61CEC418200EBFC0A /* CircularButtonBarView.swift */,
 				AEBCAEF91CEC419600EBFC0A /* CustomExtensionView.swift */,
 				AEFB55141CF41407005FC23E /* Curly.swift */,
+				AEDECF2A1D0D19A700CDCE2B /* CopyLabel.swift */,
 			);
 			path = CustomClass;
 			sourceTree = "<group>";
@@ -334,6 +354,7 @@
 		AEC09CE91CE98C3A00D5A5CC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				AEDECF2C1D0D231300CDCE2B /* CustomWebView */,
 				AEBCAEF41CEC415800EBFC0A /* CustomClass */,
 				AEBCAEF11CEC3F2C00EBFC0A /* Extension */,
 				AEBCAEE51CEC25AD00EBFC0A /* orm */,
@@ -401,8 +422,9 @@
 		AEC47B1A1D0032E20055936D /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				AEC47B1B1D0032E20055936D /* DetailViewControllerExtenion.swift */,
-				AEC47B1C1D0032E20055936D /* DetailViewControllerWebViewExtenion.swift */,
+				AEC47B1B1D0032E20055936D /* Extenion.swift */,
+				AEC47B1C1D0032E20055936D /* WebViewExtenion.swift */,
+				AEDECF281D0D11D100CDCE2B /* DataSourceExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -485,6 +507,15 @@
 				AEC965A71CF5AFE70053A88D /* AboutViewController.swift */,
 			);
 			path = AboutViewController;
+			sourceTree = "<group>";
+		};
+		AEDECF2C1D0D231300CDCE2B /* CustomWebView */ = {
+			isa = PBXGroup;
+			children = (
+				AEDECF4B1D0D29B200CDCE2B /* GDWebViewController.swift */,
+				AEDECF4C1D0D29B200CDCE2B /* GDWebViewNavigationToolbar.swift */,
+			);
+			path = CustomWebView;
 			sourceTree = "<group>";
 		};
 		AEF2FCB41CF69D08003266B0 /* PrivacyViewController */ = {
@@ -671,14 +702,16 @@
 				AEC47B4A1D0037CD0055936D /* CommentButton.swift in Sources */,
 				AEC1D5BF1CED9BBD00B1F00C /* NewsUtil.swift in Sources */,
 				AEBCAEE81CEC27A900EBFC0A /* Channel.swift in Sources */,
-				6DC4FDCE1CF0314700D25A99 /* NewslistViewControllerExtension.swift in Sources */,
+				6DC4FDCE1CF0314700D25A99 /* Extension.swift in Sources */,
 				AEA103531D0571F80086968B /* AboutUtil.swift in Sources */,
 				AEC47B401D00334A0055936D /* DetailAndCommitExtension.swift in Sources */,
 				6DC4FDCC1CF0314700D25A99 /* HomeViewController.swift in Sources */,
 				AEC47B3F1D00334A0055936D /* PopAnimatedTransitioning.swift in Sources */,
+				AEDECF2B1D0D19A700CDCE2B /* CopyLabel.swift in Sources */,
 				AEBCAEF31CEC3F4300EBFC0A /* UIStoryBoard.swift in Sources */,
 				AEC47B021CFFF39D0055936D /* NewListDataSource.swift in Sources */,
 				AEC09CD41CE9776800D5A5CC /* AppDelegate.swift in Sources */,
+				AEDECF291D0D11D100CDCE2B /* DataSourceExtension.swift in Sources */,
 				AEBCAEEB1CEC2ADB00EBFC0A /* ChannelUtil.swift in Sources */,
 				AEBCAEFA1CEC419600EBFC0A /* CustomExtensionView.swift in Sources */,
 				AE2968301CF69D4400D2782D /* PrivacyViewController.swift in Sources */,
@@ -691,22 +724,25 @@
 				6DC4FDD51CF031E000D25A99 /* ChannelManager.swift in Sources */,
 				AEC47B2E1D0032E20055936D /* BorderView.swift in Sources */,
 				AEAEEBD91CF827A700E8DF08 /* User.swift in Sources */,
+				AEDECF4E1D0D29B200CDCE2B /* GDWebViewNavigationToolbar.swift in Sources */,
 				AEC47B441D0033A60055936D /* ShareExtension.swift in Sources */,
-				AEC47B311D0032E20055936D /* DetailViewControllerExtenion.swift in Sources */,
+				AEC47B311D0032E20055936D /* Extenion.swift in Sources */,
 				AEEE61981CFE9CEF00C5FF08 /* Comment.swift in Sources */,
 				AEC47B291D0032E20055936D /* CommitViewControllerExtension.swift in Sources */,
 				AEBCAEF81CEC418200EBFC0A /* CircularButtonBarView.swift in Sources */,
+				AE7C51A41D0D6893005E6A5A /* SearchViewController.swift in Sources */,
 				AEC965A11CF5A4EF0053A88D /* CustomView.swift in Sources */,
 				AEEE619A1CFE9DE900C5FF08 /* CommentUtil.swift in Sources */,
 				AEC1D5C41CEDC22700B1F00C /* DateExt.swift in Sources */,
 				AEC47B2F1D0032E20055936D /* CustomTableViewCell.swift in Sources */,
 				AEB8E9DB1CFBF53300A105C4 /* NewContentUtil.swift in Sources */,
 				AEFB551A1CF462CD005FC23E /* UserCenterViewController.swift in Sources */,
-				AEC47B321D0032E20055936D /* DetailViewControllerWebViewExtenion.swift in Sources */,
+				AEC47B321D0032E20055936D /* WebViewExtenion.swift in Sources */,
 				AEC965A81CF5AFE70053A88D /* AboutViewController.swift in Sources */,
 				AEC47B261D0032E20055936D /* CommitViewController.swift in Sources */,
 				6DC4FDD71CF031E000D25A99 /* KDRearrangeableCollectionViewFlowLayout.swift in Sources */,
 				AEC47B281D0032E20055936D /* CommentDataSource.swift in Sources */,
+				AEDECF4D1D0D29B200CDCE2B /* GDWebViewController.swift in Sources */,
 				AEA103511D056FAD0086968B /* About.swift in Sources */,
 				6DC4FDCD1CF0314700D25A99 /* NewBaseTableViewCell.swift in Sources */,
 			);

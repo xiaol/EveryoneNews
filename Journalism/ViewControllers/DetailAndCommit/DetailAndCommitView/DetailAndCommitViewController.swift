@@ -53,6 +53,7 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
         self.navigationController?.delegate = self
         
         self.containerView.panGestureRecognizer.addTarget(self, action: #selector(DetailAndCommitViewController.pan(_:)))
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DetailAndCommitViewController.getToCommitViewControllerNotification(_:)), name: CLICKTOCOMMENTVIEWCONTROLLER, object: nil)
         
         self.shreContentViewMethod(true, animate: false)
 //        
@@ -63,7 +64,10 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
 //        }
     }
     
-    
+    // 获取到了评论视图的请求了
+    func getToCommitViewControllerNotification(notification:NSNotification){
+        self.moveToViewControllerAtIndex(1, animated: true)
+    }
     
     override func viewControllersForPagerTabStrip(pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
         

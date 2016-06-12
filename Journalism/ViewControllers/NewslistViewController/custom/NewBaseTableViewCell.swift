@@ -26,28 +26,21 @@ class NewBaseTableViewCell: UITableViewCell {
         self.timeLabel.text = new.ptimes.weiboTimeDescription
         self.commentCountLabel.hidden = new.comment > 0 ? false : true
         
-        
         self.layoutMargins = UIEdgeInsetsZero
         self.separatorInset = UIEdgeInsetsZero
     }
-//    
-//    override func drawRect(rect: CGRect) {
-//        super.drawRect(rect)
-//        
-//        //// Bottom
-//        let layout = CAShapeLayer()
-//        let path = UIBezierPath()
-//        path.moveToPoint(CGPoint(x: 0, y: self.frame.size.height-0.2))
-//        path.addLineToPoint(CGPoint(x: self.frame.size.width, y: self.frame.size.height-0.2))
-//        
-//        path.lineWidth = 0.2
-//        UIColor(red: 228/255, green: 228/255, blue: 228/255, alpha: 0.7).setStroke()
-//        path.stroke()
-//        
-//        layout.path = path.CGPath
-//    }
+    
+    
+    override func drawRect(rect: CGRect) {
+        
+        let context = UIGraphicsGetCurrentContext() // 获取绘画板
+        CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
+        CGContextFillRect(context, rect)
+        //下分割线
+        CGContextSetStrokeColorWithColor(context, UIColor(red: 228/255, green:228/255, blue: 228/255, alpha: 1).CGColor)
+        CGContextStrokeRect(context, CGRectMake(0, rect.height, rect.width, 1));
+    }
 }
-
 
 class NewNormalTableViewCell: NewBaseTableViewCell {
     
@@ -129,5 +122,19 @@ class NewThreeTableViewCell: NewBaseTableViewCell {
             
             imageView3.pin_setImageFromURL(url, placeholderImage: UIImage.sharePlaceholderImage)
         }
+    }
+}
+
+
+class SearchView: UIButton {
+    
+    override func drawRect(rect: CGRect) {
+        
+        super.drawRect(rect)
+        
+        self.layer.borderColor = UIColor(red: 228/255, green: 228/255, blue: 228/255, alpha: 1).CGColor
+        self.layer.borderWidth = 1
+        self.layer.cornerRadius = rect.height/2
+        
     }
 }

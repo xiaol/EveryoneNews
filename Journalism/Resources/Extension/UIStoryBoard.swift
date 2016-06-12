@@ -97,12 +97,19 @@ extension UIStoryboard{
         return viewController
     }
     
-    // 获得详情视图
+    // 获得评论视图
     func get_CommitViewController (new:New?)-> UIViewController{
         
         let viewController = self.instantiateViewControllerWithIdentifier("CommitViewController") as! CommitViewController
         
         viewController.new = new
+        
+        return viewController
+    }
+    
+    func get_SearchViewController()-> UIViewController{
+    
+        let viewController = self.instantiateViewControllerWithIdentifier("SearchViewController")
         
         return viewController
     }

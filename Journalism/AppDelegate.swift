@@ -9,6 +9,13 @@
 import UIKit
 import SwaggerClient
 
+// MARK : NSUSer 存储信息名称
+let SDK_SHANGHAIUSERUID = "SHANGHAISDKUSERUID" // 存储的用户Id
+let SDK_SHANGHAIUSERTOKEN = "SHANGHAISDKUSERTOKEN" //  存储的用户token
+
+// MARK : 消息机制相关名称
+let CLICKTOCOMMENTVIEWCONTROLLER = "CLICKTOCOMMENTVIEWCONTROLLER" // 用户点击想要去评论视图
+
 let IS_PLUS = UIScreen.mainScreen().bounds.size == CGSize(width: 414,height: 736) || UIScreen.mainScreen().bounds.size == CGSize(width: 736,height: 414)
 
 @UIApplicationMain
@@ -19,6 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,UISplitViewControllerDeleg
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
 
+        
+        
         UIStoryboard.shareStoryBoard.get_UISplitViewController().delegate = self
         
         return true

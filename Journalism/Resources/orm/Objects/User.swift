@@ -9,10 +9,6 @@
 import UIKit
 import SwaggerClient
 
-
-let SDK_SHANGHAIUSERUID = "SHANGHAISDKUSERUID"
-let SDK_SHANGHAIUSERTOKEN = "SHANGHAISDKUSERTOKEN"
-
 class SDK_User:NSObject{
     
     class var token:String?{

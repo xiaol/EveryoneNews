@@ -25,6 +25,8 @@ class CommentUtil: NSObject {
             }
             
             guard let da = datas,let data = da.objectForKey("data") as? NSArray else{ fail?();return}
+            
+            
             let realm = try! Realm()
             try! realm.write({
                 for channel in data {

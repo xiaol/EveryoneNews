@@ -17,6 +17,9 @@ extension NewslistViewController{
         
         super.viewDidLoad()
         
+        self.tableView.sectionFooterHeight = 0
+        self.tableView.sectionHeaderHeight = 0
+        
         self.messageHandleMethod(hidden:true, anmaiter: false) // 隐藏提示视图
         
         let header = MJRefreshNormalHeader(refreshingBlock: {
@@ -39,7 +42,7 @@ extension NewslistViewController{
         self.tableView.separatorInset = UIEdgeInsetsZero
         
 //        self.TextForChangehandleMethod()
-        self.refreshNewsDataMethod(false)
+//        self.refreshNewsDataMethod(false)
     }
     
     /// 刷新新闻内容方法
@@ -66,12 +69,13 @@ extension NewslistViewController{
 
             NewsUtil.RefreshNewsListArrayData(channelId, create: true,times: "\(Int64(last.ptimes.timeIntervalSince1970*1000))", finish: { (count) in
                 
+                print("刷新完了 \(last.title)")
+                
                 self.tableView.mj_header.endRefreshing()
                 
                 self.tableView.reloadData()
                 
                 if !show {return}
-                
                 self.messageHandleMethod("一共刷新了\(count)条数据")
                 
                 }, fail: {

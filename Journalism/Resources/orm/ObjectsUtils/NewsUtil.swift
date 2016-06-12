@@ -22,9 +22,17 @@ class NewsUtil: NSObject {
         
         requestBudile.execute { (response, error) in
             
+            print("111")
+            
             guard let body = response?.body,let data = body.objectForKey("data") as? NSArray else{  fail?();return}
             
+            
+            print("222")
+            
             let realm = try! Realm()
+            
+            
+            print("333")
             
             try! realm.write({
                 
@@ -51,6 +59,9 @@ class NewsUtil: NSObject {
                     self.AnalysisPutTimeAndImageList(channel as! NSDictionary, realm: realm,ishot:hot)
                 }
             })
+            
+            
+            print("444")
             
             finish?(count: data.count)
         }
