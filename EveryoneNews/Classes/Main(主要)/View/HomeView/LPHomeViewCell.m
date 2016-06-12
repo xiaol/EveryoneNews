@@ -293,7 +293,7 @@
         self.mutipleCommentLabel.hidden = YES;
         
         self.noImageLabel.frame = self.cardFrame.noImageLabelFrame;
-             self.noImageLabel.attributedText =   [card.title attributedStringWithFont:[UIFont systemFontOfSize:self.cardFrame.homeViewFontSize] lineSpacing:lineSpacing];
+        self.noImageLabel.attributedText =   [card.title attributedStringWithFont:[UIFont systemFontOfSize:self.cardFrame.homeViewFontSize] lineSpacing:lineSpacing];
         self.noImageSourceLabel.frame = self.cardFrame.noImageSourceLabelFrame;
         self.noImageSourceLabel.text = source;
         

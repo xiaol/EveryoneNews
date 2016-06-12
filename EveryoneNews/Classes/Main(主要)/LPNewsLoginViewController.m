@@ -41,19 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @implementation LPNewsLoginViewController
 
-#pragma mark- Initialize
 
-- (instancetype)initWithCustom{
-    self = [super initWithCustom];
-    if (self) {
-        
-    }
-    return self;
-}
-
-- (void)dealloc{
-    
-}
 
 #pragma mark-  ViewLife Cycle
 
@@ -61,36 +49,66 @@ NS_ASSUME_NONNULL_BEGIN
     
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithDesignIndex:9];
-    [self backItem:@"取消"];
     
-    [self setNavTitleView:@"奇点资讯"];
+    // 分享，评论，添加按钮边距设置
+    double topViewHeight = TabBarHeight + StatusBarHeight + 0.5;
+    
+    if (iPhone6) {
+        topViewHeight = 72;
+    }
+    
+    double padding = 11;
+    if (iPhone6Plus) {
+        padding = 12;
+    }
+    
+    CGFloat fontSize = 16;
+    if (iPhone6Plus || iPhone6) {
+        fontSize = 18;
+    } else if (iPhone5) {
+        fontSize = 16;
+    }
+    NSString *strClose = @"关闭";
+    
+    CGSize size = [strClose sizeWithFont:[UIFont systemFontOfSize:fontSize] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)];
+    CGFloat returnButtonW = size.width ;
+    CGFloat returnButtonH = size.height;
+    CGFloat returnButtonX = padding;
+    CGFloat returnButtonY = (topViewHeight - returnButtonH - StatusBarHeight) / 2 + StatusBarHeight;
+    
+    
+    // 返回button
+    UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(returnButtonX, returnButtonY, returnButtonW, returnButtonH)];
+    [backBtn setTitle:@"取消" forState:UIControlStateNormal];
+    backBtn.titleLabel.font = [UIFont systemFontOfSize:fontSize];
+    [backBtn setTitleColor:[UIColor colorFromHexString:LPColor1] forState:UIControlStateNormal];
+    backBtn.enlargedEdge = 15;
+    [backBtn addTarget:self action:@selector(backBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:backBtn];
+    
+    // 分割线
+    UILabel *seperatorLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, topViewHeight - 0.5, ScreenWidth, 0.5)];
+    seperatorLabel.backgroundColor = [UIColor colorFromHexString:@"#dddddd"];
+    [self.view addSubview:seperatorLabel];
+    
+    
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, 40)];
+    titleLabel.text = @"奇点资讯";
+    titleLabel.textColor = [UIColor colorFromHexString:LPColor7];
+    titleLabel.font = [UIFont  boldSystemFontOfSize:LPFont8];
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    titleLabel.centerX = self.view.centerX;
+    titleLabel.centerY = backBtn.centerY;
+    [self.view addSubview:titleLabel];
+ 
     [self addContent];
 }
 
-- (void)viewWillAppear:(BOOL)animated{
-    
-    [super viewWillAppear:animated];
+- (void)backBtnClick {
+   [self dismissViewControllerAnimated:YES completion:^{
+       self.statusWindow.hidden = NO;
+   }];
 }
-
-
-- (void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated{
-    [super viewDidDisappear:animated];
-}
-
-- (void)didReceiveMemoryWarning{
-    [super didReceiveMemoryWarning];
-    if ([self.view window] == nil && [self isViewLoaded]) {
-    }
-}
-
 
 
 #pragma mark- private methods
@@ -195,18 +213,14 @@ NS_ASSUME_NONNULL_BEGIN
     }];
 }
 
+
+#pragma mark - 设置
 - (void)gotoSettingView{
     
-    LPNewsSettingViewController *settingVC = [[LPNewsSettingViewController alloc] initWithPresent];
+    LPNewsSettingViewController *settingVC = [[LPNewsSettingViewController alloc] init];
     [self.navigationController pushViewController:settingVC animated:YES];
 }
 
-#pragma mark- BackItemMethod
-
-- (void)doBackAction:(nullable id)sender{
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
-}
 
 - (void)doWeixinLogin{
     

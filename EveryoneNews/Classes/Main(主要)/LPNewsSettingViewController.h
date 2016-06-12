@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface LPNewsSettingViewController : LPNewsBaseViewController
+@interface LPNewsSettingViewController : LPBaseViewController
 
 @end
 NS_ASSUME_NONNULL_END

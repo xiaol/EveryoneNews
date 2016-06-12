@@ -18,7 +18,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self prefersStatusBarHidden];
     
    // [noteCenter addObserver:self selector:@selector(<#selector#>) name:<#(nullable NSString *)#> object:<#(nullable id)#>];
 }
@@ -28,11 +27,6 @@
 //        nav.popRecognizer.enabled = !isBuiltInPop;
 //        nav.interactivePopGestureRecognizer.enabled = isBuiltInPop;
 //}
-
-- (BOOL)prefersStatusBarHidden
-{
-    return YES;
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -59,5 +53,9 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+- (UIStatusBarStyle)preferredStatusBarStyle  {
+    return UIStatusBarStyleDefault;
+}
 
 @end

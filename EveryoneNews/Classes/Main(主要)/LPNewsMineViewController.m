@@ -15,7 +15,6 @@
 #import "MainNavigationController.h"
 #import "LPNewsNavigationController.h"
 #import "LPNewsMyInfoView.h"
-#import "LPNewsMyCollectionView.h"
 #import "LPSpringLayout.h"
 #import "LPDigViewController.h"
 #import "GenieTransition.h"
@@ -105,30 +104,6 @@ static NSString * const kCellIdentify = @"JoyMineViewCell";
 }
 
 
-//- (void)viewWillAppear:(BOOL)animated{
-//    
-//    [super viewWillAppear:animated];
-//    [[self navigationController] setNavigationBarHidden:YES];
-//}
-//
-//
-//- (void)viewWillDisappear:(BOOL)animated{
-//    [super viewWillDisappear:animated];
-//}
-//
-//- (void)viewDidAppear:(BOOL)animated{
-//    [super viewDidAppear:animated];
-//}
-//
-//- (void)viewDidDisappear:(BOOL)animated{
-//    [super viewDidDisappear:animated];
-//}
-//
-//- (void)didReceiveMemoryWarning{
-//    [super didReceiveMemoryWarning];
-//    if ([self.view window] == nil && [self isViewLoaded]) {
-//    }
-//}
 
 #pragma mark- private methods
 
@@ -266,9 +241,10 @@ static NSString * const kCellIdentify = @"JoyMineViewCell";
 
 #pragma mark- BackItemMethod
 
-- (void)doBackAction
-{
-    [self dismissViewControllerAnimated:YES completion:nil];
+- (void)doBackAction {
+    [self dismissViewControllerAnimated:YES completion:^{
+        self.statusWindow.hidden = NO;
+    }];
 }
 
 #pragma mark- Getters and Setters
@@ -395,7 +371,6 @@ static NSString * const kCellIdentify = @"JoyMineViewCell";
     }else if (indexPath.row ==1){
         
         UIViewController *colView = [[UIStoryboard shareCollectionBoard] getCollectionViewController];
-//        LPNewsMyCollectionView *colView = [[LPNewsMyCollectionView alloc] init];
         [self.navigationController pushViewController:colView animated:YES];
         
         

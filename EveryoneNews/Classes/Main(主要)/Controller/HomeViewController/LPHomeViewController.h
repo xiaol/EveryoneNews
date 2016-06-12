@@ -22,7 +22,7 @@
 
 @class LPPagingViewPage;
 @class CardFrame;
-@interface LPHomeViewController : LPBaseViewController 
+@interface LPHomeViewController:LPBaseViewController
 
 // 首页登录按钮
 @property (nonatomic,strong) UIButton *loginBtn;

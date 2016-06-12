@@ -25,6 +25,7 @@
 #import "SSKeychain.h"
 #import "AppDelegate.h"
 #import "LPHomeChannelItemController.h"
+#import "MainNavigationController.h"
 
 NSString * const firstChannelName = @"奇点";
 NSString * const menuCellIdentifier = @"menuCollectionViewCell";
@@ -41,7 +42,7 @@ const static CGFloat cellPadding = 15;
 #pragma mark - viewWillAppear
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    self.navigationController.navigationItem.hidesBackButton = YES;
+//    self.navigationController.navigationItem.hidesBackButton = YES;
     
 }
 
@@ -285,19 +286,27 @@ const static CGFloat cellPadding = 15;
     return currentDeviceUUIDStr;
 }
 
-
+#pragma mark - 个人中心
 - (void)toUserCenter{
     
     Account *account = [AccountTool account];
-    if (account == nil) {// 用户未登录直接显示未登录图标
-        LPNewsLoginViewController *loginView = [[LPNewsLoginViewController alloc] initWithCustom];
-        LPNewsNavigationController *loginNavVc = [[LPNewsNavigationController alloc] initWithRootViewControllerInOtherPopStyle:loginView];
-        [self presentViewController:loginNavVc animated:YES completion:nil];
-    } else {    //用户已登录
-        LPNewsMineViewController *mineView = [[LPNewsMineViewController alloc] initWithCustom];
-        LPNewsNavigationController *mineNavVc = [[LPNewsNavigationController alloc] initWithRootViewControllerInOtherPopStyle:mineView];
-        [self presentViewController:mineNavVc animated:YES completion:nil];
     
+    if (account == nil) {// 用户未登录直接显示未登录图标
+        
+        LPNewsLoginViewController *mineViewController = [[LPNewsLoginViewController alloc] init];
+        MainNavigationController *mainNavigationController = [[MainNavigationController alloc] initWithRootViewController:mineViewController];
+        [self presentViewController:mainNavigationController animated:YES completion:^{
+            self.statusWindow.hidden = YES;
+        }];
+        
+    } else {    //用户已登录
+        
+        LPNewsMineViewController *mineViewController = [[LPNewsMineViewController alloc] init];
+        mineViewController.statusWindow = self.statusWindow;
+        MainNavigationController *mainNavigationController = [[MainNavigationController alloc] initWithRootViewController:mineViewController];
+        [self presentViewController:mainNavigationController animated:YES completion:^{
+            self.statusWindow.hidden = YES;
+        }];
     }
 }
 

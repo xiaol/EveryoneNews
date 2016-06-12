@@ -2,13 +2,14 @@
 //  Card.m
 //  EveryoneNews
 //
-//  Created by dongdan on 16/3/23.
+//  Created by dongdan on 16/6/7.
 //  Copyright © 2016年 apple. All rights reserved.
 //
 
 #import "Card.h"
 #import "CardImage.h"
 #import "CardRelate.h"
+#import "Comment.h"
 
 @implementation Card
 

@@ -181,6 +181,7 @@
         }
         
         composeView.backgroundColor = [UIColor whiteColor];
+        
         UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(commentDidComposed)];
         [composeView addGestureRecognizer:tapGestureRecognizer];
         
@@ -296,12 +297,12 @@
     
     
 }
-#pragma mark - 查看评论
-- (void)fulltextCommentDidClick {
-    if ([self.delegate respondsToSelector:@selector(pushCommentViewControllerWithDetailBottomView:)]) {
-        [self.delegate pushCommentViewControllerWithDetailBottomView:self];
-    }
-}
+//#pragma mark - 查看评论
+//- (void)fulltextCommentDidClick {
+//    if ([self.delegate respondsToSelector:@selector(pushCommentViewControllerWithDetailBottomView:)]) {
+//        [self.delegate pushCommentViewControllerWithDetailBottomView:self];
+//    }
+//}
 
 #pragma mark - 发表评论
 - (void)commentDidComposed {

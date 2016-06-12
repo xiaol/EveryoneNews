@@ -67,15 +67,11 @@
         [self.contentView addSubview:commentLabel];
         self.commentLabel = commentLabel;
         
-        
-        
         UILabel *upCountLabel = [[UILabel alloc] init];
         upCountLabel.font = [UIFont systemFontOfSize:LPFont5];
         upCountLabel.textColor = [UIColor colorFromHexString:@"#4d4f51"];
         [self.contentView addSubview:upCountLabel];
         self.upCountLabel = upCountLabel;
-        
-        
         
         UIButton *upButton = [[UIButton alloc] init];
         [self.contentView addSubview:upButton];

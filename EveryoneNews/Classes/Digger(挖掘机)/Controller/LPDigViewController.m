@@ -101,6 +101,14 @@ NSString * const HotwordsURL = @"http://api.deeporiginalx.com/news/baijia/fetchE
     
 }
 
+- (BOOL)prefersStatusBarHidden {
+    return YES;
+}
+
+- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
+    return UIStatusBarAnimationFade;
+}
+
 - (void)albumCreatedNote {
 //    [self performFetch];
     [self.collectionView setContentOffset:CGPointZero animated:YES];

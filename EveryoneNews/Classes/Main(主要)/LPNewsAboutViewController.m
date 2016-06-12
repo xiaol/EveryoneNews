@@ -21,64 +21,73 @@
 
 @implementation LPNewsAboutViewController
 
-#pragma mark- Initialize
-
-- (instancetype)init{
-    self = [super init];
-    if (self) {
-        
-    }
-    return self;
-}
-
-- (void)dealloc{
-    
-}
 
 #pragma mark-  ViewLife Cycle
 
 - (void)viewDidLoad{
     [super viewDidLoad];
-    [self setNavTitleView:@"关于"];
-    
-    [self backImageItem];
+//    [self setNavTitleView:@"关于"];
+//    
+//    [self backImageItem];
     self.view.backgroundColor = [UIColor colorWithDesignIndex:9];
+    self.view.backgroundColor = [UIColor colorWithDesignIndex:9];
+    // 导航栏
+    double topViewHeight = TabBarHeight + StatusBarHeight + 0.5;
+    double padding = 15;
+    
+    double returnButtonWidth = 13;
+    double returnButtonHeight = 22;
+    
+    if (iPhone6Plus) {
+        returnButtonWidth = 12;
+        returnButtonHeight = 21;
+    }
+    if (iPhone6) {
+        topViewHeight = 72;
+    }
+    double returnButtonPaddingTop = (topViewHeight - returnButtonHeight + StatusBarHeight) / 2;
+    UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, topViewHeight)];
+    topView.backgroundColor = [UIColor colorFromHexString:@"#ffffff" alpha:0.0f];
+    [self.view addSubview:topView];
+    
+    // 返回button
+    UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(padding, returnButtonPaddingTop, returnButtonWidth, returnButtonHeight)];
+    [backButton setBackgroundImage:[UIImage imageNamed:@"消息中心返回"] forState:UIControlStateNormal];
+    backButton.enlargedEdge = 15;
+    [backButton addTarget:self action:@selector(topViewBackBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [topView addSubview:backButton];
+    
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, 40)];
+    titleLabel.text = @"关于";
+    titleLabel.textColor = [UIColor colorFromHexString:LPColor7];
+    titleLabel.font = [UIFont  boldSystemFontOfSize:LPFont8];
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    titleLabel.centerX = topView.centerX;
+    titleLabel.centerY = backButton.centerY;
+    [topView addSubview:titleLabel];
+    
+    UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(topView.frame), ScreenWidth , 0.5)];
+    seperatorView.backgroundColor = [UIColor colorFromHexString:LPColor10];
+    [self.view addSubview:seperatorView];
+    
     [self addAboutWebView];
 
 }
 
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    
+- (void)topViewBackBtnClick {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 
-- (void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    
-
-}
-
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-
-}
-
-- (void)viewDidDisappear:(BOOL)animated{
-    [super viewDidDisappear:animated];
-   
-}
-
-- (void)didReceiveMemoryWarning{
-    [super didReceiveMemoryWarning];
-    if ([self.view window] == nil && [self isViewLoaded]) {
-    }
-}
 
 #pragma mark- private methods
 
 -(void)addAboutWebView{
     
+    double topViewHeight = TabBarHeight + StatusBarHeight + 0.5;
+    if (iPhone6) {
+        topViewHeight = 72;
+    }
     iconImage = [[UIImageView alloc] init];
     [iconImage setImage:[UIImage imageNamed:@"LP_icon"]];
     [self.view addSubview:iconImage];
@@ -86,7 +95,7 @@
     [iconImage mas_updateConstraints:^(MASConstraintMaker *make) {
         __strong __typeof(weakSelf)strongSelf = weakSelf;
         make.centerX.equalTo(strongSelf.view);
-        make.top.equalTo(strongSelf.view).with.offset(74);
+        make.top.equalTo(strongSelf.view).with.offset(topViewHeight + 74);
     }];
     
     appNameLabel = [[UILabel alloc] init];

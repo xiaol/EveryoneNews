@@ -19,9 +19,10 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 
-@interface LPNewsLoginViewController : LPNewsBaseViewController
+@interface LPNewsLoginViewController : LPBaseViewController
 
 @property (nonatomic, strong)id<LPNewsLoginViewControllerDelegate> delegate;
+@property (nonatomic, strong) UIWindow *statusWindow;
 
 @end
 NS_ASSUME_NONNULL_END

@@ -612,7 +612,12 @@ singleton_m(AccountTool);
 //            return nil;
 //        }
 //    }
-    return account;
+    
+    if ([[[userDefaults objectForKey:@"utype"] stringValue] isEqualToString:@"3"] || [[[userDefaults objectForKey:@"utype"] stringValue] isEqualToString:@"4"]) {
+        return account;
+    } else {
+        return nil;
+    }
 }
 
 + (void)saveAccount:(Account *)account{
@@ -626,8 +631,13 @@ singleton_m(AccountTool);
 //    [ShareSDK cancelAuthWithType:account.platformType.intValue];
 
     //2.删除本地信息文件
-    NSFileManager *fileManager=[NSFileManager defaultManager];
-    [fileManager removeItemAtPath:kAccountSavePath error:nil];
+//    NSFileManager *fileManager=[NSFileManager defaultManager];
+//    [fileManager removeItemAtPath:kAccountSavePath error:nil];
+    
+    [userDefaults setObject:@(2) forKey:@"utype"];
+    [userDefaults synchronize];
+    
+    
 }
 
 @end

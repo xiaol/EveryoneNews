@@ -8,6 +8,6 @@
 
 #import "LPNewsBaseViewController.h"
 
-@interface LPNewsMyInfoView : LPNewsBaseViewController
+@interface LPNewsMyInfoView : LPBaseViewController
 
 @end

@@ -11,79 +11,65 @@
 
 @implementation LPNewsMyInfoView
 
-#pragma mark- Initialize
 
-- (instancetype)init{
-    self = [super init];
-    if (self) {
-        
-    }
-    return self;
-}
 
-- (void)dealloc{
-    
-}
-
-#pragma mark-  ViewLife Cycle
+#pragma mark - ViewDidLoad
 
 - (void)viewDidLoad{
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithDesignIndex:9];
-    [self setNavTitleView:@"消息"];
-    [self backImageItem];
+    // 导航栏
+    double topViewHeight = TabBarHeight + StatusBarHeight + 0.5;
+    double padding = 15;
     
-    CGRect lineLayerRect = CGRectMake(0.f, (self.navigationController.navigationBar.size.height-1.f), kApplecationScreenWidth, 0.5f);
-    CALayer *lineLayer = [CALayer layer];
-    lineLayer.frame = lineLayerRect;
-    lineLayer.backgroundColor = [[UIColor colorWithDesignIndex:5] CGColor];
-    [self.navigationController.navigationBar.layer addSublayer:lineLayer];
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithDesignIndex:9];
-    self.navigationController.navigationBar.translucent = NO;
+    double returnButtonWidth = 13;
+    double returnButtonHeight = 22;
     
-    [self addContentView];
-}
-
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-}
-
-
-- (void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated{
-    [super viewDidDisappear:animated];
-}
-
-- (void)didReceiveMemoryWarning{
-    [super didReceiveMemoryWarning];
-    if ([self.view window] == nil && [self isViewLoaded]) {
+    if (iPhone6Plus) {
+        returnButtonWidth = 12;
+        returnButtonHeight = 21;
     }
+    if (iPhone6) {
+        topViewHeight = 72;
+    }
+    double returnButtonPaddingTop = (topViewHeight - returnButtonHeight + StatusBarHeight) / 2;
+    UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, topViewHeight)];
+    topView.backgroundColor = [UIColor colorFromHexString:@"#ffffff" alpha:0.0f];
+    [self.view addSubview:topView];
+
+    // 返回button
+    UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(padding, returnButtonPaddingTop, returnButtonWidth, returnButtonHeight)];
+    [backButton setBackgroundImage:[UIImage imageNamed:@"消息中心返回"] forState:UIControlStateNormal];
+    backButton.enlargedEdge = 15;
+    [backButton addTarget:self action:@selector(topViewBackBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [topView addSubview:backButton];
+    
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, 40)];
+    titleLabel.text = @"消息";
+    titleLabel.textColor = [UIColor colorFromHexString:LPColor7];
+    titleLabel.font = [UIFont  boldSystemFontOfSize:LPFont8];
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    titleLabel.centerX = topView.centerX;
+    titleLabel.centerY = backButton.centerY;
+    [topView addSubview:titleLabel];
+    
+    UILabel *noticeLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, ScreenHeight / 2, ScreenWidth, 40)];
+    noticeLabel.text = @"暂无消息内容";
+    noticeLabel.font = [UIFont systemFontOfSize:16];
+    noticeLabel.textColor = [UIColor colorWithDesignIndex:5];
+    noticeLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:noticeLabel];
+    
+    UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(topView.frame), ScreenWidth , 0.5)];
+    seperatorView.backgroundColor = [UIColor colorFromHexString:LPColor10];
+    [self.view addSubview:seperatorView];
+    
 }
 
-#pragma mark- private methods
--(void)addContentView{
-    
-    UILabel *noticeLabel = [[UILabel alloc] init];
-    noticeLabel.text = @"暂时无消息内容";
-    noticeLabel.font = [UIFont systemFontOfSize:32.f/fontSizePxToSystemMultiple];
-    noticeLabel.textColor = [UIColor colorWithDesignIndex:5];
-    [self.view addSubview:noticeLabel];
-    __weak __typeof(self)weakSelf = self;
-    [noticeLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        __strong __typeof(weakSelf)strongSelf = weakSelf;
-        make.centerX.equalTo(strongSelf.view);
-        make.top.equalTo(strongSelf.view).with.offset(220);
-        
-    }];
-    
+- (void)topViewBackBtnClick {
+   [self.navigationController popViewControllerAnimated:YES];
 }
+
 
 
 

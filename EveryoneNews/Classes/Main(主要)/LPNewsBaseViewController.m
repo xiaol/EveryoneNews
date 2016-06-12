@@ -646,12 +646,6 @@ static const NSInteger kNavBarTag = 10000;
 
 #pragma mark- StatusBarConfig
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000 // iOS 7.0 supported
-- (UIStatusBarStyle)preferredStatusBarStyle{
-    return UIStatusBarStyleDefault;
-}
-#endif
-
 
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 90000
 

@@ -101,6 +101,9 @@
     item2.channelName = @"社会";
     item2.channelIsSelected = @"1";
     
+    
+    
+    
     item3.channelID = @"7";
     item3.channelName = @"财经";
     item3.channelIsSelected = @"1";
@@ -198,12 +201,12 @@
     item25.channelIsSelected = @"0";
 
     item26.channelID = @"35";
-    item26.channelName = @"APP";
-    item26.channelIsSelected = @"0";
+    item26.channelName = @"点集";
+    item26.channelIsSelected = @"1";
     
     item27.channelID = @"29";
     item27.channelName = @"外媒";
-    item27.channelIsSelected = @"0";
+    item27.channelIsSelected = @"1";
     
     
     item28.channelID = @"30";
@@ -223,6 +226,11 @@
     [channelItems addObject:item1];
     [channelItems addObject:item2];
     [channelItems addObject:item3];
+    
+    [channelItems addObject:item27];
+    [channelItems addObject:item26];
+    
+    
     [channelItems addObject:item4];
     [channelItems addObject:item5];
     [channelItems addObject:item6];
@@ -245,8 +253,6 @@
     [channelItems addObject:item23];
     [channelItems addObject:item24];
     [channelItems addObject:item25];
-    [channelItems addObject:item26];
-    [channelItems addObject:item27];
     [channelItems addObject:item28];
     [channelItems addObject:item29];
     [channelItems addObject:item30];
@@ -288,7 +294,7 @@
                                 @"影视",@"30",
                                 @"奇闻",@"31",
                                 @"萌宠",@"32",
-                                @"APP",@"35",
+                                @"点集",@"35",
                               
                                 
                                 nil];

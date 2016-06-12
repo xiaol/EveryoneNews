@@ -57,6 +57,7 @@
 #import "LPDetailTipView.h"
 #import "Card+Create.h"
 #import <SafariServices/SafariServices.h>
+#import "Comment+Create.h"
 
 static const NSString * privateContext;
 
@@ -128,6 +129,8 @@ const static CGFloat changeFontSizeViewH = 150;
 // 重新加载提示信息
 @property (nonatomic, strong) UIView *reloadPage;
 
+@property (nonatomic, assign, getter=isComposeComment) BOOL composeComment;
+
 @end
 
 @implementation LPDetailViewController
@@ -144,7 +147,7 @@ const static CGFloat changeFontSizeViewH = 150;
     [self collectedButtonStatusChange];
     
     [noteCenter addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    [noteCenter addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    [noteCenter addObserver:self  selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
 }
 
@@ -232,36 +235,41 @@ const static CGFloat changeFontSizeViewH = 150;
 //当键盘出现或改变时调用
 - (void)keyboardWillShow:(NSNotification *)note
 {
-    //获取键盘的高度
-    NSDictionary *userInfo = [note userInfo];
-    CGFloat duration = [userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-    NSValue *value = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
-    CGRect keyboardRect = [value CGRectValue];
-    CGFloat height = keyboardRect.size.height;
-    CGRect toFrame = CGRectMake(0, ScreenHeight - self.textViewBg.height - height, ScreenWidth, self.textViewBg.height);
-    [UIView animateWithDuration:duration animations:^{
-        self.textViewBg.frame = toFrame;
-        self.composeCommentBackgroundView.alpha = 1.0f;
-    } completion:^(BOOL finished) {
-        self.composeCommentBackgroundView.hidden = NO;
-    }];
+    if (self.isComposeComment == YES) {
+        //获取键盘的高度
+        NSDictionary *userInfo = [note userInfo];
+        CGFloat duration = [userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+        NSValue *value = [userInfo objectForKey:UIKeyboardFrameEndUserInfoKey];
+        CGRect keyboardRect = [value CGRectValue];
+        CGFloat height = keyboardRect.size.height;
+        CGRect toFrame = CGRectMake(0, ScreenHeight - self.textViewBg.height - height, ScreenWidth, self.textViewBg.height);
+        [UIView animateWithDuration:duration animations:^{
+            self.textViewBg.frame = toFrame;
+            self.composeCommentBackgroundView.alpha = 1.0f;
+        } completion:^(BOOL finished) {
+            self.composeCommentBackgroundView.hidden = NO;
+        }];
+    }
+
     
 }
 
 - (void)keyboardWillHide:(NSNotification *)note {
-    //获取键盘的高度
-    NSDictionary *userInfo = [note userInfo];
-    CGFloat duration = [userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
-    CGRect toFrame = CGRectMake(0, ScreenHeight, ScreenWidth, self.textViewBg.height);
-    [UIView animateWithDuration:duration animations:^{
-        self.textViewBg.frame = toFrame;
-        self.composeCommentBackgroundView.alpha = 0.0f;
-    } completion:^(BOOL finished) {
-        self.composeCommentBackgroundView.hidden = YES;
-        self.composeButton.backgroundColor = [UIColor colorFromHexString:@"#eaeaea"];
-        [self.composeButton setTitleColor:[UIColor colorFromHexString:LPColor4] forState:UIControlStateNormal];
-        self.composeButton.layer.borderColor  =  [UIColor colorFromHexString:LPColor4].CGColor;
-    }];
+    if (self.isComposeComment == YES) {
+        //获取键盘的高度
+        NSDictionary *userInfo = [note userInfo];
+        CGFloat duration = [userInfo[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
+        CGRect toFrame = CGRectMake(0, ScreenHeight, ScreenWidth, self.textViewBg.height);
+        [UIView animateWithDuration:duration animations:^{
+            self.textViewBg.frame = toFrame;
+            self.composeCommentBackgroundView.alpha = 0.0f;
+        } completion:^(BOOL finished) {
+            self.composeCommentBackgroundView.hidden = YES;
+            self.composeButton.backgroundColor = [UIColor colorFromHexString:@"#eaeaea"];
+            [self.composeButton setTitleColor:[UIColor colorFromHexString:LPColor4] forState:UIControlStateNormal];
+            self.composeButton.layer.borderColor  =  [UIColor colorFromHexString:LPColor4].CGColor;
+        }];
+    }
 }
 
 
@@ -1795,6 +1803,7 @@ const static CGFloat changeFontSizeViewH = 150;
 #pragma mark - Bottom View Delegate
 - (void)didComposeCommentWithDetailBottomView:(LPDetailBottomView *)detailBottomView {
 
+    self.composeComment = YES;
     self.composeCommentBackgroundView.hidden = NO;
     [self.textView becomeFirstResponder];
 }
@@ -1843,7 +1852,7 @@ const static CGFloat changeFontSizeViewH = 150;
     Account *account = [AccountTool account];
     // 1.1 创建comment对象
     LPComment *comment = [[LPComment alloc] init];
-    comment.srcText = self.textView.text;
+    comment.srcText = [self.textView.text stringByTrimmingWhitespaceAndNewline];
     comment.userIcon = account.userIcon;
     comment.userName = account.userName;
     comment.createTime = [NSString stringFromNowDate];
@@ -1891,6 +1900,20 @@ const static CGFloat changeFontSizeViewH = 150;
                 self.composeButton.backgroundColor = [UIColor colorFromHexString:LPColor4];
                 self.composeButton.layer.borderColor  =  [UIColor colorFromHexString:LPColor4].CGColor;
                 [self.composeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                
+                self.composeComment = NO;
+                
+                // 存储评论内容
+                NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+                dict[@"commentID"] = comment.commentId;
+                dict[@"upFlag"] = @"0";
+                dict[@"title"] = self.card.title;
+                dict[@"nid"] = [NSString stringWithFormat:@"%@", self.card.nid];
+                dict[@"commend"] = @"0";
+                dict[@"commentTime"] = comment.createTime;
+                dict[@"comment"] = comment.srcText;
+                [Comment createCommentWithDict:dict card:self.card];
+                
             }
             
         } failure:^(NSError *error) {
@@ -2294,18 +2317,13 @@ const static CGFloat changeFontSizeViewH = 150;
 - (void)relateCell:(LPRelateCell *)cell didClickURL:(NSString *)url {
     
     if([[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0) {
-       
         SFSafariViewController *safariVC = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:url]];
         safariVC.delegate = self;
-        [self presentViewController:safariVC animated:YES completion:^{
-          
-        }];
-        
+        [self presentViewController:safariVC animated:NO completion:nil];
     } else {
       [LPPressTool loadWebViewWithURL:url viewController:self];
     }
     
-  
 }
 
 #pragma mark- 外链返回

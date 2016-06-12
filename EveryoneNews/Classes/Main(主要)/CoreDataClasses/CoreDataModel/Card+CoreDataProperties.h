@@ -2,7 +2,7 @@
 //  Card+CoreDataProperties.h
 //  EveryoneNews
 //
-//  Created by dongdan on 16/5/26.
+//  Created by dongdan on 16/6/7.
 //  Copyright © 2016年 apple. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -22,14 +22,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSNumber *isCollected;
 @property (nullable, nonatomic, retain) NSNumber *isRead;
 @property (nullable, nonatomic, retain) NSString *newId;
+@property (nullable, nonatomic, retain) NSNumber *nid;
 @property (nullable, nonatomic, retain) NSString *sourceSiteName;
 @property (nullable, nonatomic, retain) NSString *sourceSiteURL;
 @property (nullable, nonatomic, retain) NSString *title;
 @property (nullable, nonatomic, retain) NSNumber *type;
 @property (nullable, nonatomic, retain) NSString *updateTime;
-@property (nullable, nonatomic, retain) NSNumber *nid;
 @property (nullable, nonatomic, retain) NSSet<CardImage *> *cardImages;
 @property (nullable, nonatomic, retain) NSSet<CardRelate *> *cardRelates;
+@property (nullable, nonatomic, retain) NSSet<Comment *> *comments;
 
 @end
 
@@ -44,6 +45,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeCardRelatesObject:(CardRelate *)value;
 - (void)addCardRelates:(NSSet<CardRelate *> *)values;
 - (void)removeCardRelates:(NSSet<CardRelate *> *)values;
+
+- (void)addCommentsObject:(Comment *)value;
+- (void)removeCommentsObject:(Comment *)value;
+- (void)addComments:(NSSet<Comment *> *)values;
+- (void)removeComments:(NSSet<Comment *> *)values;
 
 @end
 

@@ -29,92 +29,101 @@ static NSString * const kCellIdentify = @"JoySettingCell";
 @interface LPNewsSettingViewController ()<UITableViewDelegate,UITableViewDataSource,UIAlertViewDelegate>{
     UIImageView *clearCacheView;
 }
-@property (nonatomic, strong) UITableView* tableView;
-@property (nonatomic, strong, nullable) NSArray *dataSource;
+
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) NSArray *settingArray;
+
+//@property (nonatomic, strong, nullable) NSArray *dataSource;
 @property (nonatomic, strong)UIWindow * statusWindow;
+
 @end
 
 @implementation LPNewsSettingViewController
 
-#pragma mark- Initialize
-
-- (instancetype)initWithCustom{
-    self = [super initWithCustom];
-    if (self) {
-                
+#pragma mark - 懒加载
+- (NSArray *)settingArray {
+    if (_settingArray == nil) {
+        _settingArray = [[NSArray alloc] init];
     }
-    return self;
-}
-
-- (void)dealloc{
-  
+    return _settingArray;
 }
 
 
-#pragma mark-  ViewLife Cycle
 
+#pragma mark - ViewDidLoad
 - (void)viewDidLoad{
     [super viewDidLoad];
-    [self setNavTitleView:@"设置"];
-    [self backImageItem];
+
+    self.view.backgroundColor = [UIColor colorWithDesignIndex:9];
+    // 导航栏
+    double topViewHeight = TabBarHeight + StatusBarHeight + 0.5;
+    double padding = 15;
     
-    CGRect lineLayerRect = CGRectMake(0.f, (self.navigationController.navigationBar.size.height-1.f), kApplecationScreenWidth, 1.f);
-    CALayer *lineLayer = [CALayer layer];
-    lineLayer.frame = lineLayerRect;
-    lineLayer.backgroundColor = [[UIColor colorWithDesignIndex:5] CGColor];
-    [self.navigationController.navigationBar.layer addSublayer:lineLayer];
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithDesignIndex:9];
-    self.navigationController.navigationBar.translucent = NO;
+    double returnButtonWidth = 13;
+    double returnButtonHeight = 22;
     
-    [self.view addSubview:self.tableView];
-    __weak typeof(self)weakSelf = self;
-    [self.tableView mas_updateConstraints:^(MASConstraintMaker *make) {
-        __strong __typeof(weakSelf)strongSelf = weakSelf;
-        make.top.equalTo(strongSelf.view.mas_top).with.offset(7);
-        if (iPhone6Plus || iPhone5) {
-            make.top.equalTo(strongSelf.view.mas_top).with.offset(0);
-        }
-        
-        make.left.equalTo(strongSelf.view);
-        make.size.mas_equalTo(CGSizeMake(strongSelf.view.frame.size.width, strongSelf.view.frame.size.height-kCustomNavigationBarHeight));
-    }];
-}
-
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    self.navigationController.navigationItem.hidesBackButton = YES;
- 
-}
-
-- (void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated{
-    [super viewDidDisappear:animated];
-    
-}
-
-- (void)didReceiveMemoryWarning{
-    [super didReceiveMemoryWarning];
-    if ([self.view window] == nil && [self isViewLoaded]) {
+    if (iPhone6Plus) {
+        returnButtonWidth = 12;
+        returnButtonHeight = 21;
     }
+    if (iPhone6) {
+        topViewHeight = 72;
+    }
+    double returnButtonPaddingTop = (topViewHeight - returnButtonHeight + StatusBarHeight) / 2;
+    UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, topViewHeight)];
+    topView.backgroundColor = [UIColor colorFromHexString:@"#ffffff" alpha:0.0f];
+    [self.view addSubview:topView];
+    
+    // 返回button
+    UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(padding, returnButtonPaddingTop, returnButtonWidth, returnButtonHeight)];
+    [backButton setBackgroundImage:[UIImage imageNamed:@"消息中心返回"] forState:UIControlStateNormal];
+    backButton.enlargedEdge = 15;
+    [backButton addTarget:self action:@selector(topViewBackBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [topView addSubview:backButton];
+    
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, 40)];
+    titleLabel.text = @"设置";
+    titleLabel.textColor = [UIColor colorFromHexString:LPColor7];
+    titleLabel.font = [UIFont  boldSystemFontOfSize:LPFont8];
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    titleLabel.centerX = topView.centerX;
+    titleLabel.centerY = backButton.centerY;
+    [topView addSubview:titleLabel];
+    
+    
+    UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(topView.frame), ScreenWidth , 0.5)];
+    seperatorView.backgroundColor = [UIColor colorFromHexString:LPColor10];
+    [self.view addSubview:seperatorView];
+    
+    CGFloat tableViewY = CGRectGetMaxY(topView.frame) + 7;
+    CGFloat tableViewH = ScreenHeight - tableViewY;
+    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, tableViewY, ScreenWidth, tableViewH)];
+    tableView.backgroundColor = [UIColor colorWithDesignIndex:9];
+    [tableView registerClass:[LPNewsSettingCell class] forCellReuseIdentifier:kCellIdentify];
+    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    tableView.delegate = self;
+    tableView.dataSource = self;
+    [self.view addSubview:tableView];
+    self.tableView = tableView;
+    
+    NSArray *array = @[@[@{@"FontSize":@"字体大小"},@{@"InfoPushSetting":@"推送设置"}],@[@{@"ClearCache":@"清理缓存"}],@[@{@"About":@"关于"},@{@"Privacy":@"隐私政策"},@{@"AppStoreComment":@"去App Store评分"}],@[@{@"SignOut":@"退出登录"}]];
+    self.settingArray = array;
+    
+}
+
+- (void)topViewBackBtnClick {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 
-#pragma mark- UITableViewDataSource
+#pragma mark - UITableViewDataSource
 
--(NSInteger)numberOfSectionsInTableView:(nonnull UITableView *)tableView
-{
-    return self.dataSource.count;
+- (NSInteger)numberOfSectionsInTableView:(nonnull UITableView *)tableView {
+    return self.settingArray.count;
 }
 - (NSInteger)tableView:(nonnull UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (self.dataSource.count > section) {
-        NSArray *array = self.dataSource[section];
+    if (self.settingArray.count > section) {
+        NSArray *array = self.settingArray[section];
         return array.count;
     }
     return 0;
@@ -125,8 +134,8 @@ static NSString * const kCellIdentify = @"JoySettingCell";
     if(!cell){
         cell = [[LPNewsSettingCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kCellIdentify];
     }
-    if (indexPath.section < self.dataSource.count) {
-        NSArray *array = self.dataSource[indexPath.section];
+    if (indexPath.section < self.settingArray.count) {
+        NSArray *array = self.settingArray[indexPath.section];
         if (indexPath.row < array.count) {
             NSDictionary *dict = [array objectAtIndex:indexPath.row];
             [cell setModel:dict IndexPath:indexPath];
@@ -230,10 +239,6 @@ static NSString * const kCellIdentify = @"JoySettingCell";
 }
 
 
-#pragma mark- Event reponse
-
-#pragma mark- Public methods
-
 #pragma mark- private methods
 
 - (void)clearSuccStatusBarNoticeAction{
@@ -291,37 +296,6 @@ static NSString * const kCellIdentify = @"JoySettingCell";
     [self.statusWindow makeKeyAndVisible];
     
 }
-
-
-#pragma mark- Getters and Setters
-
-- (UITableView *)tableView{
-    if (!_tableView) {
-        UITableView *tableView = [[UITableView alloc] init];
-        _tableView = tableView;
-        _tableView.scrollEnabled = NO;
-        _tableView.dataSource = self;
-        _tableView.delegate = self;
-//        _tableView.rowHeight = 51.f;
-        UIView *backgroundView = [[UIView alloc] init];
-        backgroundView.backgroundColor = [UIColor colorWithDesignIndex:9];
-        _tableView.backgroundView = backgroundView;
-        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        [_tableView registerClass:[LPNewsSettingCell class] forCellReuseIdentifier:kCellIdentify];
-    }
-
-    return _tableView;
-}
-
-- (NSArray *__nullable)dataSource{
-    if (!_dataSource) {
-        NSArray *array = @[@[@{@"FontSize":@"字体大小"},@{@"InfoPushSetting":@"推送设置"}],@[@{@"ClearCache":@"清理缓存"}],@[@{@"About":@"关于"},@{@"Privacy":@"隐私政策"},@{@"AppStoreComment":@"去App Store评分"}],@[@{@"SignOut":@"退出登录"}]];
-        _dataSource = array;
-    }
-    return _dataSource;
-}
-
-
 
 @end
 

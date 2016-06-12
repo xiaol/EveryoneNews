@@ -591,11 +591,7 @@ static const NSString *contentFrameKey  = @"contentFrameKey";
 
 #pragma mark- StatusBarConfig
 
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 70000 // iOS 7.0 supported
-- (UIStatusBarStyle)preferredStatusBarStyle{
-    return UIStatusBarStyleDefault;
-}
-#endif
+
 
 
 #pragma mark- init OtherPopStyle

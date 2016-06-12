@@ -2,14 +2,14 @@
 //  Card.h
 //  EveryoneNews
 //
-//  Created by dongdan on 16/3/23.
+//  Created by dongdan on 16/6/7.
 //  Copyright © 2016年 apple. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class CardImage, CardRelate;
+@class CardImage, CardRelate, Comment;
 
 NS_ASSUME_NONNULL_BEGIN
 

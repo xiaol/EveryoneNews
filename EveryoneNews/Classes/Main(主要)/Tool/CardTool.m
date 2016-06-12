@@ -29,6 +29,7 @@
     NSMutableDictionary *paramDict = [NSMutableDictionary dictionary];
     paramDict[@"cid"] = channelID;
     paramDict[@"tcr"] = param.startTime;
+    paramDict[@"tmk"] = @"0";
     
     if (param.type == HomeCardsFetchTypeNew) { // 下拉刷新, 直接发送网络请求, 成功后存入数据库
         
