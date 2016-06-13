@@ -11,7 +11,7 @@ import Alamofire
 
 public class ChannelAPI: APIBase {
     /**
-     新闻-频道列表
+     频道列表
      
      - parameter s: (query) 否(默认 1) 上线状态，0 或 1 (optional, default to 1)
      - parameter completion: completion handler to receive the data and the error objects
@@ -24,7 +24,7 @@ public class ChannelAPI: APIBase {
 
 
     /**
-     新闻-频道列表
+     频道列表
      - GET /ns/chs
      - 从服务器获取 频道的列表
      - examples: [{contentType=application/json, example="{}"}]

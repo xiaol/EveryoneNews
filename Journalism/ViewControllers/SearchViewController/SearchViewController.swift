@@ -42,6 +42,9 @@ class SearchViewControllerDismissedAnimation:NSObject,UIViewControllerAnimatedTr
             
             UIView.animateWithDuration(self.transitionDuration(transitionContext), delay: 0.3, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
                 
+                
+                search.textFiled.resignFirstResponder()
+                
                 search.searchInputViewRightConstraint.constant = 12
                 
                 search.searchViewTopSpaceConstraint.constant = IS_VERTICAL ? rect.origin.y-20 : rect.origin.y
@@ -131,8 +134,6 @@ class SearchViewController: UIViewController,UIViewControllerTransitioningDelega
     }
     
     @IBAction func dismissAction(sender: AnyObject) {
-        
-        textFiled.resignFirstResponder()
         
         self.dismissViewControllerAnimated(true, completion: nil)
     }

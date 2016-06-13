@@ -14,6 +14,8 @@ class NewsUtil: NSObject {
     
     class func RefreshNewsListArrayData(channelId:Int,create:Bool=false,times:String = "\(Int64(NSDate().timeIntervalSince1970*1000))",finish:((count:Int)->Void)?=nil,fail:(()->Void)?=nil){
         
+        print(times,"------",channelId)
+        
         guard let token = SDK_User.token else{ fail?();return }
         
         let requestBudile = NewAPI.nsFedRGetWithRequestBuilder(cid: "\(channelId)", tcr: times, tmk: "0")
@@ -22,22 +24,12 @@ class NewsUtil: NSObject {
         
         requestBudile.execute { (response, error) in
             
-            print("111")
-            
-            guard let body = response?.body,let data = body.objectForKey("data") as? NSArray else{  fail?();return}
-            
-            
-            print("222")
-            
             let realm = try! Realm()
             
+            let hot = channelId == 1 ? 1 : 0
             
-            print("333")
-            
+            // 删除标记当前频道的标记对象
             try! realm.write({
-                
-                let hot = channelId == 1 ? 1 : 0
-                
                 if hot == 1 {
                     
                     realm.delete(realm.objects(New).filter("isidentification = 1 AND ishotnew = 1"))
@@ -45,25 +37,47 @@ class NewsUtil: NSObject {
                     
                     realm.delete(realm.objects(New).filter("isidentification = 1 AND channel = \(channelId)"))
                 }
-                
-                if create && data.count > 0{
+            })
+            
+            guard let body = response?.body,let data = body.objectForKey("data") as? NSArray else{  fail?();return} // 加载失败
+            
+            // 获取所有数据
+            var newsResults = realm.objects(New)
+            
+            // 获取当前频道所操作的数据个数，并且
+            try! realm.write({
+                if hot == 1 {
                     
-                    let date = NSDate(timeIntervalSince1970: ((times as NSString).doubleValue-1)/1000)
-                    let nid = hot == 1 ? -100 : -channelId
-                    realm.create(New.self, value: ["nid":nid,"channel": channelId,"isidentification":1,"ishotnew":hot,"ptimes":date], update: true)
+                    newsResults = newsResults.filter("ishotnew = 1 AND isdelete = 0")
+                }else{
+                    
+                    newsResults = newsResults.filter("channel = %@ AND isdelete = 0 AND ishotnew = 0",channelId)
                 }
-                
+            })
+            
+            // 记录个数
+            let beforeCount = newsResults.count
+            
+            try! realm.write({
                 for channel in data {
-                    
                     realm.create(New.self, value: channel, update: true)
                     self.AnalysisPutTimeAndImageList(channel as! NSDictionary, realm: realm,ishot:hot)
                 }
             })
             
+            // 新增完成的数目
+            let currenOunt = newsResults.count - beforeCount
             
-            print("444")
+            // 决定是否完成新增
+            if create && currenOunt > 0{
+                let date = NSDate(timeIntervalSince1970: ((times as NSString).doubleValue+1)/1000)
+                let nid = hot == 1 ? -100 : -channelId
+                try! realm.write({
+                    realm.create(New.self, value: ["nid":nid,"channel": channelId,"isidentification":1,"ishotnew":hot,"ptimes":date], update: true)
+                })
+            }
             
-            finish?(count: data.count)
+            finish?(count: currenOunt) // 记录个数
         }
     }
     

@@ -11,7 +11,7 @@ import Alamofire
 
 public class UserAPI: APIBase {
     /**
-     游客用户登录
+     游客登录
      
      - parameter userLoginInfo: (body) 用户注册信息 
      - parameter completion: completion handler to receive the data and the error objects
@@ -24,7 +24,7 @@ public class UserAPI: APIBase {
 
 
     /**
-     游客用户登录
+     游客登录
      - POST /au/lin/g
      - 向服务器登陆一个游客
      - examples: [{contentType=application/json, example="{}"}]
@@ -46,7 +46,7 @@ public class UserAPI: APIBase {
     }
 
     /**
-     游客用户注册
+     游客注册
      
      - parameter userRegisterInfo: (body) 用户注册信息 
      - parameter completion: completion handler to receive the data and the error objects
@@ -59,7 +59,7 @@ public class UserAPI: APIBase {
 
 
     /**
-     游客用户注册
+     游客注册
      - POST /au/sin/g
      - 想服务器注册一个用于基本浏览的游客用户
      - examples: [{contentType=application/json, example="{}"}]

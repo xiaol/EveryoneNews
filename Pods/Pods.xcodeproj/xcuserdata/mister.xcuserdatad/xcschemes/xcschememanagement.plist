@@ -59,6 +59,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SnapKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>SwaggerClient.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -82,7 +87,22 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>22393314BD84357CB62E2F569D7F4AA5</key>
+		<key>0E185AB11B0CB6D986E88F96452D7360</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>12AC4637A8BC965D990E0100483C2ED0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>2B9ACC3AA59EB98ABD0088B969403094</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3684779DBCDF56BBA2C1B8E9E9EAC632</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -92,12 +112,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>4CD573100DBB73BA5AC94B02EF00B058</key>
+		<key>453F392D0AF46FE37AFF2AA8BD51E122</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>61E9D96B3F0E7043FEE4133A4E80AC15</key>
+		<key>5830AC6B33990EC650756CC360216CD2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -112,12 +132,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7CAF0F09ADC6153E1437350C60E91D2A</key>
+		<key>7E0454C04EB25992C5FDAD03DB1527D9</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7E0454C04EB25992C5FDAD03DB1527D9</key>
+		<key>89E716D5A4B98B71E7C72E333830DC31</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9297FD58BED4AF493490DD70D29F811B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -127,27 +152,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9BAAEFDF08DC556EC63B6D949F6C06DA</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>9CC67AB776870E529B2D35E1A6A5B906</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>ACF7B19ACE5D342F8BCB8F6722CCE105</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>CDB08C07D47BCDB5C433A0880B4EE4C4</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>FD5F256418B37CAD01A959FF14B499AA</key>
+		<key>F65B5FC465EEAE8D06DA022115DFDF17</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -2,7 +2,7 @@
     "swagger": "2.0",
     "info": {
         "version": "v2",
-        "title": "奇点资讯",
+        "title": "Journalism",
         "description": "这是奇点资讯的第二版本，第二版本主要加入了一些用户权限的认证，使不是注册用户的用户不可以访问我们的很多信息，频道信息，评论，等等。\n\n 其次增加了很多接口某些字段的支持，包括市区列表获取，包括新闻详情赞的支持等等方面"
     },
     "host": "bdp.deeporiginalx.com",
@@ -17,7 +17,7 @@
         "/au/sin/g": {
             "post": {
                 "tags": ["user"],
-                "summary": "游客用户注册",
+                "summary": "游客注册",
                 "description": "想服务器注册一个用于基本浏览的游客用户",
                 "parameters": [{
                     "name": "userRegisterInfo",
@@ -44,7 +44,7 @@
         "/au/lin/g": {
             "post": {
                 "tags": ["user"],
-                "summary": "游客用户登录",
+                "summary": "游客登录",
                 "description": "向服务器登陆一个游客",
                 "parameters": [{
                     "name": "userLoginInfo",
@@ -98,7 +98,7 @@
         "/ns/chs": {
             "get": {
                 "tags": ["channel"],
-                "summary": "新闻-频道列表",
+                "summary": "频道列表",
                 "description": "从服务器获取 频道的列表",
                 "parameters": [{
                     "name": "s",
@@ -124,7 +124,7 @@
         "/ns/fed/r": {
             "get": {
                 "tags": ["new"],
-                "summary": "新闻-列表页刷新",
+                "summary": "新闻列表页刷新",
                 "description": "从服务器获取 新闻-列表页刷新",
                 "parameters": [{
                     "name": "Authorization",
@@ -182,7 +182,7 @@
         "/ns/fed/l": {
             "get": {
                 "tags": ["new"],
-                "summary": "新闻-列表页加载",
+                "summary": "新闻列表页加载",
                 "description": "从服务器获取 新闻-列表页加载",
                 "parameters": [{
                     "name": "Authorization",
@@ -240,7 +240,7 @@
         "/ns/con": {
             "get": {
                 "tags": ["new"],
-                "summary": "新闻-新闻详情页",
+                "summary": "新闻详情页",
                 "description": "从服务器获取 新闻详情页",
                 "parameters": [{
                     "name": "nid",
@@ -266,7 +266,7 @@
         "/ns/coms/c": {
             "get": {
                 "tags": ["comment"],
-                "summary": "新闻普通评论列表",
+                "summary": "普通评论列表",
                 "description": "从服务器获取 新闻普通评论列表",
                 "parameters": [{
                     "name": "did",
@@ -283,14 +283,14 @@
                 }, {
                     "name": "p",
                     "in": "query",
-                    "description": "新闻ID",
+                    "description": "请求的页数",
                     "required": false,
                     "default": "1",
                     "type": "string"
                 }, {
                     "name": "c",
                     "in": "query",
-                    "description": "新闻ID",
+                    "description": "每页的个数",
                     "required": false,
                     "default": "20",
                     "type": "string"
@@ -311,7 +311,7 @@
         "/ns/coms/h": {
             "get": {
                 "tags": ["comment"],
-                "summary": "新闻热点评论列表",
+                "summary": "热点评论列表",
                 "description": "从服务器获取 新闻热点评论列表",
                 "parameters": [{
                     "name": "did",
@@ -356,7 +356,7 @@
         "/ns/asc": {
             "get": {
                 "tags": ["comment"],
-                "summary": "新闻相关搜索列表",
+                "summary": "相关新闻列表",
                 "description": "从服务器获取 新闻相关搜索列表",
                 "parameters": [{
                     "name": "nid",
@@ -391,7 +391,308 @@
                     }
                 }
             }
-        }
+        },
+        "/ns/coms/up": {
+            "post": {
+                "tags": ["comment"],
+                "summary": "评论点赞",
+                "description": "对某一个新闻评论进行点赞",
+                "parameters": [{
+                    "name": "cid",
+                    "in": "query",
+                    "description": "评论ID",
+                    "required": true,
+                    "type": "string"
+                }, {
+                    "name": "uid",
+                    "in": "query",
+                    "description": "用户ID",
+                    "required": false,
+                    "default": "1",
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "完成请求",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "description": "服务器返回请求处理代码",
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "description": "更新后的赞数",
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["comment"],
+                "summary": "取消评论点赞",
+                "description": "对某一个新闻评论取消点赞",
+                "parameters": [{
+                    "name": "cid",
+                    "in": "query",
+                    "description": "评论ID",
+                    "required": true,
+                    "type": "string"
+                }, {
+                    "name": "uid",
+                    "in": "query",
+                    "description": "用户ID",
+                    "required": false,
+                    "default": "1",
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "完成请求",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "description": "服务器返回请求处理代码",
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "description": "更新后的赞数",
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ns/cols": {
+            "post": {
+                "tags": ["new"],
+                "summary": "收藏新闻",
+                "description": "对某一个新闻评论进行收藏",
+                "parameters": [{
+                    "name": "nid",
+                    "in": "query",
+                    "description": "新闻ID",
+                    "required": true,
+                    "type": "string"
+                }, {
+                    "name": "uid",
+                    "in": "query",
+                    "description": "用户ID",
+                    "required": false,
+                    "default": "1",
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "完成请求",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "description": "服务器返回请求处理代码",
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "description": "更新后的收藏数",
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["new"],
+                "summary": "取消收藏新闻",
+                "description": "对某一个新闻评论取消收藏",
+                "parameters": [{
+                    "name": "nid",
+                    "in": "query",
+                    "description": "新闻ID",
+                    "required": true,
+                    "type": "string"
+                }, {
+                    "name": "uid",
+                    "in": "query",
+                    "description": "用户ID",
+                    "required": false,
+                    "default": "1",
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "完成请求",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "description": "服务器返回请求处理代码",
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "description": "更新后的收藏数",
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ns/cocs": {
+            "post": {
+                "tags": ["new"],
+                "summary": "关心新闻",
+                "description": "对某一个新闻表示关心",
+                "parameters": [{
+                    "name": "nid",
+                    "in": "query",
+                    "description": "新闻ID",
+                    "required": true,
+                    "type": "string"
+                }, {
+                    "name": "uid",
+                    "in": "query",
+                    "description": "用户ID",
+                    "required": false,
+                    "default": "1",
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "完成请求",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "description": "服务器返回请求处理代码",
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "description": "更新后的关心数",
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["new"],
+                "summary": "取消关心新闻",
+                "description": "对某一个新闻评论取消收藏",
+                "parameters": [{
+                    "name": "nid",
+                    "in": "query",
+                    "description": "新闻ID",
+                    "required": true,
+                    "type": "string"
+                }, {
+                    "name": "uid",
+                    "in": "query",
+                    "description": "用户ID",
+                    "required": false,
+                    "default": "1",
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "完成请求",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "description": "服务器返回请求处理代码",
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "description": "更新后的关心数",
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ns/au/cols": {
+            "get": {
+                "tags": ["new"],
+                "summary": "新闻收藏列表",
+                "description": "获取用户收藏列表",
+                "parameters": [{
+                    "name": "uid",
+                    "in": "query",
+                    "description": "注册用户ID，提供该ID会在响应中设置该用户的点赞标记 upflag",
+                    "required": false,
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "完成请求",
+                        "schema": {
+                            "type": "object",
+                            "items": {
+                                "$ref": "#/definitions/news"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/ns/coms": {
+            "post": {
+                "tags": ["comment"],
+                "summary": "评论新闻",
+                "description": "评论一个新闻",
+                "parameters": [{
+                    "name": "userRegisterInfo",
+                    "in": "body",
+                    "description": "评论对象",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/definitions/commectCreate"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "完成请求",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "code": {
+                                    "description": "服务器返回请求处理代码",
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                                "data": {
+                                    "description": "已创建的评论ID",
+                                    "type": "integer",
+                                    "format": "int32"
+                                },
+                            }
+                        }
+                    }
+                }
+            }
+        },
     },
     "definitions": {
         "visitorsLogin": {
@@ -510,7 +811,6 @@
                 }
             }
         },
-
         "visitorsUser": {
             "type": "object",
             "properties": {
@@ -912,6 +1212,43 @@
                     }
                 }
             }
-        }
+        },
+        "commectCreate": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "description": "评论内容",
+                    "type": "string"
+                },
+                "commend": {
+                    "description": "点赞的数目",
+                    "type": "integer",
+                    "format": "int32"
+                },
+
+                "ctime": {
+                    "description": "创建评论时间",
+                    "type": "string"
+                },
+                "uid": {
+                    "description": "用户ID",
+                    "type": "integer",
+                    "format": "int32"
+                },
+
+                "uname": {
+                    "description": "用户名称",
+                    "type": "string"
+                },
+                "avatar": {
+                    "description": "用户头像",
+                    "type": "string"
+                },
+                "docid": {
+                    "description": "评论链接",
+                    "type": "string"
+                }
+            }
+        },
     }
 }

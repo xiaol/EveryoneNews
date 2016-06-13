@@ -12,9 +12,9 @@ import SwaggerClient
 
 class AboutUtil: NSObject {
     
-    class func getAboutListArrayData(new:New?,finish:((count:Int)->Void)?=nil,fail:(()->Void)?=nil){
+    class func getAboutListArrayData(new:New?,p: String?=nil, c: String?="90",finish:((count:Int)->Void)?=nil,fail:(()->Void)?=nil){
         guard let new = new else{ fail?(); return}
-        CommentAPI.nsAscGet(nid: "\(new.nid)") { (datas, error) in
+        CommentAPI.nsAscGet(nid: "\(new.nid)", p: p, c: c) { (datas, error) in
             guard let da = datas,let data = da.objectForKey("data") as? NSArray else{ fail?();return}
             let realm = try! Realm()
             try! realm.write({

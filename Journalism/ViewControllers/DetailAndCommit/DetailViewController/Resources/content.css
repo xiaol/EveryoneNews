@@ -37,10 +37,6 @@ body {
     line-height: inherit
 }
 
-h1, h2, h3, h4, h5, h6 {
-    font-weight: 400;
-    font-size: 16px
-}
 * {
     margin: 0;
     padding: 0
@@ -52,19 +48,6 @@ a {
 
 img {
     height: auto!important
-}
-@media(min-device-width:375px) and (max-device-width:667px) and (-webkit-min-device-pixel-ratio:2) {
-    .mm_appmsg .rich_media_inner, .mm_appmsg .rich_media_meta, .mm_appmsg .discuss_list, .mm_appmsg .rich_media_extra, .mm_appmsg .title_tips .tips {
-        font-size: 17px
-    }
-    .mm_appmsg .meta_original_tag {
-        font-size: 15px
-    }
-}
-@media(min-device-width:414px) and (max-device-width:736px) and (-webkit-min-device-pixel-ratio:3) {
-    .mm_appmsg .rich_media_title {
-        font-size: 25px
-    }
 }
 
 HR{padding: 0 18 0 18}

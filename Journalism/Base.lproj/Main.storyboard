@@ -468,7 +468,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="uhj-sM-hf7">
+                            <collectionView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="uhj-sM-hf7">
                                 <rect key="frame" x="285" y="285" width="30" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="30" id="dry-qd-25l"/>
@@ -557,11 +557,20 @@
                                                             <action selector="touchCommentAndPost:" destination="eDb-XL-6O2" eventType="touchUpInside" id="ctW-Xr-Ivs"/>
                                                         </connections>
                                                     </button>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="26" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7W2-eg-lXI">
+                                                        <rect key="frame" x="31" y="24" width="13" height="12"/>
+                                                        <color key="backgroundColor" red="0.0" green="0.56862745100000001" blue="0.98039215690000003" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                                        <color key="textColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstItem="z1e-ro-yh0" firstAttribute="centerY" secondItem="1sG-vS-B11" secondAttribute="centerY" id="Old-vX-lDj"/>
                                                     <constraint firstItem="z1e-ro-yh0" firstAttribute="centerX" secondItem="1sG-vS-B11" secondAttribute="centerX" id="SPO-M2-Ewn"/>
+                                                    <constraint firstItem="7W2-eg-lXI" firstAttribute="leading" secondItem="z1e-ro-yh0" secondAttribute="leading" constant="-2" id="l5x-hO-da7"/>
+                                                    <constraint firstItem="7W2-eg-lXI" firstAttribute="bottom" secondItem="z1e-ro-yh0" secondAttribute="bottom" constant="2" id="tCm-hc-qbO"/>
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fal-L9-0EQ">
@@ -996,10 +1005,10 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cay-U6-Tux">
-                                        <rect key="frame" x="0.0" y="486" width="600" height="114"/>
+                                        <rect key="frame" x="0.0" y="440" width="600" height="160"/>
                                         <subviews>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="014-ea-xvd">
-                                                <rect key="frame" x="15" y="18" width="570" height="36"/>
+                                                <rect key="frame" x="15" y="18" width="570" height="82"/>
                                                 <color key="backgroundColor" red="0.98039215686274506" green="0.98039215686274506" blue="0.98039215686274506" alpha="1" colorSpace="calibratedRGB"/>
                                                 <color key="textColor" red="0.10196078431372549" green="0.10196078431372549" blue="0.10196078431372549" alpha="1" colorSpace="calibratedRGB"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
@@ -1009,7 +1018,7 @@
                                                 </connections>
                                             </textView>
                                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3IC-dd-vhJ" customClass="CommentButton" customModule="Journalism" customModuleProvider="target">
-                                                <rect key="frame" x="526" y="71" width="59" height="29"/>
+                                                <rect key="frame" x="526" y="117" width="59" height="29"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="59" id="I4s-i8-Ah7"/>
                                                     <constraint firstAttribute="height" constant="29" id="XuP-NK-6rQ"/>
@@ -1022,14 +1031,14 @@
                                             <constraint firstAttribute="trailing" secondItem="014-ea-xvd" secondAttribute="trailing" constant="15" id="5Th-GS-w6j"/>
                                             <constraint firstItem="014-ea-xvd" firstAttribute="top" secondItem="cay-U6-Tux" secondAttribute="top" constant="18" id="726-91-VNv"/>
                                             <constraint firstItem="3IC-dd-vhJ" firstAttribute="top" secondItem="014-ea-xvd" secondAttribute="bottom" constant="17" id="GgJ-XO-4Kn"/>
-                                            <constraint firstAttribute="height" constant="114" id="NtG-Zq-hYF"/>
+                                            <constraint firstAttribute="height" constant="160" id="NtG-Zq-hYF"/>
                                             <constraint firstItem="014-ea-xvd" firstAttribute="leading" secondItem="cay-U6-Tux" secondAttribute="leading" constant="15" id="V3P-RH-Zgq"/>
                                             <constraint firstAttribute="trailing" secondItem="3IC-dd-vhJ" secondAttribute="trailing" constant="15" id="tqS-wF-8Hl"/>
                                             <constraint firstAttribute="bottom" secondItem="3IC-dd-vhJ" secondAttribute="bottom" constant="14" id="xid-1Y-APJ"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="htL-38-CYB">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="486"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="440"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <gestureRecognizers/>
                                         <connections>
@@ -1082,6 +1091,7 @@
                     <connections>
                         <outlet property="CommentAndPostButton" destination="z1e-ro-yh0" id="aaq-cr-XfD"/>
                         <outlet property="OcclusionView" destination="yBD-ku-BdF" id="9ae-oe-SRd"/>
+                        <outlet property="commentsLabel" destination="7W2-eg-lXI" id="Qya-o1-cf8"/>
                         <outlet property="containerView" destination="2aT-YS-g37" id="zCt-gW-dEB"/>
                         <outlet property="dissButton" destination="tzX-T6-9As" id="z9o-wT-6Cy"/>
                         <outlet property="inputBackView" destination="leX-ol-ceD" id="BAW-Nf-5mM"/>
@@ -1089,7 +1099,6 @@
                         <outlet property="inputContentView" destination="cay-U6-Tux" id="rYu-W0-mlb"/>
                         <outlet property="inputContentViewBottomConstraint" destination="N0h-ki-LAv" id="rjZ-1r-etz"/>
                         <outlet property="inputTextView" destination="014-ea-xvd" id="mb8-Mz-uwR"/>
-                        <outlet property="inputViewHeightConstraint" destination="NtG-Zq-hYF" id="6Bt-tT-StZ"/>
                         <outlet property="moreButton" destination="I1m-ux-N2J" id="0ik-g6-hFl"/>
                         <outlet property="shareBackView" destination="7ch-1N-yAB" id="HFB-C2-Kys"/>
                         <outlet property="shareContentView" destination="Qr9-KY-pO1" id="Xcs-8c-52k"/>
@@ -1241,9 +1250,9 @@
                                                     <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="主要是没钱了，嫁个老公不争气" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pgt-4A-fyq" customClass="CopyLabel" customModule="Journalism" customModuleProvider="target">
+                                                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="主要是没钱了，嫁个老公不争气" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pgt-4A-fyq" customClass="CopyLabel" customModule="Journalism" customModuleProvider="target">
                                                     <rect key="frame" x="71" y="73" width="252" height="22"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -1300,8 +1309,8 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstAttribute="bottom" secondItem="SZn-jI-vpl" secondAttribute="bottom" constant="6" id="EmS-PR-IdU"/>
                                                 <constraint firstItem="SZn-jI-vpl" firstAttribute="leading" secondItem="ahE-ht-z7R" secondAttribute="leading" constant="18" id="e9T-JU-D0z"/>
-                                                <constraint firstItem="SZn-jI-vpl" firstAttribute="top" secondItem="ahE-ht-z7R" secondAttribute="top" id="nA9-FX-OpW"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1413,13 +1422,13 @@
                                                         <constraint firstAttribute="width" constant="81" id="kbX-tP-pkA"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="主要是没钱了，嫁个老公不争气" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S99-9J-7hC" customClass="CopyLabel" customModule="Journalism" customModuleProvider="target">
+                                                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="主要是没钱了，嫁个老公不争气" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S99-9J-7hC" customClass="CopyLabel" customModule="Journalism" customModuleProvider="target">
                                                     <rect key="frame" x="31" y="68" width="552" height="22"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="腾讯科技" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I8h-Rm-Aza">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="腾讯科技" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I8h-Rm-Aza">
                                                     <rect key="frame" x="31" y="100" width="40" height="12"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                     <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
@@ -1643,9 +1652,9 @@
                                                     <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="主要是没钱了，嫁个老公不争气" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vh4-r3-e3E" customClass="CopyLabel" customModule="Journalism" customModuleProvider="target">
+                                                <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="主要是没钱了，嫁个老公不争气" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vh4-r3-e3E" customClass="CopyLabel" customModule="Journalism" customModuleProvider="target">
                                                     <rect key="frame" x="71" y="73" width="252" height="22"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
@@ -1703,8 +1712,8 @@
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="bbV-Zu-XRD" firstAttribute="top" secondItem="XNn-kT-Tmh" secondAttribute="top" id="YLD-ZX-VdO"/>
                                                 <constraint firstItem="bbV-Zu-XRD" firstAttribute="leading" secondItem="XNn-kT-Tmh" secondAttribute="leading" constant="18" id="go6-76-Sx1"/>
+                                                <constraint firstAttribute="bottom" secondItem="bbV-Zu-XRD" secondAttribute="bottom" constant="6" id="wYR-pJ-bD0"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

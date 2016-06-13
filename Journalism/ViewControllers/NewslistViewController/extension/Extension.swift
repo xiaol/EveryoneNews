@@ -22,15 +22,12 @@ extension NewslistViewController{
         
         self.messageHandleMethod(hidden:true, anmaiter: false) // 隐藏提示视图
         
-        let header = MJRefreshNormalHeader(refreshingBlock: {
+        let header = NewRefreshHeaderView(refreshingBlock: {
             
             self.refreshNewsDataMethod()
         })
         
-        header.lastUpdatedTimeLabel.hidden = true
-        header.stateLabel.font = UIFont.preferredFontForTextStyle(UIFontTextStyleSubheadline)
-        
-        let footer = MJRefreshAutoNormalFooter {
+        let footer = NewRefreshFooterView {
             
             self.loadNewsDataMethod()
         }
@@ -38,11 +35,7 @@ extension NewslistViewController{
         self.tableView.mj_header = header
         self.tableView.mj_footer = footer
         
-        self.tableView.layoutMargins = UIEdgeInsetsZero
-        self.tableView.separatorInset = UIEdgeInsetsZero
-        
-//        self.TextForChangehandleMethod()
-//        self.refreshNewsDataMethod(false)
+        self.refreshNewsDataMethod(false)
     }
     
     /// 刷新新闻内容方法
@@ -67,22 +60,32 @@ extension NewslistViewController{
         
         if let last = self.newsResults.first{
 
-            NewsUtil.RefreshNewsListArrayData(channelId, create: true,times: "\(Int64(last.ptimes.timeIntervalSince1970*1000))", finish: { (count) in
-                
-                print("刷新完了 \(last.title)")
+            var time = last.ptimes
+            
+            if last.ptimes.hoursBeforeDate(NSDate()) >= 12{
+            
+                time = NSDate().dateByAddingHours(-12)
+            }
+            
+            NewsUtil.RefreshNewsListArrayData(channelId, create: true,times: "\(Int64(time.timeIntervalSince1970*1000))", finish: { (count) in
                 
                 self.tableView.mj_header.endRefreshing()
                 
                 self.tableView.reloadData()
                 
                 if !show {return}
-                self.messageHandleMethod("一共刷新了\(count)条数据")
+                
+                let message = count <= 0 ? "没有加载到新的数据" : "一共刷新了\(count)条数据"
+                
+                self.messageHandleMethod(message)
                 
                 }, fail: {
                     self.tableView.mj_header.endRefreshing()
                     
+                    self.tableView.reloadData()
+                    
                     if !show {return}
-                    self.messageHandleMethod("没有加载到数据")
+                    self.messageHandleMethod("没有加载到新的数据")
             })
         }
     }
@@ -105,8 +108,10 @@ extension NewslistViewController{
         }
     }
     
-    
+    // 消息提示视图处理方法
     private func messageHandleMethod(message:String = "",hidden:Bool = false,anmaiter:Bool = true){
+        
+        if self.timer.valid { self.timer.invalidate() }
         
         self.messageLabel.text = message
         
@@ -118,37 +123,21 @@ extension NewslistViewController{
             self.messageLabel.transform = hidden ? hiddent : show
         }
         
-        if hidden {return}
+        if hidden {return} // 如果隐藏就不需要再次隐藏了
         
-        let delayTime = dispatch_time(DISPATCH_TIME_NOW, Int64(1.5 * Double(NSEC_PER_SEC)))
-        
-        dispatch_after(delayTime, dispatch_get_main_queue(), {
-            
-          UIView.animateWithDuration(0.5, animations: { 
-            
-            self.messageLabel.transform = hiddent
-          })
-        })
+        self.timer = NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: #selector(NewslistViewController.hiddenTips(_:)), userInfo: nil, repeats: false)
     }
     
-
-    
-//    // 当系统的文字发生变化的时候出发的方法
-//    private func TextForChangehandleMethod(){
-//        
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(HomeViewController.preferredContentSizeChanged(_:)), name: UIContentSizeCategoryDidChangeNotification, object: nil)
-//    }
-//    
-//    // 刷新当前页面
-//    func preferredContentSizeChanged(notifi:NSNotification){
-//        
-//        self.tableView.beginUpdates()
-//        
-//        self.tableView.reloadData()
-//        
-//        self.tableView.endUpdates()
-//        
-//    }
+    // 隐藏提示视图
+    func hiddenTips(timer:NSTimer){
+        
+        let hiddent = CGAffineTransformTranslate(self.messageLabel.transform, 0, -self.messageLabel.frame.height) // 隐藏加载视图
+        
+        UIView.animateWithDuration(0.5, animations: {
+            
+            self.messageLabel.transform = hiddent
+        })
+    }
 }
 
 

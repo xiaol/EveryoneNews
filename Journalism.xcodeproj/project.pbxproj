@@ -44,8 +44,8 @@
 		AEC47B021CFFF39D0055936D /* NewListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B011CFFF39D0055936D /* NewListDataSource.swift */; };
 		AEC47B261D0032E20055936D /* CommitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B081D0032E20055936D /* CommitViewController.swift */; };
 		AEC47B271D0032E20055936D /* CommetnstableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B0A1D0032E20055936D /* CommetnstableViewCell.swift */; };
-		AEC47B281D0032E20055936D /* CommentDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B0C1D0032E20055936D /* CommentDataSource.swift */; };
-		AEC47B291D0032E20055936D /* CommitViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B0D1D0032E20055936D /* CommitViewControllerExtension.swift */; };
+		AEC47B281D0032E20055936D /* CommDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B0C1D0032E20055936D /* CommDataSource.swift */; };
+		AEC47B291D0032E20055936D /* CommExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B0D1D0032E20055936D /* CommExtension.swift */; };
 		AEC47B2E1D0032E20055936D /* BorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B171D0032E20055936D /* BorderView.swift */; };
 		AEC47B2F1D0032E20055936D /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B181D0032E20055936D /* CustomTableViewCell.swift */; };
 		AEC47B301D0032E20055936D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B191D0032E20055936D /* DetailViewController.swift */; };
@@ -72,6 +72,9 @@
 		AEDECF2B1D0D19A700CDCE2B /* CopyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDECF2A1D0D19A700CDCE2B /* CopyLabel.swift */; };
 		AEDECF4D1D0D29B200CDCE2B /* GDWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDECF4B1D0D29B200CDCE2B /* GDWebViewController.swift */; };
 		AEDECF4E1D0D29B200CDCE2B /* GDWebViewNavigationToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDECF4C1D0D29B200CDCE2B /* GDWebViewNavigationToolbar.swift */; };
+		AEE7D22D1D0E58F100761E74 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE7D22C1D0E58F100761E74 /* HeaderView.swift */; };
+		AEE7D2351D0E675700761E74 /* FooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE7D2341D0E675700761E74 /* FooterView.swift */; };
+		AEE7D2371D0EA1FA00761E74 /* WaitLoadProtcol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE7D2361D0EA1FA00761E74 /* WaitLoadProtcol.swift */; };
 		AEEE61981CFE9CEF00C5FF08 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEE61971CFE9CEF00C5FF08 /* Comment.swift */; };
 		AEEE619A1CFE9DE900C5FF08 /* CommentUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEE61991CFE9DE900C5FF08 /* CommentUtil.swift */; };
 		AEF420B41CF8019700CFAF73 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF420B31CF8019700CFAF73 /* UIViewControllerExtension.swift */; };
@@ -121,8 +124,8 @@
 		AEC47B011CFFF39D0055936D /* NewListDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewListDataSource.swift; sourceTree = "<group>"; };
 		AEC47B081D0032E20055936D /* CommitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommitViewController.swift; sourceTree = "<group>"; };
 		AEC47B0A1D0032E20055936D /* CommetnstableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommetnstableViewCell.swift; sourceTree = "<group>"; };
-		AEC47B0C1D0032E20055936D /* CommentDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentDataSource.swift; sourceTree = "<group>"; };
-		AEC47B0D1D0032E20055936D /* CommitViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommitViewControllerExtension.swift; sourceTree = "<group>"; };
+		AEC47B0C1D0032E20055936D /* CommDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommDataSource.swift; sourceTree = "<group>"; };
+		AEC47B0D1D0032E20055936D /* CommExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommExtension.swift; sourceTree = "<group>"; };
 		AEC47B171D0032E20055936D /* BorderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderView.swift; sourceTree = "<group>"; };
 		AEC47B181D0032E20055936D /* CustomTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		AEC47B191D0032E20055936D /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
@@ -149,6 +152,10 @@
 		AEDECF2A1D0D19A700CDCE2B /* CopyLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CopyLabel.swift; sourceTree = "<group>"; };
 		AEDECF4B1D0D29B200CDCE2B /* GDWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GDWebViewController.swift; sourceTree = "<group>"; };
 		AEDECF4C1D0D29B200CDCE2B /* GDWebViewNavigationToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GDWebViewNavigationToolbar.swift; sourceTree = "<group>"; };
+		AEE7D2251D0E587300761E74 /* Journalism-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Journalism-Bridging-Header.h"; path = "Resources/LPRefreshView/Journalism-Bridging-Header.h"; sourceTree = "<group>"; };
+		AEE7D22C1D0E58F100761E74 /* HeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
+		AEE7D2341D0E675700761E74 /* FooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FooterView.swift; sourceTree = "<group>"; };
+		AEE7D2361D0EA1FA00761E74 /* WaitLoadProtcol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaitLoadProtcol.swift; sourceTree = "<group>"; };
 		AEEE61971CFE9CEF00C5FF08 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		AEEE61991CFE9DE900C5FF08 /* CommentUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentUtil.swift; sourceTree = "<group>"; };
 		AEF420B31CF8019700CFAF73 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
@@ -315,6 +322,7 @@
 				AEBCAEF91CEC419600EBFC0A /* CustomExtensionView.swift */,
 				AEFB55141CF41407005FC23E /* Curly.swift */,
 				AEDECF2A1D0D19A700CDCE2B /* CopyLabel.swift */,
+				AEE7D2361D0EA1FA00761E74 /* WaitLoadProtcol.swift */,
 			);
 			path = CustomClass;
 			sourceTree = "<group>";
@@ -340,6 +348,7 @@
 		AEC09CD21CE9776800D5A5CC /* Journalism */ = {
 			isa = PBXGroup;
 			children = (
+				AEE7D2251D0E587300761E74 /* Journalism-Bridging-Header.h */,
 				AEC09CE91CE98C3A00D5A5CC /* Resources */,
 				6DC4FDB91CF0314700D25A99 /* ViewControllers */,
 				AEC09CD31CE9776800D5A5CC /* AppDelegate.swift */,
@@ -354,6 +363,7 @@
 		AEC09CE91CE98C3A00D5A5CC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				AEE7D2241D0E586100761E74 /* RefreshView */,
 				AEDECF2C1D0D231300CDCE2B /* CustomWebView */,
 				AEBCAEF41CEC415800EBFC0A /* CustomClass */,
 				AEBCAEF11CEC3F2C00EBFC0A /* Extension */,
@@ -393,8 +403,8 @@
 		AEC47B0B1D0032E20055936D /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				AEC47B0C1D0032E20055936D /* CommentDataSource.swift */,
-				AEC47B0D1D0032E20055936D /* CommitViewControllerExtension.swift */,
+				AEC47B0D1D0032E20055936D /* CommExtension.swift */,
+				AEC47B0C1D0032E20055936D /* CommDataSource.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -516,6 +526,16 @@
 				AEDECF4C1D0D29B200CDCE2B /* GDWebViewNavigationToolbar.swift */,
 			);
 			path = CustomWebView;
+			sourceTree = "<group>";
+		};
+		AEE7D2241D0E586100761E74 /* RefreshView */ = {
+			isa = PBXGroup;
+			children = (
+				AEE7D22C1D0E58F100761E74 /* HeaderView.swift */,
+				AEE7D2341D0E675700761E74 /* FooterView.swift */,
+			);
+			name = RefreshView;
+			path = LPRefreshView;
 			sourceTree = "<group>";
 		};
 		AEF2FCB41CF69D08003266B0 /* PrivacyViewController */ = {
@@ -724,11 +744,12 @@
 				6DC4FDD51CF031E000D25A99 /* ChannelManager.swift in Sources */,
 				AEC47B2E1D0032E20055936D /* BorderView.swift in Sources */,
 				AEAEEBD91CF827A700E8DF08 /* User.swift in Sources */,
+				AEE7D2371D0EA1FA00761E74 /* WaitLoadProtcol.swift in Sources */,
 				AEDECF4E1D0D29B200CDCE2B /* GDWebViewNavigationToolbar.swift in Sources */,
 				AEC47B441D0033A60055936D /* ShareExtension.swift in Sources */,
 				AEC47B311D0032E20055936D /* Extenion.swift in Sources */,
 				AEEE61981CFE9CEF00C5FF08 /* Comment.swift in Sources */,
-				AEC47B291D0032E20055936D /* CommitViewControllerExtension.swift in Sources */,
+				AEC47B291D0032E20055936D /* CommExtension.swift in Sources */,
 				AEBCAEF81CEC418200EBFC0A /* CircularButtonBarView.swift in Sources */,
 				AE7C51A41D0D6893005E6A5A /* SearchViewController.swift in Sources */,
 				AEC965A11CF5A4EF0053A88D /* CustomView.swift in Sources */,
@@ -736,12 +757,14 @@
 				AEC1D5C41CEDC22700B1F00C /* DateExt.swift in Sources */,
 				AEC47B2F1D0032E20055936D /* CustomTableViewCell.swift in Sources */,
 				AEB8E9DB1CFBF53300A105C4 /* NewContentUtil.swift in Sources */,
+				AEE7D2351D0E675700761E74 /* FooterView.swift in Sources */,
 				AEFB551A1CF462CD005FC23E /* UserCenterViewController.swift in Sources */,
+				AEE7D22D1D0E58F100761E74 /* HeaderView.swift in Sources */,
 				AEC47B321D0032E20055936D /* WebViewExtenion.swift in Sources */,
 				AEC965A81CF5AFE70053A88D /* AboutViewController.swift in Sources */,
 				AEC47B261D0032E20055936D /* CommitViewController.swift in Sources */,
 				6DC4FDD71CF031E000D25A99 /* KDRearrangeableCollectionViewFlowLayout.swift in Sources */,
-				AEC47B281D0032E20055936D /* CommentDataSource.swift in Sources */,
+				AEC47B281D0032E20055936D /* CommDataSource.swift in Sources */,
 				AEDECF4D1D0D29B200CDCE2B /* GDWebViewController.swift in Sources */,
 				AEA103511D056FAD0086968B /* About.swift in Sources */,
 				6DC4FDCD1CF0314700D25A99 /* NewBaseTableViewCell.swift in Sources */,
@@ -860,6 +883,7 @@
 			baseConfigurationReference = 159FDBAECFB9DE4E3ACF1E70 /* Pods-Journalism.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Journalism/Info.plist;
@@ -868,6 +892,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.yktx.Sokme;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Journalism/Resources/LPRefreshView/Journalism-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -876,6 +902,7 @@
 			baseConfigurationReference = 81231C5CF554FB534D99E67C /* Pods-Journalism.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Journalism/Info.plist;
@@ -884,6 +911,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.yktx.Sokme;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Journalism/Resources/LPRefreshView/Journalism-Bridging-Header.h";
 			};
 			name = Release;
 		};

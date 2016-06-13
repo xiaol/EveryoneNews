@@ -11,7 +11,7 @@ import Alamofire
 
 public class CommentAPI: APIBase {
     /**
-     新闻相关搜索列表
+     相关新闻列表
      
      - parameter nid: (query) 新闻ID 
      - parameter p: (query) 新闻ID (optional, default to 1)
@@ -26,7 +26,7 @@ public class CommentAPI: APIBase {
 
 
     /**
-     新闻相关搜索列表
+     相关新闻列表
      - GET /ns/asc
      - 从服务器获取 新闻相关搜索列表
      - examples: [{contentType=application/json, example="{}"}]
@@ -57,12 +57,12 @@ public class CommentAPI: APIBase {
     }
 
     /**
-     新闻普通评论列表
+     普通评论列表
      
      - parameter did: (query) 新闻 docid 
      - parameter uid: (query) 注册用户ID，提供该ID会在响应中设置该用户的点赞标记 upflag (optional)
-     - parameter p: (query) 新闻ID (optional, default to 1)
-     - parameter c: (query) 新闻ID (optional, default to 20)
+     - parameter p: (query) 请求的页数 (optional, default to 1)
+     - parameter c: (query) 每页的个数 (optional, default to 20)
      - parameter completion: completion handler to receive the data and the error objects
      */
     public class func nsComsCGet(did did: String, uid: String? = nil, p: String? = nil, c: String? = nil, completion: ((data: AnyObject?, error: ErrorType?) -> Void)) {
@@ -73,15 +73,15 @@ public class CommentAPI: APIBase {
 
 
     /**
-     新闻普通评论列表
+     普通评论列表
      - GET /ns/coms/c
      - 从服务器获取 新闻普通评论列表
      - examples: [{contentType=application/json, example="{}"}]
      
      - parameter did: (query) 新闻 docid 
      - parameter uid: (query) 注册用户ID，提供该ID会在响应中设置该用户的点赞标记 upflag (optional)
-     - parameter p: (query) 新闻ID (optional, default to 1)
-     - parameter c: (query) 新闻ID (optional, default to 20)
+     - parameter p: (query) 请求的页数 (optional, default to 1)
+     - parameter c: (query) 每页的个数 (optional, default to 20)
 
      - returns: RequestBuilder<AnyObject> 
      */
@@ -106,7 +106,7 @@ public class CommentAPI: APIBase {
     }
 
     /**
-     新闻热点评论列表
+     热点评论列表
      
      - parameter did: (query) 新闻 docid 
      - parameter uid: (query) 注册用户ID，提供该ID会在响应中设置该用户的点赞标记 upflag (optional)
@@ -122,7 +122,7 @@ public class CommentAPI: APIBase {
 
 
     /**
-     新闻热点评论列表
+     热点评论列表
      - GET /ns/coms/h
      - 从服务器获取 新闻热点评论列表
      - examples: [{contentType=application/json, example="{}"}]
@@ -152,6 +152,136 @@ public class CommentAPI: APIBase {
         let requestBuilder: RequestBuilder<AnyObject>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     评论新闻
+     
+     - parameter userRegisterInfo: (body) 评论对象 
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func nsComsPost(userRegisterInfo userRegisterInfo: CommectCreate, completion: ((data: InlineResponse2002?, error: ErrorType?) -> Void)) {
+        nsComsPostWithRequestBuilder(userRegisterInfo: userRegisterInfo).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     评论新闻
+     - POST /ns/coms
+     - 评论一个新闻
+     - examples: [{contentType=application/json, example={
+  "code" : 123,
+  "data" : 123
+}}]
+     
+     - parameter userRegisterInfo: (body) 评论对象 
+
+     - returns: RequestBuilder<InlineResponse2002> 
+     */
+    public class func nsComsPostWithRequestBuilder(userRegisterInfo userRegisterInfo: CommectCreate) -> RequestBuilder<InlineResponse2002> {
+        let path = "/ns/coms"
+        let URLString = SwaggerClientAPI.basePath + path
+        let parameters = userRegisterInfo.encodeToJSON() as? [String:AnyObject]
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<InlineResponse2002>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
+    }
+
+    /**
+     取消评论点赞
+     
+     - parameter cid: (query) 评论ID 
+     - parameter uid: (query) 用户ID (optional, default to 1)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func nsComsUpDelete(cid cid: String, uid: String? = nil, completion: ((data: InlineResponse2003?, error: ErrorType?) -> Void)) {
+        nsComsUpDeleteWithRequestBuilder(cid: cid, uid: uid).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     取消评论点赞
+     - DELETE /ns/coms/up
+     - 对某一个新闻评论取消点赞
+     - examples: [{contentType=application/json, example={
+  "code" : 123,
+  "data" : 123
+}}]
+     
+     - parameter cid: (query) 评论ID 
+     - parameter uid: (query) 用户ID (optional, default to 1)
+
+     - returns: RequestBuilder<InlineResponse2003> 
+     */
+    public class func nsComsUpDeleteWithRequestBuilder(cid cid: String, uid: String? = nil) -> RequestBuilder<InlineResponse2003> {
+        let path = "/ns/coms/up"
+        let URLString = SwaggerClientAPI.basePath + path
+
+        let nillableParameters: [String:AnyObject?] = [
+            "cid": cid,
+            "uid": uid
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<InlineResponse2003>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "DELETE", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     评论点赞
+     
+     - parameter cid: (query) 评论ID 
+     - parameter uid: (query) 用户ID (optional, default to 1)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func nsComsUpPost(cid cid: String, uid: String? = nil, completion: ((data: InlineResponse2003?, error: ErrorType?) -> Void)) {
+        nsComsUpPostWithRequestBuilder(cid: cid, uid: uid).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     评论点赞
+     - POST /ns/coms/up
+     - 对某一个新闻评论进行点赞
+     - examples: [{contentType=application/json, example={
+  "code" : 123,
+  "data" : 123
+}}]
+     
+     - parameter cid: (query) 评论ID 
+     - parameter uid: (query) 用户ID (optional, default to 1)
+
+     - returns: RequestBuilder<InlineResponse2003> 
+     */
+    public class func nsComsUpPostWithRequestBuilder(cid cid: String, uid: String? = nil) -> RequestBuilder<InlineResponse2003> {
+        let path = "/ns/coms/up"
+        let URLString = SwaggerClientAPI.basePath + path
+
+        let nillableParameters: [String:AnyObject?] = [
+            "cid": cid,
+            "uid": uid
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<InlineResponse2003>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
     }
 
 }

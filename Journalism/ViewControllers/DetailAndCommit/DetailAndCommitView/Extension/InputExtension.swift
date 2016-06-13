@@ -34,6 +34,8 @@ extension DetailAndCommitViewController:UITextViewDelegate{
     //通知中心通知键盘要出现了！  😳   全员戒备！
     func keyboardShow(note:NSNotification){
         
+        if !self.inputTextView.isFirstResponder() {return}
+        
         self.textViewDidChange(self.inputTextView)
         
         if let info = note.userInfo {
@@ -51,26 +53,23 @@ extension DetailAndCommitViewController:UITextViewDelegate{
     //通知中心通知键盘要消失了  😄  解散~  庆功宴~~
     func keyboardHide(note:NSNotification){
         
-        self.inputTextView.text = ""
-        
-        self.textViewDidChange(self.inputTextView)
-        
-        self.inputContentViewBottomConstraint.constant = 0
+        if !self.inputTextView.isFirstResponder() {return}
         
         UIView.animateWithDuration(0.3) {
             
             self.inputBackView.alpha = 0
+            self.inputContentViewBottomConstraint.constant = 0
+            
             self.view.layoutIfNeeded()
         }
+        
+        self.inputTextView.text = ""
+        self.textViewDidChange(self.inputTextView)
     }
     
     
     func textViewDidChange(textView: UITextView) {
         
         self.inputCommitButton?.enabled = textView.text.characters.count > 0
-        
-        self.inputViewHeightConstraint.constant = textView.contentSize.height+29+14+18+17
-        
-        self.view.layoutIfNeeded()
     }
 }

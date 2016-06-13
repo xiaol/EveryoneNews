@@ -138,7 +138,7 @@ private extension DetailViewController{
         if section == 0 {return 0} // 如果是第一个section，那么它是因为是喜欢 朋友圈相的所以不需要头视图
         if (hotResults == nil || hotResults.count == 0 ) && section == 1 {return 0} // 如果是第二个section，是热门评论，所以需要热门评论的头视图
         if (aboutResults == nil || aboutResults.count == 0 ) && section == 2 {return 0} // 如果是第三个section 因为是相关观点，判断相关观点的数目之后，决定是否显示相关观点
-        return 26
+        return 40
     }
     
     // 获取头视图是不是隐藏文件

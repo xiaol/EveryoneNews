@@ -10,6 +10,8 @@ import UIKit
 
 class CopyLabel: UILabel {
     
+    var menu:UIMenuController!
+    
     override func canBecomeFirstResponder() -> Bool {
         
         return true
@@ -44,9 +46,16 @@ class CopyLabel: UILabel {
             
             self.becomeFirstResponder()
             
-            let menu = UIMenuController.sharedMenuController()
-            menu.setTargetRect(self.frame, inView: self.superview!)
-            menu.setMenuVisible(true, animated: true)
+            self.menu = UIMenuController.sharedMenuController()
+            self.menu.setTargetRect(self.frame, inView: self.superview!)
+            self.menu.setMenuVisible(true, animated: true)
+            
+            self.backgroundColor = UIColor.lightGrayColor().colorWithAlphaComponent(0.4)
+        }
+        
+        NSNotificationCenter.defaultCenter().addObserverForName(UIMenuControllerDidHideMenuNotification, object: nil, queue: NSOperationQueue.mainQueue()) { (noti) in
+            
+            self.backgroundColor = UIColor.whiteColor()
         }
         
         self.addGestureRecognizer(tap)

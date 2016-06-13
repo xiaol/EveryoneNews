@@ -2,6 +2,7 @@ platform :ios, '8.0'
 use_frameworks!
 
 target :'Journalism' do
+    pod 'SnapKit'                                            ## Swift Auto Layout
     pod 'FileKit'                                            ## 文件操作
     pod 'AFDateHelper'                                       ## 时间操作
     pod 'MJRefresh'                                          ## 刷新控件

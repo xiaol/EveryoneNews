@@ -11,7 +11,231 @@ import Alamofire
 
 public class NewAPI: APIBase {
     /**
-     新闻-新闻详情页
+     新闻收藏列表
+     
+     - parameter uid: (query) 注册用户ID，提供该ID会在响应中设置该用户的点赞标记 upflag (optional)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func nsAuColsGet(uid uid: String? = nil, completion: ((data: AnyObject?, error: ErrorType?) -> Void)) {
+        nsAuColsGetWithRequestBuilder(uid: uid).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     新闻收藏列表
+     - GET /ns/au/cols
+     - 获取用户收藏列表
+     - examples: [{contentType=application/json, example="{}"}]
+     
+     - parameter uid: (query) 注册用户ID，提供该ID会在响应中设置该用户的点赞标记 upflag (optional)
+
+     - returns: RequestBuilder<AnyObject> 
+     */
+    public class func nsAuColsGetWithRequestBuilder(uid uid: String? = nil) -> RequestBuilder<AnyObject> {
+        let path = "/ns/au/cols"
+        let URLString = SwaggerClientAPI.basePath + path
+
+        let nillableParameters: [String:AnyObject?] = [
+            "uid": uid
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<AnyObject>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     取消关心新闻
+     
+     - parameter nid: (query) 新闻ID 
+     - parameter uid: (query) 用户ID (optional, default to 1)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func nsCocsDelete(nid nid: String, uid: String? = nil, completion: ((data: InlineResponse200?, error: ErrorType?) -> Void)) {
+        nsCocsDeleteWithRequestBuilder(nid: nid, uid: uid).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     取消关心新闻
+     - DELETE /ns/cocs
+     - 对某一个新闻评论取消收藏
+     - examples: [{contentType=application/json, example={
+  "code" : 123,
+  "data" : 123
+}}]
+     
+     - parameter nid: (query) 新闻ID 
+     - parameter uid: (query) 用户ID (optional, default to 1)
+
+     - returns: RequestBuilder<InlineResponse200> 
+     */
+    public class func nsCocsDeleteWithRequestBuilder(nid nid: String, uid: String? = nil) -> RequestBuilder<InlineResponse200> {
+        let path = "/ns/cocs"
+        let URLString = SwaggerClientAPI.basePath + path
+
+        let nillableParameters: [String:AnyObject?] = [
+            "nid": nid,
+            "uid": uid
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<InlineResponse200>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "DELETE", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     关心新闻
+     
+     - parameter nid: (query) 新闻ID 
+     - parameter uid: (query) 用户ID (optional, default to 1)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func nsCocsPost(nid nid: String, uid: String? = nil, completion: ((data: InlineResponse200?, error: ErrorType?) -> Void)) {
+        nsCocsPostWithRequestBuilder(nid: nid, uid: uid).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     关心新闻
+     - POST /ns/cocs
+     - 对某一个新闻表示关心
+     - examples: [{contentType=application/json, example={
+  "code" : 123,
+  "data" : 123
+}}]
+     
+     - parameter nid: (query) 新闻ID 
+     - parameter uid: (query) 用户ID (optional, default to 1)
+
+     - returns: RequestBuilder<InlineResponse200> 
+     */
+    public class func nsCocsPostWithRequestBuilder(nid nid: String, uid: String? = nil) -> RequestBuilder<InlineResponse200> {
+        let path = "/ns/cocs"
+        let URLString = SwaggerClientAPI.basePath + path
+
+        let nillableParameters: [String:AnyObject?] = [
+            "nid": nid,
+            "uid": uid
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<InlineResponse200>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     取消收藏新闻
+     
+     - parameter nid: (query) 新闻ID 
+     - parameter uid: (query) 用户ID (optional, default to 1)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func nsColsDelete(nid nid: String, uid: String? = nil, completion: ((data: InlineResponse2001?, error: ErrorType?) -> Void)) {
+        nsColsDeleteWithRequestBuilder(nid: nid, uid: uid).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     取消收藏新闻
+     - DELETE /ns/cols
+     - 对某一个新闻评论取消收藏
+     - examples: [{contentType=application/json, example={
+  "code" : 123,
+  "data" : 123
+}}]
+     
+     - parameter nid: (query) 新闻ID 
+     - parameter uid: (query) 用户ID (optional, default to 1)
+
+     - returns: RequestBuilder<InlineResponse2001> 
+     */
+    public class func nsColsDeleteWithRequestBuilder(nid nid: String, uid: String? = nil) -> RequestBuilder<InlineResponse2001> {
+        let path = "/ns/cols"
+        let URLString = SwaggerClientAPI.basePath + path
+
+        let nillableParameters: [String:AnyObject?] = [
+            "nid": nid,
+            "uid": uid
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<InlineResponse2001>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "DELETE", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     收藏新闻
+     
+     - parameter nid: (query) 新闻ID 
+     - parameter uid: (query) 用户ID (optional, default to 1)
+     - parameter completion: completion handler to receive the data and the error objects
+     */
+    public class func nsColsPost(nid nid: String, uid: String? = nil, completion: ((data: InlineResponse2001?, error: ErrorType?) -> Void)) {
+        nsColsPostWithRequestBuilder(nid: nid, uid: uid).execute { (response, error) -> Void in
+            completion(data: response?.body, error: error);
+        }
+    }
+
+
+    /**
+     收藏新闻
+     - POST /ns/cols
+     - 对某一个新闻评论进行收藏
+     - examples: [{contentType=application/json, example={
+  "code" : 123,
+  "data" : 123
+}}]
+     
+     - parameter nid: (query) 新闻ID 
+     - parameter uid: (query) 用户ID (optional, default to 1)
+
+     - returns: RequestBuilder<InlineResponse2001> 
+     */
+    public class func nsColsPostWithRequestBuilder(nid nid: String, uid: String? = nil) -> RequestBuilder<InlineResponse2001> {
+        let path = "/ns/cols"
+        let URLString = SwaggerClientAPI.basePath + path
+
+        let nillableParameters: [String:AnyObject?] = [
+            "nid": nid,
+            "uid": uid
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
+ 
+        let convertedParameters = APIHelper.convertBoolToString(parameters)
+ 
+        let requestBuilder: RequestBuilder<InlineResponse2001>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
+    }
+
+    /**
+     新闻详情页
      
      - parameter nid: (query) 新闻ID 
      - parameter completion: completion handler to receive the data and the error objects
@@ -24,7 +248,7 @@ public class NewAPI: APIBase {
 
 
     /**
-     新闻-新闻详情页
+     新闻详情页
      - GET /ns/con
      - 从服务器获取 新闻详情页
      - examples: [{contentType=application/json, example="{}"}]
@@ -51,7 +275,7 @@ public class NewAPI: APIBase {
     }
 
     /**
-     新闻-列表页加载
+     新闻列表页加载
      
      - parameter cid: (query) 频道id 
      - parameter tcr: (query) 起始时间，13位时间戳 
@@ -68,7 +292,7 @@ public class NewAPI: APIBase {
 
 
     /**
-     新闻-列表页加载
+     新闻列表页加载
      - GET /ns/fed/l
      - 从服务器获取 新闻-列表页加载
      - examples: [{contentType=application/json, example="{}"}]
@@ -103,7 +327,7 @@ public class NewAPI: APIBase {
     }
 
     /**
-     新闻-列表页刷新
+     新闻列表页刷新
      
      - parameter cid: (query) 频道id 
      - parameter tcr: (query) 起始时间，13位时间戳 
@@ -120,7 +344,7 @@ public class NewAPI: APIBase {
 
 
     /**
-     新闻-列表页刷新
+     新闻列表页刷新
      - GET /ns/fed/r
      - 从服务器获取 新闻-列表页刷新
      - examples: [{contentType=application/json, example="{}"}]

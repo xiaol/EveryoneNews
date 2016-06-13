@@ -22,7 +22,7 @@ extension CommitViewController{
             
             if section == 1 {
             
-                return 24
+                return 40
             }
             
             return 0
@@ -33,7 +33,7 @@ extension CommitViewController{
             return 0
         }
         
-        return 24
+        return 40
     }
     
     func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -69,20 +69,19 @@ extension CommitViewController{
         
         var comment:Comment!
         
-        if indexPath.section == 0 {
-        
+        if hotResults.count > 0 && normalResults.count > 0 && indexPath.section == 0{
+            
             comment = hotResults[indexPath.item]
-        }
-        
-        if indexPath.section == 1 && (normalResults == nil || normalResults.count <= 0) {
-        
-            return 300
-        }else{
-        
+        }else if normalResults.count > 0{
+            
             comment = normalResults[indexPath.item]
         }
         
-        return comment.HeightByNewConstraint(tableView)
+        if comment == nil {return 200}
+        
+        let height = comment.HeightByNewConstraint(tableView)
+        
+        return height
     }
     
     

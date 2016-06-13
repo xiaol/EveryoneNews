@@ -7,13 +7,15 @@
 //
 
 import UIKit
+import MJRefresh
 import RealmSwift
 import MGTemplateEngine
 import WebViewJavascriptBridge
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController,WaitLoadProtcol {
     
     var new:New? // 当前要展示的新闻对象
+    var currentPage = 0 // 当前页数
     var engine:MGTemplateEngine! // 当前Html解析器，生成
     var bridge:WebViewJavascriptBridge! // JS 交互侨联
     
@@ -29,10 +31,12 @@ class DetailViewController: UIViewController {
         
         super.viewDidLoad()
         
+        self.showWaitLoadView()
+        
         if let new = new {
             
             aboutResults = realm.objects(About.self).filter("nid = \(new.nid)").sorted("ptimes", ascending: false)
-            hotResults = realm.objects(Comment.self).filter("nid = \(new.nid) AND ishot = 1")
+            hotResults = realm.objects(Comment.self).filter("nid = \(new.nid) AND ishot = 1").sorted("commend", ascending: false)
             
             CommentUtil.LoadHotsCommentsList(new, finish: {
                 

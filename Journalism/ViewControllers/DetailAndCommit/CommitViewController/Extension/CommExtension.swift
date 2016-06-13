@@ -21,8 +21,13 @@ extension CommitViewController{
         
         if let new = new {
             
-            let footer = MJRefreshAutoNormalFooter {
-                CommentUtil.LoadNoramlCommentsList(new, p: "\(self.currentPage+=1)", c: "20", finish: { (count) in
+            if new.comment <= 0 {return}
+            
+            let footer = NewRefreshFooterView {
+                
+                self.currentPage = self.currentPage + 1
+                
+                CommentUtil.LoadNoramlCommentsList(new, p: "\(self.currentPage)", c: "20", finish: { (count) in
                     
                     if count < 20 {
                         
@@ -52,8 +57,8 @@ extension CommitViewController{
             
             let realm = try! Realm()
             
-            hotResults = realm.objects(Comment.self).filter("nid = \(new.nid) AND ishot = 1")
-            normalResults = realm.objects(Comment.self).filter("nid = \(new.nid)")
+            hotResults = realm.objects(Comment.self).filter("nid = \(new.nid) AND ishot = 1").sorted("commend", ascending: false)
+            normalResults = realm.objects(Comment.self).filter("nid = \(new.nid)").sorted("ctimes", ascending: false)
         }
         
         self.tableView.reloadData()
