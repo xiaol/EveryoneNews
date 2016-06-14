@@ -128,6 +128,9 @@ extension CommitViewController{
             cell.titleLabel.text = "最新评论\(text)"
         }
         
-        return cell
+        let containerView = UIView(frame:cell.frame)
+        cell.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        containerView.addSubview(cell)
+        return containerView
     }
 }

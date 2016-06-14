@@ -119,7 +119,7 @@ extension HomeViewController{
             
             if let cell = collectionViewCell as? HomeChannelCollectionViewCell,indexPath = self.ChannelManagerContainerCollectionView.indexPathForCell(cell) {
                 
-                cell.titleLabel.textColor = indexPath.section == 0 && indexPath.item == item ? UIColor(red: 53/255, green:166/255, blue: 251/255, alpha: 1) : UIColor.blackColor()
+                cell.titleLabel.textColor = indexPath.section == 0 && indexPath.item == item ? UIColor.a_color2 : UIColor.blackColor()
             }
         }
     }

@@ -35,23 +35,18 @@ class DetailViewController: UIViewController,WaitLoadProtcol {
         
         if let new = new {
             
+            
             aboutResults = realm.objects(About.self).filter("nid = \(new.nid)").sorted("ptimes", ascending: false)
             hotResults = realm.objects(Comment.self).filter("nid = \(new.nid) AND ishot = 1").sorted("commend", ascending: false)
             
             CommentUtil.LoadHotsCommentsList(new, finish: {
                 
-                self.tableView.reloadData()
-                
-                }, fail: {
-                    
+                self.tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.Automatic)
             })
             
             AboutUtil.getAboutListArrayData(new, finish: { (count) in
                 
-                self.tableView.reloadData()
-                
-                }, fail: { 
-                    
+                self.tableView.reloadSections(NSIndexSet(index: 2), withRowAnimation: UITableViewRowAnimation.Automatic)
             })
         }
         

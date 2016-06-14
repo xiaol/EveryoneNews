@@ -14,10 +14,10 @@ class CommentButton: UIButton {
         
         super.init(coder: aDecoder)
         
-        self.setTitleColor(UIColor(red: 153/255, green: 153/255, blue: 153/255, alpha: 1), forState: UIControlState.Disabled)
+        self.setTitleColor(UIColor.a_color4, forState: UIControlState.Disabled)
         self.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
         
-        self.setBackgroundColor(UIColor(red: 234/255, green: 234/255, blue: 234/255, alpha: 1), forState: UIControlState.Disabled)
+        self.setBackgroundColor(UIColor.a_color11, forState: UIControlState.Disabled)
         self.setBackgroundColor(UIColor.redColor(), forState: UIControlState.Normal)
         
         self.layer.cornerRadius = 2
@@ -25,7 +25,7 @@ class CommentButton: UIButton {
         self.clipsToBounds = true
         
         self.layer.borderWidth = enabled ? 0 : 1
-        self.layer.borderColor = enabled ? UIColor.clearColor().CGColor : UIColor(red: 153/255, green: 153/255, blue: 153/255, alpha: 1).CGColor
+        self.layer.borderColor = enabled ? UIColor.clearColor().CGColor : UIColor.a_color4.CGColor
     }
     
     override var enabled: Bool{
@@ -33,7 +33,7 @@ class CommentButton: UIButton {
         didSet{
         
             self.layer.borderWidth = enabled ? 0 : 1
-            self.layer.borderColor = enabled ? UIColor.clearColor().CGColor : UIColor(red: 153/255, green: 153/255, blue: 153/255, alpha: 1).CGColor
+            self.layer.borderColor = enabled ? UIColor.clearColor().CGColor : UIColor.a_color4.CGColor
         }
     }
 }

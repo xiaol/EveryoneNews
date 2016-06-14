@@ -18,6 +18,8 @@ import PINRemoteImage
 
 class NewslistViewController: UIViewController,WaitLoadProtcol {
     
+    var notificationToken: NotificationToken? = nil
+    
     var timer = NSTimer()
     
     var fuckHeaderCellView:UIView!

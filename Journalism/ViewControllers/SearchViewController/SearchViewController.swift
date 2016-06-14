@@ -135,6 +135,7 @@ class SearchViewController: UIViewController,UIViewControllerTransitioningDelega
     
     @IBAction func dismissAction(sender: AnyObject) {
         
+        self.textFiled.text = ""
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     

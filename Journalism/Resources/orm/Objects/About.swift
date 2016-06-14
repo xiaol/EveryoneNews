@@ -24,7 +24,22 @@ public class About: Object {
     
     dynamic var ptimes = NSDate() //创建时间
     
+    dynamic var isread = 0 // 是否阅读
+    
     override public static func primaryKey() -> String? {
         return "url"
+    }
+}
+
+extension About{
+    
+    func isRead(){
+        
+        let realm = try! Realm()
+        
+        try! realm.write {
+            
+            self.isread = 1
+        }
     }
 }

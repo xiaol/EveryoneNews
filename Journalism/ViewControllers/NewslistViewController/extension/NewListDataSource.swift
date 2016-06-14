@@ -22,16 +22,18 @@ extension NewslistViewController:UITableViewDataSource{
     
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        let view = tableView.dequeueReusableCellWithIdentifier("search")
+        let cell = tableView.dequeueReusableCellWithIdentifier("search")! as UITableViewCell
         
-        view?.addGestureRecognizer(UITapGestureRecognizer(block: { (_) in
+        cell.addGestureRecognizer(UITapGestureRecognizer(block: { (_) in
             
-            self.fuckHeaderCellView = view
+            self.fuckHeaderCellView = cell
             
             self.presentViewController(UIStoryboard.shareStoryBoard.get_SearchViewController(), animated: true, completion: nil)
         }))
-        
-        return view
+        let containerView = UIView(frame:cell.frame)
+        cell.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        containerView.addSubview(cell)
+        return containerView
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -127,7 +129,7 @@ extension NewslistViewController:UITableViewDataSource{
                     
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW,Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { // 2
                         
-                        self.tableView.reloadData()
+                        self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.None)
                         
                         self.showNoInterest()
                     }
@@ -138,11 +140,15 @@ extension NewslistViewController:UITableViewDataSource{
     
 }
 
+import RealmSwift
+
 extension NewslistViewController:UITableViewDelegate{
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         let new = newsResults[indexPath.row]
+        
+        new.isRead() // 设置为已读
         
         if new.isidentification == 1 {
             
@@ -161,6 +167,7 @@ extension NewslistViewController:UITableViewDelegate{
             self.showViewController(viewController, sender: nil)
         }
         
+        self.tableView.reloadData()
     }
     
     func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

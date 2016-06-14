@@ -10,7 +10,7 @@
 		6DC4FDCB1CF0314700D25A99 /* HomeViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDC01CF0314700D25A99 /* HomeViewControllerExtension.swift */; };
 		6DC4FDCC1CF0314700D25A99 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDC11CF0314700D25A99 /* HomeViewController.swift */; };
 		6DC4FDCD1CF0314700D25A99 /* NewBaseTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDC41CF0314700D25A99 /* NewBaseTableViewCell.swift */; };
-		6DC4FDCE1CF0314700D25A99 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDC61CF0314700D25A99 /* Extension.swift */; };
+		6DC4FDCE1CF0314700D25A99 /* NewListExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDC61CF0314700D25A99 /* NewListExtension.swift */; };
 		6DC4FDCF1CF0314700D25A99 /* NewslistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDC71CF0314700D25A99 /* NewslistViewController.swift */; };
 		6DC4FDD51CF031E000D25A99 /* ChannelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDD21CF031E000D25A99 /* ChannelManager.swift */; };
 		6DC4FDD61CF031E000D25A99 /* HomeViewControllerChannelDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDD31CF031E000D25A99 /* HomeViewControllerChannelDataSource.swift */; };
@@ -23,6 +23,7 @@
 		AE7C51A41D0D6893005E6A5A /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7C51A31D0D6893005E6A5A /* SearchViewController.swift */; };
 		AEA103511D056FAD0086968B /* About.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA103501D056FAD0086968B /* About.swift */; };
 		AEA103531D0571F80086968B /* AboutUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA103521D0571F80086968B /* AboutUtil.swift */; };
+		AEA573FB1D0FAAFA00C9F45C /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA573FA1D0FAAFA00C9F45C /* UIColorExtension.swift */; };
 		AEAEEBD71CF81FA300E8DF08 /* VisitorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAEEBD61CF81FA300E8DF08 /* VisitorViewController.swift */; };
 		AEAEEBD91CF827A700E8DF08 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAEEBD81CF827A700E8DF08 /* User.swift */; };
 		AEB8E9D71CFBE35900A105C4 /* SplitManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB8E9D61CFBE35900A105C4 /* SplitManagerViewController.swift */; };
@@ -49,7 +50,7 @@
 		AEC47B2E1D0032E20055936D /* BorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B171D0032E20055936D /* BorderView.swift */; };
 		AEC47B2F1D0032E20055936D /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B181D0032E20055936D /* CustomTableViewCell.swift */; };
 		AEC47B301D0032E20055936D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B191D0032E20055936D /* DetailViewController.swift */; };
-		AEC47B311D0032E20055936D /* Extenion.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B1B1D0032E20055936D /* Extenion.swift */; };
+		AEC47B311D0032E20055936D /* DetailExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B1B1D0032E20055936D /* DetailExtension.swift */; };
 		AEC47B321D0032E20055936D /* WebViewExtenion.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B1C1D0032E20055936D /* WebViewExtenion.swift */; };
 		AEC47B331D0032E20055936D /* bootstrap.min.css in Resources */ = {isa = PBXBuildFile; fileRef = AEC47B1E1D0032E20055936D /* bootstrap.min.css */; };
 		AEC47B341D0032E20055936D /* content.css in Resources */ = {isa = PBXBuildFile; fileRef = AEC47B1F1D0032E20055936D /* content.css */; };
@@ -64,10 +65,12 @@
 		AEC47B441D0033A60055936D /* ShareExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B431D0033A60055936D /* ShareExtension.swift */; };
 		AEC47B481D0037A50055936D /* InputExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B471D0037A50055936D /* InputExtension.swift */; };
 		AEC47B4A1D0037CD0055936D /* CommentButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B491D0037CD0055936D /* CommentButton.swift */; };
+		AEC489B71D0FF140009D81F6 /* AppdelegateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC489B61D0FF140009D81F6 /* AppdelegateExtension.swift */; };
 		AEC9659E1CF5A2E70053A88D /* User.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AEC9659D1CF5A2E70053A88D /* User.storyboard */; };
 		AEC965A11CF5A4EF0053A88D /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC965A01CF5A4EF0053A88D /* CustomView.swift */; };
 		AEC965A51CF5AC900053A88D /* UserSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC965A41CF5AC900053A88D /* UserSettingViewController.swift */; };
 		AEC965A81CF5AFE70053A88D /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC965A71CF5AFE70053A88D /* AboutViewController.swift */; };
+		AEDDCEF91D100FDB00498D47 /* UTIL.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDDCEF81D100FDB00498D47 /* UTIL.swift */; };
 		AEDECF291D0D11D100CDCE2B /* DataSourceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDECF281D0D11D100CDCE2B /* DataSourceExtension.swift */; };
 		AEDECF2B1D0D19A700CDCE2B /* CopyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDECF2A1D0D19A700CDCE2B /* CopyLabel.swift */; };
 		AEDECF4D1D0D29B200CDCE2B /* GDWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDECF4B1D0D29B200CDCE2B /* GDWebViewController.swift */; };
@@ -88,7 +91,7 @@
 		6DC4FDC01CF0314700D25A99 /* HomeViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewControllerExtension.swift; sourceTree = "<group>"; };
 		6DC4FDC11CF0314700D25A99 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		6DC4FDC41CF0314700D25A99 /* NewBaseTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewBaseTableViewCell.swift; sourceTree = "<group>"; };
-		6DC4FDC61CF0314700D25A99 /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		6DC4FDC61CF0314700D25A99 /* NewListExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewListExtension.swift; sourceTree = "<group>"; };
 		6DC4FDC71CF0314700D25A99 /* NewslistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewslistViewController.swift; sourceTree = "<group>"; };
 		6DC4FDD21CF031E000D25A99 /* ChannelManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelManager.swift; sourceTree = "<group>"; };
 		6DC4FDD31CF031E000D25A99 /* HomeViewControllerChannelDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewControllerChannelDataSource.swift; sourceTree = "<group>"; };
@@ -101,6 +104,7 @@
 		AE7C51A31D0D6893005E6A5A /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		AEA103501D056FAD0086968B /* About.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = About.swift; sourceTree = "<group>"; };
 		AEA103521D0571F80086968B /* AboutUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutUtil.swift; sourceTree = "<group>"; };
+		AEA573FA1D0FAAFA00C9F45C /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		AEAEEBD61CF81FA300E8DF08 /* VisitorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitorViewController.swift; sourceTree = "<group>"; };
 		AEAEEBD81CF827A700E8DF08 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		AEB8E9D61CFBE35900A105C4 /* SplitManagerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplitManagerViewController.swift; sourceTree = "<group>"; };
@@ -129,7 +133,7 @@
 		AEC47B171D0032E20055936D /* BorderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderView.swift; sourceTree = "<group>"; };
 		AEC47B181D0032E20055936D /* CustomTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		AEC47B191D0032E20055936D /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
-		AEC47B1B1D0032E20055936D /* Extenion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extenion.swift; sourceTree = "<group>"; };
+		AEC47B1B1D0032E20055936D /* DetailExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailExtension.swift; sourceTree = "<group>"; };
 		AEC47B1C1D0032E20055936D /* WebViewExtenion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewExtenion.swift; sourceTree = "<group>"; };
 		AEC47B1E1D0032E20055936D /* bootstrap.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = bootstrap.min.css; sourceTree = "<group>"; };
 		AEC47B1F1D0032E20055936D /* content.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = content.css; sourceTree = "<group>"; };
@@ -144,10 +148,12 @@
 		AEC47B431D0033A60055936D /* ShareExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareExtension.swift; sourceTree = "<group>"; };
 		AEC47B471D0037A50055936D /* InputExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputExtension.swift; sourceTree = "<group>"; };
 		AEC47B491D0037CD0055936D /* CommentButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentButton.swift; sourceTree = "<group>"; };
+		AEC489B61D0FF140009D81F6 /* AppdelegateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppdelegateExtension.swift; sourceTree = "<group>"; };
 		AEC9659D1CF5A2E70053A88D /* User.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = User.storyboard; sourceTree = "<group>"; };
 		AEC965A01CF5A4EF0053A88D /* CustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
 		AEC965A41CF5AC900053A88D /* UserSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingViewController.swift; sourceTree = "<group>"; };
 		AEC965A71CF5AFE70053A88D /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		AEDDCEF81D100FDB00498D47 /* UTIL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UTIL.swift; sourceTree = "<group>"; };
 		AEDECF281D0D11D100CDCE2B /* DataSourceExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSourceExtension.swift; sourceTree = "<group>"; };
 		AEDECF2A1D0D19A700CDCE2B /* CopyLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CopyLabel.swift; sourceTree = "<group>"; };
 		AEDECF4B1D0D29B200CDCE2B /* GDWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GDWebViewController.swift; sourceTree = "<group>"; };
@@ -230,7 +236,7 @@
 		6DC4FDC51CF0314700D25A99 /* extension */ = {
 			isa = PBXGroup;
 			children = (
-				6DC4FDC61CF0314700D25A99 /* Extension.swift */,
+				6DC4FDC61CF0314700D25A99 /* NewListExtension.swift */,
 				AEC47B011CFFF39D0055936D /* NewListDataSource.swift */,
 			);
 			path = extension;
@@ -311,6 +317,8 @@
 				AEC1D5C51CEDC34600B1F00C /* NSDateTimeAgo.bundle */,
 				AEC1D5C31CEDC22700B1F00C /* DateExt.swift */,
 				AE0FE5431CF301E8007DA198 /* UIImageExtension.swift */,
+				AEA573FA1D0FAAFA00C9F45C /* UIColorExtension.swift */,
+				AEC489B61D0FF140009D81F6 /* AppdelegateExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -363,6 +371,7 @@
 		AEC09CE91CE98C3A00D5A5CC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				AEDDCEF81D100FDB00498D47 /* UTIL.swift */,
 				AEE7D2241D0E586100761E74 /* RefreshView */,
 				AEDECF2C1D0D231300CDCE2B /* CustomWebView */,
 				AEBCAEF41CEC415800EBFC0A /* CustomClass */,
@@ -432,7 +441,7 @@
 		AEC47B1A1D0032E20055936D /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				AEC47B1B1D0032E20055936D /* Extenion.swift */,
+				AEC47B1B1D0032E20055936D /* DetailExtension.swift */,
 				AEC47B1C1D0032E20055936D /* WebViewExtenion.swift */,
 				AEDECF281D0D11D100CDCE2B /* DataSourceExtension.swift */,
 			);
@@ -610,7 +619,7 @@
 				TargetAttributes = {
 					AEC09CCF1CE9776800D5A5CC = {
 						CreatedOnToolsVersion = 7.3;
-						DevelopmentTeam = CAY8P2B9Z3;
+						DevelopmentTeam = YFSY5VT59W;
 					};
 				};
 			};
@@ -711,18 +720,20 @@
 				6DC4FDD61CF031E000D25A99 /* HomeViewControllerChannelDataSource.swift in Sources */,
 				AE2968341CF6AA3B00D2782D /* CustomTransitioning.swift in Sources */,
 				AEC47B271D0032E20055936D /* CommetnstableViewCell.swift in Sources */,
+				AEA573FB1D0FAAFA00C9F45C /* UIColorExtension.swift in Sources */,
 				AE0FE5441CF301E8007DA198 /* UIImageExtension.swift in Sources */,
 				AEB8E9D71CFBE35900A105C4 /* SplitManagerViewController.swift in Sources */,
 				AEC47B421D0033610055936D /* DetailAndCommitViewController.swift in Sources */,
 				6DC4FDCF1CF0314700D25A99 /* NewslistViewController.swift in Sources */,
 				AEC1D5BD1CED960100B1F00C /* New.swift in Sources */,
+				AEC489B71D0FF140009D81F6 /* AppdelegateExtension.swift in Sources */,
 				AEC47B481D0037A50055936D /* InputExtension.swift in Sources */,
 				AEFB55151CF41407005FC23E /* Curly.swift in Sources */,
 				AEC965A51CF5AC900053A88D /* UserSettingViewController.swift in Sources */,
 				AEC47B4A1D0037CD0055936D /* CommentButton.swift in Sources */,
 				AEC1D5BF1CED9BBD00B1F00C /* NewsUtil.swift in Sources */,
 				AEBCAEE81CEC27A900EBFC0A /* Channel.swift in Sources */,
-				6DC4FDCE1CF0314700D25A99 /* Extension.swift in Sources */,
+				6DC4FDCE1CF0314700D25A99 /* NewListExtension.swift in Sources */,
 				AEA103531D0571F80086968B /* AboutUtil.swift in Sources */,
 				AEC47B401D00334A0055936D /* DetailAndCommitExtension.swift in Sources */,
 				6DC4FDCC1CF0314700D25A99 /* HomeViewController.swift in Sources */,
@@ -746,8 +757,9 @@
 				AEAEEBD91CF827A700E8DF08 /* User.swift in Sources */,
 				AEE7D2371D0EA1FA00761E74 /* WaitLoadProtcol.swift in Sources */,
 				AEDECF4E1D0D29B200CDCE2B /* GDWebViewNavigationToolbar.swift in Sources */,
+				AEDDCEF91D100FDB00498D47 /* UTIL.swift in Sources */,
 				AEC47B441D0033A60055936D /* ShareExtension.swift in Sources */,
-				AEC47B311D0032E20055936D /* Extenion.swift in Sources */,
+				AEC47B311D0032E20055936D /* DetailExtension.swift in Sources */,
 				AEEE61981CFE9CEF00C5FF08 /* Comment.swift in Sources */,
 				AEC47B291D0032E20055936D /* CommExtension.swift in Sources */,
 				AEBCAEF81CEC418200EBFC0A /* CircularButtonBarView.swift in Sources */,
@@ -889,7 +901,7 @@
 				INFOPLIST_FILE = Journalism/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.yktx.Sokme;
+				PRODUCT_BUNDLE_IDENTIFIER = com.msiter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Journalism/Resources/LPRefreshView/Journalism-Bridging-Header.h";
@@ -908,7 +920,7 @@
 				INFOPLIST_FILE = Journalism/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.yktx.Sokme;
+				PRODUCT_BUNDLE_IDENTIFIER = com.msiter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Journalism/Resources/LPRefreshView/Journalism-Bridging-Header.h";

@@ -25,6 +25,7 @@ class NewBaseTableViewCell: UITableViewCell {
         self.commentCountLabel.text = "\(new.comment)评"
         self.timeLabel.text = new.ptimes.weiboTimeDescription
         self.commentCountLabel.hidden = new.comment > 0 ? false : true
+        self.titleLabel.textColor = new.isread == 1 ? UIColor.a_color4 : UIColor.a_color3
     }
     
     

@@ -29,7 +29,7 @@ class ShareBottomBorderView: UIView {
         path.addLineToPoint(CGPoint(x: self.frame.size.width-18, y: self.frame.size.height))
         
         path.lineWidth = 0.5
-        UIColor(red: 228/255, green:228/255, blue: 228/255, alpha: 1).setStroke()
+        UIColor.a_color5.setStroke()
         path.stroke()
         
         layout.path = path.CGPath

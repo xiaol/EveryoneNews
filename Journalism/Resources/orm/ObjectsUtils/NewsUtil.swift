@@ -14,8 +14,6 @@ class NewsUtil: NSObject {
     
     class func RefreshNewsListArrayData(channelId:Int,create:Bool=false,times:String = "\(Int64(NSDate().timeIntervalSince1970*1000))",finish:((count:Int)->Void)?=nil,fail:(()->Void)?=nil){
         
-        print(times,"------",channelId)
-        
         guard let token = SDK_User.token else{ fail?();return }
         
         let requestBudile = NewAPI.nsFedRGetWithRequestBuilder(cid: "\(channelId)", tcr: times, tmk: "0")
@@ -39,21 +37,37 @@ class NewsUtil: NSObject {
                 }
             })
             
-            guard let body = response?.body,let data = body.objectForKey("data") as? NSArray else{  fail?();return} // 加载失败
-            
+            guard let body = response?.body,let data = body.objectForKey("data") as? NSArray else{  print(response?.body);fail?();return} // 加载失败
+
             // 获取所有数据
             var newsResults = realm.objects(New)
-            
+
             // 获取当前频道所操作的数据个数，并且
             try! realm.write({
                 if hot == 1 {
                     
-                    newsResults = newsResults.filter("ishotnew = 1 AND isdelete = 0")
+                    newsResults = newsResults.filter("ishotnew = 1 AND isdelete = 0").sorted("ptimes", ascending: false)
                 }else{
                     
-                    newsResults = newsResults.filter("channel = %@ AND isdelete = 0 AND ishotnew = 0",channelId)
+                    newsResults = newsResults.filter("channel = %@ AND isdelete = 0 AND ishotnew = 0",channelId).sorted("ptimes", ascending: false)
                 }
             })
+            
+            if !create && newsResults.count > 30{ // 如果是第一次刷新，并且数据量大于30，则完成数据清除
+                
+                let willDelete = newsResults.filter("ptimes < %@", newsResults[30].ptimes)
+                
+                try! realm.write({ // 删除冗余的新闻
+                    
+                    willDelete.forEach({ (new) in // 确保不喜欢的新闻 绝对消失
+                        
+                        if new.isdelete == 0 {
+                            realm.delete(new)
+                        }
+                    })
+                })
+            }
+            
             
             // 记录个数
             let beforeCount = newsResults.count

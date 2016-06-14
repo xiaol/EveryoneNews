@@ -39,11 +39,25 @@ public class New: Object {
     
     dynamic var isdelete = 0 // 区
     
+    dynamic var isread = 0 // 是否阅读
+    
     dynamic var ishotnew = 0 /// 是不是热点新闻
     dynamic var isidentification = 0 /// 是不是热点新闻
     
     override public static func primaryKey() -> String? {
         return "nid"
     }
-    
+}
+
+extension New{
+
+    func isRead(){
+        
+        let realm = try! Realm()
+        
+        try! realm.write {
+            
+            self.isread = 1
+        }
+    }
 }

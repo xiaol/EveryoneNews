@@ -26,12 +26,16 @@ extension DetailViewController:UITableViewDelegate,UITableViewDataSource {
         
         let about = self.aboutResults[indexPath.row]
 
+        about.isRead() // 标记为已读
+        
         self.goWebViewController(about.url)
+        
+        self.tableView.reloadData()
     }
 }
 
 
-private extension DetailViewController{
+extension DetailViewController{
 
     private func getCellForRowAtIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
     
@@ -107,7 +111,10 @@ private extension DetailViewController{
         }else{ // 如果是其他，也就是直邮第二个section 说明就是 相关新闻 视图
             cell.titleLabel.text = "相关观点"
         }
-        return cell
+        let containerView = UIView(frame:cell.frame)
+        cell.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        containerView.addSubview(cell)
+        return containerView
     }
     
     // 返回每一个Row的高度
@@ -126,7 +133,10 @@ private extension DetailViewController{
     }
     
     // 获取每一个sction的行的数目
-    private func getRowCountForSection(section:Int) -> Int{
+    func getRowCountForSection(section:Int) -> Int{
+        
+        
+        
         if section == 0 {return 1} // 如果是第一个则固定返回一行，用于现实喜欢朋友圈
         if section == 1 && (hotResults != nil && hotResults.count > 0 ){ return hotResults.count > 3 ? 4 : hotResults.count } // 如果是第一个，人们评论相关的section
         if section == 2 && (aboutResults != nil && aboutResults.count > 0 ){ return aboutResults.count } // 相关新闻的section

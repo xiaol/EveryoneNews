@@ -27,7 +27,7 @@ extension UIImage{
             
             dispatch_once(&backTaskLeton.predicate, { () -> Void in
                 
-                backTaskLeton.bgTask = imageWithColor(UIColor.lightGrayColor(), size: CGSize(width: 800, height: 800))
+                backTaskLeton.bgTask = imageWithColor(UIColor(red: 246/255, green: 246/255, blue: 246/255, alpha: 1), size: CGSize(width: 800, height: 800))
             })
             
             return backTaskLeton.bgTask

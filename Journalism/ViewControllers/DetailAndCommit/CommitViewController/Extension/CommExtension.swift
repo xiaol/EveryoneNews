@@ -58,7 +58,7 @@ extension CommitViewController{
             let realm = try! Realm()
             
             hotResults = realm.objects(Comment.self).filter("nid = \(new.nid) AND ishot = 1").sorted("commend", ascending: false)
-            normalResults = realm.objects(Comment.self).filter("nid = \(new.nid)").sorted("ctimes", ascending: false)
+            normalResults = realm.objects(Comment.self).filter("nid = \(new.nid)")
         }
         
         self.tableView.reloadData()

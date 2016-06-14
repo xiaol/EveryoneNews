@@ -57,7 +57,6 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
         self.shreContentViewMethod(true, animate: false)
         
         if let n = new { // 刷新最热评论 和 普通评论
-            CommentUtil.LoadHotsCommentsList(n)
             CommentUtil.LoadNoramlCommentsList(n)
         }
         

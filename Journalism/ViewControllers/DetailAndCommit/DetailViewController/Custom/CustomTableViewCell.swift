@@ -47,6 +47,18 @@ class CommentsTableViewCell:UITableViewCell{
     }
 }
 
+class SearchTableViewCell:UITableViewCell{
+    
+    override func drawRect(rect: CGRect) {
+        
+        let context = UIGraphicsGetCurrentContext() // 获取绘画板
+        CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
+        CGContextFillRect(context, rect)
+        //下分割线
+        CGContextSetStrokeColorWithColor(context, UIColor(red: 228/255, green:228/255, blue: 228/255, alpha: 1).CGColor)
+        CGContextStrokeRect(context, CGRectMake(0, rect.height, rect.width, 1));
+    }
+}
 
 class LikeAndPYQTableViewCell:UITableViewCell{
     
@@ -102,6 +114,7 @@ class AboutTableViewCell:UITableViewCell{
         YearLabel.text = "\(about.ptimes.year())"
         MAndDLabel.text = about.ptimes.toString(format: DateFormat.Custom(" MM/dd "))
         contentLabel.text = about.title
+        self.contentLabel.textColor = about.isread == 1 ? UIColor.a_color4 : UIColor.a_color3
         
         self.titleHeadightConstraint.constant = hiddenY ? 0 : 21
         

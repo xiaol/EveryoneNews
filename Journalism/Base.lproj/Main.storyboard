@@ -1710,6 +1710,10 @@
                                                     <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="riN-2l-WaK">
+                                                    <rect key="frame" x="180" y="-52" width="240" height="128"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </view>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="bbV-Zu-XRD" firstAttribute="leading" secondItem="XNn-kT-Tmh" secondAttribute="leading" constant="18" id="go6-76-Sx1"/>
@@ -1787,13 +1791,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="84" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="OXJ-Hd-huy">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="84" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="OXJ-Hd-huy">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" red="0.89411764709999997" green="0.89411764709999997" blue="0.89411764709999997" alpha="1" colorSpace="calibratedRGB"/>
                                 <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="search" rowHeight="53" id="8Bc-YR-eiD">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="search" rowHeight="53" id="8Bc-YR-eiD" customClass="SearchTableViewCell" customModule="Journalism" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="50" width="600" height="53"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8Bc-YR-eiD" id="bw8-wd-rQX">
@@ -1803,8 +1807,8 @@
                                                 <view userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O6g-w5-C1O">
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="53"/>
                                                     <subviews>
-                                                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SVH-oU-AUj" customClass="SearchView" customModule="Journalism" customModuleProvider="target">
-                                                            <rect key="frame" x="12" y="9" width="576" height="42"/>
+                                                        <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SVH-oU-AUj" customClass="SearchView" customModule="Journalism" customModuleProvider="target">
+                                                            <rect key="frame" x="12" y="9" width="576" height="35"/>
                                                             <subviews>
                                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="首页搜索" translatesAutoresizingMaskIntoConstraints="NO" id="RSR-FN-X7E">
                                                                     <rect key="frame" x="11" y="14" width="15" height="15"/>
@@ -1825,7 +1829,6 @@
                                                             </constraints>
                                                         </view>
                                                     </subviews>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstItem="SVH-oU-AUj" firstAttribute="top" secondItem="O6g-w5-C1O" secondAttribute="top" constant="9" id="AGZ-93-QJs"/>
                                                         <constraint firstAttribute="bottom" secondItem="SVH-oU-AUj" secondAttribute="bottom" constant="9" id="jfs-T2-n0a"/>
@@ -1841,6 +1844,7 @@
                                                 <constraint firstItem="O6g-w5-C1O" firstAttribute="top" secondItem="bw8-wd-rQX" secondAttribute="top" id="yxH-kM-P7E"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="0.0" reuseIdentifier="NewNormalTableViewCell" rowHeight="84" id="Xzb-jO-5Oa" customClass="NewNormalTableViewCell" customModule="Journalism" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="103" width="600" height="84"/>
