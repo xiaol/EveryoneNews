@@ -313,14 +313,9 @@ const static CGFloat changeFontSizeViewH = 150;
     void (^contentBlock)(id json) = ^(id json) {
         if ([json[@"code"] integerValue] == 2000) {
             [self.contentFrames removeAllObjects];
-            __block int downloadImageCount = 0;
-            NSInteger imageCount = 0;
             NSInteger i = 0;
             
             NSMutableDictionary *dict = json[@"data"];
-            
-//            NSString *html = @"<!DOCTYPE html><html><head lang='en'><meta charset='UTF-8'><meta name='viewport' content='‘width=device-width,' initial-scale='1.0,' user-scalable='yes,target-densitydpi=device-dpi'><title></title></head><body><iframe class='video_iframe' style='z-index:1;width:300px!important;height:200px!important;overflow:hidden' frameborder='0' data-src='https://v.qq.com/iframe/preview.html?vid=l13054ewlm4&amp;width=300&amp;height=200&amp;auto=0' allowfullscreen src='http://v.qq.com/iframe/player.html?vid=l13054ewlm4&amp;width=300&amp;height=200&amp;auto=0' scrolling='no'></iframe></body></html>";
-            
             NSString *title = dict[@"title"];
             NSString *pubTime = dict[@"ptime"];
             NSString *pubName = dict[@"pname"];
@@ -345,21 +340,10 @@ const static CGFloat changeFontSizeViewH = 150;
 
             NSMutableArray *bodyArray = [[NSMutableArray alloc] initWithArray:dict[@"content"]];
 
-            // 测试专用
-//            [bodyArray addObject:[NSDictionary dictionaryWithObject:html forKey:@"video"]];
-//            
-//            NSString *html2 = @"<video id='vjs_video_3_html5_api' class='vjs-tech' preload='auto' autoplay="" src='http://v6.pstatp.com/video/c/fb7a64d1bef04ee8bc471970ee99acf4/?Signature=2j2KBE4WeVPA6dAdxHELVPFhCXA%3D&amp;Expires=1464577090&amp;KSSAccessKeyId=qh0h9TdcEMrm1VlR2ad/'><source type='video/mp4' src='http://v6.pstatp.com/video/c/fb7a64d1bef04ee8bc471970ee99acf4/?Signature=2j2KBE4WeVPA6dAdxHELVPFhCXA%3D&amp;Expires=1464577090&amp;KSSAccessKeyId=qh0h9TdcEMrm1VlR2ad/'></video>";
-//            // 测试专用
-//            [bodyArray addObject:[NSDictionary dictionaryWithObject:html2 forKey:@"video"]];
-            
             // 第一个图片作为分享图片
             for (NSDictionary *dict in bodyArray) {
-                i++;
                 if (dict[@"img"] && i == 0) {
                     self.shareImageURL = dict[@"img"];
-                }
-                if (dict[@"img"]) {
-                    ++ imageCount;
                 }
             }
 
@@ -370,7 +354,6 @@ const static CGFloat changeFontSizeViewH = 150;
                 content.isAbstract = NO;
                 content.index = dict[@"index"];
                 content.photo = dict[@"img"];
-                content.image = [UIImage imageNamed:@"单图大图占位图"];
                 content.photoDesc = dict[@"img_info"];
                 content.body = dict[@"txt"];
                 content.video = dict[@"video"];
@@ -390,17 +373,6 @@ const static CGFloat changeFontSizeViewH = 150;
                 LPContentFrame *contentFrame = [[LPContentFrame alloc] init];
                 contentFrame.content = content;
                 [self.contentFrames addObject:contentFrame];
-                [contentFrame downloadImageWithCompletionBlock:^{
-
-                    ++ downloadImageCount;
-                    if (self.contentFrames.count > 0 && downloadImageCount == imageCount) {
-                        [self.tableView reloadData];
-                        [self noCommentsViewTip];
-                        [self.commentsTableView reloadData];
-                        self.tableView.hidden = NO;
-                        [self hideLoadingView];
-                    }
-                }];
             }
         }
     };
@@ -470,13 +442,7 @@ const static CGFloat changeFontSizeViewH = 150;
 
     // 相关观点block
     void (^relatePointBlock)(id json) = ^(id json) {
-        
-//        NSLog(@"%@", json);
-        
-//         NSString *jsonString =  @"[{ \"url\": \"http://news.163.com/16/0520/08/BNGEG7ID00014Q4P.html\",\"title\": \"但愿雷洋事件不是一个小插曲\",\"from\": \"Baidu\",\"rank\": 1,\"pname\": \"网易新闻\",\"ptime\": \"2016-05-20 08:47:45\",\"img\": \"\",\"abs\": \"据@平安北京19日发布...\"}]" ;
-//        NSData *data = [jsonString dataUsingEncoding:NSUTF8StringEncoding];
-//        id jsonTest = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-        
+                
         if ([json[@"code"] integerValue] == 2000) {
             [self.relatePointFrames removeAllObjects];
             NSDictionary *dict = json[@"data"];

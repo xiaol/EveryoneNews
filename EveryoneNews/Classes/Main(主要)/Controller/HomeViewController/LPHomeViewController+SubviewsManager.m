@@ -20,7 +20,7 @@
 #import "LPFontSizeManager.h"
 #import "MainNavigationController.h"
 #import "LPNewsLoginViewController.h"
-#import "LPNewsNavigationController.h"
+//#import "LPNewsNavigationController.h"
 #import "SSKeychainQuery.h"
 #import "SSKeychain.h"
 #import "AppDelegate.h"
@@ -355,14 +355,6 @@ const static CGFloat cellPadding = 15;
 
 #pragma mark - 展开我的频道
 - (void)addButtonClick {
-//    __weak __typeof(self)weakSelf = self;
-//    // 选中某个按钮后需要刷新频道
-//    [self.sortCollectionView reloadData];
-//    [UIView animateWithDuration:0.3 animations:^{
-//        weakSelf.blurView.alpha = 1.0;
-//    } completion:^(BOOL finished) {
-//    }];
-    
     LPHomeChannelItemController *homeChannelItemController = [[LPHomeChannelItemController alloc] init];
     homeChannelItemController.selectedArray = self.selectedArray;
     homeChannelItemController.optionalArray = self.optionalArray;

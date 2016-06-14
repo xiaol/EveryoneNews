@@ -101,9 +101,6 @@
     item2.channelName = @"社会";
     item2.channelIsSelected = @"1";
     
-    
-    
-    
     item3.channelID = @"7";
     item3.channelName = @"财经";
     item3.channelIsSelected = @"1";

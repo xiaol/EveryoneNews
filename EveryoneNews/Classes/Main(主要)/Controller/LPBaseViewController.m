@@ -18,8 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-   // [noteCenter addObserver:self selector:@selector(<#selector#>) name:<#(nullable NSString *)#> object:<#(nullable id)#>];
+    [noteCenter addObserver:self selector:@selector(changeHomeViewFontSize) name:LPFontSizeChangedNotification object:nil];
 }
 
 //- (void)setIsBuiltInPop:(BOOL)isBuiltInPop {
@@ -57,5 +56,14 @@
 - (UIStatusBarStyle)preferredStatusBarStyle  {
     return UIStatusBarStyleDefault;
 }
+
+- (void)changeHomeViewFontSize {
+    
+}
+
+- (void)dealloc {
+    [noteCenter removeObserver:self];
+}
+
 
 @end

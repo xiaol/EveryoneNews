@@ -139,7 +139,6 @@
         [self.delegate changeFontSizeView:self reloadTableViewWithFontSize:self.homeViewFontSize fontSizeType:homeViewFontSizeType currentDetailContentFontSize:self.currentDetailContentFontSize currentDetaiTitleFontSize:self.currentDetaiTitleFontSize currentDetailCommentFontSize:self.currentDetailCommentFontSize currentDetailRelatePointFontSize:self.currentDetailRelatePointFontSize currentDetailSourceFontSize:self.currentDetailSourceFontSize];
     }
     
-    [noteCenter postNotificationName:LPFontSizeChangedNotification object:nil];
 }
 
 - (void)sliderTouchUpInside:(UISlider *)slider {

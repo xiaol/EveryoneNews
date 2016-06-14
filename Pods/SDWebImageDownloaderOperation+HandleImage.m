@@ -93,16 +93,32 @@
 //        }
 //    }
     
+    NSString *imageContentType = [NSData sd_contentTypeForImageData:data];
+
     UIImage *image = [UIImage imageWithData:data];
     CGFloat w = [UIScreen mainScreen].bounds.size.width;
-    CGFloat h = image.size.height / image.size.width * w;
+    CGFloat h = (image.size.height * 1.0f / image.size.width) * w;
     UIImage *resizeImage = [[UIImage alloc] init];
-    // 图片宽度大于屏幕宽度
-    if (image.size.width > w) {
-        resizeImage = [self imageWithImage:image scaledToSize:CGSizeMake(w, h)];
-        data = UIImageJPEGRepresentation(resizeImage, (CGFloat)0.5);
+    
+    // gif处理
+    if ([imageContentType isEqualToString:@"image/gif"]) {
+        if (image.size.width > w) {
+            resizeImage = [self imageWithImage:image scaledToSize:CGSizeMake(w, h)];
+            data = UIImageJPEGRepresentation(resizeImage, (CGFloat)0.5);
+        } else {
+            data = UIImageJPEGRepresentation(image, (CGFloat)0.5);
+        }
+        
         image = nil;
+    } else {
+        // 图片宽度大于屏幕宽度
+        if (image.size.width > w) {
+            resizeImage = [self imageWithImage:image scaledToSize:CGSizeMake(w, h)];
+            data = UIImageJPEGRepresentation(resizeImage, (CGFloat)0.5);
+            image = nil;
+        }
     }
+
     return data;
 }
 

@@ -39,9 +39,5 @@ typedef void(^imageDownLoadCompletionBlock)();
 
 @property (nonatomic, assign, readonly, getter=isUpdated) BOOL updated;
 
-//@property (nonatomic, copy) imageDownLoadCompletionBlock block;
-
-- (void)downloadImageWithCompletionBlock:(imageDownLoadCompletionBlock)imageDownLoadCompletionBlock ;
-
 - (void)setContentWhenFontSizeChanged:(LPContentFrame *)contentFrame;
 @end

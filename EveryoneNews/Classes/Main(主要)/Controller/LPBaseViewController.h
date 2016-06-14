@@ -12,5 +12,5 @@
 @interface LPBaseViewController : UIViewController
 //@property (nonatomic, assign) BOOL isBuiltInPop;
 
-//- (void)
+- (void)changeHomeViewFontSize;
 @end

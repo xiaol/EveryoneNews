@@ -54,15 +54,6 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
-//        self.layer.shouldRasterize = YES;
-//        self.layer.rasterizationScale = [UIScreen mainScreen].scale;
-        
-//        UILabel *bodyLabel = [[UILabel alloc] init];
-//        bodyLabel.userInteractionEnabled = YES;
-//        bodyLabel.numberOfLines = 0;
-//        [self.contentView addSubview:bodyLabel];
-//        self.bodyLabel = bodyLabel;
-//
         
         LPUITextView *bodyTextView = [[LPUITextView alloc] init];
         bodyTextView.delegate = self;
@@ -98,21 +89,6 @@
 {
     _contentFrame = contentFrame;
     LPContent *content = contentFrame.content;
-//    if (!content.isPhoto) { // 非图
-//        self.bodyTextView.hidden = NO;
-//        self.photoView.hidden = YES;
-//        
-//        self.bodyTextView.frame = self.contentFrame.bodyLabelF;
-//        self.bodyTextView.attributedText = content.bodyHtmlString;
-//
-//    } else {
-//
-//        self.bodyTextView.hidden = YES;
-//        self.photoView.hidden = NO;
-//        self.photoView.frame = self.contentFrame.photoViewF;
-//        self.photoView.image = content.image;
-//    }
-    
     
     if (content.contentType == 1) { // 图像
         self.bodyTextView.hidden = YES;
@@ -120,9 +96,9 @@
         self.webView.hidden = YES;
         
         self.photoView.frame = self.contentFrame.photoViewF;
-        self.photoView.image = content.image;
+
+        [self.photoView sd_setImageWithURL:[NSURL URLWithString:content.photo] placeholderImage:[UIImage imageNamed:@"单图大图占位图"]];
         
-     
         // 文字
     } else if(content.contentType == 2) {
         self.bodyTextView.hidden = NO;
@@ -143,28 +119,6 @@
     }
     
 }
-
-//- (void)setContent:(LP *)content {
-//    _content = content;
-//    if (!content.isPhoto) { // 非图
-//        self.bodyLabel.hidden = NO;
-//        self.photoView.hidden = YES;
-//        self.bodyLabel.frame = self.contentFrame.bodyLabelF;
-//        self.bodyLabel.attributedText = _content.bodyHtmlString;
-//    
-//    } else {
-//        self.bodyLabel.hidden = YES;
-//        self.photoView.hidden = NO;
-//
-//        CGFloat photoX = 0;
-//        CGFloat photoY = BodyPadding * 2;
-//        CGFloat photoW = ScreenWidth - 2 * BodyPadding;
-//        CGFloat photoH =  photoW * (_content.image.size.height / _content.image.size.width);
-//        self.photoView.frame = CGRectMake(photoX, photoY, photoW, photoH);
-//        
-//        [self.photoView sd_setImageWithURL:[NSURL URLWithString:content.photo] placeholderImage:[UIImage imageNamed:@"单图大图占位图"]];
-//    }
-//}
 
 -(void)setSelected:(BOOL)selected animated:(BOOL)animated {
     
