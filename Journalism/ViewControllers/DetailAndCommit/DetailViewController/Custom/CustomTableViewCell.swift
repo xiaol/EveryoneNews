@@ -22,7 +22,7 @@ class CommentsTableViewCell:UITableViewCell{
     
     func setCommentMethod(comment:Comment){
         praiseLabel.hidden = comment.commend <= 0
-        praiseButton.hidden = comment.uid == SDK_User.uid
+        praiseButton.hidden = comment.uid == ShareUser.uid
         
         praiseLabel.text = "\(comment.commend)"
         

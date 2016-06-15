@@ -15,7 +15,7 @@ class CommentUtil: NSObject {
     /// 获取普通评论列表
     class func LoadNoramlCommentsList(new:New,p: String?="1", c: String?="20",finish:((count:Int)->Void)?=nil,fail:(()->Void)?=nil) {
         
-        CommentAPI.nsComsCGet(did: new.docidBase64(), uid: "\(SDK_User.uid!)", p: p, c: c) { (datas, error) in
+        CommentAPI.nsComsCGet(did: new.docidBase64(), uid: "\(ShareUser.uid!)", p: p, c: c) { (datas, error) in
             
             if let code = datas?.objectForKey("code") as? Int{
                 if code == 2002 {

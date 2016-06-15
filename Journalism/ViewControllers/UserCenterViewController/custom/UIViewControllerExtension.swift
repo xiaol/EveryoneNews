@@ -41,4 +41,13 @@ extension UIStoryboard{
         
         return viewController
     }
+    
+    
+    // 获取用户信息视图
+    func get_LoginViewController()-> UIViewController{
+        
+        let viewController = self.instantiateViewControllerWithIdentifier("LoginViewController")
+        
+        return viewController
+    }
 }

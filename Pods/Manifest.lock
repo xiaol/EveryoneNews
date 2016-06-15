@@ -21,6 +21,7 @@ PODS:
   - RealmSwift (1.0.1):
     - Realm (= 1.0.1)
   - SnapKit (0.21.0)
+  - SVProgressHUD (2.0.3)
   - SwaggerClient (2.3.0):
     - Alamofire (~> 3.1.4)
   - UMengSocialCOM (5.2.1)
@@ -38,6 +39,7 @@ DEPENDENCIES:
   - ReachabilitySwift
   - RealmSwift
   - SnapKit
+  - SVProgressHUD
   - SwaggerClient (from `swift-client/`)
   - UMengSocialCOM
   - WebViewJavascriptBridge
@@ -64,12 +66,13 @@ SPEC CHECKSUMS:
   Realm: 2e15e39d35b08abb529e212ed5d8af107b5236c8
   RealmSwift: d73ea2af08c3676dbdd5e4b669651a0f492162a4
   SnapKit: 2756fe24b706367af224c9c508d2f9166d03354c
+  SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
   SwaggerClient: 3e95269a11364722aafe79c9bbd8b71582f02f01
   UMengSocialCOM: 074c135ce349aa4c8848d3fb8458757bcb6ffb67
   WebViewJavascriptBridge: a4d502315f1b8d9a51cd6a9174147ed567ec3bc5
   WeiboSDK: acb067053668102cf07d01aa7604350162c2e466
   XLPagerTabStrip: 87b8b705f9a7178e76a063ffaa2d70045944a965
 
-PODFILE CHECKSUM: 18c4d653e2d3941a420e3dd67559600be1d90aff
+PODFILE CHECKSUM: 6a05eb593ac6c90275d605d4f427c3b083f299cb
 
 COCOAPODS: 1.0.0

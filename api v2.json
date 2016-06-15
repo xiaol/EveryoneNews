@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "version": "v2",
+        "version": "2.0.0",
         "title": "Journalism",
         "description": "这是奇点资讯的第二版本，第二版本主要加入了一些用户权限的认证，使不是注册用户的用户不可以访问我们的很多信息，频道信息，评论，等等。\n\n 其次增加了很多接口某些字段的支持，包括市区列表获取，包括新闻详情赞的支持等等方面"
     },
@@ -750,7 +750,8 @@
                 },
                 "utype": {
                     "description": "用户类型注释1.本地注册用户 2游客用户 3微博用户 4微信用户",
-                    "type": "string"
+                    "type": "integer",
+                    "format": "int32"
                 },
                 "platform": {
                     "description": "用户平台注释 1.IOS 2安卓 3网页 4无法识别",

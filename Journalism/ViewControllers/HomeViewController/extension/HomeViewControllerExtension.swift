@@ -26,7 +26,15 @@ extension HomeViewController{
     // 点击用户头像所触发的事件
     @IBAction func ClickUserHeadPhotoAction(sender: AnyObject) {
         
-        let viewController = UIStoryboard.shareUserStoryBoard.get_UserCenterViewController()
+        var viewController:UIViewController!
+        
+        if ShareUser.utype != 2 {
+        
+            viewController = UIStoryboard.shareUserStoryBoard.get_UserCenterViewController()
+        }else{
+            viewController = UIStoryboard.shareUserStoryBoard.get_LoginViewController()
+        }
+        
         
         self.presentViewController(viewController, animated: true, completion: nil)
     }

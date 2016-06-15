@@ -69,6 +69,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SVProgressHUD.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>SnapKit.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -102,12 +107,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2AE01E30455DAFC051A6578B8546888A</key>
+		<key>36E528E1FD2B3D18794ACB9E3DB8C63F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2F695F4FB9A48C17593EF7F45B643250</key>
+		<key>40D68D82B66B221F4BE1C0B5C6870E25</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -117,27 +122,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5052A8D7CE8C5A6159A0C88BAC399157</key>
+		<key>623FC48DC39F80F170E2815C0CD5D5FD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>613D78F9C2160820278120DC8A6739B8</key>
+		<key>658CDA7D630768E689E6AABF9A9F41CE</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6ABBCC148D9993D5B4697C0132884724</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>7076FA9686A87C7EC07D7FDBB6AE4A2E</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>70CB4F59B421FFA3F02F31548370857D</key>
+		<key>7726769B309E849F28CC31503F05B333</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -152,7 +147,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>8922A99C5A518D6B28475E9D92F08705</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>9AB92A2AE7314091D107EAC8561B8977</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9B76552E279D96305CC13A0E8A23089D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -162,17 +167,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>BAA8A4B254341CD499487C160809140E</key>
+		<key>B782D781B54EB564776663FE9205E85D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>BC4BDA2C562F6C97900E10DF7BB70A5F</key>
+		<key>C82ABE971BBEA22021FE7CE3C20850AF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>CDB08C07D47BCDB5C433A0880B4EE4C4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>D6196ADA2C78920D0C93E60723682DA2</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -3,6 +3,8 @@ use_frameworks!
 
 target :'Journalism' do
 
+    pod 'SVProgressHUD'                                      ## 提示 Toast
+
     pod 'WeiboSDK'                                           ## 微博SDK
     pod 'UMengSocialCOM'                                     ## 友盟 接入
 

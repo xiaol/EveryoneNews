@@ -1844,7 +1844,7 @@
                                                 <constraint firstItem="O6g-w5-C1O" firstAttribute="top" secondItem="bw8-wd-rQX" secondAttribute="top" id="yxH-kM-P7E"/>
                                             </constraints>
                                         </tableViewCellContentView>
-                                        <color key="backgroundColor" cocoaTouchSystemColor="tableCellGroupedBackgroundColor"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="0.0" reuseIdentifier="NewNormalTableViewCell" rowHeight="84" id="Xzb-jO-5Oa" customClass="NewNormalTableViewCell" customModule="Journalism" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="103" width="600" height="84"/>

@@ -6,10 +6,10 @@
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Login View Controller-->
         <scene sceneID="Zg4-lu-tHx">
             <objects>
-                <viewController id="UiC-Aj-imW" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginViewController" id="UiC-Aj-imW" customClass="LoginViewController" customModule="Journalism" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="RiZ-YN-gi9"/>
                         <viewControllerLayoutGuide type="bottom" id="a07-cJ-f7H"/>
@@ -33,6 +33,9 @@
                                         <state key="normal" title="取消">
                                             <color key="titleColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="dismissViewControllerAction:" destination="UiC-Aj-imW" eventType="touchUpInside" id="E29-SC-6QY"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -53,6 +56,9 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fJA-n1-CsY">
                                                 <rect key="frame" x="112" y="0.0" width="76" height="76"/>
                                                 <state key="normal" image="微信登录"/>
+                                                <connections>
+                                                    <action selector="WeChatLoginButtonAction:" destination="UiC-Aj-imW" eventType="touchUpInside" id="bin-9o-Xs3"/>
+                                                </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="微信登录" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B6R-GY-jfy">
                                                 <rect key="frame" x="118" y="90" width="64" height="20"/>
@@ -75,6 +81,9 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="98F-Cv-6BF">
                                                 <rect key="frame" x="112" y="0.0" width="76" height="76"/>
                                                 <state key="normal" image="微博登录"/>
+                                                <connections>
+                                                    <action selector="SinaLoginButtonAction:" destination="UiC-Aj-imW" eventType="touchUpInside" id="oCn-F3-Tc1"/>
+                                                </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="微博登录" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dQc-ig-wfr">
                                                 <rect key="frame" x="118" y="90" width="64" height="20"/>
@@ -114,6 +123,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Bo-qQ-Tu2">
                                 <rect key="frame" x="287" y="519" width="26" height="26"/>
                                 <state key="normal" image="User_setting"/>
+                                <connections>
+                                    <segue destination="rj9-A4-vgb" kind="presentation" id="uQY-zZ-cAd"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.96470588239999999" green="0.96470588239999999" blue="0.96470588239999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -153,11 +165,14 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vjR-3I-Tb9">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="128"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lWL-iO-mej">
+                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lWL-iO-mej">
                                                 <rect key="frame" x="112" y="0.0" width="76" height="76"/>
                                                 <state key="normal" image="微信登录"/>
+                                                <connections>
+                                                    <action selector="WeChatLoginButtonAction:" destination="wnf-82-jyt" eventType="touchUpInside" id="3v2-Ki-xvv"/>
+                                                </connections>
                                             </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="微信登录" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j3O-ml-Bbc">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="微信登录" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j3O-ml-Bbc">
                                                 <rect key="frame" x="118" y="90" width="64" height="20"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -178,6 +193,9 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mws-zh-vXx">
                                                 <rect key="frame" x="112" y="0.0" width="76" height="76"/>
                                                 <state key="normal" image="微博登录"/>
+                                                <connections>
+                                                    <action selector="SinaLoginButtonAction:" destination="wnf-82-jyt" eventType="touchUpInside" id="a6L-B6-9To"/>
+                                                </connections>
                                             </button>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="微博登录" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KAk-ef-Kb1">
                                                 <rect key="frame" x="118" y="90" width="64" height="20"/>
@@ -1112,4 +1130,7 @@
         <image name="微信登录" width="76" height="76"/>
         <image name="微博登录" width="76" height="76"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="uQY-zZ-cAd"/>
+    </inferredMetricsTieBreakers>
 </document>

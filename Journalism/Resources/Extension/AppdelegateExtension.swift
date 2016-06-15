@@ -10,13 +10,14 @@ import UIKit
 import CRToast
 import ReachabilitySwift
 
+// 完成登陆设置，和网络监测设置
 extension AppDelegate:UISplitViewControllerDelegate {
     
     /// 设置一些方法
     func initAppdelegateMethod(){
     
         UMSocialData.setAppKey(UMENG_APPKEY) // 设置友盟 App Key
-        UMSocialQQHandler.setQQWithAppId(QQ_APPID, appKey: QQ_APPSECRET, url: nil) // 设置qq
+//        UMSocialQQHandler.setQQWithAppId(QQ_APPID, appKey: QQ_APPSECRET, url: nil) // 设置qq
         UMSocialWechatHandler.setWXAppId(WECHAT_APPID, appSecret: WECHAT_APPSECRET, url: nil) // 设置微信
         WeiboSDK.registerApp(SINA_KEY)/// 新浪微博
         
