@@ -108,6 +108,21 @@ class LoginBoderView:UIView{
     }
 }
 
+
+///圆形图片
+class CircularView:UIView{
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        self.layer.cornerRadius = self.frame.height/2
+        self.layer.borderColor = UIColor(red: 228/255, green: 228/255, blue: 228/255, alpha: 1).CGColor
+        self.layer.borderWidth = 1
+        
+        self.clipsToBounds = true
+    }
+}
+
+
 class TopBorderView:UIView{
 
     override func drawRect(rect: CGRect) {
@@ -136,17 +151,6 @@ class CircularTextField:UIView{
         self.layer.borderWidth = 0.1
     }
     
-}
-
-///圆形图片
-class HeadPhotoView:UIImageView{
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        self.layer.cornerRadius = self.frame.height/2
-        self.layer.borderColor = UIColor(red: 228/255, green: 228/255, blue: 228/255, alpha: 1).CGColor
-        self.layer.borderWidth = 1
-    }
 }
 
 ///  原因按钮

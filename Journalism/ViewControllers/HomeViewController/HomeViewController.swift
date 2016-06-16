@@ -14,10 +14,14 @@ class HomeViewController: CircularButtonBarPagerTabStripViewController {
     @IBOutlet var messageView: UIView!   // 加载完毕的消息提示视图
     @IBOutlet var messageLabel: UILabel! // 消息提示内容Label
     
+     // 不喜欢按钮集合
     @IBOutlet var button1: ReasonButton!
     @IBOutlet var button2: ReasonButton!
     @IBOutlet var button3: ReasonButton!
     @IBOutlet var button4: ReasonButton!
+    
+    
+    @IBOutlet var userLoginHeadPhoto: UIImageView!
     
     @IBOutlet var noLikeChosseView: UIView!
     @IBOutlet var noLikeChosseViewTopCOnstraint: NSLayoutConstraint!
@@ -43,5 +47,19 @@ class HomeViewController: CircularButtonBarPagerTabStripViewController {
     override func viewControllersForPagerTabStrip(pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
         if self.reloadViewControllers.count <= 0 {reloadViewControllers.append(UIStoryboard.shareStoryBoard.get_NewslistViewController())}
         return reloadViewControllers
+    }
+    
+    override func pagerTabStripViewController(pagerTabStripViewController: PagerTabStripViewController, updateIndicatorFromIndex fromIndex: Int, toIndex: Int, withProgressPercentage progressPercentage: CGFloat, indexWasChanged: Bool) {
+        
+        super.pagerTabStripViewController(pagerTabStripViewController, updateIndicatorFromIndex: fromIndex, toIndex: toIndex, withProgressPercentage: progressPercentage, indexWasChanged: indexWasChanged)
+        
+        let oldCell = buttonBarView.cellForItemAtIndexPath(NSIndexPath(forItem: fromIndex, inSection: 0)) as? ButtonBarViewCell
+        let newCell = buttonBarView.cellForItemAtIndexPath(NSIndexPath(forItem: toIndex, inSection: 0)) as? ButtonBarViewCell
+        
+        let oldColor = UIColor.blackColor().colorWithAlphaComponent(0.8)
+        let newColor = UIColor.a_color2
+        
+        oldCell?.label.textColor = newColor.interpolateRGBColorTo(oldColor, fraction: progressPercentage)
+        newCell?.label.textColor = oldColor.interpolateRGBColorTo(newColor, fraction: progressPercentage)
     }
 }

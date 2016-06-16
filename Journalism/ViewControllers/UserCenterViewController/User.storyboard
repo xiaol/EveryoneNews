@@ -53,14 +53,14 @@
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vVv-sr-ePt">
                                         <rect key="frame" x="0.0" y="0.0" width="300" height="128"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fJA-n1-CsY">
+                                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fJA-n1-CsY">
                                                 <rect key="frame" x="112" y="0.0" width="76" height="76"/>
                                                 <state key="normal" image="微信登录"/>
                                                 <connections>
                                                     <action selector="WeChatLoginButtonAction:" destination="UiC-Aj-imW" eventType="touchUpInside" id="bin-9o-Xs3"/>
                                                 </connections>
                                             </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="微信登录" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B6R-GY-jfy">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="微信登录" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B6R-GY-jfy">
                                                 <rect key="frame" x="118" y="90" width="64" height="20"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                 <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -535,6 +535,9 @@
                                                         <state key="normal" title="退出登录">
                                                             <color key="titleColor" red="0.0" green="0.56862745100000001" blue="0.98039215690000003" alpha="1" colorSpace="calibratedRGB"/>
                                                         </state>
+                                                        <connections>
+                                                            <action selector="LoginOut:" destination="rj9-A4-vgb" eventType="touchUpInside" id="PJX-me-IYs"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -862,14 +865,14 @@
                                             <outletCollection property="gestureRecognizers" destination="hIM-Cq-wAU" appends="YES" id="p5Q-2J-dmQ"/>
                                         </connections>
                                     </view>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="产品经理头像" translatesAutoresizingMaskIntoConstraints="NO" id="mLw-Q4-6Ix" customClass="HeadPhotoView" customModule="Journalism" customModuleProvider="target">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="产品经理头像" translatesAutoresizingMaskIntoConstraints="NO" id="mLw-Q4-6Ix" customClass="HeadPhotoView" customModule="Journalism" customModuleProvider="target">
                                         <rect key="frame" x="265" y="75" width="70" height="70"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="70" id="Y1E-GE-Cio"/>
                                             <constraint firstAttribute="width" constant="70" id="gNU-XB-sY1"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="冯纪纲" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SdL-Ju-sVW">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="冯纪纲" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SdL-Ju-sVW" customClass="UserNameLabel" customModule="Journalism" customModuleProvider="target">
                                         <rect key="frame" x="273" y="157" width="54" height="22"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                         <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
@@ -1097,6 +1100,8 @@
                     <connections>
                         <outlet property="pan" destination="hIM-Cq-wAU" id="tL0-1C-JaW"/>
                         <outlet property="scrollView" destination="Nwh-tD-haG" id="QWU-gn-WlU"/>
+                        <outlet property="userHeadPhotoView" destination="mLw-Q4-6Ix" id="ozb-ci-q0z"/>
+                        <outlet property="userNameLabel" destination="SdL-Ju-sVW" id="rdt-Vf-Jh0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YSR-D1-pdY" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1131,6 +1136,6 @@
         <image name="微博登录" width="76" height="76"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="uQY-zZ-cAd"/>
+        <segue reference="MwA-vs-KFJ"/>
     </inferredMetricsTieBreakers>
 </document>

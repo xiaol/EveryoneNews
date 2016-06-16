@@ -212,6 +212,20 @@ class Decoders {
             }
 
 
+            // Decoder for [CommentAndUser]
+            Decoders.addDecoder(clazz: [CommentAndUser].self) { (source: AnyObject) -> [CommentAndUser] in
+                return Decoders.decode(clazz: [CommentAndUser].self, source: source)
+            }
+            // Decoder for CommentAndUser
+            Decoders.addDecoder(clazz: CommentAndUser.self) { (source: AnyObject) -> CommentAndUser in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = CommentAndUser()
+                instance.uid = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uid"])
+                instance.cid = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["cid"])
+                return instance
+            }
+
+
             // Decoder for [Comments]
             Decoders.addDecoder(clazz: [Comments].self) { (source: AnyObject) -> [Comments] in
                 return Decoders.decode(clazz: [Comments].self, source: source)
@@ -299,6 +313,20 @@ class Decoders {
                 let instance = InlineResponse2003()
                 instance.code = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["code"])
                 instance.data = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["data"])
+                return instance
+            }
+
+
+            // Decoder for [NewAndUser]
+            Decoders.addDecoder(clazz: [NewAndUser].self) { (source: AnyObject) -> [NewAndUser] in
+                return Decoders.decode(clazz: [NewAndUser].self, source: source)
+            }
+            // Decoder for NewAndUser
+            Decoders.addDecoder(clazz: NewAndUser.self) { (source: AnyObject) -> NewAndUser in
+                let sourceDictionary = source as! [NSObject:AnyObject]
+                let instance = NewAndUser()
+                instance.uid = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uid"])
+                instance.nid = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["nid"])
                 return instance
             }
 
@@ -442,7 +470,7 @@ class Decoders {
                 let instance = UserRegister()
                 instance.muid = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["muid"])
                 instance.msuid = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["msuid"])
-                instance.utype = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["utype"])
+                instance.utype = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["utype"])
                 instance.platform = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["platform"])
                 instance.suid = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["suid"])
                 instance.stoken = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["stoken"])

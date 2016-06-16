@@ -19,10 +19,17 @@ class CommentsTableViewCell:UITableViewCell{
     
     @IBOutlet var praiseLabel: UILabel!
     @IBOutlet var praiseButton: UIButton!
+    @IBOutlet var praiseedButton: UIButton!
+    
+    var comment:Comment!
     
     func setCommentMethod(comment:Comment){
+        
+        self.comment = comment
+        
         praiseLabel.hidden = comment.commend <= 0
-        praiseButton.hidden = comment.uid == ShareUser.uid
+        praiseButton.enabled = comment.uid != ShareLUser.uid
+        praiseedButton.hidden = comment.upflag == 0 // 用户没有点赞隐藏
         
         praiseLabel.text = "\(comment.commend)"
         
@@ -34,6 +41,17 @@ class CommentsTableViewCell:UITableViewCell{
             
             avatarView.pin_setImageFromURL(url, placeholderImage: UIImage.sharePlaceholderImage)
         }
+    }
+    
+    // 点赞
+    @IBAction func clickPriaiseButton(sender: AnyObject) {
+        
+        CommentUtil.praiseComment(comment)
+    }
+    
+    // 取消点赞
+    @IBAction func clickPriaiseedButton(sender: AnyObject) {
+        
     }
     
     override func drawRect(rect: CGRect) {

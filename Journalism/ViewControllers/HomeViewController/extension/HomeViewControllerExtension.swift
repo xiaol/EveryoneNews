@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import PINRemoteImage
 import XLPagerTabStrip
 
 extension HomeViewController{
@@ -18,8 +19,6 @@ extension HomeViewController{
         self.InitChannelViewMethod()
         self.ReloadChannelHttpRequest()
         self.initialPagerTabStripMethod()
-        
-        self.TextForChangehandleMethod()
     }
     
     
@@ -28,10 +27,11 @@ extension HomeViewController{
         
         var viewController:UIViewController!
         
-        if ShareUser.utype != 2 {
-        
+        if ShareLUser.utype != 2 {
+            
             viewController = UIStoryboard.shareUserStoryBoard.get_UserCenterViewController()
         }else{
+            
             viewController = UIStoryboard.shareUserStoryBoard.get_LoginViewController()
         }
         
@@ -61,16 +61,17 @@ extension HomeViewController{
         self.ChannelManagerContainerCollectionView.scrollsToTop = false
         
         changeCurrentIndexProgressive = { (oldCell: ButtonBarViewCell?, newCell: ButtonBarViewCell?, progressPercentage: CGFloat, changeCurrentIndex: Bool, animated: Bool) -> Void in // 设置滑动时改编字体
+            
             guard changeCurrentIndex == true else { return }
-            
             self.ReloadVisCellsSelectedMethod(self.currentIndex) // 刷新这个频道管理的额标题颜色
-            
             self.ChannelDataSource.ChannelCurrentIndex = self.currentIndex
             
             oldCell?.label.textColor = UIColor.blackColor().colorWithAlphaComponent(0.8)
-            newCell?.label.textColor = UIColor(red: 53/255, green:166/255, blue: 251/255, alpha: 1)
+            newCell?.label.textColor = UIColor.a_color2
         }
     }
+    
+
     
     // 首先根据本地数据库刷新页面。 之后使用网络刷新页面
     private func ReloadChannelHttpRequest(){
@@ -82,27 +83,7 @@ extension HomeViewController{
             self.ChannelManagerContainerCollectionView.reloadData()
             }, fail: nil)
     }
-    
-    // 当系统的文字发生变化的时候出发的方法
-    private func TextForChangehandleMethod(){
-    
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(HomeViewController.preferredContentSizeChanged(_:)), name: UIContentSizeCategoryDidChangeNotification, object: nil)
-    }
-    
-    // 刷新当前页面
-    func preferredContentSizeChanged(notifi:NSNotification){
-        
-        
-        self.view.setNeedsLayout()
-        self.view.setNeedsDisplay()
-        self.view.layoutIfNeeded()
-        self.view.layoutIfNeeded()
-        
-        self.view.invalidateIntrinsicContentSize()
-        
-        self.reloadPagerTabStripView()
-    }
-    
+
     // 刷新频道列表
     internal func ReloadViewControllers(){
         

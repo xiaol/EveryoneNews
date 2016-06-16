@@ -135,7 +135,7 @@ class HomeChannelCollectionViewCell: UICollectionViewCell {
         
         self.channelDeleteView.hidden = true
         
-        if self.titleLabel.text == "热点" {
+        if self.titleLabel.text == "奇点" {
             
             self.backgroundColor = UIColor.clearColor()
         }

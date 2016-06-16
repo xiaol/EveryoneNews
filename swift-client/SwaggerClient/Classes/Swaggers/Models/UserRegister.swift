@@ -14,7 +14,7 @@ public class UserRegister: JSONEncodable {
     /** 三方用户相互合并时提供对应的三方用户ID */
     public var msuid: String?
     /** 用户类型注释1.本地注册用户 2游客用户 3微博用户 4微信用户 */
-    public var utype: Int32?
+    public var utype: String?
     /** 用户平台注释 1.IOS 2安卓 3网页 4无法识别 */
     public var platform: Int32?
     /** 三方用户ID */
@@ -47,7 +47,7 @@ public class UserRegister: JSONEncodable {
         var nillableDictionary = [String:AnyObject?]()
         nillableDictionary["muid"] = self.muid?.encodeToJSON()
         nillableDictionary["msuid"] = self.msuid
-        nillableDictionary["utype"] = self.utype?.encodeToJSON()
+        nillableDictionary["utype"] = self.utype
         nillableDictionary["platform"] = self.platform?.encodeToJSON()
         nillableDictionary["suid"] = self.suid
         nillableDictionary["stoken"] = self.stoken

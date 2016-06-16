@@ -53,12 +53,11 @@ public class NewAPI: APIBase {
     /**
      取消关心新闻
      
-     - parameter nid: (query) 新闻ID 
-     - parameter uid: (query) 用户ID (optional, default to 1)
+     - parameter userRegisterInfo: (body) 用户取消点赞信息 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func nsCocsDelete(nid nid: String, uid: String? = nil, completion: ((data: InlineResponse200?, error: ErrorType?) -> Void)) {
-        nsCocsDeleteWithRequestBuilder(nid: nid, uid: uid).execute { (response, error) -> Void in
+    public class func nsCocsDelete(userRegisterInfo userRegisterInfo: NewAndUser, completion: ((data: InlineResponse200?, error: ErrorType?) -> Void)) {
+        nsCocsDeleteWithRequestBuilder(userRegisterInfo: userRegisterInfo).execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
     }
@@ -73,38 +72,30 @@ public class NewAPI: APIBase {
   "data" : 123
 }}]
      
-     - parameter nid: (query) 新闻ID 
-     - parameter uid: (query) 用户ID (optional, default to 1)
+     - parameter userRegisterInfo: (body) 用户取消点赞信息 
 
      - returns: RequestBuilder<InlineResponse200> 
      */
-    public class func nsCocsDeleteWithRequestBuilder(nid nid: String, uid: String? = nil) -> RequestBuilder<InlineResponse200> {
+    public class func nsCocsDeleteWithRequestBuilder(userRegisterInfo userRegisterInfo: NewAndUser) -> RequestBuilder<InlineResponse200> {
         let path = "/ns/cocs"
         let URLString = SwaggerClientAPI.basePath + path
-
-        let nillableParameters: [String:AnyObject?] = [
-            "nid": nid,
-            "uid": uid
-        ]
- 
-        let parameters = APIHelper.rejectNil(nillableParameters)
+        let parameters = userRegisterInfo.encodeToJSON() as? [String:AnyObject]
  
         let convertedParameters = APIHelper.convertBoolToString(parameters)
  
         let requestBuilder: RequestBuilder<InlineResponse200>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "DELETE", URLString: URLString, parameters: convertedParameters, isBody: false)
+        return requestBuilder.init(method: "DELETE", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
 
     /**
      关心新闻
      
-     - parameter nid: (query) 新闻ID 
-     - parameter uid: (query) 用户ID (optional, default to 1)
+     - parameter userRegisterInfo: (body) 用户取消点赞信息 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func nsCocsPost(nid nid: String, uid: String? = nil, completion: ((data: InlineResponse200?, error: ErrorType?) -> Void)) {
-        nsCocsPostWithRequestBuilder(nid: nid, uid: uid).execute { (response, error) -> Void in
+    public class func nsCocsPost(userRegisterInfo userRegisterInfo: NewAndUser, completion: ((data: InlineResponse200?, error: ErrorType?) -> Void)) {
+        nsCocsPostWithRequestBuilder(userRegisterInfo: userRegisterInfo).execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
     }
@@ -119,38 +110,30 @@ public class NewAPI: APIBase {
   "data" : 123
 }}]
      
-     - parameter nid: (query) 新闻ID 
-     - parameter uid: (query) 用户ID (optional, default to 1)
+     - parameter userRegisterInfo: (body) 用户取消点赞信息 
 
      - returns: RequestBuilder<InlineResponse200> 
      */
-    public class func nsCocsPostWithRequestBuilder(nid nid: String, uid: String? = nil) -> RequestBuilder<InlineResponse200> {
+    public class func nsCocsPostWithRequestBuilder(userRegisterInfo userRegisterInfo: NewAndUser) -> RequestBuilder<InlineResponse200> {
         let path = "/ns/cocs"
         let URLString = SwaggerClientAPI.basePath + path
-
-        let nillableParameters: [String:AnyObject?] = [
-            "nid": nid,
-            "uid": uid
-        ]
- 
-        let parameters = APIHelper.rejectNil(nillableParameters)
+        let parameters = userRegisterInfo.encodeToJSON() as? [String:AnyObject]
  
         let convertedParameters = APIHelper.convertBoolToString(parameters)
  
         let requestBuilder: RequestBuilder<InlineResponse200>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
 
     /**
      取消收藏新闻
      
-     - parameter nid: (query) 新闻ID 
-     - parameter uid: (query) 用户ID (optional, default to 1)
+     - parameter userRegisterInfo: (body) 用户取消点赞信息 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func nsColsDelete(nid nid: String, uid: String? = nil, completion: ((data: InlineResponse2001?, error: ErrorType?) -> Void)) {
-        nsColsDeleteWithRequestBuilder(nid: nid, uid: uid).execute { (response, error) -> Void in
+    public class func nsColsDelete(userRegisterInfo userRegisterInfo: NewAndUser, completion: ((data: InlineResponse2001?, error: ErrorType?) -> Void)) {
+        nsColsDeleteWithRequestBuilder(userRegisterInfo: userRegisterInfo).execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
     }
@@ -165,38 +148,30 @@ public class NewAPI: APIBase {
   "data" : 123
 }}]
      
-     - parameter nid: (query) 新闻ID 
-     - parameter uid: (query) 用户ID (optional, default to 1)
+     - parameter userRegisterInfo: (body) 用户取消点赞信息 
 
      - returns: RequestBuilder<InlineResponse2001> 
      */
-    public class func nsColsDeleteWithRequestBuilder(nid nid: String, uid: String? = nil) -> RequestBuilder<InlineResponse2001> {
+    public class func nsColsDeleteWithRequestBuilder(userRegisterInfo userRegisterInfo: NewAndUser) -> RequestBuilder<InlineResponse2001> {
         let path = "/ns/cols"
         let URLString = SwaggerClientAPI.basePath + path
-
-        let nillableParameters: [String:AnyObject?] = [
-            "nid": nid,
-            "uid": uid
-        ]
- 
-        let parameters = APIHelper.rejectNil(nillableParameters)
+        let parameters = userRegisterInfo.encodeToJSON() as? [String:AnyObject]
  
         let convertedParameters = APIHelper.convertBoolToString(parameters)
  
         let requestBuilder: RequestBuilder<InlineResponse2001>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "DELETE", URLString: URLString, parameters: convertedParameters, isBody: false)
+        return requestBuilder.init(method: "DELETE", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
 
     /**
      收藏新闻
      
-     - parameter nid: (query) 新闻ID 
-     - parameter uid: (query) 用户ID (optional, default to 1)
+     - parameter userRegisterInfo: (body) 用户取消点赞信息 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func nsColsPost(nid nid: String, uid: String? = nil, completion: ((data: InlineResponse2001?, error: ErrorType?) -> Void)) {
-        nsColsPostWithRequestBuilder(nid: nid, uid: uid).execute { (response, error) -> Void in
+    public class func nsColsPost(userRegisterInfo userRegisterInfo: NewAndUser, completion: ((data: InlineResponse2001?, error: ErrorType?) -> Void)) {
+        nsColsPostWithRequestBuilder(userRegisterInfo: userRegisterInfo).execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
     }
@@ -211,27 +186,20 @@ public class NewAPI: APIBase {
   "data" : 123
 }}]
      
-     - parameter nid: (query) 新闻ID 
-     - parameter uid: (query) 用户ID (optional, default to 1)
+     - parameter userRegisterInfo: (body) 用户取消点赞信息 
 
      - returns: RequestBuilder<InlineResponse2001> 
      */
-    public class func nsColsPostWithRequestBuilder(nid nid: String, uid: String? = nil) -> RequestBuilder<InlineResponse2001> {
+    public class func nsColsPostWithRequestBuilder(userRegisterInfo userRegisterInfo: NewAndUser) -> RequestBuilder<InlineResponse2001> {
         let path = "/ns/cols"
         let URLString = SwaggerClientAPI.basePath + path
-
-        let nillableParameters: [String:AnyObject?] = [
-            "nid": nid,
-            "uid": uid
-        ]
- 
-        let parameters = APIHelper.rejectNil(nillableParameters)
+        let parameters = userRegisterInfo.encodeToJSON() as? [String:AnyObject]
  
         let convertedParameters = APIHelper.convertBoolToString(parameters)
  
         let requestBuilder: RequestBuilder<InlineResponse2001>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
 
     /**

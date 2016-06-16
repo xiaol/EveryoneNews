@@ -63,15 +63,10 @@ class LoginViewController: UIViewController,UserLoginManagerDelegate {
         
         if let user = userR as? UserRegister{
      
-            dispatch_async(dispatch_get_main_queue(), { 
+            ShareLUserRequest.resigterSanFangUser(user, finish: {
                 
-                SDK_UserRequest.resigterSanFangUser(user, finish: { (user) in
-                    
-                    print(user)
-                })
+                self.dismissViewControllerAnimated(true, completion: nil)
             })
-            
-            
         }
     }
 }

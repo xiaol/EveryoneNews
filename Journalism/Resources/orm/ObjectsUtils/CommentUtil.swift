@@ -12,10 +12,25 @@ import SwaggerClient
 
 class CommentUtil: NSObject {
     
+    
+    class func praiseComment(comment:Comment){
+    
+        guard let token = ShareLUser.token else{ return }
+        
+        let requestBudile = CommentAPI.nsComsUpPostWithRequestBuilder(cid: "\(comment.id)", uid: "\(ShareLUser.uid)")
+        
+        requestBudile.addHeaders(["Authorization":token])
+        
+        requestBudile.execute { (response, error) in
+            
+            print(error)
+        }
+    }
+    
     /// 获取普通评论列表
     class func LoadNoramlCommentsList(new:New,p: String?="1", c: String?="20",finish:((count:Int)->Void)?=nil,fail:(()->Void)?=nil) {
         
-        CommentAPI.nsComsCGet(did: new.docidBase64(), uid: "\(ShareUser.uid!)", p: p, c: c) { (datas, error) in
+        CommentAPI.nsComsCGet(did: new.docidBase64(), uid: "\(ShareLUser.uid)", p: p, c: c) { (datas, error) in
             
             if let code = datas?.objectForKey("code") as? Int{
                 if code == 2002 {
@@ -103,3 +118,5 @@ extension Comment {
         return 21+21+nameHeight+commentHeight+contentHeight+12+8
     }
 }
+
+

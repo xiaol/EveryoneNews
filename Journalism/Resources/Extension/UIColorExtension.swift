@@ -36,6 +36,80 @@ extension UIColor{
 }
 
 
+struct ColorComponents {
+    var r:CGFloat, g:CGFloat, b:CGFloat, a:CGFloat
+}
+
+extension UIColor {
+    
+    func getComponents() -> ColorComponents {
+        if (CGColorGetNumberOfComponents(self.CGColor) == 2) {
+            let cc = CGColorGetComponents(self.CGColor);
+            return ColorComponents(r:cc[0], g:cc[0], b:cc[0], a:cc[1])
+        }
+        else {
+            let cc = CGColorGetComponents(self.CGColor);
+            return ColorComponents(r:cc[0], g:cc[1], b:cc[2], a:cc[3])
+        }
+    }
+    
+    func interpolateRGBColorTo(end: UIColor, fraction: CGFloat) -> UIColor {
+        var f = max(0, fraction)
+        f = min(1, fraction)
+        
+        let c1 = self.getComponents()
+        let c2 = end.getComponents()
+        
+        let r: CGFloat = CGFloat(c1.r + (c2.r - c1.r) * f)
+        let g: CGFloat = CGFloat(c1.g + (c2.g - c1.g) * f)
+        let b: CGFloat = CGFloat(c1.b + (c2.b - c1.b) * f)
+        let a: CGFloat = CGFloat(c1.a + (c2.a - c1.a) * f)
+        
+        return UIColor.init(red: r, green: g, blue: b, alpha: a)
+    }
+    
+}
+
+
+extension UIColor{
+
+//    func interpolateRGBColorTo(end:UIColor, fraction:CGFloat) -> UIColor {
+//        var f = max(0, fraction)
+//        f = min(1, fraction)
+//        
+//        let c1 = CGColorGetComponents(self.CGColor)
+//        let c2 = CGColorGetComponents(end.CGColor)
+//        
+//        let r: CGFloat = CGFloat(c1[0] + (c2[0] - c1[0]) * f)
+//        let g: CGFloat = CGFloat(c1[1] + (c2[1] - c1[1]) * f)
+//        let b: CGFloat = CGFloat(c1[2] + (c2[2] - c1[2]) * f)
+//        let a: CGFloat = CGFloat(c1[3] + (c2[3] - c1[3]) * f)
+//        
+//        return UIColor.init(red:r, green:g, blue:b, alpha:1)
+//    }
+    
+    
+    func ColorByProcess(toColor:UIColor,progress:CGFloat) -> UIColor{
+    
+        let old = CGColorGetComponents(self.CGColor)
+        
+        let ored = old[0]
+        let ogreen = old[1]
+        let oorange = old[2]
+        
+        let new = CGColorGetComponents(toColor.CGColor)
+        
+        let nred = new[0]
+        let ngreen = new[1]
+        let norange = new[2]
+        
+        let finred = (1 - progress)*ored + progress*nred
+        let fingreen = (1 - progress)*ogreen + progress*ngreen
+        let finorange = (1 - progress)*oorange + progress*norange
+        
+        return UIColor(red: finred, green: fingreen, blue: finorange, alpha: 1)
+    }
+}
 
 
 extension UIColor{

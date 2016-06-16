@@ -10,13 +10,6 @@ import UIKit
 import Foundation
 import ReachabilitySwift
 
-// MARK: NSUSer 存储信息名称
-let USER_UID = "USERUID" // 存储的用户Id
-let USER_TOKEN = "USERTOKEN" //  存储的用户token
-let USER_TYPE = "USERYTYPE" //  用户类型 
-let USER_PASSWORD = "USERPASSWORD" //  存储的用户密码
-let USER_NAME = "USERNAME" //  存储的用户名称
-let USER_AVATAR = "USERAVATAR" //  存储的用户头像
 
 
 // MARK: 消息机制相关名称

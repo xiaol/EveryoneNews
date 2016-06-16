@@ -137,32 +137,31 @@ extension UserLoginSdkApiManager{
 
     ///  获取新浪微博的用户信息
     private func getSinaUserInfo(access_token:String,uid:String,sexpires:String){
-        
-
         let param:[String : AnyObject] = ["access_token":access_token,"uid":uid]
-
         Alamofire.request(.GET, "https://api.weibo.com/2/users/show.json", parameters: param).responseJSON { (respense) -> Void in
-            
             if respense.result.isFailure {
                 self.delegate?.didReceiveRequestUserFailResponse?()
                 return
             }
-            
             guard let result = respense.result.value as? NSDictionary ,uname = result["name"] as? String,avatar = result["avatar_hd"] as? String,genders = result["gender"] as? String else{
                 self.delegate?.didReceiveRequestUserFailResponse?()
                 return
             }
             
-            ShareUser.getSdkUserToken { (user) in
-                
-                let gender:Int32 = genders == "m" ? 1 :(genders == "f" ? 0 : 3)
-                let userR = UserRegister(muid: Int32(user.uid), utype: 3, platform: 1, suid: uid, stoken: access_token, sexpires: sexpires, uname: uname, avatar: avatar, gender: gender)
-                self.delegate?.didReceiveRequestUserSuccessResponse?(userR)
+            ShareLUser.uname = uname
+            ShareLUser.avatar = avatar
+            
+            /// 设置存储
+            ShareLUser.s_uid = uid
+            ShareLUser.s_token = access_token
+            ShareLUser.s_sexpires = sexpires
+            ShareLUser.s_uname = uname
+            ShareLUser.s_avatar = avatar
+            ShareLUser.s_gender = genders == "m" ? 1 :(genders == "f" ? 0 : 3)
+            
+            ShareLUser.getSdkUserToken { (user) in
+                self.delegate?.didReceiveRequestUserSuccessResponse?(UserRegister(utype: 3))
             }
         }
     }
 }
-
-
-
-

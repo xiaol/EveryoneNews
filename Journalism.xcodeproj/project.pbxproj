@@ -16,6 +16,7 @@
 		6DC4FDD61CF031E000D25A99 /* HomeViewControllerChannelDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDD31CF031E000D25A99 /* HomeViewControllerChannelDataSource.swift */; };
 		6DC4FDD71CF031E000D25A99 /* KDRearrangeableCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDD41CF031E000D25A99 /* KDRearrangeableCollectionViewFlowLayout.swift */; };
 		994B705F63994332F79B2AA5 /* Pods_Journalism.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68B44A9454D029CD2156A30 /* Pods_Journalism.framework */; };
+		AE0A837B1D128D7A00331134 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0A837A1D128D7A00331134 /* UserView.swift */; };
 		AE0FE5441CF301E8007DA198 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0FE5431CF301E8007DA198 /* UIImageExtension.swift */; };
 		AE2968301CF69D4400D2782D /* PrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE29682F1CF69D4400D2782D /* PrivacyViewController.swift */; };
 		AE2968321CF69DFB00D2782D /* Privacy.html in Resources */ = {isa = PBXBuildFile; fileRef = AE2968311CF69DFB00D2782D /* Privacy.html */; };
@@ -101,6 +102,7 @@
 		6DC4FDD31CF031E000D25A99 /* HomeViewControllerChannelDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewControllerChannelDataSource.swift; sourceTree = "<group>"; };
 		6DC4FDD41CF031E000D25A99 /* KDRearrangeableCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KDRearrangeableCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		81231C5CF554FB534D99E67C /* Pods-Journalism.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Journalism.release.xcconfig"; path = "Pods/Target Support Files/Pods-Journalism/Pods-Journalism.release.xcconfig"; sourceTree = "<group>"; };
+		AE0A837A1D128D7A00331134 /* UserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		AE0FE5431CF301E8007DA198 /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		AE29682F1CF69D4400D2782D /* PrivacyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyViewController.swift; sourceTree = "<group>"; };
 		AE2968311CF69DFB00D2782D /* Privacy.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Privacy.html; sourceTree = "<group>"; };
@@ -523,6 +525,7 @@
 				AEC965A01CF5A4EF0053A88D /* CustomView.swift */,
 				AE2968331CF6AA3B00D2782D /* CustomTransitioning.swift */,
 				AEF420B31CF8019700CFAF73 /* UIViewControllerExtension.swift */,
+				AE0A837A1D128D7A00331134 /* UserView.swift */,
 			);
 			path = custom;
 			sourceTree = "<group>";
@@ -792,6 +795,7 @@
 				AEC47B311D0032E20055936D /* DetailExtension.swift in Sources */,
 				AEEE61981CFE9CEF00C5FF08 /* Comment.swift in Sources */,
 				AEC47B291D0032E20055936D /* CommExtension.swift in Sources */,
+				AE0A837B1D128D7A00331134 /* UserView.swift in Sources */,
 				AEBCAEF81CEC418200EBFC0A /* CircularButtonBarView.swift in Sources */,
 				AE7C51A41D0D6893005E6A5A /* SearchViewController.swift in Sources */,
 				AEC965A11CF5A4EF0053A88D /* CustomView.swift in Sources */,

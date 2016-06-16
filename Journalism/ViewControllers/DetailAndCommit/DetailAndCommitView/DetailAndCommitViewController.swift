@@ -19,6 +19,9 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
     @IBOutlet var inputContentView: UIView! // 输入评论内容视图
     @IBOutlet var inputContentViewBottomConstraint: NSLayoutConstraint! // 输入视图下方约束
     
+    @IBOutlet var collectButton: UIButton! // 没有收藏按钮
+    @IBOutlet var collectedButton: UIButton! // 已经收藏按钮
+    
     @IBOutlet var shareBackView: UIView! // 分享背景视图
     @IBOutlet var shareContentView: UIView! // 分享内容视图
     

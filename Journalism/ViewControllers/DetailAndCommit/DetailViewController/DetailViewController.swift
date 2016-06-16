@@ -35,7 +35,6 @@ class DetailViewController: UIViewController,WaitLoadProtcol {
         
         if let new = new {
             
-            
             aboutResults = realm.objects(About.self).filter("nid = \(new.nid)").sorted("ptimes", ascending: false)
             hotResults = realm.objects(Comment.self).filter("nid = \(new.nid) AND ishot = 1").sorted("commend", ascending: false)
             

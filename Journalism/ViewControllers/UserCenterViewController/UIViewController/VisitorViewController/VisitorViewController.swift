@@ -29,18 +29,18 @@ class VisitorViewController: UIViewController {
         
         splistViewController = UIStoryboard.shareStoryBoard.get_UISplitViewController()
         
-        guard let _ = ShareUser.token else{
-            return
-        }
+        if ShareLUser.islogin { // 如果用户已经登陆
         
-        (UIApplication.sharedApplication().delegate as! AppDelegate).window?.rootViewController = splistViewController
+            (UIApplication.sharedApplication().delegate as! AppDelegate).window?.rootViewController = splistViewController
+        }
     }
+    
     // 随便看看
     @IBAction func casualLook(sender: AnyObject) {
         
         self.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
         
-        ShareUser.getSdkUserToken { (user) in
+        ShareLUser.getSdkUserToken { (user) in
             
             self.presentViewController(self.splistViewController, animated: false, completion: nil)
         }
@@ -65,10 +65,12 @@ extension VisitorViewController:UserLoginManagerDelegate{
     }
     
     func didReceiveRequestUserSuccessResponse(userR: AnyObject!) {
-        
         if let user = userR as? UserRegister{
-        
-            print(user)
+            
+            ShareLUserRequest.resigterSanFangUser(user, finish: {
+                
+                (UIApplication.sharedApplication().delegate as! AppDelegate).window?.rootViewController = self.splistViewController
+            })
         }
     }
 }

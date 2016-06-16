@@ -14,7 +14,7 @@ class NewsUtil: NSObject {
     
     class func RefreshNewsListArrayData(channelId:Int,create:Bool=false,times:String = "\(Int64(NSDate().timeIntervalSince1970*1000))",finish:((count:Int)->Void)?=nil,fail:(()->Void)?=nil){
         
-        guard let token = ShareUser.token else{ fail?();return }
+        guard let token = ShareLUser.token else{ fail?();return }
         
         let requestBudile = NewAPI.nsFedRGetWithRequestBuilder(cid: "\(channelId)", tcr: times, tmk: "0")
         
@@ -98,7 +98,7 @@ class NewsUtil: NSObject {
     
     class func LoadNewsListArrayData(channelId:Int,refresh:Bool=false,times:String = "\(Int64(NSDate().timeIntervalSince1970*1000))",finish:(()->Void)?=nil,fail:(()->Void)?=nil){
         
-        guard let token = ShareUser.token else{ fail?();return }
+        guard let token = ShareLUser.token else{ fail?();return }
         
         let requestBudile = NewAPI.nsFedLGetWithRequestBuilder(cid: "\(channelId)", tcr: times, tmk: "0")
         

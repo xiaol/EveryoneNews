@@ -7,10 +7,14 @@
 //
 
 import UIKit
+import PINRemoteImage
 
 class UserCenterViewController: UIViewController {
     
     var animation = false
+    
+    @IBOutlet var userNameLabel: UILabel! // 用户label
+    @IBOutlet var userHeadPhotoView: UIImageView! // 用户头像
     
     @IBOutlet var pan: UIPanGestureRecognizer!
     @IBOutlet var scrollView: UIScrollView!

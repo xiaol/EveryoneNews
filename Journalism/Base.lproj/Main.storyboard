@@ -444,6 +444,7 @@
                         <outlet property="containerView" destination="EOm-wF-XPU" id="izq-Iu-LyY"/>
                         <outlet property="noLikeChosseView" destination="GTv-b2-973" id="BHY-67-qAl"/>
                         <outlet property="noLikeChosseViewTopCOnstraint" destination="fQV-h6-heb" id="sDd-Ob-aRd"/>
+                        <outlet property="userLoginHeadPhoto" destination="hcH-39-s68" id="lM7-V4-Amv"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -576,13 +577,19 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Fal-L9-0EQ">
                                                 <rect key="frame" x="89" y="0.0" width="89" height="44"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mq2-KK-pMl">
-                                                        <rect key="frame" x="32" y="9" width="27" height="26"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mq2-KK-pMl">
+                                                        <rect key="frame" x="31" y="9" width="27" height="26"/>
                                                         <state key="normal" image="详情页未收藏"/>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eZd-eT-JGZ">
+                                                        <rect key="frame" x="31" y="9" width="27" height="26"/>
+                                                        <state key="normal" image="详情页已收藏"/>
                                                     </button>
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <constraints>
+                                                    <constraint firstItem="eZd-eT-JGZ" firstAttribute="centerX" secondItem="Fal-L9-0EQ" secondAttribute="centerX" id="FvO-t1-s4W"/>
+                                                    <constraint firstItem="eZd-eT-JGZ" firstAttribute="centerY" secondItem="Fal-L9-0EQ" secondAttribute="centerY" id="JV3-H6-iix"/>
                                                     <constraint firstItem="mq2-KK-pMl" firstAttribute="centerY" secondItem="Fal-L9-0EQ" secondAttribute="centerY" id="WIa-9s-5T5"/>
                                                     <constraint firstItem="mq2-KK-pMl" firstAttribute="centerX" secondItem="Fal-L9-0EQ" secondAttribute="centerX" id="uPO-UN-E1R"/>
                                                 </constraints>
@@ -1091,6 +1098,8 @@
                     <connections>
                         <outlet property="CommentAndPostButton" destination="z1e-ro-yh0" id="aaq-cr-XfD"/>
                         <outlet property="OcclusionView" destination="yBD-ku-BdF" id="9ae-oe-SRd"/>
+                        <outlet property="collectButton" destination="mq2-KK-pMl" id="GPd-vN-ytQ"/>
+                        <outlet property="collectedButton" destination="eZd-eT-JGZ" id="mmy-hk-Dw3"/>
                         <outlet property="commentsLabel" destination="7W2-eg-lXI" id="Qya-o1-cf8"/>
                         <outlet property="containerView" destination="2aT-YS-g37" id="zCt-gW-dEB"/>
                         <outlet property="dissButton" destination="tzX-T6-9As" id="z9o-wT-6Cy"/>
@@ -1155,10 +1164,13 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="60"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AdN-Tu-Cy6" customClass="HeadPhotoView" customModule="Journalism" customModuleProvider="target">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AdN-Tu-Cy6" customClass="CircularView" customModule="Journalism" customModuleProvider="target">
                                                     <rect key="frame" x="18" y="0.0" width="65" height="28"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="点赞心0" translatesAutoresizingMaskIntoConstraints="NO" id="OJJ-ca-Ju5">
+                                                            <rect key="frame" x="18" y="8" width="14" height="13"/>
+                                                        </imageView>
+                                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="点赞心1" translatesAutoresizingMaskIntoConstraints="NO" id="DQM-f5-EEL">
                                                             <rect key="frame" x="18" y="8" width="14" height="13"/>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gIb-yy-INW">
@@ -1174,11 +1186,13 @@
                                                         <constraint firstAttribute="height" constant="28" id="FiI-dW-PCm"/>
                                                         <constraint firstItem="OJJ-ca-Ju5" firstAttribute="centerY" secondItem="AdN-Tu-Cy6" secondAttribute="centerY" id="JJV-Ja-Fsy"/>
                                                         <constraint firstAttribute="width" constant="65" id="Rfn-WL-wPl"/>
+                                                        <constraint firstItem="DQM-f5-EEL" firstAttribute="centerX" secondItem="OJJ-ca-Ju5" secondAttribute="centerX" id="ThZ-4D-ocm"/>
                                                         <constraint firstItem="OJJ-ca-Ju5" firstAttribute="leading" secondItem="AdN-Tu-Cy6" secondAttribute="leading" constant="18" id="agF-qm-vkH"/>
                                                         <constraint firstItem="gIb-yy-INW" firstAttribute="centerY" secondItem="AdN-Tu-Cy6" secondAttribute="centerY" id="kTt-5H-UA9"/>
+                                                        <constraint firstItem="DQM-f5-EEL" firstAttribute="centerY" secondItem="OJJ-ca-Ju5" secondAttribute="centerY" id="ozS-oo-43E"/>
                                                     </constraints>
                                                 </view>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fvL-Gs-oQI" customClass="HeadPhotoView" customModule="Journalism" customModuleProvider="target">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fvL-Gs-oQI" customClass="CircularView" customModule="Journalism" customModuleProvider="target">
                                                     <rect key="frame" x="477" y="0.0" width="97" height="28"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="详情页朋友圈" translatesAutoresizingMaskIntoConstraints="NO" id="LR5-GN-dk5">
@@ -1256,12 +1270,22 @@
                                                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ter-ZS-aJw">
-                                                    <rect key="frame" x="565" y="20" width="17" height="22"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ter-ZS-aJw">
+                                                    <rect key="frame" x="547" y="20" width="35" height="22"/>
                                                     <state key="normal" image="详情页未点赞"/>
+                                                    <connections>
+                                                        <action selector="clickPriaiseButton:" destination="FaE-9N-Rge" eventType="touchUpInside" id="RUx-vO-d6O"/>
+                                                    </connections>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="135" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rwi-n6-27u">
-                                                    <rect key="frame" x="534" y="23" width="24" height="17"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bkh-Nq-yy8">
+                                                    <rect key="frame" x="556" y="20" width="17" height="22"/>
+                                                    <state key="normal" image="详情页已点赞"/>
+                                                    <connections>
+                                                        <action selector="clickPriaiseedButton:" destination="FaE-9N-Rge" eventType="touchUpInside" id="9xc-Af-8Sl"/>
+                                                    </connections>
+                                                </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="135" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rwi-n6-27u">
+                                                    <rect key="frame" x="516" y="25" width="24" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.30196078430000001" green="0.30980392159999998" blue="0.31764705879999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -1273,15 +1297,17 @@
                                                 <constraint firstItem="Ter-ZS-aJw" firstAttribute="leading" secondItem="rwi-n6-27u" secondAttribute="trailing" constant="7" id="Fya-h4-h15"/>
                                                 <constraint firstItem="d52-4p-nc6" firstAttribute="top" secondItem="ViQ-eP-UjJ" secondAttribute="top" constant="21" id="HdG-gl-fee"/>
                                                 <constraint firstItem="Ter-ZS-aJw" firstAttribute="centerY" secondItem="zc7-s7-s4e" secondAttribute="centerY" id="Hfd-gv-csP"/>
-                                                <constraint firstItem="rwi-n6-27u" firstAttribute="centerY" secondItem="Ter-ZS-aJw" secondAttribute="centerY" id="O8N-ho-0gD"/>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="pgt-4A-fyq" secondAttribute="trailing" constant="12" id="SaQ-2r-i28"/>
                                                 <constraint firstItem="pgt-4A-fyq" firstAttribute="leading" secondItem="d52-4p-nc6" secondAttribute="trailing" constant="15" id="VGn-dU-oCb"/>
                                                 <constraint firstItem="zFm-sT-lKc" firstAttribute="leading" secondItem="d52-4p-nc6" secondAttribute="trailing" constant="12" id="VoQ-4x-9Vb"/>
                                                 <constraint firstItem="zc7-s7-s4e" firstAttribute="leading" secondItem="d52-4p-nc6" secondAttribute="trailing" constant="12" id="Yfr-kF-6CN"/>
                                                 <constraint firstAttribute="trailing" secondItem="Ter-ZS-aJw" secondAttribute="trailing" constant="18" id="bnN-ch-CpR"/>
                                                 <constraint firstItem="pgt-4A-fyq" firstAttribute="top" secondItem="zFm-sT-lKc" secondAttribute="bottom" constant="12" id="eJY-lN-kdE"/>
+                                                <constraint firstItem="rwi-n6-27u" firstAttribute="bottom" secondItem="Ter-ZS-aJw" secondAttribute="bottom" id="fFo-tJ-jJo"/>
                                                 <constraint firstItem="zc7-s7-s4e" firstAttribute="top" secondItem="ViQ-eP-UjJ" secondAttribute="top" constant="21" id="lCq-Lz-lmE"/>
+                                                <constraint firstItem="bkh-Nq-yy8" firstAttribute="centerY" secondItem="Ter-ZS-aJw" secondAttribute="centerY" id="lJo-Ai-qbY"/>
                                                 <constraint firstItem="zFm-sT-lKc" firstAttribute="top" secondItem="zc7-s7-s4e" secondAttribute="bottom" constant="8" id="qCH-5E-ma7"/>
+                                                <constraint firstItem="bkh-Nq-yy8" firstAttribute="centerX" secondItem="Ter-ZS-aJw" secondAttribute="centerX" id="xdF-HV-GUz"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1292,6 +1318,7 @@
                                             <outlet property="infoLabel" destination="zFm-sT-lKc" id="SmL-py-ugU"/>
                                             <outlet property="praiseButton" destination="Ter-ZS-aJw" id="r2L-N1-IDC"/>
                                             <outlet property="praiseLabel" destination="rwi-n6-27u" id="60M-Hb-1pv"/>
+                                            <outlet property="praiseedButton" destination="bkh-Nq-yy8" id="fNJ-Rl-W5u"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="newcomments" rowHeight="24" id="Y7a-br-eMl" customClass="CommentsTableViewHeader" customModule="Journalism" customModuleProvider="target">
@@ -1658,12 +1685,22 @@
                                                     <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JN0-8z-Ce4">
-                                                    <rect key="frame" x="565" y="20" width="17" height="22"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JN0-8z-Ce4">
+                                                    <rect key="frame" x="547" y="20" width="35" height="22"/>
                                                     <state key="normal" image="详情页未点赞"/>
+                                                    <connections>
+                                                        <action selector="clickPriaiseButton:" destination="0XC-Vx-AQ6" eventType="touchUpInside" id="Apn-7f-W9S"/>
+                                                    </connections>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="135" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Sq-3h-MpI">
-                                                    <rect key="frame" x="534" y="23" width="24" height="17"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bdo-y5-Yuo">
+                                                    <rect key="frame" x="556" y="20" width="17" height="22"/>
+                                                    <state key="normal" image="详情页已点赞"/>
+                                                    <connections>
+                                                        <action selector="clickPriaiseedButton:" destination="0XC-Vx-AQ6" eventType="touchUpInside" id="94x-Jb-1lX"/>
+                                                    </connections>
+                                                </button>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="135" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Sq-3h-MpI">
+                                                    <rect key="frame" x="516" y="25" width="24" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.30196078430000001" green="0.30980392159999998" blue="0.31764705879999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -1675,9 +1712,11 @@
                                                 <constraint firstItem="GC4-Cm-IpW" firstAttribute="leading" secondItem="u7e-Bd-3x0" secondAttribute="leading" constant="18" id="DA8-UU-gm7"/>
                                                 <constraint firstItem="9Sq-3h-MpI" firstAttribute="leading" relation="lessThanOrEqual" secondItem="JYD-38-vc7" secondAttribute="trailing" constant="400" id="HVs-8a-H7K"/>
                                                 <constraint firstItem="vh4-r3-e3E" firstAttribute="leading" secondItem="GC4-Cm-IpW" secondAttribute="trailing" constant="15" id="JeV-c0-JQp"/>
-                                                <constraint firstItem="9Sq-3h-MpI" firstAttribute="centerY" secondItem="JN0-8z-Ce4" secondAttribute="centerY" id="LKJ-eN-K4q"/>
+                                                <constraint firstItem="bdo-y5-Yuo" firstAttribute="centerX" secondItem="JN0-8z-Ce4" secondAttribute="centerX" id="MCx-dk-52Q"/>
+                                                <constraint firstItem="bdo-y5-Yuo" firstAttribute="centerY" secondItem="JN0-8z-Ce4" secondAttribute="centerY" id="N6Y-Xg-6hN"/>
                                                 <constraint firstItem="JYD-38-vc7" firstAttribute="leading" secondItem="GC4-Cm-IpW" secondAttribute="trailing" constant="12" id="WIj-Mq-dEt"/>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="vh4-r3-e3E" secondAttribute="trailing" constant="12" id="XTJ-fL-fnR"/>
+                                                <constraint firstItem="9Sq-3h-MpI" firstAttribute="bottom" secondItem="JN0-8z-Ce4" secondAttribute="bottom" id="YAr-dq-wu4"/>
                                                 <constraint firstAttribute="trailing" secondItem="JN0-8z-Ce4" secondAttribute="trailing" constant="18" id="dAO-bn-rSC"/>
                                                 <constraint firstItem="SpY-e0-yqB" firstAttribute="leading" secondItem="GC4-Cm-IpW" secondAttribute="trailing" constant="12" id="irw-an-7wn"/>
                                                 <constraint firstItem="SpY-e0-yqB" firstAttribute="top" secondItem="JYD-38-vc7" secondAttribute="bottom" constant="8" id="j8k-uO-fJD"/>
@@ -1695,6 +1734,7 @@
                                             <outlet property="infoLabel" destination="SpY-e0-yqB" id="ieH-8u-6hL"/>
                                             <outlet property="praiseButton" destination="JN0-8z-Ce4" id="4wt-wb-NAb"/>
                                             <outlet property="praiseLabel" destination="9Sq-3h-MpI" id="t9W-iz-faw"/>
+                                            <outlet property="praiseedButton" destination="bdo-y5-Yuo" id="gzG-7n-eOY"/>
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="newcomments" rowHeight="24" id="YxA-dR-BX4" customClass="CommentsTableViewHeader" customModule="Journalism" customModuleProvider="target">
@@ -2384,11 +2424,14 @@
         <image name="分类删除" width="13" height="13"/>
         <image name="添加频道" width="19" height="19"/>
         <image name="点赞心0" width="14" height="13"/>
+        <image name="点赞心1" width="14" height="13"/>
         <image name="评论用户占位图" width="25" height="25"/>
         <image name="详情页QQ好友" width="66" height="66"/>
         <image name="详情页分享" width="24" height="25"/>
         <image name="详情页右上分享" width="25" height="5"/>
         <image name="详情页字体大小" width="66" height="66"/>
+        <image name="详情页已收藏" width="27" height="26"/>
+        <image name="详情页已点赞" width="17" height="17"/>
         <image name="详情页已评论" width="24" height="25"/>
         <image name="详情页微信好友" width="66" height="66"/>
         <image name="详情页微信朋友圈" width="66" height="66"/>

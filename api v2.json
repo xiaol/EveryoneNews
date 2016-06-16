@@ -398,18 +398,13 @@
                 "summary": "评论点赞",
                 "description": "对某一个新闻评论进行点赞",
                 "parameters": [{
-                    "name": "cid",
-                    "in": "query",
-                    "description": "评论ID",
+                    "name": "userRegisterInfo",
+                    "in": "body",
+                    "description": "用户点赞信息",
                     "required": true,
-                    "type": "string"
-                }, {
-                    "name": "uid",
-                    "in": "query",
-                    "description": "用户ID",
-                    "required": false,
-                    "default": "1",
-                    "type": "string"
+                    "schema": {
+                        "$ref": "#/definitions/commentAndUser"
+                    }
                 }],
                 "responses": {
                     "200": {
@@ -437,18 +432,13 @@
                 "summary": "取消评论点赞",
                 "description": "对某一个新闻评论取消点赞",
                 "parameters": [{
-                    "name": "cid",
-                    "in": "query",
-                    "description": "评论ID",
+                    "name": "userRegisterInfo",
+                    "in": "body",
+                    "description": "用户取消点赞信息",
                     "required": true,
-                    "type": "string"
-                }, {
-                    "name": "uid",
-                    "in": "query",
-                    "description": "用户ID",
-                    "required": false,
-                    "default": "1",
-                    "type": "string"
+                    "schema": {
+                        "$ref": "#/definitions/commentAndUser"
+                    }
                 }],
                 "responses": {
                     "200": {
@@ -478,18 +468,13 @@
                 "summary": "收藏新闻",
                 "description": "对某一个新闻评论进行收藏",
                 "parameters": [{
-                    "name": "nid",
-                    "in": "query",
-                    "description": "新闻ID",
+                    "name": "userRegisterInfo",
+                    "in": "body",
+                    "description": "用户取消点赞信息",
                     "required": true,
-                    "type": "string"
-                }, {
-                    "name": "uid",
-                    "in": "query",
-                    "description": "用户ID",
-                    "required": false,
-                    "default": "1",
-                    "type": "string"
+                    "schema": {
+                        "$ref": "#/definitions/NewAndUser"
+                    }
                 }],
                 "responses": {
                     "200": {
@@ -517,18 +502,13 @@
                 "summary": "取消收藏新闻",
                 "description": "对某一个新闻评论取消收藏",
                 "parameters": [{
-                    "name": "nid",
-                    "in": "query",
-                    "description": "新闻ID",
+                    "name": "userRegisterInfo",
+                    "in": "body",
+                    "description": "用户取消点赞信息",
                     "required": true,
-                    "type": "string"
-                }, {
-                    "name": "uid",
-                    "in": "query",
-                    "description": "用户ID",
-                    "required": false,
-                    "default": "1",
-                    "type": "string"
+                    "schema": {
+                        "$ref": "#/definitions/NewAndUser"
+                    }
                 }],
                 "responses": {
                     "200": {
@@ -558,18 +538,13 @@
                 "summary": "关心新闻",
                 "description": "对某一个新闻表示关心",
                 "parameters": [{
-                    "name": "nid",
-                    "in": "query",
-                    "description": "新闻ID",
+                    "name": "userRegisterInfo",
+                    "in": "body",
+                    "description": "用户取消点赞信息",
                     "required": true,
-                    "type": "string"
-                }, {
-                    "name": "uid",
-                    "in": "query",
-                    "description": "用户ID",
-                    "required": false,
-                    "default": "1",
-                    "type": "string"
+                    "schema": {
+                        "$ref": "#/definitions/NewAndUser"
+                    }
                 }],
                 "responses": {
                     "200": {
@@ -597,18 +572,13 @@
                 "summary": "取消关心新闻",
                 "description": "对某一个新闻评论取消收藏",
                 "parameters": [{
-                    "name": "nid",
-                    "in": "query",
-                    "description": "新闻ID",
+                    "name": "userRegisterInfo",
+                    "in": "body",
+                    "description": "用户取消点赞信息",
                     "required": true,
-                    "type": "string"
-                }, {
-                    "name": "uid",
-                    "in": "query",
-                    "description": "用户ID",
-                    "required": false,
-                    "default": "1",
-                    "type": "string"
+                    "schema": {
+                        "$ref": "#/definitions/NewAndUser"
+                    }
                 }],
                 "responses": {
                     "200": {
@@ -709,6 +679,32 @@
                 }
             }
         },
+        "NewAndUser": {
+                    "type": "object",
+                    "properties": {
+                        "uid": {
+                            "description": "用户的ID",
+                            "type": "string"
+                        },
+                        "nid": {
+                            "description": "新闻ID",
+                            "type": "string"
+                        }
+                    }
+              },
+        "commentAndUser": {
+            "type": "object",
+            "properties": {
+                "uid": {
+                    "description": "用户的ID",
+                    "type": "string"
+                },
+                "cid": {
+                    "description": "评论ID",
+                    "type": "string"
+                }
+            }
+        },
         "visitorsRegister": {
             "type": "object",
             "properties": {
@@ -750,8 +746,7 @@
                 },
                 "utype": {
                     "description": "用户类型注释1.本地注册用户 2游客用户 3微博用户 4微信用户",
-                    "type": "integer",
-                    "format": "int32"
+                    "type": "string"
                 },
                 "platform": {
                     "description": "用户平台注释 1.IOS 2安卓 3网页 4无法识别",

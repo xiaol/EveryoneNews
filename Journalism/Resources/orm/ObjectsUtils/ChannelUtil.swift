@@ -23,6 +23,9 @@ class ChannelUtil: NSObject {
             if let code = data?.objectForKey("code") as? Int {
                 if code != 2000 {fail?();return}
                 if let data = data?.objectForKey("data") as? NSArray {
+                    
+                    let incount = realm.objects(Channel).count <= 0
+                    
                     try! realm.write({
                         for channel in data {
                             realm.create(Channel.self, value: channel, update: true)
@@ -30,7 +33,13 @@ class ChannelUtil: NSObject {
                     })
                     
                     try! realm.write({
-                        realm.objects(Channel).filter("cname = '热点'").setValue(0, forKey: "orderindex")
+                        realm.objects(Channel).filter("cname = '奇点'").setValue(0, forKey: "orderindex")
+                        
+                        if incount {
+                            realm.objects(Channel).filter("cname = '科技'").setValue(1, forKey: "orderindex")
+                            realm.objects(Channel).filter("cname = '外媒'").setValue(2, forKey: "orderindex")
+                            realm.objects(Channel).filter("cname = '点集'").setValue(3, forKey: "orderindex")
+                        }
                     })
                     finish?()
                 }else{fail?();return}

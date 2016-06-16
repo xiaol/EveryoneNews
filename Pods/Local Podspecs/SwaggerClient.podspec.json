@@ -18,7 +18,7 @@
   "source_files": "SwaggerClient/Classes/Swaggers/**/*.swift",
   "dependencies": {
     "Alamofire": [
-      "~> 3.1.4"
+
     ]
   }
 }
