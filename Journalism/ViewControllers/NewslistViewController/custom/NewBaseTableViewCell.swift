@@ -20,6 +20,13 @@ class NewBaseTableViewCell: UITableViewCell {
     
     func setNewObject(new:New){
     
+        
+        timeLabel.font = UIFont.a_font7
+        titleLabel.font = UIFont.a_font2
+        pubLabel.font = UIFont.a_font7
+        commentCountLabel.font = UIFont.a_font7
+        
+        
         self.titleLabel.text = new.title
         self.pubLabel.text = new.pname
         self.commentCountLabel.text = "\(new.comment)评"

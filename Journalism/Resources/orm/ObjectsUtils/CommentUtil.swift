@@ -17,14 +17,14 @@ class CommentUtil: NSObject {
     
         guard let token = ShareLUser.token else{ return }
         
-        let requestBudile = CommentAPI.nsComsUpPostWithRequestBuilder(cid: "\(comment.id)", uid: "\(ShareLUser.uid)")
-        
-        requestBudile.addHeaders(["Authorization":token])
-        
-        requestBudile.execute { (response, error) in
-            
-            print(error)
-        }
+//        let requestBudile = CommentAPI.nsComsUpPostWithRequestBuilder(cid: "\(comment.id)", uid: "\(ShareLUser.uid)")
+//        
+//        requestBudile.addHeaders(["Authorization":token])
+//        
+//        requestBudile.execute { (response, error) in
+//            
+//            print(error)
+//        }
     }
     
     /// 获取普通评论列表
@@ -100,20 +100,18 @@ extension Comment {
     
     func HeightByNewConstraint(tableView:UITableView) -> CGFloat{
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("comments") as! CommentsTableViewCell
-        
         let width = tableView.frame.width
         
         // 计算平路内容所占高度
         let contentSize = CGSize(width: width-18-38-12-18, height: 1000)
-        let contentHeight = NSString(string:self.content).boundingRectWithSize(contentSize, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:cell.contentLabel.font], context: nil).height
+        let contentHeight = NSString(string:self.content).boundingRectWithSize(contentSize, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font2], context: nil).height
         
         // time
         let size = CGSize(width: 1000, height: 1000)
-        let commentHeight = NSString(string:self.ctimes.weiboTimeDescription).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:cell.infoLabel.font], context: nil).height
+        let commentHeight = NSString(string:self.ctimes.weiboTimeDescription).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font7], context: nil).height
         
         // name
-        let nameHeight = NSString(string:self.uname).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:cell.cnameLabel.font], context: nil).height
+        let nameHeight = NSString(string:self.uname).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font4], context: nil).height
         
         return 21+21+nameHeight+commentHeight+contentHeight+12+8
     }

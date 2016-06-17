@@ -93,7 +93,7 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
         }
     }
     
-    
+    // 设置滑动页面的时候是，评论还是前往原文
     private func setCommentOrDetailButton(){
     
         self.commentsLabel.clipsToBounds = true

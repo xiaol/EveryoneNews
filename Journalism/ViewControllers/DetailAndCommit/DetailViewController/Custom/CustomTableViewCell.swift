@@ -27,6 +27,11 @@ class CommentsTableViewCell:UITableViewCell{
         
         self.comment = comment
         
+        praiseLabel.font = UIFont.a_font7
+        cnameLabel.font = UIFont.a_font4
+        infoLabel.font = UIFont.a_font7
+        contentLabel.font = UIFont.a_font3
+        
         praiseLabel.hidden = comment.commend <= 0
         praiseButton.enabled = comment.uid != ShareLUser.uid
         praiseedButton.hidden = comment.upflag == 0 // 用户没有点赞隐藏
@@ -121,6 +126,13 @@ class AboutTableViewCell:UITableViewCell{
     func setAboutMethod(about:About,hiddenY:Bool){
     
         self.hiddenYear = hiddenY
+        
+        
+        YearLabel.font = UIFont.a_font8
+        MAndDLabel.font = UIFont.a_font8
+        contentLabel.font = UIFont.a_font4
+        pnameLabel.font = UIFont.a_font7
+        
         
         let fromStr = about.from.lowercaseString
         let yesabout = UIColor(red: 0, green: 145/255, blue: 250/255, alpha: 1)

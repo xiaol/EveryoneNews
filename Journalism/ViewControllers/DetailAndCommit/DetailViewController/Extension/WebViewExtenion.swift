@@ -44,6 +44,10 @@ extension DetailViewController:UIWebViewDelegate{
         
         var body = ""
         
+        let title = "#title{font-size:\(UIFont.a_font9.pointSize)px;}"
+        let subtitle = "#subtitle{font-size:\(UIFont.a_font8.pointSize)px;}"
+        let bodysection = "#body_section{font-size:\(UIFont.a_font4.pointSize)px;}"
+        
         for conten in newCon.content{
             
             if let img = conten.img {
@@ -65,7 +69,7 @@ extension DetailViewController:UIWebViewDelegate{
         
         let comment = newCon.comment > 0 ? "   \(newCon.comment)评" : ""
         
-        let variables = ["title":newCon.title,"source":newCon.pname,"ptime":newCon.ptime,"theme":"normal","body":body,"comment":comment]
+        let variables = ["title":newCon.title,"source":newCon.pname,"ptime":newCon.ptime,"theme":"normal","body":body,"comment":comment,"titleStyle":title,"subtitleStyle":subtitle,"bodysectionStyle":bodysection]
         
         let result = engine.processTemplateInFileAtPath(templatePath, withVariables: variables)
         

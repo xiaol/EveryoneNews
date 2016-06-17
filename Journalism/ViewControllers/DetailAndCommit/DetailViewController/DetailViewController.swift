@@ -69,6 +69,18 @@ class DetailViewController: UIViewController,WaitLoadProtcol {
         tableView.tableHeaderView = self.webView
         
         self.setWebViewJavascriptBridge()
+        
+        // 获得字体变化通知，完成刷新字体大小方法
+        NSNotificationCenter.defaultCenter().addObserverForName(FONTMODALSTYLEIDENTIFITER, object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+            
+            self.tableView.reloadData()
+            
+            let data = ["bodySize":UIFont.a_font4.pointSize,"subtitleSize":UIFont.a_font8.pointSize,"titleSize":UIFont.a_font9.pointSize]
+            
+             self.bridge.callHandler("getUserInfos", data: data, responseCallback: { (_) in
+               
+             })
+        }
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {

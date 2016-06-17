@@ -25,6 +25,7 @@ class AlamofireRequestBuilder<T>: RequestBuilder<T> {
         // Create a new manager for each request to customize its request header
         let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
         configuration.HTTPAdditionalHeaders = buildHeaders()
+        configuration.HTTPShouldSetCookies = false
         let manager = Alamofire.Manager(configuration: configuration)
         managerStore[managerId] = manager
 

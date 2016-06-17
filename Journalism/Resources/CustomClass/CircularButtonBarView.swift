@@ -32,7 +32,7 @@ public class CircularButtonBarPagerTabStripViewController:ButtonBarPagerTabStrip
             return super.collectionView(collectionView, cellForItemAtIndexPath: indexPath)
         }
         
-        cell.label.font = UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)
+        cell.label.font = UIFont.a_font4
         
         return cell
     }

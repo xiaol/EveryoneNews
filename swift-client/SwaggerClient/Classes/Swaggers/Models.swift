@@ -470,7 +470,7 @@ class Decoders {
                 let instance = UserRegister()
                 instance.muid = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["muid"])
                 instance.msuid = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["msuid"])
-                instance.utype = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["utype"])
+                instance.utype = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["utype"])
                 instance.platform = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["platform"])
                 instance.suid = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["suid"])
                 instance.stoken = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["stoken"])

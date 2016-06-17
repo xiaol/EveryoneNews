@@ -1,38 +1,36 @@
 <html manifest="appcache.manifest">
 
 <head>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="format-detection" content="telephone=no">
-
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
     <script src="jquery.js"></script>
-    <!--    <script src="jquery.lazyloadxt.js"></script>-->
     <script src="jquery.lazyload.js"></script>
+    <link href='bootstrap.min.css' rel='stylesheet' />
+    <link href='content.css' rel='stylesheet' />
+
+    <style type="text/css">
+        {{titleStyle}}
+        {{subtitleStyle}}
+        {{bodysectionStyle}}
+    </style>
+
 </head>
 
 <body id="container">
+
     <div id="title_section">
         <div id='title'>{{title}}</div>
         <div id='subtitle'>{{source}} <span aria-hidden="true">{{ptime}}</span><span aria-hidden="true">{{comment}}</span></div>
     </div>
+
     <HR color=#e4e4e4 size=0.5/>
+
     <div id="body_section">
         {{body}}
-
-        <script>
-        </script>
     </div>
+    <br style="clear:both;" />
 </body>
-<link href='bootstrap.min.css' rel='stylesheet' />
-<link href='content.css' rel='stylesheet' />
+
 <script>
-
-
-    $("iframe").removeAttr("style")
-
-
     function setupWebViewJavascriptBridge(callback) {
         if (window.WebViewJavascriptBridge) {
             return callback(WebViewJavascriptBridge);
@@ -52,19 +50,34 @@
 
     setupWebViewJavascriptBridge(function(bridge) {
 
+        bridge.registerHandler('getUserInfos', function(data, responseCallback) {
+
+            var body_section = document.getElementById('body_section');
+            body_section.style.fontSize = data.bodySize;
+
+            var subtitle = document.getElementById('subtitle');
+            subtitle.style.fontSize = data.subtitleSize;
+
+            var title = document.getElementById('title');
+            title.style.fontSize = data.titleSize;
+
+            responseCallback({
+                'userId': '123456',
+                'blog': '标哥的技术博客'
+            })
+        })
+
         $("img").lazyload({
             load: {
-              call:function(a, b, c) {
+                call: function(a, b, c) {
 
-                bridge.callHandler('testObjcCallback', {
-                    'height': document.body.offsetHeight,
-                }, function(response) {})
+                    bridge.callHandler('testObjcCallback', {
+                        'height': document.body.offsetHeight,
+                    }, function(response) {})
 
-              }
+                }
             }
         });
-
-
     })
 </script>
 

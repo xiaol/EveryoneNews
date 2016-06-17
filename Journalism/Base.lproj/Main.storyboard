@@ -725,6 +725,9 @@
                                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HHs-fG-W1n">
                                                                                 <rect key="frame" x="42" y="0.0" width="66" height="66"/>
                                                                                 <state key="normal" image="详情页微信朋友圈"/>
+                                                                                <connections>
+                                                                                    <action selector="touchWeChatFriendQuanButtonAction:" destination="eDb-XL-6O2" eventType="touchUpInside" id="0ZE-pp-MiR"/>
+                                                                                </connections>
                                                                             </button>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="微信朋友圈" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6gz-qI-sdy">
                                                                                 <rect key="frame" x="45" y="76" width="60" height="15"/>
@@ -747,6 +750,9 @@
                                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vg8-Hb-XY8">
                                                                                 <rect key="frame" x="42" y="0.0" width="66" height="66"/>
                                                                                 <state key="normal" image="详情页微信好友"/>
+                                                                                <connections>
+                                                                                    <action selector="touchWeChatFriendButtonAction:" destination="eDb-XL-6O2" eventType="touchUpInside" id="2Ve-Wd-U8Q"/>
+                                                                                </connections>
                                                                             </button>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="微信好友" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c45-hX-lAL">
                                                                                 <rect key="frame" x="51" y="76" width="48" height="15"/>
@@ -769,6 +775,9 @@
                                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8HE-ck-qN7">
                                                                                 <rect key="frame" x="42" y="0.0" width="66" height="66"/>
                                                                                 <state key="normal" image="详情页QQ好友"/>
+                                                                                <connections>
+                                                                                    <action selector="touchQQFriendButtonAction:" destination="eDb-XL-6O2" eventType="touchUpInside" id="ScY-6F-nNM"/>
+                                                                                </connections>
                                                                             </button>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="QQ好友" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zM4-Ax-r3e">
                                                                                 <rect key="frame" x="54" y="76" width="43" height="15"/>
@@ -791,6 +800,9 @@
                                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aOe-bx-ZIB">
                                                                                 <rect key="frame" x="42" y="0.0" width="66" height="66"/>
                                                                                 <state key="normal" image="详情页新浪微博"/>
+                                                                                <connections>
+                                                                                    <action selector="touchSinaButtonAction:" destination="eDb-XL-6O2" eventType="touchUpInside" id="95P-Od-O4p"/>
+                                                                                </connections>
                                                                             </button>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="新浪微博" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XBb-tX-WmJ">
                                                                                 <rect key="frame" x="51" y="76" width="48" height="15"/>
@@ -849,6 +861,9 @@
                                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PFf-4P-vMG">
                                                                                 <rect key="frame" x="42" y="0.0" width="66" height="66"/>
                                                                                 <state key="normal" image="详情页短信"/>
+                                                                                <connections>
+                                                                                    <action selector="touchSMSButtonAction:" destination="eDb-XL-6O2" eventType="touchUpInside" id="Zqq-NA-apY"/>
+                                                                                </connections>
                                                                             </button>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="短信" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vCg-3c-tK2">
                                                                                 <rect key="frame" x="63" y="76" width="24" height="15"/>
@@ -871,6 +886,9 @@
                                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eBv-hG-0OM">
                                                                                 <rect key="frame" x="42" y="0.0" width="66" height="66"/>
                                                                                 <state key="normal" image="详情页邮件"/>
+                                                                                <connections>
+                                                                                    <action selector="touchEmailButtonAction:" destination="eDb-XL-6O2" eventType="touchUpInside" id="lxw-v9-9EO"/>
+                                                                                </connections>
                                                                             </button>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="邮件" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nej-UV-1Yz">
                                                                                 <rect key="frame" x="63" y="76" width="24" height="15"/>
@@ -893,6 +911,9 @@
                                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CUj-lS-a63">
                                                                                 <rect key="frame" x="42" y="0.0" width="66" height="66"/>
                                                                                 <state key="normal" image="详情页转发链接"/>
+                                                                                <connections>
+                                                                                    <action selector="touchCopyLinkButtonAction:" destination="eDb-XL-6O2" eventType="touchUpInside" id="xL7-G7-KCd"/>
+                                                                                </connections>
                                                                             </button>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="转发链接" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UJA-a2-2Of">
                                                                                 <rect key="frame" x="51" y="76" width="48" height="15"/>
@@ -915,6 +936,9 @@
                                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qTg-hC-1Gj">
                                                                                 <rect key="frame" x="42" y="0.0" width="66" height="66"/>
                                                                                 <state key="normal" image="详情页字体大小"/>
+                                                                                <connections>
+                                                                                    <action selector="touchFontSizeButtonAction:" destination="eDb-XL-6O2" eventType="touchUpInside" id="iHf-Ce-3Q1"/>
+                                                                                </connections>
                                                                             </button>
                                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="字体大小" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rbU-5o-OdJ">
                                                                                 <rect key="frame" x="51" y="76" width="48" height="15"/>
@@ -1285,7 +1309,7 @@
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="135" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rwi-n6-27u">
-                                                    <rect key="frame" x="516" y="25" width="24" height="17"/>
+                                                    <rect key="frame" x="516" y="23" width="24" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.30196078430000001" green="0.30980392159999998" blue="0.31764705879999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -1303,7 +1327,7 @@
                                                 <constraint firstItem="zc7-s7-s4e" firstAttribute="leading" secondItem="d52-4p-nc6" secondAttribute="trailing" constant="12" id="Yfr-kF-6CN"/>
                                                 <constraint firstAttribute="trailing" secondItem="Ter-ZS-aJw" secondAttribute="trailing" constant="18" id="bnN-ch-CpR"/>
                                                 <constraint firstItem="pgt-4A-fyq" firstAttribute="top" secondItem="zFm-sT-lKc" secondAttribute="bottom" constant="12" id="eJY-lN-kdE"/>
-                                                <constraint firstItem="rwi-n6-27u" firstAttribute="bottom" secondItem="Ter-ZS-aJw" secondAttribute="bottom" id="fFo-tJ-jJo"/>
+                                                <constraint firstItem="rwi-n6-27u" firstAttribute="bottom" secondItem="Ter-ZS-aJw" secondAttribute="bottom" constant="-2" id="fFo-tJ-jJo"/>
                                                 <constraint firstItem="zc7-s7-s4e" firstAttribute="top" secondItem="ViQ-eP-UjJ" secondAttribute="top" constant="21" id="lCq-Lz-lmE"/>
                                                 <constraint firstItem="bkh-Nq-yy8" firstAttribute="centerY" secondItem="Ter-ZS-aJw" secondAttribute="centerY" id="lJo-Ai-qbY"/>
                                                 <constraint firstItem="zFm-sT-lKc" firstAttribute="top" secondItem="zc7-s7-s4e" secondAttribute="bottom" constant="8" id="qCH-5E-ma7"/>
@@ -1700,7 +1724,7 @@
                                                     </connections>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="135" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Sq-3h-MpI">
-                                                    <rect key="frame" x="516" y="25" width="24" height="17"/>
+                                                    <rect key="frame" x="516" y="23" width="24" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.30196078430000001" green="0.30980392159999998" blue="0.31764705879999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -1716,7 +1740,7 @@
                                                 <constraint firstItem="bdo-y5-Yuo" firstAttribute="centerY" secondItem="JN0-8z-Ce4" secondAttribute="centerY" id="N6Y-Xg-6hN"/>
                                                 <constraint firstItem="JYD-38-vc7" firstAttribute="leading" secondItem="GC4-Cm-IpW" secondAttribute="trailing" constant="12" id="WIj-Mq-dEt"/>
                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="vh4-r3-e3E" secondAttribute="trailing" constant="12" id="XTJ-fL-fnR"/>
-                                                <constraint firstItem="9Sq-3h-MpI" firstAttribute="bottom" secondItem="JN0-8z-Ce4" secondAttribute="bottom" id="YAr-dq-wu4"/>
+                                                <constraint firstItem="9Sq-3h-MpI" firstAttribute="bottom" secondItem="JN0-8z-Ce4" secondAttribute="bottom" constant="-2" id="YAr-dq-wu4"/>
                                                 <constraint firstAttribute="trailing" secondItem="JN0-8z-Ce4" secondAttribute="trailing" constant="18" id="dAO-bn-rSC"/>
                                                 <constraint firstItem="SpY-e0-yqB" firstAttribute="leading" secondItem="GC4-Cm-IpW" secondAttribute="trailing" constant="12" id="irw-an-7wn"/>
                                                 <constraint firstItem="SpY-e0-yqB" firstAttribute="top" secondItem="JYD-38-vc7" secondAttribute="bottom" constant="8" id="j8k-uO-fJD"/>

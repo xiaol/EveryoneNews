@@ -38,10 +38,11 @@ extension NewslistViewController{
         
         self.refreshNewsDataMethod(false)
         
-        self.notificationToken =  newsResults?.addNotificationBlock({ (result) in
+        // 获得字体变化通知，完成刷新字体大小方法
+        NSNotificationCenter.defaultCenter().addObserverForName(FONTMODALSTYLEIDENTIFITER, object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
             
-            
-        })
+            self.tableView.reloadData()
+        }
     }
     
     /// 刷新新闻内容方法

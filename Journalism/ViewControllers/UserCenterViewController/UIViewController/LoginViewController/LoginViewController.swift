@@ -58,14 +58,19 @@ class LoginViewController: UIViewController,UserLoginManagerDelegate {
     // 接收到用户信息成功获取的通知
     func didReceiveRequestUserSuccessResponse(userR: AnyObject!) {
         
-        SVProgressHUD.showSuccessWithStatus("完成")
+        SVProgressHUD.showWithStatus("完成授权 ")
         SVProgressHUD.dismissWithDelay(1.5)
         
         if let user = userR as? UserRegister{
      
-            ShareLUserRequest.resigterSanFangUser(user, finish: {
+            ShareLUserRequest.resigterSanFangUser(user, finish: { 
                 
                 self.dismissViewControllerAnimated(true, completion: nil)
+                
+                }, fail: { 
+                    
+                    SVProgressHUD.showErrorWithStatus("注册失败")
+                    SVProgressHUD.dismissWithDelay(1.5)
             })
         }
     }

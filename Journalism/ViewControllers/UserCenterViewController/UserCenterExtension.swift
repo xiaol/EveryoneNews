@@ -46,37 +46,17 @@ extension UserLoginSdkApiManager{
         let snsPlatform = UMSocialSnsPlatformManager.getSocialPlatformWithName(UMShareToWechatSession)
         
         del.willRequestAuthorize?()
-        
         snsPlatform.loginClickHandler(vc, UMSocialControllerService.defaultControllerService(), true, {response in
             del.didReceiveWeiboResponse?(response) // 向用户告知，接收到了微信的回调
+            
             switch response.responseCode {
             case UMSResponseCodeSuccess:
-                del.willRequestUserInfo?() // 向用户告知，将要请求用户信息
                 
-                UMSocialDataService.defaultDataService().requestSnsInformation(UMShareToWechatSession, completion: { (responses) -> Void in
-                    
-                    if responses.responseCode != UMSResponseCodeSuccess{ del.didReceiveRequestUserFailResponse?();return}
-                    
-                  
-                    print(response.data)
-                    
-                })
+                self.getWeChatUserInfo(response)
             case UMSResponseCodeCancel:
                 del.didReceiveFailResponse?("请确认授权")
             default:
                 del.didReceiveFailResponse?("未知错误")
-            }
-            if response.responseCode == UMSResponseCodeSuccess {
-                
-                UMSocialDataService.defaultDataService().requestSnsInformation(UMShareToWechatSession, completion: { (entity) -> Void in
-                    
-                    
-                    
-                    
-                })
-                
-            }else if response.responseCode != UMSResponseCodeCancel{
-                
             }
         })
     }
@@ -132,9 +112,43 @@ class UserLoginSdkApiManager:NSObject,WeiboSDKDelegate{
 }
 
 import Alamofire
+import AFDateHelper
 
 extension UserLoginSdkApiManager{
 
+    
+    private class func getWeChatUserInfo(respones:UMSocialResponseEntity){
+    
+        guard let wxsession = respones.data["wxsession"],accessToken = wxsession["accessToken"] as? String ,username = wxsession["username"] as? String ,usid = wxsession["usid"] as? String else{
+            
+            UserLoginSdkApiManager.shareWXApiManager().delegate?.didReceiveRequestUserFailResponse?()
+            
+            return
+        }
+        
+        guard let profile = respones.thirdPlatformUserProfile ,avatar = profile["headimgurl"] as? String,genders = profile["sex"] as? Int else{
+        
+            UserLoginSdkApiManager.shareWXApiManager().delegate?.didReceiveRequestUserFailResponse?()
+            
+            return
+        }
+        
+        ShareLUser.uname = username
+        ShareLUser.avatar = avatar
+        
+        /// 设置存储
+        ShareLUser.s_uid = usid
+        ShareLUser.s_token = accessToken
+        ShareLUser.s_sexpires = NSDate().dateByAddingDays(7).toString(format: DateFormat.Custom("yyyy-MM-dd hh:mm:ss"))
+        ShareLUser.s_uname = username
+        ShareLUser.s_avatar = avatar
+        ShareLUser.s_gender = genders == 0 ? 3 : (genders == 2 ? 0 : 1)
+        
+        ShareLUser.getSdkUserToken { (user) in
+            UserLoginSdkApiManager.shareWXApiManager().delegate?.didReceiveRequestUserSuccessResponse?(UserRegister(utype: 3))
+        }
+    }
+    
     ///  获取新浪微博的用户信息
     private func getSinaUserInfo(access_token:String,uid:String,sexpires:String){
         let param:[String : AnyObject] = ["access_token":access_token,"uid":uid]

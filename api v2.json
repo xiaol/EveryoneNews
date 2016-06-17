@@ -746,7 +746,8 @@
                 },
                 "utype": {
                     "description": "用户类型注释1.本地注册用户 2游客用户 3微博用户 4微信用户",
-                    "type": "string"
+                    "type": "integer",
+                    "format": "int32"
                 },
                 "platform": {
                     "description": "用户平台注释 1.IOS 2安卓 3网页 4无法识别",
