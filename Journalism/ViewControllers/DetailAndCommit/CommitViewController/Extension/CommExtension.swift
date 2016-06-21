@@ -51,6 +51,7 @@ extension CommitViewController{
         // 获得字体变化通知，完成刷新字体大小方法
         NSNotificationCenter.defaultCenter().addObserverForName(FONTMODALSTYLEIDENTIFITER, object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
             
+            self.setHeaderView()
             self.tableView.reloadData()
         }
     }
@@ -64,7 +65,7 @@ extension CommitViewController{
             let realm = try! Realm()
             
             hotResults = realm.objects(Comment.self).filter("nid = \(new.nid) AND ishot = 1").sorted("commend", ascending: false)
-            normalResults = realm.objects(Comment.self).filter("nid = \(new.nid)")
+            normalResults = realm.objects(Comment.self).filter("nid = \(new.nid) AND ishot = 0").sorted("ctimes", ascending: false)
         }
         
         self.tableView.reloadData()
@@ -76,6 +77,8 @@ extension CommitViewController{
         if let n  = new {
             
             self.newTitleLabel.text = n.title
+            self.newTitleLabel.font = UIFont.a_font9
+            self.newInfoLabel.font = UIFont.a_font8
             let comment = n.comment > 0 ? "   \(n.comment)评" : ""
             self.newInfoLabel.text = "\(n.pname)  \(n.ptime)\(comment)"
             

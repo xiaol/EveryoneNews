@@ -25,6 +25,14 @@ extension HomeViewController{
             
             self.buttonBarView.reloadData()
         }
+        
+        // 需要用户注册才可继续操作
+        NSNotificationCenter.defaultCenter().addObserverForName(USERNEDDLOGINTHENCANDOSOMETHING, object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+            
+            let viewController = UIStoryboard.shareUserStoryBoard.get_LoginViewController()
+            
+            self.presentViewController(viewController, animated: true, completion: nil)
+        }
     }
     
     
@@ -36,13 +44,11 @@ extension HomeViewController{
         if ShareLUser.utype != 2 {
             
             viewController = UIStoryboard.shareUserStoryBoard.get_UserCenterViewController()
+            self.presentViewController(viewController, animated: true, completion: nil)
         }else{
             
-            viewController = UIStoryboard.shareUserStoryBoard.get_LoginViewController()
+            NSNotificationCenter.defaultCenter().postNotificationName(USERNEDDLOGINTHENCANDOSOMETHING, object: nil)
         }
-        
-        
-        self.presentViewController(viewController, animated: true, completion: nil)
     }
     
     override func willTransitionToTraitCollection(newCollection: UITraitCollection, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
@@ -128,7 +134,6 @@ extension HomeViewController{
             
             displayViewController.newsResults = self.newsResults.filter("ishotnew = 1 AND isdelete = 0")
         }else{
-        
             displayViewController.newsResults = self.newsResults.filter("channel = %@ AND isdelete = 0 AND ishotnew = 0",channel.id)
         }
         

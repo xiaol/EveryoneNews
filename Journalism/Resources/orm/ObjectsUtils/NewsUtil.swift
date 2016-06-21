@@ -22,6 +22,20 @@ class NewsUtil: NSObject {
         
         requestBudile.execute { (response, error) in
             
+            guard let body = response?.body,let code = body.objectForKey("code") as? Int else{fail?();return}
+            
+            if code == 4003 {
+                
+                print("token过期",ShareLUser.token)
+                
+                ShareLUserRequest.resetLogin({ 
+                    
+                    print("重新获取充公",ShareLUser.token)
+                })
+                
+                fail?();return
+            }
+            
             let realm = try! Realm()
             
             let hot = channelId == 1 ? 1 : 0
@@ -37,7 +51,7 @@ class NewsUtil: NSObject {
                 }
             })
             
-            guard let body = response?.body,let data = body.objectForKey("data") as? NSArray else{  print(response?.body);fail?();return} // 加载失败
+            guard let data = body.objectForKey("data") as? NSArray else{  fail?();return} // 加载失败
 
             // 获取所有数据
             var newsResults = realm.objects(New)

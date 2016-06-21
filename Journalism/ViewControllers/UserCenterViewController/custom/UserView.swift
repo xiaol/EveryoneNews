@@ -29,7 +29,7 @@ class HeadPhotoView:UIImageView{
         
         if ShareLUser.avatar.characters.count <= 0 {
         
-            return self.image = UIImage(named: "产品经理头像")
+            return self.image = UIImage(named: "home_login")
         }
         
         if let url = NSURL(string: ShareLUser.avatar) {

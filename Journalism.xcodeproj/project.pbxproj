@@ -58,12 +58,7 @@
 		AEC47B301D0032E20055936D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B191D0032E20055936D /* DetailViewController.swift */; };
 		AEC47B311D0032E20055936D /* DetailExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B1B1D0032E20055936D /* DetailExtension.swift */; };
 		AEC47B321D0032E20055936D /* WebViewExtenion.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B1C1D0032E20055936D /* WebViewExtenion.swift */; };
-		AEC47B331D0032E20055936D /* bootstrap.min.css in Resources */ = {isa = PBXBuildFile; fileRef = AEC47B1E1D0032E20055936D /* bootstrap.min.css */; };
-		AEC47B341D0032E20055936D /* content.css in Resources */ = {isa = PBXBuildFile; fileRef = AEC47B1F1D0032E20055936D /* content.css */; };
 		AEC47B351D0032E20055936D /* content_template.html in Resources */ = {isa = PBXBuildFile; fileRef = AEC47B201D0032E20055936D /* content_template.html */; };
-		AEC47B361D0032E20055936D /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = AEC47B211D0032E20055936D /* home.png */; };
-		AEC47B371D0032E20055936D /* jquery.js in Resources */ = {isa = PBXBuildFile; fileRef = AEC47B221D0032E20055936D /* jquery.js */; };
-		AEC47B381D0032E20055936D /* jquery.lazyload.js in Resources */ = {isa = PBXBuildFile; fileRef = AEC47B231D0032E20055936D /* jquery.lazyload.js */; };
 		AEC47B3F1D00334A0055936D /* PopAnimatedTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B3C1D00334A0055936D /* PopAnimatedTransitioning.swift */; };
 		AEC47B401D00334A0055936D /* DetailAndCommitExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B3E1D00334A0055936D /* DetailAndCommitExtension.swift */; };
 		AEC47B421D0033610055936D /* DetailAndCommitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B411D0033610055936D /* DetailAndCommitViewController.swift */; };
@@ -80,6 +75,13 @@
 		AEDECF2B1D0D19A700CDCE2B /* CopyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDECF2A1D0D19A700CDCE2B /* CopyLabel.swift */; };
 		AEDECF4D1D0D29B200CDCE2B /* GDWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDECF4B1D0D29B200CDCE2B /* GDWebViewController.swift */; };
 		AEDECF4E1D0D29B200CDCE2B /* GDWebViewNavigationToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDECF4C1D0D29B200CDCE2B /* GDWebViewNavigationToolbar.swift */; };
+		AEE3B5141D17A187008BC0EA /* bootstrap.min.css in Resources */ = {isa = PBXBuildFile; fileRef = AEE3B50D1D17A187008BC0EA /* bootstrap.min.css */; };
+		AEE3B5151D17A187008BC0EA /* content.css in Resources */ = {isa = PBXBuildFile; fileRef = AEE3B50E1D17A187008BC0EA /* content.css */; };
+		AEE3B5161D17A187008BC0EA /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = AEE3B5101D17A187008BC0EA /* home.png */; };
+		AEE3B5171D17A187008BC0EA /* jquery.js in Resources */ = {isa = PBXBuildFile; fileRef = AEE3B5121D17A187008BC0EA /* jquery.js */; };
+		AEE3B5181D17A187008BC0EA /* jquery.lazyload.js in Resources */ = {isa = PBXBuildFile; fileRef = AEE3B5131D17A187008BC0EA /* jquery.lazyload.js */; };
+		AEE3B51A1D17A409008BC0EA /* index.js in Resources */ = {isa = PBXBuildFile; fileRef = AEE3B5191D17A409008BC0EA /* index.js */; };
+		AEE3B51C1D17FF57008BC0EA /* RequestCustomClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE3B51B1D17FF57008BC0EA /* RequestCustomClass.swift */; };
 		AEE7D22D1D0E58F100761E74 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE7D22C1D0E58F100761E74 /* HeaderView.swift */; };
 		AEE7D2351D0E675700761E74 /* FooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE7D2341D0E675700761E74 /* FooterView.swift */; };
 		AEECBC4D1D13B30E00529150 /* SlideFontSizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEECBC4C1D13B30E00529150 /* SlideFontSizeView.swift */; };
@@ -147,12 +149,7 @@
 		AEC47B191D0032E20055936D /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		AEC47B1B1D0032E20055936D /* DetailExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailExtension.swift; sourceTree = "<group>"; };
 		AEC47B1C1D0032E20055936D /* WebViewExtenion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewExtenion.swift; sourceTree = "<group>"; };
-		AEC47B1E1D0032E20055936D /* bootstrap.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = bootstrap.min.css; sourceTree = "<group>"; };
-		AEC47B1F1D0032E20055936D /* content.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = content.css; sourceTree = "<group>"; };
 		AEC47B201D0032E20055936D /* content_template.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = content_template.html; sourceTree = "<group>"; };
-		AEC47B211D0032E20055936D /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home.png; sourceTree = "<group>"; };
-		AEC47B221D0032E20055936D /* jquery.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.js; sourceTree = "<group>"; };
-		AEC47B231D0032E20055936D /* jquery.lazyload.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.lazyload.js; sourceTree = "<group>"; };
 		AEC47B3C1D00334A0055936D /* PopAnimatedTransitioning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopAnimatedTransitioning.swift; sourceTree = "<group>"; };
 		AEC47B3E1D00334A0055936D /* DetailAndCommitExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailAndCommitExtension.swift; sourceTree = "<group>"; };
 		AEC47B411D0033610055936D /* DetailAndCommitViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailAndCommitViewController.swift; sourceTree = "<group>"; };
@@ -169,6 +166,13 @@
 		AEDECF2A1D0D19A700CDCE2B /* CopyLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CopyLabel.swift; sourceTree = "<group>"; };
 		AEDECF4B1D0D29B200CDCE2B /* GDWebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GDWebViewController.swift; sourceTree = "<group>"; };
 		AEDECF4C1D0D29B200CDCE2B /* GDWebViewNavigationToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GDWebViewNavigationToolbar.swift; sourceTree = "<group>"; };
+		AEE3B50D1D17A187008BC0EA /* bootstrap.min.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = bootstrap.min.css; sourceTree = "<group>"; };
+		AEE3B50E1D17A187008BC0EA /* content.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = content.css; sourceTree = "<group>"; };
+		AEE3B5101D17A187008BC0EA /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home.png; sourceTree = "<group>"; };
+		AEE3B5121D17A187008BC0EA /* jquery.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.js; sourceTree = "<group>"; };
+		AEE3B5131D17A187008BC0EA /* jquery.lazyload.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.lazyload.js; sourceTree = "<group>"; };
+		AEE3B5191D17A409008BC0EA /* index.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
+		AEE3B51B1D17FF57008BC0EA /* RequestCustomClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestCustomClass.swift; sourceTree = "<group>"; };
 		AEE7D2251D0E587300761E74 /* Journalism-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Journalism-Bridging-Header.h"; path = "Resources/LPRefreshView/Journalism-Bridging-Header.h"; sourceTree = "<group>"; };
 		AEE7D22C1D0E58F100761E74 /* HeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		AEE7D2341D0E675700761E74 /* FooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FooterView.swift; sourceTree = "<group>"; };
@@ -337,6 +341,7 @@
 				AEB8E9DA1CFBF53300A105C4 /* NewContentUtil.swift */,
 				AEEE61991CFE9DE900C5FF08 /* CommentUtil.swift */,
 				AEA103521D0571F80086968B /* AboutUtil.swift */,
+				AEE3B51B1D17FF57008BC0EA /* RequestCustomClass.swift */,
 			);
 			path = ObjectsUtils;
 			sourceTree = "<group>";
@@ -483,12 +488,10 @@
 		AEC47B1D1D0032E20055936D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				AEC47B1E1D0032E20055936D /* bootstrap.min.css */,
-				AEC47B1F1D0032E20055936D /* content.css */,
 				AEC47B201D0032E20055936D /* content_template.html */,
-				AEC47B211D0032E20055936D /* home.png */,
-				AEC47B221D0032E20055936D /* jquery.js */,
-				AEC47B231D0032E20055936D /* jquery.lazyload.js */,
+				AEE3B50C1D17A187008BC0EA /* css */,
+				AEE3B50F1D17A187008BC0EA /* img */,
+				AEE3B5111D17A187008BC0EA /* js */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -568,6 +571,33 @@
 				AEDECF4C1D0D29B200CDCE2B /* GDWebViewNavigationToolbar.swift */,
 			);
 			path = CustomWebView;
+			sourceTree = "<group>";
+		};
+		AEE3B50C1D17A187008BC0EA /* css */ = {
+			isa = PBXGroup;
+			children = (
+				AEE3B50D1D17A187008BC0EA /* bootstrap.min.css */,
+				AEE3B50E1D17A187008BC0EA /* content.css */,
+			);
+			path = css;
+			sourceTree = "<group>";
+		};
+		AEE3B50F1D17A187008BC0EA /* img */ = {
+			isa = PBXGroup;
+			children = (
+				AEE3B5101D17A187008BC0EA /* home.png */,
+			);
+			path = img;
+			sourceTree = "<group>";
+		};
+		AEE3B5111D17A187008BC0EA /* js */ = {
+			isa = PBXGroup;
+			children = (
+				AEE3B5121D17A187008BC0EA /* jquery.js */,
+				AEE3B5131D17A187008BC0EA /* jquery.lazyload.js */,
+				AEE3B5191D17A409008BC0EA /* index.js */,
+			);
+			path = js;
 			sourceTree = "<group>";
 		};
 		AEE7D2241D0E586100761E74 /* RefreshView */ = {
@@ -680,18 +710,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AEC47B331D0032E20055936D /* bootstrap.min.css in Resources */,
+				AEE3B5151D17A187008BC0EA /* content.css in Resources */,
+				AEE3B5141D17A187008BC0EA /* bootstrap.min.css in Resources */,
 				AEC09CDE1CE9776800D5A5CC /* LaunchScreen.storyboard in Resources */,
 				AEC9659E1CF5A2E70053A88D /* User.storyboard in Resources */,
 				AEC1D5C61CEDC34600B1F00C /* NSDateTimeAgo.bundle in Resources */,
 				AEC47B351D0032E20055936D /* content_template.html in Resources */,
+				AEE3B5161D17A187008BC0EA /* home.png in Resources */,
+				AEE3B5181D17A187008BC0EA /* jquery.lazyload.js in Resources */,
 				AE2968321CF69DFB00D2782D /* Privacy.html in Resources */,
-				AEC47B361D0032E20055936D /* home.png in Resources */,
-				AEC47B381D0032E20055936D /* jquery.lazyload.js in Resources */,
-				AEC47B341D0032E20055936D /* content.css in Resources */,
 				AEC09CDB1CE9776800D5A5CC /* Assets.xcassets in Resources */,
 				AEC09CD91CE9776800D5A5CC /* Main.storyboard in Resources */,
-				AEC47B371D0032E20055936D /* jquery.js in Resources */,
+				AEE3B5171D17A187008BC0EA /* jquery.js in Resources */,
+				AEE3B51A1D17A409008BC0EA /* index.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -761,6 +792,7 @@
 				6DC4FDCF1CF0314700D25A99 /* NewslistViewController.swift in Sources */,
 				AEC1D5BD1CED960100B1F00C /* New.swift in Sources */,
 				AEC489B71D0FF140009D81F6 /* AppdelegateExtension.swift in Sources */,
+				AEE3B51C1D17FF57008BC0EA /* RequestCustomClass.swift in Sources */,
 				AEC47B481D0037A50055936D /* InputExtension.swift in Sources */,
 				AEFB55151CF41407005FC23E /* Curly.swift in Sources */,
 				AEC965A51CF5AC900053A88D /* UserSettingViewController.swift in Sources */,

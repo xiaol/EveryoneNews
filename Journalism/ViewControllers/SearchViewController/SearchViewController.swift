@@ -40,10 +40,7 @@ class SearchViewControllerDismissedAnimation:NSObject,UIViewControllerAnimatedTr
             
             let rect = view.convertRect(view.frame, toView: fr.view)
             
-            UIView.animateWithDuration(self.transitionDuration(transitionContext), delay: 0.3, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
-                
-                
-                search.textFiled.resignFirstResponder()
+            UIView.animateWithDuration(self.transitionDuration(transitionContext), delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
                 
                 search.searchInputViewRightConstraint.constant = 12
                 
@@ -126,6 +123,11 @@ class SearchViewController: UIViewController,UIViewControllerTransitioningDelega
     let DismissedAnimation = SearchViewControllerDismissedAnimation()
     let PresentdAnimation = SearchViewControllerPresentdAnimation()
     
+    override func disablesAutomaticKeyboardDismissal() -> Bool {
+        
+        return false
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         
         super.init(coder: aDecoder)
@@ -133,10 +135,18 @@ class SearchViewController: UIViewController,UIViewControllerTransitioningDelega
         self.transitioningDelegate = self
     }
     
+    override func viewDidDisappear(animated: Bool) {
+        
+        super.viewDidDisappear(animated)
+        
+        self.textFiled.resignFirstResponder()
+    }
+    
     @IBAction func dismissAction(sender: AnyObject) {
         
+        self.textFiled.resignFirstResponder()
         self.textFiled.text = ""
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
     
     internal func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {

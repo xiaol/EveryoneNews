@@ -244,7 +244,7 @@ class FontSizeSlideView: UIView {
             
             let originx = tap.locationInView(self.silde).x
             
-            let value = (self.silde.maximumValue-self.silde.minimumValue)*Float(originx/self.silde.frame.width)
+            let value = (self.silde.maximumValue-self.silde.minimumValue)*Float(originx/self.silde.frame.width)-1
             
             self.SetValueMethod(Float(lroundf(value)))
         }))
@@ -261,6 +261,11 @@ class FontSizeSlideView: UIView {
         fontView3.addGestureRecognizer(UITapGestureRecognizer(block: { (tap) in
             
             self.SetValueMethod(2)
+        }))
+        
+        fontView4.addGestureRecognizer(UITapGestureRecognizer(block: { (tap) in
+            
+            self.SetValueMethod(-1)
         }))
         
         finishButton.removeActions(.TouchUpInside)
@@ -296,11 +301,7 @@ class FontSizeSlideView: UIView {
     // 设置Value
     private func SetValueMethod(value:Float){
     
-        print(value)
-        
         UIFont.a_fontModalStyle = value
-        
-        NSNotificationCenter.defaultCenter().postNotificationName(FONTMODALSTYLEIDENTIFITER, object: nil)
         
         self.silde.setValue(value, animated: true)
     }

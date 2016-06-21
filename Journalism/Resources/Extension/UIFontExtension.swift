@@ -15,7 +15,10 @@ extension UIFont{
     /// 0 为普通字体 1 为大字体 2 超大字体
     class var a_fontModalStyle:Float{
         get {return NSUserDefaults.standardUserDefaults().floatForKey(FONTMODALSTYLEIDENTIFITER)}
-        set(new){ NSUserDefaults.standardUserDefaults().setFloat(new, forKey: FONTMODALSTYLEIDENTIFITER)}
+        set(new){
+            NSUserDefaults.standardUserDefaults().setFloat(new, forKey: FONTMODALSTYLEIDENTIFITER)
+            NSNotificationCenter.defaultCenter().postNotificationName(FONTMODALSTYLEIDENTIFITER, object: nil)
+        }
     }
     
     class var a_font1:UIFont{
@@ -43,7 +46,7 @@ extension UIFont{
             case 2:
                 return UIFont.systemFontOfSize(23)
             default:
-                return UIFont.systemFontOfSize(16)
+                return UIFont.systemFontOfSize(17)
             }
         }
     }
@@ -58,7 +61,7 @@ extension UIFont{
             case 2:
                 return UIFont.systemFontOfSize(22)
             default:
-                return UIFont.systemFontOfSize(16)
+                return UIFont.systemFontOfSize(17)
             }
         }
     }

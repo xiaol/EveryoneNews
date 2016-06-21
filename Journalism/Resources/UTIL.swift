@@ -15,6 +15,8 @@ import ReachabilitySwift
 // MARK: 消息机制相关名称
 let CLICKTOCOMMENTVIEWCONTROLLER = "CLICKTOCOMMENTVIEWCONTROLLER" // 用户点击想要去评论视图
 
+let USERNEDDLOGINTHENCANDOSOMETHING = "USERNEDDLOGINTHENCANDOSOMETHING" // 用户必须注册才可以继续一些操作
+
 let IS_PLUS = UIScreen.mainScreen().bounds.size == CGSize(width: 414,height: 736) || UIScreen.mainScreen().bounds.size == CGSize(width: 736,height: 414)
 
 // MARK: 当前APP的网络连接情况

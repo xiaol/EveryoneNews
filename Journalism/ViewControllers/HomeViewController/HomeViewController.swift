@@ -52,7 +52,7 @@ class HomeViewController: CircularButtonBarPagerTabStripViewController {
     override func pagerTabStripViewController(pagerTabStripViewController: PagerTabStripViewController, updateIndicatorFromIndex fromIndex: Int, toIndex: Int, withProgressPercentage progressPercentage: CGFloat, indexWasChanged: Bool) {
         
         super.pagerTabStripViewController(pagerTabStripViewController, updateIndicatorFromIndex: fromIndex, toIndex: toIndex, withProgressPercentage: progressPercentage, indexWasChanged: indexWasChanged)
-        
+
         let oldCell = buttonBarView.cellForItemAtIndexPath(NSIndexPath(forItem: fromIndex, inSection: 0)) as? ButtonBarViewCell
         let newCell = buttonBarView.cellForItemAtIndexPath(NSIndexPath(forItem: toIndex, inSection: 0)) as? ButtonBarViewCell
         

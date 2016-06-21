@@ -26,6 +26,7 @@ public class Comment: Object {
     dynamic var ishot = 0
     
     dynamic var ctimes = NSDate() //创建时间
+    dynamic var inserttimes = NSDate() //创建时间
     
     override public static func primaryKey() -> String? {
         return "id"

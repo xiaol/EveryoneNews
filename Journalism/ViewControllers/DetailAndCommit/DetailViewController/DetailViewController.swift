@@ -75,19 +75,21 @@ class DetailViewController: UIViewController,WaitLoadProtcol {
             
             self.tableView.reloadData()
             
-            let data = ["bodySize":UIFont.a_font4.pointSize,"subtitleSize":UIFont.a_font8.pointSize,"titleSize":UIFont.a_font9.pointSize]
+            let data = ["bodySize":UIFont.a_font3.pointSize,"subtitleSize":UIFont.a_font8.pointSize,"titleSize":UIFont.a_font9.pointSize]
             
              self.bridge.callHandler("getUserInfos", data: data, responseCallback: { (_) in
                
+                self.fixWebViewHeight(0)
              })
         }
     }
+    
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         
         coordinator.animateAlongsideTransition({ (_) in
             
-            self.webViewDidFinishLoad(self.webView)
+            self.fixWebViewHeight(0)
             
             }, completion: nil)
         

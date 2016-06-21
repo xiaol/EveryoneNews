@@ -10,23 +10,11 @@ import RealmSwift
 import AFDateHelper
 import SwaggerClient
 
+
+
+
 class CommentUtil: NSObject {
-    
-    
-    class func praiseComment(comment:Comment){
-    
-        guard let token = ShareLUser.token else{ return }
-        
-//        let requestBudile = CommentAPI.nsComsUpPostWithRequestBuilder(cid: "\(comment.id)", uid: "\(ShareLUser.uid)")
-//        
-//        requestBudile.addHeaders(["Authorization":token])
-//        
-//        requestBudile.execute { (response, error) in
-//            
-//            print(error)
-//        }
-    }
-    
+
     /// 获取普通评论列表
     class func LoadNoramlCommentsList(new:New,p: String?="1", c: String?="20",finish:((count:Int)->Void)?=nil,fail:(()->Void)?=nil) {
         
@@ -38,10 +26,7 @@ class CommentUtil: NSObject {
                     return
                 }
             }
-        
-            
             guard let da = datas,let data = da.objectForKey("data") as? NSArray else{ fail?();return}
-            
             
             let realm = try! Realm()
             try! realm.write({
@@ -57,7 +42,7 @@ class CommentUtil: NSObject {
     /// 获取热门评论列表
     class func LoadHotsCommentsList(new:New,finish:(()->Void)?=nil,fail:(()->Void)?=nil) {
         
-        CommentAPI.nsComsHGet(did: new.docidBase64()) { (datas, error) in
+        CommentAPI.nsComsHGet(did: new.docidBase64(), uid: "\(ShareLUser.uid)") { (datas, error) in
             
             guard let da = datas,let data = da.objectForKey("data") as? NSArray else{ fail?();return}
             
@@ -76,7 +61,63 @@ class CommentUtil: NSObject {
         }
     }
     
-    // 完善新闻事件
+    /**
+     创建评论
+     
+     - parameter content: 评论内容
+     - parameter new:     新闻对象
+     - parameter finish:  完成回调
+     - parameter fail:    失败回调
+     */
+    class func CreateCommentMethod(content:String,new:New,finish:(()->Void)?=nil,fail:(()->Void)?=nil) {
+
+        guard let token = ShareLUser.token else{ fail?();return }
+
+        let time = NSDate()
+        let timeStr = time.toString(format: DateFormat.Custom("yyyy-MM-dd hh:mm:ss"))
+        
+        let cc = CommectCreate()
+        cc.content = content
+        cc.docid = new.docid
+        cc.ctime = timeStr
+        cc.commend = 0
+        cc.uid = Int32(ShareLUser.uid)
+        cc.uname = ShareLUser.uname
+        cc.avatar = ShareLUser.avatar
+        
+        let requestBudile = CommentAPI.nsComsPostWithRequestBuilder(userRegisterInfo: cc)
+        requestBudile.addHeaders(["Authorization":token,"X-Requested-With":"*"])
+        
+        requestBudile.execute { (response, error) in
+            
+            guard let code = response?.body.code,id = response?.body.data else {fail?();return}
+            if code != 2000 {fail?();return}
+            
+            let comment = Comment()
+            comment.id = Int(id)
+            comment.nid = new.nid
+            comment.uid = ShareLUser.uid
+            comment.ctime = timeStr
+            comment.content = content
+            comment.uname = ShareLUser.uname
+            comment.avatar = ShareLUser.avatar
+            comment.docid = new.docid
+            comment.ctimes = time
+            
+            let realm = try! Realm()
+            try! realm.write({
+                
+                new.comment += 1
+                realm.add(comment)
+            })
+            
+            finish?()
+        }
+    }
+}
+
+extension CommentUtil{
+    // 完善评论对象
     private class func AnalysisComment(channel:NSDictionary,realm:Realm,new:New){
         
         if let nid = channel.objectForKey("id") as? Int {
@@ -94,8 +135,6 @@ class CommentUtil: NSObject {
 }
 
 
-
-
 extension Comment {
     
     func HeightByNewConstraint(tableView:UITableView) -> CGFloat{
@@ -103,8 +142,8 @@ extension Comment {
         let width = tableView.frame.width
         
         // 计算平路内容所占高度
-        let contentSize = CGSize(width: width-18-38-12-18, height: 1000)
-        let contentHeight = NSString(string:self.content).boundingRectWithSize(contentSize, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font2], context: nil).height
+        let contentSize = CGSize(width: width-18-38-12-18, height: CGFloat(MAXFLOAT))
+        let contentHeight = NSString(string:self.content).boundingRectWithSize(contentSize, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font3], context: nil).height
         
         // time
         let size = CGSize(width: 1000, height: 1000)
@@ -118,3 +157,12 @@ extension Comment {
 }
 
 
+extension CommentAndUser {
+
+    
+    convenience public init(uid: String,cid: String){
+        self.init()
+        self.uid = uid
+        self.cid = cid
+    }
+}

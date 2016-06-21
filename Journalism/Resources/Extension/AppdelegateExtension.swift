@@ -23,6 +23,8 @@ extension AppDelegate:UISplitViewControllerDelegate {
         
         UIStoryboard.shareStoryBoard.get_UISplitViewController().delegate = self // 设置SplitViewController 代理方法
         
+        UIStoryboard.shareStoryBoard.get_UISplitViewController().preferredDisplayMode = .AllVisible
+        
         self.initializationReachabilityMethod()
     }
     
@@ -66,8 +68,7 @@ extension AppDelegate:UISplitViewControllerDelegate {
             print("Unable to start notifier")
         }
     }
-    
-    
+
     // 处理Split视图代理方法
     func splitViewController(splitViewController: UISplitViewController, collapseSecondaryViewController secondaryViewController:UIViewController, ontoPrimaryViewController primaryViewController:UIViewController) -> Bool {
         

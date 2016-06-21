@@ -35,8 +35,12 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
     let detailViewTransitioning = DetailViewAndCommitViewControllerPopAnimatedTransitioning() // Dismiss 反悔动画
     let detailViewInteractiveTransitioning = UIPercentDrivenInteractiveTransition() // 完成 process 渐进行动画
 
-
+    var commitViewController:CommitViewController!
+    var detailViewController:DetailViewController!
+    
     let dataSource = [UIViewController]() // 设置DataSource 
+    
+    var normalResults:Results<Comment>!
     
     override func viewDidLoad() {
         
@@ -63,7 +67,6 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
             CommentUtil.LoadNoramlCommentsList(n)
         }
         
-        
         self.setCommentOrDetailButton()
     }
     
@@ -74,8 +77,8 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
     
     override func viewControllersForPagerTabStrip(pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
         
-        let detailViewController = UIStoryboard.shareStoryBoard.get_DetailViewController(new) // 获得详情视图
-        let commitViewController = UIStoryboard.shareStoryBoard.get_CommitViewController(new) // 获取评论视图
+        detailViewController = UIStoryboard.shareStoryBoard.get_DetailViewController(new) // 获得详情视图
+        commitViewController = UIStoryboard.shareStoryBoard.get_CommitViewController(new) // 获取评论视图
         
         return [detailViewController,commitViewController]
     }

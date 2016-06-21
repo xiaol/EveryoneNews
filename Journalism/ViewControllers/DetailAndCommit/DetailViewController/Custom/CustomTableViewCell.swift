@@ -10,6 +10,20 @@ import UIKit
 import AFDateHelper
 import PINRemoteImage
 
+
+class PButtton:UIButton{
+
+    override func pointInside(point: CGPoint, withEvent event: UIEvent?) -> Bool {
+     
+        var bounds = self.bounds
+        
+        bounds.size = CGSize(width: 44, height: 44)
+        
+        return CGRectContainsPoint(bounds, point)
+    }
+}
+
+
 class CommentsTableViewCell:UITableViewCell{
     
     @IBOutlet var infoLabel: UILabel!
@@ -22,10 +36,14 @@ class CommentsTableViewCell:UITableViewCell{
     @IBOutlet var praiseedButton: UIButton!
     
     var comment:Comment!
+    var tableView:UITableView!
+    var indexPath:NSIndexPath!
     
-    func setCommentMethod(comment:Comment){
+    func setCommentMethod(comment:Comment,tableView:UITableView,indexPath:NSIndexPath){
         
         self.comment = comment
+        self.tableView = tableView
+        self.indexPath = indexPath
         
         praiseLabel.font = UIFont.a_font7
         cnameLabel.font = UIFont.a_font4
@@ -51,12 +69,33 @@ class CommentsTableViewCell:UITableViewCell{
     // 点赞
     @IBAction func clickPriaiseButton(sender: AnyObject) {
         
-        CommentUtil.praiseComment(comment)
+        if ShareLUser.utype == 2 {
+            
+            NSNotificationCenter.defaultCenter().postNotificationName(USERNEDDLOGINTHENCANDOSOMETHING, object: nil)
+        }else{
+            
+            CustomRequest.praiseComment(comment, finish: {
+                
+//                let section = NSIndexSet(index: self.indexPath.section)
+                
+                self.tableView.reloadRowsAtIndexPaths([self.indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+            })
+        }
     }
     
     // 取消点赞
     @IBAction func clickPriaiseedButton(sender: AnyObject) {
         
+        if ShareLUser.utype == 2 {
+            
+            NSNotificationCenter.defaultCenter().postNotificationName(USERNEDDLOGINTHENCANDOSOMETHING, object: nil)
+        }else{
+            
+            CustomRequest.nopraiseComment(self.comment, finish: {
+                
+                self.tableView.reloadRowsAtIndexPaths([self.indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+            })
+        }
     }
     
     override func drawRect(rect: CGRect) {
@@ -130,7 +169,7 @@ class AboutTableViewCell:UITableViewCell{
         
         YearLabel.font = UIFont.a_font8
         MAndDLabel.font = UIFont.a_font8
-        contentLabel.font = UIFont.a_font4
+        contentLabel.font = UIFont.a_font2
         pnameLabel.font = UIFont.a_font7
         
         

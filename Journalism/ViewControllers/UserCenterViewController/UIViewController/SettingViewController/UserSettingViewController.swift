@@ -64,6 +64,11 @@ class UserSettingViewController: UIViewController,UIGestureRecognizerDelegate {
     @IBOutlet var pan: UIPanGestureRecognizer!
     @IBOutlet var scrollView: UIScrollView!
     
+    @IBOutlet var chooseFontBackVoew: UIView!
+    @IBOutlet var smallSizeButton: UIButton!
+    @IBOutlet var normalSizeButton: UIButton!
+    @IBOutlet var bigSizeButton: UIButton!
+    @IBOutlet var superBigSizeButton: UIButton!
    
     
     required init?(coder aDecoder: NSCoder) {
@@ -73,9 +78,88 @@ class UserSettingViewController: UIViewController,UIGestureRecognizerDelegate {
         self.transitioningDelegate = self
     }
     
+    override func viewDidLoad() {
+        
+        super.viewDidLoad()
+        
+        scrollView.panGestureRecognizer.requireGestureRecognizerToFail(pan)
+        pan.delegate = self
+        
+        self.initChooseFontSize()
+        
+    }
+    
     let DismissedAnimation = CustomViewControllerDismissedAnimation()
     let PresentdAnimation = CustomViewControllerPresentdAnimation()
     let InteractiveTransitioning = UIPercentDrivenInteractiveTransition() // 完成 process 渐进行动画
+}
+
+
+extension UserSettingViewController{
+
+    @IBAction func small(sender: AnyObject) {
+        
+        UIFont.a_fontModalStyle = -1
+        
+        self.setChooseFontSize()
+    }
+    
+    @IBAction func normal(sender: AnyObject) {
+        
+        UIFont.a_fontModalStyle = 0
+        
+        self.setChooseFontSize()
+    }
+    
+    @IBAction func big(sender: AnyObject) {
+        
+        UIFont.a_fontModalStyle = 1
+        
+        self.setChooseFontSize()
+    }
+    
+    @IBAction func superBig(sender: AnyObject) {
+        
+        UIFont.a_fontModalStyle = 2
+        
+        self.setChooseFontSize()
+        
+    }
+    
+    private func initChooseFontSize(){
+    
+        self.chooseFontBackVoew.layer.cornerRadius = 3
+        self.chooseFontBackVoew.layer.borderWidth = 1
+        self.chooseFontBackVoew.layer.borderColor = UIColor.a_color5.CGColor
+        self.chooseFontBackVoew.clipsToBounds = true
+        self.chooseFontBackVoew.backgroundColor = UIColor.a_color5
+        
+        self.setChooseFontSize()
+    }
+    
+    // 设置选择字体大小
+    private func setChooseFontSize(){
+        
+        let back = UIColor.whiteColor()
+        let sback = UIColor.a_color5
+        
+        let text = UIColor.a_color1
+        let stext = UIColor.redColor()
+        
+        
+        smallSizeButton.setTitleColor(UIFont.a_fontModalStyle == -1 ? stext : text, forState: .Normal)
+        smallSizeButton.setBackgroundColor(UIFont.a_fontModalStyle == -1 ? sback : back, forState: .Normal)
+        
+        normalSizeButton.setTitleColor(UIFont.a_fontModalStyle == 0 ? stext : text, forState: .Normal)
+        normalSizeButton.setBackgroundColor(UIFont.a_fontModalStyle == 0 ? sback : back, forState: .Normal)
+        
+        bigSizeButton.setTitleColor(UIFont.a_fontModalStyle == 1 ? stext : text, forState: .Normal)
+        bigSizeButton.setBackgroundColor(UIFont.a_fontModalStyle == 1 ? sback : back, forState: .Normal)
+        
+        superBigSizeButton.setTitleColor(UIFont.a_fontModalStyle == 2 ? stext : text, forState: .Normal)
+        superBigSizeButton.setBackgroundColor(UIFont.a_fontModalStyle == 2 ? sback : back, forState: .Normal)
+
+    }
 }
 
 
@@ -93,14 +177,7 @@ extension UserSettingViewController:UIViewControllerTransitioningDelegate{
         return UIInterfaceOrientationMask.Portrait
     }
     
-    override func viewDidLoad() {
-        
-        super.viewDidLoad()
-        
-        scrollView.panGestureRecognizer.requireGestureRecognizerToFail(pan)
-        pan.delegate = self
-        
-    }
+
     
     
     override func viewDidAppear(animated: Bool) {

@@ -59,7 +59,7 @@ extension DetailViewController{
             
             let comment = hotResults[indexPath.row]
             
-            cell.setCommentMethod(comment)
+            cell.setCommentMethod(comment, tableView: tableView, indexPath: indexPath)
             
             return cell
         }

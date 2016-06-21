@@ -398,13 +398,31 @@
                 "summary": "评论点赞",
                 "description": "对某一个新闻评论进行点赞",
                 "parameters": [{
-                    "name": "userRegisterInfo",
-                    "in": "body",
-                    "description": "用户点赞信息",
+                    "name": "Authorization",
+                    "in": "header",
+                    "description": "用户token",
                     "required": true,
-                    "schema": {
-                        "$ref": "#/definitions/commentAndUser"
-                    }
+                    "type": "string"
+                },{
+                    "name": "X-Requested-With",
+                    "default": "*",
+                    "in": "header",
+                    "description": "用户token",
+                    "required": false,
+                    "type": "string"
+                },{
+                    "name": "uid",
+                    "in": "query",
+                    "description": "用户ID",
+                    "required": true,
+                    "type": "string"
+                }, {
+                    "name": "ciu",
+                    "in": "query",
+                    "description": "评论ID",
+                    "required": false,
+                    "default": "1",
+                    "type": "string"
                 }],
                 "responses": {
                     "200": {

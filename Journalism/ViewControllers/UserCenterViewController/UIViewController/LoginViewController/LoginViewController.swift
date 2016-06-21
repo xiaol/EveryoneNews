@@ -12,6 +12,16 @@ import SwaggerClient
 
 class LoginViewController: UIViewController,UserLoginManagerDelegate {
     
+    override func shouldAutorotate() -> Bool {
+        
+        return false
+    }
+    
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        
+        return UIInterfaceOrientationMask.Portrait
+    }
+    
     // 返回上一个视图
     @IBAction func dismissViewControllerAction(sender: AnyObject){
     

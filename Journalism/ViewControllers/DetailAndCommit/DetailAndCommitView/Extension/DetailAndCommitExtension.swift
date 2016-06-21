@@ -13,7 +13,7 @@ extension DetailAndCommitViewController{
 
     // 切换全屏活着完成反悔上一个界面
     @IBAction func touchViewController(sender: AnyObject) {
-        
+
         let horizontal = UIScreen.mainScreen().bounds.width > UIScreen.mainScreen().bounds.height
         
         if horizontal && IS_PLUS{
@@ -24,6 +24,8 @@ extension DetailAndCommitViewController{
             
             self.navigationController?.popViewControllerAnimated(true)
         }
+        
+        self.view.layoutIfNeeded()
     }
     
     // 如果pop动画的渐进动画的开关是真的

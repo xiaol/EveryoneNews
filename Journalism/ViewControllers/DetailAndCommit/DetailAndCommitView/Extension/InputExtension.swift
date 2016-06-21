@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import SVProgressHUD
+import RealmSwift
 
 extension DetailAndCommitViewController:UITextViewDelegate{
     
@@ -20,10 +22,41 @@ extension DetailAndCommitViewController:UITextViewDelegate{
         self.inputTextView.resignFirstResponder()
     }
     
+    /// 创建评论对象
+    @IBAction func CreateComment(sender: AnyObject) {
+        
+        if let n = self.new {
+        
+            CommentUtil.CreateCommentMethod(self.inputTextView.text, new: n, finish: {
+                
+                self.inputTextView.resignFirstResponder()
+                
+                let realm = try! Realm()
+                let normalResults = realm.objects(Comment.self).filter("nid = \(n.nid)")
+                self.commentsLabel.text = "\(normalResults.count)"
+                
+                if let tableView = self.commitViewController.tableView{
+                    let indexPath = NSIndexSet(index: 1)
+                    tableView.reloadSections(indexPath, withRowAnimation: UITableViewRowAnimation.Automatic)
+                }
+                
+                }, fail: { 
+                    
+                    SVProgressHUD.showErrorWithStatus("评论失败")
+                    SVProgressHUD.dismissWithDelay(1.5)
+            })
+        }
+    }
     
     @IBAction func touchTextFiledAction(sender: AnyObject) {
         
-        self.inputTextView.becomeFirstResponder()
+        if ShareLUser.utype == 2 {
+        
+            NSNotificationCenter.defaultCenter().postNotificationName(USERNEDDLOGINTHENCANDOSOMETHING, object: nil)
+        }else{
+        
+            self.inputTextView.becomeFirstResponder()
+        }
     }
     
     func resignNotification(){

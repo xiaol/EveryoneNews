@@ -222,7 +222,44 @@ class ShareLUserRequest: NSObject {
             finish?()
         }
     }
+    
+    class func resetLogin(finish:(()->Void)?=nil){
+    
+        if ShareLUser.utype == 2 {
+            
+            let visutor = VisitorsLogin(uid: Int32(ShareLUser.uid), password: ShareLUser.password)
+            let requestBuder = UserAPI.auLinGPostWithRequestBuilder(userLoginInfo: visutor)
+            
+            requestBuder.execute({ (response, error) in
+                
+                guard let token =  response?.header["Authorization"] else{ return }
+                ShareLUser.token = token
+                finish?()
+            })
+        }else{
+            
+            let user = UserRegister(utype: 3)
+            let requestBuder = UserAPI.auSinSPostWithRequestBuilder(userRegisterInfo: user)
+            requestBuder.execute { (response, error) in
+                
+                guard let token =  response?.header["Authorization"] else{return }
+                ShareLUser.token = token
+
+                finish?()
+            }
+        }
+    }
 }
+
+extension VisitorsLogin{
+    
+    convenience public init(uid: Int32,password: String){
+        self.init()
+        self.uid = uid
+        self.password = password
+    }
+}
+
 
 extension VisitorsRegister{
     

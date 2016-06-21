@@ -233,11 +233,12 @@ public class CommentAPI: APIBase {
     /**
      评论点赞
      
-     - parameter userRegisterInfo: (body) 用户点赞信息 
+     - parameter uid: (query) 用户ID 
+     - parameter cid: (query) 评论ID (optional, default to 1)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func nsComsUpPost(userRegisterInfo userRegisterInfo: CommentAndUser, completion: ((data: InlineResponse2003?, error: ErrorType?) -> Void)) {
-        nsComsUpPostWithRequestBuilder(userRegisterInfo: userRegisterInfo).execute { (response, error) -> Void in
+    public class func nsComsUpPost(uid uid: String, cid: String? = nil, completion: ((data: InlineResponse2003?, error: ErrorType?) -> Void)) {
+        nsComsUpPostWithRequestBuilder(uid: uid, cid: cid).execute { (response, error) -> Void in
             completion(data: response?.body, error: error);
         }
     }
@@ -252,20 +253,27 @@ public class CommentAPI: APIBase {
   "data" : 123
 }}]
      
-     - parameter userRegisterInfo: (body) 用户点赞信息 
+     - parameter uid: (query) 用户ID 
+     - parameter cid: (query) 评论ID (optional, default to 1)
 
      - returns: RequestBuilder<InlineResponse2003> 
      */
-    public class func nsComsUpPostWithRequestBuilder(userRegisterInfo userRegisterInfo: CommentAndUser) -> RequestBuilder<InlineResponse2003> {
-        let path = "/ns/coms/up"
+    public class func nsComsUpPostWithRequestBuilder(uid uid: String, cid: String? = nil) -> RequestBuilder<InlineResponse2003> {
+        let path = "/ns/coms/up?cid=1812251&uid=77506"
         let URLString = SwaggerClientAPI.basePath + path
-        let parameters = userRegisterInfo.encodeToJSON() as? [String:AnyObject]
+
+        let nillableParameters: [String:AnyObject?] = [
+            "uid": uid,
+            "cid": cid
+        ]
+ 
+        let parameters = APIHelper.rejectNil(nillableParameters)
  
         let convertedParameters = APIHelper.convertBoolToString(parameters)
  
         let requestBuilder: RequestBuilder<InlineResponse2003>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: false)
     }
 
 }

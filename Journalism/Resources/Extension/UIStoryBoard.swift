@@ -88,7 +88,7 @@ extension UIStoryboard{
     }
     
     // 获得详情视图
-    func get_DetailViewController (new:New?)-> UIViewController{
+    func get_DetailViewController (new:New?)-> DetailViewController{
         
         let viewController = self.instantiateViewControllerWithIdentifier("DetailViewController") as! DetailViewController
 
@@ -98,7 +98,7 @@ extension UIStoryboard{
     }
     
     // 获得评论视图
-    func get_CommitViewController (new:New?)-> UIViewController{
+    func get_CommitViewController (new:New?)-> CommitViewController{
         
         let viewController = self.instantiateViewControllerWithIdentifier("CommitViewController") as! CommitViewController
         
