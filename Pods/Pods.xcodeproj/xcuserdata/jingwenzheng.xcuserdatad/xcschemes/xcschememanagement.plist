@@ -6,138 +6,138 @@
 	<dict>
 		<key>AFDateHelper.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>1</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>Alamofire.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>2</integer>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>CRToast.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>FLAnimatedImage.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>3</integer>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>FileKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>MGTemplateEngine.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>15</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>MJRefresh.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>4</integer>
-		</dict>
-		<key>ObjectMapper.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>5</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>PINCache.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>6</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>PINRemoteImage.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>7</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>Pods-Journalism.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>8</integer>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>ReachabilitySwift.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>Realm.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>9</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>RealmSwift.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>10</integer>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SVProgressHUD.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>SnapKit.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>SwaggerClient.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>11</integer>
-		</dict>
-		<key>SwiftyJSON.xcscheme</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>12</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>WebViewJavascriptBridge.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>16</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>XLPagerTabStrip-XLPagerTabStrip.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>14</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 		<key>XLPagerTabStrip.xcscheme</key>
 		<dict>
-			<key>orderHint</key>
-			<integer>13</integer>
+			<key>isShown</key>
+			<false/>
 		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0D1A4840465C287D0C64F9043E74A4FE</key>
+		<key>29DD99664D189A7CA206368F493B1E0B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>12763580F42FC54C3A4A309A9004ADD4</key>
+		<key>36E528E1FD2B3D18794ACB9E3DB8C63F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>13BADA5B8E26A1AB0DB12EF7A8BC6579</key>
+		<key>40D68D82B66B221F4BE1C0B5C6870E25</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>22393314BD84357CB62E2F569D7F4AA5</key>
+		<key>623FC48DC39F80F170E2815C0CD5D5FD</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>42A0CC6FF12BB79C1B806D35951561E4</key>
+		<key>658CDA7D630768E689E6AABF9A9F41CE</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>432ECC54282C84882B482CCB4CF227FC</key>
+		<key>7726769B309E849F28CC31503F05B333</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>45A634B53DB2A2FAE960F148F5230EC3</key>
+		<key>778845E44708D0DFB00DF25087801B05</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>60FF1FCCCF0D2C12DF91D0E794E7C97B</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>6183C7706EF14567DC71E7E2FA69E3B8</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>6847254D016329D4A531D34ED2B6DF81</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>6CBB0DCE2A72A580468AFE76CD772099</key>
+		<key>79C040AFDDCE1BCBF6D8B5EB0B85887F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -147,7 +147,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9881976E8E56A16315A1A93F6FABF259</key>
+		<key>8922A99C5A518D6B28475E9D92F08705</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -157,12 +157,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>AB9BCE90908DF0C9A09E0D1E034D7AA5</key>
+		<key>9B76552E279D96305CC13A0E8A23089D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C57704E357005E1D0FD2E76F554CBEA4</key>
+		<key>AB7360021CAA2913AC77DDE689D5A2AE</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B782D781B54EB564776663FE9205E85D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>C82ABE971BBEA22021FE7CE3C20850AF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -172,27 +182,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D234DA1A7F13DD93BC45910F20B65725</key>
+		<key>D6196ADA2C78920D0C93E60723682DA2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D5D6200D4BE741574DBD4FB768A6F55B</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>D655404E7DD8B0147449650F28DBD269</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>E043DF8EE9653331A411B0AFBC8FF07F</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>E428E3A5E2DE8625DF64046922DC46BF</key>
+		<key>F65B5FC465EEAE8D06DA022115DFDF17</key>
 		<dict>
 			<key>primary</key>
 			<true/>

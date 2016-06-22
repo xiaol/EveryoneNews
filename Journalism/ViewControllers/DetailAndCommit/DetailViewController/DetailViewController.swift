@@ -40,12 +40,12 @@ class DetailViewController: UIViewController,WaitLoadProtcol {
             
             CommentUtil.LoadHotsCommentsList(new, finish: {
                 
-                self.tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: UITableViewRowAnimation.Automatic)
+                self.tableView.reloadData()
             })
             
             AboutUtil.getAboutListArrayData(new, finish: { (count) in
                 
-                self.tableView.reloadSections(NSIndexSet(index: 2), withRowAnimation: UITableViewRowAnimation.Automatic)
+                self.tableView.reloadData()
             })
         }
         

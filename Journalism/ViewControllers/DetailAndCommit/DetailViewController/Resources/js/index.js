@@ -31,15 +31,15 @@ $(function() {
         })
     })
 
-    function setFontSize(body, title, subtitle) {
+    function setFontSize(bodyS, titleS, subtitleS) {
         var body_section = document.getElementById('body_section');
-        body_section.style.fontSize = body;
+        body_section.style.fontSize = bodyS;
 
         var subtitle = document.getElementById('subtitle');
-        subtitle.style.fontSize = subtitle;
+        subtitle.style.fontSize = subtitleS;
 
         var title = document.getElementById('title');
-        title.style.fontSize = title;
+        title.style.fontSize = titleS;
     }
 
     $("img").lazyload({

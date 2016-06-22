@@ -38,6 +38,33 @@ extension NewslistViewController{
         
         self.refreshNewsDataMethod(false)
         
+//        if self.channel?.id ?? 1 != 1 {
+//            self.notificationToken = self.newsResults.addNotificationBlock { (changes) in
+//                
+//                switch changes {
+//                case .Initial:
+//                    // Results are now populated and can be accessed without blocking the UI
+//                    self.tableView.reloadData()
+//                    break
+//                case .Update(_, let deletions, let insertions, let modifications):
+//                    // Query results have changed, so apply them to the UITableView
+//                    self.tableView.beginUpdates()
+//                    self.tableView.insertRowsAtIndexPaths(insertions.map { NSIndexPath(forRow: $0, inSection: 0) },
+//                        withRowAnimation: .Automatic)
+//                    self.tableView.deleteRowsAtIndexPaths(deletions.map { NSIndexPath(forRow: $0, inSection: 0) },
+//                        withRowAnimation: .Automatic)
+//                    self.tableView.reloadRowsAtIndexPaths(modifications.map { NSIndexPath(forRow: $0, inSection: 0) },
+//                        withRowAnimation: .Automatic)
+//                    self.tableView.endUpdates()
+//                    break
+//                case .Error(let _):
+//                    // An error occurred while opening the Realm file on the background worker thread
+//                    break
+//                }
+//            }
+//        }
+        
+        
         // 获得字体变化通知，完成刷新字体大小方法
         NSNotificationCenter.defaultCenter().addObserverForName(FONTMODALSTYLEIDENTIFITER, object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
             

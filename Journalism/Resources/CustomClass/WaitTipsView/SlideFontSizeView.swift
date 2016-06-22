@@ -234,6 +234,7 @@ class FontSizeSlideView: UIView {
         fontView1.userInteractionEnabled = true
         fontView2.userInteractionEnabled = true
         fontView3.userInteractionEnabled = true
+        fontView4.userInteractionEnabled = true
         
         silde.removeActions(.ValueChanged)
         silde.addAction(UIControlEvents.ValueChanged) { (control) in
@@ -301,7 +302,9 @@ class FontSizeSlideView: UIView {
     // 设置Value
     private func SetValueMethod(value:Float){
     
-        UIFont.a_fontModalStyle = value
+        dispatch_async(dispatch_get_main_queue()) { 
+            UIFont.a_fontModalStyle = value
+        }
         
         self.silde.setValue(value, animated: true)
     }
