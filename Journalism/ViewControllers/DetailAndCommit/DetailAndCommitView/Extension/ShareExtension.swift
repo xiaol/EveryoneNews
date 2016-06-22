@@ -49,31 +49,43 @@ import CoreLocation
 
 extension DetailAndCommitViewController:WaitLoadProtcol{
 
+    
+    private func ShareMethod(type:String=UMShareToWechatTimeline,content:String,img:UIImage?=nil,resource:UMSocialUrlResource?=nil){
+    
+        UMSocialDataService.defaultDataService().postSNSWithTypes([type], content: content, image: img, location: nil, urlResource: resource, presentedController: self) { (response) -> Void in
+            
+            self.shreContentViewMethod(true, animate: true)
+        }
+    }
 
     
     /// 点击微信朋友圈按钮
     @IBAction func touchWeChatFriendQuanButtonAction(sender: AnyObject) {
         
-        let shareTitleStr = new?.title ?? ""
+        guard let n = self.new else{ return }
         
-        UMSocialData.defaultData().extConfig.wechatTimelineData.url = self.new?.url ?? ""
-        var image:UIImage?
+        let title = n.title
         
-        UMSocialDataService.defaultDataService().postSNSWithTypes([UMShareToWechatTimeline], content: shareTitleStr, image: image, location: nil, urlResource: nil, presentedController: self) { (response) -> Void in
+        let resource = UMSocialUrlResource(snsResourceType: UMSocialUrlResourceTypeImage, url: n.shareUrl())
+        
+        n.firstImage { (image) in
             
+            self.ShareMethod(content:title,img:image,resource:resource)
         }
     }
     
     /// 点击微信朋友按钮
     @IBAction func touchWeChatFriendButtonAction(sender: AnyObject) {
         
-//        let shareTitleStr = new?.title ?? ""
-//        
-//        UMSocialData.defaultData().extConfig.wechatSessionData.url = self.new?.url ?? ""
-//        
-//        UMSocialDataService.defaultDataService().postSNSWithTypes([UMShareToWechatSession], content: shareTitleStr, image: shareImage, location: nil, urlResource: nil, presentedController: self) { (response) -> Void in
-//            
-//        }
+        guard let n = self.new else{ return }
+        
+        let title = n.title
+        let resource = UMSocialUrlResource(snsResourceType: UMSocialUrlResourceTypeImage, url: n.shareUrl())
+        
+        n.firstImage { (image) in
+            
+            self.ShareMethod(UMShareToWechatSession,content:title,img:image,resource:resource)
+        }
     }
     
     /// 点击QQ朋友按钮
@@ -91,13 +103,25 @@ extension DetailAndCommitViewController:WaitLoadProtcol{
     /// 点击新浪微博按钮
     @IBAction func touchSinaButtonAction(sender: AnyObject) {
         
-//        let shareTitleStr = new?.title ?? ""
-//        
-//        let message = WBMessageObject()
-//        message.text = shareTitleStr
-//        
-//        let request = WBSendMessageToWeiboRequest.requestWithMessage(message) as! WBSendMessageToWeiboRequest
-//        WeiboSDK.sendRequest(request)
+        guard let n = self.new else{ return }
+        
+        let message = WBMessageObject()
+        message.text = n.title
+        
+        let pageObject = WBWebpageObject()
+        pageObject.webpageUrl = n.shareUrl()
+        message.mediaObject = pageObject
+        
+        let request = WBSendMessageToWeiboRequest.requestWithMessage(message) as! WBSendMessageToWeiboRequest
+        
+        n.firstImage { (image) in
+            
+            let imageObject = WBImageObject()
+            imageObject.imageData = UIImagePNGRepresentation(image)
+            message.imageObject = imageObject
+            
+            WeiboSDK.sendRequest(request)
+        }
     }
     
     /// 点击短信按钮

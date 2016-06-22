@@ -8,5 +8,7 @@
 #import <UMengSocialCOM/UMSocial.h>
 #import <UMengSocialCOM/UMSocialQQHandler.h>
 #import <UMengSocialCOM/UMSocialWechatHandler.h>
+#import <UMengSocialCOM/UMSocialSinaSSOHandler.h>
+
 
 

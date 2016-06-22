@@ -66,7 +66,7 @@ extension DetailViewController:UIWebViewDelegate{
             
             if let vid = conten.vid {
                 
-                body += "<div class = \"video\">\(vid)</div>"
+                body += "<div id=\"video\" >\(vid)</div>"
             }
             
             if let txt = conten.txt {
@@ -81,6 +81,7 @@ extension DetailViewController:UIWebViewDelegate{
         let variables = ["title":newCon.title,"source":newCon.pname,"ptime":newCon.ptime,"theme":"normal","body":body,"comment":comment,"titleStyle":title,"subtitleStyle":subtitle,"bodysectionStyle":bodysection]
         
         let result = engine.processTemplateInFileAtPath(templatePath, withVariables: variables)
+        
         
         webView.loadHTMLString(result, baseURL: NSBundle.mainBundle().bundleURL)
     }

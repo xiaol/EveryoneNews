@@ -1,4 +1,3 @@
-
 var bridge;
 
 $(function() {
@@ -60,4 +59,11 @@ $(function() {
             'index': index,
         }, function(response) {})
     });
+
+    $("#video iframe").width($(window).width() - 40);
+    $("#video iframe").height($("#video iframe").width() * 3 / 5);
+
+
+    $("#video iframe").addClass("center-block");
+
 });

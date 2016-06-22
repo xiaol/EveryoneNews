@@ -51,6 +51,8 @@ public class New: Object {
     }
 }
 
+import PINRemoteImage
+
 extension New{
 
     func isRead(){
@@ -61,5 +63,37 @@ extension New{
             
             self.isread = 1
         }
+    }
+    
+    func shareUrl() -> String{
+    
+        return "http://deeporiginalx.com/news.html?type=0&nid=\(self.nid)"
+    }
+    
+    func firstImage(finish:((image:UIImage)->Void)) {
+        
+        let realm = try! Realm()
+        
+        let newContengt = realm.objects(NewContent.self).filter("nid = \(self.nid)").first
+        
+        guard let cons = newContengt?.content else {return finish(image: UIImage(named: "占位字符")!)}
+        
+        for con in cons{
+        
+            if let img = con.img,let url = NSURL(string: img) {
+            
+                PINRemoteImageManager.sharedImageManager().downloadImageWithURL(url, completion: { (result) in
+                    
+                    if result.image == nil {
+                    
+                        return finish(image: UIImage(named: "占位字符")!)
+                    }
+                    
+                    return finish(image: result.image!)
+                })
+            }
+        }
+        
+        return finish(image: UIImage(named: "占位字符")!)
     }
 }

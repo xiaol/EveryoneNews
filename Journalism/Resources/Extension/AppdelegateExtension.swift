@@ -19,6 +19,7 @@ extension AppDelegate:UISplitViewControllerDelegate {
         UMSocialData.setAppKey(UMENG_APPKEY) // 设置友盟 App Key
 //        UMSocialQQHandler.setQQWithAppId(QQ_APPID, appKey: QQ_APPSECRET, url: nil) // 设置qq
         UMSocialWechatHandler.setWXAppId(WECHAT_APPID, appSecret: WECHAT_APPSECRET, url: nil) // 设置微信
+        
         WeiboSDK.registerApp(SINA_KEY)/// 新浪微博
         
         UIStoryboard.shareStoryBoard.get_UISplitViewController().delegate = self // 设置SplitViewController 代理方法

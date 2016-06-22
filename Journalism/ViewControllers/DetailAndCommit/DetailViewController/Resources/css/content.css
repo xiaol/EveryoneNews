@@ -45,6 +45,10 @@ a {
     -webkit-user-select: text;
 }
 
+#video {
+    margin: 0 0 10 0;
+}
+
 /* 分割线颜色和宽度 */
 .line-class {
     padding: 0 18 0 18 ;color: #e4e4e4; size: 0.5;
