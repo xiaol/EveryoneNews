@@ -12,6 +12,45 @@ import SwaggerClient
 
 class NewsUtil: NSObject {
     
+    class func getAllCollectionResultMthod(finish:(()->Void)?=nil){
+        
+        guard let token = ShareLUser.token else{ finish?();return }
+        
+        let requestBudile = NewAPI.nsAuColsGetWithRequestBuilder(uid: "\(ShareLUser.uid)")
+        
+        requestBudile.addHeaders(["Authorization":token])
+        
+        requestBudile.execute { (response, error) in
+            
+            let realm = try! Realm()
+            
+            guard let body = response?.body,code = body.objectForKey("code") as? Int else {finish?();return}
+            
+            if code == 2000 || code == 2002{
+            
+                try! realm.write({
+                    
+                    realm.objects(New).filter("iscollected = 1").forEach({ (new) in
+                        
+                        new.iscollected = 0
+                    })
+                })
+            }
+            
+            guard let data = body.objectForKey("data") as? NSArray else{  finish?();return} // 加载失败
+            
+            try! realm.write({
+                for channel in data {
+                    realm.create(New.self, value: channel, update: true)
+                    self.AnalysisPutTimeAndImageList(channel as! NSDictionary, realm: realm,iscollected:1)
+                }
+            })
+            
+            finish?()
+        }
+    }
+    
+    
     class func RefreshNewsListArrayData(channelId:Int,create:Bool=false,times:String = "\(Int64(NSDate().timeIntervalSince1970*1000))",finish:((count:Int)->Void)?=nil,fail:(()->Void)?=nil){
         
         guard let token = ShareLUser.token else{ fail?();return }
@@ -142,7 +181,7 @@ class NewsUtil: NSObject {
     }
     
     // 完善新闻事件
-    private class func AnalysisPutTimeAndImageList(channel:NSDictionary,realm:Realm,ishot:Int=0){
+    private class func AnalysisPutTimeAndImageList(channel:NSDictionary,realm:Realm,ishot:Int=0,iscollected:Int=0){
         
         if let nid = channel.objectForKey("nid") as? Int {
             
@@ -167,7 +206,7 @@ class NewsUtil: NSObject {
                 realm.create(New.self, value: ["nid":nid,"imgsList":array], update: true)
             }
             
-            realm.create(New.self, value: ["nid":nid,"ishotnew":ishot], update: true)
+            realm.create(New.self, value: ["nid":nid,"ishotnew":ishot,"iscollected":iscollected], update: true)
         }
     }
     

@@ -122,6 +122,19 @@ class CircularView:UIView{
     }
 }
 
+///圆形图片
+class CircularView1:UIView{
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        self.layer.cornerRadius = self.frame.height/2
+        self.layer.borderColor = UIColor(red: 228/255, green: 228/255, blue: 228/255, alpha: 1).CGColor
+        self.layer.borderWidth = 0
+        
+        self.clipsToBounds = true
+    }
+}
+
 
 class TopBorderView:UIView{
 

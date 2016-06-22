@@ -580,10 +580,16 @@
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mq2-KK-pMl">
                                                         <rect key="frame" x="31" y="9" width="27" height="26"/>
                                                         <state key="normal" image="详情页未收藏"/>
+                                                        <connections>
+                                                            <action selector="touchCollected:" destination="eDb-XL-6O2" eventType="touchUpInside" id="eIm-O9-NXL"/>
+                                                        </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eZd-eT-JGZ">
+                                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eZd-eT-JGZ">
                                                         <rect key="frame" x="31" y="9" width="27" height="26"/>
                                                         <state key="normal" image="详情页已收藏"/>
+                                                        <connections>
+                                                            <action selector="touchNoCollected:" destination="eDb-XL-6O2" eventType="touchUpInside" id="mVJ-Yb-KEv"/>
+                                                        </connections>
                                                     </button>
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

@@ -78,7 +78,7 @@ extension UIStoryboard{
     }
     
     // 获得详情和评论朱世玉视图
-    func get_DetailAndCommitViewController (new:New)-> UIViewController{
+    func get_DetailAndCommitViewController (new:New)-> DetailAndCommitViewController{
         
         let viewController = self.instantiateViewControllerWithIdentifier("DetailAndCommitViewController") as! DetailAndCommitViewController
         

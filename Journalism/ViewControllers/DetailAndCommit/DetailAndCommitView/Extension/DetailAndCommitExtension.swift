@@ -8,12 +8,41 @@
 
 import UIKit
 
+extension DetailAndCommitViewController {
+
+    internal func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        return PresentdAnimation
+    }
+    
+    internal func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        
+        return DismissedAnimation
+    }
+    
+    func interactionControllerForDismissal(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+        
+        if self.DismissedAnimation.isInteraction {
+            
+            return InteractiveTransitioning
+        }
+        
+        return nil
+    }
+}
+
+
 
 extension DetailAndCommitViewController{
 
     // 切换全屏活着完成反悔上一个界面
     @IBAction func touchViewController(sender: AnyObject) {
 
+        if isDismiss {
+        
+            return self.dismissViewControllerAnimated(true, completion: nil)
+        }
+        
         let horizontal = UIScreen.mainScreen().bounds.width > UIScreen.mainScreen().bounds.height
         
         if horizontal && IS_PLUS{
@@ -52,6 +81,50 @@ extension DetailAndCommitViewController{
     // 进行滑动返回上一界面的代码操作
     func pan(pan:UIPanGestureRecognizer){
 
+        
+        
+        
+        if isDismiss {
+            guard let view = pan.view as? UIScrollView else{return}
+            let point = pan.translationInView(view)
+            if pan.state == UIGestureRecognizerState.Began {
+                if view.contentOffset.x > 0 || point.x < 0 {return}
+                
+                self.DismissedAnimation.isInteraction = true
+                
+                self.dismissViewControllerAnimated(true, completion: nil)
+                
+            }else if pan.state == UIGestureRecognizerState.Changed {
+                
+                let process = point.x/UIScreen.mainScreen().bounds.width
+                
+                self.InteractiveTransitioning.updateInteractiveTransition(process)
+                
+            }else {
+                
+                self.DismissedAnimation.isInteraction = false
+                
+                let loctionX = abs(Int(point.x))
+                
+                let velocityX = pan.velocityInView(pan.view).x
+                
+                if velocityX >= 800 || loctionX >= Int(UIScreen.mainScreen().bounds.width/2) {
+                    
+                    self.InteractiveTransitioning.finishInteractiveTransition()
+                    
+                }else{
+                    
+                    self.InteractiveTransitioning.cancelInteractiveTransition()
+                }
+            }
+            
+            return
+        }
+        
+        
+        
+        
+        
         guard let view = pan.view as? UIScrollView else{return} // 如果滑动的视图不是UISCrollView也不进行操作
         
         let point = pan.translationInView(view) // 获取移动的位置变化值
@@ -77,5 +150,22 @@ extension DetailAndCommitViewController{
                 self.detailViewInteractiveTransitioning.cancelInteractiveTransition()
             }
         }
+    }
+}
+
+
+
+
+
+extension DetailAndCommitViewController {
+    
+    @available(iOS 9.0, *)
+    override func previewActionItems() -> [UIPreviewActionItem] {
+        let cancel = UIPreviewAction(title: "取消收藏", style: .Default) { (_, _) in
+            guard let n = self.new else{return}
+            self.predelegate?.NoCollectionAction?(n)
+        }
+        
+        return [cancel]
     }
 }

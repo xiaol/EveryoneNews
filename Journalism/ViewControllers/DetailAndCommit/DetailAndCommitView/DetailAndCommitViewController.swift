@@ -10,8 +10,32 @@ import UIKit
 import RealmSwift
 import XLPagerTabStrip
 
+@objc protocol PreViewControllerDelegate {
+    optional func NoCollectionAction(new:New) // 开始
+}
+
 class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavigationControllerDelegate,UIViewControllerTransitioningDelegate{
 
+    var predelegate: PreViewControllerDelegate!
+    
+    //MARK: 收藏相关
+    var isDismiss = false // 是不是直接返回
+    let DismissedAnimation = CustomViewControllerDismissedAnimation()
+    let PresentdAnimation = CustomViewControllerPresentdAnimation()
+    let InteractiveTransitioning = UIPercentDrivenInteractiveTransition() // 完成 process 渐进行动画
+    
+    override func shouldAutorotate() -> Bool {
+        
+        return isDismiss ? false : true
+    }
+    
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        
+        return isDismiss ? UIInterfaceOrientationMask.Portrait : UIInterfaceOrientationMask.All
+    }
+    
+    
+    //MARK: 正常浏览
     var new:New? // 新闻
     @IBOutlet var inputTextView: UITextView! // 输入视图
     @IBOutlet var inputCommitButton: UIButton! // 提交评论按钮
@@ -41,6 +65,14 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
     let dataSource = [UIViewController]() // 设置DataSource 
     
     var normalResults:Results<Comment>!
+    
+    
+    required init?(coder aDecoder: NSCoder) {
+        
+        super.init(coder: aDecoder)
+        
+        self.transitioningDelegate = self
+    }
     
     override func viewDidLoad() {
         
@@ -87,6 +119,35 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
     @IBAction func touchCommentAndPost(sender: AnyObject) {
         
         self.moveToViewControllerAtIndex(self.currentIndex == 0 ? 1 : 0, animated: true)
+    }
+    
+    /// 点击新闻收藏按钮
+    @IBAction func touchCollected(sender: AnyObject) {
+        
+        if let n = self.new {
+            
+            CustomRequest.collectedNew(n, finish: {
+                
+                
+                }, fail: {
+                    
+            })
+        }
+        
+    }
+    
+    /// 点击取消新闻收藏按钮
+    @IBAction func touchNoCollected(sender: AnyObject) {
+        
+        if let n = self.new {
+            
+            CustomRequest.nocollectedNew(n, finish: {
+                
+                
+                }, fail: { 
+                    
+            })
+        }
     }
     
     override func pagerTabStripViewController(pagerTabStripViewController: PagerTabStripViewController, updateIndicatorFromIndex fromIndex: Int, toIndex: Int, withProgressPercentage progressPercentage: CGFloat, indexWasChanged: Bool) {

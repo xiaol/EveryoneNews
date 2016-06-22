@@ -39,6 +39,37 @@ class HeadPhotoView:UIImageView{
     }
 }
 
+
+///圆形图片
+class HeadPhotoView1:UIImageView{
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        self.layer.cornerRadius = self.frame.height/2
+        self.layer.borderColor = UIColor(red: 228/255, green: 228/255, blue: 228/255, alpha: 1).CGColor
+        self.layer.borderWidth = 0
+        
+        self.clipsToBounds = true
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(HeadPhotoView.setHeadphoto), name: USERLOGINCHANGENOTIFITION, object: nil)
+        
+        self.setHeadphoto()
+    }
+    
+    func setHeadphoto(){
+        
+        if ShareLUser.avatar.characters.count <= 0 {
+            
+            return self.image = UIImage(named: "home_login")
+        }
+        
+        if let url = NSURL(string: ShareLUser.avatar) {
+            
+            self.pin_setImageFromURL(url)
+        }
+    }
+}
+
 ///圆形图片
 class UserNameLabel:UILabel{
     

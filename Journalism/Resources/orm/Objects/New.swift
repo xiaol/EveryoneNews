@@ -44,6 +44,8 @@ public class New: Object {
     dynamic var ishotnew = 0 /// 是不是热点新闻
     dynamic var isidentification = 0 /// 是不是热点新闻
     
+    dynamic var iscollected = 0 // 是否收藏
+    
     override public static func primaryKey() -> String? {
         return "nid"
     }

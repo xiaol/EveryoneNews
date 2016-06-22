@@ -40,6 +40,10 @@
 		AEBCAEF31CEC3F4300EBFC0A /* UIStoryBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBCAEF21CEC3F4300EBFC0A /* UIStoryBoard.swift */; };
 		AEBCAEF81CEC418200EBFC0A /* CircularButtonBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBCAEF61CEC418200EBFC0A /* CircularButtonBarView.swift */; };
 		AEBCAEFA1CEC419600EBFC0A /* CustomExtensionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBCAEF91CEC419600EBFC0A /* CustomExtensionView.swift */; };
+		AEBEAA921D1A35EB004D3178 /* UserCommentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBEAA911D1A35EB004D3178 /* UserCommentViewController.swift */; };
+		AEBEAA951D1A3F5B004D3178 /* MessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBEAA941D1A3F5B004D3178 /* MessageViewController.swift */; };
+		AEBEAA981D1A417E004D3178 /* UserCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBEAA971D1A417E004D3178 /* UserCollectionViewController.swift */; };
+		AEBEAA9A1D1A46F2004D3178 /* CollExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBEAA991D1A46F2004D3178 /* CollExtension.swift */; };
 		AEC09CD41CE9776800D5A5CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC09CD31CE9776800D5A5CC /* AppDelegate.swift */; };
 		AEC09CD91CE9776800D5A5CC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AEC09CD71CE9776800D5A5CC /* Main.storyboard */; };
 		AEC09CDB1CE9776800D5A5CC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AEC09CDA1CE9776800D5A5CC /* Assets.xcassets */; };
@@ -129,6 +133,10 @@
 		AEBCAEF21CEC3F4300EBFC0A /* UIStoryBoard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStoryBoard.swift; sourceTree = "<group>"; };
 		AEBCAEF61CEC418200EBFC0A /* CircularButtonBarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircularButtonBarView.swift; sourceTree = "<group>"; };
 		AEBCAEF91CEC419600EBFC0A /* CustomExtensionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomExtensionView.swift; sourceTree = "<group>"; };
+		AEBEAA911D1A35EB004D3178 /* UserCommentViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCommentViewController.swift; sourceTree = "<group>"; };
+		AEBEAA941D1A3F5B004D3178 /* MessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageViewController.swift; sourceTree = "<group>"; };
+		AEBEAA971D1A417E004D3178 /* UserCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCollectionViewController.swift; sourceTree = "<group>"; };
+		AEBEAA991D1A46F2004D3178 /* CollExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollExtension.swift; sourceTree = "<group>"; };
 		AEC09CD01CE9776800D5A5CC /* Journalism.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Journalism.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEC09CD31CE9776800D5A5CC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AEC09CD81CE9776800D5A5CC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -372,6 +380,31 @@
 			path = CustomClass;
 			sourceTree = "<group>";
 		};
+		AEBEAA901D1A35E2004D3178 /* UserCommentViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AEBEAA911D1A35EB004D3178 /* UserCommentViewController.swift */,
+			);
+			path = UserCommentViewController;
+			sourceTree = "<group>";
+		};
+		AEBEAA931D1A3F5B004D3178 /* MessageViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AEBEAA941D1A3F5B004D3178 /* MessageViewController.swift */,
+			);
+			path = MessageViewController;
+			sourceTree = "<group>";
+		};
+		AEBEAA961D1A417E004D3178 /* UserCollectionViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AEBEAA971D1A417E004D3178 /* UserCollectionViewController.swift */,
+				AEBEAA991D1A46F2004D3178 /* CollExtension.swift */,
+			);
+			path = UserCollectionViewController;
+			sourceTree = "<group>";
+		};
 		AEC09CC71CE9776800D5A5CC = {
 			isa = PBXGroup;
 			children = (
@@ -539,6 +572,9 @@
 		AEC965A21CF5AC800053A88D /* UIViewController */ = {
 			isa = PBXGroup;
 			children = (
+				AEBEAA961D1A417E004D3178 /* UserCollectionViewController */,
+				AEBEAA931D1A3F5B004D3178 /* MessageViewController */,
+				AEBEAA901D1A35E2004D3178 /* UserCommentViewController */,
 				AEAC3B131D10FDBE00A292F4 /* LoginViewController */,
 				AEAEEBD51CF81F9300E8DF08 /* VisitorViewController */,
 				AEF2FCB41CF69D08003266B0 /* PrivacyViewController */,
@@ -800,17 +836,20 @@
 				AEC1D5BF1CED9BBD00B1F00C /* NewsUtil.swift in Sources */,
 				AEBCAEE81CEC27A900EBFC0A /* Channel.swift in Sources */,
 				6DC4FDCE1CF0314700D25A99 /* NewListExtension.swift in Sources */,
+				AEBEAA921D1A35EB004D3178 /* UserCommentViewController.swift in Sources */,
 				AEA103531D0571F80086968B /* AboutUtil.swift in Sources */,
 				AEC47B401D00334A0055936D /* DetailAndCommitExtension.swift in Sources */,
 				6DC4FDCC1CF0314700D25A99 /* HomeViewController.swift in Sources */,
 				AEC47B3F1D00334A0055936D /* PopAnimatedTransitioning.swift in Sources */,
 				AEDECF2B1D0D19A700CDCE2B /* CopyLabel.swift in Sources */,
+				AEBEAA981D1A417E004D3178 /* UserCollectionViewController.swift in Sources */,
 				AEBCAEF31CEC3F4300EBFC0A /* UIStoryBoard.swift in Sources */,
 				AEC47B021CFFF39D0055936D /* NewListDataSource.swift in Sources */,
 				AEC09CD41CE9776800D5A5CC /* AppDelegate.swift in Sources */,
 				AEDECF291D0D11D100CDCE2B /* DataSourceExtension.swift in Sources */,
 				AEBCAEEB1CEC2ADB00EBFC0A /* ChannelUtil.swift in Sources */,
 				AEBCAEFA1CEC419600EBFC0A /* CustomExtensionView.swift in Sources */,
+				AEBEAA9A1D1A46F2004D3178 /* CollExtension.swift in Sources */,
 				AE2968301CF69D4400D2782D /* PrivacyViewController.swift in Sources */,
 				AEB8E9D91CFBF42100A105C4 /* NewContent.swift in Sources */,
 				AEAC3B1C1D1132BC00A292F4 /* WaitView.swift in Sources */,
@@ -819,6 +858,7 @@
 				AEAEEBD71CF81FA300E8DF08 /* VisitorViewController.swift in Sources */,
 				AEC47B301D0032E20055936D /* DetailViewController.swift in Sources */,
 				AEF420B41CF8019700CFAF73 /* UIViewControllerExtension.swift in Sources */,
+				AEBEAA951D1A3F5B004D3178 /* MessageViewController.swift in Sources */,
 				AEFB55171CF41F10005FC23E /* NotLikeExtension.swift in Sources */,
 				6DC4FDD51CF031E000D25A99 /* ChannelManager.swift in Sources */,
 				AEC47B2E1D0032E20055936D /* BorderView.swift in Sources */,
