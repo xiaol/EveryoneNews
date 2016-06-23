@@ -1181,17 +1181,9 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="115" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="Bg1-PT-JNq">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <webView key="tableHeaderView" contentMode="scaleToFill" id="bDy-2b-QHI">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="200"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <connections>
-                                        <outlet property="delegate" destination="LQe-oP-tyr" id="Wiz-Ut-7dA"/>
-                                    </connections>
-                                </webView>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="likeandpyq" rowHeight="60" id="mnY-7g-ahh" customClass="LikeAndPYQTableViewCell" customModule="Journalism" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="250" width="600" height="60"/>
+                                        <rect key="frame" x="0.0" y="50" width="600" height="60"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mnY-7g-ahh" id="Li1-BB-huD">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="60"/>
@@ -1272,7 +1264,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="comments" rowHeight="116" id="FaE-9N-Rge" customClass="CommentsTableViewCell" customModule="Journalism" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="310" width="600" height="116"/>
+                                        <rect key="frame" x="0.0" y="110" width="600" height="116"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="FaE-9N-Rge" id="ViQ-eP-UjJ">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="116"/>
@@ -1355,7 +1347,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="newcomments" rowHeight="24" id="Y7a-br-eMl" customClass="CommentsTableViewHeader" customModule="Journalism" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="426" width="600" height="24"/>
+                                        <rect key="frame" x="0.0" y="226" width="600" height="24"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Y7a-br-eMl" id="ahE-ht-z7R">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="24"/>
@@ -1380,7 +1372,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="morecell" rowHeight="101" id="6Ex-dZ-HL3" customClass="MoreTableViewCell" customModule="Journalism" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="450" width="600" height="101"/>
+                                        <rect key="frame" x="0.0" y="250" width="600" height="101"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="6Ex-dZ-HL3" id="Ccc-XZ-LWz">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="101"/>
@@ -1414,7 +1406,7 @@
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="aboutcell" rowHeight="119" id="G6z-O0-bPU" customClass="AboutTableViewCell" customModule="Journalism" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="551" width="600" height="119"/>
+                                        <rect key="frame" x="0.0" y="351" width="600" height="119"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="G6z-O0-bPU" id="hkR-ef-7F4">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="119"/>
@@ -1540,7 +1532,6 @@
                     </view>
                     <connections>
                         <outlet property="tableView" destination="Bg1-PT-JNq" id="LJf-BC-6sr"/>
-                        <outlet property="webView" destination="bDy-2b-QHI" id="ihi-mg-ITV"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N0n-GP-Yd0" userLabel="First Responder" sceneMemberID="firstResponder"/>

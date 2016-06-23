@@ -24,6 +24,7 @@
 		AE7C51A41D0D6893005E6A5A /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7C51A31D0D6893005E6A5A /* SearchViewController.swift */; };
 		AEA103511D056FAD0086968B /* About.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA103501D056FAD0086968B /* About.swift */; };
 		AEA103531D0571F80086968B /* AboutUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA103521D0571F80086968B /* AboutUtil.swift */; };
+		AEA1D0CA1D1BA7AB007AD1E5 /* CustomNSURLCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA1D0C91D1BA7AB007AD1E5 /* CustomNSURLCache.swift */; };
 		AEA573FB1D0FAAFA00C9F45C /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA573FA1D0FAAFA00C9F45C /* UIColorExtension.swift */; };
 		AEAC3B151D11077D00A292F4 /* UserCenterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAC3B141D11077D00A292F4 /* UserCenterExtension.swift */; };
 		AEAC3B171D11220500A292F4 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAC3B161D11220500A292F4 /* LoginViewController.swift */; };
@@ -60,7 +61,6 @@
 		AEC47B2E1D0032E20055936D /* BorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B171D0032E20055936D /* BorderView.swift */; };
 		AEC47B2F1D0032E20055936D /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B181D0032E20055936D /* CustomTableViewCell.swift */; };
 		AEC47B301D0032E20055936D /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B191D0032E20055936D /* DetailViewController.swift */; };
-		AEC47B311D0032E20055936D /* DetailExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B1B1D0032E20055936D /* DetailExtension.swift */; };
 		AEC47B321D0032E20055936D /* WebViewExtenion.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B1C1D0032E20055936D /* WebViewExtenion.swift */; };
 		AEC47B351D0032E20055936D /* content_template.html in Resources */ = {isa = PBXBuildFile; fileRef = AEC47B201D0032E20055936D /* content_template.html */; };
 		AEC47B3F1D00334A0055936D /* PopAnimatedTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B3C1D00334A0055936D /* PopAnimatedTransitioning.swift */; };
@@ -117,6 +117,7 @@
 		AE7C51A31D0D6893005E6A5A /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		AEA103501D056FAD0086968B /* About.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = About.swift; sourceTree = "<group>"; };
 		AEA103521D0571F80086968B /* AboutUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutUtil.swift; sourceTree = "<group>"; };
+		AEA1D0C91D1BA7AB007AD1E5 /* CustomNSURLCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomNSURLCache.swift; sourceTree = "<group>"; };
 		AEA573FA1D0FAAFA00C9F45C /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
 		AEAC3B141D11077D00A292F4 /* UserCenterExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCenterExtension.swift; sourceTree = "<group>"; };
 		AEAC3B161D11220500A292F4 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -155,7 +156,6 @@
 		AEC47B171D0032E20055936D /* BorderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderView.swift; sourceTree = "<group>"; };
 		AEC47B181D0032E20055936D /* CustomTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		AEC47B191D0032E20055936D /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
-		AEC47B1B1D0032E20055936D /* DetailExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailExtension.swift; sourceTree = "<group>"; };
 		AEC47B1C1D0032E20055936D /* WebViewExtenion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewExtenion.swift; sourceTree = "<group>"; };
 		AEC47B201D0032E20055936D /* content_template.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = content_template.html; sourceTree = "<group>"; };
 		AEC47B3C1D00334A0055936D /* PopAnimatedTransitioning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopAnimatedTransitioning.swift; sourceTree = "<group>"; };
@@ -511,9 +511,9 @@
 		AEC47B1A1D0032E20055936D /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				AEC47B1B1D0032E20055936D /* DetailExtension.swift */,
 				AEC47B1C1D0032E20055936D /* WebViewExtenion.swift */,
 				AEDECF281D0D11D100CDCE2B /* DataSourceExtension.swift */,
+				AEA1D0C91D1BA7AB007AD1E5 /* CustomNSURLCache.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -849,6 +849,7 @@
 				AEDECF291D0D11D100CDCE2B /* DataSourceExtension.swift in Sources */,
 				AEBCAEEB1CEC2ADB00EBFC0A /* ChannelUtil.swift in Sources */,
 				AEBCAEFA1CEC419600EBFC0A /* CustomExtensionView.swift in Sources */,
+				AEA1D0CA1D1BA7AB007AD1E5 /* CustomNSURLCache.swift in Sources */,
 				AEBEAA9A1D1A46F2004D3178 /* CollExtension.swift in Sources */,
 				AE2968301CF69D4400D2782D /* PrivacyViewController.swift in Sources */,
 				AEB8E9D91CFBF42100A105C4 /* NewContent.swift in Sources */,
@@ -866,7 +867,6 @@
 				AEDECF4E1D0D29B200CDCE2B /* GDWebViewNavigationToolbar.swift in Sources */,
 				AEDDCEF91D100FDB00498D47 /* UTIL.swift in Sources */,
 				AEC47B441D0033A60055936D /* ShareExtension.swift in Sources */,
-				AEC47B311D0032E20055936D /* DetailExtension.swift in Sources */,
 				AEEE61981CFE9CEF00C5FF08 /* Comment.swift in Sources */,
 				AEC47B291D0032E20055936D /* CommExtension.swift in Sources */,
 				AE0A837B1D128D7A00331134 /* UserView.swift in Sources */,

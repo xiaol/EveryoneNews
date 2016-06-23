@@ -15,13 +15,6 @@ class NewContentUtil: NSObject {
         
         let realm = try! Realm()
         
-        if let new = realm.objects(NewContent.self).filter("nid = \(nid)").first{
-        
-            finish?(newCon: new)
-            
-            return
-        }
-        
         NewAPI.nsConGet(nid: "\(nid)") { (data, error) in
             
             guard let da = data, let datas = da.objectForKey("data") as? NSDictionary else{  fail?();return}
@@ -60,3 +53,6 @@ class NewContentUtil: NSObject {
         }
     }
 }
+
+
+

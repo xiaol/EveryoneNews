@@ -55,6 +55,14 @@ import PINRemoteImage
 
 extension New{
 
+    func getNewContentObject() -> NewContent?{
+    
+        let realm = try! Realm()
+        
+        return realm.objects(NewContent.self).filter("nid = \(self.nid)").first
+    }
+    
+    
     func isRead(){
         
         let realm = try! Realm()

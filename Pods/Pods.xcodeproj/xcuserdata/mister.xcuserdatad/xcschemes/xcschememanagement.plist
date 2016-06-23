@@ -29,6 +29,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>Ji.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>MGTemplateEngine.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -84,11 +89,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>WebViewJavascriptBridge.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>XLPagerTabStrip-XLPagerTabStrip.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -102,32 +102,37 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>0426F054117EA8243B9023AABA14C9E9</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>29DD99664D189A7CA206368F493B1E0B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>36E528E1FD2B3D18794ACB9E3DB8C63F</key>
+		<key>2AAE191986AF7F3FECDF8A06F5D3DB48</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>40D68D82B66B221F4BE1C0B5C6870E25</key>
+		<key>345033CAF935467A7DEC0F2C7A3B3C20</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>623FC48DC39F80F170E2815C0CD5D5FD</key>
+		<key>491B5EFF216F405C073D5F655346B5F2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>658CDA7D630768E689E6AABF9A9F41CE</key>
+		<key>52D6B182D049B63898230792841AD9EB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7726769B309E849F28CC31503F05B333</key>
+		<key>5D0070FBB0BA75D9DC8789E894C4D9A5</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -147,7 +152,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>8922A99C5A518D6B28475E9D92F08705</key>
+		<key>7F38C2A8CBAC990AAF23F4D1969A6F70</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -157,22 +162,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9B76552E279D96305CC13A0E8A23089D</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>AB7360021CAA2913AC77DDE689D5A2AE</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B782D781B54EB564776663FE9205E85D</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>C82ABE971BBEA22021FE7CE3C20850AF</key>
+		<key>C4F1DB440B42642636E376448A196E87</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -182,7 +177,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>D6196ADA2C78920D0C93E60723682DA2</key>
+		<key>EAF1C3A0CDC3159C82A6237C0D3D003D</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EF9ED260D11BA0E4170F1FC4ED11122F</key>
 		<dict>
 			<key>primary</key>
 			<true/>

@@ -21,6 +21,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         
         NSURLSessionConfiguration.defaultSessionConfiguration().HTTPShouldSetCookies = false
         
+        NSURLCache.sharedURLCache()
+        let cache = CustomNSURLCache()
+        NSURLCache.setSharedURLCache(cache)
+        
         self.initAppdelegateMethod()
         
         return true

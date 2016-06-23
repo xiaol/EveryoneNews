@@ -172,6 +172,11 @@ class AboutTableViewCell:UITableViewCell{
         contentLabel.font = UIFont.a_font2
         pnameLabel.font = UIFont.a_font7
         
+        YearLabel.layer.cornerRadius = 1
+        MAndDLabel.layer.cornerRadius = 1
+        
+        YearLabel.clipsToBounds = true
+        MAndDLabel.clipsToBounds = true
         
         let fromStr = about.from.lowercaseString
         let yesabout = UIColor(red: 0, green: 145/255, blue: 250/255, alpha: 1)

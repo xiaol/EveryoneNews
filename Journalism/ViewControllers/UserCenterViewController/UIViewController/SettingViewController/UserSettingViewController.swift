@@ -18,10 +18,40 @@ private extension Path{
      func getFileSize() ->String{
         var size:UInt64 = 0
         for path in self.children(recursive: true) {
+            
+            print(path.fileName,path.isDirectory)
+            
             size += path.fileSize ?? 0
         }
+        
+        print(size)
+        
         return  size.FileSizeFormat()
     }
+    
+    
+    func pathFilesSize() -> UInt64{
+    
+        var size:UInt64 = 0
+        
+        if self.isDirectory {
+        
+            for path in self.children(recursive: true) {
+                
+                print(self.fileName,"---",path.fileName)
+                
+                size += path.pathFilesSize()
+            }
+        }else{
+        
+            size += self.fileSize ?? 0
+        }
+        
+        return size
+    }
+    
+    
+    
     
     func deleteFilesMethod() ->String{
         
@@ -37,7 +67,7 @@ private extension Path{
 }
 
 
-private extension UInt64 {
+extension UInt64 {
 
     ///  返回文件的大小
     func FileSizeFormat() -> String{
@@ -69,7 +99,6 @@ class UserSettingViewController: UIViewController,UIGestureRecognizerDelegate {
     @IBOutlet var normalSizeButton: UIButton!
     @IBOutlet var bigSizeButton: UIButton!
     @IBOutlet var superBigSizeButton: UIButton!
-   
     
     required init?(coder aDecoder: NSCoder) {
         
@@ -184,8 +213,7 @@ extension UserSettingViewController:UIViewControllerTransitioningDelegate{
         
         super.viewDidAppear(animated)
         
-        self.cacheSizeLable.text = Path.cachePath.getFileSize()
-        
+        self.cacheSizeLable.text = Path.cachePath.pathFilesSize().FileSizeFormat()
     }
     
     func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {

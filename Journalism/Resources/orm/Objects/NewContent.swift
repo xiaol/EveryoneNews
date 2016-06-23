@@ -75,3 +75,99 @@ public class NewContent: Object {
     }
     
 }
+
+import MGTemplateEngine
+
+extension MGTemplateEngine{
+
+    /// 获取单例模式下的UIStoryBoard对象
+    class var shareTemplateEngine:MGTemplateEngine!{
+        
+        get{
+            
+            struct backTaskLeton{
+                
+                static var predicate:dispatch_once_t = 0
+                
+                static var bgTask:MGTemplateEngine? = nil
+            }
+            
+            dispatch_once(&backTaskLeton.predicate, { () -> Void in
+                
+                backTaskLeton.bgTask = MGTemplateEngine()
+                backTaskLeton.bgTask!.matcher = ICUTemplateMatcher(templateEngine: backTaskLeton.bgTask)
+            })
+            
+            return backTaskLeton.bgTask
+        }
+    }
+}
+
+
+extension NewContent{
+
+    func getHtmlResourcesString() -> String{
+    
+        var body = ""
+        
+        let title = "#title{font-size:\(UIFont.a_font9.pointSize)px;}"
+        let subtitle = "#subtitle{font-size:\(UIFont.a_font8.pointSize)px;}"
+        let bodysection = "#body_section{font-size:\(UIFont.a_font3.pointSize)px;}"
+        
+        for conten in self.content{
+            
+            if let img = conten.img {
+                
+                body += "<p><img data-original=\"\(img)\" class=\"lazy img-responsive center-block\"src=\"home.png\" ></p>"
+            }
+            
+            if let vid = conten.vid {
+                
+                var str = vid
+                
+                if str.containsString(" src=\"https://v.qq.com/iframe/preview.html") {
+                
+                    let rand = NSString(string: str).rangeOfString(" src=\"https://v.qq.com/iframe/preview.html")
+                    
+                    str = NSString(string: str).stringByReplacingCharactersInRange(rand, withString: " src=\"http://v.qq.com/iframe/player.html")
+                }
+                
+                if str.containsString("allowfullscreen=\"\"") {
+                    
+                    let rand = NSString(string: str).rangeOfString("allowfullscreen=\"\"")
+                    
+                    str = NSString(string: str).stringByReplacingCharactersInRange(rand, withString: "allowfullscreen=\"\"")
+                }
+                
+                while str.containsString("width=") {
+                    
+                    let rand = NSString(string: str).rangeOfString("width=")
+                    
+                    str = NSString(string: str).stringByReplacingCharactersInRange(rand, withString: "")
+                }
+                while str.containsString("height=") {
+                    
+                    let rand = NSString(string: str).rangeOfString("height=")
+                    
+                    str = NSString(string: str).stringByReplacingCharactersInRange(rand, withString: "")
+                }
+                
+                body += "<div id=\"video\">\(str)</div>"
+            }
+            
+            if let txt = conten.txt {
+                body += "<p>\(txt)</p>"
+            }
+        }
+        
+        let templatePath = NSBundle.mainBundle().pathForResource("content_template", ofType: "html")
+        
+        let comment = self.comment > 0 ? "   \(self.comment)评" : ""
+        
+        let variables = ["title":self.title,"source":self.pname,"ptime":self.ptime,"theme":"normal","body":body,"comment":comment,"titleStyle":title,"subtitleStyle":subtitle,"bodysectionStyle":bodysection]
+        
+        let result = MGTemplateEngine.shareTemplateEngine.processTemplateInFileAtPath(templatePath, withVariables: variables)
+        
+        return result
+    }
+}

@@ -89,6 +89,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/CRToast/CRToast.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FLAnimatedImage/FLAnimatedImage.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FileKit/FileKit.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/Ji/Ji.framework"
   install_framework "$BUILT_PRODUCTS_DIR/MGTemplateEngine/MGTemplateEngine.framework"
   install_framework "$BUILT_PRODUCTS_DIR/MJRefresh/MJRefresh.framework"
   install_framework "$BUILT_PRODUCTS_DIR/PINCache/PINCache.framework"
@@ -99,7 +100,6 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/SVProgressHUD/SVProgressHUD.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SnapKit/SnapKit.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SwaggerClient/SwaggerClient.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/WebViewJavascriptBridge/WebViewJavascriptBridge.framework"
   install_framework "$BUILT_PRODUCTS_DIR/XLPagerTabStrip/XLPagerTabStrip.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
@@ -108,6 +108,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/CRToast/CRToast.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FLAnimatedImage/FLAnimatedImage.framework"
   install_framework "$BUILT_PRODUCTS_DIR/FileKit/FileKit.framework"
+  install_framework "$BUILT_PRODUCTS_DIR/Ji/Ji.framework"
   install_framework "$BUILT_PRODUCTS_DIR/MGTemplateEngine/MGTemplateEngine.framework"
   install_framework "$BUILT_PRODUCTS_DIR/MJRefresh/MJRefresh.framework"
   install_framework "$BUILT_PRODUCTS_DIR/PINCache/PINCache.framework"
@@ -118,6 +119,5 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "$BUILT_PRODUCTS_DIR/SVProgressHUD/SVProgressHUD.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SnapKit/SnapKit.framework"
   install_framework "$BUILT_PRODUCTS_DIR/SwaggerClient/SwaggerClient.framework"
-  install_framework "$BUILT_PRODUCTS_DIR/WebViewJavascriptBridge/WebViewJavascriptBridge.framework"
   install_framework "$BUILT_PRODUCTS_DIR/XLPagerTabStrip/XLPagerTabStrip.framework"
 fi

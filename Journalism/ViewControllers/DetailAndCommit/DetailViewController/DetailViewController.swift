@@ -7,33 +7,31 @@
 //
 
 import UIKit
+import WebKit
 import MJRefresh
 import RealmSwift
-import MGTemplateEngine
-import WebViewJavascriptBridge
+import XLPagerTabStrip
 
 class DetailViewController: UIViewController,WaitLoadProtcol {
     
     var new:New? // 当前要展示的新闻对象
-    var currentPage = 0 // 当前页数
-    var engine:MGTemplateEngine! // 当前Html解析器，生成
-    var bridge:WebViewJavascriptBridge! // JS 交互侨联
     
     let realm = try! Realm()
     
+    var newCon:NewContent!
     var hotResults:Results<Comment>!
     var aboutResults:Results<About>!
     
-    @IBOutlet var webView: UIWebView!
+    var webView: WKWebView!
     @IBOutlet var tableView: UITableView!
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
         
-        self.showWaitLoadView()
-        
         if let new = new {
+            
+            newCon = new.getNewContentObject()
             
             aboutResults = realm.objects(About.self).filter("nid = \(new.nid)").sorted("ptimes", ascending: false)
             hotResults = realm.objects(Comment.self).filter("nid = \(new.nid) AND ishot = 1").sorted("commend", ascending: false)
@@ -49,52 +47,40 @@ class DetailViewController: UIViewController,WaitLoadProtcol {
             })
         }
         
-        
-        self.tableView.sectionFooterHeight = 0
-        
-        webView.delegate = self
-        webView.hidden = true
-        webView.scrollView.scrollEnabled = false
-        webView.scrollView.scrollsToTop = false
-        webView.scrollView.bounces = false
-        
-        
-        engine = MGTemplateEngine()
-        engine.matcher = ICUTemplateMatcher(templateEngine: engine)
-        
-        webView.dataDetectorTypes = UIDataDetectorTypes.All
-        
-        self.loadContentObjects()
-        
-        tableView.tableHeaderView = self.webView
-        
-        self.setWebViewJavascriptBridge()
-        
-        // 获得字体变化通知，完成刷新字体大小方法
-        NSNotificationCenter.defaultCenter().addObserverForName(FONTMODALSTYLEIDENTIFITER, object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
-            
-            self.tableView.reloadData()
-            
-            let data = ["bodySize":UIFont.a_font3.pointSize,"subtitleSize":UIFont.a_font8.pointSize,"titleSize":UIFont.a_font9.pointSize]
-            
-             self.bridge.callHandler("getUserInfos", data: data, responseCallback: { (_) in
-               
-                self.fixWebViewHeight(0)
-             })
-        }
+        self.integrationMethod()
     }
+}
+
+
+extension DetailViewController:IndicatorInfoProvider{
     
-    
+    /**
+      当设备的方向发生变化时，将会调用这个方法
+     当设备的方向发生了变化之后，我们要为之重新设置详情页中webview的高度。
+     
+     - parameter size:        方向完成后的大小
+     - parameter coordinator: 方向变化的动画渐变对象
+     */
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         
         coordinator.animateAlongsideTransition({ (_) in
             
-            self.fixWebViewHeight(0)
+            self.adaptionWebViewHeightMethod()
             
             }, completion: nil)
         
     }
     
+    /**
+     PageView DataSource 设置当前识图的标题
+     
+     - parameter pagerTabStripController: 视图对象
+     - returns: 标题对象
+     */
+    func indicatorInfoForPagerTabStrip(pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
+        
+        let info = IndicatorInfo(title: "评论")
+        
+        return info
+    }
 }
-
-
