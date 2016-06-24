@@ -53,6 +53,7 @@ class HomeViewControllerChannelDataSource:NSObject,UICollectionViewDataSource{
         cell.titleLabel.textColor = ChannelCurrentIndex == indexPath.item && indexPath.section == 0 ? UIColor(red: 53/255, green:166/255, blue: 251/255, alpha: 1) : UIColor.blackColor()
         // 设置频道的信息
         cell.setChannel((indexPath.section == 0 ? self.ChannelNoDeleteArray:self.ChannelIsDeleteArray)[indexPath.item])
+        cell.titleLabel.font = UIFont.a_font3_2
         return cell
     }
     

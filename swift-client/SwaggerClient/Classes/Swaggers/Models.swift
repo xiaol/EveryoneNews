@@ -212,16 +212,16 @@ class Decoders {
             }
 
 
-            // Decoder for [CommentAndUser]
-            Decoders.addDecoder(clazz: [CommentAndUser].self) { (source: AnyObject) -> [CommentAndUser] in
-                return Decoders.decode(clazz: [CommentAndUser].self, source: source)
+            // Decoder for [CommentRespone]
+            Decoders.addDecoder(clazz: [CommentRespone].self) { (source: AnyObject) -> [CommentRespone] in
+                return Decoders.decode(clazz: [CommentRespone].self, source: source)
             }
-            // Decoder for CommentAndUser
-            Decoders.addDecoder(clazz: CommentAndUser.self) { (source: AnyObject) -> CommentAndUser in
+            // Decoder for CommentRespone
+            Decoders.addDecoder(clazz: CommentRespone.self) { (source: AnyObject) -> CommentRespone in
                 let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = CommentAndUser()
-                instance.uid = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uid"])
-                instance.cid = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["cid"])
+                let instance = CommentRespone()
+                instance.code = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["code"])
+                instance.data = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["data"])
                 return instance
             }
 
@@ -257,76 +257,6 @@ class Decoders {
                 instance.avatar = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["avatar"])
                 instance.docid = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["docid"])
                 instance.upflag = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["upflag"])
-                return instance
-            }
-
-
-            // Decoder for [InlineResponse200]
-            Decoders.addDecoder(clazz: [InlineResponse200].self) { (source: AnyObject) -> [InlineResponse200] in
-                return Decoders.decode(clazz: [InlineResponse200].self, source: source)
-            }
-            // Decoder for InlineResponse200
-            Decoders.addDecoder(clazz: InlineResponse200.self) { (source: AnyObject) -> InlineResponse200 in
-                let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = InlineResponse200()
-                instance.code = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["code"])
-                instance.data = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["data"])
-                return instance
-            }
-
-
-            // Decoder for [InlineResponse2001]
-            Decoders.addDecoder(clazz: [InlineResponse2001].self) { (source: AnyObject) -> [InlineResponse2001] in
-                return Decoders.decode(clazz: [InlineResponse2001].self, source: source)
-            }
-            // Decoder for InlineResponse2001
-            Decoders.addDecoder(clazz: InlineResponse2001.self) { (source: AnyObject) -> InlineResponse2001 in
-                let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = InlineResponse2001()
-                instance.code = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["code"])
-                instance.data = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["data"])
-                return instance
-            }
-
-
-            // Decoder for [InlineResponse2002]
-            Decoders.addDecoder(clazz: [InlineResponse2002].self) { (source: AnyObject) -> [InlineResponse2002] in
-                return Decoders.decode(clazz: [InlineResponse2002].self, source: source)
-            }
-            // Decoder for InlineResponse2002
-            Decoders.addDecoder(clazz: InlineResponse2002.self) { (source: AnyObject) -> InlineResponse2002 in
-                let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = InlineResponse2002()
-                instance.code = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["code"])
-                instance.data = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["data"])
-                return instance
-            }
-
-
-            // Decoder for [InlineResponse2003]
-            Decoders.addDecoder(clazz: [InlineResponse2003].self) { (source: AnyObject) -> [InlineResponse2003] in
-                return Decoders.decode(clazz: [InlineResponse2003].self, source: source)
-            }
-            // Decoder for InlineResponse2003
-            Decoders.addDecoder(clazz: InlineResponse2003.self) { (source: AnyObject) -> InlineResponse2003 in
-                let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = InlineResponse2003()
-                instance.code = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["code"])
-                instance.data = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["data"])
-                return instance
-            }
-
-
-            // Decoder for [NewAndUser]
-            Decoders.addDecoder(clazz: [NewAndUser].self) { (source: AnyObject) -> [NewAndUser] in
-                return Decoders.decode(clazz: [NewAndUser].self, source: source)
-            }
-            // Decoder for NewAndUser
-            Decoders.addDecoder(clazz: NewAndUser.self) { (source: AnyObject) -> NewAndUser in
-                let sourceDictionary = source as! [NSObject:AnyObject]
-                let instance = NewAndUser()
-                instance.uid = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["uid"])
-                instance.nid = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["nid"])
                 return instance
             }
 

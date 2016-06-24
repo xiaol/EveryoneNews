@@ -14,6 +14,7 @@ import XLPagerTabStrip
 
 class DetailViewController: UIViewController,WaitLoadProtcol {
     
+    var waitView:WaitView!
     var new:New? // 当前要展示的新闻对象
     
     let realm = try! Realm()

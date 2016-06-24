@@ -10,6 +10,24 @@ import UIKit
 import RealmSwift
 import PINRemoteImage
 
+extension NSURL{
+
+    func proPic() -> NSURL?{
+        
+        var urlStr = NSString(string: self.absoluteString+"@1e_1c_0o_0l_100sh_225h_300w_95q.jpeg")
+    
+        if urlStr.containsString("bdp-pic.deeporiginalx.com/") {
+        
+            urlStr = urlStr.stringByReplacingOccurrencesOfString("bdp-pic.deeporiginalx.com/", withString: "pro-pic.deeporiginalx.com/")
+        }
+        
+        guard let url = NSURL(string: urlStr as String) else {return nil}
+        
+        return url
+    }
+}
+
+
 class NewBaseTableViewCell: UITableViewCell {
     
     @IBOutlet var timeLabel: UILabel! // 标题 label 控件
@@ -63,12 +81,11 @@ class NewOneTableViewCell: NewBaseTableViewCell {
         
         super.setNewObject(new)
         
-        
         self.imageView1.pin_updateWithProgress = true
         
         if let url = NSURL(string: new.imgsList[0].value) {
             
-            imageView1.pin_setImageFromURL(url, placeholderImage: UIImage.sharePlaceholderImage)
+            imageView1.pin_setImageFromURL(url.proPic() ?? url, placeholderImage: UIImage.sharePlaceholderImage)
         }
     }
 }
@@ -87,12 +104,12 @@ class NewTwoTableViewCell: NewBaseTableViewCell {
         
         if let url = NSURL(string: new.imgsList[0].value) {
             
-            imageView1.pin_setImageFromURL(url, placeholderImage: UIImage.sharePlaceholderImage)
+            imageView1.pin_setImageFromURL(url.proPic() ?? url, placeholderImage: UIImage.sharePlaceholderImage)
         }
         
         if let url = NSURL(string: new.imgsList[1].value) {
             
-            imageView2.pin_setImageFromURL(url, placeholderImage: UIImage.sharePlaceholderImage)
+            imageView2.pin_setImageFromURL(url.proPic() ?? url, placeholderImage: UIImage.sharePlaceholderImage)
         }
         
     }
@@ -115,17 +132,17 @@ class NewThreeTableViewCell: NewBaseTableViewCell {
         
         if let url = NSURL(string: new.imgsList[0].value) {
             
-            imageView1.pin_setImageFromURL(url, placeholderImage: UIImage.sharePlaceholderImage)
+            imageView1.pin_setImageFromURL(url.proPic() ?? url, placeholderImage: UIImage.sharePlaceholderImage)
         }
         
         if let url = NSURL(string: new.imgsList[1].value) {
             
-            imageView2.pin_setImageFromURL(url, placeholderImage: UIImage.sharePlaceholderImage)
+            imageView2.pin_setImageFromURL(url.proPic() ?? url, placeholderImage: UIImage.sharePlaceholderImage)
         }
         
         if let url = NSURL(string: new.imgsList[2].value) {
             
-            imageView3.pin_setImageFromURL(url, placeholderImage: UIImage.sharePlaceholderImage)
+            imageView3.pin_setImageFromURL(url.proPic() ?? url, placeholderImage: UIImage.sharePlaceholderImage)
         }
     }
 }

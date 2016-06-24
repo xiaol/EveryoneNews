@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SVProgressHUD
 
 extension DetailAndCommitViewController{
 
@@ -54,7 +55,7 @@ extension DetailAndCommitViewController:WaitLoadProtcol{
     
         UMSocialDataService.defaultDataService().postSNSWithTypes([type], content: content, image: img, location: nil, urlResource: resource, presentedController: self) { (response) -> Void in
             
-            self.shreContentViewMethod(true, animate: true)
+//            self.shreContentViewMethod(true, animate: true)
         }
     }
 
@@ -104,23 +105,32 @@ extension DetailAndCommitViewController:WaitLoadProtcol{
     @IBAction func touchSinaButtonAction(sender: AnyObject) {
         
         guard let n = self.new else{ return }
-        
+
         let message = WBMessageObject()
-        message.text = n.title
+        message.text = "我在 #奇点资讯 看到这个新闻，可以的。 "
         
-        let pageObject = WBWebpageObject()
-        pageObject.webpageUrl = n.shareUrl()
-        message.mediaObject = pageObject
-        
-        let request = WBSendMessageToWeiboRequest.requestWithMessage(message) as! WBSendMessageToWeiboRequest
+        let title = n.title
+        let url = n.shareUrl()
         
         n.firstImage { (image) in
             
-            let imageObject = WBImageObject()
-            imageObject.imageData = UIImagePNGRepresentation(image)
-            message.imageObject = imageObject
+            let pageObject = WBWebpageObject()
+            pageObject.objectID = "123123123123"
+            pageObject.title = title
+            pageObject.thumbnailData = UIImageJPEGRepresentation(UIImage(named: "LP_icon")!, 0.5)
+            pageObject.webpageUrl = url
+            message.mediaObject = pageObject
             
-            WeiboSDK.sendRequest(request)
+            
+//            let imageObject = WBImageObject()
+//            imageObject.imageData = UIImagePNGRepresentation(image)
+//            message.imageObject = imageObject
+
+            
+            dispatch_async(dispatch_get_main_queue(), {
+                let request = WBSendMessageToWeiboRequest.requestWithMessage(message) as! WBSendMessageToWeiboRequest
+                WeiboSDK.sendRequest(request)
+            })
         }
     }
     
@@ -147,6 +157,17 @@ extension DetailAndCommitViewController:WaitLoadProtcol{
     /// 点击转发链接按钮
     @IBAction func touchCopyLinkButtonAction(sender: AnyObject) {
         
+        self.shreContentViewMethod(true, animate: true)
+        guard let n = self.new else{ return }
+        let pboard = UIPasteboard.generalPasteboard()
+        pboard.string = n.shareUrl()
+        
+        SVProgressHUD.showSuccessWithStatus("已经拷贝至剪切板")
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW,Int64(1 * Double(NSEC_PER_SEC))),dispatch_get_main_queue(), {
+            dispatch_async(dispatch_get_main_queue()) {
+                SVProgressHUD.dismiss()
+            }
+        })
     }
     
     /// 点击字体大小按钮
@@ -164,18 +185,17 @@ extension DetailAndCommitViewController: MFMailComposeViewControllerDelegate,MFM
     private func configureMailComposer() -> MFMailComposeViewController {
         let mailComposer = MFMailComposeViewController()
         mailComposer.mailComposeDelegate = self
-        mailComposer.setToRecipients(["macbaszii@gmail.com"]) // Default Recipients (optional)
-        mailComposer.setSubject("http://www.macbaszii.com") // Default Subject (optional)
-        mailComposer.setMessageBody("邮件内容", isHTML: false) // Default Message (optional)
-        
+        guard let n = self.new else{ return mailComposer }
+        mailComposer.setMessageBody(n.title+"\n"+n.shareUrl(), isHTML: false) // Default Message (optional)
         return mailComposer
     }
     
     private func configureMessageComposer() -> MFMessageComposeViewController {
-        let messageComposer = MFMessageComposeViewController()
-        messageComposer.messageComposeDelegate = self;
-        messageComposer.body = "短息内容" // Default Message (optional)
         
+        let messageComposer = MFMessageComposeViewController()
+        messageComposer.messageComposeDelegate = self
+        guard let n = self.new else{ return messageComposer }
+        messageComposer.body = n.title+"\n"+n.shareUrl() // Default Message (optional)
         return messageComposer
     }
     

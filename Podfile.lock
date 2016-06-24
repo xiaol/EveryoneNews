@@ -10,7 +10,7 @@ PODS:
     - Ji/Ji-libxml
   - Ji/Ji-libxml (1.2.0)
   - MGTemplateEngine (1.0.0)
-  - MJRefresh (3.1.7)
+  - MJRefresh (3.1.9)
   - PINCache (2.2.2)
   - PINRemoteImage (2.1.4):
     - PINRemoteImage/FLAnimatedImage (= 2.1.4)
@@ -25,7 +25,7 @@ PODS:
   - Realm/Headers (1.0.1)
   - RealmSwift (1.0.1):
     - Realm (= 1.0.1)
-  - SnapKit (0.21.0)
+  - SnapKit (0.21.1)
   - SVProgressHUD (2.0.3)
   - SwaggerClient (2.3.0):
     - Alamofire
@@ -64,13 +64,13 @@ SPEC CHECKSUMS:
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   Ji: ddebb22f9ac445db6e884b66f78ea74fb135fdb7
   MGTemplateEngine: 67c8ca7551be430bb821cab3abf5665a230d93e9
-  MJRefresh: f67f0750d57a4e4ae433da549359ca53b52cdc7d
+  MJRefresh: c5f1f1653e5a1b932c90f78074f2bc86f3f9bd5e
   PINCache: 078426d356ab95ef875e9e62e5c35a2ea3333c28
   PINRemoteImage: 4ac4011c5caefd6befd99758e09becede05d3226
   ReachabilitySwift: e0f6b6f280effb47731acfaaa2d5ffe223703793
   Realm: 2e15e39d35b08abb529e212ed5d8af107b5236c8
   RealmSwift: d73ea2af08c3676dbdd5e4b669651a0f492162a4
-  SnapKit: 2756fe24b706367af224c9c508d2f9166d03354c
+  SnapKit: bbad04cb016c7cead63965f16b00c09318d271ee
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
   SwaggerClient: fa4b7e2c40e2697f64bdeef8ac6308899371dd17
   UMengSocialCOM: 074c135ce349aa4c8848d3fb8458757bcb6ffb67

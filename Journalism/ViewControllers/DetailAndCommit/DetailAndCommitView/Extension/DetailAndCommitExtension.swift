@@ -40,6 +40,8 @@ extension DetailAndCommitViewController{
 
         if isDismiss {
         
+            if currentIndex == 1 { return self.moveToViewControllerAtIndex(0)}
+            
             return self.dismissViewControllerAnimated(true, completion: nil)
         }
         
@@ -50,6 +52,8 @@ extension DetailAndCommitViewController{
             self.splitViewController?.preferredDisplayMode = self.splitViewController?.preferredDisplayMode == .AllVisible ? .PrimaryHidden : .AllVisible
             
         }else{
+            
+            if currentIndex == 1 { return self.moveToViewControllerAtIndex(0)}
             
             self.navigationController?.popViewControllerAnimated(true)
         }
@@ -108,7 +112,7 @@ extension DetailAndCommitViewController{
                 
                 let velocityX = pan.velocityInView(pan.view).x
                 
-                if velocityX >= 800 || loctionX >= Int(UIScreen.mainScreen().bounds.width/2) {
+                if velocityX >= 500 || loctionX >= Int(UIScreen.mainScreen().bounds.width/2) {
                     
                     self.InteractiveTransitioning.finishInteractiveTransition()
                     
@@ -144,7 +148,7 @@ extension DetailAndCommitViewController{
             self.detailViewTransitioning.isInteraction = false
             let loctionX = abs(Int(point.x))
             let velocityX = pan.velocityInView(pan.view).x
-            if velocityX >= 800 || loctionX >= Int(UIScreen.mainScreen().bounds.width/2) {
+            if velocityX >= 500 || loctionX >= Int(UIScreen.mainScreen().bounds.width/2) {
                 self.detailViewInteractiveTransitioning.finishInteractiveTransition()
             }else{
                 self.detailViewInteractiveTransitioning.cancelInteractiveTransition()

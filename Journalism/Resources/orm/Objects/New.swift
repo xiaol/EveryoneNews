@@ -99,6 +99,8 @@ extension New{
                     
                     return finish(image: result.image!)
                 })
+                
+                return
             }
         }
         

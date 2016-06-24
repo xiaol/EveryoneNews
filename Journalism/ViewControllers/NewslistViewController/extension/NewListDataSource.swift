@@ -11,15 +11,42 @@ import UIKit
 
 extension NewslistViewController:UITableViewDataSource{
     
+    /**
+     设置表格的每一个section的表头高度为0
+     
+     - parameter tableView: 表格对象
+     - parameter section:   当前要设置sction尾部视图的section index
+     
+     - returns: 返回section尾部视图的高度
+     */
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0
     }
     
+    /**
+     设置表格的每一个section🔍的狂的高度
+     
+     默认为 53
+     
+     - parameter tableView: 表格对象
+     - parameter section:   当前要设置sction头视图的section index
+     
+     - returns: 返回section尾部视图的高度
+     */
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
         return 53
     }
     
+    /**
+     设置搜索框的显示 获取一个cell 之后使用 一个UIView 座位容器进行显示
+     这样是为了让cell在刷新的时候不会出现一个错误
+     
+     - parameter tableView: 表哥对象
+     - parameter section:   Section Index
+     
+     - returns: 返回搜索框视图
+     */
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("search")! as UITableViewCell
@@ -36,6 +63,17 @@ extension NewslistViewController:UITableViewDataSource{
         return containerView
     }
     
+    /**
+     设置新闻的个数
+     
+     判断当前视图没有newResults对象，如果没有 默认返回0
+     有则正常返回其数目
+     
+     - parameter tableView: 表格对象
+     - parameter section:   section index
+     
+     - returns: 新闻的个数
+     */
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if newsResults == nil {return 0}
@@ -43,6 +81,16 @@ extension NewslistViewController:UITableViewDataSource{
         return newsResults.count
     }
     
+    /**
+     返回每一个新闻的展示
+     其中当遇到 这个新闻的 `isidentification` 的标示为 1 的时候，说明这条新闻是用来显示一个刷新视图的。
+     其它的新闻会根据起 style 参数进行 没有图 一张图 两张图 三张图的 新闻展示形式进行不同形式的展示
+     
+     - parameter tableView: 表格对象
+     - parameter indexPath: 当前新闻展示的位置
+     
+     - returns: 返回新闻的具体战士杨视图
+     */
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         var cell :NewBaseTableViewCell!
@@ -90,6 +138,17 @@ extension NewslistViewController:UITableViewDataSource{
         return cell
     }
     
+    /**
+     处理用户的点击新闻视图中的 不喜欢按钮处理方法
+     
+     首先获取当前cell基于注视图的point。用于传递给上层视图进行 cell 新闻的展示
+     计算cell所在的位置，之后预估起全部展开的位置大小，是否会被遮挡，如果被遮挡 ，就先进性cel的移动，使其不会被遮挡
+     之后将这个cell和所在的point传递给上层视图 使用的传递工具为 delegate
+     之后上层视图处理完成之后，返回是否删除动作，当前tableview进行删除或者刷新cell
+     
+     - parameter cell:      返回被点击的cell
+     - parameter indexPath: 被点击的位置
+     */
     private func handleActionMethod(cell :NewBaseTableViewCell,indexPath:NSIndexPath){
         
         var delayInSeconds = 0.0
@@ -119,20 +178,21 @@ extension NewslistViewController:UITableViewDataSource{
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW,Int64(delayInSeconds * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { // 2
             self.delegate.ClickNoLikeButtonOfUITableViewCell?(cell, finish: { (cancel) in
                 
-                self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
-                
                 if !cancel {
                     
                     self.newsResults[indexPath.row].suicide()
                     
-                    self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+                    self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Middle)
                     
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW,Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { // 2
                         
-                        self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.None)
+                        self.tableView.reloadData()
                         
                         self.showNoInterest()
                     }
+                }else{
+                    
+                    self.tableView.reloadData()
                 }
             })
         }
@@ -144,6 +204,14 @@ import RealmSwift
 
 extension NewslistViewController:UITableViewDelegate{
     
+    /**
+     点击cell 之后处理的方法
+     如果是刷新的cell就进行当前新闻的刷新
+     如果是新闻cell就进行
+     
+     - parameter tableView: tableview 对象
+     - parameter indexPath: 点击的indexPath
+     */
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         let new = newsResults[indexPath.row]
@@ -170,11 +238,28 @@ extension NewslistViewController:UITableViewDelegate{
         self.tableView.reloadData()
     }
     
+    /**
+     默认给的cell的高度
+     
+     - parameter tableView: tableview
+     - parameter indexPath: 表格的文职
+     
+     - returns: 返回默认给出的高度
+     */
     func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         return 100
     }
     
+    /**
+     计算每一个cell的高度
+     如果是刷新cell的话。默认高度为40
+     
+     - parameter tableView: tableview
+     - parameter indexPath: 表格的位置
+     
+     - returns: 计算过后的表格cell高度
+     */
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
         let new = newsResults[indexPath.row]

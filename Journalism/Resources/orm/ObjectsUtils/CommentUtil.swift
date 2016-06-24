@@ -155,14 +155,3 @@ extension Comment {
         return 21+21+nameHeight+commentHeight+contentHeight+12+8
     }
 }
-
-
-extension CommentAndUser {
-
-    
-    convenience public init(uid: String,cid: String){
-        self.init()
-        self.uid = uid
-        self.cid = cid
-    }
-}

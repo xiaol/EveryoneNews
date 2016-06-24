@@ -22,9 +22,7 @@ extension AppDelegate:UISplitViewControllerDelegate {
         
         WeiboSDK.registerApp(SINA_KEY)/// 新浪微博
         
-        UIStoryboard.shareStoryBoard.get_UISplitViewController().delegate = self // 设置SplitViewController 代理方法
-        
-        UIStoryboard.shareStoryBoard.get_UISplitViewController().preferredDisplayMode = .AllVisible
+
         
         self.initializationReachabilityMethod()
     }

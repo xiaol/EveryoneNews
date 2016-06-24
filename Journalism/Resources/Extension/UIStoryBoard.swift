@@ -48,6 +48,8 @@ extension UIStoryboard{
             dispatch_once(&backTaskLeton.predicate, { () -> Void in
                 
                 backTaskLeton.bgTask = self.instantiateViewControllerWithIdentifier("UISplitViewController") as? UISplitViewController
+                backTaskLeton.bgTask!.preferredDisplayMode = .AllVisible
+                backTaskLeton.bgTask?.delegate = (UIApplication.sharedApplication().delegate as! AppDelegate)
             })
             
             return backTaskLeton.bgTask

@@ -56,6 +56,7 @@ class LoginViewController: UIViewController,UserLoginManagerDelegate {
     func willRequestUserInfo() {
         
         SVProgressHUD.showInfoWithStatus("请求用户信息中")
+        SVProgressHUD.setDefaultMaskType(SVProgressHUDMaskType.Clear)
     }
     
     func didReceiveRequestUserFailResponse() {

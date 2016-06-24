@@ -51,7 +51,8 @@ class NewsUtil: NSObject {
     }
     
     
-    class func RefreshNewsListArrayData(channelId:Int,create:Bool=false,times:String = "\(Int64(NSDate().timeIntervalSince1970*1000))",finish:((count:Int)->Void)?=nil,fail:(()->Void)?=nil){
+    class func RefreshNewsListArrayData(channelId:Int,delete:Bool=false,create:Bool=false,times:String = "\(Int64(NSDate().timeIntervalSince1970*1000))",finish:((count:Int)->Void)?=nil,fail:(()->Void)?=nil){
+        
         
         guard let token = ShareLUser.token else{ fail?();return }
         
@@ -106,7 +107,7 @@ class NewsUtil: NSObject {
                 }
             })
             
-            if !create && newsResults.count > 30{ // 如果是第一次刷新，并且数据量大于30，则完成数据清除
+            if delete && newsResults.count > 30{ // 如果是第一次刷新，并且数据量大于30，则完成数据清除
                 
                 let willDelete = newsResults.filter("ptimes < %@", newsResults[30].ptimes)
                 

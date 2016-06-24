@@ -59,20 +59,7 @@ class WaitView: UIView {
     class var shareWaitView:WaitView!{
         
         get{
-            
-            struct backTaskLeton{
-                
-                static var predicate:dispatch_once_t = 0
-                
-                static var bgTask:WaitView? = nil
-            }
-            
-            dispatch_once(&backTaskLeton.predicate, { () -> Void in
-                
-                backTaskLeton.bgTask = WaitView(frame: CGRectZero)
-            })
-            
-            return backTaskLeton.bgTask
+            return WaitView(frame: CGRectZero)
         }
     }
 }

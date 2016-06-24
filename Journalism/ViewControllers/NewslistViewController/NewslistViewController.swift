@@ -12,11 +12,22 @@ import PINRemoteImage
 
 @objc protocol NewslistViewControllerNoLikeDelegate{
 
+    /**
+     当用户点击不喜欢按钮，出发的delegate
+     
+     - parameter cell:   不喜欢按钮所在的cell
+     - parameter finish: 当用户处理完方法后
+     
+     - returns: 空
+     */
     optional func ClickNoLikeButtonOfUITableViewCell(cell:NewBaseTableViewCell,finish:((cancel:Bool)->Void)) -> Void
 }
 
 
 class NewslistViewController: UIViewController,WaitLoadProtcol {
+    
+    // 刷新视图
+    var waitView:WaitView!
     
     var notificationToken: NotificationToken? = nil
     var timer = NSTimer()
@@ -26,5 +37,4 @@ class NewslistViewController: UIViewController,WaitLoadProtcol {
     var delegate:NewslistViewControllerNoLikeDelegate!
     internal var channel:Channel? // 该新闻列表的频道对象
     @IBOutlet var tableView: UITableView! // UITableView 视图对象
-    
 }

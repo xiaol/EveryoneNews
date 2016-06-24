@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import PINRemoteImage
 
 
 class AboutViewController: UIViewController,UIViewControllerTransitioningDelegate,UIGestureRecognizerDelegate {
@@ -31,10 +32,10 @@ class AboutViewController: UIViewController,UIViewControllerTransitioningDelegat
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
         scrollView.panGestureRecognizer.requireGestureRecognizerToFail(pan)
         pan.delegate = self
     }
+
     
     func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
         

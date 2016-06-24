@@ -66,6 +66,36 @@ extension UIFont{
         }
     }
     
+    class var a_font3_1:UIFont{
+        get{
+            switch self.a_fontModalStyle {
+            case 0:
+                return UIFont.boldSystemFontOfSize(17)
+            case 1:
+                return UIFont.boldSystemFontOfSize(18)
+            case 2:
+                return UIFont.boldSystemFontOfSize(19)
+            default:
+                return UIFont.boldSystemFontOfSize(16)
+            }
+        }
+    }
+    
+    class var a_font3_2:UIFont{
+        get{
+            switch self.a_fontModalStyle {
+            case 0:
+                return UIFont.systemFontOfSize(16)
+            case 1:
+                return UIFont.systemFontOfSize(17)
+            case 2:
+                return UIFont.systemFontOfSize(18)
+            default:
+                return UIFont.systemFontOfSize(15)
+            }
+        }
+    }
+    
     class var a_font4:UIFont{
         get{
             switch self.a_fontModalStyle {

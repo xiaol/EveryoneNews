@@ -14,6 +14,13 @@ import XLPagerTabStrip
 
 extension NewslistViewController{
 
+    /**
+     当视图准备显示的时候所做的一些提前的额准备
+     1. 设置表格的头部视图和底部视图的高度均为0，来满足设计的需要
+     2. 将提示数目的视图隐藏
+     3. 设置上拉和下拉的表头尾视图的设置
+     4. 如果当前频道是起点频道 则设置为试用下拉刷新的方法来加载数据 如果不是，则使用平常的方法就可以了
+     */
     override func viewDidLoad() {
         
         super.viewDidLoad()
@@ -23,47 +30,23 @@ extension NewslistViewController{
         
         self.messageHandleMethod(hidden:true, anmaiter: false) // 隐藏提示视图
         
-        let header = NewRefreshHeaderView(refreshingBlock: {
-            
-            self.refreshNewsDataMethod()
+        self.tableView.mj_header = NewRefreshHeaderView(refreshingBlock: {
+                
+            self.refreshNewsDataMethod(create:true,show: true)
         })
         
-        let footer = NewRefreshFooterView {
+        self.tableView.mj_footer = NewRefreshFooterView {
             
             self.loadNewsDataMethod()
         }
         
-        self.tableView.mj_header = header
-        self.tableView.mj_footer = footer
+        if channel?.id == 1 {
         
-        self.refreshNewsDataMethod(false)
-        
-//        if self.channel?.id ?? 1 != 1 {
-//            self.notificationToken = self.newsResults.addNotificationBlock { (changes) in
-//                
-//                switch changes {
-//                case .Initial:
-//                    // Results are now populated and can be accessed without blocking the UI
-//                    self.tableView.reloadData()
-//                    break
-//                case .Update(_, let deletions, let insertions, let modifications):
-//                    // Query results have changed, so apply them to the UITableView
-//                    self.tableView.beginUpdates()
-//                    self.tableView.insertRowsAtIndexPaths(insertions.map { NSIndexPath(forRow: $0, inSection: 0) },
-//                        withRowAnimation: .Automatic)
-//                    self.tableView.deleteRowsAtIndexPaths(deletions.map { NSIndexPath(forRow: $0, inSection: 0) },
-//                        withRowAnimation: .Automatic)
-//                    self.tableView.reloadRowsAtIndexPaths(modifications.map { NSIndexPath(forRow: $0, inSection: 0) },
-//                        withRowAnimation: .Automatic)
-//                    self.tableView.endUpdates()
-//                    break
-//                case .Error(let _):
-//                    // An error occurred while opening the Realm file on the background worker thread
-//                    break
-//                }
-//            }
-//        }
-        
+            self.refreshNewsDataMethod(del: true,create:true,show: true)
+        }else{
+            
+            self.refreshNewsDataMethod(del: true,create:true,show: false)
+        }
         
         // 获得字体变化通知，完成刷新字体大小方法
         NSNotificationCenter.defaultCenter().addObserverForName(FONTMODALSTYLEIDENTIFITER, object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
@@ -71,11 +54,25 @@ extension NewslistViewController{
             self.tableView.reloadData()
         }
     }
-    
-    /// 刷新新闻内容方法
-    private func refreshNewsDataMethod(show:Bool = true){
-    
-        guard let channelId = self.channel?.id else{return}
+}
+
+
+
+
+// MARK: - 刷新数据或者下拉加载数据的处理放啊集合
+extension NewslistViewController{
+    /**
+     下拉刷新 获取更新的新闻数据
+     当用户第一次进入时，数据往往是不存在，首先需要上拉加载一些数据。
+     只有在当前频道为奇点频道的时候才会展示加载成功消息
+     
+     默认请求第一张 的 20条新闻消息
+     
+     - parameter show: 是否显示加载成功消息
+     */
+    private func refreshNewsDataMethod(del delete:Bool = false,create:Bool = false,show:Bool = false){
+        
+        guard let channelId = self.channel?.id else{return self.handleMessageShowMethod("未知错误", show: true)}
         
         if newsResults.count <= 0 {
             
@@ -83,54 +80,59 @@ extension NewslistViewController{
             
             return NewsUtil.LoadNewsListArrayData(channelId,times: "\(Int64(NSDate().timeIntervalSince1970*1000))",finish: {
                 
-                self.hiddenWaitLoadView()
+                let message = self.newsResults.count <= 0 ? "没有加载到新的数据" : "一共刷新了\(self.newsResults.count)条数据"
                 
-                self.tableView.mj_footer.endRefreshing()
-                
-                self.tableView.reloadData()
+                self.handleMessageShowMethod(message, show: show)
                 
                 }, fail: {
                     
-                    self.tableView.mj_footer.endRefreshing()
+                    self.handleMessageShowMethod("没有加载到新的数据", show: show)
             })
-        }
-        
-        
-        if let last = self.newsResults.first{
-
+        }else if let last = self.newsResults.first{
+            
             var time = last.ptimes
             
             if last.ptimes.hoursBeforeDate(NSDate()) >= 12{
-            
+                
                 time = NSDate().dateByAddingHours(-12)
             }
             
-            NewsUtil.RefreshNewsListArrayData(channelId, create: show,times: "\(Int64(time.timeIntervalSince1970*1000))", finish: { (count) in
-                
-                self.tableView.mj_header.endRefreshing()
-                
-                self.tableView.reloadData()
-                
-                if !show {return}
+            NewsUtil.RefreshNewsListArrayData(channelId,delete:delete, create: create,times: "\(Int64(time.timeIntervalSince1970*1000))", finish: { (count) in
                 
                 let message = count <= 0 ? "没有加载到新的数据" : "一共刷新了\(count)条数据"
-                
-                self.messageHandleMethod(message)
-                
+                self.handleMessageShowMethod(message, show: show)
                 }, fail: {
-                    self.tableView.mj_header.endRefreshing()
                     
-                    self.tableView.reloadData()
-                    
-                    if !show {return}
-                    self.messageHandleMethod("没有加载到新的数据")
+                    self.handleMessageShowMethod("没有加载到新的数据", show: show)
             })
+        }else{
+            self.handleMessageShowMethod("未知错误", show: true)
         }
     }
     
-    // 加载新闻内容方法
-    private func loadNewsDataMethod(){
+    /**
+     处理消息提示显示方法，和初始化方法
+     */
+    private func handleMessageShowMethod(message:String,show:Bool){
+        
+        self.hiddenWaitLoadView()
+        
+        self.tableView.mj_header.endRefreshing()
+        self.tableView.mj_footer.endRefreshing()
+        
+        self.tableView.reloadData()
+        
+        if !show {return}
+        self.messageHandleMethod(message)
+    }
     
+    /**
+     上啦加载新闻，当用户向上拉去的时候，获取当前所有新闻最后一条的新闻的世间之后的世间
+     默认获取的个数位20个。
+     默认是获取第一页。
+     */
+    private func loadNewsDataMethod(){
+        
         if let channelId = self.channel?.id,last = self.newsResults.last {
             
             NewsUtil.LoadNewsListArrayData(channelId,times: "\(Int64(last.ptimes.timeIntervalSince1970*1000))",finish: {
@@ -145,8 +147,20 @@ extension NewslistViewController{
             })
         }
     }
-    
-    // 消息提示视图处理方法
+}
+
+// MARK: - 显示刷新数目视图的处理方法集合
+extension NewslistViewController{
+
+    /**
+     下拉刷新成功后向用户提醒刷新数目的显示方法
+     如果参数 hidden 为 true 则为隐藏，如果为 false 则为 显示
+     
+     - parameter message:   要向用户展示的消息
+     - parameter backColor: 向用户展示的消息背景颜色，默认为app 主色调
+     - parameter hidden:    是隐藏还是
+     - parameter anmaiter:  需不需要动画显示
+     */
     private func messageHandleMethod(message:String = "",backColor:UIColor=UIColor.a_color2,hidden:Bool = false,anmaiter:Bool = true){
         
         if self.timer.valid { self.timer.invalidate() }
@@ -167,7 +181,11 @@ extension NewslistViewController{
         self.timer = NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: #selector(NewslistViewController.hiddenTips(_:)), userInfo: nil, repeats: false)
     }
     
-    // 隐藏提示视图
+    /**
+     隐藏提示条的方法，会被时间定时器调用
+     
+     - parameter timer: 定时器对象
+     */
     func hiddenTips(timer:NSTimer){
         
         let hiddent = CGAffineTransformTranslate(self.messageLabel.transform, 0, -self.messageLabel.frame.height) // 隐藏加载视图

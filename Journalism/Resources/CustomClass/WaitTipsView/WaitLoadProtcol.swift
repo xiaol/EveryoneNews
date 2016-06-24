@@ -68,12 +68,22 @@ extension WaitLoadProtcol where Self:UIViewController{
         })
     }
     
+
+}
+
+extension WaitLoadProtcol where Self:DetailViewController{
+    
     // 显示等待视图
     func showWaitLoadView(){
-    
-        self.view.addSubview(WaitView.shareWaitView)
         
-        WaitView.shareWaitView.snp_makeConstraints { (make) in
+        if self.waitView == nil {
+            
+            self.waitView = WaitView.shareWaitView
+        }
+        
+        self.view.addSubview(self.waitView )
+        
+        self.waitView .snp_makeConstraints { (make) in
             
             make.topMargin.equalTo(self.view.snp_top).offset(0)
             make.bottomMargin.equalTo(self.view.snp_bottom).offset(0)
@@ -84,7 +94,43 @@ extension WaitLoadProtcol where Self:UIViewController{
     
     // 隐藏等待视图
     func hiddenWaitLoadView(){
+        
+        if self.waitView != nil {
+            
+            self.waitView.removeFromSuperview()
+            self.waitView = nil
+        }
+    }
+}
+
+extension WaitLoadProtcol where Self:NewslistViewController{
     
-        WaitView.shareWaitView.removeFromSuperview()
+    // 显示等待视图
+    func showWaitLoadView(){
+        
+        if self.waitView == nil {
+            
+            self.waitView = WaitView.shareWaitView
+        }
+        
+        self.view.addSubview(self.waitView )
+        
+        self.waitView .snp_makeConstraints { (make) in
+            
+            make.topMargin.equalTo(self.view.snp_top).offset(0)
+            make.bottomMargin.equalTo(self.view.snp_bottom).offset(0)
+            make.leftMargin.equalTo(self.view.snp_left).offset(0)
+            make.rightMargin.equalTo(self.view.snp_right).offset(0)
+        }
+    }
+    
+    // 隐藏等待视图
+    func hiddenWaitLoadView(){
+        
+        if self.waitView != nil {
+            
+            self.waitView.removeFromSuperview()
+            self.waitView = nil
+        }
     }
 }
