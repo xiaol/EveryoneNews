@@ -37,4 +37,15 @@ class NewslistViewController: UIViewController,WaitLoadProtcol {
     var delegate:NewslistViewControllerNoLikeDelegate!
     internal var channel:Channel? // 该新闻列表的频道对象
     @IBOutlet var tableView: UITableView! // UITableView 视图对象
+    
+    
+    override func shouldAutorotate() -> Bool {
+        
+        return true
+    }
+    
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        
+        return UIInterfaceOrientationMask.All
+    }
 }

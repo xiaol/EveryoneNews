@@ -45,6 +45,12 @@ extension NewslistViewController{
             self.refreshNewsDataMethod(del: true,create:true,show: true)
         }else{
             
+            // 获得字体变化通知，完成刷新字体大小方法
+            NSNotificationCenter.defaultCenter().addObserverForName(CHANNELONEISREFRESHFINISH, object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+                
+                self.tableView.reloadData()
+            }
+            
             self.refreshNewsDataMethod(del: true,create:true,show: false)
         }
         
@@ -72,7 +78,7 @@ extension NewslistViewController{
      */
     private func refreshNewsDataMethod(del delete:Bool = false,create:Bool = false,show:Bool = false){
         
-        guard let channelId = self.channel?.id else{return self.handleMessageShowMethod("未知错误", show: true)}
+        guard let channelId = self.channel?.id else{return self.handleMessageShowMethod("未知错误", show: true,bc: UIColor.a_noConn)}
         
         if newsResults.count <= 0 {
             
@@ -86,7 +92,10 @@ extension NewslistViewController{
                 
                 }, fail: {
                     
-                    self.handleMessageShowMethod("没有加载到新的数据", show: show)
+                    self.waitView.setNoNetWork({ 
+                        
+                        self.refreshNewsDataMethod(del: delete, create: create, show: show)
+                    })
             })
         }else if let last = self.newsResults.first{
             
@@ -103,17 +112,22 @@ extension NewslistViewController{
                 self.handleMessageShowMethod(message, show: show)
                 }, fail: {
                     
-                    self.handleMessageShowMethod("没有加载到新的数据", show: show)
+                    self.handleMessageShowMethod("加载数据失败", show: show,bc: UIColor.a_noConn)
             })
         }else{
-            self.handleMessageShowMethod("未知错误", show: true)
+            self.handleMessageShowMethod("未知错误", show: true,bc: UIColor.a_noConn)
         }
     }
     
     /**
      处理消息提示显示方法，和初始化方法
      */
-    private func handleMessageShowMethod(message:String,show:Bool){
+    private func handleMessageShowMethod(message:String,show:Bool,bc:UIColor=UIColor.a_color2){
+        
+        if channel?.id == 1 {
+        
+            NSNotificationCenter.defaultCenter().postNotificationName(CHANNELONEISREFRESHFINISH, object: nil)
+        }
         
         self.hiddenWaitLoadView()
         
@@ -123,7 +137,7 @@ extension NewslistViewController{
         self.tableView.reloadData()
         
         if !show {return}
-        self.messageHandleMethod(message)
+        self.messageHandleMethod(message,backColor: bc)
     }
     
     /**

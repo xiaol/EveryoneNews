@@ -2,13 +2,7 @@ PODS:
   - AFDateHelper (3.4.2)
   - Alamofire (3.4.1)
   - CRToast (0.0.9)
-  - FileKit (2.0.0)
   - FLAnimatedImage (1.0.12)
-  - Ji (1.2.0):
-    - Ji/Ji (= 1.2.0)
-  - Ji/Ji (1.2.0):
-    - Ji/Ji-libxml
-  - Ji/Ji-libxml (1.2.0)
   - MGTemplateEngine (1.0.0)
   - MJRefresh (3.1.9)
   - PINCache (2.2.2)
@@ -36,8 +30,6 @@ PODS:
 DEPENDENCIES:
   - AFDateHelper
   - CRToast
-  - FileKit
-  - Ji
   - MGTemplateEngine (from `MGTemplateEngine/`)
   - MJRefresh
   - PINRemoteImage
@@ -60,9 +52,7 @@ SPEC CHECKSUMS:
   AFDateHelper: aecee6bb264d6531795649f4ebac47783d2bab74
   Alamofire: 01a82e2f6c0f860ade35534c8dd88be61bdef40c
   CRToast: 5a78c22b921c5ed3487488af605bc403a9c92fed
-  FileKit: fd360f82f62a1f70dd2ccdbe0950d3a6d1e25d1d
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
-  Ji: ddebb22f9ac445db6e884b66f78ea74fb135fdb7
   MGTemplateEngine: 67c8ca7551be430bb821cab3abf5665a230d93e9
   MJRefresh: c5f1f1653e5a1b932c90f78074f2bc86f3f9bd5e
   PINCache: 078426d356ab95ef875e9e62e5c35a2ea3333c28
@@ -77,6 +67,6 @@ SPEC CHECKSUMS:
   WeiboSDK: acb067053668102cf07d01aa7604350162c2e466
   XLPagerTabStrip: 87b8b705f9a7178e76a063ffaa2d70045944a965
 
-PODFILE CHECKSUM: 3d9fa50984821a795799d6ba32212c07eb52c3ba
+PODFILE CHECKSUM: 542b552a4b381324218e0826cef8b36795748949
 
 COCOAPODS: 1.0.0

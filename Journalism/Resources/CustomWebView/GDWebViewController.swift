@@ -20,7 +20,7 @@ import WebKit
 
 extension UIViewController {
 
-    func goWebViewController(url:String){
+    func goWebViewController(url:String,isTo:Bool=true) -> UIViewController{
         
         let navVC = UINavigationController()
         let webVC = GDWebViewController()
@@ -38,8 +38,12 @@ extension UIViewController {
             webVC.showToolbar(true, animated: true)
         })
         
-        self.presentViewController(navVC, animated: true, completion: nil)
+        if isTo {
         
+            self.presentViewController(navVC, animated: true, completion: nil)
+        }
+        
+        return webVC
     }
 }
 

@@ -53,3 +53,7 @@ a {
 .line-class {
     padding: 0 18 0 18 ;color: #e4e4e4; size: 0.5;
 }
+
+.lazy {
+    display: none;
+}

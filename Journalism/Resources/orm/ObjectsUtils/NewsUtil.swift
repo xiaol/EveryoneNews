@@ -91,7 +91,7 @@ class NewsUtil: NSObject {
                 }
             })
             
-            guard let data = body.objectForKey("data") as? NSArray else{  fail?();return} // 加载失败
+            guard let data = body.objectForKey("data") as? NSArray else{  finish?(count: 0);return} // 加载失败
 
             // 获取所有数据
             var newsResults = realm.objects(New)

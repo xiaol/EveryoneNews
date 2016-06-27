@@ -433,10 +433,7 @@
                 }],
                 "responses": {
                     "200": {
-                        "description": "完成请求",
-                        "schema": {
-                            "$ref": "#/definitions/commentRespone"
-                        }
+                        "description": "完成请求"
                     }
                 }
             }
@@ -1009,8 +1006,7 @@
                 },
                 "data": {
                     "description": "已创建的评论ID",
-                    "type": "integer",
-                    "format": "int32"
+                    "type": "string"
                 }
             }
         }

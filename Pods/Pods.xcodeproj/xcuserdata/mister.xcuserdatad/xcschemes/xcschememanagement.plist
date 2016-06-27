@@ -24,16 +24,6 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>FileKit.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
-		<key>Ji.xcscheme</key>
-		<dict>
-			<key>isShown</key>
-			<false/>
-		</dict>
 		<key>MGTemplateEngine.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -102,7 +92,17 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0426F054117EA8243B9023AABA14C9E9</key>
+		<key>08A450C39D346602680AD12975A081B3</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>0B1B1B13B05195D662815615896225F6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>174E3E3000970646FE7F7754305C1D33</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -112,32 +112,17 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2AAE191986AF7F3FECDF8A06F5D3DB48</key>
+		<key>398EAD139F88163657B028DE62D83986</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>345033CAF935467A7DEC0F2C7A3B3C20</key>
+		<key>4817575B7DAF85F145536256191CC1C5</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>491B5EFF216F405C073D5F655346B5F2</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>52D6B182D049B63898230792841AD9EB</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>5D0070FBB0BA75D9DC8789E894C4D9A5</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>778845E44708D0DFB00DF25087801B05</key>
+		<key>6E717805EBBD3D37F9CA2A0F4B556E6C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -152,12 +137,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7F38C2A8CBAC990AAF23F4D1969A6F70</key>
+		<key>9AB92A2AE7314091D107EAC8561B8977</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9AB92A2AE7314091D107EAC8561B8977</key>
+		<key>9D976E6F53DC1B7B5E8AB57876D88951</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -167,7 +152,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C4F1DB440B42642636E376448A196E87</key>
+		<key>AF306BA5096232469CFCF7AF537B6611</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -177,12 +162,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>EAF1C3A0CDC3159C82A6237C0D3D003D</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>EF9ED260D11BA0E4170F1FC4ED11122F</key>
+		<key>F23138E09C681068B8C239742EFC1D42</key>
 		<dict>
 			<key>primary</key>
 			<true/>

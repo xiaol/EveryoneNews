@@ -48,6 +48,8 @@ extension DetailViewController{
                 cell.contentLabel.text =  "\(n.concern)"
             }
             
+            self.adaptionWebViewHeightMethod()
+            
             return cell
         }
         
@@ -96,8 +98,6 @@ extension DetailViewController{
         
         return cell
     }
-    
-    
     
     // 根据section 返回每一个section 的 头视图
     private func getViewForHeaderInSection(section: Int) -> UIView?{

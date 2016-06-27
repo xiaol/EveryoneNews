@@ -33,6 +33,10 @@ extension UIColor{
     
     /// 评论按钮背景颜色
     class var a_color11:UIColor{  return UIColor.hexStringToColor("#eaeaea")}
+    
+    class var a_wifi:UIColor{return UIColor.hexStringToColor("#FF7F00")}
+    class var a_cellular:UIColor{return UIColor.hexStringToColor("#FFA07A")}
+    class var a_noConn:UIColor{return UIColor.hexStringToColor("#FF6347")}
 }
 
 

@@ -61,59 +61,7 @@ class CommentUtil: NSObject {
         }
     }
     
-    /**
-     创建评论
-     
-     - parameter content: 评论内容
-     - parameter new:     新闻对象
-     - parameter finish:  完成回调
-     - parameter fail:    失败回调
-     */
-    class func CreateCommentMethod(content:String,new:New,finish:(()->Void)?=nil,fail:(()->Void)?=nil) {
-
-        guard let token = ShareLUser.token else{ fail?();return }
-
-        let time = NSDate()
-        let timeStr = time.toString(format: DateFormat.Custom("yyyy-MM-dd hh:mm:ss"))
-        
-        let cc = CommectCreate()
-        cc.content = content
-        cc.docid = new.docid
-        cc.ctime = timeStr
-        cc.commend = 0
-        cc.uid = Int32(ShareLUser.uid)
-        cc.uname = ShareLUser.uname
-        cc.avatar = ShareLUser.avatar
-        
-        let requestBudile = CommentAPI.nsComsPostWithRequestBuilder(userRegisterInfo: cc)
-        requestBudile.addHeaders(["Authorization":token,"X-Requested-With":"*"])
-        
-        requestBudile.execute { (response, error) in
-            
-            guard let code = response?.body.code,id = response?.body.data else {fail?();return}
-            if code != 2000 {fail?();return}
-            
-            let comment = Comment()
-            comment.id = Int(id)
-            comment.nid = new.nid
-            comment.uid = ShareLUser.uid
-            comment.ctime = timeStr
-            comment.content = content
-            comment.uname = ShareLUser.uname
-            comment.avatar = ShareLUser.avatar
-            comment.docid = new.docid
-            comment.ctimes = time
-            
-            let realm = try! Realm()
-            try! realm.write({
-                
-                new.comment += 1
-                realm.add(comment)
-            })
-            
-            finish?()
-        }
-    }
+    
 }
 
 extension CommentUtil{

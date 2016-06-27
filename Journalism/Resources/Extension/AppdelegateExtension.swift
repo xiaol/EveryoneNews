@@ -42,12 +42,13 @@ extension AppDelegate:UISplitViewControllerDelegate {
                 if reachability.isReachableViaWiFi() {
                     
                     if APPNETWORK == Reachability.NetworkStatus.ReachableViaWiFi {return}
-                    
-                    CRToastManager.J_ShowNotification("网络恢复，查看新闻吧", tapHidden: true,dismiss:1)
+                    CRToastManager.dismissAllNotifications(false)
+                    CRToastManager.J_ShowNotification("网络恢复，查看新闻吧", tapHidden: true,backColor: UIColor.a_color2,dismiss:1)
                     APPNETWORK = Reachability.NetworkStatus.ReachableViaWiFi
                 } else {
                     
-                    CRToastManager.J_ShowNotification("网络为移动蜂窝煤，可能会造成流量流失", tapHidden: true)
+                    CRToastManager.dismissAllNotifications(false)
+                    CRToastManager.J_ShowNotification("网络为移动蜂窝煤，可能会造成流量流失",backColor: UIColor.a_cellular, tapHidden: true)
                     APPNETWORK = Reachability.NetworkStatus.ReachableViaWWAN
                 }
             }
@@ -55,8 +56,8 @@ extension AppDelegate:UISplitViewControllerDelegate {
         reachability.whenUnreachable = { reachability in
             
             dispatch_async(dispatch_get_main_queue()) {
-                
-                CRToastManager.J_ShowNotification("无法连接到网络，请稍候再试", tapHidden: false)
+                CRToastManager.dismissAllNotifications(false)
+                CRToastManager.J_ShowNotification("无法连接到网络，请稍候再试",backColor: UIColor.a_noConn, tapHidden: true)
                 APPNETWORK = Reachability.NetworkStatus.NotReachable
             }
         }
@@ -90,7 +91,7 @@ extension AppDelegate:UISplitViewControllerDelegate {
 
 extension CRToastManager{
 
-    private class func J_ShowNotification(message:String,tapHidden:Bool=false,dismiss:Double=10000){
+    private class func J_ShowNotification(message:String,tapHidden:Bool=false,backColor:UIColor = UIColor.redColor(),dismiss:Double=10000){
     
         var options = [NSObject : AnyObject]()
             
@@ -98,6 +99,7 @@ extension CRToastManager{
         options[kCRToastTextAlignmentKey] = NSTextAlignment.Center.rawValue
         options[kCRToastNotificationTypeKey] = CRToastType.StatusBar.rawValue
         options[kCRToastTimeIntervalKey] = dismiss
+        options[kCRToastBackgroundColorKey] = backColor
         
         if tapHidden {
             let tap = CRToastInteractionResponder(interactionType: CRToastInteractionType.Tap, automaticallyDismiss: true, block: { (_) in })

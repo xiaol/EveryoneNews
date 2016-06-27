@@ -12,6 +12,27 @@ import WebKit
 extension DetailViewController:WKNavigationDelegate{
 
     /**
+     主要是为了针对于党图片延时加载之后的webvView高度问题
+     
+     - parameter scrollView: 滑动视图
+     */
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        
+        
+        self.adaptionWebViewHeightMethod()
+    }
+    
+    /**
+     当滑动视图停止，记录滑动到达的位置 用来记录用户的赏赐查看位置
+     
+     - parameter scrollView: 滑动视图
+     */
+//    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+//        
+//        new?.getNewContentObject()?.scroffY(scrollView.contentOffset.y)
+//    }
+    
+    /**
      整合方法
      完成webview的初始化 
      完成新闻详情页面的加载方法
@@ -53,12 +74,6 @@ extension DetailViewController:WKNavigationDelegate{
 //        configuration.allowsInlineMediaPlayback = true        
         self.webView = WKWebView(frame: CGRect(origin: CGPointZero, size: CGSize(width: 600, height: 1000)), configuration: configuration)
         self.webView.hidden = true
-        
-        if #available(iOS 9.0, *) {
-            self.webView.customUserAgent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36"
-        } else {
-            // Fallback on earlier versions
-        };
         self.webView.navigationDelegate = self
         self.webView.scrollView.scrollEnabled = false
         self.webView.scrollView.scrollsToTop = false
@@ -83,6 +98,10 @@ extension DetailViewController:WKNavigationDelegate{
                 self.ShowNewCOntentInWebView(newCon)
                 }, fail: { 
                     
+                    self.waitView.setNoNetWork {
+                        
+                        self.loadContentObjects()
+                    }
             })
         }
     }
@@ -105,18 +124,27 @@ extension DetailViewController:WKNavigationDelegate{
      当调用到这个方法的时候，WkWebView将会调用Javascript的方法，来以此获取新闻展示页面所需要的高度
      获取高度完成之后就进行页面的重新布局以加入到tableView的表头中作为一个详情展示页
      */
-    func adaptionWebViewHeightMethod(){
+    func adaptionWebViewHeightMethod(height:CGFloat = -1){
+        
+//        if height > 0 {
+//        
+//            self.webView.frame.size.height = height
+//            self.tableView.tableHeaderView = self.webView
+//            
+//            return
+//        }
         
         self.webView.evaluateJavaScript("document.getElementById('section').offsetHeight") { (data, _) in
             
             if let height = data as? CGFloat{
-//                
-//                self.webView.setNeedsLayout()
-//                self.webView.layoutIfNeeded()
                 
-                self.webView.frame.size.height = height+35
+                if self.webView.frame.size.height != height+35 {
                 
-                self.tableView.tableHeaderView = self.webView
+                    self.webView.layoutIfNeeded()
+                    self.webView.frame.size.height = height+35
+//                    self.new?.getNewContentObject()?.heights(height+35)
+                    self.tableView.tableHeaderView = self.webView
+                }
             }
         }
     }
@@ -133,8 +161,21 @@ extension DetailViewController:WKNavigationDelegate{
     func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
         
         self.adaptionWebViewHeightMethod()
+//        if let off = new?.getNewContentObject()?.scroffY,height = new?.getNewContentObject()?.height {
+//            
+//            self.adaptionWebViewHeightMethod(CGFloat(height))
+//            self.tableView.setContentOffset(CGPoint(x: 0, y: CGFloat(off)), animated: false)
+//        }
         self.webView.hidden = false
         self.hiddenWaitLoadView() // 隐藏加载视图
+    }
+    
+    func webView(webView: WKWebView, didFailNavigation navigation: WKNavigation!, withError error: NSError) {
+        
+        self.waitView.setNoNetWork {
+            
+            self.loadContentObjects()
+        }
     }
     
     /**
@@ -171,6 +212,8 @@ extension DetailViewController :WKScriptMessageHandler{
      - parameter message:               javascript 所发出的消息体
      */
     func userContentController(userContentController: WKUserContentController, didReceiveScriptMessage message: WKScriptMessage) {
+        
+        guard let _ = message.body["type"] as? Int else{return}
         
         self.adaptionWebViewHeightMethod()
     }

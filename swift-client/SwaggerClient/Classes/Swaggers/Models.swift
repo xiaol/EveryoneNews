@@ -221,7 +221,7 @@ class Decoders {
                 let sourceDictionary = source as! [NSObject:AnyObject]
                 let instance = CommentRespone()
                 instance.code = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["code"])
-                instance.data = Decoders.decodeOptional(clazz: Int32.self, source: sourceDictionary["data"])
+                instance.data = Decoders.decodeOptional(clazz: String.self, source: sourceDictionary["data"])
                 return instance
             }
 

@@ -62,4 +62,25 @@ class WaitView: UIView {
             return WaitView(frame: CGRectZero)
         }
     }
+    
+    /**
+     设置无网络情况。
+     
+     - parameter click: 点击事件
+     */
+    func setNoNetWork(click:(()->Void)?){
+    
+        self.imageView.stopAnimating()
+        
+        self.imageView.image = UIImage(named: "无信号－无信号icon")
+        self.label.text = "加载失败，请联网后点击重试"
+        self.imageView.userInteractionEnabled = false
+        self.label.userInteractionEnabled = false
+        
+        self.userInteractionEnabled = true
+        self.addGestureRecognizer(UITapGestureRecognizer(block: { (_) in
+            
+            click?()
+        }))
+    }
 }

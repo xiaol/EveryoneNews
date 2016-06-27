@@ -70,6 +70,11 @@ public class NewContent: Object {
     /// 评论数
     dynamic var comment = 0
     
+    /// 滑动的位置
+    dynamic var scroffY: Double = 0
+    /// 滑动的位置
+    dynamic var height: Double = 0
+    
     override public static func primaryKey() -> String? {
         return "nid"
     }
@@ -106,6 +111,20 @@ extension MGTemplateEngine{
 
 extension NewContent{
 
+    func heights(h:CGFloat){
+        let realm = try! Realm()
+        try! realm.write {
+            self.height = Double(h)
+        }
+    }
+    
+    func scroffY(y:CGFloat){
+        let realm = try! Realm()
+        try! realm.write {
+            self.scroffY = Double(y)
+        }
+    }
+    
     func getHtmlResourcesString() -> String{
     
         var body = ""
@@ -118,7 +137,9 @@ extension NewContent{
             
             if let img = conten.img {
                 
-                body += "<p><img data-original=\"\(img)\" class=\"lazy img-responsive center-block\"src=\"home.png\" ></p>"
+//                class="lazyload" data-src="image.jpg" alt="Desert Road"
+                
+                body += "<p><img data-src=\"\(img)\" class=\"lazyload img-responsive center-block\"src=\"home.png\" ></p>"
             }
             
             if let vid = conten.vid {

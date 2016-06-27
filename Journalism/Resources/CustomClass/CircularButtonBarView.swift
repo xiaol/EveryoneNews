@@ -11,6 +11,15 @@ import XLPagerTabStrip
 
 public class CircularButtonBarPagerTabStripViewController:ButtonBarPagerTabStripViewController{
 
+    /**
+     设置每一个Cell的大小。需要讲高度设置为只能允许一行的高度，否则！！  哼哼 你自己试试吧，，超级刺激的额。
+     
+     - parameter collectionView:       <#collectionView description#>
+     - parameter collectionViewLayout: <#collectionViewLayout description#>
+     - parameter indexPath:            <#indexPath description#>
+     
+     - returns: <#return value description#>
+     */
     public override func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
 
         let childController = viewControllers[indexPath.item] as! IndicatorInfoProvider
@@ -21,7 +30,8 @@ public class CircularButtonBarPagerTabStripViewController:ButtonBarPagerTabStrip
         
         let returnSize = NSString(string:indicatorInfo.title).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.preferredFontForTextStyle(UIFontTextStyleHeadline)], context: nil).size
    
-        return CGSize(width: returnSize.width+(returnSize.width/2), height: returnSize.height)
+        // 修复当频道调整后出现两行的情况
+        return CGSize(width: returnSize.width+(returnSize.width/2), height: collectionView.frame.height-10)
     
     }
     

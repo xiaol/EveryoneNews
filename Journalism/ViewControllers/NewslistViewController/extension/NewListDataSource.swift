@@ -10,7 +10,7 @@ import UIKit
 
 
 extension NewslistViewController:UITableViewDataSource{
-    
+
     /**
      设置表格的每一个section的表头高度为0
      
@@ -219,6 +219,8 @@ extension NewslistViewController:UITableViewDelegate{
         new.isRead() // 设置为已读
         
         if new.isidentification == 1 {
+            
+            self.tableView.scrollToRowAtIndexPath(NSIndexPath(forItem: 0, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: true)
             
             self.tableView.mj_header.beginRefreshing()
             

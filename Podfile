@@ -2,7 +2,6 @@ platform :ios, '8.0'
 use_frameworks!
 
 target :'Journalism' do
-    pod 'Ji'
     pod 'SVProgressHUD'                                      ## 提示 Toast
 
     pod 'WeiboSDK'                                           ## 微博SDK
@@ -10,7 +9,6 @@ target :'Journalism' do
 
     pod 'CRToast'                                            ## 提示框
     pod 'SnapKit'                                            ## Swift Auto Layout
-    pod 'FileKit'                                            ## 文件操作
     pod 'AFDateHelper'                                       ## 时间操作
     pod 'MJRefresh'                                          ## 刷新控件
     pod 'PINRemoteImage'                                     ## 图片缓存加载组件

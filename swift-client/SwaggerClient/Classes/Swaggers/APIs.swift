@@ -32,7 +32,7 @@ public class APIBase {
 public class RequestBuilder<T> {
     var credential: NSURLCredential?
     var headers: [String:String] = [:]
-    let parameters: [String:AnyObject]?
+    public let parameters: [String:AnyObject]?
     let isBody: Bool
     let method: String
     let URLString: String

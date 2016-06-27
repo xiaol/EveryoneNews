@@ -210,6 +210,7 @@
 		6DC4FDB91CF0314700D25A99 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				AEF40FDA1D20EF7E0000DE25 /* ImageBrowerViewController */,
 				AEC47B061D0032E20055936D /* DetailAndCommit */,
 				AEB8E9D51CFBE34E00A105C4 /* SplitManagerViewController */,
 				6DC4FDBA1CF0314700D25A99 /* HomeViewController */,
@@ -653,6 +654,13 @@
 				AE29682F1CF69D4400D2782D /* PrivacyViewController.swift */,
 			);
 			path = PrivacyViewController;
+			sourceTree = "<group>";
+		};
+		AEF40FDA1D20EF7E0000DE25 /* ImageBrowerViewController */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ImageBrowerViewController;
 			sourceTree = "<group>";
 		};
 		AEFB55181CF462B3005FC23E /* UserCenterViewController */ = {

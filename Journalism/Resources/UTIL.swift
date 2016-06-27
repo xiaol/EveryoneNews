@@ -16,6 +16,7 @@ import ReachabilitySwift
 let CLICKTOCOMMENTVIEWCONTROLLER = "CLICKTOCOMMENTVIEWCONTROLLER" // 用户点击想要去评论视图
 let USERNEDDLOGINTHENCANDOSOMETHING = "USERNEDDLOGINTHENCANDOSOMETHING" // 用户必须注册才可以继续一些操作
 let COLLECTEDNEWORNOCOLLECTEDNEW = "COLLECTEDNEWORNOCOLLECTEDNEW" // 改变新闻的收藏状态
+let CHANNELONEISREFRESHFINISH = "CHANNELONEISREFRESHFINISH" // 起点频道刷新完成
 
 let IS_PLUS = UIScreen.mainScreen().bounds.size == CGSize(width: 414,height: 736) || UIScreen.mainScreen().bounds.size == CGSize(width: 736,height: 414)
 

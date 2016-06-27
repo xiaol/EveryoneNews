@@ -160,9 +160,9 @@ public class CommentAPI: APIBase {
      - parameter userRegisterInfo: (body) 评论对象 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func nsComsPost(userRegisterInfo userRegisterInfo: CommectCreate, completion: ((data: CommentRespone?, error: ErrorType?) -> Void)) {
+    public class func nsComsPost(userRegisterInfo userRegisterInfo: CommectCreate, completion: ((error: ErrorType?) -> Void)) {
         nsComsPostWithRequestBuilder(userRegisterInfo: userRegisterInfo).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
+            completion(error: error);
         }
     }
 
@@ -171,23 +171,19 @@ public class CommentAPI: APIBase {
      评论新闻
      - POST /ns/coms
      - 评论一个新闻
-     - examples: [{contentType=application/json, example={
-  "code" : 123,
-  "data" : 123
-}}]
      
      - parameter userRegisterInfo: (body) 评论对象 
 
-     - returns: RequestBuilder<CommentRespone> 
+     - returns: RequestBuilder<Void> 
      */
-    public class func nsComsPostWithRequestBuilder(userRegisterInfo userRegisterInfo: CommectCreate) -> RequestBuilder<CommentRespone> {
+    public class func nsComsPostWithRequestBuilder(userRegisterInfo userRegisterInfo: CommectCreate) -> RequestBuilder<Void> {
         let path = "/ns/coms"
         let URLString = SwaggerClientAPI.basePath + path
         let parameters = userRegisterInfo.encodeToJSON() as? [String:AnyObject]
  
         let convertedParameters = APIHelper.convertBoolToString(parameters)
  
-        let requestBuilder: RequestBuilder<CommentRespone>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
+        let requestBuilder: RequestBuilder<Void>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
         return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
     }

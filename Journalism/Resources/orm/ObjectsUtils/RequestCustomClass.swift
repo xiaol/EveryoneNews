@@ -8,6 +8,7 @@
 
 import Alamofire
 import RealmSwift
+import AFDateHelper
 import SwaggerClient
 
 extension Manager{
@@ -137,6 +138,61 @@ class CustomRequest: NSObject {
 //            try! realm.write({
 //                
 //            })
+            
+            finish?()
+        }
+    }
+    
+    /**
+     评论新闻
+     
+     - parameter comment: 评论对象
+     - parameter finish:  点赞完成
+     - parameter fail:    点赞失败
+     */
+    class func commentNew(content:String,new:New,finish:(()->Void)?=nil,fail:(()->Void)?=nil){
+        
+        
+        guard let token = ShareLUser.token else{ return }
+        
+        let time = NSDate()
+        let timeStr = time.toString(format: DateFormat.Custom("yyyy-MM-dd hh:mm:ss"))
+        let cc = CommectCreate()
+        cc.content = content
+        cc.docid = new.docid
+        cc.ctime = timeStr
+        cc.commend = 0
+        cc.uid = Int32(ShareLUser.uid)
+        cc.uname = ShareLUser.uname
+        cc.avatar = ShareLUser.avatar
+        
+        let requestBudile = CommentAPI.nsComsPostWithRequestBuilder(userRegisterInfo: cc)
+        
+        Manager.shareManager.request(.POST, SwaggerClientAPI.basePath+"/ns/coms", parameters: requestBudile.parameters, encoding: ParameterEncoding.JSON, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
+            
+            guard let result = res.result.value as? NSDictionary,let code = result.objectForKey("code") as? Int else{ fail?();return}
+            
+            if code != 2000 { fail?() ;return}
+            
+            guard let id = result.objectForKey("data") as? Int else{fail?() ;return}
+            
+            let comment = Comment()
+            comment.id = Int(id)
+            comment.nid = new.nid
+            comment.uid = ShareLUser.uid
+            comment.ctime = timeStr
+            comment.content = content
+            comment.uname = ShareLUser.uname
+            comment.avatar = ShareLUser.avatar
+            comment.docid = new.docid
+            comment.ctimes = time
+            
+            let realm = try! Realm()
+            try! realm.write({
+                
+                new.comment += 1
+                realm.add(comment)
+            })
             
             finish?()
         }

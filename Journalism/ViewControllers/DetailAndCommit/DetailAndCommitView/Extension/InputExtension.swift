@@ -27,13 +27,15 @@ extension DetailAndCommitViewController:UITextViewDelegate{
         
         if let n = self.new {
         
-            CommentUtil.CreateCommentMethod(self.inputTextView.text, new: n, finish: {
+            CustomRequest.commentNew(self.inputTextView.text, new: n, finish: {
                 
                 self.inputTextView.resignFirstResponder()
                 
                 let realm = try! Realm()
                 let normalResults = realm.objects(Comment.self).filter("nid = \(n.nid)")
                 self.commentsLabel.text = "\(normalResults.count)"
+                
+                SVProgressHUD.showSuccessWithStatus("评论成功")
                 
                 if let tableView = self.commitViewController.tableView{
                     let indexPath = NSIndexSet(index: 1)
@@ -43,7 +45,6 @@ extension DetailAndCommitViewController:UITextViewDelegate{
                 }, fail: { 
                     
                     SVProgressHUD.showErrorWithStatus("评论失败")
-                    SVProgressHUD.dismissWithDelay(1.5)
             })
         }
     }
