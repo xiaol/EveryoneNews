@@ -8,7 +8,10 @@
 #import <UMengSocialCOM/UMSocial.h>
 #import <UMengSocialCOM/UMSocialQQHandler.h>
 #import <UMengSocialCOM/UMSocialWechatHandler.h>
-#import <UMengSocialCOM/UMSocialSinaSSOHandler.h>
+
+#import "CMarkupTransformer.h"
+#import "UILabel+MarkupExtensions.h"
+#import "NSString+MarkupExtensions.h"
 
 
 

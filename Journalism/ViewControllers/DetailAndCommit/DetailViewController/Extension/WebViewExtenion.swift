@@ -213,8 +213,22 @@ extension DetailViewController :WKScriptMessageHandler{
      */
     func userContentController(userContentController: WKUserContentController, didReceiveScriptMessage message: WKScriptMessage) {
         
-        guard let _ = message.body["type"] as? Int else{return}
+        guard let type = message.body["type"] as? Int else{return}
         
-        self.adaptionWebViewHeightMethod()
+        if type == 0 { return self.adaptionWebViewHeightMethod() }
+        
+        
+        if let index = message.body["index"] as? Int,let res = new?.getNewContentObject()?.getSkPhotos() {
+        
+            let browser = SKPhotoBrowser(photos: res)
+            
+            browser.initializePageIndex(index)
+            browser.statusBarStyle = .LightContent
+            
+            // Can hide the action button by setting to false
+            browser.displayAction = true
+            
+            self.presentViewController(browser, animated: true, completion: nil)
+        }
     }
 }

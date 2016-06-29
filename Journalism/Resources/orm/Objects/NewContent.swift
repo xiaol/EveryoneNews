@@ -191,4 +191,20 @@ extension NewContent{
         
         return result
     }
+    
+    
+    func getSkPhotos() -> [SKPhoto]{
+    
+        var res = [SKPhoto]()
+        
+        for conten in self.content{
+        
+            if let img = conten.img {
+                
+                res.append(SKPhoto.photoWithImageURL(img))
+            }
+        }
+        
+        return res
+    }
 }

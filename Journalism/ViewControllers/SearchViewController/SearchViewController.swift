@@ -7,111 +7,12 @@
 //
 
 import UIKit
+import RealmSwift
 
-
-class SearchViewControllerDismissedAnimation:NSObject,UIViewControllerAnimatedTransitioning {
+class SearchViewController: UIViewController,UIViewControllerTransitioningDelegate,UITextFieldDelegate {
     
-    var isInteraction = false
     
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
-        
-        return 0.4
-    }
-    
-    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
-        
-        let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
-        let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
-        
-        let containerView = transitionContext.containerView()
-        containerView!.addSubview(toViewController.view)
-        containerView!.addSubview(fromViewController.view)
-        
-        toViewController.view.frame = transitionContext.finalFrameForViewController(toViewController)
-        
-        let IS_VERTICAL = UIScreen.mainScreen().bounds.width < UIScreen.mainScreen().bounds.height //是否垂直
-        
-        if let fr = toViewController as? UISplitViewController,nav = fr.viewControllers.first as? UINavigationController,master = nav.viewControllers.first as? HomeViewController,newlist = master.viewControllers[master.currentIndex] as? NewslistViewController,search = fromViewController as? SearchViewController{
-            
-            search.backView.alpha = 0
-            
-            let view = newlist.fuckHeaderCellView // 获得 from 搜索视图
-            view.hidden = true // 隐藏
-            
-            let rect = view.convertRect(view.frame, toView: fr.view)
-            
-            UIView.animateWithDuration(self.transitionDuration(transitionContext), delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
-                
-                search.searchInputViewRightConstraint.constant = 12
-                
-                search.searchViewTopSpaceConstraint.constant = IS_VERTICAL ? rect.origin.y-20 : rect.origin.y
-                search.searchViewRightSpaceConstraint.constant = UIScreen.mainScreen().bounds.width-rect.width
-                search.topView.alpha = 0
-                search.backView.alpha = 0
-                
-                search.view.layer.layoutIfNeeded() // 完成替换工作
-                
-                }, completion: { (_) in
-                    
-                    view.hidden = false // 隐藏
-                    transitionContext.completeTransition(true)
-            })
-        }
-    }
-}
-
-class SearchViewControllerPresentdAnimation:NSObject,UIViewControllerAnimatedTransitioning {
-    
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
-        
-        return 0.4
-    }
-    
-    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
-        
-        let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
-        let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
-        
-        toViewController.view.frame = transitionContext.finalFrameForViewController(toViewController)
-        
-        let containerView = transitionContext.containerView()
-        containerView!.addSubview(toViewController.view)
-        
-        let IS_VERTICAL = UIScreen.mainScreen().bounds.width < UIScreen.mainScreen().bounds.height //是否垂直
-        
-        if let fr = fromViewController as? UISplitViewController,nav = fr.viewControllers.first as? UINavigationController,master = nav.viewControllers.first as? HomeViewController,newlist = master.viewControllers[master.currentIndex] as? NewslistViewController,search = toViewController as? SearchViewController{
-        
-            search.backView.alpha = 0
-            
-            let view = newlist.fuckHeaderCellView // 获得 from 搜索视图
-            view.hidden = true // 隐藏
-            
-            let rect = view.convertRect(view.frame, toView: fr.view)
-            
-            search.searchViewTopSpaceConstraint.constant = IS_VERTICAL ? rect.origin.y-20 : rect.origin.y
-            
-            search.searchViewRightSpaceConstraint.constant = UIScreen.mainScreen().bounds.width-rect.width
-            search.view.layer.layoutIfNeeded() // 完成替换工作
-            
-            UIView.animateWithDuration(self.transitionDuration(transitionContext), animations: { 
-                
-                search.searchViewTopSpaceConstraint.constant = 0
-                search.searchViewRightSpaceConstraint.constant = 0
-                search.searchInputViewRightConstraint.constant = 12+30+5 // 将取消按钮露出来
-                search.backView.alpha = 1
-                search.view.layoutIfNeeded()
-                
-                }, completion: { (_) in
-                    
-                    view.hidden = false // 隐藏
-                    transitionContext.completeTransition(true)
-                    
-            })
-        }
-    }
-}
-
-class SearchViewController: UIViewController,UIViewControllerTransitioningDelegate {
+    @IBOutlet var tableView: UITableView!
     
     @IBOutlet var topView: UIView!
     @IBOutlet var textFiled: UITextField!
@@ -123,40 +24,15 @@ class SearchViewController: UIViewController,UIViewControllerTransitioningDelega
     let DismissedAnimation = SearchViewControllerDismissedAnimation()
     let PresentdAnimation = SearchViewControllerPresentdAnimation()
     
-    override func disablesAutomaticKeyboardDismissal() -> Bool {
-        
-        return false
-    }
+    var results = SearchHistory.getList()
+    
+    private var notificationToken:NotificationToken!
     
     required init?(coder aDecoder: NSCoder) {
         
         super.init(coder: aDecoder)
         
         self.transitioningDelegate = self
-    }
-    
-    override func viewDidDisappear(animated: Bool) {
-        
-        super.viewDidDisappear(animated)
-        
-        self.textFiled.resignFirstResponder()
-    }
-    
-    @IBAction func dismissAction(sender: AnyObject) {
-        
-        self.textFiled.resignFirstResponder()
-        self.textFiled.text = ""
-        self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    internal func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        
-        return PresentdAnimation
-    }
-    
-    internal func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        
-        return DismissedAnimation
     }
     
     override func canBecomeFirstResponder() -> Bool {
@@ -169,5 +45,30 @@ class SearchViewController: UIViewController,UIViewControllerTransitioningDelega
         super.viewDidLoad()
         
         textFiled.becomeFirstResponder()
+        
+        self.notificationToken = results.addNotificationBlock { (_) in
+            
+            self.tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Automatic)
+        }
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        
+        super.viewDidAppear(animated)
+        
+        self.textFiled.text = ""
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
+        guard let key = textField.text else{ return false }
+        
+        SearchHistory.create(key)
+        
+        let search = UIStoryboard.shareStoryBoard.get_SearchListViewController(key)
+        
+        self.presentViewController(search, animated: true, completion: nil)
+        
+        return true
     }
 }

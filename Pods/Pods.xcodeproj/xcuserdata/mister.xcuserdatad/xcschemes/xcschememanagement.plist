@@ -19,6 +19,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>DACircularProgress.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>FLAnimatedImage.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -92,37 +97,22 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>08A450C39D346602680AD12975A081B3</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>0B1B1B13B05195D662815615896225F6</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>174E3E3000970646FE7F7754305C1D33</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>29DD99664D189A7CA206368F493B1E0B</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>398EAD139F88163657B028DE62D83986</key>
+		<key>3B2461F17F13368E1E4B187517479035</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>4817575B7DAF85F145536256191CC1C5</key>
+		<key>3CCE3FC1F96C09E6ABB226F88B49D677</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>6E717805EBBD3D37F9CA2A0F4B556E6C</key>
+		<key>694514A6DE5B37FF4F5EF7172DFB863D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -137,12 +127,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9AB92A2AE7314091D107EAC8561B8977</key>
+		<key>863F0AD622D9294CD3A5CAF641D3A469</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9D976E6F53DC1B7B5E8AB57876D88951</key>
+		<key>8EBC478264745239C0A18D3B4F4893B4</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>94624EC6C9739263AA965CFE2D8933F5</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9AB92A2AE7314091D107EAC8561B8977</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -152,7 +152,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>AF306BA5096232469CFCF7AF537B6611</key>
+		<key>CBF2BD7844DC36F98085CFF486295737</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -162,12 +162,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F23138E09C681068B8C239742EFC1D42</key>
+		<key>E05CFA4E85B04452DE275AC57E1952ED</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F21935CD79FC30AD314A5C876A507D1F</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>F65B5FC465EEAE8D06DA022115DFDF17</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>F994BED75CDBCCDBA334A31895F14202</key>
 		<dict>
 			<key>primary</key>
 			<true/>

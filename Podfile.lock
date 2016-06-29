@@ -2,6 +2,7 @@ PODS:
   - AFDateHelper (3.4.2)
   - Alamofire (3.4.1)
   - CRToast (0.0.9)
+  - DACircularProgress (2.3.1)
   - FLAnimatedImage (1.0.12)
   - MGTemplateEngine (1.0.0)
   - MJRefresh (3.1.9)
@@ -30,6 +31,7 @@ PODS:
 DEPENDENCIES:
   - AFDateHelper
   - CRToast
+  - DACircularProgress
   - MGTemplateEngine (from `MGTemplateEngine/`)
   - MJRefresh
   - PINRemoteImage
@@ -38,7 +40,7 @@ DEPENDENCIES:
   - SnapKit
   - SVProgressHUD
   - SwaggerClient (from `swift-client/`)
-  - UMengSocialCOM
+  - UMengSocialCOM (from `UMengSocial/`)
   - WeiboSDK
   - XLPagerTabStrip
 
@@ -47,11 +49,14 @@ EXTERNAL SOURCES:
     :path: MGTemplateEngine/
   SwaggerClient:
     :path: swift-client/
+  UMengSocialCOM:
+    :path: UMengSocial/
 
 SPEC CHECKSUMS:
   AFDateHelper: aecee6bb264d6531795649f4ebac47783d2bab74
   Alamofire: 01a82e2f6c0f860ade35534c8dd88be61bdef40c
   CRToast: 5a78c22b921c5ed3487488af605bc403a9c92fed
+  DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   MGTemplateEngine: 67c8ca7551be430bb821cab3abf5665a230d93e9
   MJRefresh: c5f1f1653e5a1b932c90f78074f2bc86f3f9bd5e
@@ -63,10 +68,10 @@ SPEC CHECKSUMS:
   SnapKit: bbad04cb016c7cead63965f16b00c09318d271ee
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
   SwaggerClient: fa4b7e2c40e2697f64bdeef8ac6308899371dd17
-  UMengSocialCOM: 074c135ce349aa4c8848d3fb8458757bcb6ffb67
+  UMengSocialCOM: 1e2cef3b22d6b28ac5225a18fd1aa127d13aa6a9
   WeiboSDK: acb067053668102cf07d01aa7604350162c2e466
   XLPagerTabStrip: 87b8b705f9a7178e76a063ffaa2d70045944a965
 
-PODFILE CHECKSUM: 542b552a4b381324218e0826cef8b36795748949
+PODFILE CHECKSUM: f4410646e7ae84e9b155ebeebf5bc4edcb8afd7e
 
 COCOAPODS: 1.0.0

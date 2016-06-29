@@ -69,6 +69,7 @@ extension HomeViewControllerChannelDataSource:UICollectionViewDelegateFlowLayout
 
     // 点击某一个UICollectionViewCell代理方法
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+        collectionView.userInteractionEnabled = false
         if indexPath.section == 1 { // 当用户点击下方的频道列表的某一个频道的时候，说明用户希望添加一个新的频道
             self.ChannelIsDeleteArray.removeAtIndex(indexPath.item) // 在下方删除选中的东西
             self.ChannelNoDeleteArray.append(self.ChannelIsDeleteArray[0]) // 在上方的东西添加一个数据
@@ -84,6 +85,7 @@ extension HomeViewControllerChannelDataSource:UICollectionViewDelegateFlowLayout
                 self.delegate.ChannelManagerDidSelectItemAtIndexPath?(indexPath)  //调用现在这个对象里的 选择某一个频道的 代理方法～
             }
         }
+        collectionView.userInteractionEnabled = true
     }
     
     // 设置频道的cell大小

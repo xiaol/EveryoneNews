@@ -134,3 +134,35 @@ extension WaitLoadProtcol where Self:NewslistViewController{
         }
     }
 }
+
+extension WaitLoadProtcol where Self:SearchListViewController{
+    
+    // 显示等待视图
+    func showWaitLoadView(){
+        
+        if self.waitView == nil {
+            
+            self.waitView = WaitView.shareWaitView
+        }
+        
+        self.view.addSubview(self.waitView )
+        
+        self.waitView .snp_makeConstraints { (make) in
+            
+            make.topMargin.equalTo(self.view.snp_top).offset(0)
+            make.bottomMargin.equalTo(self.view.snp_bottom).offset(0)
+            make.leftMargin.equalTo(self.view.snp_left).offset(0)
+            make.rightMargin.equalTo(self.view.snp_right).offset(0)
+        }
+    }
+    
+    // 隐藏等待视图
+    func hiddenWaitLoadView(){
+        
+        if self.waitView != nil {
+            
+            self.waitView.removeFromSuperview()
+            self.waitView = nil
+        }
+    }
+}

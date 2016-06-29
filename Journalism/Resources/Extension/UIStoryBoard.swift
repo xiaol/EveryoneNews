@@ -109,9 +109,28 @@ extension UIStoryboard{
         return viewController
     }
     
+    /**
+     获取搜索页面
+     
+     - returns: <#return value description#>
+     */
     func get_SearchViewController()-> UIViewController{
     
         let viewController = self.instantiateViewControllerWithIdentifier("SearchViewController")
+        
+        return viewController
+    }
+    
+    /**
+      获取搜索展示页面
+     
+     - returns: 返回搜索视图
+     */
+    func get_SearchListViewController(key:String)-> UIViewController{
+        
+        let viewController = self.instantiateViewControllerWithIdentifier("SearchListViewController") as! SearchListViewController
+        
+        viewController.searchKey = key
         
         return viewController
     }

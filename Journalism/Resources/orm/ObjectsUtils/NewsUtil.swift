@@ -12,6 +12,49 @@ import SwaggerClient
 
 class NewsUtil: NSObject {
     
+    /**
+     根据用户提供的字段进行新闻的获取
+     
+     - parameter key:    新闻的关键字
+     - parameter finish: 完成的回调
+     */
+    class func searchNewArrayByKey(key:String,p:String="1",l:String="20",delete:Bool=true,finish:((nomore:Bool)->Void)?=nil,fail:(()->Void)?=nil){
+        
+        SearchAPI.nsEsSGet(keywords: key, p: p, l: l) { (datas, error) in
+            
+            guard let body = datas,code = body.objectForKey("code") as? Int else {fail?();return}
+            
+            if code == 2002 {finish?(nomore: true);return}
+            if code != 2000 {fail?();return}
+            
+            let realm = try! Realm()
+            
+            if delete {
+                New.deleSearch()
+            }
+            
+            guard let data = body.objectForKey("data") as? NSArray else{  finish?(nomore: false);return} // 加载失败
+            
+            try! realm.write({
+                for channel in data {
+                    realm.create(New.self, value: channel, update: true)
+                    self.AnalysisPutTimeAndImageList(channel as! NSDictionary, realm: realm,iscollected:0)
+                    if let nid = channel.objectForKey("nid") as? Int {
+                        realm.create(New.self, value: ["nid":nid,"issearch":1], update: true)
+                    }
+                }
+            })
+            
+            finish?(nomore: false)
+        }
+    }
+    
+    
+    /**
+     获取所有的收藏新闻
+     
+     - parameter finish: <#finish description#>
+     */
     class func getAllCollectionResultMthod(finish:(()->Void)?=nil){
         
         guard let token = ShareLUser.token else{ finish?();return }
@@ -50,7 +93,16 @@ class NewsUtil: NSObject {
         }
     }
     
-    
+    /**
+     刷新新闻
+     
+     - parameter channelId: 刷新的频道ID
+     - parameter delete:    是否删除，标识是否需要删除假的新闻
+     - parameter create:    是否需要创建 标识 是否需要创建假的额新闻
+     - parameter times:     刷新频道的事件 默认为当前时间
+     - parameter finish:    完成的回调
+     - parameter fail:      失败的回调
+     */
     class func RefreshNewsListArrayData(channelId:Int,delete:Bool=false,create:Bool=false,times:String = "\(Int64(NSDate().timeIntervalSince1970*1000))",finish:((count:Int)->Void)?=nil,fail:(()->Void)?=nil){
         
         
@@ -65,12 +117,8 @@ class NewsUtil: NSObject {
             guard let body = response?.body,let code = body.objectForKey("code") as? Int else{fail?();return}
             
             if code == 4003 {
-                
-                print("token过期",ShareLUser.token)
-                
                 ShareLUserRequest.resetLogin({ 
                     
-                    print("重新获取充公",ShareLUser.token)
                 })
                 
                 fail?();return
@@ -220,6 +268,17 @@ class NewsUtil: NSObject {
 }
 
 
+extension String {
+
+    func toAttributedString(font:UIFont=UIFont.a_font2) -> NSAttributedString{
+
+        let attributed = try! NSMutableAttributedString(data: self.dataUsingEncoding(NSUnicodeStringEncoding)!, options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType], documentAttributes: nil)
+        attributed.addAttributes([NSFontAttributeName:font], range: NSMakeRange(0, attributed.length))
+        
+        return attributed
+    }
+}
+
 
 
 extension New {
@@ -245,15 +304,22 @@ extension New {
         return ""
     }
     
-    func HeightByNewConstraint(tableView:UITableView) -> CGFloat{
+    func HeightByNewConstraint(tableView:UITableView,html:Bool = false) -> CGFloat{
         
         let width = tableView.frame.width
         
+        let size = CGSize(width: width-24, height: 1000)
+        var titleHeight:CGFloat = 0
+        
+        if html {
+            
+            titleHeight = self.title.toAttributedString().boundingRectWithSize(size, options: .UsesLineFragmentOrigin, context: nil).height
+        }else{
+            
+            titleHeight = NSString(string:self.title).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font2], context: nil).height
+        }
+        
         if self.style == 0 {
-            
-            let size = CGSize(width: width-24, height: 1000)
-            
-            let titleHeight = NSString(string:self.title).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font2], context: nil).height
             
             let pubHeight = NSString(string:self.pname).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font7], context: nil).height
             
@@ -264,19 +330,12 @@ extension New {
             return 15+77+17
         }else if self.style == 2{
             
-            let size = CGSize(width: width-24, height: 1000)
-            
-            let titleHeight = NSString(string:self.title).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font2], context: nil).height
             
             let pubHeight = NSString(string:self.pname).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font7], context: nil).height
             
             return titleHeight+15+17+8+183+pubHeight+7
             
         }else if self.style == 3{
-            
-            let size = CGSize(width: width-24, height: 1000)
-            
-            let titleHeight = NSString(string:self.title).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font2], context: nil).height
             
             let pubHeight = NSString(string:self.pname).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font7], context: nil).height
             

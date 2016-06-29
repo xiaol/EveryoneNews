@@ -438,6 +438,45 @@
                 }
             }
         },
+        "/ns/es/s": {
+            "get": {
+                "tags": ["search"],
+                "summary": "搜索新闻",
+                "description": "搜索一个新闻",
+                "parameters": [{
+                    "name": "keywords",
+                    "in": "query",
+                    "description": "搜搜新闻关键字",
+                    "required": true,
+                    "type": "string"
+                }, {
+                    "name": "p",
+                    "in": "query",
+                    "description": "页数",
+                    "required": false,
+                    "default": "1",
+                    "type": "string"
+                }, {
+                    "name": "l",
+                    "in": "query",
+                    "description": "条数",
+                    "required": false,
+                    "default": "20",
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "完成请求",
+                        "schema": {
+                            "type": "object",
+                            "items": {
+                                "$ref": "#/definitions/news"
+                            }
+                        }
+                    }
+                }
+            }
+        }
     },
     "definitions": {
         "visitorsLogin": {

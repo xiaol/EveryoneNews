@@ -45,13 +45,20 @@ extension NewslistViewController{
             self.refreshNewsDataMethod(del: true,create:true,show: true)
         }else{
             
-            // 获得字体变化通知，完成刷新字体大小方法
-            NSNotificationCenter.defaultCenter().addObserverForName(CHANNELONEISREFRESHFINISH, object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
-                
-                self.tableView.reloadData()
-            }
+            if newsResults == nil || newsResults.count <= 0 {
             
-            self.refreshNewsDataMethod(del: true,create:true,show: false)
+                
+                self.refreshNewsDataMethod(del: true,create:true,show: false)
+            }else{
+            
+                /**
+                 *  监视当前新闻发生变化之后，进行数据的刷新
+                 */
+                self.notificationToken = newsResults.addNotificationBlock { (_) in
+                    
+                    self.tableView.reloadData()
+                }
+            }
         }
         
         // 获得字体变化通知，完成刷新字体大小方法
@@ -59,6 +66,9 @@ extension NewslistViewController{
             
             self.tableView.reloadData()
         }
+        
+        
+        
     }
 }
 
@@ -123,12 +133,7 @@ extension NewslistViewController{
      处理消息提示显示方法，和初始化方法
      */
     private func handleMessageShowMethod(message:String,show:Bool,bc:UIColor=UIColor.a_color2){
-        
-        if channel?.id == 1 {
-        
-            NSNotificationCenter.defaultCenter().postNotificationName(CHANNELONEISREFRESHFINISH, object: nil)
-        }
-        
+
         self.hiddenWaitLoadView()
         
         self.tableView.mj_header.endRefreshing()

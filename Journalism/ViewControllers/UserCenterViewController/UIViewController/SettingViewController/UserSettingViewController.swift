@@ -9,6 +9,7 @@
 import UIKit
 import PINCache
 import PINRemoteImage
+import SVProgressHUD
 
 extension UInt {
 
@@ -156,13 +157,22 @@ extension UserSettingViewController:UIViewControllerTransitioningDelegate{
         
         super.viewDidAppear(animated)
         
-        PINCache.sharedCache().diskCache.synchronouslyLockFileAccessWhileExecutingBlock { (disk) in
-            
-            print(disk.byteCount)
-            
-            self.cacheSizeLable.text = disk.byteCount.FileSizeFormat()
-        }
+        self.refreshCacheSizeLabel()
     }
+    
+    private func refreshCacheSizeLabel(){
+    
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
+            
+            let cacherStr =  XCache.returnCacheSize() + " MB"
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                
+                self.cacheSizeLable.text = cacherStr
+            })
+        })
+    }
+    
     
     func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
         
@@ -192,6 +202,19 @@ extension UserSettingViewController:UIViewControllerTransitioningDelegate{
     // 清理缓存
     @IBAction func ClearCacher(sender: AnyObject) {
         
+        SVProgressHUD.showWithStatus("清除缓存中")
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
+            
+            XCache.cleanCache()
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                
+                SVProgressHUD.dismiss()
+                
+                self.refreshCacheSizeLabel()
+            })
+        })
     }
     
     @IBAction func dismissButtonTouch(sender: AnyObject) {
