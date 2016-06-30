@@ -79,6 +79,11 @@ class SearchListViewController: UIViewController,WaitLoadProtcol {
             })
         })
         
+        /**
+         *  添加表格的上拉刷新视图
+         *
+         *  @return <#return value description#>
+         */
         self.tableView.mj_footer = NewRefreshFooterView(refreshingBlock: {
             
             self.currentPage += 1
@@ -103,6 +108,22 @@ class SearchListViewController: UIViewController,WaitLoadProtcol {
                     self.tableView.mj_header.endRefreshing()
             })
         })
+        
+        
+        /**
+         *  该方法会检测用户设置字体大小的方法
+         *  当用户设置字体后，会发起该通知。
+         *
+         *  @param FONTMODALSTYLEIDENTIFITER  用户发起的通知的名称
+         *  @param nil                        所携带的数据
+         *  @param NSOperationQueue.mainQueue 需要执行接下来操作的县城
+         *
+         *  @return 所需要完成的操作
+         */
+        NSNotificationCenter.defaultCenter().addObserverForName(FONTMODALSTYLEIDENTIFITER, object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+            
+            self.tableView.reloadData()
+        }
     }
     
     

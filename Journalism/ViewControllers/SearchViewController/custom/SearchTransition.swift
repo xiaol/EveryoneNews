@@ -112,20 +112,24 @@ class SearchViewControllerPresentdAnimation:NSObject,UIViewControllerAnimatedTra
 
 
 extension SearchViewController{
-
     
-    override func disablesAutomaticKeyboardDismissal() -> Bool {
-        
-        return false
-    }
-    
+    /**
+     当时图将要消失的时候 将键盘收起
+     
+     - parameter animated: <#animated description#>
+     */
     override func viewDidDisappear(animated: Bool) {
         
+        self.textFiled.text = ""
         super.viewDidDisappear(animated)
-        
         self.textFiled.resignFirstResponder()
     }
     
+    /**
+     点击返回按钮的时候。将键盘收起，并且将文字设置为空
+     
+     - parameter sender: <#sender description#>
+     */
     @IBAction func dismissAction(sender: AnyObject) {
         
         self.textFiled.resignFirstResponder()
@@ -133,11 +137,27 @@ extension SearchViewController{
         self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
     }
     
+    /**
+     当时图准备 presented 的时候
+     
+     - parameter presented:  <#presented description#>
+     - parameter presenting: <#presenting description#>
+     - parameter source:     <#source description#>
+     
+     - returns: <#return value description#>
+     */
     internal func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
         return PresentdAnimation
     }
     
+    /**
+     当视图准备
+     
+     - parameter dismissed: <#dismissed description#>
+     
+     - returns: <#return value description#>
+     */
     internal func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
         return DismissedAnimation

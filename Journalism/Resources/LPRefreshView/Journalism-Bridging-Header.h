@@ -9,9 +9,7 @@
 #import <UMengSocialCOM/UMSocialQQHandler.h>
 #import <UMengSocialCOM/UMSocialWechatHandler.h>
 
-#import "CMarkupTransformer.h"
-#import "UILabel+MarkupExtensions.h"
-#import "NSString+MarkupExtensions.h"
 
 
 
+#import "SKTagView.h"

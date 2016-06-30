@@ -8,7 +8,12 @@
 
 import UIKit
 
-
+/**
+ 表格的类型
+ 
+ - Hot:     热点搜索类型
+ - History: 历史搜索类型
+ */
 enum HeaderStyle{
     case Hot
     case History
@@ -53,6 +58,7 @@ class SearchHeaderTableViewCell: UITableViewCell {
     }
 }
 
+/// 搜索视图的历史搜索表格行
 class SearchHistoryTableViewCell: UITableViewCell {
     
     @IBOutlet var titleLabel: UILabel! // 标题 label 控件
@@ -66,4 +72,11 @@ class SearchHistoryTableViewCell: UITableViewCell {
         CGContextSetStrokeColorWithColor(context, UIColor(red: 240/255, green:240/255, blue: 240/255, alpha: 1).CGColor)
         CGContextStrokeRect(context, CGRectMake(0, rect.height, rect.width, 1));
     }
+}
+
+
+/// 搜索视图的热门搜索表格行
+class SearchHotTableViewCell: UITableViewCell {
+    
+    @IBOutlet var tagView: SKTagView! // 热门显示控件
 }

@@ -17,6 +17,9 @@
 		6DC4FDD71CF031E000D25A99 /* KDRearrangeableCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDD41CF031E000D25A99 /* KDRearrangeableCollectionViewFlowLayout.swift */; };
 		994B705F63994332F79B2AA5 /* Pods_Journalism.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68B44A9454D029CD2156A30 /* Pods_Journalism.framework */; };
 		AE0A837B1D128D7A00331134 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0A837A1D128D7A00331134 /* UserView.swift */; };
+		AE0A896A1D24D87200C85B27 /* SLDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0A89671D24D87200C85B27 /* SLDataSource.swift */; };
+		AE0A896B1D24D87200C85B27 /* SLTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0A89681D24D87200C85B27 /* SLTransition.swift */; };
+		AE0A896C1D24D87200C85B27 /* SearchListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0A89691D24D87200C85B27 /* SearchListViewController.swift */; };
 		AE0FE5441CF301E8007DA198 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0FE5431CF301E8007DA198 /* UIImageExtension.swift */; };
 		AE2968301CF69D4400D2782D /* PrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE29682F1CF69D4400D2782D /* PrivacyViewController.swift */; };
 		AE2968321CF69DFB00D2782D /* Privacy.html in Resources */ = {isa = PBXBuildFile; fileRef = AE2968311CF69DFB00D2782D /* Privacy.html */; };
@@ -33,6 +36,10 @@
 		AEAC3B1E1D11330000A292F4 /* NoInterestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAC3B1D1D11330000A292F4 /* NoInterestView.swift */; };
 		AEAEEBD71CF81FA300E8DF08 /* VisitorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAEEBD61CF81FA300E8DF08 /* VisitorViewController.swift */; };
 		AEAEEBD91CF827A700E8DF08 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAEEBD81CF827A700E8DF08 /* User.swift */; };
+		AEAF09DE1D24C24F00AFFCF6 /* HotSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAF09DD1D24C24F00AFFCF6 /* HotSearch.swift */; };
+		AEAF09E61D24C68300AFFCF6 /* SKTag.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAF09E11D24C68300AFFCF6 /* SKTag.m */; };
+		AEAF09E71D24C68300AFFCF6 /* SKTagButton.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAF09E31D24C68300AFFCF6 /* SKTagButton.m */; };
+		AEAF09E81D24C68300AFFCF6 /* SKTagView.m in Sources */ = {isa = PBXBuildFile; fileRef = AEAF09E51D24C68300AFFCF6 /* SKTagView.m */; };
 		AEB8E9D71CFBE35900A105C4 /* SplitManagerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB8E9D61CFBE35900A105C4 /* SplitManagerViewController.swift */; };
 		AEB8E9D91CFBF42100A105C4 /* NewContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB8E9D81CFBF42100A105C4 /* NewContent.swift */; };
 		AEB8E9DB1CFBF53300A105C4 /* NewContentUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB8E9DA1CFBF53300A105C4 /* NewContentUtil.swift */; };
@@ -72,18 +79,9 @@
 		AEC489B71D0FF140009D81F6 /* AppdelegateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC489B61D0FF140009D81F6 /* AppdelegateExtension.swift */; };
 		AEC722691D239CFD004D4AA4 /* SKPhotoBrowser.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AEC722681D239CFD004D4AA4 /* SKPhotoBrowser.bundle */; };
 		AEC7226B1D23AAAF004D4AA4 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC7226A1D23AAAF004D4AA4 /* SearchTableViewCell.swift */; };
-		AEC7226E1D23ABB4004D4AA4 /* SearchViewControllerDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC7226D1D23ABB4004D4AA4 /* SearchViewControllerDataSource.swift */; };
+		AEC7226E1D23ABB4004D4AA4 /* SearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC7226D1D23ABB4004D4AA4 /* SearchDataSource.swift */; };
 		AEC722701D23B02E004D4AA4 /* SearchHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC7226F1D23B02E004D4AA4 /* SearchHistory.swift */; };
-		AEC722731D23B2E1004D4AA4 /* SearchListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC722721D23B2E1004D4AA4 /* SearchListViewController.swift */; };
-		AEC722761D23B6E1004D4AA4 /* SLTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC722751D23B6E1004D4AA4 /* SLTransition.swift */; };
-		AEC722781D23BBF0004D4AA4 /* SLDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC722771D23BBF0004D4AA4 /* SLDataSource.swift */; };
-		AEC722861D23CA46004D4AA4 /* CColorConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = AEC7227B1D23CA46004D4AA4 /* CColorConverter.m */; };
-		AEC722871D23CA46004D4AA4 /* CMarkupTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = AEC7227D1D23CA46004D4AA4 /* CMarkupTransformer.m */; };
-		AEC722881D23CA46004D4AA4 /* CSimpleMarkupParser.m in Sources */ = {isa = PBXBuildFile; fileRef = AEC7227F1D23CA46004D4AA4 /* CSimpleMarkupParser.m */; };
-		AEC722891D23CA46004D4AA4 /* NSString+MarkupExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = AEC722811D23CA46004D4AA4 /* NSString+MarkupExtensions.m */; };
-		AEC7228A1D23CA46004D4AA4 /* UIFont+StyleUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = AEC722831D23CA46004D4AA4 /* UIFont+StyleUtilities.m */; };
-		AEC7228B1D23CA46004D4AA4 /* UILabel+MarkupExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = AEC722851D23CA46004D4AA4 /* UILabel+MarkupExtensions.m */; };
-		AEC89F251D2380F7002CEC6C /* SearchViewControllerTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC89F241D2380F7002CEC6C /* SearchViewControllerTransition.swift */; };
+		AEC89F251D2380F7002CEC6C /* SearchTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC89F241D2380F7002CEC6C /* SearchTransition.swift */; };
 		AEC9659E1CF5A2E70053A88D /* User.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AEC9659D1CF5A2E70053A88D /* User.storyboard */; };
 		AEC965A11CF5A4EF0053A88D /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC965A01CF5A4EF0053A88D /* CustomView.swift */; };
 		AEC965A51CF5AC900053A88D /* UserSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC965A41CF5AC900053A88D /* UserSettingViewController.swift */; };
@@ -136,6 +134,9 @@
 		6DC4FDD41CF031E000D25A99 /* KDRearrangeableCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KDRearrangeableCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		81231C5CF554FB534D99E67C /* Pods-Journalism.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Journalism.release.xcconfig"; path = "Pods/Target Support Files/Pods-Journalism/Pods-Journalism.release.xcconfig"; sourceTree = "<group>"; };
 		AE0A837A1D128D7A00331134 /* UserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
+		AE0A89671D24D87200C85B27 /* SLDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SLDataSource.swift; sourceTree = "<group>"; };
+		AE0A89681D24D87200C85B27 /* SLTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SLTransition.swift; sourceTree = "<group>"; };
+		AE0A89691D24D87200C85B27 /* SearchListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchListViewController.swift; sourceTree = "<group>"; };
 		AE0FE5431CF301E8007DA198 /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		AE29682F1CF69D4400D2782D /* PrivacyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyViewController.swift; sourceTree = "<group>"; };
 		AE2968311CF69DFB00D2782D /* Privacy.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Privacy.html; sourceTree = "<group>"; };
@@ -152,6 +153,13 @@
 		AEAC3B1D1D11330000A292F4 /* NoInterestView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoInterestView.swift; sourceTree = "<group>"; };
 		AEAEEBD61CF81FA300E8DF08 /* VisitorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisitorViewController.swift; sourceTree = "<group>"; };
 		AEAEEBD81CF827A700E8DF08 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		AEAF09DD1D24C24F00AFFCF6 /* HotSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotSearch.swift; sourceTree = "<group>"; };
+		AEAF09E01D24C68300AFFCF6 /* SKTag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKTag.h; sourceTree = "<group>"; };
+		AEAF09E11D24C68300AFFCF6 /* SKTag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKTag.m; sourceTree = "<group>"; };
+		AEAF09E21D24C68300AFFCF6 /* SKTagButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKTagButton.h; sourceTree = "<group>"; };
+		AEAF09E31D24C68300AFFCF6 /* SKTagButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKTagButton.m; sourceTree = "<group>"; };
+		AEAF09E41D24C68300AFFCF6 /* SKTagView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SKTagView.h; sourceTree = "<group>"; };
+		AEAF09E51D24C68300AFFCF6 /* SKTagView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SKTagView.m; sourceTree = "<group>"; };
 		AEB8E9D61CFBE35900A105C4 /* SplitManagerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplitManagerViewController.swift; sourceTree = "<group>"; };
 		AEB8E9D81CFBF42100A105C4 /* NewContent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewContent.swift; sourceTree = "<group>"; };
 		AEB8E9DA1CFBF53300A105C4 /* NewContentUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewContentUtil.swift; sourceTree = "<group>"; };
@@ -193,24 +201,9 @@
 		AEC489B61D0FF140009D81F6 /* AppdelegateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppdelegateExtension.swift; sourceTree = "<group>"; };
 		AEC722681D239CFD004D4AA4 /* SKPhotoBrowser.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SKPhotoBrowser.bundle; sourceTree = "<group>"; };
 		AEC7226A1D23AAAF004D4AA4 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
-		AEC7226D1D23ABB4004D4AA4 /* SearchViewControllerDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewControllerDataSource.swift; sourceTree = "<group>"; };
+		AEC7226D1D23ABB4004D4AA4 /* SearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchDataSource.swift; sourceTree = "<group>"; };
 		AEC7226F1D23B02E004D4AA4 /* SearchHistory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchHistory.swift; sourceTree = "<group>"; };
-		AEC722721D23B2E1004D4AA4 /* SearchListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchListViewController.swift; sourceTree = "<group>"; };
-		AEC722751D23B6E1004D4AA4 /* SLTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SLTransition.swift; sourceTree = "<group>"; };
-		AEC722771D23BBF0004D4AA4 /* SLDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SLDataSource.swift; sourceTree = "<group>"; };
-		AEC7227A1D23CA46004D4AA4 /* CColorConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CColorConverter.h; sourceTree = "<group>"; };
-		AEC7227B1D23CA46004D4AA4 /* CColorConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CColorConverter.m; sourceTree = "<group>"; };
-		AEC7227C1D23CA46004D4AA4 /* CMarkupTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMarkupTransformer.h; sourceTree = "<group>"; };
-		AEC7227D1D23CA46004D4AA4 /* CMarkupTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMarkupTransformer.m; sourceTree = "<group>"; };
-		AEC7227E1D23CA46004D4AA4 /* CSimpleMarkupParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSimpleMarkupParser.h; sourceTree = "<group>"; };
-		AEC7227F1D23CA46004D4AA4 /* CSimpleMarkupParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSimpleMarkupParser.m; sourceTree = "<group>"; };
-		AEC722801D23CA46004D4AA4 /* NSString+MarkupExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MarkupExtensions.h"; sourceTree = "<group>"; };
-		AEC722811D23CA46004D4AA4 /* NSString+MarkupExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MarkupExtensions.m"; sourceTree = "<group>"; };
-		AEC722821D23CA46004D4AA4 /* UIFont+StyleUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+StyleUtilities.h"; sourceTree = "<group>"; };
-		AEC722831D23CA46004D4AA4 /* UIFont+StyleUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+StyleUtilities.m"; sourceTree = "<group>"; };
-		AEC722841D23CA46004D4AA4 /* UILabel+MarkupExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+MarkupExtensions.h"; sourceTree = "<group>"; };
-		AEC722851D23CA46004D4AA4 /* UILabel+MarkupExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+MarkupExtensions.m"; sourceTree = "<group>"; };
-		AEC89F241D2380F7002CEC6C /* SearchViewControllerTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewControllerTransition.swift; sourceTree = "<group>"; };
+		AEC89F241D2380F7002CEC6C /* SearchTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTransition.swift; sourceTree = "<group>"; };
 		AEC9659D1CF5A2E70053A88D /* User.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = User.storyboard; sourceTree = "<group>"; };
 		AEC965A01CF5A4EF0053A88D /* CustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
 		AEC965A41CF5AC900053A88D /* UserSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingViewController.swift; sourceTree = "<group>"; };
@@ -274,8 +267,8 @@
 				6DC4FDBA1CF0314700D25A99 /* HomeViewController */,
 				6DC4FDC21CF0314700D25A99 /* NewslistViewController */,
 				AEFB55181CF462B3005FC23E /* UserCenterViewController */,
-				AEC722711D23B2D0004D4AA4 /* SearchListViewController */,
 				AE7C51A21D0D687B005E6A5A /* SearchViewController */,
+				AE0A89651D24D87200C85B27 /* SearchResultViewController */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -336,6 +329,24 @@
 			path = ChannelManager;
 			sourceTree = "<group>";
 		};
+		AE0A89651D24D87200C85B27 /* SearchResultViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AE0A89661D24D87200C85B27 /* extension */,
+				AE0A89691D24D87200C85B27 /* SearchListViewController.swift */,
+			);
+			path = SearchResultViewController;
+			sourceTree = "<group>";
+		};
+		AE0A89661D24D87200C85B27 /* extension */ = {
+			isa = PBXGroup;
+			children = (
+				AE0A89671D24D87200C85B27 /* SLDataSource.swift */,
+				AE0A89681D24D87200C85B27 /* SLTransition.swift */,
+			);
+			path = extension;
+			sourceTree = "<group>";
+		};
 		AE7C51A21D0D687B005E6A5A /* SearchViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -373,6 +384,19 @@
 			path = VisitorViewController;
 			sourceTree = "<group>";
 		};
+		AEAF09DF1D24C68300AFFCF6 /* SKTagView */ = {
+			isa = PBXGroup;
+			children = (
+				AEAF09E01D24C68300AFFCF6 /* SKTag.h */,
+				AEAF09E11D24C68300AFFCF6 /* SKTag.m */,
+				AEAF09E21D24C68300AFFCF6 /* SKTagButton.h */,
+				AEAF09E31D24C68300AFFCF6 /* SKTagButton.m */,
+				AEAF09E41D24C68300AFFCF6 /* SKTagView.h */,
+				AEAF09E51D24C68300AFFCF6 /* SKTagView.m */,
+			);
+			path = SKTagView;
+			sourceTree = "<group>";
+		};
 		AEB8E9D51CFBE34E00A105C4 /* SplitManagerViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -400,6 +424,7 @@
 				AEEE61971CFE9CEF00C5FF08 /* Comment.swift */,
 				AEA103501D056FAD0086968B /* About.swift */,
 				AEC7226F1D23B02E004D4AA4 /* SearchHistory.swift */,
+				AEAF09DD1D24C24F00AFFCF6 /* HotSearch.swift */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -506,7 +531,7 @@
 			isa = PBXGroup;
 			children = (
 				AEDDCEF81D100FDB00498D47 /* UTIL.swift */,
-				AEC722791D23CA46004D4AA4 /* Source */,
+				AEAF09DF1D24C68300AFFCF6 /* SKTagView */,
 				AEF29AF31D239671006D1412 /* PhotoBrower */,
 				AEE7D2241D0E586100761E74 /* RefreshView */,
 				AEDECF2C1D0D231300CDCE2B /* CustomWebView */,
@@ -627,53 +652,15 @@
 		AEC7226C1D23ABA5004D4AA4 /* extension */ = {
 			isa = PBXGroup;
 			children = (
-				AEC7226D1D23ABB4004D4AA4 /* SearchViewControllerDataSource.swift */,
+				AEC7226D1D23ABB4004D4AA4 /* SearchDataSource.swift */,
 			);
 			path = extension;
-			sourceTree = "<group>";
-		};
-		AEC722711D23B2D0004D4AA4 /* SearchListViewController */ = {
-			isa = PBXGroup;
-			children = (
-				AEC722741D23B6D2004D4AA4 /* extension */,
-				AEC722721D23B2E1004D4AA4 /* SearchListViewController.swift */,
-			);
-			name = SearchListViewController;
-			path = SearchViewController/SearchListViewController;
-			sourceTree = "<group>";
-		};
-		AEC722741D23B6D2004D4AA4 /* extension */ = {
-			isa = PBXGroup;
-			children = (
-				AEC722751D23B6E1004D4AA4 /* SLTransition.swift */,
-				AEC722771D23BBF0004D4AA4 /* SLDataSource.swift */,
-			);
-			path = extension;
-			sourceTree = "<group>";
-		};
-		AEC722791D23CA46004D4AA4 /* Source */ = {
-			isa = PBXGroup;
-			children = (
-				AEC7227A1D23CA46004D4AA4 /* CColorConverter.h */,
-				AEC7227B1D23CA46004D4AA4 /* CColorConverter.m */,
-				AEC7227C1D23CA46004D4AA4 /* CMarkupTransformer.h */,
-				AEC7227D1D23CA46004D4AA4 /* CMarkupTransformer.m */,
-				AEC7227E1D23CA46004D4AA4 /* CSimpleMarkupParser.h */,
-				AEC7227F1D23CA46004D4AA4 /* CSimpleMarkupParser.m */,
-				AEC722801D23CA46004D4AA4 /* NSString+MarkupExtensions.h */,
-				AEC722811D23CA46004D4AA4 /* NSString+MarkupExtensions.m */,
-				AEC722821D23CA46004D4AA4 /* UIFont+StyleUtilities.h */,
-				AEC722831D23CA46004D4AA4 /* UIFont+StyleUtilities.m */,
-				AEC722841D23CA46004D4AA4 /* UILabel+MarkupExtensions.h */,
-				AEC722851D23CA46004D4AA4 /* UILabel+MarkupExtensions.m */,
-			);
-			path = Source;
 			sourceTree = "<group>";
 		};
 		AEC89F231D2380DC002CEC6C /* custom */ = {
 			isa = PBXGroup;
 			children = (
-				AEC89F241D2380F7002CEC6C /* SearchViewControllerTransition.swift */,
+				AEC89F241D2380F7002CEC6C /* SearchTransition.swift */,
 				AEC7226A1D23AAAF004D4AA4 /* SearchTableViewCell.swift */,
 			);
 			path = custom;
@@ -975,24 +962,21 @@
 				AEB8E9D71CFBE35900A105C4 /* SplitManagerViewController.swift in Sources */,
 				AEC47B421D0033610055936D /* DetailAndCommitViewController.swift in Sources */,
 				6DC4FDCF1CF0314700D25A99 /* NewslistViewController.swift in Sources */,
-				AEC7228B1D23CA46004D4AA4 /* UILabel+MarkupExtensions.m in Sources */,
 				AEC1D5BD1CED960100B1F00C /* New.swift in Sources */,
 				AEF29AFF1D239671006D1412 /* PhotoBrowerImageView.swift in Sources */,
 				AEC489B71D0FF140009D81F6 /* AppdelegateExtension.swift in Sources */,
 				AEE3B51C1D17FF57008BC0EA /* RequestCustomClass.swift in Sources */,
 				AEC47B481D0037A50055936D /* InputExtension.swift in Sources */,
 				AEFB55151CF41407005FC23E /* Curly.swift in Sources */,
-				AEC722861D23CA46004D4AA4 /* CColorConverter.m in Sources */,
 				AEC965A51CF5AC900053A88D /* UserSettingViewController.swift in Sources */,
 				AEC47B4A1D0037CD0055936D /* CommentButton.swift in Sources */,
 				AEC1D5BF1CED9BBD00B1F00C /* NewsUtil.swift in Sources */,
 				AEF29B001D239671006D1412 /* PhotoBrowerProgressView.swift in Sources */,
-				AEC722871D23CA46004D4AA4 /* CMarkupTransformer.m in Sources */,
 				AEBCAEE81CEC27A900EBFC0A /* Channel.swift in Sources */,
 				6DC4FDCE1CF0314700D25A99 /* NewListExtension.swift in Sources */,
 				AEBEAA921D1A35EB004D3178 /* UserCommentViewController.swift in Sources */,
-				AEC722881D23CA46004D4AA4 /* CSimpleMarkupParser.m in Sources */,
-				AEC89F251D2380F7002CEC6C /* SearchViewControllerTransition.swift in Sources */,
+				AE0A896A1D24D87200C85B27 /* SLDataSource.swift in Sources */,
+				AEC89F251D2380F7002CEC6C /* SearchTransition.swift in Sources */,
 				AEF29B041D239671006D1412 /* SKLocalPhoto.swift in Sources */,
 				AEA103531D0571F80086968B /* AboutUtil.swift in Sources */,
 				AEF29B071D239671006D1412 /* SKZoomingScrollView.swift in Sources */,
@@ -1005,13 +989,14 @@
 				AEC47B021CFFF39D0055936D /* NewListDataSource.swift in Sources */,
 				AEC09CD41CE9776800D5A5CC /* AppDelegate.swift in Sources */,
 				AEC7226B1D23AAAF004D4AA4 /* SearchTableViewCell.swift in Sources */,
+				AE0A896B1D24D87200C85B27 /* SLTransition.swift in Sources */,
 				AEDECF291D0D11D100CDCE2B /* DataSourceExtension.swift in Sources */,
 				AEBCAEEB1CEC2ADB00EBFC0A /* ChannelUtil.swift in Sources */,
+				AEAF09DE1D24C24F00AFFCF6 /* HotSearch.swift in Sources */,
 				AEBCAEFA1CEC419600EBFC0A /* CustomExtensionView.swift in Sources */,
 				AEA1D0CA1D1BA7AB007AD1E5 /* CustomNSURLCache.swift in Sources */,
 				AEF29B091D239671006D1412 /* UIView+Radius.swift in Sources */,
 				AEBEAA9A1D1A46F2004D3178 /* CollExtension.swift in Sources */,
-				AEC722731D23B2E1004D4AA4 /* SearchListViewController.swift in Sources */,
 				AE2968301CF69D4400D2782D /* PrivacyViewController.swift in Sources */,
 				AEB8E9D91CFBF42100A105C4 /* NewContent.swift in Sources */,
 				AEAC3B1C1D1132BC00A292F4 /* WaitView.swift in Sources */,
@@ -1020,25 +1005,22 @@
 				AEE2FC0D1D22311400546E6B /* XCache.swift in Sources */,
 				AEAEEBD71CF81FA300E8DF08 /* VisitorViewController.swift in Sources */,
 				AEC47B301D0032E20055936D /* DetailViewController.swift in Sources */,
-				AEC7228A1D23CA46004D4AA4 /* UIFont+StyleUtilities.m in Sources */,
 				AEF420B41CF8019700CFAF73 /* UIViewControllerExtension.swift in Sources */,
 				AEBEAA951D1A3F5B004D3178 /* MessageViewController.swift in Sources */,
 				AEF29B021D239671006D1412 /* PhotoBrowerZoomScrollView.swift in Sources */,
 				AEFB55171CF41F10005FC23E /* NotLikeExtension.swift in Sources */,
 				6DC4FDD51CF031E000D25A99 /* ChannelManager.swift in Sources */,
-				AEC722761D23B6E1004D4AA4 /* SLTransition.swift in Sources */,
 				AEC47B2E1D0032E20055936D /* BorderView.swift in Sources */,
 				AEAEEBD91CF827A700E8DF08 /* User.swift in Sources */,
 				AEDECF4E1D0D29B200CDCE2B /* GDWebViewNavigationToolbar.swift in Sources */,
-				AEC722781D23BBF0004D4AA4 /* SLDataSource.swift in Sources */,
 				AEDDCEF91D100FDB00498D47 /* UTIL.swift in Sources */,
 				AEF29B011D239671006D1412 /* PhotoBrowerTapView.swift in Sources */,
 				AEC47B441D0033A60055936D /* ShareExtension.swift in Sources */,
 				AEEE61981CFE9CEF00C5FF08 /* Comment.swift in Sources */,
 				AEC47B291D0032E20055936D /* CommExtension.swift in Sources */,
+				AEAF09E61D24C68300AFFCF6 /* SKTag.m in Sources */,
 				AE0A837B1D128D7A00331134 /* UserView.swift in Sources */,
 				AEBCAEF81CEC418200EBFC0A /* CircularButtonBarView.swift in Sources */,
-				AEC722891D23CA46004D4AA4 /* NSString+MarkupExtensions.m in Sources */,
 				AEF29B061D239671006D1412 /* SKPhotoBrowser.swift in Sources */,
 				AEECBC4D1D13B30E00529150 /* SlideFontSizeView.swift in Sources */,
 				AE7C51A41D0D6893005E6A5A /* SearchViewController.swift in Sources */,
@@ -1046,7 +1028,9 @@
 				AEEE619A1CFE9DE900C5FF08 /* CommentUtil.swift in Sources */,
 				AEAC3B151D11077D00A292F4 /* UserCenterExtension.swift in Sources */,
 				AEC1D5C41CEDC22700B1F00C /* DateExt.swift in Sources */,
-				AEC7226E1D23ABB4004D4AA4 /* SearchViewControllerDataSource.swift in Sources */,
+				AEAF09E81D24C68300AFFCF6 /* SKTagView.m in Sources */,
+				AEC7226E1D23ABB4004D4AA4 /* SearchDataSource.swift in Sources */,
+				AEAF09E71D24C68300AFFCF6 /* SKTagButton.m in Sources */,
 				AEF29B031D239671006D1412 /* SKCaptionView.swift in Sources */,
 				AEC47B2F1D0032E20055936D /* CustomTableViewCell.swift in Sources */,
 				AEB8E9DB1CFBF53300A105C4 /* NewContentUtil.swift in Sources */,
@@ -1058,6 +1042,7 @@
 				AEC965A81CF5AFE70053A88D /* AboutViewController.swift in Sources */,
 				AEC47B261D0032E20055936D /* CommitViewController.swift in Sources */,
 				6DC4FDD71CF031E000D25A99 /* KDRearrangeableCollectionViewFlowLayout.swift in Sources */,
+				AE0A896C1D24D87200C85B27 /* SearchListViewController.swift in Sources */,
 				AEC47B281D0032E20055936D /* CommDataSource.swift in Sources */,
 				AEDECF4D1D0D29B200CDCE2B /* GDWebViewController.swift in Sources */,
 				AEECBC4F1D13E93100529150 /* UIFontExtension.swift in Sources */,

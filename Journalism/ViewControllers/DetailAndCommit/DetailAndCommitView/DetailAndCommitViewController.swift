@@ -124,29 +124,40 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
     /// 点击新闻收藏按钮
     @IBAction func touchCollected(sender: AnyObject) {
         
-        if let n = self.new {
+        if ShareLUser.utype == 2 {
             
-            CustomRequest.collectedNew(n, finish: {
+            NSNotificationCenter.defaultCenter().postNotificationName(USERNEDDLOGINTHENCANDOSOMETHING, object: nil)
+        }else{
+            
+            if let n = self.new {
                 
-                
-                }, fail: {
+                CustomRequest.collectedNew(n, finish: {
                     
-            })
+                    
+                    }, fail: {
+                        
+                })
+            }
         }
-        
     }
     
     /// 点击取消新闻收藏按钮
     @IBAction func touchNoCollected(sender: AnyObject) {
         
-        if let n = self.new {
+        if ShareLUser.utype == 2 {
             
-            CustomRequest.nocollectedNew(n, finish: {
+            NSNotificationCenter.defaultCenter().postNotificationName(USERNEDDLOGINTHENCANDOSOMETHING, object: nil)
+        }else{
+            
+            if let n = self.new {
                 
-                
-                }, fail: { 
+                CustomRequest.nocollectedNew(n, finish: {
                     
-            })
+                    
+                    }, fail: {
+                        
+                })
+            }
         }
     }
     

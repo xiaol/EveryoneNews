@@ -77,12 +77,12 @@ class PhotoBrowerImageView: FLAnimatedImageView {
                 if process == 1 {
                 
                     self.progressView.hidden = true
+                    
+                    self.progressView.removeFromSuperview()
                 }
             })
 
         }) { (result) in
-            
-            self.progressView.hidden = true
             
             dispatch_async(dispatch_get_main_queue(), { 
                 if let error = result.error {

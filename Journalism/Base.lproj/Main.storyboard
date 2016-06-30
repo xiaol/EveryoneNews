@@ -1606,7 +1606,7 @@
                                                     <outlet property="titleLabel" destination="OrU-dg-nzq" id="W9T-kF-IHb"/>
                                                 </connections>
                                             </tableViewCell>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="hot" rowHeight="54" id="xyW-mw-zQd" customClass="SearchHistoryTableViewCell" customModule="Journalism" customModuleProvider="target">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="his" rowHeight="54" id="xyW-mw-zQd" customClass="SearchHistoryTableViewCell" customModule="Journalism" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="85" width="600" height="54"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xyW-mw-zQd" id="jVf-kK-dMD">
@@ -1630,13 +1630,28 @@
                                                     <outlet property="titleLabel" destination="fPD-e1-zCS" id="UCi-3F-cjt"/>
                                                 </connections>
                                             </tableViewCell>
-                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="his" rowHeight="182" id="VzD-Zn-qt0">
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="hot" rowHeight="182" id="VzD-Zn-qt0" customClass="SearchHotTableViewCell" customModule="Journalism" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="139" width="600" height="182"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VzD-Zn-qt0" id="yY6-7n-RBz">
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="182"/>
                                                     <autoresizingMask key="autoresizingMask"/>
+                                                    <subviews>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OMi-v3-Id6" customClass="SKTagView">
+                                                            <rect key="frame" x="0.0" y="0.0" width="600" height="182"/>
+                                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </view>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstAttribute="bottom" secondItem="OMi-v3-Id6" secondAttribute="bottom" id="HYD-7w-dJr"/>
+                                                        <constraint firstItem="OMi-v3-Id6" firstAttribute="leading" secondItem="yY6-7n-RBz" secondAttribute="leading" id="O0J-PH-TnD"/>
+                                                        <constraint firstItem="OMi-v3-Id6" firstAttribute="top" secondItem="yY6-7n-RBz" secondAttribute="top" id="XHO-7N-6rQ"/>
+                                                        <constraint firstAttribute="trailing" secondItem="OMi-v3-Id6" secondAttribute="trailing" id="taC-pd-4yY"/>
+                                                    </constraints>
                                                 </tableViewCellContentView>
+                                                <connections>
+                                                    <outlet property="tagView" destination="OMi-v3-Id6" id="fXy-XX-fmF"/>
+                                                </connections>
                                             </tableViewCell>
                                         </prototypes>
                                         <connections>
@@ -2624,20 +2639,20 @@
                                                     </constraints>
                                                     <variation key="default">
                                                         <mask key="constraints">
-                                                            <exclude reference="UrS-wc-LUi"/>
                                                             <exclude reference="MgN-GV-G7V"/>
+                                                            <exclude reference="UrS-wc-LUi"/>
                                                         </mask>
                                                     </variation>
                                                     <variation key="heightClass=compact">
                                                         <mask key="constraints">
-                                                            <include reference="UrS-wc-LUi"/>
                                                             <include reference="MgN-GV-G7V"/>
+                                                            <include reference="UrS-wc-LUi"/>
                                                         </mask>
                                                     </variation>
                                                     <variation key="heightClass=regular">
                                                         <mask key="constraints">
-                                                            <exclude reference="UrS-wc-LUi"/>
                                                             <include reference="MgN-GV-G7V"/>
+                                                            <exclude reference="UrS-wc-LUi"/>
                                                         </mask>
                                                     </variation>
                                                 </tableViewCellContentView>
@@ -2811,20 +2826,20 @@
                                                     </constraints>
                                                     <variation key="default">
                                                         <mask key="constraints">
-                                                            <exclude reference="Wu4-DF-vWG"/>
                                                             <exclude reference="LlA-MA-dIe"/>
+                                                            <exclude reference="Wu4-DF-vWG"/>
                                                         </mask>
                                                     </variation>
                                                     <variation key="heightClass=compact">
                                                         <mask key="constraints">
-                                                            <include reference="Wu4-DF-vWG"/>
                                                             <include reference="LlA-MA-dIe"/>
+                                                            <include reference="Wu4-DF-vWG"/>
                                                         </mask>
                                                     </variation>
                                                     <variation key="heightClass=regular">
                                                         <mask key="constraints">
-                                                            <exclude reference="Wu4-DF-vWG"/>
                                                             <include reference="LlA-MA-dIe"/>
+                                                            <exclude reference="Wu4-DF-vWG"/>
                                                         </mask>
                                                     </variation>
                                                 </tableViewCellContentView>

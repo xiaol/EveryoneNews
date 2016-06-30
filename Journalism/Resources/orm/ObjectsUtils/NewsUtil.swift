@@ -20,6 +20,8 @@ class NewsUtil: NSObject {
      */
     class func searchNewArrayByKey(key:String,p:String="1",l:String="20",delete:Bool=true,finish:((nomore:Bool)->Void)?=nil,fail:(()->Void)?=nil){
         
+        SearchHistory.create(key)
+        
         SearchAPI.nsEsSGet(keywords: key, p: p, l: l) { (datas, error) in
             
             guard let body = datas,code = body.objectForKey("code") as? Int else {fail?();return}
@@ -40,7 +42,7 @@ class NewsUtil: NSObject {
                     realm.create(New.self, value: channel, update: true)
                     self.AnalysisPutTimeAndImageList(channel as! NSDictionary, realm: realm,iscollected:0)
                     if let nid = channel.objectForKey("nid") as? Int {
-                        realm.create(New.self, value: ["nid":nid,"issearch":1], update: true)
+                        realm.create(New.self, value: ["nid":nid,"issearch":1,"channel":999], update: true)
                     }
                 }
             })

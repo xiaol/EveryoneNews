@@ -38,7 +38,7 @@ extension SearchHistory{
         
         try! realm.write {
             
-            realm.create(SearchHistory.self, value: ["title":key], update: true)
+            realm.create(SearchHistory.self, value: ["title":key,"ctimes":NSDate()], update: true)
         }
     }
     

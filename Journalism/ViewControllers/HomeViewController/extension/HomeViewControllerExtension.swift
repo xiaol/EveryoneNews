@@ -20,8 +20,18 @@ extension HomeViewController{
         self.ReloadChannelHttpRequest()
         self.initialPagerTabStripMethod()
         
-        // 获得字体变化通知，完成刷新字体大小方法
+        /**
+         *  该方法会检测用户设置字体大小的方法
+         *  当用户设置字体后，会发起该通知。完成修改频道排序列表显示的方法以及频道列表的字体修改
+         *
+         *  @param FONTMODALSTYLEIDENTIFITER  用户发起的通知的名称
+         *  @param nil                        所携带的数据
+         *  @param NSOperationQueue.mainQueue 需要执行接下来操作的县城
+         *
+         *  @return 所需要完成的操作
+         */
         NSNotificationCenter.defaultCenter().addObserverForName(FONTMODALSTYLEIDENTIFITER, object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+            
             self.ChannelManagerContainerCollectionView.reloadData()
             self.buttonBarView.reloadData()
         }

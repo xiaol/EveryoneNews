@@ -197,4 +197,40 @@ class CustomRequest: NSObject {
             finish?()
         }
     }
+    
+    /**
+     获取热点搜索接口
+     
+     - parameter comment: 评论对象
+     - parameter finish:  点赞完成
+     - parameter fail:    点赞失败
+     */
+    class func HotSearch(finish:(()->Void)?=nil,fail:(()->Void)?=nil){
+
+        Manager.shareManager.request(.POST, "http://121.40.34.56/news/baijia/fetchElementary").responseJSON { (res) in
+            
+            guard let result = res.result.value as? NSArray else{ fail?();return}
+            
+            let realm = try! Realm()
+            
+            try! realm.write({
+            
+                realm.delete(realm.objects(HotSearchs))
+                
+                for hotSearch in result {
+                    
+                    realm.create(HotSearchs.self, value: hotSearch, update: true)
+                    
+                    if let title = hotSearch.objectForKey("title") as? String,let pubTime = hotSearch.objectForKey("createTime") as? String{
+                    
+                        let date = NSDate(fromString: pubTime, format: DateFormat.Custom("yyyy-MM-dd HH:mm:ss"))
+                        
+                        realm.create(HotSearchs.self, value: ["title":title,"createTimes":date], update: true)
+                    }
+                }
+            })
+            
+            finish?()
+        }
+    }
 }
