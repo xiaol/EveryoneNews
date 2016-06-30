@@ -23,5 +23,6 @@
 
 - (void)hideLoadingView;
 
+- (void)handleDataAfterChannelItemChanged:(NSInteger)index;
  
 @end

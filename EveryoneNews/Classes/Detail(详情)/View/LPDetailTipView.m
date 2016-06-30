@@ -59,6 +59,9 @@
             case 8:
                 tipStr = @"您已赞过";
                 break;
+            case 9:
+                tipStr = @"字数太多";
+                break;
             default:
                 break;
         }

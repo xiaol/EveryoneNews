@@ -22,6 +22,7 @@
 @class LPPress;
 @class LPConcernPress;
 @class LPConcern;
+@class LPSearchCardFrame;
 
 @interface LPDetailViewController : LPBaseViewController
 
@@ -39,8 +40,7 @@
 @property (nonatomic, strong) NSMutableArray *fulltextCommentFrames;
 
 @property (nonatomic, strong) NSManagedObjectID *cardID;
-//@property (nonatomic, strong) Card *card;
-//@property (nonatomic, copy) NSString *channelID;
+
 @property (nonatomic, strong) LPDetailTopView *topView;
 @property (nonatomic, strong) LPDetailBottomView *bottomView;
 
@@ -63,6 +63,9 @@
 @property (nonatomic, strong) NSNumber *isRead;
 
 @property (nonatomic, strong) UIWindow *statusWindow;
+
+@property (nonatomic, assign) NSInteger sourceViewController;
+@property (nonatomic, strong) LPSearchCardFrame *searchCardFrame;
 
 - (void)removeBackgroundView;
 

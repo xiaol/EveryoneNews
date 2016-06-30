@@ -17,8 +17,8 @@ typedef void(^channelItemDidChangedBlock)(NSDictionary *dict);
 @property (nonatomic, strong) NSMutableArray *selectedArray;
 // 可选频道
 @property (nonatomic, strong) NSMutableArray *optionalArray;
-
 // 记录选中菜单栏名称
 @property (nonatomic, copy) NSString *selectedChannelTitle;
 @property (nonatomic, copy) channelItemDidChangedBlock channelItemDidChangedBlock;
+
 @end

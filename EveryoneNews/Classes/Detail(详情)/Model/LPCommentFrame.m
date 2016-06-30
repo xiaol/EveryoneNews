@@ -32,7 +32,7 @@ static const CGFloat userIconWidth = 38.0f;
     
     CGFloat nameX = CGRectGetMaxX(_iconF) + namePaddingLeft;
     CGFloat nameY = iconPaddingTop - 2;
-    CGFloat nameW = 200;
+    CGFloat nameW = 140;
     CGFloat nameH = [@"123" heightForLineWithFont:[UIFont systemFontOfSize:LPFont4]];
     _nameF = CGRectMake(nameX, nameY, nameW, nameH);
     

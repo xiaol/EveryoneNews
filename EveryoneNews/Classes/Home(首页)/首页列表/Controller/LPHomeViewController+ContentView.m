@@ -59,18 +59,81 @@ NSString *const reusePageID = @"reusePageID";
                 for (Card *card in cards) {
                     CardFrame *cf = [[CardFrame alloc] init];
                     cf.card = card;
-                    [cfs addObject:cf];                    
+                    [cfs addObject:cf];
+                  
                 }
                 [self.channelItemDictionary setObject:cfs forKey:channelItem.channelName];
             }
             if (i == self.selectedArray.count - 1) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                   [self.pagingView reloadData];   
-                });
-              
+                   [self.pagingView reloadData];
             }
         }];
     }
+}
+
+
+#pragma mark - 频道栏发生变化更新相应数据
+- (void)handleDataAfterChannelItemChanged:(NSInteger)index {
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSIndexPath *menuIndexPath = [NSIndexPath indexPathForItem:index
+                                                             inSection:0];
+            [self.menuView reloadData];
+            [self.menuView selectItemAtIndexPath:menuIndexPath
+                                        animated:NO
+                                  scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+        });
+    
+        // 添加频道时如果本地数据库中数据已经存在则直接加载到内存中
+        for (int i = 0; i < self.selectedArray.count; i++) {
+            
+            LPChannelItem *channelItem = (LPChannelItem *)[self.selectedArray objectAtIndex:i];
+            if (!self.channelItemDictionary[channelItem.channelName]) {
+                NSDate *currentDate = [NSDate date];
+                CardParam *param = [[CardParam alloc] init];
+                param.type = HomeCardsFetchTypeMore;
+                param.count = @(20);
+                NSDate *lastAccessDate = channelItem.lastAccessDate;
+                if (lastAccessDate == nil) {
+                    lastAccessDate = currentDate;
+                }
+                param.startTime = [NSString stringWithFormat:@"%lld", (long long)([lastAccessDate timeIntervalSince1970] * 1000)];
+                NSString *channelID = [LPChannelItemTool channelID:channelItem.channelName];
+                param.channelID = channelID;
+                NSMutableArray *cfs = [NSMutableArray array];
+                
+                [Card fetchCardsWithCardParam:param cardsArrayBlock:^(NSArray *cardsArray) {
+                    NSArray *cards = cardsArray;
+                    if (cards.count > 0) {
+                        for (Card *card in cards) {
+                            CardFrame *cf = [[CardFrame alloc] init];
+                            cf.card = card;
+                            [cfs addObject:cf];
+                        }
+                        [self.channelItemDictionary setObject:cfs forKey:channelItem.channelName];
+                    }
+                    if (i == self.selectedArray.count - 1) {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [self.pagingView reloadData];
+                            [self.pagingView setCurrentPageIndex:index animated:NO];
+                            [self loadMoreDataInPageAtPageIndex:index];
+                            
+                        });
+                    }
+                }];
+                
+            } else {
+                
+                if (i == self.selectedArray.count - 1) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.pagingView reloadData];
+                        [self.pagingView setCurrentPageIndex:index animated:NO];
+                        [self loadMoreDataInPageAtPageIndex:index];
+                        
+                    });
+                }
+            }
+        }
 }
 
 #pragma mark - LPPagingView DataSource
@@ -85,6 +148,10 @@ NSString *const reusePageID = @"reusePageID";
     page.cardFrames = self.channelItemDictionary[channelItem.channelName];
     page.cellIdentifier = self.cardCellIdentifierDictionary[@(pageIndex)];
     page.pageChannelName = channelItem.channelName;
+    
+//    NSLog(@"%@", channelItem.channelName);
+//    
+//    NSLog(@"%@", self.channelItemDictionary[channelItem.channelName]);
     return page;
 }
 
@@ -212,6 +279,7 @@ NSString *const reusePageID = @"reusePageID";
         }
         [self.channelItemDictionary setObject:cfs forKey:channelItem.channelName];
         [self.pagingView reloadPageAtPageIndex:pageIndex];
+
     } failure:^(NSError *error) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self hideLoadingView];

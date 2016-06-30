@@ -10,6 +10,7 @@
 
 @implementation LPHomeChannelItemTopView
 
+#pragma mark - initWithFrame
 - (instancetype)initWithFrame:(CGRect)frame {
     
     CGFloat topViewHeight = TabBarHeight + StatusBarHeight + 0.5;
@@ -67,7 +68,7 @@
 }
 
 
-#pragma mark - 点击返回按钮
+#pragma mark - 返回上一级
 - (void)topViewBackBtnClick {
     if ([self.delegate respondsToSelector:@selector(backButtonDidClick:)]) {
         [self.delegate backButtonDidClick:self];

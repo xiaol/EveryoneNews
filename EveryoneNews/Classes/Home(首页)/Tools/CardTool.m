@@ -36,6 +36,8 @@
         
         NSString *url = [NSString stringWithFormat:@"%@/v2/ns/fed/r", ServerUrlVersion2];
         [LPHttpTool getJsonAuthorizationWithURL:url authorization:authorization params:paramDict success:^(id json) {
+            NSLog(@"%@", json[@"code"]);
+            
             // 有数据
             if ([json[@"code"] integerValue] == 2000) {
                 [Card createCardsWithDictArray:json[@"data"] channelID:param.channelID cardsArrayBlock:^(NSArray *cardsArray) {

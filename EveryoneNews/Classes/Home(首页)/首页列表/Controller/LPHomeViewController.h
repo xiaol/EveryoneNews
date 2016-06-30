@@ -48,10 +48,6 @@
 @property (nonatomic, strong) NSMutableArray *cellAttributesArray;
 // 菜单背景蓝色
 @property (nonatomic, strong) UIView *menuBackgroundView;
-// 频道添加时动画标签
-@property (nonatomic, strong) UILabel *animationLabel;
-// 频道栏
-@property (nonatomic, strong) LPSortCollectionView *sortCollectionView;
 // 是否完成频道切换
 @property (nonatomic, assign) BOOL isSort;
 @property (nonatomic, assign) BOOL lastLabelIsHidden;

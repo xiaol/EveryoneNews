@@ -63,10 +63,18 @@
         
         
     } else if (_content.contentType == 3) {
-        
+        CGFloat bodyPadding = 13;
+        if (iPhone6Plus) {
+            bodyPadding = 19;
+        } else if (iPhone5) {
+            bodyPadding = 15;
+        } else if (iPhone6) {
+            bodyPadding = 18;
+        }
         CGFloat width = ScreenWidth - 2 * bodyPadding;
         CGFloat height = 3 * width / 4;
         _webViewF = CGRectMake(bodyPadding, 0, width , height);
+        _videoImageViewF = _webViewF;
         _cellHeight = CGRectGetMaxY(_webViewF) + 3.5f;
     }
 }

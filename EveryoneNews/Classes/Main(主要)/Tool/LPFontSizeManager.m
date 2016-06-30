@@ -95,8 +95,6 @@
     NSString *homeViewFontSizeType = [LPFontSizeManager sharedManager].currentHomeViewFontSizeType;
     [userDefaults setObject:homeViewFontSizeType forKey:@"homeViewFontSizeType"];
     
-    
-    
     // 强制立即将数据写入磁盘
     [userDefaults synchronize];
 }

@@ -9,6 +9,6 @@ target 'EveryoneNews' do
     pod 'Fabric'
     pod 'Crashlytics'
     pod 'SDWebImage', '~>3.7'
-    
+
 end
 

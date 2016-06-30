@@ -24,17 +24,13 @@
 #import "CardImage.h"
 #import "LPHomeRowManager.h"
 
-
 @interface LPPagingViewPage () <UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate, LPHomeViewCellDelegate>
 
-
 @property (nonatomic, strong) UIView *searchView;
-
 @property (nonatomic, strong) UILabel *promptLabel;
-
 @property (nonatomic, strong) UIView *blackBackgroundView;
-
 @property (nonatomic, strong) UITableView *tableView;
+
 @end
 
 @implementation LPPagingViewPage
@@ -241,18 +237,21 @@
     self.contentLoadingView = contentLoadingView;
 }
 
+#pragma mark - tapReloadPage
 - (void)tapReloadPage {
     if ([self.delegate respondsToSelector:@selector(didClickReloadPage:)]) {
         [self.delegate didClickReloadPage:self];
     }
 }
 
+#pragma mark - layoutSubviews
 - (void)layoutSubviews {
     [super layoutSubviews];
     self.tableView.frame = self.bounds;
     self.tableView.tableHeaderView = self.searchView;
 }
 
+#pragma mark - setCardFrames
 - (void)setCardFrames:(NSMutableArray *)cardFrames {
     _cardFrames = cardFrames;
     [self.tableView reloadData];
@@ -302,25 +301,19 @@
             
             if (cards.count > 0) {
                 
-            [cardFrame setCard:card tipButtonHidden:NO];
-                
-            for (int i = 0; i < (int)cards.count; i ++) {
-                CardFrame *cardFrame = [[CardFrame alloc] init];
-                cardFrame.card = cards[i];
-                [tempArray addObject:cardFrame];
+                [cardFrame setCard:card tipButtonHidden:NO];
+                    
+                for (int i = 0; i < (int)cards.count; i ++) {
+                    CardFrame *cardFrame = [[CardFrame alloc] init];
+                    cardFrame.card = cards[i];
+                    [tempArray addObject:cardFrame];
+                }
+                NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:
+                                       NSMakeRange(0,[tempArray count])];
+                [weakSelf.cardFrames insertObjects: tempArray atIndexes:indexes];
+                    
+                [weakSelf.tableView reloadData];
             }
-            NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:
-                                   NSMakeRange(0,[tempArray count])];
-            [weakSelf.cardFrames insertObjects: tempArray atIndexes:indexes];
-                
-            [weakSelf.tableView reloadData];
-            }
-            
-//            if (cards.count > 0) {
-//                if ([self.delegate respondsToSelector:@selector(page:updateCardFrames:)]) {
-//                    [self.delegate page:self updateCardFrames:self.cardFrames];
-//                }
-//            }
             
             [weakSelf showNewCount:tempArray.count];
             [weakSelf.tableView.header endRefreshing];
@@ -371,14 +364,7 @@
                 cardFrame.card = card;
                 [tempCardFrames addObject:cardFrame];
             }
-        self.cardFrames = tempCardFrames;
-            
-//        if (cards.count > 0) {
-//            if ([self.delegate respondsToSelector:@selector(page:updateCardFrames:)]) {
-//                [self.delegate page:self updateCardFrames:self.cardFrames];
-//            }
-//        }
-            
+        self.cardFrames = tempCardFrames;            
         [self.tableView.footer endRefreshing];
         if (!cards.count) {
             [self.tableView.footer noticeNoMoreData];

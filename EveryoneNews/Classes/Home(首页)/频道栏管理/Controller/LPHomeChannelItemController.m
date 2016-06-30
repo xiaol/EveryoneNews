@@ -14,12 +14,13 @@
 #import "LPHomeViewController.h"
 #import "LPHomeViewController+ChannelItemMenu.h"
 #import "LPHomeViewController+ContentView.h"
+#import "LXReorderableCollectionViewFlowLayout.h"
 
 static NSString *reuseIdentifierFooter = @"reuseIdentifierFooter";
 static NSString *reuseIdentifierHeader = @"reuseIdentifierHeader";
 static NSString *cellIdentifier = @"sortCollectionViewCell";
 
-@interface LPHomeChannelItemController ()<LPHomeChannelItemTopViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate>
+@interface LPHomeChannelItemController ()<LPHomeChannelItemTopViewDelegate, LXReorderableCollectionViewDataSource, LXReorderableCollectionViewDelegateFlowLayout>
 
 @property (nonatomic, strong) UICollectionView *sortCollectionView;
 // 频道添加时动画标签
@@ -32,6 +33,8 @@ static NSString *cellIdentifier = @"sortCollectionViewCell";
 
 @implementation LPHomeChannelItemController
 
+
+#pragma mark - 懒加载
 - (NSMutableArray *)cellAttributesArray {
     if (_cellAttributesArray == nil) {
         _cellAttributesArray = [[NSMutableArray alloc] init];
@@ -67,17 +70,14 @@ static NSString *cellIdentifier = @"sortCollectionViewCell";
 #pragma mark - ViewWillDidappear
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     dict[@"selectedChannelTitle"] = self.selectedChannelTitle;
     dict[@"selectedArray"] = self.selectedArray;
     dict[@"optionalArray"] = self.optionalArray;
-    
     self.channelItemDidChangedBlock(dict);
 }
 
-- (void)dealloc {
-    NSLog(@"dealloc");
-}
 #pragma mark - 创建视图
 - (void)setupSubViews {
     
@@ -95,9 +95,13 @@ static NSString *cellIdentifier = @"sortCollectionViewCell";
         topViewHeight = 72.5f;
     }
     
-    // 频道栏
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+    
+    // 自定义流水布局
+    LXReorderableCollectionViewFlowLayout *layout = [[LXReorderableCollectionViewFlowLayout alloc] init];
+    
+    // 自带流水布局(9.0以上版本适用)
+//    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+//    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     
     CGFloat sortCollectionViewX = 0;
     CGFloat sortCollectionViewY = topViewHeight;
@@ -107,12 +111,13 @@ static NSString *cellIdentifier = @"sortCollectionViewCell";
     // 频道栏管理
     UICollectionView *sortCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(sortCollectionViewX, sortCollectionViewY, sortCollectionViewW, sortCollectionViewH) collectionViewLayout:layout];
     
-    if([[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0) {
-        //此处给其增加长按手势，用此手势触发cell移动效果
-        UILongPressGestureRecognizer *longGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(sortChannelItem:)];
-        longGesture.minimumPressDuration = 0.2;
-        [sortCollectionView addGestureRecognizer:longGesture];
-    }
+    // 9.0以上版本适用
+//    if([[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0) {
+//        //此处给其增加长按手势，用此手势触发cell移动效果
+//        UILongPressGestureRecognizer *longGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(sortChannelItem:)];
+//        longGesture.minimumPressDuration = 0.2;
+//        [sortCollectionView addGestureRecognizer:longGesture];
+//    }
     
     sortCollectionView.delegate = self;
     sortCollectionView.dataSource = self;
@@ -163,126 +168,39 @@ static NSString *cellIdentifier = @"sortCollectionViewCell";
 }
 
 
-#pragma mark - 频道排序
-//- (void)sortChannelItem:(UIPanGestureRecognizer *)recognizer {
-//    LPChannelItemCollectionViewCell *cell = (LPChannelItemCollectionViewCell *)recognizer.view;
-//    CGFloat rectW = cell.channelItemLabel.width / 2;
-//    CGFloat rectH = cell.channelItemLabel.height / 2;
-//    
-//    NSIndexPath *cellIndexPath = [self.sortCollectionView indexPathForCell:cell];
-//    BOOL ischange = NO;
-//    switch (recognizer.state) {
-//        case UIGestureRecognizerStateBegan:
-//            if (cellIndexPath == nil) {
-//                break;
-//            }
-//            // 获取所有cell的attributes
-//            [self.cellAttributesArray removeAllObjects];
-//            for (NSInteger i = 0 ; i < self.selectedArray.count; i++) {
-//                [self.cellAttributesArray addObject:[self.sortCollectionView layoutAttributesForItemAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]]];
-//            }
-//            break;
-//        case UIGestureRecognizerStateChanged:
-//            if (cellIndexPath.item != 0) {
-//                // 移动的相对位置
-//                CGPoint translation = [recognizer translationInView:self.view];
-//                recognizer.view.center = CGPointMake(recognizer.view.center.x + translation.x,
-//                                                     recognizer.view.center.y + translation.y);
-//                [recognizer setTranslation:CGPointMake(0, 0) inView:self.view];
-//                
-//                for (UICollectionViewLayoutAttributes *attributes in self.cellAttributesArray) {
-//                    CGRect rect = CGRectMake(attributes.center.x - rectW / 2 , attributes.center.y - rectH / 2 + 9 , rectW, rectH);
-//                    // 判断重叠区域
-//                    if (CGRectContainsPoint(rect, CGPointMake(recognizer.view.center.x, recognizer.view.center.y)) && (cellIndexPath != attributes.indexPath) && attributes.indexPath.item != 0) {
-//                        
-//                        //后面跟前面交换
-//                        if (cellIndexPath.row > attributes.indexPath.row) {
-//                            //交替操作0 1 2 3 变成（3<->2 3<->1 3<->0）
-//                            for (NSInteger index = cellIndexPath.row; index > attributes.indexPath.row; index -- ) {
-//                                [self.selectedArray exchangeObjectAtIndex:index withObjectAtIndex:index - 1];
-//                            }
-//                        } else {
-//                            //前面跟后面交换
-//                            //交替操作0 1 2 3 变成（0<->1 0<->2 0<->3）
-//                            for (NSInteger index = cellIndexPath.row; index < attributes.indexPath.row; index ++ ) {
-//                                [self.selectedArray exchangeObjectAtIndex:index withObjectAtIndex:index + 1];
-//                            }
-//                        }
-//                        ischange = YES;
-//                        [self.sortCollectionView moveItemAtIndexPath:cellIndexPath toIndexPath:attributes.indexPath];
-//                    } else {
-//                        ischange = NO;
-//                    }
-//                }
-//            }
-//            break;
-//        case UIGestureRecognizerStateEnded:
-//            if (!ischange) {
-//                cell.center = [self.sortCollectionView layoutAttributesForItemAtIndexPath:cellIndexPath].center;
-//            }
-//            break;
-//        default:
-//            break;
-//    }
-//}
+#pragma mark - LXReorderableCollectionViewDataSource
 
-
-#pragma mark - 9.0以上版本适用以下方法
-- (void)sortChannelItem:(UILongPressGestureRecognizer *)recognizer {
-    //判断手势状态
-    switch (recognizer.state) {
-        case UIGestureRecognizerStateBegan:{
-            //判断手势落点位置是否在路径上
-            NSIndexPath *indexPath = [self.sortCollectionView  indexPathForItemAtPoint:[recognizer locationInView:self.sortCollectionView ]];
-            if (indexPath == nil) {
-                break;
-            }
-            //在路径上则开始移动该路径上的cell
-            [self.sortCollectionView  beginInteractiveMovementForItemAtIndexPath:indexPath];
-        }
-            break;
-        case UIGestureRecognizerStateChanged:
-            //移动过程当中随时更新cell位置
-            [self.sortCollectionView  updateInteractiveMovementTargetPosition:[recognizer locationInView:self.sortCollectionView ]];
-            break;
-        case UIGestureRecognizerStateEnded:
-            //移动结束后关闭cell移动
-            [self.sortCollectionView  endInteractiveMovement];
-            break;
-        default:
-            [self.sortCollectionView  cancelInteractiveMovement];
-            break;
-    }
-}
-
-- (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    if (indexPath.section == 0 && indexPath.item != 0) {
-           return YES;
-    }
-    return NO;
-}
-
-- (NSIndexPath *)collectionView:(UICollectionView *)collectionView targetIndexPathForMoveFromItemAtIndexPath:(NSIndexPath *)originalIndexPath toProposedIndexPath:(NSIndexPath *)proposedIndexPath  {
-    /* 判断两个indexPath参数的section属性, 是否在一个分区 */
-    if (originalIndexPath.section != proposedIndexPath.section) {
-        return originalIndexPath;
-    } else if (proposedIndexPath.section == 0 && proposedIndexPath.item == 0) {
-        return originalIndexPath;
-    } else {
-        return proposedIndexPath;
-    }
-}
-
-
-
-- (void)collectionView:(UICollectionView *)collectionView moveItemAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
-    id objc = [self.selectedArray objectAtIndex:sourceIndexPath.item];
+- (void)collectionView:(UICollectionView *)collectionView itemAtIndexPath:(NSIndexPath *)fromIndexPath willMoveToIndexPath:(NSIndexPath *)toIndexPath {
+    
+    id objc = [self.selectedArray objectAtIndex:fromIndexPath.item];
     //从资源数组中移除该数据
     [self.selectedArray removeObject:objc];
     //将数据插入到资源数组中的目标位置上
-    [self.selectedArray insertObject:objc atIndex:destinationIndexPath.item];
+    [self.selectedArray insertObject:objc atIndex:toIndexPath.item];
 }
 
+- (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0 && indexPath.item != 0) {
+        return YES;
+    }
+    return NO;
+    
+    return YES;
+}
+
+- (BOOL)collectionView:(UICollectionView *)collectionView itemAtIndexPath:(NSIndexPath *)fromIndexPath canMoveToIndexPath:(NSIndexPath *)toIndexPath {
+    
+    /* 判断两个indexPath参数的section属性, 是否在一个分区 */
+    if (fromIndexPath.section != toIndexPath.section) {
+        return NO;
+    } else if (toIndexPath.section == 0 && toIndexPath.item == 0) {
+        return NO;
+    } else {
+        return YES;
+    }
+    
+    return YES;
+}
 
 #pragma mark - didSelectItemAtIndexPath
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -331,7 +249,7 @@ static NSString *cellIdentifier = @"sortCollectionViewCell";
             startCell.userInteractionEnabled = YES;
             startCell.channelItemLabel.alpha = 1.0f;
         }];
-    // 添加频道
+        // 添加频道
     } else {
         
         [self.selectedArray addObject:self.optionalArray[indexPath.row]];
@@ -364,6 +282,7 @@ static NSString *cellIdentifier = @"sortCollectionViewCell";
         CGRect endFrame = CGRectMake(endLabelX, endLabelY, endLabelW, endLabelH);
         
         [self.optionalArray removeObjectAtIndex:indexPath.row];
+                
         [collectionView deleteItemsAtIndexPaths:@[indexPath]];
         
         [UIView animateWithDuration:0.3 animations:^{
@@ -401,14 +320,14 @@ static NSString *cellIdentifier = @"sortCollectionViewCell";
         } else {
             footerView.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
         }
-       resuableView = footerView;
+        resuableView = footerView;
     }
     return resuableView;
 }
 
 #pragma mark - UICollectionView Style
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
- 
+    
     CGFloat paddingLeft = 12;
     if (iPhone6Plus) {
         paddingLeft = 13;
@@ -429,7 +348,7 @@ static NSString *cellIdentifier = @"sortCollectionViewCell";
     CGFloat paddingBottom = 23;
     CGFloat paddingRight = 12;
     
-   return UIEdgeInsetsMake(paddingTop, paddingLeft, paddingBottom, paddingRight);
+    return UIEdgeInsetsMake(paddingTop, paddingLeft, paddingBottom, paddingRight);
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
@@ -446,6 +365,65 @@ static NSString *cellIdentifier = @"sortCollectionViewCell";
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
     return CGSizeMake(ScreenWidth, 9);
 }
+
+
+#pragma mark - 9.0以上版本适用以下方法 (保留代码)
+//- (void)sortChannelItem:(UILongPressGestureRecognizer *)recognizer {
+//    //判断手势状态
+//    switch (recognizer.state) {
+//        case UIGestureRecognizerStateBegan:{
+//            //判断手势落点位置是否在路径上
+//            NSIndexPath *indexPath = [self.sortCollectionView  indexPathForItemAtPoint:[recognizer locationInView:self.sortCollectionView ]];
+//            if (indexPath == nil) {
+//                break;
+//            }
+//            //在路径上则开始移动该路径上的cell
+//            [self.sortCollectionView  beginInteractiveMovementForItemAtIndexPath:indexPath];
+//        }
+//            break;
+//        case UIGestureRecognizerStateChanged:
+//            //移动过程当中随时更新cell位置
+//            [self.sortCollectionView  updateInteractiveMovementTargetPosition:[recognizer locationInView:self.sortCollectionView ]];
+//            break;
+//        case UIGestureRecognizerStateEnded:
+//            //移动结束后关闭cell移动
+//            [self.sortCollectionView  endInteractiveMovement];
+//            break;
+//        default:
+//            [self.sortCollectionView  cancelInteractiveMovement];
+//            break;
+//    }
+//}
+//
+//- (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(nonnull NSIndexPath *)indexPath {
+//    if (indexPath.section == 0 && indexPath.item != 0) {
+//           return YES;
+//    }
+//    return NO;
+//}
+//
+//- (NSIndexPath *)collectionView:(UICollectionView *)collectionView targetIndexPathForMoveFromItemAtIndexPath:(NSIndexPath *)originalIndexPath toProposedIndexPath:(NSIndexPath *)proposedIndexPath  {
+//    /* 判断两个indexPath参数的section属性, 是否在一个分区 */
+//    if (originalIndexPath.section != proposedIndexPath.section) {
+//        return originalIndexPath;
+//    } else if (proposedIndexPath.section == 0 && proposedIndexPath.item == 0) {
+//        return originalIndexPath;
+//    } else {
+//        return proposedIndexPath;
+//    }
+//}
+//
+//
+//
+//- (void)collectionView:(UICollectionView *)collectionView moveItemAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
+//    id objc = [self.selectedArray objectAtIndex:sourceIndexPath.item];
+//    //从资源数组中移除该数据
+//    [self.selectedArray removeObject:objc];
+//    //将数据插入到资源数组中的目标位置上
+//    [self.selectedArray insertObject:objc atIndex:destinationIndexPath.item];
+//}
+
+
 
 
 

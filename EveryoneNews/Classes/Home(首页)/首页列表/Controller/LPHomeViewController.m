@@ -96,7 +96,6 @@
     [self setupSubViews];
 
     [noteCenter addObserver:self selector:@selector(reloadCurrentPageIndexData) name:LPDeleteCoreDataNotification object:nil];
-
     
 }
 

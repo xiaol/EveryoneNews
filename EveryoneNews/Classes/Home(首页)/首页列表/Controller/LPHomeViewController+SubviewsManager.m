@@ -20,7 +20,6 @@
 #import "LPFontSizeManager.h"
 #import "MainNavigationController.h"
 #import "LPNewsLoginViewController.h"
-//#import "LPNewsNavigationController.h"
 #import "SSKeychainQuery.h"
 #import "SSKeychain.h"
 #import "AppDelegate.h"
@@ -34,15 +33,11 @@ NSString * const reuseIdentifierFirst = @"reuseIdentifierFirst";
 NSString * const reuseIdentifierSecond = @"reuseIdentifierSecond";
 NSString * const cardCellIdentifier = @"CardCellIdentifier";
 
-const static CGFloat cellPadding = 15;
-
 @implementation LPHomeViewController (SubviewsManager) 
-
 
 #pragma mark - viewWillAppear
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-//    self.navigationController.navigationItem.hidesBackButton = YES;
     
 }
 
@@ -51,8 +46,7 @@ const static CGFloat cellPadding = 15;
     return UIStatusBarStyleDefault;
 }
 
-- (BOOL)prefersStatusBarHidden
-{
+- (BOOL)prefersStatusBarHidden {
     return NO;
 }
 
@@ -82,7 +76,7 @@ const static CGFloat cellPadding = 15;
     
     // 添加首页登录按钮
     [self setupHomeViewLoginButton];
-    [self.loginBtn addTarget:self action:@selector(toUserCenter) forControlEvents:UIControlEventTouchUpInside];
+    [self.loginBtn addTarget:self action:@selector(loginBtnDidClick) forControlEvents:UIControlEventTouchUpInside];
     [headerView addSubview:self.loginBtn];
     
     
@@ -184,19 +178,6 @@ const static CGFloat cellPadding = 15;
     [self.view addSubview:blurView];
     self.blurView = blurView;
     
-    // 频道管理
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    self.sortCollectionView = [[LPSortCollectionView alloc] initWithFrame:CGRectMake(0, statusBarHeight + menuViewHeight, ScreenWidth - cellPadding, ScreenHeight - statusBarHeight- menuViewHeight) collectionViewLayout:layout];
-    self.sortCollectionView.delegate = self;
-    self.sortCollectionView.dataSource = self;
-    self.sortCollectionView.backgroundColor = [UIColor whiteColor];
-    self.sortCollectionView.scrollsToTop = NO;
-    [self.sortCollectionView registerClass:[LPSortCollectionViewCell class] forCellWithReuseIdentifier:cellIdentifier];
-    [self.sortCollectionView registerClass:[LPSortCollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:reuseIdentifierFirst];
-    [self.sortCollectionView registerClass:[LPSortCollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:reuseIdentifierSecond];
-    [blurView addSubview:self.sortCollectionView];
-
     // 首次安装提示信息
     if (![userDefaults objectForKey:@"isVersion3FirstLoad"]) {
         // 添加黑色透明功能
@@ -242,14 +223,14 @@ const static CGFloat cellPadding = 15;
         self.loginView = loginView;
     }
     
-    // 存储用户的UUID
-    if (![userDefaults objectForKey:@"uniqueDeviceID"]) {
-        NSString *uuid = [self getDeviceId];
-        // 去除“-”字符 Base64加密 移除末尾等号"="
-        uuid = [[[uuid stringByTrimmingHyphen] stringByBase64Encoding] stringByTrimmingString:@"="];
-        [userDefaults setObject:uuid forKey:@"uniqueDeviceID"];
-        [userDefaults synchronize];
-    }
+//    // 存储用户的UUID
+//    if (![userDefaults objectForKey:@"uniqueDeviceID"]) {
+//        NSString *uuid = [self getDeviceId];
+//        // 去除“-”字符 Base64加密 移除末尾等号"="
+//        uuid = [[[uuid stringByTrimmingHyphen] stringByBase64Encoding] stringByTrimmingString:@"="];
+//        [userDefaults setObject:uuid forKey:@"uniqueDeviceID"];
+//        [userDefaults synchronize];
+//    }
 }
 
 #pragma mark - 点击Status Bar
@@ -274,7 +255,7 @@ const static CGFloat cellPadding = 15;
 }
 
 #pragma mark - 个人中心
-- (void)toUserCenter{
+- (void)loginBtnDidClick {
     
     Account *account = [AccountTool account];
     
@@ -340,19 +321,19 @@ const static CGFloat cellPadding = 15;
     self.menuBackgroundView = menuBackgroundView;
 }
 
-#pragma mark - 展开我的频道
+#pragma mark - 频道管理
 - (void)addButtonClick {
+    
     LPHomeChannelItemController *homeChannelItemController = [[LPHomeChannelItemController alloc] init];
     homeChannelItemController.selectedArray = self.selectedArray;
     homeChannelItemController.optionalArray = self.optionalArray;
     homeChannelItemController.selectedChannelTitle = self.selectedChannelTitle;
-    
     homeChannelItemController.channelItemDidChangedBlock = ^(NSDictionary *dict) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             self.selectedChannelTitle = [dict objectForKey:@"selectedChannelTitle"];
             self.selectedArray = (NSMutableArray *)[dict objectForKey:@"selectedArray"];
             self.optionalArray = (NSMutableArray *)[dict objectForKey:@"optionalArray"];
-            
+
             // 当前选中频道索引值
             int index = 0;
             for (int i = 0; i < self.selectedArray.count; i++) {
@@ -370,23 +351,24 @@ const static CGFloat cellPadding = 15;
             
             [self updatePageindexMapToChannelItemDictionary];
             
-            NSIndexPath *menuIndexPath = [NSIndexPath indexPathForItem:index
-                                                             inSection:0];
             
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.menuView reloadData];
-                [self.menuView selectItemAtIndexPath:menuIndexPath
-                                            animated:NO
-                                      scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
-                [self.pagingView reloadData];
-                [self.pagingView setCurrentPageIndex:index animated:NO];
-                [self channelItemDidAddToCoreData:index];
-            });
+            
+            // 更新相应频道栏数据
+            [self handleDataAfterChannelItemChanged:index];
         });
         
      };
     [self.navigationController pushViewController:homeChannelItemController animated:YES];
     
+}
+
+#pragma mark -  设置频道和页码的映射关系
+- (void)updatePageindexMapToChannelItemDictionary {
+    [self.pageindexMapToChannelItemDictionary removeAllObjects];
+    for (int i = 0; i < self.selectedArray.count; i++) {
+        LPChannelItem *channelItem = self.selectedArray[i];
+        [self.pageindexMapToChannelItemDictionary setObject:channelItem forKey:@(i)];
+    }
 }
 
 @end

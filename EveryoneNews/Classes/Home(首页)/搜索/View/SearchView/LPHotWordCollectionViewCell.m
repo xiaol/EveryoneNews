@@ -17,17 +17,14 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
-        CGFloat titleFontSize = 16;
-        if (iPhone6Plus) {
-            titleFontSize = 18;
-        }
+        
         UILabel *hotWordLabel = [[UILabel alloc] init];
         
-        hotWordLabel.font = [UIFont systemFontOfSize:titleFontSize];
-        hotWordLabel.textColor = [UIColor colorFromHexString:@"#545454"];
+        hotWordLabel.font = [UIFont systemFontOfSize:LPFont4];
+        hotWordLabel.textColor = [UIColor colorFromHexString:LPColor3];
         hotWordLabel.textAlignment = NSTextAlignmentCenter;
-        hotWordLabel.layer.borderColor = [UIColor colorFromHexString:@"#d2d2d2"].CGColor;
-        hotWordLabel.layer.cornerRadius = 5.0f;
+        hotWordLabel.layer.borderColor = [UIColor colorFromHexString:LPColor5].CGColor;
+        hotWordLabel.layer.cornerRadius = 10;
         hotWordLabel.layer.borderWidth = 0.5f;;
         hotWordLabel.layer.masksToBounds = YES;
         [self.contentView addSubview:hotWordLabel];

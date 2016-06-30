@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class LPHomeChannelItemTopView;
+
 @protocol LPHomeChannelItemTopViewDelegate <NSObject>
 
 @optional

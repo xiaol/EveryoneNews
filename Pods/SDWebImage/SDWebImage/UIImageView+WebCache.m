@@ -71,6 +71,18 @@ static char TAG_ACTIVITY_SHOW;
                 }
                 else if (image) {
                     wself.image = image;
+                    
+                    #warning  图片渐渐出现的效果.
+                    wself.alpha = 0;
+                    if (cacheType != SDImageCacheTypeMemory) {
+                        [UIView animateWithDuration:0.5f animations:^{
+                            wself.alpha = 1;
+                        }];
+                    }
+                    else{
+                        wself.alpha = 1;
+                    }
+
                     [wself setNeedsLayout];
                 } else {
                     if ((options & SDWebImageDelayPlaceholder)) {

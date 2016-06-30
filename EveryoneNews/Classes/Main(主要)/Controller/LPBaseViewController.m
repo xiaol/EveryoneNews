@@ -57,12 +57,15 @@
     return UIStatusBarStyleDefault;
 }
 
+#pragma mark - 改变首页字体大小
 - (void)changeHomeViewFontSize {
-    
+    // 用于子类继承
 }
 
+#pragma mark - dealloc
 - (void)dealloc {
     [noteCenter removeObserver:self];
+    NSLog(@"dealloc");
 }
 
 

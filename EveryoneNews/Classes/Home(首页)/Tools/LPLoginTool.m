@@ -24,6 +24,7 @@
         paramUser[@"password"] = [userDefaults objectForKey:@"password"];
         
         [LPHttpTool postJSONResponseAuthorizationWithURL:url params:paramUser success:^(id json, NSString *authorization) {
+
             if ([json[@"code"] integerValue] == 2000) {
                 NSDictionary *dict = (NSDictionary *)json[@"data"];
                 [userDefaults setObject:dict[@"uid"] forKey:@"uid"];

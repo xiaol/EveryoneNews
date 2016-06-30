@@ -167,6 +167,12 @@ typedef NS_ENUM(NSInteger, iPhone5DetailCommentSize) {
     iPhone5DetailCommentSizeSuperLarger = 20
 };
 
+
+typedef NS_ENUM(NSInteger, sourceViewController) {
+    searchViewController = 1,
+    homeViewController = 2
+};
+
 #define noteCenter [NSNotificationCenter defaultCenter]
 #define LPCategoryDidChangeNotification @"changeCategory"
 #define LPCategoryFrom @"fromCategory"

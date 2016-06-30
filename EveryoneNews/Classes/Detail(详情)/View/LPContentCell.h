@@ -9,12 +9,14 @@
 #import <UIKit/UIKit.h>
 
 @class LPContentFrame;
-
+@class WKWebView;
 @class LPContent;
 @class LPContentCell;
 @protocol LPContentCellDelegate <NSObject>
 @optional
 - (void)contentCell:(LPContentCell *)contentCell didOpenURL:(NSString *)url;
+
+- (void)contentCell:(LPContentCell *)contentCell videoImageViewDidTapped:(NSString *)url webView:(WKWebView *)webView webViewF:(CGRect)webViewF;
 
 @end
 
@@ -23,6 +25,8 @@
 @property (nonatomic, strong) LPContentFrame *contentFrame;
 
 @property (nonatomic, assign) NSInteger row;
+
+
 
 @property(nonatomic ,assign) BOOL isLoad;
 // 图片类型

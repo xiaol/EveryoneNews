@@ -32,6 +32,9 @@
 #import "Account.h"
 #import "NSDate+Extension.h"
 #import "LPLoginTool.h"
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+
 ////for mac
 //#include <sys/socket.h>
 //#include <sys/sysctl.h>
@@ -76,89 +79,30 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-    
+    // 崩溃日志
+    [Fabric with:@[[Crashlytics class]]];
     
     if (debug==1) {
         NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
     }
-    //  UMeng login & share
-    [UMSocialData setAppKey:@"558b2ec267e58e64a00009db"];
     
-    //设置手机QQ 的AppId，Appkey，和分享URL，需要#import "UMSocialQQHandler.h"
-    [UMSocialQQHandler setQQWithAppId:@"987333155" appKey:@"558b2ec267e58e64a00009db" url:@"http://www.umeng.com/social"];
-    
-    //设置微信AppId、appSecret，分享url
-    [UMSocialWechatHandler setWXAppId:@"wxdc962221a58b59a5" appSecret:@"f60087313b3d5c42115d6bd0c89abfb6" url:@"http://www.umeng.com/social"];
-    
-    // 打开新浪微博的SSO开关，设置新浪微博回调地址，这里必须要和你在新浪微博后台设置的回调地址一致。若在新浪后台设置我们的回调地址，“http://sns.////whalecloud.com/sina2/callback”，这里可以传nil ,需要 #import "UMSocialSinaHandler.h"
-    
-    [UMSocialSinaHandler openSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
-    
-    
-//    
-//    [UMSocialSinaSSOHandler openNewSinaSSOWithAppKey:@"3921700954"
-//secret:@"04b48b094faeb16683c32669824ebdad"
-//RedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
-    
-
-    NSString *versionKey = (__bridge NSString *) kCFBundleVersionKey;
-//    NSString *lastVersion = [userDefaults objectForKey:versionKey];
-    NSString *currentVersion = [NSBundle mainBundle].infoDictionary[versionKey];
-    
-    // Mob statics
-#warning 发布时删除此句 setLogEnabled:
-//    [MobClick setLogEnabled:YES];
-    
-    [MobClick setVersion:(NSInteger)currentVersion];
-    
-    // 将channelId:@"Web" 中的Web 替换为您应用的推广渠道。channelId为nil或@""时，默认会被当作@"App Store"渠道。
-    // iOS平台数据发送策略包括BATCH（启动时发送）和SEND_INTERVAL（按间隔发送）两种，友盟默认使用启动时发送（更省流量），您可以在代码reportPolicy:BATCH中更改发送策略。
-    [MobClick startWithAppkey:@"558b2ec267e58e64a00009db" reportPolicy:BATCH channelId:@""];
-    
-//    // 添加友盟推送
-//    [UMessage startWithAppkey:@"558b2ec267e58e64a00009db" launchOptions:launchOptions];
-//    UIMutableUserNotificationAction *action1 = [[UIMutableUserNotificationAction alloc] init];
-//    action1.identifier = @"action1_identifier";
-//    action1.title = @"Accept";
-//    action1.activationMode = UIUserNotificationActivationModeForeground;//当点击的时候启动程序
-//    
-//    UIMutableUserNotificationAction *action2 = [[UIMutableUserNotificationAction alloc] init];  //第二按钮
-//    action2.identifier = @"action2_identifier";
-//    action2.title = @"Reject";
-//    action2.activationMode = UIUserNotificationActivationModeBackground;//当点击的时候不启动程序，在后台处理
-//    action2.authenticationRequired = YES;//需要解锁才能处理，如果action.activationMode = UIUserNotificationActivationModeForeground;则这个属性被忽略；
-//    action2.destructive = YES;
-//    
-//    UIMutableUserNotificationCategory *categorys = [[UIMutableUserNotificationCategory alloc] init];
-//    categorys.identifier = @"category1";//这组动作的唯一标示
-//    [categorys setActions:@[action1,action2] forContext:(UIUserNotificationActionContextDefault)];
-    
-//    UIUserNotificationSettings *userSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge|UIUserNotificationTypeSound|UIUserNotificationTypeAlert
-//                                                                                 categories:[NSSet setWithObject:categorys]];
-//    [UMessage registerRemoteNotificationAndUserNotificationSettings:userSettings];
-    
+    // 设置友盟相关参数
+    [self setupUMengInfo:launchOptions];
   
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    //3. 设置根控制器
+    
+    // 设置根控制器
     LPHomeViewController *mainVc = [[LPHomeViewController alloc] init];
     MainNavigationController *mainNavVc = [[MainNavigationController alloc] initWithRootViewController:mainVc];
-    
-//    UIView *splashScreen = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
-//    splashScreen.backgroundColor = [UIColor redColor];
-//    [self.window.rootViewController.view addSubview: splashScreen];
-    
     self.window.rootViewController = mainNavVc;
     
     [[UINavigationBar appearance]  setBackgroundImage:[[UIImage alloc] init] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
     
-//        UIView *blurView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
-//        blurView.backgroundColor = [UIColor redColor];
-//        [self.window addSubview:blurView];
-    // 4. 显示窗口（成为主窗口）
+    //  显示窗口（成为主窗口）
     [self.window makeKeyAndVisible];
     
-    // 5. 监控网络状态
+    // 监控网络状态
     AFNetworkReachabilityManager *mgr = [AFNetworkReachabilityManager sharedManager];
     [mgr setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
         static dispatch_once_t onceToken;
@@ -178,7 +122,7 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     [noteCenter addObserver:self selector:@selector(networkChange:) name:AFNetworkingReachabilityDidChangeNotification object:nil];
     [mgr startMonitoring];
     
-    // 6. 判断是否要弹出真实头像框, 如需, 发通知
+    // 判断是否要弹出真实头像框, 如需, 发通知
     [self checkoutAppReview];
     
     AppDelegate *myDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
@@ -191,6 +135,139 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     }
     
     
+    // 设置启动动画
+    [self setupLaunchAnimation];
+
+    // 设置游客身份
+    [self setupTourist];
+    
+    [self checkVersion:application];
+    
+    
+
+    return YES;
+}
+
+
+
+#pragma mark - 检查版本信息
+- (void)checkVersion:(UIApplication *)application {
+    NSURLSession *session = [NSURLSession sharedSession];
+    NSURL *url = [NSURL URLWithString:@"https://itunes.apple.com/lookup?id=987333155"];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    request.HTTPMethod = @"POST";
+    NSURLSessionDataTask *dataTask = [session dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+        if (!data || error) return;
+        
+        NSArray *array = [(NSDictionary *)[NSJSONSerialization JSONObjectWithData:data options:0 error:NULL] valueForKey:@"results"];
+        NSDictionary *dict = array.firstObject;
+        NSString *releaseNotes = dict[@"releaseNotes"];
+        NSURL *trackViewURL = [NSURL URLWithString:dict[@"trackViewUrl"]];
+        NSString *storeVersion = dict[@"version"];
+        
+        NSDictionary *infoDict = [NSBundle mainBundle].infoDictionary;
+        NSString *currentVersion = infoDict[@"CFBundleShortVersionString"];
+        
+        // 当前版本号比App Store上小
+        if ([currentVersion floatValue] < [storeVersion floatValue] ) {
+            NSString *title = [NSString stringWithFormat:@"新版本提示:%@", storeVersion];
+            NSString *message = [NSString stringWithFormat:@"新特性:\n%@", releaseNotes];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertController *alertController =
+                [UIAlertController alertControllerWithTitle:title
+                                                    message:message
+                                             preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消"
+                                                                       style:UIAlertActionStyleDefault
+                                                                     handler:nil];
+                UIAlertAction *updateAction = [UIAlertAction actionWithTitle:@"升级"
+                                                                       style:UIAlertActionStyleCancel
+                                                                     handler:^(UIAlertAction * _Nonnull action) {
+                                                                         if ([application canOpenURL:trackViewURL]) {
+                                                                             [application openURL:trackViewURL];
+                                                                         }
+                                                                     }];
+                [alertController addAction:cancelAction];
+                [alertController addAction:updateAction];
+                [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
+            });
+        }
+    }];
+    [dataTask resume];
+}
+
+#pragma mark - 友盟相关设置
+- (void)setupUMengInfo:(NSDictionary *)launchOptions {
+    //  UMeng login & share
+    [UMSocialData setAppKey:@"558b2ec267e58e64a00009db"];
+    
+    //设置手机QQ 的AppId，Appkey，和分享URL，需要#import "UMSocialQQHandler.h"
+    [UMSocialQQHandler setQQWithAppId:@"987333155" appKey:@"558b2ec267e58e64a00009db" url:@"http://www.umeng.com/social"];
+    
+    //设置微信AppId、appSecret，分享url
+    [UMSocialWechatHandler setWXAppId:@"wxdc962221a58b59a5" appSecret:@"f60087313b3d5c42115d6bd0c89abfb6" url:@"http://www.umeng.com/social"];
+    
+    // 打开新浪微博的SSO开关，设置新浪微博回调地址，这里必须要和你在新浪微博后台设置的回调地址一致。若在新浪后台设置我们的回调地址，“http://sns.////whalecloud.com/sina2/callback”，这里可以传nil ,需要 #import "UMSocialSinaHandler.h"
+    
+    [UMSocialSinaHandler openSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
+    
+    
+    //
+    //    [UMSocialSinaSSOHandler openNewSinaSSOWithAppKey:@"3921700954"
+    //secret:@"04b48b094faeb16683c32669824ebdad"
+    //RedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
+    
+    
+    NSString *versionKey = (__bridge NSString *) kCFBundleVersionKey;
+    //    NSString *lastVersion = [userDefaults objectForKey:versionKey];
+    NSString *currentVersion = [NSBundle mainBundle].infoDictionary[versionKey];
+    
+    // Mob statics
+#warning 发布时删除此句 setLogEnabled:
+    //    [MobClick setLogEnabled:YES];
+    
+    [MobClick setVersion:(NSInteger)currentVersion];
+    
+    // 将channelId:@"Web" 中的Web 替换为您应用的推广渠道。channelId为nil或@""时，默认会被当作@"App Store"渠道。
+    // iOS平台数据发送策略包括BATCH（启动时发送）和SEND_INTERVAL（按间隔发送）两种，友盟默认使用启动时发送（更省流量），您可以在代码reportPolicy:BATCH中更改发送策略。
+    [MobClick startWithAppkey:@"558b2ec267e58e64a00009db" reportPolicy:BATCH channelId:@""];
+    
+    // 添加友盟推送
+    [UMessage startWithAppkey:@"558b2ec267e58e64a00009db" launchOptions:launchOptions];
+    //1.3.0版本开始简化初始化过程。如不需要交互式的通知，下面用下面一句话注册通知即可。
+    [UMessage registerForRemoteNotifications];
+    
+    
+   //  如果你期望使用交互式(只有iOS 8.0及以上有)的通知，请参考下面注释部分的初始化代码
+     //register remoteNotification types （iOS 8.0及其以上版本）
+     UIMutableUserNotificationAction *action1 = [[UIMutableUserNotificationAction alloc] init];
+     action1.identifier = @"action1_identifier";
+     action1.title=@"Accept";
+     action1.activationMode = UIUserNotificationActivationModeForeground;//当点击的时候启动程序
+     
+     UIMutableUserNotificationAction *action2 = [[UIMutableUserNotificationAction alloc] init];  //第二按钮
+     action2.identifier = @"action2_identifier";
+     action2.title=@"Reject";
+     action2.activationMode = UIUserNotificationActivationModeBackground;//当点击的时候不启动程序，在后台处理
+     action2.authenticationRequired = YES;//需要解锁才能处理，如果action.activationMode = UIUserNotificationActivationModeForeground;则这个属性被忽略；
+     action2.destructive = YES;
+     
+     UIMutableUserNotificationCategory *actionCategory = [[UIMutableUserNotificationCategory alloc] init];
+     actionCategory.identifier = @"category1";//这组动作的唯一标示
+     [actionCategory setActions:@[action1,action2] forContext:(UIUserNotificationActionContextDefault)];
+
+      NSSet *categories = [NSSet setWithObject:actionCategory];
+        //如果默认使用角标，文字和声音全部打开，请用下面的方法
+      [UMessage registerForRemoteNotifications:categories];
+    
+    //如果对角标，文字和声音的取舍，请用下面的方法
+    //UIRemoteNotificationType types7 = UIRemoteNotificationTypeBadge|UIRemoteNotificationTypeAlert|UIRemoteNotificationTypeSound;
+    //UIUserNotificationType types8 = UIUserNotificationTypeAlert|UIUserNotificationTypeSound|UIUserNotificationTypeBadge;
+    //[UMessage registerForRemoteNotifications:categories withTypesForIos7:types7 withTypesForIos8:types8];
+}
+
+#pragma mark - 设置启动动画
+- (void)setupLaunchAnimation {
     CGSize viewSize = self.window.bounds.size;
     NSString *viewOrientation = @"Portrait";    //横屏请设置成 @"Landscape"
     NSString *launchImage = nil;
@@ -224,9 +301,10 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
                          
                      }];
     
+}
 
-
-
+#pragma mark - 设置游客身份
+- (void)setupTourist {
     if (![userDefaults objectForKey:@"uauthorization"]) {
         // 第一次进入存储游客Authorization
         NSString *url = @"http://bdp.deeporiginalx.com/v2/au/sin/g";
@@ -248,12 +326,11 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
                 [userDefaults synchronize];
             }
         }  failure:^(NSError *error) {
-         
+            
         }];
     }
-    return YES;
-}
 
+}
 
 - (void)networkChange:(NSNotification *)note {
     NSDictionary *info = note.userInfo;
@@ -275,6 +352,8 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     }
 }
 
+
+#pragma mark - application
 - (void)application:(UIApplication*)application didRegisterUserNotificationSettings:(nonnull UIUserNotificationSettings *)notificationSettings{
     
     
@@ -288,13 +367,21 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
 //                  stringByReplacingOccurrencesOfString: @">" withString: @""]
 //                 stringByReplacingOccurrencesOfString: @" " withString: @""]);
     
-    
-//    [UMessage registerDeviceToken:deviceToken];
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-    [UMessage didReceiveRemoteNotification:userInfo];
+//    [UMessage didReceiveRemoteNotification:userInfo];
+    //自定义弹窗，应用内收到消息弹窗
+    if([UIApplication sharedApplication].applicationState == UIApplicationStateActive)
+    {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"消息推送信息"
+                                                           message:[[userInfo objectForKey:@"aps"] objectForKey:@"alert"]
+                                                          delegate:self
+                                                 cancelButtonTitle:@"确定"
+                                                 otherButtonTitles:nil];
+        [alertView show];
+    }
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
@@ -368,9 +455,7 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     [self cdh];
     
     if ([userDefaults objectForKey:@"uauthorization"]) {
-        
         [LPLoginTool loginVerify];
-       // [self loginVerify];
     }
 }
 

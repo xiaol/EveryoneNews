@@ -1,16 +1,13 @@
 //
 //  SDWebImageDownloaderOperation+HandleImage.h
-//  ImageViewDemo
+//  Pods
 //
-//  Created by dongdan on 16/6/2.
-//  Copyright © 2016年 dongdan. All rights reserved.
+//  Created by dongdan on 16/6/29.
+//
 //
 
 #import "SDWebImageDownloaderOperation.h"
 
 @interface SDWebImageDownloaderOperation (HandleImage)
-
 - (NSData *)handleNSData:(NSData *)data;
-
-
 @end
