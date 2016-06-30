@@ -17,16 +17,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchImage" translatesAutoresizingMaskIntoConstraints="NO" id="s5l-cr-r9E">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="奇点资讯 Pro V 1.0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XYN-gM-Jg8">
+                                <rect key="frame" x="249" y="555" width="102" height="15"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" red="0.0" green="0.56862745100000001" blue="0.98039215690000003" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LaunchImages" translatesAutoresizingMaskIntoConstraints="NO" id="673-sz-5T1">
+                                <rect key="frame" x="203" y="152" width="195" height="68"/>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.96470588235294119" green="0.96470588235294119" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="s5l-cr-r9E" secondAttribute="bottom" id="EU5-3O-c1g"/>
-                            <constraint firstItem="s5l-cr-r9E" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="dc9-ZB-tX8"/>
-                            <constraint firstAttribute="trailing" secondItem="s5l-cr-r9E" secondAttribute="trailing" id="j9Y-hb-DgA"/>
-                            <constraint firstItem="s5l-cr-r9E" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="ldE-jF-fI5"/>
+                            <constraint firstItem="673-sz-5T1" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="HDo-73-k8x"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="XYN-gM-Jg8" secondAttribute="bottom" constant="30" id="mLu-qZ-frN"/>
+                            <constraint firstItem="XYN-gM-Jg8" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="uIb-To-JW9"/>
+                            <constraint firstItem="673-sz-5T1" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" constant="132" id="w3g-Hb-vr4"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -36,6 +42,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="LaunchImage" width="640" height="960"/>
+        <image name="LaunchImages" width="195" height="68"/>
     </resources>
 </document>
