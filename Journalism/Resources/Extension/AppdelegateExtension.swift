@@ -15,7 +15,15 @@ extension AppDelegate:UISplitViewControllerDelegate {
     
     /// 设置一些方法
     func initAppdelegateMethod(){
-    
+    /// 开始友盟启动
+        let config = UMAnalyticsConfig.sharedInstance()
+        config.appKey = UMENG_APPKEY
+        config.ePolicy = BATCH
+        
+        MobClick.startWithConfigure(config)
+        
+        
+        
         UMSocialData.setAppKey(UMENG_APPKEY) // 设置友盟 App Key
 //        UMSocialQQHandler.setQQWithAppId(QQ_APPID, appKey: QQ_APPSECRET, url: nil) // 设置qq
         UMSocialWechatHandler.setWXAppId(WECHAT_APPID, appSecret: WECHAT_APPSECRET, url: nil) // 设置微信

@@ -36,7 +36,16 @@ extension DetailViewController:UITableViewDelegate,UITableViewDataSource {
 
 
 extension DetailViewController{
+    
+    private func ShareMethod(type:String=UMShareToWechatTimeline,content:String,img:UIImage?=nil,resource:UMSocialUrlResource?=nil){
+        
+        UMSocialDataService.defaultDataService().postSNSWithTypes([type], content: content, image: img, location: nil, urlResource: resource, presentedController: self) { (response) -> Void in
+            
+            //            self.shreContentViewMethod(true, animate: true)
+        }
+    }
 
+    
     private func getCellForRowAtIndexPath(indexPath: NSIndexPath) -> UITableViewCell {
     
         if indexPath.section == 0 { // 如果是第一个section 则返回喜欢喝朋友圈分享的Cell
@@ -45,8 +54,22 @@ extension DetailViewController{
             
             if let n = self.new {
                 
-                cell.contentLabel.text =  "\(n.concern)"
+                cell.setNew(n)
             }
+            
+            
+            cell.weChatCriButton.addGestureRecognizer(UITapGestureRecognizer(block: { (_) in
+                guard let n = self.new else{ return }
+                
+                let title = n.title
+                
+                let resource = UMSocialUrlResource(snsResourceType: UMSocialUrlResourceTypeImage, url: n.shareUrl())
+                
+                n.firstImage { (image) in
+                    
+                    self.ShareMethod(content:title,img:image,resource:resource)
+                }
+            }))
             
             self.adaptionWebViewHeightMethod()
             

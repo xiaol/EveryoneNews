@@ -49,6 +49,15 @@ class DetailViewController: UIViewController,WaitLoadProtcol {
         }
         
         self.integrationMethod()
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DetailViewController.setCollectionButton), name: CONCERNNEWORNOCOLLECTEDNEW, object: nil) //收藏状态发生变化
+    }
+    
+    func setCollectionButton(){
+        
+        let indexPath = NSIndexPath(forItem: 0, inSection: 0)
+        
+        self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
     }
 }
 

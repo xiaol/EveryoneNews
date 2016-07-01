@@ -69,6 +69,12 @@ public class New: Object {
     dynamic var iscollected = 0 // 是否收藏
     
     /**
+     标识 新闻的关心状态。 0 未关心 1 已关心 默认为 未关心
+     新闻的是否收藏状态，如果是0 的话，说明该新闻没有被收藏。如果已经被收藏，这也没什么影响
+     */
+    dynamic var isconcerned = 0 // 是否收藏
+    
+    /**
      标识 是不是搜索出来的。 0 不是 1 是 默认为 不是
      首先我们要做的就是在搜索之前，将所有搜索状态未 1 的，设置为 0.
      但是如果用户在上拉刷新的时候是不需要进行这个设置的。
@@ -84,7 +90,17 @@ import PINRemoteImage
 
 extension New{
 
+    func refreshs() -> New?{
     
+        let realm = try! Realm()
+        
+        return realm.objectForPrimaryKey(New.self, key: self.nid)
+    }
+    
+    
+    /**
+     删除搜索的对象
+     */
     class func deleSearch(){
     
         let realm = try! Realm()

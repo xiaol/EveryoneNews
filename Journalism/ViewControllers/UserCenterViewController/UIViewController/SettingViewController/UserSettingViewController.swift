@@ -217,6 +217,16 @@ extension UserSettingViewController:UIViewControllerTransitioningDelegate{
         })
     }
     
+    
+    // 清理缓存
+    @IBAction func MarkAppStore(sender: AnyObject) {
+        
+        if let url = NSURL(string: "https://itunes.apple.com/us/app/qi-dian-zi-xunpro/id1130250021?l=zh&ls=1&mt=8") {
+        
+            UIApplication.sharedApplication().openURL(url)
+        }
+    }
+    
     @IBAction func dismissButtonTouch(sender: AnyObject) {
         
         

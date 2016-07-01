@@ -92,6 +92,9 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
         
         self.containerView.panGestureRecognizer.addTarget(self, action: #selector(DetailAndCommitViewController.pan(_:))) // 添加一个视图
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DetailAndCommitViewController.getToCommitViewControllerNotification(_:)), name: CLICKTOCOMMENTVIEWCONTROLLER, object: nil) // 当评论页面的查看更多的评论的按钮被评论的消息机制
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DetailAndCommitViewController.setCollectionButton), name: COLLECTEDNEWORNOCOLLECTEDNEW, object: nil) //收藏状态发生变化
+        
+        self.setCollectionButton()
         
         self.shreContentViewMethod(true, animate: false)
         
@@ -100,6 +103,8 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
         }
         
         self.setCommentOrDetailButton()
+        
+        
     }
     
     // 获取到了评论视图的请求了
@@ -160,6 +165,14 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
             }
         }
     }
+    
+    
+    func setCollectionButton(){
+    
+        self.collectedButton.hidden = (self.new?.refreshs() ?? self.new)?.iscollected == 0
+    }
+    
+    
     
     override func pagerTabStripViewController(pagerTabStripViewController: PagerTabStripViewController, updateIndicatorFromIndex fromIndex: Int, toIndex: Int, withProgressPercentage progressPercentage: CGFloat, indexWasChanged: Bool) {
         

@@ -14,7 +14,7 @@ extension NSURL{
 
     func proPic() -> NSURL?{
         
-        var urlStr = NSString(string: self.absoluteString+"@1e_1c_0o_0l_100sh_225h_300w_95q.jpeg")
+        var urlStr = NSString(string: self.absoluteString+"@1e_1c_0o_0l_100sh_225h_300w_60q.jpeg")
     
         if urlStr.containsString("bdp-pic.deeporiginalx.com/") {
         

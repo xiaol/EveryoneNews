@@ -87,7 +87,7 @@ class CustomRequest: NSObject {
     /**
      收藏新闻
      
-     - parameter comment: 评论对象
+     - parameter new: 新闻对象
      - parameter finish:  点赞完成
      - parameter fail:    点赞失败
      */
@@ -101,13 +101,14 @@ class CustomRequest: NSObject {
             
             if code != 2000 { fail?() ;return}
             
-            NSNotificationCenter.defaultCenter().postNotificationName(COLLECTEDNEWORNOCOLLECTEDNEW, object: nil)
             
             let realm = try! Realm()
             
             try! realm.write({
                 
+                new.iscollected = 1
             })
+            NSNotificationCenter.defaultCenter().postNotificationName(COLLECTEDNEWORNOCOLLECTEDNEW, object: nil)
             
             finish?()
         }
@@ -116,7 +117,7 @@ class CustomRequest: NSObject {
     /**
      取消收藏新闻
      
-     - parameter comment: 评论对象
+     - parameter new: 新闻对象
      - parameter finish:  点赞完成
      - parameter fail:    点赞失败
      */
@@ -130,14 +131,76 @@ class CustomRequest: NSObject {
             
             if code != 2000 { fail?() ;return}
             
+            let realm = try! Realm()
+            
+            try! realm.write({
+                
+                new.iscollected = 0
+            })
             
             NSNotificationCenter.defaultCenter().postNotificationName(COLLECTEDNEWORNOCOLLECTEDNEW, object: nil)
             
-//            let realm = try! Realm()
-//            
-//            try! realm.write({
-//                
-//            })
+            finish?()
+        }
+    }
+    
+    /**
+     关心新闻
+     
+     - parameter new: 新闻对象
+     - parameter finish:  关心完成
+     - parameter fail:    关心失败
+     */
+    class func concernedNew(new:New,finish:(()->Void)?=nil,fail:(()->Void)?=nil){
+        
+        guard let token = ShareLUser.token else{ return }
+        
+        Manager.shareManager.request(.POST, SwaggerClientAPI.basePath+"/ns/cocs", parameters: ["uid":"\(ShareLUser.uid)","nid":"\(new.nid)"], encoding: ParameterEncoding.URLEncodedInURL, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
+            
+            guard let result = res.result.value as? NSDictionary,let code = result.objectForKey("code") as? Int,let data = result.objectForKey("data") as? Int else{ fail?();return}
+            
+            if code != 2000 { fail?() ;return}
+            
+            
+            let realm = try! Realm()
+            
+            try! realm.write({
+                
+                new.isconcerned = 1
+                new.concern = data
+            })
+            NSNotificationCenter.defaultCenter().postNotificationName(CONCERNNEWORNOCOLLECTEDNEW, object: nil)
+            
+            finish?()
+        }
+    }
+    
+    /**
+     取消关心新闻
+     
+     - parameter new: 新闻对象
+     - parameter finish:  关心完成
+     - parameter fail:    关心失败
+     */
+    class func noconcernedNew(new:New,finish:(()->Void)?=nil,fail:(()->Void)?=nil){
+        
+        guard let token = ShareLUser.token else{ return }
+        
+        Manager.shareManager.request(.DELETE, SwaggerClientAPI.basePath+"/ns/cocs", parameters: ["uid":"\(ShareLUser.uid)","nid":"\(new.nid)"], encoding: ParameterEncoding.URLEncodedInURL, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
+            
+            guard let result = res.result.value as? NSDictionary,let code = result.objectForKey("code") as? Int,let data = result.objectForKey("data") as? Int else{ fail?();return}
+            
+            if code != 2000 { fail?() ;return}
+            
+            let realm = try! Realm()
+            
+            try! realm.write({
+                
+                new.isconcerned = 0
+                new.concern = data
+            })
+            
+            NSNotificationCenter.defaultCenter().postNotificationName(CONCERNNEWORNOCOLLECTEDNEW, object: nil)
             
             finish?()
         }
@@ -146,7 +209,7 @@ class CustomRequest: NSObject {
     /**
      评论新闻
      
-     - parameter comment: 评论对象
+     - parameter content: 评论内容
      - parameter finish:  点赞完成
      - parameter fail:    点赞失败
      */
@@ -201,7 +264,6 @@ class CustomRequest: NSObject {
     /**
      获取热点搜索接口
      
-     - parameter comment: 评论对象
      - parameter finish:  点赞完成
      - parameter fail:    点赞失败
      */

@@ -2,6 +2,9 @@ platform :ios, '8.0'
 use_frameworks!
 
 target :'Journalism' do
+
+    pod 'UMengAnalytics-NO-IDFA'
+
     pod 'SVProgressHUD'                                      ## 提示 Toast
     pod 'DACircularProgress'
     pod 'WeiboSDK'                                           ## 微博SDK

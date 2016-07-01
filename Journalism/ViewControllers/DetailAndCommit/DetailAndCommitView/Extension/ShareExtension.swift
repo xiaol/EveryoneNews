@@ -49,7 +49,6 @@ import MessageUI
 import CoreLocation
 
 extension DetailAndCommitViewController:WaitLoadProtcol{
-
     
     private func ShareMethod(type:String=UMShareToWechatTimeline,content:String,img:UIImage?=nil,resource:UMSocialUrlResource?=nil){
     
@@ -92,12 +91,20 @@ extension DetailAndCommitViewController:WaitLoadProtcol{
     /// 点击QQ朋友按钮
     @IBAction func touchQQFriendButtonAction(sender: AnyObject) {
         
-//        let shareTitleStr = new?.title ?? ""
+        let alert = UIAlertController(title: "暂不支持qq", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
+        
+        alert.addAction(UIAlertAction(title: "返回", style: UIAlertActionStyle.Cancel, handler: nil))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+        
+//        guard let n = self.new else{ return }
 //        
-//        UMSocialData.defaultData().extConfig.qqData.url = self.new?.url ?? ""
+//        let title = n.title
+//        let resource = UMSocialUrlResource(snsResourceType: UMSocialUrlResourceTypeImage, url: n.shareUrl())
 //        
-//        UMSocialDataService.defaultDataService().postSNSWithTypes([UMShareToQQ], content: shareTitleStr, image: nil, location: nil, urlResource: nil, presentedController: self) { (response) -> Void in
+//        n.firstImage { (image) in
 //            
+//            self.ShareMethod(UMShareToQQ,content:title,img:image,resource:resource)
 //        }
     }
     

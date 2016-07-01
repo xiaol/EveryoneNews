@@ -9,7 +9,9 @@
 #import <UMengSocialCOM/UMSocialQQHandler.h>
 #import <UMengSocialCOM/UMSocialWechatHandler.h>
 
+#import "UMMobClick/MobClick.h"
 
+//#import <UMengAnalytics-NO-IDFA>
 
 
 #import "SKTagView.h"

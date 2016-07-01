@@ -24,6 +24,7 @@ PODS:
   - SVProgressHUD (2.0.3)
   - SwaggerClient (2.3.0):
     - Alamofire
+  - UMengAnalytics-NO-IDFA (4.0.5)
   - UMengSocialCOM (5.2.1)
   - WeiboSDK (3.1.3)
   - XLPagerTabStrip (5.0.0)
@@ -40,6 +41,7 @@ DEPENDENCIES:
   - SnapKit
   - SVProgressHUD
   - SwaggerClient (from `swift-client/`)
+  - UMengAnalytics-NO-IDFA
   - UMengSocialCOM (from `UMengSocial/`)
   - WeiboSDK
   - XLPagerTabStrip
@@ -68,10 +70,11 @@ SPEC CHECKSUMS:
   SnapKit: bbad04cb016c7cead63965f16b00c09318d271ee
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
   SwaggerClient: fa4b7e2c40e2697f64bdeef8ac6308899371dd17
+  UMengAnalytics-NO-IDFA: 965a219b05475ff2a4c09a164139a27bbaa0e25b
   UMengSocialCOM: 1e2cef3b22d6b28ac5225a18fd1aa127d13aa6a9
   WeiboSDK: acb067053668102cf07d01aa7604350162c2e466
   XLPagerTabStrip: 87b8b705f9a7178e76a063ffaa2d70045944a965
 
-PODFILE CHECKSUM: f4410646e7ae84e9b155ebeebf5bc4edcb8afd7e
+PODFILE CHECKSUM: e13f203172b63e25ee68d430a02e43393930fa6f
 
 COCOAPODS: 1.0.0

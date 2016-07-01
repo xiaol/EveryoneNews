@@ -124,10 +124,48 @@ class SearchTableViewCell:UITableViewCell{
 
 class LikeAndPYQTableViewCell:UITableViewCell{
     
+    
+    @IBOutlet var concernImage: UIImageView!
+    @IBOutlet var noconcernImage: UIImageView!
+    
     @IBOutlet var contentLabel: UILabel!
-    @IBOutlet var weChatCriButton: HeadPhotoView!
+    @IBOutlet var weChatCriButton: UIView!
+    @IBOutlet var concernButton: UIView!
     @IBOutlet var contentWidthConstraint: NSLayoutConstraint!
     
+    func setNew(new:New){
+    
+        self.concernButton.addGestureRecognizer(UITapGestureRecognizer(block: { (_) in
+           
+            if new.refreshs()?.isconcerned == 1 {
+            
+                if ShareLUser.utype == 2 {
+                    
+                    NSNotificationCenter.defaultCenter().postNotificationName(USERNEDDLOGINTHENCANDOSOMETHING, object: nil)
+                }else{
+                    
+                    CustomRequest.noconcernedNew(new)
+                }
+            }else{
+            
+                if ShareLUser.utype == 2 {
+                    
+                    NSNotificationCenter.defaultCenter().postNotificationName(USERNEDDLOGINTHENCANDOSOMETHING, object: nil)
+                }else{
+                    
+                    CustomRequest.concernedNew(new)
+                }
+            }
+        }))
+        
+        
+        concernImage.hidden = new.refreshs()?.isconcerned == 0
+        contentLabel.text = "\(new.refreshs()?.concern ?? 0)"
+        
+        let size = CGSize(width: 500, height: 200)
+        let titleHeight = NSString(string:contentLabel.text ?? "").boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font2], context: nil).width
+        contentWidthConstraint.constant = 18+18+14+titleHeight
+    }
 }
 
 class MoreTableViewCell:UITableViewCell{

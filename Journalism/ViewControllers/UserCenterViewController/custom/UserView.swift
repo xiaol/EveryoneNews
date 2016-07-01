@@ -29,10 +29,14 @@ class HeadPhotoView:UIImageView{
         
         if ShareLUser.avatar.characters.count <= 0 {
         
-            return self.image = UIImage(named: "home_login")
+            self.layer.borderWidth = 0
+            
+            return self.image = UIImage(named: "home-个人头像")
         }
         
         if let url = NSURL(string: ShareLUser.avatar) {
+            
+            self.layer.borderWidth = 1
             
             self.pin_setImageFromURL(url)
         }
