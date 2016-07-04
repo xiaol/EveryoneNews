@@ -54,10 +54,15 @@
         LPUITextView *noImageLabel = [[LPUITextView alloc] init];
         noImageLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
         noImageLabel.editable = NO;
-        noImageLabel.selectable = NO;
+        noImageLabel.selectable = YES;
         noImageLabel.backgroundColor = [UIColor clearColor];
         [self.contentView addSubview:noImageLabel];
         self.noImageLabel = noImageLabel;
+        
+        UITapGestureRecognizer *recognizer1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapTextView)];
+        
+        [noImageLabel addGestureRecognizer:recognizer1];
+        
         
         UILabel *noImageSourceLabel = [[UILabel alloc] init];
         noImageSourceLabel.font = [UIFont systemFontOfSize:sourceFontSize];
@@ -87,11 +92,14 @@
         
         LPUITextView *titleLabel = [[LPUITextView alloc] init];
         titleLabel.editable = NO;
-        titleLabel.selectable = NO;
+        titleLabel.selectable = YES;
         titleLabel.backgroundColor = [UIColor clearColor];
         titleLabel.textColor =  [UIColor colorFromHexString:@"#1a1a1a"];
         [self.contentView addSubview:titleLabel];
         self.titleLabel = titleLabel;
+        UITapGestureRecognizer *recognizer2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapTextView)];
+        
+        [titleLabel addGestureRecognizer:recognizer2];
         
         UILabel *singleSourceLabel = [[UILabel alloc] init];
         singleSourceLabel.font = [UIFont systemFontOfSize:sourceFontSize];
@@ -115,11 +123,14 @@
         // 三图及其三图以上
         LPUITextView *multipleImageLabel = [[LPUITextView alloc] init];
         multipleImageLabel.editable = NO;
-        multipleImageLabel.selectable = NO;
+        multipleImageLabel.selectable = YES;
         multipleImageLabel.backgroundColor = [UIColor clearColor];
         multipleImageLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
         [self.contentView addSubview:multipleImageLabel];
         self.multipleImageLabel = multipleImageLabel;
+        UITapGestureRecognizer *recognizer3 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapTextView)];
+        
+        [multipleImageLabel addGestureRecognizer:recognizer3];
         
         UIImageView *firstMutipleImageView = [[UIImageView alloc] init];
         firstMutipleImageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -298,6 +309,24 @@
         self.mutipleCommentLabel.hidden = commentLabelHidden;
         self.mutipleCommentLabel.text = commentsCount;
     }
+}
+
+- (void)tapTextView {
+    
+    if ([self.delegate respondsToSelector:@selector(cell:didSelectedCardFrame:)]) {
+        [self.delegate cell:self didSelectedCardFrame:self.cardFrame];
+    }
+}
+
+
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    
+}
+
+
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
+    
 }
 
 @end

@@ -148,6 +148,7 @@ const static CGFloat changeFontSizeViewH = 150;
     [self setupSubviews];
     [self setupBottomView];
     [self setupData];
+    // 收藏状态
     [self collectedButtonStatusChange];
     
     [noteCenter addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
@@ -226,11 +227,27 @@ const static CGFloat changeFontSizeViewH = 150;
 #pragma mark - 收藏按钮状态变化
 - (void)collectedButtonStatusChange {
     if ([AccountTool account]) {
-        if (![self.card.isCollected isEqual:@(1)]) {
-            [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页未收藏"] forState:UIControlStateNormal];
-
+        // 搜索页面跳转
+        if (self.searchCardFrame) {
+            if ([self nid]) {
+                [Card cardIsCollected:[self nid] cardIsCollectedBlock:^(BOOL isCollected, BOOL isExists) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        if (!isCollected) {
+                            [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页未收藏"] forState:UIControlStateNormal];
+                            
+                        } else {
+                            [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页已收藏"] forState:UIControlStateNormal];
+                        }
+                    });
+                }];
+            }
         } else {
-            [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页已收藏"] forState:UIControlStateNormal];
+            if (![self.card.isCollected isEqual:@(1)]) {
+                [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页未收藏"] forState:UIControlStateNormal];
+                
+            } else {
+                [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页已收藏"] forState:UIControlStateNormal];
+            }
         }
     }
 }
@@ -307,7 +324,7 @@ const static CGFloat changeFontSizeViewH = 150;
 #pragma mark - dealloc
 - (void)dealloc {
     [noteCenter removeObserver:self];
-    NSLog(@"%@", NSStringFromSelector(_cmd));
+    ////NSLog(@"%@", NSStringFromSelector(_cmd));
 }
 
 #pragma mark - 加载详情页所有数据
@@ -315,6 +332,7 @@ const static CGFloat changeFontSizeViewH = 150;
     
     // 详情页block
     void (^contentBlock)(id json) = ^(id json) {
+          //NSLog(@"详情页--%@", json[@"code"]);
         if ([json[@"code"] integerValue] == 2000) {
             [self.contentFrames removeAllObjects];
             NSInteger i = 0;
@@ -361,6 +379,8 @@ const static CGFloat changeFontSizeViewH = 150;
                 content.body = dict[@"txt"];
                 if (dict[@"vid"]) {
                     content.video = [self subVideoString:dict[@"vid"]];
+                    
+                    NSLog(@"%@", content.video);
                 }
                 if (content.photo) {
                     content.isPhoto = YES;
@@ -384,6 +404,7 @@ const static CGFloat changeFontSizeViewH = 150;
 
     // 精选评论block
     void (^excellentCommentsBlock)(id json) = ^(id json) {
+            //NSLog(@"精选评论--%@", json[@"code"]);
         if ([json[@"code"] integerValue] == 2000) {
             [self.excellentCommentsFrames removeAllObjects];
             NSArray *commentsArray = json[@"data"];
@@ -416,6 +437,7 @@ const static CGFloat changeFontSizeViewH = 150;
     
     // 全文评论
     void (^commentsBlock)(id json) = ^(id json) {
+           //NSLog(@"全文评论--%@", json[@"code"]);
         if ([json[@"code"] integerValue] == 2000) {
             [self.fulltextCommentFrames removeAllObjects];
             NSArray *commentsArray = json[@"data"];
@@ -447,7 +469,9 @@ const static CGFloat changeFontSizeViewH = 150;
 
     // 相关观点block
     void (^relatePointBlock)(id json) = ^(id json) {
-                
+        
+        //NSLog(@"相关观点--%@", json[@"code"]);
+        
         if ([json[@"code"] integerValue] == 2000) {
             [self.relatePointFrames removeAllObjects];
             NSDictionary *dict = json[@"data"];
@@ -522,10 +546,13 @@ const static CGFloat changeFontSizeViewH = 150;
     // 精选评论
     NSString *excellentDetailCommentsURL = [NSString stringWithFormat:@"%@/v2/ns/coms/h", ServerUrlVersion2];
     NSMutableDictionary *excellentDetailCommentsParams = [NSMutableDictionary dictionary];
+    
+//    NSLog(@"%@", [self docId]);
+    
     excellentDetailCommentsParams[@"did"] = [[[self docId] stringByBase64Encoding] stringByTrimmingString:@"="];
     excellentDetailCommentsParams[@"uid"] = [userDefaults objectForKey:@"uid"];
  
-//    NSLog(@"%@", excellentDetailCommentsParams);
+//    //NSLog(@"%@", excellentDetailCommentsParams);
     
     
     // 相关观点
@@ -533,7 +560,7 @@ const static CGFloat changeFontSizeViewH = 150;
     detailRelatePointParams[@"nid"] = [self nid];
     NSString *relateURL = [NSString stringWithFormat:@"%@/v2/ns/asc", ServerUrlVersion2];
 
-//    NSLog(@"%@?url=%@",relateURL,  [self.card valueForKey:@"newId"]);
+//    //NSLog(@"%@?url=%@",relateURL,  [self.card valueForKey:@"newId"]);
     
     // 全文评论
     NSString *detailCommentsURL = [NSString stringWithFormat:@"%@/v2/ns/coms/c", ServerUrlVersion2];
@@ -543,7 +570,7 @@ const static CGFloat changeFontSizeViewH = 150;
     detailCommentsParams[@"c"] = @"20";
     detailCommentsParams[@"uid"] = [userDefaults objectForKey:@"uid"];
     
-   // NSLog(@"%@",    detailCommentsParams[@"did"] );
+   // //NSLog(@"%@",    detailCommentsParams[@"did"] );
     
     
     // 详情页正文
@@ -563,19 +590,25 @@ const static CGFloat changeFontSizeViewH = 150;
                     reloadTableViewBlock();
                 } failure:^(NSError *error) {
                     showReloadPageBlock();
+//                    NSLog(@"全文评论：%@", error);
                 }];
                 
             } failure:^(NSError *error) {
                showReloadPageBlock();
+//                NSLog(@"相关观点：%@", error);
 
             }];
 
         } failure:^(NSError *error) {
             showReloadPageBlock();
+//            NSLog(@"精选评论：%@", error);
         }];
 
     } failure:^(NSError *error) {
         showReloadPageBlock();
+//        NSLog(@"正文：%@", error);
+ 
+        
     }];
 }
 
@@ -592,6 +625,9 @@ const static CGFloat changeFontSizeViewH = 150;
 - (NSString *)subVideoString:(NSString *)str {
     NSScanner *scanner = [NSScanner scannerWithString:str];
     NSString *dataSrc = @"data-src";
+    if (![str containsString:dataSrc]) {
+        dataSrc = @"src";
+    }
     NSString *name;
     [scanner scanUpToString:dataSrc intoString:NULL];
     [scanner scanUpToString:@"auto=0" intoString:&name];
@@ -602,22 +638,24 @@ const static CGFloat changeFontSizeViewH = 150;
 #pragma mark - viewDidDisappear
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    if (self.navigationController.viewControllers.count == 0) {
-        if (!self.isRead) {
-            [self.card setValue:@(1) forKey:@"isRead"];
-            CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
-            [cdh saveBackgroundContext];
+    if(!self.searchCardFrame) {
+        if (self.navigationController.viewControllers.count == 0) {
+            if (!self.isRead) {
+                [self.card setValue:@(1) forKey:@"isRead"];
+                CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+                [cdh saveBackgroundContext];
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    //NSLog(@"success");
+                });
+            }
+            [self endTimer];
+            // 提交用户日志
+            [self submitUserOperationLog];
             
-            dispatch_async(dispatch_get_main_queue(), ^{
-                NSLog(@"success");
-            });
         }
-        [self endTimer];
-        // 提交用户日志
-        [self submitUserOperationLog];
-     
+        self.statusWindow.hidden = NO;
     }
-    self.statusWindow.hidden = NO;
 }
 
 #pragma mark - 开启定时器
@@ -674,7 +712,7 @@ const static CGFloat changeFontSizeViewH = 150;
         self.http = [LPHttpTool http];
         [self.http getImageWithURL:url params:nil success:^(id json) {
         } failure:^(NSError *error) {
-            NSLog(@"%@", error);
+            //NSLog(@"%@", error);
 
         }];
     }
@@ -690,22 +728,7 @@ const static CGFloat changeFontSizeViewH = 150;
     return NO;
 }
 
-
-
-#pragma mark - 顶部视图隐藏和显示
-- (void)fadeIn
-{
-//    [UIView animateWithDuration:0.1 animations:^{
-//        self.topView.alpha = 0.9;
-//    }];
-}
-
-- (void)fadeOut
-{
-//    [UIView animateWithDuration:0.1 animations:^{
-//        self.topView.alpha = 0.0;;
-//    }];
-}
+#pragma mark - scrollViewWillBeginDragging
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
@@ -716,15 +739,6 @@ const static CGFloat changeFontSizeViewH = 150;
     }
 }
 
-//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-//    if ([scrollView isKindOfClass:[UIScrollView class]]) {
-//    if (self.lastContentOffsetX < scrollView.contentOffset.x) {
-//        NSLog(@"right");
-//    } else if (self.lastContentOffsetX > scrollView.contentOffset.x) {
-//       NSLog(@"left");
-//     }
-//    }
-//}
 #pragma mark - scrollViewDidScroll
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -1512,7 +1526,7 @@ const static CGFloat changeFontSizeViewH = 150;
         NSString *url = [NSString stringWithFormat:@"%@/v2/ns/cocs?nid=%@&&uid=%@", ServerUrlVersion2,[self nid], [userDefaults objectForKey:@"uid"]];
         NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
         
-//        NSLog(@"%@", url);
+//        //NSLog(@"%@", url);
         [LPHttpTool postAuthorizationJSONWithURL:url authorization:authorization params:nil success:^(id json) {
             if ([json[@"code"] integerValue] == 2000) {
                 self.concernImageView.image = [UIImage imageNamed:@"详情页心已关注"];
@@ -1545,7 +1559,7 @@ const static CGFloat changeFontSizeViewH = 150;
                 
             }
         } failure:^(NSError *error) {
-           // NSLog(@"%@", error);
+           // //NSLog(@"%@", error);
         }];
         
 
@@ -1555,7 +1569,7 @@ const static CGFloat changeFontSizeViewH = 150;
         NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
         
         [LPHttpTool deleteAuthorizationJSONWithURL:url authorization:authorization params:nil success:^(id json) {
-            // NSLog(@"%@", json);
+            // //NSLog(@"%@", json);
             if ([json[@"code"] integerValue] == 2000) {
                 self.concernImageView.image = [UIImage imageNamed:@"详情页心未关注"];
                 NSInteger concernCount = [self.concernCount integerValue];
@@ -1563,7 +1577,7 @@ const static CGFloat changeFontSizeViewH = 150;
                 
             }
         } failure:^(NSError *error) {
-           // NSLog(@"%@", error);
+           // //NSLog(@"%@", error);
         }];
     }
 }
@@ -1575,13 +1589,13 @@ const static CGFloat changeFontSizeViewH = 150;
     NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
     
     [LPHttpTool getJsonAuthorizationWithURL:url authorization:authorization params:nil success:^(id json) {
-        NSLog(@"%@", json);
+        //NSLog(@"%@", json);
         if ([json[@"code"] integerValue] == 2000) {
 
             
         }
     } failure:^(NSError *error) {
-        NSLog(@"%@", error);
+        //NSLog(@"%@", error);
     }];
     
 }
@@ -1960,20 +1974,36 @@ const static CGFloat changeFontSizeViewH = 150;
                     self.composeButton.backgroundColor = [UIColor colorFromHexString:LPColor4];
                     self.composeButton.layer.borderColor  =  [UIColor colorFromHexString:LPColor4].CGColor;
                     [self.composeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                    
                     self.composeComment = NO;
                     
                     // 存储评论内容
                     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
                     dict[@"commentID"] = comment.commentId;
                     dict[@"upFlag"] = @"0";
-                    dict[@"title"] = self.card.title;
-                    dict[@"nid"] = [NSString stringWithFormat:@"%@", self.card.nid];
+                    dict[@"title"] = self.contentTitle;
+                    dict[@"nid"] = [NSString stringWithFormat:@"%@", [self nid]];
                     dict[@"commend"] = @"0";
                     dict[@"commentTime"] = comment.createTime;
                     dict[@"comment"] = comment.srcText;
-                    [Comment createCommentWithDict:dict card:self.card];
-                    
+                    // 搜索页面跳转
+                    if (self.searchCardFrame) {
+                        NSMutableDictionary *cardDict = [NSMutableDictionary dictionary];
+                        LPSearchCard *searchCard = self.searchCardFrame.card;
+                        [cardDict setObject:searchCard.nid forKey:@"nid"];
+                        [cardDict setObject:searchCard.docId forKey:@"docid"];
+                        [cardDict setObject:self.contentTitle forKey:@"title"];
+                        [cardDict setObject:searchCard.sourceSiteURL forKey:@"purl"];
+                        [cardDict setObject:searchCard.sourceSiteName forKey:@"pname"];
+                        [cardDict setObject:searchCard.updateTime forKey:@"ptime"];
+                        [cardDict setObject:searchCard.channelId forKey:@"channel"];
+                        [cardDict setObject:searchCard.commentsCount forKey:@"comment"];
+                        if (searchCard.cardImages.count > 0) {
+                             [cardDict setObject:searchCard.cardImages forKey:@"imgs"];
+                        }
+                        [Card createCardWithDict:cardDict commentDict:dict];
+                    } else {
+                         [Comment createCommentWithDict:dict card:self.card];
+                    }
                 }
                 
             } failure:^(NSError *error) {
@@ -2026,7 +2056,7 @@ const static CGFloat changeFontSizeViewH = 150;
                     [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:1]] withRowAnimation:UITableViewRowAnimationNone];
                 }
             } failure:^(NSError *error) {
-                NSLog(@"%@", error);
+                //NSLog(@"%@", error);
             }];
         } else {
             NSString *url = [NSString stringWithFormat:@"%@/v2/ns/coms/up?cid=%@&&uid=%@", ServerUrlVersion2,comment.Id, [userDefaults objectForKey:@"uid"]];
@@ -2111,7 +2141,7 @@ const static CGFloat changeFontSizeViewH = 150;
                 [self.commentsTableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
             }
         } failure:^(NSError *error) {
-          //  NSLog(@"%@", error);
+          //  //NSLog(@"%@", error);
         }];
         
         
@@ -2119,7 +2149,7 @@ const static CGFloat changeFontSizeViewH = 150;
    
         [LPHttpTool postAuthorizationJSONWithURL:url authorization:authorization params:nil success:^(id json) {
           
-           // NSLog(@"%@",json);
+           // //NSLog(@"%@",json);
             if ([json[@"code"] integerValue] == 4001) {
                  [self tipViewWithCondition:7];
             } else if ([json[@"code"] integerValue] == 2000) {
@@ -2186,11 +2216,7 @@ const static CGFloat changeFontSizeViewH = 150;
     
     if ([AccountTool account] ==  nil) {
         [AccountTool accountLoginWithViewController:self success:^(Account *account){
-            if ([self.card.isCollected  isEqual: @(1)]) {
-                [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页已收藏"] forState:UIControlStateNormal];
-            } else {
-                [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页未收藏"] forState:UIControlStateNormal];
-            }
+            [self collectOrNot];
         } failure:^{
         } cancel:nil];
     } else {
@@ -2200,13 +2226,48 @@ const static CGFloat changeFontSizeViewH = 150;
 
 #pragma mark - 收藏和取消收藏
 - (void)collectOrNot {
-    if ([self.card.isCollected isEqual:@(1)]) {
-        [self tipViewWithCondition:2];
+    if (self.searchCardFrame) {
+          [Card cardIsCollected:[self nid]  cardIsCollectedBlock:^(BOOL isCollected, BOOL isExists) {
+              NSMutableDictionary *cardDict = [NSMutableDictionary dictionary];
+              LPSearchCard *searchCard = self.searchCardFrame.card;
+              [cardDict setObject:searchCard.nid forKey:@"nid"];
+              [cardDict setObject:searchCard.docId forKey:@"docid"];
+              [cardDict setObject:self.contentTitle forKey:@"title"];
+              [cardDict setObject:searchCard.sourceSiteURL forKey:@"purl"];
+              [cardDict setObject:searchCard.sourceSiteName forKey:@"pname"];
+              [cardDict setObject:searchCard.updateTime forKey:@"ptime"];
+              [cardDict setObject:searchCard.channelId forKey:@"channel"];
+              [cardDict setObject:searchCard.commentsCount forKey:@"comment"];
+              if (searchCard.cardImages.count > 0) {
+                [cardDict setObject:searchCard.cardImages forKey:@"imgs"];
+              }
+            
+              if (isCollected) {
+                  // 取消收藏
+                  [Card createCardWithDict:cardDict isCollected:false];
+                 dispatch_async(dispatch_get_main_queue(), ^{
+                     [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页未收藏"] forState:UIControlStateNormal];
+                     [self tipViewWithCondition:2];
+                 });
+            
+              } else {
+                  // 添加收藏
+                 [Card createCardWithDict:cardDict isCollected:true];
+                 dispatch_async(dispatch_get_main_queue(), ^{
+                      [self tipViewWithCondition:1];
+                      [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页已收藏"] forState:UIControlStateNormal];
+                 });
+              }
+            [noteCenter postNotificationName:@"UserCollectionedChangeer" object:nil userInfo:nil];
+          }];
     } else {
-       [self tipViewWithCondition:1];
+        if ([self.card.isCollected isEqual:@(1)]) {
+            [self tipViewWithCondition:2];
+        } else {
+            [self tipViewWithCondition:1];
+        }
+        [self updateCardCollectedStatus];
     }
-    [self updateCardCollectedStatus];
-    
 }
 
 
@@ -2229,19 +2290,12 @@ const static CGFloat changeFontSizeViewH = 150;
     if (![self.card.isCollected  isEqual: @(1)]) {
         [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页已收藏"] forState:UIControlStateNormal];
         [self.card setValue:@(1) forKey:@"isCollected"];
-        [Card updateCard:self.card];
-        [noteCenter postNotificationName:@"UserCollectionedChangeer" object:nil userInfo:nil];
-        
-        
-        
-        
     } else {
         [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页未收藏"] forState:UIControlStateNormal];
         [self.card setValue:@(0) forKey:@"isCollected"];
-        [Card updateCard:self.card];
-        [noteCenter postNotificationName:@"UserCollectionedChangeer" object:nil userInfo:nil];
-
     }
+    [Card updateCard:self.card];
+    [noteCenter postNotificationName:@"UserCollectionedChangeer" object:nil userInfo:nil];
 }
 
 #pragma mark - 底部弹出分享对话框

@@ -12,6 +12,7 @@
 #import "CardImage+Create.h"
 #import "CardRelate+Create.h"
 #import "Card+Fetch.h"
+#import "Comment.h"
 
 
 @implementation Card (Create)
@@ -83,5 +84,134 @@
         });
     }];
 }
+
++ (void)createCardWithDict:(NSDictionary *)cardDict commentDict:(NSDictionary *)commentDict {
+    CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    [cdh.importContext performBlock:^{
+        
+        // 创建card对象
+        Card *card = nil;
+        NSFetchRequest *fetch = [[NSFetchRequest alloc] init];
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Card" inManagedObjectContext:cdh.importContext ];
+        [fetch setEntity:entityDescription];
+        [fetch setPredicate:[NSPredicate predicateWithFormat:@"nid = %@",cardDict[@"nid"]]];
+        
+        NSError * error = nil;
+        NSArray *fetchedObjects;
+        fetchedObjects = [cdh.importContext  executeFetchRequest:fetch error:&error];
+        // 本地没有就创建
+        if ([fetchedObjects count] == 0 ) {
+            card = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:cdh.importContext];
+            [cdh.importContext obtainPermanentIDsForObjects:@[card] error:nil];
+            card.nid = cardDict[@"nid"];
+            card.title = cardDict[@"title"];
+            card.sourceSiteURL = cardDict[@"purl"];
+            card.sourceSiteName = cardDict[@"pname"];
+            card.updateTime = cardDict[@"ptime"];
+            // 热点频道存入数据库需要更新当前频道编号
+            card.channelId = cardDict[@"channel"];
+            card.type = cardDict[@"style"];
+            card.docId = cardDict[@"docid"];
+            card.commentsCount = cardDict[@"comment"];
+            [CardImage createCardImagesWithURLArray:cardDict[@"imgs"]
+                                               card:card
+                             inManagedObjectContext:cdh.importContext];
+            
+        } else {
+            card = [fetchedObjects objectAtIndex:0];
+        }
+        
+        // 创建comment对象
+        Comment  *comment = [NSEntityDescription insertNewObjectForEntityForName:@"Comment" inManagedObjectContext:cdh.importContext];
+        [cdh.importContext obtainPermanentIDsForObjects:@[comment] error:nil];
+        comment.commentID = commentDict[@"commentID"];
+        comment.upFlag = commentDict[@"upFlag"];
+        comment.title = commentDict[@"title"];
+        comment.nid = commentDict[@"nid"];
+        comment.commend = commentDict[@"commend"];
+        comment.commentTime = [NSString stringWithFormat:@"%lld", (long long)([commentDict[@"commentTime"] timestampWithDateFormat:@"YYYY-MM-dd HH:mm:ss"] * 1000)];
+        comment.comment = commentDict[@"comment"];
+        comment.card = card;
+        
+        [cdh saveBackgroundContext];
+        
+    }];
+}
+
++ (void)createCardWithDict:(NSDictionary *)cardDict isCollected:(BOOL)isCollected {
+    CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    [cdh.importContext performBlock:^{
+        
+        // 创建card对象
+        Card *card = nil;
+        NSFetchRequest *fetch = [[NSFetchRequest alloc] init];
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Card" inManagedObjectContext:cdh.importContext ];
+        [fetch setEntity:entityDescription];
+        [fetch setPredicate:[NSPredicate predicateWithFormat:@"nid = %@",cardDict[@"nid"]]];
+        
+        NSError * error = nil;
+        NSArray *fetchedObjects;
+        fetchedObjects = [cdh.importContext  executeFetchRequest:fetch error:&error];
+        // 本地没有就创建
+        if ([fetchedObjects count] == 0 ) {
+            card = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:cdh.importContext];
+            [cdh.importContext obtainPermanentIDsForObjects:@[card] error:nil];
+            card.nid = cardDict[@"nid"];
+            card.title = cardDict[@"title"];
+            card.sourceSiteURL = cardDict[@"purl"];
+            card.sourceSiteName = cardDict[@"pname"];
+            card.updateTime = cardDict[@"ptime"];
+            // 热点频道存入数据库需要更新当前频道编号
+            card.channelId = cardDict[@"channel"];
+            card.type = cardDict[@"style"];
+            card.docId = cardDict[@"docid"];
+            card.commentsCount = cardDict[@"comment"];
+            [CardImage createCardImagesWithURLArray:cardDict[@"imgs"]
+                                               card:card
+                             inManagedObjectContext:cdh.importContext];
+            
+        } else {
+            card = [fetchedObjects objectAtIndex:0];
+        }
+        if (isCollected) {
+            card.isCollected = @(1);
+        } else {
+            card.isCollected = @(0);
+        }
+        [cdh saveBackgroundContext];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"更新成功");
+        });
+    }];
+}
+
++ (void)cardIsCollected:(NSString *)nid cardIsCollectedBlock:(cardIsCollectedBlock)cardIsCollectedBlock {
+    CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    [cdh.importContext performBlock:^{
+        
+        // 创建card对象
+        Card *card = nil;
+        NSFetchRequest *fetch = [[NSFetchRequest alloc] init];
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Card" inManagedObjectContext:cdh.importContext ];
+        [fetch setEntity:entityDescription];
+        [fetch setPredicate:[NSPredicate predicateWithFormat:@"nid = %@ ",nid]];
+        
+        NSError * error = nil;
+        NSArray *fetchedObjects;
+        fetchedObjects = [cdh.importContext  executeFetchRequest:fetch error:&error];
+        // 本地没有就创建
+        if ([fetchedObjects count] == 0 ) {
+            cardIsCollectedBlock(false, false);
+        } else {
+            card = [fetchedObjects objectAtIndex:0];
+            if ([card.isCollected isEqual: @(1)]) {
+                cardIsCollectedBlock(true, true);
+            } else {
+                cardIsCollectedBlock(false, true);
+            }
+        }
+    }];
+}
+
 
 @end

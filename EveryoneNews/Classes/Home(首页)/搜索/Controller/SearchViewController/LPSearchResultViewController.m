@@ -21,7 +21,7 @@
 
 static NSString *cellIdentifier = @"cellIdentifier";
 
-@interface LPSearchResultViewController ()<LPSearchResultTopViewDelegate, UITableViewDataSource, UITableViewDelegate>
+@interface LPSearchResultViewController ()<LPSearchResultTopViewDelegate, UITableViewDataSource, UITableViewDelegate, LPSearchResultViewCellDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *cardFrames;
@@ -136,7 +136,8 @@ static NSString *cellIdentifier = @"cellIdentifier";
                 card.cardImages = dict[@"imgs"];
                 card.docId = dict[@"docid"];
                 card.nid = dict[@"nid"];
-                card.commentsCount = @(10);
+                card.commentsCount = dict[@"comment"];
+                card.channelId = dict[@"channel"];
                 
                 LPSearchCardFrame *cardFrame = [[LPSearchCardFrame alloc] init];
                 cardFrame.card = card;
@@ -218,7 +219,7 @@ static NSString *cellIdentifier = @"cellIdentifier";
     NSString *url = [NSString stringWithFormat:@"%@/v2/ns/es/s",ServerUrlVersion2];
     __weak typeof(self) weakSelf = self;
     [LPHttpTool getWithURL:url params:params success:^(id json) {
-        
+//        NSLog(@"%@", json[@"code"]);
         if ([json[@"code"] integerValue] == 2000) {
             NSArray *jsonArray = (NSArray *)json[@"data"];
             for (int i = 0; i < jsonArray.count; i ++) {
@@ -231,18 +232,22 @@ static NSString *cellIdentifier = @"cellIdentifier";
                 card.cardImages = dict[@"imgs"];
                 card.docId = dict[@"docid"];
                 card.nid = dict[@"nid"];
-                card.commentsCount = @(10);
+                card.commentsCount = dict[@"comment"];
+                card.channelId = dict[@"channel"];
                 
                 
                 LPSearchCardFrame *cardFrame = [[LPSearchCardFrame alloc] init];
                 cardFrame.card = card;
-                [self.cardFrames addObject:cardFrame];
+                [weakSelf.cardFrames addObject:cardFrame];
             }
              weakSelf.tableView.hidden = NO;
             [weakSelf.tableView reloadData];
-            self.pageIndex = self.pageIndex + 1;
+            weakSelf.pageIndex = self.pageIndex + 1;
             [weakSelf hideLoadingView];
-            
+        } else if([json[@"code"] integerValue] == 2002) {
+             weakSelf.tableView.hidden = NO;
+            [weakSelf.tableView reloadData];
+            [weakSelf hideLoadingView];
         }
     } failure:^(NSError *error) {
         [weakSelf hideLoadingView];
@@ -282,6 +287,7 @@ static NSString *cellIdentifier = @"cellIdentifier";
     if (cell == nil) {
         cell = [[LPSearchResultViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
+    cell.delegate = self;
     cell.cardFrame = self.cardFrames[indexPath.row];
     return cell;
 }
@@ -298,5 +304,14 @@ static NSString *cellIdentifier = @"cellIdentifier";
     detailVc.searchCardFrame = searchCardFrame;
     [self.navigationController pushViewController:detailVc animated:YES];
 }
+
+#pragma mark - UITableViewCell Delegate
+- (void)cell:(LPSearchResultViewCell *)cell didSelectedCardFrame:(LPSearchCardFrame *)cardFrame {
+    LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
+    detailVc.searchCardFrame = cardFrame;
+    [self.navigationController pushViewController:detailVc animated:YES];
+}
+
+
 
 @end

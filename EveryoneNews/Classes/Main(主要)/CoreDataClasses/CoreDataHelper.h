@@ -23,4 +23,5 @@
 - (void)saveImportContext;
 - (void)deleteCoreData;
 - (void)saveContextAndParentContext;
+- (void)deleteCoreDataFile;
 @end

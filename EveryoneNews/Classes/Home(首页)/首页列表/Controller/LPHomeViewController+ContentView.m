@@ -74,15 +74,15 @@ NSString *const reusePageID = @"reusePageID";
 
 #pragma mark - 频道栏发生变化更新相应数据
 - (void)handleDataAfterChannelItemChanged:(NSInteger)index {
-
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSIndexPath *menuIndexPath = [NSIndexPath indexPathForItem:index
-                                                             inSection:0];
-            [self.menuView reloadData];
-            [self.menuView selectItemAtIndexPath:menuIndexPath
-                                        animated:NO
-                                  scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
-        });
+//
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            NSIndexPath *menuIndexPath = [NSIndexPath indexPathForItem:index
+//                                                             inSection:0];
+//            [self.menuView reloadData];
+//            [self.menuView selectItemAtIndexPath:menuIndexPath
+//                                        animated:NO
+//                                  scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+//        });
     
         // 添加频道时如果本地数据库中数据已经存在则直接加载到内存中
         for (int i = 0; i < self.selectedArray.count; i++) {
@@ -114,9 +114,19 @@ NSString *const reusePageID = @"reusePageID";
                     }
                     if (i == self.selectedArray.count - 1) {
                         dispatch_async(dispatch_get_main_queue(), ^{
+                            
+                            
+                            NSIndexPath *menuIndexPath = [NSIndexPath indexPathForItem:index
+                                                                             inSection:0];
+                            [self.menuView reloadData];
+                            [self.menuView selectItemAtIndexPath:menuIndexPath
+                                                        animated:NO
+                                                  scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+                            
                             [self.pagingView reloadData];
                             [self.pagingView setCurrentPageIndex:index animated:NO];
                             [self loadMoreDataInPageAtPageIndex:index];
+                      
                             
                         });
                     }
@@ -254,6 +264,9 @@ NSString *const reusePageID = @"reusePageID";
 //        NSDate *date=[formatter dateFromString:dateString];
 //        param.startTime = [NSString stringWithFormat:@"%lld", (long long)([date timeIntervalSince1970] * 1000)];
     //-----------------------------------------------------------------------
+    
+    
+ 
     
     LPChannelItem *channelItem = self.pageindexMapToChannelItemDictionary[@(pageIndex)];
     CardParam *param = [[CardParam alloc] init];

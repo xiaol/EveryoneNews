@@ -117,6 +117,12 @@ NSString *storeFileName = @"EveryoneNews.sqlite";
     if (debug==1) {
         NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
     }
+    // 删除已经存在的数据库文件(暴力删除)
+    if (![userDefaults objectForKey:@"version_3_1_SqliteExists"]) {
+        [userDefaults setObject:@"version_3_1_SqliteExists" forKey:@"version_3_1_SqliteExists"];
+        [userDefaults synchronize];
+        [self deleteCoreDataFile];
+    }
     [self loadStore];
     [self importDefaultData];
     if (![userDefaults objectForKey:@"isVersion3FirstLoad"] || ![userDefaults objectForKey:@"isFinishDeleteCoreData"]) {
@@ -369,6 +375,13 @@ NSString *storeFileName = @"EveryoneNews.sqlite";
      
     }];
   
+}
+
+- (void)deleteCoreDataFile {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if ([fileManager fileExistsAtPath:[self applicationStoresDirectory].path]) {
+        [fileManager removeItemAtPath:[self applicationStoresDirectory].path error:nil];
+    }
 }
 
 @end

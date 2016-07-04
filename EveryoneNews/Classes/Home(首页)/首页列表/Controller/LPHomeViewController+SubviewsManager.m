@@ -351,8 +351,6 @@ NSString * const cardCellIdentifier = @"CardCellIdentifier";
             
             [self updatePageindexMapToChannelItemDictionary];
             
-            
-            
             // 更新相应频道栏数据
             [self handleDataAfterChannelItemChanged:index];
         });

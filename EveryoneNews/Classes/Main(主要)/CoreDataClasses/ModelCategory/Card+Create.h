@@ -9,6 +9,8 @@
 #import "Card.h"
 
 typedef void (^cardsArrayBlock)(NSArray *cardsArray);
+typedef void (^cardIsCollectedBlock)(BOOL isCollected, BOOL isExists);
+
 @interface Card (Create)
 
 + (Card *)createCardWithDict:(NSDictionary *)dict channelID:(NSString *)channelID inManagedObjectContext:(NSManagedObjectContext *)context;
@@ -29,4 +31,11 @@ typedef void (^cardsArrayBlock)(NSArray *cardsArray);
 
 
 + (void)updateCard:(Card *)card;
+
++ (void)createCardWithDict:(NSDictionary *)cardDict commentDict:(NSDictionary *)commentDict;
+
++ (void)createCardWithDict:(NSDictionary *)cardDict isCollected:(BOOL)isCollected;
+
++ (void)cardIsCollected:(NSString *)nid cardIsCollectedBlock:(cardIsCollectedBlock)cardIsCollectedBlock;
+
 @end
