@@ -99,6 +99,7 @@
 		AEE3B5181D17A187008BC0EA /* jquery.lazyload.js in Resources */ = {isa = PBXBuildFile; fileRef = AEE3B5131D17A187008BC0EA /* jquery.lazyload.js */; };
 		AEE3B51A1D17A409008BC0EA /* index.js in Resources */ = {isa = PBXBuildFile; fileRef = AEE3B5191D17A409008BC0EA /* index.js */; };
 		AEE3B51C1D17FF57008BC0EA /* RequestCustomClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE3B51B1D17FF57008BC0EA /* RequestCustomClass.swift */; };
+		AEE67EEC1D2A06BF004DDCF2 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE67EEB1D2A06BF004DDCF2 /* Regex.swift */; };
 		AEE7D22D1D0E58F100761E74 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE7D22C1D0E58F100761E74 /* HeaderView.swift */; };
 		AEE7D2351D0E675700761E74 /* FooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE7D2341D0E675700761E74 /* FooterView.swift */; };
 		AEECBC4D1D13B30E00529150 /* SlideFontSizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEECBC4C1D13B30E00529150 /* SlideFontSizeView.swift */; };
@@ -221,6 +222,7 @@
 		AEE3B5131D17A187008BC0EA /* jquery.lazyload.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.lazyload.js; sourceTree = "<group>"; };
 		AEE3B5191D17A409008BC0EA /* index.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
 		AEE3B51B1D17FF57008BC0EA /* RequestCustomClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestCustomClass.swift; sourceTree = "<group>"; };
+		AEE67EEB1D2A06BF004DDCF2 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 		AEE7D2251D0E587300761E74 /* Journalism-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Journalism-Bridging-Header.h"; path = "Resources/LPRefreshView/Journalism-Bridging-Header.h"; sourceTree = "<group>"; };
 		AEE7D22C1D0E58F100761E74 /* HeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		AEE7D2341D0E675700761E74 /* FooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FooterView.swift; sourceTree = "<group>"; };
@@ -602,6 +604,7 @@
 		AEC47B1A1D0032E20055936D /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				AEE67EEB1D2A06BF004DDCF2 /* Regex.swift */,
 				AEC47B1C1D0032E20055936D /* WebViewExtenion.swift */,
 				AEDECF281D0D11D100CDCE2B /* DataSourceExtension.swift */,
 				AEA1D0C91D1BA7AB007AD1E5 /* CustomNSURLCache.swift */,
@@ -984,6 +987,7 @@
 				6DC4FDCC1CF0314700D25A99 /* HomeViewController.swift in Sources */,
 				AEC47B3F1D00334A0055936D /* PopAnimatedTransitioning.swift in Sources */,
 				AEDECF2B1D0D19A700CDCE2B /* CopyLabel.swift in Sources */,
+				AEE67EEC1D2A06BF004DDCF2 /* Regex.swift in Sources */,
 				AEBEAA981D1A417E004D3178 /* UserCollectionViewController.swift in Sources */,
 				AEBCAEF31CEC3F4300EBFC0A /* UIStoryBoard.swift in Sources */,
 				AEC47B021CFFF39D0055936D /* NewListDataSource.swift in Sources */,
@@ -1168,13 +1172,13 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				ENABLE_BITCODE = NO;
+				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = Journalism/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.msiter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "68e4571e-e4a9-4176-a364-a88618a6f441";
 				SWIFT_OBJC_BRIDGING_HEADER = "Journalism/Resources/LPRefreshView/Journalism-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1187,15 +1191,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				ENABLE_BITCODE = NO;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Ivan liu (YFSY5VT59W)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Ivan liu (YFSY5VT59W)";
+				ENABLE_BITCODE = YES;
 				INFOPLIST_FILE = Journalism/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.msiter;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "68e4571e-e4a9-4176-a364-a88618a6f441";
 				SWIFT_OBJC_BRIDGING_HEADER = "Journalism/Resources/LPRefreshView/Journalism-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};

@@ -75,7 +75,7 @@ extension HomeViewControllerChannelDataSource:UICollectionViewDelegateFlowLayout
             self.ChannelNoDeleteArray.append(self.ChannelIsDeleteArray[0]) // 在上方的东西添加一个数据
             collectionView.moveItemAtIndexPath(indexPath, toIndexPath: NSIndexPath(forItem: ChannelNoDeleteArray.count-1, inSection: 0)) // 动画完成这个操作
             self.delegate.ChannelManagerChange?()
-        }else{
+        }else if indexPath.row != 0{
             if self.CollectionViewDragIng { // 如果当前标示正在进行编辑频道列表的话 进行删除频道列表的操作
                 self.ChannelNoDeleteArray.removeAtIndex(indexPath.item) // 在上方没有删除的频道列表中删除选中的频道对象
                 self.ChannelIsDeleteArray.append(self.ChannelNoDeleteArray[0]) // 在下方删除的频道列表中新增任何一个对象

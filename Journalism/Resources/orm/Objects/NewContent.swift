@@ -139,6 +139,13 @@ extension NewContent{
                 
 //                class="lazyload" data-src="image.jpg" alt="Desert Road"
                 
+//                let res = img.grep("_(\\d+)X(\\d+).")
+//                
+//                let width = res.captures[1]
+//                let height = res.captures[2]
+//                
+//                print(res)
+                
                 body += "<p><img data-src=\"\(img)\" class=\"lazyload img-responsive center-block\"src=\"home.png\" ></p>"
             }
             
