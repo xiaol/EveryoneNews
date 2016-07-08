@@ -45,7 +45,7 @@ extension NewslistViewController{
             self.refreshNewsDataMethod(del: true,create:true,show: true)
         }else{
             
-            if newsResults == nil || newsResults.count <= 0 {
+            if newsResults == nil || newsResults.count <= 30 {
             
                 
                 self.refreshNewsDataMethod(del: true,create:true,show: false)

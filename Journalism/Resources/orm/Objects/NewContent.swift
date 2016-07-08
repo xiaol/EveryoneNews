@@ -137,13 +137,15 @@ extension NewContent{
             
             if let img = conten.img {
                 
-//                class="lazyload" data-src="image.jpg" alt="Desert Road"
-                
+//                
 //                let res = img.grep("_(\\d+)X(\\d+).")
 //                
 //                let width = res.captures[1]
 //                let height = res.captures[2]
+////
 //                
+//                body += "<p><img data-src=\"\(img)\"  style = \"display:block;width:\(width);height:\(height);background-color:#f6f6f6;\" class=\"lazyload  img-responsive center-block\"  ></p>"
+                
 //                print(res)
                 
                 body += "<p><img data-src=\"\(img)\" class=\"lazyload img-responsive center-block\"src=\"home.png\" ></p>"
@@ -187,6 +189,9 @@ extension NewContent{
                 body += "<p>\(txt)</p>"
             }
         }
+        
+        
+        body+="<p style=\"font-size:13px;\" align=\"right\"><span><a href =\"\(self.purl)\">原文链接</a></span></p>"
         
         let templatePath = NSBundle.mainBundle().pathForResource("content_template", ofType: "html")
         

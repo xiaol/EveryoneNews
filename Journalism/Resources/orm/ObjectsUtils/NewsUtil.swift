@@ -18,16 +18,32 @@ class NewsUtil: NSObject {
      - parameter key:    新闻的关键字
      - parameter finish: 完成的回调
      */
-    class func searchNewArrayByKey(key:String,p:String="1",l:String="20",delete:Bool=true,finish:((nomore:Bool)->Void)?=nil,fail:(()->Void)?=nil){
+    class func searchNewArrayByKey(key:String,p:String="1",l:String="20",delete:Bool=true,finish:((key:String,nomore:Bool,fin:Bool)->Void)?=nil){
         
         SearchHistory.create(key)
         
         SearchAPI.nsEsSGet(keywords: key, p: p, l: l) { (datas, error) in
             
-            guard let body = datas,code = body.objectForKey("code") as? Int else {fail?();return}
+            guard let body = datas,code = body.objectForKey("code") as? Int else {
+                
+                finish?(key: key,nomore: false,fin: false)
+                
+                return
+            }
             
-            if code == 2002 {finish?(nomore: true);return}
-            if code != 2000 {fail?();return}
+            if code == 2002 {
+                
+                finish?(key: key,nomore: true,fin: true)
+                
+                return
+            }
+            
+            if code != 2000 {
+                
+                finish?(key: key,nomore: false,fin: false)
+                
+                return
+            }
             
             let realm = try! Realm()
             
@@ -35,19 +51,29 @@ class NewsUtil: NSObject {
                 New.deleSearch()
             }
             
-            guard let data = body.objectForKey("data") as? NSArray else{  finish?(nomore: false);return} // 加载失败
+            guard let data = body.objectForKey("data") as? NSArray else{
+                
+                finish?(key: key,nomore: false,fin: false)
+                
+                return
+            }
             
             try! realm.write({
                 for channel in data {
                     realm.create(New.self, value: channel, update: true)
                     self.AnalysisPutTimeAndImageList(channel as! NSDictionary, realm: realm,iscollected:0)
                     if let nid = channel.objectForKey("nid") as? Int {
-                        realm.create(New.self, value: ["nid":nid,"issearch":1,"channel":999], update: true)
+                        
+                        let title = channel.objectForKey("title") as! String
+                        
+                        let attributed = try! NSMutableAttributedString(data: title.dataUsingEncoding(NSUnicodeStringEncoding)!, options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType], documentAttributes: nil)
+                        
+                        realm.create(New.self, value: ["nid":nid,"issearch":1,"title":attributed.string,"channel":999,"searchTitle":title], update: true)
                     }
                 }
             })
             
-            finish?(nomore: false)
+            finish?(key: key,nomore: false,fin: true)
         }
     }
     

@@ -63,7 +63,7 @@ extension SearchListViewController:UIViewControllerPreviewingDelegate,PreViewCon
             cell.setNewObject(new)
         }
         
-        cell.titleLabel.attributedText =  new.title.toAttributedString()
+        cell.titleLabel.attributedText =  new.searchTitle.toAttributedString()
         
         if #available(iOS 9.0, *) {
             if (self.traitCollection.forceTouchCapability == UIForceTouchCapability.Available) && !tableView.editing{

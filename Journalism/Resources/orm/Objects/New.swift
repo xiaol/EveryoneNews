@@ -21,6 +21,7 @@ public class New: Object {
     dynamic var url = ""  /// 新闻Url
     dynamic var docid = "" /// 用于获取评论的 docid
     dynamic var title = "" /// 新闻标题
+    dynamic var searchTitle = "" /// 新闻标题
     dynamic var ptime = ""  /// 新闻事件
     dynamic var ptimes = NSDate()
     dynamic var pname = ""  /// 新闻来源
@@ -122,7 +123,7 @@ extension New{
         
         let realm = try! Realm()
         
-        return realm.objects(New.self).filter("issearch = 1").sorted("ptimes", ascending: false)
+        return realm.objects(New.self).filter("issearch = 1")
     }
     
     /**

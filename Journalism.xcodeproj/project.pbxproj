@@ -102,6 +102,7 @@
 		AEE67EEC1D2A06BF004DDCF2 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE67EEB1D2A06BF004DDCF2 /* Regex.swift */; };
 		AEE7D22D1D0E58F100761E74 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE7D22C1D0E58F100761E74 /* HeaderView.swift */; };
 		AEE7D2351D0E675700761E74 /* FooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE7D2341D0E675700761E74 /* FooterView.swift */; };
+		AEE9222D1D2F664F00E18F6B /* MigrationFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE9222C1D2F664F00E18F6B /* MigrationFiles.swift */; };
 		AEECBC4D1D13B30E00529150 /* SlideFontSizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEECBC4C1D13B30E00529150 /* SlideFontSizeView.swift */; };
 		AEECBC4F1D13E93100529150 /* UIFontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEECBC4E1D13E93100529150 /* UIFontExtension.swift */; };
 		AEEE61981CFE9CEF00C5FF08 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEE61971CFE9CEF00C5FF08 /* Comment.swift */; };
@@ -226,6 +227,7 @@
 		AEE7D2251D0E587300761E74 /* Journalism-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "Journalism-Bridging-Header.h"; path = "Resources/LPRefreshView/Journalism-Bridging-Header.h"; sourceTree = "<group>"; };
 		AEE7D22C1D0E58F100761E74 /* HeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		AEE7D2341D0E675700761E74 /* FooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FooterView.swift; sourceTree = "<group>"; };
+		AEE9222C1D2F664F00E18F6B /* MigrationFiles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MigrationFiles.swift; sourceTree = "<group>"; };
 		AEECBC4C1D13B30E00529150 /* SlideFontSizeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideFontSizeView.swift; sourceTree = "<group>"; };
 		AEECBC4E1D13E93100529150 /* UIFontExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIFontExtension.swift; sourceTree = "<group>"; };
 		AEEE61971CFE9CEF00C5FF08 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
@@ -412,6 +414,7 @@
 			children = (
 				AEBCAEE61CEC278500EBFC0A /* Objects */,
 				AEBCAEE91CEC2AD100EBFC0A /* ObjectsUtils */,
+				AEE9222C1D2F664F00E18F6B /* MigrationFiles.swift */,
 			);
 			path = orm;
 			sourceTree = "<group>";
@@ -987,6 +990,7 @@
 				6DC4FDCC1CF0314700D25A99 /* HomeViewController.swift in Sources */,
 				AEC47B3F1D00334A0055936D /* PopAnimatedTransitioning.swift in Sources */,
 				AEDECF2B1D0D19A700CDCE2B /* CopyLabel.swift in Sources */,
+				AEE9222D1D2F664F00E18F6B /* MigrationFiles.swift in Sources */,
 				AEE67EEC1D2A06BF004DDCF2 /* Regex.swift in Sources */,
 				AEBEAA981D1A417E004D3178 /* UserCollectionViewController.swift in Sources */,
 				AEBCAEF31CEC3F4300EBFC0A /* UIStoryBoard.swift in Sources */,

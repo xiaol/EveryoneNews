@@ -30,8 +30,6 @@ class SearchListViewController: UIViewController,WaitLoadProtcol {
     let PresentdAnimation = CustomViewControllerPresentdAnimation()
     let InteractiveTransitioning = UIPercentDrivenInteractiveTransition() // 完成 process 渐进行动
     
-    var notificationToken:NotificationToken!
-    
     required init?(coder aDecoder: NSCoder) {
         
         super.init(coder: aDecoder)
@@ -51,31 +49,18 @@ class SearchListViewController: UIViewController,WaitLoadProtcol {
         
         self.showWaitLoadView()
         
-        self.notificationToken = newsResults.addNotificationBlock { (_) in
+        NewsUtil.searchNewArrayByKey(self.searchKey, finish: { (key, nomore, fin) in
             
-            self.hiddenWaitLoadView()
-            
-            self.tableView.hidden = self.newsResults.count <= 0
-            
-            self.tableView.reloadData()
-        }
-        
-        NewsUtil.searchNewArrayByKey(searchKey, finish: { (nomore) in
-            
-            self.hiddenWaitLoadView()
-            }) { 
-                
-                self.hiddenWaitLoadView()
-        }
+            self.srresultMethod(key, nomore: nomore, fin: fin)
+        })
         
         New.deleSearch()
         
         self.tableView.mj_header = NewRefreshHeaderView(refreshingBlock: {
             
-            NewsUtil.searchNewArrayByKey(self.searchKey, finish: { (nomore) in
+            NewsUtil.searchNewArrayByKey(self.searchKey, finish: { (key, nomore, fin) in
                 
-                self.tableView.mj_header.endRefreshing()
-                self.tableView.mj_footer.endRefreshing()
+                self.srresultMethod(key, nomore: nomore, fin: fin)
             })
         })
         
@@ -88,27 +73,13 @@ class SearchListViewController: UIViewController,WaitLoadProtcol {
             
             self.currentPage += 1
             
-            NewsUtil.searchNewArrayByKey(self.searchKey, p: "\(self.currentPage)", delete: false, finish: { (nomore) in
+            NewsUtil.searchNewArrayByKey(self.searchKey,p: "\(self.currentPage)",delete:false,  finish: { (key, nomore, fin) in
                 
-                if nomore {
-                    
-                    self.tableView.mj_footer.endRefreshingWithNoMoreData()
-                }else{
-                    
-                    self.tableView.mj_footer.endRefreshing()
-                }
-                
-                self.tableView.mj_header.endRefreshing()
-                
-                }, fail: { 
-
-                    self.currentPage -= 1
-                    
-                    self.tableView.mj_footer.endRefreshing()
-                    self.tableView.mj_header.endRefreshing()
+                self.srresultMethod(key, nomore: nomore, fin: fin)
             })
         })
         
+
         
         /**
          *  该方法会检测用户设置字体大小的方法
@@ -127,6 +98,37 @@ class SearchListViewController: UIViewController,WaitLoadProtcol {
     }
     
     
+    /**
+     完成请求处理的方法
+     
+     - parameter key:    返回的结果是根据什么关键字搜索的
+     - parameter nomore: 没有更多新闻
+     - parameter fin:    是不是成功的返回
+     */
+    private func srresultMethod(key:String,nomore:Bool,fin:Bool){
+        
+        self.hiddenWaitLoadView()
+        
+        if !fin {
+        
+            self.currentPage -= 1
+        }
+        
+        self.tableView.mj_footer.endRefreshing()
+        self.tableView.mj_header.endRefreshing()
+        
+        
+        if nomore {
+        
+            self.tableView.mj_footer.endRefreshingWithNoMoreData()
+        }
+        
+        if self.searchKey == key {
+        
+            self.tableView.reloadData()
+        }
+    }
+    
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         
@@ -138,16 +140,21 @@ class SearchListViewController: UIViewController,WaitLoadProtcol {
         
         self.showWaitLoadView()
         
-        NewsUtil.searchNewArrayByKey(searchKey, finish: { (nomore) in
+        NewsUtil.searchNewArrayByKey(self.searchKey,finish: { (key, nomore, fin) in
             
-            self.hiddenWaitLoadView()
-        }) {
-            
-            self.hiddenWaitLoadView()
-        }
+            self.srresultMethod(key, nomore: nomore, fin: fin)
+        })
         
         return true
     }
+    
+    override func viewDidDisappear(animated: Bool) {
+        
+        super.viewDidDisappear(animated)
+        
+        New.deleSearch()
+    }
+    
     
     @IBAction func dismissAction(sender: AnyObject) {
         
