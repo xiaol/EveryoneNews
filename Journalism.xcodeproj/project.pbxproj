@@ -103,6 +103,7 @@
 		AEE7D22D1D0E58F100761E74 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE7D22C1D0E58F100761E74 /* HeaderView.swift */; };
 		AEE7D2351D0E675700761E74 /* FooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE7D2341D0E675700761E74 /* FooterView.swift */; };
 		AEE9222D1D2F664F00E18F6B /* MigrationFiles.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE9222C1D2F664F00E18F6B /* MigrationFiles.swift */; };
+		AEE9222F1D2FB38E00E18F6B /* FoucsedVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE9222E1D2FB38E00E18F6B /* FoucsedVIew.swift */; };
 		AEECBC4D1D13B30E00529150 /* SlideFontSizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEECBC4C1D13B30E00529150 /* SlideFontSizeView.swift */; };
 		AEECBC4F1D13E93100529150 /* UIFontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEECBC4E1D13E93100529150 /* UIFontExtension.swift */; };
 		AEEE61981CFE9CEF00C5FF08 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEE61971CFE9CEF00C5FF08 /* Comment.swift */; };
@@ -228,6 +229,7 @@
 		AEE7D22C1D0E58F100761E74 /* HeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		AEE7D2341D0E675700761E74 /* FooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FooterView.swift; sourceTree = "<group>"; };
 		AEE9222C1D2F664F00E18F6B /* MigrationFiles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MigrationFiles.swift; sourceTree = "<group>"; };
+		AEE9222E1D2FB38E00E18F6B /* FoucsedVIew.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoucsedVIew.swift; sourceTree = "<group>"; };
 		AEECBC4C1D13B30E00529150 /* SlideFontSizeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SlideFontSizeView.swift; sourceTree = "<group>"; };
 		AEECBC4E1D13E93100529150 /* UIFontExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIFontExtension.swift; sourceTree = "<group>"; };
 		AEEE61971CFE9CEF00C5FF08 /* Comment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
@@ -376,6 +378,7 @@
 				AEAC3B1B1D1132BC00A292F4 /* WaitView.swift */,
 				AEAC3B1D1D11330000A292F4 /* NoInterestView.swift */,
 				AEECBC4C1D13B30E00529150 /* SlideFontSizeView.swift */,
+				AEE9222E1D2FB38E00E18F6B /* FoucsedVIew.swift */,
 			);
 			path = WaitTipsView;
 			sourceTree = "<group>";
@@ -1005,6 +1008,7 @@
 				AEA1D0CA1D1BA7AB007AD1E5 /* CustomNSURLCache.swift in Sources */,
 				AEF29B091D239671006D1412 /* UIView+Radius.swift in Sources */,
 				AEBEAA9A1D1A46F2004D3178 /* CollExtension.swift in Sources */,
+				AEE9222F1D2FB38E00E18F6B /* FoucsedVIew.swift in Sources */,
 				AE2968301CF69D4400D2782D /* PrivacyViewController.swift in Sources */,
 				AEB8E9D91CFBF42100A105C4 /* NewContent.swift in Sources */,
 				AEAC3B1C1D1132BC00A292F4 /* WaitView.swift in Sources */,

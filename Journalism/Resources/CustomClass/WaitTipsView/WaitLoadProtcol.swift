@@ -13,6 +13,59 @@ import SnapKit
 protocol WaitLoadProtcol {}
 extension WaitLoadProtcol where Self:UIViewController{
 
+    /**
+     显示关注成功页面
+     */
+    func ShowFouceView(){
+    
+        let fv = FoucsedView(frame: CGRectZero)
+        self.view.addSubview(fv)
+        
+        fv.snp_makeConstraints { (make) in
+            
+            make.top.equalTo(0)
+            make.bottom.equalTo(0)
+            make.right.equalTo(0)
+            make.left.equalTo(0)
+        }
+        
+        fv.mbackView.transform = CGAffineTransformScale(fv.mbackView.transform, 0, 0)
+        fv.okImageView.transform = CGAffineTransformScale(fv.okImageView.transform, 0, 0)
+        
+        UIView.animateWithDuration(0.6, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { 
+            
+            fv.mbackView.transform = CGAffineTransformIdentity
+            
+            }) { (_) in
+                
+                UIView.animateWithDuration(0.6, delay: 0, usingSpringWithDamping: 0.6, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+                    
+                    fv.okImageView.transform = CGAffineTransformIdentity
+                    
+                }) { (_) in
+                    
+                }
+        }
+        
+        
+//        let anim = CASpringAnimation(keyPath: "transform")
+//        
+//        anim.damping = 9
+//        
+//        anim.fromValue = NSValue(CATransform3D: CATransform3DMakeScale(0, 0, 0))
+//        anim.toValue = NSValue(CATransform3D: CATransform3DMakeScale(1, 1, 1))
+//        anim.duration = anim.settlingDuration
+//        anim.fillMode = kCAFillModeForwards
+//        
+//        anim.delegate = fv
+//        
+//        fv.mbackView.layer.addAnimation(anim, forKey: "fuck")
+    }
+    
+    
+    /**
+     显示字体大小
+     */
     func showFontSizeSlideView(){
     
         let view = FontSizeSlideView(frame: CGRectZero)
