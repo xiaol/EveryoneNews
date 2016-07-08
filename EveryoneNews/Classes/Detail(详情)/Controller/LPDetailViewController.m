@@ -135,6 +135,8 @@ const static CGFloat changeFontSizeViewH = 150;
 
 @property (nonatomic, assign, getter=isComposeComment) BOOL composeComment;
 
+@property (nonatomic, strong) NSNumber *channel;
+
 @end
 
 @implementation LPDetailViewController
@@ -353,6 +355,7 @@ const static CGFloat changeFontSizeViewH = 150;
 
             self.shareTitle = title;
             self.submitDocID = dict[@"docid"];
+            self.channel = dict[@"channel"];
             // 更新详情页评论数量
             self.commentsCount = [dict[@"comment"] integerValue];
             self.topView.badgeNumber = self.commentsCount;
@@ -379,8 +382,6 @@ const static CGFloat changeFontSizeViewH = 150;
                 content.body = dict[@"txt"];
                 if (dict[@"vid"]) {
                     content.video = [self subVideoString:dict[@"vid"]];
-                    
-                    NSLog(@"%@", content.video);
                 }
                 if (content.photo) {
                     content.isPhoto = YES;
@@ -451,8 +452,6 @@ const static CGFloat changeFontSizeViewH = 150;
                 comment.userName = dict[@"uname"];
                 comment.color = [UIColor colorFromHexString:@"#747474"];
                 comment.isPraiseFlag = [NSString stringWithFormat:@"%@", dict[@"upflag"]] ;
-           
-                
                 comment.Id = dict[@"id"];
                 
                 LPFullCommentFrame *commentFrame = [[LPFullCommentFrame alloc] init];
@@ -540,8 +539,7 @@ const static CGFloat changeFontSizeViewH = 150;
     NSMutableDictionary *detailContentParams = [NSMutableDictionary dictionary];
     NSString *detailContentURL = [NSString stringWithFormat:@"%@/v2/ns/con", ServerUrlVersion2];
     detailContentParams[@"nid"] = [self nid];
-//    detailContentParams[@"nid"] = @"4578822";
-//    NSLog(@"%@?nid=%@",detailContentURL,  [self nid]);
+    NSLog(@"%@?nid=%@",detailContentURL,  [self nid]);
     
     // 精选评论
     NSString *excellentDetailCommentsURL = [NSString stringWithFormat:@"%@/v2/ns/coms/h", ServerUrlVersion2];
@@ -549,7 +547,7 @@ const static CGFloat changeFontSizeViewH = 150;
     
 //    NSLog(@"%@", [self docId]);
     
-    excellentDetailCommentsParams[@"did"] = [[[self docId] stringByBase64Encoding] stringByTrimmingString:@"="];
+    excellentDetailCommentsParams[@"did"] = [[[self docId] stringByBase64Encoding] stringByTrimmingString:@"="] ;
     excellentDetailCommentsParams[@"uid"] = [userDefaults objectForKey:@"uid"];
  
 //    //NSLog(@"%@", excellentDetailCommentsParams);
@@ -577,6 +575,10 @@ const static CGFloat changeFontSizeViewH = 150;
     [LPHttpTool getWithURL:detailContentURL params:detailContentParams success:^(id json) {
         
         contentBlock(json);
+        // 推送跳转到详情页
+        if (!excellentDetailCommentsParams[@"did"]) {
+            excellentDetailCommentsParams[@"did"]  = [[[self submitDocID] stringByBase64Encoding] stringByTrimmingString:@"="];
+        }
         // 详情页精选评论
         [LPHttpTool getWithURL:excellentDetailCommentsURL params:excellentDetailCommentsParams success:^(id json) {
 
@@ -584,29 +586,34 @@ const static CGFloat changeFontSizeViewH = 150;
             // 相关观点
             [LPHttpTool getWithURL:relateURL params:detailRelatePointParams success:^(id json) {
                 relatePointBlock(json);
+                
+                // 推送跳转到详情页
+                if (!detailCommentsParams[@"did"]) {
+                    detailCommentsParams[@"did"]  = [[[self submitDocID] stringByBase64Encoding] stringByTrimmingString:@"="];
+                }
                 // 全文评论
                 [LPHttpTool getWithURL:detailCommentsURL params:detailCommentsParams success:^(id json) {
                     commentsBlock(json);
                     reloadTableViewBlock();
                 } failure:^(NSError *error) {
                     showReloadPageBlock();
-//                    NSLog(@"全文评论：%@", error);
+                    NSLog(@"全文评论：%@", error);
                 }];
                 
             } failure:^(NSError *error) {
                showReloadPageBlock();
-//                NSLog(@"相关观点：%@", error);
+                NSLog(@"相关观点：%@", error);
 
             }];
 
         } failure:^(NSError *error) {
             showReloadPageBlock();
-//            NSLog(@"精选评论：%@", error);
+            NSLog(@"精选评论：%@", error);
         }];
 
     } failure:^(NSError *error) {
         showReloadPageBlock();
-//        NSLog(@"正文：%@", error);
+        NSLog(@"正文：%@", error);
  
         
     }];
@@ -1074,47 +1081,79 @@ const static CGFloat changeFontSizeViewH = 150;
 
 #pragma mark - 获取Card内容
 - (Card *)card {
-    if (self.searchCardFrame) {
-        return nil;
-    } else {
-        if (!_card) {
-            CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
-            _card = (Card *)[cdh.importContext existingObjectWithID:self.cardID error:nil];
+    
+    switch (self.sourceViewController) {
+            
+        case searchSource: case remoteNotificationSource:
+            return nil;
+            
+            break;
+            
+        default:
+            // 小于100
+            if (!_card) {
+                CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+                _card = (Card *)[cdh.importContext existingObjectWithID:self.cardID error:nil];
+                return _card;
+            }
             return _card;
-        }
-        return _card;
-    }
-}
-
-- (NSString *)nid {
-    // 从搜索页面跳转
-    if (self.searchCardFrame) {
-       return [NSString stringWithFormat:@"%@", self.searchCardFrame.card.nid];
-    } else {
-        if (![self card]) return nil;
-        return [[self card] valueForKey:@"nid"];
+            
+            break;
     }
     
 }
 
-- (NSString *)docId {
-    // 从搜索页面跳转
-    if (self.searchCardFrame) {
-        return  self.searchCardFrame.card.docId;
-    } else {
-        if (![self card]) return nil;
-        return [[self card] valueForKey:@"docId"];
+- (NSString *)nid {
+    
+    switch (self.sourceViewController) {
+            
+        case searchSource:
+              return [NSString stringWithFormat:@"%@", self.searchCardFrame.card.nid];
+            break;
+            
+        case remoteNotificationSource:
+            return self.remotePushNid;
+            break;
+            
+        default:
+            if (![self card]) return nil;
+                return [[self card] valueForKey:@"nid"];
+            break;
     }
+}
 
+- (NSString *)docId {
+    switch (self.sourceViewController) {
+        case searchSource:
+            return  self.searchCardFrame.card.docId;
+            break;
+            
+        case remoteNotificationSource:
+            return nil;
+            break;
+            
+        default:
+            if (![self card]) return nil;
+            return [[self card] valueForKey:@"docId"];
+            break;
+    }
 }
 
 - (NSNumber *)channelID {
-    // 从搜索页面跳转
-    if (self.searchCardFrame) {
-        return  self.searchCardFrame.card.channelId;
-    } else {
-        if (![self card]) return nil;
-        return [[self card] valueForKey:@"channelId"];
+    switch (self.sourceViewController) {
+            
+        case searchSource:
+            return  self.searchCardFrame.card.channelId;
+            break;
+            
+         case remoteNotificationSource:
+            return self.channel;
+            break;
+            
+        default:
+            if (![self card]) return nil;
+            return [[self card] valueForKey:@"channelId"];
+            break;
     }
   
 }

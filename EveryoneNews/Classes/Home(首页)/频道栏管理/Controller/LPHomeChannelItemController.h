@@ -5,14 +5,13 @@
 //  Created by dongdan on 16/5/23.
 //  Copyright © 2016年 apple. All rights reserved.
 //
+@class LPPagingView;
 
 #import "LPBaseViewController.h"
-
 
 typedef void(^channelItemDidChangedBlock)(NSDictionary *dict);
 
 @interface LPHomeChannelItemController : LPBaseViewController
-
 // 已选频道
 @property (nonatomic, strong) NSMutableArray *selectedArray;
 // 可选频道

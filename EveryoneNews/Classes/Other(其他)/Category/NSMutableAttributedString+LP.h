@@ -15,5 +15,6 @@
 - (CGFloat)heightWithConstraintWidth:(CGFloat)width;
 - (BOOL)isMoreThanOneLineConstraintToWidth:(CGFloat)width;
 - (CGFloat)textViewHeightWithConstraintWidth:(CGFloat)width;
+- (CGFloat)tttAttributeLabel:(CGFloat)width;
 
 @end

@@ -38,4 +38,8 @@ typedef void (^cardIsCollectedBlock)(BOOL isCollected, BOOL isExists);
 
 + (void)cardIsCollected:(NSString *)nid cardIsCollectedBlock:(cardIsCollectedBlock)cardIsCollectedBlock;
 
++ (NSMutableAttributedString *)titleHtmlString:(NSString *)title;
+
++ (NSMutableAttributedString *)titleHtmlString:(NSString *)title isRead:(NSNumber *)isRead;
+
 @end

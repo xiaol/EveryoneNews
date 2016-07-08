@@ -302,6 +302,7 @@ static NSString *cellIdentifier = @"cellIdentifier";
     LPSearchCardFrame *searchCardFrame = self.cardFrames[indexPath.row];
     LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
     detailVc.searchCardFrame = searchCardFrame;
+    detailVc.sourceViewController = searchSource;
     [self.navigationController pushViewController:detailVc animated:YES];
 }
 
@@ -309,6 +310,7 @@ static NSString *cellIdentifier = @"cellIdentifier";
 - (void)cell:(LPSearchResultViewCell *)cell didSelectedCardFrame:(LPSearchCardFrame *)cardFrame {
     LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
     detailVc.searchCardFrame = cardFrame;
+    detailVc.sourceViewController = searchSource;
     [self.navigationController pushViewController:detailVc animated:YES];
 }
 

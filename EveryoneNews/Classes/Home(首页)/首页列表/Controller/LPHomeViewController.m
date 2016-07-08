@@ -25,7 +25,6 @@
 @implementation LPHomeViewController
 
 #pragma mark - 懒加载
-
 // 已选频道
 - (NSMutableArray *)selectedArray {
     if(_selectedArray == nil) {

@@ -205,7 +205,6 @@
         topViewHeight = 72;
     }
     UIView *contentLoadingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - topViewHeight)];
-    contentLoadingView.hidden = YES;
     // Load images
     NSArray *imageNames = @[@"xl_1", @"xl_2", @"xl_3", @"xl_4"];
 
@@ -235,6 +234,8 @@
     [self addSubview:contentLoadingView];
     
     self.contentLoadingView = contentLoadingView;
+    
+    [animationImageView startAnimating];
 }
 
 #pragma mark - tapReloadPage
@@ -389,7 +390,6 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *cellIdentifier = self.cellIdentifier;
     LPHomeViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    cell.delegate = self;
     if (cell == nil) {
         cell = [[LPHomeViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
@@ -407,6 +407,17 @@
         }
         
     }];
+    
+//    [cell didClickTitleBlock:^(LPHomeViewCell *cell, CardFrame *cardFrame) {
+//        NSInteger index = [weakSelf.cardFrames indexOfObject:cardFrame];
+//        if ([weakSelf.delegate respondsToSelector:@selector(page:didSelectCellWithCardID:cardFrame:)]) {
+//            [weakSelf.delegate page:weakSelf didSelectCellWithCardID:cardFrame.card.objectID cardFrame:cardFrame];
+//        }
+//        
+//        // 记录当前行号
+//        LPHomeRowManager *rowManager = [LPHomeRowManager sharedManager];
+//        rowManager.currentRowIndex = index;
+//    }];
     
     return cell;
 }
@@ -426,6 +437,21 @@
     LPHomeRowManager *rowManager = [LPHomeRowManager sharedManager];
     rowManager.currentRowIndex = indexPath.row;
 }
+
+
+
+#pragma mark - LPHomeViewCell Delegate
+- (void)homeViewCell:(LPHomeViewCell *)cell didSelectedCardFrame:(CardFrame *)cardFrame {
+    NSInteger index = [self.cardFrames indexOfObject:cardFrame];
+    if ([self.delegate respondsToSelector:@selector(page:didSelectCellWithCardID:cardFrame:)]) {
+        [self.delegate page:self didSelectCellWithCardID:cardFrame.card.objectID cardFrame:cardFrame];
+    }
+    
+    // 记录当前行号
+    LPHomeRowManager *rowManager = [LPHomeRowManager sharedManager];
+    rowManager.currentRowIndex = index;
+}
+
 
 #pragma mark - 删除某行数据
 - (void)deleteRowAtIndexPath:(CardFrame *)cardFrame {

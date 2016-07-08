@@ -25,6 +25,11 @@
 #import "AppDelegate.h"
 #import "LPHomeChannelItemController.h"
 #import "MainNavigationController.h"
+#import "CardParam.h"
+#import "LPChannelItemTool.h"
+#import "Card+Fetch.h"
+#import "CardFrame.h"
+#import "CardTool.h"
 
 NSString * const firstChannelName = @"奇点";
 NSString * const menuCellIdentifier = @"menuCollectionViewCell";
@@ -323,7 +328,7 @@ NSString * const cardCellIdentifier = @"CardCellIdentifier";
 
 #pragma mark - 频道管理
 - (void)addButtonClick {
-    
+
     LPHomeChannelItemController *homeChannelItemController = [[LPHomeChannelItemController alloc] init];
     homeChannelItemController.selectedArray = self.selectedArray;
     homeChannelItemController.optionalArray = self.optionalArray;
@@ -359,6 +364,8 @@ NSString * const cardCellIdentifier = @"CardCellIdentifier";
     [self.navigationController pushViewController:homeChannelItemController animated:YES];
     
 }
+
+
 
 #pragma mark -  设置频道和页码的映射关系
 - (void)updatePageindexMapToChannelItemDictionary {

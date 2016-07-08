@@ -49,6 +49,27 @@ extern const NSInteger HotwordPageCapacity;
 extern NSString * const HotwordsURL;
 extern NSString * const reusePageID;
 
+//// 首页字体 Plus
+//typedef NS_ENUM(NSInteger, iPhone6PlusHomeTitleSize) {
+//    iPhone6PlusHomeTitleSizeStandard = 19,
+//    iPhone6PlusHomeTitleSizeLarger = 21,
+//    iPhone6PlusHomeTitleSizeSuperLarger = 23
+//};
+//
+//// 首页字体 6
+//typedef NS_ENUM(NSInteger, iPhone6HomeTitleSize) {
+//    iPhone6HomeTitleSizeStandard = 19,
+//    iPhone6HomeTitleSizeLarger = 21,
+//    iPhone6HomeTitleSizeSuperLarger = 23
+//};
+//
+//// 首页字体 5
+//typedef NS_ENUM(NSInteger, iPhone5HomeTitleSize) {
+//    iPhone5HomeTitleSizeStandard = 17,
+//    iPhone5HomeTitleSizeLarger = 19,
+//    iPhone5HomeTitleSizeSuperLarger = 21
+//};
+
 // 首页字体 Plus
 typedef NS_ENUM(NSInteger, iPhone6PlusHomeTitleSize) {
     iPhone6PlusHomeTitleSizeStandard = 19,
@@ -169,9 +190,21 @@ typedef NS_ENUM(NSInteger, iPhone5DetailCommentSize) {
 
 
 typedef NS_ENUM(NSInteger, sourceViewController) {
-    searchViewController = 1,
-    homeViewController = 2
+    // 首页
+    homeSource = 1,
+    // 评论页面
+    commentSource = 2,
+    // 收藏页面
+    collectionSource = 3,
+    // 搜索页面
+    searchSource = 100,
+    // 推送页面
+    remoteNotificationSource = 200,
+    // 关注页面
+    concernSource = 300
 };
+
+
 
 #define noteCenter [NSNotificationCenter defaultCenter]
 #define LPCategoryDidChangeNotification @"changeCategory"

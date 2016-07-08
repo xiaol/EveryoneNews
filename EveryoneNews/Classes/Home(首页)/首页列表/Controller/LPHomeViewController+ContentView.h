@@ -8,6 +8,7 @@
 
 #import "LPHomeViewController.h"
 #import "LPPagingViewPage.h"
+#import "LPHomeViewCell.h"
 
 
 @interface LPHomeViewController (PagingView) <LPPagingViewDataSource, LPPagingViewDelegate, LPPagingViewPageDelegate, UIGestureRecognizerDelegate>

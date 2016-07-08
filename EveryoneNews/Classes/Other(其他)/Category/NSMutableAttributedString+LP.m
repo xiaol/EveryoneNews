@@ -7,6 +7,7 @@
 //
 
 #import "NSMutableAttributedString+LP.h"
+#import "TTTAttributedLabel.h"
 
 @implementation NSMutableAttributedString (LP)
 - (CGFloat)lineHeight
@@ -32,6 +33,10 @@
 
 - (CGFloat)textViewHeightWithConstraintWidth:(CGFloat)width {
     return [self textViewHeightForAttributedText:self width:width];
+}
+
+- (CGFloat)tttAttributeLabel:(CGFloat) width {
+    return  [TTTAttributedLabel sizeThatFitsAttributedString:self withConstraints:CGSizeMake(width, MAXFLOAT) limitedToNumberOfLines:0].height;
 }
 
 - (CGFloat)textViewHeightForAttributedText:(NSAttributedString *)text width:(CGFloat)width

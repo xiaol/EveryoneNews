@@ -242,6 +242,7 @@ extension CollectionViewController{
             let detailVc = LPDetailViewController()
             detailVc.cardID = cardFrame.card.objectID
             detailVc.isRead = cardFrame.card.isRead;
+            detailVc.sourceViewController = 3;
             self.navigationController?.pushViewController(detailVc, animated: true)
         }
     }

@@ -78,7 +78,6 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
         LPMenuCollectionViewCell *cell = (LPMenuCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:menuCellIdentifier forIndexPath:indexPath];
         LPChannelItem *channelItem = [self.selectedArray objectAtIndex:indexPath.item];
         cell.channelItem = channelItem;
-        cell.delegate = self;
         return cell;
         
 }
@@ -89,8 +88,10 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
         LPMenuCollectionViewCell *currentCell = (LPMenuCollectionViewCell *)[self.menuView cellForItemAtIndexPath:indexPath];
         LPMenuButton *currentButton = currentCell.menuButton;
         self.selectedChannelTitle = currentButton.text;
+    
         [self.pagingView setCurrentPageIndex:indexPath.item animated:NO];
-        
+       [self.menuView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
+    
         // 超过5分钟自动刷新 第一次调用则加载
         LPChannelItem *channelItem = [currentCell channelItem];
         NSDate *currentDate = [NSDate date];

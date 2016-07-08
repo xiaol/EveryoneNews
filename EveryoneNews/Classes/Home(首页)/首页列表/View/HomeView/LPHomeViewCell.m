@@ -11,11 +11,14 @@
 #import "CardFrame.h"
 #import "Card.h"
 #import "CardImage.h"
-
+#import "LPUITextView.h"
+#import "Card+Create.h"
+#import "TTTAttributedLabel.h"
 
 @interface LPHomeViewCell ()
 // 无图
-@property (nonatomic, strong) UILabel *noImageLabel;
+@property (nonatomic, strong) TTTAttributedLabel *noImageLabel;
+
 @property (nonatomic, strong) UILabel *noImageSourceLabel;
 @property (nonatomic, strong) UILabel *noImageCommentLabel;
 @property (nonatomic, strong) UIView *noImageSeperatorLine;
@@ -23,7 +26,7 @@
 @property (nonatomic, strong) UIButton *noImageTipButton;
 
 // 单图
-@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) TTTAttributedLabel *titleLabel;
 @property (nonatomic, strong) UIImageView *iconView;
 @property (nonatomic, strong) UILabel *singleSourceLabel;
 @property (nonatomic, strong) UILabel *singleCommentLabel;
@@ -32,7 +35,7 @@
 @property (nonatomic, strong) UIButton *singleTipButton;
 
 // 三图
-@property (nonatomic, strong) UILabel *multipleImageLabel;
+@property (nonatomic, strong) TTTAttributedLabel *multipleImageLabel;
 @property (nonatomic, strong) UILabel *mutipleCommentLabel;
 @property (nonatomic, strong) UIImageView *firstMutipleImageView;
 @property (nonatomic, strong) UIImageView *secondMutipleImageView;
@@ -60,12 +63,15 @@
     CGFloat tipFontSize = 16;
     if(self) {
         // 无图
-        UILabel *noImageLabel = [[UILabel alloc] init];
+        TTTAttributedLabel *noImageLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
         noImageLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
-        noImageLabel.clipsToBounds = YES;
         noImageLabel.numberOfLines = 0;
+        noImageLabel.backgroundColor = [UIColor clearColor];
+      
         [self.contentView addSubview:noImageLabel];
         self.noImageLabel = noImageLabel;
+        
+ 
         
         UILabel *noImageSourceLabel = [[UILabel alloc] init];
         noImageSourceLabel.font = [UIFont systemFontOfSize:sourceFontSize];
@@ -112,11 +118,13 @@
         [self.contentView addSubview:iconView];
         self.iconView = iconView;
         
-        UILabel *titleLabel = [[UILabel alloc] init];
-        titleLabel.numberOfLines = 0;
+        TTTAttributedLabel *titleLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
         titleLabel.textColor =  [UIColor colorFromHexString:@"#1a1a1a"];
+        titleLabel.numberOfLines = 0;
+        titleLabel.backgroundColor = [UIColor clearColor];
         [self.contentView addSubview:titleLabel];
         self.titleLabel = titleLabel;
+        
         
         UILabel *singleSourceLabel = [[UILabel alloc] init];
         singleSourceLabel.font = [UIFont systemFontOfSize:sourceFontSize];
@@ -157,12 +165,13 @@
         
         
         //  三图及其三图以上
-        UILabel *multipleImageLabel = [[UILabel alloc] init];
+        TTTAttributedLabel *multipleImageLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
         multipleImageLabel.numberOfLines = 0;
+        multipleImageLabel.backgroundColor = [UIColor clearColor];
         multipleImageLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
         [self.contentView addSubview:multipleImageLabel];
         self.multipleImageLabel = multipleImageLabel;
-        
+
         UIImageView *firstMutipleImageView = [[UIImageView alloc] init];
         firstMutipleImageView.contentMode = UIViewContentModeScaleAspectFill;
         firstMutipleImageView.clipsToBounds = YES;
@@ -225,7 +234,6 @@
 
 - (void)setCardFrame:(CardFrame *)cardFrame {
     _cardFrame = cardFrame;
-    CGFloat lineSpacing = 2.0;
     Card *card = _cardFrame.card;
     NSString *sourceSiteName = [card.sourceSiteName  isEqualToString: @""] ? @"未知来源": card.sourceSiteName;
     NSDate *currentDate = [NSDate date];
@@ -240,33 +248,11 @@
         publishTime = @" ";
     }
 
-//    else if (interval < 1440) {
-//        publishTime = [NSString stringWithFormat:@"%d小时前",interval / 60];
-//    } else {
-//        // 1.创建一个时间格式化对象
-//        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-//        
-//        // 2.设置时间格式化对象的样式
-//        formatter.dateFormat = @"MM-dd HH:mm";
-//        
-//        // 3.利用时间格式化对象对时间进行格式化
-//        publishTime = [formatter stringFromDate:updateTime];
-//    }
-    
     NSString *commentsCount = [NSString stringWithFormat:@"%@评", card.commentsCount != nil ? card.commentsCount: @"0"];
     BOOL commentLabelHidden = [commentsCount isEqualToString:@"0评"] ? YES :NO;
     NSString *source = [NSString stringWithFormat:@"%@    %@",sourceSiteName, publishTime];
     
-    if (card.isRead) {
-        self.noImageLabel.textColor = [UIColor grayColor];
-        self.titleLabel.textColor = [UIColor grayColor];
-        self.multipleImageLabel.textColor = [UIColor grayColor];
-    } else {
-        self.noImageLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
-        self.titleLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
-        self.multipleImageLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
-    }
-    
+    NSMutableAttributedString *titleHtml = [Card titleHtmlString:card.title isRead:card.isRead];
     
     if(card.cardImages.count == 0) {
         self.noImageLabel.hidden = NO;
@@ -294,7 +280,7 @@
         
         self.noImageLabel.frame = self.cardFrame.noImageLabelFrame;
         
-        self.noImageLabel.attributedText =   [card.title attributedStringWithFont:[UIFont systemFontOfSize:self.cardFrame.homeViewFontSize] lineSpacing:lineSpacing];
+        self.noImageLabel.text = titleHtml;
         
         
         
@@ -317,7 +303,12 @@
         
     } else if (card.cardImages.count == 1 || card.cardImages.count == 2) {
         CardImage * cardImage = card.cardImages.anyObject;
-       [self.iconView sd_setImageWithURL:[NSURL URLWithString:cardImage.imgUrl] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
+        NSInteger w = floor(self.cardFrame.singleImageImageViewFrame.size.width);
+        NSInteger h = floor(self.cardFrame.singleImageImageViewFrame.size.height);
+        
+        NSString *imageURL = [self scaleImageURL:cardImage.imgUrl width:w height:h];
+        
+       [self.iconView sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
         
         self.noImageLabel.hidden = YES;
         self.noImageSourceLabel.hidden = YES;
@@ -344,7 +335,7 @@
         self.singleDeleteButton.hidden = NO;
         
         
-        self.titleLabel.attributedText =   [card.title attributedStringWithFont:[UIFont systemFontOfSize:self.cardFrame.homeViewFontSize] lineSpacing:lineSpacing];
+        self.titleLabel.text =  titleHtml;
         
         self.iconView.frame = self.cardFrame.singleImageImageViewFrame;
         self.titleLabel.frame = self.cardFrame.singleImageTitleLabelFrame;
@@ -389,8 +380,9 @@
         self.noImageDeleteButton.hidden = YES;
         
         self.multipleImageLabel.frame = self.cardFrame.multipleImageTitleLabelFrame;
-         self.multipleImageLabel.attributedText =   [card.title attributedStringWithFont:[UIFont systemFontOfSize:self.cardFrame.homeViewFontSize] lineSpacing:lineSpacing];
+         self.multipleImageLabel.text =  titleHtml;
         
+    
         self.noImageCommentLabel.hidden = YES;
         self.singleCommentLabel.hidden = YES;
         self.mutipleCommentLabel.hidden = NO;
@@ -400,9 +392,18 @@
         
         self.mutipleSeperatorLine.frame = self.cardFrame.mutipleImageSeperatorLineFrame;
         
+        CGRect frame = self.cardFrame.multipleImageViewFrame;
+        CGFloat x = frame.origin.x;
+        CGFloat y = frame.origin.y;
+        CGFloat w = (frame.size.width - 6) / 3 ;
+        CGFloat h = frame.size.height;
+        
+        NSInteger width = floor(w);
+        NSInteger height = floor(h);
         NSMutableArray *imageArray = [[NSMutableArray alloc] init];
         for (CardImage * cardImage in card.cardImages.allObjects) {
-            [imageArray addObject:cardImage.imgUrl];
+            NSString *imageURL = [self scaleImageURL:cardImage.imgUrl width:width height:height];
+            [imageArray addObject:imageURL];
         }
      
         
@@ -410,11 +411,7 @@
         [self.secondMutipleImageView sd_setImageWithURL:[NSURL URLWithString:imageArray[1]] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
         [self.thirdMutipleImageView sd_setImageWithURL:[NSURL URLWithString:imageArray[2]] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
         
-        CGRect frame = self.cardFrame.multipleImageViewFrame;
-        CGFloat x = frame.origin.x;
-        CGFloat y = frame.origin.y;
-        CGFloat w = (frame.size.width - 6) / 3 ;
-        CGFloat h = frame.size.height;
+
         self.firstMutipleImageView.frame = CGRectMake(x, y, w, h);
         self.secondMutipleImageView.frame = CGRectMake(x + w + 3, y, w, h);
         self.thirdMutipleImageView.frame = CGRectMake(x + 2 * w + 6, y, w, h);
@@ -440,11 +437,19 @@
 
 
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
-    
     [super setHighlighted:highlighted animated:animated];
     
-   
- 
+}
+
+#pragma mark - 点击标题跳转
+- (void)tapTextView {
+    if (self.didClickTitleBlock) {
+        self.didClickTitleBlock(self, self.cardFrame);
+    }
+}
+
+- (void)didClickTitleBlock:(didClickTitleBlock)didClickTitleBlock {
+    self.didClickTitleBlock = didClickTitleBlock;
 }
 
 #pragma mark - 首页删除功能
@@ -468,5 +473,15 @@
 - (void)didClickTipButtonBlock:(didClickTipButtonBlock)didClickTipButtonBlock {
     self.didClickTipBlock = didClickTipButtonBlock;
 }
+
+#pragma mark - 图片缩放处理
+- (NSString *)scaleImageURL:(NSString *)imageURL width:(NSInteger)width height:(NSInteger)height {
+    NSRange range = [imageURL rangeOfString:@"/" options:NSBackwardsSearch];
+    NSString *substring = [imageURL substringFromIndex:range.location+1];
+    NSString *scaleImageURL = [NSString stringWithFormat:@"http://pro-pic.deeporiginalx.com/%@@1e_1c_0o_0l_100sh_%ldh_%ldw_95q.src", substring, height, width];
+    return scaleImageURL;
+}
+
+
 
 @end

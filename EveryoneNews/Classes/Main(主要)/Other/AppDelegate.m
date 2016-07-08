@@ -34,6 +34,8 @@
 #import "LPLoginTool.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
+#import "LPDetailViewController.h"
+#import "LPSearchViewController.h"
 
 ////for mac
 //#include <sys/socket.h>
@@ -56,6 +58,7 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
 
 @interface AppDelegate () <WXApiDelegate>
 @property (nonatomic, assign) AFNetworkReachabilityStatus networkStatus;
+@property (nonatomic, strong) MainNavigationController *mainNavVc;
 
 @end
 
@@ -80,9 +83,8 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
 
 #pragma mark - didFinishLaunchingWithOptions
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-
     // 崩溃日志
-    [Fabric with:@[[Crashlytics class]]];
+//    [Fabric with:@[[Crashlytics class]]];
     
     if (debug==1) {
         NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
@@ -90,13 +92,25 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     
     // 设置友盟相关参数
     [self setupUMengInfo:launchOptions];
-  
-    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
-    // 设置根控制器
+    NSDictionary *remoteNotificationDict = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     LPHomeViewController *mainVc = [[LPHomeViewController alloc] init];
     MainNavigationController *mainNavVc = [[MainNavigationController alloc] initWithRootViewController:mainVc];
-    self.window.rootViewController = mainNavVc;
+
+    // 推送成功直接跳转到详情页面
+    if (remoteNotificationDict) {
+        LPDetailViewController *detailVC = [[LPDetailViewController alloc] init];
+        detailVC.sourceViewController = remoteNotificationSource;
+        NSString *remotePushNid = [remoteNotificationDict objectForKey:@"nid"];
+        detailVC.remotePushNid = remotePushNid;
+        mainNavVc.viewControllers = @[mainVc, detailVC];
+        self.window.rootViewController = mainNavVc;
+        [mainNavVc.navigationController pushViewController:detailVC animated:YES];
+    } else {
+         self.window.rootViewController = mainNavVc;
+    }
+    
     
     [[UINavigationBar appearance]  setBackgroundImage:[[UIImage alloc] init] forBarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
@@ -144,10 +158,9 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     [self setupTourist];
     
     [self checkVersion:application];
-    
-    
- 
 
+
+    
     return YES;
 }
 
@@ -227,7 +240,7 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     
     // Mob statics
 #warning 发布时删除此句 setLogEnabled:
-    //    [MobClick setLogEnabled:YES];
+//    [MobClick setLogEnabled:YES];
     
     [MobClick setVersion:(NSInteger)currentVersion];
     
@@ -243,25 +256,25 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     
    //  如果你期望使用交互式(只有iOS 8.0及以上有)的通知，请参考下面注释部分的初始化代码
      //register remoteNotification types （iOS 8.0及其以上版本）
-     UIMutableUserNotificationAction *action1 = [[UIMutableUserNotificationAction alloc] init];
-     action1.identifier = @"action1_identifier";
-     action1.title=@"Accept";
-     action1.activationMode = UIUserNotificationActivationModeForeground;//当点击的时候启动程序
-     
-     UIMutableUserNotificationAction *action2 = [[UIMutableUserNotificationAction alloc] init];  //第二按钮
-     action2.identifier = @"action2_identifier";
-     action2.title=@"Reject";
-     action2.activationMode = UIUserNotificationActivationModeBackground;//当点击的时候不启动程序，在后台处理
-     action2.authenticationRequired = YES;//需要解锁才能处理，如果action.activationMode = UIUserNotificationActivationModeForeground;则这个属性被忽略；
-     action2.destructive = YES;
-     
-     UIMutableUserNotificationCategory *actionCategory = [[UIMutableUserNotificationCategory alloc] init];
-     actionCategory.identifier = @"category1";//这组动作的唯一标示
-     [actionCategory setActions:@[action1,action2] forContext:(UIUserNotificationActionContextDefault)];
-
-      NSSet *categories = [NSSet setWithObject:actionCategory];
-        //如果默认使用角标，文字和声音全部打开，请用下面的方法
-      [UMessage registerForRemoteNotifications:categories];
+//     UIMutableUserNotificationAction *action1 = [[UIMutableUserNotificationAction alloc] init];
+//     action1.identifier = @"action1_identifier";
+//     action1.title=@"Accept";
+//     action1.activationMode = UIUserNotificationActivationModeForeground;//当点击的时候启动程序
+//     
+//     UIMutableUserNotificationAction *action2 = [[UIMutableUserNotificationAction alloc] init];  //第二按钮
+//     action2.identifier = @"action2_identifier";
+//     action2.title=@"Reject";
+//     action2.activationMode = UIUserNotificationActivationModeBackground;//当点击的时候不启动程序，在后台处理
+//     action2.authenticationRequired = YES;//需要解锁才能处理，如果action.activationMode = UIUserNotificationActivationModeForeground;则这个属性被忽略；
+//     action2.destructive = YES;
+//     
+//     UIMutableUserNotificationCategory *actionCategory = [[UIMutableUserNotificationCategory alloc] init];
+//     actionCategory.identifier = @"category1";//这组动作的唯一标示
+//     [actionCategory setActions:@[action1,action2] forContext:(UIUserNotificationActionContextDefault)];
+//
+//      NSSet *categories = [NSSet setWithObject:actionCategory];
+//        //如果默认使用角标，文字和声音全部打开，请用下面的方法
+//      [UMessage registerForRemoteNotifications:categories];
     
     //如果对角标，文字和声音的取舍，请用下面的方法
     //UIRemoteNotificationType types7 = UIRemoteNotificationTypeBadge|UIRemoteNotificationTypeAlert|UIRemoteNotificationTypeSound;
@@ -365,26 +378,41 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
 
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-//    NSLog(@"%@",[[[[deviceToken description] stringByReplacingOccurrencesOfString: @"<" withString: @""]
-//                  stringByReplacingOccurrencesOfString: @">" withString: @""]
-//                 stringByReplacingOccurrencesOfString: @" " withString: @""]);
+    NSLog(@"%@",[[[[deviceToken description] stringByReplacingOccurrencesOfString: @"<" withString: @""]
+                  stringByReplacingOccurrencesOfString: @">" withString: @""]
+                 stringByReplacingOccurrencesOfString: @" " withString: @""]);
     
 }
 
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
-{
-//    [UMessage didReceiveRemoteNotification:userInfo];
-    //自定义弹窗，应用内收到消息弹窗
-    if([UIApplication sharedApplication].applicationState == UIApplicationStateActive)
-    {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"消息推送信息"
-                                                           message:[[userInfo objectForKey:@"aps"] objectForKey:@"alert"]
-                                                          delegate:self
-                                                 cancelButtonTitle:@"确定"
-                                                 otherButtonTitles:nil];
-        [alertView show];
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    if (application.applicationState == UIApplicationStateActive) {
+        //程序当前正处于前台
+    } else if(application.applicationState == UIApplicationStateInactive) {
+        //程序处于后台
     }
 }
+    
+    
+//    [UMessage didReceiveRemoteNotification:userInfo];
+    //自定义弹窗，应用内收到消息弹窗
+//    if([UIApplication sharedApplication].applicationState == UIApplicationStateActive)
+//    {
+//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"消息推送信息"
+//                                                           message:[[userInfo objectForKey:@"aps"] objectForKey:@"alert"]
+//                                                          delegate:self
+//                                                 cancelButtonTitle:@"确定"
+//                                                 otherButtonTitles:nil];
+//        [alertView show];
+//    }
+//    
+//    // 推送打开详情页面
+//    NSLog(@"%@", userInfo);
+//    
+    
+    //    UINavigationController *navController = (UINavigationController *)self.window.rootViewController;
+    //    LPDetailViewController *detailViewController = [[LPDetailViewController alloc] init];
+    //    [navController.navigationController pushViewController:detailViewController animated:YES];
+    
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     NSLog(@"注册推送服务时，发生以下错误： %@",error);

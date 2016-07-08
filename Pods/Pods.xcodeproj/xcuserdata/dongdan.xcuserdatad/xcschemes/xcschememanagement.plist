@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>AliyunOSSiOS.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Masonry.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -32,7 +37,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>1CA65A1AC5AA39488D7BE69E7C1C6E8E</key>
+		<key>174C123E1F1C705951CDF0CCB039C3DF</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -42,17 +47,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
+		<key>7EF2C0532D96EAEC8E8681991209796B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>912E0E36BA4CD39386D061F55A47F379</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>928353533005A4198EBDA5B700D37B64</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>9BA83C575BB060531C97832E90262CB2</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>FF51A5A55167CDA4132A4BA7C20FEE75</key>
+		<key>97B2ACF3AA4080D1991B55C3E50A10F5</key>
 		<dict>
 			<key>primary</key>
 			<true/>

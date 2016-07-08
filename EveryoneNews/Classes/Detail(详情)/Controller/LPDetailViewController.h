@@ -67,6 +67,9 @@
 @property (nonatomic, assign) NSInteger sourceViewController;
 @property (nonatomic, strong) LPSearchCardFrame *searchCardFrame;
 
+@property (nonatomic, copy) NSString *remotePushNid;
+
+
 - (void)removeBackgroundView;
 
 - (NSString *)docId;

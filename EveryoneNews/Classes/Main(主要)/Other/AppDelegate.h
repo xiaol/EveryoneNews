@@ -21,6 +21,9 @@ extern NSString * const AppDidReceiveReviewNotification;
 @property (strong, nonatomic) UIWindow *window;
 
 @property (nonatomic, strong) CoreDataHelper *coreDataHelper;
+
+@property (nonatomic, assign) BOOL isLaunchedByNotification;
+
 @property float autoSizeScaleX;
 @property float autoSizeScaleY;
 

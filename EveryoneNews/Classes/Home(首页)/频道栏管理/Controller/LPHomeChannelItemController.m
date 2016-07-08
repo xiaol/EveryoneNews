@@ -15,10 +15,13 @@
 #import "LPHomeViewController+ChannelItemMenu.h"
 #import "LPHomeViewController+ContentView.h"
 #import "LXReorderableCollectionViewFlowLayout.h"
+#import "LPPagingView.h"
+#import "LPPagingViewPage.h"
 
 static NSString *reuseIdentifierFooter = @"reuseIdentifierFooter";
 static NSString *reuseIdentifierHeader = @"reuseIdentifierHeader";
 static NSString *cellIdentifier = @"sortCollectionViewCell";
+//NSString * const cardCellIdentifier = @"CardCellIdentifier";
 
 @interface LPHomeChannelItemController ()<LPHomeChannelItemTopViewDelegate, LXReorderableCollectionViewDataSource, LXReorderableCollectionViewDelegateFlowLayout>
 

@@ -312,6 +312,7 @@ static BOOL status;
 #pragma mark - CommentCell Delegate
 - (void)didTapTitleView:(LPMyCommentTableViewCell *)cell card:(Card *)card {
     LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
+    detailVc.sourceViewController = commentSource;
     detailVc.cardID = card.objectID;
     [self.navigationController pushViewController:detailVc animated:YES];
 }
