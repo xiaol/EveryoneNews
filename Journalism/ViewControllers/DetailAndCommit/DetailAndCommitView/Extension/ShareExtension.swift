@@ -18,7 +18,13 @@ extension DetailAndCommitViewController{
     
     @IBAction func touchMoreButtonAction(sender: AnyObject) {
      
-        self.shreContentViewMethod(false, animate: true)
+//        self.ShowFouceView()
+        
+        let viewC = UIStoryboard.shareStoryBoard.get_FocusViewController()
+        
+        self.presentViewController(viewC, animated: true, completion: nil)
+        
+//        self.shreContentViewMethod(false, animate: true)
     }
     
     @IBAction func touchCancelButtonAction(sender: AnyObject) {

@@ -25,7 +25,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         // 版本迁移
         RealmMigration.MigrationConfig()
         
-        
         PINRemoteImageManager.sharedImageManager().setProgressiveRendersMaxProgressiveRenderSize(CGSize(width: 2048,height: 2048), completion: nil)
         PINRemoteImageManager.sharedImageManager().setProgressThresholds([0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9], completion: nil)
 

@@ -148,14 +148,6 @@ class SearchListViewController: UIViewController,WaitLoadProtcol {
         return true
     }
     
-    override func viewDidDisappear(animated: Bool) {
-        
-        super.viewDidDisappear(animated)
-        
-        New.deleSearch()
-    }
-    
-    
     @IBAction func dismissAction(sender: AnyObject) {
         
         self.dismissViewControllerAnimated(true, completion: nil)

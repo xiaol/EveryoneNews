@@ -134,4 +134,17 @@ extension UIStoryboard{
         
         return viewController
     }
+    
+    
+    /**
+     获取搜索展示页面
+     
+     - returns: 返回搜索视图
+     */
+    func get_FocusViewController()-> UIViewController{
+        
+        let viewController = self.instantiateViewControllerWithIdentifier("FocusViewController") as! FocusViewController
+        
+        return viewController
+    }
 }

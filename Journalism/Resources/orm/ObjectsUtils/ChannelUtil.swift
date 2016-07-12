@@ -49,6 +49,11 @@ class ChannelUtil: NSObject {
                             realm.objects(Channel).filter("cname = '养生'").setValue(1, forKey: "isdelete")
                             realm.objects(Channel).filter("cname = '股票'").setValue(1, forKey: "isdelete")
                         }
+                        
+                        if let del = realm.objects(Channel).filter("cname = '美女'").first {
+                        
+                            realm.delete(del)
+                        }
                     })
                     finish?()
                 }else{fail?();return}

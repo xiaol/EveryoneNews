@@ -21,6 +21,7 @@
 		AE0A896B1D24D87200C85B27 /* SLTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0A89681D24D87200C85B27 /* SLTransition.swift */; };
 		AE0A896C1D24D87200C85B27 /* SearchListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0A89691D24D87200C85B27 /* SearchListViewController.swift */; };
 		AE0FE5441CF301E8007DA198 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0FE5431CF301E8007DA198 /* UIImageExtension.swift */; };
+		AE1C1EFF1D34DC2900E8044E /* FocusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1C1EFE1D34DC2900E8044E /* FocusViewController.swift */; };
 		AE2968301CF69D4400D2782D /* PrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE29682F1CF69D4400D2782D /* PrivacyViewController.swift */; };
 		AE2968321CF69DFB00D2782D /* Privacy.html in Resources */ = {isa = PBXBuildFile; fileRef = AE2968311CF69DFB00D2782D /* Privacy.html */; };
 		AE2968341CF6AA3B00D2782D /* CustomTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2968331CF6AA3B00D2782D /* CustomTransitioning.swift */; };
@@ -141,6 +142,7 @@
 		AE0A89681D24D87200C85B27 /* SLTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SLTransition.swift; sourceTree = "<group>"; };
 		AE0A89691D24D87200C85B27 /* SearchListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchListViewController.swift; sourceTree = "<group>"; };
 		AE0FE5431CF301E8007DA198 /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
+		AE1C1EFE1D34DC2900E8044E /* FocusViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FocusViewController.swift; sourceTree = "<group>"; };
 		AE29682F1CF69D4400D2782D /* PrivacyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyViewController.swift; sourceTree = "<group>"; };
 		AE2968311CF69DFB00D2782D /* Privacy.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Privacy.html; sourceTree = "<group>"; };
 		AE2968331CF6AA3B00D2782D /* CustomTransitioning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTransitioning.swift; sourceTree = "<group>"; };
@@ -275,6 +277,7 @@
 				AEFB55181CF462B3005FC23E /* UserCenterViewController */,
 				AE7C51A21D0D687B005E6A5A /* SearchViewController */,
 				AE0A89651D24D87200C85B27 /* SearchResultViewController */,
+				AE1C1EFD1D34DC1700E8044E /* FocusViewController */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -351,6 +354,14 @@
 				AE0A89681D24D87200C85B27 /* SLTransition.swift */,
 			);
 			path = extension;
+			sourceTree = "<group>";
+		};
+		AE1C1EFD1D34DC1700E8044E /* FocusViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AE1C1EFE1D34DC2900E8044E /* FocusViewController.swift */,
+			);
+			path = FocusViewController;
 			sourceTree = "<group>";
 		};
 		AE7C51A21D0D687B005E6A5A /* SearchViewController */ = {
@@ -968,6 +979,7 @@
 				AEA573FB1D0FAAFA00C9F45C /* UIColorExtension.swift in Sources */,
 				AEF29B051D239671006D1412 /* SKPhoto.swift in Sources */,
 				AE0FE5441CF301E8007DA198 /* UIImageExtension.swift in Sources */,
+				AE1C1EFF1D34DC2900E8044E /* FocusViewController.swift in Sources */,
 				AEB8E9D71CFBE35900A105C4 /* SplitManagerViewController.swift in Sources */,
 				AEC47B421D0033610055936D /* DetailAndCommitViewController.swift in Sources */,
 				6DC4FDCF1CF0314700D25A99 /* NewslistViewController.swift in Sources */,
