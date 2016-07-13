@@ -3,6 +3,8 @@ use_frameworks!
 
 target :'Journalism' do
 
+
+
     pod 'UMengAnalytics-NO-IDFA'
 
     pod 'SVProgressHUD'                                      ## 提示 Toast

@@ -8,7 +8,6 @@
 
 import RealmSwift
 
-
 ///  频道的数据模型
 public class Content: Object {
 
@@ -175,6 +174,7 @@ extension NewContent{
                     
                     str = NSString(string: str).stringByReplacingCharactersInRange(rand, withString: "")
                 }
+                
                 while str.containsString("height=") {
                     
                     let rand = NSString(string: str).rangeOfString("height=")

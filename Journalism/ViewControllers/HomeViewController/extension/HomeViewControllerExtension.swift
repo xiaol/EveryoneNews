@@ -144,7 +144,7 @@ extension HomeViewController{
             
             displayViewController.newsResults = self.newsResults.filter("ishotnew = 1 AND isdelete = 0")
         }else{
-            displayViewController.newsResults = self.newsResults.filter("channel = %@ AND isdelete = 0 AND ishotnew = 0",channel.id)
+            displayViewController.newsResults = self.newsResults.filter("channel = %@ AND isdelete = 0 ",channel.id)
         }
         
         displayViewController.delegate = self
