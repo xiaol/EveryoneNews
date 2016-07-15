@@ -8,6 +8,8 @@
 
 import UIKit
 
+var count = 2
+
 extension SearchListViewController:UIViewControllerPreviewingDelegate,PreViewControllerDelegate{
 
     @available(iOS 9.0, *)
@@ -41,6 +43,15 @@ extension SearchListViewController:UIViewControllerPreviewingDelegate,PreViewCon
         var cell :NewBaseTableViewCell!
         
         let new = newsResults[indexPath.row]
+        
+        if indexPath.row == 2 {
+        
+            let cell = tableView.dequeueReusableCellWithIdentifier("fouce") as! FocusCell
+            
+            cell.fouceCell(count)
+            
+            return cell
+        }
         
         if new.style == 0 {
             
@@ -103,8 +114,17 @@ extension SearchListViewController:UIViewControllerPreviewingDelegate,PreViewCon
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
+        if indexPath.row == 2 {
+            
+            return FocusCell.heightCell(count)
+        }
+        
         let new = newsResults[indexPath.row]
         
         return new.HeightByNewConstraint(tableView,html: true)
     }
 }
+
+
+
+

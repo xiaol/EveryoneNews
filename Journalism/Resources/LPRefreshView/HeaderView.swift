@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SnapKit
 import MJRefresh
 
 class NewRefreshHeaderView: MJRefreshHeader {
@@ -18,7 +19,7 @@ class NewRefreshHeaderView: MJRefreshHeader {
         
         super.prepare()
         
-        self.mj_h = 54
+        self.mj_h = 44
         
         let loading = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
         self.addSubview(loading)
@@ -37,12 +38,26 @@ class NewRefreshHeaderView: MJRefreshHeader {
         
         super.placeSubviews()
         
-        self.loading.frame = CGRect(x: (UIScreen.mainScreen().bounds.width-22)/2, y: 2, width: 15, height: 15)
         
-        let labelX = (UIScreen.mainScreen().bounds.width-100)/2
-        let labelY = CGRectGetMaxY(self.loading.frame)+8
+        self.loading.snp_makeConstraints { (make) in
+            
+            make.top.equalTo(2)
+            make.centerX.equalTo(self)
+        }
         
-        self.label.frame = CGRect(x: labelX, y: labelY, width: 100, height: 12)
+        self.label.snp_makeConstraints { (make) in
+            
+            make.top.equalTo(self.loading.snp_bottom).offset(10)
+            make.centerX.equalTo(self)
+        }
+    }
+    
+    override var pullingPercent:CGFloat{
+    
+        didSet{
+        
+            print(pullingPercent)
+        }
     }
     
     override var state: MJRefreshState{

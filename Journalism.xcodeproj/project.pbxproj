@@ -25,6 +25,7 @@
 		AE2968301CF69D4400D2782D /* PrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE29682F1CF69D4400D2782D /* PrivacyViewController.swift */; };
 		AE2968321CF69DFB00D2782D /* Privacy.html in Resources */ = {isa = PBXBuildFile; fileRef = AE2968311CF69DFB00D2782D /* Privacy.html */; };
 		AE2968341CF6AA3B00D2782D /* CustomTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2968331CF6AA3B00D2782D /* CustomTransitioning.swift */; };
+		AE37BD8D1D38A46400BF9C89 /* FCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE37BD8C1D38A46400BF9C89 /* FCustomCell.swift */; };
 		AE7C51A41D0D6893005E6A5A /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7C51A31D0D6893005E6A5A /* SearchViewController.swift */; };
 		AEA103511D056FAD0086968B /* About.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA103501D056FAD0086968B /* About.swift */; };
 		AEA103531D0571F80086968B /* AboutUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA103521D0571F80086968B /* AboutUtil.swift */; };
@@ -146,6 +147,7 @@
 		AE29682F1CF69D4400D2782D /* PrivacyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyViewController.swift; sourceTree = "<group>"; };
 		AE2968311CF69DFB00D2782D /* Privacy.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Privacy.html; sourceTree = "<group>"; };
 		AE2968331CF6AA3B00D2782D /* CustomTransitioning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTransitioning.swift; sourceTree = "<group>"; };
+		AE37BD8C1D38A46400BF9C89 /* FCustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FCustomCell.swift; sourceTree = "<group>"; };
 		AE7C51A31D0D6893005E6A5A /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		AEA103501D056FAD0086968B /* About.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = About.swift; sourceTree = "<group>"; };
 		AEA103521D0571F80086968B /* AboutUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutUtil.swift; sourceTree = "<group>"; };
@@ -341,6 +343,7 @@
 		AE0A89651D24D87200C85B27 /* SearchResultViewController */ = {
 			isa = PBXGroup;
 			children = (
+				AE37BD8B1D38A45500BF9C89 /* custom */,
 				AE0A89661D24D87200C85B27 /* extension */,
 				AE0A89691D24D87200C85B27 /* SearchListViewController.swift */,
 			);
@@ -362,6 +365,14 @@
 				AE1C1EFE1D34DC2900E8044E /* FocusViewController.swift */,
 			);
 			path = FocusViewController;
+			sourceTree = "<group>";
+		};
+		AE37BD8B1D38A45500BF9C89 /* custom */ = {
+			isa = PBXGroup;
+			children = (
+				AE37BD8C1D38A46400BF9C89 /* FCustomCell.swift */,
+			);
+			path = custom;
 			sourceTree = "<group>";
 		};
 		AE7C51A21D0D687B005E6A5A /* SearchViewController */ = {
@@ -1027,6 +1038,7 @@
 				AEAC3B1E1D11330000A292F4 /* NoInterestView.swift in Sources */,
 				6DC4FDCB1CF0314700D25A99 /* HomeViewControllerExtension.swift in Sources */,
 				AEE2FC0D1D22311400546E6B /* XCache.swift in Sources */,
+				AE37BD8D1D38A46400BF9C89 /* FCustomCell.swift in Sources */,
 				AEAEEBD71CF81FA300E8DF08 /* VisitorViewController.swift in Sources */,
 				AEC47B301D0032E20055936D /* DetailViewController.swift in Sources */,
 				AEF420B41CF8019700CFAF73 /* UIViewControllerExtension.swift in Sources */,

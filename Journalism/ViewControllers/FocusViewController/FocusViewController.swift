@@ -75,7 +75,7 @@ class FoucusHeaderView: UIView {
     
     @IBOutlet var moreButton:UIButton!
     @IBOutlet var cancelButton:UIButton!
-    @IBOutlet var foucusButton:UIButton!
+    @IBOutlet var foucusButton:FoucusButton!
     
     @IBOutlet var nameLabel:UILabel!
     
@@ -116,8 +116,39 @@ class FoucusHeaderView: UIView {
         super.drawRect(rect)
         
         self.headerImageView.layer.cornerRadius = 30
-        self.foucusButton.layer.borderColor = UIColor.hexStringToColor("#e71f19").CGColor
-        self.foucusButton.layer.borderWidth = 1
-        self.foucusButton.layer.cornerRadius = 12
+    }
+}
+
+
+class FoucusButton: UIButton {
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        self.initMethod()
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.initMethod()
+    }
+    
+    func initMethod(){
+    
+        self.clipsToBounds = true
+        
+        self.titleLabel?.font = UIFont.a_font5
+        
+        self.setTitleColor(UIColor.hexStringToColor("#e71f19"), forState: .Normal)
+        
+        self.layer.cornerRadius = 30
+        self.layer.borderColor = UIColor.hexStringToColor("#e71f19").CGColor
+        self.layer.borderWidth = 1
+        self.layer.cornerRadius = 12
+        
+        self.setTitle("关注", forState: UIControlState.Normal)
+        
+        self.setBackgroundColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        self.setBackgroundColor(UIColor.hexStringToColor("#e71f19").colorWithAlphaComponent(0.3), forState: UIControlState.Selected)
+        self.setBackgroundColor(UIColor.hexStringToColor("#e71f19").colorWithAlphaComponent(0.3), forState: UIControlState.Highlighted)
     }
 }
