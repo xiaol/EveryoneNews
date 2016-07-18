@@ -46,9 +46,6 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
     @IBOutlet var collectButton: UIButton! // 没有收藏按钮
     @IBOutlet var collectedButton: UIButton! // 已经收藏按钮
     
-    @IBOutlet var shareBackView: UIView! // 分享背景视图
-    @IBOutlet var shareContentView: UIView! // 分享内容视图
-    
     @IBOutlet var OcclusionView: UIView! // 当没有新闻的时候现实的提示页面
     @IBOutlet var commentsLabel: UILabel! // 评论数目
     @IBOutlet var CommentAndPostButton: UIButton! // 评论和原文
@@ -95,8 +92,6 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DetailAndCommitViewController.setCollectionButton), name: COLLECTEDNEWORNOCOLLECTEDNEW, object: nil) //收藏状态发生变化
         
         self.setCollectionButton()
-        
-        self.shreContentViewMethod(true, animate: false)
         
         if let n = new { // 刷新最热评论 和 普通评论
             CommentUtil.LoadNoramlCommentsList(n)

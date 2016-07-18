@@ -136,18 +136,15 @@ extension NewContent{
             
             if let img = conten.img {
                 
-//                
-//                let res = img.grep("_(\\d+)X(\\d+).")
-//                
-//                let width = res.captures[1]
-//                let height = res.captures[2]
-////
-//                
-//                body += "<p><img data-src=\"\(img)\"  style = \"display:block;width:\(width);height:\(height);background-color:#f6f6f6;\" class=\"lazyload  img-responsive center-block\"  ></p>"
+                let res = img.grep("_(\\d+)X(\\d+).")
                 
-//                print(res)
+                let width = res.captures[1]
+                let height = res.captures[2]
+
+                body += "<p><img data-src=\"\(img)\" w=\(width) h=\(height) class=\"lazyload img-responsive center-block\"  ></p>"
                 
-                body += "<p><img data-src=\"\(img)\" class=\"lazyload img-responsive center-block\"src=\"home.png\" ></p>"
+//                body += "<p style=\"background-color:#f6f6f6;\"><canvas w=\(width) h=\(height) class=\"img lazyload img-responsive center-block\" src=\"\(img)\"></canvas></p>"
+                
             }
             
             if let vid = conten.vid {

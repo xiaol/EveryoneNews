@@ -8,7 +8,7 @@
 
 import UIKit
 
-var count = 2
+var count = 4
 
 extension SearchListViewController:UIViewControllerPreviewingDelegate,PreViewControllerDelegate{
 
@@ -44,7 +44,9 @@ extension SearchListViewController:UIViewControllerPreviewingDelegate,PreViewCon
         
         let new = newsResults[indexPath.row]
         
-        if indexPath.row == 2 {
+        
+        
+        if new.nid == -1111 {
         
             let cell = tableView.dequeueReusableCellWithIdentifier("fouce") as! FocusCell
             
@@ -89,14 +91,14 @@ extension SearchListViewController:UIViewControllerPreviewingDelegate,PreViewCon
         
         let new = newsResults[indexPath.row]
         
-        new.isRead() // 设置为已读
-        
-        if new.isidentification == 1 {
+        if new.nid == -1111 {
             
-            self.tableView.mj_header.beginRefreshing()
+            let qidian = UIStoryboard.shareStoryBoard.get_QiDianViewController()
             
-            return
+            return self.presentViewController(qidian, animated: true, completion: nil)
         }
+        
+        new.isRead() // 设置为已读
         
         let viewController = UIStoryboard.shareStoryBoard.get_DetailAndCommitViewController(new)
         
@@ -114,12 +116,12 @@ extension SearchListViewController:UIViewControllerPreviewingDelegate,PreViewCon
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
-        if indexPath.row == 2 {
+        let new = newsResults[indexPath.row]
+        
+        if new.nid == -1111 {
             
             return FocusCell.heightCell(count)
         }
-        
-        let new = newsResults[indexPath.row]
         
         return new.HeightByNewConstraint(tableView,html: true)
     }

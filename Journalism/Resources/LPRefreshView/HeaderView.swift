@@ -52,13 +52,13 @@ class NewRefreshHeaderView: MJRefreshHeader {
         }
     }
     
-    override var pullingPercent:CGFloat{
-    
-        didSet{
-        
-            print(pullingPercent)
-        }
-    }
+//    override var pullingPercent:CGFloat{
+//    
+//        didSet{
+//        
+//            print(pullingPercent)
+//        }
+//    }
     
     override var state: MJRefreshState{
     

@@ -147,4 +147,16 @@ extension UIStoryboard{
         
         return viewController
     }
+    
+    /**
+     获取搜索展示页面
+     
+     - returns: 返回搜索视图
+     */
+    func get_QiDianViewController()-> UIViewController{
+        
+        let viewController = self.instantiateViewControllerWithIdentifier("QiDianViewController") as! QiDianViewController
+        
+        return viewController
+    }
 }

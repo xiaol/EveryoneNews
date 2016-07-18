@@ -59,7 +59,12 @@ class NewsUtil: NSObject {
             }
             
             try! realm.write({
-                for channel in data {
+                for (index,channel) in data.enumerate() {
+                    
+                    if index == 2 {
+                        realm.create(New.self,value: ["nid":-1111,"issearch":1],update:true)
+                    }
+                    
                     realm.create(New.self, value: channel, update: true)
                     self.AnalysisPutTimeAndImageList(channel as! NSDictionary, realm: realm,iscollected:0)
                     if let nid = channel.objectForKey("nid") as? Int {

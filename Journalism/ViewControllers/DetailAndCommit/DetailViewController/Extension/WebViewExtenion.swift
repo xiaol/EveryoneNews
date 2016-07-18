@@ -18,6 +18,14 @@ extension DetailViewController:WKNavigationDelegate{
      */
     func scrollViewDidScroll(scrollView: UIScrollView) {
         
+        let height = UIScreen.mainScreen().bounds.height+scrollView.contentOffset.y
+        
+        let jsStr = "scrollMethod(\(height))"
+        
+        self.webView.evaluateJavaScript(jsStr, completionHandler: { (body, error) in
+            
+            
+        })
         
         self.adaptionWebViewHeightMethod()
     }
@@ -170,12 +178,16 @@ extension DetailViewController:WKNavigationDelegate{
     func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
         
         self.adaptionWebViewHeightMethod()
+        
 //        if let off = new?.getNewContentObject()?.scroffY,height = new?.getNewContentObject()?.height {
 //            
 //            self.adaptionWebViewHeightMethod(CGFloat(height))
 //            self.tableView.setContentOffset(CGPoint(x: 0, y: CGFloat(off)), animated: false)
 //        }
         self.webView.hidden = false
+        
+        self.tableView.setContentOffset(CGPoint(x: 0,y: 1), animated: false)
+        
         self.hiddenWaitLoadView() // 隐藏加载视图
     }
     
@@ -225,7 +237,6 @@ extension DetailViewController :WKScriptMessageHandler{
         guard let type = message.body["type"] as? Int else{return}
         
         if type == 0 { return self.adaptionWebViewHeightMethod() }
-        
         
         if let index = message.body["index"] as? Int,let res = new?.getNewContentObject()?.getSkPhotos() {
         

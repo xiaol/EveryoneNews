@@ -31,6 +31,12 @@
 		AEA103531D0571F80086968B /* AboutUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA103521D0571F80086968B /* AboutUtil.swift */; };
 		AEA1D0CA1D1BA7AB007AD1E5 /* CustomNSURLCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA1D0C91D1BA7AB007AD1E5 /* CustomNSURLCache.swift */; };
 		AEA573FB1D0FAAFA00C9F45C /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA573FA1D0FAAFA00C9F45C /* UIColorExtension.swift */; };
+		AEA762F31D3C803200A07FA3 /* QiDianViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA762F21D3C803200A07FA3 /* QiDianViewController.swift */; };
+		AEA762F91D3C83C500A07FA3 /* QiDianExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA762F81D3C83C500A07FA3 /* QiDianExtension.swift */; };
+		AEA762FB1D3C83E300A07FA3 /* QiDianCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA762FA1D3C83E300A07FA3 /* QiDianCell.swift */; };
+		AEA762FD1D3C862800A07FA3 /* QiDianDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA762FC1D3C862800A07FA3 /* QiDianDataSource.swift */; };
+		AEA762FF1D3C87ED00A07FA3 /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA762FE1D3C87ED00A07FA3 /* ShareView.swift */; };
+		AEA763031D3CE93B00A07FA3 /* CBFimage.js in Resources */ = {isa = PBXBuildFile; fileRef = AEA763021D3CE93B00A07FA3 /* CBFimage.js */; };
 		AEAC3B151D11077D00A292F4 /* UserCenterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAC3B141D11077D00A292F4 /* UserCenterExtension.swift */; };
 		AEAC3B171D11220500A292F4 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAC3B161D11220500A292F4 /* LoginViewController.swift */; };
 		AEAC3B1A1D1132AA00A292F4 /* WaitLoadProtcol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAC3B191D1132AA00A292F4 /* WaitLoadProtcol.swift */; };
@@ -98,7 +104,6 @@
 		AEE3B5151D17A187008BC0EA /* content.css in Resources */ = {isa = PBXBuildFile; fileRef = AEE3B50E1D17A187008BC0EA /* content.css */; };
 		AEE3B5161D17A187008BC0EA /* home.png in Resources */ = {isa = PBXBuildFile; fileRef = AEE3B5101D17A187008BC0EA /* home.png */; };
 		AEE3B5171D17A187008BC0EA /* jquery.js in Resources */ = {isa = PBXBuildFile; fileRef = AEE3B5121D17A187008BC0EA /* jquery.js */; };
-		AEE3B5181D17A187008BC0EA /* jquery.lazyload.js in Resources */ = {isa = PBXBuildFile; fileRef = AEE3B5131D17A187008BC0EA /* jquery.lazyload.js */; };
 		AEE3B51A1D17A409008BC0EA /* index.js in Resources */ = {isa = PBXBuildFile; fileRef = AEE3B5191D17A409008BC0EA /* index.js */; };
 		AEE3B51C1D17FF57008BC0EA /* RequestCustomClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE3B51B1D17FF57008BC0EA /* RequestCustomClass.swift */; };
 		AEE67EEC1D2A06BF004DDCF2 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE67EEB1D2A06BF004DDCF2 /* Regex.swift */; };
@@ -153,6 +158,12 @@
 		AEA103521D0571F80086968B /* AboutUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutUtil.swift; sourceTree = "<group>"; };
 		AEA1D0C91D1BA7AB007AD1E5 /* CustomNSURLCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomNSURLCache.swift; sourceTree = "<group>"; };
 		AEA573FA1D0FAAFA00C9F45C /* UIColorExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColorExtension.swift; sourceTree = "<group>"; };
+		AEA762F21D3C803200A07FA3 /* QiDianViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QiDianViewController.swift; sourceTree = "<group>"; };
+		AEA762F81D3C83C500A07FA3 /* QiDianExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QiDianExtension.swift; sourceTree = "<group>"; };
+		AEA762FA1D3C83E300A07FA3 /* QiDianCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QiDianCell.swift; sourceTree = "<group>"; };
+		AEA762FC1D3C862800A07FA3 /* QiDianDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QiDianDataSource.swift; sourceTree = "<group>"; };
+		AEA762FE1D3C87ED00A07FA3 /* ShareView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareView.swift; sourceTree = "<group>"; };
+		AEA763021D3CE93B00A07FA3 /* CBFimage.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = CBFimage.js; sourceTree = "<group>"; };
 		AEAC3B141D11077D00A292F4 /* UserCenterExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCenterExtension.swift; sourceTree = "<group>"; };
 		AEAC3B161D11220500A292F4 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		AEAC3B191D1132AA00A292F4 /* WaitLoadProtcol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaitLoadProtcol.swift; sourceTree = "<group>"; };
@@ -225,7 +236,6 @@
 		AEE3B50E1D17A187008BC0EA /* content.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = content.css; sourceTree = "<group>"; };
 		AEE3B5101D17A187008BC0EA /* home.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = home.png; sourceTree = "<group>"; };
 		AEE3B5121D17A187008BC0EA /* jquery.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.js; sourceTree = "<group>"; };
-		AEE3B5131D17A187008BC0EA /* jquery.lazyload.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = jquery.lazyload.js; sourceTree = "<group>"; };
 		AEE3B5191D17A409008BC0EA /* index.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
 		AEE3B51B1D17FF57008BC0EA /* RequestCustomClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestCustomClass.swift; sourceTree = "<group>"; };
 		AEE67EEB1D2A06BF004DDCF2 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
@@ -280,6 +290,7 @@
 				AE7C51A21D0D687B005E6A5A /* SearchViewController */,
 				AE0A89651D24D87200C85B27 /* SearchResultViewController */,
 				AE1C1EFD1D34DC1700E8044E /* FocusViewController */,
+				AEA762F11D3C800700A07FA3 /* QiDianViewController */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -385,6 +396,33 @@
 			path = SearchViewController;
 			sourceTree = "<group>";
 		};
+		AEA762F11D3C800700A07FA3 /* QiDianViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AEA762F21D3C803200A07FA3 /* QiDianViewController.swift */,
+				AEA762F61D3C83C500A07FA3 /* QiDianCustom */,
+				AEA762F71D3C83C500A07FA3 /* QiDianExtension */,
+			);
+			path = QiDianViewController;
+			sourceTree = "<group>";
+		};
+		AEA762F61D3C83C500A07FA3 /* QiDianCustom */ = {
+			isa = PBXGroup;
+			children = (
+				AEA762FA1D3C83E300A07FA3 /* QiDianCell.swift */,
+			);
+			path = QiDianCustom;
+			sourceTree = "<group>";
+		};
+		AEA762F71D3C83C500A07FA3 /* QiDianExtension */ = {
+			isa = PBXGroup;
+			children = (
+				AEA762F81D3C83C500A07FA3 /* QiDianExtension.swift */,
+				AEA762FC1D3C862800A07FA3 /* QiDianDataSource.swift */,
+			);
+			path = QiDianExtension;
+			sourceTree = "<group>";
+		};
 		AEAC3B131D10FDBE00A292F4 /* LoginViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -401,6 +439,7 @@
 				AEAC3B1D1D11330000A292F4 /* NoInterestView.swift */,
 				AEECBC4C1D13B30E00529150 /* SlideFontSizeView.swift */,
 				AEE9222E1D2FB38E00E18F6B /* FoucsedVIew.swift */,
+				AEA762FE1D3C87ED00A07FA3 /* ShareView.swift */,
 			);
 			path = WaitTipsView;
 			sourceTree = "<group>";
@@ -768,8 +807,8 @@
 		AEE3B5111D17A187008BC0EA /* js */ = {
 			isa = PBXGroup;
 			children = (
+				AEA763021D3CE93B00A07FA3 /* CBFimage.js */,
 				AEE3B5121D17A187008BC0EA /* jquery.js */,
-				AEE3B5131D17A187008BC0EA /* jquery.lazyload.js */,
 				AEE3B5191D17A409008BC0EA /* index.js */,
 			);
 			path = js;
@@ -914,12 +953,12 @@
 				AEE3B5151D17A187008BC0EA /* content.css in Resources */,
 				AEE3B5141D17A187008BC0EA /* bootstrap.min.css in Resources */,
 				AEC09CDE1CE9776800D5A5CC /* LaunchScreen.storyboard in Resources */,
+				AEA763031D3CE93B00A07FA3 /* CBFimage.js in Resources */,
 				AEC722691D239CFD004D4AA4 /* SKPhotoBrowser.bundle in Resources */,
 				AEC9659E1CF5A2E70053A88D /* User.storyboard in Resources */,
 				AEC1D5C61CEDC34600B1F00C /* NSDateTimeAgo.bundle in Resources */,
 				AEC47B351D0032E20055936D /* content_template.html in Resources */,
 				AEE3B5161D17A187008BC0EA /* home.png in Resources */,
-				AEE3B5181D17A187008BC0EA /* jquery.lazyload.js in Resources */,
 				AE2968321CF69DFB00D2782D /* Privacy.html in Resources */,
 				AEC09CDB1CE9776800D5A5CC /* Assets.xcassets in Resources */,
 				AEC09CD91CE9776800D5A5CC /* Main.storyboard in Resources */,
@@ -988,6 +1027,7 @@
 				AE2968341CF6AA3B00D2782D /* CustomTransitioning.swift in Sources */,
 				AEC47B271D0032E20055936D /* CommetnstableViewCell.swift in Sources */,
 				AEA573FB1D0FAAFA00C9F45C /* UIColorExtension.swift in Sources */,
+				AEA762FB1D3C83E300A07FA3 /* QiDianCell.swift in Sources */,
 				AEF29B051D239671006D1412 /* SKPhoto.swift in Sources */,
 				AE0FE5441CF301E8007DA198 /* UIImageExtension.swift in Sources */,
 				AE1C1EFF1D34DC2900E8044E /* FocusViewController.swift in Sources */,
@@ -1006,6 +1046,7 @@
 				AEF29B001D239671006D1412 /* PhotoBrowerProgressView.swift in Sources */,
 				AEBCAEE81CEC27A900EBFC0A /* Channel.swift in Sources */,
 				6DC4FDCE1CF0314700D25A99 /* NewListExtension.swift in Sources */,
+				AEA762FF1D3C87ED00A07FA3 /* ShareView.swift in Sources */,
 				AEBEAA921D1A35EB004D3178 /* UserCommentViewController.swift in Sources */,
 				AE0A896A1D24D87200C85B27 /* SLDataSource.swift in Sources */,
 				AEC89F251D2380F7002CEC6C /* SearchTransition.swift in Sources */,
@@ -1017,6 +1058,7 @@
 				AEC47B3F1D00334A0055936D /* PopAnimatedTransitioning.swift in Sources */,
 				AEDECF2B1D0D19A700CDCE2B /* CopyLabel.swift in Sources */,
 				AEE9222D1D2F664F00E18F6B /* MigrationFiles.swift in Sources */,
+				AEA762FD1D3C862800A07FA3 /* QiDianDataSource.swift in Sources */,
 				AEE67EEC1D2A06BF004DDCF2 /* Regex.swift in Sources */,
 				AEBEAA981D1A417E004D3178 /* UserCollectionViewController.swift in Sources */,
 				AEBCAEF31CEC3F4300EBFC0A /* UIStoryBoard.swift in Sources */,
@@ -1033,6 +1075,7 @@
 				AEBEAA9A1D1A46F2004D3178 /* CollExtension.swift in Sources */,
 				AEE9222F1D2FB38E00E18F6B /* FoucsedVIew.swift in Sources */,
 				AE2968301CF69D4400D2782D /* PrivacyViewController.swift in Sources */,
+				AEA762F31D3C803200A07FA3 /* QiDianViewController.swift in Sources */,
 				AEB8E9D91CFBF42100A105C4 /* NewContent.swift in Sources */,
 				AEAC3B1C1D1132BC00A292F4 /* WaitView.swift in Sources */,
 				AEAC3B1E1D11330000A292F4 /* NoInterestView.swift in Sources */,
@@ -1043,6 +1086,7 @@
 				AEC47B301D0032E20055936D /* DetailViewController.swift in Sources */,
 				AEF420B41CF8019700CFAF73 /* UIViewControllerExtension.swift in Sources */,
 				AEBEAA951D1A3F5B004D3178 /* MessageViewController.swift in Sources */,
+				AEA762F91D3C83C500A07FA3 /* QiDianExtension.swift in Sources */,
 				AEF29B021D239671006D1412 /* PhotoBrowerZoomScrollView.swift in Sources */,
 				AEFB55171CF41F10005FC23E /* NotLikeExtension.swift in Sources */,
 				6DC4FDD51CF031E000D25A99 /* ChannelManager.swift in Sources */,
