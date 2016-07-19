@@ -45,11 +45,8 @@ extension NewslistViewController{
             self.refreshNewsDataMethod(del: true,create:true,show: true)
         }else{
             
-            print(newsResults.count)
+            if newsResults.count <= 30 {
             
-            if newsResults == nil || newsResults.count <= 30 {
-            
-                
                 self.refreshNewsDataMethod(del: true,create:true,show: true)
             }
             
@@ -101,7 +98,9 @@ extension NewslistViewController{
             
             self.showWaitLoadView()
             
-            return NewsUtil.LoadNewsListArrayData(channelId,times: "\(Int64(NSDate().timeIntervalSince1970*1000))",finish: {
+            let time = NSDate().dateByAddingHours(-1)
+            
+            return NewsUtil.LoadNewsListArrayData(channelId,times: "\(Int64(time.timeIntervalSince1970*1000))",finish: {
                 
                 let message = self.newsResults.count <= 0 ? "没有加载到新的数据" : "一共刷新了\(self.newsResults.count)条数据"
                 
@@ -120,8 +119,10 @@ extension NewslistViewController{
             
             if last.ptimes.hoursBeforeDate(NSDate()) >= 12{
                 
-                time = NSDate().dateByAddingHours(-12)
+                time = NSDate().dateByAddingHours(-11)
             }
+            
+            time.dateByAddingHours(-1)
             
             NewsUtil.RefreshNewsListArrayData(channelId,delete:delete, create: create,times: "\(Int64(time.timeIntervalSince1970*1000))", finish: { (count) in
                 

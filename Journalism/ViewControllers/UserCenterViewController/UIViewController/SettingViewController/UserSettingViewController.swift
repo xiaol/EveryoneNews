@@ -34,6 +34,8 @@ extension UInt {
 
 class UserSettingViewController: UIViewController,UIGestureRecognizerDelegate {
     
+    @IBOutlet var logoutButton:UIButton!
+    
     @IBOutlet var cacheSizeLable: UILabel!
     @IBOutlet var pan: UIPanGestureRecognizer!
     @IBOutlet var scrollView: UIScrollView!
@@ -60,6 +62,7 @@ class UserSettingViewController: UIViewController,UIGestureRecognizerDelegate {
         
         self.initChooseFontSize()
         
+        self.logoutButton.setTitle(ShareLUser.utype == 2 ? "点击登录" : "退出登录", forState: UIControlState.Normal)
     }
     
     let DismissedAnimation = CustomViewControllerDismissedAnimation()
@@ -184,6 +187,11 @@ extension UserSettingViewController:UIViewControllerTransitioningDelegate{
     // 用户注销
     @IBAction func LoginOut(sender: AnyObject) {
         
+        if ShareLUser.utype == 2 {
+        
+            return self.dismissViewControllerAnimated(true, completion: nil)
+        }
+        
         let alert = UIAlertController(title: "注销", message: "是否注销当前用户", preferredStyle: .Alert)
         
         alert.addAction(UIAlertAction(title: "注销", style: .Destructive, handler: { (_) in
@@ -195,8 +203,6 @@ extension UserSettingViewController:UIViewControllerTransitioningDelegate{
         alert.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil))
         
         self.presentViewController(alert, animated: true, completion: nil)
-        
-
     }
     
     // 清理缓存

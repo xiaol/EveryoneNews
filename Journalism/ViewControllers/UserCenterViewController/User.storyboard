@@ -687,6 +687,7 @@
                         <outlet property="bigSizeButton" destination="WNk-rc-hs8" id="vXR-QK-lyc"/>
                         <outlet property="cacheSizeLable" destination="1EZ-hW-b5e" id="Cxx-CU-Qx4"/>
                         <outlet property="chooseFontBackVoew" destination="1Pd-4B-HmM" id="P5Q-5m-deS"/>
+                        <outlet property="logoutButton" destination="Ia5-8g-zAH" id="yq1-bm-s0B"/>
                         <outlet property="normalSizeButton" destination="YJz-ad-DQU" id="Dkk-91-fAr"/>
                         <outlet property="pan" destination="vGQ-Mt-dkx" id="eI3-jU-oJ5"/>
                         <outlet property="scrollView" destination="jE9-2K-qUb" id="Gz6-ci-bk1"/>

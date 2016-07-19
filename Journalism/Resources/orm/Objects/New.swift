@@ -91,6 +91,18 @@ import PINRemoteImage
 
 extension New{
 
+    /**
+     获取关注新闻
+     
+     - returns: <#return value description#>
+     */
+    class func allArray() -> Results<New>{
+        
+        let realm = try! Realm()
+        
+        return realm.objects(New.self)
+    }
+    
     func refreshs() -> New?{
     
         let realm = try! Realm()

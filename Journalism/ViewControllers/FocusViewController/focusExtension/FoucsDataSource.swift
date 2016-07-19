@@ -57,6 +57,7 @@ extension FocusViewController:UIViewControllerPreviewingDelegate,PreViewControll
             new.isRead() // 设置为已读
             let viewController = UIStoryboard.shareStoryBoard.get_DetailAndCommitViewController(new)
             viewController.isDismiss = true
+            viewController.isFoucsDismiss = true
             viewController.predelegate = self
             return viewController
         }

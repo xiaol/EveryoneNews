@@ -33,7 +33,7 @@ class NewslistViewController: UIViewController,WaitLoadProtcol {
     var timer = NSTimer()
     var fuckHeaderCellView:UIView!
     @IBOutlet var messageLabel: UILabel! // 加载完成消息提示
-    var newsResults:Results<New>!
+    var newsResults:Results<New> = New.allArray()
     var delegate:NewslistViewControllerNoLikeDelegate!
     internal var channel:Channel? // 该新闻列表的频道对象
     @IBOutlet var tableView: UITableView! // UITableView 视图对象

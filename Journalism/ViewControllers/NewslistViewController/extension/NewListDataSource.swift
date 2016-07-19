@@ -76,8 +76,6 @@ extension NewslistViewController:UITableViewDataSource{
      */
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        if newsResults == nil {return 0}
-        
         return newsResults.count
     }
     
