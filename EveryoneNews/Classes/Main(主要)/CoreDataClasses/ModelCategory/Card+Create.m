@@ -20,8 +20,9 @@
 
 
 + (NSMutableAttributedString *)titleHtmlString:(NSString *)title {
-    CGFloat fontSize = [LPFontSizeManager sharedManager].currentDetailContentFontSize ;
-    title = [NSString stringWithFormat:@"<style> body{ font-weight:5; line-height:1.0;text-indent:0em;font-size:%fpx; text-align:justify; }</style> %@ ",
+    // font-family: STHeiti, Helvetica Neue; 
+    CGFloat fontSize = [LPFontSizeManager sharedManager].currentHomeViewFontSize ;
+    title = [NSString stringWithFormat:@"<style> body{ font-family: STHeiti, Helvetica Neue; font-weight:5; line-height:1.0;text-indent:0em;font-size:%fpx; text-align:justify; }</style> %@ ",
             [UIFont systemFontOfSize:fontSize].pointSize, [[title stringByReplacingOccurrencesOfString:@"<p>" withString:@""] stringByReplacingOccurrencesOfString:@"</p>" withString:@""]];
     NSMutableAttributedString *mutableAttributeString = [[NSMutableAttributedString alloc] initWithData:[title dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType}
                                                                                      documentAttributes:nil error:nil];
@@ -31,8 +32,8 @@
 + (NSMutableAttributedString *)titleHtmlString:(NSString *)title isRead:(NSNumber *)isRead {
     
     NSString *color = (isRead? @"#808080" : @"#1a1a1a");
-    CGFloat fontSize = [LPFontSizeManager sharedManager].currentDetailContentFontSize ;
-    title = [NSString stringWithFormat:@"<style> body{ font-weight:5; line-height:1.0;text-indent:0em;font-size:%fpx; text-align:justify;color:%@  }</style> %@ ",
+    CGFloat fontSize = [LPFontSizeManager sharedManager].currentHomeViewFontSize ;
+    title = [NSString stringWithFormat:@"<style> body{font-family: STHeiti, Helvetica Neue;font-weight:5; line-height:1.0;text-indent:0em;font-size:%fpx; text-align:justify;color:%@  }</style> %@ ",
              [UIFont systemFontOfSize:fontSize].pointSize, color, [[title stringByReplacingOccurrencesOfString:@"<p>" withString:@""] stringByReplacingOccurrencesOfString:@"</p>" withString:@""]];
     NSMutableAttributedString *mutableAttributeString = [[NSMutableAttributedString alloc] initWithData:[title dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType}
                                                                                 documentAttributes:nil error:nil];

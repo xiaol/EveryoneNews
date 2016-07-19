@@ -306,7 +306,8 @@
         NSInteger w = floor(self.cardFrame.singleImageImageViewFrame.size.width);
         NSInteger h = floor(self.cardFrame.singleImageImageViewFrame.size.height);
         
-        NSString *imageURL = [self scaleImageURL:cardImage.imgUrl width:w height:h];
+//        NSString *imageURL = [self scaleImageURL:cardImage.imgUrl width:w height:h];
+        NSString *imageURL = [self scaleImageURL:cardImage.imgUrl];
         
        [self.iconView sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
         
@@ -402,11 +403,11 @@
         NSInteger height = floor(h);
         NSMutableArray *imageArray = [[NSMutableArray alloc] init];
         for (CardImage * cardImage in card.cardImages.allObjects) {
-            NSString *imageURL = [self scaleImageURL:cardImage.imgUrl width:width height:height];
+           // NSString *imageURL = [self scaleImageURL:cardImage.imgUrl width:width height:height];
+            NSString *imageURL = [self scaleImageURL:cardImage.imgUrl];
             [imageArray addObject:imageURL];
         }
      
-        
         [self.firstMutipleImageView sd_setImageWithURL:[NSURL URLWithString:imageArray[0]] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
         [self.secondMutipleImageView sd_setImageWithURL:[NSURL URLWithString:imageArray[1]] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
         [self.thirdMutipleImageView sd_setImageWithURL:[NSURL URLWithString:imageArray[2]] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
@@ -478,10 +479,16 @@
 - (NSString *)scaleImageURL:(NSString *)imageURL width:(NSInteger)width height:(NSInteger)height {
     NSRange range = [imageURL rangeOfString:@"/" options:NSBackwardsSearch];
     NSString *substring = [imageURL substringFromIndex:range.location+1];
-    NSString *scaleImageURL = [NSString stringWithFormat:@"http://pro-pic.deeporiginalx.com/%@@1e_1c_0o_0l_100sh_%ldh_%ldw_95q.src", substring, height, width];
+    NSString *scaleImageURL = [NSString stringWithFormat:@"http://pro-pic.deeporiginalx.com/%@@1e_1c_0o_0l_100sh_%ldh_%ldw_100q.src", substring, height, width];
     return scaleImageURL;
 }
 
-
+#pragma mark - 图片缩放处理
+- (NSString *)scaleImageURL:(NSString *)imageURL {
+    NSRange range = [imageURL rangeOfString:@"/" options:NSBackwardsSearch];
+    NSString *substring = [imageURL substringFromIndex:range.location+1];
+    NSString *scaleImageURL = [NSString stringWithFormat:@"http://pro-pic.deeporiginalx.com/%@@1e_1c_0o_0l_100sh_200h_300w_100q.src", substring];
+    return scaleImageURL;
+}
 
 @end

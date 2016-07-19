@@ -2,7 +2,7 @@
 //  Comment+CoreDataProperties.m
 //  EveryoneNews
 //
-//  Created by dongdan on 16/6/7.
+//  Created by dongdan on 16/7/12.
 //  Copyright © 2016年 apple. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -13,13 +13,13 @@
 
 @implementation Comment (CoreDataProperties)
 
-@dynamic upFlag;
-@dynamic title;
-@dynamic nid;
-@dynamic commentTime;
-@dynamic commentID;
-@dynamic comment;
 @dynamic commend;
+@dynamic comment;
+@dynamic commentID;
+@dynamic commentTime;
+@dynamic nid;
+@dynamic title;
+@dynamic upFlag;
 @dynamic card;
 
 @end

@@ -32,7 +32,11 @@
 #import "Card+Create.h"
 #import "LPHomeRowManager.h"
 
+#import "LPCardConcernFrame.h"
+#import "CardConcern.h"
+
 NSString *const reusePageID = @"reusePageID";
+NSString *const reuseConcernPageID = @"reuseConcernPageID";
 
 @implementation LPHomeViewController (PagingView)
 
@@ -53,7 +57,7 @@ NSString *const reusePageID = @"reusePageID";
         NSString *channelID = [LPChannelItemTool channelID:channelItem.channelName];
         param.channelID = channelID;
         NSMutableArray *cfs = [NSMutableArray array];
-
+        NSMutableArray *cfsConcern = [NSMutableArray array];
         [Card fetchCardsWithCardParam:param cardsArrayBlock:^(NSArray *cardsArray) {
             NSArray *cards = cardsArray;
             if (cards.count > 0) {
@@ -61,8 +65,21 @@ NSString *const reusePageID = @"reusePageID";
                     CardFrame *cf = [[CardFrame alloc] init];
                     cf.card = card;
                     [cfs addObject:cf];
+                    
+                    if ([channelItem.channelName isEqualToString:@"奇点"]) {
+                        LPCardConcernFrame *concernFrame = [[LPCardConcernFrame alloc] init];
+                        concernFrame.card = card;
+                        [cfsConcern addObject:concernFrame];
+                    }
                   
                 }
+                
+                if ([channelItem.channelName isEqualToString:@"奇点"]) {
+                    [self.channelItemDictionary setObject:cfsConcern forKey:@"关注"];
+                }
+         
+                
+                
                 [self.channelItemDictionary setObject:cfs forKey:channelItem.channelName];
             }
             if (i == self.selectedArray.count - 1) {
@@ -144,17 +161,28 @@ NSString *const reusePageID = @"reusePageID";
 
 - (UIView *)pagingView:(LPPagingView *)pagingView pageForPageIndex:(NSInteger)pageIndex {
     LPChannelItem *channelItem = self.pageindexMapToChannelItemDictionary[@(pageIndex)];
-    LPPagingViewPage *page = (LPPagingViewPage *)[pagingView dequeueReusablePageWithIdentifier:reusePageID];
-    page.delegate = self;
-    page.cardFrames = self.channelItemDictionary[channelItem.channelName];
     
-    if (page.cardFrames.count > 0 ) {
-        page.contentLoadingView.hidden = YES;
+    if (![channelItem.channelName isEqualToString:@"关注"]) {
+        LPPagingViewPage *page = (LPPagingViewPage *)[pagingView dequeueReusablePageWithIdentifier:reusePageID];
+        page.delegate = self;
+        page.cardFrames = self.channelItemDictionary[channelItem.channelName];
+        
+        if (page.cardFrames.count > 0 ) {
+            page.contentLoadingView.hidden = YES;
+        }
+        
+        page.cellIdentifier = self.cardCellIdentifierDictionary[@(pageIndex)];
+        page.pageChannelName = channelItem.channelName;
+        return page;
+    } else {
+        LPPagingViewConcernPage *page = (LPPagingViewConcernPage *)[pagingView dequeueReusablePageWithIdentifier:reuseConcernPageID];
+        page.delegate = self;
+        page.cellIdentifier = self.cardCellIdentifierDictionary[@(pageIndex)];
+        page.pageChannelName = channelItem.channelName;
+        page.cardFrames =  self.channelItemDictionary[channelItem.channelName];
+        
+        return page;
     }
-    
-    page.cellIdentifier = self.cardCellIdentifierDictionary[@(pageIndex)];
-    page.pageChannelName = channelItem.channelName;
-    return page;
 }
 
 #pragma mark - LPPagingView Delegate
@@ -178,27 +206,30 @@ NSString *const reusePageID = @"reusePageID";
     // 改变菜单栏按钮选中取消状态
     [self buttonSelectedStatusChangedWithIndex:(int)pageIndex];
     
-    // 设置本次访问时间
-    NSDate *currentDate = [NSDate date];
-    NSDate *lastAccessDate = channelItem.lastAccessDate;
-    
-    if (lastAccessDate == nil) {
-        channelItem.lastAccessDate = currentDate;
-    }
-    // 加载当前频道数据
-    [self channelItemDidAddToCoreData:pageIndex];
-    
-    LPPagingViewPage *page = (LPPagingViewPage *)[pagingView currentPage];
-    
-    // 每隔5分钟执行自动刷新
-    if (lastAccessDate != nil) {
-         int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
+    if (![channelItem.channelName isEqualToString:@"关注"]) {
+        // 设置本次访问时间
+        NSDate *currentDate = [NSDate date];
+        NSDate *lastAccessDate = channelItem.lastAccessDate;
+        
+        if (lastAccessDate == nil) {
+            channelItem.lastAccessDate = currentDate;
+        }
+        // 加载当前频道数据
+        [self channelItemDidAddToCoreData:pageIndex];
+        
+        LPPagingViewPage *page = (LPPagingViewPage *)[pagingView currentPage];
+        
+        // 每隔5分钟执行自动刷新
+        if (lastAccessDate != nil) {
+            int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
             // 每5分钟做一次刷新操作
             if (interval > 5) {
                 [page autotomaticLoadNewData];
                 channelItem.lastAccessDate = currentDate;
             }
-     }
+        }
+    }
+    
 }
 
 #pragma mark - 首页显示正在加载提示
@@ -221,22 +252,28 @@ NSString *const reusePageID = @"reusePageID";
 #pragma mark - 判断本地是否有数据 没有就请求网络 然后存入数据库
 - (void)channelItemDidAddToCoreData:(NSInteger)pageIndex {
     LPChannelItem *channelItem = self.pageindexMapToChannelItemDictionary[@(pageIndex)];
-    CardParam *param = [[CardParam alloc] init];
-    param.type = HomeCardsFetchTypeMore;
-    param.count = @(20);
-    param.startTime = [NSString stringWithFormat:@"%lld", (long long)([[NSDate date] timeIntervalSince1970] * 1000)];
-    param.channelID = channelItem.channelID;
     
-    [Card fetchCardsWithCardParam:param cardsArrayBlock:^(NSArray *cardsArray) {
-        NSArray *cards = cardsArray;
-        // 本地没有数据
-        if (cards.count == 0) {
-            [self showLoadingView];
-            [self loadMoreDataInPageAtPageIndex:pageIndex];
-        } else {
-            [self hideLoadingView];
-        }
-    }];
+    if (![channelItem.channelName isEqualToString:@"关注"]) {
+        
+        CardParam *param = [[CardParam alloc] init];
+        param.type = HomeCardsFetchTypeMore;
+        param.count = @(20);
+        param.startTime = [NSString stringWithFormat:@"%lld", (long long)([[NSDate date] timeIntervalSince1970] * 1000)];
+        param.channelID = channelItem.channelID;
+        
+        [Card fetchCardsWithCardParam:param cardsArrayBlock:^(NSArray *cardsArray) {
+            NSArray *cards = cardsArray;
+            // 本地没有数据
+            if (cards.count == 0) {
+                [self showLoadingView];
+                [self loadMoreDataInPageAtPageIndex:pageIndex];
+            } else {
+                [self hideLoadingView];
+            }
+        }];
+    }
+    
+
     
 }
 
@@ -331,6 +368,17 @@ NSString *const reusePageID = @"reusePageID";
 - (void)page:(LPPagingViewPage *)page updateCardFrames:(NSArray *)cardFrames {
     [self.channelItemDictionary setObject:cardFrames forKey:page.pageChannelName];
 }
+
+#pragma mark - LPPagingViewConcernPage Delegate
+- (void)concernPage:(LPPagingViewConcernPage *)concernPage didSelectCellWithCardID:(NSManagedObjectID *)cardID {
+    LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
+    detailVc.sourceViewController = concernSource;
+    detailVc.cardID = cardID;
+    detailVc.statusWindow = self.statusWindow;
+    [self.navigationController pushViewController:detailVc animated:YES];
+}
+
+
 
 #pragma mark - 弹出删除提示框
 - (void)page:(LPPagingViewPage *)page didClickDeleteButtonWithCardFrame:(CardFrame *)cardFrame  deleteButton:(UIButton *)deleteButton {

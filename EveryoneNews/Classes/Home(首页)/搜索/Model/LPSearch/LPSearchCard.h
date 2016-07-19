@@ -20,5 +20,5 @@
 @property (nonatomic, copy)  NSString *updateTime;
 @property (nonatomic, strong) NSArray *cardImages;
 
-- (NSMutableAttributedString *)titleHtmlString;
+//- (NSMutableAttributedString *)titleHtmlString;
 @end

@@ -30,6 +30,7 @@
 #import "Card+Fetch.h"
 #import "CardFrame.h"
 #import "CardTool.h"
+#import "LPPagingViewConcernPage.h"
 
 NSString * const firstChannelName = @"奇点";
 NSString * const menuCellIdentifier = @"menuCollectionViewCell";
@@ -173,6 +174,7 @@ NSString * const cardCellIdentifier = @"CardCellIdentifier";
     pagingView.delegate = self;
     pagingView.dataSource = self;
     [pagingView registerClass:[LPPagingViewPage class] forPageWithReuseIdentifier:reusePageID];
+    [pagingView registerClass:[LPPagingViewConcernPage class] forPageWithReuseIdentifier:reuseConcernPageID];
     [self.view addSubview:pagingView];
     self.pagingView = pagingView;
     

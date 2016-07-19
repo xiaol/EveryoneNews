@@ -89,6 +89,7 @@
     LPChannelItem *item29 = [[LPChannelItem alloc] init];
     LPChannelItem *item30 = [[LPChannelItem alloc] init];
     LPChannelItem *item31 = [[LPChannelItem alloc] init];
+    LPChannelItem *item32 = [[LPChannelItem alloc] init];
     
     item0.channelID = @"1";
     item0.channelName = @"奇点";
@@ -224,6 +225,9 @@
     item31.channelName = @"自媒体";
     item31.channelIsSelected = @"0";
     
+    item32.channelID = @"1000";
+    item32.channelName = @"关注";
+    item32.channelIsSelected = @"0";
     
     [channelItems addObject:item0];
     [channelItems addObject:item1];
@@ -260,6 +264,7 @@
     [channelItems addObject:item29];
     [channelItems addObject:item30];
     [channelItems addObject:item31];
+    [channelItems addObject:item32];
     
     return channelItems;
 }
@@ -300,6 +305,7 @@
                                 @"萌宠",@"32",
                                 @"点集",@"35",
                                 @"自媒体",@"36",
+                                @"关注",@"1000",
                                 
                                 nil];
     NSString *channelID = @"";

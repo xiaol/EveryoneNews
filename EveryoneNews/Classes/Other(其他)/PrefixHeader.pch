@@ -48,27 +48,7 @@ extern const NSInteger HotwordPageCapacity;
 
 extern NSString * const HotwordsURL;
 extern NSString * const reusePageID;
-
-//// 首页字体 Plus
-//typedef NS_ENUM(NSInteger, iPhone6PlusHomeTitleSize) {
-//    iPhone6PlusHomeTitleSizeStandard = 19,
-//    iPhone6PlusHomeTitleSizeLarger = 21,
-//    iPhone6PlusHomeTitleSizeSuperLarger = 23
-//};
-//
-//// 首页字体 6
-//typedef NS_ENUM(NSInteger, iPhone6HomeTitleSize) {
-//    iPhone6HomeTitleSizeStandard = 19,
-//    iPhone6HomeTitleSizeLarger = 21,
-//    iPhone6HomeTitleSizeSuperLarger = 23
-//};
-//
-//// 首页字体 5
-//typedef NS_ENUM(NSInteger, iPhone5HomeTitleSize) {
-//    iPhone5HomeTitleSizeStandard = 17,
-//    iPhone5HomeTitleSizeLarger = 19,
-//    iPhone5HomeTitleSizeSuperLarger = 21
-//};
+extern NSString * const reuseConcernPageID;
 
 // 首页字体 Plus
 typedef NS_ENUM(NSInteger, iPhone6PlusHomeTitleSize) {
@@ -90,6 +70,27 @@ typedef NS_ENUM(NSInteger, iPhone5HomeTitleSize) {
     iPhone5HomeTitleSizeLarger = 19,
     iPhone5HomeTitleSizeSuperLarger = 21
 };
+
+//// 首页字体 Plus
+//typedef NS_ENUM(NSInteger, iPhone6PlusHomeTitleSize) {
+//    iPhone6PlusHomeTitleSizeStandard = 18,
+//    iPhone6PlusHomeTitleSizeLarger = 20,
+//    iPhone6PlusHomeTitleSizeSuperLarger = 22
+//};
+//
+//// 首页字体 6
+//typedef NS_ENUM(NSInteger, iPhone6HomeTitleSize) {
+//    iPhone6HomeTitleSizeStandard = 18,
+//    iPhone6HomeTitleSizeLarger = 20,
+//    iPhone6HomeTitleSizeSuperLarger = 22
+//};
+//
+//// 首页字体 5
+//typedef NS_ENUM(NSInteger, iPhone5HomeTitleSize) {
+//    iPhone5HomeTitleSizeStandard = 16,
+//    iPhone5HomeTitleSizeLarger = 18,
+//    iPhone5HomeTitleSizeSuperLarger = 20
+//};
 
 // 详情页标题字体 Plus
 typedef NS_ENUM(NSInteger, iPhone6PlusDetailTitleSize) {
@@ -270,6 +271,8 @@ typedef NS_ENUM(NSInteger, sourceViewController) {
 #define LPFont7 10
 #define LPFont8 21
 #define LPFont9 23
+#define LPFont10 15
+#define LPFont11 13
 
 #define HomeTopViewHeight 71
 #define ScreenWidth [UIScreen mainScreen].bounds.size.width

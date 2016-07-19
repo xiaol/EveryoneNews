@@ -62,6 +62,7 @@
 #import <WebKit/WebKit.h>
 #import "LPSearchCardFrame.h"
 #import "LPSearchCard.h"
+#import "LPConcernDetailViewController.h"
 
 static const NSString * privateContext;
 
@@ -136,6 +137,14 @@ const static CGFloat changeFontSizeViewH = 150;
 @property (nonatomic, assign, getter=isComposeComment) BOOL composeComment;
 
 @property (nonatomic, strong) NSNumber *channel;
+@property (nonatomic, copy) NSString *sourceSiteName;
+
+@property (nonatomic, strong) UIImageView *forwardImageView;
+@property (nonatomic, strong) UIImageView *focusImageView;
+@property (nonatomic, strong) UILabel *focusLabel;
+
+
+
 
 @end
 
@@ -1081,12 +1090,9 @@ const static CGFloat changeFontSizeViewH = 150;
 
 #pragma mark - 获取Card内容
 - (Card *)card {
-    
     switch (self.sourceViewController) {
-            
         case searchSource: case remoteNotificationSource:
             return nil;
-            
             break;
             
         default:
@@ -1345,10 +1351,10 @@ const static CGFloat changeFontSizeViewH = 150;
     if (tableView == self.tableView) {
 
         CGFloat bottomPaddingY = 30;
-        CGFloat contentBottomViewH = 100;
+        CGFloat contentBottomViewH = 200;
         if (iPhone6) {
             bottomPaddingY = 22;
-            contentBottomViewH = 92;
+            contentBottomViewH = 192;
         }
         
         if (section == 0) {
@@ -1470,6 +1476,126 @@ const static CGFloat changeFontSizeViewH = 150;
             [contentBottomView addSubview:concernLabel];
             [contentBottomView addSubview:rightView];
             
+            // 详情页关注
+            CGFloat focusViewY = CGRectGetMaxY(concernLabel.frame) + 30;
+            CGFloat focusViewX = leftViewX;
+            CGFloat focusViewW = ScreenWidth - 2 * leftViewX;
+            CGFloat focusViewH = 70;
+            
+            UIView *focusView = [[UIView alloc] initWithFrame:CGRectMake(focusViewX, focusViewY, focusViewW, focusViewH)];
+            focusView.userInteractionEnabled = YES;
+            focusView.backgroundColor = [UIColor whiteColor];
+            [contentBottomView addSubview:focusView];
+            
+            UITapGestureRecognizer *focusViewTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(focusViewTap)];
+            [focusView addGestureRecognizer:focusViewTapGesture];
+            
+            
+            CGFloat rightFocusViewW = 80;
+            CGFloat rightFocusViewH = 70;
+            CGFloat rightFocusViewX = focusViewW - rightFocusViewW;
+            CGFloat rightFocusViewY = 0;
+            
+            UIView *rightFocusView = [[UIView alloc] initWithFrame:CGRectMake(rightFocusViewX, rightFocusViewY, rightFocusViewW, rightFocusViewH)];
+            rightFocusView.userInteractionEnabled = YES;
+            
+            
+            UITapGestureRecognizer *rightFocusViewTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(rightFocusViewTapGesture)];
+            [rightFocusView addGestureRecognizer:rightFocusViewTap];
+            
+            CGFloat focusImageViewW = 18;
+            CGFloat focusImageViewH = 18;
+            CGFloat focusImageViewX = (rightFocusViewW - focusImageViewW) / 2;
+            NSString *focusStr = @"关注";
+            CGFloat focusLabelW = [focusStr sizeWithFont:[UIFont systemFontOfSize:LPFont11] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].width;
+            CGFloat focusLabelH = [focusStr sizeWithFont:[UIFont systemFontOfSize:LPFont11] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].height;
+            
+            CGFloat focusLabelPaddingTop = 8;
+            CGFloat focusImageViewY = (rightFocusViewH - focusImageViewH - focusLabelH - focusLabelPaddingTop) / 2;
+            CGFloat focusLabelX = (rightFocusViewW - focusLabelW) / 2;
+            
+            
+            UIImageView *focusImageView = [[UIImageView alloc] initWithFrame:CGRectMake(focusImageViewX, focusImageViewY, focusImageViewW, focusImageViewH)];
+            focusImageView.image = [UIImage imageNamed:@"详情页关注加号"];
+            focusImageView.userInteractionEnabled = NO;
+            CGFloat focusLabelY = CGRectGetMaxY(focusImageView.frame) + focusLabelPaddingTop;
+
+            
+            UILabel *focusLabel = [[UILabel alloc] initWithFrame:CGRectMake(focusLabelX, focusLabelY, focusLabelW, focusLabelH)];
+            focusLabel.text = focusStr;
+            focusLabel.font = [UIFont systemFontOfSize:LPFont11];
+            focusLabel.textColor = [UIColor colorFromHexString:@"#e94221"];
+            focusLabel.textAlignment = NSTextAlignmentCenter;
+            focusLabel.userInteractionEnabled = NO;
+            
+            
+            CGFloat forwardImageViewW = 12;
+            CGFloat forwardImageViewH = 21;
+            CGFloat forwardImageViewY = (rightFocusViewW - forwardImageViewH) / 2;
+            CGFloat forwardImageViewX = (rightFocusViewW - forwardImageViewW) / 2;
+            
+            UIImageView *forwardImageView = [[UIImageView alloc] init];
+            forwardImageView.image = [UIImage imageNamed:@"详情页关注前进"];
+            forwardImageView.frame = CGRectMake(forwardImageViewX, forwardImageViewY, forwardImageViewW, forwardImageViewH);
+             forwardImageView.hidden = YES;
+            
+            [rightFocusView addSubview:forwardImageView];
+            [rightFocusView addSubview:focusImageView];
+            [rightFocusView addSubview:focusLabel];
+            [focusView addSubview:rightFocusView];
+            self.forwardImageView = forwardImageView;
+            self.focusImageView = focusImageView;
+            self.focusLabel = focusLabel;
+            
+            CGFloat middleSeperatorViewW = 1.5f;
+            CGFloat middleSeperatorViewH = 47;
+            CGFloat middleSeperatorViewX = CGRectGetMinX(rightFocusView.frame) - middleSeperatorViewW;
+            CGFloat middleSeperatorViewY = (focusViewH - middleSeperatorViewH) / 2;
+            UIView *middleSeperatorView = [[UIView alloc] initWithFrame:CGRectMake(middleSeperatorViewX, middleSeperatorViewY, middleSeperatorViewW, middleSeperatorViewH)];
+            middleSeperatorView.userInteractionEnabled = NO;
+            middleSeperatorView.backgroundColor = [UIColor colorFromHexString:@"#e9e9e9"];
+            [focusView addSubview:middleSeperatorView];
+            
+            
+            // 关注左边视图
+            CGFloat leftFocusViewX = 0;
+            CGFloat leftFocusViewY = 0;
+            CGFloat leftFocusViewW = (focusViewW - rightFocusViewW - middleSeperatorViewW);
+            CGFloat leftFocusViewH = focusViewH;
+            
+            UIView *leftFocusView = [[UIView alloc] initWithFrame:CGRectMake(leftFocusViewX, leftFocusViewY, leftFocusViewW, leftFocusViewH)];
+            leftFocusView.userInteractionEnabled = NO;
+      
+            CGFloat focusIconImageViewX = 11;
+            CGFloat focusIconImageViewW = 59;
+            CGFloat focusIconImageViewH = 59;
+            CGFloat focusIconImageViewY = (leftFocusViewH - focusIconImageViewH) / 2;
+            
+            UIImageView *focusIconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(focusIconImageViewX, focusIconImageViewY, focusIconImageViewW, focusIconImageViewH)];
+            focusIconImageView.userInteractionEnabled = NO;
+            focusIconImageView.image = [UIImage imageNamed:@"奇点号占位图2"];
+            [leftFocusView addSubview:focusIconImageView];
+            
+            NSString *focusSourceSiteName = self.sourceSiteName;
+            CGFloat focusSourceSiteNameLabelW = [focusSourceSiteName sizeWithFont:[UIFont systemFontOfSize:LPFont3] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].width;
+            CGFloat focusSourceSiteNameLabelH = [focusSourceSiteName sizeWithFont:[UIFont systemFontOfSize:LPFont3] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].height;
+            CGFloat focusSourceSiteNameLabelX = CGRectGetMaxX(focusIconImageView.frame) + 12;
+            CGFloat focusSourceSiteNameLabelY = (leftFocusViewH - focusSourceSiteNameLabelH) / 2;
+            
+            if (focusSourceSiteNameLabelW > (leftFocusViewW - focusIconImageViewW - 24)) {
+                focusSourceSiteNameLabelW = leftFocusViewW - focusIconImageViewW - 24;
+            }
+            
+            UILabel *focusSourceSiteNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(focusSourceSiteNameLabelX, focusSourceSiteNameLabelY, focusSourceSiteNameLabelW, focusSourceSiteNameLabelH)];
+            focusSourceSiteNameLabel.userInteractionEnabled = NO;
+            focusSourceSiteNameLabel.text = focusSourceSiteName;
+            focusSourceSiteNameLabel.font = [UIFont systemFontOfSize:LPFont3];
+            focusSourceSiteNameLabel.textColor = [UIColor colorFromHexString:LPColor1];
+            
+            [leftFocusView addSubview:focusSourceSiteNameLabel];
+            
+            [focusView addSubview:leftFocusView];
+
             self.contentBottomView = contentBottomView;
             
             return contentBottomView;
@@ -1544,6 +1670,120 @@ const static CGFloat changeFontSizeViewH = 150;
 
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    CGFloat headerViewHeight = 42;
+    
+    if (iPhone6) {
+        headerViewHeight = 42;
+    }
+    
+    if (tableView == self.tableView) {
+        
+        if (section == 1) {
+            if (self.excellentCommentsFrames.count > 0) {
+                return headerViewHeight;
+            } else {
+                return 0.1f;
+            }
+            
+        } else if (section == 2) {
+            if (self.relatePointArray.count > 0) {
+                return headerViewHeight + 4;
+            } else {
+                return 0.1f;
+            }
+            
+        } else {
+            return 0.1f;
+        }
+    } else if (tableView == self.commentsTableView) {
+        return headerViewHeight ;
+    } else {
+        return 0.1f;
+    }
+    
+    
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    CGFloat contentBottomViewH = 200;
+    CGFloat commentsBottomViewH = 40;
+    
+    if (iPhone6) {
+        contentBottomViewH = 192;
+        commentsBottomViewH = 51;
+    }
+    if (tableView == self.tableView) {
+        if (section == 0) {
+            
+            return contentBottomViewH;
+            
+        } else if (section == 1) {
+            if (self.excellentCommentsFrames.count > 0) {
+                return commentsBottomViewH;
+            } else {
+                return 0.1f;
+            }
+        } else if (section == 2){
+            if (self.relatePointArray.count > 0 ) {
+                return 24;
+            } else {
+                return 0.1f;
+            }
+        } else {
+            return 0.1f;
+        }
+    } else if (tableView == self.commentsTableView) {
+        return 10.0f;
+    } else {
+        return 0.1f;
+    }
+    
+}
+
+#pragma mark - 跳转到关注列表
+- (void)focusViewTap {
+    LPConcernDetailViewController *concernDetailViewController = [[LPConcernDetailViewController alloc] init];
+    [self.navigationController pushViewController:concernDetailViewController animated:YES];
+}
+
+
+#pragma mark - 点击关注按钮
+- (void)rightFocusViewTapGesture {
+
+    if (self.forwardImageView.hidden == NO) {
+        [self focusViewTap];
+        
+    } else {
+        __weak typeof(self) weakSelf = self;
+        if (![AccountTool account]) {
+            [AccountTool accountLoginWithViewController:self success:^(Account *account){
+                [weakSelf addConcernSourceSiteName];
+            } failure:^{
+            } cancel:nil];
+        } else {
+            [self addConcernSourceSiteName];
+        }
+    }
+}
+
+#pragma mark - 新增关注
+- (void)addConcernSourceSiteName {
+    NSString *uid = [userDefaults objectForKey:@"uid"];
+    // 必须进行编码操作
+    NSString *pname = [self.sourceSiteName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *url = [NSString stringWithFormat:@"%@/v2/ns/pbs/cocs?pname=%@&&uid=%@", ServerUrlVersion2, pname, uid];
+    NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
+    [LPHttpTool postAuthorizationJSONWithURL:url authorization:authorization params:nil success:^(id json) {
+        self.forwardImageView.hidden = NO;
+        self.focusImageView.hidden = YES;
+        self.focusLabel.hidden = YES;
+    } failure:^(NSError *error) {
+         NSLog(@"%@", error);
+    }];
+    
+}
+
 
 #pragma mark - 关心本文
 - (void)tapConcern {
@@ -1565,8 +1805,10 @@ const static CGFloat changeFontSizeViewH = 150;
         NSString *url = [NSString stringWithFormat:@"%@/v2/ns/cocs?nid=%@&&uid=%@", ServerUrlVersion2,[self nid], [userDefaults objectForKey:@"uid"]];
         NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
         
-//        //NSLog(@"%@", url);
+      //NSLog(@"%@", url);
         [LPHttpTool postAuthorizationJSONWithURL:url authorization:authorization params:nil success:^(id json) {
+            NSLog(@"%@", json[@"code"]);
+            
             if ([json[@"code"] integerValue] == 2000) {
                 self.concernImageView.image = [UIImage imageNamed:@"详情页心已关注"];
                 self.concernImageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.1, 1.1);
@@ -1654,76 +1896,7 @@ const static CGFloat changeFontSizeViewH = 150;
     [self.scrollView scrollRectToVisible:frame animated:YES];
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    CGFloat headerViewHeight = 42;
-    
-    if (iPhone6) {
-        headerViewHeight = 42;
-    }
-    
-    if (tableView == self.tableView) {
 
-        if (section == 1) {
-            if (self.excellentCommentsFrames.count > 0) {
-                return headerViewHeight;
-            } else {
-                return 0.1f;
-            }
-            
-        } else if (section == 2) {
-            if (self.relatePointArray.count > 0) {
-                return headerViewHeight + 4;
-            } else {
-                return 0.1f;
-            }
-            
-        } else {
-            return 0.1f;
-        }
-    } else if (tableView == self.commentsTableView) {
-          return headerViewHeight ;
-    } else {
-        return 0.1f;
-    }
-
-    
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    CGFloat contentBottomViewH = 100;
-    CGFloat commentsBottomViewH = 40;
- 
-    if (iPhone6) {
-        contentBottomViewH = 92;
-        commentsBottomViewH = 51;
-    }
-    if (tableView == self.tableView) {
-        if (section == 0) {
-            
-            return contentBottomViewH;
-            
-        } else if (section == 1) {
-            if (self.excellentCommentsFrames.count > 0) {
-                return commentsBottomViewH;
-            } else {
-                return 0.1f;
-            }
-        } else if (section == 2){
-            if (self.relatePointArray.count > 0 ) {
-                return 24;
-            } else {
-                return 0.1f;
-            }
-        } else {
-            return 0.1f;
-        }
-    } else if (tableView == self.commentsTableView) {
-        return 10.0f;
-    } else {
-        return 0.1f;
-    }
-
-}
 
 #pragma mark - 详情页标题
 - (void)setupHeaderView:(NSString *)title pubTime:(NSString *)pubtime pubName:(NSString *)pubName {
@@ -1776,6 +1949,9 @@ const static CGFloat changeFontSizeViewH = 150;
     CGFloat sourceH = [@"123" sizeWithFont:[UIFont systemFontOfSize:sourceFontSize] maxSize:CGSizeMake(sourceW, MAXFLOAT)].height;
     sourceLabel.frame = CGRectMake(sourceX, sourceY, sourceW, sourceH);
     NSString *sourceSiteName = [pubName  isEqualToString: @""] ? @"未知来源": pubName;
+    
+    self.sourceSiteName = sourceSiteName;
+    
     NSString *source = [NSString stringWithFormat:@"%@    %@",pubtime, sourceSiteName];
     sourceLabel.text = source;
     [headerView addSubview:sourceLabel];
@@ -2562,8 +2738,5 @@ const static CGFloat changeFontSizeViewH = 150;
     
     
 }
-
-
-
 
 @end

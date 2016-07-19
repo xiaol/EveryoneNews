@@ -9,7 +9,7 @@ target 'EveryoneNews' do
     pod 'Fabric'
     pod 'Crashlytics'
     pod 'SDWebImage', '~>3.7'
-    pod 'AliyunOSSiOS', '~> 2.5.0'
+#    pod 'AliyunOSSiOS', '~> 2.5.0'
 
 end
 

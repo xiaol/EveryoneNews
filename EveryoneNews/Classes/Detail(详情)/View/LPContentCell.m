@@ -153,13 +153,4 @@
     self.videoImageView.hidden = YES;
 }
 
-
-
-//#pragma mark - 点击videoImageView
-//- (void)tapVideoImageView {
-//    if ([self.delegate respondsToSelector:@selector(contentCell:videoImageViewDidTapped:webView:webViewF:)]) {
-//        [self.videoImageView removeFromSuperview];
-//        [self.delegate contentCell:self videoImageViewDidTapped:self.videoURL webView:self.webView webViewF:self.webView.frame];
-//    }
-//}
 @end

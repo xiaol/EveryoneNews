@@ -11,24 +11,26 @@
 #import "LPSearchCardFrame.h"
 #import "LPSearchCard.h"
 #import "LPUITextView.h"
+#import "TTTAttributedLabel.h"
+#import "Card+Create.h"
 
 
 @interface LPSearchResultViewCell ()
 // 无图
-@property (nonatomic, strong) LPUITextView *noImageLabel;
+@property (nonatomic, strong) TTTAttributedLabel *noImageLabel;
 @property (nonatomic, strong) UILabel *noImageSourceLabel;
 @property (nonatomic, strong) UILabel *noImageCommentLabel;
 @property (nonatomic, strong) UIView *noImageSeperatorLine;
 
 // 单图
-@property (nonatomic, strong) LPUITextView *titleLabel;
+@property (nonatomic, strong) TTTAttributedLabel *titleLabel;
 @property (nonatomic, strong) UIImageView *iconView;
 @property (nonatomic, strong) UILabel *singleSourceLabel;
 @property (nonatomic, strong) UILabel *singleCommentLabel;
 @property (nonatomic, strong) UIView *singleSeperatorLine;
 
 // 三图
-@property (nonatomic, strong) LPUITextView *multipleImageLabel;
+@property (nonatomic, strong) TTTAttributedLabel *multipleImageLabel;
 @property (nonatomic, strong) UILabel *mutipleCommentLabel;
 @property (nonatomic, strong) UIImageView *firstMutipleImageView;
 @property (nonatomic, strong) UIImageView *secondMutipleImageView;
@@ -51,19 +53,12 @@
     }
     if(self) {
         // 无图
-        LPUITextView *noImageLabel = [[LPUITextView alloc] init];
-        noImageLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
-        noImageLabel.editable = NO;
-        noImageLabel.selectable = YES;
+        TTTAttributedLabel *noImageLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+        noImageLabel.numberOfLines = 0;
         noImageLabel.backgroundColor = [UIColor clearColor];
         [self.contentView addSubview:noImageLabel];
         self.noImageLabel = noImageLabel;
-        
-        UITapGestureRecognizer *recognizer1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapTextView)];
-        
-        [noImageLabel addGestureRecognizer:recognizer1];
-        
-        
+    
         UILabel *noImageSourceLabel = [[UILabel alloc] init];
         noImageSourceLabel.font = [UIFont systemFontOfSize:sourceFontSize];
         noImageSourceLabel.textColor = [UIColor colorFromHexString:@"#999999"];
@@ -90,16 +85,11 @@
         [self.contentView addSubview:iconView];
         self.iconView = iconView;
         
-        LPUITextView *titleLabel = [[LPUITextView alloc] init];
-        titleLabel.editable = NO;
-        titleLabel.selectable = YES;
+        TTTAttributedLabel *titleLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+        titleLabel.numberOfLines = 0;
         titleLabel.backgroundColor = [UIColor clearColor];
-        titleLabel.textColor =  [UIColor colorFromHexString:@"#1a1a1a"];
         [self.contentView addSubview:titleLabel];
         self.titleLabel = titleLabel;
-        UITapGestureRecognizer *recognizer2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapTextView)];
-        
-        [titleLabel addGestureRecognizer:recognizer2];
         
         UILabel *singleSourceLabel = [[UILabel alloc] init];
         singleSourceLabel.font = [UIFont systemFontOfSize:sourceFontSize];
@@ -121,16 +111,11 @@
         self.singleSeperatorLine = singleSeperatorLine;
         
         // 三图及其三图以上
-        LPUITextView *multipleImageLabel = [[LPUITextView alloc] init];
-        multipleImageLabel.editable = NO;
-        multipleImageLabel.selectable = YES;
+        TTTAttributedLabel *multipleImageLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+        multipleImageLabel.numberOfLines = 0;
         multipleImageLabel.backgroundColor = [UIColor clearColor];
-        multipleImageLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
         [self.contentView addSubview:multipleImageLabel];
         self.multipleImageLabel = multipleImageLabel;
-        UITapGestureRecognizer *recognizer3 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapTextView)];
-        
-        [multipleImageLabel addGestureRecognizer:recognizer3];
         
         UIImageView *firstMutipleImageView = [[UIImageView alloc] init];
         firstMutipleImageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -192,6 +177,7 @@
     NSString *commentsCount = [NSString stringWithFormat:@"%@评", card.commentsCount != nil ? card.commentsCount: @"0"];
     BOOL commentLabelHidden = [commentsCount isEqualToString:@"0评"] ? YES :NO;
     NSString *source = [NSString stringWithFormat:@"%@    %@",sourceSiteName, publishTime];
+    NSMutableAttributedString *titleHtml = [Card titleHtmlString:card.title];
     
     if(card.cardImages.count == 0) {
         self.noImageLabel.hidden = NO;
@@ -215,7 +201,7 @@
         self.mutipleCommentLabel.hidden = YES;
         
         self.noImageLabel.frame = self.cardFrame.noImageLabelFrame;
-        self.noImageLabel.attributedText = card.titleHtmlString;
+        self.noImageLabel.text = titleHtml;
     
         self.noImageSourceLabel.frame = self.cardFrame.noImageSourceLabelFrame;
         self.noImageSourceLabel.text = source;
@@ -249,7 +235,7 @@
         self.multipleSourceLabel.hidden = YES;
         self.mutipleSeperatorLine.hidden = YES;
         self.mutipleCommentLabel.hidden = YES;
-        self.titleLabel.attributedText =   card.titleHtmlString;
+        self.titleLabel.text =   titleHtml;
         
         self.iconView.frame = self.cardFrame.singleImageImageViewFrame;
         self.titleLabel.frame = self.cardFrame.singleImageTitleLabelFrame;
@@ -280,8 +266,9 @@
         self.thirdMutipleImageView.hidden = NO;
         self.mutipleSeperatorLine.hidden = NO;
     
+        self.multipleImageLabel.text =   titleHtml;
         self.multipleImageLabel.frame = self.cardFrame.multipleImageTitleLabelFrame;
-        self.multipleImageLabel.attributedText =   card.titleHtmlString;
+   
         
         self.noImageCommentLabel.hidden = YES;
         self.singleCommentLabel.hidden = YES;
@@ -311,13 +298,13 @@
     }
 }
 
-- (void)tapTextView {
-    
-    if ([self.delegate respondsToSelector:@selector(cell:didSelectedCardFrame:)]) {
-        [self.delegate cell:self didSelectedCardFrame:self.cardFrame];
-    }
-}
-
+//- (void)tapTextView {
+//    
+//    if ([self.delegate respondsToSelector:@selector(cell:didSelectedCardFrame:)]) {
+//        [self.delegate cell:self didSelectedCardFrame:self.cardFrame];
+//    }
+//}
+//
 
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

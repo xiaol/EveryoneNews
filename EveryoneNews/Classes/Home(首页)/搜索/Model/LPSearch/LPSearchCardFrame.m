@@ -9,6 +9,7 @@
 #import "LPSearchCardFrame.h"
 #import "LPSearchCard.h"
 #import "NSString+LP.h"
+#import "Card+Create.h"
 
 @implementation LPSearchCardFrame
 
@@ -18,7 +19,6 @@
     CGFloat PaddingHorizontal = 10;
     CGFloat sourceFontSize = 10;
     CGFloat paddingVertical = 11;
-    CGFloat titlePaddingLeft = 3;
     
     if (iPhone6Plus) {
         
@@ -42,7 +42,7 @@
     
     CGFloat commentLabelW = 50;
     CGFloat commentLabelPaddingRight = 10;
-
+    NSMutableAttributedString *htmlTitle = [Card titleHtmlString:card.title];
     NSString *sourceSiteName = card.sourceSiteName;
     _card = card;
     _cellHeight = 0.0f;
@@ -59,10 +59,10 @@
             titlePaddingTop = 12;
         }
         
-        CGFloat titleW = ScreenWidth - PaddingHorizontal - titlePaddingLeft;
-        CGFloat titleH = [card.titleHtmlString textViewHeightWithConstraintWidth:titleW];
+        CGFloat titleW = ScreenWidth - PaddingHorizontal * 2;
+        CGFloat titleH = [htmlTitle tttAttributeLabel:titleW];
         
-        _noImageLabelFrame = CGRectMake(titlePaddingLeft , titlePaddingTop, titleW, titleH);
+        _noImageLabelFrame = CGRectMake(PaddingHorizontal , titlePaddingTop, titleW, titleH);
         
         CGFloat sourceSiteNameH = [sourceSiteName sizeWithFont:[UIFont systemFontOfSize:sourceFontSize] maxSize:CGSizeMake(titleW, MAXFLOAT)].height;
         
@@ -94,22 +94,13 @@
 
     }   else if (card.cardImages.count == 1 || card.cardImages.count == 2) {
         
-        if (iPhone6Plus) {
-            paddingVertical = 13;
-        } else if (iPhone5) {
-            paddingVertical = 13;
-        } else if (iPhone6) {
-            paddingVertical = 15;
-        }
-        
         // 定义单张图片的宽度
         CGFloat imageW = (ScreenWidth - PaddingHorizontal * 2 - 6) / 3 ;
         
         // 单图标题
-        CGFloat titleX = titlePaddingLeft;
+        CGFloat titleX = PaddingHorizontal;
         CGFloat titleW = ScreenWidth - imageW - PaddingHorizontal * 2 - 20;
-        CGFloat titleH = [card.titleHtmlString textViewHeightWithConstraintWidth:titleW];
-        
+        CGFloat titleH = [htmlTitle tttAttributeLabel:titleW];
         // 图片
         CGFloat imageX = ScreenWidth - PaddingHorizontal - imageW;
         CGFloat imageY = paddingVertical;
@@ -122,23 +113,15 @@
         CGFloat sourceSiteNameH = [sourceSiteName sizeWithFont:[UIFont systemFontOfSize:sourceFontSize] maxSize:CGSizeMake(titleW, MAXFLOAT)].height;
         
         CGFloat sourcePaddingTop1 = 10.0f;
-        
-        if (iPhone6Plus) {
-            sourcePaddingTop1 = 20.0f;
-        } else if (iPhone5) {
-            sourcePaddingTop1 = 5.0f;
-        } else if (iPhone6) {
-            sourcePaddingTop1 = 16;
-        }
+ 
         
         CGFloat titleY =  paddingVertical - lineSpacing;
         // 判断图片和标题+来源高度
-        if ((titleH + sourceSiteNameH + sourcePaddingTop1 )> imageH) {
-            titleY =    paddingVertical - lineSpacing;
+        if ((titleH + sourceSiteNameH + sourcePaddingTop1 ) > imageH) {
+            titleY =    paddingVertical;
             
         } else {
-            titleY =   paddingVertical + (imageH - (titleH + lineSpacing  + sourceSiteNameH + sourcePaddingTop1)) / 2 ;
-            
+            titleY = (imageH - (titleH + sourceSiteNameH + paddingVertical)) / 2 ;
         }
         
         _singleImageTitleLabelFrame = CGRectMake(titleX, titleY, titleW, titleH);
@@ -155,24 +138,15 @@
             _singelImageCommentLabelFrame = CGRectMake(ScreenWidth - commentLabelW - commentLabelPaddingRight - imageW - PaddingHorizontal, sourceSiteNameY, commentLabelW, sourceSiteNameH);
         }
         _singleImageSeperatorLineFrame = CGRectMake(0, singleImageSeperatorLineY, ScreenWidth, 0.5);
-        
-        
-      
-        
         _cellHeight =  CGRectGetMaxY(_singleImageSeperatorLineFrame);
         
     } else if (card.cardImages.count >= 3) {
+
+        CGFloat titleW = ScreenWidth - PaddingHorizontal * 2;
+        CGFloat titleH = [htmlTitle tttAttributeLabel:titleW];
+        _multipleImageTitleLabelFrame = CGRectMake(PaddingHorizontal, paddingVertical, titleW, titleH);
         
-        if (iPhone5) {
-            paddingVertical = 11;
-        }
-        
-        CGFloat titleW = ScreenWidth - PaddingHorizontal  - titlePaddingLeft;
-       
-        CGFloat titleH = [card.titleHtmlString textViewHeightWithConstraintWidth:titleW];
-        _multipleImageTitleLabelFrame = CGRectMake(titlePaddingLeft, paddingVertical, titleW, titleH);
-        
-        CGFloat imageY = titleH + 3 + paddingVertical;
+        CGFloat imageY = titleH + 8 + paddingVertical;
         
         // 定义单张图片的宽度
         CGFloat imageW = (ScreenWidth - PaddingHorizontal * 2 - 6) / 3 ;
@@ -182,14 +156,6 @@
         _multipleImageViewFrame = CGRectMake(PaddingHorizontal, imageY, (ScreenWidth - PaddingHorizontal * 2), imageH);
         
         CGFloat sourcePaddingTop = 4;
-        
-        if (iPhone5) {
-            sourcePaddingTop = 4;
-        } else if(iPhone6Plus){
-            sourcePaddingTop = 5;
-        } else if (iPhone6) {
-            sourcePaddingTop = 6;
-        }
         
         CGFloat sourceSiteNameY = CGRectGetMaxY(_multipleImageViewFrame) + sourcePaddingTop;
         CGFloat sourceSiteNameH = [sourceSiteName sizeWithFont:[UIFont systemFontOfSize:sourceFontSize] maxSize:CGSizeMake(titleW, MAXFLOAT)].height;

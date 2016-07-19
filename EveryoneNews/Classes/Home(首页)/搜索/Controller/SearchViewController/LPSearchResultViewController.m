@@ -17,11 +17,14 @@
 #import "MJRefresh.h"
 #import "LPSearchCard.h"
 #import "LPDetailViewController.h"
+#import "LPQiDianHaoViewCell.h"
+#import "LPQiDianConcernViewController.h"
 
 
 static NSString *cellIdentifier = @"cellIdentifier";
+static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
 
-@interface LPSearchResultViewController ()<LPSearchResultTopViewDelegate, UITableViewDataSource, UITableViewDelegate, LPSearchResultViewCellDelegate>
+@interface LPSearchResultViewController ()<LPSearchResultTopViewDelegate, UITableViewDataSource, UITableViewDelegate, LPQiDianHaoViewCellDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *cardFrames;
@@ -76,6 +79,8 @@ static NSString *cellIdentifier = @"cellIdentifier";
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, tableViewY, ScreenWidth, tableViewH)];
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     tableView.backgroundColor =  [UIColor colorFromHexString:@"#f6f6f6"];
+    [tableView registerClass:[LPQiDianHaoViewCell class] forCellReuseIdentifier:qiDiancellIdentifier];
+    [tableView registerClass:[LPSearchResultViewCell class] forCellReuseIdentifier:cellIdentifier];
     tableView.dataSource = self;
     tableView.delegate = self;
     tableView.hidden = YES;
@@ -235,11 +240,11 @@ static NSString *cellIdentifier = @"cellIdentifier";
                 card.commentsCount = dict[@"comment"];
                 card.channelId = dict[@"channel"];
                 
-                
                 LPSearchCardFrame *cardFrame = [[LPSearchCardFrame alloc] init];
                 cardFrame.card = card;
                 [weakSelf.cardFrames addObject:cardFrame];
             }
+//            [weakSelf.cardFrames insertObject:@"奇点号" atIndex:2];
              weakSelf.tableView.hidden = NO;
             [weakSelf.tableView reloadData];
             weakSelf.pageIndex = self.pageIndex + 1;
@@ -283,36 +288,63 @@ static NSString *cellIdentifier = @"cellIdentifier";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    LPSearchResultViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if (cell == nil) {
-        cell = [[LPSearchResultViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-    }
-    cell.delegate = self;
-    cell.cardFrame = self.cardFrames[indexPath.row];
-    return cell;
+    
+        LPSearchResultViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+        if (cell == nil) {
+            cell = [[LPSearchResultViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        }
+        cell.cardFrame = self.cardFrames[indexPath.row];
+        return cell;
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     LPSearchCardFrame *cardFrame = self.cardFrames[indexPath.row];
     return cardFrame.cellHeight;
+
+    
+    
+//    LPSearchCardFrame *cardFrame = self.cardFrames[indexPath.row];
+//    if (indexPath.row == 2) {
+//        return [self heightWithQiDianView];
+//    } else {
+//        return cardFrame.cellHeight;
+//    }
+    
+}
+
+- (CGFloat)heightWithQiDianView {
+    NSString *qiDianStr = @"奇点号";
+    CGFloat qiDianLabelH = [qiDianStr sizeWithFont:[UIFont systemFontOfSize:LPFont2] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].height;
+    NSString *title = @"历史";
+    CGFloat titleLabelH = [title sizeWithFont:[UIFont systemFontOfSize:LPFont5] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].height;
+    CGFloat padding = 11 * 2 + 18 * 2 + 17 + 7 + 59;
+    return qiDianLabelH + titleLabelH + padding;
 }
 
 #pragma mark - UITableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    LPSearchCardFrame *searchCardFrame = self.cardFrames[indexPath.row];
-    LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
-    detailVc.searchCardFrame = searchCardFrame;
-    detailVc.sourceViewController = searchSource;
-    [self.navigationController pushViewController:detailVc animated:YES];
+   
+    if (indexPath.row != 2) {
+        LPSearchCardFrame *searchCardFrame = self.cardFrames[indexPath.row];
+        LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
+        detailVc.searchCardFrame = searchCardFrame;
+        detailVc.sourceViewController = searchSource;
+        [self.navigationController pushViewController:detailVc animated:YES];
+    } else {
+        return;
+    }
+
 }
 
-#pragma mark - UITableViewCell Delegate
-- (void)cell:(LPSearchResultViewCell *)cell didSelectedCardFrame:(LPSearchCardFrame *)cardFrame {
-    LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
-    detailVc.searchCardFrame = cardFrame;
-    detailVc.sourceViewController = searchSource;
-    [self.navigationController pushViewController:detailVc animated:YES];
+#pragma mark - LPQiDianHaoViewCellDelegate
+- (void)cell:(LPQiDianHaoViewCell *)cell didTapWithQiDianMoreImageView:(UIImageView *)imageView {
+    LPQiDianConcernViewController *qiDianConcernViewController = [[LPQiDianConcernViewController alloc] init];
+    [self.navigationController pushViewController:qiDianConcernViewController animated:YES];
 }
+
+
+
 
 
 

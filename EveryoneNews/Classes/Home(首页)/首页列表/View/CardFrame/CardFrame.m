@@ -230,7 +230,7 @@
         CGFloat titleH = [htmlTitle tttAttributeLabel:titleW];
         _multipleImageTitleLabelFrame = CGRectMake(PaddingHorizontal,   CGRectGetMaxY(_mutipleTipButtonFrame) + paddingVertical, titleW, titleH);
         
-        CGFloat imageY =   CGRectGetMaxY(_mutipleTipButtonFrame) + titleH + 3 + paddingVertical;
+        CGFloat imageY =   CGRectGetMaxY(_mutipleTipButtonFrame) + titleH + 8 + paddingVertical;
         
         // 定义单张图片的宽度
         CGFloat imageW = (ScreenWidth - PaddingHorizontal * 2 - 6) / 3 ;

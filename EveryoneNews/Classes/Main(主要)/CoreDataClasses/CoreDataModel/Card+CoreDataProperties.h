@@ -2,7 +2,7 @@
 //  Card+CoreDataProperties.h
 //  EveryoneNews
 //
-//  Created by dongdan on 16/6/7.
+//  Created by dongdan on 16/7/12.
 //  Copyright © 2016年 apple. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -11,6 +11,7 @@
 
 #import "Card.h"
 
+@class CardConcern;
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Card (CoreDataProperties)
@@ -31,6 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSSet<CardImage *> *cardImages;
 @property (nullable, nonatomic, retain) NSSet<CardRelate *> *cardRelates;
 @property (nullable, nonatomic, retain) NSSet<Comment *> *comments;
+@property (nullable, nonatomic, retain) CardConcern *cardConcern;
 
 @end
 

@@ -2,7 +2,7 @@
 //  Relate+CoreDataProperties.h
 //  EveryoneNews
 //
-//  Created by dongdan on 16/6/7.
+//  Created by dongdan on 16/7/12.
 //  Copyright © 2016年 apple. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu

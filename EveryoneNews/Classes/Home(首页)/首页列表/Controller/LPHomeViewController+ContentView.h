@@ -9,9 +9,10 @@
 #import "LPHomeViewController.h"
 #import "LPPagingViewPage.h"
 #import "LPHomeViewCell.h"
+#import "LPPagingViewConcernPage.h"
 
 
-@interface LPHomeViewController (PagingView) <LPPagingViewDataSource, LPPagingViewDelegate, LPPagingViewPageDelegate, UIGestureRecognizerDelegate>
+@interface LPHomeViewController (PagingView) <LPPagingViewDataSource, LPPagingViewDelegate, LPPagingViewPageDelegate, UIGestureRecognizerDelegate, LPPagingViewConcernPageDelegate>
 
 // 加载已选频道栏所有数据
 - (void)setupInitialPagingViewData;

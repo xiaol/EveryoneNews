@@ -51,4 +51,6 @@
 
 // 获取时间戳
 - (double)timestampWithDateFormat:(NSString *)dateFormat;
+- (NSDate *)dateFromString:(NSString *)dateString;
++ (NSString *)stringFromDate:(NSDate *)date;
 @end

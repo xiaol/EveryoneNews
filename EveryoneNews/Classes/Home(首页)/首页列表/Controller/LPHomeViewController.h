@@ -16,6 +16,7 @@
 #import "LPChangeFontSizeView.h"
 #import "CoreDataHelper.h"
 #import "LPPagingViewPage.h"
+#import "LPPagingViewConcernPage.h"
 #import "LPHttpTool.h"
 
 
