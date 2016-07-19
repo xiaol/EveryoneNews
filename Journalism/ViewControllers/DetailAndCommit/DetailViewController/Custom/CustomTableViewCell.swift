@@ -264,3 +264,40 @@ class AboutTableViewCell:UITableViewCell{
         CGContextStrokePath(context)                    //畫出線段
     }
 }
+
+class DetailFoucesCell: UITableViewCell {
+    
+    @IBOutlet var iconImageView:UIImageView!
+    @IBOutlet var titleLabel:UILabel!
+    @IBOutlet var descLabel:UILabel!
+    
+    func setNewContent(newC:NewContent){
+    
+        self.titleLabel.text = newC.pname
+        self.descLabel.text = "这是一段描述"
+    }
+    
+    override func drawRect(rect: CGRect) {
+        
+        super.drawRect(rect)
+        
+        self.titleLabel.textColor = UIColor.blackColor()
+        self.titleLabel.font = UIFont.a_font2
+        
+        self.descLabel.textColor = UIColor(red: 166/255, green: 166/255, blue: 166/255, alpha: 1)
+        self.descLabel.font = UIFont.a_font5
+    }
+}
+
+class LeftBorderView:UIView{
+
+    override func drawRect(rect: CGRect) {
+        
+        let context = UIGraphicsGetCurrentContext() // 获取绘画板
+        CGContextSetFillColorWithColor(context, UIColor.clearColor().CGColor)
+        CGContextFillRect(context, rect)
+        //下分割线
+        CGContextSetStrokeColorWithColor(context, UIColor(red: 228/255, green:228/255, blue: 228/255, alpha: 1).CGColor)
+        CGContextStrokeRect(context, CGRectMake(0, 10, 1, 47));                //畫出線段
+    }
+}

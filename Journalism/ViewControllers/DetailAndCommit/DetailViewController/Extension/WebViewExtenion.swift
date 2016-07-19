@@ -35,10 +35,10 @@ extension DetailViewController:WKNavigationDelegate{
      
      - parameter scrollView: 滑动视图
      */
-//    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-//        
-//        new?.getNewContentObject()?.scroffY(scrollView.contentOffset.y)
-//    }
+    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+        
+        new?.getNewContentObject()?.scroffY(scrollView.contentOffset.y)
+    }
     
     /**
      整合方法
@@ -112,7 +112,12 @@ extension DetailViewController:WKNavigationDelegate{
             
             NewContentUtil.LoadNewsContentData(n.nid, finish: { (newCon) in
                 
+                self.newCon = newCon
+                
                 self.ShowNewCOntentInWebView(newCon)
+                
+                self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: 0, inSection: 1)], withRowAnimation: UITableViewRowAnimation.Automatic)
+                
                 }, fail: { 
                     
                     self.waitView.setNoNetWork {
@@ -142,15 +147,7 @@ extension DetailViewController:WKNavigationDelegate{
      获取高度完成之后就进行页面的重新布局以加入到tableView的表头中作为一个详情展示页
      */
     func adaptionWebViewHeightMethod(height:CGFloat = -1){
-        
-//        if height > 0 {
-//        
-//            self.webView.frame.size.height = height
-//            self.tableView.tableHeaderView = self.webView
-//            
-//            return
-//        }
-        
+
         self.webView.evaluateJavaScript("document.getElementById('section').offsetHeight") { (data, _) in
             
             if let height = data as? CGFloat{
@@ -159,7 +156,6 @@ extension DetailViewController:WKNavigationDelegate{
                 
                     self.webView.layoutIfNeeded()
                     self.webView.frame.size.height = height+35
-//                    self.new?.getNewContentObject()?.heights(height+35)
                     self.tableView.tableHeaderView = self.webView
                 }
             }
@@ -179,14 +175,15 @@ extension DetailViewController:WKNavigationDelegate{
         
         self.adaptionWebViewHeightMethod()
         
-//        if let off = new?.getNewContentObject()?.scroffY,height = new?.getNewContentObject()?.height {
-//            
-//            self.adaptionWebViewHeightMethod(CGFloat(height))
-//            self.tableView.setContentOffset(CGPoint(x: 0, y: CGFloat(off)), animated: false)
-//        }
+
         self.webView.hidden = false
         
         self.tableView.setContentOffset(CGPoint(x: 0,y: 1), animated: false)
+        
+        if let off = new?.getNewContentObject()?.scroffY {
+            
+            self.tableView.setContentOffset(CGPoint(x: 0, y: CGFloat(off)), animated: false)
+        }
         
         self.hiddenWaitLoadView() // 隐藏加载视图
     }

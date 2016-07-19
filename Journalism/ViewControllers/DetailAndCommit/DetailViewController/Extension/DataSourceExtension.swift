@@ -22,14 +22,11 @@ extension DetailViewController:UITableViewDelegate,UITableViewDataSource {
     func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { return getViewForHeaderInSection(section) }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.section != 2 { return }
+        if indexPath.section != 3 { return }
         
         let about = self.aboutResults[indexPath.row]
-
         about.isRead() // 标记为已读
-        
         self.goWebViewController(about.url)
-        
         self.tableView.reloadData()
     }
 }
@@ -72,11 +69,39 @@ extension DetailViewController{
             }))
             
             self.adaptionWebViewHeightMethod()
+            return cell
+        }
+        
+        /**
+         *   如果是第二个seciton 则回事关注独享的视图
+         */
+        if indexPath.section == 1 {
+        
+            let cell = tableView.dequeueReusableCellWithIdentifier("fouces") as! DetailFoucesCell
+            
+            if let nc = self.newCon {
+                
+                cell.setNewContent(nc)
+            }
+            
+            cell.addGestureRecognizer(UITapGestureRecognizer(block: { (_) in
+
+                if self.fdismiss {
+                
+                    return self.dismissViewControllerAnimated(true, completion: nil)
+                }
+                
+                let viewC = UIStoryboard.shareStoryBoard.get_FocusViewController(self.newCon)
+                
+                viewC.dismiss = self.dismiss
+                
+                return self.presentViewController(viewC, animated: true, completion: nil)
+            }))
             
             return cell
         }
         
-        if indexPath.section == 1 { // 如果是第二section 则会热门评论的cell
+        if indexPath.section == 2 { // 如果是第三section 则会热门评论的cell
             
             if indexPath.row == 3 { return self.getMoreTableViewCell(indexPath) }
             
@@ -124,17 +149,18 @@ extension DetailViewController{
     
     // 根据section 返回每一个section 的 头视图
     private func getViewForHeaderInSection(section: Int) -> UIView?{
-        if section == 0 {return nil}
-        if (self.hotResults == nil || self.hotResults.count == 0 ) && section == 1 {return nil}
-        if (self.aboutResults == nil || self.aboutResults.count == 0 ) && section == 2 {return nil}
+        if section == 0 || section == 1{return nil}
+        if (self.hotResults == nil || self.hotResults.count == 0 ) && section == 2 {return nil}
+        if (self.aboutResults == nil || self.aboutResults.count == 0 ) && section == 3 {return nil}
         let cell = tableView.dequeueReusableCellWithIdentifier("newcomments") as! CommentsTableViewHeader
-        if section == 1 { // 如果是第一个 则是 最热评论相关视图
+        if section == 2 { // 如果是第一个 则是 最热评论相关视图
             let text = hotResults.count > 0 ? "(\(hotResults.count))" : ""
             cell.titleLabel.text = "最热评论\(text)"
         }else{ // 如果是其他，也就是直邮第二个section 说明就是 相关新闻 视图
             cell.titleLabel.text = "相关观点"
         }
-        let containerView = UIView(frame:cell.frame)
+        
+        let containerView = UIView(frame:cell.bounds)
         cell.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
         containerView.addSubview(cell)
         return containerView
@@ -142,35 +168,33 @@ extension DetailViewController{
     
     // 返回每一个Row的高度
     private func getHeightForRowAtIndexPath(indexPath: NSIndexPath) -> CGFloat{
-        if indexPath.section == 0 { return 76 } // 如果是一section 是 喜欢喝朋友圈，固定高度
+        if indexPath.section == 0 { return 66 } // 如果是一section 是 喜欢喝朋友圈，固定高度
         
-        if indexPath.section == 1 {
+        if indexPath.section == 2 {
             if indexPath.row == 3 { return 101 } // 如果是第三行，则固定高度 更多评论
             return hotResults[indexPath.row].HeightByNewConstraint(tableView) // 根据评论内容返回高度
         }
         
-        if indexPath.section == 2 {
+        if indexPath.section == 3 {
             return aboutResults[indexPath.row].HeightByNewConstraint(tableView,hiddenY: self.getIsHeaderYear(indexPath)) // 根据相关内容返回高度
         }
-        return 116
+        return 99
     }
     
     // 获取每一个sction的行的数目
     func getRowCountForSection(section:Int) -> Int{
         
-        
-        
-        if section == 0 {return 1} // 如果是第一个则固定返回一行，用于现实喜欢朋友圈
-        if section == 1 && (hotResults != nil && hotResults.count > 0 ){ return hotResults.count > 3 ? 4 : hotResults.count } // 如果是第一个，人们评论相关的section
-        if section == 2 && (aboutResults != nil && aboutResults.count > 0 ){ return aboutResults.count } // 相关新闻的section
+        if section == 0 || section == 1{return 1} // 如果是第一个则固定返回一行，用于现实喜欢朋友圈
+        if section == 2 && (hotResults != nil && hotResults.count > 0 ){ return hotResults.count > 3 ? 4 : hotResults.count } // 如果是第一个，人们评论相关的section
+        if section == 3 && (aboutResults != nil && aboutResults.count > 0 ){ return aboutResults.count } // 相关新闻的section
         return 0
     }
     
     // 获取每一个Section头视图的高度的方法
     private func getHeaderHeightForSection(section:Int) -> CGFloat{
-        if section == 0 {return 0} // 如果是第一个section，那么它是因为是喜欢 朋友圈相的所以不需要头视图
-        if (hotResults == nil || hotResults.count == 0 ) && section == 1 {return 0} // 如果是第二个section，是热门评论，所以需要热门评论的头视图
-        if (aboutResults == nil || aboutResults.count == 0 ) && section == 2 {return 0} // 如果是第三个section 因为是相关观点，判断相关观点的数目之后，决定是否显示相关观点
+        if section == 0 || section == 1 {return 0} // 如果是第一个section，那么它是因为是喜欢 朋友圈相的所以不需要头视图
+        if (hotResults == nil || hotResults.count == 0 ) && section == 2 {return 0} // 如果是第二个section，是热门评论，所以需要热门评论的头视图
+        if (aboutResults == nil || aboutResults.count == 0 ) && section == 3 {return 0} // 如果是第三个section 因为是相关观点，判断相关观点的数目之后，决定是否显示相关观点
         return 40
     }
     

@@ -71,8 +71,6 @@ public class NewContent: Object {
     
     /// 滑动的位置
     dynamic var scroffY: Double = 0
-    /// 滑动的位置
-    dynamic var height: Double = 0
     
     override public static func primaryKey() -> String? {
         return "nid"
@@ -109,13 +107,6 @@ extension MGTemplateEngine{
 
 
 extension NewContent{
-
-    func heights(h:CGFloat){
-        let realm = try! Realm()
-        try! realm.write {
-            self.height = Double(h)
-        }
-    }
     
     func scroffY(y:CGFloat){
         let realm = try! Realm()
@@ -138,12 +129,15 @@ extension NewContent{
                 
                 let res = img.grep("_(\\d+)X(\\d+).")
                 
-                let width = res.captures[1]
-                let height = res.captures[2]
-
-                body += "<p><img data-src=\"\(img)\" w=\(width) h=\(height) class=\"lazyload img-responsive center-block\"  ></p>"
+                if res.captures.count > 0 {
                 
-//                body += "<p style=\"background-color:#f6f6f6;\"><canvas w=\(width) h=\(height) class=\"img lazyload img-responsive center-block\" src=\"\(img)\"></canvas></p>"
+                    let width = res.captures[1]
+                    let height = res.captures[2]
+                    
+                    body += "<p><img data-src=\"\(img)\" w=\(width) h=\(height) class=\"lazyload img-responsive center-block\"  ></p>"
+                }else{
+                    body += "<p><img data-src=\"\(img)\" class=\"lazyload img-responsive center-block\"  ></p>"
+                }
                 
             }
             

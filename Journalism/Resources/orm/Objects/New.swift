@@ -127,6 +127,18 @@ extension New{
     }
     
     /**
+     获取关注新闻
+     
+     - returns: <#return value description#>
+     */
+    class func foucsArray(pname:String) -> Results<New>{
+        
+        let realm = try! Realm()
+        
+        return realm.objects(New.self).filter("pname = '\(pname)'")
+    }
+    
+    /**
      获取当前新闻的详情对象
      
      - returns: 新闻详情

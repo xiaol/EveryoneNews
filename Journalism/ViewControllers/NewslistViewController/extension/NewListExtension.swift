@@ -45,19 +45,20 @@ extension NewslistViewController{
             self.refreshNewsDataMethod(del: true,create:true,show: true)
         }else{
             
+            print(newsResults.count)
+            
             if newsResults == nil || newsResults.count <= 30 {
             
                 
-                self.refreshNewsDataMethod(del: true,create:true,show: false)
-            }else{
+                self.refreshNewsDataMethod(del: true,create:true,show: true)
+            }
             
-                /**
-                 *  监视当前新闻发生变化之后，进行数据的刷新
-                 */
-                self.notificationToken = newsResults.addNotificationBlock { (_) in
-                    
-                    self.tableView.reloadData()
-                }
+            /**
+             *  监视当前新闻发生变化之后，进行数据的刷新
+             */
+            self.notificationToken = newsResults.addNotificationBlock { (_) in
+                
+                self.tableView.reloadData()
             }
         }
         

@@ -17,6 +17,9 @@ class DetailViewController: UIViewController,WaitLoadProtcol {
     var waitView:WaitView!
     var new:New? // 当前要展示的新闻对象
     
+    var dismiss = false
+    var fdismiss = false
+    
     let realm = try! Realm()
     
     var newCon:NewContent!

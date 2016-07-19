@@ -20,6 +20,7 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
     
     //MARK: 收藏相关
     var isDismiss = false // 是不是直接返回
+    var isFoucsDismiss = false // 是不是点击跳抓恢复
     let DismissedAnimation = CustomViewControllerDismissedAnimation()
     let PresentdAnimation = CustomViewControllerPresentdAnimation()
     let InteractiveTransitioning = UIPercentDrivenInteractiveTransition() // 完成 process 渐进行动画
@@ -111,6 +112,9 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
         
         detailViewController = UIStoryboard.shareStoryBoard.get_DetailViewController(new) // 获得详情视图
         commitViewController = UIStoryboard.shareStoryBoard.get_CommitViewController(new) // 获取评论视图
+        
+        self.detailViewController.fdismiss = self.isFoucsDismiss
+        self.detailViewController.dismiss = self.isDismiss
         
         return [detailViewController,commitViewController]
     }
