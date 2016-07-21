@@ -31,6 +31,8 @@ extension ShareAlertDelegate where Self:UIViewController{
         
         sview.del = delegate
         
+        sview.addGestureRecognizer(UIPanGestureRecognizer())
+        
         self.view.addSubview(sview)
         
         sview.snp_makeConstraints { (make) in
@@ -39,7 +41,6 @@ extension ShareAlertDelegate where Self:UIViewController{
         }
         
         sview.ShowAnimMethod()
-        
     }
     
     func ShareAlertHidden(){
@@ -128,6 +129,8 @@ class ShareAlertView: UIView {
             
             view.transform = CGAffineTransformScale(view.transform, 0, 0)
             view.transform = CGAffineTransformTranslate(view.transform, 0, 30)
+            
+            view.titleLabel.font = UIFont.a_font6
         }
         
         self.shareBackView.transform = CGAffineTransformTranslate(self.shareBackView.transform, 0, 374)

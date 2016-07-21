@@ -5,7 +5,7 @@ PODS:
   - DACircularProgress (2.3.1)
   - FLAnimatedImage (1.0.12)
   - MGTemplateEngine (1.0.0)
-  - MJRefresh (3.1.9)
+  - MJRefresh (3.1.10)
   - PINCache (2.2.2)
   - PINRemoteImage (2.1.4):
     - PINRemoteImage/FLAnimatedImage (= 2.1.4)
@@ -15,11 +15,11 @@ PODS:
     - FLAnimatedImage (>= 1.0)
     - PINRemoteImage/Core
   - ReachabilitySwift (2.3.3)
-  - Realm (1.0.1):
-    - Realm/Headers (= 1.0.1)
-  - Realm/Headers (1.0.1)
-  - RealmSwift (1.0.1):
-    - Realm (= 1.0.1)
+  - Realm (1.0.2):
+    - Realm/Headers (= 1.0.2)
+  - Realm/Headers (1.0.2)
+  - RealmSwift (1.0.2):
+    - Realm (= 1.0.2)
   - SnapKit (0.21.1)
   - SVProgressHUD (2.0.3)
   - SwaggerClient (2.3.0):
@@ -61,12 +61,12 @@ SPEC CHECKSUMS:
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   MGTemplateEngine: 67c8ca7551be430bb821cab3abf5665a230d93e9
-  MJRefresh: c5f1f1653e5a1b932c90f78074f2bc86f3f9bd5e
+  MJRefresh: bb72948c985914b0b5cecac573a2c69a8915fb02
   PINCache: 078426d356ab95ef875e9e62e5c35a2ea3333c28
   PINRemoteImage: 4ac4011c5caefd6befd99758e09becede05d3226
   ReachabilitySwift: e0f6b6f280effb47731acfaaa2d5ffe223703793
-  Realm: 2e15e39d35b08abb529e212ed5d8af107b5236c8
-  RealmSwift: d73ea2af08c3676dbdd5e4b669651a0f492162a4
+  Realm: 9d5c46a4d7d27958530a8dfc58f63a99e5c2cba3
+  RealmSwift: 82f3ac5e24530143dddfde2033acc0d308f27d96
   SnapKit: bbad04cb016c7cead63965f16b00c09318d271ee
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
   SwaggerClient: fa4b7e2c40e2697f64bdeef8ac6308899371dd17
@@ -75,6 +75,6 @@ SPEC CHECKSUMS:
   WeiboSDK: acb067053668102cf07d01aa7604350162c2e466
   XLPagerTabStrip: 87b8b705f9a7178e76a063ffaa2d70045944a965
 
-PODFILE CHECKSUM: e13f203172b63e25ee68d430a02e43393930fa6f
+PODFILE CHECKSUM: e2d42b0805e6f62cc47616879864f47c7908fbf9
 
 COCOAPODS: 1.0.0

@@ -79,23 +79,34 @@ extension DetailViewController{
         
             let cell = tableView.dequeueReusableCellWithIdentifier("fouces") as! DetailFoucesCell
             
-            if let nc = self.newCon {
+            if let nc = self.new {
                 
                 cell.setNewContent(nc)
+                
+                cell.fButton.removeActions(UIControlEvents.TouchUpInside)
+                cell.fButton.addAction(.TouchUpInside, block: { (_) in
+                    
+                    if ShareLUser.utype == 2 {
+                        
+                        NSNotificationCenter.defaultCenter().postNotificationName(USERNEDDLOGINTHENCANDOSOMETHING, object: nil)
+                    }else{
+                        
+                        Focus.focusPub(nc.pname, finish: {
+                            
+                            cell.rightFView.hidden = true
+                        })
+                    }
+                })
             }
+            cell.tButton.removeActions(UIControlEvents.TouchUpInside)
+            cell.tButton.addAction(.TouchUpInside, block: { (_) in
+                
+                self.toFocusViewController()
+            })
             
             cell.addGestureRecognizer(UITapGestureRecognizer(block: { (_) in
 
-                if self.fdismiss {
-                
-                    return self.dismissViewControllerAnimated(true, completion: nil)
-                }
-                
-                let viewC = UIStoryboard.shareStoryBoard.get_FocusViewController(self.newCon)
-                
-                viewC.dismiss = self.dismiss
-                
-                return self.presentViewController(viewC, animated: true, completion: nil)
+                self.toFocusViewController()
             }))
             
             return cell
@@ -125,6 +136,20 @@ extension DetailViewController{
         cell.setAboutMethod(about,hiddenY: self.getIsHeaderYear(indexPath))
         
         return cell
+    }
+    
+    private func toFocusViewController(){
+    
+        if self.fdismiss {
+            
+            return self.dismissViewControllerAnimated(true, completion: nil)
+        }
+        
+        let viewC = UIStoryboard.shareStoryBoard.get_FocusViewController(self.newCon)
+        
+        viewC.dismiss = self.dismiss
+        
+        self.presentViewController(viewC, animated: true, completion: nil)
     }
     
     // 获取查看全部评论的视图

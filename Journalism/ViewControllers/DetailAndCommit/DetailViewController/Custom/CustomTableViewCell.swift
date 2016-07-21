@@ -271,10 +271,19 @@ class DetailFoucesCell: UITableViewCell {
     @IBOutlet var titleLabel:UILabel!
     @IBOutlet var descLabel:UILabel!
     
-    func setNewContent(newC:NewContent){
+        /// 点击前往详情的按钮
+    @IBOutlet var tButton:UIButton!
+    @IBOutlet var fButton:UIButton!
+    
+    
+    @IBOutlet var rightFView:UIView!
+    
+    func setNewContent(newC:New){
     
         self.titleLabel.text = newC.pname
         self.descLabel.text = "这是一段描述"
+        
+        rightFView.hidden = Focus.isExiter(newC.pname)
     }
     
     override func drawRect(rect: CGRect) {

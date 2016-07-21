@@ -82,6 +82,13 @@ public class New: Object {
      */
     dynamic var issearch = 0 // 是否收藏
     
+    /**
+     标识 是不是搜索出来的。 0 不是 1 是 默认为 不是
+     首先我们要做的就是在搜索之前，将所有搜索状态未 1 的，设置为 0.
+     但是如果用户在上拉刷新的时候是不需要进行这个设置的。
+     */
+    dynamic var isfocus = 0 // 是否收藏
+    
     override public static func primaryKey() -> String? {
         return "nid"
     }
@@ -91,6 +98,21 @@ import PINRemoteImage
 
 extension New{
 
+    class func delArray(willDelete:Results<New>){
+        
+        let realm = try! Realm()
+        
+        try! realm.write({ // 删除冗余的新闻
+            
+            willDelete.forEach({ (new) in // 确保不喜欢的新闻 绝对消失
+                
+                if new.isdelete == 0 {
+                    realm.delete(new)
+                }
+            })
+        })
+    }
+    
     /**
      获取关注新闻
      

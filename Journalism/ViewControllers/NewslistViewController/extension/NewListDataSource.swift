@@ -180,11 +180,7 @@ extension NewslistViewController:UITableViewDataSource{
                     
                     self.newsResults[indexPath.row].suicide()
                     
-                    self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Middle)
-                    
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW,Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { // 2
-                        
-                        self.tableView.reloadData()
                         
                         self.showNoInterest()
                     }
@@ -218,11 +214,7 @@ extension NewslistViewController:UITableViewDelegate{
         
         if new.isidentification == 1 {
             
-            self.tableView.scrollToRowAtIndexPath(NSIndexPath(forItem: 0, inSection: 0), atScrollPosition: UITableViewScrollPosition.Top, animated: true)
-            
-            self.tableView.mj_header.beginRefreshing()
-            
-            return
+            return self.tableView.mj_header.beginRefreshing()
         }
         
         let viewController = UIStoryboard.shareStoryBoard.get_DetailAndCommitViewController(new)
@@ -234,8 +226,6 @@ extension NewslistViewController:UITableViewDelegate{
             
             self.showViewController(viewController, sender: nil)
         }
-        
-        self.tableView.reloadData()
     }
     
     /**

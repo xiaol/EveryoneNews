@@ -13,7 +13,7 @@ import PINRemoteImage
 import XLPagerTabStrip
 
 extension NewslistViewController{
-
+    
     /**
      当视图准备显示的时候所做的一些提前的额准备
      1. 设置表格的头部视图和底部视图的高度均为0，来满足设计的需要
@@ -30,34 +30,9 @@ extension NewslistViewController{
         
         self.messageHandleMethod(hidden:true, anmaiter: false) // 隐藏提示视图
         
-        self.tableView.mj_header = NewRefreshHeaderView(refreshingBlock: {
-                
-            self.refreshNewsDataMethod(create:true,show: true)
-        })
+        self.notifitionNewChange()
         
-        self.tableView.mj_footer = NewRefreshFooterView {
-            
-            self.loadNewsDataMethod()
-        }
-        
-        if channel?.id == 1 {
-        
-            self.refreshNewsDataMethod(del: true,create:true,show: true)
-        }else{
-            
-            if newsResults.count <= 30 {
-            
-                self.refreshNewsDataMethod(del: true,create:true,show: true)
-            }
-            
-            /**
-             *  监视当前新闻发生变化之后，进行数据的刷新
-             */
-            self.notificationToken = newsResults.addNotificationBlock { (_) in
-                
-                self.tableView.reloadData()
-            }
-        }
+        self.ResultDataMethod()
         
         /**
          *  该方法会检测用户设置字体大小的方法
@@ -71,9 +46,33 @@ extension NewslistViewController{
          */
         NSNotificationCenter.defaultCenter().addObserverForName(FONTMODALSTYLEIDENTIFITER, object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
             
-            self.tableView.reloadData()
+            self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
         }
     }
+    
+    /**
+      刷新数据
+     */
+    private func ResultDataMethod(){
+    
+        self.tableView.mj_header = NewRefreshHeaderView(refreshingBlock: {
+            
+            self.refreshNewsDataMethod(create:true,show: true)
+        })
+        
+        self.tableView.mj_footer = NewRefreshFooterView {
+            
+            self.loadNewsDataMethod()
+        }
+        
+        if newsResults.count > 30{ // 如果是第一次刷新，并且数据量大于30，则完成数据清除
+            
+            New.delArray(newsResults.filter("ptimes < %@", newsResults[30].ptimes))
+        }
+        
+        self.refreshNewsDataMethod(del: true,create:true,show: true)
+    }
+    
 }
 
 
@@ -81,6 +80,39 @@ extension NewslistViewController{
 
 // MARK: - 刷新数据或者下拉加载数据的处理放啊集合
 extension NewslistViewController{
+    
+    private func notifitionNewChange(){
+    
+        /**
+         *  监视当前新闻发生变化之后，进行数据的刷新
+         */
+        self.notificationToken = newsResults.addNotificationBlock { (changes: RealmCollectionChange) in
+            
+            switch changes {
+            case .Initial:
+                // Results are now populated and can be accessed without blocking the UI
+                self.tableView.reloadData()
+                break
+            case .Update(_, let deletions, let insertions, let modifications):
+                // Query results have changed, so apply them to the UITableView
+                self.tableView.beginUpdates()
+                self.tableView.insertRowsAtIndexPaths(insertions.map { NSIndexPath(forRow: $0, inSection: 0) },
+                    withRowAnimation: .Automatic)
+                self.tableView.deleteRowsAtIndexPaths(deletions.map { NSIndexPath(forRow: $0, inSection: 0) },
+                    withRowAnimation: .Automatic)
+                self.tableView.reloadRowsAtIndexPaths(modifications.map { NSIndexPath(forRow: $0, inSection: 0) },
+                    withRowAnimation: .Automatic)
+                self.tableView.endUpdates()
+                break
+            case .Error(let error):
+                // An error occurred while opening the Realm file on the background worker thread
+                fatalError("\(error)")
+                break
+            }
+        }
+    }
+    
+    
     /**
      下拉刷新 获取更新的新闻数据
      当用户第一次进入时，数据往往是不存在，首先需要上拉加载一些数据。
@@ -108,7 +140,7 @@ extension NewslistViewController{
                 
                 }, fail: {
                     
-                    self.waitView.setNoNetWork({ 
+                    self.waitView.setNoNetWork({
                         
                         self.refreshNewsDataMethod(del: delete, create: create, show: show)
                     })
@@ -141,13 +173,11 @@ extension NewslistViewController{
      处理消息提示显示方法，和初始化方法
      */
     private func handleMessageShowMethod(message:String,show:Bool,bc:UIColor=UIColor.a_color2){
-
+        
         self.hiddenWaitLoadView()
         
         self.tableView.mj_header.endRefreshing()
         self.tableView.mj_footer.endRefreshing()
-        
-        self.tableView.reloadData()
         
         if !show {return}
         self.messageHandleMethod(message,backColor: bc)
@@ -166,8 +196,6 @@ extension NewslistViewController{
                 
                 self.tableView.mj_footer.endRefreshing()
                 
-                self.tableView.reloadData()
-                
                 }, fail: {
                     
                     self.tableView.mj_footer.endRefreshing()
@@ -178,7 +206,7 @@ extension NewslistViewController{
 
 // MARK: - 显示刷新数目视图的处理方法集合
 extension NewslistViewController{
-
+    
     /**
      下拉刷新成功后向用户提醒刷新数目的显示方法
      如果参数 hidden 为 true 则为隐藏，如果为 false 则为 显示
@@ -226,7 +254,7 @@ extension NewslistViewController{
 
 
 extension NewslistViewController:IndicatorInfoProvider{
-
+    
     func indicatorInfoForPagerTabStrip(pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
         
         let info = IndicatorInfo(title: channel?.cname ?? "")

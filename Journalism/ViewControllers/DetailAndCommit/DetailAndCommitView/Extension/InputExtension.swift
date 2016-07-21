@@ -37,6 +37,8 @@ extension DetailAndCommitViewController:UITextViewDelegate{
                 
                 SVProgressHUD.showSuccessWithStatus("评论成功")
                 
+                NSNotificationCenter.defaultCenter().postNotificationName(USERCOMMENTNOTIFITION, object: nil)
+                
                 if let tableView = self.commitViewController.tableView{
                     let indexPath = NSIndexSet(index: 1)
                     tableView.reloadSections(indexPath, withRowAnimation: UITableViewRowAnimation.Automatic)

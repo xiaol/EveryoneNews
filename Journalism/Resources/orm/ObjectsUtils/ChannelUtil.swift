@@ -39,6 +39,7 @@ class ChannelUtil: NSObject {
                             realm.objects(Channel).filter("cname = '科技'").setValue(1, forKey: "orderindex")
                             realm.objects(Channel).filter("cname = '外媒'").setValue(2, forKey: "orderindex")
                             realm.objects(Channel).filter("cname = '点集'").setValue(3, forKey: "orderindex")
+                            realm.create(Channel.self, value: ["id":1994,"cname":"关注","state":0,"orderindex":4,"isdelete":0], update: true)
                             
                             realm.objects(Channel).filter("cname = '美文'").setValue(1, forKey: "isdelete")
                             realm.objects(Channel).filter("cname = '趣图'").setValue(1, forKey: "isdelete")

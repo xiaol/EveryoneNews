@@ -38,6 +38,9 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
     
     //MARK: 正常浏览
     var new:New? // 新闻
+    
+    @IBOutlet var topClickView:UIView!
+    
     @IBOutlet var inputTextView: UITextView! // 输入视图
     @IBOutlet var inputCommitButton: UIButton! // 提交评论按钮
     @IBOutlet var inputBackView: UIView! // 输入评论背景视图
@@ -89,6 +92,9 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
         self.navigationController?.delegate = self
         
         self.containerView.panGestureRecognizer.addTarget(self, action: #selector(DetailAndCommitViewController.pan(_:))) // 添加一个视图
+        
+        
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DetailAndCommitViewController.setCButton), name: USERCOMMENTNOTIFITION, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DetailAndCommitViewController.getToCommitViewControllerNotification(_:)), name: CLICKTOCOMMENTVIEWCONTROLLER, object: nil) // 当评论页面的查看更多的评论的按钮被评论的消息机制
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DetailAndCommitViewController.setCollectionButton), name: COLLECTEDNEWORNOCOLLECTEDNEW, object: nil) //收藏状态发生变化
         
@@ -98,9 +104,21 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
             CommentUtil.LoadNoramlCommentsList(n)
         }
         
-        self.setCommentOrDetailButton()
-        
-        
+        /**
+         *  用户点击 滑动到顶端视图
+         */
+        self.topClickView.addGestureRecognizer(UITapGestureRecognizer(block: { (_) in
+            
+            if self.currentIndex == 0 {
+            
+                self.detailViewController.tableView.setContentOffset(CGPointZero, animated: true)
+            }
+           
+            if self.currentIndex == 1 {
+                
+                self.commitViewController.tableView.setContentOffset(CGPointZero, animated: true)
+            }
+        }))
     }
     
     // 获取到了评论视图的请求了
@@ -119,11 +137,7 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
         return [detailViewController,commitViewController]
     }
     
-    /// 点击评论文章切换按钮
-    @IBAction func touchCommentAndPost(sender: AnyObject) {
-        
-        self.moveToViewControllerAtIndex(self.currentIndex == 0 ? 1 : 0, animated: true)
-    }
+
     
     /// 点击新闻收藏按钮
     @IBAction func touchCollected(sender: AnyObject) {
@@ -135,12 +149,7 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
             
             if let n = self.new {
                 
-                CustomRequest.collectedNew(n, finish: {
-                    
-                    
-                    }, fail: {
-                        
-                })
+                CustomRequest.collectedNew(n)
             }
         }
     }
@@ -155,50 +164,68 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
             
             if let n = self.new {
                 
-                CustomRequest.nocollectedNew(n, finish: {
-                    
-                    
-                    }, fail: {
-                        
-                })
+                CustomRequest.nocollectedNew(n)
             }
         }
     }
     
-    
+    /**
+     设置收藏按钮方法
+     */
     func setCollectionButton(){
     
         self.collectedButton.hidden = (self.new?.refreshs() ?? self.new)?.iscollected == 0
     }
     
-    
+    @IBOutlet var CommentButtonBackView:UIView!
+    @IBOutlet var CommentButtonLeftSpace: NSLayoutConstraint! // 输入视图下方约束
     
     override func pagerTabStripViewController(pagerTabStripViewController: PagerTabStripViewController, updateIndicatorFromIndex fromIndex: Int, toIndex: Int, withProgressPercentage progressPercentage: CGFloat, indexWasChanged: Bool) {
         
-        if indexWasChanged {
-            self.setCommentOrDetailButton()
+        if fromIndex == toIndex {
+        
+            self.setCButton()
+            
+            return self.CommentButtonLeftSpace.constant = 0
         }
+        
+        if fromIndex == 0 {
+        
+            self.CommentButtonLeftSpace.constant = -(self.CommentButtonBackView.frame.width)*progressPercentage
+        }else{
+        
+            self.CommentButtonLeftSpace.constant = -(self.CommentButtonBackView.frame.width)*(1-progressPercentage)
+        }
+        
+        self.view.layoutIfNeeded()
     }
     
-    // 设置滑动页面的时候是，评论还是前往原文
-    private func setCommentOrDetailButton(){
+    /// 点击查看评论按钮
+    @IBAction func touchCommentButton(sender: AnyObject) {
+        
+        self.moveToViewControllerAtIndex(1, animated: true)
+    }
+    
+    /// 点击去原文按钮
+    @IBAction func touchPostButton(sender: AnyObject) {
+        
+        self.moveToViewControllerAtIndex(0, animated: true)
+    }
+    
+    /**
+     设置评论按钮
+     */
+    func setCButton(){
     
         self.commentsLabel.clipsToBounds = true
         self.commentsLabel.layer.borderColor = UIColor.whiteColor().CGColor
         self.commentsLabel.layer.borderWidth = 1.5
         self.commentsLabel.layer.cornerRadius = 3
         self.commentsLabel.text = new == nil ? " 0 " : " \(new!.comment) "
-        self.commentsLabel.hidden = new?.comment <= 0 || currentIndex == 1
+        self.commentsLabel.hidden = (new == nil || (new?.comment) ?? 0 == 0)
         
-        if currentIndex == 0 {
-            if new?.comment <= 0 {
-                self.CommentAndPostButton.setImage(UIImage(named: "详情页未评论"), forState: UIControlState.Normal)
-            }else{
-                self.CommentAndPostButton.setImage(UIImage(named: "详情页已评论"), forState: UIControlState.Normal)
-            }
-        }
-        if currentIndex == 1 {
-            self.CommentAndPostButton.setImage(UIImage(named: "详情页原文"), forState: UIControlState.Normal)
-        }
+        let image = (new == nil || (new?.comment) ?? 0 == 0) ? UIImage(named: "详情页未评论") : UIImage(named: "详情页已评论")
+        
+        self.CommentAndPostButton.setImage(image, forState: UIControlState.Normal)
     }
 }

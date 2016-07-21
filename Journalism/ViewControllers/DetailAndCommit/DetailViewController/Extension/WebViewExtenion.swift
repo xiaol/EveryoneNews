@@ -88,7 +88,10 @@ extension DetailViewController:WKNavigationDelegate{
     
         let configuration = WKWebViewConfiguration()
         configuration.userContentController.addScriptMessageHandler(self, name: "JSBridge")
-//        configuration.allowsInlineMediaPlayback = true        
+        configuration.allowsInlineMediaPlayback = true
+        if #available(iOS 9.0, *) {
+            configuration.allowsAirPlayForMediaPlayback = true
+        }
         self.webView = WKWebView(frame: CGRect(origin: CGPointZero, size: CGSize(width: 600, height: 1000)), configuration: configuration)
         self.webView.hidden = true
         self.webView.navigationDelegate = self

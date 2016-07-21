@@ -182,7 +182,11 @@ extension NewContent{
         }
         
         
-        body+="<p style=\"font-size:13px;\" align=\"right\"><span><a href =\"\(self.purl)\">原文链接</a></span></p>"
+        body+="<br/><hr style=\"height:1.5px;border:none;border-top:1px dashed #999999;\" />"
+        
+        
+        body+="<p style=\"font-size:12px;color:#999999\" align=\"center\" color＝\"#999999\"><span>原网页由 奇点资讯 转码以便移动设备阅读</span></p>"
+        body+="<p style=\"font-size:12px;\" align=\"center\"><span><a style=\"color:#999999;text-decoration:underline\" href =\"\(self.purl)\">查看原文</a></span></p>"
         
         let templatePath = NSBundle.mainBundle().pathForResource("content_template", ofType: "html")
         

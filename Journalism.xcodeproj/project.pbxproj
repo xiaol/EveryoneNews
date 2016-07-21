@@ -16,6 +16,7 @@
 		6DC4FDD61CF031E000D25A99 /* HomeViewControllerChannelDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDD31CF031E000D25A99 /* HomeViewControllerChannelDataSource.swift */; };
 		6DC4FDD71CF031E000D25A99 /* KDRearrangeableCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDD41CF031E000D25A99 /* KDRearrangeableCollectionViewFlowLayout.swift */; };
 		994B705F63994332F79B2AA5 /* Pods_Journalism.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68B44A9454D029CD2156A30 /* Pods_Journalism.framework */; };
+		AE043BAF1D40CDFA0090DD15 /* Focus.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE043BAE1D40CDFA0090DD15 /* Focus.swift */; };
 		AE0A837B1D128D7A00331134 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0A837A1D128D7A00331134 /* UserView.swift */; };
 		AE0A896A1D24D87200C85B27 /* SLDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0A89671D24D87200C85B27 /* SLDataSource.swift */; };
 		AE0A896B1D24D87200C85B27 /* SLTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0A89681D24D87200C85B27 /* SLTransition.swift */; };
@@ -148,6 +149,7 @@
 		6DC4FDD31CF031E000D25A99 /* HomeViewControllerChannelDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewControllerChannelDataSource.swift; sourceTree = "<group>"; };
 		6DC4FDD41CF031E000D25A99 /* KDRearrangeableCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KDRearrangeableCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		81231C5CF554FB534D99E67C /* Pods-Journalism.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Journalism.release.xcconfig"; path = "Pods/Target Support Files/Pods-Journalism/Pods-Journalism.release.xcconfig"; sourceTree = "<group>"; };
+		AE043BAE1D40CDFA0090DD15 /* Focus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Focus.swift; sourceTree = "<group>"; };
 		AE0A837A1D128D7A00331134 /* UserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
 		AE0A89671D24D87200C85B27 /* SLDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SLDataSource.swift; sourceTree = "<group>"; };
 		AE0A89681D24D87200C85B27 /* SLTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SLTransition.swift; sourceTree = "<group>"; };
@@ -524,6 +526,7 @@
 				AEA103501D056FAD0086968B /* About.swift */,
 				AEC7226F1D23B02E004D4AA4 /* SearchHistory.swift */,
 				AEAF09DD1D24C24F00AFFCF6 /* HotSearch.swift */,
+				AE043BAE1D40CDFA0090DD15 /* Focus.swift */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -1123,6 +1126,7 @@
 				AEF29B011D239671006D1412 /* PhotoBrowerTapView.swift in Sources */,
 				AEC47B441D0033A60055936D /* ShareExtension.swift in Sources */,
 				AEEE61981CFE9CEF00C5FF08 /* Comment.swift in Sources */,
+				AE043BAF1D40CDFA0090DD15 /* Focus.swift in Sources */,
 				AEC47B291D0032E20055936D /* CommExtension.swift in Sources */,
 				AEAF09E61D24C68300AFFCF6 /* SKTag.m in Sources */,
 				AE87BDF51D3E1EE90010A0A7 /* FocusExtenisonTran.swift in Sources */,

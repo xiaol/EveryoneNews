@@ -81,7 +81,7 @@ extension FocusViewController:UIViewControllerPreviewingDelegate,PreViewControll
         
         if indexPath.section == 0 {
         
-            let cell = tableView.dequeueReusableCellWithIdentifier("fh") as! FocusTableViewCell
+            let cell = tableView.dequeueReusableCellWithIdentifier("fhs")!
             
             return cell
         }
@@ -158,11 +158,13 @@ extension FocusViewController:UIViewControllerPreviewingDelegate,PreViewControll
     
     private func stringAndHeight(desc:String) -> CGFloat{
     
-        let size = CGSize(width: UIScreen.mainScreen().bounds.width-24, height: 1000)
+//        let size = CGSize(width: UIScreen.mainScreen().bounds.width-24, height: 1000)
+//        
+//        let titleheight = NSString(string:desc).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font4], context: nil).height
         
-        let titleheight = NSString(string:desc).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font4], context: nil).height
+//        return titleheight+16+19+17+1+16+1+13+18
         
-        return titleheight+16+19+17+1+16+1+13+18
+        return 45
     }
 }
 

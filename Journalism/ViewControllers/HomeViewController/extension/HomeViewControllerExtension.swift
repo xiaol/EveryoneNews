@@ -143,6 +143,8 @@ extension HomeViewController{
         if channel.id == 1{
             
             displayViewController.newsResults = self.newsResults.filter("ishotnew = 1 AND isdelete = 0")
+        }else if channel.id == 1994 {
+            displayViewController.newsResults = self.newsResults.filter("isfocus = 1 AND isdelete = 0 ")
         }else{
             displayViewController.newsResults = self.newsResults.filter("channel = %@ AND isdelete = 0 ",channel.id)
         }
