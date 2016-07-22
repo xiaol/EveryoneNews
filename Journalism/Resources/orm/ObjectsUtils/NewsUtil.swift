@@ -188,21 +188,20 @@ class NewsUtil: NSObject {
                 }
             })
             
-//            if delete && newsResults.count > 30{ // 如果是第一次刷新，并且数据量大于30，则完成数据清除
-//                
-//                let willDelete = newsResults.filter("ptimes < %@", newsResults[30].ptimes)
-//                
-//                try! realm.write({ // 删除冗余的新闻
-//                    
-//                    willDelete.forEach({ (new) in // 确保不喜欢的新闻 绝对消失
-//                        
-//                        if new.isdelete == 0 {
-//                            realm.delete(new)
-//                        }
-//                    })
-//                })
-//            }
-//            
+            if delete && newsResults.count > 30{ // 如果是第一次刷新，并且数据量大于30，则完成数据清除
+                
+                let willDelete = newsResults.filter("ptimes < %@", newsResults[30].ptimes)
+                
+                try! realm.write({ // 删除冗余的新闻
+                    
+                    willDelete.forEach({ (new) in // 确保不喜欢的新闻 绝对消失
+                        
+                        if new.isdelete == 0 {
+                            realm.delete(new)
+                        }
+                    })
+                })
+            }
             
             // 记录个数
             let beforeCount = newsResults.count

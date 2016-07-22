@@ -127,6 +127,8 @@ extension NewslistViewController:UITableViewDataSource{
             cell.setNewObject(new)
         }
         
+        self.SetFCell(cell, new: new)
+        
         cell.noLikeButton.removeActions(UIControlEvents.TouchUpInside)
         cell.noLikeButton.addAction(UIControlEvents.TouchUpInside) { (_) in
             
@@ -134,6 +136,24 @@ extension NewslistViewController:UITableViewDataSource{
         }
         
         return cell
+    }
+    
+    /**
+     设置关注cell的视图
+     */
+    private func SetFCell(cell:NewBaseTableViewCell,new:New){
+    
+        if channel?.id == 1994 {
+            
+            cell.pubLabel.layer.cornerRadius = 2
+            cell.pubLabel.clipsToBounds = true
+            cell.pubLabel.textColor = UIColor.whiteColor()
+            cell.pubLabel.font = UIFont.a_font6
+            cell.pubLabel.text = " \(cell.pubLabel.text ?? " ") "
+            cell.pubLabel.backgroundColor = Focus.gColor(new.pname)
+            cell.commentCountLabel.hidden = true
+            cell.noLikeButton.hidden = true
+        }
     }
     
     /**
@@ -210,7 +230,10 @@ extension NewslistViewController:UITableViewDelegate{
         
         let new = newsResults[indexPath.row]
         
-        new.isRead() // 设置为已读
+        if new.isread == 0 {
+        
+            new.isRead() // 设置为已读
+        }
         
         if new.isidentification == 1 {
             

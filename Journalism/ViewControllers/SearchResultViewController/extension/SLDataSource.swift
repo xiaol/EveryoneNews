@@ -23,7 +23,9 @@ extension SearchListViewController:UIViewControllerPreviewingDelegate,PreViewCon
         
         if let cell = previewingContext.sourceView as? NewBaseTableViewCell,indexPath = self.tableView.indexPathForCell(cell){
             let new = newsResults[indexPath.row]
-            new.isRead() // 设置为已读
+            if new.isread == 0 {
+                new.isRead() // 设置为已读
+            }
             let viewController = UIStoryboard.shareStoryBoard.get_DetailAndCommitViewController(new)
             viewController.isDismiss = true
             viewController.predelegate = self
@@ -97,8 +99,9 @@ extension SearchListViewController:UIViewControllerPreviewingDelegate,PreViewCon
             
             return self.presentViewController(qidian, animated: true, completion: nil)
         }
-        
-        new.isRead() // 设置为已读
+        if new.isread == 0 {
+            new.isRead() // 设置为已读
+        }
         
         let viewController = UIStoryboard.shareStoryBoard.get_DetailAndCommitViewController(new)
         

@@ -100,7 +100,9 @@ extension UserCollectionViewController:UIViewControllerPreviewingDelegate{
         
         if let cell = previewingContext.sourceView as? NewBaseTableViewCell,indexPath = self.tableView.indexPathForCell(cell){
             let new = newsResults[indexPath.row]
-            new.isRead() // 设置为已读
+            if new.isread == 0 {
+                new.isRead() // 设置为已读
+            }
             let viewController = UIStoryboard.shareStoryBoard.get_DetailAndCommitViewController(new)
             viewController.isDismiss = true
             viewController.predelegate = self
@@ -161,7 +163,9 @@ extension UserCollectionViewController:UIViewControllerPreviewingDelegate{
         
         let new = newsResults[indexPath.row]
         
-        new.isRead() // 设置为已读
+        if new.isread == 0 {
+            new.isRead() // 设置为已读
+        }
         
         if new.isidentification == 1 {
             

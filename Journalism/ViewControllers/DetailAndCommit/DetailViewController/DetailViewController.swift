@@ -22,6 +22,8 @@ class DetailViewController: UIViewController,WaitLoadProtcol {
     
     let realm = try! Realm()
     
+    var ShowF:DetailAndCommitViewController!
+    
     var newCon:NewContent!
     var hotResults:Results<Comment>!
     var aboutResults:Results<About>!

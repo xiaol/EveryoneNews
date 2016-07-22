@@ -10,13 +10,18 @@
 import UIKit
 import SnapKit
 
+enum FState{
+
+    case Success,Fail
+}
+
 protocol WaitLoadProtcol {}
 extension WaitLoadProtcol where Self:UIViewController{
 
     /**
      显示关注成功页面
      */
-    func ShowFouceView(){
+    func ShowFouceView(state:FState = .Success){
     
         let fv = FoucsedView(frame: CGRectZero)
         self.view.addSubview(fv)
@@ -27,6 +32,18 @@ extension WaitLoadProtcol where Self:UIViewController{
             make.bottom.equalTo(0)
             make.right.equalTo(0)
             make.left.equalTo(0)
+        }
+
+        if state == .Fail {
+        
+            fv.title.text = "关注失败"
+            fv.topLabel.text = "很抱歉，没有该来源信息"
+            fv.bottom.text = "您的关注点，已经记录。敬请谅解"
+        }else{
+        
+            fv.title.text = "关注成功"
+            fv.topLabel.text = "你可以在[关注]频道"
+            fv.bottom.text = "查看他更新的相关内容"
         }
         
         fv.mbackView.transform = CGAffineTransformScale(fv.mbackView.transform, 0, 0)

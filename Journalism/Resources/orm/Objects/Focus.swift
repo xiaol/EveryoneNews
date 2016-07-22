@@ -8,6 +8,7 @@
 
 import Alamofire
 import RealmSwift
+import AFDateHelper
 import SwaggerClient
 
 ///  频道的数据模型
@@ -20,6 +21,8 @@ public class Focus: Object {
     dynamic var descr = "" /// 新闻标题
     dynamic var concern = 1 /// 来源ID
     
+    dynamic var color = "" /// 新闻标题
+    
     dynamic var cdate = NSDate()
     
     override public static func primaryKey() -> String? {
@@ -30,40 +33,191 @@ public class Focus: Object {
 
 extension Focus{
 
+    class func deleteByNameArray(result:NSArray ){
+    
+        let realm = try! Realm()
+        
+        var nameArray = [String]()
+        
+        for res in result {
+        
+            if let name = res.objectForKey("name") as? String { nameArray.append(name)}
+        }
+        
+        for focus in realm.objects(Focus.self) {
+        
+            if !nameArray.contains(focus.name) {
+            
+                try! realm.write({ 
+                    
+                    realm.delete(focus)
+                })
+            }
+        }
+    }
+    
+    
+    /**
+     根据来源信息获取背景颜色
+     
+     - parameter name: 名称
+     
+     - returns: 颜色
+     */
+    class func gColor(name:String) -> UIColor{
+    
+        let realm = try! Realm()
+        
+        let hexStr = realm.objects(Focus.self).filter("name = '\(name)'").first?.color ?? UIColor.RandmColor()
+        
+        return UIColor.hexStringToColor(hexStr)
+    }
+    
+    /**
+     是否存在
+     
+     - parameter pname: <#pname description#>
+     
+     - returns: <#return value description#>
+     */
     class func isExiter(pname:String) -> Bool{
     
         let realm = try! Realm()
         
         return realm.objects(Focus.self).filter("name = '\(pname)'").count > 0
     }
-    
-    
-    class func refreshFocusNewList(finish:(()->Void)?=nil,fail:(()->Void)?=nil){
-    
+    /**
+     获取关注列表下的新闻
+     
+     - parameter finish: 完成
+     - parameter fail:   失败
+     */
+    class func refreshFocusNewList(times:NSTimeInterval=NSDate().dateByAddingHours(-3).timeIntervalSince1970*1000,finish:((message:String)->Void)?=nil,fail:(()->Void)?=nil){
+        
         guard let token = ShareLUser.token else{ return }
         
-        Manager.shareManager.request(.GET, SwaggerClientAPI.basePath+"/ns/pbs/cocs/r", parameters: ["uid":"\(ShareLUser.uid)"], encoding: ParameterEncoding.JSON, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
+        Manager.shareManager.request(.GET, SwaggerClientAPI.basePath+"/ns/pbs/cocs/r", parameters: ["uid":"\(ShareLUser.uid)","tcr":"\(Int64(times))","p":"1","c":"20"], encoding: ParameterEncoding.URLEncodedInURL, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
             
             guard let rv = res.result.value as? NSDictionary,let rcode = rv.objectForKey("code") as? Int,let result = rv.objectForKey("data") as? NSArray else{ fail?();return}
             
             if rcode != 2000 {fail?();return}
             
+            let resultss = New.delFocus() // 先把数据库关注的新闻置空
+            
+            let addBefor = resultss.count
+            
             let realm = try! Realm()
             
-            try! realm.write({
-                
-                realm.delete(realm.objects(Focus.self))
-                
-                for res in result {
-                    
-                    realm.create(Focus.self, value: res, update: true)
-                }
-            })
+            for new in result {
             
-            finish?()
+                guard let nid = new.objectForKey("nid") as? Int else{ break }
+                
+                let isExt = realm.objectForPrimaryKey(New.self, key: nid) != nil
+                
+                try! realm.write({
+                    
+                    realm.create(New.self, value: new, update: true)
+                    
+                    self.AnalysisPutTimeAndImageList(new as! NSDictionary, realm: realm)
+                    
+                    var value = ["nid":nid,"channel":-1994,"isfocus":1]
+                    
+                    if isExt { value = ["nid":nid,"isfocus":1] }
+                    
+                    realm.create(New.self, value: value, update: true)
+                })
+            }
+            
+            let addAfter = resultss.count
+            
+            let addCount = addAfter - addBefor
+            
+            if addCount <= 0 {
+                finish?(message: "没有加载到新的数据")
+            }else{
+            
+                finish?(message: "一共刷新了\(addCount)条数据")
+            }
         }
     }
     
+    
+    /**
+     加载的新闻
+     
+     - parameter finish: 完成
+     - parameter fail:   失败
+     */
+    class func loadFocusNewList(times:NSTimeInterval,finish:((nomore:Bool)->Void)?=nil,fail:(()->Void)?=nil){
+        
+        guard let token = ShareLUser.token else{ return }
+        
+        Manager.shareManager.request(.GET, SwaggerClientAPI.basePath+"/ns/pbs/cocs/l", parameters: ["uid":"\(ShareLUser.uid)","tcr":"\(Int64(times))","p":"1","c":"20"], encoding: ParameterEncoding.URLEncodedInURL, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
+            
+            guard let rv = res.result.value as? NSDictionary,let rcode = rv.objectForKey("code") as? Int,let result = rv.objectForKey("data") as? NSArray else{ fail?();return}
+            
+            if rcode != 2000 {fail?();return}
+            
+            if result.count <= 0 {
+            
+                finish?(nomore:true)
+                return
+            }
+            
+            let realm = try! Realm()
+            
+            for new in result {
+                
+                guard let nid = new.objectForKey("nid") as? Int else{ break }
+                
+                let isExt = realm.objectForPrimaryKey(New.self, key: nid) != nil
+                
+                try! realm.write({
+                    
+                    realm.create(New.self, value: new, update: true)
+                    
+                    self.AnalysisPutTimeAndImageList(new as! NSDictionary, realm: realm)
+                    
+                    var value = ["nid":nid,"channel":-1994,"isfocus":1]
+                    
+                    if isExt { value = ["nid":nid,"isfocus":1] }
+                    
+                    realm.create(New.self, value: value, update: true)
+                })
+            }
+            
+            finish?(nomore:false)
+        }
+    }
+    
+    
+    // 完善新闻事件
+    private class func AnalysisPutTimeAndImageList(channel:NSDictionary,realm:Realm,ishot:Int=0,iscollected:Int=0){
+        
+        if let nid = channel.objectForKey("nid") as? Int {
+            
+            if let pubTime = channel.objectForKey("ptime") as? String {
+                
+                let date = NSDate(fromString: pubTime, format: DateFormat.Custom("yyyy-MM-dd HH:mm:ss"))
+                
+                realm.create(New.self, value: ["nid":nid,"ptimes":date], update: true)
+            }
+            
+            if let imageList = channel.objectForKey("imgs") as? NSArray {
+                
+                var array = [StringObject]()
+                
+                imageList.enumerateObjectsUsingBlock({ (imageUrl, _, _) in
+                    
+                    let sp = StringObject()
+                    sp.value = imageUrl as! String
+                    array.append(sp)
+                })
+                
+                realm.create(New.self, value: ["nid":nid,"imgsList":array], update: true)
+            }
+        }
+    }
     
     
     /**
@@ -86,9 +240,17 @@ extension Focus{
             
             try! realm.write({
                 
-                realm.delete(realm.objects(Focus.self))
+                Focus.deleteByNameArray(result)
                 
                 for res in result {
+                    
+                    if let name = res.objectForKey("name") as? String,id = res.objectForKey("id") as? Int{
+                        
+                        if !self.isExiter(name) {
+                        
+                            realm.create(Focus.self, value: ["id":id,"color":UIColor.RandmColor()], update: true)
+                        }
+                    }
                     
                     realm.create(Focus.self, value: res, update: true)
                 }

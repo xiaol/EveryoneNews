@@ -32,7 +32,16 @@ extension NewslistViewController{
         
         self.notifitionNewChange()
         
-        self.ResultDataMethod()
+        
+        if channel?.id == 1994 {
+        
+            self.FResultDataMethod()
+            
+        }else{
+        
+            self.ResultDataMethod()
+        }
+
         
         /**
          *  该方法会检测用户设置字体大小的方法
@@ -50,8 +59,58 @@ extension NewslistViewController{
         }
     }
     
+    
     /**
-      刷新数据
+     关注列表刷新数据
+     */
+    private func FResultDataMethod(){
+        
+        self.tableView.mj_header = NewRefreshHeaderView(refreshingBlock: {
+            
+            let timer = self.newsResults.first?.ptimes.timeIntervalSince1970 ?? NSDate().dateByAddingHours(-3).timeIntervalSince1970
+            
+            Focus.refreshFocusNewList(timer, finish: { (message) in
+                
+                self.handleMessageShowMethod(message, show: true)
+                }, fail: { 
+                    self.handleMessageShowMethod("未知错误", show: true,bc: UIColor.a_noConn)
+            })
+        })
+        
+        self.tableView.mj_footer = NewRefreshFooterView {
+            
+            let timer = self.newsResults.last?.ptimes.timeIntervalSince1970 ?? NSDate().dateByAddingHours(-3).timeIntervalSince1970
+
+            Focus.loadFocusNewList(timer, finish: {(nomore) in
+                
+                if nomore {
+                
+                    self.hiddenWaitLoadView()
+                    
+                    self.tableView.mj_footer.endRefreshingWithNoMoreData()
+                }else{
+                
+                    self.handleMessageShowMethod(show: false)
+                }
+                
+                }, fail: { 
+                    
+                self.handleMessageShowMethod(show: false)
+            })
+        }
+        
+        let timer = self.newsResults.first?.ptimes.timeIntervalSince1970 ?? NSDate().dateByAddingHours(-3).timeIntervalSince1970
+        
+        Focus.refreshFocusNewList(timer, finish: { (message) in
+            
+            self.handleMessageShowMethod(message, show: true)
+            }, fail: {
+                self.handleMessageShowMethod("未知错误", show: true,bc: UIColor.a_noConn)
+        })
+    }
+    
+    /**
+      正常刷新刷新数据
      */
     private func ResultDataMethod(){
     
@@ -65,14 +124,8 @@ extension NewslistViewController{
             self.loadNewsDataMethod()
         }
         
-        if newsResults.count > 30{ // 如果是第一次刷新，并且数据量大于30，则完成数据清除
-            
-            New.delArray(newsResults.filter("ptimes < %@", newsResults[30].ptimes))
-        }
-        
         self.refreshNewsDataMethod(del: true,create:true,show: true)
     }
-    
 }
 
 
@@ -172,7 +225,7 @@ extension NewslistViewController{
     /**
      处理消息提示显示方法，和初始化方法
      */
-    private func handleMessageShowMethod(message:String,show:Bool,bc:UIColor=UIColor.a_color2){
+    private func handleMessageShowMethod(message:String="",show:Bool,bc:UIColor=UIColor.a_color2){
         
         self.hiddenWaitLoadView()
         

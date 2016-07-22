@@ -14,7 +14,7 @@ import XLPagerTabStrip
     optional func NoCollectionAction(new:New) // 开始
 }
 
-class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavigationControllerDelegate,UIViewControllerTransitioningDelegate{
+class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavigationControllerDelegate,UIViewControllerTransitioningDelegate,WaitLoadProtcol{
 
     var predelegate: PreViewControllerDelegate!
     
@@ -131,6 +131,7 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
         detailViewController = UIStoryboard.shareStoryBoard.get_DetailViewController(new) // 获得详情视图
         commitViewController = UIStoryboard.shareStoryBoard.get_CommitViewController(new) // 获取评论视图
         
+        self.detailViewController.ShowF = self
         self.detailViewController.fdismiss = self.isFoucsDismiss
         self.detailViewController.dismiss = self.isDismiss
         

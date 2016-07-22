@@ -23,7 +23,7 @@ extension DetailAndCommitViewController{
 }
 
 
-extension DetailAndCommitViewController:ShareAlertDelegate,WaitLoadProtcol{
+extension DetailAndCommitViewController:ShareAlertDelegate{
     private func ShareMethod(type:String=UMShareToWechatTimeline,content:String,img:UIImage?=nil,resource:UMSocialUrlResource?=nil){
         
         UMSocialDataService.defaultDataService().postSNSWithTypes([type], content: content, image: img, location: nil, urlResource: resource, presentedController: self) { (response) -> Void in

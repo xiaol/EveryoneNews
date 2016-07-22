@@ -25,7 +25,12 @@ extension DetailViewController:UITableViewDelegate,UITableViewDataSource {
         if indexPath.section != 3 { return }
         
         let about = self.aboutResults[indexPath.row]
-        about.isRead() // 标记为已读
+        
+        if about.isread == 0 {
+            
+            about.isRead() // 标记为已读
+        }
+        
         self.goWebViewController(about.url)
         self.tableView.reloadData()
     }
@@ -91,9 +96,15 @@ extension DetailViewController{
                         NSNotificationCenter.defaultCenter().postNotificationName(USERNEDDLOGINTHENCANDOSOMETHING, object: nil)
                     }else{
                         
-                        Focus.focusPub(nc.pname, finish: {
+                        Focus.focusPub(nc.pname, finish: { 
+                            
+                            self.ShowF.ShowFouceView()
                             
                             cell.rightFView.hidden = true
+                            
+                            }, fail: { 
+                                
+                                self.ShowF.ShowFouceView(.Fail)
                         })
                     }
                 })

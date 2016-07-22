@@ -10,6 +10,27 @@ import UIKit
 
 extension UIColor{
 
+    /**
+     获得随机的颜色
+     */
+    class func RandmColor() -> String{
+    
+        switch arc4random_uniform(5) {
+        case 0:
+            return "#f46b75"
+        case 1:
+            return "#a87dd7"
+        case 2:
+            return "#5994e3"
+        case 3:
+            return "#85ca4b"
+        case 4:
+            return "#eba85d"
+        default:
+            return "#64b6eb"
+        }
+    }
+    
     /// 频道字颜色
     class var a_color1:UIColor{  return UIColor.hexStringToColor("#333333")}
     /// 产品主颜色

@@ -83,9 +83,9 @@ public class New: Object {
     dynamic var issearch = 0 // 是否收藏
     
     /**
-     标识 是不是搜索出来的。 0 不是 1 是 默认为 不是
-     首先我们要做的就是在搜索之前，将所有搜索状态未 1 的，设置为 0.
-     但是如果用户在上拉刷新的时候是不需要进行这个设置的。
+     标示是不是关注的新闻，这里会有一个判断
+     如果获取的新闻没有存在在数据库那么直接更改起 channle 为一个 不可能存在的值。之后表示该值为1
+     如果获取的新闻已经存在在数据库里了，那么只修改 isfoucus 就可以了。
      */
     dynamic var isfocus = 0 // 是否收藏
     
@@ -98,6 +98,37 @@ import PINRemoteImage
 
 extension New{
 
+    /**
+     删除已经存在的关注新闻
+     */
+    class func delFocus() -> Results<New>{
+        
+        let realm = try! Realm()
+        
+        let newsResults = realm.objects(New.self).filter("isfocus = 1")
+        
+        if newsResults.count > 30{ // 如果是第一次刷新，并且数据量大于30，则完成数据清除
+            
+            let willDelete = newsResults.filter("ptimes < %@", newsResults[30].ptimes)
+            
+            try! realm.write({ // 删除冗余的新闻
+                
+                willDelete.forEach({ (new) in // 确保不喜欢的新闻 绝对消失
+                    
+                    new.isfocus = 0
+                })
+            })
+        }
+        
+        return newsResults
+    }
+    
+    
+    /**
+     删除提供的新闻
+     
+     - parameter willDelete:
+     */
     class func delArray(willDelete:Results<New>){
         
         let realm = try! Realm()
