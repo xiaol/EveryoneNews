@@ -145,7 +145,7 @@ extension UIStoryboard{
         
         let viewController = self.instantiateViewControllerWithIdentifier("FocusViewController") as! FocusViewController
         
-        viewController.newContent = newC
+        viewController.pname = newC.pname
         
         return viewController
     }

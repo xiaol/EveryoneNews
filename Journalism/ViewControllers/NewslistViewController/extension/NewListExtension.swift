@@ -35,6 +35,11 @@ extension NewslistViewController{
         
         if channel?.id == 1994 {
         
+            if Focus.ExFocusArrayCount() <= 0 {
+            
+                print("没有关注推荐关注去吧")
+            }
+            
             self.FResultDataMethod()
             
         }else{
@@ -65,11 +70,16 @@ extension NewslistViewController{
      */
     private func FResultDataMethod(){
         
+        /**
+         *  设置新闻的
+         *
+         *  @return <#return value description#>
+         */
         self.tableView.mj_header = NewRefreshHeaderView(refreshingBlock: {
             
             let timer = self.newsResults.first?.ptimes.timeIntervalSince1970 ?? NSDate().dateByAddingHours(-3).timeIntervalSince1970
             
-            Focus.refreshFocusNewList(timer, finish: { (message) in
+            Focus.refreshFocusNewList(timer*1000, finish: { (message) in
                 
                 self.handleMessageShowMethod(message, show: true)
                 }, fail: { 
@@ -81,7 +91,7 @@ extension NewslistViewController{
             
             let timer = self.newsResults.last?.ptimes.timeIntervalSince1970 ?? NSDate().dateByAddingHours(-3).timeIntervalSince1970
 
-            Focus.loadFocusNewList(timer, finish: {(nomore) in
+            Focus.loadFocusNewList(timer*1000, finish: {(nomore) in
                 
                 if nomore {
                 
@@ -101,7 +111,7 @@ extension NewslistViewController{
         
         let timer = self.newsResults.first?.ptimes.timeIntervalSince1970 ?? NSDate().dateByAddingHours(-3).timeIntervalSince1970
         
-        Focus.refreshFocusNewList(timer, finish: { (message) in
+        Focus.refreshFocusNewList(timer*1000, finish: { (message) in
             
             self.handleMessageShowMethod(message, show: true)
             }, fail: {

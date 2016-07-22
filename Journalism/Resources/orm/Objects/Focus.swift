@@ -25,34 +25,55 @@ public class Focus: Object {
     
     dynamic var cdate = NSDate()
     
+    dynamic var isf = 0 /// 来源ID
+    
     override public static func primaryKey() -> String? {
-        return "id"
+        return "name"
     }
 }
 
 
 extension Focus{
-
+    
+    /**
+     获取关注的个数
+     
+     - returns: 个数
+     */
+    class func ExFocusArrayCount() -> Int{
+        
+        let realm = try! Realm()
+        
+        return realm.objects(Focus.self).filter("isf = 1").count
+    }
+    
+    
+    
+    /**
+     删除新闻
+     
+     - parameter result: <#result description#>
+     */
     class func deleteByNameArray(result:NSArray ){
     
         let realm = try! Realm()
         
-        var nameArray = [String]()
-        
-        for res in result {
-        
-            if let name = res.objectForKey("name") as? String { nameArray.append(name)}
-        }
+//        var nameArray = [String]()
+//        
+//        for res in result {
+//        
+//            if let name = res.objectForKey("name") as? String { nameArray.append(name)}
+//        }
         
         for focus in realm.objects(Focus.self) {
         
-            if !nameArray.contains(focus.name) {
+//            if !nameArray.contains(focus.name) {
             
-                try! realm.write({ 
+                try! realm.write({
                     
-                    realm.delete(focus)
+                    focus.isf = 0
                 })
-            }
+//            }
         }
     }
     
@@ -192,7 +213,7 @@ extension Focus{
     
     
     // 完善新闻事件
-    private class func AnalysisPutTimeAndImageList(channel:NSDictionary,realm:Realm,ishot:Int=0,iscollected:Int=0){
+    class func AnalysisPutTimeAndImageList(channel:NSDictionary,realm:Realm,ishot:Int=0,iscollected:Int=0){
         
         if let nid = channel.objectForKey("nid") as? Int {
             
@@ -244,12 +265,14 @@ extension Focus{
                 
                 for res in result {
                     
-                    if let name = res.objectForKey("name") as? String,id = res.objectForKey("id") as? Int{
+                    if let name = res.objectForKey("name") as? String{
                         
                         if !self.isExiter(name) {
-                        
-                            realm.create(Focus.self, value: ["id":id,"color":UIColor.RandmColor()], update: true)
+                            
+                            realm.create(Focus.self, value: ["name":name,"color":UIColor.RandmColor()], update: true)
                         }
+                        
+                        realm.create(Focus.self, value: ["name":name,"isf":1], update: true)
                     }
                     
                     realm.create(Focus.self, value: res, update: true)

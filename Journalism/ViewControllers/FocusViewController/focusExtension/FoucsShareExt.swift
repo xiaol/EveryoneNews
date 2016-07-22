@@ -9,7 +9,7 @@
 import UIKit
 
 
-extension FocusViewController:ShareAlertDelegate,WaitLoadProtcol{
+extension FocusViewController:ShareAlertDelegate{
 
     @IBAction func ClickMoreAction(sender:AnyObject){
         

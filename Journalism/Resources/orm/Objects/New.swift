@@ -61,33 +61,40 @@ public class New: Object {
      默认的区分假新闻的id为频道id 但是如果频道为  奇点 那么他的ID 为…………  忘却了。。。大概是－1
      这样在展示的时候就可以做到有假新闻的展示了
      */
-    dynamic var isidentification = 0 /// 是不是热点新闻
+    dynamic var isidentification = 0
     
     /**
      标识 新闻的收藏状态。 0 未收藏 1 已收藏 默认为 未收藏
      新闻的是否收藏状态，如果是0 的话，说明该新闻没有被收藏。如果已经被收藏，这也没什么影响
      */
-    dynamic var iscollected = 0 // 是否收藏
+    dynamic var iscollected = 0
     
     /**
      标识 新闻的关心状态。 0 未关心 1 已关心 默认为 未关心
      新闻的是否收藏状态，如果是0 的话，说明该新闻没有被收藏。如果已经被收藏，这也没什么影响
      */
-    dynamic var isconcerned = 0 // 是否收藏
+    dynamic var isconcerned = 0
     
     /**
      标识 是不是搜索出来的。 0 不是 1 是 默认为 不是
      首先我们要做的就是在搜索之前，将所有搜索状态未 1 的，设置为 0.
      但是如果用户在上拉刷新的时候是不需要进行这个设置的。
      */
-    dynamic var issearch = 0 // 是否收藏
+    dynamic var issearch = 0
     
     /**
      标示是不是关注的新闻，这里会有一个判断
      如果获取的新闻没有存在在数据库那么直接更改起 channle 为一个 不可能存在的值。之后表示该值为1
      如果获取的新闻已经存在在数据库里了，那么只修改 isfoucus 就可以了。
      */
-    dynamic var isfocus = 0 // 是否收藏
+    dynamic var isfocus = 0
+    
+    /**
+     标示是不是关注的新闻，这里会有一个判断
+     如果获取的新闻没有存在在数据库那么直接更改起 channle 为一个 不可能存在的值。之后表示该值为1
+     如果获取的新闻已经存在在数据库里了，那么只修改 isfoucus 就可以了。
+     */
+    dynamic var isFocusArray = 0 
     
     override public static func primaryKey() -> String? {
         return "nid"
@@ -123,6 +130,31 @@ extension New{
         return newsResults
     }
     
+    
+    /**
+     删除已经存在的关注新闻
+     */
+    class func delFocusArray() -> Results<New>{
+        
+        let realm = try! Realm()
+        
+        let newsResults = realm.objects(New.self).filter("isFocusArray = 1")
+        
+        if newsResults.count > 30{ // 如果是第一次刷新，并且数据量大于30，则完成数据清除
+            
+            let willDelete = newsResults.filter("ptimes < %@", newsResults[30].ptimes)
+            
+            try! realm.write({ // 删除冗余的新闻
+                
+                willDelete.forEach({ (new) in // 确保不喜欢的新闻 绝对消失
+                    
+                    new.isfocus = 0
+                })
+            })
+        }
+        
+        return newsResults
+    }
     
     /**
      删除提供的新闻
@@ -200,7 +232,7 @@ extension New{
         
         let realm = try! Realm()
         
-        return realm.objects(New.self).filter("pname = '\(pname)'")
+        return realm.objects(New.self).filter("pname = '\(pname)' AND isFocusArray = 1").sorted("ptimes", ascending: false)
     }
     
     /**

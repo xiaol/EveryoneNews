@@ -30,7 +30,7 @@ extension FocusViewController:UITableViewDelegate{
             source = 0-offsetY
         }
         
-        if self.heightConstraint.constant == source {return}
+        if source > 170 || source < 64 {return}
         
         self.heightConstraint.constant = source
         
@@ -128,6 +128,7 @@ extension FocusViewController:UIViewControllerPreviewingDelegate,PreViewControll
         
         let new = newsResults[indexPath.row]
         if new.isread == 0 {
+            
             new.isRead() // 设置为已读
         }
         

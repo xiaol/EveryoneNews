@@ -27,6 +27,7 @@
 		AE2968321CF69DFB00D2782D /* Privacy.html in Resources */ = {isa = PBXBuildFile; fileRef = AE2968311CF69DFB00D2782D /* Privacy.html */; };
 		AE2968341CF6AA3B00D2782D /* CustomTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2968331CF6AA3B00D2782D /* CustomTransitioning.swift */; };
 		AE37BD8D1D38A46400BF9C89 /* FCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE37BD8C1D38A46400BF9C89 /* FCustomCell.swift */; };
+		AE6657281D42050000068841 /* FocusExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6657271D42050000068841 /* FocusExt.swift */; };
 		AE7C51A41D0D6893005E6A5A /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7C51A31D0D6893005E6A5A /* SearchViewController.swift */; };
 		AE87BDED1D3E01130010A0A7 /* FocusHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE87BDEC1D3E01130010A0A7 /* FocusHeaderView.swift */; };
 		AE87BDEF1D3E01300010A0A7 /* FoucsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE87BDEE1D3E01300010A0A7 /* FoucsDataSource.swift */; };
@@ -160,6 +161,7 @@
 		AE2968311CF69DFB00D2782D /* Privacy.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Privacy.html; sourceTree = "<group>"; };
 		AE2968331CF6AA3B00D2782D /* CustomTransitioning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTransitioning.swift; sourceTree = "<group>"; };
 		AE37BD8C1D38A46400BF9C89 /* FCustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FCustomCell.swift; sourceTree = "<group>"; };
+		AE6657271D42050000068841 /* FocusExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FocusExt.swift; sourceTree = "<group>"; };
 		AE7C51A31D0D6893005E6A5A /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		AE87BDEC1D3E01130010A0A7 /* FocusHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FocusHeaderView.swift; sourceTree = "<group>"; };
 		AE87BDEE1D3E01300010A0A7 /* FoucsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FoucsDataSource.swift; sourceTree = "<group>"; };
@@ -540,6 +542,7 @@
 				AEEE61991CFE9DE900C5FF08 /* CommentUtil.swift */,
 				AEA103521D0571F80086968B /* AboutUtil.swift */,
 				AEE3B51B1D17FF57008BC0EA /* RequestCustomClass.swift */,
+				AE6657271D42050000068841 /* FocusExt.swift */,
 			);
 			path = ObjectsUtils;
 			sourceTree = "<group>";
@@ -1151,6 +1154,7 @@
 				AEF29B081D239671006D1412 /* UIImage+Rotation.swift in Sources */,
 				AEC47B321D0032E20055936D /* WebViewExtenion.swift in Sources */,
 				AEC965A81CF5AFE70053A88D /* AboutViewController.swift in Sources */,
+				AE6657281D42050000068841 /* FocusExt.swift in Sources */,
 				AEC47B261D0032E20055936D /* CommitViewController.swift in Sources */,
 				6DC4FDD71CF031E000D25A99 /* KDRearrangeableCollectionViewFlowLayout.swift in Sources */,
 				AE87BDEF1D3E01300010A0A7 /* FoucsDataSource.swift in Sources */,

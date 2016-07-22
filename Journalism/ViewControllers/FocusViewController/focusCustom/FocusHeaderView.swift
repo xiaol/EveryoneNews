@@ -34,16 +34,13 @@ class FoucusHeaderView: UIView {
     var titleCenterOffest:CGFloat = 0
     var headerCenterOffest:CGFloat = 0
     
-    func setNewC(newC:NewContent){
+    func setNewC(pname:String){
     
-        self.nameLabel.text = newC.pname
-        
-        let titleWidth = NSString(string:newC.pname).boundingRectWithSize(CGSize(width: 2000, height: 100), options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(15)], context: nil).width
+        self.nameLabel.text = pname
+        let titleWidth = NSString(string:pname).boundingRectWithSize(CGSize(width: 2000, height: 100), options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(15)], context: nil).width
         
         let ss = (titleWidth+11+30)/2
-        
         headerCenterOffest = -(ss-15)
-        
         titleCenterOffest = (ss-titleWidth/2)
     }
     
