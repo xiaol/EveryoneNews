@@ -36,7 +36,7 @@ extension FocusViewController:UITableViewDelegate{
         
         self.headerView.setProcess((170-source)/(170-64))
         
-        self.headerView.layer.layoutIfNeeded()
+//        self.headerView.layer.layoutIfNeeded()
     }
 }
 
@@ -156,7 +156,7 @@ extension FocusViewController:UIViewControllerPreviewingDelegate,PreViewControll
         
         let new = newsResults[indexPath.row]
 
-        return new.HeightByNewConstraint(tableView,html: true)
+        return new.HeightByNewConstraint(tableView,html: false)
     }
     
     
