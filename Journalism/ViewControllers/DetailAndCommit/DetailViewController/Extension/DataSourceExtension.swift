@@ -85,35 +85,39 @@ extension DetailViewController{
             let cell = tableView.dequeueReusableCellWithIdentifier("fouces") as! DetailFoucesCell
             
             if let nc = self.new {
-                
-                cell.setNewContent(nc)
+            
+                cell.setNewContent(nc.pname)
                 
                 cell.fButton.removeActions(UIControlEvents.TouchUpInside)
                 cell.fButton.addAction(.TouchUpInside, block: { (_) in
+                    
+                    if cell.fButton.exiter {
+                    
+                        return self.toFocusViewController()
+                    }
                     
                     if ShareLUser.utype == 2 {
                         
                         NSNotificationCenter.defaultCenter().postNotificationName(USERNEDDLOGINTHENCANDOSOMETHING, object: nil)
                     }else{
                         
+                        cell.fButton.loading()
+                        
                         Focus.focusPub(nc.pname, finish: { 
+                            
+                            cell.fButton.refresh()
                             
                             self.ShowF.ShowFouceView()
                             
-                            cell.rightFView.hidden = true
-                            
-                            }, fail: { 
+                            }, fail: {
+                                
+                                cell.fButton.refresh()
                                 
                                 self.ShowF.ShowFouceView(.Fail)
                         })
                     }
                 })
             }
-            cell.tButton.removeActions(UIControlEvents.TouchUpInside)
-            cell.tButton.addAction(.TouchUpInside, block: { (_) in
-                
-                self.toFocusViewController()
-            })
             
             cell.addGestureRecognizer(UITapGestureRecognizer(block: { (_) in
 

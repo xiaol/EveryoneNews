@@ -119,3 +119,59 @@ extension CRToastManager{
         }
     }
 }
+
+
+extension AppDelegate{
+
+    /**
+     注册当复制版发生变化时的状态
+     */
+    func registerPasteboardChangedNotification(){
+    
+        NSNotificationCenter.defaultCenter().addObserverForName(UIPasteboardChangedNotification, object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+            
+            self.reloadPasteboardChange()
+        }
+    }
+    
+    
+    func reloadPasteboardChange(){
+    
+        /// 调用方法如下
+        if let currentViewController = UIViewController.getCurrentViewController(){
+            
+            if let str = UIPasteboard.generalPasteboard().string {
+                
+                if str.containsString("http://") || str.containsString("https://") {
+                    
+                    let alert = UIAlertController(title: nil, message: "检测到您复制了一条链接是否打开", preferredStyle: .Alert)
+                    
+                    alert.addAction(UIAlertAction(title: "不需要", style: .Cancel, handler: nil))
+                    
+                    alert.addAction(UIAlertAction(title: "是的", style: UIAlertActionStyle.Default, handler: { (_) in
+                        
+                        currentViewController.goWebViewController(str)
+                    }))
+                    
+                    currentViewController.presentViewController(alert, animated: true, completion: nil)
+                }
+            }
+        }
+    }
+}
+
+
+
+
+private extension UIViewController{
+    class func getCurrentViewController() -> UIViewController?{
+        if let rootViewController = UIApplication.sharedApplication().keyWindow?.rootViewController{
+            var topViewController = rootViewController
+            while let present = topViewController.presentedViewController{
+                topViewController = present
+            }
+            return topViewController
+        }
+        return nil
+    }
+}

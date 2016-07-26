@@ -65,16 +65,14 @@ extension Focus{
 //            if let name = res.objectForKey("name") as? String { nameArray.append(name)}
 //        }
         
-        for focus in realm.objects(Focus.self) {
-        
-//            if !nameArray.contains(focus.name) {
+        try! realm.write({
             
-                try! realm.write({
-                    
-                    focus.isf = 0
-                })
-//            }
-        }
+            for focus in realm.objects(Focus.self) {
+                
+                focus.isf = 0
+            }
+            
+        })
     }
     
     
@@ -259,9 +257,9 @@ extension Focus{
             
             let realm = try! Realm()
             
+            Focus.deleteByNameArray(result)
+            
             try! realm.write({
-                
-                Focus.deleteByNameArray(result)
                 
                 for res in result {
                     

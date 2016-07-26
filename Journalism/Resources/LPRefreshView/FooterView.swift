@@ -48,9 +48,9 @@ class NewRefreshFooterView: MJRefreshAutoFooter {
         
         let animation = CABasicAnimation(keyPath: "transform")
         animation.repeatCount = FLT_MAX
-        animation.duration = 0.5
+        animation.duration = 0.2
         animation.cumulative = true
-        animation.toValue = NSValue(CATransform3D: CATransform3DMakeRotation(CGFloat(M_PI), 0, 0, 1))
+        animation.toValue = NSValue(CATransform3D: CATransform3DMakeRotation(CGFloat(M_PI/2), 0, 0, 1))
         self.animation = animation
         
         self.view = view

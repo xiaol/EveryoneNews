@@ -1193,13 +1193,13 @@
                                                                 <constraint firstAttribute="width" constant="67" id="f9E-wc-qkx"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="这是标题" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="PTW-d3-GCE">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="这是标题" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="PTW-d3-GCE">
                                                             <rect key="frame" x="81" y="8" width="410" height="21"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="这是一段描述" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="hgh-Xt-yte">
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="这是一段描述" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="9" translatesAutoresizingMaskIntoConstraints="NO" id="hgh-Xt-yte">
                                                             <rect key="frame" x="81" y="40" width="410" height="21"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -1208,60 +1208,37 @@
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ldo-SA-nb0" customClass="LeftBorderView" customModule="Journalism" customModuleProvider="target">
                                                             <rect key="frame" x="499" y="0.0" width="67" height="67"/>
                                                             <subviews>
-                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0tS-n2-RU1">
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xer-ag-rG6" customClass="FocusButtonTopAndButton" customModule="Journalism" customModuleProvider="target">
                                                                     <rect key="frame" x="0.0" y="0.0" width="67" height="67"/>
-                                                                    <state key="normal" image="关注前进"/>
-                                                                </button>
-                                                            </subviews>
-                                                            <color key="backgroundColor" red="0.98039215690000003" green="0.98039215690000003" blue="0.98039215690000003" alpha="1" colorSpace="calibratedRGB"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="trailing" secondItem="0tS-n2-RU1" secondAttribute="trailing" id="83N-1b-LAs"/>
-                                                                <constraint firstAttribute="width" constant="67" id="TtM-zp-SPR"/>
-                                                                <constraint firstItem="0tS-n2-RU1" firstAttribute="leading" secondItem="Ldo-SA-nb0" secondAttribute="leading" id="ZdD-fZ-Y5y"/>
-                                                                <constraint firstAttribute="bottom" secondItem="0tS-n2-RU1" secondAttribute="bottom" id="c4B-0J-AbA"/>
-                                                                <constraint firstItem="0tS-n2-RU1" firstAttribute="top" secondItem="Ldo-SA-nb0" secondAttribute="top" id="mXh-f8-cWX"/>
-                                                            </constraints>
-                                                        </view>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="od3-B0-t6Z" customClass="LeftBorderView" customModule="Journalism" customModuleProvider="target">
-                                                            <rect key="frame" x="499" y="0.0" width="67" height="67"/>
-                                                            <subviews>
-                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xer-ag-rG6" customClass="PButtton" customModule="Journalism" customModuleProvider="target">
-                                                                    <rect key="frame" x="24" y="16" width="18" height="22"/>
-                                                                    <state key="normal" image="关注加号"/>
-                                                                </button>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="关注" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K0r-Cu-LtQ">
-                                                                    <rect key="frame" x="21" y="44" width="24" height="15"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="67" id="6Zf-AT-dwV"/>
+                                                                    </constraints>
                                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                                    <color key="textColor" red="0.86274509803921573" green="0.27058823529411763" blue="0.14901960784313725" alpha="1" colorSpace="calibratedRGB"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                </label>
+                                                                    <state key="normal" title="关注" image="关注加号">
+                                                                        <color key="titleColor" red="0.86274509799999999" green="0.27058823529999998" blue="0.14901960780000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                                    </state>
+                                                                </button>
                                                             </subviews>
                                                             <color key="backgroundColor" red="0.98039215690000003" green="0.98039215690000003" blue="0.98039215690000003" alpha="1" colorSpace="calibratedRGB"/>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="67" id="DPf-Zl-diM"/>
-                                                                <constraint firstItem="Xer-ag-rG6" firstAttribute="centerX" secondItem="od3-B0-t6Z" secondAttribute="centerX" id="i4I-kW-OMw"/>
-                                                                <constraint firstItem="K0r-Cu-LtQ" firstAttribute="centerX" secondItem="Xer-ag-rG6" secondAttribute="centerX" id="jKY-KN-KbD"/>
-                                                                <constraint firstItem="K0r-Cu-LtQ" firstAttribute="top" secondItem="Xer-ag-rG6" secondAttribute="bottom" constant="6" id="phC-Ac-IyG"/>
+                                                                <constraint firstAttribute="bottom" secondItem="Xer-ag-rG6" secondAttribute="bottom" id="Ach-tB-WXV"/>
+                                                                <constraint firstAttribute="trailing" secondItem="Xer-ag-rG6" secondAttribute="trailing" id="L3P-Qj-Drv"/>
+                                                                <constraint firstAttribute="width" constant="67" id="TtM-zp-SPR"/>
+                                                                <constraint firstItem="Xer-ag-rG6" firstAttribute="top" secondItem="Ldo-SA-nb0" secondAttribute="top" id="jUx-3L-8Hd"/>
                                                             </constraints>
                                                         </view>
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.98039215686274506" green="0.98039215686274506" blue="0.98039215686274506" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstItem="PTW-d3-GCE" firstAttribute="leading" secondItem="gSE-74-FgZ" secondAttribute="trailing" constant="14" id="4NN-B0-d2G"/>
-                                                        <constraint firstItem="od3-B0-t6Z" firstAttribute="leading" secondItem="PTW-d3-GCE" secondAttribute="trailing" constant="8" id="Kby-N9-GgZ"/>
                                                         <constraint firstItem="PTW-d3-GCE" firstAttribute="top" secondItem="gSE-74-FgZ" secondAttribute="top" constant="8" id="PqO-7d-DUb"/>
                                                         <constraint firstItem="Ldo-SA-nb0" firstAttribute="top" secondItem="8Cf-UA-94c" secondAttribute="top" id="Rma-X3-9dr"/>
-                                                        <constraint firstItem="Xer-ag-rG6" firstAttribute="top" secondItem="PTW-d3-GCE" secondAttribute="top" constant="8" id="SN1-TK-TTV"/>
                                                         <constraint firstItem="hgh-Xt-yte" firstAttribute="leading" secondItem="gSE-74-FgZ" secondAttribute="trailing" constant="14" id="SYo-68-Jx1"/>
                                                         <constraint firstAttribute="bottom" secondItem="gSE-74-FgZ" secondAttribute="bottom" id="Tv2-iH-OBe"/>
                                                         <constraint firstItem="gSE-74-FgZ" firstAttribute="leading" secondItem="8Cf-UA-94c" secondAttribute="leading" id="V0N-Vi-1eJ"/>
-                                                        <constraint firstItem="od3-B0-t6Z" firstAttribute="top" secondItem="8Cf-UA-94c" secondAttribute="top" id="WcI-lH-bMg"/>
                                                         <constraint firstItem="hgh-Xt-yte" firstAttribute="top" secondItem="PTW-d3-GCE" secondAttribute="bottom" constant="11" id="XFm-uM-PKi"/>
                                                         <constraint firstAttribute="bottom" secondItem="Ldo-SA-nb0" secondAttribute="bottom" id="aMO-nb-S2u"/>
-                                                        <constraint firstItem="od3-B0-t6Z" firstAttribute="leading" secondItem="hgh-Xt-yte" secondAttribute="trailing" constant="8" id="kF1-nK-zE9"/>
                                                         <constraint firstItem="gSE-74-FgZ" firstAttribute="top" secondItem="8Cf-UA-94c" secondAttribute="top" id="m6Q-2w-UGS"/>
-                                                        <constraint firstAttribute="bottom" secondItem="od3-B0-t6Z" secondAttribute="bottom" id="qXY-6g-ggA"/>
-                                                        <constraint firstAttribute="trailing" secondItem="od3-B0-t6Z" secondAttribute="trailing" id="tEu-jt-Q1o"/>
                                                         <constraint firstAttribute="trailing" secondItem="Ldo-SA-nb0" secondAttribute="trailing" id="yob-4u-q3H"/>
                                                     </constraints>
                                                 </view>
@@ -1279,8 +1256,6 @@
                                             <outlet property="descLabel" destination="hgh-Xt-yte" id="ma1-nW-b0u"/>
                                             <outlet property="fButton" destination="Xer-ag-rG6" id="6YC-K6-feA"/>
                                             <outlet property="iconImageView" destination="gSE-74-FgZ" id="CrH-UM-CdU"/>
-                                            <outlet property="rightFView" destination="od3-B0-t6Z" id="FuF-Gf-jbs"/>
-                                            <outlet property="tButton" destination="0tS-n2-RU1" id="Lt1-0M-ItY"/>
                                             <outlet property="titleLabel" destination="PTW-d3-GCE" id="xe0-0y-Pgq"/>
                                         </connections>
                                     </tableViewCell>
@@ -3732,7 +3707,6 @@
         <image name="dig返回" width="10" height="18"/>
         <image name="timg" width="500" height="681"/>
         <image name="不感兴趣叉号" width="22" height="13"/>
-        <image name="关注前进" width="10" height="18"/>
         <image name="关注加号" width="18" height="18"/>
         <image name="分类删除" width="13" height="13"/>
         <image name="无内容－无内容icon" width="41" height="50"/>

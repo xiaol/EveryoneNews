@@ -28,12 +28,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         PINRemoteImageManager.sharedImageManager().setProgressiveRendersMaxProgressiveRenderSize(CGSize(width: 2048,height: 2048), completion: nil)
         PINRemoteImageManager.sharedImageManager().setProgressThresholds([0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9], completion: nil)
 
+        self.registerPasteboardChangedNotification()
         
         return true
     }
 
 
+    func applicationDidBecomeActive(application: UIApplication){
     
+        self.reloadPasteboardChange()
+    }
     
     
     func application(application: UIApplication, handleOpenURL url: NSURL) -> Bool {
@@ -43,11 +47,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
         
-        
         return WeiboSDK.handleOpenURL(url, delegate: UserLoginSdkApiManager.shareWXApiManager()) || UMSocialSnsService.handleOpenURL(url)
     }
-    
-    
 }
 
 

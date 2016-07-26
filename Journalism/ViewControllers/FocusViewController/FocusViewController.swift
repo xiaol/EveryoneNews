@@ -93,7 +93,7 @@ class FocusViewController: UIViewController,WaitLoadProtcol {
         
         if self.newsResults.count <= 0 {
         
-            self.showWaitLoadView()
+            self.showWaitLoadView(170)
         }
         
         let timer = self.newsResults.last?.ptimes.timeIntervalSince1970 ?? NSDate().dateByAddingHours(-3).timeIntervalSince1970

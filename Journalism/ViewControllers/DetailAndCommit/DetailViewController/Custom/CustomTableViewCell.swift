@@ -265,25 +265,25 @@ class AboutTableViewCell:UITableViewCell{
     }
 }
 
+
+
+
+
 class DetailFoucesCell: UITableViewCell {
     
     @IBOutlet var iconImageView:UIImageView!
     @IBOutlet var titleLabel:UILabel!
     @IBOutlet var descLabel:UILabel!
     
-        /// 点击前往详情的按钮
-    @IBOutlet var tButton:UIButton!
-    @IBOutlet var fButton:UIButton!
+    @IBOutlet var fButton:FocusButtonTopAndButton!
     
+    func setNewContent(pname:String){
     
-    @IBOutlet var rightFView:UIView!
-    
-    func setNewContent(newC:New){
-    
-        self.titleLabel.text = newC.pname
+        self.fButton.pname = pname
+        self.titleLabel.text = pname
         self.descLabel.text = "这是一段描述"
         
-        rightFView.hidden = Focus.isExiter(newC.pname)
+        self.fButton.refresh()
     }
     
     override func drawRect(rect: CGRect) {
@@ -308,5 +308,127 @@ class LeftBorderView:UIView{
         //下分割线
         CGContextSetStrokeColorWithColor(context, UIColor(red: 228/255, green:228/255, blue: 228/255, alpha: 1).CGColor)
         CGContextStrokeRect(context, CGRectMake(0, 10, 1, 47));                //畫出線段
+    }
+}
+
+
+import SnapKit
+
+
+enum FocusButtonState {
+    case Noraml
+    case Loading
+}
+
+class FocusButtonTopAndButton:UIButton{
+    
+    lazy var loadView = UIActivityIndicatorView()
+    lazy var imageView1 = UIImageView()
+    
+    var pname = ""
+    
+    var exiter = false
+    
+    var loadingState = false
+    
+    func refresh(){
+    
+        loadingState = false
+        
+        self.exiter = Focus.isExiter(self.pname)
+        
+        loadView.activityIndicatorViewStyle = .Gray
+        
+        loadView.stopAnimating()
+        self.loadView.hidden = true
+        
+        self.imageView1.hidden = !self.exiter
+        
+        self.imageView?.hidden = self.exiter
+        self.titleLabel?.hidden = self.exiter
+    }
+    
+    func loading(){
+        loadingState = true
+        
+        loadView.startAnimating()
+        self.loadView.hidden = false
+        
+        self.imageView1.hidden = true
+        self.imageView?.hidden = true
+        self.titleLabel?.hidden = true
+    }
+    
+    override var highlighted: Bool{
+    
+        didSet{
+        
+            if loadingState {
+            
+                loading()
+            }else{
+                
+                self.refresh()
+            }
+        }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        
+        
+        loadView.hidden = true
+        
+        self.addSubview(loadView)
+        
+        self.addSubview(imageView1)
+        
+        self.loadView.snp_makeConstraints { (make) in
+            
+            make.center.equalTo(self)
+            make.size.equalTo(CGSize(width: 22, height: 22))
+        }
+        
+        imageView1.image = UIImage(named: "关注前进")
+        
+        imageView1.snp_makeConstraints { (make) in
+            
+            make.center.equalTo(self)
+        }
+    }
+    
+    
+
+    override func layoutSubviews() {
+        
+        super.layoutSubviews()
+        
+        // Center image
+        var center = self.imageView?.center ?? CGPointZero
+        center.x = self.frame.size.width/2
+        center.y = (self.imageView?.frame.size.height ?? 0)/2+15
+        self.imageView?.center = center
+        
+        //Center text
+        var newFrame = self.titleLabel?.frame ?? CGRectZero
+        newFrame.origin.x = 0
+        newFrame.origin.y = (self.imageView?.center.y ?? 0) + 16
+        newFrame.size.width = self.frame.size.width
+        
+        self.titleLabel?.frame = newFrame
+        self.titleLabel?.textAlignment = .Center
+        
+    }
+    
+    override func drawRect(rect: CGRect) {
+        
+        super.drawRect(rect)
+        
+        let context = UIGraphicsGetCurrentContext() // 获取绘画板
+        CGContextSetFillColorWithColor(context, UIColor.clearColor().CGColor)
+        CGContextFillRect(context, rect)
+        //下分割线
+        CGContextSetStrokeColorWithColor(context, UIColor.hexStringToColor("#e9e9e9").CGColor)
+        CGContextStrokeRect(context, CGRectMake(0, 11.5, 1.5, 47))
     }
 }

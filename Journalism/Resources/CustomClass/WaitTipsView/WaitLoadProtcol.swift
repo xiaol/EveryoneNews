@@ -144,7 +144,7 @@ extension WaitLoadProtcol where Self:UIViewController{
 extension WaitLoadProtcol where Self:FocusViewController{
     
     // 显示等待视图
-    func showWaitLoadView(){
+    func showWaitLoadView(top:CGFloat = 0){
         
         if self.waitView == nil {
             
@@ -155,7 +155,7 @@ extension WaitLoadProtcol where Self:FocusViewController{
         
         self.waitView .snp_makeConstraints { (make) in
             
-            make.topMargin.equalTo(self.view.snp_top).offset(0)
+            make.topMargin.equalTo(self.view.snp_top).offset(top)
             make.bottomMargin.equalTo(self.view.snp_bottom).offset(0)
             make.leftMargin.equalTo(self.view.snp_left).offset(0)
             make.rightMargin.equalTo(self.view.snp_right).offset(0)
