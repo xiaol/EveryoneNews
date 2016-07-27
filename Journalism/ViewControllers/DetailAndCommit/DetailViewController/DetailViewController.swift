@@ -56,6 +56,10 @@ class DetailViewController: UIViewController,WaitLoadProtcol {
         self.integrationMethod()
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DetailViewController.setCollectionButton), name: CONCERNNEWORNOCOLLECTEDNEW, object: nil) //收藏状态发生变化
+        NSNotificationCenter.defaultCenter().addObserverForName(USERFOCUSPNAMENOTIFITION, object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+            
+            self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: 0, inSection: 1)], withRowAnimation: UITableViewRowAnimation.Automatic)
+        }
     }
     
     func setCollectionButton(){

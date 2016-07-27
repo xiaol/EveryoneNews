@@ -103,7 +103,7 @@ extension Focus{
     
         let realm = try! Realm()
         
-        return realm.objects(Focus.self).filter("name = '\(pname)'").count > 0
+        return realm.objects(Focus.self).filter("name = '\(pname)' AND isf = 1").count > 0
     }
     /**
      获取关注列表下的新闻
@@ -294,6 +294,27 @@ extension Focus{
         guard let token = ShareLUser.token else{ return }
         
         Manager.shareManager.request(.POST, SwaggerClientAPI.basePath+"/ns/pbs/cocs", parameters: ["uid":"\(ShareLUser.uid)","pname":pname], encoding: ParameterEncoding.URLEncodedInURL, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
+            
+            guard let result = res.result.value as? NSDictionary,let code = result.objectForKey("code") as? Int else{ fail?();return}
+            
+            if code != 2000 { fail?() ;return}
+            
+            self.refresh(finish, fail: fail)
+        }
+    }
+    
+    /**
+     取消关注新闻来源
+     
+     - parameter new: 新闻对象
+     - parameter finish:  关心完成
+     - parameter fail:    关心失败
+     */
+    class func nofocusPub(pname:String,finish:(()->Void)?=nil,fail:(()->Void)?=nil){
+        
+        guard let token = ShareLUser.token else{ return }
+        
+        Manager.shareManager.request(.DELETE, SwaggerClientAPI.basePath+"/ns/pbs/cocs", parameters: ["uid":"\(ShareLUser.uid)","pname":pname], encoding: ParameterEncoding.URLEncodedInURL, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
             
             guard let result = res.result.value as? NSDictionary,let code = result.objectForKey("code") as? Int else{ fail?();return}
             

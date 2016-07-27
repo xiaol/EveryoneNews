@@ -362,7 +362,7 @@ class FocusButtonTopAndButton:UIButton{
     override var highlighted: Bool{
     
         didSet{
-        
+            
             if loadingState {
             
                 loading()
@@ -376,6 +376,8 @@ class FocusButtonTopAndButton:UIButton{
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
+        
+        self.loadingState = false
         
         loadView.hidden = true
         
@@ -395,13 +397,18 @@ class FocusButtonTopAndButton:UIButton{
             
             make.center.equalTo(self)
         }
+        
+        self.refresh()
     }
     
     
 
     override func layoutSubviews() {
         
+        
         super.layoutSubviews()
+        
+        
         
         // Center image
         var center = self.imageView?.center ?? CGPointZero
@@ -418,6 +425,7 @@ class FocusButtonTopAndButton:UIButton{
         self.titleLabel?.frame = newFrame
         self.titleLabel?.textAlignment = .Center
         
+        self.refresh()
     }
     
     override func drawRect(rect: CGRect) {

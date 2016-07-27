@@ -42,6 +42,9 @@ class FoucusHeaderView: UIView {
         let ss = (titleWidth+11+30)/2
         headerCenterOffest = -(ss-15)
         titleCenterOffest = (ss-titleWidth/2)
+        
+        foucusButton.pname = pname
+        foucusButton.refresh()
     }
     
     func setProcess(pro:CGFloat){
@@ -74,6 +77,10 @@ class FoucusHeaderView: UIView {
 
 class FoucusButton: UIButton {
     
+    var pname = ""
+    
+    let loadV = UIActivityIndicatorView()
+    
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.initMethod()
@@ -86,21 +93,70 @@ class FoucusButton: UIButton {
     
     func initMethod(){
         
+        loadV.activityIndicatorViewStyle = .Gray
+        self.addSubview(self.loadV)
+        
+        loadV.snp_makeConstraints { (make) in
+            
+            make.center.equalTo(self)
+        }
+        
+        loadV.hidesWhenStopped = false
+        
+        loadV.startAnimating()
+        loadV.hidden = true
+        
         self.clipsToBounds = true
         
         self.titleLabel?.font = UIFont.a_font5
         
-        self.setTitleColor(UIColor.hexStringToColor("#e71f19"), forState: .Normal)
         
         self.layer.cornerRadius = 30
-        self.layer.borderColor = UIColor.hexStringToColor("#e71f19").CGColor
         self.layer.borderWidth = 1
         self.layer.cornerRadius = 12
+    }
+    
+
+    
+    func loading(){
+    
+        self.setTitleColor(UIColor.clearColor(), forState: .Normal)
         
-        self.setTitle("关注", forState: UIControlState.Normal)
+        self.loadV.startAnimating()
+        self.loadV.hidden = false
+    }
+    
+    
+    /**
+     设置按钮显示状态
+     
+     - parameter focus: 关注状态
+     */
+    func refresh(){
         
-        self.setBackgroundColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-        self.setBackgroundColor(UIColor.hexStringToColor("#e71f19").colorWithAlphaComponent(0.3), forState: UIControlState.Selected)
-        self.setBackgroundColor(UIColor.hexStringToColor("#e71f19").colorWithAlphaComponent(0.3), forState: UIControlState.Highlighted)
+        self.loadV.stopAnimating()
+        self.loadV.hidden = true
+        
+        if Focus.isExiter(self.pname) {
+        
+            self.setTitle("已关注", forState: UIControlState.Normal)
+            
+            self.setTitleColor(UIColor.a_color10, forState: .Normal)
+            self.layer.borderColor = UIColor.a_color10.CGColor
+            
+            self.setBackgroundColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+            self.setBackgroundColor(UIColor.a_color10.colorWithAlphaComponent(0.3), forState: UIControlState.Selected)
+            self.setBackgroundColor(UIColor.a_color10.colorWithAlphaComponent(0.3), forState: UIControlState.Highlighted)
+        }else{
+        
+            self.setTitle("关注", forState: UIControlState.Normal)
+            
+            self.setTitleColor(UIColor.hexStringToColor("#e71f19"), forState: .Normal)
+            self.layer.borderColor = UIColor.hexStringToColor("#e71f19").CGColor
+            
+            self.setBackgroundColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+            self.setBackgroundColor(UIColor.hexStringToColor("#e71f19").colorWithAlphaComponent(0.3), forState: UIControlState.Selected)
+            self.setBackgroundColor(UIColor.hexStringToColor("#e71f19").colorWithAlphaComponent(0.3), forState: UIControlState.Highlighted)
+        }
     }
 }

@@ -51,6 +51,8 @@ class FocusViewController: UIViewController,WaitLoadProtcol {
          *  @return <#return value description#>
          */
         self.headerView.setNewC(pname)
+        self.SetFocusButtonCLickMethod()
+        
         
         self.notifitionNewChange()
         
@@ -85,6 +87,58 @@ class FocusViewController: UIViewController,WaitLoadProtcol {
             self.tableView.reloadData()
         }
     }
+    
+    
+    private func SetFocusButtonCLickMethod(){
+    
+        self.headerView.foucusButton.addAction(UIControlEvents.TouchUpInside) { (_) in
+            
+            if ShareLUser.utype == 2 {
+                
+                NSNotificationCenter.defaultCenter().postNotificationName(USERNEDDLOGINTHENCANDOSOMETHING, object: nil)
+            }else{
+                
+                self.ForNFMethod()
+            }
+        }
+    }
+    
+    private func ForNFMethod(){
+        
+        self.headerView.foucusButton.loading()
+        
+        if !Focus.isExiter(self.pname) {
+            
+            Focus.focusPub(pname, finish: {
+                
+                NSNotificationCenter.defaultCenter().postNotificationName(USERFOCUSPNAMENOTIFITION, object: nil)
+
+                self.headerView.foucusButton.refresh()
+                
+                }, fail: {
+                    
+                    NSNotificationCenter.defaultCenter().postNotificationName(USERFOCUSPNAMENOTIFITION, object: nil)
+  
+                    self.headerView.foucusButton.refresh()
+            })
+            
+        }else{
+            
+            Focus.nofocusPub(pname, finish: {
+                
+                NSNotificationCenter.defaultCenter().postNotificationName(USERFOCUSPNAMENOTIFITION, object: nil)
+                
+                self.headerView.foucusButton.refresh()
+                
+                }, fail: {
+                    
+                    NSNotificationCenter.defaultCenter().postNotificationName(USERFOCUSPNAMENOTIFITION, object: nil)
+                    
+                    self.headerView.foucusButton.refresh()
+            })
+        }
+    }
+    
     
     /**
      加载新闻～～
