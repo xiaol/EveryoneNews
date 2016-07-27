@@ -150,7 +150,10 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
             
             if let n = self.new {
                 
-                CustomRequest.collectedNew(n)
+                CustomRequest.collectedNew(n, finish: {
+                    
+                    self.showNoInterest(title: "收藏完成",width:135,height:43)
+                })
             }
         }
     }
@@ -165,7 +168,10 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
             
             if let n = self.new {
                 
-                CustomRequest.nocollectedNew(n)
+                CustomRequest.nocollectedNew(n, finish: { 
+                
+                    self.showNoInterest(title: "取消收藏完成",width:160,height:43)
+                })
             }
         }
     }

@@ -117,23 +117,27 @@ extension WaitLoadProtcol where Self:UIViewController{
     
     
     // 显示完成删除不感兴趣的新闻
-    func showNoInterest(){
+    func showNoInterest(imgName:String = "About",title:String="将减少此类推荐",height:CGFloat = 59,width:CGFloat = 178){
         
-        NoInterestView.shareNoInterest.alpha = 1
-        self.view.addSubview(NoInterestView.shareNoInterest)
+        let shareNoInterest = NoInterestView(frame: CGRectZero)
+        shareNoInterest.alpha = 1
+        self.view.addSubview(shareNoInterest)
         
-        NoInterestView.shareNoInterest.snp_makeConstraints { (make) in
+        shareNoInterest.imageView.image = UIImage(named: imgName)
+        shareNoInterest.label.text = title
+
+        shareNoInterest.snp_makeConstraints { (make) in
             
-            make.height.equalTo(59)
-            make.width.equalTo(178)
+            make.height.equalTo(height)
+            make.width.equalTo(width)
             make.center.equalTo(self.view.snp_center)
         }
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW,Int64(1 * Double(NSEC_PER_SEC))),dispatch_get_main_queue(), {
             UIView.animateWithDuration(0.5, animations: { 
-                NoInterestView.shareNoInterest.alpha = 0
+                shareNoInterest.alpha = 0
                 }, completion: { (_) in
-                    NoInterestView.shareNoInterest.removeFromSuperview()
+                    shareNoInterest.removeFromSuperview()
             })
         })
     }

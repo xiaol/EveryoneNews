@@ -19,7 +19,7 @@ class NoInterestView: UIView {
         
         self.clipsToBounds = true
         self.layer.cornerRadius = 8
-        self.backgroundColor = UIColor.blackColor()
+        self.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.8)
         
         self.imageView.image = UIImage(named: "About")
         self.addSubview(imageView)
