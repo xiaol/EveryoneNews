@@ -32,6 +32,9 @@ extension NewslistViewController{
         
         self.notifitionNewChange()
         
+        tableView.estimatedRowHeight = 68.0
+        
+        tableView.rowHeight = UITableViewAutomaticDimension
         
         if channel?.id == 1994 {
         

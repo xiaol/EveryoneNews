@@ -142,22 +142,22 @@ extension FocusViewController:UIViewControllerPreviewingDelegate,PreViewControll
         self.tableView.reloadData()
     }
     
-    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        
-        return 100
-    }
-    
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        
-        if indexPath.section == 0 {
-        
-            return self.stringAndHeight("别人可以自嘲，但是你不可以附和")
-        }
-        
-        let new = newsResults[indexPath.row]
-
-        return new.HeightByNewConstraint(tableView,html: false)
-    }
+//    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+//        
+//        return 100
+//    }
+//    
+//    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+//        
+//        if indexPath.section == 0 {
+//        
+//            return self.stringAndHeight("别人可以自嘲，但是你不可以附和")
+//        }
+//        
+//        let new = newsResults[indexPath.row]
+//
+//        return new.HeightByNewConstraint(tableView,html: false)
+//    }
     
     
     private func stringAndHeight(desc:String) -> CGFloat{

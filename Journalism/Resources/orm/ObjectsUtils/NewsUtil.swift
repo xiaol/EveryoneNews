@@ -351,6 +351,7 @@ extension New {
     }
     
     func HeightByNewConstraint(tableView:UITableView,html:Bool = false) -> CGFloat{
+
         
         let width = tableView.frame.width
         
@@ -365,32 +366,35 @@ extension New {
             titleHeight = NSString(string:self.title).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font2], context: nil).height
         }
         
+        var calHeight:CGFloat = 0
+        
         if self.style == 0 {
             
             let pubHeight = NSString(string:self.pname).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font7], context: nil).height
             
-            return 15+18+17+pubHeight+titleHeight
+            calHeight = 15+18+17+pubHeight+titleHeight
         }else if self.style == 1{
             
             
-            return 15+77+17
+            calHeight = 15+77+17
         }else if self.style == 2{
-            
             
             let pubHeight = NSString(string:self.pname).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font7], context: nil).height
             
-            return titleHeight+15+17+8+183+pubHeight+7
+            calHeight = titleHeight+15+17+8+183+pubHeight+7
             
         }else if self.style == 3{
             
             let pubHeight = NSString(string:self.pname).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font7], context: nil).height
             
-            return 77+15+7+8+titleHeight+pubHeight+17
+            calHeight = 77+15+7+8+titleHeight+pubHeight+17
         }else{
         
             let pubHeight = NSString(string:self.pname).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font7], context: nil).height
             
-            return titleHeight+15+17+8+183+pubHeight+7
+            calHeight = titleHeight+15+17+8+183+pubHeight+7
         }
+
+        return calHeight
     }
 }

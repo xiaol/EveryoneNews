@@ -5,8 +5,8 @@ PODS:
   - DACircularProgress (2.3.1)
   - FLAnimatedImage (1.0.12)
   - MGTemplateEngine (1.0.0)
-  - MJRefresh (3.1.10)
-  - PINCache (2.2.2)
+  - MJRefresh (3.1.12)
+  - PINCache (2.3)
   - PINRemoteImage (2.1.4):
     - PINRemoteImage/FLAnimatedImage (= 2.1.4)
   - PINRemoteImage/Core (2.1.4):
@@ -24,6 +24,7 @@ PODS:
   - SVProgressHUD (2.0.3)
   - SwaggerClient (2.3.0):
     - Alamofire
+  - UITableView+FDTemplateLayoutCell (1.4)
   - UMengAnalytics-NO-IDFA (4.0.5)
   - UMengSocialCOM (5.2.1)
   - WeiboSDK (3.1.3)
@@ -41,6 +42,7 @@ DEPENDENCIES:
   - SnapKit
   - SVProgressHUD
   - SwaggerClient (from `swift-client/`)
+  - UITableView+FDTemplateLayoutCell
   - UMengAnalytics-NO-IDFA
   - UMengSocialCOM (from `UMengSocial/`)
   - WeiboSDK
@@ -61,8 +63,8 @@ SPEC CHECKSUMS:
   DACircularProgress: 4dd437c0fc3da5161cb289e07ac449493d41db71
   FLAnimatedImage: 4a0b56255d9b05f18b6dd7ee06871be5d3b89e31
   MGTemplateEngine: 67c8ca7551be430bb821cab3abf5665a230d93e9
-  MJRefresh: bb72948c985914b0b5cecac573a2c69a8915fb02
-  PINCache: 078426d356ab95ef875e9e62e5c35a2ea3333c28
+  MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
+  PINCache: ce36ed282031b92fc7733ffe831f474ff80fddc2
   PINRemoteImage: 4ac4011c5caefd6befd99758e09becede05d3226
   ReachabilitySwift: e0f6b6f280effb47731acfaaa2d5ffe223703793
   Realm: 9d5c46a4d7d27958530a8dfc58f63a99e5c2cba3
@@ -70,11 +72,12 @@ SPEC CHECKSUMS:
   SnapKit: bbad04cb016c7cead63965f16b00c09318d271ee
   SVProgressHUD: b0830714205bea1317ea1a2ebc71e5633af334d4
   SwaggerClient: fa4b7e2c40e2697f64bdeef8ac6308899371dd17
+  UITableView+FDTemplateLayoutCell: 234e1582bcc4e18461af91155123bb96538ed030
   UMengAnalytics-NO-IDFA: 965a219b05475ff2a4c09a164139a27bbaa0e25b
   UMengSocialCOM: 1e2cef3b22d6b28ac5225a18fd1aa127d13aa6a9
   WeiboSDK: acb067053668102cf07d01aa7604350162c2e466
   XLPagerTabStrip: 87b8b705f9a7178e76a063ffaa2d70045944a965
 
-PODFILE CHECKSUM: e2d42b0805e6f62cc47616879864f47c7908fbf9
+PODFILE CHECKSUM: 9f17c7d77c200f1b758f68b254ea96563d48cb86
 
-COCOAPODS: 1.0.0
+COCOAPODS: 1.0.1

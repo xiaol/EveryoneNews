@@ -43,6 +43,10 @@ class FocusViewController: UIViewController,WaitLoadProtcol {
         
         super.viewDidLoad()
         
+        
+        tableView.estimatedRowHeight = 68.0
+        tableView.rowHeight = UITableViewAutomaticDimension
+        
         /**
          *  设置新闻链接地址
          *

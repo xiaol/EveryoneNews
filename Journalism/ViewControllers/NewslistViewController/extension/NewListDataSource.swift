@@ -10,7 +10,7 @@ import UIKit
 
 
 extension NewslistViewController:UITableViewDataSource{
-
+    
     /**
      设置表格的每一个section的表头高度为0
      
@@ -96,7 +96,7 @@ extension NewslistViewController:UITableViewDataSource{
         let new = newsResults[indexPath.row]
         
         if new.isidentification == 1 {
-         
+            
             let cell = tableView.dequeueReusableCellWithIdentifier("refreshcell")! as UITableViewCell
             
             return cell
@@ -126,7 +126,7 @@ extension NewslistViewController:UITableViewDataSource{
             
             cell.setNewObject(new)
         }else{
-        
+            
             cell = tableView.dequeueReusableCellWithIdentifier("NewTwoTableViewCell") as! NewTwoTableViewCell
             
             switch new.style-10 {
@@ -139,8 +139,6 @@ extension NewslistViewController:UITableViewDataSource{
             }
         }
         
-        self.SetFCell(cell, new: new)
-        
         cell.noLikeButton.removeActions(UIControlEvents.TouchUpInside)
         cell.noLikeButton.addAction(UIControlEvents.TouchUpInside) { (_) in
             
@@ -150,23 +148,6 @@ extension NewslistViewController:UITableViewDataSource{
         return cell
     }
     
-    /**
-     设置关注cell的视图
-     */
-    private func SetFCell(cell:NewBaseTableViewCell,new:New){
-    
-        if channel?.id == 1994 {
-            
-            cell.pubLabel.layer.cornerRadius = 2
-            cell.pubLabel.clipsToBounds = true
-            cell.pubLabel.textColor = UIColor.whiteColor()
-            cell.pubLabel.font = UIFont.a_font6
-            cell.pubLabel.text = " \(cell.pubLabel.text ?? " ") "
-            cell.pubLabel.backgroundColor = Focus.gColor(new.pname)
-            cell.commentCountLabel.hidden = true
-            cell.noLikeButton.hidden = true
-        }
-    }
     
     /**
      处理用户的点击新闻视图中的 不喜欢按钮处理方法
@@ -227,6 +208,7 @@ extension NewslistViewController:UITableViewDataSource{
 }
 
 import RealmSwift
+import UITableView_FDTemplateLayoutCell
 
 extension NewslistViewController:UITableViewDelegate{
     
@@ -243,7 +225,7 @@ extension NewslistViewController:UITableViewDelegate{
         let new = newsResults[indexPath.row]
         
         if new.isread == 0 {
-        
+            
             new.isRead() // 设置为已读
         }
         
@@ -263,38 +245,4 @@ extension NewslistViewController:UITableViewDelegate{
         }
     }
     
-    /**
-     默认给的cell的高度
-     
-     - parameter tableView: tableview
-     - parameter indexPath: 表格的文职
-     
-     - returns: 返回默认给出的高度
-     */
-    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        
-        return 100
-    }
-    
-    /**
-     计算每一个cell的高度
-     如果是刷新cell的话。默认高度为40
-     
-     - parameter tableView: tableview
-     - parameter indexPath: 表格的位置
-     
-     - returns: 计算过后的表格cell高度
-     */
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        
-        let new = newsResults[indexPath.row]
-        
-        if new.isidentification == 1 {
-        
-            return 40
-        }
-        
-        return new.HeightByNewConstraint(tableView)
-}
-
 }
