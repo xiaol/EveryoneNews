@@ -27,6 +27,8 @@ public class Focus: Object {
     
     dynamic var isf = 0 /// 来源ID
     
+    dynamic var issearch = 0 /// 来源ID
+    
     override public static func primaryKey() -> String? {
         return "name"
     }
@@ -34,6 +36,19 @@ public class Focus: Object {
 
 
 extension Focus{
+    
+    /**
+     获取搜索出来的关注对象
+     
+     - returns: 搜索出来的关注对象集合
+     */
+    class func SearchArray() -> Results<Focus>{
+        
+        let realm = try! Realm()
+        
+        return realm.objects(Focus).filter("issearch = 1")
+    }
+    
     
     /**
      获取关注的个数

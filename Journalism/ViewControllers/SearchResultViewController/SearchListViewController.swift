@@ -20,6 +20,7 @@ class SearchListViewController: UIViewController,WaitLoadProtcol {
     var searchKey = ""
     
     var newsResults = New.searchArray()
+    var focusResults = Focus.SearchArray()
     
     @IBOutlet var textFiled: UITextField!
     

@@ -91,6 +91,7 @@ class FocusViewController: UIViewController,WaitLoadProtcol {
     
     private func SetFocusButtonCLickMethod(){
     
+        self.headerView.foucusButton.removeActions(.TouchUpInside)
         self.headerView.foucusButton.addAction(UIControlEvents.TouchUpInside) { (_) in
             
             if ShareLUser.utype == 2 {

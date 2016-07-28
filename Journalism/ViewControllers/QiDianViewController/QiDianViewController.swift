@@ -13,6 +13,8 @@ class QiDianViewController: UIViewController,PreViewControllerDelegate {
     @IBOutlet var tableView: UITableView!
     @IBOutlet var pan: UIPanGestureRecognizer!
     
+    var focusResults = Focus.SearchArray()
+    
     let DismissedAnimation = CustomViewControllerDismissedAnimation()
     let PresentdAnimation = CustomViewControllerPresentdAnimation()
     let InteractiveTransitioning = UIPercentDrivenInteractiveTransition() // 完成 process 渐进行动画

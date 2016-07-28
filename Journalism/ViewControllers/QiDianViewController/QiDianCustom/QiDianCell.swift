@@ -11,7 +11,7 @@ import SnapKit
 
 class QiDianCell:UITableViewCell{
 
-    @IBOutlet var foucsButton:UIButton!
+    @IBOutlet var foucsButton:FoucusButton!
     @IBOutlet var headImageView:UIImageView!
     
     var titleLabel:UILabel!
@@ -33,37 +33,44 @@ class QiDianCell:UITableViewCell{
         self.addSubview(fouceLabel)
     }
     
-    func setQiDian(s:Bool){
+    func setQiDian(focus:Focus){
     
         self.headImageView.layer.cornerRadius = 8
         
-        self.titleLabel.text = "历史派"
+        self.titleLabel.text = focus.name
         self.fouceLabel.text = "9.6万人关注"
         
         self.titleLabel.hidden = false
+        
+        let s = false
+        
         self.fouceLabel.hidden = !s
         
-        if s {
-
-            self.titleLabel.snp_makeConstraints(closure: { (make) in
-                
-                make.top.equalTo(self.headImageView.snp_top).offset(4)
-                make.left.equalTo(self.headImageView.snp_right).offset(12)
-            })
-            
-            self.fouceLabel.snp_makeConstraints(closure: { (make) in
-                
-                make.top.equalTo(self.titleLabel.snp_bottom).offset(10)
-                make.left.equalTo(self.headImageView.snp_right).offset(12)
-            })
-        }else{
+        foucsButton.pname = focus.name
+        foucsButton.refresh()
+        
+        
+//        if s {
+//
+//            self.titleLabel.snp_makeConstraints(closure: { (make) in
+//                
+//                make.top.equalTo(self.headImageView.snp_top).offset(4)
+//                make.left.equalTo(self.headImageView.snp_right).offset(12)
+//            })
+//            
+//            self.fouceLabel.snp_makeConstraints(closure: { (make) in
+//                
+//                make.top.equalTo(self.titleLabel.snp_bottom).offset(10)
+//                make.left.equalTo(self.headImageView.snp_right).offset(12)
+//            })
+//        }else{
         
             self.titleLabel.snp_makeConstraints(closure: { (make) in
                 
                 make.centerY.equalTo(self.headImageView.snp_centerY)
                 make.left.equalTo(self.headImageView.snp_right).offset(12)
             })
-        }
+//        }
         
         
         

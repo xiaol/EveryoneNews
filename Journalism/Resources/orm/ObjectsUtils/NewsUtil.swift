@@ -30,7 +30,7 @@ class NewsUtil: NSObject {
             
             let realm = try! Realm()
             if delete { New.deleSearch() }
-            guard let data = body.objectForKey("data") as? NSArray else{finish?(key: key,nomore: false,fin: false);return}
+            guard let da = body.objectForKey("data"),let data = da.objectForKey("news") as? NSArray,let publisher = da.objectForKey("publisher") as? NSArray else{finish?(key: key,nomore: false,fin: false);return}
             
             try! realm.write({
                 for (index,channel) in data.enumerate() {
@@ -40,7 +40,9 @@ class NewsUtil: NSObject {
                     }
                     
                     realm.create(New.self, value: channel, update: true)
+                    
                     self.AnalysisPutTimeAndImageList(channel as! NSDictionary, realm: realm,iscollected:0)
+                    
                     if let nid = channel.objectForKey("nid") as? Int {
                         
                         let title = channel.objectForKey("title") as! String
@@ -49,7 +51,45 @@ class NewsUtil: NSObject {
                         
                         realm.create(New.self, value: ["nid":nid,"issearch":1,"title":attributed.string,"channel":999,"searchTitle":title], update: true)
                     }
+                    
+                    /**
+                     *  如果是删除的
+                     */
+                    if delete {
+                    
+                        if index == 0 {
+                            
+                            if let nid = channel.objectForKey("nid") as? Int {
+                            
+                                realm.create(New.self,value: ["nid":nid,"orderIndex":1],update:true)
+                            }
+                        }
+                        
+                        if index == 1 {
+                            
+                            if let nid = channel.objectForKey("nid") as? Int {
+                                
+                                realm.create(New.self,value: ["nid":nid,"orderIndex":2],update:true)
+                            }
+                        }
+                        
+                        if index == 2 {
+                            
+                            realm.create(New.self,value: ["nid":-1111,"orderIndex":3],update:true)
+                        }
+                    }
                 }
+                
+                for pub in publisher {
+                    
+                    realm.create(Focus.self, value: pub, update: true)
+                    
+                    if let name = pub.objectForKey("name") as? String {
+                    
+                        realm.create(Focus.self, value: ["name":name,"issearch":1], update: true)
+                    }
+                }
+                
             })
             
             finish?(key: key,nomore: false,fin: true)
@@ -115,7 +155,7 @@ class NewsUtil: NSObject {
         
         guard let token = ShareLUser.token else{ fail?();return }
         
-        let requestBudile = NewAPI.nsFedRGetWithRequestBuilder(cid: "\(channelId)", tcr: times, tmk: "0")
+        let requestBudile = NewAPI.nsFedRGetWithRequestBuilder(cid: "\(channelId)", tcr: times, tmk: "0",uid:"\(ShareLUser.uid)")
         
         requestBudile.addHeaders(["Authorization":token])
         
@@ -208,7 +248,7 @@ class NewsUtil: NSObject {
         
         guard let token = ShareLUser.token else{ fail?();return }
         
-        let requestBudile = NewAPI.nsFedLGetWithRequestBuilder(cid: "\(channelId)", tcr: times, tmk: "0")
+        let requestBudile = NewAPI.nsFedLGetWithRequestBuilder(cid: "\(channelId)", tcr: times, tmk: "0",uid:"\(ShareLUser.uid)")
         
         requestBudile.addHeaders(["Authorization":token])
         
@@ -346,8 +386,11 @@ extension New {
             let pubHeight = NSString(string:self.pname).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font7], context: nil).height
             
             return 77+15+7+8+titleHeight+pubHeight+17
-        }
+        }else{
         
-        return 20
+            let pubHeight = NSString(string:self.pname).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font7], context: nil).height
+            
+            return titleHeight+15+17+8+183+pubHeight+7
+        }
     }
 }

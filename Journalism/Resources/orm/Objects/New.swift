@@ -96,6 +96,9 @@ public class New: Object {
      */
     dynamic var isFocusArray = 0 
     
+    dynamic var orderIndex = 10
+    
+    
     override public static func primaryKey() -> String? {
         return "nid"
     }
@@ -207,6 +210,12 @@ extension New{
             realm.objects(New).filter("issearch = 1").forEach({ (new) in
                 new.issearch = 0
             })
+            
+            
+            realm.objects(Focus).filter("issearch = 1").forEach({ (new) in
+                new.issearch = 0
+            })
+
         })
     }
     
@@ -220,7 +229,7 @@ extension New{
         
         let realm = try! Realm()
         
-        return realm.objects(New.self).filter("issearch = 1")
+        return realm.objects(New.self).filter("issearch = 1").sorted("orderIndex")
     }
     
     /**

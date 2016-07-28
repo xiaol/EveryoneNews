@@ -121,8 +121,8 @@ public class NewAPI: APIBase {
 
      - returns: RequestBuilder<AnyObject> 
      */
-    public class func nsFedLGetWithRequestBuilder(cid cid: String, tcr: String, tmk: String? = nil, p: String? = nil, c: String? = nil) -> RequestBuilder<AnyObject> {
-        let path = "/ns/fed/l"
+    public class func nsFedLGetWithRequestBuilder(cid cid: String, tcr: String, tmk: String? = nil, p: String? = nil, c: String? = nil, uid: String? = nil) -> RequestBuilder<AnyObject> {
+        let path = "/ns/fed/ln"
         let URLString = SwaggerClientAPI.basePath + path
 
         let nillableParameters: [String:AnyObject?] = [
@@ -130,7 +130,8 @@ public class NewAPI: APIBase {
             "tcr": tcr,
             "tmk": tmk,
             "p": p,
-            "c": c
+            "c": c,
+            "uid":uid
         ]
  
         let parameters = APIHelper.rejectNil(nillableParameters)
@@ -173,8 +174,8 @@ public class NewAPI: APIBase {
 
      - returns: RequestBuilder<AnyObject> 
      */
-    public class func nsFedRGetWithRequestBuilder(cid cid: String, tcr: String, tmk: String? = nil, p: String? = nil, c: String? = nil) -> RequestBuilder<AnyObject> {
-        let path = "/ns/fed/r"
+    public class func nsFedRGetWithRequestBuilder(cid cid: String, tcr: String, tmk: String? = nil, p: String? = nil, c: String? = nil,uid: String? = nil) -> RequestBuilder<AnyObject> {
+        let path = "/ns/fed/rn"
         let URLString = SwaggerClientAPI.basePath + path
 
         let nillableParameters: [String:AnyObject?] = [
@@ -182,7 +183,8 @@ public class NewAPI: APIBase {
             "tcr": tcr,
             "tmk": tmk,
             "p": p,
-            "c": c
+            "c": c,
+            "uid":uid
         ]
  
         let parameters = APIHelper.rejectNil(nillableParameters)

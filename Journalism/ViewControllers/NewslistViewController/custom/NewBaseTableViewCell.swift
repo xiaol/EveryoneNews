@@ -12,9 +12,9 @@ import PINRemoteImage
 
 extension NSURL{
 
-    func proPic() -> NSURL?{
+    func proPic(q:Int = 60) -> NSURL?{
         
-        var urlStr = NSString(string: self.absoluteString+"@1e_1c_0o_0l_100sh_225h_300w_60q.jpeg")
+        var urlStr = NSString(string: self.absoluteString+"@1e_1c_0o_0l_100sh_225h_300w_\(q)q.jpeg")
     
         if urlStr.containsString("bdp-pic.deeporiginalx.com/") {
         
@@ -36,7 +36,7 @@ class NewBaseTableViewCell: UITableViewCell {
     @IBOutlet var noLikeButton: UIButton! // 不喜欢 button 控件
     @IBOutlet var commentCountLabel: UILabel! // 评论 label 控件
     
-    func setNewObject(new:New){
+    func setNewObject(new:New,bigImg:Int = -1){
     
         
         timeLabel.font = UIFont.a_font7
@@ -53,7 +53,6 @@ class NewBaseTableViewCell: UITableViewCell {
         self.titleLabel.textColor = new.isread == 1 ? UIColor.a_color4 : UIColor.a_color3
     }
     
-    
     override func drawRect(rect: CGRect) {
         
         let context = UIGraphicsGetCurrentContext() // 获取绘画板
@@ -67,7 +66,7 @@ class NewBaseTableViewCell: UITableViewCell {
 
 class NewNormalTableViewCell: NewBaseTableViewCell {
     
-    override func setNewObject(new:New){
+    override func setNewObject(new:New,bigImg:Int = -1){
         
         super.setNewObject(new)
     }
@@ -77,7 +76,7 @@ class NewOneTableViewCell: NewBaseTableViewCell {
     
     @IBOutlet var imageView1: UIImageView!
 
-    override func setNewObject(new:New){
+    override func setNewObject(new:New,bigImg:Int = -1){
         
         super.setNewObject(new)
         
@@ -95,10 +94,41 @@ class NewTwoTableViewCell: NewBaseTableViewCell {
     @IBOutlet var imageView1: UIImageView!
     @IBOutlet var imageView2: UIImageView!
 
-    override func setNewObject(new:New){
+    lazy var imageView6 = UIImageView()
+    
+    override func setNewObject(new:New,bigImg:Int = -1){
         
         super.setNewObject(new)
         
+        if bigImg >= 0{
+        
+            self.imageView6.clipsToBounds = true
+            self.imageView6.contentMode = .ScaleAspectFill
+            
+            self.imageView6.hidden = false
+            self.imageView1.hidden = true
+            self.imageView2.hidden = true
+            
+            self.addSubview(self.imageView6)
+            
+            self.imageView6.snp_makeConstraints { (make) in
+                
+                make.top.equalTo(self.titleLabel.snp_bottom).offset(7)
+                make.bottom.equalTo(self.pubLabel.snp_top).offset(-9)
+                make.left.equalTo(12)
+                make.right.equalTo(-12)
+            }
+            
+            if let url = NSURL(string: new.imgsList[bigImg].value) {
+                
+                imageView6.pin_setImageFromURL(url, placeholderImage: UIImage.sharePlaceholderImage)
+            }
+            
+            return
+        }
+        
+        
+        self.imageView6.hidden = true
         self.imageView1.pin_updateWithProgress = true
         self.imageView2.pin_updateWithProgress = true
         
@@ -111,7 +141,6 @@ class NewTwoTableViewCell: NewBaseTableViewCell {
             
             imageView2.pin_setImageFromURL(url.proPic() ?? url, placeholderImage: UIImage.sharePlaceholderImage)
         }
-        
     }
 }
 
@@ -122,7 +151,7 @@ class NewThreeTableViewCell: NewBaseTableViewCell {
     @IBOutlet var imageView3: UIImageView!
     
 
-    override func setNewObject(new:New){
+    override func setNewObject(new:New,bigImg:Int = -1){
         
         super.setNewObject(new)
         

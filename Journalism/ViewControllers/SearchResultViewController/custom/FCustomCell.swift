@@ -8,6 +8,7 @@
 
 import UIKit
 import SnapKit
+import RealmSwift
 
 class FocusCell: UITableViewCell {
     
@@ -21,16 +22,21 @@ class FocusCell: UITableViewCell {
     
     private var finish = false
     
-    func fouceCell(count:Int = 4){
+    private var vc:UIViewController!
+    
+    func fouceCell(vc:UIViewController,focusResults:Results<Focus>){
         
         if finish { return }
+        
+        self.vc = vc
         
         self.finish = true
         
         title.font = UIFont.a_font2
         title.textColor = UIColor.a_color3
         
-        switch count {
+        
+        switch focusResults.count {
         case 4:
             self.set4Method()
         case 3:
@@ -40,37 +46,82 @@ class FocusCell: UITableViewCell {
         case 1:
             self.set1Method()
         default:
+            self.set4Method()
             break
         }
         
-        self.setDataSource()
+        self.setDataSource(focusResults)
     }
     
     /**
       设置数据源
      */
-    private func setDataSource(){
+    private func setDataSource(focusResults:Results<Focus>){
         
         if let view = view1 {
-            view.iconImageView.image = UIImage(named: "timg")
-            view.titleLabel.text = "历史"
+            
+            if focusResults.count > 0 {
+            
+                view.iconImageView.image = UIImage(named: "zhanwei")
+                view.titleLabel.text = focusResults[0].name
+                self.SetTapMethod(view, pname: focusResults[0].name)
+            }
         }
         
         if let view = view2 {
-            view.iconImageView.image = UIImage(named: "timg")
-            view.titleLabel.text = "历史"
+            if focusResults.count > 1 {
+                view.iconImageView.image = UIImage(named: "zhanwei")
+                view.titleLabel.text = focusResults[1].name
+                self.SetTapMethod(view, pname: focusResults[1].name)
+            }
         }
         
         if let view = view3 {
-            view.iconImageView.image = UIImage(named: "timg")
-            view.titleLabel.text = "历史"
+            if focusResults.count > 2 {
+                view.iconImageView.image = UIImage(named: "zhanwei")
+                view.titleLabel.text = focusResults[2].name
+                self.SetTapMethod(view, pname: focusResults[2].name)
+            }
         }
         
         if let view = view4 {
-            view.iconImageView.image = UIImage(named: "timg")
-            view.titleLabel.text = "历史"
+            
+            if focusResults.count > 4 {
+            
+                view.iconImageView.image = UIImage(named: "更多")
+                view.titleLabel.text = "更多"
+                
+                view.addGestureRecognizer(UITapGestureRecognizer(block: { (_) in
+                    
+                    let qidian = UIStoryboard.shareStoryBoard.get_QiDianViewController()
+                    
+                    self.vc.presentViewController(qidian, animated: true, completion: nil)
+                }))
+                
+                return
+            }
+            
+            if focusResults.count > 3 {
+                view.iconImageView.image = UIImage(named: "zhanwei")
+                view.titleLabel.text = focusResults[3].name
+                
+                self.SetTapMethod(view, pname: focusResults[3].name)
+            }
         }
     }
+    
+    private func SetTapMethod(view:UIView,pname:String){
+    
+        view.addGestureRecognizer(UITapGestureRecognizer(block: { (_) in
+           
+            let viewC = UIStoryboard.shareStoryBoard.get_FocusViewController(pname)
+            
+            viewC.dismiss = true
+            
+            self.vc.presentViewController(viewC, animated: true, completion: nil)
+        }))
+    }
+    
     
     class func heightCell(count:Int = 4) -> CGFloat{
         
@@ -242,11 +293,14 @@ private class ICONView:UIView{
         titleLabel.font = UIFont.a_font5
         titleLabel.textColor = UIColor.a_color3
         titleLabel.textAlignment = .Center
+        titleLabel.adjustsFontSizeToFitWidth = true
         self.addSubview(titleLabel)
         titleLabel.snp_makeConstraints { (make) in
             
             make.top.equalTo(iconImageView.snp_bottom).offset(7)
             make.centerX.equalTo(self)
+            make.left.equalTo(8)
+            make.right.equalTo(-8)
         }
     }
     

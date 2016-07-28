@@ -160,7 +160,7 @@ extension DetailViewController{
             return self.dismissViewControllerAnimated(true, completion: nil)
         }
         
-        let viewC = UIStoryboard.shareStoryBoard.get_FocusViewController(self.newCon)
+        let viewC = UIStoryboard.shareStoryBoard.get_FocusViewController(self.newCon.pname)
         
         viewC.dismiss = self.dismiss
         

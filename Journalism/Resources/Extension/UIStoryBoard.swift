@@ -141,11 +141,11 @@ extension UIStoryboard{
      
      - returns: 返回搜索视图
      */
-    func get_FocusViewController(newC:NewContent)-> FocusViewController{
+    func get_FocusViewController(pname:String)-> FocusViewController{
         
         let viewController = self.instantiateViewControllerWithIdentifier("FocusViewController") as! FocusViewController
         
-        viewController.pname = newC.pname
+        viewController.pname = pname
         
         return viewController
     }

@@ -46,13 +46,14 @@ extension SearchListViewController:UIViewControllerPreviewingDelegate,PreViewCon
         
         let new = newsResults[indexPath.row]
         
-        
-        
-        if new.nid == -1111 {
+        if new.nid == -1111{
         
             let cell = tableView.dequeueReusableCellWithIdentifier("fouce") as! FocusCell
             
-            cell.fouceCell(count)
+            if self.newsResults.count > 0 {
+                
+                cell.fouceCell(self,focusResults: self.focusResults)
+            }
             
             return cell
         }
@@ -78,7 +79,7 @@ extension SearchListViewController:UIViewControllerPreviewingDelegate,PreViewCon
             cell.setNewObject(new)
         }
         
-        cell.titleLabel.attributedText =  new.searchTitle.toAttributedString()
+        cell.titleLabel.attributedText = new.searchTitle.toAttributedString()
         
         if #available(iOS 9.0, *) {
             if (self.traitCollection.forceTouchCapability == UIForceTouchCapability.Available) && !tableView.editing{
@@ -95,9 +96,7 @@ extension SearchListViewController:UIViewControllerPreviewingDelegate,PreViewCon
         
         if new.nid == -1111 {
             
-            let qidian = UIStoryboard.shareStoryBoard.get_QiDianViewController()
-            
-            return self.presentViewController(qidian, animated: true, completion: nil)
+            return
         }
         if new.isread == 0 {
             new.isRead() // 设置为已读
@@ -123,10 +122,10 @@ extension SearchListViewController:UIViewControllerPreviewingDelegate,PreViewCon
         
         if new.nid == -1111 {
             
-            return FocusCell.heightCell(count)
+            return self.focusResults.count > 0 ? FocusCell.heightCell(count) : 0
         }
         
-        return new.HeightByNewConstraint(tableView,html: true)
+        return new.HeightByNewConstraint(tableView)
     }
 }
 

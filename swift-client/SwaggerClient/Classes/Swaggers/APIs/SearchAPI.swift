@@ -38,7 +38,7 @@ public class SearchAPI: APIBase {
      - returns: RequestBuilder<AnyObject> 
      */
     public class func nsEsSGetWithRequestBuilder(keywords keywords: String, p: String? = nil, l: String? = nil) -> RequestBuilder<AnyObject> {
-        let path = "/ns/es/s"
+        let path = "/ns/es/snp"
         let URLString = SwaggerClientAPI.basePath + path
 
         let nillableParameters: [String:AnyObject?] = [
