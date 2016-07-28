@@ -193,7 +193,7 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
         
             self.setCButton()
             
-            return self.CommentButtonLeftSpace.constant = 0
+            return self.ButtonMethod()
         }
         
         if fromIndex == 0 {
@@ -211,12 +211,26 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
     @IBAction func touchCommentButton(sender: AnyObject) {
         
         self.moveToViewControllerAtIndex(1, animated: true)
+        
+        self.ButtonMethod()
     }
     
     /// 点击去原文按钮
     @IBAction func touchPostButton(sender: AnyObject) {
         
         self.moveToViewControllerAtIndex(0, animated: true)
+        
+        self.ButtonMethod()
+    }
+    
+    /**
+     按钮设置
+     */
+    private func ButtonMethod(){
+    
+        self.CommentButtonLeftSpace.constant = self.currentIndex == 0 ? 0 : -self.CommentButtonBackView.frame.width
+        
+        self.view.layoutIfNeeded()
     }
     
     /**

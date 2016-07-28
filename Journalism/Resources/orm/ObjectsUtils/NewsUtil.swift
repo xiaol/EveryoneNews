@@ -24,39 +24,13 @@ class NewsUtil: NSObject {
         
         SearchAPI.nsEsSGet(keywords: key, p: p, l: l) { (datas, error) in
             
-            guard let body = datas,code = body.objectForKey("code") as? Int else {
-                
-                finish?(key: key,nomore: false,fin: false)
-                
-                return
-            }
-            
-            if code == 2002 {
-                
-                finish?(key: key,nomore: true,fin: true)
-                
-                return
-            }
-            
-            if code != 2000 {
-                
-                finish?(key: key,nomore: false,fin: false)
-                
-                return
-            }
+            guard let body = datas,code = body.objectForKey("code") as? Int else { finish?(key: key,nomore: false,fin: false);return}
+            if code == 2002 {finish?(key: key,nomore: true,fin: true);return}
+            if code != 2000 { finish?(key: key,nomore: false,fin: false); return }
             
             let realm = try! Realm()
-            
-            if delete {
-                New.deleSearch()
-            }
-            
-            guard let data = body.objectForKey("data") as? NSArray else{
-                
-                finish?(key: key,nomore: false,fin: false)
-                
-                return
-            }
+            if delete { New.deleSearch() }
+            guard let data = body.objectForKey("data") as? NSArray else{finish?(key: key,nomore: false,fin: false);return}
             
             try! realm.write({
                 for (index,channel) in data.enumerate() {
