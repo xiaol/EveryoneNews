@@ -261,7 +261,14 @@
             [LPHttpTool postJSONResponseAuthorizationWithURL:url params:paramsUser success:^(id json, NSString *authorization) {
                 if ([json[@"code"] integerValue] == 2000) {
                     NSDictionary *dictData = (NSDictionary *)json[@"data"];
-                    [userDefaults setObject:dictData[@"uid"] forKey:@"uid"];
+                    if ([[dictData[@"utype"] stringValue] isEqualToString:@"3"] || [[dictData[@"utype"] stringValue] isEqualToString:@"4"]) {
+                        if (![userDefaults objectForKey:@"uid"]) {
+                            [userDefaults setObject:dictData[@"uid"] forKey:@"uid"];
+                        }
+                    } else {
+                        [userDefaults setObject:dictData[@"uid"] forKey:@"uid"];
+                    }
+                    [userDefaults setObject:@"1" forKey:@"uIconDisplay"];
                     [userDefaults setObject:dictData[@"utype"] forKey:@"utype"];
                     [userDefaults setObject:authorization forKey:@"uauthorization"];
                     [userDefaults synchronize];
@@ -536,7 +543,14 @@
             [LPHttpTool postJSONResponseAuthorizationWithURL:url params:paramsUser success:^(id json, NSString *authorization) {
                 if ([json[@"code"] integerValue] == 2000) {
                     NSDictionary *dictData = (NSDictionary *)json[@"data"];
-                    [userDefaults setObject:dictData[@"uid"] forKey:@"uid"];
+                    if ([[dictData[@"utype"] stringValue] isEqualToString:@"3"] || [[dictData[@"utype"] stringValue] isEqualToString:@"4"]) {
+                        if (![userDefaults objectForKey:@"uid"]) {
+                            [userDefaults setObject:dictData[@"uid"] forKey:@"uid"];
+                        }
+                    } else {
+                        [userDefaults setObject:dictData[@"uid"] forKey:@"uid"];
+                    }
+                    [userDefaults setObject:@"1" forKey:@"uIconDisplay"];
                     [userDefaults setObject:dictData[@"utype"] forKey:@"utype"];
                     [userDefaults setObject:authorization forKey:@"uauthorization"];
                     [userDefaults synchronize];
@@ -585,7 +599,7 @@ singleton_m(AccountTool);
     if (account) {
         return;
     }
-    if (![userDefaults objectForKey:@"isVersion3FirstLoad"]) {
+    if (![userDefaults objectForKey:LPIsVersionFirstLoad]) {
         LPLoginViewController *loginVc = [[LPLoginViewController alloc] init];
         loginVc.successBlock = success;
         loginVc.failureBlock = failure;
@@ -613,7 +627,7 @@ singleton_m(AccountTool);
 //        }
 //    }
     
-    if ([[[userDefaults objectForKey:@"utype"] stringValue] isEqualToString:@"3"] || [[[userDefaults objectForKey:@"utype"] stringValue] isEqualToString:@"4"]) {
+    if ([[userDefaults objectForKey:@"uIconDisplay"] isEqualToString:@"1"]) {
         return account;
     } else {
         return nil;
@@ -635,6 +649,7 @@ singleton_m(AccountTool);
 //    [fileManager removeItemAtPath:kAccountSavePath error:nil];
     
     [userDefaults setObject:@(2) forKey:@"utype"];
+    [userDefaults setObject:@"2" forKey:@"uIconDisplay"];
     [userDefaults synchronize];
     
     

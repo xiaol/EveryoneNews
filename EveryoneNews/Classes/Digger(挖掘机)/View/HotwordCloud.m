@@ -94,7 +94,7 @@ static const CGFloat padding = 10;
     // 1. 总页数
     _pageCount = (NSInteger)ceil(hotwords.count / (double)HotwordPageCapacity);
     // 2. 分页数组
-    NSMutableArray *tmpArray = [NSMutableArray array];
+    NSMutableArray *tmpArray = nil;
     for (NSInteger i = 0; i < self.pageCount; i++) {
         if (i == self.pageCount - 1) {
             // 若是最后一组, 则将余下全部作为数组, 保存为pagingWords里最后一个元素

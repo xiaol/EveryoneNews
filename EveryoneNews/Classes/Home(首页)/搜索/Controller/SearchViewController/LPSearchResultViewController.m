@@ -325,15 +325,15 @@ static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
 #pragma mark - UITableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
    
-    if (indexPath.row != 2) {
+//    if (indexPath.row != 2) {
         LPSearchCardFrame *searchCardFrame = self.cardFrames[indexPath.row];
         LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
         detailVc.searchCardFrame = searchCardFrame;
         detailVc.sourceViewController = searchSource;
         [self.navigationController pushViewController:detailVc animated:YES];
-    } else {
-        return;
-    }
+//    } else {
+//        return;
+//    }
 
 }
 

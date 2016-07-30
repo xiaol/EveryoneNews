@@ -1,19 +1,19 @@
 //
-//  CardImage+CoreDataProperties.m
+//  CardSourceColor+CoreDataProperties.m
 //  EveryoneNews
 //
-//  Created by dongdan on 16/7/28.
+//  Created by dongdan on 16/7/21.
 //  Copyright © 2016年 apple. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
 //  to delete and recreate this implementation file for your updated model.
 //
 
-#import "CardImage+CoreDataProperties.h"
+#import "CardSourceColor+CoreDataProperties.h"
 
-@implementation CardImage (CoreDataProperties)
+@implementation CardSourceColor (CoreDataProperties)
 
-@dynamic imgUrl;
-@dynamic card;
+@dynamic sourceName;
+@dynamic sourceColor;
 
 @end

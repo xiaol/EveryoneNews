@@ -22,7 +22,7 @@ const static CGFloat paddingTop = 15;
     CardConcern *concern = card.cardConcern;
     NSMutableAttributedString *htmlTitle = [Card titleHtmlString:card.title];
     NSString *sourceSiteName = card.sourceSiteName;
-    NSString *keyword = @"关键字";
+    NSString *keyword = concern.keyword;
     
     CGFloat sourceFontSize = LPFont7;
     CGFloat keywordFontSize = LPFont6;
@@ -102,7 +102,14 @@ const static CGFloat paddingTop = 15;
         _singleImageSourceLabelFrame = CGRectMake(sourceSiteNameX, sourceSiteNameY, sourceSiteNameW, sourceSiteNameH);
         
         // 分割线
-        CGFloat singleImageSeperatorLineY = CGRectGetMaxY(_singleImageKeywordFrame) + 15;
+        CGFloat singleImageSeperatorLineY = 0.0f;
+        
+        if ((titleH + keywordH + keywordPaddingTop) > imageH) {
+            singleImageSeperatorLineY = CGRectGetMaxY(_singleImageKeywordFrame) + 15;
+        } else {
+            singleImageSeperatorLineY = CGRectGetMaxY(_singleImageImageViewFrame) + 15;
+        }
+        
         _singleImageSeperatorLineFrame = CGRectMake(0, singleImageSeperatorLineY, ScreenWidth, 0.5);
         _cellHeight = CGRectGetMaxY(_singleImageSeperatorLineFrame);
         

@@ -379,15 +379,18 @@
 #pragma mark - tableView  datasource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    NSLog(@"aa");
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
+     NSLog(@"bb");
     return self.cardFrames.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    NSLog(@"cc");
     NSString *cellIdentifier = self.cellIdentifier;
     LPHomeViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil) {
@@ -407,33 +410,28 @@
         }
         
     }];
-    
-//    [cell didClickTitleBlock:^(LPHomeViewCell *cell, CardFrame *cardFrame) {
-//        NSInteger index = [weakSelf.cardFrames indexOfObject:cardFrame];
-//        if ([weakSelf.delegate respondsToSelector:@selector(page:didSelectCellWithCardID:cardFrame:)]) {
-//            [weakSelf.delegate page:weakSelf didSelectCellWithCardID:cardFrame.card.objectID cardFrame:cardFrame];
-//        }
-//        
-//        // 记录当前行号
-//        LPHomeRowManager *rowManager = [LPHomeRowManager sharedManager];
-//        rowManager.currentRowIndex = index;
-//    }];
-    
+        
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+     NSLog(@"dd");
+//    NSLog(@"%@", [self class]);
+    
     CardFrame *cardFrame = self.cardFrames[indexPath.row];
     
     return cardFrame.cellHeight;
 }
 
--(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath{
-
-    return 100;
-}
+//-(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath{
+//
+//    return 100;
+//}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    NSLog(@"ee");
     CardFrame *cardFrame = self.cardFrames[indexPath.row];
     if ([self.delegate respondsToSelector:@selector(page:didSelectCellWithCardID:cardFrame:)]) {
         [self.delegate page:self didSelectCellWithCardID:cardFrame.card.objectID cardFrame:cardFrame];
@@ -447,16 +445,16 @@
 
 
 #pragma mark - LPHomeViewCell Delegate
-- (void)homeViewCell:(LPHomeViewCell *)cell didSelectedCardFrame:(CardFrame *)cardFrame {
-    NSInteger index = [self.cardFrames indexOfObject:cardFrame];
-    if ([self.delegate respondsToSelector:@selector(page:didSelectCellWithCardID:cardFrame:)]) {
-        [self.delegate page:self didSelectCellWithCardID:cardFrame.card.objectID cardFrame:cardFrame];
-    }
-    
-    // 记录当前行号
-    LPHomeRowManager *rowManager = [LPHomeRowManager sharedManager];
-    rowManager.currentRowIndex = index;
-}
+//- (void)homeViewCell:(LPHomeViewCell *)cell didSelectedCardFrame:(CardFrame *)cardFrame {
+//    NSInteger index = [self.cardFrames indexOfObject:cardFrame];
+//    if ([self.delegate respondsToSelector:@selector(page:didSelectCellWithCardID:cardFrame:)]) {
+//        [self.delegate page:self didSelectCellWithCardID:cardFrame.card.objectID cardFrame:cardFrame];
+//    }
+//    
+//    // 记录当前行号
+//    LPHomeRowManager *rowManager = [LPHomeRowManager sharedManager];
+//    rowManager.currentRowIndex = index;
+//}
 
 
 #pragma mark - 删除某行数据

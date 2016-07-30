@@ -16,6 +16,7 @@
 
 @optional
 - (void)concernPage:(LPPagingViewConcernPage *)concernPage didSelectCellWithCardID:(NSManagedObjectID *)cardID;
+- (void)concernPage:(LPPagingViewConcernPage *)concernPage didClickSearchImageView:(UIImageView *)imageView;
 
 @end
 
@@ -26,5 +27,5 @@
 @property (nonatomic, copy) NSString *pageChannelName;
 @property (nonatomic, weak) id<LPPagingViewConcernPageDelegate> delegate;
 
-
+- (void)autotomaticLoadNewData;
 @end

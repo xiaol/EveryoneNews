@@ -48,7 +48,7 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         
-        self.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor colorWithHexString:LPColor9];
         
         CGFloat commentFontSize = LPFont6;
         CGFloat publishTimeFontSize = LPFont6;
@@ -65,7 +65,7 @@
  
         noImagePublishTimeLabel.textAlignment = NSTextAlignmentCenter;
         noImagePublishTimeLabel.font = [UIFont systemFontOfSize:publishTimeFontSize];
-        noImagePublishTimeLabel.textColor = [UIColor whiteColor];
+        noImagePublishTimeLabel.textColor = [UIColor colorWithHexString:LPColor4];
         [self.contentView addSubview:noImagePublishTimeLabel];
         self.noImagePublishTimeLabel = noImagePublishTimeLabel;
         
@@ -141,7 +141,7 @@
         UILabel *mutipleImagePublishTimeLabel = [[UILabel alloc] init];
         mutipleImagePublishTimeLabel.textAlignment = NSTextAlignmentLeft;
         mutipleImagePublishTimeLabel.font = [UIFont systemFontOfSize:publishTimeFontSize];
-        mutipleImagePublishTimeLabel.textColor = [UIColor whiteColor];
+        mutipleImagePublishTimeLabel.textColor = [UIColor colorWithHexString:LPColor4];
         [self.contentView addSubview:mutipleImagePublishTimeLabel];
         self.mutipleImagePublishTimeLabel = mutipleImagePublishTimeLabel;
         
@@ -163,7 +163,7 @@
     _cardFrame = cardFrame;
     LPConcernCard *card = cardFrame.card;
     NSDate *currentDate = [NSDate date];
-    NSDate *updateTime = [card.updateTime dateFromString:card.updateTime];
+    NSDate *updateTime = [NSDate dateWithTimeIntervalSince1970:card.updateTime.longLongValue / 1000.0];
     NSString *publishTime = nil;
     int interval = (int)[currentDate timeIntervalSinceDate: updateTime] / 60;
     if (interval > 0 && interval < 60) {
@@ -178,13 +178,14 @@
     
     NSString *commentsCount = [NSString stringWithFormat:@"%@评", card.commentsCount != nil ? card.commentsCount: @"0"];
     NSMutableAttributedString *titleHtml = [Card titleHtmlString:card.title];
-     
+    
+    BOOL commentLabelHidden = [commentsCount isEqualToString:@"0评"] ? YES : NO;
+    
     if(card.cardImages.count == 0) {
         
         self.noImageLabel.hidden = NO;
         self.noImagePublishTimeLabel.hidden = NO;
         self.noImageSeperatorLine.hidden = NO;
-        self.noImageCommentLabel.hidden = NO;
         
         self.singleImageTitleLabel.hidden = YES;
         self.singleImageView.hidden = YES;
@@ -205,10 +206,15 @@
         
         self.noImageCommentLabel.frame = self.cardFrame.noImageCommentLabelFrame;
         self.noImageCommentLabel.text = commentsCount;
+        self.noImageCommentLabel.hidden = commentLabelHidden;
+        
         
         self.noImagePublishTimeLabel.frame = self.cardFrame.noImagePublishTimeLabelFrame;
         self.noImagePublishTimeLabel.text = publishTime;
         self.noImageSeperatorLine.frame = self.cardFrame.noImageSeperatorLineFrame;
+        
+        
+        
         
     } else if (card.cardImages.count == 1 || card.cardImages.count == 2) {
         
@@ -222,7 +228,6 @@
         self.singleImageTitleLabel.hidden = NO;
         self.singleImageView.hidden = NO;
         self.singleImagePublishTimeLabel.hidden = NO;
-        self.singleCommentLabel.hidden = NO;
         self.singleImageSeperatorLine.hidden = NO;
         
         self.multipleImageLabel.hidden = YES;
@@ -245,8 +250,8 @@
         
         self.singleCommentLabel.text = commentsCount;
         self.singleCommentLabel.frame = self.cardFrame.singleImageCommentLabelFrame;
+        self.singleCommentLabel.hidden = commentLabelHidden;
  
-        
         self.singleImageSeperatorLine.frame = self.cardFrame.singleImageSeperatorLineFrame;
         
     } else if (card.cardImages.count >= 3) {
@@ -267,7 +272,7 @@
         self.secondMutipleImageView.hidden = NO;
         self.thirdMutipleImageView.hidden = NO;
         self.mutipleImagePublishTimeLabel.hidden = NO;
-        self.multipleCommentLabel.hidden = NO;
+        self.multipleCommentLabel.hidden = commentLabelHidden;
         self.mutipleSeperatorLine.hidden = NO;
         
         self.multipleImageLabel.text = titleHtml;
@@ -279,7 +284,7 @@
         
         self.multipleCommentLabel.frame = self.cardFrame.multipleImageCommentLabelFrame;
         self.multipleCommentLabel.text = commentsCount;
- 
+        
         
         self.mutipleSeperatorLine.frame = self.cardFrame.mutipleImageSeperatorLineFrame;
         

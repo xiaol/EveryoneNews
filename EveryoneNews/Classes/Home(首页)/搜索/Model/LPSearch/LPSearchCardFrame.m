@@ -115,7 +115,7 @@
         CGFloat sourcePaddingTop1 = 10.0f;
  
         
-        CGFloat titleY =  paddingVertical - lineSpacing;
+        CGFloat titleY =  0.0f;
         // 判断图片和标题+来源高度
         if ((titleH + sourceSiteNameH + sourcePaddingTop1 ) > imageH) {
             titleY =    paddingVertical;

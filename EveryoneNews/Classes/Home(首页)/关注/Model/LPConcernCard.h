@@ -20,4 +20,5 @@
 @property (nonatomic, copy)  NSString *updateTime;
 @property (nonatomic, strong) NSArray *cardImages;
 
+
 @end

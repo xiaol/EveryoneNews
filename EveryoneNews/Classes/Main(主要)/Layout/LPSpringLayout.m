@@ -13,7 +13,7 @@
 
 @implementation LPSpringLayout
 - (id)init {
-    if ([super init]) {
+    if ( self = [super init]) {
         _springDamping = 1.0;
         _springFrequency = 1.0;
         _resistanceFactor = 3200;

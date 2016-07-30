@@ -16,6 +16,7 @@
 #import "LPSortCollectionViewCell.h"
 #import "LPMenuCollectionViewCell.h"
 #import "LPPagingViewPage.h"
+#import "LPPagingViewConcernPage.h"
  
 static NSString *reuseIdentifierFirst = @"reuseIdentifierFirst";
 static NSString *reuseIdentifierSecond = @"reuseIdentifierSecond";
@@ -96,19 +97,39 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
         LPChannelItem *channelItem = [currentCell channelItem];
         NSDate *currentDate = [NSDate date];
         NSDate *lastAccessDate = channelItem.lastAccessDate;
-        LPPagingViewPage *page = (LPPagingViewPage *)[self.pagingView currentPage];
+    
         if (lastAccessDate == nil) {
             channelItem.lastAccessDate = currentDate;
         }
-        [self channelItemDidAddToCoreData:indexPath.item];
-        if (lastAccessDate != nil) {
-            int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
-            // 每5分钟做一次刷新操作
-            if (interval > 5) {
-                [page autotomaticLoadNewData];
-                channelItem.lastAccessDate = currentDate;
+    
+        if ([channelItem.channelID isEqualToString:focusChannelID]) {
+            LPPagingViewConcernPage *page = (LPPagingViewConcernPage *)[self.pagingView currentPage];
+            [self channelItemDidAddToCoreData:indexPath.item];
+            if (lastAccessDate != nil) {
+                int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
+                // 每5分钟做一次刷新操作
+                if (interval > 5) {
+                    [page autotomaticLoadNewData];
+                    channelItem.lastAccessDate = currentDate;
+                }
+            }
+        } else {
+             LPPagingViewPage *page = (LPPagingViewPage *)[self.pagingView currentPage];
+            [self channelItemDidAddToCoreData:indexPath.item];
+            if (lastAccessDate != nil) {
+                int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
+                // 每5分钟做一次刷新操作
+                if (interval > 5) {
+                    [page autotomaticLoadNewData];
+                    channelItem.lastAccessDate = currentDate;
+                }
             }
         }
+    
+    
+    
+   
+   
 }
 
 #pragma mark - UICollectionView Style

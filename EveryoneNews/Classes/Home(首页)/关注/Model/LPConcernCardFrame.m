@@ -23,7 +23,7 @@ const static CGFloat paddingTop = 15;
     NSMutableAttributedString *htmlTitle = [Card titleHtmlString:card.title];
     
     NSDate *currentDate = [NSDate date];
-    NSDate *updateTime = [card.updateTime dateFromString:card.updateTime];
+    NSDate *updateTime = [NSDate dateWithTimeIntervalSince1970:card.updateTime.longLongValue / 1000.0];
     NSString *publishTime = nil;
     int interval = (int)[currentDate timeIntervalSinceDate: updateTime] / 60;
     if (interval > 0 && interval < 60) {
@@ -90,7 +90,7 @@ const static CGFloat paddingTop = 15;
         // 关键字
         CGFloat publishTimeX = paddingLeft;
         CGFloat publishTimeW = [publishTime sizeWithFont:[UIFont systemFontOfSize:publishTimeFontSize] maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)].width + publishTimePaddingHorizontal;
-        CGFloat publishTimeH = [publishTime sizeWithFont:[UIFont systemFontOfSize:publishTimeFontSize] maxSize:CGSizeMake(publishTimeW, MAXFLOAT)].height + publishTimePadddingVertical;
+        CGFloat publishTimeH = [publishTime sizeWithFont:[UIFont systemFontOfSize:publishTimeFontSize] maxSize:CGSizeMake(publishTimeW, MAXFLOAT)].height;
         
         CGFloat publishTimePaddingTop = 15;
         CGFloat titleY = 0.0f;
@@ -113,6 +113,13 @@ const static CGFloat paddingTop = 15;
         _singleImageTitleLabelFrame = CGRectMake(titleX, titleY, titleW, titleH);
         
         CGFloat publishTimeY = CGRectGetMaxY(_singleImageTitleLabelFrame) + publishTimePaddingTop;
+        
+        if ((titleH + publishTimeH + publishTimePaddingTop) < imageH) {
+           publishTimeY = CGRectGetMaxY(_singleImageImageViewFrame) + paddingTop;
+        } else {
+            
+        }
+    
         _singleImagePublishTimeLabelFrame = CGRectMake(publishTimeX, publishTimeY, publishTimeW, publishTimeH);
         
          CGFloat commentLabelY = publishTimeY;

@@ -43,7 +43,8 @@ static const CGFloat MenuViewAnimationInterval= (MenuViewAnimationTime / 6);
 
 -(void)viewWillAppear:(BOOL)animated
 {
-    self.view.userInteractionEnabled=NO;
+    [super viewWillAppear:animated];
+    self.view.userInteractionEnabled = NO;
 }
 
 - (void)viewWillDisappear:(BOOL)animated

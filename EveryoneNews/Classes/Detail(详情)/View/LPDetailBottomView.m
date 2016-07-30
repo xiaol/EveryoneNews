@@ -240,13 +240,6 @@
 
     
      _badgeNumber = badgeNumber;
-    CGFloat bottomViewHeight = 40.0f;
-    if (iPhone6Plus) {
-        bottomViewHeight = 48.5f;
-        
-    } else if (iPhone5) {
-        bottomViewHeight = 40.0f;
-    }
     if (_badgeNumber == 0) {
         self.noCommentsBtn.hidden = NO;
         self.commentsBtn.hidden = YES;

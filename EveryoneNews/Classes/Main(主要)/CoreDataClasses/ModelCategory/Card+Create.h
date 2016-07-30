@@ -42,4 +42,5 @@ typedef void (^cardIsCollectedBlock)(BOOL isCollected, BOOL isExists);
 
 + (NSMutableAttributedString *)titleHtmlString:(NSString *)title isRead:(NSNumber *)isRead;
 
++ (void)cancelConcernCard:(NSString *)sourceName;
 @end

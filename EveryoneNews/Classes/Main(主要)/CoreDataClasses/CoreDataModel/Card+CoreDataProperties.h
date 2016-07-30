@@ -2,7 +2,7 @@
 //  Card+CoreDataProperties.h
 //  EveryoneNews
 //
-//  Created by dongdan on 16/7/12.
+//  Created by dongdan on 16/7/28.
 //  Copyright © 2016年 apple. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -10,7 +10,6 @@
 //
 
 #import "Card.h"
-
 @class CardConcern;
 NS_ASSUME_NONNULL_BEGIN
 
@@ -29,19 +28,25 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSString *title;
 @property (nullable, nonatomic, retain) NSNumber *type;
 @property (nullable, nonatomic, retain) NSString *updateTime;
-@property (nullable, nonatomic, retain) NSSet<CardImage *> *cardImages;
+@property (nullable, nonatomic, retain) CardConcern *cardConcern;
+@property (nullable, nonatomic, retain) NSOrderedSet<CardImage *> *cardImages;
 @property (nullable, nonatomic, retain) NSSet<CardRelate *> *cardRelates;
 @property (nullable, nonatomic, retain) NSSet<Comment *> *comments;
-@property (nullable, nonatomic, retain) CardConcern *cardConcern;
 
 @end
 
 @interface Card (CoreDataGeneratedAccessors)
 
+- (void)insertObject:(CardImage *)value inCardImagesAtIndex:(NSUInteger)idx;
+- (void)removeObjectFromCardImagesAtIndex:(NSUInteger)idx;
+- (void)insertCardImages:(NSArray<CardImage *> *)value atIndexes:(NSIndexSet *)indexes;
+- (void)removeCardImagesAtIndexes:(NSIndexSet *)indexes;
+- (void)replaceObjectInCardImagesAtIndex:(NSUInteger)idx withObject:(CardImage *)value;
+- (void)replaceCardImagesAtIndexes:(NSIndexSet *)indexes withCardImages:(NSArray<CardImage *> *)values;
 - (void)addCardImagesObject:(CardImage *)value;
 - (void)removeCardImagesObject:(CardImage *)value;
-- (void)addCardImages:(NSSet<CardImage *> *)values;
-- (void)removeCardImages:(NSSet<CardImage *> *)values;
+- (void)addCardImages:(NSOrderedSet<CardImage *> *)values;
+- (void)removeCardImages:(NSOrderedSet<CardImage *> *)values;
 
 - (void)addCardRelatesObject:(CardRelate *)value;
 - (void)removeCardRelatesObject:(CardRelate *)value;

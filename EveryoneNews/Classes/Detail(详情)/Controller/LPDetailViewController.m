@@ -63,6 +63,8 @@
 #import "LPSearchCardFrame.h"
 #import "LPSearchCard.h"
 #import "LPConcernDetailViewController.h"
+#import "LPConcernCardFrame.h"
+#import "LPConcernCard.h"
 
 static const NSString * privateContext;
 
@@ -139,10 +141,16 @@ const static CGFloat changeFontSizeViewH = 150;
 @property (nonatomic, strong) NSNumber *channel;
 @property (nonatomic, copy) NSString *sourceSiteName;
 
+// 关注
 @property (nonatomic, strong) UIImageView *forwardImageView;
 @property (nonatomic, strong) UIImageView *focusImageView;
 @property (nonatomic, strong) UILabel *focusLabel;
+@property (nonatomic, strong) UIView *focusBlurBackgroundView;
+// 关注状态
+@property (nonatomic, copy) NSString *conpubFlag;
 
+// 关心本文状态
+@property (nonatomic, copy) NSString *conFlag;
 
 
 
@@ -165,7 +173,23 @@ const static CGFloat changeFontSizeViewH = 150;
     [noteCenter addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [noteCenter addObserver:self  selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
+    // 添加关注
+    [noteCenter addObserver:self selector:@selector(addConcernNotification) name:LPAddConcernSourceNotification object:nil];
+    // 取消关注
+    [noteCenter addObserver:self selector:@selector(cancelConcernNotification) name:LPRemoveConcernSourceNotification object:nil];
+    
+    [noteCenter addObserver:self selector:@selector(applicationTerminateNotification) name:UIApplicationWillTerminateNotification object:nil];
+    
+    
 }
+
+#pragma mark - applicationTerminateNotification 
+- (void)applicationTerminateNotification {
+    [self endTimer];
+    // 提交用户日志
+    [self submitUserOperationLog];
+}
+
 
 #pragma mark - viewWillAppear
 - (void)viewWillAppear:(BOOL)animated {
@@ -371,7 +395,16 @@ const static CGFloat changeFontSizeViewH = 150;
             self.bottomView.badgeNumber = self.commentsCount ;
 
             [self setupHeaderView:title pubTime:pubTime pubName:pubName];
-
+            
+            // 关注本文
+            NSString *conpubFlag = [dict[@"conpubflag"] stringValue];
+            self.conpubFlag = conpubFlag;
+            
+            // 关心本文
+            NSString *conFlag = [dict[@"conflag"] stringValue];
+            self.conFlag = conFlag;
+            
+            
             NSMutableArray *bodyArray = [[NSMutableArray alloc] initWithArray:dict[@"content"]];
             // 第一个图片作为分享图片
             for (NSDictionary *dict in bodyArray) {
@@ -547,8 +580,12 @@ const static CGFloat changeFontSizeViewH = 150;
     // 详情页正文
     NSMutableDictionary *detailContentParams = [NSMutableDictionary dictionary];
     NSString *detailContentURL = [NSString stringWithFormat:@"%@/v2/ns/con", ServerUrlVersion2];
+    NSString *uid = [userDefaults objectForKey:@"uid"];
     detailContentParams[@"nid"] = [self nid];
-    NSLog(@"%@?nid=%@",detailContentURL,  [self nid]);
+    detailContentParams[@"uid"] = uid;
+    
+    
+    NSLog(@"%@?nid=%@&&uid=%@",detailContentURL, [self nid], uid);
     
     // 精选评论
     NSString *excellentDetailCommentsURL = [NSString stringWithFormat:@"%@/v2/ns/coms/h", ServerUrlVersion2];
@@ -604,6 +641,9 @@ const static CGFloat changeFontSizeViewH = 150;
                 [LPHttpTool getWithURL:detailCommentsURL params:detailCommentsParams success:^(id json) {
                     commentsBlock(json);
                     reloadTableViewBlock();
+                    
+//                    NSLog(@"%@", self.conpubFlag);
+                    
                 } failure:^(NSError *error) {
                     showReloadPageBlock();
                     NSLog(@"全文评论：%@", error);
@@ -1091,7 +1131,7 @@ const static CGFloat changeFontSizeViewH = 150;
 #pragma mark - 获取Card内容
 - (Card *)card {
     switch (self.sourceViewController) {
-        case searchSource: case remoteNotificationSource:
+        case searchSource: case remoteNotificationSource: case concernHistorySource:
             return nil;
             break;
             
@@ -1114,9 +1154,11 @@ const static CGFloat changeFontSizeViewH = 150;
     switch (self.sourceViewController) {
             
         case searchSource:
-              return [NSString stringWithFormat:@"%@", self.searchCardFrame.card.nid];
+            return [NSString stringWithFormat:@"%@", self.searchCardFrame.card.nid];
             break;
-            
+        case concernHistorySource:
+            return [NSString stringWithFormat:@"%@", self.concernCardFrame.card.nid];
+            break;
         case remoteNotificationSource:
             return self.remotePushNid;
             break;
@@ -1133,7 +1175,9 @@ const static CGFloat changeFontSizeViewH = 150;
         case searchSource:
             return  self.searchCardFrame.card.docId;
             break;
-            
+        case concernHistorySource:
+            return  self.concernCardFrame.card.docId;
+            break;
         case remoteNotificationSource:
             return nil;
             break;
@@ -1155,7 +1199,9 @@ const static CGFloat changeFontSizeViewH = 150;
          case remoteNotificationSource:
             return self.channel;
             break;
-            
+        case concernHistorySource:
+            return  self.concernCardFrame.card.channelId;
+            break;
         default:
             if (![self card]) return nil;
             return [[self card] valueForKey:@"channelId"];
@@ -1347,6 +1393,8 @@ const static CGFloat changeFontSizeViewH = 150;
 
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
     
+ 
+    
     UIView *commonFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 0.1)];
     if (tableView == self.tableView) {
 
@@ -1358,12 +1406,11 @@ const static CGFloat changeFontSizeViewH = 150;
         }
         
         if (section == 0) {
-            
             UIView *contentBottomView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, contentBottomViewH)];
             
             // 关心本文数量
             CGFloat labelFontSize = 13;
-            CGFloat labelW = [self.concernCount sizeWithFont:[UIFont systemFontOfSize:labelFontSize] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].width;
+            CGFloat labelW = [self.concernCount sizeWithFont:[UIFont systemFontOfSize:labelFontSize] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].width + 2;
             
             CGFloat concernImageViewH = 18;
             CGFloat concernImageViewW = 21;
@@ -1597,6 +1644,23 @@ const static CGFloat changeFontSizeViewH = 150;
             [focusView addSubview:leftFocusView];
 
             self.contentBottomView = contentBottomView;
+            // 显示和隐藏关注
+            if([self.conpubFlag isEqualToString:@"1"]) {
+                self.forwardImageView.hidden = NO;
+                self.focusImageView.hidden = YES;
+                self.focusLabel.hidden = YES;
+            } else {
+                self.forwardImageView.hidden = YES;
+                self.focusImageView.hidden = NO;
+                self.focusLabel.hidden = NO;
+            }
+            
+            // 关心状态
+            if ([self.conFlag isEqualToString:@"1"]) {
+                self.concernImageView.image = [UIImage imageNamed:@"详情页心已关注"];
+            } else {
+                self.concernImageView.image = [UIImage imageNamed:@"详情页心未关注"];
+            }
             
             return contentBottomView;
         }
@@ -1741,50 +1805,6 @@ const static CGFloat changeFontSizeViewH = 150;
     
 }
 
-#pragma mark - 跳转到关注列表
-- (void)focusViewTap {
-    LPConcernDetailViewController *concernDetailViewController = [[LPConcernDetailViewController alloc] init];
-    [self.navigationController pushViewController:concernDetailViewController animated:YES];
-}
-
-
-#pragma mark - 点击关注按钮
-- (void)rightFocusViewTapGesture {
-
-    if (self.forwardImageView.hidden == NO) {
-        [self focusViewTap];
-        
-    } else {
-        __weak typeof(self) weakSelf = self;
-        if (![AccountTool account]) {
-            [AccountTool accountLoginWithViewController:self success:^(Account *account){
-                [weakSelf addConcernSourceSiteName];
-            } failure:^{
-            } cancel:nil];
-        } else {
-            [self addConcernSourceSiteName];
-        }
-    }
-}
-
-#pragma mark - 新增关注
-- (void)addConcernSourceSiteName {
-    NSString *uid = [userDefaults objectForKey:@"uid"];
-    // 必须进行编码操作
-    NSString *pname = [self.sourceSiteName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSString *url = [NSString stringWithFormat:@"%@/v2/ns/pbs/cocs?pname=%@&&uid=%@", ServerUrlVersion2, pname, uid];
-    NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
-    [LPHttpTool postAuthorizationJSONWithURL:url authorization:authorization params:nil success:^(id json) {
-        self.forwardImageView.hidden = NO;
-        self.focusImageView.hidden = YES;
-        self.focusLabel.hidden = YES;
-    } failure:^(NSError *error) {
-         NSLog(@"%@", error);
-    }];
-    
-}
-
-
 #pragma mark - 关心本文
 - (void)tapConcern {
     
@@ -1800,15 +1820,13 @@ const static CGFloat changeFontSizeViewH = 150;
 
 - (void)concernCurrentArticle {
     // 未关心状态
-    if ([self.concernCountLabel.text isEqualToString:self.concernCount]) {
+    if (![self.conFlag isEqualToString:@"1"]) {
 
         NSString *url = [NSString stringWithFormat:@"%@/v2/ns/cocs?nid=%@&&uid=%@", ServerUrlVersion2,[self nid], [userDefaults objectForKey:@"uid"]];
         NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
         
       //NSLog(@"%@", url);
         [LPHttpTool postAuthorizationJSONWithURL:url authorization:authorization params:nil success:^(id json) {
-            NSLog(@"%@", json[@"code"]);
-            
             if ([json[@"code"] integerValue] == 2000) {
                 self.concernImageView.image = [UIImage imageNamed:@"详情页心已关注"];
                 self.concernImageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.1, 1.1);
@@ -1831,9 +1849,10 @@ const static CGFloat changeFontSizeViewH = 150;
                     plusLabel.frame = CGRectMake(plusLabelX, plusLabelY - 40, plusLabelW, plusLabelH);
                     plusLabel.alpha = 0.2;
                 } completion:^(BOOL finished) {
-                    NSInteger concernCount = [self.concernCount integerValue] + 1;
+                    NSInteger concernCount = [json[@"data"] integerValue];
                     self.concernCountLabel.text = [NSString stringWithFormat:@"%d", concernCount];
                     [plusLabel removeFromSuperview];
+                    self.conFlag = @"1";
                 }];
        
             } else if ([json[@"code"] integerValue] == 2003) {
@@ -1853,8 +1872,9 @@ const static CGFloat changeFontSizeViewH = 150;
             // //NSLog(@"%@", json);
             if ([json[@"code"] integerValue] == 2000) {
                 self.concernImageView.image = [UIImage imageNamed:@"详情页心未关注"];
-                NSInteger concernCount = [self.concernCount integerValue];
+                NSInteger concernCount =  [json[@"data"] integerValue];
                 self.concernCountLabel.text = [NSString stringWithFormat:@"%d", concernCount];
+                  self.conFlag = @"0";
                 
             }
         } failure:^(NSError *error) {
@@ -1863,23 +1883,7 @@ const static CGFloat changeFontSizeViewH = 150;
     }
 }
 
-#pragma mark - 关心本文状态 (接口待完善)
-- (void)getConcernStatus {
-    
-    NSString *url = [NSString stringWithFormat:@"%@/v2/ns/au/cocs?uid=%@", ServerUrlVersion2, [userDefaults objectForKey:@"uid"]];
-    NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
-    
-    [LPHttpTool getJsonAuthorizationWithURL:url authorization:authorization params:nil success:^(id json) {
-        //NSLog(@"%@", json);
-        if ([json[@"code"] integerValue] == 2000) {
 
-            
-        }
-    } failure:^(NSError *error) {
-        //NSLog(@"%@", error);
-    }];
-    
-}
 
 #pragma mark - 分享到朋友圈
 - (void)friendsTap {
@@ -1901,10 +1905,8 @@ const static CGFloat changeFontSizeViewH = 150;
 #pragma mark - 详情页标题
 - (void)setupHeaderView:(NSString *)title pubTime:(NSString *)pubtime pubName:(NSString *)pubName {
     
-    CGFloat bottomViewHeight = 40.0f;
     CGFloat padding = 13;
     if (iPhone6Plus) {
-        bottomViewHeight = 48.5f;
         padding = 19;
     } else if (iPhone6) {
         padding = 16;
@@ -2052,9 +2054,6 @@ const static CGFloat changeFontSizeViewH = 150;
         NSURL *videoUrl =[NSURL URLWithString:mutableString];
         NSURLRequest *request =[NSURLRequest requestWithURL:videoUrl];
         [webView loadRequest:request];
-
- 
-
 }
 
 //- (void)contentCell:(LPContentCell *)contentCell videoImageViewDidTapped:(NSString *)url {
@@ -2441,7 +2440,8 @@ const static CGFloat changeFontSizeViewH = 150;
 
 #pragma mark - 收藏和取消收藏
 - (void)collectOrNot {
-    if (self.searchCardFrame) {
+    // 从搜索页面跳转
+    if (self.sourceViewController == searchSource) {
           [Card cardIsCollected:[self nid]  cardIsCollectedBlock:^(BOOL isCollected, BOOL isExists) {
               NSMutableDictionary *cardDict = [NSMutableDictionary dictionary];
               LPSearchCard *searchCard = self.searchCardFrame.card;
@@ -2456,7 +2456,7 @@ const static CGFloat changeFontSizeViewH = 150;
               if (searchCard.cardImages.count > 0) {
                 [cardDict setObject:searchCard.cardImages forKey:@"imgs"];
               }
-            
+
               if (isCollected) {
                   // 取消收藏
                   [Card createCardWithDict:cardDict isCollected:false];
@@ -2464,7 +2464,7 @@ const static CGFloat changeFontSizeViewH = 150;
                      [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页未收藏"] forState:UIControlStateNormal];
                      [self tipViewWithCondition:2];
                  });
-            
+
               } else {
                   // 添加收藏
                  [Card createCardWithDict:cardDict isCollected:true];
@@ -2475,7 +2475,44 @@ const static CGFloat changeFontSizeViewH = 150;
               }
             [noteCenter postNotificationName:@"UserCollectionedChangeer" object:nil userInfo:nil];
           }];
-    } else {
+    } else if(self.sourceViewController == concernHistorySource) {
+        [Card cardIsCollected:[self nid]  cardIsCollectedBlock:^(BOOL isCollected, BOOL isExists) {
+            NSMutableDictionary *cardDict = [NSMutableDictionary dictionary];
+            LPConcernCard *concernCard = self.concernCardFrame.card;
+            [cardDict setObject:concernCard.nid forKey:@"nid"];
+            [cardDict setObject:concernCard.docId forKey:@"docid"];
+            [cardDict setObject:self.contentTitle forKey:@"title"];
+            [cardDict setObject:concernCard.sourceSiteURL forKey:@"purl"];
+            [cardDict setObject:concernCard.sourceSiteName forKey:@"pname"];
+            [cardDict setObject:concernCard.updateTime forKey:@"ptime"];
+            [cardDict setObject:concernCard.channelId forKey:@"channel"];
+            [cardDict setObject:concernCard.commentsCount forKey:@"comment"];
+            if (concernCard.cardImages.count > 0) {
+                [cardDict setObject:concernCard.cardImages forKey:@"imgs"];
+            }
+            
+            if (isCollected) {
+                // 取消收藏
+                [Card createCardWithDict:cardDict isCollected:false];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页未收藏"] forState:UIControlStateNormal];
+                    [self tipViewWithCondition:2];
+                });
+                
+            } else {
+                // 添加收藏
+                [Card createCardWithDict:cardDict isCollected:true];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self tipViewWithCondition:1];
+                    [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页已收藏"] forState:UIControlStateNormal];
+                });
+            }
+            [noteCenter postNotificationName:@"UserCollectionedChangeer" object:nil userInfo:nil];
+        }];
+
+    }
+    else {
+        
         if ([self.card.isCollected isEqual:@(1)]) {
             [self tipViewWithCondition:2];
         } else {
@@ -2632,9 +2669,9 @@ const static CGFloat changeFontSizeViewH = 150;
     }
     
     [self setupHeaderView:self.contentTitle pubTime:self.pubTime pubName:self.pubName];
-     [self.tableView reloadData];
+    [self.tableView reloadData];
   
-     [noteCenter postNotificationName:LPFontSizeChangedNotification object:nil];
+    [noteCenter postNotificationName:LPFontSizeChangedNotification object:nil];
 }
 
 - (void)finishButtonDidClick:(LPDetailChangeFontSizeView *)changeFontSizeView {
@@ -2735,8 +2772,178 @@ const static CGFloat changeFontSizeViewH = 150;
     frame.origin.x = 0;
     frame.origin.y = 0;
     [self.scrollView scrollRectToVisible:frame animated:YES];
-    
-    
 }
 
+
+#pragma mark - 跳转到关注列表
+- (void)focusViewTap {
+    LPConcernDetailViewController *concernDetailViewController = [[LPConcernDetailViewController alloc] init];
+    concernDetailViewController.sourceName = self.sourceSiteName;
+    concernDetailViewController.conpubFlag = self.conpubFlag;
+    [self.navigationController pushViewController:concernDetailViewController animated:YES];
+}
+
+#pragma mark - 点击关注
+- (void)rightFocusViewTapGesture {
+    
+    if (self.forwardImageView.hidden == NO) {
+        [self focusViewTap];
+        
+    } else {
+        __weak typeof(self) weakSelf = self;
+        if (![AccountTool account]) {
+            [AccountTool accountLoginWithViewController:self success:^(Account *account){
+                [weakSelf addConcernSourceSiteName];
+            } failure:^{
+            } cancel:nil];
+        } else {
+            [self addConcernSourceSiteName];
+        }
+    }
+}
+
+- (void)addConcernSourceSiteName {
+    __weak typeof(self) weakSelf = self;
+    NSString *uid = [userDefaults objectForKey:@"uid"];
+    
+    // 必须进行编码操作
+    NSString *pname = [self.sourceSiteName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *url = [NSString stringWithFormat:@"%@/v2/ns/pbs/cocs?pname=%@&&uid=%@", ServerUrlVersion2, pname, uid];
+    NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
+    
+    [LPHttpTool postAuthorizationJSONWithURL:url authorization:authorization params:nil success:^(id json) {
+        
+        if ([json[@"code"] integerValue] == 2000 ) {
+            weakSelf.forwardImageView.hidden = NO;
+            weakSelf.focusImageView.hidden = YES;
+            weakSelf.focusLabel.hidden = YES;
+            [weakSelf addFocusTips];
+            self.conpubFlag = @"1";
+            [noteCenter postNotificationName:LPReloadAddConcernPageNotification object:nil];
+        }
+    } failure:^(NSError *error) {
+        NSLog(@"%@", error);
+    }];
+}
+#pragma mark - 添加关注提示信息
+- (void)addFocusTips {
+    UIView *focusBlurBackgroundView = [[UIView alloc] initWithFrame:self.view.bounds];
+    [focusBlurBackgroundView setBackgroundColor: [[UIColor blackColor] colorWithAlphaComponent:0.8]];
+    [self.view addSubview:focusBlurBackgroundView];
+    
+    CGFloat tipsViewW = 252;
+    CGFloat tipsViewH = 153;
+    CGFloat tipsViewX = (ScreenWidth - tipsViewW) / 2;
+    CGFloat tipsViewY = (ScreenHeight - tipsViewH) / 2;
+    
+    UIView *tipsView = [[UIView alloc] init];
+    tipsView.frame = CGRectMake(tipsViewX, tipsViewY, tipsViewW, tipsViewH);
+    tipsView.backgroundColor = [UIColor colorFromHexString:LPColor9];
+    tipsView.clipsToBounds = YES;
+    tipsView.layer.cornerRadius = 6;
+    
+    
+    CGFloat focusSuccessImageViewW = 19;
+    CGFloat focusSuccessImageViewH = 19;
+    CGFloat focusSuccessImageViewY = 25;
+    
+    NSString *focusSuccessStr = @"关注成功";
+    CGFloat focusSuccessLabelW = [focusSuccessStr sizeWithFont:[UIFont systemFontOfSize:LPFont3] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].width;
+    CGFloat focusSuccessLabelH = [focusSuccessStr sizeWithFont:[UIFont systemFontOfSize:LPFont3] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].height;
+    CGFloat focusSuccessImageViewX = (tipsViewW - 6 - focusSuccessImageViewW - focusSuccessLabelW) / 2;
+    UIImageView *focusSuccessImageView = [[UIImageView alloc] initWithFrame:CGRectMake(focusSuccessImageViewX, focusSuccessImageViewY, focusSuccessImageViewW, focusSuccessImageViewH)];
+    focusSuccessImageView.image = [UIImage imageNamed:@"详情页关注成功"];
+    [tipsView addSubview:focusSuccessImageView];
+    
+    CGFloat focusSuccessLabelX = CGRectGetMaxX(focusSuccessImageView.frame) + 6;
+    CGFloat focusSuccessLabelY = 26;
+    
+    UILabel *focusSuccessLabel = [[UILabel alloc] initWithFrame:CGRectMake(focusSuccessLabelX, focusSuccessLabelY, focusSuccessLabelW, focusSuccessLabelH)];
+    focusSuccessLabel.text = focusSuccessStr;
+    [focusSuccessLabel setFont:[UIFont systemFontOfSize:LPFont3]];
+    focusSuccessLabel.textColor = [UIColor colorFromHexString:LPColor3];
+    
+
+    [tipsView addSubview:focusSuccessLabel];
+    
+    NSString *firstRowStr  = @"你可以在  [关注]  频道";
+    NSString *secondRowStr = @"查看它更新的相关内容";
+    
+    CGFloat firstRowLabelW = tipsViewW;
+    CGFloat firstRowLabelH = [firstRowStr sizeWithFont:[UIFont systemFontOfSize:LPFont5] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].height;
+    CGFloat firstRowLabelX = 0;
+    CGFloat firstRowLabelY = CGRectGetMaxY(focusSuccessImageView.frame) + 12;
+    
+    UILabel *firstRowLabel = [[UILabel alloc] initWithFrame:CGRectMake(firstRowLabelX, firstRowLabelY, firstRowLabelW, firstRowLabelH)];
+    firstRowLabel.text = firstRowStr;
+    [firstRowLabel setFont:[UIFont systemFontOfSize:LPFont5]];
+    firstRowLabel.textColor = [UIColor colorFromHexString:LPColor7];
+    firstRowLabel.textAlignment = NSTextAlignmentCenter;
+    [tipsView addSubview:firstRowLabel];
+    
+    CGFloat secondRowLabelW = tipsViewW;
+    CGFloat secondRowLabelH = [secondRowStr sizeWithFont:[UIFont systemFontOfSize:LPFont5] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].height;
+    CGFloat secondRowLabelX = 0;
+    CGFloat secondRowLabelY = CGRectGetMaxY(firstRowLabel.frame) + 5;
+    
+    UILabel *secondRowLabel = [[UILabel alloc] initWithFrame:CGRectMake(secondRowLabelX, secondRowLabelY, secondRowLabelW, secondRowLabelH)];
+    secondRowLabel.text = secondRowStr;
+    [secondRowLabel setFont:[UIFont systemFontOfSize:LPFont5]];
+    secondRowLabel.textColor = [UIColor colorFromHexString:LPColor7];
+    secondRowLabel.textAlignment = NSTextAlignmentCenter;
+    [tipsView addSubview:firstRowLabel];
+    [tipsView addSubview:secondRowLabel];
+    
+    UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(secondRowLabel.frame) + 25, tipsViewW, 0.5)];
+    seperatorView.backgroundColor = [UIColor colorFromHexString:LPColor10];
+    [tipsView addSubview:seperatorView];
+    
+    CGFloat tipsConfirmButtonY = CGRectGetMaxY(seperatorView.frame);
+    CGFloat tipsConfirmButtonH = tipsViewH - tipsConfirmButtonY;
+    CGFloat tipsConfirmButtonX = 0;
+    CGFloat tipsConfirmButtonW = tipsViewW;
+    UIButton *tipsConfirmButton = [[UIButton alloc] initWithFrame:CGRectMake(tipsConfirmButtonX, tipsConfirmButtonY, tipsConfirmButtonW, tipsConfirmButtonH)];
+    [tipsConfirmButton setTitle:@"知道了" forState:UIControlStateNormal];
+    [tipsConfirmButton setTitleColor:[UIColor colorFromHexString:LPColor3] forState:UIControlStateNormal];
+    [tipsConfirmButton.titleLabel setFont:[UIFont systemFontOfSize:LPFont10]];
+    [tipsConfirmButton addTarget:self action:@selector(removeFocusTips) forControlEvents:UIControlEventTouchUpInside];
+    [tipsView addSubview:tipsConfirmButton];
+    
+    [focusBlurBackgroundView addSubview:tipsView];
+    self.focusBlurBackgroundView = focusBlurBackgroundView;
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [UIView animateWithDuration:0.3f animations:^{
+            self.focusBlurBackgroundView.alpha = 0.4;
+        } completion:^(BOOL finished) {
+            [self.focusBlurBackgroundView removeFromSuperview];
+        }];
+    });
+}
+
+#pragma mark - 移除关注提示信息
+- (void)removeFocusTips {
+    [UIView animateWithDuration:0.3f animations:^{
+        self.focusBlurBackgroundView.alpha = 0.4;
+    } completion:^(BOOL finished) {
+        [self.focusBlurBackgroundView removeFromSuperview];
+    }];
+}
+
+#pragma mark - 添加关注
+- (void)addConcernNotification {
+    self.forwardImageView.hidden = NO;
+    self.focusImageView.hidden = YES;
+    self.focusLabel.hidden = YES;
+    self.conpubFlag = @"1";
+}
+
+#pragma mark - 取消关注
+- (void)cancelConcernNotification {
+    self.forwardImageView.hidden = YES;
+    self.focusImageView.hidden = NO;
+    self.focusLabel.hidden = NO;
+    self.conpubFlag = @"0";
+    
+}
 @end

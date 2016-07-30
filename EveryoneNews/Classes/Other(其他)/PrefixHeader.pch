@@ -202,7 +202,26 @@ typedef NS_ENUM(NSInteger, sourceViewController) {
     // 推送页面
     remoteNotificationSource = 200,
     // 关注页面
-    concernSource = 300
+    concernSource = 300,
+    // 关注历史文章页面
+    concernHistorySource = 400
+};
+
+typedef NS_ENUM(NSInteger, imageStyle) {
+    // 无图模式
+    imageStyleZero = 0,
+    // 单图
+    imageStyleOne = 1,
+    // 两张图片
+    imageStyleTwo = 2,
+    // 三图
+    imageStyleThree = 3,
+    // 单图大图（取第一张）
+    imageStyleEleven = 11,
+    // 单图大图 (取第二张)
+    imageStyleTwelve = 12,
+    // 单图大图 (取第三张)
+    imageStyleThirteen = 13
 };
 
 
@@ -217,6 +236,15 @@ typedef NS_ENUM(NSInteger, sourceViewController) {
 #define LPFontSizeChangedNotification @"fontSizeChanged"
 #define LPDeleteCoreDataNotification @"LPDeleteCoreDataNotification"
 #define LPChannelItemChangedNotification @"LPChannelItemChangedNotification"
+#define LPAddConcernSourceNotification @"LPAddConcernSourceNotification"
+#define LPRemoveConcernSourceNotification @"LPRemoveConcernSourceNotification"
+#define LPIsVersionFirstLoad @"LPIsVersion_3_2_FirstLoad"
+
+#define LPReloadAddConcernPageNotification @"LPReloadAddConcernPageNotification"
+#define LPReloadCancelConcernPageNotification @"LPReloadCancelConcernPageNotification"
+
+
+
 
 #define LPCommentWillComposeNotification @"willCompose"
 #define LPComposeParaIndex @"paraIndex"
@@ -273,6 +301,9 @@ typedef NS_ENUM(NSInteger, sourceViewController) {
 #define LPFont9 23
 #define LPFont10 15
 #define LPFont11 13
+
+// 关注编号
+#define focusChannelID @"99999"
 
 #define HomeTopViewHeight 71
 #define ScreenWidth [UIScreen mainScreen].bounds.size.width

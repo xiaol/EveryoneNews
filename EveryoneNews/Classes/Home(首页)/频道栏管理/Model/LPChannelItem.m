@@ -28,4 +28,14 @@
     [aCoder encodeObject:self.lastAccessDate forKey:@"lastAccessDate"];
 }
 
+// 初始化频道
+- (instancetype)initWithChannelID:(NSString *)channelID channelName:(NSString *)channelName channelIsSelected:(NSString *)channelIsSelected {
+    if (self = [super init]) {
+        _channelID = channelID;
+        _channelName = channelName;
+        _channelIsSelected = channelIsSelected;
+    }
+    return self;
+}
+
 @end

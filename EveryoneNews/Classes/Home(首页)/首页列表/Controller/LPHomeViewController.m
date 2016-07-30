@@ -17,6 +17,8 @@
 #import "LPChannelItemTool.h"
 #import "Card+Fetch.h"
 #import "CardFrame.h"
+#import "LPCardConcernFrame.h"
+#import "CardTool.h"
 
 @interface LPHomeViewController ()
 
@@ -96,6 +98,70 @@
 
     [noteCenter addObserver:self selector:@selector(reloadCurrentPageIndexData) name:LPDeleteCoreDataNotification object:nil];
     
+    // 取消关注重新请求本地数据
+    [noteCenter addObserver:self selector:@selector(cancelConcernAndReloadPage) name:LPReloadCancelConcernPageNotification object:nil];
+    // 添加关注重新请求接口
+    [noteCenter addObserver:self selector:@selector(addConcernAndReloadPage) name:LPReloadAddConcernPageNotification object:nil];
+    
+}
+
+#pragma mark - 重新加载关注页面
+- (void)cancelConcernAndReloadPage {
+    for (int i = 0; i < self.selectedArray.count; i++) {
+        LPChannelItem *channelItem = self.selectedArray[i];
+        if ([channelItem.channelID isEqualToString:focusChannelID]) {
+            // 加载当前频道数据
+            NSMutableArray *cfs = [NSMutableArray array];
+            CardParam *param = [[CardParam alloc] init];
+            param.type = HomeCardsFetchTypeMore;
+            param.count = @(20);
+            param.startTime = [NSString stringWithFormat:@"%lld", (long long)([[NSDate date] timeIntervalSince1970] * 1000)];
+            param.channelID = channelItem.channelID;
+            
+            [Card fetchCardsWithCardParam:param cardsArrayBlock:^(NSArray *cardsArray) {
+                NSArray *cards = cardsArray;
+                for (Card *card in cards) {
+                    LPCardConcernFrame *cf = [[LPCardConcernFrame alloc] init];
+                    cf.card = card;
+                    [cfs addObject:cf];
+                }
+                [self.channelItemDictionary setObject:cfs forKey:channelItem.channelName];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.pagingView reloadPageAtPageIndex:i];
+                });
+                
+            }];
+            break;
+        }
+    }
+}
+
+- (void)addConcernAndReloadPage {
+    for (int i = 0; i < self.selectedArray.count; i++) {
+        LPChannelItem *channelItem = self.selectedArray[i];
+        if ([channelItem.channelID isEqualToString:focusChannelID]) {
+            // 加载当前频道数据
+            CardParam *param = [[CardParam alloc] init];
+            param.type = HomeCardsFetchTypeMore;
+            param.count = @(20);
+            param.startTime = [NSString stringWithFormat:@"%lld", (long long)([[NSDate date] timeIntervalSince1970] * 1000)];
+            param.channelID = focusChannelID;
+            NSMutableArray *cfs = [NSMutableArray array];
+            [CardTool cardsConcernWithParam:param channelID:channelItem.channelID success:^(NSArray *cards) {
+                    for (Card *card in cards) {
+                        LPCardConcernFrame *cf = [[LPCardConcernFrame alloc] init];
+                        cf.card = card;
+                        [cfs addObject:cf];
+                    }
+                    [self.channelItemDictionary setObject:cfs forKey:channelItem.channelName];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.pagingView reloadPageAtPageIndex:i];
+                    });
+                } failure:^(NSError *error) {
+            }];
+            break;
+        }
+    }
 }
 
 #pragma mark - setupInitialData
@@ -151,23 +217,42 @@
     
     // 遍历所有页面
     for (int i = 0; i < self.selectedArray.count; i++) {
-        LPPagingViewPage *page = (LPPagingViewPage *)[self.pagingView pageAtPageIndex:i];
-        if (page != nil) {
-            NSArray *cardFrames = page.cardFrames;
-            NSMutableArray *newCardFrames = [NSMutableArray array];
-            for (CardFrame *cardFrame in cardFrames) {
-                CardFrame *cf = [[CardFrame alloc] init];
-                cf.card = cardFrame.card;
-                [newCardFrames addObject:cf];
+        
+        LPChannelItem *channelItem = (LPChannelItem *)self.selectedArray[i];
+        if ([channelItem.channelID isEqualToString:focusChannelID]) {
+            LPPagingViewConcernPage *page = (LPPagingViewConcernPage *)[self.pagingView pageAtPageIndex:i];
+            if (page != nil) {
+                NSArray *cardFrames = page.cardFrames;
+                NSMutableArray *newCardFrames = [NSMutableArray array];
+                for (LPCardConcernFrame *cardFrame in cardFrames) {
+                    LPCardConcernFrame *cf = [[LPCardConcernFrame alloc] init];
+                    cf.card = cardFrame.card;
+                    [newCardFrames addObject:cf];
+                }
+                NSString *channelName = page.pageChannelName;
+                [self.channelItemDictionary setObject:newCardFrames forKey:channelName];
+                [self.pagingView reloadPageAtPageIndex:i];
             }
-            NSString *channelName = page.pageChannelName;
-            [self.channelItemDictionary setObject:newCardFrames forKey:channelName];
-            [self.pagingView reloadPageAtPageIndex:i];
+        } else {
+            LPPagingViewPage *page = (LPPagingViewPage *)[self.pagingView pageAtPageIndex:i];
+            if (page != nil) {
+                NSArray *cardFrames = page.cardFrames;
+                NSMutableArray *newCardFrames = [NSMutableArray array];
+                for (CardFrame *cardFrame in cardFrames) {
+                    CardFrame *cf = [[CardFrame alloc] init];
+                    cf.card = cardFrame.card;
+                    [newCardFrames addObject:cf];
+                }
+                NSString *channelName = page.pageChannelName;
+                [self.channelItemDictionary setObject:newCardFrames forKey:channelName];
+                [self.pagingView reloadPageAtPageIndex:i];
+            }
         }
     }
-    
-    LPPagingViewPage *page = (LPPagingViewPage *)[self.pagingView currentPage];
-    [page scrollToCurrentRow:[LPHomeRowManager sharedManager].currentRowIndex];
+    if (![self.selectedChannelTitle isEqualToString:@"关注"]) {
+        LPPagingViewPage *page = (LPPagingViewPage *)[self.pagingView currentPage];
+        [page scrollToCurrentRow:[LPHomeRowManager sharedManager].currentRowIndex];
+    }
 }
 
 #pragma mark - viewWillDisappear

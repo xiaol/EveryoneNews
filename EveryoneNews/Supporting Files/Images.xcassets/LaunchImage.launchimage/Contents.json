@@ -29,7 +29,6 @@
     {
       "orientation" : "portrait",
       "idiom" : "iphone",
-      "filename" : "iPhone4@2x640_960.png",
       "extent" : "full-screen",
       "minimum-system-version" : "7.0",
       "scale" : "2x"
@@ -80,6 +79,7 @@
     {
       "orientation" : "portrait",
       "idiom" : "iphone",
+      "filename" : "iPhone4@2x640_960.png",
       "extent" : "full-screen",
       "scale" : "2x"
     },

@@ -10,7 +10,6 @@
 #import "LPConcernCardTableViewCell.h"
 #import "LPConcernIndroduceTableViewCell.h"
 #import "LPConcernCardFrame.h"
-#import "LPConcernIntroduceFrame.h"
 #import "LPConcernIntroduce.h"
 #import "LPConcernCard.h"
 #import "LPBottomShareView.h"
@@ -18,6 +17,15 @@
 #import "LPFontSizeManager.h"
 #import "MBProgressHUD+MJ.h"
 #import "UMSocial.h"
+#import "LPHttpTool.h"
+#import "LPDiggerFooter.h"
+#import "MJExtension.h"
+#import "MJRefresh.h"
+#import "MBProgressHUD+MJ.h"
+#import "LPDetailTipView.h"
+#import "Card+Create.h"
+#import "LPDetailViewController.h"
+#import "CoreDataHelper.h"
 
 static NSString *introduceCellIdentifier = @"introduceCellIdentifier";
 static NSString *contentCellIdentifier = @"contentCellIdentifier";
@@ -27,7 +35,6 @@ const static CGFloat changeFontSizeViewH = 150;
 
 @property (nonatomic, strong) UIView *topView;
 @property (nonatomic, strong) NSMutableArray *concernCardFrames;
-@property (nonatomic, strong) NSMutableArray *concernIntroduceCardFrames;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIImageView *headerImageView;
 @property (nonatomic, strong) UILabel *headerLabel;
@@ -41,6 +48,12 @@ const static CGFloat changeFontSizeViewH = 150;
 @property (nonatomic, copy) NSString *shareURL;
 @property (nonatomic, copy) NSString *shareTitle;
 @property (nonatomic, copy) NSString *shareImageURL;
+@property (nonatomic, strong) UIButton *concernButton;
+
+// 正在加载提示
+@property (nonatomic, strong) UIImageView *animationImageView;
+@property (nonatomic, strong) UIView *contentLoadingView;
+
 
 @end
 
@@ -55,13 +68,6 @@ const static CGFloat changeFontSizeViewH = 150;
     return _concernCardFrames;
 }
 
-- (NSMutableArray *)concernIntroduceCardFrames {
-    if (!_concernIntroduceCardFrames) {
-        _concernIntroduceCardFrames = [NSMutableArray array];
-    }
-    return _concernIntroduceCardFrames;
-}
-
 #pragma mark - ViewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -69,32 +75,48 @@ const static CGFloat changeFontSizeViewH = 150;
     [self setupData];
     [self setupTopView];
     [self setupTableView];
+    [self setupLoadingView];
    
   
 }
 
 #pragma mark - setup Data 
 - (void)setupData {
-    LPConcernIntroduce *concernIntroduce = [[LPConcernIntroduce alloc] init];
-    concernIntroduce.introduce = @"关注农村注册啊实打实的";
-    
-    LPConcernIntroduceFrame *introduceFrame = [[LPConcernIntroduceFrame alloc] init];
-    introduceFrame.concernIntroduce = concernIntroduce;
-    [self.concernIntroduceCardFrames addObject:introduceFrame];
-    
-    for(int i = 0 ;i < 20; i++) {
-        LPConcernCard *card = [[LPConcernCard alloc] init];
-        card.title = @"欧洲杯-神锋4分钟2球+造红牌 法国2-1逆转进8强";
-        card.commentsCount = @(2);
-        card.updateTime = @"2016-06-26 23:53:26";
-        card.cardImages = @[@"http://bdp-pic.deeporiginalx.com/4ad701a70a4ac8952e2eb85d1bcbd4e5_570X355.jpg"];
-        
-        LPConcernCardFrame *cardFrame = [[LPConcernCardFrame alloc] init];
-        cardFrame.card = card;
-        [self.concernCardFrames addObject:cardFrame];
-    }
-    
-
+    NSString *url = [NSString stringWithFormat:@"%@/v2/ns/pbs", ServerUrlVersion2];
+    NSMutableDictionary *concernParams = [NSMutableDictionary dictionary];
+    concernParams[@"pname"] = self.sourceName;
+    concernParams[@"info"] = @"0";
+    NSString *startTime = [NSString stringWithFormat:@"%lld", (long long)([[NSDate date] timeIntervalSince1970] * 1000)];
+    concernParams[@"tcr"] = startTime;
+    [LPHttpTool getWithURL:url params:concernParams success:^(id json) {
+        if ([json[@"code"] integerValue] == 2000) {
+            [self.concernCardFrames removeAllObjects];
+            NSMutableDictionary *dict = json[@"data"];
+            NSMutableArray *bodyArray = [[NSMutableArray alloc] initWithArray:dict[@"news"]];
+            for (NSDictionary *dict in bodyArray) {
+                LPConcernCard *card = [[LPConcernCard alloc] init];
+                card.nid = dict[@"nid"];
+                card.title = dict[@"title"];
+                card.sourceSiteName = dict[@"pname"];
+                card.sourceSiteURL = dict[@"purl"];
+                card.updateTime = [NSString stringWithFormat:@"%lld", (long long)([dict[@"ptime"] timestampWithDateFormat:@"YYYY-MM-dd HH:mm:ss"] * 1000)];
+                card.channelId = @(99999);
+                card.docId = dict[@"docid"];
+                card.commentsCount = dict[@"comment"];
+                card.cardImages = dict[@"imgs"];
+                LPConcernCardFrame *cardFrame = [[LPConcernCardFrame alloc] init];
+                cardFrame.card = card;
+                [self.concernCardFrames addObject:cardFrame];
+            }
+            self.tableView.hidden = NO;
+            self.contentLoadingView.hidden = YES;
+            [self.animationImageView  stopAnimating];
+            [self.tableView reloadData];
+        }
+    } failure:^(NSError *error) {
+        NSLog(@"%@", error);
+    }];
+ 
 }
 
 #pragma mark - setupTopView 
@@ -137,25 +159,38 @@ const static CGFloat changeFontSizeViewH = 150;
     shareBtn.enlargedEdge = 15;
     [shareBtn addTarget:self action:@selector(shareButtonClick) forControlEvents:UIControlEventTouchUpInside];
     [topView addSubview:shareBtn];
-    
-    CGFloat concernBtnW = 52;
-    CGFloat concernBtnH = 24;
-    CGFloat concernBtnX =  CGRectGetMinX(shareBtn.frame) - 17 - concernBtnW;
-    CGFloat concernBtnY = 0;
-    
-    UIButton *concernButton = [[UIButton alloc] initWithFrame:CGRectMake(concernBtnX, concernBtnY, concernBtnW, concernBtnH)];
-    concernButton.centerY = backBtn.centerY;
-    concernButton.layer.borderColor = [UIColor colorFromHexString:@"#e71f19"].CGColor;
+
+    UIButton *concernButton = [[UIButton alloc] init];
     concernButton.layer.borderWidth = 1.0f;
     concernButton.clipsToBounds = YES;
-    concernButton.layer.cornerRadius = 12.0f;
-    [concernButton setTitle:@"关注" forState:UIControlStateNormal];
-    [concernButton setTitleColor:[UIColor colorFromHexString:@"#e71f19"] forState:UIControlStateNormal];
+
     concernButton.titleLabel.font = [UIFont systemFontOfSize:LPFont5];
+    concernButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+    NSString *concernStr = @"关注";
+    NSString *concernNotStr = @"取消";
+    CGFloat concernBtnW = [concernStr sizeWithFont:[UIFont systemFontOfSize:LPFont5] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].width + 16;
+    CGFloat concernBtnH = [concernStr sizeWithFont:[UIFont systemFontOfSize:LPFont5] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].height + 4;
+    concernButton.layer.cornerRadius = concernBtnH / 2.0f;
+    [concernButton setTitleColor:[UIColor colorFromHexString:@"#e71f19"] forState:UIControlStateNormal];
+    concernButton.layer.borderColor = [UIColor colorFromHexString:@"#e71f19"].CGColor;
+    if (![self.conpubFlag isEqualToString:@"1"]) {
+        [concernButton setTitle:concernStr forState:UIControlStateNormal];
+    } else {
+        [concernButton setTitle:concernNotStr forState:UIControlStateNormal];
+    }
+   
+    CGFloat concernBtnX =  CGRectGetMinX(shareBtn.frame) - 17 - concernBtnW;
+    CGFloat concernBtnY = 0;
+    concernButton.frame = CGRectMake(concernBtnX, concernBtnY, concernBtnW, concernBtnH);
+    concernButton.centerY = backBtn.centerY;
+    [concernButton addTarget:self action:@selector(concernButtonClick) forControlEvents:UIControlEventTouchUpInside];
+    concernButton.enlargedEdge = 10;
     [topView addSubview:concernButton];
+    self.concernButton = concernButton;
+    
     
     UILabel *titleLabel = [[UILabel alloc] init];
-    NSString *headerStr = @"住宅产业住宅产业";
+    NSString *headerStr = self.sourceName;
     titleLabel.text = headerStr;
     titleLabel.font = [UIFont boldSystemFontOfSize:LPFont4];
     titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -184,37 +219,94 @@ const static CGFloat changeFontSizeViewH = 150;
     [self.navigationController popViewControllerAnimated:YES];
 }
 
+- (void)concernButtonClick {
+    
+    NSString *uid = [userDefaults objectForKey:@"uid"];
+    // 必须进行编码操作
+    NSString *pname = [self.sourceName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *addConcernUrl = [NSString stringWithFormat:@"%@/v2/ns/pbs/cocs?pname=%@&&uid=%@", ServerUrlVersion2, pname, uid];
+    NSString *cancelConcernUrl = [NSString stringWithFormat:@"%@/v2/ns/pbs/cocs?pname=%@&&uid=%@", ServerUrlVersion2, pname, uid];
+    NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
+    
+    NSString *concernStr = @"关注";
+    NSString *concernNotStr = @"取消";
+    // 取消关注 删除本地数据库
+    if ([self.conpubFlag isEqualToString:@"1"]) {
+        [LPHttpTool deleteAuthorizationJSONWithURL:cancelConcernUrl authorization:authorization params:nil success:^(id json) {
+            if ([json[@"code"] integerValue] == 2000 ) {
+                self.conpubFlag = @"0";
+                [self.concernButton setTitle:concernStr forState:UIControlStateNormal];
+                [noteCenter postNotificationName:LPRemoveConcernSourceNotification object:nil];
+                [noteCenter postNotificationName:LPReloadCancelConcernPageNotification object:nil];
+                [Card cancelConcernCard:self.sourceName];
+            }
+        } failure:^(NSError *error) {
+            NSLog(@"%@", error);
+        }];
+    } else {
+        [LPHttpTool postAuthorizationJSONWithURL:addConcernUrl authorization:authorization params:nil success:^(id json) {
+            if ([json[@"code"] integerValue] == 2000 ) {
+                self.conpubFlag = @"1";
+                [self.concernButton setTitle:concernNotStr forState:UIControlStateNormal];
+                // 关注成功
+                [self tipViewWithCondition:10];
+                [noteCenter postNotificationName:LPAddConcernSourceNotification object:nil];
+                [noteCenter postNotificationName:LPReloadAddConcernPageNotification object:nil];
+                
+            }
+        } failure:^(NSError *error) {
+            NSLog(@"%@", error);
+        }];
+    }
+}
+
+#pragma mark - 提示信息
+- (void)tipViewWithCondition:(NSInteger)condition {
+    LPDetailTipView *tipView = [[LPDetailTipView alloc] initWithCondition:condition];
+    [self.view addSubview:tipView];
+    
+    [UIView animateWithDuration:0.4f delay:0.8f options:UIViewAnimationOptionCurveEaseIn
+                     animations:^{
+                         tipView.alpha = 0.2f;
+                     } completion:^(BOOL finished) {
+                         [tipView removeFromSuperview];
+                     }];
+}
+
 #pragma mark - 分享按钮
 - (void)shareButtonClick {
     
-    UIView *detailBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
-    detailBackgroundView.backgroundColor = [UIColor blackColor];
-    detailBackgroundView.alpha = 0.6;
+    NSLog(@"分享");
     
     
-    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removeBackgroundView)];
-    [detailBackgroundView addGestureRecognizer:tapGestureRecognizer];
-    
-    [self.view addSubview:detailBackgroundView];
-    self.detailBackgroundView = detailBackgroundView;
-    
-    // 添加分享
-    LPBottomShareView *bottomShareView = [[LPBottomShareView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
-    bottomShareView.delegate = self;
-    [self.view addSubview:bottomShareView];
-    
-    // 改变字体大小视图
-    LPDetailChangeFontSizeView *changeFontSizeView = [[LPDetailChangeFontSizeView alloc] initWithFrame:CGRectMake(0, ScreenHeight, ScreenWidth, changeFontSizeViewH)];
-    changeFontSizeView.delegate = self;
-    [self.view addSubview:changeFontSizeView];
-    self.changeFontSizeView = changeFontSizeView;
-    
-    CGRect toFrame = CGRectMake(0, ScreenHeight - bottomShareView.size.height, ScreenWidth, bottomShareView.size.height);
-    
-    [UIView animateWithDuration:0.3f animations:^{
-        bottomShareView.frame = toFrame;
-    }];
-    self.bottomShareView = bottomShareView;
+//    UIView *detailBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+//    detailBackgroundView.backgroundColor = [UIColor blackColor];
+//    detailBackgroundView.alpha = 0.6;
+//    
+//    
+//    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removeBackgroundView)];
+//    [detailBackgroundView addGestureRecognizer:tapGestureRecognizer];
+//    
+//    [self.view addSubview:detailBackgroundView];
+//    self.detailBackgroundView = detailBackgroundView;
+//    
+//    // 添加分享
+//    LPBottomShareView *bottomShareView = [[LPBottomShareView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+//    bottomShareView.delegate = self;
+//    [self.view addSubview:bottomShareView];
+//    
+//    // 改变字体大小视图
+//    LPDetailChangeFontSizeView *changeFontSizeView = [[LPDetailChangeFontSizeView alloc] initWithFrame:CGRectMake(0, ScreenHeight, ScreenWidth, changeFontSizeViewH)];
+//    changeFontSizeView.delegate = self;
+//    [self.view addSubview:changeFontSizeView];
+//    self.changeFontSizeView = changeFontSizeView;
+//    
+//    CGRect toFrame = CGRectMake(0, ScreenHeight - bottomShareView.size.height, ScreenWidth, bottomShareView.size.height);
+//    
+//    [UIView animateWithDuration:0.3f animations:^{
+//        bottomShareView.frame = toFrame;
+//    }];
+//    self.bottomShareView = bottomShareView;
 }
 
 #pragma mark LPDetailTopView Delegate
@@ -422,7 +514,7 @@ const static CGFloat changeFontSizeViewH = 150;
     [headerView addSubview:headerImageView];
     self.headerImageView = headerImageView;
     
-    NSString *headerStr = @"住宅产业";
+    NSString *headerStr = self.sourceName;
     
     CGFloat headerLabelW = [headerStr sizeWithFont:[UIFont systemFontOfSize:LPFont1] maxSize:CGSizeMake(ScreenWidth, CGFLOAT_MAX)].width;
     CGFloat headerLabelH = [headerStr sizeWithFont:[UIFont systemFontOfSize:LPFont1] maxSize:CGSizeMake(headerLabelW, CGFLOAT_MAX)].height;
@@ -453,57 +545,98 @@ const static CGFloat changeFontSizeViewH = 150;
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, topViewHeight, ScreenWidth, tableViewH) style:UITableViewStyleGrouped];
     tableView.backgroundColor = [UIColor clearColor];
     [tableView registerClass:[LPConcernCardTableViewCell class] forCellReuseIdentifier:contentCellIdentifier];
-    [tableView registerClass:[LPConcernIndroduceTableViewCell class] forCellReuseIdentifier:introduceCellIdentifier];
+//    [tableView registerClass:[LPConcernIndroduceTableViewCell class] forCellReuseIdentifier:introduceCellIdentifier];
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     tableView.delegate = self;
     tableView.dataSource = self;
+    tableView.hidden = YES;
     tableView.tableHeaderView = headerView;
     [self.view addSubview:tableView];
+    
+    __weak typeof(self) weakSelf = self;
+    // 上拉加载更多
+    tableView.footer = [LPDiggerFooter footerWithRefreshingBlock:^{
+        [weakSelf loadMoreData];
+    }];
     self.tableView = tableView;
 
+}
+
+
+#pragma mark - loadMoreData
+- (void)loadMoreData {
+    LPConcernCardFrame *cardFrame = [self.concernCardFrames lastObject];
+    LPConcernCard *card = cardFrame.card;
+    NSString *url = [NSString stringWithFormat:@"%@/v2/ns/pbs", ServerUrlVersion2];
+    NSMutableDictionary *concernParams = [NSMutableDictionary dictionary];
+    concernParams[@"pname"] = self.sourceName;
+    concernParams[@"info"] = @"0";
+    NSString *startTime = card.updateTime;
+    concernParams[@"tcr"] = startTime;
+    
+    [LPHttpTool getWithURL:url params:concernParams success:^(id json) {
+        if ([json[@"code"] integerValue] == 2000) {
+            NSMutableDictionary *dict = json[@"data"];
+            NSMutableArray *bodyArray = [[NSMutableArray alloc] initWithArray:dict[@"news"]];
+            for (NSDictionary *dict in bodyArray) {
+                LPConcernCard *card = [[LPConcernCard alloc] init];
+                card.nid = dict[@"nid"];
+                card.title = dict[@"title"];
+                card.sourceSiteName = dict[@"pname"];
+                card.updateTime = [NSString stringWithFormat:@"%lld", (long long)([dict[@"ptime"] timestampWithDateFormat:@"YYYY-MM-dd HH:mm:ss"] * 1000)];
+                card.channelId = @(99999);
+                card.docId = dict[@"docid"];
+                card.commentsCount = dict[@"comment"];
+                card.cardImages = dict[@"imgs"];
+                LPConcernCardFrame *cardFrame = [[LPConcernCardFrame alloc] init];
+                cardFrame.card = card;
+                [self.concernCardFrames addObject:cardFrame];
+            }
+            [self.tableView reloadData];
+           [self.tableView.footer endRefreshing];
+            if (bodyArray.count == 0) {
+                [self.tableView.footer noticeNoMoreData];
+            }
+        }
+    } failure:^(NSError *error) {
+        [self.tableView.footer endRefreshing];
+    }];
 }
 
 #pragma mark - UITableView DataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 2;
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-        LPConcernIndroduceTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:introduceCellIdentifier];
-        if (cell == nil) {
-            cell =  [[LPConcernIndroduceTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:introduceCellIdentifier];
-        }
-        cell.cardFrame = self.concernIntroduceCardFrames[indexPath.row];
-        return cell;
-    } else {
-        LPConcernCardTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:contentCellIdentifier];
+    LPConcernCardTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:contentCellIdentifier];
         if (cell == nil) {
             cell =  [[LPConcernCardTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:contentCellIdentifier];
         }
         cell.cardFrame  = self.concernCardFrames[indexPath.row];
         return cell;
-    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) {
-        return self.concernIntroduceCardFrames.count;
-    } else {
-        return self.concernCardFrames.count;
-    }
+    return self.concernCardFrames.count;
+
 }
 
 #pragma mark - UITableView Delegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-        LPConcernIntroduceFrame *frame = self.concernIntroduceCardFrames[indexPath.row];
-        return frame.cellHeight;
-    } else {
-        LPConcernCardFrame *frame = self.concernCardFrames[indexPath.row];
-        return frame.cellHeight;
-    }
+    LPConcernCardFrame *frame = self.concernCardFrames[indexPath.row];
+    return frame.cellHeight;
+}
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    LPConcernCardFrame *cardFrame = self.concernCardFrames[indexPath.row];
+    LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
+    detailVc.sourceViewController = concernHistorySource;
+    detailVc.concernCardFrame = cardFrame;
+    [self.navigationController pushViewController:detailVc animated:YES];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -511,41 +644,34 @@ const static CGFloat changeFontSizeViewH = 150;
     CGFloat height = [self heightForTableViewHeader];
     CGFloat paddingLeft = 17;
     CGFloat paddingTop = 13;
-    if (section == 0) {
-        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, height)];
-        view.backgroundColor = [UIColor clearColor];
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(paddingLeft, paddingTop, ScreenWidth - paddingLeft, height - paddingTop)];
-        label.backgroundColor = [UIColor clearColor];
-        label.font = [UIFont systemFontOfSize:LPFont10];
-        label.textColor = [UIColor colorFromHexString:LPColor4];
-        label.text = @"介绍";
-        [view addSubview:label];
-        return view;
-        
-    } else {
-        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, height)];
-        view.backgroundColor = [UIColor clearColor];
-        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(paddingLeft, paddingTop, ScreenWidth - paddingLeft, height - paddingTop)];
-        label.backgroundColor = [UIColor clearColor];
-        label.font = [UIFont systemFontOfSize:LPFont10];
-        label.textColor = [UIColor colorFromHexString:LPColor4];
-        label.text = @"历史文章";
-        [view addSubview:label];
-        
-    }
-    
+ 
+    view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, height)];
+    view.backgroundColor = [UIColor clearColor];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(paddingLeft, paddingTop, ScreenWidth - paddingLeft, height - paddingTop)];
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont systemFontOfSize:LPFont10];
+    label.textColor = [UIColor colorFromHexString:LPColor4];
+    label.text = @"历史文章";
+    [view addSubview:label];
     return view;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 0.1)];
+    return footerView;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return [self heightForTableViewHeader];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0.1f;
+}
 
 #pragma mark - heightForTableViewHeader
 - (CGFloat)heightForTableViewHeader {
-    
-    NSString *str = @"介绍";
+    NSString *str = @"历史文章";
     CGFloat height = [str sizeWithFont:[UIFont systemFontOfSize:LPFont10] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].height;
     CGFloat padding = 13;
     return height + padding;
@@ -575,6 +701,48 @@ const static CGFloat changeFontSizeViewH = 150;
         }
     }
 }
+
+#pragma mark - 正在加载
+- (void)setupLoadingView {
+    
+    double topViewHeight = TabBarHeight + StatusBarHeight;
+    if (iPhone6) {
+        topViewHeight = 72;
+    }
+    UIView *contentLoadingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - topViewHeight)];
+    // Load images
+    NSArray *imageNames = @[@"xl_1", @"xl_2", @"xl_3", @"xl_4"];
+    
+    NSMutableArray *images = [[NSMutableArray alloc] init];
+    for (int i = 0; i < imageNames.count; i++) {
+        [images addObject:[UIImage imageNamed:[imageNames objectAtIndex:i]]];
+    }
+    
+    CGFloat animationImageViewW = 36;
+    CGFloat animationImageViewH = 36;
+    CGFloat animationImageViewX = (ScreenWidth - animationImageViewW) / 2;
+    CGFloat animationImageViewY = (ScreenHeight - animationImageViewH) / 2 - topViewHeight;
+    // Normal Animation
+    UIImageView *animationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(animationImageViewX, animationImageViewY, animationImageViewW , animationImageViewH)];
+    animationImageView.animationImages = images;
+    animationImageView.animationDuration = 1;
+    [contentLoadingView addSubview:animationImageView];
+    self.animationImageView = animationImageView;
+    
+    UILabel *loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(animationImageView.frame), ScreenWidth, 40)];
+    loadingLabel.textAlignment = NSTextAlignmentCenter;
+    loadingLabel.text = @"正在努力加载...";
+    loadingLabel.font = [UIFont systemFontOfSize:12];
+    loadingLabel.textColor = [UIColor colorFromHexString:LPColor4];
+    
+    [contentLoadingView addSubview:loadingLabel];
+    [self.view addSubview:contentLoadingView];
+    
+    self.contentLoadingView = contentLoadingView;
+    
+    [animationImageView startAnimating];
+}
+
 
 
 @end

@@ -125,7 +125,7 @@ NSString *storeFileName = @"EveryoneNews.sqlite";
     }
     [self loadStore];
     [self importDefaultData];
-    if (![userDefaults objectForKey:@"isVersion3FirstLoad"] || ![userDefaults objectForKey:@"isFinishDeleteCoreData"]) {
+    if (![userDefaults objectForKey:LPIsVersionFirstLoad] || ![userDefaults objectForKey:@"isFinishDeleteCoreData"]) {
         [self deleteCoreData];
     }
  

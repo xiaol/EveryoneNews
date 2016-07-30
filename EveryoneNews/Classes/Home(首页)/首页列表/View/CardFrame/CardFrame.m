@@ -74,7 +74,7 @@
         tipButtonH = 30;
     }
     // 无图
-    if(card.cardImages.count == 0) {
+    if([card.type integerValue] == imageStyleZero) {
         CGFloat titlePaddingTop = 11;
         if (iPhone5) {
              titlePaddingTop = 11;
@@ -135,7 +135,7 @@
     
         _cellHeight = CGRectGetMaxY(_noImageSeperatorLineFrame);
         
-    } else if (card.cardImages.count == 1 || card.cardImages.count == 2) {
+    } else if (([card.type integerValue]  == imageStyleOne) || ([card.type integerValue]  == imageStyleTwo)) {
     
         if (iPhone6Plus) {
              paddingVertical = 13;
@@ -181,7 +181,7 @@
             sourcePaddingTop1 = 16;
         }
         
-        CGFloat titleY = CGRectGetMaxY(_singleTipButtonFrame) + paddingVertical - lineSpacing;
+        CGFloat titleY = 0.0f;
         // 判断图片和标题+来源高度
         if ((titleH - lineSpacing * 2 + sourceSiteNameH + sourcePaddingTop1 )> imageH) {
             titleY =  CGRectGetMaxY(_singleTipButtonFrame) + paddingVertical - lineSpacing;
@@ -218,7 +218,63 @@
         
         _cellHeight =  CGRectGetMaxY(_singleImageSeperatorLineFrame);
         
-    } else if (card.cardImages.count >= 3) {
+    } else if ([card.type integerValue] == imageStyleEleven || [card.type integerValue] == imageStyleTwelve || [card.type integerValue] == imageStyleThirteen) {
+        if (iPhone5) {
+            paddingVertical = 11;
+        }
+        
+ 
+        _singleBigTipButtonFrame = CGRectMake(tipButtonX, tipButtonY, tipButtonW, tipButtonH);
+        
+        CGFloat titleW = ScreenWidth - PaddingHorizontal * 2;
+        CGFloat titleH = [htmlTitle tttAttributeLabel:titleW];
+        _singleBigImageTitleLabelFrame = CGRectMake(PaddingHorizontal,   CGRectGetMaxY(_singleBigTipButtonFrame) + paddingVertical, titleW, titleH);
+        
+        CGFloat imageY =   CGRectGetMaxY(_singleBigTipButtonFrame) + titleH + 8 + paddingVertical;
+        
+        // 定义单张图片的宽度
+        CGFloat imageW = (ScreenWidth - PaddingHorizontal * 2) ;
+        
+        CGFloat imageH = 183 * imageW / 350;
+        
+        _singleBigImageImageViewFrame = CGRectMake(PaddingHorizontal, imageY, ScreenWidth - PaddingHorizontal * 2, imageH);
+        
+        CGFloat sourcePaddingTop = 4;
+        
+        if (iPhone5) {
+            sourcePaddingTop = 4;
+        } else if(iPhone6Plus){
+            sourcePaddingTop = 5;
+        } else if (iPhone6) {
+            sourcePaddingTop = 6;
+        }
+        
+        CGFloat sourceSiteNameY = CGRectGetMaxY(_singleBigImageImageViewFrame) + sourcePaddingTop;
+        CGFloat sourceSiteNameH = [sourceSiteName sizeWithFont:[UIFont systemFontOfSize:sourceFontSize] maxSize:CGSizeMake(titleW, MAXFLOAT)].height;
+        _singleBigImageSourceLabelFrame = CGRectMake(PaddingHorizontal, sourceSiteNameY, titleW, sourceSiteNameH);
+        
+        
+        CGFloat deleteButtonX = ScreenWidth - PaddingHorizontal - deleteButtonW;
+        
+        
+        
+        CGFloat deleteButtonY = sourceSiteNameY ;
+        _singleBigImageDeleteButtonFrame = CGRectMake(deleteButtonX, deleteButtonY, deleteButtonW, deleteButtonH);
+        _singelBigImageCommentLabelFrame = CGRectMake(CGRectGetMinX(_singleBigImageDeleteButtonFrame) - commentLabelW - commentLabelPaddingRight, sourceSiteNameY, commentLabelW, sourceSiteNameH);
+        
+        if (iPhone6) {
+            paddingBottom = 15;
+        }
+        // 分割线
+        CGFloat singleBigImageSeperatorLineY = CGRectGetMaxY(_singleBigImageSourceLabelFrame)+ paddingBottom;
+        
+        
+        _singleBigImageSeperatorLineFrame = CGRectMake(0, singleBigImageSeperatorLineY, ScreenWidth, 0.5);
+        
+        _cellHeight = CGRectGetMaxY(_singleBigImageSeperatorLineFrame);
+    }
+
+    else if ([card.type integerValue] == imageStyleThree) {
         
         if (iPhone5) {
             paddingVertical = 11;

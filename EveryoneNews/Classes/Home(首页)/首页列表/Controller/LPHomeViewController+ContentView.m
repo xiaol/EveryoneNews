@@ -31,9 +31,9 @@
 #import "Card.h"
 #import "Card+Create.h"
 #import "LPHomeRowManager.h"
-
 #import "LPCardConcernFrame.h"
 #import "CardConcern.h"
+#import "AccountTool.h"
 
 NSString *const reusePageID = @"reusePageID";
 NSString *const reuseConcernPageID = @"reuseConcernPageID";
@@ -51,44 +51,41 @@ NSString *const reuseConcernPageID = @"reuseConcernPageID";
         param.count = @(20);
         NSDate *lastAccessDate = channelItem.lastAccessDate;
         if (lastAccessDate == nil) {
-            lastAccessDate = currentDate;
+           lastAccessDate = currentDate;
         }
         param.startTime = [NSString stringWithFormat:@"%lld", (long long)([lastAccessDate timeIntervalSince1970] * 1000)];
         NSString *channelID = [LPChannelItemTool channelID:channelItem.channelName];
         param.channelID = channelID;
-        NSMutableArray *cfs = [NSMutableArray array];
-        NSMutableArray *cfsConcern = [NSMutableArray array];
-        [Card fetchCardsWithCardParam:param cardsArrayBlock:^(NSArray *cardsArray) {
-            NSArray *cards = cardsArray;
-            if (cards.count > 0) {
-                for (Card *card in cards) {
-                    CardFrame *cf = [[CardFrame alloc] init];
-                    cf.card = card;
-                    [cfs addObject:cf];
-                    
-                    if ([channelItem.channelName isEqualToString:@"奇点"]) {
-                        LPCardConcernFrame *concernFrame = [[LPCardConcernFrame alloc] init];
-                        concernFrame.card = card;
-                        [cfsConcern addObject:concernFrame];
-                    }
-                  
-                }
-                
-                if ([channelItem.channelName isEqualToString:@"奇点"]) {
-                    [self.channelItemDictionary setObject:cfsConcern forKey:@"关注"];
-                }
-         
-                
-                
-                [self.channelItemDictionary setObject:cfs forKey:channelItem.channelName];
-            }
-            if (i == self.selectedArray.count - 1) {
-                [self.pagingView reloadData];
-            }
-        }];
-    }
-}
 
+        NSMutableArray *cfs = [NSMutableArray array];
+        [Card fetchCardsWithCardParam:param cardsArrayBlock:^(NSArray *cardsArray) {
+           NSArray *cards = cardsArray;
+           // 如果本地数据存在则加载到内存中
+           if (cards.count > 0) {
+               if (![channelItem.channelID isEqualToString:focusChannelID]) {
+                   for (Card *card in cards) {
+                       CardFrame *cf = [[CardFrame alloc] init];
+                       cf.card = card;
+                       [cfs addObject:cf];
+                   }
+               } else {
+                   // 关注
+                   for (Card *card in cards) {
+                       LPCardConcernFrame *cf = [[LPCardConcernFrame alloc] init];
+                       cf.card = card;
+                       [cfs addObject:cf];
+                   }
+               }
+               [self.channelItemDictionary setObject:cfs forKey:channelItem.channelName];
+           }
+           // 加载完数据后刷新页面
+           if (i == self.selectedArray.count - 1) {
+               [self.pagingView reloadData];
+           }
+        }];
+        }
+   
+}
 
 #pragma mark - 频道栏发生变化更新相应数据
 - (void)handleDataAfterChannelItemChanged:(NSInteger)index {
@@ -124,15 +121,27 @@ NSString *const reuseConcernPageID = @"reuseConcernPageID";
                 [Card fetchCardsWithCardParam:param cardsArrayBlock:^(NSArray *cardsArray) {
                     NSArray *cards = cardsArray;
                     if (cards.count > 0) {
-                        for (Card *card in cards) {
-                            CardFrame *cf = [[CardFrame alloc] init];
-                            cf.card = card;
-                            [cfs addObject:cf];
+                        if (![channelItem.channelID isEqualToString:focusChannelID]) {
+                            for (Card *card in cards) {
+                                CardFrame *cf = [[CardFrame alloc] init];
+                                cf.card = card;
+                                [cfs addObject:cf];
+                            }
+                        } else {
+                            for (Card *card in cards) {
+                                LPCardConcernFrame *cf = [[LPCardConcernFrame alloc] init];
+                                cf.card = card;
+                                [cfs addObject:cf];
+                            }
                         }
+                        
                         [self.channelItemDictionary setObject:cfs forKey:channelItem.channelName];
                     }
                     if (i == self.selectedArray.count - 1) {
                         dispatch_async(dispatch_get_main_queue(), ^{
+                            
+                          
+                            
                             [self.pagingView reloadData];
                             [self.pagingView setCurrentPageIndex:index animated:NO];
                             [self loadMoreDataInPageAtPageIndex:index];
@@ -162,7 +171,7 @@ NSString *const reuseConcernPageID = @"reuseConcernPageID";
 - (UIView *)pagingView:(LPPagingView *)pagingView pageForPageIndex:(NSInteger)pageIndex {
     LPChannelItem *channelItem = self.pageindexMapToChannelItemDictionary[@(pageIndex)];
     
-    if (![channelItem.channelName isEqualToString:@"关注"]) {
+    if (![channelItem.channelID isEqualToString:focusChannelID]) {
         LPPagingViewPage *page = (LPPagingViewPage *)[pagingView dequeueReusablePageWithIdentifier:reusePageID];
         page.delegate = self;
         page.cardFrames = self.channelItemDictionary[channelItem.channelName];
@@ -206,17 +215,17 @@ NSString *const reuseConcernPageID = @"reuseConcernPageID";
     // 改变菜单栏按钮选中取消状态
     [self buttonSelectedStatusChangedWithIndex:(int)pageIndex];
     
-    if (![channelItem.channelName isEqualToString:@"关注"]) {
-        // 设置本次访问时间
-        NSDate *currentDate = [NSDate date];
-        NSDate *lastAccessDate = channelItem.lastAccessDate;
-        
-        if (lastAccessDate == nil) {
-            channelItem.lastAccessDate = currentDate;
-        }
-        // 加载当前频道数据
-        [self channelItemDidAddToCoreData:pageIndex];
-        
+    // 设置本次访问时间
+    NSDate *currentDate = [NSDate date];
+    NSDate *lastAccessDate = channelItem.lastAccessDate;
+    
+    if (lastAccessDate == nil) {
+        channelItem.lastAccessDate = currentDate;
+    }
+    // 加载当前频道数据
+    [self channelItemDidAddToCoreData:pageIndex];
+    
+    if (![channelItem.channelID isEqualToString:focusChannelID]) {
         LPPagingViewPage *page = (LPPagingViewPage *)[pagingView currentPage];
         
         // 每隔5分钟执行自动刷新
@@ -228,8 +237,19 @@ NSString *const reuseConcernPageID = @"reuseConcernPageID";
                 channelItem.lastAccessDate = currentDate;
             }
         }
+    } else {
+        LPPagingViewConcernPage *page = (LPPagingViewConcernPage *)[pagingView currentPage];
+        // 每隔5分钟执行自动刷新
+        if (lastAccessDate != nil) {
+            int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
+            // 每5分钟做一次刷新操作
+            if (interval > 5) {
+                [page autotomaticLoadNewData];
+                channelItem.lastAccessDate = currentDate;
+            }
+        }
+
     }
-    
 }
 
 #pragma mark - 首页显示正在加载提示
@@ -252,29 +272,26 @@ NSString *const reuseConcernPageID = @"reuseConcernPageID";
 #pragma mark - 判断本地是否有数据 没有就请求网络 然后存入数据库
 - (void)channelItemDidAddToCoreData:(NSInteger)pageIndex {
     LPChannelItem *channelItem = self.pageindexMapToChannelItemDictionary[@(pageIndex)];
+    CardParam *param = [[CardParam alloc] init];
+    param.type = HomeCardsFetchTypeMore;
+    param.count = @(20);
+    param.startTime = [NSString stringWithFormat:@"%lld", (long long)([[NSDate date] timeIntervalSince1970] * 1000)];
+    param.channelID = channelItem.channelID;
     
-    if (![channelItem.channelName isEqualToString:@"关注"]) {
-        
-        CardParam *param = [[CardParam alloc] init];
-        param.type = HomeCardsFetchTypeMore;
-        param.count = @(20);
-        param.startTime = [NSString stringWithFormat:@"%lld", (long long)([[NSDate date] timeIntervalSince1970] * 1000)];
-        param.channelID = channelItem.channelID;
-        
-        [Card fetchCardsWithCardParam:param cardsArrayBlock:^(NSArray *cardsArray) {
-            NSArray *cards = cardsArray;
-            // 本地没有数据
-            if (cards.count == 0) {
+    [Card fetchCardsWithCardParam:param cardsArrayBlock:^(NSArray *cardsArray) {
+        NSArray *cards = cardsArray;
+        // 本地没有数据
+        if (cards.count == 0) {
+            if (![channelItem.channelID isEqualToString:focusChannelID]) {
                 [self showLoadingView];
-                [self loadMoreDataInPageAtPageIndex:pageIndex];
-            } else {
+            }
+            [self loadMoreDataInPageAtPageIndex:pageIndex];
+        } else {
+            if (![channelItem.channelID isEqualToString:focusChannelID]) {
                 [self hideLoadingView];
             }
-        }];
-    }
-    
-
-    
+        }
+    }];
 }
 
 #pragma mark reloadPage Delegate
@@ -282,23 +299,17 @@ NSString *const reuseConcernPageID = @"reuseConcernPageID";
     [self channelItemDidAddToCoreData:self.pagingView.currentPageIndex];
 }
 
+
+
+
 #pragma mark - 加载更多
 - (void)loadMoreDataInPageAtPageIndex:(NSInteger)pageIndex {
-    //-----------------------------------------------------------------------
-//        NSString *dateString = @"2016-04-22 10:00:00";
-//        //设置转换格式
-//        NSDateFormatter *formatter = [[NSDateFormatter alloc] init] ;
-//        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-//        //NSString转NSDate
-//        NSDate *date=[formatter dateFromString:dateString];
-//        param.startTime = [NSString stringWithFormat:@"%lld", (long long)([date timeIntervalSince1970] * 1000)];
-    //-----------------------------------------------------------------------
-    
     LPChannelItem *channelItem = self.pageindexMapToChannelItemDictionary[@(pageIndex)];
     CardParam *param = [[CardParam alloc] init];
     param.type = HomeCardsFetchTypeMore;
     param.count = @(20);
-    if (![userDefaults objectForKey:@"isVersion3FirstLoad"]) {
+    
+    if (![userDefaults objectForKey:LPIsVersionFirstLoad]) {
         param.startTime = [NSString stringWithFormat:@"%lld", (long long)([[[NSDate date] dateByAddingTimeInterval:(-12 * 60 * 60)] timeIntervalSince1970] * 1000)];
     } else {
         param.startTime = [NSString stringWithFormat:@"%lld", (long long)([[NSDate date] timeIntervalSince1970] * 1000)];
@@ -306,35 +317,70 @@ NSString *const reuseConcernPageID = @"reuseConcernPageID";
     
     param.channelID = channelItem.channelID;
     NSMutableArray *cfs = [NSMutableArray array];
-    
-    [CardTool cardsWithParam:param channelID:channelItem.channelID success:^(NSArray *cards) {
-        for (Card *card in cards) {
-            CardFrame *cf = [[CardFrame alloc] init];
-            cf.card = card;
-            [cfs addObject:cf];
-        }
-        [self.channelItemDictionary setObject:cfs forKey:channelItem.channelName];
-        [self.pagingView reloadPageAtPageIndex:pageIndex];
-        if (cfs.count > 0) {
-            [self hideLoadingView];
-        }
-
-    } failure:^(NSError *error) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self hideLoadingView];
-            LPPagingViewPage *page = (LPPagingViewPage *)self.pagingView.currentPage;
-            if (page.cardFrames.count == 0) {
-                 page.reloadPage.hidden = NO;
+    // 判断当前是否为关注频道
+    if ([channelItem.channelID isEqual:focusChannelID]) {
+        [CardTool cardsConcernWithParam:param channelID:channelItem.channelID success:^(NSArray *cards) {
+                for (Card *card in cards) {
+                    LPCardConcernFrame *cf = [[LPCardConcernFrame alloc] init];
+                    cf.card = card;
+                    [cfs addObject:cf];
+                }
+            [self.channelItemDictionary setObject:cfs forKey:channelItem.channelName];
+            [self.pagingView reloadPageAtPageIndex:pageIndex];
+            if (cfs.count > 0) {
+                if (![channelItem.channelID isEqualToString:focusChannelID]) {
+                    [self hideLoadingView];
+                }
             }
-
-        });
-    }];
+            
+        } failure:^(NSError *error) {
+        }];
+    } else {
+        [CardTool cardsWithParam:param channelID:channelItem.channelID success:^(NSArray *cards) {
+            for (Card *card in cards) {
+                CardFrame *cf = [[CardFrame alloc] init];
+                cf.card = card;
+                [cfs addObject:cf];
+            }
+            [self.channelItemDictionary setObject:cfs forKey:channelItem.channelName];
+            [self.pagingView reloadPageAtPageIndex:pageIndex];
+            if (cfs.count > 0) {
+                if (![channelItem.channelID isEqualToString:focusChannelID]) {
+                    [self hideLoadingView];
+                }
+                
+            }
+            
+        } failure:^(NSError *error) {
+//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//                if (![channelItem.channelID isEqualToString:focusChannelID]) {
+//                    [self hideLoadingView];
+//                    LPPagingViewPage *page = (LPPagingViewPage *)self.pagingView.currentPage;
+//                    if (page.cardFrames.count == 0) {
+//                        page.reloadPage.hidden = NO;
+//                    }
+//                }
+//                
+//            });
+        }];
+    }
 }
 
 #pragma mark - 选中菜单按钮状态变化
 - (void)buttonSelectedStatusChangedWithIndex:(NSInteger)index {
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index
                                                  inSection:0];
+    
+    NSIndexPath *previousIndexPath = [NSIndexPath indexPathForItem:index - 1
+                                                 inSection:0];
+    
+    NSIndexPath *nextIndexPath = [NSIndexPath indexPathForItem:index + 1
+                                                         inSection:0];
+    
+    
+    [self.menuView deselectItemAtIndexPath:previousIndexPath animated:NO];
+    [self.menuView deselectItemAtIndexPath:nextIndexPath animated:NO];
+    
     [self.menuView selectItemAtIndexPath:indexPath
                                 animated:YES
                           scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
@@ -378,7 +424,10 @@ NSString *const reuseConcernPageID = @"reuseConcernPageID";
     [self.navigationController pushViewController:detailVc animated:YES];
 }
 
-
+- (void)concernPage:(LPPagingViewConcernPage *)concernPage didClickSearchImageView:(UIImageView *)imageView {
+    LPSearchViewController *searchVc = [[LPSearchViewController alloc] init];
+    [self.navigationController pushViewController:searchVc animated:NO];
+}
 
 #pragma mark - 弹出删除提示框
 - (void)page:(LPPagingViewPage *)page didClickDeleteButtonWithCardFrame:(CardFrame *)cardFrame  deleteButton:(UIButton *)deleteButton {

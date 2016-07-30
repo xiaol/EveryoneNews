@@ -82,17 +82,9 @@
     
     CGFloat controlPadding = 19;
     CGFloat controlW = 66;
-    CGFloat padding1 = 30;
-    CGFloat padding2 = 32;
-     CGFloat padding4 = 10;
-    CGFloat cancelButtonH = 47;
-
     if (iPhone5) {
-        padding1 = 26;
+
         controlW = 57;
-        padding2 = 27;
-        cancelButtonH = 40;
-        padding4 = 8;
     }
     
     CGSize fontSize = [@"微信" sizeWithFont:[UIFont systemFontOfSize:LPFont6] maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)];

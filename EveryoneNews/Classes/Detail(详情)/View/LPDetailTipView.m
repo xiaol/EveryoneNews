@@ -62,6 +62,9 @@
             case 9:
                 tipStr = @"字数太多";
                 break;
+            case 10:
+                tipStr = @"关注成功";
+                break;
             default:
                 break;
         }

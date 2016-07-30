@@ -17,10 +17,8 @@
 @property (nonatomic, assign) CGRect noImageDeleteButtonFrame;
 @property (nonatomic, assign) CGRect noImageCommentLabelFrame;
 @property (nonatomic, assign) CGRect noImageTipButtonFrame;
-//@property (nonatomic, assign) BOOL noImageLabelSelected;
 
-
-// 单图模式 以及两张图 （目前没有大图和小图区分，暂时不做头图区分）
+// 单图（小图）
 @property (nonatomic, assign) CGRect singleImageTitleLabelFrame;
 @property (nonatomic, assign) CGRect singleImageImageViewFrame;
 @property (nonatomic, assign) CGRect singleImageSourceLabelFrame;
@@ -28,7 +26,15 @@
 @property (nonatomic, assign) CGRect singleImageDeleteButtonFrame;
 @property (nonatomic, assign) CGRect singelImageCommentLabelFrame;
 @property (nonatomic, assign) CGRect singleTipButtonFrame;
-//@property (nonatomic, assign) BOOL singleImageLabelSelected;
+
+// 单图（大图）
+@property (nonatomic, assign) CGRect singleBigImageTitleLabelFrame;
+@property (nonatomic, assign) CGRect singleBigImageImageViewFrame;
+@property (nonatomic, assign) CGRect singleBigImageSourceLabelFrame;
+@property (nonatomic, assign) CGRect singleBigImageSeperatorLineFrame;
+@property (nonatomic, assign) CGRect singleBigImageDeleteButtonFrame;
+@property (nonatomic, assign) CGRect singelBigImageCommentLabelFrame;
+@property (nonatomic, assign) CGRect singleBigTipButtonFrame;
 
 // 三图模式以及三图以上模式
 @property (nonatomic, assign) CGRect multipleImageTitleLabelFrame;

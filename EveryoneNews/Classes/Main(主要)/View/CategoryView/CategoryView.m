@@ -31,7 +31,7 @@
     return _categoryBtns;
 }
 - (instancetype)initWithFrame:(CGRect)frame{
-    if (self == [super initWithFrame:frame]) {
+    if (self = [super initWithFrame:frame]) {
         [self setupCategoryView];
     }
     return self;

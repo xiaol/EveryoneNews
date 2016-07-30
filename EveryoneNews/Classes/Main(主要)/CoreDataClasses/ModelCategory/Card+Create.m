@@ -14,6 +14,7 @@
 #import "Card+Fetch.h"
 #import "Comment.h"
 #import "LPFontSizeManager.h"
+#import "CardConcern+Create.h"
 
 
 @implementation Card (Create)
@@ -59,13 +60,11 @@
 
 + (Card *)createCardWithDict:(NSDictionary *)dict channelID:(NSString *)channelID
       inManagedObjectContext:(NSManagedObjectContext *)context {
-
+    
     Card *card = nil;
-    // 判断本地种是否有相同的newId, 有就不做添加操作
     NSFetchRequest *fetch = [[NSFetchRequest alloc] init];
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Card" inManagedObjectContext:context];
     [fetch setEntity:entityDescription];
-   // NSString *newId = [[dict[@"url"] stringByBase64Encoding] stringByTrimmingString:@"="];
     [fetch setPredicate:[NSPredicate predicateWithFormat:@"nid = %@ and channelId = %@",dict[@"nid"], channelID]];
     
     NSError * error = nil;
@@ -80,22 +79,54 @@
         card.sourceSiteURL = dict[@"purl"];
         card.sourceSiteName = dict[@"pname"];
         card.updateTime = [NSString stringWithFormat:@"%lld", (long long)([dict[@"ptime"] timestampWithDateFormat:@"YYYY-MM-dd HH:mm:ss"] * 1000)];
-        // 热点频道存入数据库需要更新当前频道编号
-        card.channelId = ([channelID  isEqual: @"1"] ? @(1):dict[@"channel"]);
+        // 奇点频道和关注频道编号需要做单独处理
+        if ([channelID  isEqual: @"1"]) {
+            card.channelId = @(1);
+        } else if ([channelID  isEqual:focusChannelID]) {
+            card.channelId = @(99999);
+            [CardConcern createCardWithKeyword:dict[@"pname"] card:card inManagedObjectContext:context];
+        } else {
+            card.channelId = dict[@"channel"];
+          
+        }
+        
         card.type = dict[@"style"];
         card.docId = dict[@"docid"];
         card.commentsCount = dict[@"comment"];
-        //    [CardRelate createCardRelatesWithDictArray:dict[@"relatePointsList"]
-        //                                          card:card
-        //                        inManagedObjectContext:context];
         [CardImage createCardImagesWithURLArray:dict[@"imgs"]
                                            card:card
                          inManagedObjectContext:context];
+        
     } else {
         card = [fetchedObjects objectAtIndex:0];
     }
     return card;
 }
+
+
+#pragma mark - 取消关注
++ (void)cancelConcernCard:(NSString *)sourceSiteName {
+    CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    NSFetchRequest *fetch = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Card" inManagedObjectContext:cdh.importContext];
+    [fetch setEntity:entityDescription];
+    [fetch setPredicate:[NSPredicate predicateWithFormat:@"sourceSiteName = %@ and channelId = %@",sourceSiteName, focusChannelID]];
+    NSError * error = nil;
+    NSArray *fetchedObjects;
+    fetchedObjects = [cdh.importContext executeFetchRequest:fetch error:&error];
+    if ([fetchedObjects count] > 0 ) {
+          [cdh.importContext performBlock:^{
+              for (NSManagedObject *manageObject in fetchedObjects) {
+                  [cdh.importContext deleteObject:manageObject];
+              }
+              [cdh saveBackgroundContext];
+              [noteCenter postNotificationName:LPReloadCancelConcernPageNotification object:nil];
+
+          }];
+    }
+    
+}
+
 
 #pragma mark - 收藏
 + (void)updateCard:(Card *)card {
@@ -183,7 +214,7 @@
             card.title = cardDict[@"title"];
             card.sourceSiteURL = cardDict[@"purl"];
             card.sourceSiteName = cardDict[@"pname"];
-            card.updateTime = cardDict[@"ptime"];
+            card.updateTime = [NSString stringWithFormat:@"%lld", (long long)([cardDict[@"ptime"] timestampWithDateFormat:@"YYYY-MM-dd HH:mm:ss"] * 1000)];
             // 热点频道存入数据库需要更新当前频道编号
             card.channelId = cardDict[@"channel"];
             card.type = cardDict[@"style"];

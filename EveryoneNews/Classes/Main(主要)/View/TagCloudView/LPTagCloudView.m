@@ -97,7 +97,7 @@ static CGFloat padding = 10;
     self.pageCount = tags.count / self.pageCapacity + (tags.count % self.pageCapacity != 0);
     
     // 计算分页后的标签数组
-    NSMutableArray *tempArray = [NSMutableArray array];
+    NSMutableArray *tempArray = nil;
     if (self.pageCount == 1) {
         [self.pagingTags addObject:tags];
     } else {

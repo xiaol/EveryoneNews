@@ -20,6 +20,7 @@
 #import "NSDate+Extension.h"
 #import "UMSocialDataService.h"
 #import "AFNetworking.h"
+  #import "UIButton+WebCache.h"
 
 
 @implementation LPHomeViewController (LaunchLoginManager)
@@ -79,38 +80,33 @@
         [self.loginBtn setBackgroundImage:[UIImage imageNamed:@"home_login"] forState:UIControlStateNormal];
         self.loginBtn.frame = CGRectMake(unloginBtnX , unloginBtnY , unloginBtnW, unloginBtnH);
     } else {
+        CGFloat statusBarHeight = 20.0f;
+        CGFloat menuViewHeight = 44.0;
+        CGFloat loginBtnX = 10;
+        CGFloat loginBtnW = 29;
+        CGFloat loginBtnH = 29;
         
-        __weak typeof(self) weakSelf = self;
-        [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:account.userIcon] options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-            if (image && finished) {
-                CGFloat statusBarHeight = 20.0f;
-                CGFloat menuViewHeight = 44.0;
-                CGFloat loginBtnX = 10;
-                CGFloat loginBtnW = 29;
-                CGFloat loginBtnH = 29;
-             
-                if (iPhone6Plus) {
-                    loginBtnX = 10.0f;
-                } else if (iPhone5) {
-                    loginBtnX = 10.0f;
-                    loginBtnW = 25;
-                    loginBtnH = 25;
-                } else if (iPhone6) {
-                    loginBtnX = 12.0f;
-                    loginBtnW = 29;
-                    loginBtnH = 29;
-                    menuViewHeight = 52;
-                }
-            CGFloat loginBtnY = (menuViewHeight - loginBtnH) / 2 + statusBarHeight;
-                
-                [weakSelf.loginBtn setBackgroundImage:image forState:UIControlStateNormal];
-                weakSelf.loginBtn.frame = CGRectMake(loginBtnX , loginBtnY , loginBtnW, loginBtnH);
-                weakSelf.loginBtn.layer.cornerRadius = loginBtnH / 2;
-                weakSelf.loginBtn.layer.borderWidth = 1;
-                weakSelf.loginBtn.layer.masksToBounds = YES;
-                weakSelf.loginBtn.layer.borderColor = [UIColor colorFromHexString:@"#e4e4e4"].CGColor;
-            }
-        }];
+        if (iPhone6Plus) {
+            loginBtnX = 10.0f;
+        } else if (iPhone5) {
+            loginBtnX = 10.0f;
+            loginBtnW = 25;
+            loginBtnH = 25;
+        } else if (iPhone6) {
+            loginBtnX = 12.0f;
+            loginBtnW = 29;
+            loginBtnH = 29;
+            menuViewHeight = 52;
+        }
+        CGFloat loginBtnY = (menuViewHeight - loginBtnH) / 2 + statusBarHeight;
+        
+        [self.loginBtn sd_setBackgroundImageWithURL:[NSURL URLWithString:account.userIcon] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"登录icon"]];
+        self.loginBtn.frame = CGRectMake(loginBtnX , loginBtnY , loginBtnW, loginBtnH);
+        self.loginBtn.layer.cornerRadius = loginBtnH / 2;
+        self.loginBtn.layer.borderWidth = 1;
+        self.loginBtn.layer.masksToBounds = YES;
+        self.loginBtn.layer.borderColor = [UIColor colorFromHexString:@"#e4e4e4"].CGColor;
+      
     }
 }
 
@@ -175,6 +171,10 @@
             Account *account = [Account objectWithKeyValues:dict];
             [AccountTool saveAccount:account];
             
+            // 显示头像
+            [userDefaults setObject:@"1" forKey:@"uIconDisplay"];
+            [userDefaults synchronize];
+            
             self.loginView.hidden = YES;
             self.homeBlackBlurView.hidden = NO;
           
@@ -214,7 +214,15 @@
             [LPHttpTool postJSONResponseAuthorizationWithURL:url params:paramsUser success:^(id json, NSString *authorization) {
                 if ([json[@"code"] integerValue] == 2000) {
                     NSDictionary *dictData = (NSDictionary *)json[@"data"];
-                    [userDefaults setObject:dictData[@"uid"] forKey:@"uid"];
+                    if ([[dictData[@"utype"] stringValue] isEqualToString:@"3"] || [[dictData[@"utype"] stringValue] isEqualToString:@"4"]) {
+                        if (![userDefaults objectForKey:@"uid"]) {
+                            [userDefaults setObject:dictData[@"uid"] forKey:@"uid"];
+                        }
+                    } else {
+                        [userDefaults setObject:dictData[@"uid"] forKey:@"uid"];
+                    }
+                    [userDefaults setObject:@"1" forKey:@"uIconDisplay"];
+                    
                     [userDefaults setObject:dictData[@"utype"] forKey:@"utype"];
                     [userDefaults setObject:authorization forKey:@"uauthorization"];
                     [userDefaults synchronize];

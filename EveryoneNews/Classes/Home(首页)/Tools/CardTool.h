@@ -35,4 +35,10 @@ typedef void (^CardsFetchedFailureHandler)(NSError *error);
                success:(CardsFetchedSuccessHandler)success
                failure:(CardsFetchedFailureHandler)failure;
 
+
++ (void)cardsConcernWithParam:(CardParam *)param
+             channelID:(NSString *)channelID
+               success:(CardsFetchedSuccessHandler)success
+               failure:(CardsFetchedFailureHandler)failure;
+
 @end

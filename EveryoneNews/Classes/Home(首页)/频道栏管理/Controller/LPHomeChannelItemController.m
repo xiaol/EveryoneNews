@@ -88,12 +88,9 @@ static NSString *cellIdentifier = @"sortCollectionViewCell";
     LPHomeChannelItemTopView *topView = [[LPHomeChannelItemTopView alloc] initWithFrame:self.view.bounds];
     topView.delegate = self;
     [self.view addSubview:topView];
-    
-    CGFloat padding = 12;
+
     CGFloat topViewHeight = 64.5f;
-    if (iPhone6Plus) {
-        padding = 13;
-    }
+
     if (iPhone6) {
         topViewHeight = 72.5f;
     }

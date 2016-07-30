@@ -124,8 +124,8 @@ NSString * const cardCellIdentifier = @"CardCellIdentifier";
     CGFloat menuViewPaddingRight = 35.5;
     CGFloat menuViewPaddingTop = 30;
     
-    CGFloat menuViewY = menuViewPaddingTop;
-    CGFloat menuViewW = ScreenWidth - menuViewX - menuViewPaddingRight;
+    CGFloat menuViewY = 0.0f;
+    CGFloat menuViewW = 0.0f;
     CGFloat menuViewH = 24.0;
     if (iPhone6Plus) {
         menuViewX = 46;
@@ -186,7 +186,7 @@ NSString * const cardCellIdentifier = @"CardCellIdentifier";
     self.blurView = blurView;
     
     // 首次安装提示信息
-    if (![userDefaults objectForKey:@"isVersion3FirstLoad"]) {
+    if (![userDefaults objectForKey:LPIsVersionFirstLoad]) {
         // 添加黑色透明功能
         UIView *homeBlackBlurView = [[UIView alloc] initWithFrame:self.view.bounds];
         homeBlackBlurView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
@@ -228,6 +228,10 @@ NSString * const cardCellIdentifier = @"CardCellIdentifier";
         loginView.delegate = self;
         [self.view addSubview:loginView];
         self.loginView = loginView;
+        
+        // 加载完后提示信息
+        [userDefaults setObject:@"NO" forKey:LPIsVersionFirstLoad];
+        [userDefaults synchronize];
     }
     
 //    // 存储用户的UUID
@@ -242,8 +246,11 @@ NSString * const cardCellIdentifier = @"CardCellIdentifier";
 
 #pragma mark - 点击Status Bar
 - (void)tapStatusBarView {
-    LPPagingViewPage *page = (LPPagingViewPage *)self.pagingView.currentPage;
-    [page tapStatusBarScrollToTop];
+    
+    if (![self.selectedChannelTitle isEqualToString:@"关注"]) {
+        LPPagingViewPage *page = (LPPagingViewPage *)self.pagingView.currentPage;
+        [page tapStatusBarScrollToTop];
+    }
 }
 
 #pragma mark - 获取机器唯一编号

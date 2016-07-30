@@ -23,6 +23,7 @@
 @class LPConcernPress;
 @class LPConcern;
 @class LPSearchCardFrame;
+@class LPConcernCardFrame;
 
 @interface LPDetailViewController : LPBaseViewController
 
@@ -66,6 +67,8 @@
 
 @property (nonatomic, assign) NSInteger sourceViewController;
 @property (nonatomic, strong) LPSearchCardFrame *searchCardFrame;
+@property (nonatomic, strong) LPConcernCardFrame *concernCardFrame;
+
 
 @property (nonatomic, copy) NSString *remotePushNid;
 

@@ -30,6 +30,7 @@
                 [userDefaults setObject:dict[@"uid"] forKey:@"uid"];
                 [userDefaults setObject:dict[@"utype"] forKey:@"utype"];
                 [userDefaults setObject:dict[@"password"] forKey:@"password"];
+                [userDefaults setObject:@"2" forKey:@"uIconDisplay"];
                 [userDefaults setObject:authorization forKey:@"uauthorization"];
                 [userDefaults synchronize];
             }
@@ -72,7 +73,16 @@
         [LPHttpTool postJSONResponseAuthorizationWithURL:url params:paramsUser success:^(id json, NSString *authorization) {
             if ([json[@"code"] integerValue] == 2000) {
                 NSDictionary *dictData = (NSDictionary *)json[@"data"];
-                [userDefaults setObject:dictData[@"uid"] forKey:@"uid"];
+                [userDefaults setObject:@"1" forKey:@"uIconDisplay"];
+                
+                if ([[dictData[@"utype"] stringValue] isEqualToString:@"3"] || [[dictData[@"utype"] stringValue] isEqualToString:@"4"]) {
+                    if (![userDefaults objectForKey:@"uid"]) {
+                        [userDefaults setObject:dictData[@"uid"] forKey:@"uid"];
+                    }
+                } else {
+                    [userDefaults setObject:dictData[@"uid"] forKey:@"uid"];
+                }
+                
                 [userDefaults setObject:dictData[@"utype"] forKey:@"utype"];
                 [userDefaults setObject:authorization forKey:@"uauthorization"];
                 [userDefaults synchronize];

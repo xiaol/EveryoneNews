@@ -10,13 +10,20 @@
 #import "LPConcernViewCell.h"
 #import "LPCardConcernFrame.h"
 #import "LPDetailViewController.h"
-
+#import "LPDiggerFooter.h"
+#import "LPDiggerHeader.h"
+#import "CardParam.h"
+#import "CardTool.h"
+#import "MJExtension.h"
+#import "MJRefresh.h"
+#import "MBProgressHUD+MJ.h"
 
 @interface LPPagingViewConcernPage() <UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) UIView *searchView;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIView *noDataConcernView;
+@property (nonatomic, strong) UILabel *promptLabel;
 
 @end
 
@@ -105,7 +112,7 @@
         searchLabel.centerY = searchViewHeight / 2;
         [searchView addSubview:searchLabel];
         
-        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapImageView)];
+        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapImageView:)];
         tapGesture.delegate = self;
         [searchView addGestureRecognizer:tapGesture];
         self.searchView = searchView;
@@ -125,10 +132,130 @@
         tableView.scrollsToTop = NO;
         [self addSubview:tableView];
         self.tableView = tableView;
+        
+        UILabel *label = [[UILabel alloc] init];
+        label.hidden = YES;
+        label.height = searchViewHeight;
+        label.x = 0;
+        label.y = -15;
+        label.width = ScreenWidth;
+        
+        label.backgroundColor = [UIColor colorFromHexString:@"#fafafa"];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.textColor = [UIColor colorFromHexString:@"0087d1"];
+        label.font = [UIFont systemFontOfSize:14];
+        if (iPhone6Plus) {
+            label.font = [UIFont systemFontOfSize:16];
+        }
+        label.alpha = 0.9;
+        [self addSubview:label];
+        self.promptLabel = label;
+        
+        // 下拉刷新功能
+        __weak typeof(self) weakSelf = self;
+        self.tableView.header = [LPDiggerHeader headerWithRefreshingBlock:^{
+            [weakSelf loadNewData];
+        }];
+        // 上拉加载更多
+        self.tableView.footer = [LPDiggerFooter footerWithRefreshingBlock:^{
+            [weakSelf loadMoreData];
+        }];
     }
     return self;
 }
 
+#pragma mark - 下拉刷新
+- (void)loadNewData{
+    if (self.cardFrames.count != 0) {
+        LPCardConcernFrame *cardFrame = self.cardFrames[0];
+        Card *card = cardFrame.card;
+        CardParam *param = [[CardParam alloc] init];
+        param.type = HomeCardsFetchTypeNew;
+        param.channelID = [NSString stringWithFormat:@"%@", card.channelId];
+        param.count = @20;
+        param.startTime = cardFrame.card.updateTime;
+        __weak typeof(self) weakSelf = self;
+        NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+        [CardTool cardsConcernWithParam:param channelID: param.channelID success:^(NSArray *cards) {
+            if (cards.count > 0) {
+                for (int i = 0; i < (int)cards.count; i ++) {
+                    LPCardConcernFrame *cardFrame = [[LPCardConcernFrame alloc] init];
+                    cardFrame.card = cards[i];
+                    [tempArray addObject:cardFrame];
+                }
+                NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:
+                                       NSMakeRange(0,[tempArray count])];
+                [weakSelf.cardFrames insertObjects: tempArray atIndexes:indexes];
+                
+                [weakSelf.tableView reloadData];
+            }
+            
+            [weakSelf showNewCount:tempArray.count];
+            [weakSelf.tableView.header endRefreshing];
+        } failure:^(NSError *error) {
+            [weakSelf.tableView.header endRefreshing];
+            [MBProgressHUD showError:@"网络连接中断"];
+        }];
+    } else {
+        [self.tableView.header endRefreshing];
+    }
+}
+
+#pragma mark - 加载更多
+- (void)loadMoreData {
+    LPCardConcernFrame *cardFrame = [self.cardFrames lastObject];
+    Card *card = cardFrame.card;
+    CardParam *param = [[CardParam alloc] init];
+    param.channelID = [NSString stringWithFormat:@"%@", card.channelId];
+    param.type = HomeCardsFetchTypeMore;
+    param.count = @20;
+    param.startTime = card.updateTime;
+    
+    NSMutableArray *tempCardFrames = self.cardFrames;
+    [CardTool cardsConcernWithParam:param  channelID:param.channelID success:^(NSArray *cards) {
+        for (Card *card in cards) {
+            LPCardConcernFrame *cardFrame = [[LPCardConcernFrame alloc] init];
+            cardFrame.card = card;
+            [tempCardFrames addObject:cardFrame];
+        }
+        self.cardFrames = tempCardFrames;
+        [self.tableView.footer endRefreshing];
+        if (!cards.count) {
+            [self.tableView.footer noticeNoMoreData];
+        }
+    } failure:^(NSError *error) {
+        [self.tableView.footer endRefreshing];
+    }];
+}
+
+- (void)showNewCount:(NSInteger)count {
+    
+    self.promptLabel.hidden = NO;
+    if (count) {
+        self.promptLabel.text = [NSString stringWithFormat:@"已为您推荐%ld条新内容", (long)count];
+    } else {
+        self.promptLabel.text = @"已经是最新内容";
+    }
+    [UIView animateWithDuration:0.4 animations:^{
+        self.promptLabel.transform = CGAffineTransformMakeTranslation(0, 15);
+    } completion:^(BOOL finished) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:0.4 animations:^{
+                self.promptLabel.transform = CGAffineTransformIdentity;
+            } completion:^(BOOL finished) {
+                self.promptLabel.hidden = YES;
+            }];
+        });
+    }];
+}
+
+#pragma mark - 自动加载最新数据
+- (void)autotomaticLoadNewData {
+    if (self.cardFrames.count > 0) {
+        [self.tableView.header beginRefreshing];
+    }
+    
+}
 
 #pragma mark - layoutSubviews
 - (void)layoutSubviews {
@@ -140,13 +267,17 @@
 - (void)setCardFrames:(NSMutableArray *)cardFrames {
     
     _cardFrames = cardFrames;
-    [self.tableView reloadData];
-    
+ 
     if (cardFrames.count > 0) {
         self.noDataConcernView.hidden = YES;
+        self.tableView.hidden = NO;
+        self.searchView.hidden = NO;
     } else {
         self.noDataConcernView.hidden = NO;
+        self.tableView.hidden = YES;
+        self.searchView.hidden = YES;
     }
+    [self.tableView reloadData];
 }
 
 #pragma mark - tableView  datasource
@@ -160,6 +291,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
     NSString *cellIdentifier = self.cellIdentifier;
     LPConcernViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil) {
@@ -182,8 +314,11 @@
 }
 
 
-- (void)tapImageView {
-    NSLog(@"search");
+- (void)tapImageView:(UIImageView *)sender {
+    UIImageView *imageView = sender;
+    if ([self.delegate respondsToSelector:@selector(concernPage:didClickSearchImageView:)]) {
+        [self.delegate concernPage:self didClickSearchImageView:imageView];
+    }
 }
 
 
