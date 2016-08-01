@@ -1,6 +1,0 @@
-framework module MGTemplateEngine {
-  umbrella header "MGTemplateEngine-umbrella.h"
-
-  export *
-  module * { export * }
-}
