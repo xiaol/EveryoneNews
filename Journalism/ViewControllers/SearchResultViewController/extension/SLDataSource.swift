@@ -48,12 +48,18 @@ extension SearchListViewController:UIViewControllerPreviewingDelegate,PreViewCon
         
         if new.nid == -1111{
         
-            let cell = tableView.dequeueReusableCellWithIdentifier("fouce") as! FocusCell
             
             if self.newsResults.count > 0 {
                 
-                cell.fouceCell(self,focusResults: self.focusResults)
+                let cell = tableView.dequeueReusableCellWithIdentifier("cccc")!
+                
+                return cell
             }
+            
+            
+            let cell = tableView.dequeueReusableCellWithIdentifier("fouce") as! FocusCell
+            
+            cell.fouceCell(self,focusResults: self.focusResults)
             
             return cell
         }
@@ -111,22 +117,22 @@ extension SearchListViewController:UIViewControllerPreviewingDelegate,PreViewCon
         self.tableView.reloadData()
     }
     
-    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        
-        return 100
-    }
-    
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        
-        let new = newsResults[indexPath.row]
-        
-        if new.nid == -1111 {
-            
-            return self.focusResults.count > 0 ? FocusCell.heightCell(count) : 0
-        }
-        
-        return new.HeightByNewConstraint(tableView)
-    }
+//    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+//        
+//        return 100
+//    }
+//    
+//    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+//        
+//        let new = newsResults[indexPath.row]
+//        
+//        if new.nid == -1111 {
+//            
+//            return self.focusResults.count > 0 ? FocusCell.heightCell(count) : 0
+//        }
+//        
+//        return new.HeightByNewConstraint(tableView)
+//    }
 }
 
 

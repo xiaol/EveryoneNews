@@ -11,6 +11,8 @@ import XLPagerTabStrip
 
 class HomeViewController: CircularButtonBarPagerTabStripViewController {
     
+    @IBOutlet var MoreButtonBackView:UIView!
+    
     @IBOutlet var messageView: UIView!   // 加载完毕的消息提示视图
     @IBOutlet var messageLabel: UILabel! // 消息提示内容Label
     

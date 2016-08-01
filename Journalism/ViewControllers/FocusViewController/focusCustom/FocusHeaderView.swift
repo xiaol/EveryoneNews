@@ -35,7 +35,7 @@ class FoucusHeaderView: UIView {
     var headerCenterOffest:CGFloat = 0
     
     func setNewC(pname:String){
-    
+        
         self.nameLabel.text = pname
         let titleWidth = NSString(string:pname).boundingRectWithSize(CGSize(width: 2000, height: 100), options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(15)], context: nil).width
         
@@ -77,7 +77,13 @@ class FoucusHeaderView: UIView {
 
 class FoucusButton: UIButton {
     
-    var pname = ""
+    var pname = ""{
+        
+        didSet{
+            
+            self.refresh()
+        }
+    }
     
     let loadV = UIActivityIndicatorView()
     
@@ -114,12 +120,40 @@ class FoucusButton: UIButton {
         self.layer.cornerRadius = 30
         self.layer.borderWidth = 1
         self.layer.cornerRadius = 12
+        
+        
+        NSNotificationCenter.defaultCenter().addObserverForName(USERFOCUSPNAMENOTIFITION, object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+            
+            self.refresh()
+        }
+        
+        self.removeActions(.TouchUpInside)
+        
+        self.addAction(.TouchUpInside) { (_) in
+            
+            if ShareLUser.utype == 2 {
+                
+                NSNotificationCenter.defaultCenter().postNotificationName(USERNEDDLOGINTHENCANDOSOMETHING, object: nil)
+            }else{
+                
+                self.loading()
+                
+                if !Focus.isExiter(self.pname) {
+                    
+                    Focus.focusPub(self.pname)
+                }else{
+                
+                    Focus.nofocusPub(self.pname)
+                }
+            }
+        }
     }
     
-
-    
-    func loading(){
-    
+    /**
+     刷新当前按钮
+     */
+    private func loading(){
+        
         self.setTitleColor(UIColor.clearColor(), forState: .Normal)
         
         self.loadV.startAnimating()
@@ -132,13 +166,13 @@ class FoucusButton: UIButton {
      
      - parameter focus: 关注状态
      */
-    func refresh(){
+    private func refresh(){
         
         self.loadV.stopAnimating()
         self.loadV.hidden = true
         
         if Focus.isExiter(self.pname) {
-        
+            
             self.setTitle("已关注", forState: UIControlState.Normal)
             
             self.setTitleColor(UIColor.a_color10, forState: .Normal)
@@ -148,7 +182,7 @@ class FoucusButton: UIButton {
             self.setBackgroundColor(UIColor.a_color10.colorWithAlphaComponent(0.3), forState: UIControlState.Selected)
             self.setBackgroundColor(UIColor.a_color10.colorWithAlphaComponent(0.3), forState: UIControlState.Highlighted)
         }else{
-        
+            
             self.setTitle("关注", forState: UIControlState.Normal)
             
             self.setTitleColor(UIColor.hexStringToColor("#e71f19"), forState: .Normal)

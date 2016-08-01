@@ -47,7 +47,6 @@ class QiDianCell:UITableViewCell{
         self.fouceLabel.hidden = !s
         
         foucsButton.pname = focus.name
-        foucsButton.refresh()
         
         
 //        if s {

@@ -10,6 +10,9 @@ import UIKit
 import SnapKit
 import RealmSwift
 
+class CCCCCell: UITableViewCell {}
+
+
 class FocusCell: UITableViewCell {
     
     @IBOutlet var title:UILabel!
@@ -26,7 +29,24 @@ class FocusCell: UITableViewCell {
     
     func fouceCell(vc:UIViewController,focusResults:Results<Focus>){
         
-        if finish { return }
+//        if finish { return }
+        
+        
+        if let view = view1 {
+            view.removeFromSuperview()
+        }
+        
+        if let view = view2 {
+            view.removeFromSuperview()
+        }
+        
+        if let view = view3 {
+            view.removeFromSuperview()
+        }
+        
+        if let view = view4 {
+            view.removeFromSuperview()
+        }
         
         self.vc = vc
         
@@ -34,7 +54,6 @@ class FocusCell: UITableViewCell {
         
         title.font = UIFont.a_font2
         title.textColor = UIColor.a_color3
-        
         
         switch focusResults.count {
         case 4:
@@ -64,6 +83,12 @@ class FocusCell: UITableViewCell {
             
                 view.iconImageView.image = UIImage(named: "zhanwei")
                 view.titleLabel.text = focusResults[0].name
+                
+                if let views = view as? FouceICONOneView {
+                
+                    views.fbutton.pname = focusResults[0].name
+                }
+                
                 self.SetTapMethod(view, pname: focusResults[0].name)
             }
         }
@@ -346,6 +371,8 @@ private class ICONImageView: UIImageView {
 /// 只有一个关注对象的时候展示的视图
 private class FouceICONOneView:ICONView{
     
+    var fbutton:FoucusButton!
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -376,9 +403,9 @@ private class FouceICONOneView:ICONView{
             make.centerY.equalTo(self)
         }
         
-        let button = FoucusButton()
-        self.addSubview(button)
-        button.snp_makeConstraints { (make) in
+        fbutton = FoucusButton()
+        self.addSubview(fbutton)
+        fbutton.snp_makeConstraints { (make) in
             
             make.size.equalTo(CGSize(width: 60, height: 24))
             make.right.equalTo(-19)

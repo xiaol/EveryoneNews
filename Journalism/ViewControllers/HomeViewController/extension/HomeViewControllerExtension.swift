@@ -16,6 +16,7 @@ extension HomeViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.reloadMoreButtonView()
         self.InitChannelViewMethod()
         self.ReloadChannelHttpRequest()
         self.initialPagerTabStripMethod()
@@ -65,9 +66,29 @@ extension HomeViewController{
         
         coordinator.animateAlongsideTransition({ (_) in // 横评的时候，处理频道管理显示视图的大小问题
             
+            if self.ChannelManagerTitleView.alpha == 1 {
+            
+                self.HandleChannelManagerStatus()
+            }
+            
+            self.reloadMoreButtonView()
+            
             self.ChannelManagerContainerCollectionView.reloadData()
             
             }, completion: nil)
+    }
+    
+    /**
+     舒心是否隐藏加号视图
+     */
+    func reloadMoreButtonView(){
+    
+        self.MoreButtonBackView.snp_updateConstraints { (make) in
+            
+            make.width.equalTo(UIScreen.mainScreen().bounds.width > UIScreen.mainScreen().bounds.height ? 0 : 44)
+        }
+        
+        self.MoreButtonBackView.layoutIfNeeded()
     }
     
     // 初始化分页视图方法

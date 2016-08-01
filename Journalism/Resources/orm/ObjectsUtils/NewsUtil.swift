@@ -30,7 +30,7 @@ class NewsUtil: NSObject {
             
             let realm = try! Realm()
             if delete { New.deleSearch() }
-            guard let da = body.objectForKey("data"),let data = da.objectForKey("news") as? NSArray,let publisher = da.objectForKey("publisher") as? NSArray else{finish?(key: key,nomore: false,fin: false);return}
+            guard let da = body.objectForKey("data"),let data = da.objectForKey("news") as? NSArray else{finish?(key: key,nomore: false,fin: false);return}
             
             try! realm.write({
                 for (index,channel) in data.enumerate() {
@@ -80,16 +80,20 @@ class NewsUtil: NSObject {
                     }
                 }
                 
-                for pub in publisher {
-                    
-                    realm.create(Focus.self, value: pub, update: true)
-                    
-                    if let name = pub.objectForKey("name") as? String {
-                    
-                        realm.create(Focus.self, value: ["name":name,"issearch":1], update: true)
+                if let publisher = da.objectForKey("publisher") as? NSArray {
+                
+                    for pub in publisher {
+                        
+                        print(pub)
+                        
+                        realm.create(Focus.self, value: pub, update: true)
+                        
+                        if let name = pub.objectForKey("name") as? String {
+                            
+                            realm.create(Focus.self, value: ["name":name,"issearch":1], update: true)
+                        }
                     }
                 }
-                
             })
             
             finish?(key: key,nomore: false,fin: true)
@@ -317,9 +321,46 @@ class NewsUtil: NSObject {
 extension String {
 
     func toAttributedString(font:UIFont=UIFont.a_font2) -> NSAttributedString{
+        
+        return AttributedStringLoader.sharedLoader.imageForUrl(self)
+    }
+}
 
-        let attributed = try! NSMutableAttributedString(data: self.dataUsingEncoding(NSUnicodeStringEncoding)!, options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType], documentAttributes: nil)
+/// 属性字符串 缓存器
+class AttributedStringLoader {
+    
+    lazy var cache = NSCache()
+    
+    class var sharedLoader:AttributedStringLoader!{
+        get{
+            struct backTaskLeton{
+                static var predicate:dispatch_once_t = 0
+                static var instance:AttributedStringLoader? = nil
+            }
+            dispatch_once(&backTaskLeton.predicate, { () -> Void in
+                backTaskLeton.instance = AttributedStringLoader()
+            })
+            return backTaskLeton.instance
+        }
+    }
+    
+    /**
+     根据提供的String 继而提供 属性字符串
+     
+     - parameter string: 原本 字符串
+     - parameter font:   字体 对象 默认为 系统2号字体
+     
+     - returns: 返回属性字符串
+     */
+    func imageForUrl(string : String,font:UIFont=UIFont.a_font2) -> NSAttributedString {
+        
+        if let aString = self.cache.objectForKey(string) as? NSAttributedString { return aString }
+        
+        let attributed = try! NSMutableAttributedString(data: string.dataUsingEncoding(NSUnicodeStringEncoding)!, options: [NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType], documentAttributes: nil)
+        
         attributed.addAttributes([NSFontAttributeName:font], range: NSMakeRange(0, attributed.length))
+        
+        self.cache.setObject(attributed, forKey: string)
         
         return attributed
     }

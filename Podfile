@@ -2,8 +2,7 @@ platform :ios, '8.0'
 use_frameworks!
 
 target :'Journalism' do
-
-  pod 'UITableView+FDTemplateLayoutCell'
+  
     pod 'UMengAnalytics-NO-IDFA'
 
     pod 'SVProgressHUD'                                      ## 提示 Toast

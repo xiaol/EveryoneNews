@@ -12,6 +12,35 @@ import MJRefresh
 import RealmSwift
 import XLPagerTabStrip
 
+extension DetailViewController{
+    
+    /// 获取单例模式下的UIStoryBoard对象
+    var webView:WKWebView!{
+        
+        get{
+            
+            struct backTaskLeton{
+                
+                static var predicate:dispatch_once_t = 0
+                
+                static var bgTask:WKWebView? = nil
+            }
+            
+            dispatch_once(&backTaskLeton.predicate, { () -> Void in
+                
+                let configuration = WKWebViewConfiguration()
+                configuration.userContentController.addScriptMessageHandler(self, name: "JSBridge")
+                configuration.allowsInlineMediaPlayback = true
+                backTaskLeton.bgTask = WKWebView(frame: CGRect(origin: CGPointZero, size: CGSize(width: 600, height: 1000)), configuration: configuration)
+            })
+            
+            return backTaskLeton.bgTask
+        }
+    }
+}
+
+
+
 class DetailViewController: UIViewController,WaitLoadProtcol {
     
     var waitView:WaitView!
@@ -28,7 +57,6 @@ class DetailViewController: UIViewController,WaitLoadProtcol {
     var hotResults:Results<Comment>!
     var aboutResults:Results<About>!
     
-    var webView: WKWebView!
     @IBOutlet var tableView: UITableView!
     
     override func viewDidLoad() {
@@ -52,6 +80,8 @@ class DetailViewController: UIViewController,WaitLoadProtcol {
                 self.tableView.reloadData()
             })
         }
+        
+        self.tableView.contentInset.bottom = 44
         
         self.integrationMethod()
         

@@ -48,6 +48,8 @@ extension CommitViewController{
             self.tableView.mj_footer = footer
         }
         
+        self.tableView.contentInset.bottom = 44
+        
         // 获得字体变化通知，完成刷新字体大小方法
         NSNotificationCenter.defaultCenter().addObserverForName(FONTMODALSTYLEIDENTIFITER, object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
             

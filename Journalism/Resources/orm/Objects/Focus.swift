@@ -62,6 +62,17 @@ extension Focus{
         return realm.objects(Focus.self).filter("isf = 1").count
     }
     
+    /**
+     获取集合
+     
+     - returns: <#return value description#>
+     */
+    class func ExFocusArray() -> Results<Focus>{
+        
+        let realm = try! Realm()
+        
+        return realm.objects(Focus.self).filter("isf = 1")
+    }
     
     
     /**
@@ -120,6 +131,22 @@ extension Focus{
         
         return realm.objects(Focus.self).filter("name = '\(pname)' AND isf = 1").count > 0
     }
+    
+    
+    /**
+     是否存在
+     
+     - parameter pname: <#pname description#>
+     
+     - returns: <#return value description#>
+     */
+    class func isExiters(pname:String) -> Bool{
+        
+        let realm = try! Realm()
+        
+        return realm.objects(Focus.self).filter("name = '\(pname)'").count > 0
+    }
+    
     /**
      获取关注列表下的新闻
      
@@ -280,7 +307,7 @@ extension Focus{
                     
                     if let name = res.objectForKey("name") as? String{
                         
-                        if !self.isExiter(name) {
+                        if !self.isExiters(name) {
                             
                             realm.create(Focus.self, value: ["name":name,"color":UIColor.RandmColor()], update: true)
                         }
@@ -291,6 +318,8 @@ extension Focus{
                     realm.create(Focus.self, value: res, update: true)
                 }
             })
+            
+            NSNotificationCenter.defaultCenter().postNotificationName(USERFOCUSPNAMENOTIFITION, object: nil)
             
             finish?()
         }
@@ -335,8 +364,29 @@ extension Focus{
             
             if code != 2000 { fail?() ;return}
             
+            self.delteByPname(pname)
+            
             self.refresh(finish, fail: fail)
         }
+    }
+    
+    /**
+     删除新闻
+     
+     - parameter pname: <#pname description#>
+     */
+    class func delteByPname(pname:String){
+    
+        let realm = try! Realm()
+        
+        try! realm.write({
+            
+            for focus in realm.objects(New.self).filter("pname = '\(pname)'") {
+                
+                focus.isfocus = 0
+            }
+            
+        })
     }
     
     /**

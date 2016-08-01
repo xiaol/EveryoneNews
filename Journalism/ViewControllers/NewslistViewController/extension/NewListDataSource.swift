@@ -139,6 +139,9 @@ extension NewslistViewController:UITableViewDataSource{
             }
         }
         
+        // 针对关注频道的修改
+        self.SetFCell(cell, new: new)
+        
         cell.noLikeButton.removeActions(UIControlEvents.TouchUpInside)
         cell.noLikeButton.addAction(UIControlEvents.TouchUpInside) { (_) in
             
@@ -148,6 +151,24 @@ extension NewslistViewController:UITableViewDataSource{
         return cell
     }
     
+    
+    /**
+     设置关注cell的视图
+     */
+    private func SetFCell(cell:NewBaseTableViewCell,new:New){
+        
+        if channel?.id == 1994 {
+            
+            cell.pubLabel.layer.cornerRadius = 2
+            cell.pubLabel.clipsToBounds = true
+            cell.pubLabel.textColor = UIColor.whiteColor()
+            cell.pubLabel.font = UIFont.a_font6
+            cell.pubLabel.text = " \(cell.pubLabel.text ?? " ") "
+            cell.pubLabel.backgroundColor = Focus.gColor(new.pname)
+            cell.commentCountLabel.hidden = true
+            cell.noLikeButton.hidden = true
+        }
+    }
     
     /**
      处理用户的点击新闻视图中的 不喜欢按钮处理方法
@@ -196,6 +217,8 @@ extension NewslistViewController:UITableViewDataSource{
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW,Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { // 2
                         
                         self.showNoInterest()
+                        
+                        self.tableView.reloadData()
                     }
                 }else{
                     
@@ -208,7 +231,6 @@ extension NewslistViewController:UITableViewDataSource{
 }
 
 import RealmSwift
-import UITableView_FDTemplateLayoutCell
 
 extension NewslistViewController:UITableViewDelegate{
     

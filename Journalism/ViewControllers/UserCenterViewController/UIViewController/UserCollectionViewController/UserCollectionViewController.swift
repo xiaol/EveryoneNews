@@ -148,6 +148,18 @@ extension UserCollectionViewController:UIViewControllerPreviewingDelegate{
             cell =  tableView.dequeueReusableCellWithIdentifier("NewThreeTableViewCell") as! NewThreeTableViewCell
             
             cell.setNewObject(new)
+        }else{
+            
+            cell = tableView.dequeueReusableCellWithIdentifier("NewTwoTableViewCell") as! NewTwoTableViewCell
+            
+            switch new.style-10 {
+            case 1:
+                cell.setNewObject(new,bigImg: 0)
+            case 2:
+                cell.setNewObject(new,bigImg: 1)
+            default:
+                cell.setNewObject(new,bigImg: 2)
+            }
         }
         
         if #available(iOS 9.0, *) {

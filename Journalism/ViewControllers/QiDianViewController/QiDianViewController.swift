@@ -27,9 +27,17 @@ class QiDianViewController: UIViewController,PreViewControllerDelegate {
     }
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
+        
         tableView.panGestureRecognizer.requireGestureRecognizerToFail(pan)
+        
         pan.delegate = self
+        
+        NSNotificationCenter.defaultCenter().addObserverForName(USERFOCUSPNAMENOTIFITION, object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+            
+            self.tableView.reloadData()
+        }
     }
 }
 

@@ -23,6 +23,7 @@
 		AE0A896C1D24D87200C85B27 /* SearchListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0A89691D24D87200C85B27 /* SearchListViewController.swift */; };
 		AE0FE5441CF301E8007DA198 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0FE5431CF301E8007DA198 /* UIImageExtension.swift */; };
 		AE1C1EFF1D34DC2900E8044E /* FocusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1C1EFE1D34DC2900E8044E /* FocusViewController.swift */; };
+		AE1FD7DB1D4F0D5E001C4701 /* NoFocusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1FD7DA1D4F0D5E001C4701 /* NoFocusView.swift */; };
 		AE2968301CF69D4400D2782D /* PrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE29682F1CF69D4400D2782D /* PrivacyViewController.swift */; };
 		AE2968321CF69DFB00D2782D /* Privacy.html in Resources */ = {isa = PBXBuildFile; fileRef = AE2968311CF69DFB00D2782D /* Privacy.html */; };
 		AE2968341CF6AA3B00D2782D /* CustomTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2968331CF6AA3B00D2782D /* CustomTransitioning.swift */; };
@@ -157,6 +158,7 @@
 		AE0A89691D24D87200C85B27 /* SearchListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchListViewController.swift; sourceTree = "<group>"; };
 		AE0FE5431CF301E8007DA198 /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		AE1C1EFE1D34DC2900E8044E /* FocusViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FocusViewController.swift; sourceTree = "<group>"; };
+		AE1FD7DA1D4F0D5E001C4701 /* NoFocusView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoFocusView.swift; sourceTree = "<group>"; };
 		AE29682F1CF69D4400D2782D /* PrivacyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyViewController.swift; sourceTree = "<group>"; };
 		AE2968311CF69DFB00D2782D /* Privacy.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Privacy.html; sourceTree = "<group>"; };
 		AE2968331CF6AA3B00D2782D /* CustomTransitioning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTransitioning.swift; sourceTree = "<group>"; };
@@ -474,6 +476,7 @@
 				AEECBC4C1D13B30E00529150 /* SlideFontSizeView.swift */,
 				AEE9222E1D2FB38E00E18F6B /* FoucsedVIew.swift */,
 				AEA762FE1D3C87ED00A07FA3 /* ShareView.swift */,
+				AE1FD7DA1D4F0D5E001C4701 /* NoFocusView.swift */,
 			);
 			path = WaitTipsView;
 			sourceTree = "<group>";
@@ -1067,6 +1070,7 @@
 				AEC1D5BD1CED960100B1F00C /* New.swift in Sources */,
 				AEF29AFF1D239671006D1412 /* PhotoBrowerImageView.swift in Sources */,
 				AEC489B71D0FF140009D81F6 /* AppdelegateExtension.swift in Sources */,
+				AE1FD7DB1D4F0D5E001C4701 /* NoFocusView.swift in Sources */,
 				AEE3B51C1D17FF57008BC0EA /* RequestCustomClass.swift in Sources */,
 				AEC47B481D0037A50055936D /* InputExtension.swift in Sources */,
 				AEFB55151CF41407005FC23E /* Curly.swift in Sources */,

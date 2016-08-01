@@ -45,8 +45,12 @@ class SearchListViewController: UIViewController,WaitLoadProtcol {
         textFiled.text = searchKey
         
         tableView.panGestureRecognizer.requireGestureRecognizerToFail(pan)
+        
         pan.delegate = self
         
+        self.tableView.estimatedRowHeight = 68
+        
+        self.tableView.rowHeight = UITableViewAutomaticDimension
         
         self.showWaitLoadView()
         

@@ -211,6 +211,24 @@ extension WaitLoadProtcol where Self:DetailViewController{
 
 extension WaitLoadProtcol where Self:NewslistViewController{
     
+    /**
+     显示没有关注视图
+     
+     - parameter hidden: <#hidden description#>
+     */
+    func ShowNoFocusView(hidden:Bool){
+    
+        NoFocusView.shareNoFocusView.hidden = !hidden
+        
+        self.view.addSubview(NoFocusView.shareNoFocusView)
+        
+        NoFocusView.shareNoFocusView.snp_makeConstraints { (make) in
+            
+            make.edges.equalTo(UIEdgeInsetsZero)
+        }
+    }
+    
+    
     // 显示等待视图
     func showWaitLoadView(){
         

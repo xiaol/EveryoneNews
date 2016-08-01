@@ -38,11 +38,6 @@ extension NewslistViewController{
         
         if channel?.id == 1994 {
         
-            if Focus.ExFocusArrayCount() <= 0 {
-            
-                print("没有关注推荐关注去吧")
-            }
-            
             self.FResultDataMethod()
             
         }else{
@@ -50,7 +45,6 @@ extension NewslistViewController{
             self.ResultDataMethod()
         }
 
-        
         /**
          *  该方法会检测用户设置字体大小的方法
          *  当用户设置字体后，会发起该通知。完成修改频道排序列表显示的方法以及频道列表的字体修改
@@ -176,6 +170,14 @@ extension NewslistViewController{
                 break
             }
         }
+        
+        self.focusNotificationToken = focusResults.addNotificationBlock({ (_) in
+            
+            if self.channel?.id == 1994 {
+                
+                self.ShowNoFocusView(Focus.ExFocusArrayCount() <= 0)
+            }
+        })
     }
     
     
