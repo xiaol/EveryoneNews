@@ -10,3 +10,7 @@ Podfile.lock
 *.xcworkspace
 
 .idea
+
+UMengSocial
+
+!UMengSocial/UMengSocialCOM.podspec.json
