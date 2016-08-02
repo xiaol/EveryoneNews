@@ -225,6 +225,16 @@ typedef NS_ENUM(NSInteger, imageStyle) {
 };
 
 
+typedef NS_ENUM(NSInteger, newsType) {
+    // 普通新闻
+    normalNewsType = 0,
+    // 热点
+    hotNewsType = 1,
+    // 推送
+    pushNewsType = 2
+    
+};
+
 
 #define noteCenter [NSNotificationCenter defaultCenter]
 #define LPCategoryDidChangeNotification @"changeCategory"

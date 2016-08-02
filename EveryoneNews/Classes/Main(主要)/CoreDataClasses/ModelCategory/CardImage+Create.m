@@ -11,10 +11,10 @@
 
 @implementation CardImage (Create)
 
-+ (NSSet *)createCardImagesWithURLArray:(NSArray *)urls
++ (NSOrderedSet *)createCardImagesWithURLArray:(NSArray *)urls
                                      card:(Card *)card
                    inManagedObjectContext:(NSManagedObjectContext *)context {
-    NSMutableSet *set = [NSMutableSet set];
+    NSMutableOrderedSet *set = [NSMutableOrderedSet orderedSet];
     for (NSString *url in urls) {
         CardImage *image = [self createCardImageWithURL:url card:card inManagedObjectContext:context];
         [set addObject:image];

@@ -74,6 +74,16 @@
 				<string>sina.558b2ec267e58e64a00009db</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>qidianzixun</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>qidianzixun18511530733</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>3.2.0</string>

@@ -24,6 +24,7 @@
 @property (nonatomic, strong) UIView *noImageSeperatorLine;
 @property (nonatomic, strong) UIButton *noImageDeleteButton;
 @property (nonatomic, strong) UIButton *noImageTipButton;
+@property (nonatomic, strong) UILabel *noImageNewsTypeLabel;
 
 // 单图
 @property (nonatomic, strong) TTTAttributedLabel *titleLabel;
@@ -33,6 +34,7 @@
 @property (nonatomic, strong) UIView *singleSeperatorLine;
 @property (nonatomic, strong) UIButton *singleDeleteButton;
 @property (nonatomic, strong) UIButton *singleTipButton;
+@property (nonatomic, strong) UILabel *singleNewsTypeLabel;
 
 // 单图大图
 @property (nonatomic, strong) TTTAttributedLabel *bigImageTitleLabel;
@@ -42,6 +44,7 @@
 @property (nonatomic, strong) UIView *singleBigImageSeperatorLine;
 @property (nonatomic, strong) UIButton *singleBigImageDeleteButton;
 @property (nonatomic, strong) UIButton *singleBigImageTipButton;
+@property (nonatomic, strong) UILabel *singleBigImageNewsTypeLabel;
 
 
 // 三图
@@ -54,6 +57,7 @@
 @property (nonatomic, strong) UIView *mutipleSeperatorLine;
 @property (nonatomic, strong) UIButton *mutipleDeleteButton;
 @property (nonatomic, strong) UIButton *mutipleTipButton;
+@property (nonatomic, strong) UILabel *multipleImageNewsTypeLabel;
 
 @end
 
@@ -71,6 +75,7 @@
     
     NSString *tipString = @"刚刚看到这里，点击加载更多";
     CGFloat tipFontSize = 16;
+    CGFloat newsTypeCornerRadius = 2;
     if(self) {
         // 无图
         TTTAttributedLabel *noImageLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
@@ -82,12 +87,22 @@
         self.noImageLabel = noImageLabel;
         
  
-        
         UILabel *noImageSourceLabel = [[UILabel alloc] init];
         noImageSourceLabel.font = [UIFont systemFontOfSize:sourceFontSize];
         noImageSourceLabel.textColor = [UIColor colorFromHexString:@"#999999"];
         [self.contentView addSubview:noImageSourceLabel];
         self.noImageSourceLabel = noImageSourceLabel;
+        
+        
+        UILabel *noImageNewsTypeLabel = [[UILabel alloc] init];
+        noImageNewsTypeLabel.font = [UIFont systemFontOfSize:sourceFontSize];
+        noImageNewsTypeLabel.textColor = [UIColor colorFromHexString:LPColor2];
+        noImageNewsTypeLabel.layer.borderColor = [UIColor colorFromHexString:LPColor2].CGColor;
+        noImageNewsTypeLabel.layer.borderWidth = 0.5f;
+        noImageNewsTypeLabel.layer.cornerRadius = newsTypeCornerRadius;
+        noImageNewsTypeLabel.textAlignment = NSTextAlignmentCenter;
+        [self.contentView addSubview:noImageNewsTypeLabel];
+        self.noImageNewsTypeLabel = noImageNewsTypeLabel;
         
         UILabel *noImageCommentLabel = [[UILabel alloc] init];
         noImageCommentLabel.font = [UIFont systemFontOfSize:sourceFontSize];
@@ -135,6 +150,16 @@
         [self.contentView addSubview:titleLabel];
         self.titleLabel = titleLabel;
         
+        
+        UILabel *singleNewsTypeLabel = [[UILabel alloc] init];
+        singleNewsTypeLabel.textAlignment = NSTextAlignmentCenter;
+        singleNewsTypeLabel.layer.borderColor = [UIColor colorFromHexString:LPColor2].CGColor;
+        singleNewsTypeLabel.layer.borderWidth = 0.5f;
+        singleNewsTypeLabel.layer.cornerRadius = newsTypeCornerRadius;
+        singleNewsTypeLabel.font = [UIFont systemFontOfSize:sourceFontSize];
+        singleNewsTypeLabel.textColor = [UIColor colorFromHexString:LPColor2];
+        [self.contentView addSubview:singleNewsTypeLabel];
+        self.singleNewsTypeLabel = singleNewsTypeLabel;
         
         UILabel *singleSourceLabel = [[UILabel alloc] init];
         singleSourceLabel.font = [UIFont systemFontOfSize:sourceFontSize];
@@ -186,6 +211,17 @@
         bigImageTitleLabel.backgroundColor = [UIColor clearColor];
         [self.contentView addSubview:bigImageTitleLabel];
         self.bigImageTitleLabel = bigImageTitleLabel;
+        
+        
+        UILabel *singleBigImageNewsTypeLabel = [[UILabel alloc] init];
+        singleBigImageNewsTypeLabel.textAlignment = NSTextAlignmentCenter;
+        singleBigImageNewsTypeLabel.layer.borderColor = [UIColor colorFromHexString:LPColor2].CGColor;
+        singleBigImageNewsTypeLabel.layer.borderWidth = 0.5f;
+        singleBigImageNewsTypeLabel.layer.cornerRadius = newsTypeCornerRadius;
+        singleBigImageNewsTypeLabel.font = [UIFont systemFontOfSize:sourceFontSize];
+        singleBigImageNewsTypeLabel.textColor = [UIColor colorFromHexString:LPColor2];
+        [self.contentView addSubview:singleBigImageNewsTypeLabel];
+        self.singleBigImageNewsTypeLabel = singleBigImageNewsTypeLabel;
         
         
         UILabel *singleBigImageSourceLabel = [[UILabel alloc] init];
@@ -251,6 +287,17 @@
         [self.contentView addSubview:thirdMutipleImageView];
         self.thirdMutipleImageView = thirdMutipleImageView;
         
+        UILabel *multipleImageNewsTypeLabel = [[UILabel alloc] init];
+        multipleImageNewsTypeLabel.textAlignment = NSTextAlignmentCenter;
+        multipleImageNewsTypeLabel.layer.borderColor = [UIColor colorFromHexString:LPColor2].CGColor;
+        multipleImageNewsTypeLabel.layer.borderWidth = 0.5f;
+        multipleImageNewsTypeLabel.layer.cornerRadius = newsTypeCornerRadius;
+        multipleImageNewsTypeLabel.font = [UIFont systemFontOfSize:sourceFontSize];
+        multipleImageNewsTypeLabel.textColor = [UIColor colorFromHexString:LPColor2];
+        [self.contentView addSubview:multipleImageNewsTypeLabel];
+        self.multipleImageNewsTypeLabel = multipleImageNewsTypeLabel;
+        
+        
         UILabel *multipleSourceLabel = [[UILabel alloc] init];
         multipleSourceLabel.font = [UIFont systemFontOfSize:sourceFontSize];
         multipleSourceLabel.textColor = [UIColor colorFromHexString:@"999999"];
@@ -294,8 +341,10 @@
 }
 
 - (void)setCardFrame:(CardFrame *)cardFrame {
+    
     _cardFrame = cardFrame;
-    Card *card = _cardFrame.card;
+    Card *card = cardFrame.card;
+    
     NSString *sourceSiteName = [card.sourceSiteName  isEqualToString: @""] ? @"未知来源": card.sourceSiteName;
     NSDate *currentDate = [NSDate date];
     NSDate *updateTime = [NSDate dateWithTimeIntervalSince1970:card.updateTime.longLongValue / 1000.0];
@@ -312,9 +361,23 @@
     NSString *commentsCount = [NSString stringWithFormat:@"%@评", card.commentsCount != nil ? card.commentsCount: @"0"];
     BOOL commentLabelHidden = [commentsCount isEqualToString:@"0评"] ? YES :NO;
     NSString *source = [NSString stringWithFormat:@"%@    %@",sourceSiteName, publishTime];
-    
     NSMutableAttributedString *titleHtml = [Card titleHtmlString:card.title isRead:card.isRead];
     
+    NSString *newsType = @"";
+    NSString *newsTypeColor = LPColor2;
+    switch ([card.rtype integerValue]) {
+        case 1:
+            newsType = @"热点";
+            newsTypeColor = LPColor6;
+            break;
+        case 2:
+            newsType = @"推送";
+            newsTypeColor = LPColor2;
+            break;
+        default:
+            break;
+    }
+
     if([card.type integerValue] == imageStyleZero) {
         
         self.noImageLabel.hidden = NO;
@@ -322,6 +385,7 @@
         self.noImageSeperatorLine.hidden = NO;
         self.noImageCommentLabel.hidden = NO;
         self.noImageDeleteButton.hidden = NO;
+        self.noImageNewsTypeLabel.hidden = NO;
     
         self.titleLabel.hidden = YES;
         self.iconView.hidden = YES;
@@ -330,6 +394,7 @@
         self.singleCommentLabel.hidden = YES;
         self.singleDeleteButton.hidden = YES;
         self.singleTipButton.hidden = YES;
+        self.singleNewsTypeLabel.hidden = YES;
         
         self.bigImageTitleLabel.hidden = YES;
         self.bigImageIconView.hidden = YES;
@@ -338,6 +403,7 @@
         self.singleBigImageCommentLabel.hidden = YES;
         self.singleBigImageDeleteButton.hidden = YES;
         self.singleBigImageTipButton.hidden = YES;
+        self.singleBigImageNewsTypeLabel.hidden = YES;
       
         self.multipleImageLabel.hidden = YES;
         self.firstMutipleImageView.hidden = YES;
@@ -348,10 +414,16 @@
         self.mutipleDeleteButton.hidden = YES;
         self.mutipleCommentLabel.hidden = YES;
         self.mutipleTipButton.hidden = YES;
+        self.multipleImageNewsTypeLabel.hidden = YES;
         
         self.noImageLabel.frame = self.cardFrame.noImageLabelFrame;
         
         self.noImageLabel.text = titleHtml;
+        
+        self.noImageNewsTypeLabel.frame = self.cardFrame.noImageNewsTypeLabelFrame;
+        self.noImageNewsTypeLabel.text = newsType;
+        self.noImageNewsTypeLabel.textColor = [UIColor colorFromHexString:newsTypeColor];
+        self.noImageNewsTypeLabel.layer.borderColor = [UIColor colorFromHexString:newsTypeColor].CGColor;
     
         self.noImageSourceLabel.frame = self.cardFrame.noImageSourceLabelFrame;
         self.noImageSourceLabel.text = source;
@@ -382,6 +454,7 @@
         self.noImageCommentLabel.hidden = YES;
         self.noImageDeleteButton.hidden = YES;
         self.noImageTipButton.hidden = YES;
+        self.noImageNewsTypeLabel.hidden = YES;
         
         self.titleLabel.hidden = NO;
         self.iconView.hidden = NO;
@@ -390,6 +463,7 @@
         self.singleCommentLabel.hidden = NO;
         self.singleDeleteButton.hidden = NO;
         self.singleTipButton.hidden = NO;
+        self.singleNewsTypeLabel.hidden = NO;
         
         self.bigImageTitleLabel.hidden = YES;
         self.bigImageIconView.hidden = YES;
@@ -398,6 +472,7 @@
         self.singleBigImageCommentLabel.hidden = YES;
         self.singleBigImageDeleteButton.hidden = YES;
         self.singleBigImageTipButton.hidden = YES;
+        self.singleBigImageNewsTypeLabel.hidden = YES;
         
         self.multipleImageLabel.hidden = YES;
         self.firstMutipleImageView.hidden = YES;
@@ -408,6 +483,7 @@
         self.mutipleDeleteButton.hidden = YES;
         self.mutipleCommentLabel.hidden = YES;
         self.mutipleTipButton.hidden = YES;
+        self.multipleImageNewsTypeLabel.hidden = YES;
         
         self.titleLabel.text =  titleHtml;
         
@@ -416,6 +492,11 @@
         
         self.singleSourceLabel.text = source;
         self.singleSourceLabel.frame = self.cardFrame.singleImageSourceLabelFrame;
+        
+        self.singleNewsTypeLabel.frame = self.cardFrame.singleNewsTypeLabelFrame;
+        self.singleNewsTypeLabel.text = newsType;
+        self.singleNewsTypeLabel.textColor = [UIColor colorFromHexString:newsTypeColor];
+        self.singleNewsTypeLabel.layer.borderColor = [UIColor colorFromHexString:newsTypeColor].CGColor;
         
         [self.singleDeleteButton setBackgroundImage:[UIImage imageNamed:@"不感兴趣叉号"] forState:UIControlStateNormal];
         self.singleDeleteButton.frame = self.cardFrame.singleImageDeleteButtonFrame;
@@ -446,7 +527,7 @@
                 break;
         }
         
-        NSString *imageURL = [self scaleImageURL:cardImage.imgUrl];
+        NSString *imageURL = [self scaleBigImageURL:cardImage.imgUrl];
         
         [self.bigImageIconView sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"单图大图占位图"]];
         
@@ -456,6 +537,7 @@
         self.noImageCommentLabel.hidden = YES;
         self.noImageDeleteButton.hidden = YES;
         self.noImageTipButton.hidden = YES;
+        self.noImageNewsTypeLabel.hidden = YES;
         
         self.titleLabel.hidden = YES;
         self.iconView.hidden = YES;
@@ -464,6 +546,7 @@
         self.singleCommentLabel.hidden = YES;
         self.singleDeleteButton.hidden = YES;
         self.singleTipButton.hidden = YES;
+        self.singleNewsTypeLabel.hidden = YES;
         
         self.bigImageTitleLabel.hidden = NO;
         self.bigImageIconView.hidden = NO;
@@ -472,6 +555,7 @@
         self.singleBigImageCommentLabel.hidden = NO;
         self.singleBigImageDeleteButton.hidden = NO;
         self.singleBigImageTipButton.hidden = NO;
+        self.singleBigImageNewsTypeLabel.hidden = NO;
         
         self.multipleImageLabel.hidden = YES;
         self.firstMutipleImageView.hidden = YES;
@@ -482,12 +566,19 @@
         self.mutipleDeleteButton.hidden = YES;
         self.mutipleCommentLabel.hidden = YES;
         self.mutipleTipButton.hidden = YES;
+        self.multipleImageNewsTypeLabel.hidden = YES;
         
         
         self.bigImageTitleLabel.text =  titleHtml;
         
         self.bigImageIconView.frame = self.cardFrame.singleBigImageImageViewFrame;
         self.bigImageTitleLabel.frame = self.cardFrame.singleBigImageTitleLabelFrame;
+        
+        self.singleBigImageNewsTypeLabel.frame = self.cardFrame.singleBigImageNewsTyeLabelFrame;
+        self.singleBigImageNewsTypeLabel.text = newsType;
+        self.singleBigImageNewsTypeLabel.textColor = [UIColor colorFromHexString:newsTypeColor];
+        self.singleBigImageNewsTypeLabel.layer.borderColor = [UIColor colorFromHexString:newsTypeColor].CGColor;
+        
         
         self.singleBigImageSourceLabel.text = source;
         self.singleBigImageSourceLabel.frame = self.cardFrame.singleBigImageSourceLabelFrame;
@@ -515,6 +606,7 @@
         self.noImageCommentLabel.hidden = YES;
         self.noImageDeleteButton.hidden = YES;
         self.noImageTipButton.hidden = YES;
+        self.noImageNewsTypeLabel.hidden = YES;
     
         self.titleLabel.hidden = YES;
         self.iconView.hidden = YES;
@@ -523,6 +615,7 @@
         self.singleCommentLabel.hidden = YES;
         self.singleDeleteButton.hidden = YES;
         self.singleTipButton.hidden = YES;
+        self.singleNewsTypeLabel.hidden = YES;
         
         self.bigImageTitleLabel.hidden = YES;
         self.bigImageIconView.hidden = YES;
@@ -531,6 +624,7 @@
         self.singleBigImageCommentLabel.hidden = YES;
         self.singleBigImageDeleteButton.hidden = YES;
         self.singleBigImageTipButton.hidden = YES;
+        self.singleBigImageNewsTypeLabel.hidden = YES;
         
         self.multipleImageLabel.hidden = NO;
         self.firstMutipleImageView.hidden = NO;
@@ -541,9 +635,17 @@
         self.mutipleDeleteButton.hidden = NO;
         self.mutipleCommentLabel.hidden = NO;
         self.mutipleTipButton.hidden = NO;
+        self.multipleImageNewsTypeLabel.hidden = NO;
+  
         
         self.multipleImageLabel.frame = self.cardFrame.multipleImageTitleLabelFrame;
         self.multipleImageLabel.text =  titleHtml;
+        
+        
+        self.multipleImageNewsTypeLabel.frame = self.cardFrame.multipleImageNewsTypeLabelFrame;
+        self.multipleImageNewsTypeLabel.text = newsType;
+        self.multipleImageNewsTypeLabel.textColor = [UIColor colorFromHexString:newsTypeColor];
+        self.multipleImageNewsTypeLabel.layer.borderColor = [UIColor colorFromHexString:newsTypeColor].CGColor;
         
         self.multipleSourceLabel.frame = self.cardFrame.multipleImageSourceLabelFrame;
         self.multipleSourceLabel.text = source;
@@ -590,17 +692,6 @@
     
 }
 
-#pragma mark - 点击标题跳转
-- (void)tapTextView {
-    if (self.didClickTitleBlock) {
-        self.didClickTitleBlock(self, self.cardFrame);
-    }
-}
-
-- (void)didClickTitleBlock:(didClickTitleBlock)didClickTitleBlock {
-    self.didClickTitleBlock = didClickTitleBlock;
-}
-
 #pragma mark - 首页删除功能
 - (void)didClickDeleteButton:(UIButton *)deleteButton {
     if (self.didClickDeleteBlock) {
@@ -623,18 +714,19 @@
     self.didClickTipBlock = didClickTipButtonBlock;
 }
 
-#pragma mark - 图片缩放处理
-- (NSString *)scaleImageURL:(NSString *)imageURL width:(NSInteger)width height:(NSInteger)height {
+
+#pragma mark - 大图缩放处理
+- (NSString *)scaleBigImageURL:(NSString *)imageURL {
     NSRange range = [imageURL rangeOfString:@"/" options:NSBackwardsSearch];
     NSString *substring = [imageURL substringFromIndex:range.location+1];
-    NSString *scaleImageURL = [NSString stringWithFormat:@"http://pro-pic.deeporiginalx.com/%@@1e_1c_0o_0l_100sh_%ldh_%ldw_100q.src", substring, height, width];
+    NSString *scaleImageURL = [NSString stringWithFormat:@"http://pro-pic.deeporiginalx.com/%@@1e_1c_0o_0l_100sh_400h_600w_100q.src", substring];
     return scaleImageURL;
 }
 
-#pragma mark - 图片缩放处理
+#pragma mark - 小图缩放处理
 - (NSString *)scaleImageURL:(NSString *)imageURL {
     NSRange range = [imageURL rangeOfString:@"/" options:NSBackwardsSearch];
-    NSString *substring = [imageURL substringFromIndex:range.location+1];
+    NSString *substring = [imageURL substringFromIndex:range.location + 1];
     NSString *scaleImageURL = [NSString stringWithFormat:@"http://pro-pic.deeporiginalx.com/%@@1e_1c_0o_0l_100sh_200h_300w_100q.src", substring];
     return scaleImageURL;
 }

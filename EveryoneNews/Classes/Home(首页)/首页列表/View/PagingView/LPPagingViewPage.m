@@ -24,7 +24,7 @@
 #import "CardImage.h"
 #import "LPHomeRowManager.h"
 
-@interface LPPagingViewPage () <UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate, LPHomeViewCellDelegate>
+@interface LPPagingViewPage () <UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) UIView *searchView;
 @property (nonatomic, strong) UILabel *promptLabel;
@@ -34,6 +34,8 @@
 @end
 
 @implementation LPPagingViewPage
+
+
 
 - (void)prepareForReuse {
     self.searchView.hidden = YES;
@@ -108,7 +110,7 @@
         [searchView addSubview:seperatorView];
         
         
-        UITableView *tableView = [[UITableView alloc] init];
+         UITableView *tableView = [[UITableView alloc] init];
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         tableView.backgroundColor =  [UIColor colorFromHexString:LPColor9];
         tableView.dataSource = self;
@@ -138,11 +140,11 @@
         
         // 下拉刷新功能
         __weak typeof(self) weakSelf = self;
-        self.tableView.header = [LPDiggerHeader headerWithRefreshingBlock:^{
+        self.tableView.mj_header = [LPDiggerHeader headerWithRefreshingBlock:^{
             [weakSelf loadNewData];
         }];
         // 上拉加载更多
-        self.tableView.footer = [LPDiggerFooter footerWithRefreshingBlock:^{
+        self.tableView.mj_footer = [LPDiggerFooter footerWithRefreshingBlock:^{
             [weakSelf loadMoreData];
         }];
         
@@ -254,11 +256,14 @@
 
 #pragma mark - setCardFrames
 - (void)setCardFrames:(NSMutableArray *)cardFrames {
-    _cardFrames = cardFrames;
+
+    _cardFrames = cardFrames;    
     [self.tableView reloadData];
     if (cardFrames.count > 0) {
         self.searchView.hidden = NO;
+        self.contentLoadingView.hidden = YES;
     }
+
 }
 
 #pragma mark - 跳转到搜索栏
@@ -267,18 +272,21 @@
     if ([self.delegate respondsToSelector:@selector(page:didClickSearchImageView:)]) {
         [self.delegate page:self didClickSearchImageView:imageView];
     }
+
 }
 
 #pragma mark - 自动加载最新数据
 - (void)autotomaticLoadNewData {
     if (self.cardFrames.count > 0) {
-        [self.tableView.header beginRefreshing];
+        
+        [self.tableView.mj_header beginRefreshing];
     }
-    
+
 }
 
 #pragma mark - 下拉刷新
 - (void)loadNewData{
+    
     // 隐藏上次看到位置的提示按钮
     for (CardFrame *cardFrame in self.cardFrames) {
         Card *card = cardFrame.card;
@@ -295,15 +303,12 @@
         param.type = HomeCardsFetchTypeNew;
         param.channelID = [NSString stringWithFormat:@"%@", card.channelId];
         param.count = @20;
-        param.startTime = cardFrame.card.updateTime;
-        __weak typeof(self) weakSelf = self;
+        
         NSMutableArray *tempArray = [[NSMutableArray alloc] init];
         [CardTool cardsWithParam:param channelID: param.channelID success:^(NSArray *cards) {
             
             if (cards.count > 0) {
-                
                 [cardFrame setCard:card tipButtonHidden:NO];
-                    
                 for (int i = 0; i < (int)cards.count; i ++) {
                     CardFrame *cardFrame = [[CardFrame alloc] init];
                     cardFrame.card = cards[i];
@@ -311,25 +316,25 @@
                 }
                 NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:
                                        NSMakeRange(0,[tempArray count])];
-                [weakSelf.cardFrames insertObjects: tempArray atIndexes:indexes];
-                    
-                [weakSelf.tableView reloadData];
+                [self.cardFrames insertObjects: tempArray atIndexes:indexes];
+                [self.tableView reloadData];
+     
             }
-            
-            [weakSelf showNewCount:tempArray.count];
-            [weakSelf.tableView.header endRefreshing];
+            [self showNewCount:tempArray.count];
+            [self.tableView.mj_header endRefreshing];
         } failure:^(NSError *error) {
-            [weakSelf.tableView.header endRefreshing];
+            [self.tableView.mj_header endRefreshing];
             [MBProgressHUD showError:@"网络连接中断"];
         }];
     } else {
      
-        [self.tableView.header endRefreshing];
+        [self.tableView.mj_header endRefreshing];
     }
+    
+
 }
 
 - (void)showNewCount:(NSInteger)count {
-
     self.promptLabel.hidden = NO;
     if (count) {
         self.promptLabel.text = [NSString stringWithFormat:@"已为您推荐%ld条新内容", (long)count];
@@ -347,57 +352,60 @@
             }];
         });
     }];
+
 }
 #pragma mark - 加载更多
 - (void)loadMoreData {
+    if (self.cardFrames.count == 0) {
+        return;
+    }
     CardFrame *cardFrame = [self.cardFrames lastObject];
     Card *card = cardFrame.card;
-        CardParam *param = [[CardParam alloc] init];
-        param.channelID = [NSString stringWithFormat:@"%@", card.channelId];
-        param.type = HomeCardsFetchTypeMore;
-        param.count = @20;
-        param.startTime = card.updateTime;
     
-        NSMutableArray *tempCardFrames = self.cardFrames;
-        [CardTool cardsWithParam:param  channelID:param.channelID success:^(NSArray *cards) {
-            for (Card *card in cards) {
-                CardFrame *cardFrame = [[CardFrame alloc] init];
-                cardFrame.card = card;
-                [tempCardFrames addObject:cardFrame];
-            }
-        self.cardFrames = tempCardFrames;            
-        [self.tableView.footer endRefreshing];
+    CardParam *param = [[CardParam alloc] init];
+    param.channelID = [NSString stringWithFormat:@"%@", card.channelId];
+    param.type = HomeCardsFetchTypeMore;
+    param.count = @20;
+    param.startTime = card.updateTime;
+
+    NSMutableArray *tempCardFrames = self.cardFrames;
+    [CardTool cardsWithParam:param  channelID:param.channelID success:^(NSArray *cards) {
+        for (Card *card in cards) {
+            CardFrame *cardFrame = [[CardFrame alloc] init];
+            cardFrame.card = card;
+            [tempCardFrames addObject:cardFrame];
+        }
+        self.cardFrames = tempCardFrames;
+        [self.tableView.mj_footer endRefreshing];
         if (!cards.count) {
-            [self.tableView.footer noticeNoMoreData];
-          }
-        } failure:^(NSError *error) {
-            [self.tableView.footer endRefreshing];
-        }];
+            [self.tableView.mj_footer endRefreshingWithNoMoreData];
+        }
+    } failure:^(NSError *error) {
+        [self.tableView.mj_footer endRefreshing];
+    }];
+
 }
 
 
 #pragma mark - tableView  datasource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    NSLog(@"aa");
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-     NSLog(@"bb");
+
     return self.cardFrames.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    NSLog(@"cc");
+
     NSString *cellIdentifier = self.cellIdentifier;
     LPHomeViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (cell == nil) {
         cell = [[LPHomeViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     cell.cardFrame = self.cardFrames[indexPath.row];
-    
     __weak typeof(self) weakSelf = self;
     [cell didClickTipButtonBlock:^() {
         [weakSelf autotomaticLoadNewData];
@@ -409,18 +417,12 @@
             [weakSelf.delegate page:weakSelf didClickDeleteButtonWithCardFrame:cell.cardFrame deleteButton:deleteButton];
         }
         
-    }];
-        
+    }];    
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-     NSLog(@"dd");
-//    NSLog(@"%@", [self class]);
-    
     CardFrame *cardFrame = self.cardFrames[indexPath.row];
-    
     return cardFrame.cellHeight;
 }
 
@@ -430,35 +432,21 @@
 //}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    NSLog(@"ee");
+
     CardFrame *cardFrame = self.cardFrames[indexPath.row];
     if ([self.delegate respondsToSelector:@selector(page:didSelectCellWithCardID:cardFrame:)]) {
         [self.delegate page:self didSelectCellWithCardID:cardFrame.card.objectID cardFrame:cardFrame];
+        // 记录当前行号
+        LPHomeRowManager *rowManager = [LPHomeRowManager sharedManager];
+        rowManager.currentRowIndex = indexPath.row;
     }
     
-    // 记录当前行号
-    LPHomeRowManager *rowManager = [LPHomeRowManager sharedManager];
-    rowManager.currentRowIndex = indexPath.row;
 }
-
-
-
-#pragma mark - LPHomeViewCell Delegate
-//- (void)homeViewCell:(LPHomeViewCell *)cell didSelectedCardFrame:(CardFrame *)cardFrame {
-//    NSInteger index = [self.cardFrames indexOfObject:cardFrame];
-//    if ([self.delegate respondsToSelector:@selector(page:didSelectCellWithCardID:cardFrame:)]) {
-//        [self.delegate page:self didSelectCellWithCardID:cardFrame.card.objectID cardFrame:cardFrame];
-//    }
-//    
-//    // 记录当前行号
-//    LPHomeRowManager *rowManager = [LPHomeRowManager sharedManager];
-//    rowManager.currentRowIndex = index;
-//}
 
 
 #pragma mark - 删除某行数据
 - (void)deleteRowAtIndexPath:(CardFrame *)cardFrame {
+
     NSInteger index = [self.cardFrames indexOfObject:cardFrame];
     [self.cardFrames removeObject:cardFrame];
     [self.tableView  deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
@@ -468,21 +456,25 @@
     if ([self.cardFrames containsObject:cardFrame]) {
         cardFrame.card.isRead = @(1);
         [self.cardFrames replaceObjectAtIndex:[self.cardFrames indexOfObject:cardFrame] withObject:cardFrame];
-        [self.tableView reloadData];
+         NSInteger index = [self.cardFrames indexOfObject:cardFrame];
+        [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
     }
    
 }
 
 #pragma mark - 刷新主页面
 - (void)tableViewReloadData {
+
     [self.tableView reloadData];
 }
 
 - (void)scrollToCurrentRow:(NSInteger)rowIndex {
+
     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:rowIndex inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
 }
 
 - (void)tapStatusBarScrollToTop{
+
     [self.tableView setContentOffset:CGPointZero animated:YES];
 }
 

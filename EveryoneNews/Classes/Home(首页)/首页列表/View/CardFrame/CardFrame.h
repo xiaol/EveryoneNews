@@ -11,49 +11,52 @@
 @interface CardFrame : NSObject
 
 // 无图模式
-@property (nonatomic, assign) CGRect noImageLabelFrame;
-@property (nonatomic, assign) CGRect noImageSourceLabelFrame;
-@property (nonatomic, assign) CGRect noImageSeperatorLineFrame;
-@property (nonatomic, assign) CGRect noImageDeleteButtonFrame;
-@property (nonatomic, assign) CGRect noImageCommentLabelFrame;
-@property (nonatomic, assign) CGRect noImageTipButtonFrame;
+@property (nonatomic, assign, readonly) CGRect noImageLabelFrame;
+@property (nonatomic, assign, readonly) CGRect noImageSourceLabelFrame;
+@property (nonatomic, assign, readonly) CGRect noImageSeperatorLineFrame;
+@property (nonatomic, assign, readonly) CGRect noImageDeleteButtonFrame;
+@property (nonatomic, assign, readonly) CGRect noImageCommentLabelFrame;
+@property (nonatomic, assign, readonly) CGRect noImageTipButtonFrame;
+@property (nonatomic, assign, readonly) CGRect noImageNewsTypeLabelFrame;
 
 // 单图（小图）
-@property (nonatomic, assign) CGRect singleImageTitleLabelFrame;
-@property (nonatomic, assign) CGRect singleImageImageViewFrame;
-@property (nonatomic, assign) CGRect singleImageSourceLabelFrame;
-@property (nonatomic, assign) CGRect singleImageSeperatorLineFrame;
-@property (nonatomic, assign) CGRect singleImageDeleteButtonFrame;
-@property (nonatomic, assign) CGRect singelImageCommentLabelFrame;
-@property (nonatomic, assign) CGRect singleTipButtonFrame;
+@property (nonatomic, assign, readonly) CGRect singleImageTitleLabelFrame;
+@property (nonatomic, assign, readonly) CGRect singleImageImageViewFrame;
+@property (nonatomic, assign, readonly) CGRect singleImageSourceLabelFrame;
+@property (nonatomic, assign, readonly) CGRect singleImageSeperatorLineFrame;
+@property (nonatomic, assign, readonly) CGRect singleImageDeleteButtonFrame;
+@property (nonatomic, assign, readonly) CGRect singelImageCommentLabelFrame;
+@property (nonatomic, assign, readonly) CGRect singleTipButtonFrame;
+@property (nonatomic, assign, readonly) CGRect singleNewsTypeLabelFrame;
 
 // 单图（大图）
-@property (nonatomic, assign) CGRect singleBigImageTitleLabelFrame;
-@property (nonatomic, assign) CGRect singleBigImageImageViewFrame;
-@property (nonatomic, assign) CGRect singleBigImageSourceLabelFrame;
-@property (nonatomic, assign) CGRect singleBigImageSeperatorLineFrame;
-@property (nonatomic, assign) CGRect singleBigImageDeleteButtonFrame;
-@property (nonatomic, assign) CGRect singelBigImageCommentLabelFrame;
-@property (nonatomic, assign) CGRect singleBigTipButtonFrame;
+@property (nonatomic, assign, readonly) CGRect singleBigImageTitleLabelFrame;
+@property (nonatomic, assign, readonly) CGRect singleBigImageImageViewFrame;
+@property (nonatomic, assign, readonly) CGRect singleBigImageSourceLabelFrame;
+@property (nonatomic, assign, readonly) CGRect singleBigImageSeperatorLineFrame;
+@property (nonatomic, assign, readonly) CGRect singleBigImageDeleteButtonFrame;
+@property (nonatomic, assign, readonly) CGRect singelBigImageCommentLabelFrame;
+@property (nonatomic, assign, readonly) CGRect singleBigTipButtonFrame;
+@property (nonatomic, assign, readonly) CGRect singleBigImageNewsTyeLabelFrame;
 
 // 三图模式以及三图以上模式
-@property (nonatomic, assign) CGRect multipleImageTitleLabelFrame;
-@property (nonatomic, assign) CGRect multipleImageViewFrame;
-@property (nonatomic, assign) CGRect multipleImageSourceLabelFrame;
-@property (nonatomic, assign) CGRect mutipleImageSeperatorLineFrame;
-@property (nonatomic, assign) CGRect mutipleImageDeleteButtonFrame;
-@property (nonatomic, assign) CGRect mutipleImageCommentLabelFrame;
-@property (nonatomic, assign) CGRect mutipleTipButtonFrame;
-//@property (nonatomic, assign) BOOL mutipleLabelSelected;
+@property (nonatomic, assign, readonly) CGRect multipleImageTitleLabelFrame;
+@property (nonatomic, assign, readonly) CGRect multipleImageViewFrame;
+@property (nonatomic, assign, readonly) CGRect multipleImageSourceLabelFrame;
+@property (nonatomic, assign, readonly) CGRect mutipleImageSeperatorLineFrame;
+@property (nonatomic, assign, readonly) CGRect mutipleImageDeleteButtonFrame;
+@property (nonatomic, assign, readonly) CGRect mutipleImageCommentLabelFrame;
+@property (nonatomic, assign, readonly) CGRect mutipleTipButtonFrame;
+@property (nonatomic, assign, readonly) CGRect multipleImageNewsTypeLabelFrame;
 
 // 是否显示提示
 @property (nonatomic, assign, getter=isTipButtonHidden) BOOL tipButtonHidden;
 
 // cell高度
-@property (nonatomic, assign) CGFloat cellHeight;
+@property (nonatomic, assign, readonly) CGFloat cellHeight;
 @property (nonatomic, strong) Card *card;
 
-@property (nonatomic, assign) NSInteger homeViewFontSize;
+@property (nonatomic, assign, readonly) NSInteger homeViewFontSize;
 
 - (void)setCard:(Card *)card tipButtonHidden:(BOOL)tipButtonHidden;
 

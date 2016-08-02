@@ -233,15 +233,6 @@ NSString * const cardCellIdentifier = @"CardCellIdentifier";
         [userDefaults setObject:@"NO" forKey:LPIsVersionFirstLoad];
         [userDefaults synchronize];
     }
-    
-//    // 存储用户的UUID
-//    if (![userDefaults objectForKey:@"uniqueDeviceID"]) {
-//        NSString *uuid = [self getDeviceId];
-//        // 去除“-”字符 Base64加密 移除末尾等号"="
-//        uuid = [[[uuid stringByTrimmingHyphen] stringByBase64Encoding] stringByTrimmingString:@"="];
-//        [userDefaults setObject:uuid forKey:@"uniqueDeviceID"];
-//        [userDefaults synchronize];
-//    }
 }
 
 #pragma mark - 点击Status Bar
@@ -373,8 +364,6 @@ NSString * const cardCellIdentifier = @"CardCellIdentifier";
     [self.navigationController pushViewController:homeChannelItemController animated:YES];
     
 }
-
-
 
 #pragma mark -  设置频道和页码的映射关系
 - (void)updatePageindexMapToChannelItemDictionary {

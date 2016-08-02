@@ -197,17 +197,20 @@ NSString *storeFileName = @"EveryoneNews.sqlite";
     if (debug==1) {
         NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
     }
-    if (_importContext.hasChanges) {
-        NSError *error = nil;
-        if ([_importContext save:&error]) {
-            NSLog(@"_importContext saved changes to parent context");
+    [_importContext performBlock:^{
+        if (_importContext.hasChanges) {
+            NSError *error = nil;
+            if ([_importContext save:&error]) {
+                NSLog(@"_importContext saved changes to parent context");
+            } else {
+                NSLog(@"Failed to save _importContext: %@", error);
+                [self showValidationError:error];
+            }
         } else {
-            NSLog(@"Failed to save _importContext: %@", error);
-            [self showValidationError:error];
+            //        NSLog(@"SKIPPED _context save, there are no changes!");
         }
-    } else {
-        //        NSLog(@"SKIPPED _context save, there are no changes!");
-    }
+    }];
+
 }
 
 - (void)saveBackgroundContext {

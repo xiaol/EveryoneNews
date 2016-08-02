@@ -35,6 +35,9 @@
 #import "CardConcern.h"
 #import "AccountTool.h"
 
+
+
+#define debug 1
 NSString *const reusePageID = @"reusePageID";
 NSString *const reuseConcernPageID = @"reuseConcernPageID";
 
@@ -169,6 +172,7 @@ NSString *const reuseConcernPageID = @"reuseConcernPageID";
 }
 
 - (UIView *)pagingView:(LPPagingView *)pagingView pageForPageIndex:(NSInteger)pageIndex {
+    
     LPChannelItem *channelItem = self.pageindexMapToChannelItemDictionary[@(pageIndex)];
     
     if (![channelItem.channelID isEqualToString:focusChannelID]) {
@@ -192,6 +196,7 @@ NSString *const reuseConcernPageID = @"reuseConcernPageID";
         
         return page;
     }
+ 
 }
 
 #pragma mark - LPPagingView Delegate
@@ -250,6 +255,9 @@ NSString *const reuseConcernPageID = @"reuseConcernPageID";
         }
 
     }
+//    if (debug==1) {
+//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+//    }
 }
 
 #pragma mark - 首页显示正在加载提示
@@ -298,9 +306,6 @@ NSString *const reuseConcernPageID = @"reuseConcernPageID";
 - (void)didClickReloadPage:(LPPagingViewPage *)page {
     [self channelItemDidAddToCoreData:self.pagingView.currentPageIndex];
 }
-
-
-
 
 #pragma mark - 加载更多
 - (void)loadMoreDataInPageAtPageIndex:(NSInteger)pageIndex {
@@ -352,16 +357,7 @@ NSString *const reuseConcernPageID = @"reuseConcernPageID";
             }
             
         } failure:^(NSError *error) {
-//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//                if (![channelItem.channelID isEqualToString:focusChannelID]) {
-//                    [self hideLoadingView];
-//                    LPPagingViewPage *page = (LPPagingViewPage *)self.pagingView.currentPage;
-//                    if (page.cardFrames.count == 0) {
-//                        page.reloadPage.hidden = NO;
-//                    }
-//                }
-//                
-//            });
+
         }];
     }
 }

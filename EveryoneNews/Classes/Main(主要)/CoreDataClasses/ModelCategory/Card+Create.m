@@ -43,6 +43,7 @@
 
 + (void)createCardsWithDictArray:(NSArray *)dicts
                     channelID:(NSString *)channelID cardsArrayBlock:(cardsArrayBlock)cardsArrayBlock {
+    
     CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     [cdh.importContext performBlock:^{
         NSMutableArray *cards = [NSMutableArray array];
@@ -55,6 +56,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             cardsArrayBlock([cards copy]);
         });
+     
     }];
 }
 
@@ -71,34 +73,36 @@
     NSArray *fetchedObjects;
     fetchedObjects = [context executeFetchRequest:fetch error:&error];
     
-    if ([fetchedObjects count] == 0 ) {
-        card = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:context];
-        [context obtainPermanentIDsForObjects:@[card] error:nil];
-        card.nid = dict[@"nid"];
-        card.title = dict[@"title"];
-        card.sourceSiteURL = dict[@"purl"];
-        card.sourceSiteName = dict[@"pname"];
-        card.updateTime = [NSString stringWithFormat:@"%lld", (long long)([dict[@"ptime"] timestampWithDateFormat:@"YYYY-MM-dd HH:mm:ss"] * 1000)];
-        // 奇点频道和关注频道编号需要做单独处理
-        if ([channelID  isEqual: @"1"]) {
-            card.channelId = @(1);
-        } else if ([channelID  isEqual:focusChannelID]) {
-            card.channelId = @(99999);
-            [CardConcern createCardWithKeyword:dict[@"pname"] card:card inManagedObjectContext:context];
+    if (error == nil) {
+        if ([fetchedObjects count] == 0 ) {
+            card = [NSEntityDescription insertNewObjectForEntityForName:@"Card" inManagedObjectContext:context];
+            [context obtainPermanentIDsForObjects:@[card] error:nil];
+            card.nid = dict[@"nid"];
+            card.title = dict[@"title"];
+            card.sourceSiteURL = dict[@"purl"];
+            card.sourceSiteName = dict[@"pname"];
+            card.updateTime = [NSString stringWithFormat:@"%lld", (long long)([dict[@"ptime"] timestampWithDateFormat:@"YYYY-MM-dd HH:mm:ss"] * 1000)];
+            // 奇点频道和关注频道编号需要做单独处理
+            if ([channelID  isEqual: @"1"]) {
+                card.channelId = @(1);
+            } else if ([channelID  isEqual:focusChannelID]) {
+                card.channelId = @(99999);
+                [CardConcern createCardWithKeyword:dict[@"pname"] card:card inManagedObjectContext:context];
+            } else {
+                card.channelId = dict[@"channel"];
+                
+            }
+            card.rtype = dict[@"rtype"];
+            card.type = dict[@"style"];
+            card.docId = dict[@"docid"];
+            card.commentsCount = dict[@"comment"];
+            [CardImage createCardImagesWithURLArray:dict[@"imgs"]
+                                               card:card
+                             inManagedObjectContext:context];
+    
         } else {
-            card.channelId = dict[@"channel"];
-          
+            card = [fetchedObjects objectAtIndex:0];
         }
-        
-        card.type = dict[@"style"];
-        card.docId = dict[@"docid"];
-        card.commentsCount = dict[@"comment"];
-        [CardImage createCardImagesWithURLArray:dict[@"imgs"]
-                                           card:card
-                         inManagedObjectContext:context];
-        
-    } else {
-        card = [fetchedObjects objectAtIndex:0];
     }
     return card;
 }

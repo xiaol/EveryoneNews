@@ -18,6 +18,7 @@ PODS:
     - Fabric (~> 1.6.3)
   - Fabric (1.6.7)
   - Masonry (0.6.4)
+  - pop (1.0.9)
   - Reachability (3.2)
   - SDWebImage (3.8.1):
     - SDWebImage/Core (= 3.8.1)
@@ -28,6 +29,7 @@ DEPENDENCIES:
   - Crashlytics
   - Fabric
   - Masonry (~> 0.6.3)
+  - pop (~> 1.0)
   - Reachability (~> 3.2)
   - SDWebImage (~> 3.7)
 
@@ -36,9 +38,10 @@ SPEC CHECKSUMS:
   Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
+  pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   SDWebImage: 35f9627a3e44b4f292a8a8ce6a531fa488239b91
 
-PODFILE CHECKSUM: 02a3587be752698106ac12b6320a84c64f17a522
+PODFILE CHECKSUM: 0b3e22f5ae7f747226cb31d96cf892f8aa7a7512
 
 COCOAPODS: 1.0.1

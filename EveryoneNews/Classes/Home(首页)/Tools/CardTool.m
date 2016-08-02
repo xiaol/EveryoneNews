@@ -44,6 +44,7 @@
         paramUser[@"city"] = @"";
         paramUser[@"district"] = @"";
         [LPHttpTool postJSONResponseAuthorizationWithURL:url params:paramUser success:^(id json, NSString *authorization) {
+           
             if ([json[@"code"] integerValue] == 2000) {
                 NSDictionary *dict = (NSDictionary *)json[@"data"];
                 if ([[dict[@"utype"] stringValue] isEqualToString:@"3"] || [[dict[@"utype"] stringValue] isEqualToString:@"4"]) {
@@ -80,6 +81,10 @@
    }
 
 
+
+#pragma mark - 奇点频道请求数据新接口
+
+
 #pragma mark - 奇点频道请求数据接口
 + (void)qiDianCardsWithUserParam:(CardParam *)param
                  paramDict:(NSMutableDictionary *)paramDict
@@ -91,7 +96,6 @@
         
         NSString *url = [NSString stringWithFormat:@"%@/v2/ns/fed/rn", ServerUrlVersion2];
         [LPHttpTool getJsonAuthorizationWithURL:url authorization:authorization params:paramDict success:^(id json) {
-            
             // 有数据
             if ([json[@"code"] integerValue] == 2000) {
                 [Card createCardsWithDictArray:json[@"data"] channelID:param.channelID cardsArrayBlock:^(NSArray *cardsArray) {
@@ -111,13 +115,14 @@
             }
             
         } failure:^(NSError *error) {
+            NSLog(@"%@", error);
             failure(error);
         }];
     } else if (param.type == HomeCardsFetchTypeMore) { // 上拉加载更多，先从网络取数据，获取不到再从本地数据库拿数据
-        
+
         NSString *url = [NSString stringWithFormat:@"%@/v2/ns/fed/ln", ServerUrlVersion2];
         [LPHttpTool getJsonAuthorizationWithURL:url authorization:authorization params:paramDict success:^(id json) {
-  
+//           NSLog(@"%@", json);
             if ([json[@"code"] integerValue] == 2000) {
                 [Card createCardsWithDictArray:json[@"data"] channelID:param.channelID cardsArrayBlock:^(NSArray *cardsArray) {
                     success(cardsArray);
@@ -136,6 +141,7 @@
             }
         } failure:^(NSError *error) {
             failure(error);
+             NSLog(@"%@", error);
         }];
     }
 

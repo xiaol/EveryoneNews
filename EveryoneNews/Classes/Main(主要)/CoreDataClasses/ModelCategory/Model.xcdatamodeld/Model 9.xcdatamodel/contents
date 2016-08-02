@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15F34" minimumToolsVersion="Xcode 4.3">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="10174" systemVersion="15G31" minimumToolsVersion="Xcode 4.3">
     <entity name="Album" representedClassName="Album" syncable="YES">
         <attribute name="albumID" optional="YES" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
         <attribute name="isUpload" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
@@ -21,6 +21,7 @@
         <attribute name="isRead" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="newId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="nid" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="rtype" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="sourceSiteName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sourceSiteURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
@@ -118,7 +119,7 @@
     <elements>
         <element name="Album" positionX="-983" positionY="-346" width="128" height="148"/>
         <element name="AlbumPhoto" positionX="-792" positionY="-558" width="128" height="58"/>
-        <element name="Card" positionX="-1422" positionY="-342" width="128" height="298"/>
+        <element name="Card" positionX="-1422" positionY="-342" width="128" height="315"/>
         <element name="CardConcern" positionX="-1683" positionY="-495" width="128" height="88"/>
         <element name="CardImage" positionX="-650" positionY="233" width="128" height="73"/>
         <element name="CardRelate" positionX="-1224" positionY="188" width="128" height="118"/>
