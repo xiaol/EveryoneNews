@@ -1,0 +1,58 @@
+{
+  "name": "UMengSocialCOM",
+  "version": "5.2.1",
+  "summary": "UMeng's official Social SDK for iOS.",
+  "description": "UMeng Social SDK,You can easily share any content to Sina Weibo, Tencent Weibo, Renren, Qzone, Doubban, Wechat and so on using our unified APIs.",
+  "requires_arc": false,
+  "homepage": "http://dev.umeng.com/social/ios/quick-integration",
+  "license": {
+    "type": "Copyright",
+    "text": "    Copyright 2011 - 2016 UMeng.com. All rights reserved.\n"
+  },
+  "authors": {
+    "UMeng": "support@umeng.com"
+  },
+  "source": {
+    "http": "http://dev.umeng.com/files/download/Umeng_SDK_Social_iOS_ARM64_5.2.1.zip"
+  },
+  "source_files": [
+    "Umeng_SDK_Social_iOS_ARM64_5.2.1/UMSocial_Sdk_5.2.1/Header/*.h",
+    "Umeng_SDK_Social_iOS_ARM64_5.2.1/UMSocial_Sdk_Extra_Frameworks/Wechat/*.h",
+    "Umeng_SDK_Social_iOS_ARM64_5.2.1/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI/*.h"
+  ],
+  "preserve_paths": [
+    "Umeng_SDK_Social_iOS_ARM64_5.2.1/UMSocial_Sdk_5.2.1/libUMSocial_Sdk_5.2.1.a",
+    "Umeng_SDK_Social_iOS_ARM64_5.2.1/UMSocial_Sdk_5.2.1/libUMSocial_Sdk_Comment_5.2.1.a",
+    "Umeng_SDK_Social_iOS_ARM64_5.2.1/UMSocial_Sdk_Extra_Frameworks/Wechat/libSocialWechat.a",
+    "Umeng_SDK_Social_iOS_ARM64_5.2.1/UMSocial_Sdk_Extra_Frameworks/Wechat/libWeChatSDK.a",
+    "Umeng_SDK_Social_iOS_ARM64_5.2.1/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI/libSocialQQ.a",
+    "Umeng_SDK_Social_iOS_ARM64_5.2.1/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI/TencentOpenAPI.framework"
+  ],
+  "libraries": [
+    "UMSocial_Sdk_5.2.1",
+    "UMSocial_Sdk_Comment_5.2.1",
+    "SocialQQ",
+    "SocialWechat",
+    "z",
+    "sqlite3",
+    "stdc++",
+    "iconv",
+    "WeChatSDK"
+  ],
+  "xcconfig": {
+    "LIBRARY_SEARCH_PATHS": "$(SRCROOT)/UMengSocial/Umeng_SDK_Social_iOS_ARM64_5.2.1/UMSocial_Sdk_5.2.1/** $(SRCROOT)/UMengSocial/Umeng_SDK_Social_iOS_ARM64_5.2.1/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI/ $(SRCROOT)/UMengSocial/Umeng_SDK_Social_iOS_ARM64_5.2.1/UMSocial_Sdk_Extra_Frameworks/Wechat/**",
+    "FRAMEWORK_SEARCH_PATHS": "$(SRCROOT)/UMengSocial/Umeng_SDK_Social_iOS_ARM64_5.2.1/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI/"
+  },
+  "frameworks": [
+    "SystemConfiguration",
+    "MobileCoreServices",
+    "TencentOpenAPI",
+    "Accounts",
+    "Social",
+    "CoreData",
+    "ImageIO"
+  ],
+  "platforms": {
+    "ios": "5.0"
+  }
+}

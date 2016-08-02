@@ -84,8 +84,6 @@ class NewsUtil: NSObject {
                 
                     for pub in publisher {
                         
-                        print(pub)
-                        
                         realm.create(Focus.self, value: pub, update: true)
                         
                         if let name = pub.objectForKey("name") as? String {

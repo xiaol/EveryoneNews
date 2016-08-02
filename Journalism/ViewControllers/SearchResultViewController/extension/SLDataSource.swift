@@ -49,7 +49,7 @@ extension SearchListViewController:UIViewControllerPreviewingDelegate,PreViewCon
         if new.nid == -1111{
         
             
-            if self.newsResults.count > 0 {
+            if self.focusResults.count <= 0 {
                 
                 let cell = tableView.dequeueReusableCellWithIdentifier("cccc")!
                 

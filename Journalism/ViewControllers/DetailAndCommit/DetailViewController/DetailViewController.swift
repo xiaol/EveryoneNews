@@ -15,33 +15,35 @@ import XLPagerTabStrip
 extension DetailViewController{
     
     /// 获取单例模式下的UIStoryBoard对象
-    var webView:WKWebView!{
-        
-        get{
-            
-            struct backTaskLeton{
-                
-                static var predicate:dispatch_once_t = 0
-                
-                static var bgTask:WKWebView? = nil
-            }
-            
-            dispatch_once(&backTaskLeton.predicate, { () -> Void in
-                
-                let configuration = WKWebViewConfiguration()
-                configuration.userContentController.addScriptMessageHandler(self, name: "JSBridge")
-                configuration.allowsInlineMediaPlayback = true
-                backTaskLeton.bgTask = WKWebView(frame: CGRect(origin: CGPointZero, size: CGSize(width: 600, height: 1000)), configuration: configuration)
-            })
-            
-            return backTaskLeton.bgTask
-        }
-    }
+//    var webView:WKWebView!{
+//        
+//        get{
+//            
+//            struct backTaskLeton{
+//                
+//                static var predicate:dispatch_once_t = 0
+//                
+//                static var bgTask:WKWebView? = nil
+//            }
+//            
+//            dispatch_once(&backTaskLeton.predicate, { () -> Void in
+//                
+//                let configuration = WKWebViewConfiguration()
+//                configuration.userContentController.addScriptMessageHandler(self, name: "JSBridge")
+//                configuration.allowsInlineMediaPlayback = true
+//                backTaskLeton.bgTask = WKWebView(frame: CGRect(origin: CGPointZero, size: CGSize(width: 600, height: 1000)), configuration: configuration)
+//            })
+//            
+//            return backTaskLeton.bgTask
+//        }
+//    }
 }
 
 
 
 class DetailViewController: UIViewController,WaitLoadProtcol {
+    
+    var webView:WKWebView!
     
     var waitView:WaitView!
     var new:New? // 当前要展示的新闻对象

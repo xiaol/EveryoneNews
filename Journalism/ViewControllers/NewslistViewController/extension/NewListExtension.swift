@@ -6,6 +6,9 @@
 //  Copyright © 2016年 aimobier. All rights reserved.
 //
 
+
+
+
 import UIKit
 import RealmSwift
 import MJRefresh
@@ -13,6 +16,11 @@ import PINRemoteImage
 import XLPagerTabStrip
 
 extension NewslistViewController{
+    
+    private var IS_HENGPING:Bool{
+        
+        return UIScreen.mainScreen().bounds.width > UIScreen.mainScreen().bounds.height
+    }
     
     /**
      当视图准备显示的时候所做的一些提前的额准备
@@ -37,14 +45,14 @@ extension NewslistViewController{
         tableView.rowHeight = UITableViewAutomaticDimension
         
         if channel?.id == 1994 {
-        
+            
             self.FResultDataMethod()
             
         }else{
-        
+            
             self.ResultDataMethod()
         }
-
+        
         /**
          *  该方法会检测用户设置字体大小的方法
          *  当用户设置字体后，会发起该通知。完成修改频道排序列表显示的方法以及频道列表的字体修改
@@ -79,7 +87,7 @@ extension NewslistViewController{
             Focus.refreshFocusNewList(timer*1000, finish: { (message) in
                 
                 self.handleMessageShowMethod(message, show: true)
-                }, fail: { 
+                }, fail: {
                     self.handleMessageShowMethod("未知错误", show: true,bc: UIColor.a_noConn)
             })
         })
@@ -87,22 +95,22 @@ extension NewslistViewController{
         self.tableView.mj_footer = NewRefreshFooterView {
             
             let timer = self.newsResults.last?.ptimes.timeIntervalSince1970 ?? NSDate().dateByAddingHours(-3).timeIntervalSince1970
-
+            
             Focus.loadFocusNewList(timer*1000, finish: {(nomore) in
                 
                 if nomore {
-                
+                    
                     self.hiddenWaitLoadView()
                     
                     self.tableView.mj_footer.endRefreshingWithNoMoreData()
                 }else{
-                
+                    
                     self.handleMessageShowMethod(show: false)
                 }
                 
-                }, fail: { 
+                }, fail: {
                     
-                self.handleMessageShowMethod(show: false)
+                    self.handleMessageShowMethod(show: false)
             })
         }
         
@@ -117,10 +125,10 @@ extension NewslistViewController{
     }
     
     /**
-      正常刷新刷新数据
+     正常刷新刷新数据
      */
     private func ResultDataMethod(){
-    
+        
         self.tableView.mj_header = NewRefreshHeaderView(refreshingBlock: {
             
             self.refreshNewsDataMethod(create:true,show: true)
@@ -142,7 +150,7 @@ extension NewslistViewController{
 extension NewslistViewController{
     
     private func notifitionNewChange(){
-    
+        
         /**
          *  监视当前新闻发生变化之后，进行数据的刷新
          */
@@ -154,14 +162,23 @@ extension NewslistViewController{
                 self.tableView.reloadData()
                 break
             case .Update(_, let deletions, let insertions, let modifications):
+                
+                
+                
+                print("delete",deletions.map{print($0)})
+                print("-----")
+                print("insertions",insertions.map{print($0)})
+                print("-----")
+                print("modifications",modifications.map{print($0)})
+                print("-----")
+                
+                
+                
                 // Query results have changed, so apply them to the UITableView
                 self.tableView.beginUpdates()
-                self.tableView.insertRowsAtIndexPaths(insertions.map { NSIndexPath(forRow: $0, inSection: 0) },
-                    withRowAnimation: .Automatic)
-                self.tableView.deleteRowsAtIndexPaths(deletions.map { NSIndexPath(forRow: $0, inSection: 0) },
-                    withRowAnimation: .Automatic)
-                self.tableView.reloadRowsAtIndexPaths(modifications.map { NSIndexPath(forRow: $0, inSection: 0) },
-                    withRowAnimation: .Automatic)
+                self.tableView.insertRowsAtIndexPaths(insertions.map { NSIndexPath(forRow: $0, inSection: 0) }, withRowAnimation: UITableViewRowAnimation.Fade)
+                self.tableView.deleteRowsAtIndexPaths(deletions.map { NSIndexPath(forRow: $0, inSection: 0) }, withRowAnimation: .Bottom)
+                self.tableView.reloadRowsAtIndexPaths(modifications.map { NSIndexPath(forRow: $0, inSection: 0) }, withRowAnimation: self.IS_HENGPING ? UITableViewRowAnimation.Bottom : .Fade)
                 self.tableView.endUpdates()
                 break
             case .Error(let error):
@@ -171,13 +188,13 @@ extension NewslistViewController{
             }
         }
         
-        self.focusNotificationToken = focusResults.addNotificationBlock({ (_) in
+        if self.channel?.id == 1994 {
             
-            if self.channel?.id == 1994 {
+            self.focusNotificationToken = focusResults.addNotificationBlock({ (_) in
                 
                 self.ShowNoFocusView(Focus.ExFocusArrayCount() <= 0)
-            }
-        })
+            })
+        }
     }
     
     

@@ -86,8 +86,11 @@ extension DetailViewController:WKNavigationDelegate{
      */
     func initWebViewInit(){
     
+        let configuration = WKWebViewConfiguration()
+        configuration.userContentController.addScriptMessageHandler(self, name: "JSBridge")
+        configuration.allowsInlineMediaPlayback = true
+        self.webView = WKWebView(frame: CGRect(origin: CGPointZero, size: CGSize(width: 600, height: 1000)), configuration: configuration)
         
-        self.webView.loadHTMLString("", baseURL: nil)
         self.webView.hidden = true
         self.webView.navigationDelegate = self
         self.webView.scrollView.scrollEnabled = false

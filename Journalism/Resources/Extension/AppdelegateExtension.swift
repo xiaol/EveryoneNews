@@ -30,8 +30,6 @@ extension AppDelegate:UISplitViewControllerDelegate {
         
         WeiboSDK.registerApp(SINA_KEY)/// 新浪微博
         
-
-        
         self.initializationReachabilityMethod()
     }
     
@@ -131,6 +129,17 @@ extension AppDelegate{
         NSNotificationCenter.defaultCenter().addObserverForName(UIPasteboardChangedNotification, object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
             
             self.reloadPasteboardChange()
+        }
+        
+        // 需要用户注册才可继续操作
+        NSNotificationCenter.defaultCenter().addObserverForName(USERNEDDLOGINTHENCANDOSOMETHING, object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+            
+            if let currentViewController = UIViewController.getCurrentViewController(){
+                
+                let viewController = UIStoryboard.shareUserStoryBoard.get_LoginViewController()
+                
+                currentViewController.presentViewController(viewController, animated: true, completion: nil)
+            }
         }
     }
     

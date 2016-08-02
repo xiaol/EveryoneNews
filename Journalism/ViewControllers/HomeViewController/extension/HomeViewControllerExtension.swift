@@ -36,14 +36,6 @@ extension HomeViewController{
             self.ChannelManagerContainerCollectionView.reloadData()
             self.buttonBarView.reloadData()
         }
-        
-        // 需要用户注册才可继续操作
-        NSNotificationCenter.defaultCenter().addObserverForName(USERNEDDLOGINTHENCANDOSOMETHING, object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
-            
-            let viewController = UIStoryboard.shareUserStoryBoard.get_LoginViewController()
-            
-            self.presentViewController(viewController, animated: true, completion: nil)
-        }
     }
     
     
