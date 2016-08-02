@@ -11,6 +11,6 @@ Podfile.lock
 
 .idea
 
-UMengSocial
+UMengSocial/
 
 !UMengSocial/UMengSocialCOM.podspec.json
