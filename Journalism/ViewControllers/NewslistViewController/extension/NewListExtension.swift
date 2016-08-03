@@ -120,7 +120,7 @@ extension NewslistViewController{
             
             self.handleMessageShowMethod(message, show: true)
             }, fail: {
-                self.handleMessageShowMethod("未知错误", show: true,bc: UIColor.a_noConn)
+                self.handleMessageShowMethod("未知错误", show: false,bc: UIColor.a_noConn)
         })
     }
     
@@ -165,12 +165,12 @@ extension NewslistViewController{
                 
                 
                 
-                print("delete",deletions.map{print($0)})
-                print("-----")
-                print("insertions",insertions.map{print($0)})
-                print("-----")
-                print("modifications",modifications.map{print($0)})
-                print("-----")
+//                print("delete",deletions.map{print($0)})
+//                print("-----")
+//                print("insertions",insertions.map{print($0)})
+//                print("-----")
+//                print("modifications",modifications.map{print($0)})
+//                print("-----")
                 
                 
                 

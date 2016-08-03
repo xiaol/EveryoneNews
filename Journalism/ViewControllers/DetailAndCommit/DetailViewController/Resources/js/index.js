@@ -45,7 +45,13 @@ function scrollMethod(offesty) {
 
             ajaxUrl.push(datasrc)
 
-            $(this).attr("src", datasrc)
+//            $(this).attr("src", datasrc)
+
+            window.webkit.messageHandlers.JSBridge.postMessage({
+                                                                     "type": 3,
+                                                                "index":index,
+                                                                     "url": datasrc
+                                                                     });
         }
     })
 }

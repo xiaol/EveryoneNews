@@ -57,3 +57,23 @@ a {
 .lazy {
     display: none;
 }
+
+
+.imgDiv{
+
+ margin: 10px 0px 10px 0px;
+}
+
+
+
+.customProgress{
+
+ height: 1px;
+ margin-bottom: 0px;
+ overflow: hidden;
+ border-radius: 0px;
+}
+
+.customProgressBar{
+    background-color: #0091fa;
+}

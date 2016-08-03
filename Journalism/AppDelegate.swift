@@ -32,13 +32,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate{
         
         return true
     }
-
-
-    func applicationDidBecomeActive(application: UIApplication){
-    
-        self.reloadPasteboardChange()
-    }
-    
     
     func application(application: UIApplication, handleOpenURL url: NSURL) -> Bool {
         

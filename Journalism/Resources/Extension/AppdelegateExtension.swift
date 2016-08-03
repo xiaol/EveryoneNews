@@ -143,15 +143,21 @@ extension AppDelegate{
         }
     }
     
-    
+    /**
+     刷新
+     */
     func reloadPasteboardChange(){
     
         /// 调用方法如下
         if let currentViewController = UIViewController.getCurrentViewController(){
             
-            if let str = UIPasteboard.generalPasteboard().string {
+            // 将字符串去掉前后空格并且小写
+            if let str = UIPasteboard.generalPasteboard().string?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()).lowercaseString {
                 
-                if str.containsString("http://") || str.containsString("https://") {
+                
+//                str.grep("[a-z]*(://)?(\w.){1,}(.\w){1,}")
+                
+                if str.hasPrefix("http://") || str.hasPrefix("https://") || str.hasSuffix(".com") {
                     
                     let alert = UIAlertController(title: nil, message: "检测到您复制了一条链接是否打开", preferredStyle: .Alert)
                     

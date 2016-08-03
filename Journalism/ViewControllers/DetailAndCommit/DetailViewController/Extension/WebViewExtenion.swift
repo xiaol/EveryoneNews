@@ -219,6 +219,57 @@ extension DetailViewController:WKNavigationDelegate{
 }
 
 
+import PINRemoteImage
+
+extension String {
+
+    private func DownloadImageByUrl(progress:(Int) -> Void,finish:(String) -> Void){
+    
+        guard let url = NSURL(string: self) else { return }
+        
+        PINRemoteImageManager.sharedImageManager().downloadImageWithURL(url, options: .DownloadOptionsNone, progressDownload: { (min, max) in
+            
+            let process = Int(CGFloat(min)/CGFloat(max)*100)
+            
+            progress((process-5 < 0 ? 0 : process-5))
+            
+            }) { (result) in
+                
+                if let img = result.image ,base64 = UIImagePNGRepresentation(img)?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.init(rawValue: 0)){
+                    
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+                        
+                        let string = "data:image/jpeg;base64,\(base64)".replaceRegex("<", with: "").replaceRegex(">", with: "")
+                        
+                        dispatch_async(dispatch_get_main_queue(), {
+                            
+                            progress(98)
+                            
+                            finish(string)
+                        })
+                    })
+                }
+                
+                if let img = result.animatedImage {
+                    
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+                        
+                        let base64 = img.data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.init(rawValue: 0))
+                        
+                        let string = "data:image/gif;base64,\(base64)".replaceRegex("<", with: "").replaceRegex(">", with: "")
+                        
+                        dispatch_async(dispatch_get_main_queue(), {
+                            
+                            progress(98)
+                            
+                            finish(string)
+                        })
+                    })
+                }
+        }
+    }
+}
+
 
 extension DetailViewController :WKScriptMessageHandler{
 
@@ -235,6 +286,37 @@ extension DetailViewController :WKScriptMessageHandler{
         guard let type = message.body["type"] as? Int else{return}
         
         if type == 0 { return self.adaptionWebViewHeightMethod() }
+        
+        if type == 3 {
+        
+            if let url = message.body["url"] as? String,index = message.body["index"] as? Int {
+            
+                url.DownloadImageByUrl({ (pro) in
+                    
+                    let jsStr = "$(\"div .customProgressBar\").eq(\(index)).css(\"width\",\"\(pro)%\")"
+                    
+                    self.webView.evaluateJavaScript(jsStr, completionHandler: nil)
+                    
+                    }, finish: { (base64) in
+                        
+                        let download = "$(\"div .customProgressBar\").eq(\(index)).css(\"width\",\"100%\")"
+                        
+                        self.webView.evaluateJavaScript(download, completionHandler: { (_, _) in
+                            
+                            let jsStr = "$(\"img\").eq(\(index)).attr(\"src\",\"\(base64)\")"
+                            
+                            self.webView.evaluateJavaScript(jsStr, completionHandler: { (_, _) in
+                                
+                                let display = "$(\"div .progress\").eq(\(index)).css(\"visibility\",\"hidden\")"
+                                
+                                self.webView.evaluateJavaScript(display, completionHandler: nil)
+                            })
+                        })
+                })
+            }
+            
+            return
+        }
         
         if let index = message.body["index"] as? Int,let res = new?.getNewContentObject()?.getSkPhotos() {
         

@@ -105,6 +105,61 @@ extension MGTemplateEngine{
     }
 }
 
+import PINRemoteImage
+import ReachabilitySwift
+
+extension String{
+
+    /**
+     处理视频文件
+     
+     - returns: 处理完成的视频文件
+     */
+    private func HandleForVideoHtml() -> String{
+    
+        return self.replaceRegex("(preview.html)", with: "player.html")
+            .replaceRegex("(allowfullscreen=\"\")", with: "")
+            .replaceRegex("(class=\"video_iframe\")", with: "")
+            .replaceRegex("(width=[0-9]+&)", with: "")
+            .replaceRegex("(height=[0-9]+&)", with: "")
+            .replaceRegex("(height=\"[0-9]+\")", with: "")
+            .replaceRegex("(width=\"[0-9]+\")", with: "")
+            .replaceRegex("(&?amp;)", with: "")
+            .replaceRegex("(auto=0)", with: "")
+//            .replaceRegex("(frameborder=\"[0-9]+\")", with: "")
+    }
+    
+    
+    
+    private func tryToDownloadImageUrl(){
+    
+        guard let url = NSURL(string: self) else {return}
+        
+        if APPNETWORK == Reachability.NetworkStatus.ReachableViaWiFi {
+
+            PINRemoteImageManager.sharedImageManager().downloadImageWithURL(url, completion: { (result) in
+                
+//                PINRemoteImageManager.sharedImageManager().cache.diskCache.setObject(<#T##object: NSCoding##NSCoding#>, forKey: <#T##String#>)
+                
+                
+                PINRemoteImageManager.sharedImageManager().cache.objectForKey(self, block: { (cache, str, img) in
+                    
+                    
+                    print(cache,"=asxasxasx=",str,"===-====",img)
+                })
+                
+                
+//                PINRemoteImageManager.sharedImageManager().cache.diskCache.fileURLForKey(self, block: { (cache, str, cod, url) in
+//                    
+//                    print(str,"---",cod,"---",url)
+//                })
+                
+//                print(PINRemoteImageManager.sharedImageManager().cache.diskCache.fileURLForKey(url.absoluteString))
+            })
+        }
+    }
+}
+
 
 extension NewContent{
     
@@ -127,64 +182,43 @@ extension NewContent{
             
             if let img = conten.img {
                 
+                var str = "<div class = \"imgDiv\">&span&&img&</div>"
+                
                 let res = img.grep("_(\\d+)X(\\d+).")
                 
                 if res.captures.count > 0 {
-                
-                    let width = res.captures[1]
-                    let height = res.captures[2]
                     
-                    body += "<p><img data-src=\"\(img)\" w=\(width) h=\(height) class=\"lazyload img-responsive center-block\"  ></p>"
+                    let width = res.captures[1]
+                        
+                    str = str.replaceRegex("(&span&)",  with: "<div style=\"height:2px;width:\(width)px\" class=\"progress img-responsive center-block customProgress\"><div class=\"progress-bar customProgressBar\" role=\"progressbar\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: 0%;\"> <span class=\"sr-only\">40% 完成</span> </div> </div>")
+                    
+                    str = str.replaceRegex("(&img&)", with: "<img style=\"display: flex; \" data-src=\"\(img)\" w=\(res.captures[1]) h=\(res.captures[2]) class=\"img-responsive center-block\">")
+                    
                 }else{
-                    body += "<p><img data-src=\"\(img)\" class=\"lazyload img-responsive center-block\"  ></p>"
+                    
+                    str = str.replaceRegex("(&img&)", with: "<img style=\"display: flex; \" data-src=\"\(img)\" class=\"img-responsive center-block\">")
+                    
+                    str = str.replaceRegex("(&span&)", with: "<div style=\"height:2px;\" class=\"progress customProgress\"><div class=\"progress-bar customProgressBar\" role=\"progressbar\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: 0%;\"> </div> </div>")
                 }
                 
+                body += str
             }
             
             if let vid = conten.vid {
                 
-                var str = vid
-                
-                if str.containsString(" src=\"https://v.qq.com/iframe/preview.html") {
-                
-                    let rand = NSString(string: str).rangeOfString(" src=\"https://v.qq.com/iframe/preview.html")
-                    
-                    str = NSString(string: str).stringByReplacingCharactersInRange(rand, withString: " src=\"http://v.qq.com/iframe/player.html")
-                }
-                
-                if str.containsString("allowfullscreen=\"\"") {
-                    
-                    let rand = NSString(string: str).rangeOfString("allowfullscreen=\"\"")
-                    
-                    str = NSString(string: str).stringByReplacingCharactersInRange(rand, withString: "allowfullscreen=\"\"")
-                }
-                
-                while str.containsString("width=") {
-                    
-                    let rand = NSString(string: str).rangeOfString("width=")
-                    
-                    str = NSString(string: str).stringByReplacingCharactersInRange(rand, withString: "")
-                }
-                
-                while str.containsString("height=") {
-                    
-                    let rand = NSString(string: str).rangeOfString("height=")
-                    
-                    str = NSString(string: str).stringByReplacingCharactersInRange(rand, withString: "")
-                }
+                let str = vid.HandleForVideoHtml()
                 
                 body += "<div id=\"video\">\(str)</div>"
             }
             
             if let txt = conten.txt {
+                
                 body += "<p>\(txt)</p>"
             }
         }
         
         
         body+="<br/><hr style=\"height:1.5px;border:none;border-top:1px dashed #999999;\" />"
-        
-        
         body+="<p style=\"font-size:12px;color:#999999\" align=\"center\" color＝\"#999999\"><span>原网页由 奇点资讯 转码以便移动设备阅读</span></p>"
         body+="<p style=\"font-size:12px;\" align=\"center\"><span><a style=\"color:#999999;text-decoration:underline\" href =\"\(self.purl)\">查看原文</a></span></p>"
         
