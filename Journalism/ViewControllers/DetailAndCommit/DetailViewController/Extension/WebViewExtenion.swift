@@ -176,17 +176,21 @@ extension DetailViewController:WKNavigationDelegate{
         
         self.adaptionWebViewHeightMethod()
         
-
         self.webView.hidden = false
         
         self.tableView.setContentOffset(CGPoint(x: 0,y: 1), animated: false)
         
-        if let off = new?.getNewContentObject()?.scroffY {
+        if let off = self.new?.getNewContentObject()?.scroffY {
             
             self.tableView.setContentOffset(CGPoint(x: 0, y: CGFloat(off)), animated: false)
         }
         
-        self.hiddenWaitLoadView() // 隐藏加载视图
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW,Int64(0.6 * Double(NSEC_PER_SEC))),dispatch_get_main_queue(), {
+            
+
+            
+            self.hiddenWaitLoadView() // 隐藏加载视图
+        })
     }
     
     func webView(webView: WKWebView, didFailNavigation navigation: WKNavigation!, withError error: NSError) {
@@ -219,13 +223,20 @@ extension DetailViewController:WKNavigationDelegate{
 }
 
 
+import PINCache
 import PINRemoteImage
 
 extension String {
 
     private func DownloadImageByUrl(progress:(Int) -> Void,finish:(String) -> Void){
     
+        if let str = PINCache.sharedCache().objectForKey("hanle\(self)") as? String {
+            
+            return finish(str)
+        }
+        
         guard let url = NSURL(string: self) else { return }
+        
         
         PINRemoteImageManager.sharedImageManager().downloadImageWithURL(url, options: .DownloadOptionsNone, progressDownload: { (min, max) in
             
@@ -246,6 +257,8 @@ extension String {
                             progress(98)
                             
                             finish(string)
+                            
+                            PINCache.sharedCache().setObject(string, forKey: "hanle\(self)")
                         })
                     })
                 }
@@ -263,6 +276,8 @@ extension String {
                             progress(98)
                             
                             finish(string)
+                            
+                            PINCache.sharedCache().setObject(string, forKey: "hanle\(self)")
                         })
                     })
                 }
@@ -302,7 +317,7 @@ extension DetailViewController :WKScriptMessageHandler{
                         let download = "$(\"div .customProgressBar\").eq(\(index)).css(\"width\",\"100%\")"
                         
                         self.webView.evaluateJavaScript(download, completionHandler: { (_, _) in
-                            
+                        
                             let jsStr = "$(\"img\").eq(\(index)).attr(\"src\",\"\(base64)\")"
                             
                             self.webView.evaluateJavaScript(jsStr, completionHandler: { (_, _) in
