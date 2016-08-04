@@ -35,6 +35,8 @@
 // cell高度
 @property (nonatomic, assign) CGFloat cellHeight;
 @property (nonatomic, strong) LPSearchCard *card;
+@property (nonatomic, assign) NSInteger homeViewFontSize;
+
 
 
 

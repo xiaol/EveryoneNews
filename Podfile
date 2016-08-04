@@ -10,6 +10,7 @@ target 'EveryoneNews' do
     pod 'Crashlytics'
     pod 'SDWebImage', '~>3.7'
     pod 'pop', '~> 1.0'
+    pod 'MBProgressHUD', '~> 1.0.0'
 
 end
 

@@ -54,8 +54,8 @@
     NSRange range = NSMakeRange(0, self.length);
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
     
-//    style.alignment = NSTextAlignmentJustified;
-//    style.firstLineHeadIndent = 0.001f;
+    style.alignment = NSTextAlignmentJustified;
+    style.firstLineHeadIndent = 0.001f;
     style.lineSpacing = lineSpacing;
     [string addAttribute:NSFontAttributeName value:font range:range];
     [string addAttribute:NSParagraphStyleAttributeName value:style range:range];

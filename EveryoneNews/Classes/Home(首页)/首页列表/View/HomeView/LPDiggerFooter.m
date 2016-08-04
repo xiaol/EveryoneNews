@@ -108,7 +108,7 @@ static const CGFloat fontSize = 12;
     NSString *loadStr1 = @"正在载入";
     CGSize size1 = [loadStr1 sizeWithFont:[UIFont systemFontOfSize:fontSize] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)];
     
-    NSString *loadStr2 = @"加载已完成";
+    NSString *loadStr2 = @"加载完成";
     CGSize size2 = [loadStr2 sizeWithFont:[UIFont systemFontOfSize:fontSize] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)];
     switch (state) {
         case MJRefreshStateIdle:
@@ -122,7 +122,7 @@ static const CGFloat fontSize = 12;
             [self.imageView.layer addAnimation:self.animation forKey:loadMoreAnimationKey];
             break;
         case MJRefreshStateNoMoreData:
-            self.label.text = @"加载已完成";
+            self.label.text = @"加载完成";
             self.imageView.hidden = YES;
             self.label.frame = CGRectMake(CGRectGetMinX(self.imageView.frame), 0, size2.width, loadMoreHeight);
             [self.imageView.layer removeAnimationForKey:loadMoreAnimationKey];

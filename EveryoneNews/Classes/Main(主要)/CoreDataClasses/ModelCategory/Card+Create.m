@@ -83,9 +83,9 @@
             card.sourceSiteName = dict[@"pname"];
             card.updateTime = [NSString stringWithFormat:@"%lld", (long long)([dict[@"ptime"] timestampWithDateFormat:@"YYYY-MM-dd HH:mm:ss"] * 1000)];
             // 奇点频道和关注频道编号需要做单独处理
-            if ([channelID  isEqual: @"1"]) {
+            if ([channelID isEqualToString:@"1"]) {
                 card.channelId = @(1);
-            } else if ([channelID  isEqual:focusChannelID]) {
+            } else if ([channelID  isEqualToString:focusChannelID]) {
                 card.channelId = @(99999);
                 [CardConcern createCardWithKeyword:dict[@"pname"] card:card inManagedObjectContext:context];
             } else {

@@ -13,11 +13,10 @@
 #import "CardImage.h"
 #import "LPUITextView.h"
 #import "Card+Create.h"
-#import "TTTAttributedLabel.h"
 
 @interface LPHomeViewCell ()
 // 无图
-@property (nonatomic, strong) TTTAttributedLabel *noImageLabel;
+@property (nonatomic, strong) UILabel *noImageLabel;
 
 @property (nonatomic, strong) UILabel *noImageSourceLabel;
 @property (nonatomic, strong) UILabel *noImageCommentLabel;
@@ -25,9 +24,10 @@
 @property (nonatomic, strong) UIButton *noImageDeleteButton;
 @property (nonatomic, strong) UIButton *noImageTipButton;
 @property (nonatomic, strong) UILabel *noImageNewsTypeLabel;
+@property (nonatomic, strong) CAShapeLayer *noImageNewsTypeShapeLayer;
 
 // 单图
-@property (nonatomic, strong) TTTAttributedLabel *titleLabel;
+@property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIImageView *iconView;
 @property (nonatomic, strong) UILabel *singleSourceLabel;
 @property (nonatomic, strong) UILabel *singleCommentLabel;
@@ -35,9 +35,10 @@
 @property (nonatomic, strong) UIButton *singleDeleteButton;
 @property (nonatomic, strong) UIButton *singleTipButton;
 @property (nonatomic, strong) UILabel *singleNewsTypeLabel;
+@property (nonatomic, strong) CAShapeLayer *singleNewsTypeShapeLayer;
 
 // 单图大图
-@property (nonatomic, strong) TTTAttributedLabel *bigImageTitleLabel;
+@property (nonatomic, strong) UILabel *bigImageTitleLabel;
 @property (nonatomic, strong) UIImageView *bigImageIconView;
 @property (nonatomic, strong) UILabel *singleBigImageSourceLabel;
 @property (nonatomic, strong) UILabel *singleBigImageCommentLabel;
@@ -45,10 +46,10 @@
 @property (nonatomic, strong) UIButton *singleBigImageDeleteButton;
 @property (nonatomic, strong) UIButton *singleBigImageTipButton;
 @property (nonatomic, strong) UILabel *singleBigImageNewsTypeLabel;
-
+@property (nonatomic, strong) CAShapeLayer *singleBigImageNewsTypeShapeLayer;
 
 // 三图
-@property (nonatomic, strong) TTTAttributedLabel *multipleImageLabel;
+@property (nonatomic, strong) UILabel *multipleImageLabel;
 @property (nonatomic, strong) UILabel *mutipleCommentLabel;
 @property (nonatomic, strong) UIImageView *firstMutipleImageView;
 @property (nonatomic, strong) UIImageView *secondMutipleImageView;
@@ -58,6 +59,7 @@
 @property (nonatomic, strong) UIButton *mutipleDeleteButton;
 @property (nonatomic, strong) UIButton *mutipleTipButton;
 @property (nonatomic, strong) UILabel *multipleImageNewsTypeLabel;
+@property (nonatomic, strong) CAShapeLayer *multipleImageNewsTypeShapeLayer;
 
 @end
 
@@ -76,13 +78,13 @@
     NSString *tipString = @"刚刚看到这里，点击加载更多";
     CGFloat tipFontSize = 16;
     CGFloat newsTypeCornerRadius = 2;
+    NSString *newTypeBoundsColor = LPColor13;
+    
     if(self) {
         // 无图
-        TTTAttributedLabel *noImageLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+        UILabel *noImageLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         noImageLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
         noImageLabel.numberOfLines = 0;
-        noImageLabel.backgroundColor = [UIColor clearColor];
-      
         [self.contentView addSubview:noImageLabel];
         self.noImageLabel = noImageLabel;
         
@@ -96,11 +98,17 @@
         
         UILabel *noImageNewsTypeLabel = [[UILabel alloc] init];
         noImageNewsTypeLabel.font = [UIFont systemFontOfSize:sourceFontSize];
-        noImageNewsTypeLabel.textColor = [UIColor colorFromHexString:LPColor2];
-        noImageNewsTypeLabel.layer.borderColor = [UIColor colorFromHexString:LPColor2].CGColor;
-        noImageNewsTypeLabel.layer.borderWidth = 0.5f;
-        noImageNewsTypeLabel.layer.cornerRadius = newsTypeCornerRadius;
+        noImageNewsTypeLabel.textColor = [UIColor colorFromHexString:newTypeBoundsColor];
         noImageNewsTypeLabel.textAlignment = NSTextAlignmentCenter;
+        
+        
+        CAShapeLayer *noImageNewsTypeShapeLayer = [CAShapeLayer layer];
+        noImageNewsTypeShapeLayer.cornerRadius = newsTypeCornerRadius;
+        noImageNewsTypeShapeLayer.borderColor = [UIColor colorFromHexString:newTypeBoundsColor].CGColor;
+        noImageNewsTypeShapeLayer.borderWidth = 0.5f;
+        [noImageNewsTypeLabel.layer addSublayer:noImageNewsTypeShapeLayer];
+        self.noImageNewsTypeShapeLayer = noImageNewsTypeShapeLayer;
+        
         [self.contentView addSubview:noImageNewsTypeLabel];
         self.noImageNewsTypeLabel = noImageNewsTypeLabel;
         
@@ -143,21 +151,25 @@
         [self.contentView addSubview:iconView];
         self.iconView = iconView;
         
-        TTTAttributedLabel *titleLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         titleLabel.textColor =  [UIColor colorFromHexString:@"#1a1a1a"];
         titleLabel.numberOfLines = 0;
-        titleLabel.backgroundColor = [UIColor clearColor];
         [self.contentView addSubview:titleLabel];
         self.titleLabel = titleLabel;
         
         
         UILabel *singleNewsTypeLabel = [[UILabel alloc] init];
         singleNewsTypeLabel.textAlignment = NSTextAlignmentCenter;
-        singleNewsTypeLabel.layer.borderColor = [UIColor colorFromHexString:LPColor2].CGColor;
-        singleNewsTypeLabel.layer.borderWidth = 0.5f;
-        singleNewsTypeLabel.layer.cornerRadius = newsTypeCornerRadius;
         singleNewsTypeLabel.font = [UIFont systemFontOfSize:sourceFontSize];
-        singleNewsTypeLabel.textColor = [UIColor colorFromHexString:LPColor2];
+        singleNewsTypeLabel.textColor = [UIColor colorFromHexString:newTypeBoundsColor];
+        
+        CAShapeLayer *singleNewsTypeShapeLayer = [CAShapeLayer layer];
+        singleNewsTypeShapeLayer.cornerRadius = newsTypeCornerRadius;
+        singleNewsTypeShapeLayer.borderColor = [UIColor colorFromHexString:newTypeBoundsColor].CGColor;
+        singleNewsTypeShapeLayer.borderWidth = 0.5f;
+        [singleNewsTypeLabel.layer addSublayer:singleNewsTypeShapeLayer];
+        self.singleNewsTypeShapeLayer = singleNewsTypeShapeLayer;
+        
         [self.contentView addSubview:singleNewsTypeLabel];
         self.singleNewsTypeLabel = singleNewsTypeLabel;
         
@@ -205,21 +217,25 @@
         [self.contentView addSubview:bigImageIconView];
         self.bigImageIconView = bigImageIconView;
         
-        TTTAttributedLabel *bigImageTitleLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+        UILabel *bigImageTitleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         bigImageTitleLabel.textColor =  [UIColor colorFromHexString:@"#1a1a1a"];
         bigImageTitleLabel.numberOfLines = 0;
-        bigImageTitleLabel.backgroundColor = [UIColor clearColor];
         [self.contentView addSubview:bigImageTitleLabel];
         self.bigImageTitleLabel = bigImageTitleLabel;
         
         
         UILabel *singleBigImageNewsTypeLabel = [[UILabel alloc] init];
         singleBigImageNewsTypeLabel.textAlignment = NSTextAlignmentCenter;
-        singleBigImageNewsTypeLabel.layer.borderColor = [UIColor colorFromHexString:LPColor2].CGColor;
-        singleBigImageNewsTypeLabel.layer.borderWidth = 0.5f;
-        singleBigImageNewsTypeLabel.layer.cornerRadius = newsTypeCornerRadius;
         singleBigImageNewsTypeLabel.font = [UIFont systemFontOfSize:sourceFontSize];
-        singleBigImageNewsTypeLabel.textColor = [UIColor colorFromHexString:LPColor2];
+        singleBigImageNewsTypeLabel.textColor = [UIColor colorFromHexString:newTypeBoundsColor];
+        
+        CAShapeLayer *singleBigImageNewsTypeShapeLayer = [CAShapeLayer layer];
+        singleBigImageNewsTypeShapeLayer.cornerRadius = newsTypeCornerRadius;
+        singleBigImageNewsTypeShapeLayer.borderColor = [UIColor colorFromHexString:newTypeBoundsColor].CGColor;
+        singleBigImageNewsTypeShapeLayer.borderWidth = 0.5f;
+        [singleBigImageNewsTypeLabel.layer addSublayer:singleBigImageNewsTypeShapeLayer];
+        self.singleBigImageNewsTypeShapeLayer = singleBigImageNewsTypeShapeLayer;
+        
         [self.contentView addSubview:singleBigImageNewsTypeLabel];
         self.singleBigImageNewsTypeLabel = singleBigImageNewsTypeLabel;
         
@@ -262,9 +278,8 @@
         self.singleBigImageTipButton = singleBigImageTipButton;
         
         //  三图及其三图以上
-        TTTAttributedLabel *multipleImageLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+        UILabel *multipleImageLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         multipleImageLabel.numberOfLines = 0;
-        multipleImageLabel.backgroundColor = [UIColor clearColor];
         multipleImageLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
         [self.contentView addSubview:multipleImageLabel];
         self.multipleImageLabel = multipleImageLabel;
@@ -289,11 +304,16 @@
         
         UILabel *multipleImageNewsTypeLabel = [[UILabel alloc] init];
         multipleImageNewsTypeLabel.textAlignment = NSTextAlignmentCenter;
-        multipleImageNewsTypeLabel.layer.borderColor = [UIColor colorFromHexString:LPColor2].CGColor;
-        multipleImageNewsTypeLabel.layer.borderWidth = 0.5f;
-        multipleImageNewsTypeLabel.layer.cornerRadius = newsTypeCornerRadius;
         multipleImageNewsTypeLabel.font = [UIFont systemFontOfSize:sourceFontSize];
-        multipleImageNewsTypeLabel.textColor = [UIColor colorFromHexString:LPColor2];
+        multipleImageNewsTypeLabel.textColor = [UIColor colorFromHexString:newTypeBoundsColor];
+        
+        CAShapeLayer *multipleImageNewsTypeShapeLayer = [CAShapeLayer layer];
+        multipleImageNewsTypeShapeLayer.cornerRadius = newsTypeCornerRadius;
+        multipleImageNewsTypeShapeLayer.borderColor = [UIColor colorFromHexString:newTypeBoundsColor].CGColor;
+        multipleImageNewsTypeShapeLayer.borderWidth = 0.5f;
+        [multipleImageNewsTypeLabel.layer addSublayer:multipleImageNewsTypeShapeLayer];
+        self.multipleImageNewsTypeShapeLayer = multipleImageNewsTypeShapeLayer;
+        
         [self.contentView addSubview:multipleImageNewsTypeLabel];
         self.multipleImageNewsTypeLabel = multipleImageNewsTypeLabel;
         
@@ -344,7 +364,7 @@
     
     _cardFrame = cardFrame;
     Card *card = cardFrame.card;
-    
+    CGFloat lineSpacing = 2.0;
     NSString *sourceSiteName = [card.sourceSiteName  isEqualToString: @""] ? @"未知来源": card.sourceSiteName;
     NSDate *currentDate = [NSDate date];
     NSDate *updateTime = [NSDate dateWithTimeIntervalSince1970:card.updateTime.longLongValue / 1000.0];
@@ -361,14 +381,30 @@
     NSString *commentsCount = [NSString stringWithFormat:@"%@评", card.commentsCount != nil ? card.commentsCount: @"0"];
     BOOL commentLabelHidden = [commentsCount isEqualToString:@"0评"] ? YES :NO;
     NSString *source = [NSString stringWithFormat:@"%@    %@",sourceSiteName, publishTime];
-    NSMutableAttributedString *titleHtml = [Card titleHtmlString:card.title isRead:card.isRead];
+    
+    NSAttributedString *attributeTitle =  [card.title attributedStringWithFont:[UIFont systemFontOfSize:self.cardFrame.homeViewFontSize] lineSpacing:lineSpacing];
+    
+    
+    if (card.isRead) {
+        self.noImageLabel.textColor = [UIColor grayColor];
+        self.titleLabel.textColor = [UIColor grayColor];
+        self.bigImageTitleLabel.textColor = [UIColor grayColor];
+        self.multipleImageLabel.textColor = [UIColor grayColor];
+    } else {
+        self.noImageLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
+        self.titleLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
+        self.bigImageTitleLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
+        self.multipleImageLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
+    }
+    
+    
     
     NSString *newsType = @"";
     NSString *newsTypeColor = LPColor2;
     switch ([card.rtype integerValue]) {
         case 1:
             newsType = @"热点";
-            newsTypeColor = LPColor6;
+            newsTypeColor = LPColor13;
             break;
         case 2:
             newsType = @"推送";
@@ -377,6 +413,8 @@
         default:
             break;
     }
+    CGFloat newsTypeLayerPadding = 1.0f;
+    CGFloat newsTypeLayerFixPadding = 0.2f;
 
     if([card.type integerValue] == imageStyleZero) {
         
@@ -418,12 +456,17 @@
         
         self.noImageLabel.frame = self.cardFrame.noImageLabelFrame;
         
-        self.noImageLabel.text = titleHtml;
+        self.noImageLabel.attributedText = attributeTitle;
         
         self.noImageNewsTypeLabel.frame = self.cardFrame.noImageNewsTypeLabelFrame;
         self.noImageNewsTypeLabel.text = newsType;
         self.noImageNewsTypeLabel.textColor = [UIColor colorFromHexString:newsTypeColor];
-        self.noImageNewsTypeLabel.layer.borderColor = [UIColor colorFromHexString:newsTypeColor].CGColor;
+        
+        CGFloat newsTypeShapeLayerH = self.noImageNewsTypeLabel.bounds.size.height  - newsTypeLayerPadding;
+        CGFloat newsTypeShapeLayerY = newsTypeLayerPadding / 2 + newsTypeLayerFixPadding;
+        CGFloat newsTypeShapeLayerW = self.noImageNewsTypeLabel.bounds.size.width;
+        self.noImageNewsTypeShapeLayer.frame = CGRectMake(0, newsTypeShapeLayerY, newsTypeShapeLayerW, newsTypeShapeLayerH);
+        self.noImageNewsTypeShapeLayer.borderColor = [UIColor colorFromHexString:newsTypeColor].CGColor;
     
         self.noImageSourceLabel.frame = self.cardFrame.noImageSourceLabelFrame;
         self.noImageSourceLabel.text = source;
@@ -485,7 +528,7 @@
         self.mutipleTipButton.hidden = YES;
         self.multipleImageNewsTypeLabel.hidden = YES;
         
-        self.titleLabel.text =  titleHtml;
+        self.titleLabel.attributedText =  attributeTitle;
         
         self.iconView.frame = self.cardFrame.singleImageImageViewFrame;
         self.titleLabel.frame = self.cardFrame.singleImageTitleLabelFrame;
@@ -496,7 +539,12 @@
         self.singleNewsTypeLabel.frame = self.cardFrame.singleNewsTypeLabelFrame;
         self.singleNewsTypeLabel.text = newsType;
         self.singleNewsTypeLabel.textColor = [UIColor colorFromHexString:newsTypeColor];
-        self.singleNewsTypeLabel.layer.borderColor = [UIColor colorFromHexString:newsTypeColor].CGColor;
+        
+        CGFloat newsTypeShapeLayerH = self.singleNewsTypeLabel.bounds.size.height  - newsTypeLayerPadding;
+        CGFloat newsTypeShapeLayerY = newsTypeLayerPadding / 2 + newsTypeLayerFixPadding;
+        CGFloat newsTypeShapeLayerW = self.singleNewsTypeLabel.bounds.size.width;
+        self.singleNewsTypeShapeLayer.frame = CGRectMake(0, newsTypeShapeLayerY, newsTypeShapeLayerW, newsTypeShapeLayerH);
+        self.singleNewsTypeShapeLayer.borderColor = [UIColor colorFromHexString:newsTypeColor].CGColor;
         
         [self.singleDeleteButton setBackgroundImage:[UIImage imageNamed:@"不感兴趣叉号"] forState:UIControlStateNormal];
         self.singleDeleteButton.frame = self.cardFrame.singleImageDeleteButtonFrame;
@@ -569,7 +617,7 @@
         self.multipleImageNewsTypeLabel.hidden = YES;
         
         
-        self.bigImageTitleLabel.text =  titleHtml;
+        self.bigImageTitleLabel.attributedText =  attributeTitle;
         
         self.bigImageIconView.frame = self.cardFrame.singleBigImageImageViewFrame;
         self.bigImageTitleLabel.frame = self.cardFrame.singleBigImageTitleLabelFrame;
@@ -577,7 +625,13 @@
         self.singleBigImageNewsTypeLabel.frame = self.cardFrame.singleBigImageNewsTyeLabelFrame;
         self.singleBigImageNewsTypeLabel.text = newsType;
         self.singleBigImageNewsTypeLabel.textColor = [UIColor colorFromHexString:newsTypeColor];
-        self.singleBigImageNewsTypeLabel.layer.borderColor = [UIColor colorFromHexString:newsTypeColor].CGColor;
+        
+        CGFloat newsTypeShapeLayerH = self.singleBigImageNewsTypeLabel.bounds.size.height  - newsTypeLayerPadding;
+        CGFloat newsTypeShapeLayerY = newsTypeLayerPadding / 2 + newsTypeLayerFixPadding;
+        CGFloat newsTypeShapeLayerW = self.singleBigImageNewsTypeLabel.bounds.size.width;
+        self.singleBigImageNewsTypeShapeLayer.frame = CGRectMake(0, newsTypeShapeLayerY, newsTypeShapeLayerW, newsTypeShapeLayerH);
+        
+        self.singleBigImageNewsTypeShapeLayer.borderColor = [UIColor colorFromHexString:newsTypeColor].CGColor;
         
         
         self.singleBigImageSourceLabel.text = source;
@@ -639,13 +693,19 @@
   
         
         self.multipleImageLabel.frame = self.cardFrame.multipleImageTitleLabelFrame;
-        self.multipleImageLabel.text =  titleHtml;
+        self.multipleImageLabel.attributedText =  attributeTitle;
         
         
         self.multipleImageNewsTypeLabel.frame = self.cardFrame.multipleImageNewsTypeLabelFrame;
         self.multipleImageNewsTypeLabel.text = newsType;
         self.multipleImageNewsTypeLabel.textColor = [UIColor colorFromHexString:newsTypeColor];
-        self.multipleImageNewsTypeLabel.layer.borderColor = [UIColor colorFromHexString:newsTypeColor].CGColor;
+        
+        CGFloat newsTypeShapeLayerH = self.multipleImageNewsTypeLabel.bounds.size.height  - newsTypeLayerPadding;
+        CGFloat newsTypeShapeLayerY = newsTypeLayerPadding / 2 + newsTypeLayerFixPadding;
+        CGFloat newsTypeShapeLayerW = self.multipleImageNewsTypeLabel.bounds.size.width;
+        self.multipleImageNewsTypeShapeLayer.frame = CGRectMake(0, newsTypeShapeLayerY, newsTypeShapeLayerW, newsTypeShapeLayerH);
+        
+        self.multipleImageNewsTypeShapeLayer.borderColor = [UIColor colorFromHexString:newsTypeColor].CGColor;
         
         self.multipleSourceLabel.frame = self.cardFrame.multipleImageSourceLabelFrame;
         self.multipleSourceLabel.text = source;

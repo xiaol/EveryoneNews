@@ -36,4 +36,6 @@
 @property (nonatomic, assign) CGFloat cellHeight;
 @property (nonatomic, strong) Card *card;
 
+@property (nonatomic, assign) NSInteger homeViewFontSize;
+
 @end

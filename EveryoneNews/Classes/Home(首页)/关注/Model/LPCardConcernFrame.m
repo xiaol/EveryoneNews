@@ -10,6 +10,7 @@
 #import "NSString+LP.h"
 #import "Card+Create.h"
 #import "CardConcern.h"
+#import "LPFontSizeManager.h"
 
 const static CGFloat paddingLeft = 13;
 const static CGFloat paddingTop = 15;
@@ -27,7 +28,12 @@ const static CGFloat paddingTop = 15;
     CGFloat sourceFontSize = LPFont7;
     CGFloat keywordFontSize = LPFont6;
     CGFloat keywordPaddingHorizontal = 10;
-    CGFloat keywordPadddingVertical = 6;
+    
+    self.homeViewFontSize = [LPFontSizeManager sharedManager].currentHomeViewFontSize;
+    CGFloat titleFontSize =  self.homeViewFontSize;CGFloat keywordPadddingVertical = 6;
+    
+    NSString *title = card.title;
+    CGFloat lineSpacing = 4.0;
     
     // 无图
     if(card.cardImages.count == 0) {
@@ -35,7 +41,11 @@ const static CGFloat paddingTop = 15;
         CGFloat titleX = paddingLeft;
         CGFloat titleY = paddingTop;
         CGFloat titleW = ScreenWidth - titleX * 2;
-        CGFloat titleH = [htmlTitle tttAttributeLabel:titleW];
+        
+        NSMutableAttributedString *attrStr =  [title attributedStringWithFont:[UIFont systemFontOfSize:titleFontSize] lineSpacing:lineSpacing];
+        CGRect rect = [attrStr boundingRectWithSize:CGSizeMake(titleW, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+        CGFloat titleH = rect.size.height;
+        
         _noImageTitleLabelFrame = CGRectMake(titleX, titleY, titleW, titleH);
         
         // 关键字
@@ -64,7 +74,10 @@ const static CGFloat paddingTop = 15;
         // 单图标题
         CGFloat titleX = paddingLeft;
         CGFloat titleW = ScreenWidth - imageW - paddingLeft * 2 - 20;
-        CGFloat titleH = [htmlTitle tttAttributeLabel:titleW];
+        
+        NSMutableAttributedString *attrStr =  [title attributedStringWithFont:[UIFont systemFontOfSize:titleFontSize] lineSpacing:lineSpacing];
+        CGRect rect = [attrStr boundingRectWithSize:CGSizeMake(titleW, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+        CGFloat titleH = rect.size.height;
         
         // 图片
         CGFloat imageX = ScreenWidth - paddingLeft - imageW;
@@ -118,7 +131,11 @@ const static CGFloat paddingTop = 15;
         CGFloat titleX = paddingLeft;
         CGFloat titleW = ScreenWidth - paddingLeft * 2;
         CGFloat titleY = paddingTop;
-        CGFloat titleH = [htmlTitle tttAttributeLabel:titleW];
+        
+        NSMutableAttributedString *attrStr =  [title attributedStringWithFont:[UIFont systemFontOfSize:titleFontSize] lineSpacing:lineSpacing];
+        CGRect rect = [attrStr boundingRectWithSize:CGSizeMake(titleW, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+        CGFloat titleH = rect.size.height;
+        
         _multipleImageTitleLabelFrame = CGRectMake(titleX, titleY , titleW, titleH);
         
         CGFloat imageY =   CGRectGetMaxY(_multipleImageTitleLabelFrame) + 8;

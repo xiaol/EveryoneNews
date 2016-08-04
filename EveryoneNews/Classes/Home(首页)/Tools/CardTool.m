@@ -82,7 +82,6 @@
 
 
 
-#pragma mark - 奇点频道请求数据新接口
 
 
 #pragma mark - 奇点频道请求数据接口
@@ -95,6 +94,7 @@
     if (param.type == HomeCardsFetchTypeNew) { // 下拉刷新, 直接发送网络请求, 成功后存入数据库
         
         NSString *url = [NSString stringWithFormat:@"%@/v2/ns/fed/rn", ServerUrlVersion2];
+        
         [LPHttpTool getJsonAuthorizationWithURL:url authorization:authorization params:paramDict success:^(id json) {
             // 有数据
             if ([json[@"code"] integerValue] == 2000) {
@@ -122,7 +122,6 @@
 
         NSString *url = [NSString stringWithFormat:@"%@/v2/ns/fed/ln", ServerUrlVersion2];
         [LPHttpTool getJsonAuthorizationWithURL:url authorization:authorization params:paramDict success:^(id json) {
-//           NSLog(@"%@", json);
             if ([json[@"code"] integerValue] == 2000) {
                 [Card createCardsWithDictArray:json[@"data"] channelID:param.channelID cardsArrayBlock:^(NSArray *cardsArray) {
                     success(cardsArray);

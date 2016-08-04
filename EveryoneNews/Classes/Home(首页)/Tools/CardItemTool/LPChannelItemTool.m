@@ -95,7 +95,7 @@
     LPChannelItem *item29 = [[LPChannelItem alloc] initWithChannelID:@"31" channelName:@"奇闻" channelIsSelected:@"0"];
     LPChannelItem *item30 = [[LPChannelItem alloc] initWithChannelID:@"32" channelName:@"萌宠" channelIsSelected:@"0"];
     
-    LPChannelItem *item31 = [[LPChannelItem alloc] initWithChannelID:@"1" channelName:@"自媒体" channelIsSelected:@"0"];
+    LPChannelItem *item31 = [[LPChannelItem alloc] initWithChannelID:@"36" channelName:@"自媒体" channelIsSelected:@"0"];
     LPChannelItem *item32 = [[LPChannelItem alloc] initWithChannelID:focusChannelID channelName:@"关注" channelIsSelected:@"0"];
     
     NSArray *array = [NSArray arrayWithObjects:item0,item1,item2,item3,item27,item26

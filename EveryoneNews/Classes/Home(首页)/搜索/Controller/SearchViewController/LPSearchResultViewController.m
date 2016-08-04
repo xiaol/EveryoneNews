@@ -151,6 +151,10 @@ static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
             weakSelf.cardFrames = newSearchItemsFrames;
             weakSelf.tableView.hidden = NO;
             [weakSelf.tableView reloadData];
+            
+            
+            
+            
             [weakSelf.tableView.footer endRefreshing];
             self.pageIndex = self.pageIndex + 1;
             

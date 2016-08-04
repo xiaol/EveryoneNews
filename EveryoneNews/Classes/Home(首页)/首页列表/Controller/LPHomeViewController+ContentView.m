@@ -232,7 +232,11 @@ NSString *const reuseConcernPageID = @"reuseConcernPageID";
     
     if (![channelItem.channelID isEqualToString:focusChannelID]) {
         LPPagingViewPage *page = (LPPagingViewPage *)[pagingView currentPage];
-        
+        if (page.cardFrames.count > 0) {
+            [self hideLoadingView];
+        } else {
+            [self showLoadingView];
+        }
         // 每隔5分钟执行自动刷新
         if (lastAccessDate != nil) {
             int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
@@ -290,14 +294,7 @@ NSString *const reuseConcernPageID = @"reuseConcernPageID";
         NSArray *cards = cardsArray;
         // 本地没有数据
         if (cards.count == 0) {
-            if (![channelItem.channelID isEqualToString:focusChannelID]) {
-                [self showLoadingView];
-            }
             [self loadMoreDataInPageAtPageIndex:pageIndex];
-        } else {
-            if (![channelItem.channelID isEqualToString:focusChannelID]) {
-                [self hideLoadingView];
-            }
         }
     }];
 }
@@ -313,13 +310,7 @@ NSString *const reuseConcernPageID = @"reuseConcernPageID";
     CardParam *param = [[CardParam alloc] init];
     param.type = HomeCardsFetchTypeMore;
     param.count = @(20);
-    
-    if (![userDefaults objectForKey:LPIsVersionFirstLoad]) {
-        param.startTime = [NSString stringWithFormat:@"%lld", (long long)([[[NSDate date] dateByAddingTimeInterval:(-12 * 60 * 60)] timeIntervalSince1970] * 1000)];
-    } else {
-        param.startTime = [NSString stringWithFormat:@"%lld", (long long)([[NSDate date] timeIntervalSince1970] * 1000)];
-    }
-    
+    param.startTime = [NSString stringWithFormat:@"%lld", (long long)([[[NSDate date] dateByAddingTimeInterval:(-12 * 60 * 60)] timeIntervalSince1970] * 1000)];
     param.channelID = channelItem.channelID;
     NSMutableArray *cfs = [NSMutableArray array];
     // 判断当前是否为关注频道
@@ -332,12 +323,6 @@ NSString *const reuseConcernPageID = @"reuseConcernPageID";
                 }
             [self.channelItemDictionary setObject:cfs forKey:channelItem.channelName];
             [self.pagingView reloadPageAtPageIndex:pageIndex];
-            if (cfs.count > 0) {
-                if (![channelItem.channelID isEqualToString:focusChannelID]) {
-                    [self hideLoadingView];
-                }
-            }
-            
         } failure:^(NSError *error) {
         }];
     } else {
@@ -346,6 +331,8 @@ NSString *const reuseConcernPageID = @"reuseConcernPageID";
                 CardFrame *cf = [[CardFrame alloc] init];
                 cf.card = card;
                 [cfs addObject:cf];
+           
+                
             }
             [self.channelItemDictionary setObject:cfs forKey:channelItem.channelName];
             [self.pagingView reloadPageAtPageIndex:pageIndex];

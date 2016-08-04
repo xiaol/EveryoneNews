@@ -8,7 +8,6 @@
 
 #import "LPConcernViewCell.h"
 #import "Card+Create.h"
-#import "TTTAttributedLabel.h"
 #import "LPCardConcernFrame.h"
 #import "Card.h"
 #import "CardImage.h"
@@ -18,25 +17,22 @@
 @interface LPConcernViewCell ()
 
 // 无图
-@property (nonatomic, strong) TTTAttributedLabel *noImageLabel;
+@property (nonatomic, strong) UILabel *noImageLabel;
 @property (nonatomic, strong) UILabel *noImageKeywordLabel;
-//@property (nonatomic, strong) UILabel *noImageSourceLabel;
 @property (nonatomic, strong) UIView *noImageSeperatorLine;
 
 // 单图
-@property (nonatomic, strong) TTTAttributedLabel *singleImageTitleLabel;
+@property (nonatomic, strong) UILabel *singleImageTitleLabel;
 @property (nonatomic, strong) UIImageView *singleImageView;
 @property (nonatomic, strong) UILabel *singleImageKeywordLabel;
-//@property (nonatomic, strong) UILabel *singleSourceLabel;
 @property (nonatomic, strong) UIView *singleImageSeperatorLine;
 
 // 三图
-@property (nonatomic, strong) TTTAttributedLabel *multipleImageLabel;
+@property (nonatomic, strong) UILabel *multipleImageLabel;
 @property (nonatomic, strong) UILabel *mutipleImageKeywordLabel;
 @property (nonatomic, strong) UIImageView *firstMutipleImageView;
 @property (nonatomic, strong) UIImageView *secondMutipleImageView;
 @property (nonatomic, strong) UIImageView *thirdMutipleImageView;
-//@property (nonatomic, strong) UILabel *multipleSourceLabel;
 @property (nonatomic, strong) UIView *mutipleSeperatorLine;
 
 @end
@@ -53,7 +49,7 @@
         
         CGFloat keywordRadius = 4;
         // 无图
-        TTTAttributedLabel *noImageLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+        UILabel *noImageLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         noImageLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
         noImageLabel.numberOfLines = 0;
         noImageLabel.backgroundColor = [UIColor clearColor];
@@ -83,7 +79,7 @@
         [self.contentView addSubview:singleImageView];
         self.singleImageView = singleImageView;
         
-        TTTAttributedLabel *singleImageTitleLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+        UILabel *singleImageTitleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         singleImageTitleLabel.textColor =  [UIColor colorFromHexString:@"#1a1a1a"];
         singleImageTitleLabel.numberOfLines = 0;
         singleImageTitleLabel.backgroundColor = [UIColor clearColor];
@@ -107,7 +103,7 @@
         self.singleImageSeperatorLine = singleImageSeperatorLine;
         
         //  三图及其三图以上
-        TTTAttributedLabel *multipleImageLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+        UILabel *multipleImageLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         multipleImageLabel.numberOfLines = 0;
         multipleImageLabel.backgroundColor = [UIColor clearColor];
         multipleImageLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
@@ -157,6 +153,11 @@
     Card *card = cardFrame.card;
     CardConcern *concern = card.cardConcern;
     NSMutableAttributedString *titleHtml = [Card titleHtmlString:card.title isRead:card.isRead];
+    
+    CGFloat lineSpacing = 2.0;
+    NSAttributedString *attributeTitle =  [card.title attributedStringWithFont:[UIFont systemFontOfSize:self.cardFrame.homeViewFontSize] lineSpacing:lineSpacing];
+  
+    
     NSString *keyword = [concern.keyword isEqualToString: @""] ? @"未知来源": concern.keyword;
     if(card.cardImages.count == 0) {
         self.noImageLabel.hidden = NO;
@@ -176,7 +177,7 @@
         self.mutipleSeperatorLine.hidden = YES;
         
         self.noImageLabel.frame = self.cardFrame.noImageTitleLabelFrame;
-        self.noImageLabel.text = titleHtml;
+        self.noImageLabel.attributedText = attributeTitle;
         
         self.noImageKeywordLabel.frame = self.cardFrame.noImageKeywordLabelFrame;
         self.noImageKeywordLabel.text = keyword;
@@ -203,7 +204,7 @@
         self.mutipleSeperatorLine.hidden = YES;
         
         
-        self.singleImageTitleLabel.text =  titleHtml;
+        self.singleImageTitleLabel.attributedText = attributeTitle;
         self.singleImageTitleLabel.frame = self.cardFrame.singleImageTitleLabelFrame;
         
         self.singleImageView.frame = self.cardFrame.singleImageImageViewFrame;
@@ -233,7 +234,7 @@
         self.mutipleImageKeywordLabel.hidden = NO;
         self.mutipleSeperatorLine.hidden = NO;
         
-        self.multipleImageLabel.text = titleHtml;
+        self.multipleImageLabel.attributedText = attributeTitle;
         self.multipleImageLabel.frame = self.cardFrame.multipleImageTitleLabelFrame;
     
         self.mutipleImageKeywordLabel.frame = self.cardFrame.multipleImageKeywordFrame;

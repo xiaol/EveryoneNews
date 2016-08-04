@@ -1000,6 +1000,10 @@ const static CGFloat changeFontSizeViewH = 150;
     
     NSString *reloadStr = @"点击屏幕重新加载";
     CGFloat fontSize = 12;
+    
+    if (iPhone6Plus) {
+        fontSize = 14;
+    }
     CGSize size = [reloadStr sizeWithFont:[UIFont systemFontOfSize:fontSize] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)];
     CGFloat labelW = size.width;
     CGFloat labelH = size.height;

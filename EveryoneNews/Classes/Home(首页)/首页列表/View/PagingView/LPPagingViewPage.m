@@ -261,7 +261,6 @@
     [self.tableView reloadData];
     if (cardFrames.count > 0) {
         self.searchView.hidden = NO;
-        self.contentLoadingView.hidden = YES;
     }
 
 }
@@ -303,6 +302,7 @@
         param.type = HomeCardsFetchTypeNew;
         param.channelID = [NSString stringWithFormat:@"%@", card.channelId];
         param.count = @20;
+        param.startTime = card.updateTime;
         
         NSMutableArray *tempArray = [[NSMutableArray alloc] init];
         [CardTool cardsWithParam:param channelID: param.channelID success:^(NSArray *cards) {

@@ -153,11 +153,11 @@
         
         // 下拉刷新功能
         __weak typeof(self) weakSelf = self;
-        self.tableView.header = [LPDiggerHeader headerWithRefreshingBlock:^{
+        self.tableView.mj_header = [LPDiggerHeader headerWithRefreshingBlock:^{
             [weakSelf loadNewData];
         }];
         // 上拉加载更多
-        self.tableView.footer = [LPDiggerFooter footerWithRefreshingBlock:^{
+        self.tableView.mj_footer = [LPDiggerFooter footerWithRefreshingBlock:^{
             [weakSelf loadMoreData];
         }];
     }
@@ -191,13 +191,13 @@
             }
             
             [weakSelf showNewCount:tempArray.count];
-            [weakSelf.tableView.header endRefreshing];
+            [weakSelf.tableView.mj_header endRefreshing];
         } failure:^(NSError *error) {
-            [weakSelf.tableView.header endRefreshing];
+            [weakSelf.tableView.mj_header endRefreshing];
             [MBProgressHUD showError:@"网络连接中断"];
         }];
     } else {
-        [self.tableView.header endRefreshing];
+        [self.tableView.mj_header endRefreshing];
     }
 }
 
@@ -219,12 +219,12 @@
             [tempCardFrames addObject:cardFrame];
         }
         self.cardFrames = tempCardFrames;
-        [self.tableView.footer endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
         if (!cards.count) {
-            [self.tableView.footer noticeNoMoreData];
+            [self.tableView.mj_footer endRefreshingWithNoMoreData];
         }
     } failure:^(NSError *error) {
-        [self.tableView.footer endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
     }];
 }
 
@@ -252,7 +252,7 @@
 #pragma mark - 自动加载最新数据
 - (void)autotomaticLoadNewData {
     if (self.cardFrames.count > 0) {
-        [self.tableView.header beginRefreshing];
+        [self.tableView.mj_header beginRefreshing];
     }
     
 }

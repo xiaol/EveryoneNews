@@ -299,6 +299,7 @@ typedef NS_ENUM(NSInteger, newsType) {
 #define LPColor10 @"#c0c0c0"
 #define LPColor11 @"#f0f0f0"
 #define LPColor12 @"#aaaaaa"
+#define LPColor13 @"#f83b3b"
 
 #define LPFont1 20
 #define LPFont2 19

@@ -56,7 +56,7 @@
 @property (nonatomic, assign, readonly) CGFloat cellHeight;
 @property (nonatomic, strong) Card *card;
 
-@property (nonatomic, assign, readonly) NSInteger homeViewFontSize;
+@property (nonatomic, assign) NSInteger homeViewFontSize;
 
 - (void)setCard:(Card *)card tipButtonHidden:(BOOL)tipButtonHidden;
 

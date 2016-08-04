@@ -48,9 +48,10 @@
         sourceFontSize = 11;
         
     }
-
+    self.homeViewFontSize = [LPFontSizeManager sharedManager].currentHomeViewFontSize;
+    CGFloat titleFontSize =  self.homeViewFontSize;
     CGFloat paddingBottom = 12;
-    CGFloat lineSpacing = 4.0;
+    CGFloat lineSpacing = 2.0;
  
     // 删除按钮宽度和高度
     CGFloat deleteButtonW = 22;
@@ -68,8 +69,9 @@
     _card = card;
     _cellHeight = 0.0f;
     
-    CGFloat newsTypeAdditionWidth = 4;
+    NSString *title = card.title;
     
+    CGFloat newsTypeAdditionWidth = 4;
     
     if (self.isTipButtonHidden) {
         tipButtonH = 0;
@@ -91,7 +93,10 @@
         
         
         CGFloat titleW = ScreenWidth - PaddingHorizontal * 2;
-        CGFloat titleH = [htmlTitle tttAttributeLabel:titleW];
+//        CGFloat titleH = [htmlTitle tttAttributeLabel:titleW];
+        NSMutableAttributedString *attrStr =  [title attributedStringWithFont:[UIFont systemFontOfSize:titleFontSize] lineSpacing:lineSpacing];
+        CGRect rect = [attrStr boundingRectWithSize:CGSizeMake(titleW, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+        CGFloat titleH = rect.size.height;
         
         _noImageLabelFrame = CGRectMake(PaddingHorizontal, CGRectGetMaxY(_noImageTipButtonFrame) + titlePaddingTop, titleW, titleH);
         
@@ -165,7 +170,10 @@
         CGFloat titleX = PaddingHorizontal;
         CGFloat titleW = ScreenWidth - imageW - PaddingHorizontal * 2 - 20;
         // 标题高度
-        CGFloat titleH = [htmlTitle tttAttributeLabel:titleW];
+//        CGFloat titleH = [htmlTitle tttAttributeLabel:titleW];
+        NSMutableAttributedString *attrStr =  [title attributedStringWithFont:[UIFont systemFontOfSize:titleFontSize] lineSpacing:lineSpacing];
+        CGRect rect = [attrStr boundingRectWithSize:CGSizeMake(titleW, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+        CGFloat titleH = rect.size.height;
         
         // 图片
         CGFloat imageX = ScreenWidth - PaddingHorizontal - imageW;
@@ -248,7 +256,10 @@
         _singleBigTipButtonFrame = CGRectMake(tipButtonX, tipButtonY, tipButtonW, tipButtonH);
         
         CGFloat titleW = ScreenWidth - PaddingHorizontal * 2;
-        CGFloat titleH = [htmlTitle tttAttributeLabel:titleW];
+//        CGFloat titleH = [htmlTitle tttAttributeLabel:titleW];
+        NSMutableAttributedString *attrStr =  [title attributedStringWithFont:[UIFont systemFontOfSize:titleFontSize] lineSpacing:lineSpacing];
+        CGRect rect = [attrStr boundingRectWithSize:CGSizeMake(titleW, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+        CGFloat titleH = rect.size.height;
         _singleBigImageTitleLabelFrame = CGRectMake(PaddingHorizontal,   CGRectGetMaxY(_singleBigTipButtonFrame) + paddingVertical, titleW, titleH);
         
         CGFloat imageY =   CGRectGetMaxY(_singleBigTipButtonFrame) + titleH + 8 + paddingVertical;
@@ -314,7 +325,11 @@
         _mutipleTipButtonFrame = CGRectMake(tipButtonX, tipButtonY, tipButtonW, tipButtonH);
         
         CGFloat titleW = ScreenWidth - PaddingHorizontal * 2;
-        CGFloat titleH = [htmlTitle tttAttributeLabel:titleW];
+//        CGFloat titleH = [htmlTitle tttAttributeLabel:titleW];
+        NSMutableAttributedString *attrStr =  [title attributedStringWithFont:[UIFont systemFontOfSize:titleFontSize] lineSpacing:lineSpacing];
+        CGRect rect = [attrStr boundingRectWithSize:CGSizeMake(titleW, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+        CGFloat titleH = rect.size.height;
+        
         _multipleImageTitleLabelFrame = CGRectMake(PaddingHorizontal,   CGRectGetMaxY(_mutipleTipButtonFrame) + paddingVertical, titleW, titleH);
         
         CGFloat imageY =   CGRectGetMaxY(_mutipleTipButtonFrame) + titleH + 8 + paddingVertical;
