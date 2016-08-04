@@ -98,6 +98,9 @@ public class New: Object {
     
     dynamic var orderIndex = 10
     
+    
+    dynamic var rtype = 0
+    
     override public static func primaryKey() -> String? {
         return "nid"
     }

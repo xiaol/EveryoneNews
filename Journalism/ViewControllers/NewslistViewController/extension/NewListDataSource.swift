@@ -148,6 +148,11 @@ extension NewslistViewController:UITableViewDataSource{
             self.handleActionMethod(cell, indexPath: indexPath)
         }
         
+        if self.channel?.id == 1 {
+            
+            cell.setPPPLabel(new)
+        }
+        
         return cell
     }
     

@@ -27,6 +27,7 @@ extension NSURL{
     }
 }
 
+import SnapKit
 
 class NewBaseTableViewCell: UITableViewCell {
     
@@ -36,9 +37,59 @@ class NewBaseTableViewCell: UITableViewCell {
     @IBOutlet var noLikeButton: UIButton! // 不喜欢 button 控件
     @IBOutlet var commentCountLabel: UILabel! // 评论 label 控件
     
+    let Taglabel = UILabel()
+    let JiaPublabel = UILabel()
+    
+    required init?(coder aDecoder: NSCoder) {
+        
+        super.init(coder: aDecoder)
+        
+        self.JiaPublabel.font = UIFont.a_font7
+        self.JiaPublabel.textColor = UIColor.a_color4
+        
+        self.Taglabel.font = UIFont.a_font7
+        self.Taglabel.layer.borderWidth = 0.5
+        self.Taglabel.layer.cornerRadius = 2
+        self.Taglabel.textAlignment = .Center
+        
+        self.addSubview(JiaPublabel)
+        self.addSubview(Taglabel)
+    }
+    
+    func setPPPLabel(new:New){
+        
+        if new.rtype == 1 {
+            
+            self.Taglabel.text = "热点"
+            self.Taglabel.textColor = UIColor.hexStringToColor("#f83b3b")
+            self.Taglabel.layer.borderColor = UIColor.hexStringToColor("#f83b3b").CGColor
+        }
+        
+        if new.rtype == 2 {
+            
+            self.Taglabel.text = "推送"
+            self.Taglabel.textColor = UIColor.hexStringToColor("#0091fa")
+            self.Taglabel.layer.borderColor = UIColor.hexStringToColor("#0091fa").CGColor
+            
+        }
+        
+        self.JiaPublabel.text = self.pubLabel.text
+
+        if new.rtype == 0 {
+            
+            self.pubLabel.hidden = false
+            self.JiaPublabel.hidden = true
+            self.Taglabel.hidden = true
+        }else{
+            
+            self.pubLabel.hidden = true
+            self.JiaPublabel.hidden = false
+            self.Taglabel.hidden = false
+        }
+    }
+    
     func setNewObject(new:New,bigImg:Int = -1){
     
-        
         timeLabel.font = UIFont.a_font7
         titleLabel.font = UIFont.a_font2
         pubLabel.font = UIFont.a_font7
@@ -61,6 +112,18 @@ class NewBaseTableViewCell: UITableViewCell {
         //下分割线
         CGContextSetStrokeColorWithColor(context, UIColor(red: 228/255, green:228/255, blue: 228/255, alpha: 1).CGColor)
         CGContextStrokeRect(context, CGRectMake(0, rect.height, rect.width, 1));
+        
+        self.Taglabel.snp_makeConstraints { (make) in
+            
+            make.left.equalTo(12)
+            make.centerY.equalTo(self.pubLabel)
+        }
+        
+        self.JiaPublabel.snp_makeConstraints { (make) in
+            
+            make.centerY.equalTo(self.Taglabel)
+            make.left.equalTo(self.Taglabel.snp_right).offset(6)
+        }
     }
 }
 
