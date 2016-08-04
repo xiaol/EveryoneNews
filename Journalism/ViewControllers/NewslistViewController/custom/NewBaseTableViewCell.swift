@@ -44,8 +44,7 @@ class NewBaseTableViewCell: UITableViewCell {
         
         super.init(coder: aDecoder)
         
-        self.JiaPublabel.font = UIFont.a_font7
-        self.JiaPublabel.textColor = UIColor.a_color4
+
         
         self.Taglabel.font = UIFont.a_font7
         self.Taglabel.layer.borderWidth = 0.5
@@ -57,6 +56,9 @@ class NewBaseTableViewCell: UITableViewCell {
     }
     
     func setPPPLabel(new:New){
+        
+        self.JiaPublabel.font = UIFont.a_font7
+        self.JiaPublabel.textColor = UIColor.a_color4
         
         if new.rtype == 1 {
             

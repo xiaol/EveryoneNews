@@ -102,6 +102,7 @@
 		AEC965A11CF5A4EF0053A88D /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC965A01CF5A4EF0053A88D /* CustomView.swift */; };
 		AEC965A51CF5AC900053A88D /* UserSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC965A41CF5AC900053A88D /* UserSettingViewController.swift */; };
 		AEC965A81CF5AFE70053A88D /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC965A71CF5AFE70053A88D /* AboutViewController.swift */; };
+		AED2AD311D53186600D2FF44 /* LaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED2AD301D53186600D2FF44 /* LaunchScreenViewController.swift */; };
 		AEDDCEF91D100FDB00498D47 /* UTIL.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDDCEF81D100FDB00498D47 /* UTIL.swift */; };
 		AEDECF291D0D11D100CDCE2B /* DataSourceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDECF281D0D11D100CDCE2B /* DataSourceExtension.swift */; };
 		AEDECF2B1D0D19A700CDCE2B /* CopyLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEDECF2A1D0D19A700CDCE2B /* CopyLabel.swift */; };
@@ -242,6 +243,7 @@
 		AEC965A01CF5A4EF0053A88D /* CustomView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
 		AEC965A41CF5AC900053A88D /* UserSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSettingViewController.swift; sourceTree = "<group>"; };
 		AEC965A71CF5AFE70053A88D /* AboutViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		AED2AD301D53186600D2FF44 /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
 		AEDDCEF81D100FDB00498D47 /* UTIL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UTIL.swift; sourceTree = "<group>"; };
 		AEDECF281D0D11D100CDCE2B /* DataSourceExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSourceExtension.swift; sourceTree = "<group>"; };
 		AEDECF2A1D0D19A700CDCE2B /* CopyLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CopyLabel.swift; sourceTree = "<group>"; };
@@ -789,6 +791,7 @@
 		AEC965A21CF5AC800053A88D /* UIViewController */ = {
 			isa = PBXGroup;
 			children = (
+				AED2AD2F1D53185200D2FF44 /* LaunchScreenViewController */,
 				AEBEAA961D1A417E004D3178 /* UserCollectionViewController */,
 				AEBEAA931D1A3F5B004D3178 /* MessageViewController */,
 				AEBEAA901D1A35E2004D3178 /* UserCommentViewController */,
@@ -815,6 +818,14 @@
 				AEC965A71CF5AFE70053A88D /* AboutViewController.swift */,
 			);
 			path = AboutViewController;
+			sourceTree = "<group>";
+		};
+		AED2AD2F1D53185200D2FF44 /* LaunchScreenViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AED2AD301D53186600D2FF44 /* LaunchScreenViewController.swift */,
+			);
+			path = LaunchScreenViewController;
 			sourceTree = "<group>";
 		};
 		AEDECF2C1D0D231300CDCE2B /* CustomWebView */ = {
@@ -1133,6 +1144,7 @@
 				AEF29B011D239671006D1412 /* PhotoBrowerTapView.swift in Sources */,
 				AEC47B441D0033A60055936D /* ShareExtension.swift in Sources */,
 				AEEE61981CFE9CEF00C5FF08 /* Comment.swift in Sources */,
+				AED2AD311D53186600D2FF44 /* LaunchScreenViewController.swift in Sources */,
 				AE043BAF1D40CDFA0090DD15 /* Focus.swift in Sources */,
 				AEC47B291D0032E20055936D /* CommExtension.swift in Sources */,
 				AEAF09E61D24C68300AFFCF6 /* SKTag.m in Sources */,
