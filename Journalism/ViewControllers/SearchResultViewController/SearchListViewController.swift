@@ -104,6 +104,8 @@ class SearchListViewController: UIViewController,WaitLoadProtcol {
      */
     private func srresultMethod(key:String,nomore:Bool,fin:Bool){
         
+        self.tableView.setContentOffset(CGPointZero, animated: false)
+        
         self.hiddenWaitLoadView()
         
         if !fin {

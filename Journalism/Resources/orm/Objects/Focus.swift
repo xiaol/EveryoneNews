@@ -19,7 +19,7 @@ public class Focus: Object {
     dynamic var name = "" /// 用于获取评论的 docid
     dynamic var icon = "" /// 新闻标题
     dynamic var descr = "" /// 新闻标题
-    dynamic var concern = 1 /// 来源ID
+    dynamic var concern = 0 /// 来源ID
     
     dynamic var color = "" /// 新闻标题
     
@@ -129,7 +129,9 @@ extension Focus{
     
         let realm = try! Realm()
         
-        return realm.objects(Focus.self).filter("name = '\(pname)' AND isf = 1").count > 0
+        let pre = NSPredicate(format: "name = %@ AND isf = 1", pname)
+        
+        return realm.objects(Focus.self).filter(pre).count > 0
     }
     
     

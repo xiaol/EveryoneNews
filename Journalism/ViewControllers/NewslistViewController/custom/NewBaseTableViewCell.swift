@@ -101,6 +101,7 @@ class NewBaseTableViewCell: UITableViewCell {
     
     func setPPPLabel(new:New){
         
+        self.Taglabel.font = UIFont.a_font7
         self.JiaPublabel.font = UIFont.a_font7
         self.JiaPublabel.textColor = UIColor.a_color4
         
