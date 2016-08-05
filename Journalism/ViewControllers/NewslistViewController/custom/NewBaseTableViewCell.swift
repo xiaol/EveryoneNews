@@ -29,6 +29,50 @@ extension NSURL{
 
 import SnapKit
 
+class UILabelPadding : UILabel {
+    
+    private var padding = UIEdgeInsetsZero
+    
+    @IBInspectable
+    var paddingLeft: CGFloat {
+        get { return padding.left }
+        set { padding.left = newValue }
+    }
+    
+    @IBInspectable
+    var paddingRight: CGFloat {
+        get { return padding.right }
+        set { padding.right = newValue }
+    }
+    
+    @IBInspectable
+    var paddingTop: CGFloat {
+        get { return padding.top }
+        set { padding.top = newValue }
+    }
+    
+    @IBInspectable
+    var paddingBottom: CGFloat {
+        get { return padding.bottom }
+        set { padding.bottom = newValue }
+    }
+    
+    override func drawTextInRect(rect: CGRect) {
+        super.drawTextInRect(UIEdgeInsetsInsetRect(rect, padding))
+    }
+    
+    override func textRectForBounds(bounds: CGRect, limitedToNumberOfLines numberOfLines: Int) -> CGRect {
+        let insets = self.padding
+        var rect = super.textRectForBounds(UIEdgeInsetsInsetRect(bounds, insets), limitedToNumberOfLines: numberOfLines)
+        rect.origin.x    -= insets.left
+        rect.origin.y    -= insets.top
+        rect.size.width  += (insets.left + insets.right)
+        rect.size.height += (insets.top + insets.bottom)
+        return rect
+    }
+    
+}
+
 class NewBaseTableViewCell: UITableViewCell {
     
     @IBOutlet var timeLabel: UILabel! // 标题 label 控件
@@ -37,15 +81,15 @@ class NewBaseTableViewCell: UITableViewCell {
     @IBOutlet var noLikeButton: UIButton! // 不喜欢 button 控件
     @IBOutlet var commentCountLabel: UILabel! // 评论 label 控件
     
-    let Taglabel = UILabel()
+    let Taglabel = UILabelPadding()
     let JiaPublabel = UILabel()
     
     required init?(coder aDecoder: NSCoder) {
         
         super.init(coder: aDecoder)
         
-
-        
+        self.Taglabel.paddingLeft = 2
+        self.Taglabel.paddingRight = 2
         self.Taglabel.font = UIFont.a_font7
         self.Taglabel.layer.borderWidth = 0.5
         self.Taglabel.layer.cornerRadius = 2

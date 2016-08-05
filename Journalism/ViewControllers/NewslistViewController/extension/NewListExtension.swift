@@ -178,7 +178,8 @@ extension NewslistViewController{
                 self.tableView.beginUpdates()
                 self.tableView.insertRowsAtIndexPaths(insertions.map { NSIndexPath(forRow: $0, inSection: 0) }, withRowAnimation: UITableViewRowAnimation.Fade)
                 self.tableView.deleteRowsAtIndexPaths(deletions.map { NSIndexPath(forRow: $0, inSection: 0) }, withRowAnimation: .Bottom)
-                self.tableView.reloadRowsAtIndexPaths(modifications.map { NSIndexPath(forRow: $0, inSection: 0) }, withRowAnimation: self.IS_HENGPING ? UITableViewRowAnimation.Bottom : .Fade)
+//                self.tableView.reloadRowsAtIndexPaths(modifications.map { NSIndexPath(forRow: $0, inSection: 0) }, withRowAnimation: self.IS_HENGPING ? UITableViewRowAnimation.Bottom : .Fade)
+                self.tableView.reloadRowsAtIndexPaths(modifications.map { NSIndexPath(forRow: $0, inSection: 0) }, withRowAnimation: .Fade)
                 self.tableView.endUpdates()
                 break
             case .Error(let error):

@@ -246,7 +246,7 @@ extension String {
             
             }) { (result) in
                 
-                if let img = result.image ,base64 = UIImagePNGRepresentation(img)?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.init(rawValue: 0)){
+                if let img = result.image ,base64 = UIImageJPEGRepresentation(img, 0.9)?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.init(rawValue: 0)){
                     
                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
                         

@@ -54,19 +54,11 @@ class SearchListViewController: UIViewController,WaitLoadProtcol {
         
         self.showWaitLoadView()
         
+        New.deleSearch()
+        
         NewsUtil.searchNewArrayByKey(self.searchKey, finish: { (key, nomore, fin) in
             
             self.srresultMethod(key, nomore: nomore, fin: fin)
-        })
-        
-        New.deleSearch()
-        
-        self.tableView.mj_header = NewRefreshHeaderView(refreshingBlock: {
-            
-            NewsUtil.searchNewArrayByKey(self.searchKey, finish: { (key, nomore, fin) in
-                
-                self.srresultMethod(key, nomore: nomore, fin: fin)
-            })
         })
         
         /**
@@ -120,8 +112,6 @@ class SearchListViewController: UIViewController,WaitLoadProtcol {
         }
         
         self.tableView.mj_footer.endRefreshing()
-        self.tableView.mj_header.endRefreshing()
-        
         
         if nomore {
         

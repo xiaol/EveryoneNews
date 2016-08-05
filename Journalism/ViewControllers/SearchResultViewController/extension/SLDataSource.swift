@@ -48,14 +48,12 @@ extension SearchListViewController:UIViewControllerPreviewingDelegate,PreViewCon
         
         if new.nid == -1111{
         
-            
             if self.focusResults.count <= 0 {
                 
                 let cell = tableView.dequeueReusableCellWithIdentifier("cccc")!
                 
                 return cell
             }
-            
             
             let cell = tableView.dequeueReusableCellWithIdentifier("fouce") as! FocusCell
             

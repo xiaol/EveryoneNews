@@ -44,7 +44,6 @@
 		AEA762FB1D3C83E300A07FA3 /* QiDianCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA762FA1D3C83E300A07FA3 /* QiDianCell.swift */; };
 		AEA762FD1D3C862800A07FA3 /* QiDianDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA762FC1D3C862800A07FA3 /* QiDianDataSource.swift */; };
 		AEA762FF1D3C87ED00A07FA3 /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA762FE1D3C87ED00A07FA3 /* ShareView.swift */; };
-		AEA763031D3CE93B00A07FA3 /* CBFimage.js in Resources */ = {isa = PBXBuildFile; fileRef = AEA763021D3CE93B00A07FA3 /* CBFimage.js */; };
 		AEAC3B151D11077D00A292F4 /* UserCenterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAC3B141D11077D00A292F4 /* UserCenterExtension.swift */; };
 		AEAC3B171D11220500A292F4 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAC3B161D11220500A292F4 /* LoginViewController.swift */; };
 		AEAC3B1A1D1132AA00A292F4 /* WaitLoadProtcol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAC3B191D1132AA00A292F4 /* WaitLoadProtcol.swift */; };
@@ -180,7 +179,6 @@
 		AEA762FA1D3C83E300A07FA3 /* QiDianCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QiDianCell.swift; sourceTree = "<group>"; };
 		AEA762FC1D3C862800A07FA3 /* QiDianDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QiDianDataSource.swift; sourceTree = "<group>"; };
 		AEA762FE1D3C87ED00A07FA3 /* ShareView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareView.swift; sourceTree = "<group>"; };
-		AEA763021D3CE93B00A07FA3 /* CBFimage.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = CBFimage.js; sourceTree = "<group>"; };
 		AEAC3B141D11077D00A292F4 /* UserCenterExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCenterExtension.swift; sourceTree = "<group>"; };
 		AEAC3B161D11220500A292F4 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		AEAC3B191D1132AA00A292F4 /* WaitLoadProtcol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaitLoadProtcol.swift; sourceTree = "<group>"; };
@@ -857,7 +855,6 @@
 		AEE3B5111D17A187008BC0EA /* js */ = {
 			isa = PBXGroup;
 			children = (
-				AEA763021D3CE93B00A07FA3 /* CBFimage.js */,
 				AEE3B5121D17A187008BC0EA /* jquery.js */,
 				AEE3B5191D17A409008BC0EA /* index.js */,
 			);
@@ -996,7 +993,6 @@
 				AEE3B5151D17A187008BC0EA /* content.css in Resources */,
 				AEE3B5141D17A187008BC0EA /* bootstrap.min.css in Resources */,
 				AEC09CDE1CE9776800D5A5CC /* LaunchScreen.storyboard in Resources */,
-				AEA763031D3CE93B00A07FA3 /* CBFimage.js in Resources */,
 				AEC722691D239CFD004D4AA4 /* SKPhotoBrowser.bundle in Resources */,
 				AEC9659E1CF5A2E70053A88D /* User.storyboard in Resources */,
 				AEC1D5C61CEDC34600B1F00C /* NSDateTimeAgo.bundle in Resources */,

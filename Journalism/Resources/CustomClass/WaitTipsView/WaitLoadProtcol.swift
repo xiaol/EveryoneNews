@@ -267,6 +267,7 @@ extension WaitLoadProtcol where Self:SearchListViewController{
         if self.waitView == nil {
             
             self.waitView = WaitView.shareWaitView
+            self.waitView.userInteractionEnabled = false
         }
         
         self.view.addSubview(self.waitView )
