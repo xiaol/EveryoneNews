@@ -11,13 +11,13 @@ import RealmSwift
 import PINRemoteImage
 
 extension NSURL{
-
+    
     func proPic(q:Int = 60) -> NSURL?{
         
         var urlStr = NSString(string: self.absoluteString+"@1e_1c_0o_0l_100sh_225h_300w_\(q)q.jpeg")
-    
-        if urlStr.containsString("bdp-pic.deeporiginalx.com/") {
         
+        if urlStr.containsString("bdp-pic.deeporiginalx.com/") {
+            
             urlStr = urlStr.stringByReplacingOccurrencesOfString("bdp-pic.deeporiginalx.com/", withString: "pro-pic.deeporiginalx.com/")
         }
         
@@ -83,7 +83,7 @@ class NewBaseTableViewCell: UITableViewCell {
     
     let Taglabel = UILabelPadding()
     let JiaPublabel = UILabel()
-
+    
     required init?(coder aDecoder: NSCoder) {
         
         super.init(coder: aDecoder)
@@ -121,7 +121,7 @@ class NewBaseTableViewCell: UITableViewCell {
         }
         
         self.JiaPublabel.text = self.pubLabel.text
-
+        
         if new.rtype == 0 {
             
             self.pubLabel.hidden = false
@@ -136,7 +136,7 @@ class NewBaseTableViewCell: UITableViewCell {
     }
     
     func setNewObject(new:New,bigImg:Int = -1){
-    
+        
         timeLabel.font = UIFont.a_font7
         titleLabel.font = UIFont.a_font2
         pubLabel.font = UIFont.a_font7
@@ -185,7 +185,7 @@ class NewNormalTableViewCell: NewBaseTableViewCell {
 class NewOneTableViewCell: NewBaseTableViewCell {
     
     @IBOutlet var imageView1: UIImageView!
-
+    
     override func setNewObject(new:New,bigImg:Int = -1){
         
         super.setNewObject(new)
@@ -203,7 +203,7 @@ class NewTwoTableViewCell: NewBaseTableViewCell {
     
     @IBOutlet var imageView1: UIImageView!
     @IBOutlet var imageView2: UIImageView!
-
+    
     lazy var imageView6 = UIImageView()
     
     required init?(coder aDecoder: NSCoder) {
@@ -221,7 +221,7 @@ class NewTwoTableViewCell: NewBaseTableViewCell {
         super.setNewObject(new)
         
         if bigImg >= 0{
-        
+            
             
             self.imageView6.hidden = false
             self.imageView1.hidden = true
@@ -271,7 +271,7 @@ class NewThreeTableViewCell: NewBaseTableViewCell {
     @IBOutlet var imageView2: UIImageView!
     @IBOutlet var imageView3: UIImageView!
     
-
+    
     override func setNewObject(new:New,bigImg:Int = -1){
         
         super.setNewObject(new)
