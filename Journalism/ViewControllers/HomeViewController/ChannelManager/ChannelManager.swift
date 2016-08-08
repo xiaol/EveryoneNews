@@ -21,7 +21,7 @@ extension HomeViewController{
         self.ChannelManagerTitleView.alpha = 0 // 初始化管理按钮位置
         
         
-        let width = UIScreen.mainScreen().bounds.width > UIScreen.mainScreen().bounds.height ? UIScreen.mainScreen().bounds.width : UIScreen.mainScreen().bounds.height
+        let width = max(UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height)
         
         self.ChannelManagerContainerView.transform = CGAffineTransformTranslate(self.ChannelManagerContainerView.transform, 0, -width) // 将频道列表视图隐藏
         self.ChannelDataSource.delegate = self
@@ -50,9 +50,9 @@ extension HomeViewController{
         
         UIView.animateWithDuration(0.3) {
             
-            let width = UIScreen.mainScreen().bounds.width > UIScreen.mainScreen().bounds.height ? UIScreen.mainScreen().bounds.width : UIScreen.mainScreen().bounds.height
+            let width = max(UIScreen.mainScreen().bounds.width, UIScreen.mainScreen().bounds.height)
             
-            self.ChannelManagerContainerView.transform = (self.ChannelManagerTitleView.alpha == 0) ? CGAffineTransformIdentity :CGAffineTransformTranslate(self.ChannelManagerContainerView.transform, 0, -width)
+            self.ChannelManagerContainerView.transform = (self.ChannelManagerTitleView.alpha == 0) ? CGAffineTransformIdentity : CGAffineTransformTranslate(self.ChannelManagerContainerView.transform, 0, -width)
         }
         
         UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 0.5, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: {

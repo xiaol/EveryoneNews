@@ -21,3 +21,14 @@ class Channel: Object {
         return "id"
     }
 }
+
+
+extension Channel {
+
+    class func isScloerty () -> Bool {
+        
+        let realm = try! Realm()
+        
+        return realm.objects(Channel).count <= 0
+    }
+}

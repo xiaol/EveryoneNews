@@ -13,6 +13,15 @@ import ReachabilitySwift
 // 完成登陆设置，和网络监测设置
 extension AppDelegate:UISplitViewControllerDelegate {
     
+    func startReachabilityNotifier() {
+        
+        do {
+            try reachability.startNotifier()
+        } catch {
+            print("Unable to start notifier")
+        }
+    }
+    
     /// 设置一些方法
     func initAppdelegateMethod(){
     /// 开始友盟启动
@@ -66,12 +75,6 @@ extension AppDelegate:UISplitViewControllerDelegate {
                 CRToastManager.J_ShowNotification("无法连接到网络，请稍候再试",backColor: UIColor.a_noConn, tapHidden: true)
                 APPNETWORK = Reachability.NetworkStatus.NotReachable
             }
-        }
-        
-        do {
-            try reachability.startNotifier()
-        } catch {
-            print("Unable to start notifier")
         }
     }
 

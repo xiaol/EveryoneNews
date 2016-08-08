@@ -83,7 +83,7 @@ class NewBaseTableViewCell: UITableViewCell {
     
     let Taglabel = UILabelPadding()
     let JiaPublabel = UILabel()
-    
+
     required init?(coder aDecoder: NSCoder) {
         
         super.init(coder: aDecoder)
@@ -206,28 +206,26 @@ class NewTwoTableViewCell: NewBaseTableViewCell {
 
     lazy var imageView6 = UIImageView()
     
+    required init?(coder aDecoder: NSCoder) {
+        
+        super.init(coder: aDecoder)
+        
+        self.imageView6.clipsToBounds = true
+        self.imageView6.contentMode = .ScaleAspectFill
+        
+        self.addSubview(self.imageView6)
+    }
+    
     override func setNewObject(new:New,bigImg:Int = -1){
         
         super.setNewObject(new)
         
         if bigImg >= 0{
         
-            self.imageView6.clipsToBounds = true
-            self.imageView6.contentMode = .ScaleAspectFill
             
             self.imageView6.hidden = false
             self.imageView1.hidden = true
             self.imageView2.hidden = true
-            
-            self.addSubview(self.imageView6)
-            
-            self.imageView6.snp_makeConstraints { (make) in
-                
-                make.top.equalTo(self.titleLabel.snp_bottom).offset(7)
-                make.bottom.equalTo(self.pubLabel.snp_top).offset(-9)
-                make.left.equalTo(12)
-                make.right.equalTo(-12)
-            }
             
             if let url = NSURL(string: new.imgsList[bigImg].value) {
                 
@@ -250,6 +248,19 @@ class NewTwoTableViewCell: NewBaseTableViewCell {
         if let url = NSURL(string: new.imgsList[1].value) {
             
             imageView2.pin_setImageFromURL(url.proPic() ?? url, placeholderImage: UIImage.sharePlaceholderImage)
+        }
+    }
+    
+    override func drawRect(rect: CGRect) {
+        
+        super.drawRect(rect)
+        
+        self.imageView6.snp_makeConstraints { (make) in
+            
+            make.top.equalTo(self.titleLabel.snp_bottom).offset(7)
+            make.bottom.equalTo(self.pubLabel.snp_top).offset(-9)
+            make.left.equalTo(12)
+            make.right.equalTo(-12)
         }
     }
 }

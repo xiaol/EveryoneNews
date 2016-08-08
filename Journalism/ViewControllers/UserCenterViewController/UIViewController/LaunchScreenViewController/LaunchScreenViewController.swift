@@ -32,20 +32,35 @@ class LaunchScreenViewController: UIViewController {
     /// 标点符号 的图片对象
     @IBOutlet var punctuationImageView:UIImageView!
     
+    override func prefersStatusBarHidden() -> Bool {
+        
+        return true
+    }
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
         
         self.toHidden()
+        
+        if Channel.isScloerty() {
+        
+            ChannelUtil.RefreshChannleObjects()
+        }
     }
     
+    override func viewDidDisappear(animated: Bool) {
+        
+        super.viewDidDisappear(animated)
+        
+        (UIApplication.sharedApplication().delegate as! AppDelegate).startReachabilityNotifier()
+    }
     
     override func viewDidAppear(animated: Bool) {
         
         super.viewDidAppear(animated)
         
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW,Int64(0.3 * Double(NSEC_PER_SEC))),dispatch_get_main_queue(), {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW,Int64(0.1 * Double(NSEC_PER_SEC))),dispatch_get_main_queue(), {
             
             dispatch_async(dispatch_get_main_queue()) {
                 
