@@ -19,6 +19,8 @@
 #import "LPDetailViewController.h"
 #import "LPQiDianHaoViewCell.h"
 #import "LPQiDianConcernViewController.h"
+#import "LPConcernDetailViewController.h"
+#import "LPQiDianHao.h"
 
 
 static NSString *cellIdentifier = @"cellIdentifier";
@@ -34,6 +36,8 @@ static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
 @property (nonatomic, strong)   UIImageView *animationImageView;
 @property (nonatomic, strong) UILabel *loadingLabel;
 @property (nonatomic, strong) UIView *contentLoadingView;
+@property (nonatomic, assign, getter=isPublisherExist) BOOL publisherExist;
+@property (nonatomic, strong) NSMutableArray *qiDianHaoConcernArray;
 
 @end
 
@@ -45,6 +49,13 @@ static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
         _cardFrames = [NSMutableArray array];
     }
     return _cardFrames;
+}
+
+- (NSMutableArray *)qiDianHaoConcernArray {
+    if (_qiDianHaoConcernArray == nil) {
+        _qiDianHaoConcernArray = [NSMutableArray array];
+    }
+    return _qiDianHaoConcernArray;
 }
 
 
@@ -111,7 +122,7 @@ static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
     
     __weak typeof(self) weakSelf = self;
     // 上拉加载更多
-    self.tableView.footer = [LPDiggerFooter footerWithRefreshingBlock:^{
+    self.tableView.mj_footer = [LPDiggerFooter footerWithRefreshingBlock:^{
         [weakSelf loadMoreData];
     }];
     
@@ -125,14 +136,16 @@ static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
     params[@"keywords"] = self.topView.searchBar.text;
     params[@"p"] = @(self.pageIndex);
     params[@"c"] = @"20";
-    NSString *url = [NSString stringWithFormat:@"%@/v2/ns/es/s",ServerUrlVersion2];
+    params[@"uid"] = [userDefaults objectForKey:@"uid"];
+    
+    NSString *url = [NSString stringWithFormat:@"%@/v2/ns/es/snp",ServerUrlVersion2];
     NSMutableArray *newSearchItemsFrames = self.cardFrames;
     __weak typeof(self) weakSelf = self;
     [LPHttpTool getWithURL:url params:params success:^(id json) {
         if ([json[@"code"] integerValue] == 2000) {
-            NSArray *jsonArray = (NSArray *)json[@"data"];
-            for (int i = 0; i < jsonArray.count; i ++) {
-                NSDictionary *dict = jsonArray[i];
+            NSArray *jsonNewsArray = (NSArray *)json[@"data"][@"news"];
+            for (int i = 0; i < jsonNewsArray.count; i ++) {
+                NSDictionary *dict = jsonNewsArray[i];
                 LPSearchCard *card = [[LPSearchCard alloc] init];
                 card.title = dict[@"title"];
                 card.sourceSiteURL = dict[@"purl"];
@@ -151,18 +164,14 @@ static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
             weakSelf.cardFrames = newSearchItemsFrames;
             weakSelf.tableView.hidden = NO;
             [weakSelf.tableView reloadData];
-            
-            
-            
-            
-            [weakSelf.tableView.footer endRefreshing];
+            [weakSelf.tableView.mj_footer endRefreshing];
             self.pageIndex = self.pageIndex + 1;
             
         } else if ([json[@"code"] integerValue] == 2002) {
-            [weakSelf.tableView.footer noticeNoMoreData];
+            [weakSelf.tableView.mj_footer endRefreshingWithNoMoreData];
         }
     } failure:^(NSError *error) {
-        [weakSelf.tableView.footer endRefreshing];
+        [weakSelf.tableView.mj_footer endRefreshing];
     }];
     
     
@@ -225,14 +234,19 @@ static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
     params[@"keywords"] = keyword;
     params[@"p"] = @(self.pageIndex);
     params[@"c"] = @"20";
-    NSString *url = [NSString stringWithFormat:@"%@/v2/ns/es/s",ServerUrlVersion2];
+    params[@"uid"] = [userDefaults objectForKey:@"uid"];
+    
+    NSString *url = [NSString stringWithFormat:@"%@/v2/ns/es/snp",ServerUrlVersion2];
     __weak typeof(self) weakSelf = self;
     [LPHttpTool getWithURL:url params:params success:^(id json) {
-//        NSLog(@"%@", json[@"code"]);
         if ([json[@"code"] integerValue] == 2000) {
-            NSArray *jsonArray = (NSArray *)json[@"data"];
-            for (int i = 0; i < jsonArray.count; i ++) {
-                NSDictionary *dict = jsonArray[i];
+            // 获取新闻列表
+            NSArray *jsonNewsArray = (NSArray *)json[@"data"][@"news"];
+            // 获取奇点号
+            NSArray *jsonPublisherArray = (NSArray *)json[@"data"][@"publisher"];
+      
+            for (int i = 0; i < jsonNewsArray.count; i ++) {
+                NSDictionary *dict = jsonNewsArray[i];
                 LPSearchCard *card = [[LPSearchCard alloc] init];
                 card.title = dict[@"title"];
                 card.sourceSiteURL = dict[@"purl"];
@@ -248,7 +262,21 @@ static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
                 cardFrame.card = card;
                 [weakSelf.cardFrames addObject:cardFrame];
             }
-//            [weakSelf.cardFrames insertObject:@"奇点号" atIndex:2];
+            
+            if (jsonPublisherArray.count > 0) {
+                
+                for (int i = 0; i < jsonPublisherArray.count; i++) {
+                    NSDictionary *dict = jsonPublisherArray[i];
+                    LPQiDianHao *qiDianHao = [[LPQiDianHao alloc] init];
+                    qiDianHao.concernID = [dict[@"id"] integerValue];
+                    qiDianHao.concernCount = [dict[@"concern"] integerValue];
+                    qiDianHao.concernFlag = [dict[@"flag"] integerValue];
+                    qiDianHao.name = dict[@"name"];
+                    [weakSelf.qiDianHaoConcernArray addObject:qiDianHao];
+                }
+                [weakSelf.cardFrames insertObject:@"奇点号" atIndex:2];
+                 weakSelf.publisherExist = YES;
+            }
              weakSelf.tableView.hidden = NO;
             [weakSelf.tableView reloadData];
             weakSelf.pageIndex = self.pageIndex + 1;
@@ -293,28 +321,46 @@ static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
+    if (self.isPublisherExist) {
+        if (indexPath.row == 2) {
+            LPQiDianHaoViewCell *cell = [[LPQiDianHaoViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:qiDiancellIdentifier];
+            [cell setupQiDianHaoWithArray:self.qiDianHaoConcernArray];
+            cell.delegate = self;
+            return cell;
+            
+        } else {
+            
+            LPSearchResultViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+            if (cell == nil) {
+                cell = [[LPSearchResultViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+            }
+            cell.cardFrame = self.cardFrames[indexPath.row];
+            return cell;
+        }
+    } else {
+        
         LPSearchResultViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
         if (cell == nil) {
             cell = [[LPSearchResultViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
         cell.cardFrame = self.cardFrames[indexPath.row];
         return cell;
-    
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    LPSearchCardFrame *cardFrame = self.cardFrames[indexPath.row];
-    return cardFrame.cellHeight;
-
     
-    
-//    LPSearchCardFrame *cardFrame = self.cardFrames[indexPath.row];
-//    if (indexPath.row == 2) {
-//        return [self heightWithQiDianView];
-//    } else {
-//        return cardFrame.cellHeight;
-//    }
-    
+    if (self.isPublisherExist) {
+        LPSearchCardFrame *cardFrame = self.cardFrames[indexPath.row];
+        if (indexPath.row == 2) {
+            return [self heightWithQiDianView];
+        } else {
+            return cardFrame.cellHeight;
+        }
+    } else {
+        LPSearchCardFrame *cardFrame = self.cardFrames[indexPath.row];
+        return cardFrame.cellHeight;
+    }
 }
 
 - (CGFloat)heightWithQiDianView {
@@ -328,28 +374,40 @@ static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
 
 #pragma mark - UITableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-   
-//    if (indexPath.row != 2) {
-        LPSearchCardFrame *searchCardFrame = self.cardFrames[indexPath.row];
-        LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
-        detailVc.searchCardFrame = searchCardFrame;
-        detailVc.sourceViewController = searchSource;
-        [self.navigationController pushViewController:detailVc animated:YES];
-//    } else {
-//        return;
-//    }
+      if (self.isPublisherExist) {
+          if (indexPath.row != 2) {
+              LPSearchCardFrame *searchCardFrame = self.cardFrames[indexPath.row];
+              LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
+              detailVc.searchCardFrame = searchCardFrame;
+              detailVc.sourceViewController = searchSource;
+              [self.navigationController pushViewController:detailVc animated:YES];
+          } else {
+              return;
+          }
+      } else {
+          LPSearchCardFrame *searchCardFrame = self.cardFrames[indexPath.row];
+          LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
+          detailVc.searchCardFrame = searchCardFrame;
+          detailVc.sourceViewController = searchSource;
+          [self.navigationController pushViewController:detailVc animated:YES];
+      }
+
 
 }
 
 #pragma mark - LPQiDianHaoViewCellDelegate
-- (void)cell:(LPQiDianHaoViewCell *)cell didTapWithQiDianMoreImageView:(UIImageView *)imageView {
+- (void)cell:(LPQiDianHaoViewCell *)cell didTapImageViewWithQiDianArray:(NSArray *)qiDianArray {
     LPQiDianConcernViewController *qiDianConcernViewController = [[LPQiDianConcernViewController alloc] init];
+    qiDianConcernViewController.qiDianArray = qiDianArray;
     [self.navigationController pushViewController:qiDianConcernViewController animated:YES];
 }
 
-
-
-
+- (void)cell:(LPQiDianHaoViewCell *)cell didTapImageViewWithQiDianHao:(LPQiDianHao *)qiDianHao {
+    LPConcernDetailViewController *concernDetailViewController = [[LPConcernDetailViewController alloc] init];
+    concernDetailViewController.sourceName = qiDianHao.name;
+    concernDetailViewController.conpubFlag = [NSString stringWithFormat:@"%d", qiDianHao.concernFlag];
+    [self.navigationController pushViewController:concernDetailViewController animated:YES];
+}
 
 
 @end

@@ -20,8 +20,16 @@
     CGFloat concernImageViewH = 47.0f;
     _concernImageViewF = CGRectMake(concernImageViewX, concernImageViewY, concernImageViewW, concernImageViewH);
     
-    NSString *title = qiDianHao.title;
-    NSString *concernCount = qiDianHao.concernCount;
+    NSString *title = qiDianHao.name;
+    
+    NSString *concernStr = @"";
+    if (qiDianHao.concernCount > 10000) {
+        concernStr = [NSString stringWithFormat:@"%.1f万", (qiDianHao.concernCount / 10000.00f)];
+    } else {
+        concernStr = [NSString stringWithFormat:@"%d", qiDianHao.concernCount];
+    }
+    
+    NSString *concernCount = [NSString stringWithFormat:@"%@人关注",concernStr] ;
     CGFloat titleFontSize = LPFont2;
     CGFloat concernCountFontSize = LPFont5;
     

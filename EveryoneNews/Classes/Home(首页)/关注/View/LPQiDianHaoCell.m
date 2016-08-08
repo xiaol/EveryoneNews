@@ -71,14 +71,31 @@
     _qiDianHaoFrame = qiDianHaoFrame;
     LPQiDianHao *qiDianHao = qiDianHaoFrame.qiDianHao;
     
+    if (qiDianHao.concernFlag == 1) {
+        [self.concernButton setTitle:@"取消" forState:UIControlStateNormal];
+    } else {
+        [self.concernButton setTitle:@"关注" forState:UIControlStateNormal];
+    }
     self.concernImageView.frame = qiDianHaoFrame.concernImageViewF;
     [self.concernImageView sd_setImageWithURL:[NSURL URLWithString:qiDianHao.imageViewURL] placeholderImage:[UIImage imageNamed:@"奇点号占位图1"]];
 
     self.titleLabel.frame = qiDianHaoFrame.titleLabelF;
-    self.titleLabel.text = qiDianHao.title;
+    self.titleLabel.text = qiDianHao.name;
     
     self.concernCountLabel.frame = qiDianHaoFrame.concernCountLabelF;
-    self.concernCountLabel.text = qiDianHao.concernCount;
+    
+    NSString *concernStr = @"";
+    if (qiDianHao.concernCount > 10000) {
+        concernStr = [NSString stringWithFormat:@"%.1f万", (qiDianHao.concernCount / 10000.00f)];
+    } else {
+        concernStr = [NSString stringWithFormat:@"%d", qiDianHao.concernCount];
+    }
+    
+    
+    
+    
+    NSString *concernCount = [NSString stringWithFormat:@"%@人关注",concernStr] ;
+    self.concernCountLabel.text = concernCount;
     
     self.concernButton.frame = qiDianHaoFrame.concernButtonF;
     self.concernButton.centerY = self.concernImageView.centerY;

@@ -48,12 +48,6 @@
     return size.height;
 }
 
-- (CGFloat)labelHeightWithConstraintWidth:(CGFloat)width {
-    UILabel *label = [[UILabel alloc] init];
-    [label setAttributedText:self];
-    [label updateConstraints];
-    CGSize size = [label sizeThatFits:CGSizeMake(width, MAXFLOAT)];
-    return size.height;
-}
+ 
 
 @end

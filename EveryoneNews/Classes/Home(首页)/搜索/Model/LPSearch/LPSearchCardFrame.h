@@ -37,7 +37,4 @@
 @property (nonatomic, strong) LPSearchCard *card;
 @property (nonatomic, assign) NSInteger homeViewFontSize;
 
-
-
-
 @end

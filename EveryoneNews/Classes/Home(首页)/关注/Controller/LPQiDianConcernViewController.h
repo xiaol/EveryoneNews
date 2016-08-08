@@ -10,4 +10,6 @@
 
 @interface LPQiDianConcernViewController : LPBaseViewController
 
+@property (nonatomic, strong) NSArray *qiDianArray;
+
 @end

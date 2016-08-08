@@ -7,23 +7,28 @@
 //
 
 #import "LPQiDianHaoViewCell.h"
+#import "LPQiDianHao.h"
+
+@interface LPQiDianHaoViewCell()
+
+@property (nonatomic, strong) NSArray *qiDianHaoArray;
+
+@end
 
 @implementation LPQiDianHaoViewCell
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        NSInteger tag = 12345;
-        NSArray *array = @[@"1", @"2", @"3", @"4"];
-        // 添加奇点号
-        UIView *qiDianView = [self qiDianViewWithArray:array tag:tag];
-        [self.contentView addSubview:qiDianView];
+
     }
     return self;
 }
 
 #pragma mark - 奇点号
 - (UIView *)qiDianViewWithArray:(NSArray *)array tag:(NSInteger)tag {
+    
+    self.qiDianHaoArray = array;
     
     UIView *qiDianView = [[UIView alloc] init];
     qiDianView.tag = tag;
@@ -56,13 +61,15 @@
     
     NSString *title = @"历史";
     CGFloat titleLabelH = [title sizeWithFont:[UIFont systemFontOfSize:LPFont5] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].height;
-    NSInteger count = array.count;
+    NSInteger count = array.count > 4 ? 4 : array.count ;
     CGFloat gap = (ScreenWidth - 4 * imageViewW - imageViewX * 2) / 3;
     for (int i = 0 ; i < count; i++) {
+        LPQiDianHao *qiDianHao = (LPQiDianHao *)array[i];
         UIImageView *imageView = [[UIImageView alloc] init];
         imageView.userInteractionEnabled = YES;
         imageViewX = ((ScreenWidth - count * imageViewW - (count - 1) * gap) / 2) + (imageViewW + gap) * i;
         imageView.frame = CGRectMake(imageViewX, imageViewY, imageViewW, imageViewH);
+        imageView.tag = i + 400;
         
         if (i == 3) {
             imageView.image = [UIImage imageNamed:@"奇点号更多"];
@@ -71,8 +78,8 @@
             
         } else {
             imageView.image = [UIImage imageNamed:@"奇点号占位图1"];
-            UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapQiDianHao)];
-            [imageView addGestureRecognizer:tapGesture];
+            UITapGestureRecognizer *tapGestureQiDianHao = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapQiDianHao:)];
+            [imageView addGestureRecognizer:tapGestureQiDianHao];
         }
         
         
@@ -81,7 +88,13 @@
         titleLabel.textColor = [UIColor colorWithHexString:LPColor3];
         titleLabel.font = [UIFont systemFontOfSize:LPFont5];
         titleLabel.textAlignment = NSTextAlignmentCenter;
-        titleLabel.text = title;
+        if (i == 3 ) {
+           titleLabel.text = @"更多";
+        } else {
+           titleLabel.text = qiDianHao.name;
+        }
+        
+       
         
         [childView addSubview:imageView];
         [childView addSubview:titleLabel];
@@ -115,19 +128,34 @@
     
 }
 
-#pragma mark - 奇点号更多
-- (void)tapQiDianHaoMore:(UIImageView *)imageView {
-    if ([self.delegate respondsToSelector:@selector(cell:didTapWithQiDianMoreImageView:)]) {
-        [self.delegate cell:self didTapWithQiDianMoreImageView:imageView];
-    }
+- (void)setupQiDianHaoWithArray:(NSArray *)array {
+    NSInteger tag = 12345;
+    // 添加奇点号
+    UIView *qiDianView = [self qiDianViewWithArray:array tag:tag];
+    [self.contentView addSubview:qiDianView];
     
-//    if ([self.delegate respondsToSelector:@selector(didTapQiDianHaoMoreWithCell:)]) {
-//        NSLog(@"ss");
-////        [self.delegate didTapQiDianHaoMoreWithCell:self];
-//    }
+    
 }
 
-- (void)tapQiDianHao {
-     NSLog(@"奇点号");
+#pragma mark - 奇点号更多
+- (void)tapQiDianHaoMore:(UIImageView *)imageView {
+    if ([self.delegate respondsToSelector:@selector(cell:didTapImageViewWithQiDianArray:)]) {
+        [self.delegate cell:self didTapImageViewWithQiDianArray:self.qiDianHaoArray];
+    }
+}
+
+- (void)tapQiDianHao:(UITapGestureRecognizer *)recoginzer {
+    
+    UIView *view =  recoginzer.view;
+    NSInteger i = view.tag - 400;
+    // 跳转到列表
+    LPQiDianHao *qiDianHao = (LPQiDianHao *)self.qiDianHaoArray[i];
+    if ([self.delegate respondsToSelector:@selector(cell:didTapImageViewWithQiDianHao:)]) {
+        [self.delegate cell:self didTapImageViewWithQiDianHao:qiDianHao];
+    }
+    
+    
+
+    
 }
 @end

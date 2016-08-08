@@ -39,19 +39,15 @@
     }
     
     CGFloat paddingBottom = 12;
-    CGFloat lineSpacing = 2.0;
     
     CGFloat commentLabelW = 50;
     CGFloat commentLabelPaddingRight = 10;
-    NSMutableAttributedString *htmlTitle = [Card titleHtmlString:card.title];
+
     NSString *sourceSiteName = card.sourceSiteName;
     _card = card;
     _cellHeight = 0.0f;
 
-    self.homeViewFontSize = [LPFontSizeManager sharedManager].currentHomeViewFontSize;
-    CGFloat titleFontSize =  self.homeViewFontSize;
-    
-    NSMutableAttributedString *htmlTitleStr = [card.title attributedStringWithFont:[UIFont systemFontOfSize:titleFontSize] lineSpacing:lineSpacing];
+    NSMutableAttributedString *htmlTitle = [Card titleHtmlString:card.title];
     // 无图
     if(card.cardImages.count == 0) {
         
@@ -66,7 +62,8 @@
         
         CGFloat titleW = ScreenWidth - PaddingHorizontal * 2;
  
-        CGFloat titleH = [htmlTitleStr labelHeightWithConstraintWidth:titleW];
+        CGFloat titleH = [htmlTitle tttAttributeLabel:titleW];
+
         
         _noImageLabelFrame = CGRectMake(PaddingHorizontal , titlePaddingTop, titleW, titleH);
         
@@ -106,7 +103,8 @@
         // 单图标题
         CGFloat titleX = PaddingHorizontal;
         CGFloat titleW = ScreenWidth - imageW - PaddingHorizontal * 2 - 20;
-        CGFloat titleH = [htmlTitleStr labelHeightWithConstraintWidth:titleW];
+        CGFloat titleH = [htmlTitle tttAttributeLabel:titleW];
+
         // 图片
         CGFloat imageX = ScreenWidth - PaddingHorizontal - imageW;
         CGFloat imageY = paddingVertical;
@@ -149,7 +147,8 @@
     } else if (card.cardImages.count >= 3) {
 
         CGFloat titleW = ScreenWidth - PaddingHorizontal * 2;
-        CGFloat titleH = [htmlTitleStr labelHeightWithConstraintWidth:titleW];
+        CGFloat titleH = [htmlTitle tttAttributeLabel:titleW];
+
         _multipleImageTitleLabelFrame = CGRectMake(PaddingHorizontal, paddingVertical, titleW, titleH);
         
         CGFloat imageY = titleH + 8 + paddingVertical;

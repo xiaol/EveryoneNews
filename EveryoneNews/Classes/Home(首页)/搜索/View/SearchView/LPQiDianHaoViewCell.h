@@ -9,16 +9,21 @@
 #import <UIKit/UIKit.h>
 
 @class LPQiDianHaoViewCell;
+@class LPQiDianHao;
+
 @protocol LPQiDianHaoViewCellDelegate <NSObject>
 
 @optional
-- (void)cell:(LPQiDianHaoViewCell *)cell didTapWithQiDianMoreImageView:(UIImageView *)imageView;
-
+- (void)cell:(LPQiDianHaoViewCell *)cell didTapImageViewWithQiDianArray:(NSArray *)array;
+- (void)cell:(LPQiDianHaoViewCell *)cell didTapImageViewWithQiDianHao:(LPQiDianHao *)qiDianHao;
 
 @end
 
 @interface LPQiDianHaoViewCell : UITableViewCell
 
 @property (nonatomic, weak) id<LPQiDianHaoViewCellDelegate> delegate;
+
+
+- (void)setupQiDianHaoWithArray:(NSArray *)array;
 
 @end

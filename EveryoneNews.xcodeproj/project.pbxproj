@@ -219,6 +219,7 @@
 		860858781D38E36900451E68 /* LPConcernIndroduceTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 860858771D38E36900451E68 /* LPConcernIndroduceTableViewCell.m */; };
 		8608587B1D38E38600451E68 /* LPConcernCardTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8608587A1D38E38600451E68 /* LPConcernCardTableViewCell.m */; };
 		860D09DD1D05853D00866FDB /* Comment+Create.m in Sources */ = {isa = PBXBuildFile; fileRef = 860D09DC1D05853D00866FDB /* Comment+Create.m */; };
+		8616A08A1D542BA700071F24 /* LPSearchTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8616A0891D542BA700071F24 /* LPSearchTextView.m */; };
 		8618A5831D40C9FB004C97BA /* CardSourceColor+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 8618A5801D40C9FB004C97BA /* CardSourceColor+CoreDataProperties.m */; };
 		8618A5841D40C9FB004C97BA /* CardSourceColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 8618A5821D40C9FB004C97BA /* CardSourceColor.m */; };
 		861BE9551C591981008FFFBB /* UINavigationController+LP.m in Sources */ = {isa = PBXBuildFile; fileRef = 861BE9541C591981008FFFBB /* UINavigationController+LP.m */; };
@@ -781,6 +782,8 @@
 		8608587A1D38E38600451E68 /* LPConcernCardTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPConcernCardTableViewCell.m; sourceTree = "<group>"; };
 		860D09DB1D05853D00866FDB /* Comment+Create.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Comment+Create.h"; sourceTree = "<group>"; };
 		860D09DC1D05853D00866FDB /* Comment+Create.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Comment+Create.m"; sourceTree = "<group>"; };
+		8616A0881D542BA700071F24 /* LPSearchTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPSearchTextView.h; sourceTree = "<group>"; };
+		8616A0891D542BA700071F24 /* LPSearchTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPSearchTextView.m; sourceTree = "<group>"; };
 		8618A57F1D40C9FB004C97BA /* CardSourceColor+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CardSourceColor+CoreDataProperties.h"; sourceTree = "<group>"; };
 		8618A5801D40C9FB004C97BA /* CardSourceColor+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CardSourceColor+CoreDataProperties.m"; sourceTree = "<group>"; };
 		8618A5811D40C9FB004C97BA /* CardSourceColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardSourceColor.h; sourceTree = "<group>"; };
@@ -2344,6 +2347,15 @@
 			name = "历史文章";
 			sourceTree = "<group>";
 		};
+		8616A0871D542B6200071F24 /* LPSearchTextView */ = {
+			isa = PBXGroup;
+			children = (
+				8616A0881D542BA700071F24 /* LPSearchTextView.h */,
+				8616A0891D542BA700071F24 /* LPSearchTextView.m */,
+			);
+			name = LPSearchTextView;
+			sourceTree = "<group>";
+		};
 		863852701D1BF7A200AB9B69 /* UMeng */ = {
 			isa = PBXGroup;
 			children = (
@@ -3327,6 +3339,7 @@
 		86A6DD431D22691300AD475C /* SearchView */ = {
 			isa = PBXGroup;
 			children = (
+				8616A0871D542B6200071F24 /* LPSearchTextView */,
 				867DF09F1D37A16F0067C49C /* 奇点号 */,
 				869C5B611D24C82500D79750 /* LPSearchResultViewCell */,
 				8673B9191D23DD7F003BCEDD /* LPHotWordCollectionViewCell.h */,
@@ -3798,6 +3811,7 @@
 				18F631201B5C044300423658 /* LPMultiGraphTopView.m in Sources */,
 				187564801C2110B600589320 /* CardImage.m in Sources */,
 				18F6311F1B5C044300423658 /* LPMultiGraphOpinionsView.m in Sources */,
+				8616A08A1D542BA700071F24 /* LPSearchTextView.m in Sources */,
 				86819F091CA3DCDB00C8BCFC /* LPDetailBottomView.m in Sources */,
 				868F50301D34CD88002B4912 /* LPCardConcernFrame.m in Sources */,
 				8681B0BD1D0FD8DE0068A4FD /* LPHomeViewCell.m in Sources */,

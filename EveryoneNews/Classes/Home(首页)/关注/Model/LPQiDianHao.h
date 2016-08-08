@@ -11,7 +11,9 @@
 @interface LPQiDianHao : NSObject
 
 @property (nonatomic, copy) NSString *imageViewURL;
-@property (nonatomic, copy) NSString *title;
-@property (nonatomic, copy) NSString *concernCount;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, assign) NSInteger concernCount;
+@property (nonatomic, assign) NSInteger concernFlag;
+@property (nonatomic, assign) NSInteger concernID;
 
 @end

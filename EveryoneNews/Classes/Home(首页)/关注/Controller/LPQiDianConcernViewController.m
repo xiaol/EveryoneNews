@@ -33,20 +33,22 @@ static NSString *cellIdentifier = @"cellIdentifier";
 #pragma  mark - ViewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
-    LPQiDianHao *qiDianHao = [[LPQiDianHao alloc] init];
-    qiDianHao.title = @"奇点号";
-    qiDianHao.concernCount = @"9.6万人关注";
-    qiDianHao.imageViewURL = @"http://p0.qhimg.com/t012e264d72f4228193.jpg";
     
-    LPQiDianHaoFrame *qiDianHaoFrame = [[LPQiDianHaoFrame alloc] init];
-    qiDianHaoFrame.qiDianHao = qiDianHao;
-    
-    [self.qiDianHaoFrames addObject:qiDianHaoFrame];
-    
+    [self setupData];
     self.view.backgroundColor = [UIColor colorWithDesignIndex:9];
     [self setupTopView];
     [self setupTableView];
     
+}
+
+#pragma mark - setup Data
+- (void)setupData {
+    for (int i = 0; i < self.qiDianArray.count; i++) {
+        LPQiDianHao *qiDianHao = (LPQiDianHao *)self.qiDianArray[i];
+        LPQiDianHaoFrame *qiDianHaoFrame = [[LPQiDianHaoFrame alloc] init];
+        qiDianHaoFrame.qiDianHao = qiDianHao;
+        [self.qiDianHaoFrames addObject:qiDianHaoFrame];
+    }
 }
 
 #pragma mark - 顶部视图
@@ -140,6 +142,11 @@ static NSString *cellIdentifier = @"cellIdentifier";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     LPConcernDetailViewController *detailVC = [[LPConcernDetailViewController alloc] init];
+    LPQiDianHaoFrame *qiDianHaoFrame = self.qiDianHaoFrames[indexPath.row];
+    LPQiDianHao *qiDianHao = qiDianHaoFrame.qiDianHao;
+    detailVC.conpubFlag = [NSString stringWithFormat:@"%ld",qiDianHao.concernFlag];
+    detailVC.sourceName = qiDianHao.name;
+    
     [self.navigationController pushViewController:detailVC animated:YES];
 }
 
