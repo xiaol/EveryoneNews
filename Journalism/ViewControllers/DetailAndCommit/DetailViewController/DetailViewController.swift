@@ -100,13 +100,6 @@ class DetailViewController: UIViewController,WaitLoadProtcol {
         
         self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
     }
-    
-    override func viewDidDisappear(animated: Bool) {
-        
-        super.viewDidDisappear(animated)
-        
-        self.webView = nil
-    }
 }
 
 

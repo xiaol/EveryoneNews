@@ -184,17 +184,24 @@ extension NewContent{
                 
                 var str = "<div class = \"imgDiv\">&img&</div>"
                 
-//                var str = "<div class = \"imgDiv\">&span&&img&</div>" // 进度条
+//                var
                 
-                let res = img.grep("_(\\d+)X(\\d+).")
+                let res = img.grep("_(\\d+)X(\\d+).").captures
                 
-                if res.captures.count > 0 {
+                if img.hasSuffix(".gif") {
                     
-//                    let width = res.captures[1]
+                    str = "<div class = \"imgDiv\">&span&&img&</div>" // 进度条
+                }
+                
+                if res.count > 0 {
                     
-//                    str = str.replaceRegex("(&span&)",  with: "<div style=\"height:2px;width:\(width)px\" class=\"progress img-responsive center-block customProgress\"><div class=\"progress-bar customProgressBar\" role=\"progressbar\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: 0%;\"> <span class=\"sr-only\">40% 完成</span> </div> </div>")
+                    if img.hasSuffix(".gif") {
+
+                        str = str.replaceRegex("(&span&)",  with: "<div style=\"height:2px;width:\(res[1])px\" class=\"progress img-responsive center-block customProgress\"><div class=\"progress-bar customProgressBar\" role=\"progressbar\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: 0%;\"> <span class=\"sr-only\">40% 完成</span> </div> </div>")
+                        
+                    }
                     
-                    str = str.replaceRegex("(&img&)", with: "<img style=\"display: flex; \" data-src=\"\(img)\" w=\(res.captures[1]) h=\(res.captures[2]) class=\"img-responsive center-block\">")
+                    str = str.replaceRegex("(&img&)", with: "<img style=\"display: flex; \" data-src=\"\(img)\" w=\(res[1]) h=\(res[2]) class=\"img-responsive center-block\">")
                     
                 }else{
                     

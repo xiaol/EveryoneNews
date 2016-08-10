@@ -245,7 +245,15 @@ class NewsUtil: NSObject {
         }
     }
     
-    
+    /**
+     上拉下载新闻列表
+     
+     - parameter channelId: 频道ID
+     - parameter refresh:   是否需要刷新
+     - parameter times:     加载的时间
+     - parameter finish:    完成
+     - parameter fail:      失败
+     */
     class func LoadNewsListArrayData(channelId:Int,refresh:Bool=false,times:String = "\(Int64(NSDate().timeIntervalSince1970*1000))",finish:(()->Void)?=nil,fail:(()->Void)?=nil){
         
         guard let token = ShareLUser.token else{ fail?();return }
@@ -280,7 +288,7 @@ class NewsUtil: NSObject {
     // 完善新闻事件
     private class func AnalysisPutTimeAndImageList(channel:NSDictionary,realm:Realm,ishot:Int=0,iscollected:Int=0){
         
-        if let nid = channel.objectForKey("nid") as? Int,let title = channel.objectForKey("title") as? String {
+        if let nid = channel.objectForKey("nid") as? Int {
             
             if let pubTime = channel.objectForKey("ptime") as? String {
                 

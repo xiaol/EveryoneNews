@@ -11,7 +11,6 @@ $(function() {
     })
 
     $('img').load(function() {
-        //        加载完成
         window.webkit.messageHandlers.JSBridge.postMessage({
             "type": 0
         });
@@ -41,8 +40,10 @@ function scrollMethod(offesty) {
 
         var datasrc = $(this).attr("data-src")
 
-        if ($(this).offset().top < offesty+200 && ajaxUrl.indexOf(datasrc) == -1) {
-            ajaxUrl.push(datasrc)
+        if ($(this).offset().top < offesty+200 && ajaxUrl.indexOf(index) == -1) {
+                  
+            ajaxUrl.push(index)
+                  
             window.webkit.messageHandlers.JSBridge.postMessage({
                 "type": 3,
                 "index": index,

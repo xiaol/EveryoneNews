@@ -10,7 +10,7 @@ import UIKit
 import WebKit
 
 extension DetailViewController:WKNavigationDelegate{
-
+    
     /**
      主要是为了针对于党图片延时加载之后的webvView高度问题
      
@@ -42,12 +42,12 @@ extension DetailViewController:WKNavigationDelegate{
     
     /**
      整合方法
-     完成webview的初始化 
+     完成webview的初始化
      完成新闻详情页面的加载方法
      监听字体变化的方法
      */
     func integrationMethod(){
-    
+        
         self.initWebViewInit()
         
         self.loadContentObjects()
@@ -77,7 +77,7 @@ extension DetailViewController:WKNavigationDelegate{
     
     
     /**
-      初始化 WKWebView
+     初始化 WKWebView
      设置webview可以使用javascript
      设置webview播放视频时可以使用html5 自带的播放器，播放
      设置webview的JSBridge对象
@@ -85,10 +85,10 @@ extension DetailViewController:WKNavigationDelegate{
      - returns: null
      */
     func initWebViewInit(){
-    
+        
         let configuration = WKWebViewConfiguration()
         configuration.userContentController.addScriptMessageHandler(self, name: "JSBridge")
-//        configuration.allowsInlineMediaPlayback = true
+        //        configuration.allowsInlineMediaPlayback = true
         self.webView = WKWebView(frame: CGRect(origin: CGPointZero, size: CGSize(width: 600, height: 1000)), configuration: configuration)
         
         self.webView.hidden = true
@@ -119,7 +119,7 @@ extension DetailViewController:WKNavigationDelegate{
                 
                 self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: 0, inSection: 1)], withRowAnimation: UITableViewRowAnimation.Automatic)
                 
-                }, fail: { 
+                }, fail: {
                     
                     self.waitView.setNoNetWork {
                         
@@ -128,7 +128,7 @@ extension DetailViewController:WKNavigationDelegate{
             })
         }
     }
-
+    
     /**
      根据用户提供的新闻详情，进行网页上新闻详情的展示
      在这例用户可以提供一个不存在的新闻详情，这个主要是为了针对当用户刚进入页面或者没有网络的时候进行数据加载的情况
@@ -136,9 +136,9 @@ extension DetailViewController:WKNavigationDelegate{
      - parameter newContent: 新闻详情 NewContent 类型
      */
     func ShowNewCOntentInWebView(newContent:NewContent?=nil){
-    
-        if let newCon = newContent {
         
+        if let newCon = newContent {
+            
             self.webView.loadHTMLString(newCon.getHtmlResourcesString(), baseURL: NSBundle.mainBundle().bundleURL)
         }
     }
@@ -148,13 +148,13 @@ extension DetailViewController:WKNavigationDelegate{
      获取高度完成之后就进行页面的重新布局以加入到tableView的表头中作为一个详情展示页
      */
     func adaptionWebViewHeightMethod(height:CGFloat = -1){
-
+        
         self.webView.evaluateJavaScript("document.getElementById('section').offsetHeight") { (data, _) in
             
             if let height = data as? CGFloat{
                 
                 if self.webView.frame.size.height != height+35 {
-                
+                    
                     self.webView.layoutIfNeeded()
                     self.webView.frame.size.height = height+35
                     self.tableView.tableHeaderView = self.webView
@@ -186,8 +186,6 @@ extension DetailViewController:WKNavigationDelegate{
         }
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW,Int64(0.6 * Double(NSEC_PER_SEC))),dispatch_get_main_queue(), {
-            
-
             
             self.hiddenWaitLoadView() // 隐藏加载视图
         })
@@ -227,9 +225,9 @@ import PINCache
 import PINRemoteImage
 
 extension String {
-
-    private func DownloadImageByUrl(progress:(Int) -> Void,finish:(String) -> Void){
     
+    private func DownloadImageByUrl(progress:(Int) -> Void,finish:(String) -> Void){
+        
         if let str = PINCache.sharedCache().objectForKey("hanle\(self)") as? String {
             
             return finish(str)
@@ -237,57 +235,67 @@ extension String {
         
         guard let url = NSURL(string: self) else { return }
         
-        
         PINRemoteImageManager.sharedImageManager().downloadImageWithURL(url, options: .DownloadOptionsNone, progressDownload: { (min, max) in
-            
-//            let process = Int(CGFloat(min)/CGFloat(max)*100)
-            
-//            progress((process-5 < 0 ? 0 : process-5))
-            
-            }) { (result) in
+
+            if url.absoluteString.hasSuffix(".gif") {
                 
-                if let img = result.image ,base64 = UIImageJPEGRepresentation(img, 0.9)?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.init(rawValue: 0)){
-                    
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                        
-                        let string = "data:image/jpeg;base64,\(base64)".replaceRegex("<", with: "").replaceRegex(">", with: "")
-                        
-                        dispatch_async(dispatch_get_main_queue(), {
-                            
-                            progress(98)
-                            
-                            finish(string)
-                            
-                            PINCache.sharedCache().setObject(string, forKey: "hanle\(self)")
-                        })
-                    })
-                }
+                let process = Int(CGFloat(min)/CGFloat(max)*100)
+                progress((process-5 < 0 ? 0 : process-5))
+            }
+            
+        }) { (result) in
+            
+            self.HandlePinDownLoadResult(finish,result:result)
+        }
+    }
+    
+    /**
+     处理PINRemoteImage下载完成的结果哦
+     
+     - parameter finish: 处理完成化后的回调
+     - parameter result: Result to PINRemoteImageManagerResult
+     */
+    private func HandlePinDownLoadResult(finish:(String) -> Void,result:PINRemoteImageManagerResult){
+    
+        /// 含有静态图片
+        if let img = result.image ,base64 = UIImageJPEGRepresentation(img, 0.9)?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.init(rawValue: 0)){
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
                 
-                if let img = result.animatedImage {
+                let string = "data:image/jpeg;base64,\(base64)".replaceRegex("<", with: "").replaceRegex(">", with: "")
+                
+                dispatch_async(dispatch_get_main_queue(), {
                     
-                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
-                        
-                        let base64 = img.data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.init(rawValue: 0))
-                        
-                        let string = "data:image/gif;base64,\(base64)".replaceRegex("<", with: "").replaceRegex(">", with: "")
-                        
-                        dispatch_async(dispatch_get_main_queue(), {
-                            
-                            progress(98)
-                            
-                            finish(string)
-                            
-                            PINCache.sharedCache().setObject(string, forKey: "hanle\(self)")
-                        })
-                    })
-                }
+                    finish(string)
+                    
+                    PINCache.sharedCache().setObject(string, forKey: "hanle\(self)")
+                })
+            })
+        }
+        
+        /// 含有动态图片
+        if let img = result.animatedImage {
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+                
+                let base64 = img.data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.init(rawValue: 0))
+                
+                let string = "data:image/gif;base64,\(base64)".replaceRegex("<", with: "").replaceRegex(">", with: "")
+                
+                dispatch_async(dispatch_get_main_queue(), {
+                    
+                    finish(string)
+                    
+                    PINCache.sharedCache().setObject(string, forKey: "hanle\(self)")
+                })
+            })
         }
     }
 }
 
 
 extension DetailViewController :WKScriptMessageHandler{
-
+    
     /**
      当客户端即收到来自于javascript的消息请求之后，将会调用到该方法。
      比如用户点击图片之后所调用的方法
@@ -300,59 +308,56 @@ extension DetailViewController :WKScriptMessageHandler{
         
         guard let type = message.body["type"] as? Int else{return}
         
-        if type == 0 { return self.adaptionWebViewHeightMethod() }
+        if type == 0 { return  }
         
         if type == 3 {
-        
+            
             if let url = message.body["url"] as? String,index = message.body["index"] as? Int {
-            
-                url.DownloadImageByUrl({ (pro) in
-                    
-                    let jsStr = "$(\"div .customProgressBar\").eq(\(index)).css(\"width\",\"\(pro)%\")"
-                    
-                    self.webView.evaluateJavaScript(jsStr, completionHandler: nil)
-                    
-                    }, finish: { (base64) in
-                        
-                        let jsStr = "$(\"img\").eq(\(index)).attr(\"src\",\"\(base64)\")"
-                        
-                        self.webView.evaluateJavaScript(jsStr, completionHandler: { (_, _) in
-                            
-                            let display = "$(\"div .progress\").eq(\(index)).css(\"visibility\",\"hidden\")"
-                            
-                            self.webView.evaluateJavaScript(display, completionHandler: nil)
-                        })
-                        
-//                        let download = "$(\"div .customProgressBar\").eq(\(index)).css(\"width\",\"100%\")"
-//                        
-//                        self.webView.evaluateJavaScript(download, completionHandler: { (_, _) in
-//                        
-//                            let jsStr = "$(\"img\").eq(\(index)).attr(\"src\",\"\(base64)\")"
-//                            
-//                            self.webView.evaluateJavaScript(jsStr, completionHandler: { (_, _) in
-//                                
-//                                let display = "$(\"div .progress\").eq(\(index)).css(\"visibility\",\"hidden\")"
-//                                
-//                                self.webView.evaluateJavaScript(display, completionHandler: nil)
-//                            })
-//                        })
-                })
+                
+                self.HandleUrlAndIndex(url, index: index)
             }
-            
-            return
         }
         
-        if let index = message.body["index"] as? Int,let res = new?.getNewContentObject()?.getSkPhotos() {
-        
-            let browser = SKPhotoBrowser(photos: res)
-            
-            browser.initializePageIndex(index)
-            browser.statusBarStyle = .LightContent
-            
-            // Can hide the action button by setting to false
-            browser.displayAction = true
-            
-            self.presentViewController(browser, animated: true, completion: nil)
+        if type == 1 {
+            if let index = message.body["index"] as? Int,let res = new?.getNewContentObject()?.getSkPhotos() {
+                let browser = SKPhotoBrowser(photos: res)
+                browser.initializePageIndex(index)
+                browser.statusBarStyle = .LightContent
+                browser.displayAction = true
+                self.presentViewController(browser, animated: true, completion: nil)
+            }
         }
+    }
+    
+    /**
+     根据提供的 URL 和 需要加载完成的 Index
+     
+     - parameter url:   图片URL
+     - parameter index: 图片所在的Index
+     */
+    private func HandleUrlAndIndex(url:String,index:Int){
+    
+        url.DownloadImageByUrl({ (pro) in
+
+            dispatch_async(dispatch_get_main_queue(), { 
+                
+                let jsStr = "$(\"div .customProgressBar\").eq(\(index)).css(\"width\",\"\(pro)%\")"
+                
+                self.webView.evaluateJavaScript(jsStr, completionHandler: nil)
+            })
+            
+            }, finish: { (base64) in
+                
+                let jsStr = "$(\"img\").eq(\(index)).attr(\"src\",\"\(base64)\")"
+                
+                self.webView.evaluateJavaScript(jsStr, completionHandler: nil)
+                
+                if url.hasSuffix(".gif") {
+                
+                    let display = "$(\"div .progress\").eq(\(index)).css(\"visibility\",\"hidden\")"
+                    
+                    self.webView.evaluateJavaScript(display, completionHandler: nil)
+                }
+        })
     }
 }
