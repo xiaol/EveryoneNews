@@ -280,7 +280,7 @@ class NewsUtil: NSObject {
     // 完善新闻事件
     private class func AnalysisPutTimeAndImageList(channel:NSDictionary,realm:Realm,ishot:Int=0,iscollected:Int=0){
         
-        if let nid = channel.objectForKey("nid") as? Int {
+        if let nid = channel.objectForKey("nid") as? Int,let title = channel.objectForKey("title") as? String {
             
             if let pubTime = channel.objectForKey("ptime") as? String {
                 

@@ -182,15 +182,17 @@ extension NewContent{
             
             if let img = conten.img {
                 
-                var str = "<div class = \"imgDiv\">&span&&img&</div>"
+                var str = "<div class = \"imgDiv\">&img&</div>"
+                
+//                var str = "<div class = \"imgDiv\">&span&&img&</div>" // 进度条
                 
                 let res = img.grep("_(\\d+)X(\\d+).")
                 
                 if res.captures.count > 0 {
                     
-                    let width = res.captures[1]
-                        
-                    str = str.replaceRegex("(&span&)",  with: "<div style=\"height:2px;width:\(width)px\" class=\"progress img-responsive center-block customProgress\"><div class=\"progress-bar customProgressBar\" role=\"progressbar\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: 0%;\"> <span class=\"sr-only\">40% 完成</span> </div> </div>")
+//                    let width = res.captures[1]
+                    
+//                    str = str.replaceRegex("(&span&)",  with: "<div style=\"height:2px;width:\(width)px\" class=\"progress img-responsive center-block customProgress\"><div class=\"progress-bar customProgressBar\" role=\"progressbar\" aria-valuemin=\"0\" aria-valuemax=\"100\" style=\"width: 0%;\"> <span class=\"sr-only\">40% 完成</span> </div> </div>")
                     
                     str = str.replaceRegex("(&img&)", with: "<img style=\"display: flex; \" data-src=\"\(img)\" w=\(res.captures[1]) h=\(res.captures[2]) class=\"img-responsive center-block\">")
                     

@@ -88,7 +88,7 @@ extension DetailViewController:WKNavigationDelegate{
     
         let configuration = WKWebViewConfiguration()
         configuration.userContentController.addScriptMessageHandler(self, name: "JSBridge")
-        configuration.allowsInlineMediaPlayback = true
+//        configuration.allowsInlineMediaPlayback = true
         self.webView = WKWebView(frame: CGRect(origin: CGPointZero, size: CGSize(width: 600, height: 1000)), configuration: configuration)
         
         self.webView.hidden = true
@@ -240,9 +240,9 @@ extension String {
         
         PINRemoteImageManager.sharedImageManager().downloadImageWithURL(url, options: .DownloadOptionsNone, progressDownload: { (min, max) in
             
-            let process = Int(CGFloat(min)/CGFloat(max)*100)
+//            let process = Int(CGFloat(min)/CGFloat(max)*100)
             
-            progress((process-5 < 0 ? 0 : process-5))
+//            progress((process-5 < 0 ? 0 : process-5))
             
             }) { (result) in
                 
@@ -314,19 +314,28 @@ extension DetailViewController :WKScriptMessageHandler{
                     
                     }, finish: { (base64) in
                         
-                        let download = "$(\"div .customProgressBar\").eq(\(index)).css(\"width\",\"100%\")"
+                        let jsStr = "$(\"img\").eq(\(index)).attr(\"src\",\"\(base64)\")"
                         
-                        self.webView.evaluateJavaScript(download, completionHandler: { (_, _) in
-                        
-                            let jsStr = "$(\"img\").eq(\(index)).attr(\"src\",\"\(base64)\")"
+                        self.webView.evaluateJavaScript(jsStr, completionHandler: { (_, _) in
                             
-                            self.webView.evaluateJavaScript(jsStr, completionHandler: { (_, _) in
-                                
-                                let display = "$(\"div .progress\").eq(\(index)).css(\"visibility\",\"hidden\")"
-                                
-                                self.webView.evaluateJavaScript(display, completionHandler: nil)
-                            })
+                            let display = "$(\"div .progress\").eq(\(index)).css(\"visibility\",\"hidden\")"
+                            
+                            self.webView.evaluateJavaScript(display, completionHandler: nil)
                         })
+                        
+//                        let download = "$(\"div .customProgressBar\").eq(\(index)).css(\"width\",\"100%\")"
+//                        
+//                        self.webView.evaluateJavaScript(download, completionHandler: { (_, _) in
+//                        
+//                            let jsStr = "$(\"img\").eq(\(index)).attr(\"src\",\"\(base64)\")"
+//                            
+//                            self.webView.evaluateJavaScript(jsStr, completionHandler: { (_, _) in
+//                                
+//                                let display = "$(\"div .progress\").eq(\(index)).css(\"visibility\",\"hidden\")"
+//                                
+//                                self.webView.evaluateJavaScript(display, completionHandler: nil)
+//                            })
+//                        })
                 })
             }
             

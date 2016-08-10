@@ -41,15 +41,13 @@ function scrollMethod(offesty) {
 
         var datasrc = $(this).attr("data-src")
 
-        if ($(this).offset().top < offesty && ajaxUrl.indexOf(datasrc) == -1) {
-
+        if ($(this).offset().top < offesty+200 && ajaxUrl.indexOf(datasrc) == -1) {
             ajaxUrl.push(datasrc)
-
             window.webkit.messageHandlers.JSBridge.postMessage({
-                                                                     "type": 3,
-                                                                "index":index,
-                                                                     "url": datasrc
-                                                                     });
+                "type": 3,
+                "index": index,
+                "url": datasrc
+            });
         }
     })
 }
