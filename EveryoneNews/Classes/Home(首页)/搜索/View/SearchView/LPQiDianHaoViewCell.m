@@ -77,7 +77,11 @@
             [imageView addGestureRecognizer:tapGesture];
             
         } else {
-            imageView.image = [UIImage imageNamed:@"奇点号占位图1"];
+            
+            // 生成1到5的随机数字
+            NSInteger m = arc4random() % 4;
+            NSString *imageName = [NSString stringWithFormat:@"c_q%d", (m + 1)];
+            imageView.image = [UIImage imageNamed:imageName];
             UITapGestureRecognizer *tapGestureQiDianHao = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapQiDianHao:)];
             [imageView addGestureRecognizer:tapGestureQiDianHao];
         }

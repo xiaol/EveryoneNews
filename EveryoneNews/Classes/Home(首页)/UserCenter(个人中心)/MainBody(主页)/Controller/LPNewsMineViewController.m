@@ -19,7 +19,8 @@
 #import "LPDigViewController.h"
 #import "GenieTransition.h"
 #import "LPNewsMyCommViewController.h"
-#import "EveryoneNews-Swift.h"
+#import "LPMyCollectionViewController.h"
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -366,13 +367,10 @@ static NSString * const kCellIdentify = @"JoyMineViewCell";
         LPNewsMyCommViewController *commView = [[LPNewsMyCommViewController alloc] init];
         [self.navigationController pushViewController:commView animated:YES];
 
-    }else if (indexPath.row ==1){
-        
-        UIViewController *colView = [[UIStoryboard shareCollectionBoard] getCollectionViewController];
-        [self.navigationController pushViewController:colView animated:YES];
-        
-        
-    }else{
+    } else if (indexPath.row ==1){
+        LPMyCollectionViewController *collectionViewController = [[LPMyCollectionViewController alloc] init];
+        [self.navigationController pushViewController:collectionViewController animated:YES];
+    } else{
         
         LPNewsMyInfoView *infoView = [[LPNewsMyInfoView alloc] init];
         [self.navigationController pushViewController:infoView animated:YES];

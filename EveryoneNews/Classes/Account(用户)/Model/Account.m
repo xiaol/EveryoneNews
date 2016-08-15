@@ -12,7 +12,7 @@
 
 
 - (NSString *)description{
-    return [NSString stringWithFormat:@"<%p> (%@,%@,%@,%@,%@,%@,%@,%@)",self,_userId,_userGender,_userName,_userIcon,_platformType,_deviceType,_expiresTime, _uniqueDeviceID];
+    return [NSString stringWithFormat:@"<%p> (%@,%@,%@,%@,%@,%@,%@)",self,_userId,_userGender,_userName,_userIcon,_platformType,_deviceType,_expiresTime];
 }
 // 从文件中解析对象的时候使用
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
@@ -26,13 +26,11 @@
         self.deviceType=[aDecoder decodeObjectForKey:@"deviceType"];
         self.token=[aDecoder decodeObjectForKey:@"token"];
         self.expiresTime=[aDecoder decodeObjectForKey:@"expiresTime"];
-        self.uniqueDeviceID = [aDecoder decodeObjectForKey:@"uniqueDeviceID"];
     }
     return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)aCoder
-{
+- (void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeObject:self.userGender forKey:@"userGender"];
     [aCoder encodeObject:self.userId forKey:@"userId"];
     [aCoder encodeObject:self.userName forKey:@"userName"];
@@ -41,6 +39,5 @@
     [aCoder encodeObject:self.deviceType forKey:@"deviceType"];
     [aCoder encodeObject:self.token forKey:@"token"];
     [aCoder encodeObject:self.expiresTime forKey:@"expiresTime"];
-    [aCoder encodeObject:self.uniqueDeviceID forKey:@"uniqueDeviceID"];
 }
 @end

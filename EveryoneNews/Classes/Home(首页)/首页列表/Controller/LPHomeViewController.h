@@ -23,6 +23,7 @@
 
 @class LPPagingViewPage;
 @class CardFrame;
+@class Account;
 @interface LPHomeViewController:LPBaseViewController
 
 // 首页登录按钮
@@ -80,6 +81,8 @@
 
 @property (nonatomic, strong) LPHttpTool *http;
 
+//- (void)login;
+//- (void)loginout;
+- (void)displayLoginBtnIconWithAccount:(Account *)account;
 
- 
 @end

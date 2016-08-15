@@ -230,20 +230,8 @@ const static CGFloat changeFontSizeViewH = 150;
     
     NSString *concernStr = @"关注";
     NSString *concernNotStr = @"取消";
-    // 取消关注 删除本地数据库
-    if ([self.conpubFlag isEqualToString:@"1"]) {
-        [LPHttpTool deleteAuthorizationJSONWithURL:cancelConcernUrl authorization:authorization params:nil success:^(id json) {
-            if ([json[@"code"] integerValue] == 2000 ) {
-                self.conpubFlag = @"0";
-                [self.concernButton setTitle:concernStr forState:UIControlStateNormal];
-                [noteCenter postNotificationName:LPRemoveConcernSourceNotification object:nil];
-                [noteCenter postNotificationName:LPReloadCancelConcernPageNotification object:nil];
-                [Card cancelConcernCard:self.sourceName];
-            }
-        } failure:^(NSError *error) {
-            NSLog(@"%@", error);
-        }];
-    } else {
+    
+    if ([self.conpubFlag isEqualToString:@"0"]) {
         [LPHttpTool postAuthorizationJSONWithURL:addConcernUrl authorization:authorization params:nil success:^(id json) {
             if ([json[@"code"] integerValue] == 2000 ) {
                 self.conpubFlag = @"1";
@@ -253,6 +241,24 @@ const static CGFloat changeFontSizeViewH = 150;
                 [noteCenter postNotificationName:LPAddConcernSourceNotification object:nil];
                 [noteCenter postNotificationName:LPReloadAddConcernPageNotification object:nil];
                 
+            }
+        } failure:^(NSError *error) {
+            NSLog(@"%@", error);
+        }];
+        
+    } else {
+
+        [LPHttpTool deleteAuthorizationJSONWithURL:cancelConcernUrl authorization:authorization params:nil success:^(id json) {
+            if ([json[@"code"] integerValue] == 2000 ) {
+                self.conpubFlag = @"0";
+                [self.concernButton setTitle:concernStr forState:UIControlStateNormal];
+                [noteCenter postNotificationName:LPRemoveConcernSourceNotification object:nil];
+                
+                NSString *sourceName = self.sourceName;
+                
+                NSDictionary *dict =[[NSDictionary alloc] initWithObjectsAndKeys:sourceName,@"sourceName", nil];
+                [noteCenter postNotificationName:LPReloadCancelConcernPageNotification object:nil userInfo:dict];
+//                [Card cancelConcernCard:self.sourceName];
             }
         } failure:^(NSError *error) {
             NSLog(@"%@", error);
@@ -555,7 +561,7 @@ const static CGFloat changeFontSizeViewH = 150;
     
     __weak typeof(self) weakSelf = self;
     // 上拉加载更多
-    tableView.footer = [LPDiggerFooter footerWithRefreshingBlock:^{
+    tableView.mj_footer = [LPDiggerFooter footerWithRefreshingBlock:^{
         [weakSelf loadMoreData];
     }];
     self.tableView = tableView;
@@ -593,13 +599,13 @@ const static CGFloat changeFontSizeViewH = 150;
                 [self.concernCardFrames addObject:cardFrame];
             }
             [self.tableView reloadData];
-           [self.tableView.footer endRefreshing];
+           [self.tableView.mj_footer endRefreshing];
             if (bodyArray.count == 0) {
-                [self.tableView.footer noticeNoMoreData];
+                [self.tableView.mj_footer endRefreshingWithNoMoreData];
             }
         }
     } failure:^(NSError *error) {
-        [self.tableView.footer endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
     }];
 }
 

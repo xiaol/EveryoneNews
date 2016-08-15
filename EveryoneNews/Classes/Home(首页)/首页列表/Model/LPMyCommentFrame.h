@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-@class Comment;
+@class LPMyComment;
 @interface LPMyCommentFrame : NSObject
 
-@property (nonatomic, strong) Comment *comment;
+@property (nonatomic, strong) LPMyComment *comment;
 @property (nonatomic, assign) CGRect timeLabeF;
 @property (nonatomic, assign) CGRect deleteButtonF;
 @property (nonatomic, assign) CGRect commentLabelF;

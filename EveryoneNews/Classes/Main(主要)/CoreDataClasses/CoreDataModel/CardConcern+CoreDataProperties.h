@@ -2,7 +2,7 @@
 //  CardConcern+CoreDataProperties.h
 //  EveryoneNews
 //
-//  Created by dongdan on 16/7/12.
+//  Created by dongdan on 16/8/12.
 //  Copyright © 2016年 apple. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nullable, nonatomic, retain) NSString *keyword;
 @property (nullable, nonatomic, retain) NSString *keywordColor;
+@property (nullable, nonatomic, retain) NSNumber *utype;
 @property (nullable, nonatomic, retain) Card *card;
 
 @end

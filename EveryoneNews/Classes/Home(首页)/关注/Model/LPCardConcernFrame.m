@@ -20,10 +20,8 @@ const static CGFloat paddingTop = 15;
 - (void)setCard:(Card *)card {
     
     _card = card;
-    CardConcern *concern = card.cardConcern;
-    NSMutableAttributedString *htmlTitle = [Card titleHtmlString:card.title];
     NSString *sourceSiteName = card.sourceSiteName;
-    NSString *keyword = concern.keyword;
+    NSString *keyword = card.keyword;
     
     CGFloat sourceFontSize = LPFont7;
     CGFloat keywordFontSize = LPFont6;

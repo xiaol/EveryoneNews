@@ -20,7 +20,8 @@
 #import "LPMyCommentFrame.h"
 #import "LPDetailViewController.h"
 #import "LPDetailTipView.h"
-#import "Comment+Create.h"
+#import "CommentTool.h"
+#import "LPMyComment.h"
 
 
 
@@ -46,6 +47,8 @@ static BOOL status;
 @property (nonatomic, strong) UIImageView *smallAvatarImageView;
 // 评论总高度
 @property (nonatomic, assign) CGFloat sumHeight;
+@property (nonatomic, strong) UIImageView *animationImageView;
+@property (nonatomic, strong) UIView *contentLoadingView;
 
 
 @end
@@ -78,21 +81,38 @@ static BOOL status;
 #pragma mark - ViewDidLoad
 - (void)viewDidLoad{
     [super viewDidLoad];
-    [self setupData];
     [self setupSubViews];
+    [self setupData];
+
 }
 
 #pragma mark - setup Data
 - (void)setupData {
-    NSArray *array = [Comment getPersonalComment];
-    CGFloat sumHeight = 0.0;
-    for (Comment *comment in array) {
-        LPMyCommentFrame *commentFrame = [[LPMyCommentFrame alloc] init];
-        commentFrame.comment = comment;
-        [self.commentArrayFrame addObject:commentFrame];
-        sumHeight += commentFrame.cellHeight;
+     [CommentTool commentsQuerySuccess:^(NSArray *cards) {
+         if (cards.count > 0) {
+             for (LPMyComment *comment in cards) {
+                 LPMyCommentFrame *commentFrame = [[LPMyCommentFrame alloc] init];
+                 commentFrame.comment = comment;
+                 [self.commentArrayFrame addObject:commentFrame];
+             }
+         }
+         [self.animationImageView stopAnimating];
+         self.contentLoadingView.hidden = YES;
+         [self reloadData];
+     } failure:^(NSError *error) {
+         
+     }];
+}
+
+#pragma mark - reloadData
+- (void)reloadData {
+    if (self.commentArrayFrame.count > 0) {
+        self.noCommentTipView.hidden = YES;
+    } else {
+        
+        self.noCommentTipView.hidden = NO;
     }
-    self.sumHeight = sumHeight;
+    [self.tableView reloadData];
 }
 
 #pragma mark - setup SubViews
@@ -218,7 +238,6 @@ static BOOL status;
     
     // 没有评论提示信息
     UIView *noCommentTipView = [[UIView alloc] initWithFrame:CGRectMake(0, headerHeight + 42, ScreenWidth, 140)];
-    
     CGFloat noCommentImageViewW = 65;
     CGFloat noCommentImageViewH = 57;
     CGFloat noCommentImageViewX = (ScreenWidth - noCommentImageViewW) / 2;
@@ -249,11 +268,40 @@ static BOOL status;
     [noCommentTipView addSubview:noCommentLabelFirst];
     [noCommentTipView addSubview:noCommentLabelSecond];
     [noCommentTipView addSubview:noCommentImageView];
+    noCommentTipView.hidden = YES;
     
     self.noCommentTipView = noCommentTipView;
     [self.tableView insertSubview:noCommentTipView belowSubview:self.tableView];
     
+    // 正在加载提示
+    UIView *contentLoadingView = [[UIView alloc] initWithFrame:noCommentTipView.frame];
     
+    // Load images
+    NSArray *imageNames = @[@"xl_1", @"xl_2", @"xl_3", @"xl_4"];
+    
+    NSMutableArray *images = [[NSMutableArray alloc] init];
+    for (int i = 0; i < imageNames.count; i++) {
+        [images addObject:[UIImage imageNamed:[imageNames objectAtIndex:i]]];
+    }
+    
+    // Normal Animation
+    UIImageView *animationImageView = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth - 36) / 2, (contentLoadingView.height) / 3, 36 , 36)];
+    animationImageView.animationImages = images;
+    animationImageView.animationDuration = 1;
+    [self.view addSubview:animationImageView];
+    [animationImageView startAnimating];
+    self.animationImageView = animationImageView;
+    [contentLoadingView addSubview:animationImageView];
+    [self.view addSubview:contentLoadingView];
+    
+    UILabel *loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(animationImageView.frame), ScreenWidth, 40)];
+    loadingLabel.textAlignment = NSTextAlignmentCenter;
+    loadingLabel.text = @"正在努力加载...";
+    loadingLabel.font = [UIFont systemFontOfSize:12];
+    loadingLabel.textColor = [UIColor colorFromHexString:@"#999999"];
+    [contentLoadingView addSubview:loadingLabel];
+    
+    self.contentLoadingView = contentLoadingView;
 }
 
 #pragma mark - UITableView DataSource
@@ -262,13 +310,7 @@ static BOOL status;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (self.commentArrayFrame.count > 0) {
-        
-        self.noCommentTipView.hidden = YES;
-    } else {
-        
-        self.noCommentTipView.hidden = NO;
-    }
+    
     return self.commentArrayFrame.count;
 }
 
@@ -310,24 +352,28 @@ static BOOL status;
 }
 
 #pragma mark - CommentCell Delegate
-- (void)didTapTitleView:(LPMyCommentTableViewCell *)cell card:(Card *)card {
+- (void)didTapTitleView:(LPMyCommentTableViewCell *)cell  commentFrame:(LPMyCommentFrame *)commentFrame {
     LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
     detailVc.sourceViewController = commentSource;
-    detailVc.cardID = card.objectID;
+    detailVc.myCommentFrame = commentFrame;
     [self.navigationController pushViewController:detailVc animated:YES];
 }
 
-// 删除评论
+#pragma mark - 删除评论
 - (void)deleteButtonDidClick:(LPMyCommentTableViewCell *)cell commentFrame:(LPMyCommentFrame *)commentFrame {
-    NSInteger index = [self.commentArrayFrame indexOfObject:commentFrame];
-    [self.commentArrayFrame removeObject:commentFrame];
-    [self.tableView  deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
-    [Comment deleteComment:commentFrame.comment];
-    
-    if (self.commentArrayFrame.count == 0) {
-        [self.tableView reloadData];
-    }
-    
+    [CommentTool deleteComment:commentFrame.comment deleteFlag:^(NSString *deleteFlag) {
+        if ([deleteFlag isEqualToString:LPSuccess]) {
+            NSInteger index = [self.commentArrayFrame indexOfObject:commentFrame];
+            [self.commentArrayFrame removeObject:commentFrame];
+            [self.tableView  deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
+            if (self.commentArrayFrame.count > 0) {
+                self.noCommentTipView.hidden = YES;
+            } else {
+                
+                self.noCommentTipView.hidden = NO;
+            }
+        }
+    }];
 }
 
 - (void)upButtonDidClick:(LPMyCommentTableViewCell *)cell {

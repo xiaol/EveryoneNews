@@ -10,6 +10,7 @@
 #import "LPQiDianHaoFrame.h"
 #import "LPQiDianHao.h"
 #import "UIImageView+WebCache.h"
+#import "AccountTool.h"
 
 
 @interface LPQiDianHaoCell()
@@ -19,6 +20,7 @@
 @property (nonatomic, strong) UILabel *concernCountLabel;
 @property (nonatomic, strong) UIButton *concernButton;
 @property (nonatomic, strong) UIView *seperatorView;
+@property (nonatomic, copy) NSString *concernState;
 
 
 @end
@@ -71,13 +73,33 @@
     _qiDianHaoFrame = qiDianHaoFrame;
     LPQiDianHao *qiDianHao = qiDianHaoFrame.qiDianHao;
     
-    if (qiDianHao.concernFlag == 1) {
-        [self.concernButton setTitle:@"取消" forState:UIControlStateNormal];
-    } else {
-        [self.concernButton setTitle:@"关注" forState:UIControlStateNormal];
-    }
+    self.concernState = [NSString stringWithFormat:@"%ld", qiDianHao.concernFlag];
+    
+    
+    // 待调整
+   if (![AccountTool account]) {
+       [self.concernButton setTitle:@"关注" forState:UIControlStateNormal];
+       [self.concernButton setTitleColor:[UIColor colorFromHexString:@"#e71f19"] forState:UIControlStateNormal];
+       self.concernButton.layer.borderColor = [UIColor colorFromHexString:@"#e71f19"].CGColor;
+   } else {
+       if (qiDianHao.concernFlag == 0) {
+           [self.concernButton setTitle:@"关注" forState:UIControlStateNormal];
+           [self.concernButton setTitleColor:[UIColor colorFromHexString:@"#e71f19"] forState:UIControlStateNormal];
+           self.concernButton.layer.borderColor = [UIColor colorFromHexString:@"#e71f19"].CGColor;
+       } else {
+           [self.concernButton setTitle:@"取消" forState:UIControlStateNormal];
+           [self.concernButton setTitleColor:[UIColor colorWithHexString:LPColor4] forState:UIControlStateNormal];
+           self.concernButton.layer.borderColor = [UIColor colorWithHexString:LPColor4].CGColor;
+       }
+   }
+    
+    
+
     self.concernImageView.frame = qiDianHaoFrame.concernImageViewF;
-    [self.concernImageView sd_setImageWithURL:[NSURL URLWithString:qiDianHao.imageViewURL] placeholderImage:[UIImage imageNamed:@"奇点号占位图1"]];
+    
+    NSInteger m = arc4random() % 4;
+    NSString *imageName = [NSString stringWithFormat:@"r_q%d", (m + 1)];
+    [self.concernImageView sd_setImageWithURL:[NSURL URLWithString:qiDianHao.imageViewURL] placeholderImage:[UIImage imageNamed:imageName]];
 
     self.titleLabel.frame = qiDianHaoFrame.titleLabelF;
     self.titleLabel.text = qiDianHao.name;
@@ -92,7 +114,7 @@
     }
     
     
-    
+    self.concernCountLabel.hidden = (qiDianHao.concernCount > 0) ? NO : YES;
     
     NSString *concernCount = [NSString stringWithFormat:@"%@人关注",concernStr] ;
     self.concernCountLabel.text = concernCount;
@@ -105,8 +127,14 @@
     
 }
 
+/**
+ *  点击关注按钮
+ */
 - (void)concernButtonDidClick {
-    NSLog(@"button click");
+    if ([self.delegate respondsToSelector:@selector(cell:didClickConcernButtonWithConcernState:sourceName:qiDianHaoFrame:)]) {
+        [self.delegate cell:self didClickConcernButtonWithConcernState:self.concernState sourceName:self.titleLabel.text qiDianHaoFrame:self.qiDianHaoFrame];
+    }
+    
 }
 
 @end

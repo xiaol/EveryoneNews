@@ -68,8 +68,6 @@ static const CGFloat kLeftMargin = 23.f;
         leftImageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@",keyStr]];
         textLabel.text = [dict.allValues objectAtIndex:0];
         
-        NSLog(@"%d", indexPath.row);
-        
         __weak __typeof(self)weakSelf = self;
         __weak __typeof(leftImageView)weakLeftImageView = leftImageView;
         

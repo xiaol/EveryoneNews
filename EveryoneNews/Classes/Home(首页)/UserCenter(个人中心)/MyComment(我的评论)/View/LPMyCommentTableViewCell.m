@@ -8,9 +8,9 @@
 
 #import "LPMyCommentTableViewCell.h"
 #import "LPMyCommentFrame.h"
-#import "Comment.h"
+#import "LPMyComment.h"
 #import "UIImage+LP.h"
-#import "Card.h"
+ 
 
 @interface LPMyCommentTableViewCell ()
 
@@ -101,7 +101,7 @@
 
 - (void)setCommentFrame:(LPMyCommentFrame *)commentFrame {
     _commentFrame = commentFrame;
-    Comment *comment = _commentFrame.comment;
+    LPMyComment *comment = _commentFrame.comment;
     
     NSDate *currentDate = [NSDate date];
 
@@ -160,12 +160,9 @@
 
 #pragma mark - 点击标题跳转到详情页
 - (void)titleViewTapRecognizer:(UIView *)view {
-    
-    Card *card = self.commentFrame.comment.card;
-    if ([self.delegate respondsToSelector:@selector(didTapTitleView:card:)]) {
-        [self.delegate didTapTitleView:self card:card];
+    if ([self.delegate respondsToSelector:@selector(didTapTitleView:commentFrame:)]) {
+        [self.delegate didTapTitleView:self commentFrame:self.commentFrame];
     }
-    
 }
 
 #pragma mark - 点击删除按钮

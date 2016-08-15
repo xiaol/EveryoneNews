@@ -7,11 +7,11 @@
 //
 
 #import "LPMyCommentFrame.h"
-#import "Comment.h"
+#import "LPMyComment.h"
 
 @implementation LPMyCommentFrame
 
-- (void)setComment:(Comment *)comment {
+- (void)setComment:(LPMyComment *)comment {
     
     _comment = comment;
     

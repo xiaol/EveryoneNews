@@ -7,12 +7,12 @@
 //
 
 #import "CardConcern.h"
-
-@class Card;
+//
+//@class Card;
 @interface CardConcern (Create)
 
-+ (CardConcern *)createCardWithKeyword:(NSString *)keyword
-                                 card:(Card *)card
-               inManagedObjectContext:(NSManagedObjectContext *)context;
+//+ (CardConcern *)createCardWithKeyword:(NSString *)keyword
+//                                 card:(Card *)card
+//               inManagedObjectContext:(NSManagedObjectContext *)context;
 
 @end

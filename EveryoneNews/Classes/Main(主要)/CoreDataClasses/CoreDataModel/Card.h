@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class CardImage, CardRelate, Comment;
+@class CardImage, CardRelate, Comment, CardConcern;
 
 NS_ASSUME_NONNULL_BEGIN
 

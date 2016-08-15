@@ -9,12 +9,17 @@
 
 #import "Comment.h"
 
+typedef void (^CommentsQuerySuccessHandler)(NSArray *cards);
+typedef void (^CommentsQueryFailureHandler)(NSError *error);
+
 @class Card;
 @interface Comment (Create)
 
-+ (void)createCommentWithDict:(NSDictionary *)dict card:(Card *)card;
+//+ (void)createCommentWithDict:(NSDictionary *)dict card:(Card *)card;
+//
+//+ (NSArray *)getPersonalComment;
+//
+//+ (void)deleteComment:(Comment *)comment;
+ 
 
-+ (NSArray *)getPersonalComment;
-
-+ (void)deleteComment:(Comment *)comment;
 @end

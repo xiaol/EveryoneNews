@@ -58,7 +58,6 @@
 }
 
 - (void)setCellWithArray:(NSMutableArray *)dataMutableArray indexPath:(NSIndexPath*)indexPath selectedTitle:(NSString *)selectedTitle{
- 
     self.indexPath = indexPath;
     self.channelItem = dataMutableArray[indexPath.row];
     self.channelItemLabel.text = self.channelItem.channelName;
@@ -83,6 +82,14 @@
         self.channelItemLabel.backgroundColor = [UIColor whiteColor];
         self.userInteractionEnabled = YES;
     }
+    
+ 
+    // 判断用户第一次安装是否订阅“关注”频道，没有订阅过就隐藏关注频道
+//    if ([self.channelItem.channelName isEqualToString:LPConcernChannelItemName] && ![userDefaults objectForKey:LPConcernChannelItemShowOrHide]) {
+//        self.contentView.hidden = YES;
+//    } else {
+//        self.contentView.hidden = NO;
+//    }
 }
 
 @end

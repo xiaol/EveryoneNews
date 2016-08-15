@@ -37,12 +37,21 @@
     CGFloat titleLabelY = 12.0;
     CGFloat titleLabelW = [title sizeWithFont:[UIFont systemFontOfSize:titleFontSize] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].width;
     CGFloat titleLabelH = [title sizeWithFont:[UIFont systemFontOfSize:titleFontSize] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].height;
+    
+    if (qiDianHao.concernCount  == 0) {
+        titleLabelY = (concernImageViewH + concernImageViewY * 2 - titleLabelH) / 2.0f;
+    }
     _titleLabelF = CGRectMake(titleLabelX, titleLabelY, titleLabelW, titleLabelH);
     
     CGFloat concernCountX = CGRectGetMaxX(_concernImageViewF) + 12;
     CGFloat concernCountY = CGRectGetMaxY(_titleLabelF) + 2;
+    
+  
+  
+    
     CGFloat concernCountW = [concernCount sizeWithFont:[UIFont systemFontOfSize:concernCountFontSize] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].width;
     CGFloat concernCountH = [concernCount sizeWithFont:[UIFont systemFontOfSize:concernCountFontSize] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].height;
+ 
     _concernCountLabelF = CGRectMake(concernCountX, concernCountY, concernCountW, concernCountH);
     
     CGFloat concernButtonW = 60;

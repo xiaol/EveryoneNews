@@ -22,7 +22,17 @@
         request.fetchLimit = param.count.integerValue;
         request.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"updateTime" ascending:NO]];
         if (param.startTime) {
-            request.predicate = [NSPredicate predicateWithFormat:@"channelId = %@ && isCardDeleted <> 1 && updateTime < %@ ", param.channelID, param.startTime];
+            // 判断当前频道是不是关注频道
+            if ([param.channelID isEqualToString:focusChannelID]) {
+                NSInteger utype = [[userDefaults objectForKey:@"utype"] integerValue];
+                
+                request.predicate = [NSPredicate predicateWithFormat:@"channelId = %@ && utype = %d && isCardDeleted <> 1 && updateTime < %@ ", param.channelID, utype, param.startTime];
+            } else {
+                request.predicate = [NSPredicate predicateWithFormat:@"channelId = %@ && isCardDeleted <> 1 && updateTime < %@ ", param.channelID, param.startTime];
+            }
+            
+            
+         
         }
         [cdh.importContext performBlock:^{
             NSError *error = nil;

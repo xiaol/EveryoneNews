@@ -213,25 +213,87 @@ NSString *storeFileName = @"EveryoneNews.sqlite";
 
 }
 
+//- (void)saveBackgroundContext {
+//    [self saveImportContext];
+//    // 1.把子上下文保存到父上下文(执行于内存, 速度极快)
+//    [self saveContext];
+//    // 2.把父上下文保存到持久化存储区(在专用队列上异步执行)
+//    [_parentContext performBlock:^{
+//        if (_parentContext.hasChanges) {
+//            NSError *error = nil;
+//            if ([_parentContext save:&error]) {
+//                NSLog(@"_parentContext saved changes to persistent store");
+//            } else {
+//                NSLog(@"_parentContext Failed to save _context: %@", error);
+//                [self showValidationError:error];
+//            }
+//        } else {
+//            NSLog(@"SKIPPED _parentContext save, there are no changes!");
+//        }
+//    }];
+//}
+
+
+
 - (void)saveBackgroundContext {
-    [self saveImportContext];
-    // 1.把子上下文保存到父上下文(执行于内存, 速度极快)
-    [self saveContext];
-    // 2.把父上下文保存到持久化存储区(在专用队列上异步执行)
-    [_parentContext performBlock:^{
-        if (_parentContext.hasChanges) {
+    
+    [_importContext performBlock:^{
+        
+        if (_importContext.hasChanges) {
+            
             NSError *error = nil;
-            if ([_parentContext save:&error]) {
-                NSLog(@"_parentContext saved changes to persistent store");
+            if ([_importContext save:&error]) {
+                
+                NSLog(@"_importContext saved changes to parent context");
+                
+                if (_context.hasChanges) {
+                    
+                    NSError *error = nil;
+                    
+                    if ([_context save:&error]) {
+                        
+                        NSLog(@"_context saved changes to parent context");
+                        
+                        [_parentContext performBlock:^{
+                            
+                            if (_parentContext.hasChanges) {
+                                
+                                NSError *error = nil;
+                                if ([_parentContext save:&error]) {
+                                    
+                                    NSLog(@"_parentContext saved changes to persistent store");
+                                    
+                                } else {
+                                    
+                                    NSLog(@"_parentContext Failed to save _context: %@", error);
+                                    
+                                    [self showValidationError:error];
+                                    
+                                }
+                            } else {
+                                NSLog(@"SKIPPED _parentContext save, there are no changes!");
+                            }
+                        }];
+                        
+                        
+                    } else {
+                        
+                        NSLog(@"Failed to save _context: %@", error);
+                        
+                        [self showValidationError:error];
+                    }
+                }
             } else {
-                NSLog(@"_parentContext Failed to save _context: %@", error);
+                NSLog(@"Failed to save _importContext: %@", error);
                 [self showValidationError:error];
             }
         } else {
-//            NSLog(@"SKIPPED _parentContext save, there are no changes!");
+          
         }
     }];
+    
 }
+
 
 
 

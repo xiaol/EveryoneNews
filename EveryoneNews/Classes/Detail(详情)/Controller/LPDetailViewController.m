@@ -65,6 +65,11 @@
 #import "LPConcernDetailViewController.h"
 #import "LPConcernCardFrame.h"
 #import "LPConcernCard.h"
+#import "LPMyCommentFrame.h"
+#import "LPMyComment.h"
+#import "LPMyCollectionCardFrame.h"
+#import "LPMyCollectionCard.h"
+#import "CollectionTool.h"
 
 static const NSString * privateContext;
 
@@ -151,8 +156,7 @@ const static CGFloat changeFontSizeViewH = 150;
 
 // 关心本文状态
 @property (nonatomic, copy) NSString *conFlag;
-
-
+@property (nonatomic, copy) NSString *colFlag;
 
 @end
 
@@ -167,8 +171,8 @@ const static CGFloat changeFontSizeViewH = 150;
     [self setupSubviews];
     [self setupBottomView];
     [self setupData];
-    // 收藏状态
-    [self collectedButtonStatusChange];
+//    // 收藏状态
+//    [self collectedButtonStatusChange];
     
     [noteCenter addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [noteCenter addObserver:self  selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
@@ -259,35 +263,6 @@ const static CGFloat changeFontSizeViewH = 150;
     return _contentFrames;
 }
 
-#pragma mark - 收藏按钮状态变化
-- (void)collectedButtonStatusChange {
-    if ([AccountTool account]) {
-        // 搜索页面跳转
-        if (self.searchCardFrame) {
-            if ([self nid]) {
-                [Card cardIsCollected:[self nid] cardIsCollectedBlock:^(BOOL isCollected, BOOL isExists) {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        if (!isCollected) {
-                            [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页未收藏"] forState:UIControlStateNormal];
-                            
-                        } else {
-                            [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页已收藏"] forState:UIControlStateNormal];
-                        }
-                    });
-                }];
-            }
-        } else {
-            if (![self.card.isCollected isEqual:@(1)]) {
-                [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页未收藏"] forState:UIControlStateNormal];
-                
-            } else {
-                [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页已收藏"] forState:UIControlStateNormal];
-            }
-        }
-    }
-}
-
-
 //当键盘出现或改变时调用
 - (void)keyboardWillShow:(NSNotification *)note
 {
@@ -367,7 +342,7 @@ const static CGFloat changeFontSizeViewH = 150;
     
     // 详情页block
     void (^contentBlock)(id json) = ^(id json) {
-          //NSLog(@"详情页--%@", json[@"code"]);
+//          NSLog(@"详情页--%@", json[@"code"]);
         if ([json[@"code"] integerValue] == 2000) {
             [self.contentFrames removeAllObjects];
             NSInteger i = 0;
@@ -388,6 +363,7 @@ const static CGFloat changeFontSizeViewH = 150;
 
             self.shareTitle = title;
             self.submitDocID = dict[@"docid"];
+            
             self.channel = dict[@"channel"];
             // 更新详情页评论数量
             self.commentsCount = [dict[@"comment"] integerValue];
@@ -404,6 +380,9 @@ const static CGFloat changeFontSizeViewH = 150;
             NSString *conFlag = [dict[@"conflag"] stringValue];
             self.conFlag = conFlag;
             
+            // 收藏状态
+            NSString *colFlag = [dict[@"colflag"] stringValue];
+            self.colFlag = colFlag;
             
             NSMutableArray *bodyArray = [[NSMutableArray alloc] initWithArray:dict[@"content"]];
             // 第一个图片作为分享图片
@@ -568,6 +547,7 @@ const static CGFloat changeFontSizeViewH = 150;
         self.reloadPage.hidden = YES;
         self.bottomView.userInteractionEnabled = YES;
         self.topView.shareButton.enabled = YES;
+        [self changeCollectionState];
     };
     
     void (^showReloadPageBlock)() = ^{
@@ -596,7 +576,7 @@ const static CGFloat changeFontSizeViewH = 150;
     excellentDetailCommentsParams[@"did"] = [[[self docId] stringByBase64Encoding] stringByTrimmingString:@"="] ;
     excellentDetailCommentsParams[@"uid"] = [userDefaults objectForKey:@"uid"];
  
-//    //NSLog(@"%@", excellentDetailCommentsParams);
+//    NSLog(@"%@", excellentDetailCommentsParams);
     
     
     // 相关观点
@@ -642,8 +622,6 @@ const static CGFloat changeFontSizeViewH = 150;
                     commentsBlock(json);
                     reloadTableViewBlock();
                     
-//                    NSLog(@"%@", self.conpubFlag);
-                    
                 } failure:^(NSError *error) {
                     showReloadPageBlock();
                     NSLog(@"全文评论：%@", error);
@@ -674,6 +652,16 @@ const static CGFloat changeFontSizeViewH = 150;
         self.noCommentView.hidden = YES;
     } else {
         self.noCommentView.hidden = NO;
+    }
+}
+
+
+#pragma mark - 改变收藏状态
+- (void)changeCollectionState {
+    if ([self.colFlag isEqualToString:@"1"]) {
+        [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页已收藏"] forState:UIControlStateNormal];
+    } else {
+        [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页未收藏"] forState:UIControlStateNormal];
     }
 }
 
@@ -1135,7 +1123,7 @@ const static CGFloat changeFontSizeViewH = 150;
 #pragma mark - 获取Card内容
 - (Card *)card {
     switch (self.sourceViewController) {
-        case searchSource: case remoteNotificationSource: case concernHistorySource:
+        case searchSource: case remoteNotificationSource: case concernHistorySource : case commentSource:case collectionSource:
             return nil;
             break;
             
@@ -1163,10 +1151,15 @@ const static CGFloat changeFontSizeViewH = 150;
         case concernHistorySource:
             return [NSString stringWithFormat:@"%@", self.concernCardFrame.card.nid];
             break;
+        case commentSource:
+            return [NSString stringWithFormat:@"%@", self.myCommentFrame.comment.nid];
+            break;
         case remoteNotificationSource:
             return self.remotePushNid;
             break;
-            
+        case collectionSource:
+            return [NSString stringWithFormat:@"%@",  self.myCollectionCardFrame.card.nid];
+            break;
         default:
             if (![self card]) return nil;
                 return [[self card] valueForKey:@"nid"];
@@ -1185,7 +1178,12 @@ const static CGFloat changeFontSizeViewH = 150;
         case remoteNotificationSource:
             return nil;
             break;
-            
+        case commentSource:
+            return  self.myCommentFrame.comment.docID;
+            break;
+        case collectionSource:
+            return   self.myCollectionCardFrame.card.docId;
+            break;
         default:
             if (![self card]) return nil;
             return [[self card] valueForKey:@"docId"];
@@ -1200,11 +1198,14 @@ const static CGFloat changeFontSizeViewH = 150;
             return  self.searchCardFrame.card.channelId;
             break;
             
-         case remoteNotificationSource:
+        case remoteNotificationSource: case commentSource:
             return self.channel;
             break;
         case concernHistorySource:
             return  self.concernCardFrame.card.channelId;
+            break;
+        case collectionSource:
+            return  self.myCollectionCardFrame.card.channelId;
             break;
         default:
             if (![self card]) return nil;
@@ -2138,6 +2139,8 @@ const static CGFloat changeFontSizeViewH = 150;
     }];
 }
 
+
+#pragma mark - 提交评论到服务器
 - (void)composeComment {
     Account *account = [AccountTool account];
     // 1.1 创建comment对象
@@ -2161,10 +2164,12 @@ const static CGFloat changeFontSizeViewH = 150;
         params[@"commend"]  = @(0);
         params[@"ctime"]  = comment.createTime;
         params[@"avatar"] = comment.userIcon;
-        params[@"docid"] = self.docId;
+        params[@"docid"] = self.docId == nil ? self.submitDocID: self.docId;
         NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
         if (authorization) {
             [LPHttpTool postAuthorizationJSONWithURL:url authorization:authorization params:params success:^(id json) {
+                
+                NSLog(@"%@, %@", params, json);
                 if ([json[@"code"] integerValue] == 2000) {
                     
                     [self tipViewWithCondition:4];
@@ -2193,35 +2198,6 @@ const static CGFloat changeFontSizeViewH = 150;
                     self.composeButton.layer.borderColor  =  [UIColor colorFromHexString:LPColor4].CGColor;
                     [self.composeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                     self.composeComment = NO;
-                    
-                    // 存储评论内容
-                    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-                    dict[@"commentID"] = comment.commentId;
-                    dict[@"upFlag"] = @"0";
-                    dict[@"title"] = self.contentTitle;
-                    dict[@"nid"] = [NSString stringWithFormat:@"%@", [self nid]];
-                    dict[@"commend"] = @"0";
-                    dict[@"commentTime"] = comment.createTime;
-                    dict[@"comment"] = comment.srcText;
-                    // 搜索页面跳转
-                    if (self.searchCardFrame) {
-                        NSMutableDictionary *cardDict = [NSMutableDictionary dictionary];
-                        LPSearchCard *searchCard = self.searchCardFrame.card;
-                        [cardDict setObject:searchCard.nid forKey:@"nid"];
-                        [cardDict setObject:searchCard.docId forKey:@"docid"];
-                        [cardDict setObject:self.contentTitle forKey:@"title"];
-                        [cardDict setObject:searchCard.sourceSiteURL forKey:@"purl"];
-                        [cardDict setObject:searchCard.sourceSiteName forKey:@"pname"];
-                        [cardDict setObject:searchCard.updateTime forKey:@"ptime"];
-                        [cardDict setObject:searchCard.channelId forKey:@"channel"];
-                        [cardDict setObject:searchCard.commentsCount forKey:@"comment"];
-                        if (searchCard.cardImages.count > 0) {
-                             [cardDict setObject:searchCard.cardImages forKey:@"imgs"];
-                        }
-                        [Card createCardWithDict:cardDict commentDict:dict];
-                    } else {
-                         [Comment createCommentWithDict:dict card:self.card];
-                    }
                 }
                 
             } failure:^(NSError *error) {
@@ -2431,10 +2407,31 @@ const static CGFloat changeFontSizeViewH = 150;
 
 #pragma mark - 收藏文章
 - (void)didFavoriteWithDetailBottomView:(LPDetailBottomView *)detailBottomView {
-    
+
     if ([AccountTool account] ==  nil) {
         [AccountTool accountLoginWithViewController:self success:^(Account *account){
-            [self collectOrNot];
+            NSMutableDictionary *detailContentParams = [NSMutableDictionary dictionary];
+            NSString *detailContentURL = [NSString stringWithFormat:@"%@/v2/ns/con", ServerUrlVersion2];
+            NSString *uid = [userDefaults objectForKey:@"uid"];
+            detailContentParams[@"nid"] = [self nid];
+            detailContentParams[@"uid"] = uid;
+            
+          
+            [LPHttpTool getWithURL:detailContentURL params:detailContentParams success:^(id json) {
+               
+                NSMutableDictionary *dict = json[@"data"];
+                NSString *colflag = [dict[@"colflag"] stringValue];
+                // 已经收藏
+                if ([colflag isEqualToString:@"1"]) {
+                    [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页已收藏"] forState:UIControlStateNormal];
+                    self.colFlag = colflag;
+                } else {
+                    // 收藏
+                    [self collect];
+                }
+            } failure:^(NSError *error) {
+            
+            }];
         } failure:^{
         } cancel:nil];
     } else {
@@ -2444,86 +2441,37 @@ const static CGFloat changeFontSizeViewH = 150;
 
 #pragma mark - 收藏和取消收藏
 - (void)collectOrNot {
-    // 从搜索页面跳转
-    if (self.sourceViewController == searchSource) {
-          [Card cardIsCollected:[self nid]  cardIsCollectedBlock:^(BOOL isCollected, BOOL isExists) {
-              NSMutableDictionary *cardDict = [NSMutableDictionary dictionary];
-              LPSearchCard *searchCard = self.searchCardFrame.card;
-              [cardDict setObject:searchCard.nid forKey:@"nid"];
-              [cardDict setObject:searchCard.docId forKey:@"docid"];
-              [cardDict setObject:self.contentTitle forKey:@"title"];
-              [cardDict setObject:searchCard.sourceSiteURL forKey:@"purl"];
-              [cardDict setObject:searchCard.sourceSiteName forKey:@"pname"];
-              [cardDict setObject:searchCard.updateTime forKey:@"ptime"];
-              [cardDict setObject:searchCard.channelId forKey:@"channel"];
-              [cardDict setObject:searchCard.commentsCount forKey:@"comment"];
-              if (searchCard.cardImages.count > 0) {
-                [cardDict setObject:searchCard.cardImages forKey:@"imgs"];
-              }
-
-              if (isCollected) {
-                  // 取消收藏
-                  [Card createCardWithDict:cardDict isCollected:false];
-                 dispatch_async(dispatch_get_main_queue(), ^{
-                     [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页未收藏"] forState:UIControlStateNormal];
-                     [self tipViewWithCondition:2];
-                 });
-
-              } else {
-                  // 添加收藏
-                 [Card createCardWithDict:cardDict isCollected:true];
-                 dispatch_async(dispatch_get_main_queue(), ^{
-                      [self tipViewWithCondition:1];
-                      [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页已收藏"] forState:UIControlStateNormal];
-                 });
-              }
-            [noteCenter postNotificationName:@"UserCollectionedChangeer" object:nil userInfo:nil];
-          }];
-    } else if(self.sourceViewController == concernHistorySource) {
-        [Card cardIsCollected:[self nid]  cardIsCollectedBlock:^(BOOL isCollected, BOOL isExists) {
-            NSMutableDictionary *cardDict = [NSMutableDictionary dictionary];
-            LPConcernCard *concernCard = self.concernCardFrame.card;
-            [cardDict setObject:concernCard.nid forKey:@"nid"];
-            [cardDict setObject:concernCard.docId forKey:@"docid"];
-            [cardDict setObject:self.contentTitle forKey:@"title"];
-            [cardDict setObject:concernCard.sourceSiteURL forKey:@"purl"];
-            [cardDict setObject:concernCard.sourceSiteName forKey:@"pname"];
-            [cardDict setObject:concernCard.updateTime forKey:@"ptime"];
-            [cardDict setObject:concernCard.channelId forKey:@"channel"];
-            [cardDict setObject:concernCard.commentsCount forKey:@"comment"];
-            if (concernCard.cardImages.count > 0) {
-                [cardDict setObject:concernCard.cardImages forKey:@"imgs"];
-            }
-            
-            if (isCollected) {
-                // 取消收藏
-                [Card createCardWithDict:cardDict isCollected:false];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页未收藏"] forState:UIControlStateNormal];
-                    [self tipViewWithCondition:2];
-                });
-                
-            } else {
-                // 添加收藏
-                [Card createCardWithDict:cardDict isCollected:true];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self tipViewWithCondition:1];
-                    [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页已收藏"] forState:UIControlStateNormal];
-                });
-            }
-            [noteCenter postNotificationName:@"UserCollectionedChangeer" object:nil userInfo:nil];
-        }];
-
+    if ([self.colFlag isEqualToString:@"1"]) {
+        [self cancelCollect];
+    } else {
+        [self collect];
     }
-    else {
-        
-        if ([self.card.isCollected isEqual:@(1)]) {
-            [self tipViewWithCondition:2];
-        } else {
+}
+
+#pragma mark - 收藏
+- (void)collect {
+    [CollectionTool addConcernWithNid:[self nid] codeFlag:^(NSString *codeFlag) {
+        if ([codeFlag isEqualToString:LPSuccess]) {
+            self.colFlag = @"1";
+            [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页已收藏"] forState:UIControlStateNormal];
             [self tipViewWithCondition:1];
         }
-        [self updateCardCollectedStatus];
-    }
+    }];
+    
+  
+}
+
+
+#pragma mark - 取消收藏
+- (void)cancelCollect {
+    [CollectionTool cancelConcernWithNid:[self nid] codeFlag:^(NSString *codeFlag) {
+        if ([codeFlag isEqualToString:LPSuccess]) {
+            self.colFlag = @"0";
+            [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页未收藏"] forState:UIControlStateNormal];
+            [self tipViewWithCondition:2];
+        }
+    }];
+    
 }
 
 
@@ -2538,20 +2486,6 @@ const static CGFloat changeFontSizeViewH = 150;
                      } completion:^(BOOL finished) {
                          [tipView removeFromSuperview];
                      }];
-}
-
-#pragma mark - 修改收藏状态
-- (void)updateCardCollectedStatus {
-    // 修改按钮图标禁用收藏按钮
-    if (![self.card.isCollected  isEqual: @(1)]) {
-        [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页已收藏"] forState:UIControlStateNormal];
-        [self.card setValue:@(1) forKey:@"isCollected"];
-    } else {
-        [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页未收藏"] forState:UIControlStateNormal];
-        [self.card setValue:@(0) forKey:@"isCollected"];
-    }
-    [Card updateCard:self.card];
-    [noteCenter postNotificationName:@"UserCollectionedChangeer" object:nil userInfo:nil];
 }
 
 #pragma mark - 底部弹出分享对话框
@@ -2823,6 +2757,17 @@ const static CGFloat changeFontSizeViewH = 150;
             weakSelf.focusLabel.hidden = YES;
             [weakSelf addFocusTips];
             self.conpubFlag = @"1";
+            
+            // 关注频道是否显示
+//            if(![userDefaults objectForKey:LPConcernChannelItemShowOrHide]) {
+//                [userDefaults setObject:@"show" forKey:LPConcernChannelItemShowOrHide];
+//                [userDefaults synchronize];
+//                // 关注频道自动显示在第5个位置
+//                [noteCenter postNotificationName:LPConcernChannelItemAtFirstTime object:nil];
+//            } else {
+//                [noteCenter postNotificationName:LPReloadAddConcernPageNotification object:nil];
+//            }
+            
             [noteCenter postNotificationName:LPReloadAddConcernPageNotification object:nil];
         }
     } failure:^(NSError *error) {

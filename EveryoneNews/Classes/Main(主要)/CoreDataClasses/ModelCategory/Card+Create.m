@@ -15,6 +15,7 @@
 #import "Comment.h"
 #import "LPFontSizeManager.h"
 #import "CardConcern+Create.h"
+#import "CardSourceColor+Create.h"
 
 
 @implementation Card (Create)
@@ -48,7 +49,6 @@
     [cdh.importContext performBlock:^{
         NSMutableArray *cards = [NSMutableArray array];
         for (NSDictionary *dict in dicts) {
-
             Card *card = [self createCardWithDict:dict channelID:channelID inManagedObjectContext:cdh.importContext];
             [cards addObject:card];
         }
@@ -56,8 +56,54 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             cardsArrayBlock([cards copy]);
         });
-     
     }];
+}
+
++ (void)cancelConcernCardsWithDictArray:(NSArray *)dicts
+                       channelID:(NSString *)channelID
+                             sourceName:(NSString *)sourceName
+                        cardsArrayBlock:(cardsArrayBlock)cardsArrayBlock {
+    
+    CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    NSFetchRequest *fetch = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Card" inManagedObjectContext:cdh.importContext];
+    [fetch setEntity:entityDescription];
+    NSInteger utype = [[userDefaults objectForKey:@"utype"] integerValue];
+    [fetch setPredicate:[NSPredicate predicateWithFormat:@"sourceSiteName = %@ and channelId = %@ and utype = %d",sourceName, focusChannelID, utype]];
+    NSError * error = nil;
+    NSArray *fetchedObjects;
+    fetchedObjects = [cdh.importContext executeFetchRequest:fetch error:&error];
+    
+    if ([fetchedObjects count] > 0 ) {
+        [cdh.importContext performBlock:^{
+            // 先删除 后插入
+            for (NSManagedObject *manageObject in fetchedObjects) {
+                [cdh.importContext deleteObject:manageObject];
+            }
+            [cdh saveBackgroundContext];
+            NSMutableArray *cards = [NSMutableArray array];
+            for (NSDictionary *dict in dicts) {
+                Card *card = [self createCardWithDict:dict channelID:channelID inManagedObjectContext:cdh.importContext];
+                [cards addObject:card];
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                cardsArrayBlock([cards copy]);
+            });
+        }];
+    } else {
+        // 直接存储
+        [cdh.importContext performBlock:^{
+            NSMutableArray *cards = [NSMutableArray array];
+            for (NSDictionary *dict in dicts) {
+                Card *card = [self createCardWithDict:dict channelID:channelID inManagedObjectContext:cdh.importContext];
+                [cards addObject:card];
+            }
+            [cdh saveBackgroundContext];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                cardsArrayBlock([cards copy]);
+            });
+        }];
+    }
 }
 
 + (Card *)createCardWithDict:(NSDictionary *)dict channelID:(NSString *)channelID
@@ -67,7 +113,13 @@
     NSFetchRequest *fetch = [[NSFetchRequest alloc] init];
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Card" inManagedObjectContext:context];
     [fetch setEntity:entityDescription];
-    [fetch setPredicate:[NSPredicate predicateWithFormat:@"nid = %@ and channelId = %@",dict[@"nid"], channelID]];
+    // 关注频道单独处理
+     NSInteger utype = [[userDefaults objectForKey:@"utype"] integerValue];
+    if ([channelID isEqualToString:focusChannelID]) {
+        [fetch setPredicate:[NSPredicate predicateWithFormat:@"nid = %@ and channelId = %@ and utype = %d",dict[@"nid"], channelID, utype]];
+    } else {
+        [fetch setPredicate:[NSPredicate predicateWithFormat:@"nid = %@ and channelId = %d",dict[@"nid"], [channelID integerValue]]];
+    }
     
     NSError * error = nil;
     NSArray *fetchedObjects;
@@ -87,7 +139,9 @@
                 card.channelId = @(1);
             } else if ([channelID  isEqualToString:focusChannelID]) {
                 card.channelId = @(99999);
-                [CardConcern createCardWithKeyword:dict[@"pname"] card:card inManagedObjectContext:context];
+                card.keyword = dict[@"pname"];
+                card.keywordColor = [CardSourceColor sourceColorWithKeyword:dict[@"pname"] context:context];
+                card.utype = [NSNumber numberWithInteger:utype];
             } else {
                 card.channelId = dict[@"channel"];
                 
@@ -114,7 +168,9 @@
     NSFetchRequest *fetch = [[NSFetchRequest alloc] init];
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Card" inManagedObjectContext:cdh.importContext];
     [fetch setEntity:entityDescription];
-    [fetch setPredicate:[NSPredicate predicateWithFormat:@"sourceSiteName = %@ and channelId = %@",sourceSiteName, focusChannelID]];
+    NSInteger utype = [[userDefaults objectForKey:@"utype"] integerValue];
+    [fetch setPredicate:[NSPredicate predicateWithFormat:@"sourceSiteName = %@ and channelId = %@ and utype = %d",sourceSiteName, focusChannelID, utype]];
+
     NSError * error = nil;
     NSArray *fetchedObjects;
     fetchedObjects = [cdh.importContext executeFetchRequest:fetch error:&error];
@@ -124,8 +180,6 @@
                   [cdh.importContext deleteObject:manageObject];
               }
               [cdh saveBackgroundContext];
-              [noteCenter postNotificationName:LPReloadCancelConcernPageNotification object:nil];
-
           }];
     }
     
@@ -270,6 +324,7 @@
         }
     }];
 }
+
 
 
 @end

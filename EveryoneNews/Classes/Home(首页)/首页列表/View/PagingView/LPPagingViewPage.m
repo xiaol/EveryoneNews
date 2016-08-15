@@ -222,7 +222,7 @@
     // Normal Animation
     UIImageView *animationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(animationImageViewX, animationImageViewY, animationImageViewW , animationImageViewH)];
     animationImageView.animationImages = images;
-    animationImageView.animationDuration = 1;
+    animationImageView.animationDuration = 0.5f;
     [contentLoadingView addSubview:animationImageView];
      self.animationImageView = animationImageView;
 
@@ -285,7 +285,6 @@
 
 #pragma mark - 下拉刷新
 - (void)loadNewData{
-    
     // 隐藏上次看到位置的提示按钮
     for (CardFrame *cardFrame in self.cardFrames) {
         Card *card = cardFrame.card;
@@ -409,7 +408,7 @@
     __weak typeof(self) weakSelf = self;
     [cell didClickTipButtonBlock:^() {
         [weakSelf autotomaticLoadNewData];
-        [weakSelf loadNewData];
+//        [weakSelf loadNewData];
     }];
     
     [cell didClickDeleteButtonBlock:^(UIButton *deleteButton) {

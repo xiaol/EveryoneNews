@@ -371,12 +371,7 @@ static const CGFloat kLeftMargin = 14.f;
 
 - (void)changeInfoPushStatus:(UISwitch *)sender{
     if (sender.on) {
-//        UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
-//        UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
-//        
-//        [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
-//        
-//        [[UIApplication sharedApplication] registerForRemoteNotifications];
+
         
         NSURL *urlStr = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
         if ([[UIApplication sharedApplication] canOpenURL:urlStr]) {
@@ -385,7 +380,6 @@ static const CGFloat kLeftMargin = 14.f;
         
         NSLog(@"打开推送");
     }else{
-//        [[UIApplication sharedApplication] unregisterForRemoteNotifications];
         NSLog(@"关闭推送");
         
         NSURL *urlStr = [NSURL URLWithString:UIApplicationOpenSettingsURLString];

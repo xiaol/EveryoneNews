@@ -2,7 +2,7 @@
 //  Card+CoreDataProperties.m
 //  EveryoneNews
 //
-//  Created by dongdan on 16/8/2.
+//  Created by dongdan on 16/8/12.
 //  Copyright © 2016年 apple. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -21,12 +21,15 @@
 @dynamic isRead;
 @dynamic newId;
 @dynamic nid;
+@dynamic rtype;
 @dynamic sourceSiteName;
 @dynamic sourceSiteURL;
 @dynamic title;
 @dynamic type;
 @dynamic updateTime;
-@dynamic rtype;
+@dynamic keyword;
+@dynamic keywordColor;
+@dynamic utype;
 @dynamic cardConcern;
 @dynamic cardImages;
 @dynamic cardRelates;

@@ -10,6 +10,7 @@
 #import "CardImage.h"
 #import "CardRelate.h"
 #import "Comment.h"
+#import "CardConcern.h"
 
 @implementation Card
 

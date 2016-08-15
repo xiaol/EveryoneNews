@@ -64,7 +64,6 @@
     CGFloat tipButtonY = 0;
     CGFloat tipButtonW = ScreenWidth;
     
-    NSMutableAttributedString *htmlTitle = [Card titleHtmlString:card.title];
     NSString *sourceSiteName = card.sourceSiteName;
     _card = card;
     _cellHeight = 0.0f;

@@ -24,6 +24,10 @@
 @class LPConcern;
 @class LPSearchCardFrame;
 @class LPConcernCardFrame;
+@class LPMyCommentFrame;
+@class LPMyCollectionCardFrame;
+
+// 取消收藏
 
 @interface LPDetailViewController : LPBaseViewController
 
@@ -68,7 +72,8 @@
 @property (nonatomic, assign) NSInteger sourceViewController;
 @property (nonatomic, strong) LPSearchCardFrame *searchCardFrame;
 @property (nonatomic, strong) LPConcernCardFrame *concernCardFrame;
-
+@property (nonatomic, strong) LPMyCommentFrame *myCommentFrame;
+@property (nonatomic, strong) LPMyCollectionCardFrame *myCollectionCardFrame;
 
 @property (nonatomic, copy) NSString *remotePushNid;
 

@@ -151,14 +151,12 @@
 - (void)setCardFrame:(LPCardConcernFrame *)cardFrame {
     _cardFrame = cardFrame;
     Card *card = cardFrame.card;
-    CardConcern *concern = card.cardConcern;
-    NSMutableAttributedString *titleHtml = [Card titleHtmlString:card.title isRead:card.isRead];
     
     CGFloat lineSpacing = 2.0;
     NSAttributedString *attributeTitle =  [card.title attributedStringWithFont:[UIFont systemFontOfSize:self.cardFrame.homeViewFontSize] lineSpacing:lineSpacing];
   
     
-    NSString *keyword = [concern.keyword isEqualToString: @""] ? @"未知来源": concern.keyword;
+    NSString *keyword = [card.keyword isEqualToString: @""] ? @"未知来源": card.keyword;
     if(card.cardImages.count == 0) {
         self.noImageLabel.hidden = NO;
         self.noImageSeperatorLine.hidden = NO;
@@ -181,7 +179,7 @@
         
         self.noImageKeywordLabel.frame = self.cardFrame.noImageKeywordLabelFrame;
         self.noImageKeywordLabel.text = keyword;
-        self.noImageKeywordLabel.backgroundColor = [UIColor colorFromHexString:concern.keywordColor];
+        self.noImageKeywordLabel.backgroundColor = [UIColor colorFromHexString:card.keywordColor];
         self.noImageSeperatorLine.frame = self.cardFrame.noImageSeperatorLineFrame;
     } else if (card.cardImages.count == 1 || card.cardImages.count == 2) {
         
@@ -213,8 +211,8 @@
         
         self.singleImageKeywordLabel.frame = self.cardFrame.singleImageKeywordFrame;
         self.singleImageKeywordLabel.text = keyword;
-        self.singleImageKeywordLabel.backgroundColor = [UIColor colorFromHexString:concern.keywordColor];
-//        self.singleImageKeywordLabel.backgroundColor = [UIColor colorFromHexString:@"#FF7F50"];
+        self.singleImageKeywordLabel.backgroundColor = [UIColor colorFromHexString:card.keywordColor];
+ 
         self.singleImageSeperatorLine.frame = self.cardFrame.singleImageSeperatorLineFrame;
         
     } else if (card.cardImages.count >= 3) {
@@ -239,7 +237,7 @@
     
         self.mutipleImageKeywordLabel.frame = self.cardFrame.multipleImageKeywordFrame;
         self.mutipleImageKeywordLabel.text = keyword;
-        self.mutipleImageKeywordLabel.backgroundColor = [UIColor colorFromHexString:concern.keywordColor];
+        self.mutipleImageKeywordLabel.backgroundColor = [UIColor colorFromHexString:card.keywordColor];
         self.mutipleSeperatorLine.frame = self.cardFrame.mutipleImageSeperatorLineFrame;
         
         CGRect frame = self.cardFrame.multipleImageViewFrame;

@@ -38,6 +38,7 @@ static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
 @property (nonatomic, strong) UIView *contentLoadingView;
 @property (nonatomic, assign, getter=isPublisherExist) BOOL publisherExist;
 @property (nonatomic, strong) NSMutableArray *qiDianHaoConcernArray;
+@property (nonatomic, copy) NSString *keywords;
 
 @end
 
@@ -133,6 +134,7 @@ static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
 - (void)loadMoreData {
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    self.keywords = self.topView.searchBar.text;
     params[@"keywords"] = self.topView.searchBar.text;
     params[@"p"] = @(self.pageIndex);
     params[@"c"] = @"20";
@@ -230,7 +232,10 @@ static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
 - (void)setupDataWithKeyword:(NSString *)keyword {
     self.pageIndex = 1;
     [self.cardFrames removeAllObjects];
+    // 移除奇点号
+    [self.qiDianHaoConcernArray removeAllObjects];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    self.keywords = keyword;
     params[@"keywords"] = keyword;
     params[@"p"] = @(self.pageIndex);
     params[@"c"] = @"20";
@@ -399,6 +404,7 @@ static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
 - (void)cell:(LPQiDianHaoViewCell *)cell didTapImageViewWithQiDianArray:(NSArray *)qiDianArray {
     LPQiDianConcernViewController *qiDianConcernViewController = [[LPQiDianConcernViewController alloc] init];
     qiDianConcernViewController.qiDianArray = qiDianArray;
+    qiDianConcernViewController.keywords = self.keywords;
     [self.navigationController pushViewController:qiDianConcernViewController animated:YES];
 }
 

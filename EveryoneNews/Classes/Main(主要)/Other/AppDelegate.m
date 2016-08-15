@@ -56,6 +56,7 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
 @interface AppDelegate () <WXApiDelegate>
 @property (nonatomic, assign) AFNetworkReachabilityStatus networkStatus;
 @property (nonatomic, strong) MainNavigationController *mainNavVc;
+@property (nonatomic, strong) NSDictionary *userInfo;
 
 @end
 
@@ -278,7 +279,7 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
 #pragma mark - 设置游客身份
 - (void)setupTourist {
     // 头像  1显示  2不显示
-    if (![userDefaults objectForKey:@"uauthorization"] || ![userDefaults objectForKey:@"uIconDisplay"]) {
+    if (![userDefaults objectForKey:LPIsVersionFirstLoad] || ![userDefaults objectForKey:@"uauthorization"]) {
         // 第一次进入存储游客Authorization
         NSString *url = @"http://bdp.deeporiginalx.com/v2/au/sin/g";
         NSMutableDictionary *paramUser = [NSMutableDictionary dictionary];
@@ -332,17 +333,59 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     
 }
 
+//- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandlern {
+
+//}
+
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    
+    //关闭友盟对话框
+    [UMessage setAutoAlert:NO];
     [UMessage didReceiveRemoteNotification:userInfo];
-    if([UIApplication sharedApplication].applicationState == UIApplicationStateActive)
-    {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"奇点资讯"
-                                                           message:[[userInfo objectForKey:@"aps"] objectForKey:@"alert"]
-                                                          delegate:self
-                                                 cancelButtonTitle:@"确定"
-                                                 otherButtonTitles:nil];
-        [alertView show];
+    self.userInfo = userInfo;
+    // 自动跳转到详情页面
+    if ([UIApplication sharedApplication].applicationState == UIApplicationStateInactive) {
+        [self redirectToDetailController];
+        
+    } else if ([UIApplication sharedApplication].applicationState == UIApplicationStateBackground) {
+            [self redirectToDetailController];
+    } else {
+        UIAlertView * alert = [[UIAlertView alloc] initWithTitle:@"奇点资讯"
+                                                         message:@"您收到一条消息"
+                                                        delegate:self
+                                               cancelButtonTitle:@"确定"
+                                               otherButtonTitles:@"取消",nil];
+        [alert show];
     }
+ 
+}
+
+
+#pragma mark - 弹出窗体
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if (buttonIndex == 0) {
+        [UMessage sendClickReportForRemoteNotification:self.userInfo];
+        [self redirectToDetailController];
+    } else {
+        [alertView removeFromSuperview];
+    }
+  
+
+}
+
+#pragma mark - 自动跳转到详情页
+- (void)redirectToDetailController {
+    LPHomeViewController *mainVc = [[LPHomeViewController alloc] init];
+    MainNavigationController *mainNavVc = [[MainNavigationController alloc] initWithRootViewController:mainVc];
+    LPDetailViewController *detailVC = [[LPDetailViewController alloc] init];
+    detailVC.sourceViewController = remoteNotificationSource;
+    NSString *remotePushNid = [self.userInfo objectForKey:@"nid"];
+    detailVC.remotePushNid = remotePushNid;
+    
+    mainNavVc.viewControllers = @[mainVc, detailVC];
+    self.window.rootViewController = mainNavVc;
+    [mainNavVc.navigationController pushViewController:detailVC animated:YES];
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {

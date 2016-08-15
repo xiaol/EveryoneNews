@@ -2,7 +2,7 @@
 //  Card+CoreDataProperties.h
 //  EveryoneNews
 //
-//  Created by dongdan on 16/8/2.
+//  Created by dongdan on 16/8/12.
 //  Copyright © 2016年 apple. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -12,7 +12,7 @@
 #import "Card.h"
 
 NS_ASSUME_NONNULL_BEGIN
-@class CardConcern;
+
 @interface Card (CoreDataProperties)
 
 @property (nullable, nonatomic, retain) NSNumber *channelId;
@@ -23,13 +23,16 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSNumber *isRead;
 @property (nullable, nonatomic, retain) NSString *newId;
 @property (nullable, nonatomic, retain) NSNumber *nid;
+@property (nullable, nonatomic, retain) NSNumber *rtype;
 @property (nullable, nonatomic, retain) NSString *sourceSiteName;
 @property (nullable, nonatomic, retain) NSString *sourceSiteURL;
 @property (nullable, nonatomic, retain) NSString *title;
 @property (nullable, nonatomic, retain) NSNumber *type;
 @property (nullable, nonatomic, retain) NSString *updateTime;
-@property (nullable, nonatomic, retain) NSNumber *rtype;
-@property (nullable, nonatomic, retain) CardConcern *cardConcern;
+@property (nullable, nonatomic, retain) NSString *keyword;
+@property (nullable, nonatomic, retain) NSString *keywordColor;
+@property (nullable, nonatomic, retain) NSNumber *utype;
+@property (nullable, nonatomic, retain) NSSet<CardConcern *> *cardConcern;
 @property (nullable, nonatomic, retain) NSOrderedSet<CardImage *> *cardImages;
 @property (nullable, nonatomic, retain) NSSet<CardRelate *> *cardRelates;
 @property (nullable, nonatomic, retain) NSSet<Comment *> *comments;
@@ -37,6 +40,11 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface Card (CoreDataGeneratedAccessors)
+
+- (void)addCardConcernObject:(CardConcern *)value;
+- (void)removeCardConcernObject:(CardConcern *)value;
+- (void)addCardConcern:(NSSet<CardConcern *> *)values;
+- (void)removeCardConcern:(NSSet<CardConcern *> *)values;
 
 - (void)insertObject:(CardImage *)value inCardImagesAtIndex:(NSUInteger)idx;
 - (void)removeObjectFromCardImagesAtIndex:(NSUInteger)idx;

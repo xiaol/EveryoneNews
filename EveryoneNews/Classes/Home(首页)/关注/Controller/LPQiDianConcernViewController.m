@@ -11,9 +11,12 @@
 #import "LPQiDianHao.h"
 #import "LPQiDianHaoFrame.h"
 #import "LPConcernDetailViewController.h"
+#import "Account.h"
+#import "AccountTool.h"
+#import "LPHttpTool.h"
 
 static NSString *cellIdentifier = @"cellIdentifier";
-@interface LPQiDianConcernViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface LPQiDianConcernViewController () <UITableViewDelegate, UITableViewDataSource, LPQiDianHaoCellDelegate>
 
 @property (nonatomic, strong) UIView *topView;
 @property (nonatomic, strong) UITableView *tableView;
@@ -43,6 +46,7 @@ static NSString *cellIdentifier = @"cellIdentifier";
 
 #pragma mark - setup Data
 - (void)setupData {
+    [self.qiDianHaoFrames removeAllObjects];
     for (int i = 0; i < self.qiDianArray.count; i++) {
         LPQiDianHao *qiDianHao = (LPQiDianHao *)self.qiDianArray[i];
         LPQiDianHaoFrame *qiDianHaoFrame = [[LPQiDianHaoFrame alloc] init];
@@ -130,6 +134,7 @@ static NSString *cellIdentifier = @"cellIdentifier";
     if (cell == nil) {
         cell =  [[LPQiDianHaoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
+    cell.delegate = self;
     cell.qiDianHaoFrame = self.qiDianHaoFrames[indexPath.row];
     return cell;
 }
@@ -148,6 +153,110 @@ static NSString *cellIdentifier = @"cellIdentifier";
     detailVC.sourceName = qiDianHao.name;
     
     [self.navigationController pushViewController:detailVC animated:YES];
+}
+
+#pragma mark - LPQiDianCellDelegate
+- (void)cell:(LPQiDianHaoCell *)cell didClickConcernButtonWithConcernState:(NSString *)concernState sourceName:(NSString *)sourceName qiDianHaoFrame:(LPQiDianHaoFrame *)qiDianHaoFrame {
+    // 未登录则登录成功后刷新数据
+    if (![AccountTool account]) {
+        [AccountTool accountLoginWithViewController:self success:^(Account *account){
+            [self reloadTableViewAfterLogin];
+        } failure:^{
+        } cancel:nil];
+    } else {
+        [self concernOrCancel:concernState sourceName:sourceName qiDianHaoFrame:qiDianHaoFrame];
+    }
+}
+
+
+#pragma mark - 重新登录刷新关注状态
+- (void)reloadTableViewAfterLogin {
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"keywords"] = self.keywords;
+    params[@"p"] = @(1);
+    params[@"c"] = @"20";
+    params[@"uid"] = [userDefaults objectForKey:@"uid"];
+    
+    NSString *url = [NSString stringWithFormat:@"%@/v2/ns/es/snp",ServerUrlVersion2];
+    __weak typeof(self) weakSelf = self;
+    [LPHttpTool getWithURL:url params:params success:^(id json) {
+        if ([json[@"code"] integerValue] == 2000) {
+            // 获取奇点号
+            NSArray *jsonPublisherArray = (NSArray *)json[@"data"][@"publisher"];
+            if (jsonPublisherArray.count > 0) {
+                [weakSelf.qiDianArray removeAllObjects];
+                for (int i = 0; i < jsonPublisherArray.count; i++) {
+                    NSDictionary *dict = jsonPublisherArray[i];
+                    LPQiDianHao *qiDianHao = [[LPQiDianHao alloc] init];
+                    qiDianHao.concernID = [dict[@"id"] integerValue];
+                    qiDianHao.concernCount = [dict[@"concern"] integerValue];
+                    qiDianHao.concernFlag = [dict[@"flag"] integerValue];
+                    qiDianHao.name = dict[@"name"];
+                    [weakSelf.qiDianArray addObject:qiDianHao];
+                }
+            }
+            [weakSelf setupData];
+            [weakSelf.tableView reloadData];
+ 
+        } else if([json[@"code"] integerValue] == 2002) {
+  
+        }
+    } failure:^(NSError *error) {
+    
+    }];
+
+}
+
+
+#pragma mark - 关注和取消关注
+- (void)concernOrCancel:(NSString *)concernState sourceName:(NSString *)sourceName qiDianHaoFrame:(LPQiDianHaoFrame *)qiDianHaoFrame {
+    
+    NSString *uid = [userDefaults objectForKey:@"uid"];
+    // 必须进行编码操作
+    NSString *pname = [sourceName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *addConcernUrl = [NSString stringWithFormat:@"%@/v2/ns/pbs/cocs?pname=%@&&uid=%@", ServerUrlVersion2, pname, uid];
+    NSString *cancelConcernUrl = [NSString stringWithFormat:@"%@/v2/ns/pbs/cocs?pname=%@&&uid=%@", ServerUrlVersion2, pname, uid];
+    NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
+       __weak typeof(self) weakSelf = self;
+    if ([concernState isEqualToString:@"0"]) {
+        // 添加关注
+        [LPHttpTool postAuthorizationJSONWithURL:addConcernUrl authorization:authorization params:nil success:^(id json) {
+            
+            if ([json[@"code"] integerValue] == 2000 ) {
+                LPQiDianHao *qiDianHao = qiDianHaoFrame.qiDianHao;
+                qiDianHao.concernFlag = 1;
+                qiDianHaoFrame.qiDianHao = qiDianHao;
+                NSInteger index = [self.qiDianHaoFrames indexOfObject:qiDianHaoFrame];
+                [weakSelf.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    [noteCenter postNotificationName:LPReloadAddConcernPageNotification object:nil];
+                });
+                
+            }
+        } failure:^(NSError *error) {
+            NSLog(@"%@", error);
+        }];
+    } else {
+        // 取消关注
+        [LPHttpTool deleteAuthorizationJSONWithURL:cancelConcernUrl authorization:authorization params:nil success:^(id json) {
+            
+            if ([json[@"code"] integerValue] == 2000 ) {
+                LPQiDianHao *qiDianHao = qiDianHaoFrame.qiDianHao;
+                qiDianHao.concernFlag = 0;
+                qiDianHaoFrame.qiDianHao = qiDianHao;
+                NSInteger index = [self.qiDianHaoFrames indexOfObject:qiDianHaoFrame];
+                [weakSelf.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                    NSDictionary *dict =[[NSDictionary alloc] initWithObjectsAndKeys:sourceName,@"sourceName", nil];
+                    [noteCenter postNotificationName:LPReloadCancelConcernPageNotification object:nil userInfo:dict];
+
+                });
+           
+            }
+        } failure:^(NSError *error) {
+            NSLog(@"%@", error);
+        }];
+    }
 }
 
 @end

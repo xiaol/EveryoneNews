@@ -8,13 +8,12 @@
 
 #import <UIKit/UIKit.h>
 @class LPMyCommentFrame;
-@class Card;
 @class LPMyCommentTableViewCell;
-@class Comment;
+
 
 @protocol LPMyCommentTableViewCellDelegate <NSObject>
 
-- (void)didTapTitleView:(LPMyCommentTableViewCell *)cell card:(Card *)card;
+- (void)didTapTitleView:(LPMyCommentTableViewCell *)cell commentFrame:(LPMyCommentFrame *)commentFrame;
 - (void)deleteButtonDidClick:(LPMyCommentTableViewCell *)cell commentFrame:(LPMyCommentFrame *)commentFrame;
 - (void)upButtonDidClick:(LPMyCommentTableViewCell *)cell;
 

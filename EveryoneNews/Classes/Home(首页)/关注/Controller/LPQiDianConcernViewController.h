@@ -10,6 +10,7 @@
 
 @interface LPQiDianConcernViewController : LPBaseViewController
 
-@property (nonatomic, strong) NSArray *qiDianArray;
+@property (nonatomic, strong) NSMutableArray *qiDianArray;
+@property (nonatomic, copy) NSString *keywords;
 
 @end

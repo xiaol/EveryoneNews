@@ -12,7 +12,7 @@
 #import "AccountTool.h"
 #import "MBProgressHUD.h"
 #import "MBProgressHUD+MJ.h"
-#import "LPNewsLonginViewFromSettingViewController.h"
+#import "LPLoginFromSettingViewController.h"
 #import "MainNavigationController.h"
 #import "LPNewsPrivacyItemsController.h"
 #import "LPNewsAboutViewController.h"
@@ -210,14 +210,14 @@ static NSString * const kCellIdentify = @"JoySettingCell";
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
         
         }
-    }else if (indexPath.section ==3){
+    }else if (indexPath.section == 3){
         
         if ([AccountTool account]!= nil) {
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"退出登录" message:@"退出登录后无法进行评论哦" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
             [alert show];
         } else {
             
-            LPNewsLonginViewFromSettingViewController *loginView = [[LPNewsLonginViewFromSettingViewController alloc] init];
+            LPLoginFromSettingViewController *loginView = [[LPLoginFromSettingViewController alloc] init];
             [self.navigationController pushViewController:loginView animated:YES];
         }
     }
@@ -231,7 +231,8 @@ static NSString * const kCellIdentify = @"JoySettingCell";
         case 0:
             break;
         case 1:
-            [AccountTool deleteAccount];
+           
+            [noteCenter postNotificationName:LPLoginOutNotification object:nil];
             [self dismissViewControllerAnimated:YES completion:nil];
             break;
         
