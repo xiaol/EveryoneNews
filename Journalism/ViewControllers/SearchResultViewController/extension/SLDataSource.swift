@@ -87,7 +87,13 @@ extension SearchListViewController:UIViewControllerPreviewingDelegate,PreViewCon
         
         if #available(iOS 9.0, *) {
             if (self.traitCollection.forceTouchCapability == UIForceTouchCapability.Available) && !tableView.editing{
-                self.registerForPreviewingWithDelegate(self, sourceView: cell)
+                
+                if let perView = cell.viewControllerPreviewing {
+                    
+                    self.unregisterForPreviewingWithContext(perView)
+                }
+                
+                cell.viewControllerPreviewing =  self.registerForPreviewingWithDelegate(self, sourceView: cell)
             }
         }
         

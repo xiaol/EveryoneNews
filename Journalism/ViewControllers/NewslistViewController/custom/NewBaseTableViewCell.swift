@@ -75,6 +75,9 @@ class UILabelPadding : UILabel {
 
 class NewBaseTableViewCell: UITableViewCell {
     
+    
+    var viewControllerPreviewing:UIViewControllerPreviewing?
+    
     @IBOutlet var timeLabel: UILabel! // 标题 label 控件
     @IBOutlet var titleLabel: UILabel! // 标题 label 控件
     @IBOutlet var pubLabel: UILabel! // 来源 和时间 label控件
