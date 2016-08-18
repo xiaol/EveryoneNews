@@ -12,6 +12,6 @@
 @interface LPHomeViewController (LaunchLoginManager)<UMSocialUIDelegate>
 
 // 设置首页登录按钮
-- (void)setupHomeViewLoginButton;
+//- (void)setupHomeViewLoginButton;
 
 @end

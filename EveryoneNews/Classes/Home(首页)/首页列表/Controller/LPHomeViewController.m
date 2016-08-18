@@ -22,6 +22,7 @@
 #import "Card+Create.h"
 #import "UIButton+WebCache.h"
 
+
 @interface LPHomeViewController ()
 
 @end
@@ -82,12 +83,6 @@
     return _cellAttributesArray;
 }
 
-#pragma mark - viewWillAppear
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-}
-
-
 #pragma mark - viewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -101,56 +96,72 @@
     [noteCenter addObserver:self selector:@selector(cancelConcernAndReloadPage:) name:LPReloadCancelConcernPageNotification object:nil];
     // 添加关注重新请求接口
     [noteCenter addObserver:self selector:@selector(addConcernAndReloadPage) name:LPReloadAddConcernPageNotification object:nil];
-    // 第一次订阅后“关注”频道自动显示在第5个位置
-    [noteCenter addObserver:self selector:@selector(concernChannelItemAtFirstTime) name:LPConcernChannelItemAtFirstTime object:nil];
     // 登录
     [noteCenter addObserver:self selector:@selector(login) name:LPLoginNotification object:nil];
     // 退出登录
     [noteCenter addObserver:self selector:@selector(loginout) name:LPLoginOutNotification object:nil];
+    
+    [noteCenter addObserver:self selector:@selector(resignActiveNotification) name:UIApplicationWillResignActiveNotification object:nil];
+
 }
 
+- (void)resignActiveNotification {
+    [self.channelItemsArray removeAllObjects];
+    for (LPChannelItem *channelItem in self.selectedArray) {
+        channelItem.channelIsSelected = @"1";
+        [self.channelItemsArray addObject:channelItem];
+    }
+    for (LPChannelItem *channelItem in self.optionalArray) {
+        channelItem.channelIsSelected = @"0";
+        [self.channelItemsArray addObject:channelItem];
+    }
+    [LPChannelItemTool saveChannelItems:self.channelItemsArray];
+}
 
 #pragma mark - 登录
 - (void)login {
     Account *account = [AccountTool account];
     [self displayLoginBtnIconWithAccount:account];
-
-    BOOL concernFlag = false;
-    NSInteger pageIndex = 0;
-    for (int i = 0; i < self.selectedArray.count; i++) {
-        LPChannelItem *channelItem = (LPChannelItem *)self.selectedArray[i];
-        if ([channelItem.channelID isEqualToString:focusChannelID]) {
-            concernFlag = true;
-            pageIndex = i;
-            break;
+    // 如果频道栏关注频道存在则加载数据
+    if ([userDefaults objectForKey:LPConcernChannelItemShowOrHide]) {
+        BOOL concernFlag = false;
+        NSInteger pageIndex = 0;
+        for (int i = 0; i < self.selectedArray.count; i++) {
+            LPChannelItem *channelItem = (LPChannelItem *)self.selectedArray[i];
+            if ([channelItem.channelID isEqualToString:focusChannelID]) {
+                concernFlag = true;
+                pageIndex = i;
+                break;
+            }
+        }
+        if (concernFlag) {
+            [self channelItemDidAddToCoreData:pageIndex];
         }
     }
-    if (concernFlag) {
-        [self channelItemDidAddToCoreData:pageIndex];
-    }
-    
-
 }
 
 #pragma mark - 退出登录
 - (void)loginout {
+    [AccountTool deleteAccount];
     Account *account = [AccountTool account];
-     [AccountTool deleteAccount];
     [self displayLoginBtnIconWithAccount:account];
-
-    BOOL concernFlag = false;
-    NSInteger pageIndex = 0;
-    for (int i = 0; i < self.selectedArray.count; i++) {
-        LPChannelItem *channelItem = (LPChannelItem *)self.selectedArray[i];
-        if ([channelItem.channelID isEqualToString:focusChannelID]) {
-            concernFlag = true;
-            pageIndex = i;
-            break;
+ 
+    // 如果频道栏关注频道存在则加载数据
+    if ([userDefaults objectForKey:LPConcernChannelItemShowOrHide]) {
+        BOOL concernFlag = false;
+        NSInteger pageIndex = 0;
+        for (int i = 0; i < self.selectedArray.count; i++) {
+            LPChannelItem *channelItem = (LPChannelItem *)self.selectedArray[i];
+            if ([channelItem.channelID isEqualToString:focusChannelID]) {
+                concernFlag = true;
+                pageIndex = i;
+                break;
+            }
         }
-    }
-    if (concernFlag) {
-        self.channelItemDictionary[LPConcernChannelItemName]  =  nil;
-        [self.pagingView reloadPageAtPageIndex:pageIndex];
+        if (concernFlag) {
+            self.channelItemDictionary[LPConcernChannelItemName]  =  nil;
+            [self.pagingView reloadPageAtPageIndex:pageIndex];
+        }
     }
 }
 
@@ -223,119 +234,6 @@
         
     }
 }
-#pragma mark - 第一次订阅“关注”频道 
-- (void)concernChannelItemAtFirstTime {
-    LPChannelItem *channelItem = [[LPChannelItem alloc] init];
-    LPChannelItem *concernChannelItem = [[LPChannelItem alloc] init];
-    
-    
-//    for (int i = 0; i < self.optionalArray.count; i++) {
-//        if ([channelItem.channelName isEqualToString:LPConcernChannelItemName]) {
-//            channelItem = (LPChannelItem *)self.optionalArray[i];
-//            concernChannelItem = channelItem;
-//            [self.optionalArray removeObject:channelItem];
-//            break;
-//        }
-//    }
-//    NSInteger index = 0;
-//    int selectedCount = self.selectedArray.count;
-//    concernChannelItem.channelIsSelected = @"1";
-//    if (selectedCount >= 4) {
-//      [self.selectedArray insertObject:concernChannelItem atIndex:4];
-//        index = 4;
-//    } else {
-//      [self.selectedArray insertObject:concernChannelItem atIndex:selectedCount];
-//        index = selectedCount;
-//    }
-//
-//    
-//    for (LPChannelItem *channelItem in <#collection#>) {
-//        <#statements#>
-//    }
-    
-    
-    // 重新加载本地数据库数据, 请求“关注”频道接口数据
-    // 设置所有频道唯一标识符
-//    [self setCellIdentifierOfAllChannelItems];
-//    
-//    // 频道切换时频道和页码的对应关系
-//    [self updatePageindexMapToChannelItemDictionary];
-//    
-//    CardParam *param = [[CardParam alloc] init];
-//    param.type = HomeCardsFetchTypeMore;
-//    param.count = @(20);
-//    param.startTime = [NSString stringWithFormat:@"%lld", (long long)([[NSDate date] timeIntervalSince1970] * 1000)];
-//    param.channelID = focusChannelID;
- 
-    
-    
-    
-    
-    // 请求关注频道数据
-//    [CardTool cardsConcernWithParam:param channelID:channelItem.channelID success:^(NSArray *concernCards) {
-//        for (int i = 0; i < self.selectedArray.count; i++) {
-//            LPChannelItem *channelItem = (LPChannelItem *)[self.selectedArray objectAtIndex:i];
-//            NSDate *currentDate = [NSDate date];
-//            CardParam *param = [[CardParam alloc] init];
-//            param.type = HomeCardsFetchTypeMore;
-//            param.count = @(20);
-//            NSDate *lastAccessDate = channelItem.lastAccessDate;
-//            if (lastAccessDate == nil) {
-//                lastAccessDate = currentDate;
-//            }
-//            param.startTime = [NSString stringWithFormat:@"%lld", (long long)([lastAccessDate timeIntervalSince1970] * 1000)];
-//            NSString *channelID = [LPChannelItemTool channelID:channelItem.channelName];
-//            param.channelID = channelID;
-//            
-//            NSMutableArray *cfs = [NSMutableArray array];
-//            [Card fetchCardsWithCardParam:param cardsArrayBlock:^(NSArray *cardsArray) {
-//                NSArray *cards = cardsArray;
-//                // 如果本地数据存在则加载到内存中
-//                if (cards.count > 0) {
-//                    if (![channelItem.channelID isEqualToString:focusChannelID]) {
-//                        for (Card *card in cards) {
-//                            CardFrame *cf = [[CardFrame alloc] init];
-//                            cf.card = card;
-//                            [cfs addObject:cf];
-//                        }
-//                    } else {
-//                        // 关注
-//                        for (Card *card in cards) {
-//                            LPCardConcernFrame *cf = [[LPCardConcernFrame alloc] init];
-//                            cf.card = card;
-//                            [cfs addObject:cf];
-//                        }
-//                    }
-//                    [self.channelItemDictionary setObject:cfs forKey:channelItem.channelName];
-//                }
-//                // 加载完数据后刷新页面
-//                if (i == self.selectedArray.count - 1) {
-//                  
-//                    dispatch_async(dispatch_get_main_queue(), ^{
-//                        NSIndexPath *menuIndexPath = [NSIndexPath indexPathForItem:index
-//                                                                         inSection:0];
-//                        [self.menuView reloadData];
-//                        [self.menuView selectItemAtIndexPath:menuIndexPath
-//                                                    animated:NO
-//                                              scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
-//                        
-//                        [self.pagingView reloadData];
-//                        [self.pagingView setCurrentPageIndex:index animated:NO];
-//                        [self loadMoreDataInPageAtPageIndex:index];
-//                        
-//                        [LPChannelItemTool saveChannelItems:self.channelItemsArray];
-//                    });
-//              
-//                }
-//            }];
-//        }
-//    } failure:^(NSError *error) {
-//    }];
-}
-
-
-
-
 #pragma mark - 重新加载关注页面
 - (void)cancelConcernAndReloadPage:(NSNotification *)notification {
     for (int i = 0; i < self.selectedArray.count; i++) {
@@ -369,17 +267,46 @@
 
 #pragma mark - 添加关注重新请求网络数据存入数据库
 - (void)addConcernAndReloadPage {
-    for (int i = 0; i < self.selectedArray.count; i++) {
-        LPChannelItem *channelItem = self.selectedArray[i];
-        if ([channelItem.channelID isEqualToString:focusChannelID]) {
-            // 加载当前频道数据
-            CardParam *param = [[CardParam alloc] init];
-            param.type = HomeCardsFetchTypeMore;
-            param.count = @(20);
-            param.startTime = [NSString stringWithFormat:@"%lld", (long long)([[NSDate date] timeIntervalSince1970] * 1000)];
-            param.channelID = focusChannelID;
-            NSMutableArray *cfs = [NSMutableArray array];
-            [CardTool cardsConcernWithParam:param channelID:channelItem.channelID success:^(NSArray *cards) {
+    
+    if(![userDefaults objectForKey:LPConcernChannelItemShowOrHide]) {
+       
+        // 判断当前关注频道是否隐藏，隐藏则显示
+        [self showConcernChannelItem];
+        
+        // 当前选中频道索引值
+        int index = 0;
+        for (int i = 0; i < self.selectedArray.count; i++) {
+            LPChannelItem *channelItem = self.selectedArray[i];
+            if([channelItem.channelName isEqualToString:self.selectedChannelTitle]) {
+                index = i;
+            }
+            static NSString *cardCellIdentifier = @"CardCellIdentifier";
+            // 设置每个每页唯一标识
+            [self.cardCellIdentifierDictionary setObject:[NSString stringWithFormat:@"%@%d",cardCellIdentifier,i] forKey:@(i)];
+            
+        }
+        if(index == 0) {
+            self.selectedChannelTitle = @"奇点";
+        }
+        
+        [self updatePageindexMapToChannelItemDictionary];
+        
+        // 更新相应频道栏数据
+        [self handleDataAfterChannelItemChanged:index];
+        [userDefaults setObject:@"show" forKey:LPConcernChannelItemShowOrHide];
+        [userDefaults synchronize];
+    } else {
+        for (int i = 0; i < self.selectedArray.count; i++) {
+            LPChannelItem *channelItem = self.selectedArray[i];
+            if ([channelItem.channelID isEqualToString:focusChannelID]) {
+                // 加载当前频道数据
+                CardParam *param = [[CardParam alloc] init];
+                param.type = HomeCardsFetchTypeMore;
+                param.count = @(20);
+                param.startTime = [NSString stringWithFormat:@"%lld", (long long)([[NSDate date] timeIntervalSince1970] * 1000)];
+                param.channelID = focusChannelID;
+                NSMutableArray *cfs = [NSMutableArray array];
+                [CardTool cardsConcernWithParam:param channelID:channelItem.channelID success:^(NSArray *cards) {
                     for (Card *card in cards) {
                         LPCardConcernFrame *cf = [[LPCardConcernFrame alloc] init];
                         cf.card = card;
@@ -390,8 +317,9 @@
                         [self.pagingView reloadPageAtPageIndex:i];
                     });
                 } failure:^(NSError *error) {
-            }];
-            break;
+                }];
+                break;
+            }
         }
     }
 }
@@ -409,10 +337,6 @@
     
     // 频道切换时频道和页码的对应关系
     [self updatePageindexMapToChannelItemDictionary];
-    
-    if (![AccountTool account]) {
-        self.isTourist = YES;
-    }
     
 }
 
@@ -484,11 +408,6 @@
         LPPagingViewPage *page = (LPPagingViewPage *)[self.pagingView currentPage];
         [page scrollToCurrentRow:[LPHomeRowManager sharedManager].currentRowIndex];
     }
-}
-
-#pragma mark - viewWillDisappear
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
 }
 
 

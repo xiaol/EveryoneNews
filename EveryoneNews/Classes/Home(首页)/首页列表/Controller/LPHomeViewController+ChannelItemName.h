@@ -12,4 +12,7 @@
 
 - (void)initializeChannelItemName;
 
+// 显示关注频道
+- (void)showConcernChannelItem;
+
 @end

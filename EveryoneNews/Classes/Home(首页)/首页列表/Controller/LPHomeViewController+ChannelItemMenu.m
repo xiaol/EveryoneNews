@@ -125,11 +125,7 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
                 }
             }
         }
-    
-    
-    
-   
-   
+
 }
 
 #pragma mark - UICollectionView Style

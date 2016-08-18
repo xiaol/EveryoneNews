@@ -275,6 +275,7 @@
 		8649B3721C50F44F00BC96BF /* LPTriangleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8649B3711C50F44F00BC96BF /* LPTriangleView.m */; };
 		8649B3B71C50FA2B00BC96BF /* UICollectionViewLeftAlignedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 8649B3B61C50FA2B00BC96BF /* UICollectionViewLeftAlignedLayout.m */; };
 		8649B3BA1C50FA9500BC96BF /* UITextField+LP.m in Sources */ = {isa = PBXBuildFile; fileRef = 8649B3B91C50FA9500BC96BF /* UITextField+LP.m */; };
+		864A20F11D62C70200405B03 /* LPSearchTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 864A20F01D62C70200405B03 /* LPSearchTool.m */; };
 		864BC4F71D61ADEB00A4EA48 /* LPLoginFromSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 864BC4F61D61ADEB00A4EA48 /* LPLoginFromSettingViewController.m */; };
 		864BC4FB1D61AE3B00A4EA48 /* LPNewsLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 864BC4FA1D61AE3B00A4EA48 /* LPNewsLoginViewController.m */; };
 		86571ED61CB8AF7900BD1DC8 /* LPDetailViewController+RelatePoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 86571ED51CB8AF7900BD1DC8 /* LPDetailViewController+RelatePoint.m */; };
@@ -900,6 +901,8 @@
 		8649B3B61C50FA2B00BC96BF /* UICollectionViewLeftAlignedLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICollectionViewLeftAlignedLayout.m; sourceTree = "<group>"; };
 		8649B3B81C50FA9500BC96BF /* UITextField+LP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+LP.h"; sourceTree = "<group>"; };
 		8649B3B91C50FA9500BC96BF /* UITextField+LP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+LP.m"; sourceTree = "<group>"; };
+		864A20EF1D62C70200405B03 /* LPSearchTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPSearchTool.h; sourceTree = "<group>"; };
+		864A20F01D62C70200405B03 /* LPSearchTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPSearchTool.m; sourceTree = "<group>"; };
 		864BC4F51D61ADEB00A4EA48 /* LPLoginFromSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPLoginFromSettingViewController.h; sourceTree = "<group>"; };
 		864BC4F61D61ADEB00A4EA48 /* LPLoginFromSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPLoginFromSettingViewController.m; sourceTree = "<group>"; };
 		864BC4F91D61AE3B00A4EA48 /* LPNewsLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPNewsLoginViewController.h; sourceTree = "<group>"; };
@@ -2798,6 +2801,15 @@
 			name = "主控制器";
 			sourceTree = "<group>";
 		};
+		864A20EE1D62C6D800405B03 /* SearchTool */ = {
+			isa = PBXGroup;
+			children = (
+				864A20EF1D62C70200405B03 /* LPSearchTool.h */,
+				864A20F01D62C70200405B03 /* LPSearchTool.m */,
+			);
+			name = SearchTool;
+			sourceTree = "<group>";
+		};
 		864BC4F41D61ADEB00A4EA48 /* 设置页登录 */ = {
 			isa = PBXGroup;
 			children = (
@@ -3000,6 +3012,7 @@
 		8681B0661D0FD8280068A4FD /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				864A20EE1D62C6D800405B03 /* SearchTool */,
 				86EE347A1D6018590000F187 /* AccountTool */,
 				86EE345E1D6017F00000F187 /* CardItemTool */,
 				86EE34611D6017F00000F187 /* CardTool */,
@@ -3724,6 +3737,7 @@
 				187564821C2110B600589320 /* RelatePhoto.m in Sources */,
 				18D71FA91B2572C5002A7375 /* MJConst.m in Sources */,
 				86EE34771D6017F00000F187 /* CommentTool.m in Sources */,
+				864A20F11D62C70200405B03 /* LPSearchTool.m in Sources */,
 				18C9C4CF1B5C03C600064CED /* LPConcernPressCell.m in Sources */,
 				8608585A1D38882C00451E68 /* LPQiDianHaoFrame.m in Sources */,
 				1889FE5E1B4C2E91006D8E03 /* LPContent.m in Sources */,

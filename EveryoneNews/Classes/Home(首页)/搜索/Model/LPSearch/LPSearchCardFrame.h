@@ -36,5 +36,6 @@
 @property (nonatomic, assign) CGFloat cellHeight;
 @property (nonatomic, strong) LPSearchCard *card;
 @property (nonatomic, assign) NSInteger homeViewFontSize;
+@property (nonatomic, strong) NSArray *keywords;
 
 @end

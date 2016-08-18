@@ -221,8 +221,6 @@ NS_ASSUME_NONNULL_BEGIN
     [self loginWithPlatformName:UMShareToSina];
 }
 
-#pragma mark- Getters and Setters
-
 #pragma mark - 登录微信微博平台
 - (void)loginWithPlatformName:(NSString *)type {
     

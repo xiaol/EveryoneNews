@@ -231,7 +231,6 @@ static NSString * const kCellIdentify = @"JoySettingCell";
         case 0:
             break;
         case 1:
-           
             [noteCenter postNotificationName:LPLoginOutNotification object:nil];
             [self dismissViewControllerAnimated:YES completion:nil];
             break;

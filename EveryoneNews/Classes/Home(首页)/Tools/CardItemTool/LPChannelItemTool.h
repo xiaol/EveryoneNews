@@ -21,4 +21,6 @@
 + (NSString *)channelID:(NSString *)channelName;
 
 + (void)initializeLastAccessDate;
+
++ (NSMutableArray *)initChannelItems;
 @end

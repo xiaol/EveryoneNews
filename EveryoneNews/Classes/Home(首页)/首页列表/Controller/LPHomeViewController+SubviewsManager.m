@@ -41,12 +41,6 @@ NSString * const cardCellIdentifier = @"CardCellIdentifier";
 
 @implementation LPHomeViewController (SubviewsManager) 
 
-#pragma mark - viewWillAppear
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    
-}
-
 #pragma mark - 显示状态栏
 - (UIStatusBarStyle) preferredStatusBarStyle {
     return UIStatusBarStyleDefault;
@@ -77,14 +71,15 @@ NSString * const cardCellIdentifier = @"CardCellIdentifier";
     
     // 导航视图
      UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, statusBarHeight + menuViewHeight)];
-   
     [self.view addSubview:headerView];
     
     // 添加首页登录按钮
-    [self setupHomeViewLoginButton];
-    [self.loginBtn addTarget:self action:@selector(loginBtnDidClick) forControlEvents:UIControlEventTouchUpInside];
-    [headerView addSubview:self.loginBtn];
-    
+    UIButton *loginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [loginBtn addTarget:self action:@selector(loginBtnDidClick) forControlEvents:UIControlEventTouchUpInside];
+    loginBtn.enlargedEdge = 5.0;
+    self.loginBtn = loginBtn;
+    [self displayLoginBtnIconWithAccount:[AccountTool account]];
+    [headerView addSubview:loginBtn];
     
     // 右上角添加按钮
     CGFloat addBtnW = 15.5f;
@@ -229,6 +224,11 @@ NSString * const cardCellIdentifier = @"CardCellIdentifier";
         [self.view addSubview:loginView];
         self.loginView = loginView;
         
+        // 清空本地文件
+        NSDictionary * dict = [userDefaults dictionaryRepresentation];
+        for (id key in dict) {
+            [userDefaults removeObjectForKey:key];
+        }
         // 加载完后提示信息
         [userDefaults setObject:@"NO" forKey:LPIsVersionFirstLoad];
         [userDefaults synchronize];
@@ -345,7 +345,6 @@ NSString * const cardCellIdentifier = @"CardCellIdentifier";
                 LPChannelItem *channelItem = self.selectedArray[i];
                 if([channelItem.channelName isEqualToString:self.selectedChannelTitle]) {
                     index = i;
-                    break;
                 }
                 // 设置每个每页唯一标识
                 [self.cardCellIdentifierDictionary setObject:[NSString stringWithFormat:@"%@%d",cardCellIdentifier,i] forKey:@(i)];

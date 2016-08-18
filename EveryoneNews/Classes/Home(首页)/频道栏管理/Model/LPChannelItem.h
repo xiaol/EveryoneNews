@@ -18,7 +18,9 @@
 @property (nonatomic, copy) NSString *channelIsSelected;
 // 上次加载日期
 @property (nonatomic, strong) NSDate *lastAccessDate;
+// 是否显示
+@property (nonatomic, assign, getter=isHidden) BOOL hidden;
 
 // 初始化频道
-- (instancetype)initWithChannelID:(NSString *)channelID channelName:(NSString *)channelName channelIsSelected:(NSString *)channelIsSelected;
+- (instancetype)initWithChannelID:(NSString *)channelID channelName:(NSString *)channelName channelIsSelected:(NSString *)channelIsSelected hidden:(BOOL)hidden;
 @end

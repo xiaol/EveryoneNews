@@ -14,16 +14,6 @@ typedef void (^cardIsCollectedBlock)(BOOL isCollected, BOOL isExists);
 @interface Card (Create)
 
 + (Card *)createCardWithDict:(NSDictionary *)dict channelID:(NSString *)channelID inManagedObjectContext:(NSManagedObjectContext *)context;
-/**
- *  依据字典数组(json)创建模型数组cards, 并存入数据库
- *
- *  @param dicts: json data
- *
- *  @return 模型数组
- */
-//+ (NSArray *)createCardsWithDictArray:(NSArray *)dicts
-//                               channelID:(NSString *)channelID;
-
 
 // 创建模型数组，存入数据库
 + (void)createCardsWithDictArray:(NSArray *)dicts
@@ -48,4 +38,7 @@ typedef void (^cardIsCollectedBlock)(BOOL isCollected, BOOL isExists);
                               channelID:(NSString *)channelID
                              sourceName:(NSString *)sourceName
                         cardsArrayBlock:(cardsArrayBlock)cardsArrayBlock;
+
+// 是否已阅读过
++ (void)saveCardiSRead:(Card *)card;
 @end

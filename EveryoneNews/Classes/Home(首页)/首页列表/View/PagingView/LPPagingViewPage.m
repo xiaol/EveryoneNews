@@ -127,9 +127,9 @@
         label.y = -15;
         label.width = ScreenWidth;
         
-        label.backgroundColor = [UIColor colorFromHexString:@"#fafafa"];
+        label.backgroundColor = [UIColor colorFromHexString:LPColor8];
         label.textAlignment = NSTextAlignmentCenter;
-        label.textColor = [UIColor colorFromHexString:@"0087d1"];
+        label.textColor = [UIColor colorFromHexString:LPColor2];
         label.font = [UIFont systemFontOfSize:14];
         if (iPhone6Plus) {
             label.font = [UIFont systemFontOfSize:16];
@@ -277,10 +277,8 @@
 #pragma mark - 自动加载最新数据
 - (void)autotomaticLoadNewData {
     if (self.cardFrames.count > 0) {
-        
         [self.tableView.mj_header beginRefreshing];
     }
-
 }
 
 #pragma mark - 下拉刷新
@@ -408,7 +406,6 @@
     __weak typeof(self) weakSelf = self;
     [cell didClickTipButtonBlock:^() {
         [weakSelf autotomaticLoadNewData];
-//        [weakSelf loadNewData];
     }];
     
     [cell didClickDeleteButtonBlock:^(UIButton *deleteButton) {
@@ -425,11 +422,6 @@
     return cardFrame.cellHeight;
 }
 
-//-(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath{
-//
-//    return 100;
-//}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
     CardFrame *cardFrame = self.cardFrames[indexPath.row];
@@ -442,13 +434,23 @@
     
 }
 
-
 #pragma mark - 删除某行数据
 - (void)deleteRowAtIndexPath:(CardFrame *)cardFrame {
 
     NSInteger index = [self.cardFrames indexOfObject:cardFrame];
     [self.cardFrames removeObject:cardFrame];
     [self.tableView  deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+    
+    // 如果删除记录中包含”上次阅读到这里“， 重新刷新下一行记录
+    if (cardFrame.isTipButtonHidden == NO && self.cardFrames.count > 0) {
+        CardFrame *nextCardFrame = self.cardFrames[index];
+        Card *nextCard = nextCardFrame.card;
+        [nextCardFrame setCard:nextCard tipButtonHidden:NO];
+        [self.tableView  reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+    }
+    
+    
+    
 }
 
 - (void)updateCardFramesWithCardFrame:(CardFrame *)cardFrame {

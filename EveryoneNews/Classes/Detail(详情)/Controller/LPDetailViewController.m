@@ -70,6 +70,7 @@
 #import "LPMyCollectionCardFrame.h"
 #import "LPMyCollectionCard.h"
 #import "CollectionTool.h"
+#import "Card+Create.h"
 
 static const NSString * privateContext;
 
@@ -171,8 +172,6 @@ const static CGFloat changeFontSizeViewH = 150;
     [self setupSubviews];
     [self setupBottomView];
     [self setupData];
-//    // 收藏状态
-//    [self collectedButtonStatusChange];
     
     [noteCenter addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [noteCenter addObserver:self  selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
@@ -198,8 +197,7 @@ const static CGFloat changeFontSizeViewH = 150;
 #pragma mark - viewWillAppear
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    // 友盟统计打开详情页次数
-    //    [MobClick beginLogPageView:@"DetailPage"];
+    
     self.stayTimeInterval = 0;
     [self startTimer];
 }
@@ -685,18 +683,11 @@ const static CGFloat changeFontSizeViewH = 150;
     if(!self.searchCardFrame) {
         if (self.navigationController.viewControllers.count == 0) {
             if (!self.isRead) {
-                [self.card setValue:@(1) forKey:@"isRead"];
-                CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
-                [cdh saveBackgroundContext];
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    //NSLog(@"success");
-                });
+                [Card saveCardiSRead:self.card];
             }
             [self endTimer];
             // 提交用户日志
             [self submitUserOperationLog];
-            
         }
         self.statusWindow.hidden = NO;
     }
@@ -755,6 +746,8 @@ const static CGFloat changeFontSizeViewH = 150;
     if (!error) {
         self.http = [LPHttpTool http];
         [self.http getImageWithURL:url params:nil success:^(id json) {
+          
+            
         } failure:^(NSError *error) {
             //NSLog(@"%@", error);
 
@@ -848,7 +841,7 @@ const static CGFloat changeFontSizeViewH = 150;
     
     // 上拉加载更多
     __weak typeof(self) weakSelf = self;
-    self.tableView.footer = [LPRelatePointFooter footerWithRefreshingBlock:^{
+    self.tableView.mj_footer = [LPRelatePointFooter footerWithRefreshingBlock:^{
         [weakSelf loadMoreRelateData];
     }];
     
@@ -864,7 +857,7 @@ const static CGFloat changeFontSizeViewH = 150;
     
     self.commentsTableView = commentsTableView;
     // 上拉加载更多
-    self.commentsTableView.footer = [LPLoadFooter footerWithRefreshingBlock:^{
+    self.commentsTableView.mj_footer = [LPLoadFooter footerWithRefreshingBlock:^{
         [weakSelf loadMoreCommentsData];
     }];
     [scrollView addSubview:commentsTableView];
@@ -2725,15 +2718,36 @@ const static CGFloat changeFontSizeViewH = 150;
 - (void)rightFocusViewTapGesture {
     
     if (self.forwardImageView.hidden == NO) {
+        [noteCenter postNotificationName:LPReloadAddConcernPageNotification object:nil];
         [self focusViewTap];
         
     } else {
         __weak typeof(self) weakSelf = self;
+        // 用户未登录
         if (![AccountTool account]) {
-            [AccountTool accountLoginWithViewController:self success:^(Account *account){
-                [weakSelf addConcernSourceSiteName];
-            } failure:^{
-            } cancel:nil];
+                [AccountTool accountLoginWithViewController:self success:^(Account *account) {
+                    NSMutableDictionary *detailContentParams = [NSMutableDictionary dictionary];
+                    NSString *detailContentURL = [NSString stringWithFormat:@"%@/v2/ns/con", ServerUrlVersion2];
+                    NSString *uid = [userDefaults objectForKey:@"uid"];
+                    detailContentParams[@"nid"] = [self nid];
+                    detailContentParams[@"uid"] = uid;
+                    [LPHttpTool getWithURL:detailContentURL params:detailContentParams success:^(id json) {
+                        NSMutableDictionary *dict = json[@"data"];
+                        NSString *conpubflag = [dict[@"conpubflag"] stringValue];
+                        // 用户已关注
+                        if ([conpubflag isEqualToString:@"1"]) {
+                            self.conpubFlag = @"1";
+                            weakSelf.forwardImageView.hidden = NO;
+                            weakSelf.focusImageView.hidden = YES;
+                            weakSelf.focusLabel.hidden = YES;
+                            [noteCenter postNotificationName:LPReloadAddConcernPageNotification object:nil];
+                        }
+                    } failure:^(NSError *error) {
+                        
+                    }];
+                } failure:^{
+                } cancel:nil
+                 ];
         } else {
             [self addConcernSourceSiteName];
         }
@@ -2750,24 +2764,12 @@ const static CGFloat changeFontSizeViewH = 150;
     NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
     
     [LPHttpTool postAuthorizationJSONWithURL:url authorization:authorization params:nil success:^(id json) {
-        
         if ([json[@"code"] integerValue] == 2000 ) {
             weakSelf.forwardImageView.hidden = NO;
             weakSelf.focusImageView.hidden = YES;
             weakSelf.focusLabel.hidden = YES;
             [weakSelf addFocusTips];
             self.conpubFlag = @"1";
-            
-            // 关注频道是否显示
-//            if(![userDefaults objectForKey:LPConcernChannelItemShowOrHide]) {
-//                [userDefaults setObject:@"show" forKey:LPConcernChannelItemShowOrHide];
-//                [userDefaults synchronize];
-//                // 关注频道自动显示在第5个位置
-//                [noteCenter postNotificationName:LPConcernChannelItemAtFirstTime object:nil];
-//            } else {
-//                [noteCenter postNotificationName:LPReloadAddConcernPageNotification object:nil];
-//            }
-            
             [noteCenter postNotificationName:LPReloadAddConcernPageNotification object:nil];
         }
     } failure:^(NSError *error) {

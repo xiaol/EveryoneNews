@@ -60,7 +60,9 @@
     CGFloat commentLabelPaddingRight = 10;
     
     CGFloat tipButtonX = 0;
-    CGFloat tipButtonH = 30;
+    CGFloat tipButtonH = 40;
+
+    
     CGFloat tipButtonY = 0;
     CGFloat tipButtonW = ScreenWidth;
     
@@ -77,6 +79,8 @@
     } else {
         tipButtonH = 30;
     }
+  
+    
     // 无图
     if([card.type integerValue] == imageStyleZero) {
         CGFloat titlePaddingTop = 11;
@@ -92,7 +96,6 @@
         
         
         CGFloat titleW = ScreenWidth - PaddingHorizontal * 2;
-//        CGFloat titleH = [htmlTitle tttAttributeLabel:titleW];
         NSMutableAttributedString *attrStr =  [title attributedStringWithFont:[UIFont systemFontOfSize:titleFontSize] lineSpacing:lineSpacing];
         CGRect rect = [attrStr boundingRectWithSize:CGSizeMake(titleW, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
         CGFloat titleH = rect.size.height;
@@ -168,11 +171,21 @@
         // 单图标题
         CGFloat titleX = PaddingHorizontal;
         CGFloat titleW = ScreenWidth - imageW - PaddingHorizontal * 2 - 20;
+        
+        
+        // 计算单行文字高度
+        NSMutableAttributedString *singleLineAttrStr =  [@"单行文本" attributedStringWithFont:[UIFont systemFontOfSize:titleFontSize] lineSpacing:lineSpacing];
+        CGRect singleLineRect = [singleLineAttrStr boundingRectWithSize:CGSizeMake(titleW, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+        CGFloat singleTitleH = singleLineRect.size.height;
+        
         // 标题高度
-//        CGFloat titleH = [htmlTitle tttAttributeLabel:titleW];
         NSMutableAttributedString *attrStr =  [title attributedStringWithFont:[UIFont systemFontOfSize:titleFontSize] lineSpacing:lineSpacing];
         CGRect rect = [attrStr boundingRectWithSize:CGSizeMake(titleW, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
         CGFloat titleH = rect.size.height;
+        
+        if (titleH > 3 * singleTitleH) {
+            titleH = 3 * singleTitleH;
+        }
         
         // 图片
         CGFloat imageX = ScreenWidth - PaddingHorizontal - imageW;
@@ -255,7 +268,6 @@
         _singleBigTipButtonFrame = CGRectMake(tipButtonX, tipButtonY, tipButtonW, tipButtonH);
         
         CGFloat titleW = ScreenWidth - PaddingHorizontal * 2;
-//        CGFloat titleH = [htmlTitle tttAttributeLabel:titleW];
         NSMutableAttributedString *attrStr =  [title attributedStringWithFont:[UIFont systemFontOfSize:titleFontSize] lineSpacing:lineSpacing];
         CGRect rect = [attrStr boundingRectWithSize:CGSizeMake(titleW, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
         CGFloat titleH = rect.size.height;
@@ -324,10 +336,20 @@
         _mutipleTipButtonFrame = CGRectMake(tipButtonX, tipButtonY, tipButtonW, tipButtonH);
         
         CGFloat titleW = ScreenWidth - PaddingHorizontal * 2;
-//        CGFloat titleH = [htmlTitle tttAttributeLabel:titleW];
+        
+        // 计算单行文字高度
+        NSMutableAttributedString *singleLineAttrStr =  [@"单行文本" attributedStringWithFont:[UIFont systemFontOfSize:titleFontSize] lineSpacing:lineSpacing];
+        CGRect singleLineRect = [singleLineAttrStr boundingRectWithSize:CGSizeMake(titleW, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+        CGFloat singleTitleH = singleLineRect.size.height;
+        
+        
         NSMutableAttributedString *attrStr =  [title attributedStringWithFont:[UIFont systemFontOfSize:titleFontSize] lineSpacing:lineSpacing];
         CGRect rect = [attrStr boundingRectWithSize:CGSizeMake(titleW, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
         CGFloat titleH = rect.size.height;
+        
+        if (titleH > 2 * singleTitleH) {
+            titleH = 2 * singleTitleH;
+        }
         
         _multipleImageTitleLabelFrame = CGRectMake(PaddingHorizontal,   CGRectGetMaxY(_mutipleTipButtonFrame) + paddingVertical, titleW, titleH);
         

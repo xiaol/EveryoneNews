@@ -28,8 +28,8 @@
         NSMutableDictionary *paramUser = [LPLoginTool touristParams];
         [LPHttpTool postJSONResponseAuthorizationWithURL:url params:paramUser success:^(id json, NSString *authorization) {
             
+           // 只验证不保存数据
             [LPLoginTool saveTouristInfo:json authorization:authorization];
-            
         }  failure:^(NSError *error) {
             
         }];
@@ -44,9 +44,8 @@
         NSString *url = [NSString stringWithFormat:@"%@/v2/au/sin/s", ServerUrlVersion2];
         
         [LPHttpTool postJSONResponseAuthorizationWithURL:url params:paramsUser success:^(id json, NSString *authorization) {
-            
+            // 只验证不保存数据
             [LPLoginTool saveRegisteredUserInfo:json authorization:authorization];
-            
         } failure:^(NSError *error) {
             
         }];
@@ -76,6 +75,7 @@
         [userDefaults setObject:dict[@"password"] forKey:@"password"];
         [userDefaults setObject:authorization forKey:@"uauthorization"];
         [userDefaults synchronize];
+        
     }
 }
 

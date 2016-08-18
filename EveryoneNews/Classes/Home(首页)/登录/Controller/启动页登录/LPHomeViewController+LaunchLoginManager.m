@@ -24,24 +24,6 @@
 
 @implementation LPHomeViewController (LaunchLoginManager)
 
-#pragma mark - viewDidAppear
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-    Account *account = [AccountTool account];
-    [self displayLoginBtnIconWithAccount:account];
-  
-}
-
-#pragma mark - 设置登录页面
-- (void)setupHomeViewLoginButton {
-    // 登录按钮
-    self.loginBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.loginBtn.enlargedEdge = 5.0;
-}
-
-
-
 #pragma mark - 用户退出登录
 - (void)userLogin:(UIButton *)loginBtn {
     if ([AccountTool account]!= nil) {

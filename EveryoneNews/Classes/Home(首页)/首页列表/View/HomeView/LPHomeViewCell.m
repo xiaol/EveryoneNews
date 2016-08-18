@@ -75,10 +75,14 @@
        sourceFontSize = 9;
     }
     
-    NSString *tipString = @"刚刚看到这里，点击加载更多";
-    CGFloat tipFontSize = 16;
+    NSString *tipString = @"刚刚看到这里，点击刷新";
+    CGFloat tipFontSize = LPFont5;
     CGFloat newsTypeCornerRadius = 2;
     NSString *newTypeBoundsColor = LPColor13;
+    
+    CGFloat interval = 5.0f;
+    CGFloat tipLabelTitleWidth = [tipString sizeWithFont:[UIFont systemFontOfSize:tipFontSize] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].width;
+    CGFloat tipImageViewWidth = 12.0f;
     
     if(self) {
         // 无图
@@ -88,7 +92,6 @@
         [self.contentView addSubview:noImageLabel];
         self.noImageLabel = noImageLabel;
         
- 
         UILabel *noImageSourceLabel = [[UILabel alloc] init];
         noImageSourceLabel.font = [UIFont systemFontOfSize:sourceFontSize];
         noImageSourceLabel.textColor = [UIColor colorFromHexString:@"#999999"];
@@ -127,20 +130,22 @@
         [self.contentView addSubview:noImageDeleteButton];
         self.noImageDeleteButton = noImageDeleteButton;
         
-
         UIView *noImageSeperatorLine = [[UIView alloc] init];
         noImageSeperatorLine.backgroundColor = [UIColor colorFromHexString:@"e4e4e4"];
         [self.contentView addSubview:noImageSeperatorLine];
         self.noImageSeperatorLine = noImageSeperatorLine;
-        
         
         UIButton *noImageTipButton = [[UIButton alloc] init];
         noImageTipButton.userInteractionEnabled = YES;
         noImageTipButton.backgroundColor = [UIColor colorFromHexString:@"#e4e4e4"];
         [noImageTipButton setTitle:tipString forState:UIControlStateNormal];
         [noImageTipButton setTitleColor:[UIColor colorFromHexString:@"0091fa"] forState:UIControlStateNormal];
-         noImageTipButton.titleLabel.font = [UIFont systemFontOfSize:tipFontSize];
+        noImageTipButton.titleLabel.font = [UIFont systemFontOfSize:tipFontSize];
         [noImageTipButton addTarget:self action:@selector(didClickTipButton) forControlEvents:UIControlEventTouchUpInside];
+        [noImageTipButton setImage:[UIImage imageNamed:@"上次位置刷新"] forState:UIControlStateNormal];
+        noImageTipButton.imageEdgeInsets = UIEdgeInsetsMake(0,tipLabelTitleWidth + interval, 0, -(tipLabelTitleWidth + interval));
+        noImageTipButton.titleEdgeInsets = UIEdgeInsetsMake(0, -(tipImageViewWidth + interval), 0, tipImageViewWidth + interval);
+        
         [self.contentView addSubview:noImageTipButton];
         self.noImageTipButton = noImageTipButton;
         
@@ -152,8 +157,8 @@
         self.iconView = iconView;
         
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        titleLabel.textColor =  [UIColor colorFromHexString:@"#1a1a1a"];
         titleLabel.numberOfLines = 0;
+        titleLabel.textColor =  [UIColor colorFromHexString:@"#1a1a1a"];
         [self.contentView addSubview:titleLabel];
         self.titleLabel = titleLabel;
         
@@ -207,6 +212,9 @@
         [singleTipButton setTitleColor:[UIColor colorFromHexString:@"0091fa"] forState:UIControlStateNormal];
         singleTipButton.titleLabel.font = [UIFont systemFontOfSize:tipFontSize];
         [singleTipButton addTarget:self action:@selector(didClickTipButton) forControlEvents:UIControlEventTouchUpInside];
+        [singleTipButton setImage:[UIImage imageNamed:@"上次位置刷新"] forState:UIControlStateNormal];
+        singleTipButton.imageEdgeInsets = UIEdgeInsetsMake(0, tipLabelTitleWidth + interval, 0, -(tipLabelTitleWidth + interval));
+        singleTipButton.titleEdgeInsets = UIEdgeInsetsMake(0, -(tipImageViewWidth + interval), 0, tipImageViewWidth + interval);
         [self.contentView addSubview:singleTipButton];
         self.singleTipButton = singleTipButton;
 
@@ -274,6 +282,9 @@
         [singleBigImageTipButton setTitleColor:[UIColor colorFromHexString:@"0091fa"] forState:UIControlStateNormal];
         singleBigImageTipButton.titleLabel.font = [UIFont systemFontOfSize:tipFontSize];
         [singleBigImageTipButton addTarget:self action:@selector(didClickTipButton) forControlEvents:UIControlEventTouchUpInside];
+        [singleBigImageTipButton setImage:[UIImage imageNamed:@"上次位置刷新"] forState:UIControlStateNormal];
+        singleBigImageTipButton.imageEdgeInsets = UIEdgeInsetsMake(0, tipLabelTitleWidth + interval, 0, -(tipLabelTitleWidth + interval));
+        singleBigImageTipButton.titleEdgeInsets = UIEdgeInsetsMake(0, -(tipImageViewWidth + interval), 0, tipImageViewWidth + interval);
         [self.contentView addSubview:singleBigImageTipButton];
         self.singleBigImageTipButton = singleBigImageTipButton;
         
@@ -345,6 +356,10 @@
         [mutipleTipButton setTitle:tipString forState:UIControlStateNormal];
         [mutipleTipButton setTitleColor:[UIColor colorFromHexString:@"0091fa"] forState:UIControlStateNormal];
         mutipleTipButton.titleLabel.font = [UIFont systemFontOfSize:tipFontSize];
+        [mutipleTipButton setImage:[UIImage imageNamed:@"上次位置刷新"] forState:UIControlStateNormal];
+        mutipleTipButton.imageEdgeInsets = UIEdgeInsetsMake(0,tipLabelTitleWidth + interval, 0, -(tipLabelTitleWidth + interval));
+        mutipleTipButton.titleEdgeInsets = UIEdgeInsetsMake(0, -(tipImageViewWidth + interval), 0, tipImageViewWidth + interval);
+
         [mutipleTipButton addTarget:self action:@selector(didClickTipButton) forControlEvents:UIControlEventTouchUpInside];
 
         [self.contentView addSubview:mutipleTipButton];
@@ -382,7 +397,7 @@
     BOOL commentLabelHidden = [commentsCount isEqualToString:@"0评"] ? YES :NO;
     NSString *source = [NSString stringWithFormat:@"%@    %@",sourceSiteName, publishTime];
     
-    NSAttributedString *attributeTitle =  [card.title attributedStringWithFont:[UIFont systemFontOfSize:self.cardFrame.homeViewFontSize] lineSpacing:lineSpacing];
+    NSAttributedString *attributeTitle =  [card.title truncatingTailAttributedStringWithFont:[UIFont systemFontOfSize:self.cardFrame.homeViewFontSize] lineSpacing:lineSpacing];
     
     
     if (card.isRead) {
@@ -527,11 +542,10 @@
         self.mutipleCommentLabel.hidden = YES;
         self.mutipleTipButton.hidden = YES;
         self.multipleImageNewsTypeLabel.hidden = YES;
-        
-        self.titleLabel.attributedText =  attributeTitle;
-        
+    
         self.iconView.frame = self.cardFrame.singleImageImageViewFrame;
         self.titleLabel.frame = self.cardFrame.singleImageTitleLabelFrame;
+        self.titleLabel.attributedText =  attributeTitle;
         
         self.singleSourceLabel.text = source;
         self.singleSourceLabel.frame = self.cardFrame.singleImageSourceLabelFrame;

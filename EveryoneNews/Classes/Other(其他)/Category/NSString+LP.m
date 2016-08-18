@@ -41,7 +41,6 @@
     
     style.alignment = NSTextAlignmentJustified;
     style.firstLineHeadIndent = 0.001f;
-    
     style.lineSpacing = lineSpacing;
     [string addAttribute:NSFontAttributeName value:font range:range];
     [string addAttribute:NSForegroundColorAttributeName value:color range:range];
@@ -53,7 +52,6 @@
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:self];
     NSRange range = NSMakeRange(0, self.length);
     NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
-    
     style.alignment = NSTextAlignmentJustified;
     style.firstLineHeadIndent = 0.001f;
     style.lineSpacing = lineSpacing;
@@ -62,6 +60,18 @@
     return string;
 }
 
+- (NSMutableAttributedString *)truncatingTailAttributedStringWithFont:(UIFont *)font lineSpacing:(CGFloat)lineSpacing {
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:self];
+    NSRange range = NSMakeRange(0, self.length);
+    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+    style.alignment = NSTextAlignmentJustified;
+    style.lineBreakMode = NSLineBreakByTruncatingTail;
+    style.firstLineHeadIndent = 0.001f;
+    style.lineSpacing = lineSpacing;
+    [string addAttribute:NSFontAttributeName value:font range:range];
+    [string addAttribute:NSParagraphStyleAttributeName value:style range:range];
+    return string;
+}
 
 - (NSMutableAttributedString *)attributedStringWithFont:(UIFont *)font color:(UIColor *)color lineSpacing:(CGFloat)lineSpacing characterSpacing:(CGFloat)spacing firstLineSpacing:(CGFloat)firstSpacing {
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:self];

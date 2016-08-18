@@ -23,6 +23,8 @@
 
 - (NSMutableAttributedString *)attributedStringWithFont:(UIFont *)font color:(UIColor *)color lineSpacing:(CGFloat)lineSpacing;
 
+- (NSMutableAttributedString *)truncatingTailAttributedStringWithFont:(UIFont *)font lineSpacing:(CGFloat)lineSpacing;
+
 - (NSMutableAttributedString *)attributedStringWithFont:(UIFont *)font color:(UIColor *)color lineSpacing:(CGFloat)lineSpacing characterSpacing:(CGFloat)spacing firstLineSpacing:(CGFloat)firstSpacing;
 
 - (BOOL)isMoreThanOneLineConstraintToWidth:(CGFloat)width withFont:(UIFont *)font;

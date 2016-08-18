@@ -21,6 +21,7 @@
 #import "LPQiDianConcernViewController.h"
 #import "LPConcernDetailViewController.h"
 #import "LPQiDianHao.h"
+#import "LPSearchTool.h"
 
 
 static NSString *cellIdentifier = @"cellIdentifier";
@@ -140,6 +141,8 @@ static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
     params[@"c"] = @"20";
     params[@"uid"] = [userDefaults objectForKey:@"uid"];
     
+    NSArray *keywords = [LPSearchTool stringWithWord:self.keywords];
+    
     NSString *url = [NSString stringWithFormat:@"%@/v2/ns/es/snp",ServerUrlVersion2];
     NSMutableArray *newSearchItemsFrames = self.cardFrames;
     __weak typeof(self) weakSelf = self;
@@ -149,7 +152,7 @@ static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
             for (int i = 0; i < jsonNewsArray.count; i ++) {
                 NSDictionary *dict = jsonNewsArray[i];
                 LPSearchCard *card = [[LPSearchCard alloc] init];
-                card.title = dict[@"title"];
+                card.title = [LPSearchTool filterHTML:dict[@"title"]];
                 card.sourceSiteURL = dict[@"purl"];
                 card.sourceSiteName =  dict[@"pname"];
                 card.updateTime = [NSString stringWithFormat:@"%lld", (long long)([dict[@"ptime"] timestampWithDateFormat:@"YYYY-MM-dd HH:mm:ss"] * 1000)];
@@ -161,6 +164,7 @@ static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
                 
                 LPSearchCardFrame *cardFrame = [[LPSearchCardFrame alloc] init];
                 cardFrame.card = card;
+                cardFrame.keywords = keywords;
                 [newSearchItemsFrames addObject:cardFrame];
             }
             weakSelf.cardFrames = newSearchItemsFrames;
@@ -241,6 +245,8 @@ static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
     params[@"c"] = @"20";
     params[@"uid"] = [userDefaults objectForKey:@"uid"];
     
+    NSArray *keywords = [LPSearchTool stringWithWord:keyword];
+    
     NSString *url = [NSString stringWithFormat:@"%@/v2/ns/es/snp",ServerUrlVersion2];
     __weak typeof(self) weakSelf = self;
     [LPHttpTool getWithURL:url params:params success:^(id json) {
@@ -253,7 +259,7 @@ static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
             for (int i = 0; i < jsonNewsArray.count; i ++) {
                 NSDictionary *dict = jsonNewsArray[i];
                 LPSearchCard *card = [[LPSearchCard alloc] init];
-                card.title = dict[@"title"];
+                card.title = [LPSearchTool filterHTML:dict[@"title"]];
                 card.sourceSiteURL = dict[@"purl"];
                 card.sourceSiteName =  dict[@"pname"];
                 card.updateTime = [NSString stringWithFormat:@"%lld", (long long)([dict[@"ptime"] timestampWithDateFormat:@"YYYY-MM-dd HH:mm:ss"] * 1000)];
@@ -265,6 +271,7 @@ static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
                 
                 LPSearchCardFrame *cardFrame = [[LPSearchCardFrame alloc] init];
                 cardFrame.card = card;
+                cardFrame.keywords = keywords;
                 [weakSelf.cardFrames addObject:cardFrame];
             }
             

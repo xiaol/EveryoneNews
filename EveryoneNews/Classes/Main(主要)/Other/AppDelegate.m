@@ -81,6 +81,11 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
 
 #pragma mark - didFinishLaunchingWithOptions
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    if ([userDefaults objectForKey:LPIsVersionFirstLoad] && [userDefaults objectForKey:@"uIconDisplay"]) {
+        // 防止并发 延迟执行
+        [LPLoginTool loginVerify];
+    }
     // 崩溃日志
     [Fabric with:@[[Crashlytics class]]];
     
@@ -457,10 +462,7 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
         NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
     }
     [self cdh];
-    
-    if ([userDefaults objectForKey:@"uauthorization"] && [userDefaults objectForKey:@"uIconDisplay"]) {
-        [LPLoginTool loginVerify];
-    }
+
 }
 
 

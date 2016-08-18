@@ -84,10 +84,22 @@ NSString *const reuseConcernPageID = @"reuseConcernPageID";
            // 加载完数据后刷新页面
            if (i == self.selectedArray.count - 1) {
                [self.pagingView reloadData];
+               dispatch_async(dispatch_get_main_queue(), ^{
+                   LPChannelItem *firstChannelItem = (LPChannelItem *)self.selectedArray[0];
+                   NSDate *firstChannelItemLastAccessDate = firstChannelItem.lastAccessDate;
+                   int interval = (int)[currentDate timeIntervalSinceDate: firstChannelItemLastAccessDate] / 60;
+                   if (interval > 20) {
+                       // 自动刷新首页
+                       LPPagingViewPage *page = (LPPagingViewPage *)[self.pagingView currentPage];
+                       dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                           [page autotomaticLoadNewData];
+                       });
+                   }
+               });
+
            }
         }];
-        }
-   
+    }
 }
 
 #pragma mark - 频道栏发生变化更新相应数据
@@ -248,7 +260,10 @@ NSString *const reuseConcernPageID = @"reuseConcernPageID";
             // 每5分钟做一次刷新操作
             if (interval > 5) {
                 [page autotomaticLoadNewData];
-                channelItem.lastAccessDate = currentDate;
+                if (page.cardFrames.count > 0) {
+                    channelItem.lastAccessDate = currentDate;
+                }
+           
             }
         }
     } else {
@@ -259,14 +274,13 @@ NSString *const reuseConcernPageID = @"reuseConcernPageID";
             // 每5分钟做一次刷新操作
             if (interval > 5) {
                 [page autotomaticLoadNewData];
-                channelItem.lastAccessDate = currentDate;
+                if (page.cardFrames.count > 0) {
+                    channelItem.lastAccessDate = currentDate;
+                }
             }
         }
 
     }
-//    if (debug==1) {
-//        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
-//    }
 }
 
 #pragma mark - 首页显示正在加载提示
@@ -590,7 +604,7 @@ NSString *const reuseConcernPageID = @"reuseConcernPageID";
     [self.blackBackgroundView removeFromSuperview];
     [self.currentPage deleteRowAtIndexPath:self.currentCardFrame];
     [self deleteCardFromCoreData:self.currentCardFrame];
-    
+        
 }
 
 #pragma mark - 删除本地新闻

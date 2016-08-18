@@ -13,7 +13,7 @@ static NSString * const loadMoreAnimationKey = @"loadMoreRotation";
 static const CGFloat imageViewWidth = 14;
 static const CGFloat imageViewHeitht = 14;
 static const CGFloat loadMoreHeight = 40;
-static const CGFloat fontSize = 12;
+static const CGFloat fontSize = 13;
 
 @interface LPDiggerFooter()
 @property (nonatomic, weak) UIView *view;
@@ -34,9 +34,6 @@ static const CGFloat fontSize = 12;
     self.mj_h = 50;
     
     UIView *view = [[UIView alloc] init];
-
-
-    
     // 添加label
     UILabel *label = [[UILabel alloc] init];
     label.font = [UIFont systemFontOfSize:fontSize];
@@ -59,7 +56,7 @@ static const CGFloat fontSize = 12;
     
     [self addSubview:view];
     self.view = view;
- 
+    
 }
 
 #pragma mark 在这里设置子控件的位置和尺寸
@@ -123,9 +120,10 @@ static const CGFloat fontSize = 12;
             break;
         case MJRefreshStateNoMoreData:
             self.label.text = @"加载完成";
-            self.imageView.hidden = YES;
-            self.label.frame = CGRectMake(CGRectGetMinX(self.imageView.frame), 0, size2.width, loadMoreHeight);
-            [self.imageView.layer removeAnimationForKey:loadMoreAnimationKey];
+            [self.imageView removeFromSuperview];
+     
+            self.label.frame = CGRectMake(0, 0, size2.width, loadMoreHeight);
+     
             break;
         default:
             break;

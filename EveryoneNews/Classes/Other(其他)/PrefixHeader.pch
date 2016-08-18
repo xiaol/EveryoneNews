@@ -248,7 +248,7 @@ typedef NS_ENUM(NSInteger, newsType) {
 #define LPChannelItemChangedNotification @"LPChannelItemChangedNotification"
 #define LPAddConcernSourceNotification @"LPAddConcernSourceNotification"
 #define LPRemoveConcernSourceNotification @"LPRemoveConcernSourceNotification"
-#define LPIsVersionFirstLoad @"LPIsVersion_3_3_0_FirstLoad"
+#define LPIsVersionFirstLoad @"LPIsVersion_3_3_3_FirstLoad"
 
 #define LPReloadAddConcernPageNotification @"LPReloadAddConcernPageNotification"
 #define LPReloadCancelConcernPageNotification @"LPReloadCancelConcernPageNotification"
@@ -327,7 +327,7 @@ typedef NS_ENUM(NSInteger, newsType) {
 
 // 关注编号
 #define focusChannelID @"99999"
-#define guideID @"-1"
+ 
 
 
 #define HomeTopViewHeight 71

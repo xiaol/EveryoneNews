@@ -29,11 +29,12 @@
 }
 
 // 初始化频道
-- (instancetype)initWithChannelID:(NSString *)channelID channelName:(NSString *)channelName channelIsSelected:(NSString *)channelIsSelected {
+- (instancetype)initWithChannelID:(NSString *)channelID channelName:(NSString *)channelName channelIsSelected:(NSString *)channelIsSelected hidden:(BOOL)hidden {
     if (self = [super init]) {
         _channelID = channelID;
         _channelName = channelName;
         _channelIsSelected = channelIsSelected;
+        _hidden = hidden;
     }
     return self;
 }

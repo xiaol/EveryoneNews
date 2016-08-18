@@ -11,6 +11,7 @@
 #import "NSString+LP.h"
 #import "Card+Create.h"
 #import "LPFontSizeManager.h"
+#import "LPSearchTool.h"
 
 @implementation LPSearchCardFrame
 
@@ -47,7 +48,12 @@
     _card = card;
     _cellHeight = 0.0f;
 
-    NSMutableAttributedString *htmlTitle = [Card titleHtmlString:card.title];
+    self.homeViewFontSize = [LPFontSizeManager sharedManager].currentHomeViewFontSize;
+    CGFloat titleFontSize =  self.homeViewFontSize;
+    NSString *title = card.title;
+    CGFloat lineSpacing = 0.f;
+    
+//    NSMutableAttributedString *htmlTitle = [Card titleHtmlString:card.title];
     // 无图
     if(card.cardImages.count == 0) {
         
@@ -62,7 +68,9 @@
         
         CGFloat titleW = ScreenWidth - PaddingHorizontal * 2;
  
-        CGFloat titleH = [htmlTitle tttAttributeLabel:titleW];
+        NSMutableAttributedString *attrStr =  [title attributedStringWithFont:[UIFont systemFontOfSize:titleFontSize] lineSpacing:lineSpacing];
+        CGRect rect = [attrStr boundingRectWithSize:CGSizeMake(titleW, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+        CGFloat titleH = rect.size.height;
 
         
         _noImageLabelFrame = CGRectMake(PaddingHorizontal , titlePaddingTop, titleW, titleH);
@@ -103,7 +111,10 @@
         // 单图标题
         CGFloat titleX = PaddingHorizontal;
         CGFloat titleW = ScreenWidth - imageW - PaddingHorizontal * 2 - 20;
-        CGFloat titleH = [htmlTitle tttAttributeLabel:titleW];
+        
+        NSMutableAttributedString *attrStr =  [title attributedStringWithFont:[UIFont systemFontOfSize:titleFontSize] lineSpacing:lineSpacing];
+        CGRect rect = [attrStr boundingRectWithSize:CGSizeMake(titleW, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+        CGFloat titleH = rect.size.height;
 
         // 图片
         CGFloat imageX = ScreenWidth - PaddingHorizontal - imageW;
@@ -147,7 +158,10 @@
     } else if (card.cardImages.count >= 3) {
 
         CGFloat titleW = ScreenWidth - PaddingHorizontal * 2;
-        CGFloat titleH = [htmlTitle tttAttributeLabel:titleW];
+        
+        NSMutableAttributedString *attrStr =  [title attributedStringWithFont:[UIFont systemFontOfSize:titleFontSize] lineSpacing:lineSpacing];
+        CGRect rect = [attrStr boundingRectWithSize:CGSizeMake(titleW, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+        CGFloat titleH = rect.size.height;
 
         _multipleImageTitleLabelFrame = CGRectMake(PaddingHorizontal, paddingVertical, titleW, titleH);
         

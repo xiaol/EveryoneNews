@@ -22,6 +22,7 @@
 #import "LPLoginFromSettingViewController.h"
 #import "MainNavigationController.h"
 #import "LPLoginTool.h"
+#import "MBProgressHUD+MJ.h"
 
 @interface LPDetailLoginViewController : LPBaseViewController <UMSocialUIDelegate>
 
@@ -162,13 +163,13 @@
             UMSocialAccountEntity *accountEntity = [[UMSocialAccountManager socialAccountDictionary] valueForKey:type];
             // 保存友盟信息到本地
             Account *account = [LPLoginTool returnAccountAndSaveAccountWithAccountEntity:accountEntity];
-            
             NSMutableDictionary *paramsUser = [LPLoginTool registeredUserParamsWithAccountEntity:accountEntity];
             
             // 第三方注册
             NSString *url = [NSString stringWithFormat:@"%@/v2/au/sin/s", ServerUrlVersion2];
             
             [LPHttpTool postJSONResponseAuthorizationWithURL:url params:paramsUser success:^(id json, NSString *authorization) {
+                
                 [LPLoginTool saveRegisteredUserInfoAndSendConcernNotification:json authorization:authorization];
                 
                 if ([json[@"code"] integerValue] == 2000) {
@@ -201,176 +202,6 @@
 
 @end
 
-@interface LPLoginViewController : LPBaseViewController <UMSocialUIDelegate>
-
-//tabbar的背景图
-@property (nonatomic,strong) UIImage *headerBackgroundImage;
-//非tabbar的背景图
-@property (nonatomic,strong) UIImage *footerBackgroundImage;
-
-@property (nonatomic,strong) UIView *wrapperView;
-
-@property (nonatomic,strong) UIView *maskView;
-
-@property (nonatomic, copy) LoginSuccessHandler successBlock;
-
-@property (nonatomic, copy) LoginFailureHandler failureBlock;
-
-@property (nonatomic, copy) LoginCancelHandler cancelBlock;
-
-@end
-
-@implementation LPLoginViewController
-
-
-#pragma mark - ViewDidLoad
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
-    [self setupSubViews];
-}
-
-- (void)setupSubViews {
-    CGFloat labelPaddingTop = 150;
-    if (iPhone6Plus) {
-        labelPaddingTop = 171;
-    }
-    CGFloat firstLabelHeight = [@"您好" heightForLineWithFont:[UIFont systemFontOfSize:20]];
-    UILabel *firstLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, labelPaddingTop, ScreenWidth, firstLabelHeight)];
-    firstLabel.textAlignment = NSTextAlignmentCenter;
-    firstLabel.font = [UIFont systemFontOfSize:20];
-    firstLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
-    firstLabel.text = @"智能推荐您喜欢的文章";
-    [self.view addSubview: firstLabel];
-    
-    
-    CGFloat secondLabelHeight = [@"您好" heightForLineWithFont:[UIFont systemFontOfSize:16]];
-    UILabel *secondLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(firstLabel.frame) + 16, ScreenWidth, secondLabelHeight)];
-    secondLabel.textAlignment = NSTextAlignmentCenter;
-    secondLabel.font = [UIFont systemFontOfSize:16];
-    secondLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
-    secondLabel.text = @"只需一键登录";
-    [self.view addSubview: secondLabel];
-    
-    CGFloat casualLookButtonHeight = [@"您好" heightForLineWithFont:[UIFont systemFontOfSize:18]];
-    UIButton *casualLookButton = [[UIButton alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(secondLabel.frame) + 32, ScreenWidth, casualLookButtonHeight)];
-    [casualLookButton setEnlargedEdgeWithTop:20 left:0 bottom:20 right:0];
-    [casualLookButton setTitle:@"先随便看看 >" forState:UIControlStateNormal];
-    [casualLookButton setTitleColor:[UIColor colorFromHexString:@"#999999"] forState:UIControlStateNormal];
-    [casualLookButton addTarget:self action:@selector(closeBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview: casualLookButton];
-    
-    
-    CGFloat weixingPaddingLeft = 60;
-    if (iPhone6Plus) {
-        weixingPaddingLeft = 74;
-    }
-    
-    UIButton *weixinBtn = [[UIButton alloc] init];
-    [weixinBtn setBackgroundImage:[UIImage imageNamed:@"微信登录"] forState:UIControlStateNormal];
-    weixinBtn.frame = CGRectMake(weixingPaddingLeft, CGRectGetMaxY(casualLookButton.frame) + 113, 75, 75);
-    [weixinBtn addTarget:self action:@selector(weixinLogin:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:weixinBtn];
-    
-    CGFloat weixinLabelHeight = [@"您好" heightForLineWithFont:[UIFont systemFontOfSize:14]];
-    UILabel *weixinLabel = [[UILabel alloc] initWithFrame:CGRectMake(weixingPaddingLeft, CGRectGetMaxY(weixinBtn.frame) + 12 , 75, weixinLabelHeight)];
-    weixinLabel.textAlignment = NSTextAlignmentCenter;
-    weixinLabel.text = @"微信登录";
-    weixinLabel.font = [UIFont systemFontOfSize:14];
-    weixinLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
-    [self.view addSubview:weixinLabel];
-    
-    
-    UIButton *weiboBtn = [[UIButton alloc] init];
-    [weiboBtn setBackgroundImage:[UIImage imageNamed:@"微博登录"] forState:UIControlStateNormal];
-    weiboBtn.frame = CGRectMake(ScreenWidth - weixingPaddingLeft - 75,CGRectGetMaxY(casualLookButton.frame) + 113, 75, 75);
-    [weiboBtn addTarget:self action:@selector(weiboLogin:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:weiboBtn];
-    
-    UILabel *weiboLabel = [[UILabel alloc] initWithFrame:CGRectMake(ScreenWidth - weixingPaddingLeft - 75, CGRectGetMaxY(weixinBtn.frame) + 12 , 75, weixinLabelHeight)];
-    weiboLabel.text = @"微博登录";
-    weiboLabel.font = [UIFont systemFontOfSize:14];
-    weiboLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
-    weiboLabel.textAlignment = NSTextAlignmentCenter;
-    [self.view addSubview:weiboLabel];
-}
-
-#pragma mark - 显示状态栏
-- (UIStatusBarStyle) preferredStatusBarStyle {
-    return UIStatusBarStyleDefault;
-}
-
-- (BOOL)prefersStatusBarHidden
-{
-    return NO;
-}
-
-#pragma mark - 随便看看
-- (void)closeBtnClick {
-    [self closeSelf];
-    if (self.cancelBlock) {
-        self.cancelBlock();
-    }
-}
-
-
-- (void)closeSelf {
-   [self dismissViewControllerAnimated:NO completion:nil];
-}
-#pragma mark - 微信登录
-- (void)weixinLogin:(UIButton *)weixinBtn {
-    [self loginWithPlatformName:UMShareToWechatSession];
-}
-
-
-#pragma mark - 微博登录
-- (void)weiboLogin:(UIButton *)weiboBtn {
-    [self loginWithPlatformName:UMShareToSina];
-}
-
-#pragma mark - 登录微信微博平台
-- (void)loginWithPlatformName:(NSString *)type {
-    
-    UMSocialSnsPlatform *platform = [UMSocialSnsPlatformManager getSocialPlatformWithName:type];
-     __weak typeof(self) wself = self;
-    UMSocialControllerService *service = [UMSocialControllerService defaultControllerService];
-    service.socialUIDelegate = self;
-    platform.loginClickHandler(self, service , YES ,^(UMSocialResponseEntity *response) {
-        
-        if (response.responseCode == UMSResponseCodeSuccess) {
-            
-            UMSocialAccountEntity *accountEntity = [[UMSocialAccountManager socialAccountDictionary] valueForKey:type];
-            // 保存友盟信息到本地
-            Account *account = [LPLoginTool returnAccountAndSaveAccountWithAccountEntity:accountEntity];
-            
-            NSMutableDictionary *paramsUser = [LPLoginTool registeredUserParamsWithAccountEntity:accountEntity];
-            // 第三方注册
-            NSString *url = [NSString stringWithFormat:@"%@/v2/au/sin/s", ServerUrlVersion2];
-            [LPHttpTool postJSONResponseAuthorizationWithURL:url params:paramsUser success:^(id json, NSString *authorization) {
-                
-                [LPLoginTool saveRegisteredUserInfoAndSendConcernNotification:json authorization:authorization];
-                if ([json[@"code"] integerValue] == 2000) {
-                    if (wself.successBlock) {
-                        wself.successBlock(account);
-                    }
-                    [wself closeSelf];
-                }
-            } failure:^(NSError *error) {
-                    if (wself.failureBlock) {
-                        wself.failureBlock();
-                    }
-                    [wself closeSelf];
-            }];
-        } else {
-                if (wself.failureBlock) {
-                    wself.failureBlock();
-                }
-                [wself closeSelf];
-        }
-    });
-}
-
-@end
 
 @implementation AccountTool
 singleton_m(AccountTool);
@@ -380,34 +211,16 @@ singleton_m(AccountTool);
     if (account) {
         return;
     }
-    if (![userDefaults objectForKey:LPIsVersionFirstLoad]) {
-        LPLoginViewController *loginVc = [[LPLoginViewController alloc] init];
-        loginVc.successBlock = success;
-        loginVc.failureBlock = failure;
-        loginVc.cancelBlock = cancel;
-        [viewVc presentViewController:loginVc animated:NO completion:nil];
-    } else {
-        LPDetailLoginViewController *loginVc = [[LPDetailLoginViewController alloc] init];
-        loginVc.successBlock = success;
-        loginVc.failureBlock = failure;
-        loginVc.cancelBlock = cancel;
-        [viewVc presentViewController:loginVc animated:NO completion:nil];
-    }
-    
-
-    
+    LPDetailLoginViewController *loginVc = [[LPDetailLoginViewController alloc] init];
+    loginVc.successBlock = success;
+    loginVc.failureBlock = failure;
+    loginVc.cancelBlock = cancel;
+    [viewVc presentViewController:loginVc animated:NO completion:nil];
 }
 
 + (Account *)account{
     
-    Account *account = [NSKeyedUnarchiver unarchiveObjectWithFile:kAccountSavePath];
-//    if (account) {
-//        //如果已经授权登录，则判断是否过期
-//        if ([NSDate dateToMilliSeconds:[NSDate date]] > account.expiresTime.unsignedIntegerValue) {
-//            return nil;
-//        }
-//    }
-    
+    Account *account = [NSKeyedUnarchiver unarchiveObjectWithFile:kAccountSavePath];    
     if ([[userDefaults objectForKey:@"uIconDisplay"] isEqualToString:@"1"]) {
         return account;
     } else {
@@ -420,7 +233,6 @@ singleton_m(AccountTool);
 }
 
 + (void)deleteAccount{
-//    [userDefaults setObject:@"0" forKey:@"uid"];
     [userDefaults setObject:@(2) forKey:@"utype"];
     [userDefaults setObject:@"2" forKey:@"uIconDisplay"];
     [userDefaults synchronize];

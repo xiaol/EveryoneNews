@@ -59,6 +59,26 @@
     }];
 }
 
++ (void)saveCardiSRead:(Card *)card {
+    CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    NSFetchRequest *fetch = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Card" inManagedObjectContext:cdh.importContext];
+    [fetch setEntity:entityDescription];
+    if ([[card.channelId stringValue] isEqualToString:focusChannelID]) {
+        NSInteger utype = [[userDefaults objectForKey:@"utype"] integerValue];
+        [fetch setPredicate:[NSPredicate predicateWithFormat:@"nid = %@ and channelId = %@ and utype = %d",card.nid, card.channelId, utype]];
+    } else {
+        [fetch setPredicate:[NSPredicate predicateWithFormat:@"nid = %@ and channelId = %@",card.nid, card.channelId]];
+    }
+    NSError * error = nil;
+    NSArray *fetchedObjects;
+    fetchedObjects = [cdh.importContext executeFetchRequest:fetch error:&error];
+    if (fetchedObjects.count > 0) {
+        [card setValue:@(1) forKey:@"isRead"];
+        [cdh saveBackgroundContext];
+    }
+}
+
 + (void)cancelConcernCardsWithDictArray:(NSArray *)dicts
                        channelID:(NSString *)channelID
                              sourceName:(NSString *)sourceName
