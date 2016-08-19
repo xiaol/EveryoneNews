@@ -236,7 +236,6 @@ extension NewslistViewController:UITableViewDataSource{
 }
 
 import RealmSwift
-import UITableView_FDTemplateLayoutCell
 
 extension NewslistViewController:UITableViewDelegate{
     
@@ -250,13 +249,15 @@ extension NewslistViewController:UITableViewDelegate{
      */
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
+        
+        
         let new = newsResults[indexPath.row]
         
         if new.isread == 0 {
             
             new.isRead() // 设置为已读
         }
-        
+    
         if new.isidentification == 1 {
             
             return self.tableView.mj_header.beginRefreshing()

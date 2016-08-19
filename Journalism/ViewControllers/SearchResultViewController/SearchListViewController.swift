@@ -104,8 +104,6 @@ class SearchListViewController: UIViewController,WaitLoadProtcol {
      */
     private func srresultMethod(key:String,nomore:Bool,fin:Bool){
         
-        self.tableView.setContentOffset(CGPointZero, animated: false)
-        
         self.hiddenWaitLoadView()
         
         if !fin {
@@ -132,6 +130,8 @@ class SearchListViewController: UIViewController,WaitLoadProtcol {
         guard let key = textField.text else{ return false }
         
         textField.resignFirstResponder()
+        
+        self.tableView.setContentOffset(CGPointZero, animated: false)
         
         self.searchKey = key
         

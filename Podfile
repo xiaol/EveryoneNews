@@ -3,7 +3,7 @@ use_frameworks!
 
 target :'Journalism' do
 
-    pod 'UITableView+FDTemplateLayoutCell'
+    pod 'JSQWebViewController'
 
     pod 'UMengAnalytics-NO-IDFA'
 
