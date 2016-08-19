@@ -117,7 +117,9 @@ extension DetailViewController:WKNavigationDelegate{
                 
                 self.ShowNewCOntentInWebView(newCon)
                 
-                self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: 0, inSection: 1)], withRowAnimation: UITableViewRowAnimation.Automatic)
+//                self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: 0, inSection: 1)], withRowAnimation: UITableViewRowAnimation.Automatic)
+                
+                self.tableView.reloadData()
                 
                 }, fail: {
                     
@@ -308,7 +310,7 @@ extension DetailViewController :WKScriptMessageHandler{
         
         guard let type = message.body["type"] as? Int else{return}
         
-        if type == 0 { return  }
+        if type == 0 { return self.adaptionWebViewHeightMethod() }
         
         if type == 3 {
             

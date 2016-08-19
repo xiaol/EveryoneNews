@@ -89,6 +89,7 @@ class QiDianCell:UITableViewCell{
             
             make.centerY.equalTo(self.headImageView.snp_centerY)
             make.left.equalTo(self.headImageView.snp_right).offset(12)
+            make.right.equalTo(self.foucsButton.snp_left).offset(-22)
         })
     }
 }
