@@ -102,7 +102,9 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
         
         if let n = new { // 刷新最热评论 和 普通评论
             CommentUtil.LoadNoramlCommentsList(n)
+            AboutUtil.getAboutListArrayData(n)
         }
+        
         
         /**
          *  用户点击 滑动到顶端视图

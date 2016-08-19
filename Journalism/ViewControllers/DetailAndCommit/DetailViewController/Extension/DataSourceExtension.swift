@@ -13,7 +13,7 @@ import UIKit
 
 extension DetailViewController:UITableViewDelegate,UITableViewDataSource {
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int { return 3 } // 无论如何都需要现实三个section。只是有没有内容，再根据具体情况决定
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int { return 4 } // 无论如何都需要现实三个section。只是有没有内容，再根据具体情况决定
     func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat { return 0 } // 隐藏所有的尾部视图
     func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {return getHeaderHeightForSection(section) }// 生成头视图
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int { return getRowCountForSection(section) } // 确定每一个section的数目
@@ -149,6 +149,8 @@ extension DetailViewController{
         cell.isHeader = indexPath.row == 0
         
         cell.setAboutMethod(about,hiddenY: self.getIsHeaderYear(indexPath))
+        
+        cell.contentLabel.attributedText = about.htmlTitle.toAttributedString()
         
         return cell
     }

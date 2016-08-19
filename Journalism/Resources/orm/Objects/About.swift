@@ -24,6 +24,8 @@ public class About: Object {
     
     dynamic var ptimes = NSDate() //创建时间
     
+    dynamic var htmlTitle = "" // 相关新闻标题
+    
     dynamic var isread = 0 // 是否阅读
     
     override public static func primaryKey() -> String? {

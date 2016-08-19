@@ -19,7 +19,7 @@ class RealmMigration {
     */
     static func MigrationConfig(){
     
-        let config = Realm.Configuration(schemaVersion: 2, migrationBlock: { (migration, oldSchemaVersion) in
+        let config = Realm.Configuration(schemaVersion: 3, migrationBlock: { (migration, oldSchemaVersion) in
             
             if oldSchemaVersion < 1 {
             
@@ -34,6 +34,14 @@ class RealmMigration {
                 migration.enumerate(New.className(), { (oldObject, newObject) in
                     
                     newObject!["rtype"] = 0
+                })
+            }
+            
+            if oldSchemaVersion < 2 {
+                
+                migration.enumerate(About.className(), { (oldObject, newObject) in
+                    
+                    newObject!["htmlTitle"] = ""
                 })
             }
         })
