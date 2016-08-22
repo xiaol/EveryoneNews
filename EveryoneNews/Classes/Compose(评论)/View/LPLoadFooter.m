@@ -12,6 +12,7 @@ static NSString * const loadMoreAnimationKey = @"loadMoreRotation";
 static const CGFloat imageViewWidth = 14;
 static const CGFloat imageViewHeitht = 14;
 static const CGFloat fontSize = 16;
+static const CGFloat loadMoreHeight = 40;
 
 @interface LPLoadFooter()
 @property (nonatomic, weak) UIView *view;
@@ -103,7 +104,7 @@ static const CGFloat fontSize = 16;
     NSString *loadStr1 = @"正在载入";
     CGSize size1 = [loadStr1 sizeWithFont:[UIFont systemFontOfSize:fontSize] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)];
     
-    NSString *loadStr2 = @"加载已完成";
+    NSString *loadStr2 = @"加载完成";
     CGSize size2 = [loadStr2 sizeWithFont:[UIFont systemFontOfSize:fontSize] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)];
     switch (state) {
         case MJRefreshStateIdle:
@@ -113,14 +114,15 @@ static const CGFloat fontSize = 16;
         case MJRefreshStateRefreshing:
             self.label.text = @"正在载入";
             self.imageView.hidden = NO;
-            self.label.frame = CGRectMake(CGRectGetMaxX(self.imageView.frame) + 10, 0, size1.width, size1.height);
+            self.label.frame = CGRectMake(CGRectGetMaxX(self.imageView.frame) + 10, 0, size1.width, loadMoreHeight);
             [self.imageView.layer addAnimation:self.animation forKey:loadMoreAnimationKey];
             break;
         case MJRefreshStateNoMoreData:
-            self.label.text = @"加载已完成";
-            self.imageView.hidden = YES;
-            self.label.frame = CGRectMake(CGRectGetMinX(self.imageView.frame), 0, size2.width, size2.height);
-            [self.imageView.layer removeAnimationForKey:loadMoreAnimationKey];
+            self.label.text = @"加载完成";
+            [self.imageView removeFromSuperview];
+            
+            self.label.frame = CGRectMake(0, 0, size2.width, loadMoreHeight);
+            
             break;
         default:
             break;

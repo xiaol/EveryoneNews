@@ -332,9 +332,9 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    NSLog(@"push token:%@",[[[[deviceToken description] stringByReplacingOccurrencesOfString: @"<" withString: @""]
-                  stringByReplacingOccurrencesOfString: @">" withString: @""]
-                 stringByReplacingOccurrencesOfString: @" " withString: @""]);
+//    NSLog(@"push token:%@",[[[[deviceToken description] stringByReplacingOccurrencesOfString: @"<" withString: @""]
+//                  stringByReplacingOccurrencesOfString: @">" withString: @""]
+//                 stringByReplacingOccurrencesOfString: @" " withString: @""]);
     
 }
 

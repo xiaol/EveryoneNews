@@ -126,4 +126,6 @@
 - (UIView *)currentPage;
 
 - (UIView *)pageAtPageIndex:(NSInteger)index;
+
+- (void)deletePageAtIndex:(NSInteger)index;
 @end

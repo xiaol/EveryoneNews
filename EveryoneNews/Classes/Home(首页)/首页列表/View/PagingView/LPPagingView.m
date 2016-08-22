@@ -476,5 +476,35 @@
     return tag - 1000;
 }
 
+- (void)deletePageAtIndex:(NSInteger)index {
+    self.helper = nil;
+    
+    UIView *deletePage = nil;
+    
+    BOOL visible = NO;
+    for (UIView *page in self.visiblePages) {
+        if ([self pageIndexFromTag:page.tag] == index) {
+            visible = YES;
+            deletePage = page;
+            break;
+        }
+    }
+    
+    if (visible) {
+        [self.visiblePages removeObject:deletePage];
+        for (UIView *page in self.visiblePages) {
+            if ([self pageIndexFromTag:page.tag] >= index) {
+                -- page.tag;
+                CGFloat pageLength = self.helper.pageWidth + self.helper.gutter;
+                CGRect rect = page.frame;
+                rect.origin.x -= pageLength;
+                page.frame = rect;
+            }
+        }
+        [deletePage removeFromSuperview];
+    }
+}
+
+
 @end
 

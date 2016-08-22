@@ -334,31 +334,32 @@ NSString * const cardCellIdentifier = @"CardCellIdentifier";
     homeChannelItemController.optionalArray = self.optionalArray;
     homeChannelItemController.selectedChannelTitle = self.selectedChannelTitle;
     homeChannelItemController.channelItemDidChangedBlock = ^(NSDictionary *dict) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            self.selectedChannelTitle = [dict objectForKey:@"selectedChannelTitle"];
-            self.selectedArray = (NSMutableArray *)[dict objectForKey:@"selectedArray"];
-            self.optionalArray = (NSMutableArray *)[dict objectForKey:@"optionalArray"];
-
-            // 当前选中频道索引值
-            int index = 0;
-            for (int i = 0; i < self.selectedArray.count; i++) {
-                LPChannelItem *channelItem = self.selectedArray[i];
-                if([channelItem.channelName isEqualToString:self.selectedChannelTitle]) {
-                    index = i;
-                }
-                // 设置每个每页唯一标识
-                [self.cardCellIdentifierDictionary setObject:[NSString stringWithFormat:@"%@%d",cardCellIdentifier,i] forKey:@(i)];
-            }
-            if(index == 0) {
-                self.selectedChannelTitle = firstChannelName;
-            }
-            
-            [self updatePageindexMapToChannelItemDictionary];
-            
-            // 更新相应频道栏数据
-            [self handleDataAfterChannelItemChanged:index];
-        });
         
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                self.selectedChannelTitle = [dict objectForKey:@"selectedChannelTitle"];
+                self.selectedArray = (NSMutableArray *)[dict objectForKey:@"selectedArray"];
+                self.optionalArray = (NSMutableArray *)[dict objectForKey:@"optionalArray"];
+                if ([[dict objectForKey:@"channelItemChanged"] isEqualToString:@"1"]) {
+                    // 当前选中频道索引值
+                    int index = 0;
+                    for (int i = 0; i < self.selectedArray.count; i++) {
+                        LPChannelItem *channelItem = self.selectedArray[i];
+                        if([channelItem.channelName isEqualToString:self.selectedChannelTitle]) {
+                            index = i;
+                        }
+                        // 设置每个每页唯一标识
+                        [self.cardCellIdentifierDictionary setObject:[NSString stringWithFormat:@"%@%d",cardCellIdentifier,i] forKey:@(i)];
+                    }
+                    if(index == 0) {
+                        self.selectedChannelTitle = firstChannelName;
+                    }
+                    
+                    [self updatePageindexMapToChannelItemDictionary];
+                    
+                    // 更新相应频道栏数据
+                    [self handleDataAfterChannelItemChanged:index];
+                }
+            });
      };
     [self.navigationController pushViewController:homeChannelItemController animated:YES];
     

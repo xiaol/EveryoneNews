@@ -563,7 +563,7 @@ const static CGFloat changeFontSizeViewH = 150;
     detailContentParams[@"uid"] = uid;
     
     
-    NSLog(@"%@?nid=%@&&uid=%@",detailContentURL, [self nid], uid);
+//    NSLog(@"%@?nid=%@&&uid=%@",detailContentURL, [self nid], uid);
     
     // 精选评论
     NSString *excellentDetailCommentsURL = [NSString stringWithFormat:@"%@/v2/ns/coms/h", ServerUrlVersion2];
@@ -2162,7 +2162,7 @@ const static CGFloat changeFontSizeViewH = 150;
         if (authorization) {
             [LPHttpTool postAuthorizationJSONWithURL:url authorization:authorization params:params success:^(id json) {
                 
-                NSLog(@"%@, %@", params, json);
+//                NSLog(@"%@, %@", params, json);
                 if ([json[@"code"] integerValue] == 2000) {
                     
                     [self tipViewWithCondition:4];

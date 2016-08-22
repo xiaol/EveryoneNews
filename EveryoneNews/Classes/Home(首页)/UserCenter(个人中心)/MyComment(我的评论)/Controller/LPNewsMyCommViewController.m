@@ -49,6 +49,7 @@ static BOOL status;
 @property (nonatomic, assign) CGFloat sumHeight;
 @property (nonatomic, strong) UIImageView *animationImageView;
 @property (nonatomic, strong) UIView *contentLoadingView;
+@property (nonatomic, strong) UIView *footerView;
 
 
 @end
@@ -338,6 +339,7 @@ static BOOL status;
     label.font = [UIFont systemFontOfSize:17];
     label.textAlignment = NSTextAlignmentCenter;
     [footerView addSubview:label];
+    self.footerView = footerView;
     if (self.commentArrayFrame.count > 0) {
         return footerView;
     } else {
@@ -368,9 +370,11 @@ static BOOL status;
             [self.tableView  deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
             if (self.commentArrayFrame.count > 0) {
                 self.noCommentTipView.hidden = YES;
+                self.footerView.hidden = NO;
             } else {
                 
                 self.noCommentTipView.hidden = NO;
+                self.footerView.hidden = YES;
             }
         }
     }];

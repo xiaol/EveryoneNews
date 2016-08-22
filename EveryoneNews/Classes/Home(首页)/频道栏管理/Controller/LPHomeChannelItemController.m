@@ -32,6 +32,8 @@ static NSString *cellIdentifier = @"sortCollectionViewCell";
 // 记录所有的样式，用于长按拖动
 @property (nonatomic, strong) NSMutableArray *cellAttributesArray;
 
+@property (nonatomic, copy) NSString *channelItemChanged;
+
 @end
 
 @implementation LPHomeChannelItemController
@@ -68,6 +70,7 @@ static NSString *cellIdentifier = @"sortCollectionViewCell";
     
     self.view.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
     [self setupSubViews];
+    self.channelItemChanged = @"0";
 }
 
 #pragma mark - ViewWillDidappear
@@ -78,6 +81,7 @@ static NSString *cellIdentifier = @"sortCollectionViewCell";
     dict[@"selectedChannelTitle"] = self.selectedChannelTitle;
     dict[@"selectedArray"] = self.selectedArray;
     dict[@"optionalArray"] = self.optionalArray;
+    dict[@"channelItemChanged"] = self.channelItemChanged;
     self.channelItemDidChangedBlock(dict);
 }
 
@@ -177,6 +181,7 @@ static NSString *cellIdentifier = @"sortCollectionViewCell";
     [self.selectedArray removeObject:objc];
     //将数据插入到资源数组中的目标位置上
     [self.selectedArray insertObject:objc atIndex:toIndexPath.item];
+    self.channelItemChanged = @"1";
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -206,6 +211,7 @@ static NSString *cellIdentifier = @"sortCollectionViewCell";
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     LPChannelItemCollectionViewCell *startCell = (LPChannelItemCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    self.channelItemChanged = @"1";
     // 删除频道
     if (indexPath.section == 0) {
         [self.optionalArray addObject:self.selectedArray[indexPath.row]];

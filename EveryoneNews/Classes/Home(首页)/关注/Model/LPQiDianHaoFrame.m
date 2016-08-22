@@ -41,6 +41,14 @@
     if (qiDianHao.concernCount  == 0) {
         titleLabelY = (concernImageViewH + concernImageViewY * 2 - titleLabelH) / 2.0f;
     }
+    CGFloat concernButtonW = 60;
+    CGFloat concernButtonH = 24;
+    CGFloat concernButtonX = ScreenWidth - concernButtonW - 17;
+      CGFloat concernButtonY = titleLabelY;
+    if (titleLabelX + titleLabelW > concernButtonX - 20) {
+        titleLabelW = concernButtonX - titleLabelX - 20;
+    }
+    
     _titleLabelF = CGRectMake(titleLabelX, titleLabelY, titleLabelW, titleLabelH);
     
     CGFloat concernCountX = CGRectGetMaxX(_concernImageViewF) + 12;
@@ -54,10 +62,9 @@
  
     _concernCountLabelF = CGRectMake(concernCountX, concernCountY, concernCountW, concernCountH);
     
-    CGFloat concernButtonW = 60;
-    CGFloat concernButtonH = 24;
-    CGFloat concernButtonX = ScreenWidth - concernButtonW - 17;
-    CGFloat concernButtonY = titleLabelY;
+
+   
+  
     _concernButtonF = CGRectMake(concernButtonX, concernButtonY, concernButtonW, concernButtonH);
     
     CGFloat seperatorLineX = 18;

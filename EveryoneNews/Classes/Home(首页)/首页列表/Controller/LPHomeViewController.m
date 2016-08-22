@@ -100,11 +100,16 @@
     [noteCenter addObserver:self selector:@selector(login) name:LPLoginNotification object:nil];
     // 退出登录
     [noteCenter addObserver:self selector:@selector(loginout) name:LPLoginOutNotification object:nil];
-    
+    // 进入后台程序
     [noteCenter addObserver:self selector:@selector(resignActiveNotification) name:UIApplicationWillResignActiveNotification object:nil];
+    
+    // 进入后台程序
+    [noteCenter addObserver:self selector:@selector(becomeActiveNotification) name:UIApplicationDidBecomeActiveNotification object:nil];
+    
 
 }
 
+#pragma mark - 进入后台
 - (void)resignActiveNotification {
     [self.channelItemsArray removeAllObjects];
     for (LPChannelItem *channelItem in self.selectedArray) {
@@ -116,6 +121,29 @@
         [self.channelItemsArray addObject:channelItem];
     }
     [LPChannelItemTool saveChannelItems:self.channelItemsArray];
+}
+
+#pragma mark - 重新打开应用
+- (void)becomeActiveNotification {
+    for (LPChannelItem *channelItem in self.selectedArray) {
+        if ([channelItem.channelName isEqualToString:self.selectedChannelTitle]) {
+            if (![channelItem.channelID isEqualToString:focusChannelID]) {
+                // 设置本次访问时间
+                NSDate *currentDate = [NSDate date];
+                NSDate *lastAccessDate = channelItem.lastAccessDate;
+                // 每隔5分钟执行自动刷新
+                if (lastAccessDate != nil) {
+                    int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
+                    if (interval > 20) {
+                        LPPagingViewPage *page = (LPPagingViewPage *)self.pagingView.currentPage;
+                        [page autotomaticLoadNewData];
+                        channelItem.lastAccessDate = currentDate;
+                    }
+                }
+               
+            }
+        }
+    }
 }
 
 #pragma mark - 登录

@@ -88,6 +88,13 @@ const static CGFloat changeFontSizeViewH = 150;
     concernParams[@"info"] = @"0";
     NSString *startTime = [NSString stringWithFormat:@"%lld", (long long)([[NSDate date] timeIntervalSince1970] * 1000)];
     concernParams[@"tcr"] = startTime;
+    NSString *encodedSourceName = [self.sourceName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    self.shareURL = [NSString stringWithFormat:@"http://deeporiginalx.com/dingyue.html?pname=%@",encodedSourceName];
+    self.shareTitle = self.sourceName;
+    
+    //self.shareImageURL
+    
+    
     [LPHttpTool getWithURL:url params:concernParams success:^(id json) {
         if ([json[@"code"] integerValue] == 2000) {
             [self.concernCardFrames removeAllObjects];
@@ -282,37 +289,34 @@ const static CGFloat changeFontSizeViewH = 150;
 #pragma mark - 分享按钮
 - (void)shareButtonClick {
     
-    NSLog(@"分享");
+    UIView *detailBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+    detailBackgroundView.backgroundColor = [UIColor blackColor];
+    detailBackgroundView.alpha = 0.6;
     
     
-//    UIView *detailBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
-//    detailBackgroundView.backgroundColor = [UIColor blackColor];
-//    detailBackgroundView.alpha = 0.6;
-//    
-//    
-//    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removeBackgroundView)];
-//    [detailBackgroundView addGestureRecognizer:tapGestureRecognizer];
-//    
-//    [self.view addSubview:detailBackgroundView];
-//    self.detailBackgroundView = detailBackgroundView;
-//    
-//    // 添加分享
-//    LPBottomShareView *bottomShareView = [[LPBottomShareView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
-//    bottomShareView.delegate = self;
-//    [self.view addSubview:bottomShareView];
-//    
-//    // 改变字体大小视图
-//    LPDetailChangeFontSizeView *changeFontSizeView = [[LPDetailChangeFontSizeView alloc] initWithFrame:CGRectMake(0, ScreenHeight, ScreenWidth, changeFontSizeViewH)];
-//    changeFontSizeView.delegate = self;
-//    [self.view addSubview:changeFontSizeView];
-//    self.changeFontSizeView = changeFontSizeView;
-//    
-//    CGRect toFrame = CGRectMake(0, ScreenHeight - bottomShareView.size.height, ScreenWidth, bottomShareView.size.height);
-//    
-//    [UIView animateWithDuration:0.3f animations:^{
-//        bottomShareView.frame = toFrame;
-//    }];
-//    self.bottomShareView = bottomShareView;
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removeBackgroundView)];
+    [detailBackgroundView addGestureRecognizer:tapGestureRecognizer];
+    
+    [self.view addSubview:detailBackgroundView];
+    self.detailBackgroundView = detailBackgroundView;
+    
+    // 添加分享
+    LPBottomShareView *bottomShareView = [[LPBottomShareView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+    bottomShareView.delegate = self;
+    [self.view addSubview:bottomShareView];
+    
+    // 改变字体大小视图
+    LPDetailChangeFontSizeView *changeFontSizeView = [[LPDetailChangeFontSizeView alloc] initWithFrame:CGRectMake(0, ScreenHeight, ScreenWidth, changeFontSizeViewH)];
+    changeFontSizeView.delegate = self;
+    [self.view addSubview:changeFontSizeView];
+    self.changeFontSizeView = changeFontSizeView;
+    
+    CGRect toFrame = CGRectMake(0, ScreenHeight - bottomShareView.size.height, ScreenWidth, bottomShareView.size.height);
+    
+    [UIView animateWithDuration:0.3f animations:^{
+        bottomShareView.frame = toFrame;
+    }];
+    self.bottomShareView = bottomShareView;
 }
 
 #pragma mark LPDetailTopView Delegate

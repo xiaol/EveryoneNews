@@ -149,7 +149,7 @@ static NSString *cellIdentifier = @"cellIdentifier";
     LPConcernDetailViewController *detailVC = [[LPConcernDetailViewController alloc] init];
     LPQiDianHaoFrame *qiDianHaoFrame = self.qiDianHaoFrames[indexPath.row];
     LPQiDianHao *qiDianHao = qiDianHaoFrame.qiDianHao;
-    detailVC.conpubFlag = [NSString stringWithFormat:@"%ld",qiDianHao.concernFlag];
+    detailVC.conpubFlag = [NSString stringWithFormat:@"%d",qiDianHao.concernFlag];
     detailVC.sourceName = qiDianHao.name;
     
     [self.navigationController pushViewController:detailVC animated:YES];
