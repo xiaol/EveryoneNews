@@ -32,7 +32,7 @@ static NSString *cellIdentifier = @"sortCollectionViewCell";
 // 记录所有的样式，用于长按拖动
 @property (nonatomic, strong) NSMutableArray *cellAttributesArray;
 
-@property (nonatomic, copy) NSString *channelItemChanged;
+
 
 @end
 
@@ -70,7 +70,6 @@ static NSString *cellIdentifier = @"sortCollectionViewCell";
     
     self.view.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
     [self setupSubViews];
-    self.channelItemChanged = @"0";
 }
 
 #pragma mark - ViewWillDidappear
@@ -79,9 +78,6 @@ static NSString *cellIdentifier = @"sortCollectionViewCell";
     
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     dict[@"selectedChannelTitle"] = self.selectedChannelTitle;
-    dict[@"selectedArray"] = self.selectedArray;
-    dict[@"optionalArray"] = self.optionalArray;
-    dict[@"channelItemChanged"] = self.channelItemChanged;
     self.channelItemDidChangedBlock(dict);
 }
 
@@ -176,12 +172,17 @@ static NSString *cellIdentifier = @"sortCollectionViewCell";
 
 - (void)collectionView:(UICollectionView *)collectionView itemAtIndexPath:(NSIndexPath *)fromIndexPath willMoveToIndexPath:(NSIndexPath *)toIndexPath {
     
+    NSInteger fromIndex = fromIndexPath.row;
+    NSInteger toIndex = toIndexPath.row;
+    
     id objc = [self.selectedArray objectAtIndex:fromIndexPath.item];
     //从资源数组中移除该数据
     [self.selectedArray removeObject:objc];
     //将数据插入到资源数组中的目标位置上
     [self.selectedArray insertObject:objc atIndex:toIndexPath.item];
-    self.channelItemChanged = @"1";
+    
+    self.moveChannelItemBlock(fromIndex, toIndex, self.selectedArray, self.optionalArray);
+
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -211,9 +212,11 @@ static NSString *cellIdentifier = @"sortCollectionViewCell";
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     
     LPChannelItemCollectionViewCell *startCell = (LPChannelItemCollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
-    self.channelItemChanged = @"1";
     // 删除频道
     if (indexPath.section == 0) {
+        
+        LPChannelItem *channelItem = self.selectedArray[indexPath.row];
+        
         [self.optionalArray addObject:self.selectedArray[indexPath.row]];
         [collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
         startCell.userInteractionEnabled = NO;
@@ -245,6 +248,10 @@ static NSString *cellIdentifier = @"sortCollectionViewCell";
         
         [self.selectedArray removeObjectAtIndex:indexPath.row];
         [collectionView deleteItemsAtIndexPaths:@[indexPath]];
+        
+        // 更新首页
+        NSInteger removeIndex = indexPath.row;
+        self.removeChannelItemBlock(channelItem.channelName,removeIndex, self.selectedArray, self.optionalArray);
         // 动画
         [UIView animateWithDuration:0.3 animations:^{
             self.animationLabel.frame = endFrame;
@@ -255,8 +262,11 @@ static NSString *cellIdentifier = @"sortCollectionViewCell";
             startCell.userInteractionEnabled = YES;
             startCell.channelItemLabel.alpha = 1.0f;
         }];
-        // 添加频道
+  
     } else {
+        
+        // 添加频道
+        LPChannelItem *channelItem = self.optionalArray[indexPath.row];
         
         [self.selectedArray addObject:self.optionalArray[indexPath.row]];
         [collectionView reloadSections:[NSIndexSet indexSetWithIndex:0]];
@@ -290,6 +300,10 @@ static NSString *cellIdentifier = @"sortCollectionViewCell";
         [self.optionalArray removeObjectAtIndex:indexPath.row];
                 
         [collectionView deleteItemsAtIndexPaths:@[indexPath]];
+        
+        // 更新首页
+        NSInteger insertIndex = self.selectedArray.count - 1;
+        self.addChannelItemBlock(channelItem.channelName, insertIndex, self.selectedArray, self.optionalArray);
         
         [UIView animateWithDuration:0.3 animations:^{
             self.animationLabel.frame = endFrame;

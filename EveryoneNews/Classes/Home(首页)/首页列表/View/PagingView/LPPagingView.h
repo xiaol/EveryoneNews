@@ -127,5 +127,27 @@
 
 - (UIView *)pageAtPageIndex:(NSInteger)index;
 
+/**
+ *  删除某页
+ *
+ *  @param index <#index description#>
+ */
 - (void)deletePageAtIndex:(NSInteger)index;
+
+/**
+ *  插入某页
+ *
+ *  @param index <#index description#>
+ */
+
+- (void)insertPageAtIndex:(NSInteger)index;
+/**
+ *  交换两页
+ *
+ *  @param idx1 <#idx1 description#>
+ *  @param idx2 <#idx2 description#>
+ */
+
+- (void)exchangePageAtIndex:(NSInteger)idx1 withPageAtIndex:(NSInteger)idx2;
+- (void)movePageFromIndex:(NSInteger)from toIndex:(NSInteger)to;
 @end

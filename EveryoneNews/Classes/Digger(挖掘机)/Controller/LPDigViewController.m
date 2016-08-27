@@ -293,6 +293,7 @@ NSString * const HotwordsURL = @"http://api.deeporiginalx.com/news/baijia/fetchE
     __weak typeof(self) wSelf = self;
     [self.http postWithURL:HotwordsURL params:nil success:^(id json) {
             NSArray *jsonArray = (NSArray *)json;
+        if (jsonArray.count >= HotwordPageCapacity) {
             NSLog(@"success download hotwords!");
             NSInteger majority = [jsonArray count] / HotwordPageCapacity * HotwordPageCapacity;
             NSInteger residual = [jsonArray count] - majority;
@@ -305,6 +306,8 @@ NSString * const HotwordsURL = @"http://api.deeporiginalx.com/news/baijia/fetchE
             }
             wSelf.cloud.hotwords = tags;
             wSelf.wordsChanged = YES;
+        }
+        
         } failure:^(NSError *error) {
             NSLog(@"fail to download hotwords!");
     }];

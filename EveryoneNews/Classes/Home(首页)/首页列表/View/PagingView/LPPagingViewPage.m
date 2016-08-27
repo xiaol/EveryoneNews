@@ -36,9 +36,9 @@
 @implementation LPPagingViewPage
 
 
-
 - (void)prepareForReuse {
     self.searchView.hidden = YES;
+    [self.tableView setContentOffset:CGPointZero];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -257,11 +257,19 @@
 #pragma mark - setCardFrames
 - (void)setCardFrames:(NSMutableArray *)cardFrames {
 
-    _cardFrames = cardFrames;    
-    [self.tableView reloadData];
+    _cardFrames = cardFrames;
     if (cardFrames.count > 0) {
         self.searchView.hidden = NO;
+        self.contentLoadingView.hidden = YES;
+        [self.animationImageView stopAnimating];
+        NSLog(@">0");
+    } else {
+        self.contentLoadingView.hidden = NO;
+        [self.animationImageView startAnimating];
+        NSLog(@"<0");
     }
+    [self.tableView reloadData];
+ 
 
 }
 

@@ -117,18 +117,8 @@ NSString *storeFileName = @"EveryoneNews.sqlite";
     if (debug==1) {
         NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
     }
-    // 删除已经存在的数据库文件(暴力删除)
-    if (![userDefaults objectForKey:@"version_3_1_SqliteExists"]) {
-        [userDefaults setObject:@"version_3_1_SqliteExists" forKey:@"version_3_1_SqliteExists"];
-        [userDefaults synchronize];
-        [self deleteCoreDataFile];
-    }
     [self loadStore];
     [self importDefaultData];
-    if (![userDefaults objectForKey:LPIsVersionFirstLoad] || ![userDefaults objectForKey:@"isFinishDeleteCoreData"]) {
-        [self deleteCoreData];
-    }
- 
 }
 
 #pragma mark - DEFAULT DATA
@@ -433,10 +423,10 @@ NSString *storeFileName = @"EveryoneNews.sqlite";
     [_importContext performBlock:^{
         [self saveBackgroundContext];
    
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [userDefaults setObject:@"YES" forKey:@"isFinishDeleteCoreData"];
-            [userDefaults synchronize];
-        });
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [userDefaults setObject:@"YES" forKey:@"isFinishDeleteCoreData"];
+//            [userDefaults synchronize];
+//        });
      
     }];
   

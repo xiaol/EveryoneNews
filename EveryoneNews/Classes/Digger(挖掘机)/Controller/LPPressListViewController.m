@@ -295,6 +295,9 @@ static const CGFloat headerH = 64.0f;
     __weak typeof(press) wPress = press;
     
     press.http = [LPHttpTool http];
+    
+    NSLog(@"%@", params);
+    
     [press.http postJSONWithURL:@"http://api.deeporiginalx.com/bdp/excavator/start" params:params success:^(id json) {
         NSString *status = [json[@"code"] stringValue];
         //press.httpStatus = status;
@@ -412,6 +415,8 @@ static const CGFloat headerH = 64.0f;
             }
         }
     } failure:^(NSError *error) {
+        NSLog(@"%@", error);
+        
         wPress.isDownloading = @(NO);
         [wPress stopTimer];
     }];

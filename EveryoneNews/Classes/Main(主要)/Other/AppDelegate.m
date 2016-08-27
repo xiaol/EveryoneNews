@@ -82,6 +82,8 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
 #pragma mark - didFinishLaunchingWithOptions
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    
+    
     if ([userDefaults objectForKey:LPIsVersionFirstLoad] && [userDefaults objectForKey:@"uIconDisplay"]) {
         // 防止并发 延迟执行
         [LPLoginTool loginVerify];

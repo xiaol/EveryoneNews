@@ -31,6 +31,7 @@
 #import "CardFrame.h"
 #import "CardTool.h"
 #import "LPPagingViewConcernPage.h"
+#import "LPCardConcernFrame.h"
 
 NSString * const firstChannelName = @"奇点";
 NSString * const menuCellIdentifier = @"menuCollectionViewCell";
@@ -106,7 +107,7 @@ NSString * const cardCellIdentifier = @"CardCellIdentifier";
     [addButton setBackgroundImage:[UIImage imageNamed:@"添加频道"] forState:UIControlStateNormal];
     addButton.frame = CGRectMake(addBtnX, addBtnY, addBtnW, addBtnH);
     [addButton addTarget:self action:@selector(addButtonClick) forControlEvents:UIControlEventTouchUpInside];
-    addButton.enlargedEdge = 5;
+    addButton.enlargedEdge = 10;
     [headerView addSubview:addButton];
     
     // 底部分割线
@@ -223,12 +224,6 @@ NSString * const cardCellIdentifier = @"CardCellIdentifier";
         loginView.delegate = self;
         [self.view addSubview:loginView];
         self.loginView = loginView;
-        
-        // 清空本地文件
-        NSDictionary * dict = [userDefaults dictionaryRepresentation];
-        for (id key in dict) {
-            [userDefaults removeObjectForKey:key];
-        }
         // 加载完后提示信息
         [userDefaults setObject:@"NO" forKey:LPIsVersionFirstLoad];
         [userDefaults synchronize];
@@ -273,7 +268,6 @@ NSString * const cardCellIdentifier = @"CardCellIdentifier";
         }];
         
     } else {    //用户已登录
-        
         LPNewsMineViewController *mineViewController = [[LPNewsMineViewController alloc] init];
         mineViewController.statusWindow = self.statusWindow;
         MainNavigationController *mainNavigationController = [[MainNavigationController alloc] initWithRootViewController:mineViewController];
@@ -330,39 +324,122 @@ NSString * const cardCellIdentifier = @"CardCellIdentifier";
 - (void)addButtonClick {
 
     LPHomeChannelItemController *homeChannelItemController = [[LPHomeChannelItemController alloc] init];
-    homeChannelItemController.selectedArray = self.selectedArray;
-    homeChannelItemController.optionalArray = self.optionalArray;
+    homeChannelItemController.selectedArray = [self.selectedArray mutableCopy];
+    homeChannelItemController.optionalArray = [self.optionalArray mutableCopy];
     homeChannelItemController.selectedChannelTitle = self.selectedChannelTitle;
-    homeChannelItemController.channelItemDidChangedBlock = ^(NSDictionary *dict) {
+    
+
+    // 添加频道
+    homeChannelItemController.addChannelItemBlock = ^(NSString *channelName, NSInteger insertIndex, NSMutableArray *selectedArray, NSMutableArray *optionalArray) {
         
+        [self updateIdentifierIndexMapToChannelItemDictionaryWithSelectedArray:selectedArray optionalArray:optionalArray];
+        
+        self.channelItemDictionary[channelName] = [NSMutableArray array];
+        [self.pagingView insertPageAtIndex:insertIndex];
+        [self.menuView reloadData];
+
+        
+    };
+    // 删除频道
+    homeChannelItemController.removeChannelItemBlock = ^(NSString *channelName, NSInteger removeIndex, NSMutableArray *selectedArray, NSMutableArray *optionalArray) {
+   [self updateIdentifierIndexMapToChannelItemDictionaryWithSelectedArray:selectedArray optionalArray:optionalArray];
+        
+        [self.channelItemDictionary removeObjectForKey:channelName];
+        [self.pagingView deletePageAtIndex:removeIndex];
+        [self.menuView reloadData];
+    };
+    // 交换频道
+    homeChannelItemController.moveChannelItemBlock = ^(NSInteger fromIndex,  NSInteger toIndex, NSMutableArray *selectedArray, NSMutableArray *optionalArray) {
+        [self updateIdentifierIndexMapToChannelItemDictionaryWithSelectedArray:selectedArray optionalArray:optionalArray];
+        [self.pagingView movePageFromIndex:fromIndex toIndex:toIndex];
+        [self.menuView reloadData];
+    };
+    // 更新首页
+    homeChannelItemController.channelItemDidChangedBlock = ^(NSDictionary *dict) {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                self.selectedChannelTitle = [dict objectForKey:@"selectedChannelTitle"];
-                self.selectedArray = (NSMutableArray *)[dict objectForKey:@"selectedArray"];
-                self.optionalArray = (NSMutableArray *)[dict objectForKey:@"optionalArray"];
-                if ([[dict objectForKey:@"channelItemChanged"] isEqualToString:@"1"]) {
-                    // 当前选中频道索引值
-                    int index = 0;
-                    for (int i = 0; i < self.selectedArray.count; i++) {
-                        LPChannelItem *channelItem = self.selectedArray[i];
-                        if([channelItem.channelName isEqualToString:self.selectedChannelTitle]) {
-                            index = i;
-                        }
-                        // 设置每个每页唯一标识
-                        [self.cardCellIdentifierDictionary setObject:[NSString stringWithFormat:@"%@%d",cardCellIdentifier,i] forKey:@(i)];
+                NSString *currentSelectedChannelTitle = [dict objectForKey:@"selectedChannelTitle"];
+                // 当前页码
+                int currentIndex = 0;
+                for (int i = 0; i < self.selectedArray.count; i++) {
+                    LPChannelItem *channelItem = self.selectedArray[i];
+                    if([channelItem.channelName isEqualToString:currentSelectedChannelTitle]) {
+                        currentIndex = i;
+                        break;
                     }
-                    if(index == 0) {
-                        self.selectedChannelTitle = firstChannelName;
-                    }
-                    
-                    [self updatePageindexMapToChannelItemDictionary];
-                    
-                    // 更新相应频道栏数据
-                    [self handleDataAfterChannelItemChanged:index];
+                }
+                if(currentIndex == 0) {
+                    self.selectedChannelTitle = firstChannelName;
+                }
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSIndexPath *menuIndexPath = [NSIndexPath indexPathForItem:currentIndex
+                                                                     inSection:0];
+                  
+                    [self.menuView selectItemAtIndexPath:menuIndexPath
+                                                animated:NO
+                                          scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+                    [self.pagingView setCurrentPageIndex:currentIndex animated:NO];
+                });
+                // 先请求数据库，没有再请求网络
+                if (![self.selectedChannelTitle isEqualToString:currentSelectedChannelTitle]) {
+                    // 加载当前频道数据
+                    [self loadDataWithChannelItemName:currentSelectedChannelTitle currentIndex:currentIndex];
+                    self.selectedChannelTitle = currentSelectedChannelTitle;
+             
                 }
             });
      };
     [self.navigationController pushViewController:homeChannelItemController animated:YES];
+}
+
+#pragma mark - 改变页码和频道栏对应关系
+- (void)updateIdentifierIndexMapToChannelItemDictionaryWithSelectedArray:(NSMutableArray *)selectedArray optionalArray:(NSMutableArray *)optionalArray {
     
+    self.selectedArray = selectedArray;
+    self.optionalArray = optionalArray;
+    for (int i = 0; i < self.selectedArray.count; i++) {
+        // 设置每个每页唯一标识
+        [self.cardCellIdentifierDictionary setObject:[NSString stringWithFormat:@"%@%d",cardCellIdentifier,i] forKey:@(i)];
+    }
+    [self updatePageindexMapToChannelItemDictionary];
+}
+
+
+#pragma mark - 根据频道名称请求后台数据
+- (void)loadDataWithChannelItemName:(NSString *)channeName currentIndex:(NSInteger)currentIndex {
+    NSDate *currentDate = [NSDate date];
+    CardParam *param = [[CardParam alloc] init];
+    param.type = HomeCardsFetchTypeMore;
+    param.count = @(20);
+    NSDate *lastAccessDate = currentDate;
+    param.startTime = [NSString stringWithFormat:@"%lld", (long long)([lastAccessDate timeIntervalSince1970] * 1000)];
+    NSString *channelID = [LPChannelItemTool channelID:channeName];
+    param.channelID = channelID;
+    NSMutableArray *cfs = [NSMutableArray array];
+    [Card fetchCardsWithCardParam:param cardsArrayBlock:^(NSArray *cardsArray) {
+        NSArray *cards = cardsArray;
+        if (cards.count > 0) {
+            if (![channelID isEqualToString:focusChannelID]) {
+                for (Card *card in cards) {
+                    CardFrame *cf = [[CardFrame alloc] init];
+                    cf.card = card;
+                    [cfs addObject:cf];
+                }
+            } else {
+                for (Card *card in cards) {
+                    LPCardConcernFrame *cf = [[LPCardConcernFrame alloc] init];
+                    cf.card = card;
+                    [cfs addObject:cf];
+                }
+            }
+            [self.channelItemDictionary setObject:cfs forKey:channeName];
+            [self.pagingView reloadPageAtPageIndex:currentIndex];
+        } else {
+            // 请求网络数据
+            [self loadMoreDataInPageAtPageIndex:currentIndex];
+            
+        }
+    }];
 }
 
 #pragma mark -  设置频道和页码的映射关系

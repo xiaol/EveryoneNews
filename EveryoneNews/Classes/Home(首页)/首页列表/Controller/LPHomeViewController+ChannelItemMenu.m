@@ -114,7 +114,7 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
                 }
             }
         } else {
-             LPPagingViewPage *page = (LPPagingViewPage *)[self.pagingView currentPage];
+            LPPagingViewPage *page = (LPPagingViewPage *)[self.pagingView currentPage];
             [self channelItemDidAddToCoreData:indexPath.item];
             if (lastAccessDate != nil) {
                 int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;

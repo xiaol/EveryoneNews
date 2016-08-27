@@ -18,7 +18,7 @@
 
 @interface LPContentCell()<UITextViewDelegate, WKNavigationDelegate>
 
-@property (nonatomic, strong) UITextView *bodyTextView;
+@property (nonatomic, strong) LPUITextView *bodyTextView;
 
 @property (nonatomic, strong) LPCommentView *commentView;
 
@@ -51,10 +51,10 @@
         
         // 文字
         LPUITextView *bodyTextView = [[LPUITextView alloc] init];
+        bodyTextView.userInteractionEnabled = YES;
         bodyTextView.delegate = self;
         [self.contentView addSubview:bodyTextView];
         self.bodyTextView = bodyTextView;
-        
         // 图片
         UIImageView *photoView = [[UIImageView alloc] init];
         photoView.contentMode = UIViewContentModeScaleAspectFill;
@@ -74,10 +74,6 @@
         videoImageView.clipsToBounds = YES;
         [self.contentView  addSubview:videoImageView];
         self.videoImageView = videoImageView;
-//
-//        UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapVideoImageView)];
-//        [videoImageView addGestureRecognizer:tapGesture];
-//        
     }
     return self;
 }
@@ -91,7 +87,7 @@
 
 - (void)setContentFrame:(LPContentFrame *)contentFrame
 {
-    _contentFrame = contentFrame;
+    _contentFrame = contentFrame;    
     LPContent *content = contentFrame.content;
     
     if (content.contentType == 1) { // 图像
@@ -121,21 +117,37 @@
         self.videoImageView.frame = self.contentFrame.videoImageViewF;
         
         // 处理视频宽高
-        NSArray *array = [content.video componentsSeparatedByString:@";"];
-        NSMutableString *mutableString = [[NSMutableString alloc] init];
-        for (NSString *str in array) {
-            NSString *tempStr = [str copy];
-            if ([tempStr containsString:@"width"]) {
-                tempStr = [NSString stringWithFormat:@"width=%f&amp", self.contentFrame.webViewF.size.width];
-            } else if ([tempStr containsString:@"height"]) {
-                tempStr = [NSString stringWithFormat:@"height=%f&amp", self.contentFrame.webViewF.size.height];
+        NSURLComponents *urlComponents = [[NSURLComponents alloc] initWithString:content.video];
+        NSString *videoURLScheme = [urlComponents scheme];
+        NSString *videoURLHost = [urlComponents host];
+        NSString *videoURLPath = [urlComponents path];
+        NSString *videoURLQuery = [urlComponents query];
+        
+        NSMutableString *mutableString = [NSMutableString stringWithFormat:@"%@://%@%@?",videoURLScheme, videoURLHost, videoURLPath];
+        NSArray *parametersArray = [videoURLQuery componentsSeparatedByString:@"&"];
+        
+        for (NSString *keyValuePair in parametersArray) {
+            
+            NSArray *pairComponents = [keyValuePair componentsSeparatedByString:@"="];
+            NSString *key = [[pairComponents firstObject] stringByRemovingPercentEncoding];
+            NSString *value = [[pairComponents lastObject] stringByRemovingPercentEncoding];
+            
+            if ([key isEqualToString:@"width"]) {
+                value = [NSString stringWithFormat:@"%.1f",self.contentFrame.webViewF.size.width];
+            } else if ([key isEqualToString:@"height"]) {
+                value = [NSString stringWithFormat:@"%.1f",self.contentFrame.webViewF.size.height];
             }
-            if (tempStr.length > 0) {
-                [mutableString appendString:[NSString stringWithFormat:@"%@;",tempStr]];
-            }
+            
+            [mutableString appendString:[NSString stringWithFormat:@"%@=%@&", key, value]];
+        }
+        NSString *urlStr = @"";
+        if([[mutableString substringFromIndex:(mutableString.length - 1)] isEqualToString:@"&"]) {
+            urlStr = [mutableString substringToIndex:(mutableString.length - 1)];
+        } else {
+            urlStr = mutableString;
         }
         
-        NSURL *url =[NSURL URLWithString:mutableString];
+        NSURL *url =[NSURL URLWithString:urlStr];
         NSURLRequest *request =[NSURLRequest requestWithURL:url];
         [self.webView loadRequest:request];
      }
@@ -151,6 +163,21 @@
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigation {
     self.videoImageView.hidden = YES;
+}
+
+- (BOOL)canBecomeFirstResponder {
+    return NO;
+}
+
+- (void)textViewDidChangeSelection:(UITextView *)textView {
+    UITextRange *selectedRange = [textView selectedTextRange];
+    NSString *selectedText = [textView textInRange:selectedRange];
+    if (selectedText.length > 0) {
+        if ([self.delegate respondsToSelector:@selector(contentCell:selectedText:)]) {
+            [self.delegate contentCell:self selectedText:selectedText];
+        }
+    }
+    
 }
 
 @end

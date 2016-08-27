@@ -428,6 +428,217 @@
 //    }
 //}
 
+/**
+ *  delete a page
+ *
+ *  @param index - page index
+ */
+- (void)deletePageAtIndex:(NSInteger)index {
+    self.helper = nil;
+    
+    UIView *deletePage = nil;
+    
+    BOOL visible = NO;
+    for (UIView *page in self.visiblePages) {
+        if ([self pageIndexFromTag:page.tag] == index) {
+            visible = YES;
+            deletePage = page;
+            break;
+        }
+    }
+    
+    if (visible) {
+        [self.visiblePages removeObject:deletePage];
+        for (UIView *page in self.visiblePages) {
+            if ([self pageIndexFromTag:page.tag] >= index) {
+                -- page.tag;
+                CGFloat pageLength = self.helper.pageWidth + self.helper.gutter;
+                CGRect rect = page.frame;
+                rect.origin.x -= pageLength;
+                page.frame = rect;
+            }
+        }
+        [deletePage removeFromSuperview];
+    }
+}
+
+- (void)insertPageAtIndex:(NSInteger)index {
+    self.helper = nil;
+    
+    if (index <= [self largestVisibleIndex] && index >= [self lowestVisibleIndex]) {
+        
+        for (UIView *page in self.visiblePages) {
+            if ([self pageIndexFromTag:page.tag] >= index) {
+                ++ page.tag;
+                CGFloat pageLength = self.helper.pageWidth + self.helper.gutter;
+                CGRect rect = page.frame;
+                rect.origin.x += pageLength;
+                page.frame = rect;
+            }
+        }
+        
+        UIView *newPage = [self pageAtPageIndex:index];
+        newPage.frame = [self frameForPageIndex:index];
+        newPage.tag = [self tagFromPageIndex:index];
+        [self.visiblePages addObject:newPage];
+        [self addSubview:newPage];
+    }
+}
+
+- (void)movePageFromIndex:(NSInteger)from toIndex:(NSInteger)to {
+    if (from == to) return;
+    
+    NSInteger visibleFrom = [self lowestVisibleIndex];
+    NSInteger visibleTo = [self largestVisibleIndex];
+    
+    if (from < visibleFrom) {
+        if (to < visibleFrom) {
+            
+        } else if (to > visibleTo) {
+            for (UIView *page in self.visiblePages) {
+                [self movePageLeft:page];
+            }
+        } else {
+            for (UIView *page in self.visiblePages) {
+                if ([self pageIndexFromTag:page.tag] <= to) {
+                    [self movePageLeft:page];
+                }
+            }
+            
+            [self addNewVisiblePageFromIndex:to];
+        }
+    } else if ([self isPageVisibleAtIndex:from]) {
+        if (to < visibleFrom) {
+            [self removeVisiblePageAtIndex:from];
+            
+            for (UIView *page in self.visiblePages) {
+                NSInteger idx = [self pageIndexFromTag:page.tag];
+                if (idx < from) {
+                    [self movePageRight:page];
+                }
+            }
+            
+        } else if (to > visibleTo) {
+            [self removeVisiblePageAtIndex:from];
+            
+            for (UIView *page in self.visiblePages) {
+                NSInteger idx = [self pageIndexFromTag:page.tag];
+                if (idx > from) {
+                    [self movePageLeft:page];
+                }
+            }
+        } else {
+            UIView *fromPage = nil;
+            for (UIView *page in self.visiblePages) {
+                if ([self pageIndexFromTag:page.tag] == from) {
+                    fromPage = page;
+                    break;
+                }
+            }
+            
+            for (UIView *page in self.visiblePages) {
+                NSInteger idx = [self pageIndexFromTag:page.tag];
+                if (from < to && idx > from && idx <= to) {
+                    [self movePageLeft:page];
+                } else if (from > to && idx < from && idx >= to) {
+                    [self movePageRight:page];
+                }
+                if (page == fromPage) {
+                    page.tag = [self tagFromPageIndex:to];
+                    page.frame = [self frameForPageIndex:to];
+                }
+            }
+        }
+    } else if (from > visibleTo) {
+        if (to > visibleTo) {
+            
+        } else if (to < visibleFrom) {
+            for (UIView *page in self.visiblePages) {
+                [self movePageRight:page];
+            }
+        } else {
+            for (UIView *page in self.visiblePages) {
+                if ([self pageIndexFromTag:page.tag] >= to) {
+                    [self movePageRight:page];
+                }
+            }
+            
+            [self addNewVisiblePageFromIndex:to];
+        }
+    }
+    
+    [self setNeedsLayout];
+}
+
+- (void)movePageRight:(UIView *)page {
+    ++ page.tag;
+    CGFloat pageLength = self.helper.pageWidth + self.helper.gutter;
+    CGRect rect = page.frame;
+    rect.origin.x += pageLength;
+    page.frame = rect;
+}
+
+- (void)movePageLeft:(UIView *)page {
+    -- page.tag;
+    CGFloat pageLength = self.helper.pageWidth + self.helper.gutter;
+    CGRect rect = page.frame;
+    rect.origin.x -= pageLength;
+    page.frame = rect;
+}
+
+- (void)addNewVisiblePageFromIndex:(NSInteger)index {
+    UIView *newPage = [self pageAtPageIndex:index];
+    newPage.frame = [self frameForPageIndex:index];
+    newPage.tag = [self tagFromPageIndex:index];
+    [self.visiblePages addObject:newPage];
+    [self addSubview:newPage];
+}
+
+- (void)removeVisiblePageAtIndex:(NSInteger)index {
+    for (UIView *page in self.visiblePages) {
+        if ([self pageIndexFromTag:page.tag] == index) {
+            [self queueReusablePage:page];
+            [page removeFromSuperview];
+            [self.visiblePages removeObject:page];
+            return;
+        }
+    }
+}
+
+- (BOOL)isPageVisibleAtIndex:(NSInteger)index {
+    return index <= [self largestVisibleIndex] && index >= [self lowestVisibleIndex];
+}
+
+
+
+
+- (void)exchangePageAtIndex:(NSInteger)idx1 withPageAtIndex:(NSInteger)idx2 {
+    [self reloadPageAtPageIndex:idx1];
+    [self reloadPageAtPageIndex:idx2];
+}
+
+- (NSInteger)lowestVisibleIndex {
+    NSInteger idx = [self pageIndexFromTag:[(UIView *)self.visiblePages.anyObject tag]];
+    for (UIView *page in self.visiblePages) {
+        NSInteger curIndex = [self pageIndexFromTag:page.tag];
+        if (curIndex < idx) {
+            idx = curIndex;
+        }
+    }
+    return idx;
+}
+
+- (NSInteger)largestVisibleIndex {
+    NSInteger idx = [self pageIndexFromTag:[(UIView *)self.visiblePages.anyObject tag]];
+    for (UIView *page in self.visiblePages) {
+        NSInteger curIndex = [self pageIndexFromTag:page.tag];
+        if (curIndex > idx) {
+            idx = curIndex;
+        }
+    }
+    return idx;
+}
+
 - (void)registerClass:(Class)pageClass forPageWithReuseIdentifier:(NSString *)identifier {
     NSParameterAssert(identifier != nil);
     
@@ -476,34 +687,6 @@
     return tag - 1000;
 }
 
-- (void)deletePageAtIndex:(NSInteger)index {
-    self.helper = nil;
-    
-    UIView *deletePage = nil;
-    
-    BOOL visible = NO;
-    for (UIView *page in self.visiblePages) {
-        if ([self pageIndexFromTag:page.tag] == index) {
-            visible = YES;
-            deletePage = page;
-            break;
-        }
-    }
-    
-    if (visible) {
-        [self.visiblePages removeObject:deletePage];
-        for (UIView *page in self.visiblePages) {
-            if ([self pageIndexFromTag:page.tag] >= index) {
-                -- page.tag;
-                CGFloat pageLength = self.helper.pageWidth + self.helper.gutter;
-                CGRect rect = page.frame;
-                rect.origin.x -= pageLength;
-                page.frame = rect;
-            }
-        }
-        [deletePage removeFromSuperview];
-    }
-}
 
 
 @end

@@ -12,11 +12,17 @@
 @class WKWebView;
 @class LPContent;
 @class LPContentCell;
+
+
 @protocol LPContentCellDelegate <NSObject>
+
 @optional
+
 - (void)contentCell:(LPContentCell *)contentCell didOpenURL:(NSString *)url;
 
 - (void)contentCell:(LPContentCell *)contentCell videoImageViewDidTapped:(NSString *)url webView:(WKWebView *)webView webViewF:(CGRect)webViewF;
+
+- (void)contentCell:(LPContentCell *)contentCell selectedText:(NSString *)selectedText;
 
 @end
 

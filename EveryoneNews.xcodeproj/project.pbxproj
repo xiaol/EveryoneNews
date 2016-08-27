@@ -285,6 +285,10 @@
 		865907B41D06DE14009E9741 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 865907B01D06DE14009E9741 /* Comment.m */; };
 		865C6A051D12976D00264311 /* insetsLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 865C6A041D12976D00264311 /* insetsLabel.m */; };
 		8664C3561D4B42DD00F1E3D5 /* LPChannelItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8664C3551D4B42DD00F1E3D5 /* LPChannelItem.m */; };
+		8669D74B1D6F01E4006E647F /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8669D74A1D6F01E4006E647F /* libxml2.tbd */; };
+		8669D7531D6F0294006E647F /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = 8669D74E1D6F0294006E647F /* TFHpple.m */; };
+		8669D7541D6F0294006E647F /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 8669D7501D6F0294006E647F /* TFHppleElement.m */; };
+		8669D7551D6F0294006E647F /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 8669D7521D6F0294006E647F /* XPathQuery.m */; };
 		866B9AAE1CBE37AE008CECA8 /* LPRelatePointFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 866B9AAD1CBE37AE008CECA8 /* LPRelatePointFooter.m */; };
 		866B9ED71CE6FF46001081A2 /* LPDetailTipView.m in Sources */ = {isa = PBXBuildFile; fileRef = 866B9ED61CE6FF46001081A2 /* LPDetailTipView.m */; };
 		866D85C51BF5923900D92E5D /* ZhihuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 866D85C41BF5923900D92E5D /* ZhihuView.m */; };
@@ -923,6 +927,14 @@
 		865C6A061D1297F200264311 /* Configured.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Configured.h; path = Tool/Configured.h; sourceTree = "<group>"; };
 		8664C3541D4B42DD00F1E3D5 /* LPChannelItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPChannelItem.h; sourceTree = "<group>"; };
 		8664C3551D4B42DD00F1E3D5 /* LPChannelItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPChannelItem.m; sourceTree = "<group>"; };
+		8669D7471D6EFE2D006E647F /* libxml2.2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.2.tbd; path = usr/lib/libxml2.2.tbd; sourceTree = SDKROOT; };
+		8669D74A1D6F01E4006E647F /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
+		8669D74D1D6F0294006E647F /* TFHpple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHpple.h; sourceTree = "<group>"; };
+		8669D74E1D6F0294006E647F /* TFHpple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHpple.m; sourceTree = "<group>"; };
+		8669D74F1D6F0294006E647F /* TFHppleElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHppleElement.h; sourceTree = "<group>"; };
+		8669D7501D6F0294006E647F /* TFHppleElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHppleElement.m; sourceTree = "<group>"; };
+		8669D7511D6F0294006E647F /* XPathQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPathQuery.h; sourceTree = "<group>"; };
+		8669D7521D6F0294006E647F /* XPathQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XPathQuery.m; sourceTree = "<group>"; };
 		866B9AAC1CBE37AE008CECA8 /* LPRelatePointFooter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPRelatePointFooter.h; sourceTree = "<group>"; };
 		866B9AAD1CBE37AE008CECA8 /* LPRelatePointFooter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPRelatePointFooter.m; sourceTree = "<group>"; };
 		866B9ED51CE6FF46001081A2 /* LPDetailTipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPDetailTipView.h; sourceTree = "<group>"; };
@@ -1099,6 +1111,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8669D74B1D6F01E4006E647F /* libxml2.tbd in Frameworks */,
 				18D5130C1BEB379700875298 /* libiconv.tbd in Frameworks */,
 				18D512CD1BEB0D2600875298 /* AdSupport.framework in Frameworks */,
 				18D512CB1BEB0D0900875298 /* libstdc++.tbd in Frameworks */,
@@ -1738,6 +1751,7 @@
 		18BA5E8B1B199BB600EEDB63 /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				8669D74C1D6F0294006E647F /* TFHpple */,
 				86C8CC7B1D53A2CC00705C69 /* MBProgressHUD */,
 				8601E9A51D4F418500809D7E /* MJRefresh */,
 				86ADABED1D2CEE7F00128D6F /* TTTAttributedLabel */,
@@ -2865,6 +2879,19 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
+		8669D74C1D6F0294006E647F /* TFHpple */ = {
+			isa = PBXGroup;
+			children = (
+				8669D74D1D6F0294006E647F /* TFHpple.h */,
+				8669D74E1D6F0294006E647F /* TFHpple.m */,
+				8669D74F1D6F0294006E647F /* TFHppleElement.h */,
+				8669D7501D6F0294006E647F /* TFHppleElement.m */,
+				8669D7511D6F0294006E647F /* XPathQuery.h */,
+				8669D7521D6F0294006E647F /* XPathQuery.m */,
+			);
+			path = TFHpple;
+			sourceTree = "<group>";
+		};
 		866B9AAB1CBE3775008CECA8 /* 详情页相关观点上拉 */ = {
 			isa = PBXGroup;
 			children = (
@@ -3507,6 +3534,8 @@
 		DA523ECD4B8373A7DDD352C8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8669D74A1D6F01E4006E647F /* libxml2.tbd */,
+				8669D7471D6EFE2D006E647F /* libxml2.2.tbd */,
 				66AF64E85AF8404FAB0950EF /* libPods-EveryoneNews.a */,
 			);
 			name = Frameworks;
@@ -3858,12 +3887,14 @@
 				864846BB1D0FFA35003FA564 /* LPHomeChannelItemTopView.m in Sources */,
 				86934CC31C127CE300999501 /* LPSortCollectionViewCell.m in Sources */,
 				8601E9D41D4F418500809D7E /* MJRefreshAutoFooter.m in Sources */,
+				8669D7531D6F0294006E647F /* TFHpple.m in Sources */,
 				86571ED61CB8AF7900BD1DC8 /* LPDetailViewController+RelatePoint.m in Sources */,
 				86BDF4451C9C130A004742BA /* LPFulltextCommentView.m in Sources */,
 				8681B0C11D0FD9A80068A4FD /* CardFrame.m in Sources */,
 				18F6312B1B5C04E400423658 /* LPConcernPressFrame.m in Sources */,
 				8640BF271D5C5EE300769BB8 /* LPMyCollectionViewController.m in Sources */,
 				187912D81BC06CD10021AB3E /* CoreDataTVC.m in Sources */,
+				8669D7551D6F0294006E647F /* XPathQuery.m in Sources */,
 				860858721D38D2C800451E68 /* LPConcernCardFrame.m in Sources */,
 				86EE34731D6017F00000F187 /* LPChannelItemTool.m in Sources */,
 				86EE347D1D6018590000F187 /* AccountTool.m in Sources */,
@@ -3940,6 +3971,7 @@
 				1889FE611B4C2E91006D8E03 /* LPRelatePoint.m in Sources */,
 				1889FE661B4C2E91006D8E03 /* LPContentCell.m in Sources */,
 				864BC4FB1D61AE3B00A4EA48 /* LPNewsLoginViewController.m in Sources */,
+				8669D7541D6F0294006E647F /* TFHppleElement.m in Sources */,
 				7E9FEBA61B43928900D06E0A /* NSDate+Extension.m in Sources */,
 				8673B9181D23DD4F003BCEDD /* LPSearchTopView.m in Sources */,
 				187564761C2110B600589320 /* Press.m in Sources */,
@@ -4166,6 +4198,19 @@
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/UMeng/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/Universal",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/Public/Crashlytics\"",
+					"\"${PODS_ROOT}/Headers/Public/Fabric\"",
+					"\"${PODS_ROOT}/Headers/Public/MBProgressHUD\"",
+					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
+					"\"${PODS_ROOT}/Headers/Public/Reachability\"",
+					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
+					"\"${PODS_ROOT}/Headers/Public/pop\"",
+					"$(SDKROOT)/usr/include/libxml2",
+				);
 				INFOPLIST_FILE = EveryoneNewsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -4284,6 +4329,19 @@
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Compose(评论)/View/Project/头条百家/EveryoneNews/Classes/Other(其他)/Lib/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/UMeng/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 					"$(PROJECT_DIR)/EveryoneNews/Classes/Other(其他)/Lib/Universal",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/AFNetworking\"",
+					"\"${PODS_ROOT}/Headers/Public/Crashlytics\"",
+					"\"${PODS_ROOT}/Headers/Public/Fabric\"",
+					"\"${PODS_ROOT}/Headers/Public/MBProgressHUD\"",
+					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
+					"\"${PODS_ROOT}/Headers/Public/Reachability\"",
+					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
+					"\"${PODS_ROOT}/Headers/Public/pop\"",
+					"$(SDKROOT)/usr/include/libxml2",
 				);
 				INFOPLIST_FILE = EveryoneNewsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

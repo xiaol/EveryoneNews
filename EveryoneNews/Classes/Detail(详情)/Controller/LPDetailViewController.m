@@ -71,6 +71,9 @@
 #import "LPMyCollectionCard.h"
 #import "CollectionTool.h"
 #import "Card+Create.h"
+#import "LPSearchResultViewController.h"
+#import "TFHpple.h"
+
 
 static const NSString * privateContext;
 
@@ -159,6 +162,8 @@ const static CGFloat changeFontSizeViewH = 150;
 @property (nonatomic, copy) NSString *conFlag;
 @property (nonatomic, copy) NSString *colFlag;
 
+@property (nonatomic, copy) NSString *selectedText;
+
 @end
 
 @implementation LPDetailViewController
@@ -168,6 +173,12 @@ const static CGFloat changeFontSizeViewH = 150;
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
     self.statusWindow.hidden = YES;
+    
+    // 拷贝 搜索
+    UIMenuItem *copyItem = [[UIMenuItem alloc] initWithTitle:@"拷贝" action:@selector(copyItem:)];
+    UIMenuItem *searchItem = [[UIMenuItem alloc] initWithTitle:@"搜索" action:@selector(searchItem:)];
+    UIMenuController *menu = [UIMenuController sharedMenuController];
+    menu.menuItems = @[copyItem, searchItem];
     
     [self setupSubviews];
     [self setupBottomView];
@@ -186,7 +197,22 @@ const static CGFloat changeFontSizeViewH = 150;
     
 }
 
-#pragma mark - applicationTerminateNotification 
+
+#pragma mark - 拷贝
+- (void)copyItem:(id)sender {
+    pasteboard.string = self.selectedText;
+    
+}
+
+#pragma mark - 搜索
+- (void)searchItem:(id)sender {
+    // 跳转到搜索页面
+    LPSearchResultViewController *resultViewController = [[LPSearchResultViewController alloc] init];
+    resultViewController.searchText = self.selectedText;
+    [self.navigationController pushViewController:resultViewController animated:YES];
+}
+
+#pragma mark - applicationTerminateNotification
 - (void)applicationTerminateNotification {
     [self endTimer];
     // 提交用户日志
@@ -563,7 +589,7 @@ const static CGFloat changeFontSizeViewH = 150;
     detailContentParams[@"uid"] = uid;
     
     
-//    NSLog(@"%@?nid=%@&&uid=%@",detailContentURL, [self nid], uid);
+    NSLog(@"%@?nid=%@&&uid=%@",detailContentURL, [self nid], uid);
     
     // 精选评论
     NSString *excellentDetailCommentsURL = [NSString stringWithFormat:@"%@/v2/ns/coms/h", ServerUrlVersion2];
@@ -665,16 +691,19 @@ const static CGFloat changeFontSizeViewH = 150;
 
 #pragma mark - 视频链接截取 
 - (NSString *)subVideoString:(NSString *)str {
-    NSScanner *scanner = [NSScanner scannerWithString:str];
-    NSString *dataSrc = @"data-src";
-    if (![str containsString:dataSrc]) {
-        dataSrc = @"src";
+    NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
+    TFHpple *xpathParser = [[TFHpple alloc] initWithHTMLData:data];
+    NSArray *elements  = [xpathParser searchWithXPathQuery:@"//iframe"];
+    NSInteger i = 0;
+    NSString *sourceURL = @"";
+    for (TFHppleElement *tempAElement in elements) {
+        NSString *srcStr = [tempAElement objectForKey:@"src"];
+        if (i == 0) {
+            sourceURL = srcStr;
+            break;
+        }
     }
-    NSString *name;
-    [scanner scanUpToString:dataSrc intoString:NULL];
-    [scanner scanUpToString:@"auto=0" intoString:&name];
-    NSRange range = [name rangeOfString:@"\""];//匹配得到的下标
-    return  [[name substringFromIndex:range.location + 1] stringByReplacingOccurrencesOfString:@"preview" withString:@"player"];
+    return [sourceURL stringByReplacingOccurrencesOfString:@"preview" withString:@"player"];
 }
 
 #pragma mark - viewDidDisappear
@@ -800,6 +829,8 @@ const static CGFloat changeFontSizeViewH = 150;
 
 #pragma mark - 创建视图
 - (void)setupSubviews {
+
+    
     CGFloat bottomViewHeight = 40.0f;
     if (iPhone6Plus) {
         bottomViewHeight = 48.5f;
@@ -1155,7 +1186,7 @@ const static CGFloat changeFontSizeViewH = 150;
             break;
         default:
             if (![self card]) return nil;
-                return [[self card] valueForKey:@"nid"];
+            return [[self card] valueForKey:@"nid"];
             break;
     }
 }
@@ -1803,6 +1834,8 @@ const static CGFloat changeFontSizeViewH = 150;
     
 }
 
+ 
+
 #pragma mark - 关心本文
 - (void)tapConcern {
     
@@ -2031,58 +2064,9 @@ const static CGFloat changeFontSizeViewH = 150;
     [LPPressTool loadWebViewWithURL:url viewController:self];
 }
 
-
-- (void)contentCell:(LPContentCell *)contentCell videoImageViewDidTapped:(NSString *)url webView:(WKWebView *)webView webViewF:(CGRect)webViewF {
-//         [webView reloadFromOrigin];
-    // 处理视频宽高
-        NSArray *array = [url componentsSeparatedByString:@";"];
-        NSMutableString *mutableString = [[NSMutableString alloc] init];
-        for (NSString *str in array) {
-            NSString *tempStr = [str copy];
-            if ([tempStr containsString:@"width"]) {
-                tempStr = [NSString stringWithFormat:@"width=%f&amp", webViewF.size.width];
-            } else if ([tempStr containsString:@"height"]) {
-                tempStr = [NSString stringWithFormat:@"height=%f&amp", webViewF.size.height];
-            }
-            if (tempStr.length > 0) {
-                [mutableString appendString:[NSString stringWithFormat:@"%@;",tempStr]];
-            }
-        }
-
-        NSURL *videoUrl =[NSURL URLWithString:mutableString];
-        NSURLRequest *request =[NSURLRequest requestWithURL:videoUrl];
-        [webView loadRequest:request];
+-  (void)contentCell:(LPContentCell *)contentCell selectedText:(NSString *)selectedText {
+    self.selectedText = selectedText;
 }
-
-//- (void)contentCell:(LPContentCell *)contentCell videoImageViewDidTapped:(NSString *)url {
-//    // 处理视频宽高
-//        NSArray *url = [url componentsSeparatedByString:@";"];
-//        NSMutableString *mutableString = [[NSMutableString alloc] init];
-//        for (NSString *str in array) {
-//            NSString *tempStr = [str copy];
-//            if ([tempStr containsString:@"width"]) {
-//                tempStr = [NSString stringWithFormat:@"width=%f&amp", self.contentFrame.webViewF.size.width];
-//            } else if ([tempStr containsString:@"height"]) {
-//                tempStr = [NSString stringWithFormat:@"height=%f&amp", self.contentFrame.webViewF.size.height];
-//            }
-//            if (tempStr.length > 0) {
-//                [mutableString appendString:[NSString stringWithFormat:@"%@;",tempStr]];
-//            }
-//        }
-//
-//        NSURL *url =[NSURL URLWithString:mutableString];
-//        NSURLRequest *request =[NSURLRequest requestWithURL:url];
-//
-//        [self.webView loadRequest:request];
-//
-//    
-//    
-//    
-////    LPDetailVideoController *videoController = [[LPDetailVideoController alloc] init];
-////    videoController.videoURL = url;
-////    [self.navigationController pushViewController:videoController animated:YES];
-//    
-//}
 
 #pragma mark - Bottom View Delegate
 - (void)didComposeCommentWithDetailBottomView:(LPDetailBottomView *)detailBottomView {
@@ -2194,6 +2178,7 @@ const static CGFloat changeFontSizeViewH = 150;
                 }
                 
             } failure:^(NSError *error) {
+                NSLog(@"%@", error);
                 
                 [self tipViewWithCondition:5];
             }];

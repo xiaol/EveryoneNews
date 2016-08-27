@@ -191,7 +191,6 @@ NSString *const reuseConcernPageID = @"reuseConcernPageID";
 - (UIView *)pagingView:(LPPagingView *)pagingView pageForPageIndex:(NSInteger)pageIndex {
     
     LPChannelItem *channelItem = self.pageindexMapToChannelItemDictionary[@(pageIndex)];
-    
     if (![channelItem.channelID isEqualToString:focusChannelID]) {
         LPPagingViewPage *page = (LPPagingViewPage *)[pagingView dequeueReusablePageWithIdentifier:reusePageID];
         page.delegate = self;
@@ -249,11 +248,6 @@ NSString *const reuseConcernPageID = @"reuseConcernPageID";
     
     if (![channelItem.channelID isEqualToString:focusChannelID]) {
         LPPagingViewPage *page = (LPPagingViewPage *)[pagingView currentPage];
-        if (page.cardFrames.count > 0) {
-            [self hideLoadingView];
-        } else {
-            [self showLoadingView];
-        }
         // 每隔5分钟执行自动刷新
         if (lastAccessDate != nil) {
             int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
@@ -365,17 +359,9 @@ NSString *const reuseConcernPageID = @"reuseConcernPageID";
                 CardFrame *cf = [[CardFrame alloc] init];
                 cf.card = card;
                 [cfs addObject:cf];
-           
-                
             }
             [self.channelItemDictionary setObject:cfs forKey:channelItem.channelName];
             [self.pagingView reloadPageAtPageIndex:pageIndex];
-            if (cfs.count > 0) {
-                if (![channelItem.channelID isEqualToString:focusChannelID]) {
-                    [self hideLoadingView];
-                }
-                
-            }
             
         } failure:^(NSError *error) {
 

@@ -248,7 +248,7 @@ typedef NS_ENUM(NSInteger, newsType) {
 #define LPChannelItemChangedNotification @"LPChannelItemChangedNotification"
 #define LPAddConcernSourceNotification @"LPAddConcernSourceNotification"
 #define LPRemoveConcernSourceNotification @"LPRemoveConcernSourceNotification"
-#define LPIsVersionFirstLoad @"LPIsVersion_3_3_3_FirstLoad"
+#define LPIsVersionFirstLoad @"LPIsVersion_3_3_4_FirstLoad"
 
 #define LPReloadAddConcernPageNotification @"LPReloadAddConcernPageNotification"
 #define LPReloadCancelConcernPageNotification @"LPReloadCancelConcernPageNotification"

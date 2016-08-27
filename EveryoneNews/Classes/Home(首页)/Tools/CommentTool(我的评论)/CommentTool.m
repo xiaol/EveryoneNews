@@ -47,6 +47,8 @@
     } failure:^(NSError *error) {
         failure(error);
         
+        NSLog(@"%@", error);
+        
     }];
 }
 
