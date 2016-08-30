@@ -168,66 +168,6 @@ const static CGFloat changeFontSizeViewH = 150;
 
 @implementation LPDetailViewController
 
-#pragma mark - viewDidLoad
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.view.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
-    self.statusWindow.hidden = YES;
-    
-    // 拷贝 搜索
-    UIMenuItem *copyItem = [[UIMenuItem alloc] initWithTitle:@"拷贝" action:@selector(copyItem:)];
-    UIMenuItem *searchItem = [[UIMenuItem alloc] initWithTitle:@"搜索" action:@selector(searchItem:)];
-    UIMenuController *menu = [UIMenuController sharedMenuController];
-    menu.menuItems = @[copyItem, searchItem];
-    
-    [self setupSubviews];
-    [self setupBottomView];
-    [self setupData];
-    
-    [noteCenter addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    [noteCenter addObserver:self  selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-    
-    // 添加关注
-    [noteCenter addObserver:self selector:@selector(addConcernNotification) name:LPAddConcernSourceNotification object:nil];
-    // 取消关注
-    [noteCenter addObserver:self selector:@selector(cancelConcernNotification) name:LPRemoveConcernSourceNotification object:nil];
-    
-    [noteCenter addObserver:self selector:@selector(applicationTerminateNotification) name:UIApplicationWillTerminateNotification object:nil];
-    
-    
-}
-
-
-#pragma mark - 拷贝
-- (void)copyItem:(id)sender {
-    pasteboard.string = self.selectedText;
-    
-}
-
-#pragma mark - 搜索
-- (void)searchItem:(id)sender {
-    // 跳转到搜索页面
-    LPSearchResultViewController *resultViewController = [[LPSearchResultViewController alloc] init];
-    resultViewController.searchText = self.selectedText;
-    [self.navigationController pushViewController:resultViewController animated:YES];
-}
-
-#pragma mark - applicationTerminateNotification
-- (void)applicationTerminateNotification {
-    [self endTimer];
-    // 提交用户日志
-    [self submitUserOperationLog];
-}
-
-
-#pragma mark - viewWillAppear
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    self.stayTimeInterval = 0;
-    [self startTimer];
-}
-
 #pragma mark - 懒加载
 - (NSArray *)relates
 {
@@ -287,7 +227,64 @@ const static CGFloat changeFontSizeViewH = 150;
     return _contentFrames;
 }
 
-//当键盘出现或改变时调用
+#pragma mark - viewDidLoad
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.view.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
+    self.statusWindow.hidden = YES;
+    
+    // 拷贝 搜索
+    UIMenuItem *copyItem = [[UIMenuItem alloc] initWithTitle:@"拷贝" action:@selector(copyItem:)];
+    UIMenuItem *searchItem = [[UIMenuItem alloc] initWithTitle:@"搜索" action:@selector(searchItem:)];
+    UIMenuController *menu = [UIMenuController sharedMenuController];
+    menu.menuItems = @[copyItem, searchItem];
+    
+    [self setupSubviews];
+    [self setupBottomView];
+    [self setupData];
+    
+    [noteCenter addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [noteCenter addObserver:self  selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+    
+    // 添加关注
+    [noteCenter addObserver:self selector:@selector(addConcernNotification) name:LPAddConcernSourceNotification object:nil];
+    // 取消关注
+    [noteCenter addObserver:self selector:@selector(cancelConcernNotification) name:LPRemoveConcernSourceNotification object:nil];
+    // 程序中断
+    [noteCenter addObserver:self selector:@selector(applicationTerminateNotification) name:UIApplicationWillTerminateNotification object:nil];
+}
+
+#pragma mark - 拷贝
+- (void)copyItem:(id)sender {
+    pasteboard.string = self.selectedText;
+    
+}
+
+#pragma mark - 搜索
+- (void)searchItem:(id)sender {
+    // 跳转到搜索页面
+    LPSearchResultViewController *resultViewController = [[LPSearchResultViewController alloc] init];
+    resultViewController.searchText = self.selectedText;
+    [self.navigationController pushViewController:resultViewController animated:YES];
+}
+
+#pragma mark - applicationTerminateNotification
+- (void)applicationTerminateNotification {
+    [self endTimer];
+    // 提交用户日志
+    [self submitUserOperationLog];
+}
+
+
+#pragma mark - viewWillAppear
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.stayTimeInterval = 0;
+    [self startTimer];
+}
+
+
+#pragma mark - 发表评论 (键盘出现或消失)
 - (void)keyboardWillShow:(NSNotification *)note
 {
     if (self.isComposeComment == YES) {
@@ -327,9 +324,7 @@ const static CGFloat changeFontSizeViewH = 150;
     }
 }
 
-
-
-#pragma mark - 发表评论文字变化
+#pragma mark - 发表评论 (文字变化)
 - (void)textViewDidChange:(UITextView*)textView {
     if (textView == self.textView) {
         if (self.textView.text.length > 0) {
@@ -347,21 +342,190 @@ const static CGFloat changeFontSizeViewH = 150;
     }
 }
 
-
-#pragma mark - 结束编辑
+#pragma mark - 发表评论 (结束编辑)
 - (void)composeCommentBackgroundViewTap {
     [self.textView endEditing:YES];
     [self.textView setText:@""];
 }
 
-
-#pragma mark - dealloc
-- (void)dealloc {
-    [noteCenter removeObserver:self];
-    ////NSLog(@"%@", NSStringFromSelector(_cmd));
+#pragma mark - 无评论提示
+- (void)noCommentsViewTip {
+    if (self.fulltextCommentFrames.count > 0) {
+        self.noCommentView.hidden = YES;
+    } else {
+        self.noCommentView.hidden = NO;
+    }
 }
 
-#pragma mark - 加载详情页所有数据
+
+#pragma mark - 发表评论
+- (void)composeButtonClick {
+    __weak typeof(self) weakSelf = self;
+    if (![AccountTool account]) {
+        
+        CGRect toFrame = CGRectMake(0, ScreenHeight, ScreenWidth, self.textViewBg.height);
+        self.textViewBg.frame = toFrame;
+        [self.textView endEditing:YES];
+        self.composeCommentBackgroundView.alpha = 0.0;
+        
+        [AccountTool accountLoginWithViewController:self success:^(Account *account){
+            [weakSelf composeComment];
+        } failure:^{
+        } cancel:nil];
+    } else {
+        [self composeComment];
+        [self removeComposeView];
+    }
+    
+}
+
+// 移除发表评论提示框
+- (void)removeComposeView {
+    
+    CGRect toFrame = CGRectMake(0, ScreenHeight, ScreenWidth, self.textViewBg.height);
+    [UIView animateWithDuration:0.3 animations:^{
+        self.textViewBg.frame = toFrame;
+        [self.textView endEditing:YES];
+        self.composeCommentBackgroundView.alpha = 0.0;
+        
+    } completion:^(BOOL finished) {
+        self.composeCommentBackgroundView.hidden = YES;
+        [self.textView setText:@""];
+        self.composeButton.enabled = NO;
+        self.composeButton.backgroundColor = [UIColor colorFromHexString:@"#eaeaea"];
+        self.composeButton.layer.borderColor  =  [UIColor colorFromHexString:LPColor4].CGColor;
+        [self.composeButton setTitleColor:[UIColor colorFromHexString:LPColor4] forState:UIControlStateNormal];
+    }];
+}
+
+
+// 提交评论到服务器
+- (void)composeComment {
+    Account *account = [AccountTool account];
+    // 1.1 创建comment对象
+    LPComment *comment = [[LPComment alloc] init];
+    comment.srcText = [self.textView.text stringByTrimmingWhitespaceAndNewline];
+    comment.userIcon = account.userIcon;
+    comment.userName = account.userName;
+    comment.createTime = [NSString stringFromNowDate];
+    comment.color = [UIColor colorFromHexString:@"#747474"];
+    comment.up = @"0";
+    comment.isPraiseFlag = @"0";
+    
+    // 判断评论字数不超过1000字符
+    if (comment.srcText.length < 1000) {
+        // 2. 发送post请求
+        NSString *url = [NSString stringWithFormat:@"%@/v2/ns/coms", ServerUrlVersion2];
+        NSMutableDictionary *params = [NSMutableDictionary dictionary];
+        params[@"content"] = comment.srcText;
+        params[@"uname"]  = comment.userName;
+        params[@"uid"] = @([[userDefaults objectForKey:@"uid"] integerValue]);
+        params[@"commend"]  = @(0);
+        params[@"ctime"]  = comment.createTime;
+        params[@"avatar"] = comment.userIcon;
+        params[@"docid"] = self.docId == nil ? self.submitDocID: self.docId;
+        NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
+        if (authorization) {
+            [LPHttpTool postAuthorizationJSONWithURL:url authorization:authorization params:params success:^(id json) {
+                
+                //                NSLog(@"%@, %@", params, json);
+                if ([json[@"code"] integerValue] == 2000) {
+                    
+                    [self tipViewWithCondition:4];
+                    comment.Id = [NSString stringWithFormat:@"%@", json[@"data"]];
+                    LPFullCommentFrame *commentFrame = [[LPFullCommentFrame alloc] init];
+                    commentFrame.comment = comment;
+                    [self.fulltextCommentFrames insertObject:commentFrame atIndex:0];
+                    self.commentsTableView.scrollEnabled = YES;
+                    [self.commentsTableView reloadData];
+                    [self.commentsTableView setContentOffset:CGPointZero animated:NO];
+                    self.noCommentView.hidden = YES;
+                    
+                    self.commentsCount = self.commentsCount + 1;
+                    self.bottomView.badgeNumber = self.commentsCount ;
+                    
+                    if (self.pageControl.currentPage == 1) {
+                        self.bottomView.noCommentsBtn.hidden = YES;
+                        self.bottomView.commentsBtn.hidden = YES;
+                        self.bottomView.commentCountLabel.hidden = YES;
+                        self.bottomView.commentsCountView.hidden = YES;
+                    }
+                    
+                    // 发表成功禁用按钮
+                    self.composeButton.enabled = NO;
+                    self.composeButton.backgroundColor = [UIColor colorFromHexString:LPColor4];
+                    self.composeButton.layer.borderColor  =  [UIColor colorFromHexString:LPColor4].CGColor;
+                    [self.composeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                    self.composeComment = NO;
+                }
+                
+            } failure:^(NSError *error) {
+                NSLog(@"%@", error);
+                
+                [self tipViewWithCondition:5];
+            }];
+        }
+    } else {
+        [self tipViewWithCondition:9];
+    }
+}
+
+#pragma mark - 查看更多评论
+- (void)showMoreComment {
+    [self hideCommentBtn];
+    self.pageControl.currentPage = 1;
+    CGRect frame = self.scrollView.frame;
+    frame.origin.x = frame.size.width ;
+    frame.origin.y = 0;
+    [self.scrollView scrollRectToVisible:frame animated:YES];
+}
+
+#pragma mark - 全文评论加载更多
+- (void)loadMoreCommentsData {
+    self.pageIndex = self.pageIndex + 1;
+    
+    NSString *url = [NSString stringWithFormat:@"%@/v2/ns/coms/c", ServerUrlVersion2];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"did"] = [[[self docId] stringByBase64Encoding] stringByTrimmingString:@"="];
+    params[@"p"] = @(self.pageIndex);
+    params[@"c"] = @"20";
+    params[@"uid"] = [userDefaults objectForKey:@"uid"];
+    
+    __weak typeof(self) weakSelf = self;
+    [LPHttpTool getWithURL:url params:params success:^(id json) {
+        if ([json[@"code"] integerValue] == 2000) {
+            NSArray *commentsArray = json[@"data"];
+            for (NSDictionary *dict in commentsArray) {
+                LPComment *comment = [[LPComment alloc] init];
+                comment.srcText = dict[@"content"];
+                comment.createTime = dict[@"ctime"];
+                comment.up = [NSString stringWithFormat:@"%@", dict[@"commend"]] ;
+                comment.userIcon = dict[@"avatar"];
+                comment.Id = dict[@"id"];
+                comment.userName = dict[@"uname"];
+                comment.color = [UIColor colorFromHexString:@"#747474"];
+                comment.isPraiseFlag = [NSString stringWithFormat:@"%@", dict[@"upflag"]] ;
+                
+                LPFullCommentFrame *commentFrame = [[LPFullCommentFrame alloc] init];
+                commentFrame.comment = comment;
+                
+                [weakSelf.fulltextCommentFrames addObject:commentFrame];
+            }
+            if (weakSelf.fulltextCommentFrames.count > 0) {
+                weakSelf.commentsTableView.scrollEnabled = YES;
+            }
+            
+            [weakSelf.commentsTableView reloadData];
+            [weakSelf.commentsTableView.footer endRefreshing];
+        } else {
+            [weakSelf.commentsTableView.footer noticeNoMoreData];
+        }
+    } failure:^(NSError *error) {
+        [weakSelf.commentsTableView.footer endRefreshing];
+    }];
+}
+
+#pragma mark - setup Data
 - (void)setupData {
     
     // 详情页block
@@ -588,7 +752,6 @@ const static CGFloat changeFontSizeViewH = 150;
     detailContentParams[@"nid"] = [self nid];
     detailContentParams[@"uid"] = uid;
     
-    
     NSLog(@"%@?nid=%@&&uid=%@",detailContentURL, [self nid], uid);
     
     // 精选评论
@@ -620,10 +783,8 @@ const static CGFloat changeFontSizeViewH = 150;
     
    // //NSLog(@"%@",    detailCommentsParams[@"did"] );
     
-    
     // 详情页正文
     [LPHttpTool getWithURL:detailContentURL params:detailContentParams success:^(id json) {
-        
         contentBlock(json);
         // 推送跳转到详情页
         if (!excellentDetailCommentsParams[@"did"]) {
@@ -665,28 +826,7 @@ const static CGFloat changeFontSizeViewH = 150;
     } failure:^(NSError *error) {
         showReloadPageBlock();
         NSLog(@"正文：%@", error);
- 
-        
     }];
-}
-
-
-- (void)noCommentsViewTip {
-    if (self.fulltextCommentFrames.count > 0) {
-        self.noCommentView.hidden = YES;
-    } else {
-        self.noCommentView.hidden = NO;
-    }
-}
-
-
-#pragma mark - 改变收藏状态
-- (void)changeCollectionState {
-    if ([self.colFlag isEqualToString:@"1"]) {
-        [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页已收藏"] forState:UIControlStateNormal];
-    } else {
-        [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页未收藏"] forState:UIControlStateNormal];
-    }
 }
 
 #pragma mark - 视频链接截取 
@@ -722,28 +862,6 @@ const static CGFloat changeFontSizeViewH = 150;
     }
 }
 
-#pragma mark - 开启定时器
-- (void)startTimer {
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 repeating:YES firing:^{
-    self.stayTimeInterval++;
-    }];
-    [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:UITrackingRunLoopMode];
-}
-
-#pragma mark - 清空定时器
-- (void)endTimer {
-    [self.timer invalidate];
-    self.timer = nil;
-
-}
-
-#pragma mark - viewWillDisappear
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-//    [MobClick endLogPageView:@"DetailPage"];
-
-}
-
 
 #pragma mark - 上传用户操作日志
 - (void)submitUserOperationLog {
@@ -753,7 +871,7 @@ const static CGFloat changeFontSizeViewH = 150;
     NSString *city = @""; // 城市
     NSString *county  = @""; // 区，县
     NSString *n = [self nid];
-    NSString *c = [NSString stringWithFormat:@"%ld", (long)[self channelID].integerValue]; // 频道编号
+    NSString *c = [NSString stringWithFormat:@"%ld", (long)self.channel]; // 频道编号
     NSString *t = @"0";
     NSString *s = [NSString stringWithFormat:@"%d",self.stayTimeInterval];
     NSString *f = @"0";
@@ -775,13 +893,32 @@ const static CGFloat changeFontSizeViewH = 150;
     if (!error) {
         self.http = [LPHttpTool http];
         [self.http getImageWithURL:url params:nil success:^(id json) {
-          
-            
+            NSLog(@"%@", json);
         } failure:^(NSError *error) {
-            //NSLog(@"%@", error);
+            __weak typeof(self) weakSelf = self;
+            weakSelf.http = [LPHttpTool http];
+            [weakSelf.http getImageWithURL:url params:nil success:^(id json) {
+                NSLog(@"%@", json);
+            } failure:^(NSError *error) {
+                NSLog(@"%@", error);
+            }];
 
         }];
     }
+}
+// 开启定时器
+- (void)startTimer {
+    self.timer = [NSTimer scheduledTimerWithTimeInterval:1.0 repeating:YES firing:^{
+        self.stayTimeInterval++;
+    }];
+    [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:UITrackingRunLoopMode];
+}
+
+// 清空定时器
+- (void)endTimer {
+    [self.timer invalidate];
+    self.timer = nil;
+    
 }
 
 #pragma mark - 设置状态栏样式
@@ -1041,50 +1178,7 @@ const static CGFloat changeFontSizeViewH = 150;
 
 
 
-#pragma mark - 全文评论加载更多
-- (void)loadMoreCommentsData {
-        self.pageIndex = self.pageIndex + 1;
-    
-        NSString *url = [NSString stringWithFormat:@"%@/v2/ns/coms/c", ServerUrlVersion2];
-        NSMutableDictionary *params = [NSMutableDictionary dictionary];
-        params[@"did"] = [[[self docId] stringByBase64Encoding] stringByTrimmingString:@"="];
-        params[@"p"] = @(self.pageIndex);
-        params[@"c"] = @"20";
-        params[@"uid"] = [userDefaults objectForKey:@"uid"];
-    
-        __weak typeof(self) weakSelf = self;
-        [LPHttpTool getWithURL:url params:params success:^(id json) {
-            if ([json[@"code"] integerValue] == 2000) {
-                NSArray *commentsArray = json[@"data"];
-                for (NSDictionary *dict in commentsArray) {
-                    LPComment *comment = [[LPComment alloc] init];
-                    comment.srcText = dict[@"content"];
-                    comment.createTime = dict[@"ctime"];
-                    comment.up = [NSString stringWithFormat:@"%@", dict[@"commend"]] ;
-                    comment.userIcon = dict[@"avatar"];
-                    comment.Id = dict[@"id"];
-                    comment.userName = dict[@"uname"];
-                    comment.color = [UIColor colorFromHexString:@"#747474"];
-                    comment.isPraiseFlag = [NSString stringWithFormat:@"%@", dict[@"upflag"]] ;
-                    
-                    LPFullCommentFrame *commentFrame = [[LPFullCommentFrame alloc] init];
-                    commentFrame.comment = comment;
-                    
-                    [weakSelf.fulltextCommentFrames addObject:commentFrame];
-                }
-                if (weakSelf.fulltextCommentFrames.count > 0) {
-                    weakSelf.commentsTableView.scrollEnabled = YES;
-                }
-                
-                [weakSelf.commentsTableView reloadData];
-                [weakSelf.commentsTableView.footer endRefreshing];
-            } else {
-                [weakSelf.commentsTableView.footer noticeNoMoreData];
-            }
-        } failure:^(NSError *error) {
-            [weakSelf.commentsTableView.footer endRefreshing];
-        }];
-}
+
 
 
 #pragma mark - Loading View
@@ -1921,18 +2015,6 @@ const static CGFloat changeFontSizeViewH = 150;
     [self shareToWechatTimelineBtnClick];
 }
 
-#pragma mark - 查看更多评论
-- (void)showMoreComment {
-    [self hideCommentBtn];
-     self.pageControl.currentPage = 1;
-    CGRect frame = self.scrollView.frame;
-    frame.origin.x = frame.size.width ;
-    frame.origin.y = 0;
-    [self.scrollView scrollRectToVisible:frame animated:YES];
-}
-
-
-
 #pragma mark - 详情页标题
 - (void)setupHeaderView:(NSString *)title pubTime:(NSString *)pubtime pubName:(NSString *)pubName {
     
@@ -2074,122 +2156,6 @@ const static CGFloat changeFontSizeViewH = 150;
     self.composeComment = YES;
     self.composeCommentBackgroundView.hidden = NO;
     [self.textView becomeFirstResponder];
-}
-
-#pragma mark - 发表评论 
-- (void)composeButtonClick {
-    __weak typeof(self) weakSelf = self;
-    if (![AccountTool account]) {
-        
-        CGRect toFrame = CGRectMake(0, ScreenHeight, ScreenWidth, self.textViewBg.height);
-        self.textViewBg.frame = toFrame;
-        [self.textView endEditing:YES];
-        self.composeCommentBackgroundView.alpha = 0.0;
-        
-        [AccountTool accountLoginWithViewController:self success:^(Account *account){
-            [weakSelf composeComment];
-        } failure:^{
-        } cancel:nil];
-    } else {
-        [self composeComment];
-        [self removeComposeView];
-    }
-  
-}
-
-#pragma mark - 移除发表评论提示框
-- (void)removeComposeView {
-    
-    CGRect toFrame = CGRectMake(0, ScreenHeight, ScreenWidth, self.textViewBg.height);
-    [UIView animateWithDuration:0.3 animations:^{
-        self.textViewBg.frame = toFrame;
-        [self.textView endEditing:YES];
-        self.composeCommentBackgroundView.alpha = 0.0;
-        
-    } completion:^(BOOL finished) {
-        self.composeCommentBackgroundView.hidden = YES;
-        [self.textView setText:@""];
-        self.composeButton.enabled = NO;
-        self.composeButton.backgroundColor = [UIColor colorFromHexString:@"#eaeaea"];
-        self.composeButton.layer.borderColor  =  [UIColor colorFromHexString:LPColor4].CGColor;
-        [self.composeButton setTitleColor:[UIColor colorFromHexString:LPColor4] forState:UIControlStateNormal];
-    }];
-}
-
-
-#pragma mark - 提交评论到服务器
-- (void)composeComment {
-    Account *account = [AccountTool account];
-    // 1.1 创建comment对象
-    LPComment *comment = [[LPComment alloc] init];
-    comment.srcText = [self.textView.text stringByTrimmingWhitespaceAndNewline];
-    comment.userIcon = account.userIcon;
-    comment.userName = account.userName;
-    comment.createTime = [NSString stringFromNowDate];
-    comment.color = [UIColor colorFromHexString:@"#747474"];
-    comment.up = @"0";
-    comment.isPraiseFlag = @"0";
-    
-    // 判断评论字数不超过1000字符
-    if (comment.srcText.length < 1000) {
-        // 2. 发送post请求
-        NSString *url = [NSString stringWithFormat:@"%@/v2/ns/coms", ServerUrlVersion2];
-        NSMutableDictionary *params = [NSMutableDictionary dictionary];
-        params[@"content"] = comment.srcText;
-        params[@"uname"]  = comment.userName;
-        params[@"uid"] = @([[userDefaults objectForKey:@"uid"] integerValue]);
-        params[@"commend"]  = @(0);
-        params[@"ctime"]  = comment.createTime;
-        params[@"avatar"] = comment.userIcon;
-        params[@"docid"] = self.docId == nil ? self.submitDocID: self.docId;
-        NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
-        if (authorization) {
-            [LPHttpTool postAuthorizationJSONWithURL:url authorization:authorization params:params success:^(id json) {
-                
-//                NSLog(@"%@, %@", params, json);
-                if ([json[@"code"] integerValue] == 2000) {
-                    
-                    [self tipViewWithCondition:4];
-                    comment.Id = [NSString stringWithFormat:@"%@", json[@"data"]];
-                    LPFullCommentFrame *commentFrame = [[LPFullCommentFrame alloc] init];
-                    commentFrame.comment = comment;
-                    [self.fulltextCommentFrames insertObject:commentFrame atIndex:0];
-                    self.commentsTableView.scrollEnabled = YES;
-                    [self.commentsTableView reloadData];
-                    [self.commentsTableView setContentOffset:CGPointZero animated:NO];
-                    self.noCommentView.hidden = YES;
-                    
-                    self.commentsCount = self.commentsCount + 1;
-                    self.bottomView.badgeNumber = self.commentsCount ;
-                    
-                    if (self.pageControl.currentPage == 1) {
-                        self.bottomView.noCommentsBtn.hidden = YES;
-                        self.bottomView.commentsBtn.hidden = YES;
-                        self.bottomView.commentCountLabel.hidden = YES;
-                        self.bottomView.commentsCountView.hidden = YES;
-                    }
-                    
-                    // 发表成功禁用按钮
-                    self.composeButton.enabled = NO;
-                    self.composeButton.backgroundColor = [UIColor colorFromHexString:LPColor4];
-                    self.composeButton.layer.borderColor  =  [UIColor colorFromHexString:LPColor4].CGColor;
-                    [self.composeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                    self.composeComment = NO;
-                }
-                
-            } failure:^(NSError *error) {
-                NSLog(@"%@", error);
-                
-                [self tipViewWithCondition:5];
-            }];
-        }
-    } else {
-          [self tipViewWithCondition:9];
-    }
-    
-    
-    
-    
 }
 
 #pragma mark - 精选评论点赞 delegate
@@ -2417,7 +2383,16 @@ const static CGFloat changeFontSizeViewH = 150;
     }
 }
 
-#pragma mark - 收藏和取消收藏
+// 改变收藏状态
+- (void)changeCollectionState {
+    if ([self.colFlag isEqualToString:@"1"]) {
+        [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页已收藏"] forState:UIControlStateNormal];
+    } else {
+        [self.bottomView.favoriteBtn setBackgroundImage:[UIImage imageNamed:@"详情页未收藏"] forState:UIControlStateNormal];
+    }
+}
+
+// 收藏和取消收藏
 - (void)collectOrNot {
     if ([self.colFlag isEqualToString:@"1"]) {
         [self cancelCollect];
@@ -2426,7 +2401,7 @@ const static CGFloat changeFontSizeViewH = 150;
     }
 }
 
-#pragma mark - 收藏
+// 收藏
 - (void)collect {
     [CollectionTool addConcernWithNid:[self nid] codeFlag:^(NSString *codeFlag) {
         if ([codeFlag isEqualToString:LPSuccess]) {
@@ -2707,7 +2682,6 @@ const static CGFloat changeFontSizeViewH = 150;
         [self focusViewTap];
         
     } else {
-        __weak typeof(self) weakSelf = self;
         // 用户未登录
         if (![AccountTool account]) {
                 [AccountTool accountLoginWithViewController:self success:^(Account *account) {
@@ -2722,10 +2696,12 @@ const static CGFloat changeFontSizeViewH = 150;
                         // 用户已关注
                         if ([conpubflag isEqualToString:@"1"]) {
                             self.conpubFlag = @"1";
-                            weakSelf.forwardImageView.hidden = NO;
-                            weakSelf.focusImageView.hidden = YES;
-                            weakSelf.focusLabel.hidden = YES;
+                            self.forwardImageView.hidden = NO;
+                            self.focusImageView.hidden = YES;
+                            self.focusLabel.hidden = YES;
                             [noteCenter postNotificationName:LPReloadAddConcernPageNotification object:nil];
+                        } else {
+                           [self addConcernSourceSiteName];
                         }
                     } failure:^(NSError *error) {
                         
@@ -2881,5 +2857,11 @@ const static CGFloat changeFontSizeViewH = 150;
     self.focusLabel.hidden = NO;
     self.conpubFlag = @"0";
     
+}
+
+#pragma mark - dealloc
+- (void)dealloc {
+    [noteCenter removeObserver:self];
+    ////NSLog(@"%@", NSStringFromSelector(_cmd));
 }
 @end

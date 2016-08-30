@@ -30,15 +30,13 @@
 #import "Card+Fetch.h"
 #import "CardFrame.h"
 #import "CardTool.h"
-#import "LPPagingViewConcernPage.h"
 #import "LPCardConcernFrame.h"
 
-NSString * const firstChannelName = @"奇点";
 NSString * const menuCellIdentifier = @"menuCollectionViewCell";
 NSString * const cellIdentifier = @"sortCollectionViewCell";
 NSString * const reuseIdentifierFirst = @"reuseIdentifierFirst";
 NSString * const reuseIdentifierSecond = @"reuseIdentifierSecond";
-NSString * const cardCellIdentifier = @"CardCellIdentifier";
+NSString * const cardCellIdentifier = @"cardCellIdentifier";
 
 @implementation LPHomeViewController (SubviewsManager) 
 
@@ -53,6 +51,7 @@ NSString * const cardCellIdentifier = @"CardCellIdentifier";
 
 #pragma mark - setupSubViews
 - (void)setupSubViews {
+    
     self.view.backgroundColor = [UIColor whiteColor];
     CGFloat statusBarHeight = 20.0f;
     CGFloat menuViewHeight = 44.0f;
@@ -66,12 +65,12 @@ NSString * const cardCellIdentifier = @"CardCellIdentifier";
     statusWindow.windowLevel = UIWindowLevelStatusBar + 1;
     statusWindow.hidden = NO;
     self.statusWindow = statusWindow;
-     UITapGestureRecognizer *tapStatusBarWindowGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapStatusBarView)];
+    UITapGestureRecognizer *tapStatusBarWindowGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapStatusBarView)];
     
     [statusWindow addGestureRecognizer:tapStatusBarWindowGesture];
     
     // 导航视图
-     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, statusBarHeight + menuViewHeight)];
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, statusBarHeight + menuViewHeight)];
     [self.view addSubview:headerView];
     
     // 添加首页登录按钮
@@ -103,12 +102,12 @@ NSString * const cardCellIdentifier = @"CardCellIdentifier";
     
     CGFloat addBtnX = ScreenWidth - addBtnW - addBtnPaddingRight;
     CGFloat addBtnY = (menuViewHeight - addBtnH) / 2 + statusBarHeight;
-    UIButton *addButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [addButton setBackgroundImage:[UIImage imageNamed:@"添加频道"] forState:UIControlStateNormal];
-    addButton.frame = CGRectMake(addBtnX, addBtnY, addBtnW, addBtnH);
-    [addButton addTarget:self action:@selector(addButtonClick) forControlEvents:UIControlEventTouchUpInside];
-    addButton.enlargedEdge = 10;
-    [headerView addSubview:addButton];
+    UIButton *channelItemManageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [channelItemManageButton setBackgroundImage:[UIImage imageNamed:@"添加频道"] forState:UIControlStateNormal];
+    channelItemManageButton.frame = CGRectMake(addBtnX, addBtnY, addBtnW, addBtnH);
+    [channelItemManageButton addTarget:self action:@selector(channelItemManageButtonClick) forControlEvents:UIControlEventTouchUpInside];
+    channelItemManageButton.enlargedEdge = 10;
+    [headerView addSubview:channelItemManageButton];
     
     // 底部分割线
     UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(0, statusBarHeight + menuViewHeight - 1, ScreenWidth, 1)];
@@ -194,7 +193,7 @@ NSString * const cardCellIdentifier = @"CardCellIdentifier";
         self.homeBlackBlurView = homeBlackBlurView;
 
         // 点击添加频道
-        CGFloat changeBarImageViewY = CGRectGetMaxY(addButton.frame);
+        CGFloat changeBarImageViewY = CGRectGetMaxY(channelItemManageButton.frame);
         CGFloat changeBarImageViewW = 131;
         CGFloat changeBarImageViewH = 49;
         UIImageView *channelBarImageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth - changeBarImageViewW, changeBarImageViewY, changeBarImageViewW, changeBarImageViewH)];
@@ -232,9 +231,11 @@ NSString * const cardCellIdentifier = @"CardCellIdentifier";
 
 #pragma mark - 点击Status Bar
 - (void)tapStatusBarView {
-    
-    if (![self.selectedChannelTitle isEqualToString:@"关注"]) {
+    if (![self.selectedChannelTitle isEqualToString:LPConcernChannelItemName]) {
         LPPagingViewPage *page = (LPPagingViewPage *)self.pagingView.currentPage;
+        [page tapStatusBarScrollToTop];
+    } else {
+        LPPagingViewConcernPage *page = (LPPagingViewConcernPage *)self.pagingView.currentPage;
         [page tapStatusBarScrollToTop];
     }
 }
@@ -321,7 +322,7 @@ NSString * const cardCellIdentifier = @"CardCellIdentifier";
 }
 
 #pragma mark - 频道管理
-- (void)addButtonClick {
+- (void)channelItemManageButtonClick {
 
     LPHomeChannelItemController *homeChannelItemController = [[LPHomeChannelItemController alloc] init];
     homeChannelItemController.selectedArray = [self.selectedArray mutableCopy];
@@ -368,7 +369,7 @@ NSString * const cardCellIdentifier = @"CardCellIdentifier";
                     }
                 }
                 if(currentIndex == 0) {
-                    self.selectedChannelTitle = firstChannelName;
+                    self.selectedChannelTitle = LPQiDianChannelItemName;
                 }
                 
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -383,7 +384,8 @@ NSString * const cardCellIdentifier = @"CardCellIdentifier";
                 // 先请求数据库，没有再请求网络
                 if (![self.selectedChannelTitle isEqualToString:currentSelectedChannelTitle]) {
                     // 加载当前频道数据
-                    [self loadDataWithChannelItemName:currentSelectedChannelTitle currentIndex:currentIndex];
+                    [self loadMoreDataInPageAtPageIndex:currentIndex];
+                    
                     self.selectedChannelTitle = currentSelectedChannelTitle;
              
                 }
@@ -392,7 +394,7 @@ NSString * const cardCellIdentifier = @"CardCellIdentifier";
     [self.navigationController pushViewController:homeChannelItemController animated:YES];
 }
 
-#pragma mark - 改变页码和频道栏对应关系
+#pragma mark - 频道唯一标识，频道和页码映射关系
 - (void)updateIdentifierIndexMapToChannelItemDictionaryWithSelectedArray:(NSMutableArray *)selectedArray optionalArray:(NSMutableArray *)optionalArray {
     
     self.selectedArray = selectedArray;
@@ -404,45 +406,7 @@ NSString * const cardCellIdentifier = @"CardCellIdentifier";
     [self updatePageindexMapToChannelItemDictionary];
 }
 
-
-#pragma mark - 根据频道名称请求后台数据
-- (void)loadDataWithChannelItemName:(NSString *)channeName currentIndex:(NSInteger)currentIndex {
-    NSDate *currentDate = [NSDate date];
-    CardParam *param = [[CardParam alloc] init];
-    param.type = HomeCardsFetchTypeMore;
-    param.count = @(20);
-    NSDate *lastAccessDate = currentDate;
-    param.startTime = [NSString stringWithFormat:@"%lld", (long long)([lastAccessDate timeIntervalSince1970] * 1000)];
-    NSString *channelID = [LPChannelItemTool channelID:channeName];
-    param.channelID = channelID;
-    NSMutableArray *cfs = [NSMutableArray array];
-    [Card fetchCardsWithCardParam:param cardsArrayBlock:^(NSArray *cardsArray) {
-        NSArray *cards = cardsArray;
-        if (cards.count > 0) {
-            if (![channelID isEqualToString:focusChannelID]) {
-                for (Card *card in cards) {
-                    CardFrame *cf = [[CardFrame alloc] init];
-                    cf.card = card;
-                    [cfs addObject:cf];
-                }
-            } else {
-                for (Card *card in cards) {
-                    LPCardConcernFrame *cf = [[LPCardConcernFrame alloc] init];
-                    cf.card = card;
-                    [cfs addObject:cf];
-                }
-            }
-            [self.channelItemDictionary setObject:cfs forKey:channeName];
-            [self.pagingView reloadPageAtPageIndex:currentIndex];
-        } else {
-            // 请求网络数据
-            [self loadMoreDataInPageAtPageIndex:currentIndex];
-            
-        }
-    }];
-}
-
-#pragma mark -  设置频道和页码的映射关系
+#pragma mark -  频道和页码的映射关系
 - (void)updatePageindexMapToChannelItemDictionary {
     [self.pageindexMapToChannelItemDictionary removeAllObjects];
     for (int i = 0; i < self.selectedArray.count; i++) {

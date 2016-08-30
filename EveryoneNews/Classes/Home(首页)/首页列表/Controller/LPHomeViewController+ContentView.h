@@ -15,16 +15,12 @@
 @interface LPHomeViewController (PagingView) <LPPagingViewDataSource, LPPagingViewDelegate, LPPagingViewPageDelegate, UIGestureRecognizerDelegate, LPPagingViewConcernPageDelegate>
 
 // 加载已选频道栏所有数据
-- (void)setupInitialPagingViewData;
+- (void)setupPagingViewData;
 
+// 加载更多
 - (void)loadMoreDataInPageAtPageIndex:(NSInteger)pageIndex;
 
+// 请求网络数据存储数据库
 - (void)channelItemDidAddToCoreData:(NSInteger)pageIndex;
 
-- (void)showLoadingView;
-
-- (void)hideLoadingView;
-
-- (void)handleDataAfterChannelItemChanged:(NSInteger)index;
- 
 @end

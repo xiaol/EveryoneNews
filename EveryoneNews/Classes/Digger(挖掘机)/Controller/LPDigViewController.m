@@ -24,6 +24,7 @@
 #import "AlbumPhoto.h"
 #import "AFNetworking.h"
 #import "LPTriangleView.h"
+#import "LPSearchResultViewController.h"
 
 static const CGFloat headerH = 44;
 static const CGFloat padding = 10.0;
@@ -425,6 +426,11 @@ NSString * const HotwordsURL = @"http://api.deeporiginalx.com/news/baijia/fetchE
 
 #pragma mark - collect into album (push collectVc)
 - (void)addBtnClick {
+    
+//    LPSearchResultViewController *resultViewController = [[LPSearchResultViewController alloc] init];
+//    resultViewController.searchText = self.textView.text;
+//    [self.navigationController pushViewController:resultViewController animated:YES];
+    
     [self.cloud stopAnimation];
     // 判断是否是第一次加载挖掘机页面
     if (![userDefaults objectForKey:@"isFirstDigger"]) {

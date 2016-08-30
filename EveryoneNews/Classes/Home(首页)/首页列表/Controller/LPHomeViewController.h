@@ -76,10 +76,9 @@
 @property (nonatomic, strong) CardFrame *currentCardFrame;
 
 @property (nonatomic, strong) UIWindow *statusWindow;
-
-@property (nonatomic, assign) BOOL isTourist;
-
 @property (nonatomic, strong) LPHttpTool *http;
+
+ 
 
 //- (void)login;
 //- (void)loginout;

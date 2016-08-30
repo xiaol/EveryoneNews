@@ -262,15 +262,11 @@
         self.searchView.hidden = NO;
         self.contentLoadingView.hidden = YES;
         [self.animationImageView stopAnimating];
-        NSLog(@">0");
     } else {
         self.contentLoadingView.hidden = NO;
         [self.animationImageView startAnimating];
-        NSLog(@"<0");
     }
     [self.tableView reloadData];
- 
-
 }
 
 #pragma mark - 跳转到搜索栏
@@ -482,8 +478,8 @@
     [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:rowIndex inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
 }
 
-- (void)tapStatusBarScrollToTop{
-
+- (void)tapStatusBarScrollToTop {
+    
     [self.tableView setContentOffset:CGPointZero animated:YES];
 }
 

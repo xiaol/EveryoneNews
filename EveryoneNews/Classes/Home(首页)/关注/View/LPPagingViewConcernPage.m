@@ -140,9 +140,9 @@
         label.y = -15;
         label.width = ScreenWidth;
         
-        label.backgroundColor = [UIColor colorFromHexString:@"#fafafa"];
+        label.backgroundColor = [UIColor colorFromHexString:LPColor8];
         label.textAlignment = NSTextAlignmentCenter;
-        label.textColor = [UIColor colorFromHexString:@"0087d1"];
+        label.textColor = [UIColor colorFromHexString:LPColor2];
         label.font = [UIFont systemFontOfSize:14];
         if (iPhone6Plus) {
             label.font = [UIFont systemFontOfSize:16];
@@ -319,6 +319,11 @@
     if ([self.delegate respondsToSelector:@selector(concernPage:didClickSearchImageView:)]) {
         [self.delegate concernPage:self didClickSearchImageView:imageView];
     }
+}
+
+- (void)tapStatusBarScrollToTop {
+    
+    [self.tableView setContentOffset:CGPointZero animated:YES];
 }
 
 

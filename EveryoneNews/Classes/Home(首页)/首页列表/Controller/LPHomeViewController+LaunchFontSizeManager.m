@@ -24,7 +24,7 @@
     [LPFontSizeManager sharedManager].currentDetailRelatePointFontSize = currentDetailRelatePointFontSize;
     [LPFontSizeManager sharedManager].currentDetailSourceFontSize = currentDetailSourceFontSize;
 
-    [self setupInitialPagingViewData];
+    [self setupPagingViewData];
   
 }
 

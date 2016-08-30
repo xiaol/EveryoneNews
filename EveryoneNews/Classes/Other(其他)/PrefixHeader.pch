@@ -71,27 +71,6 @@ typedef NS_ENUM(NSInteger, iPhone5HomeTitleSize) {
     iPhone5HomeTitleSizeSuperLarger = 21
 };
 
-//// 首页字体 Plus
-//typedef NS_ENUM(NSInteger, iPhone6PlusHomeTitleSize) {
-//    iPhone6PlusHomeTitleSizeStandard = 18,
-//    iPhone6PlusHomeTitleSizeLarger = 20,
-//    iPhone6PlusHomeTitleSizeSuperLarger = 22
-//};
-//
-//// 首页字体 6
-//typedef NS_ENUM(NSInteger, iPhone6HomeTitleSize) {
-//    iPhone6HomeTitleSizeStandard = 18,
-//    iPhone6HomeTitleSizeLarger = 20,
-//    iPhone6HomeTitleSizeSuperLarger = 22
-//};
-//
-//// 首页字体 5
-//typedef NS_ENUM(NSInteger, iPhone5HomeTitleSize) {
-//    iPhone5HomeTitleSizeStandard = 16,
-//    iPhone5HomeTitleSizeLarger = 18,
-//    iPhone5HomeTitleSizeSuperLarger = 20
-//};
-
 // 详情页标题字体 Plus
 typedef NS_ENUM(NSInteger, iPhone6PlusDetailTitleSize) {
     iPhone6PlusDetailTitleSizeStandard = 25,
@@ -257,6 +236,7 @@ typedef NS_ENUM(NSInteger, newsType) {
 #define LPConcernChannelItemShowOrHide @"LPConcernChannelItemShowOrHide"
 // 关注名字
 #define LPConcernChannelItemName @"关注"
+#define LPQiDianChannelItemName @"奇点"
 // 第一次关注
 #define LPConcernChannelItemAtFirstTime @"LPConcernChannelItemAtFirstTime"
 #define LPSuccess @"success"

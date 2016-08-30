@@ -14,6 +14,7 @@
 #import "Account.h"
 #import "AccountTool.h"
 #import "LPHttpTool.h"
+#import "MBProgressHUD+MJ.h"
 
 static NSString *cellIdentifier = @"cellIdentifier";
 @interface LPQiDianConcernViewController () <UITableViewDelegate, UITableViewDataSource, LPQiDianHaoCellDelegate>
@@ -160,6 +161,7 @@ static NSString *cellIdentifier = @"cellIdentifier";
     // 未登录则登录成功后刷新数据
     if (![AccountTool account]) {
         [AccountTool accountLoginWithViewController:self success:^(Account *account){
+            [MBProgressHUD showSuccess:@"登录成功"];
             [self reloadTableViewAfterLogin];
         } failure:^{
         } cancel:nil];
@@ -228,9 +230,9 @@ static NSString *cellIdentifier = @"cellIdentifier";
                 qiDianHaoFrame.qiDianHao = qiDianHao;
                 NSInteger index = [self.qiDianHaoFrames indexOfObject:qiDianHaoFrame];
                 [weakSelf.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [noteCenter postNotificationName:LPReloadAddConcernPageNotification object:nil];
-                });
+                [noteCenter postNotificationName:LPAddConcernSourceNotification object:nil];
+                [noteCenter postNotificationName:LPReloadAddConcernPageNotification object:nil];
+               
                 
             }
         } failure:^(NSError *error) {
@@ -246,11 +248,9 @@ static NSString *cellIdentifier = @"cellIdentifier";
                 qiDianHaoFrame.qiDianHao = qiDianHao;
                 NSInteger index = [self.qiDianHaoFrames indexOfObject:qiDianHaoFrame];
                 [weakSelf.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    NSDictionary *dict =[[NSDictionary alloc] initWithObjectsAndKeys:sourceName,@"sourceName", nil];
-                    [noteCenter postNotificationName:LPReloadCancelConcernPageNotification object:nil userInfo:dict];
-
-                });
+                [noteCenter postNotificationName:LPRemoveConcernSourceNotification object:nil];
+                NSDictionary *dict =[[NSDictionary alloc] initWithObjectsAndKeys:sourceName,@"sourceName", nil];
+                [noteCenter postNotificationName:LPReloadCancelConcernPageNotification object:nil userInfo:dict];
            
             }
         } failure:^(NSError *error) {

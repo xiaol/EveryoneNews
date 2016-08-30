@@ -2788,13 +2788,13 @@
 			path = "频道栏头部";
 			sourceTree = "<group>";
 		};
-		864846BF1D0FFCC9003FA564 /* 创建视图 */ = {
+		864846BF1D0FFCC9003FA564 /* 首页视图 */ = {
 			isa = PBXGroup;
 			children = (
 				864846A41D0FF8B6003FA564 /* LPHomeViewController+SubviewsManager.h */,
 				864846A51D0FF8B6003FA564 /* LPHomeViewController+SubviewsManager.m */,
 			);
-			name = "创建视图";
+			name = "首页视图";
 			sourceTree = "<group>";
 		};
 		864846C01D0FFCFC003FA564 /* 加载内容 */ = {
@@ -3007,7 +3007,7 @@
 				863EC83C1D100001000656D8 /* 频道管理 */,
 				864846C11D0FFD1A003FA564 /* 主控制器 */,
 				864846C01D0FFCFC003FA564 /* 加载内容 */,
-				864846BF1D0FFCC9003FA564 /* 创建视图 */,
+				864846BF1D0FFCC9003FA564 /* 首页视图 */,
 				8648469C1D0FF8B6003FA564 /* LPHomeViewController+ChannelItemName.h */,
 				8648469D1D0FF8B6003FA564 /* LPHomeViewController+ChannelItemName.m */,
 				864846A01D0FF8B6003FA564 /* LPHomeViewController+LaunchFontSizeManager.h */,

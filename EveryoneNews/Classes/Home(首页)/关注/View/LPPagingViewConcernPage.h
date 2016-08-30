@@ -28,4 +28,5 @@
 @property (nonatomic, weak) id<LPPagingViewConcernPageDelegate> delegate;
 
 - (void)autotomaticLoadNewData;
+- (void)tapStatusBarScrollToTop;
 @end
