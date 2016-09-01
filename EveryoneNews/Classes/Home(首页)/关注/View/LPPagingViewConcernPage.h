@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
+#import "LPPagingViewBasePage.h"
 
 @class LPPagingViewConcernPage;
 @class LPCardConcernFrame;
 
-@protocol LPPagingViewConcernPageDelegate <NSObject>
+@protocol LPPagingViewConcernPageDelegate <LPPagingViewBasePageDelegate>
 
 @optional
 - (void)concernPage:(LPPagingViewConcernPage *)concernPage didSelectCellWithCardID:(NSManagedObjectID *)cardID;
@@ -20,12 +21,7 @@
 
 @end
 
-@interface LPPagingViewConcernPage : UIView
-
-@property (nonatomic, strong) NSMutableArray *cardFrames;
-@property (nonatomic, copy) NSString *cellIdentifier;
-@property (nonatomic, copy) NSString *pageChannelName;
-@property (nonatomic, weak) id<LPPagingViewConcernPageDelegate> delegate;
+@interface LPPagingViewConcernPage : LPPagingViewBasePage
 
 - (void)autotomaticLoadNewData;
 - (void)tapStatusBarScrollToTop;

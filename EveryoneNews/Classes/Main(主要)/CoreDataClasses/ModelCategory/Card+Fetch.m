@@ -30,9 +30,6 @@
             } else {
                 request.predicate = [NSPredicate predicateWithFormat:@"channelId = %@ && isCardDeleted <> 1 && updateTime < %@ ", param.channelID, param.startTime];
             }
-            
-            
-         
         }
         [cdh.importContext performBlock:^{
             NSError *error = nil;

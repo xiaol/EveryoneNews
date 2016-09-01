@@ -92,7 +92,6 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
     
         [self.pagingView setCurrentPageIndex:indexPath.item animated:NO];
        [self.menuView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionCenteredHorizontally animated:YES];
-    
         // 超过5分钟自动刷新 第一次调用则加载
         LPChannelItem *channelItem = [currentCell channelItem];
         NSDate *currentDate = [NSDate date];
@@ -103,8 +102,7 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
         }
     
         if ([channelItem.channelID isEqualToString:focusChannelID]) {
-            LPPagingViewConcernPage *page = (LPPagingViewConcernPage *)[self.pagingView currentPage];
-            [self channelItemDidAddToCoreData:indexPath.item];
+            LPPagingViewConcernPage *page = (LPPagingViewConcernPage *)[self.pagingView visiblePageAtIndex:indexPath.item];
             if (lastAccessDate != nil) {
                 int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
                 // 每5分钟做一次刷新操作
@@ -114,8 +112,7 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
                 }
             }
         } else {
-            LPPagingViewPage *page = (LPPagingViewPage *)[self.pagingView currentPage];
-            [self channelItemDidAddToCoreData:indexPath.item];
+            LPPagingViewPage *page = (LPPagingViewPage *)[self.pagingView visiblePageAtIndex:indexPath.item];
             if (lastAccessDate != nil) {
                 int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
                 // 每5分钟做一次刷新操作

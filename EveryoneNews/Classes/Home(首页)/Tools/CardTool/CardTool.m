@@ -250,59 +250,63 @@
     NSMutableDictionary *paramDict = [NSMutableDictionary dictionary];
     paramDict[@"uid"] = uid;
     paramDict[@"tcr"] = param.startTime;
-    if (param.type == HomeCardsFetchTypeNew) {
-        
-        NSString *url = [NSString stringWithFormat:@"%@/v2/ns/pbs/cocs/r", ServerUrlVersion2];
-        [LPHttpTool getJsonAuthorizationWithURL:url authorization:authorization params:paramDict success:^(id json) {
+    
+    if (![[[userDefaults objectForKey:@"utype"] stringValue] isEqualToString:@"2"]) {
+        if (param.type == HomeCardsFetchTypeNew) {
             
-           
-            // 有数据
-            if ([json[@"code"] integerValue] == 2000) {
-                [Card createCardsWithDictArray:json[@"data"] channelID:param.channelID cardsArrayBlock:^(NSArray *cardsArray) {
+            NSString *url = [NSString stringWithFormat:@"%@/v2/ns/pbs/cocs/r", ServerUrlVersion2];
+            [LPHttpTool getJsonAuthorizationWithURL:url authorization:authorization params:paramDict success:^(id json) {
+                
+                
+                // 有数据
+                if ([json[@"code"] integerValue] == 2000) {
+                    [Card createCardsWithDictArray:json[@"data"] channelID:param.channelID cardsArrayBlock:^(NSArray *cardsArray) {
+                        success(cardsArray);
+                    }];
+                }
+                // 没有数据
+                else if ([json[@"code"] integerValue] == 2002) {
+                    NSArray *cardsArray = [[NSArray alloc] init];
                     success(cardsArray);
-                }];
-            }
-            // 没有数据
-            else if ([json[@"code"] integerValue] == 2002) {
-                NSArray *cardsArray = [[NSArray alloc] init];
-                success(cardsArray);
-            }
-            // 用户验证错误
-            else if ([json[@"code"] integerValue] == 4003) {
-                [LPLoginTool loginVerify];
-                NSArray *cardsArray = [[NSArray alloc] init];
-                success(cardsArray);
-            }
-            
-        } failure:^(NSError *error) {
-            failure(error);
-        }];
-
-    }  else if (param.type == HomeCardsFetchTypeMore) {
-        NSString *url = [NSString stringWithFormat:@"%@/v2/ns/pbs/cocs/l", ServerUrlVersion2];
-        [LPHttpTool getJsonAuthorizationWithURL:url authorization:authorization params:paramDict success:^(id json) {
-        
-            // 有数据
-            if ([json[@"code"] integerValue] == 2000) {
-                [Card createCardsWithDictArray:json[@"data"] channelID:param.channelID cardsArrayBlock:^(NSArray *cardsArray) {
+                }
+                // 用户验证错误
+                else if ([json[@"code"] integerValue] == 4003) {
+                    [LPLoginTool loginVerify];
+                    NSArray *cardsArray = [[NSArray alloc] init];
                     success(cardsArray);
-                }];
-            }
-            // 没有数据
-            else if ([json[@"code"] integerValue] == 2002) {
-                NSArray *cardsArray = [[NSArray alloc] init];
-                success(cardsArray);
-            }
-            // 用户验证错误
-            else if ([json[@"code"] integerValue] == 4003) {
-                [LPLoginTool loginVerify];
-                NSArray *cardsArray = [[NSArray alloc] init];
-                success(cardsArray);
-            }
+                }
+                
+            } failure:^(NSError *error) {
+                failure(error);
+            }];
             
-        } failure:^(NSError *error) {
-            failure(error);
-        }];
+        }  else if (param.type == HomeCardsFetchTypeMore) {
+            NSString *url = [NSString stringWithFormat:@"%@/v2/ns/pbs/cocs/l", ServerUrlVersion2];
+            [LPHttpTool getJsonAuthorizationWithURL:url authorization:authorization params:paramDict success:^(id json) {
+                
+                // 有数据
+                if ([json[@"code"] integerValue] == 2000) {
+                    [Card createCardsWithDictArray:json[@"data"] channelID:param.channelID cardsArrayBlock:^(NSArray *cardsArray) {
+                        success(cardsArray);
+                    }];
+                }
+                // 没有数据
+                else if ([json[@"code"] integerValue] == 2002) {
+                    NSArray *cardsArray = [[NSArray alloc] init];
+                    success(cardsArray);
+                }
+                // 用户验证错误
+                else if ([json[@"code"] integerValue] == 4003) {
+                    [LPLoginTool loginVerify];
+                    NSArray *cardsArray = [[NSArray alloc] init];
+                    success(cardsArray);
+                }
+                
+            } failure:^(NSError *error) {
+                failure(error);
+            }];
+            
+        }
 
     }
     

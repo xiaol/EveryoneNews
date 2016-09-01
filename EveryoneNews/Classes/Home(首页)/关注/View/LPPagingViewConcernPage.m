@@ -25,9 +25,12 @@
 @property (nonatomic, strong) UIView *noDataConcernView;
 @property (nonatomic, strong) UILabel *promptLabel;
 
+
 @end
 
 @implementation LPPagingViewConcernPage
+
+@synthesize delegate = _delegate, cardFrames = _cardFrames, offset = _offset;
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -257,6 +260,10 @@
     
 }
 
+- (id<LPPagingViewConcernPageDelegate>)delegate {
+    return (id<LPPagingViewConcernPageDelegate>)_delegate;
+}
+
 #pragma mark - layoutSubviews
 - (void)layoutSubviews {
     [super layoutSubviews];
@@ -309,7 +316,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     LPCardConcernFrame *cardFrame = self.cardFrames[indexPath.row];
     if ([self.delegate respondsToSelector:@selector(concernPage:didSelectCellWithCardID:)]) {
-        [self.delegate concernPage:self didSelectCellWithCardID:cardFrame.card.objectID];
+        [(id<LPPagingViewConcernPageDelegate>)self.delegate concernPage:self didSelectCellWithCardID:cardFrame.card.objectID];
     }
 }
 
@@ -317,7 +324,7 @@
 - (void)tapImageView:(UIImageView *)sender {
     UIImageView *imageView = sender;
     if ([self.delegate respondsToSelector:@selector(concernPage:didClickSearchImageView:)]) {
-        [self.delegate concernPage:self didClickSearchImageView:imageView];
+        [(id<LPPagingViewConcernPageDelegate>)self.delegate concernPage:self didClickSearchImageView:imageView];
     }
 }
 
@@ -326,6 +333,13 @@
     [self.tableView setContentOffset:CGPointZero animated:YES];
 }
 
+- (void)setOffset:(CGPoint)offset {
+    _offset = offset;
+    [self.tableView setContentOffset:offset];
+}
 
+- (CGPoint)offset {
+    return self.tableView.contentOffset;
+}
 
 @end

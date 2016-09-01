@@ -83,6 +83,21 @@
     return _cellAttributesArray;
 }
 
+- (NSMutableDictionary *)pageOffsetDictionary {
+    if (_pageOffsetDictionary == nil) {
+        _pageOffsetDictionary = [NSMutableDictionary dictionary];
+    }
+    return _pageOffsetDictionary;
+}
+
+
+- (NSMutableArray *)subscriberFrameArray {
+    if (_subscriberFrameArray == nil) {
+        _subscriberFrameArray = [NSMutableArray array];
+    }
+    return _subscriberFrameArray;
+}
+
 #pragma mark - viewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -104,6 +119,8 @@
     [noteCenter addObserver:self selector:@selector(resignActiveNotification) name:UIApplicationWillResignActiveNotification object:nil];
     // 从后台激活
     [noteCenter addObserver:self selector:@selector(becomeActiveNotification) name:UIApplicationDidBecomeActiveNotification object:nil];
+    
+    // 首订通知
     
 
 }
@@ -135,17 +152,17 @@
                 if (interval > 20) {
                     if (![channelItem.channelID isEqualToString:focusChannelID]) {
                         
-                        LPPagingViewPage *page = (LPPagingViewPage *)self.pagingView.currentPage;
+                        LPPagingViewPage *page = (LPPagingViewPage *)[self.pagingView visiblePageAtIndex:self.pagingView.currentPageIndex];
                         [page autotomaticLoadNewData];
                         channelItem.lastAccessDate = currentDate;
                     } else {
-                        LPPagingViewConcernPage *page = (LPPagingViewConcernPage *)self.pagingView.currentPage;
+                        LPPagingViewConcernPage *page = (LPPagingViewConcernPage *)[self.pagingView visiblePageAtIndex:self.pagingView.currentPageIndex];
                         [page autotomaticLoadNewData];
                         channelItem.lastAccessDate = currentDate;
                     }
                 }
-                
             }
+            break;
         }
     }
 }
@@ -167,7 +184,7 @@
             }
         }
         if (concernFlag) {
-            [self channelItemDidAddToCoreData:pageIndex];
+            [self loadMoreDataInPageAtPageIndex:pageIndex];
         }
     }
 }
@@ -191,7 +208,7 @@
             }
         }
         if (concernFlag) {
-            self.channelItemDictionary[LPConcernChannelItemName]  =  nil;
+            self.channelItemDictionary[LPConcernChannelItemName]  =  [NSMutableArray array];
             [self.pagingView reloadPageAtPageIndex:pageIndex];
         }
     }
@@ -390,10 +407,7 @@
 - (void)setupInitialData {
     // 设置频道名称
     [self initializeChannelItemName];
-    
-    // 设置已选频道栏数据
-    [self setupPagingViewData];
-    
+
     // 设置所有频道唯一标识符
     [self setCellIdentifierOfAllChannelItems];
     
@@ -408,8 +422,9 @@
     for (int i = 0; i < self.selectedArray.count; i++) {
         LPChannelItem *channelItem = self.selectedArray[i];
         channelItem.lastAccessDate = nil;
+        self.channelItemDictionary[channelItem.channelName] = [NSMutableArray array];
     }
-    [self.channelItemDictionary removeAllObjects];
+
     
     NSInteger pageIndex = self.pagingView.currentPageIndex;
     // 获取频道相关信息
@@ -424,54 +439,43 @@
         channelItem.lastAccessDate = currentDate;
     }
     // 加载当前频道数据
-    [self channelItemDidAddToCoreData:pageIndex];
-    
+    [self loadMoreDataInPageAtPageIndex:pageIndex];
     [self.pagingView reloadData];
+    
 }
 
 #pragma mark - 改变首页字体大小(继承自父类)
 - (void)changeHomeViewFontSize {
-    
     // 遍历所有页面
     for (int i = 0; i < self.selectedArray.count; i++) {
-        
         LPChannelItem *channelItem = (LPChannelItem *)self.selectedArray[i];
-        if ([channelItem.channelID isEqualToString:focusChannelID]) {
-            LPPagingViewConcernPage *page = (LPPagingViewConcernPage *)[self.pagingView pageAtPageIndex:i];
-            if (page != nil) {
-                NSArray *cardFrames = page.cardFrames;
-                NSMutableArray *newCardFrames = [NSMutableArray array];
-                for (LPCardConcernFrame *cardFrame in cardFrames) {
+        NSString *channelName = channelItem.channelName;
+        NSMutableArray *cardFramesArray = self.channelItemDictionary[channelName];
+        if (cardFramesArray.count > 0) {
+            
+            NSMutableArray *newCardFrames = [NSMutableArray array];
+            if ([channelItem.channelID isEqualToString:focusChannelID]) {
+                for (LPCardConcernFrame *cardFrame in cardFramesArray) {
                     LPCardConcernFrame *cf = [[LPCardConcernFrame alloc] init];
                     cf.card = cardFrame.card;
                     [newCardFrames addObject:cf];
                 }
-                NSString *channelName = page.pageChannelName;
-                [self.channelItemDictionary setObject:newCardFrames forKey:channelName];
-                [self.pagingView reloadPageAtPageIndex:i];
-            }
-        } else {
-            LPPagingViewPage *page = (LPPagingViewPage *)[self.pagingView pageAtPageIndex:i];
-            if (page != nil) {
-                NSArray *cardFrames = page.cardFrames;
-                NSMutableArray *newCardFrames = [NSMutableArray array];
-                for (CardFrame *cardFrame in cardFrames) {
+            } else {
+                for (CardFrame *cardFrame in cardFramesArray) {
                     CardFrame *cf = [[CardFrame alloc] init];
                     cf.card = cardFrame.card;
                     [newCardFrames addObject:cf];
                 }
-                NSString *channelName = page.pageChannelName;
-                [self.channelItemDictionary setObject:newCardFrames forKey:channelName];
-                [self.pagingView reloadPageAtPageIndex:i];
             }
+            [self.channelItemDictionary setObject:newCardFrames forKey:channelName];
+            [self.pagingView reloadPageAtPageIndex:i];
         }
     }
-    if (![self.selectedChannelTitle isEqualToString:@"关注"]) {
-        LPPagingViewPage *page = (LPPagingViewPage *)[self.pagingView currentPage];
+    if (![self.selectedChannelTitle isEqualToString:LPConcernChannelItemName]) {
+        LPPagingViewPage *page = (LPPagingViewPage *)[self.pagingView visiblePageAtIndex:self.pagingView.currentPageIndex];
         [page scrollToCurrentRow:[LPHomeRowManager sharedManager].currentRowIndex];
     }
 }
-
 
 #pragma mark - 移除通知
 - (void)dealloc {

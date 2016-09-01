@@ -123,8 +123,6 @@
 @property (nonatomic, strong) LPPagingViewHelper *helper;
 @property (nonatomic, strong) LPPagingViewDelegateTrampline *delegateTrampoline;
 
-@property (nonatomic, strong) NSCache *cache;
-
 // private methods
 //- (CGRect)frameForPageIndex:(NSInteger)pageIndex;
 //- (void)didScrollToPageIndex:(NSInteger)pageIndex;
@@ -234,7 +232,7 @@
     }
     [self.visiblePages removeAllObjects];
     [self.reusablePages removeAllObjects];
-    [self.cache removeAllObjects];
+//    [self.cache removeAllObjects];
     
     self.helper = nil;
     
@@ -276,12 +274,12 @@
 
 // scroll ending call back
 - (void)didScrollToPageIndex:(NSInteger)pageIndex {
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        if ([self.delegate respondsToSelector:@selector(pagingView:didScrollToPageIndex:)]) {
-            [self.delegate pagingView:self didScrollToPageIndex:pageIndex];
-        }
-//    });
-
+    //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    if ([self.delegate respondsToSelector:@selector(pagingView:didScrollToPageIndex:)]) {
+        [self.delegate pagingView:self didScrollToPageIndex:pageIndex];
+    }
+    //    });
+    
 }
 
 // delegate setter / getter
@@ -354,7 +352,7 @@
     //    NSLog(@"%@", NSStringFromSelector(_cmd));
     [super layoutSubviews];
     //    if (self.contentOffset.x < 0 || self.contentOffset.x > self.helper.contentSize.width) return;
-    CGFloat numberOfPages = self.helper.numberOfPages;
+    NSInteger numberOfPages = self.helper.numberOfPages;
     if (numberOfPages == 0) return;
     CGRect visibleBounds = self.clipsToBounds ? self.bounds : [self convertRect:self.superview.bounds fromView:self.superview];
     CGFloat pageLength = self.helper.pageWidth + self.helper.gutter;
@@ -371,25 +369,34 @@
     NSMutableSet *removedPages = [NSMutableSet set];
     
     for (UIView *page in self.visiblePages) {
-        if ([self pageIndexFromTag:page.tag] < firstIndex || [self pageIndexFromTag:page.tag] > lastIndex) {
+        NSInteger idx = [self pageIndexFromTag:page.tag];
+        if (idx < firstIndex ||idx > lastIndex) {
             [page removeFromSuperview];         // 1.1
             [removedPages addObject:page];
             [self queueReusablePage:page];      // 1.3
+            
+            if ([self.delegate respondsToSelector:@selector(pagingView:didEndDisplayPage:atIndex:)]) {
+                [self.delegate pagingView:self didEndDisplayPage:page atIndex:idx];
+            }
+            
         }
     }
     [self.visiblePages minusSet:removedPages];  // 1.2
     
+    
+    
     // 2. layout visible pages 如更新的可视集合中有新来的index, 从数据源获取对应的page(2.1)添加至pv(2.2), 并加入可视集合(2.3)
     for (NSInteger index = firstIndex; index <= lastIndex; index ++) {
         if (![self isPageVisibleAtPageIndex:index]) {
-            UIView *page = [self.cache objectForKey:@(index)]; // 2.1
-            if (!page) {
-                page = [self.dataSource pagingView:self pageForPageIndex:index];
-            }
+//            UIView *page = [self.cache objectForKey:@(index)]; // 2.1
+//            if (!page) {
+            UIView *page = [self.dataSource pagingView:self pageForPageIndex:index];
+//            }
             page.frame = [self frameForPageIndex:index];
             page.tag = [self tagFromPageIndex:index];
             [self addSubview:page];                                     // 2.2
-            [self.visiblePages addObject:page];                                      // 2.3
+            [self.visiblePages addObject:page];
+//            [self.cache removeObjectForKey:@(index)]; // 2.3
         }
     }
     
@@ -398,6 +405,8 @@
         if ([self.delegate respondsToSelector:@selector(pagingView:didScrollToPageIndex:)]) {
             [self.delegate pagingView:self didScrollToPageIndex:self.currentPageIndex];
         }
+        
+        
     });
 }
 
@@ -409,7 +418,7 @@
             newPage.tag = page.tag;
             newPage.frame = page.frame;
             
-            [self.cache removeObjectForKey:@(pageIndex)];
+//            [self.cache removeObjectForKey:@(pageIndex)];
             
             [page removeFromSuperview];
             [self.visiblePages removeObject:page];
@@ -421,12 +430,6 @@
     // 2. 要刷新但页面不可见， 无需操作
 }
 
-//- (void)reloadPagesAtPageIndexes:(NSArray *)pageIndexes {
-//    for (NSNumber *indexObj in pageIndexes) {
-//        NSInteger index = indexObj.integerValue;
-//        [self reloadPageAtPageIndex:index];
-//    }
-//}
 
 /**
  *  delete a page
@@ -449,13 +452,10 @@
     
     if (visible) {
         [self.visiblePages removeObject:deletePage];
+//        [self.cache removeObjectForKey:@([self pageIndexFromTag:deletePage.tag])];
         for (UIView *page in self.visiblePages) {
             if ([self pageIndexFromTag:page.tag] >= index) {
-                -- page.tag;
-                CGFloat pageLength = self.helper.pageWidth + self.helper.gutter;
-                CGRect rect = page.frame;
-                rect.origin.x -= pageLength;
-                page.frame = rect;
+                [self movePageLeft:page];
             }
         }
         [deletePage removeFromSuperview];
@@ -465,23 +465,15 @@
 - (void)insertPageAtIndex:(NSInteger)index {
     self.helper = nil;
     
-    if (index <= [self largestVisibleIndex] && index >= [self lowestVisibleIndex]) {
+    if ([self isPageVisibleAtIndex:index]) {
         
         for (UIView *page in self.visiblePages) {
             if ([self pageIndexFromTag:page.tag] >= index) {
-                ++ page.tag;
-                CGFloat pageLength = self.helper.pageWidth + self.helper.gutter;
-                CGRect rect = page.frame;
-                rect.origin.x += pageLength;
-                page.frame = rect;
+                [self movePageRight:page];
             }
         }
         
-        UIView *newPage = [self pageAtPageIndex:index];
-        newPage.frame = [self frameForPageIndex:index];
-        newPage.tag = [self tagFromPageIndex:index];
-        [self.visiblePages addObject:newPage];
-        [self addSubview:newPage];
+        [self addNewVisiblePageFromIndex:index];
     }
 }
 
@@ -509,7 +501,7 @@
         }
     } else if ([self isPageVisibleAtIndex:from]) {
         if (to < visibleFrom) {
-            [self removeVisiblePageAtIndex:from];
+            [self removeVisiblePageFromIndex:from toIndex:to];
             
             for (UIView *page in self.visiblePages) {
                 NSInteger idx = [self pageIndexFromTag:page.tag];
@@ -519,7 +511,7 @@
             }
             
         } else if (to > visibleTo) {
-            [self removeVisiblePageAtIndex:from];
+            [self removeVisiblePageFromIndex:from toIndex:to];
             
             for (UIView *page in self.visiblePages) {
                 NSInteger idx = [self pageIndexFromTag:page.tag];
@@ -587,6 +579,7 @@
 }
 
 - (void)addNewVisiblePageFromIndex:(NSInteger)index {
+    
     UIView *newPage = [self pageAtPageIndex:index];
     newPage.frame = [self frameForPageIndex:index];
     newPage.tag = [self tagFromPageIndex:index];
@@ -594,9 +587,13 @@
     [self addSubview:newPage];
 }
 
-- (void)removeVisiblePageAtIndex:(NSInteger)index {
+- (void)removeVisiblePageFromIndex:(NSInteger)from toIndex:(NSInteger)to {
     for (UIView *page in self.visiblePages) {
-        if ([self pageIndexFromTag:page.tag] == index) {
+        NSInteger idx = [self pageIndexFromTag:page.tag];
+        if (idx == from) {
+            if ([self.delegate respondsToSelector:@selector(pagingView:didEndDisplayPage:atIndex:)]) {
+                [self.delegate pagingView:self didEndDisplayPage:page atIndex:to];
+            }
             [self queueReusablePage:page];
             [page removeFromSuperview];
             [self.visiblePages removeObject:page];
@@ -605,16 +602,33 @@
     }
 }
 
-- (BOOL)isPageVisibleAtIndex:(NSInteger)index {
-    return index <= [self largestVisibleIndex] && index >= [self lowestVisibleIndex];
+- (void)exchangePageAtIndex:(NSInteger)idx1 withPageAtIndex:(NSInteger)idx2 {
+    
+    BOOL visible1 = [self isPageVisibleAtIndex:idx1];
+    BOOL visible2 = [self isPageVisibleAtIndex:idx2];
+    
+    
+    if (!visible1 && !visible2) return;
+
+    if (visible1 && visible2) {
+        // old
+        UIView *page1 = [self visiblePageAtIndex:idx1];
+        UIView *page2 = [self visiblePageAtIndex:idx2];
+        page1.tag = [self tagFromPageIndex:idx2];
+        page1.frame = [self frameForPageIndex:idx2];
+        page2.tag = [self tagFromPageIndex:idx1];
+        page2.frame = [self frameForPageIndex:idx1];
+    } else if (!visible1 && visible2) {
+        [self removeVisiblePageFromIndex:idx2 toIndex:idx1];
+        [self addNewVisiblePageFromIndex:idx2];
+    } else {
+        [self removeVisiblePageFromIndex:idx1 toIndex:idx2];
+        [self addNewVisiblePageFromIndex:idx1];
+    }
 }
 
-
-
-
-- (void)exchangePageAtIndex:(NSInteger)idx1 withPageAtIndex:(NSInteger)idx2 {
-    [self reloadPageAtPageIndex:idx1];
-    [self reloadPageAtPageIndex:idx2];
+- (BOOL)isPageVisibleAtIndex:(NSInteger)index {
+    return index <= [self largestVisibleIndex] && index >= [self lowestVisibleIndex];
 }
 
 - (NSInteger)lowestVisibleIndex {
@@ -661,20 +675,23 @@
     }
 }
 
-- (UIView *)currentPage {
-    return [self pageAtPageIndex:self.currentPageIndex];
+- (UIView *)visiblePageAtIndex:(NSInteger)index {
+    UIView *page = nil;
+    for (UIView *view in self.visiblePages) {
+        if ([self pageIndexFromTag:view.tag] == index) {
+            page = view;
+            break;
+        }
+    }
+    return page;
 }
 
 - (UIView *)pageAtPageIndex:(NSInteger)index {
     UIView *page = nil;
-    for (UIView *view in self.subviews) {
-        if ([self pageIndexFromTag:view.tag] == index) {
-            page = view;
-        }
-    }
+    page = [self visiblePageAtIndex:index];
+    
     if (!page) {
         page = [self.dataSource pagingView:self pageForPageIndex:index];
-        [self.cache setObject:page forKey:@(index)];
     }
     return page;
 }
@@ -686,8 +703,6 @@
 - (NSInteger)pageIndexFromTag:(NSInteger)tag {
     return tag - 1000;
 }
-
-
 
 @end
 

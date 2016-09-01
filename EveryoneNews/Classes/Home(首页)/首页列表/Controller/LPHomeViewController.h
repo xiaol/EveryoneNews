@@ -78,7 +78,12 @@
 @property (nonatomic, strong) UIWindow *statusWindow;
 @property (nonatomic, strong) LPHttpTool *http;
 
- 
+@property (nonatomic, assign, getter=iSAutoRefreshAtFirstTimeFinished) BOOL autoRefreshAtFirstTimeFinished;
+
+@property (nonatomic, strong) NSMutableDictionary *pageOffsetDictionary;
+
+
+@property (nonatomic, strong) NSMutableArray *subscriberFrameArray;
 
 //- (void)login;
 //- (void)loginout;

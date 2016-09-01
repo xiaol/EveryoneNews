@@ -248,6 +248,10 @@
 		8640BF2A1D5C651500769BB8 /* LPMyCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8640BF291D5C651500769BB8 /* LPMyCollectionViewCell.m */; };
 		8640BF311D5C722E00769BB8 /* LPMyCollectionCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 8640BF301D5C722E00769BB8 /* LPMyCollectionCard.m */; };
 		8640BF341D5C724800769BB8 /* LPMyCollectionCardFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 8640BF331D5C724800769BB8 /* LPMyCollectionCardFrame.m */; };
+		8641DE291D77D5E000109F6D /* LPSubscriber.m in Sources */ = {isa = PBXBuildFile; fileRef = 8641DE261D77D5E000109F6D /* LPSubscriber.m */; };
+		8641DE2A1D77D5E000109F6D /* LPSubscriberFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 8641DE281D77D5E000109F6D /* LPSubscriberFrame.m */; };
+		8641DE2F1D77D5FB00109F6D /* LPSubscribeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8641DE2C1D77D5FB00109F6D /* LPSubscribeView.m */; };
+		8641DE301D77D5FB00109F6D /* LPSubscriberCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8641DE2E1D77D5FB00109F6D /* LPSubscriberCell.m */; };
 		8647351B1D5DD69100A9FAFB /* CardSourceColor+Create.m in Sources */ = {isa = PBXBuildFile; fileRef = 8647351A1D5DD69100A9FAFB /* CardSourceColor+Create.m */; };
 		864846081D0FE36B003FA564 /* LPHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 864846071D0FE36B003FA564 /* LPHomeViewController.m */; };
 		8648462C1D0FE785003FA564 /* LPNewsAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8648462B1D0FE785003FA564 /* LPNewsAboutViewController.m */; };
@@ -284,6 +288,7 @@
 		865907B31D06DE14009E9741 /* Comment+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 865907AE1D06DE14009E9741 /* Comment+CoreDataProperties.m */; };
 		865907B41D06DE14009E9741 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 865907B01D06DE14009E9741 /* Comment.m */; };
 		865C6A051D12976D00264311 /* insetsLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 865C6A041D12976D00264311 /* insetsLabel.m */; };
+		865FDBA71D75990700AA06F2 /* LPPagingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 865FDBA61D75990700AA06F2 /* LPPagingView.m */; };
 		8664C3561D4B42DD00F1E3D5 /* LPChannelItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8664C3551D4B42DD00F1E3D5 /* LPChannelItem.m */; };
 		8669D74B1D6F01E4006E647F /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8669D74A1D6F01E4006E647F /* libxml2.tbd */; };
 		8669D7531D6F0294006E647F /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = 8669D74E1D6F0294006E647F /* TFHpple.m */; };
@@ -314,7 +319,6 @@
 		86819F031CA3911D00C8BCFC /* LPRelateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 86819F021CA3911D00C8BCFC /* LPRelateCell.m */; };
 		86819F061CA392B000C8BCFC /* LPRelateFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 86819F051CA392B000C8BCFC /* LPRelateFrame.m */; };
 		86819F091CA3DCDB00C8BCFC /* LPDetailBottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86819F081CA3DCDB00C8BCFC /* LPDetailBottomView.m */; };
-		8681B0AD1D0FD87E0068A4FD /* LPPagingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8681B0A81D0FD87D0068A4FD /* LPPagingView.m */; };
 		8681B0AE1D0FD87E0068A4FD /* LPPagingViewPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8681B0AA1D0FD87E0068A4FD /* LPPagingViewPage.m */; };
 		8681B0AF1D0FD87E0068A4FD /* UIView+LPReusePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8681B0AC1D0FD87E0068A4FD /* UIView+LPReusePage.m */; };
 		8681B0B31D0FD8B20068A4FD /* LPChangeFontSizeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8681B0B21D0FD8B20068A4FD /* LPChangeFontSizeView.m */; };
@@ -348,6 +352,7 @@
 		869C5B601D24C42100D79750 /* LPSearchCardFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 869C5B5F1D24C42100D79750 /* LPSearchCardFrame.m */; };
 		869C5B641D24C86400D79750 /* LPSearchResultViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 869C5B631D24C86400D79750 /* LPSearchResultViewCell.m */; };
 		869C5B681D24F09900D79750 /* LPSearchCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 869C5B671D24F09900D79750 /* LPSearchCard.m */; };
+		86A5B74A1D76C69600790FB8 /* LPPagingViewBasePage.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A5B7491D76C69600790FB8 /* LPPagingViewBasePage.m */; };
 		86A6735F1C119D7D003509C3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 86A6735E1C119D7D003509C3 /* Images.xcassets */; };
 		86A6DD3B1D22689500AD475C /* LPSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A6DD381D22689500AD475C /* LPSearchViewController.m */; };
 		86A87A3F1C1AB7A0006830E9 /* LPSortCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A87A3E1C1AB7A0006830E9 /* LPSortCollectionView.m */; };
@@ -850,6 +855,14 @@
 		8640BF301D5C722E00769BB8 /* LPMyCollectionCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPMyCollectionCard.m; sourceTree = "<group>"; };
 		8640BF321D5C724800769BB8 /* LPMyCollectionCardFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPMyCollectionCardFrame.h; sourceTree = "<group>"; };
 		8640BF331D5C724800769BB8 /* LPMyCollectionCardFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPMyCollectionCardFrame.m; sourceTree = "<group>"; };
+		8641DE251D77D5E000109F6D /* LPSubscriber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPSubscriber.h; sourceTree = "<group>"; };
+		8641DE261D77D5E000109F6D /* LPSubscriber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPSubscriber.m; sourceTree = "<group>"; };
+		8641DE271D77D5E000109F6D /* LPSubscriberFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPSubscriberFrame.h; sourceTree = "<group>"; };
+		8641DE281D77D5E000109F6D /* LPSubscriberFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPSubscriberFrame.m; sourceTree = "<group>"; };
+		8641DE2B1D77D5FB00109F6D /* LPSubscribeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPSubscribeView.h; sourceTree = "<group>"; };
+		8641DE2C1D77D5FB00109F6D /* LPSubscribeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPSubscribeView.m; sourceTree = "<group>"; };
+		8641DE2D1D77D5FB00109F6D /* LPSubscriberCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPSubscriberCell.h; sourceTree = "<group>"; };
+		8641DE2E1D77D5FB00109F6D /* LPSubscriberCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPSubscriberCell.m; sourceTree = "<group>"; };
 		864735151D5DC11200A9FAFB /* Model 10.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 10.xcdatamodel"; sourceTree = "<group>"; };
 		864735191D5DD69100A9FAFB /* CardSourceColor+Create.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CardSourceColor+Create.h"; sourceTree = "<group>"; };
 		8647351A1D5DD69100A9FAFB /* CardSourceColor+Create.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CardSourceColor+Create.m"; sourceTree = "<group>"; };
@@ -925,6 +938,8 @@
 		865C6A031D12976D00264311 /* insetsLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = insetsLabel.h; path = Tool/insetsLabel.h; sourceTree = "<group>"; };
 		865C6A041D12976D00264311 /* insetsLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = insetsLabel.m; path = Tool/insetsLabel.m; sourceTree = "<group>"; };
 		865C6A061D1297F200264311 /* Configured.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Configured.h; path = Tool/Configured.h; sourceTree = "<group>"; };
+		865FDBA51D75990700AA06F2 /* LPPagingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPPagingView.h; sourceTree = "<group>"; };
+		865FDBA61D75990700AA06F2 /* LPPagingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPPagingView.m; sourceTree = "<group>"; };
 		8664C3541D4B42DD00F1E3D5 /* LPChannelItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPChannelItem.h; sourceTree = "<group>"; };
 		8664C3551D4B42DD00F1E3D5 /* LPChannelItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPChannelItem.m; sourceTree = "<group>"; };
 		8669D7471D6EFE2D006E647F /* libxml2.2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.2.tbd; path = usr/lib/libxml2.2.tbd; sourceTree = SDKROOT; };
@@ -987,8 +1002,6 @@
 		86819F051CA392B000C8BCFC /* LPRelateFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPRelateFrame.m; sourceTree = "<group>"; };
 		86819F071CA3DCDB00C8BCFC /* LPDetailBottomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPDetailBottomView.h; sourceTree = "<group>"; };
 		86819F081CA3DCDB00C8BCFC /* LPDetailBottomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPDetailBottomView.m; sourceTree = "<group>"; };
-		8681B0A71D0FD87D0068A4FD /* LPPagingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPPagingView.h; sourceTree = "<group>"; };
-		8681B0A81D0FD87D0068A4FD /* LPPagingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPPagingView.m; sourceTree = "<group>"; };
 		8681B0A91D0FD87D0068A4FD /* LPPagingViewPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPPagingViewPage.h; sourceTree = "<group>"; };
 		8681B0AA1D0FD87E0068A4FD /* LPPagingViewPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPPagingViewPage.m; sourceTree = "<group>"; };
 		8681B0AB1D0FD87E0068A4FD /* UIView+LPReusePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+LPReusePage.h"; sourceTree = "<group>"; };
@@ -1059,6 +1072,8 @@
 		869C5B631D24C86400D79750 /* LPSearchResultViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPSearchResultViewCell.m; sourceTree = "<group>"; };
 		869C5B661D24F09900D79750 /* LPSearchCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPSearchCard.h; sourceTree = "<group>"; };
 		869C5B671D24F09900D79750 /* LPSearchCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPSearchCard.m; sourceTree = "<group>"; };
+		86A5B7481D76C69600790FB8 /* LPPagingViewBasePage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPPagingViewBasePage.h; sourceTree = "<group>"; };
+		86A5B7491D76C69600790FB8 /* LPPagingViewBasePage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPPagingViewBasePage.m; sourceTree = "<group>"; };
 		86A6735E1C119D7D003509C3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		86A6DD371D22689500AD475C /* LPSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPSearchViewController.h; sourceTree = "<group>"; };
 		86A6DD381D22689500AD475C /* LPSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPSearchViewController.m; sourceTree = "<group>"; };
@@ -2550,6 +2565,35 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		8641DE221D77D5B300109F6D /* 推荐号 */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "推荐号";
+			sourceTree = "<group>";
+		};
+		8641DE231D77D5C100109F6D /* 推荐号 */ = {
+			isa = PBXGroup;
+			children = (
+				8641DE251D77D5E000109F6D /* LPSubscriber.h */,
+				8641DE261D77D5E000109F6D /* LPSubscriber.m */,
+				8641DE271D77D5E000109F6D /* LPSubscriberFrame.h */,
+				8641DE281D77D5E000109F6D /* LPSubscriberFrame.m */,
+			);
+			name = "推荐号";
+			sourceTree = "<group>";
+		};
+		8641DE241D77D5C800109F6D /* 推荐号 */ = {
+			isa = PBXGroup;
+			children = (
+				8641DE2B1D77D5FB00109F6D /* LPSubscribeView.h */,
+				8641DE2C1D77D5FB00109F6D /* LPSubscribeView.m */,
+				8641DE2D1D77D5FB00109F6D /* LPSubscriberCell.h */,
+				8641DE2E1D77D5FB00109F6D /* LPSubscriberCell.m */,
+			);
+			name = "推荐号";
+			sourceTree = "<group>";
+		};
 		864846281D0FE785003FA564 /* 关于 */ = {
 			isa = PBXGroup;
 			children = (
@@ -3070,12 +3114,14 @@
 		8681B0A61D0FD87D0068A4FD /* PagingView */ = {
 			isa = PBXGroup;
 			children = (
-				8681B0A71D0FD87D0068A4FD /* LPPagingView.h */,
-				8681B0A81D0FD87D0068A4FD /* LPPagingView.m */,
+				865FDBA51D75990700AA06F2 /* LPPagingView.h */,
+				865FDBA61D75990700AA06F2 /* LPPagingView.m */,
 				8681B0A91D0FD87D0068A4FD /* LPPagingViewPage.h */,
 				8681B0AA1D0FD87E0068A4FD /* LPPagingViewPage.m */,
 				8681B0AB1D0FD87E0068A4FD /* UIView+LPReusePage.h */,
 				8681B0AC1D0FD87E0068A4FD /* UIView+LPReusePage.m */,
+				86A5B7481D76C69600790FB8 /* LPPagingViewBasePage.h */,
+				86A5B7491D76C69600790FB8 /* LPPagingViewBasePage.m */,
 			);
 			path = PagingView;
 			sourceTree = "<group>";
@@ -3152,6 +3198,7 @@
 		868F50111D34BA1F002B4912 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				8641DE221D77D5B300109F6D /* 推荐号 */,
 				860858601D38C04000451E68 /* 奇点号 */,
 				8608585F1D38C01E00451E68 /* 关注列表 */,
 			);
@@ -3161,6 +3208,7 @@
 		868F50121D34BA1F002B4912 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				8641DE231D77D5C100109F6D /* 推荐号 */,
 				860858641D38D16300451E68 /* ConcernCard(奇点号) */,
 				8608585E1D3889DB00451E68 /* QiDianHao */,
 				860858571D3887FF00451E68 /* QiDianHaoFrame */,
@@ -3172,6 +3220,7 @@
 		868F50131D34BA1F002B4912 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				8641DE241D77D5C800109F6D /* 推荐号 */,
 				860858731D38E25800451E68 /* ConcernCardCell(奇点号) */,
 				860858531D38826E00451E68 /* QiDianHaoCell */,
 				868F504A1D34E219002B4912 /* ConcernCell */,
@@ -3780,6 +3829,7 @@
 				1846B1281B1C5178009EF8B9 /* LPSlidingShadowAnimation.m in Sources */,
 				18BA5E8E1B199BDB00EEDB63 /* UIView+LP.m in Sources */,
 				864846751D0FED68003FA564 /* LPNewsMyInfoView.m in Sources */,
+				865FDBA71D75990700AA06F2 /* LPPagingView.m in Sources */,
 				8680F8171BF046A6002C08EB /* LPRelateView.m in Sources */,
 				8681B0AE1D0FD87E0068A4FD /* LPPagingViewPage.m in Sources */,
 				18C9C4CC1B5C03C600064CED /* ConcernViewController.m in Sources */,
@@ -3892,6 +3942,7 @@
 				86BDF4451C9C130A004742BA /* LPFulltextCommentView.m in Sources */,
 				8681B0C11D0FD9A80068A4FD /* CardFrame.m in Sources */,
 				18F6312B1B5C04E400423658 /* LPConcernPressFrame.m in Sources */,
+				8641DE291D77D5E000109F6D /* LPSubscriber.m in Sources */,
 				8640BF271D5C5EE300769BB8 /* LPMyCollectionViewController.m in Sources */,
 				187912D81BC06CD10021AB3E /* CoreDataTVC.m in Sources */,
 				8669D7551D6F0294006E647F /* XPathQuery.m in Sources */,
@@ -3936,6 +3987,7 @@
 				868B6CAF1D2BC9BC00EE63F0 /* LPMenuCollectionViewCell.m in Sources */,
 				18F631A21B5F2F1000423658 /* FBShimmeringLayer.m in Sources */,
 				860858561D38845200451E68 /* LPQiDianHaoCell.m in Sources */,
+				8641DE2A1D77D5E000109F6D /* LPSubscriberFrame.m in Sources */,
 				8664C3561D4B42DD00F1E3D5 /* LPChannelItem.m in Sources */,
 				860858781D38E36900451E68 /* LPConcernIndroduceTableViewCell.m in Sources */,
 				869C5B641D24C86400D79750 /* LPSearchResultViewCell.m in Sources */,
@@ -3948,6 +4000,7 @@
 				8675216E1CEDCEEF00785BD6 /* SSKeychainQuery.m in Sources */,
 				18F631251B5C044300423658 /* LPSingleGraphOpinionsView.m in Sources */,
 				86BDF4421C9BD419004742BA /* LPShareView.m in Sources */,
+				86A5B74A1D76C69600790FB8 /* LPPagingViewBasePage.m in Sources */,
 				187564831C2110B600589320 /* AlbumPhoto+CoreDataProperties.m in Sources */,
 				8618A5841D40C9FB004C97BA /* CardSourceColor.m in Sources */,
 				18F631261B5C044300423658 /* LPSingleGraphTopView.m in Sources */,
@@ -3975,6 +4028,7 @@
 				7E9FEBA61B43928900D06E0A /* NSDate+Extension.m in Sources */,
 				8673B9181D23DD4F003BCEDD /* LPSearchTopView.m in Sources */,
 				187564761C2110B600589320 /* Press.m in Sources */,
+				8641DE301D77D5FB00109F6D /* LPSubscriberCell.m in Sources */,
 				86EE345A1D6015230000F187 /* LPHomeViewController+LaunchLoginManager.m in Sources */,
 				86785AA41CA28BA50088977C /* LPCommentCell.m in Sources */,
 				186866581BB25AD900039AA3 /* AppDelegate+MOC.m in Sources */,
@@ -4009,7 +4063,6 @@
 				187564751C2110B600589320 /* Press+CoreDataProperties.m in Sources */,
 				18A0AA9C1C20602600E9AA44 /* Press+Create.m in Sources */,
 				18F631271B5C044300423658 /* LPTabBar.m in Sources */,
-				8681B0AD1D0FD87E0068A4FD /* LPPagingView.m in Sources */,
 				1875647E1C2110B600589320 /* CardRelate.m in Sources */,
 				18D64E341BDF460E0077F673 /* ContentCell.m in Sources */,
 				18F631171B5C044300423658 /* TransitioningObject.m in Sources */,
@@ -4052,6 +4105,7 @@
 				8618A5831D40C9FB004C97BA /* CardSourceColor+CoreDataProperties.m in Sources */,
 				18F631281B5C044300423658 /* LPTabBarButton.m in Sources */,
 				1868665F1BB4212600039AA3 /* HotwordCloud.m in Sources */,
+				8641DE2F1D77D5FB00109F6D /* LPSubscribeView.m in Sources */,
 				86EE34761D6017F00000F187 /* LXReorderableCollectionViewFlowLayout.m in Sources */,
 				8686D38E1CA15652005AB9DD /* Model.xcdatamodeld in Sources */,
 				8648465B1D0FE979003FA564 /* LPNewsSettingCell.m in Sources */,

@@ -24,6 +24,7 @@
 #import "CardImage.h"
 #import "LPHomeRowManager.h"
 
+
 @interface LPPagingViewPage () <UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) UIView *searchView;
@@ -35,10 +36,12 @@
 
 @implementation LPPagingViewPage
 
+@synthesize cardFrames = _cardFrames, delegate = _delegate, offset = _offset;
+
 
 - (void)prepareForReuse {
     self.searchView.hidden = YES;
-    [self.tableView setContentOffset:CGPointZero];
+//    [self.tableView setContentOffset:CGPointZero];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -243,8 +246,14 @@
 #pragma mark - tapReloadPage
 - (void)tapReloadPage {
     if ([self.delegate respondsToSelector:@selector(didClickReloadPage:)]) {
-        [self.delegate didClickReloadPage:self];
+        [(id<LPPagingViewPageDelegate>)self.delegate didClickReloadPage:self];
     }
+}
+
+
+
+- (id<LPPagingViewPageDelegate>)delegate {
+    return (id<LPPagingViewPageDelegate>)_delegate;
 }
 
 #pragma mark - layoutSubviews
@@ -273,7 +282,7 @@
 - (void)tapImageView:(UITapGestureRecognizer*)sender {
     UIImageView *imageView = (UIImageView *)sender.view;
     if ([self.delegate respondsToSelector:@selector(page:didClickSearchImageView:)]) {
-        [self.delegate page:self didClickSearchImageView:imageView];
+        [(id<LPPagingViewPageDelegate>)self.delegate page:self didClickSearchImageView:imageView];
     }
 
 }
@@ -407,14 +416,14 @@
         cell = [[LPHomeViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     cell.cardFrame = self.cardFrames[indexPath.row];
-    __weak typeof(self) weakSelf = self;
+
     [cell didClickTipButtonBlock:^() {
-        [weakSelf autotomaticLoadNewData];
+        [self autotomaticLoadNewData];
     }];
     
     [cell didClickDeleteButtonBlock:^(UIButton *deleteButton) {
-        if ([weakSelf.delegate respondsToSelector:@selector(page:didClickDeleteButtonWithCardFrame:deleteButton:)]) {
-            [weakSelf.delegate page:weakSelf didClickDeleteButtonWithCardFrame:cell.cardFrame deleteButton:deleteButton];
+        if ([self.delegate respondsToSelector:@selector(page:didClickDeleteButtonWithCardFrame:deleteButton:)]) {
+            [(id<LPPagingViewPageDelegate>)self.delegate page:self didClickDeleteButtonWithCardFrame:cell.cardFrame deleteButton:deleteButton];
         }
         
     }];    
@@ -430,7 +439,7 @@
 
     CardFrame *cardFrame = self.cardFrames[indexPath.row];
     if ([self.delegate respondsToSelector:@selector(page:didSelectCellWithCardID:cardFrame:)]) {
-        [self.delegate page:self didSelectCellWithCardID:cardFrame.card.objectID cardFrame:cardFrame];
+        [(id<LPPagingViewPageDelegate>)self.delegate page:self didSelectCellWithCardID:cardFrame.card.objectID cardFrame:cardFrame];
         // 记录当前行号
         LPHomeRowManager *rowManager = [LPHomeRowManager sharedManager];
         rowManager.currentRowIndex = indexPath.row;
@@ -452,9 +461,6 @@
         [nextCardFrame setCard:nextCard tipButtonHidden:NO];
         [self.tableView  reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
     }
-    
-    
-    
 }
 
 - (void)updateCardFramesWithCardFrame:(CardFrame *)cardFrame {
@@ -465,6 +471,15 @@
         [self.tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
     }
    
+}
+
+- (void)setOffset:(CGPoint)offset {
+    _offset = offset;
+    [self.tableView setContentOffset:offset];
+}
+
+- (CGPoint)offset {
+    return self.tableView.contentOffset;
 }
 
 #pragma mark - 刷新主页面

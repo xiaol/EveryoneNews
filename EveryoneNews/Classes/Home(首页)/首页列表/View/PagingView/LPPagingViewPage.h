@@ -8,35 +8,34 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
+#import "LPPagingViewBasePage.h"
+
 /**
  *  自定义 page
  */
 @class LPPagingViewPage;
 @class CardFrame;
 @class Card;
+ 
 
-@protocol LPPagingViewPageDelegate <NSObject>
+@protocol LPPagingViewPageDelegate <LPPagingViewBasePageDelegate>
 
 @optional
-
 - (void)page:(LPPagingViewPage *)page didSelectCellWithCardID:(NSManagedObjectID *)cardID cardFrame:(CardFrame *)cardFrame;
-- (void)page:(LPPagingViewPage *)page didClickSearchImageView:(UIImageView *)imageView;
 - (void)page:(LPPagingViewPage *)page didClickDeleteButtonWithCardFrame:(CardFrame *)cardFrame deleteButton:(UIButton *)deleteButton;
+- (void)page:(LPPagingViewPage *)page didClickSearchImageView:(UIImageView *)imageView;
+
 - (void)didClickReloadPage:(LPPagingViewPage *)page;
 
 @end
 
-@interface LPPagingViewPage : UIView
+@interface LPPagingViewPage : LPPagingViewBasePage
 
-@property (nonatomic, strong) NSMutableArray *cardFrames;
-@property (nonatomic, copy) NSString *cellIdentifier;
-@property (nonatomic, copy) NSString *pageChannelName;
 @property (nonatomic, strong) UIView *reloadPage;
 // 正在加载视图
 @property (nonatomic, strong) UIView *contentLoadingView;
 // 首页动画UIImageView
 @property (nonatomic, strong) UIImageView *animationImageView;
-@property (nonatomic, weak) id<LPPagingViewPageDelegate> delegate;
 
 - (void)autotomaticLoadNewData;
 - (void)tableViewReloadData;

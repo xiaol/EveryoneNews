@@ -36,6 +36,7 @@
  *  @return page
  */
 - (UIView *)pagingView:(LPPagingView *)pagingView pageForPageIndex:(NSInteger)pageIndex;
+
 @end
 
 /**
@@ -67,6 +68,9 @@
  *  @param ratio         ratio
  */
 - (void)pagingView:(LPPagingView *)pagingView didScrollWithRatio:(CGFloat)ratio;
+
+
+- (void)pagingView:(LPPagingView *)pagingView didEndDisplayPage:(UIView *)page atIndex:(NSInteger)pageIndex;
 @end
 
 @interface LPPagingView : UIScrollView <UIScrollViewDelegate>
@@ -118,36 +122,19 @@
  */
 //- (void)reloadPagesAtPageIndexes:(NSArray *)indexes;
 
+
 /**
  *  刷新某一页
  */
 - (void)reloadPageAtPageIndex:(NSInteger)index;
 
-- (UIView *)currentPage;
-
-- (UIView *)pageAtPageIndex:(NSInteger)index;
-
-/**
- *  删除某页
- *
- *  @param index <#index description#>
- */
 - (void)deletePageAtIndex:(NSInteger)index;
 
-/**
- *  插入某页
- *
- *  @param index <#index description#>
- */
-
 - (void)insertPageAtIndex:(NSInteger)index;
-/**
- *  交换两页
- *
- *  @param idx1 <#idx1 description#>
- *  @param idx2 <#idx2 description#>
- */
+
+- (void)movePageFromIndex:(NSInteger)from toIndex:(NSInteger)to;
 
 - (void)exchangePageAtIndex:(NSInteger)idx1 withPageAtIndex:(NSInteger)idx2;
-- (void)movePageFromIndex:(NSInteger)from toIndex:(NSInteger)to;
+
+- (UIView *)visiblePageAtIndex:(NSInteger)index;
 @end
