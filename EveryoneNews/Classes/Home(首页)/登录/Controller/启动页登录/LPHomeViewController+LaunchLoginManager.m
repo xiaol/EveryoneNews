@@ -173,8 +173,6 @@
     NSArray *randomArray = [randomSet allObjects];
     
     for (LPSubscriber *subscriber in randomArray) {
-        
-        NSLog(@"%@", subscriber.title);
         LPSubscriberFrame *subscribeFrame = [[LPSubscriberFrame alloc] init];
         subscribeFrame.subscriber = subscriber;
         [self.subscriberFrameArray addObject:subscribeFrame];

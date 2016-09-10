@@ -106,7 +106,7 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
             if (lastAccessDate != nil) {
                 int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
                 // 每5分钟做一次刷新操作
-                if (interval > 5) {
+                if (interval > 10) {
                     [page autotomaticLoadNewData];
                     channelItem.lastAccessDate = currentDate;
                 }
@@ -116,7 +116,7 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
             if (lastAccessDate != nil) {
                 int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
                 // 每5分钟做一次刷新操作
-                if (interval > 5) {
+                if (interval > 10) {
                     [page autotomaticLoadNewData];
                     channelItem.lastAccessDate = currentDate;
                 }

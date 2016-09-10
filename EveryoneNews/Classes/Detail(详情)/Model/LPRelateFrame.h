@@ -27,5 +27,6 @@
 @property (nonatomic, assign) NSInteger currentRowIndex;
 @property (nonatomic, assign) NSInteger totalCount;
 @property (nonatomic, assign) BOOL googleSourceExistsInRelatePoint;
+@property (nonatomic, copy)  NSMutableAttributedString *titleHtmlString;
 
 @end

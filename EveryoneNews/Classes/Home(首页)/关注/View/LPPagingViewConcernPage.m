@@ -133,6 +133,7 @@
         tableView.delegate = self;
         tableView.showsVerticalScrollIndicator = NO;
         tableView.scrollsToTop = NO;
+        tableView.hidden = YES;
         [self addSubview:tableView];
         self.tableView = tableView;
         
@@ -279,6 +280,7 @@
         self.noDataConcernView.hidden = YES;
         self.tableView.hidden = NO;
         self.searchView.hidden = NO;
+        
     } else {
         self.noDataConcernView.hidden = NO;
         self.tableView.hidden = YES;

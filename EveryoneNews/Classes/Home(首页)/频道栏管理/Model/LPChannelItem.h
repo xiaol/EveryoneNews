@@ -21,6 +21,8 @@
 // 是否显示
 @property (nonatomic, assign, getter=isHidden) BOOL hidden;
 
+@property (nonatomic, assign) CGPoint offset;
+
 // 初始化频道
 - (instancetype)initWithChannelID:(NSString *)channelID channelName:(NSString *)channelName channelIsSelected:(NSString *)channelIsSelected hidden:(BOOL)hidden;
 @end

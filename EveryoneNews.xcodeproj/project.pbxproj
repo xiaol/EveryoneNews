@@ -252,6 +252,7 @@
 		8641DE2A1D77D5E000109F6D /* LPSubscriberFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 8641DE281D77D5E000109F6D /* LPSubscriberFrame.m */; };
 		8641DE2F1D77D5FB00109F6D /* LPSubscribeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8641DE2C1D77D5FB00109F6D /* LPSubscribeView.m */; };
 		8641DE301D77D5FB00109F6D /* LPSubscriberCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8641DE2E1D77D5FB00109F6D /* LPSubscriberCell.m */; };
+		86472C661D81077600CF582A /* LPLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86472C651D81077600CF582A /* LPLoginViewController.m */; };
 		8647351B1D5DD69100A9FAFB /* CardSourceColor+Create.m in Sources */ = {isa = PBXBuildFile; fileRef = 8647351A1D5DD69100A9FAFB /* CardSourceColor+Create.m */; };
 		864846081D0FE36B003FA564 /* LPHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 864846071D0FE36B003FA564 /* LPHomeViewController.m */; };
 		8648462C1D0FE785003FA564 /* LPNewsAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8648462B1D0FE785003FA564 /* LPNewsAboutViewController.m */; };
@@ -863,6 +864,8 @@
 		8641DE2C1D77D5FB00109F6D /* LPSubscribeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPSubscribeView.m; sourceTree = "<group>"; };
 		8641DE2D1D77D5FB00109F6D /* LPSubscriberCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPSubscriberCell.h; sourceTree = "<group>"; };
 		8641DE2E1D77D5FB00109F6D /* LPSubscriberCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPSubscriberCell.m; sourceTree = "<group>"; };
+		86472C641D81077600CF582A /* LPLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPLoginViewController.h; sourceTree = "<group>"; };
+		86472C651D81077600CF582A /* LPLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPLoginViewController.m; sourceTree = "<group>"; };
 		864735151D5DC11200A9FAFB /* Model 10.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 10.xcdatamodel"; sourceTree = "<group>"; };
 		864735191D5DD69100A9FAFB /* CardSourceColor+Create.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CardSourceColor+Create.h"; sourceTree = "<group>"; };
 		8647351A1D5DD69100A9FAFB /* CardSourceColor+Create.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CardSourceColor+Create.m"; sourceTree = "<group>"; };
@@ -2565,13 +2568,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		8641DE221D77D5B300109F6D /* 推荐号 */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "推荐号";
-			sourceTree = "<group>";
-		};
 		8641DE231D77D5C100109F6D /* 推荐号 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2592,6 +2588,39 @@
 				8641DE2E1D77D5FB00109F6D /* LPSubscriberCell.m */,
 			);
 			name = "推荐号";
+			sourceTree = "<group>";
+		};
+		86472C601D81068900CF582A /* 注册登录 */ = {
+			isa = PBXGroup;
+			children = (
+				86472C611D81068900CF582A /* Controller */,
+				86472C621D81068900CF582A /* Model */,
+				86472C631D81068900CF582A /* View */,
+			);
+			path = "注册登录";
+			sourceTree = "<group>";
+		};
+		86472C611D81068900CF582A /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				86472C641D81077600CF582A /* LPLoginViewController.h */,
+				86472C651D81077600CF582A /* LPLoginViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		86472C621D81068900CF582A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		86472C631D81068900CF582A /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		864846281D0FE785003FA564 /* 关于 */ = {
@@ -3024,6 +3053,7 @@
 		8681B0351D0FB5DA0068A4FD /* Home(首页) */ = {
 			isa = PBXGroup;
 			children = (
+				86472C601D81068900CF582A /* 注册登录 */,
 				86EE34501D6015230000F187 /* 登录 */,
 				868F50101D34BA1F002B4912 /* 关注 */,
 				86A6DD341D22689500AD475C /* 搜索 */,
@@ -3198,7 +3228,6 @@
 		868F50111D34BA1F002B4912 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				8641DE221D77D5B300109F6D /* 推荐号 */,
 				860858601D38C04000451E68 /* 奇点号 */,
 				8608585F1D38C01E00451E68 /* 关注列表 */,
 			);
@@ -4007,6 +4036,7 @@
 				862539331D3F6D1E009B040A /* CardConcern+Create.m in Sources */,
 				18F631701B5C249A00423658 /* LaunchViewController.m in Sources */,
 				18BA5E891B199B7300EEDB63 /* main.m in Sources */,
+				86472C661D81077600CF582A /* LPLoginViewController.m in Sources */,
 				18F631201B5C044300423658 /* LPMultiGraphTopView.m in Sources */,
 				187564801C2110B600589320 /* CardImage.m in Sources */,
 				18F6311F1B5C044300423658 /* LPMultiGraphOpinionsView.m in Sources */,

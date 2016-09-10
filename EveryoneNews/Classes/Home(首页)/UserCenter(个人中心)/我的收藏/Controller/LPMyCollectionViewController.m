@@ -119,19 +119,15 @@ static NSString *cellIdentifier = @"cellIdentifier";
     
     // 没有收藏提示信息
     UIView *noCollectionTipView = [[UIView alloc] initWithFrame:CGRectMake(0, topViewHeight + 42, ScreenWidth, 140)];
-    CGFloat noCollectionImageViewW = 65;
-    CGFloat noCollectionImageViewH = 57;
+    CGFloat noCollectionImageViewW = 90;
+    CGFloat noCollectionImageViewH = 83;
     CGFloat noCollectionImageViewX = (ScreenWidth - noCollectionImageViewW) / 2;
     CGFloat noCollectionImageViewY = 42;
     UIImageView *noCollectionImageView = [[UIImageView alloc] initWithFrame:CGRectMake(noCollectionImageViewX, noCollectionImageViewY, noCollectionImageViewW, noCollectionImageViewH)];
-    noCollectionImageView.image = [UIImage imageNamed:@"我的评论无评论提示"];
+    noCollectionImageView.image = [UIImage imageNamed:@"wushoucang"];
     
     CGFloat noCollectionLabelX = 0;
-    CGFloat noCollectionLabelY = CGRectGetMaxY(noCollectionImageView.frame) + 25;
-    
-    if (iPhone5) {
-        noCollectionLabelY = CGRectGetMaxY(noCollectionImageView.frame) + 15;
-    }
+    CGFloat noCollectionLabelY = CGRectGetMaxY(noCollectionImageView.frame);
     CGFloat noCollectionLabelW = ScreenWidth;
     CGFloat noCollectionLabelH = 20;
     UILabel *noCollectionLabelFirst = [[UILabel alloc] initWithFrame:CGRectMake(noCollectionLabelX, noCollectionLabelY, noCollectionLabelW, noCollectionLabelH)];

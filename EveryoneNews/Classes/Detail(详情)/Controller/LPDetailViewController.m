@@ -230,15 +230,10 @@ const static CGFloat changeFontSizeViewH = 150;
 #pragma mark - viewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.view.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
     self.statusWindow.hidden = YES;
-    
-    // 拷贝 搜索
-    UIMenuItem *copyItem = [[UIMenuItem alloc] initWithTitle:@"拷贝" action:@selector(copyItem:)];
-    UIMenuItem *searchItem = [[UIMenuItem alloc] initWithTitle:@"搜索" action:@selector(searchItem:)];
-    UIMenuController *menu = [UIMenuController sharedMenuController];
-    menu.menuItems = @[copyItem, searchItem];
-    
+
     [self setupSubviews];
     [self setupBottomView];
     [self setupData];
@@ -254,19 +249,318 @@ const static CGFloat changeFontSizeViewH = 150;
     [noteCenter addObserver:self selector:@selector(applicationTerminateNotification) name:UIApplicationWillTerminateNotification object:nil];
 }
 
-#pragma mark - 拷贝
-- (void)copyItem:(id)sender {
-    pasteboard.string = self.selectedText;
+#pragma mark - 加载详情页数据
+- (void)setupData {
     
+    // 详情页正文
+    void (^contentBlock)(id json) = ^(id json) {
+        if ([json[@"code"] integerValue] == 2000) {
+            [self.contentFrames removeAllObjects];
+            NSMutableDictionary *dict = json[@"data"];
+            NSString *title = dict[@"title"];
+            NSString *pubTime = dict[@"ptime"];
+            NSString *pubName = dict[@"pname"];
+            NSString *concern = [NSString stringWithFormat:@"%@", dict[@"concern"]] ;
+            
+            self.concernCount = concern;
+            
+            self.contentTitle = title;
+            self.pubTime = pubTime;
+            self.pubName = pubName;
+            
+            self.shareURL = [NSString stringWithFormat:@"http://deeporiginalx.com/news.html?type=0&nid=%@", [self nid] ] ;
+            
+            self.shareTitle = title;
+            self.submitDocID = dict[@"docid"];
+            
+            self.channel = dict[@"channel"];
+            // 更新详情页评论数量
+            self.commentsCount = [dict[@"comment"] integerValue];
+            self.topView.badgeNumber = self.commentsCount;
+            self.bottomView.badgeNumber = self.commentsCount ;
+            
+            [self setupHeaderView:title pubTime:pubTime pubName:pubName];
+            
+            // 关注本文
+            NSString *conpubFlag = [dict[@"conpubflag"] stringValue];
+            self.conpubFlag = conpubFlag;
+            
+            // 关心本文
+            NSString *conFlag = [dict[@"conflag"] stringValue];
+            self.conFlag = conFlag;
+            
+            // 收藏状态
+            NSString *colFlag = [dict[@"colflag"] stringValue];
+            self.colFlag = colFlag;
+            
+            NSMutableArray *bodyArray = [[NSMutableArray alloc] initWithArray:dict[@"content"]];
+            // 第一个图片作为分享图片
+            for(NSInteger i = 0 ; i < bodyArray.count; i++) {
+                NSDictionary *dictImage = bodyArray[i];
+                if (dictImage[@"img"]) {
+                    self.shareImageURL = dictImage[@"img"];
+                    break;
+                }
+            }
+        
+            for (NSDictionary *dict in bodyArray) {
+                
+                LPContent *content = [[LPContent alloc] init];
+                
+                content.isAbstract = NO;
+                content.index = dict[@"index"];
+                content.photo = dict[@"img"];
+                content.photoDesc = dict[@"img_info"];
+                content.body = dict[@"txt"];
+                if (dict[@"vid"]) {
+                    content.video = [self subVideoString:dict[@"vid"]];
+                }
+                if (content.photo) {
+                    content.isPhoto = YES;
+                    content.contentType = 1;
+                    
+                } else if(content.video){
+                    
+                    content.contentType = 3;
+                    content.isPhoto = NO;
+                } else if(content.body) {
+                    
+                    content.contentType = 2;
+                    content.isPhoto = NO;
+                }
+                LPContentFrame *contentFrame = [[LPContentFrame alloc] init];
+                contentFrame.content = content;
+                [self.contentFrames addObject:contentFrame];
+            }
+        }
+    };
+    
+    // 精选评论block
+    void (^excellentCommentsBlock)(id json) = ^(id json) {
+        //NSLog(@"精选评论--%@", json[@"code"]);
+        if ([json[@"code"] integerValue] == 2000) {
+            [self.excellentCommentsFrames removeAllObjects];
+            NSArray *commentsArray = json[@"data"];
+            int i = 0;
+            for (NSDictionary *dict in commentsArray) {
+                i++;
+                // 精选评论
+                LPComment *excellentComment = [[LPComment alloc] init];
+                excellentComment.srcText = dict[@"content"];
+                excellentComment.createTime = dict[@"ctime"];
+                excellentComment.up = [NSString stringWithFormat:@"%@", dict[@"commend"]] ;
+                excellentComment.userIcon = dict[@"avatar"];
+                excellentComment.userName = dict[@"uname"];
+                excellentComment.color = [UIColor colorFromHexString:@"#747474"];
+                excellentComment.isPraiseFlag = [NSString stringWithFormat:@"%@", dict[@"upflag"]] ;
+                excellentComment.Id = dict[@"id"];
+                
+                LPCommentFrame *excellentCommentFrame = [[LPCommentFrame alloc] init];
+                excellentCommentFrame.comment = excellentComment;
+                excellentCommentFrame.currentIndex = i;
+                excellentCommentFrame.totalCount = commentsArray.count > 3 ? 3 : commentsArray.count;
+                [self.excellentCommentsFrames addObject:excellentCommentFrame];
+                
+                if (self.excellentCommentsFrames.count == 3) {
+                    break;
+                }
+            }
+        }
+    };
+    
+    // 全文评论
+    void (^commentsBlock)(id json) = ^(id json) {
+        //NSLog(@"全文评论--%@", json[@"code"]);
+        if ([json[@"code"] integerValue] == 2000) {
+            [self.fulltextCommentFrames removeAllObjects];
+            NSArray *commentsArray = json[@"data"];
+            for (NSDictionary *dict in commentsArray) {
+                
+                LPComment *comment = [[LPComment alloc] init];
+                comment.srcText = dict[@"content"];
+                comment.createTime = dict[@"ctime"];
+                comment.up = [NSString stringWithFormat:@"%@", dict[@"commend"]] ;
+                comment.userIcon = dict[@"avatar"];
+                comment.userName = dict[@"uname"];
+                comment.color = [UIColor colorFromHexString:@"#747474"];
+                comment.isPraiseFlag = [NSString stringWithFormat:@"%@", dict[@"upflag"]] ;
+                comment.Id = dict[@"id"];
+                
+                LPFullCommentFrame *commentFrame = [[LPFullCommentFrame alloc] init];
+                commentFrame.comment = comment;
+                [self.fulltextCommentFrames addObject:commentFrame];
+                
+                if (self.fulltextCommentFrames.count > 0) {
+                    self.commentsTableView.scrollEnabled = YES;
+                }
+            }
+            self.pageIndex = 1;
+        }
+    };
+    
+    // 相关观点block
+    void (^relatePointBlock)(id json) = ^(id json) {
+        
+        //NSLog(@"相关观点--%@", json[@"code"]);
+        
+        if ([json[@"code"] integerValue] == 2000) {
+            [self.relatePointFrames removeAllObjects];
+            NSDictionary *dict = json[@"data"];
+            
+            NSArray *relatePointArray = [LPRelatePoint objectArrayWithKeyValuesArray:dict];
+            // 按照时间排序
+            NSArray *sortedRelateArray = [relatePointArray sortedArrayUsingComparator:^NSComparisonResult(LPRelatePoint *p1, LPRelatePoint *p2) {
+                return [p2.ptime compare:p1.ptime];
+            }];
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            [formatter setDateFormat:@"yyyy"];
+            NSString *currentYear = [formatter stringFromDate:[NSDate date]];
+            
+            for (int i = 0; i < sortedRelateArray.count; i++) {
+                LPRelatePoint *point = sortedRelateArray[i];
+                NSString *updateTime = point.ptime;
+                NSString *updateYear = [updateTime substringToIndex:4];
+                NSString *updateMonthDay = [[updateTime substringWithRange:NSMakeRange(5, 5)] stringByReplacingOccurrencesOfString:@"-"withString:@"/"];
+                if ([updateYear isEqualToString:currentYear]) {
+                    point.ptime = updateMonthDay;
+                } else {
+                    point.ptime = [NSString stringWithFormat:@"%@/%@", updateYear,updateMonthDay];
+                }
+                currentYear = updateYear;
+                if ([point.from isEqualToString:@"Google"]) {
+                    self.googleSourceExistsInRelatePoint = true;
+                }
+            }
+            
+            self.relatePointArray = sortedRelateArray;
+            for (int i = 0; i < sortedRelateArray.count; i ++) {
+                LPRelatePoint *point = sortedRelateArray[i];
+                LPRelateFrame *relateFrame = [[LPRelateFrame alloc] init];
+                relateFrame.currentRowIndex = i;
+                relateFrame.relatePoint = point;
+                
+                relateFrame.totalCount = sortedRelateArray.count;
+                relateFrame.googleSourceExistsInRelatePoint = self.googleSourceExistsInRelatePoint;
+                [self.relatePointFrames addObject:relateFrame];
+                if (i == 2) {
+                    break;
+                }
+            }
+        }
+    };
+    
+    void (^reloadTableViewBlock)() = ^{
+        [self.tableView reloadData];
+        [self noCommentsViewTip];
+        [self.commentsTableView reloadData];
+        [self hideLoadingView];
+        self.tableView.hidden = NO;
+        self.reloadPage.hidden = YES;
+        self.bottomView.userInteractionEnabled = YES;
+        self.topView.shareButton.enabled = YES;
+        [self changeCollectionState];
+    };
+    
+    void (^showReloadPageBlock)() = ^{
+        self.tableView.hidden = YES;
+        self.reloadPage.hidden = NO;
+        self.bottomView.userInteractionEnabled = NO;
+        self.topView.shareButton.enabled = NO;
+    };
+    
+    // 详情页正文
+    NSMutableDictionary *detailContentParams = [NSMutableDictionary dictionary];
+    NSString *detailContentURL = [NSString stringWithFormat:@"%@/v2/ns/con", ServerUrlVersion2];
+    NSString *uid = [userDefaults objectForKey:@"uid"];
+    detailContentParams[@"nid"] = [self nid];
+    detailContentParams[@"uid"] = uid;
+    
+    NSLog(@"%@?nid=%@&&uid=%@",detailContentURL, [self nid], uid);
+    
+    // 精选评论
+    NSString *excellentDetailCommentsURL = [NSString stringWithFormat:@"%@/v2/ns/coms/h", ServerUrlVersion2];
+    NSMutableDictionary *excellentDetailCommentsParams = [NSMutableDictionary dictionary];
+    
+    //    NSLog(@"%@", [self docId]);
+    
+    excellentDetailCommentsParams[@"did"] = [[[self docId] stringByBase64Encoding] stringByTrimmingString:@"="] ;
+    excellentDetailCommentsParams[@"uid"] = [userDefaults objectForKey:@"uid"];
+    
+    //    NSLog(@"%@", excellentDetailCommentsParams);
+    
+    
+    // 相关观点
+    NSMutableDictionary *detailRelatePointParams = [NSMutableDictionary dictionary];
+    detailRelatePointParams[@"nid"] = [self nid];
+    NSString *relateURL = [NSString stringWithFormat:@"%@/v2/ns/asc", ServerUrlVersion2];
+    
+    //    //NSLog(@"%@?url=%@",relateURL,  [self.card valueForKey:@"newId"]);
+    
+    // 全文评论
+    NSString *detailCommentsURL = [NSString stringWithFormat:@"%@/v2/ns/coms/c", ServerUrlVersion2];
+    NSMutableDictionary *detailCommentsParams = [NSMutableDictionary dictionary];
+    detailCommentsParams[@"did"] = [[[self docId] stringByBase64Encoding] stringByTrimmingString:@"="];
+    detailCommentsParams[@"p"] = @(1);
+    detailCommentsParams[@"c"] = @"20";
+    detailCommentsParams[@"uid"] = [userDefaults objectForKey:@"uid"];
+    
+    // //NSLog(@"%@",    detailCommentsParams[@"did"] );
+    
+    // 详情页正文
+    [LPHttpTool getWithURL:detailContentURL params:detailContentParams success:^(id json) {
+        contentBlock(json);
+        // 推送跳转到详情页
+        if (!excellentDetailCommentsParams[@"did"]) {
+            excellentDetailCommentsParams[@"did"]  = [[[self submitDocID] stringByBase64Encoding] stringByTrimmingString:@"="];
+        }
+        
+        NSLog(@"正文");
+        // 详情页精选评论
+        [LPHttpTool getWithURL:excellentDetailCommentsURL params:excellentDetailCommentsParams success:^(id json) {
+                    NSLog(@"精选评论");
+            excellentCommentsBlock(json);
+            // 相关观点
+            [LPHttpTool getWithURL:relateURL params:detailRelatePointParams success:^(id json) {
+                relatePointBlock(json);
+                        NSLog(@"相关观点");
+                // 推送跳转到详情页
+                if (!detailCommentsParams[@"did"]) {
+                    detailCommentsParams[@"did"]  = [[[self submitDocID] stringByBase64Encoding] stringByTrimmingString:@"="];
+                }
+                // 全文评论
+                [LPHttpTool getWithURL:detailCommentsURL params:detailCommentsParams success:^(id json) {
+                    NSLog(@"全文评论");
+                    commentsBlock(json);
+                    reloadTableViewBlock();
+                    
+                } failure:^(NSError *error) {
+                    showReloadPageBlock();
+                    NSLog(@"全文评论：%@", error);
+                }];
+                
+            } failure:^(NSError *error) {
+                showReloadPageBlock();
+                NSLog(@"相关观点：%@", error);
+                
+            }];
+            
+        } failure:^(NSError *error) {
+            showReloadPageBlock();
+            NSLog(@"精选评论：%@", error);
+        }];
+        
+    } failure:^(NSError *error) {
+        showReloadPageBlock();
+        NSLog(@"正文：%@", error);
+    }];
 }
 
-#pragma mark - 搜索
-- (void)searchItem:(id)sender {
-    // 跳转到搜索页面
-    LPSearchResultViewController *resultViewController = [[LPSearchResultViewController alloc] init];
-    resultViewController.searchText = self.selectedText;
-    [self.navigationController pushViewController:resultViewController animated:YES];
-}
+
+
+
+
+
+
 
 #pragma mark - applicationTerminateNotification
 - (void)applicationTerminateNotification {
@@ -525,309 +819,7 @@ const static CGFloat changeFontSizeViewH = 150;
     }];
 }
 
-#pragma mark - setup Data
-- (void)setupData {
-    
-    // 详情页block
-    void (^contentBlock)(id json) = ^(id json) {
-//          NSLog(@"详情页--%@", json[@"code"]);
-        if ([json[@"code"] integerValue] == 2000) {
-            [self.contentFrames removeAllObjects];
-            NSInteger i = 0;
-            
-            NSMutableDictionary *dict = json[@"data"];
-            NSString *title = dict[@"title"];
-            NSString *pubTime = dict[@"ptime"];
-            NSString *pubName = dict[@"pname"];
-            NSString *concern = [NSString stringWithFormat:@"%@", dict[@"concern"]] ;
-            
-            self.concernCount = concern;
-            
-            self.contentTitle = title;
-            self.pubTime = pubTime;
-            self.pubName = pubName;
-            
-            self.shareURL = [NSString stringWithFormat:@"http://deeporiginalx.com/news.html?type=0&nid=%@", [self nid] ] ;
 
-            self.shareTitle = title;
-            self.submitDocID = dict[@"docid"];
-            
-            self.channel = dict[@"channel"];
-            // 更新详情页评论数量
-            self.commentsCount = [dict[@"comment"] integerValue];
-            self.topView.badgeNumber = self.commentsCount;
-            self.bottomView.badgeNumber = self.commentsCount ;
-
-            [self setupHeaderView:title pubTime:pubTime pubName:pubName];
-            
-            // 关注本文
-            NSString *conpubFlag = [dict[@"conpubflag"] stringValue];
-            self.conpubFlag = conpubFlag;
-            
-            // 关心本文
-            NSString *conFlag = [dict[@"conflag"] stringValue];
-            self.conFlag = conFlag;
-            
-            // 收藏状态
-            NSString *colFlag = [dict[@"colflag"] stringValue];
-            self.colFlag = colFlag;
-            
-            NSMutableArray *bodyArray = [[NSMutableArray alloc] initWithArray:dict[@"content"]];
-            // 第一个图片作为分享图片
-            for (NSDictionary *dict in bodyArray) {
-                if (dict[@"img"] && i == 0) {
-                    self.shareImageURL = dict[@"img"];
-                }
-            }
-
-            for (NSDictionary *dict in bodyArray) {
-                
-                LPContent *content = [[LPContent alloc] init];
-                
-                content.isAbstract = NO;
-                content.index = dict[@"index"];
-                content.photo = dict[@"img"];
-                content.photoDesc = dict[@"img_info"];
-                content.body = dict[@"txt"];
-                if (dict[@"vid"]) {
-                    content.video = [self subVideoString:dict[@"vid"]];
-                }
-                if (content.photo) {
-                    content.isPhoto = YES;
-                    content.contentType = 1;
-                    
-                } else if(content.video){
-                    
-                    content.contentType = 3;
-                    content.isPhoto = NO;
-                } else if(content.body) {
-                    
-                    content.contentType = 2;
-                    content.isPhoto = NO;
-                }
-                LPContentFrame *contentFrame = [[LPContentFrame alloc] init];
-                contentFrame.content = content;
-                [self.contentFrames addObject:contentFrame];
-            }
-        }
-    };
-
-    // 精选评论block
-    void (^excellentCommentsBlock)(id json) = ^(id json) {
-            //NSLog(@"精选评论--%@", json[@"code"]);
-        if ([json[@"code"] integerValue] == 2000) {
-            [self.excellentCommentsFrames removeAllObjects];
-            NSArray *commentsArray = json[@"data"];
-            int i = 0;
-            for (NSDictionary *dict in commentsArray) {
-                i++;
-                // 精选评论
-                LPComment *excellentComment = [[LPComment alloc] init];
-                excellentComment.srcText = dict[@"content"];
-                excellentComment.createTime = dict[@"ctime"];
-                excellentComment.up = [NSString stringWithFormat:@"%@", dict[@"commend"]] ;
-                excellentComment.userIcon = dict[@"avatar"];
-                excellentComment.userName = dict[@"uname"];
-                excellentComment.color = [UIColor colorFromHexString:@"#747474"];
-                excellentComment.isPraiseFlag = [NSString stringWithFormat:@"%@", dict[@"upflag"]] ;
-                excellentComment.Id = dict[@"id"];
-
-                LPCommentFrame *excellentCommentFrame = [[LPCommentFrame alloc] init];
-                excellentCommentFrame.comment = excellentComment;
-                excellentCommentFrame.currentIndex = i;
-                excellentCommentFrame.totalCount = commentsArray.count > 3 ? 3 : commentsArray.count;
-                [self.excellentCommentsFrames addObject:excellentCommentFrame];
-                
-                if (self.excellentCommentsFrames.count == 3) {
-                    break;
-                }
-            }
-        }
-    };
-    
-    // 全文评论
-    void (^commentsBlock)(id json) = ^(id json) {
-           //NSLog(@"全文评论--%@", json[@"code"]);
-        if ([json[@"code"] integerValue] == 2000) {
-            [self.fulltextCommentFrames removeAllObjects];
-            NSArray *commentsArray = json[@"data"];
-            for (NSDictionary *dict in commentsArray) {
-                
-                LPComment *comment = [[LPComment alloc] init];
-                comment.srcText = dict[@"content"];
-                comment.createTime = dict[@"ctime"];
-                comment.up = [NSString stringWithFormat:@"%@", dict[@"commend"]] ;
-                comment.userIcon = dict[@"avatar"];
-                comment.userName = dict[@"uname"];
-                comment.color = [UIColor colorFromHexString:@"#747474"];
-                comment.isPraiseFlag = [NSString stringWithFormat:@"%@", dict[@"upflag"]] ;
-                comment.Id = dict[@"id"];
-                
-                LPFullCommentFrame *commentFrame = [[LPFullCommentFrame alloc] init];
-                commentFrame.comment = comment;
-                [self.fulltextCommentFrames addObject:commentFrame];
-                
-                if (self.fulltextCommentFrames.count > 0) {
-                    self.commentsTableView.scrollEnabled = YES;
-                }
-            }
-          self.pageIndex = 1;
-        }
-    };
-
-    // 相关观点block
-    void (^relatePointBlock)(id json) = ^(id json) {
-        
-        //NSLog(@"相关观点--%@", json[@"code"]);
-        
-        if ([json[@"code"] integerValue] == 2000) {
-            [self.relatePointFrames removeAllObjects];
-            NSDictionary *dict = json[@"data"];
-        
-            NSArray *relatePointArray = [LPRelatePoint objectArrayWithKeyValuesArray:dict];
-            // 按照时间排序
-            NSArray *sortedRelateArray = [relatePointArray sortedArrayUsingComparator:^NSComparisonResult(LPRelatePoint *p1, LPRelatePoint *p2) {
-                return [p2.ptime compare:p1.ptime];
-            }];
-            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-            [formatter setDateFormat:@"yyyy"];
-            NSString *currentYear = [formatter stringFromDate:[NSDate date]];
-            
-            for (int i = 0; i < sortedRelateArray.count; i++) {
-                LPRelatePoint *point = sortedRelateArray[i];
-                NSString *updateTime = point.ptime;
-                NSString *updateYear = [updateTime substringToIndex:4];
-                NSString *updateMonthDay = [[updateTime substringWithRange:NSMakeRange(5, 5)] stringByReplacingOccurrencesOfString:@"-"withString:@"/"];
-                if ([updateYear isEqualToString:currentYear]) {
-                    point.ptime = updateMonthDay;
-                } else {
-                    point.ptime = [NSString stringWithFormat:@"%@/%@", updateYear,updateMonthDay];
-                }
-                currentYear = updateYear;
-                if ([point.from isEqualToString:@"Google"]) {
-                    self.googleSourceExistsInRelatePoint = true;
-                }
-               
-            }
-            
-            self.relatePointArray = sortedRelateArray;
-            for (int i = 0; i < sortedRelateArray.count; i ++) {
-                LPRelatePoint *point = sortedRelateArray[i];
-                LPRelateFrame *relateFrame = [[LPRelateFrame alloc] init];
-                relateFrame.currentRowIndex = i;
-                relateFrame.relatePoint = point;
-                relateFrame.totalCount = sortedRelateArray.count;
-                relateFrame.googleSourceExistsInRelatePoint = self.googleSourceExistsInRelatePoint;
-                [self.relatePointFrames addObject:relateFrame];
-                if (i == 2) {
-                    break;
-                }
-            }
-        }
-    };
-    
-    void (^reloadTableViewBlock)() = ^{
-        [self.tableView reloadData];
-        [self noCommentsViewTip];
-        [self.commentsTableView reloadData];
-        [self hideLoadingView];
-        self.tableView.hidden = NO;
-        self.reloadPage.hidden = YES;
-        self.bottomView.userInteractionEnabled = YES;
-        self.topView.shareButton.enabled = YES;
-        [self changeCollectionState];
-    };
-    
-    void (^showReloadPageBlock)() = ^{
-        self.tableView.hidden = YES;
-        self.reloadPage.hidden = NO;
-        self.bottomView.userInteractionEnabled = NO;
-        self.topView.shareButton.enabled = NO;
-    };
-
-    // 详情页正文
-    NSMutableDictionary *detailContentParams = [NSMutableDictionary dictionary];
-    NSString *detailContentURL = [NSString stringWithFormat:@"%@/v2/ns/con", ServerUrlVersion2];
-    NSString *uid = [userDefaults objectForKey:@"uid"];
-    detailContentParams[@"nid"] = [self nid];
-    detailContentParams[@"uid"] = uid;
-    
-    NSLog(@"%@?nid=%@&&uid=%@",detailContentURL, [self nid], uid);
-    
-    // 精选评论
-    NSString *excellentDetailCommentsURL = [NSString stringWithFormat:@"%@/v2/ns/coms/h", ServerUrlVersion2];
-    NSMutableDictionary *excellentDetailCommentsParams = [NSMutableDictionary dictionary];
-    
-//    NSLog(@"%@", [self docId]);
-    
-    excellentDetailCommentsParams[@"did"] = [[[self docId] stringByBase64Encoding] stringByTrimmingString:@"="] ;
-    excellentDetailCommentsParams[@"uid"] = [userDefaults objectForKey:@"uid"];
- 
-//    NSLog(@"%@", excellentDetailCommentsParams);
-    
-    
-    // 相关观点
-    NSMutableDictionary *detailRelatePointParams = [NSMutableDictionary dictionary];
-    detailRelatePointParams[@"nid"] = [self nid];
-    NSString *relateURL = [NSString stringWithFormat:@"%@/v2/ns/asc", ServerUrlVersion2];
-
-//    //NSLog(@"%@?url=%@",relateURL,  [self.card valueForKey:@"newId"]);
-    
-    // 全文评论
-    NSString *detailCommentsURL = [NSString stringWithFormat:@"%@/v2/ns/coms/c", ServerUrlVersion2];
-    NSMutableDictionary *detailCommentsParams = [NSMutableDictionary dictionary];
-    detailCommentsParams[@"did"] = [[[self docId] stringByBase64Encoding] stringByTrimmingString:@"="];
-    detailCommentsParams[@"p"] = @(1);
-    detailCommentsParams[@"c"] = @"20";
-    detailCommentsParams[@"uid"] = [userDefaults objectForKey:@"uid"];
-    
-   // //NSLog(@"%@",    detailCommentsParams[@"did"] );
-    
-    // 详情页正文
-    [LPHttpTool getWithURL:detailContentURL params:detailContentParams success:^(id json) {
-        contentBlock(json);
-        // 推送跳转到详情页
-        if (!excellentDetailCommentsParams[@"did"]) {
-            excellentDetailCommentsParams[@"did"]  = [[[self submitDocID] stringByBase64Encoding] stringByTrimmingString:@"="];
-        }
-        // 详情页精选评论
-        [LPHttpTool getWithURL:excellentDetailCommentsURL params:excellentDetailCommentsParams success:^(id json) {
-
-            excellentCommentsBlock(json);
-            // 相关观点
-            [LPHttpTool getWithURL:relateURL params:detailRelatePointParams success:^(id json) {
-                relatePointBlock(json);
-                
-                // 推送跳转到详情页
-                if (!detailCommentsParams[@"did"]) {
-                    detailCommentsParams[@"did"]  = [[[self submitDocID] stringByBase64Encoding] stringByTrimmingString:@"="];
-                }
-                // 全文评论
-                [LPHttpTool getWithURL:detailCommentsURL params:detailCommentsParams success:^(id json) {
-                    commentsBlock(json);
-                    reloadTableViewBlock();
-                    
-                } failure:^(NSError *error) {
-                    showReloadPageBlock();
-                    NSLog(@"全文评论：%@", error);
-                }];
-                
-            } failure:^(NSError *error) {
-               showReloadPageBlock();
-                NSLog(@"相关观点：%@", error);
-
-            }];
-
-        } failure:^(NSError *error) {
-            showReloadPageBlock();
-            NSLog(@"精选评论：%@", error);
-        }];
-
-    } failure:^(NSError *error) {
-        showReloadPageBlock();
-        NSLog(@"正文：%@", error);
-    }];
-}
 
 #pragma mark - 视频链接截取 
 - (NSString *)subVideoString:(NSString *)str {
@@ -1280,7 +1272,8 @@ const static CGFloat changeFontSizeViewH = 150;
             break;
         default:
             if (![self card]) return nil;
-            return [[self card] valueForKey:@"nid"];
+//          return @"6422374"; //6259298 6320865 "6407884" @"6422374";
+           return [[self card] valueForKey:@"nid"];
             break;
     }
 }
@@ -2107,21 +2100,21 @@ const static CGFloat changeFontSizeViewH = 150;
     self.commentsTableView.tableHeaderView = headerView1;
     
     CGFloat headerViewHeight = 40;
-    CGFloat marginTop = 100;
+    CGFloat marginTop = 80;
     if (iPhone6Plus) {
-        marginTop = 176;
+        marginTop = 100;
     }
     CGFloat noCommentViewY = CGRectGetMaxY(headerView1.frame) + headerViewHeight + marginTop;
     
-    CGFloat imageViewH = 41;
-    CGFloat imageViewW = 47;
+    CGFloat imageViewH = 90;
+    CGFloat imageViewW = 83;
     
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"暂无评论"]];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"qiangshafa"]];
     imageView.frame = CGRectMake(0, 0, imageViewW, imageViewH);
     
-    NSString *noCommentStr = @"哎呦，快抢沙发";
+    NSString *noCommentStr = @"还不快来抢沙发";
     CGSize size = [noCommentStr sizeWithFont:[UIFont systemFontOfSize:LPFont4] maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)];
-    UILabel *noCommentLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(imageView.frame) + 5, size.width, size.height)];
+    UILabel *noCommentLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(imageView.frame), size.width, size.height)];
     noCommentLabel.text = noCommentStr;
     noCommentLabel.font = [UIFont systemFontOfSize:LPFont4];
     noCommentLabel.textColor = [UIColor colorFromHexString:@"#888888"];
@@ -2146,9 +2139,18 @@ const static CGFloat changeFontSizeViewH = 150;
     [LPPressTool loadWebViewWithURL:url viewController:self];
 }
 
--  (void)contentCell:(LPContentCell *)contentCell selectedText:(NSString *)selectedText {
-    self.selectedText = selectedText;
+- (void)contentCell:(LPContentCell *)contentCell searchText:(NSString *)selectedText {
+    // 跳转到搜索页面
+    LPSearchResultViewController *resultViewController = [[LPSearchResultViewController alloc] init];
+    resultViewController.searchText = selectedText;
+    [self.navigationController pushViewController:resultViewController animated:YES];
 }
+
+
+- (void)contentCell:(LPContentCell *)contentCell copyText:(NSString *)selectedText {
+    pasteboard.string = selectedText;
+}
+
 
 #pragma mark - Bottom View Delegate
 - (void)didComposeCommentWithDetailBottomView:(LPDetailBottomView *)detailBottomView {

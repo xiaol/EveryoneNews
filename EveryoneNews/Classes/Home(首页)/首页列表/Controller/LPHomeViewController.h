@@ -80,8 +80,6 @@
 
 @property (nonatomic, assign, getter=iSAutoRefreshAtFirstTimeFinished) BOOL autoRefreshAtFirstTimeFinished;
 
-@property (nonatomic, strong) NSMutableDictionary *pageOffsetDictionary;
-
 
 @property (nonatomic, strong) NSMutableArray *subscriberFrameArray;
 

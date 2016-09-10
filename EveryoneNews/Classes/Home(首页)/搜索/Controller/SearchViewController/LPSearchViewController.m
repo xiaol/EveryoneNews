@@ -191,12 +191,6 @@ static NSString *cellIdentifier = @"tableViewCellIdentifier";
     recognizer2.delegate = self;
     [historySearchHeaderView addGestureRecognizer:recognizer2];
     
-//    // 移除键盘手势
-//    UITapGestureRecognizer *recognizer3 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
-//    recognizer3.delegate = self;
-//    [hotWordCollectionView addGestureRecognizer:recognizer3];
-//    
-    
 }
 
 #pragma mark - LPSearchTopView Delegate

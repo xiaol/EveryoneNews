@@ -9,6 +9,7 @@
 #import "LPContent.h"
 #import "SDWebImageManager.h"
 #import "LPFontSizeManager.h"
+#import <DTCoreText/DTCoreText.h>
 
 @implementation LPContent
 
@@ -24,9 +25,19 @@
 }
 
 - (NSMutableAttributedString *)bodyHtmlString {
-     NSMutableAttributedString *mutableAttributeString = [[NSMutableAttributedString alloc] initWithData:[self.body dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType}
-                                         documentAttributes:nil error:nil];
-    return mutableAttributeString;
+//    NSDictionary *options = @{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType };
+    
+//    NSMutableAttributedString *mutableAttributeString = [[NSMutableAttributedString alloc] initWithData:[self.body dataUsingEncoding:NSUnicodeStringEncoding]
+//                                                                                            options:options
+//                                                                                 documentAttributes:nil
+//                                                                                              error:nil];
+    
+    
+    NSData *data = [self.body dataUsingEncoding:NSUTF8StringEncoding];
+    
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithHTMLData:data
+                                                               documentAttributes:NULL];
+    return attrString;
 }
 
 - (NSString *)body {

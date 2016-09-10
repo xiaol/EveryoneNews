@@ -13,12 +13,9 @@
 @implementation LPSubscriberFrame
 
 - (void)setSubscriber:(LPSubscriber *)subscriber {
-    _subscriber = subscriber;
-    CGFloat padding = 20;
-    CGFloat gap = 30;
-    
+    _subscriber = subscriber;    
     // 图片
-    CGFloat imageW = (ScreenWidth - padding * 2 - gap * 3) / 3;
+    CGFloat imageW = 55.0f;
     CGFloat imageH = imageW;
     _imageFrame = CGRectMake(0, 0, imageW, imageH);
     

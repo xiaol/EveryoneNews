@@ -57,24 +57,21 @@ NSString * const reuseConcernPageID = @"reuseConcernPageID";
         page = (LPPagingViewConcernPage *)[pagingView dequeueReusablePageWithIdentifier:reuseConcernPageID];
 
     }
+     page.cardFrames = self.channelItemDictionary[channelItem.channelName];
     if (cardFramesArray.count == 0) {
         [self loadDataAtPageIndex:pageIndex basePage:page];
-        
-    } else {
-        page.cardFrames = self.channelItemDictionary[channelItem.channelName];
-    }
+    } 
     page.pageChannelName = channelItem.channelName;
     page.cellIdentifier = self.cardCellIdentifierDictionary[@(pageIndex)];
     page.delegate = self;
   
-    
-    CGPoint offset = CGPointZero;
-    NSString *pageIndexStr = [NSString stringWithFormat:@"%d", pageIndex];
-    if (self.pageOffsetDictionary[pageIndexStr]) {
-        offset.y = [self.pageOffsetDictionary[pageIndexStr] floatValue];
+    CGPoint offsetZero = CGPointZero;
+    if (!CGPointEqualToPoint(channelItem.offset , offsetZero)) {
+         page.offset = channelItem.offset;
+    } else {
+        page.offset = offsetZero;
     }
-    page.offset = offset;
-  
+    
     return page;
 }
 
@@ -114,10 +111,11 @@ NSString * const reuseConcernPageID = @"reuseConcernPageID";
         if (lastAccessDate != nil) {
             int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
             // 每5分钟做一次刷新操作
-            if (interval > 5) {
+            if (interval > 10) {
                 if (page.cardFrames.count > 0) {
-                    [page autotomaticLoadNewData];
                     channelItem.lastAccessDate = currentDate;
+                    [page autotomaticLoadNewData];
+                   
                 }
            
             }
@@ -128,10 +126,11 @@ NSString * const reuseConcernPageID = @"reuseConcernPageID";
         if (lastAccessDate != nil) {
             int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
             // 每5分钟做一次刷新操作
-            if (interval > 5) {
+            if (interval > 10) {
                 if (page.cardFrames.count > 0) {
-                    [page autotomaticLoadNewData];
                     channelItem.lastAccessDate = currentDate;
+                    [page autotomaticLoadNewData];
+                  
                 }
             }
         }
@@ -141,8 +140,8 @@ NSString * const reuseConcernPageID = @"reuseConcernPageID";
 
 - (void)pagingView:(LPPagingView *)pagingView didEndDisplayPage:(UIView *)page atIndex:(NSInteger)pageIndex {
     LPPagingViewBasePage *basePage = (LPPagingViewBasePage *)page;
-    NSString *pageIndexStr = [NSString stringWithFormat:@"%d", pageIndex];
-    self.pageOffsetDictionary[pageIndexStr] = [NSString stringWithFormat:@"%f", basePage.offset.y] ;
+    LPChannelItem *channelItem = [self.selectedArray objectAtIndex:pageIndex];
+    channelItem.offset = basePage.offset;
 }
 
 #pragma mark - 请求数据
@@ -160,7 +159,10 @@ NSString * const reuseConcernPageID = @"reuseConcernPageID";
                 NSArray *cards = cardsArray;
                 // 本地数据库没有数据，请求网络数据
                 if (cards.count == 0) {
-                    [self loadMoreDataInPageAtPageIndex:pageIndex];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self loadMoreDataInPageAtPageIndex:pageIndex basePage:basePage];
+                    });
+                   
                 } else {
      
                         NSMutableArray *cfs = [NSMutableArray array];
@@ -185,7 +187,7 @@ NSString * const reuseConcernPageID = @"reuseConcernPageID";
                             NSDate *currentDate = [NSDate date];
                             if (lastAccessDate != nil) {
                                 int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
-                                // 每5分钟做一次刷新操作
+                                // 首次打开2超过20分钟自动刷新
                                 if (interval > 20) {
                                     if (basePage.cardFrames.count > 0) {
                                         [(LPPagingViewPage *)basePage autotomaticLoadNewData];
@@ -199,6 +201,9 @@ NSString * const reuseConcernPageID = @"reuseConcernPageID";
                 }
             }];
         }
+    } else {
+        [self.channelItemDictionary setObject:[NSMutableArray array] forKey:LPConcernChannelItemName];
+        basePage.cardFrames = self.channelItemDictionary[LPConcernChannelItemName];
     }
 }
 
@@ -234,11 +239,13 @@ NSString * const reuseConcernPageID = @"reuseConcernPageID";
                 }
                 [self.channelItemDictionary setObject:cfs forKey:channelItem.channelName];
                 basePage.cardFrames = self.channelItemDictionary[channelItem.channelName];
-                
             } failure:^(NSError *error) {
 
             }];
         }
+    } else {
+        [self.channelItemDictionary setObject:[NSMutableArray array] forKey:LPConcernChannelItemName];
+        basePage.cardFrames = self.channelItemDictionary[LPConcernChannelItemName];
     }
 }
 
@@ -280,8 +287,7 @@ NSString * const reuseConcernPageID = @"reuseConcernPageID";
                 
             }];
         }
-    }
-
+    } 
 }
 
 #pragma mark - 频道栏颜色变化

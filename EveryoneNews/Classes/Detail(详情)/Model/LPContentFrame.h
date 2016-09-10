@@ -35,10 +35,15 @@ typedef void(^imageDownLoadCompletionBlock)();
 @property (nonatomic, assign, readonly) CGRect iconViewF;
 @property (nonatomic, assign, readonly) CGRect sourceViewF;
 @property (nonatomic, assign, readonly) CGRect supplementViewF;
+@property (nonatomic, copy) NSMutableAttributedString *bodyHtmlString;
+
 
 @property (nonatomic, assign) CGFloat cellHeight;
 
 @property (nonatomic, assign, readonly, getter=isUpdated) BOOL updated;
+
+
+
 
 - (void)setContentWhenFontSizeChanged:(LPContentFrame *)contentFrame;
 @end

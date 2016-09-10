@@ -8,6 +8,7 @@
 
 #import "LPSubscribeView.h"
 #import "LPSubscriberCell.h"
+#import "LPHttpTool.h"
 
 static NSString *cellIdentifier = @"cellIdentifier";
 const static CGFloat padding = 20;
@@ -35,17 +36,35 @@ const static CGFloat padding = 20;
         
         self.backgroundColor = [UIColor colorFromHexString:LPColor9];
         
-        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 50, ScreenWidth, 30)];
+        NSString *title = @"根据你的爱好为你推荐";
+        
+        CGFloat titleLabelH = [title sizeWithFont:[UIFont boldSystemFontOfSize:LPFont3] maxSize:CGSizeMake(ScreenWidth, CGFLOAT_MAX)].height;
+        CGFloat titleLabelY = 50;
+        if (iPhone6Plus) {
+            titleLabelY = 67;
+        }
+        
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, titleLabelY, ScreenWidth, titleLabelH)];
         titleLabel.textAlignment = NSTextAlignmentCenter;
         titleLabel.font = [UIFont boldSystemFontOfSize:LPFont3];
         titleLabel.textColor = [UIColor colorFromHexString:LPColor1];
-        titleLabel.text = @"根据你的爱好为你推荐";
+        titleLabel.text = title;
         [self addSubview:titleLabel];
         
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
         layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-        CGFloat collectionViewY = CGRectGetMaxY(titleLabel.frame) + 20;
-        UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(padding, collectionViewY, ScreenWidth - 2 * padding, ScreenHeight - collectionViewY - 50) collectionViewLayout:layout];
+        CGFloat  collectionViewY =  CGRectGetMaxY(titleLabel.frame) + 20;
+        if (iPhone6Plus) {
+            collectionViewY =  CGRectGetMaxY(titleLabel.frame) + 34;
+        }
+        
+        CGFloat collectionViewH = ScreenHeight - collectionViewY - 60;
+        if (iPhone6Plus) {
+            collectionViewH = ScreenHeight - collectionViewY - 109;
+        }
+        
+        
+        UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(padding, collectionViewY, ScreenWidth - 2 * padding, collectionViewH) collectionViewLayout:layout];
         collectionView.dataSource = self;
         collectionView.delegate = self;
         collectionView.scrollEnabled = NO;
@@ -54,7 +73,7 @@ const static CGFloat padding = 20;
         [self addSubview:collectionView];
         self.collectionView = collectionView;
         
-        CGFloat confirmButtonH = 50;
+        CGFloat confirmButtonH = 54;
         UIButton *confirmButton = [[UIButton alloc] initWithFrame:CGRectMake(0, ScreenHeight - confirmButtonH, ScreenWidth, confirmButtonH)];
         confirmButton.backgroundColor = [UIColor colorFromHexString:@"#bdc3c7"];
         [confirmButton setTitle:@"开始体验" forState:UIControlStateNormal];
@@ -87,7 +106,13 @@ const static CGFloat padding = 20;
 #pragma mark - UICollectionViewDelegateFlowLayout
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     CGFloat width = (ScreenWidth - 2 * padding - 1) / 3.0f;
-    CGFloat height = (ScreenHeight - 160) / 3.0f;
+    NSString *title = @"根据你的爱好为你推荐";
+    CGFloat titleLabelH = [title sizeWithFont:[UIFont boldSystemFontOfSize:LPFont3] maxSize:CGSizeMake(ScreenWidth, CGFLOAT_MAX)].height;
+    CGFloat  height = (ScreenHeight - 67 - titleLabelH - 60) / 3.0f;
+    if (iPhone6Plus) {
+         height = (ScreenHeight - 67 - titleLabelH - 109) / 3.0f;
+    }
+    
     return  CGSizeMake(width, height);
 }
 
@@ -118,10 +143,34 @@ const static CGFloat padding = 20;
 
 #pragma mark - 点击开始体验按钮
 - (void)confirmButtonDidClick {
-    if (self.sourceNameArray.count > 0) {
-       
+    NSInteger  count = self.sourceNameArray.count;
+    if (count > 0) {
+       // 提交订阅内容到数据库
+        __block NSInteger i = 0;
+        for (NSString *sourceName in self.sourceNameArray) {
+            NSString *uid = [userDefaults objectForKey:@"uid"];
+            // 必须进行编码操作
+            NSString *pname = [sourceName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            NSString *addConcernUrl = [NSString stringWithFormat:@"%@/v2/ns/pbs/cocs?pname=%@&&uid=%@", ServerUrlVersion2, pname, uid];
+            NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
+            [LPHttpTool postAuthorizationJSONWithURL:addConcernUrl authorization:authorization params:nil success:^(id json) {
+                if (i == 0) {
+                   [noteCenter postNotificationName:LPReloadAddConcernPageNotification object:nil];
+                   [self removeFromSuperview];
+                }
+                i++;
+            } failure:^(NSError *error) {
+                if (i == 0) {
+                    [noteCenter postNotificationName:LPReloadAddConcernPageNotification object:nil];
+                    [self removeFromSuperview];
+                }
+                i++;
+            }];
+        }
+    } else {
+      [self removeFromSuperview];
     }
-    [self removeFromSuperview];
+    
 }
 
 

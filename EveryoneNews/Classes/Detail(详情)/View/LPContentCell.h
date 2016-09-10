@@ -24,6 +24,11 @@
 
 - (void)contentCell:(LPContentCell *)contentCell selectedText:(NSString *)selectedText;
 
+- (void)contentCell:(LPContentCell *)contentCell copyText:(NSString *)selectedText;
+
+- (void)contentCell:(LPContentCell *)contentCell searchText:(NSString *)selectedText;
+
+
 @end
 
 @interface LPContentCell : UITableViewCell

@@ -8,6 +8,7 @@
 
 #import "NSMutableAttributedString+LP.h"
 #import "TTTAttributedLabel.h"
+#import <DTCoreText/DTCoreTextLayouter.h>
 
 @implementation NSMutableAttributedString (LP)
 - (CGFloat)lineHeight
@@ -39,13 +40,15 @@
     return  [TTTAttributedLabel sizeThatFitsAttributedString:self withConstraints:CGSizeMake(width, MAXFLOAT) limitedToNumberOfLines:0].height;
 }
 
-- (CGFloat)textViewHeightForAttributedText:(NSAttributedString *)text width:(CGFloat)width
-{
-    UITextView *textView = [[UITextView alloc] init];
-    [textView setAttributedText:text];
-    [textView updateConstraints];
-    CGSize size = [textView sizeThatFits:CGSizeMake(width, MAXFLOAT)];
-    return size.height;
+- (CGFloat)textViewHeightForAttributedText:(NSAttributedString *)attributedString width:(CGFloat)width {
+    DTCoreTextLayouter *layouter = [[DTCoreTextLayouter alloc] initWithAttributedString:attributedString];
+    
+    CGRect maxRect = CGRectMake(0, 0, width, CGFLOAT_HEIGHT_UNKNOWN);
+    NSRange entireString = NSMakeRange(0, [attributedString length]);
+    DTCoreTextLayoutFrame *layoutFrame = [layouter layoutFrameWithRect:maxRect range:entireString];
+    
+    CGSize sizeNeeded = [layoutFrame frame].size;
+    return sizeNeeded.height;
 }
 
  

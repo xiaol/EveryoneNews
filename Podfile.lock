@@ -16,6 +16,29 @@ PODS:
     - AFNetworking/NSURLSession
   - Crashlytics (3.7.0):
     - Fabric (~> 1.6.3)
+  - DTCoreText (1.6.17):
+    - DTFoundation/Core (~> 1.7.5)
+    - DTFoundation/DTAnimatedGIF (~> 1.7.5)
+    - DTFoundation/DTHTMLParser (~> 1.7.5)
+    - DTFoundation/UIKit (~> 1.7.5)
+  - DTFoundation/Core (1.7.10)
+  - DTFoundation/DTAnimatedGIF (1.7.10)
+  - DTFoundation/DTHTMLParser (1.7.10):
+    - DTFoundation/Core
+  - DTFoundation/UIKit (1.7.10):
+    - DTFoundation/Core
+  - DTLoupe (1.5.8)
+  - DTRichTextEditor (1.6.12):
+    - DTCoreText (~> 1.6.16)
+    - DTFoundation/Core (~> 1.7.8)
+    - DTLoupe (~> 1.5.8)
+    - DTWebArchive (~> 0.0.2)
+  - DTWebArchive (0.0.3):
+    - DTWebArchive/Core (= 0.0.3)
+    - DTWebArchive/iOS (= 0.0.3)
+  - DTWebArchive/Core (0.0.3)
+  - DTWebArchive/iOS (0.0.3):
+    - DTWebArchive/Core
   - Fabric (1.6.7)
   - Masonry (0.6.4)
   - MBProgressHUD (1.0.0)
@@ -28,6 +51,8 @@ PODS:
 DEPENDENCIES:
   - AFNetworking (~> 3.0)
   - Crashlytics
+  - DTCoreText
+  - DTRichTextEditor
   - Fabric
   - Masonry (~> 0.6.3)
   - MBProgressHUD (~> 1.0.0)
@@ -38,6 +63,11 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
+  DTCoreText: 3ea8bba23dd2141ba18adb227a7dd33a822df1c4
+  DTFoundation: 3b6b1b817d2a7fb02e7eaf2596c922a68145bd43
+  DTLoupe: 87d8448ec220dddbcce53df82d2cbf3e1fcce320
+  DTRichTextEditor: 255827297ff7fb173fea47945cb97a4890eff74d
+  DTWebArchive: 2029610e2e2fda5b6d51a386b13b1484b7b197ba
   Fabric: caf7580c725e64db144f610ac65cd60956911dc7
   Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
@@ -45,6 +75,6 @@ SPEC CHECKSUMS:
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   SDWebImage: 35f9627a3e44b4f292a8a8ce6a531fa488239b91
 
-PODFILE CHECKSUM: b7144724520fba5a1c6f23f6bf6d0cfbf3d1355a
+PODFILE CHECKSUM: 0fa47ed76616503037d11cd1d70548fae0a0c798
 
 COCOAPODS: 1.0.1

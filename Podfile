@@ -11,6 +11,7 @@ target 'EveryoneNews' do
     pod 'SDWebImage', '~>3.7'
     pod 'pop', '~> 1.0'
     pod 'MBProgressHUD', '~> 1.0.0'
-
+    pod 'DTCoreText'
+    pod 'DTRichTextEditor'
 end
 

@@ -41,7 +41,6 @@
 
 - (void)prepareForReuse {
     self.searchView.hidden = YES;
-//    [self.tableView setContentOffset:CGPointZero];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame {
@@ -371,23 +370,21 @@
     }
     CardFrame *cardFrame = [self.cardFrames lastObject];
     Card *card = cardFrame.card;
-    
     CardParam *param = [[CardParam alloc] init];
     param.channelID = [NSString stringWithFormat:@"%@", card.channelId];
     param.type = HomeCardsFetchTypeMore;
     param.count = @20;
     param.startTime = card.updateTime;
-
-    NSMutableArray *tempCardFrames = self.cardFrames;
     [CardTool cardsWithParam:param  channelID:param.channelID success:^(NSArray *cards) {
-        for (Card *card in cards) {
-            CardFrame *cardFrame = [[CardFrame alloc] init];
-            cardFrame.card = card;
-            [tempCardFrames addObject:cardFrame];
-        }
-        self.cardFrames = tempCardFrames;
-        [self.tableView.mj_footer endRefreshing];
-        if (!cards.count) {
+        if (cards.count > 0) {
+            for (Card *card in cards) {
+                CardFrame *cardFrame = [[CardFrame alloc] init];
+                cardFrame.card = card;
+                [self.cardFrames addObject:cardFrame];
+            }
+            [self.tableView reloadData];
+            [self.tableView.mj_footer endRefreshing];
+        } else {
             [self.tableView.mj_footer endRefreshingWithNoMoreData];
         }
     } failure:^(NSError *error) {

@@ -280,7 +280,7 @@
     self.cellView.frame = _relateFrame.cellViewF;
     
     self.titleLabel.frame = _relateFrame.titleF;
-    self.titleLabel.attributedText = point.titleHtmlString;
+    self.titleLabel.attributedText = _relateFrame.titleHtmlString;
     
     self.sourceLabel.frame = _relateFrame.sourceSiteF;
     self.sourceLabel.text = point.pname;

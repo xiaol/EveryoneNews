@@ -17,32 +17,35 @@
 - (void)setContent:(LPContent *)content {
     
     CGFloat bodyPadding = 13;
-    if (iPhone6Plus) {
-        bodyPadding = 15;
-    } else if (iPhone5) {
-        bodyPadding = 10;
-    } else if (iPhone6) {
-        bodyPadding = 13;
-    }
+//    if (iPhone6Plus) {
+//        bodyPadding = 15;
+//    } else if (iPhone5) {
+//        bodyPadding = 10;
+//    } else if (iPhone6) {
+//        bodyPadding = 13;
+//    }
     _content = content;
     
     if ( _content.contentType == 2) {
         CGFloat bodyX = bodyPadding;
         CGFloat bodyY = 0;
         CGFloat bodyW = ScreenWidth - 2 * bodyPadding;
-        CGFloat bodyH = [_content.bodyHtmlString textViewHeightWithConstraintWidth:bodyW];
+        
+        NSMutableAttributedString *bodyHtmlString = _content.bodyHtmlString;
+        self.bodyHtmlString = bodyHtmlString;
+        CGFloat bodyH = [bodyHtmlString textViewHeightWithConstraintWidth:bodyW];
         _bodyLabelF = CGRectMake(bodyX, bodyY, bodyW, bodyH);
         _cellHeight = CGRectGetMaxY(_bodyLabelF) + 3.5f;
     }
     else if(_content.contentType == 1){ // 图像类型
-        CGFloat bodyPadding = 13;
-        if (iPhone6Plus) {
-            bodyPadding = 19;
-        } else if (iPhone5) {
-            bodyPadding = 15;
-        } else if (iPhone6) {
-            bodyPadding = 18;
-        }
+//        CGFloat bodyPadding = 13;
+//        if (iPhone6Plus) {
+//            bodyPadding = 19;
+//        } else if (iPhone5) {
+//            bodyPadding = 15;
+//        } else if (iPhone6) {
+//            bodyPadding = 18;
+//        }
         CGFloat photoX = bodyPadding;
         CGFloat photoY = 0;
         CGFloat photoW = ScreenWidth - 2 * bodyPadding;

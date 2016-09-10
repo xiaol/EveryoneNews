@@ -12,10 +12,8 @@
 
 const static CGFloat circleHeight = 6.5f;
 const static CGFloat circleWidth = 6.5f;
-const static CGFloat padding1 = 5.0f;
 const static CGFloat padding2 = 7.0f;
 const static CGFloat padding3 = 15;
-const static CGFloat padding4 = 8.0f;
 const static CGFloat padding5 = 10.0f;
 
 @implementation LPRelateFrame
@@ -78,7 +76,11 @@ const static CGFloat padding5 = 10.0f;
         
     
         titleW = ScreenWidth - imageW - circleWidth - padding2 - padding3 - padding * 2 ;
-        titleH =  [_relatePoint.titleHtmlString textViewHeightWithConstraintWidth:titleW];
+        NSMutableAttributedString *titleHtmlString = _relatePoint.titleHtmlString;
+        titleH =  [titleHtmlString textViewHeightWithConstraintWidth:titleW];
+        self.titleHtmlString = titleHtmlString;
+        
+        
         sourceW = titleW;
         sourceH = [_relatePoint.sourceString heightWithConstraintWidth:sourceW];
         
@@ -114,7 +116,9 @@ const static CGFloat padding5 = 10.0f;
     } else {
         // 无图
         titleW =  ScreenWidth - circleWidth - padding2 - padding * 2 ;
-        titleH =  [_relatePoint.titleHtmlString textViewHeightWithConstraintWidth:titleW];
+        NSMutableAttributedString *titleHtmlString = _relatePoint.titleHtmlString;
+        titleH =  [titleHtmlString textViewHeightWithConstraintWidth:titleW];
+        self.titleHtmlString = titleHtmlString;
         sourceW = titleW;
         sourceH = [_relatePoint.sourceString heightWithConstraintWidth:sourceW];
         

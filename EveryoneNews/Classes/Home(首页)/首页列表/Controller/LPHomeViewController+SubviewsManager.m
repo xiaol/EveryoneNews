@@ -229,6 +229,14 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
         // 加载完后提示信息
         [userDefaults setObject:@"NO" forKey:LPIsVersionFirstLoad];
         [userDefaults synchronize];
+        
+        
+//        // 动态添加首订，完成后移除
+//        LPSubscribeView *subscribeView = [[LPSubscribeView alloc] initWithFrame:self.view.bounds];
+//        [self setupSubscriberData];
+//
+//        subscribeView.subscriberFrames = self.subscriberFrameArray;
+//        [self.view addSubview:subscribeView];
     }
 }
 
@@ -305,8 +313,6 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
     NSArray *randomArray = [randomSet allObjects];
     
     for (LPSubscriber *subscriber in randomArray) {
-        
-        NSLog(@"%@", subscriber.title);
         LPSubscriberFrame *subscribeFrame = [[LPSubscriberFrame alloc] init];
         subscribeFrame.subscriber = subscriber;
         [self.subscriberFrameArray addObject:subscribeFrame];

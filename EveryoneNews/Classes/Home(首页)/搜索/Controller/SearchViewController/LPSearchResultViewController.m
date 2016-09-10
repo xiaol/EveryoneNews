@@ -104,12 +104,12 @@ static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
     // 没有搜索到数据提示
     UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 10, ScreenWidth, 100)];
     
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"未找到相关内容"]];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"wusousuojieguo"]];
     imageView.centerX = self.view.centerX;
     imageView.centerY = ScreenHeight / 3;
     
     UILabel *noDataLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 30)];
-    noDataLabel.centerY = CGRectGetMaxY(imageView.frame) + 20;
+    noDataLabel.centerY = CGRectGetMaxY(imageView.frame);
     
     NSString *text = @"未找到相关内容";
     NSMutableAttributedString *noDataString = [text attributedStringWithFont:[UIFont systemFontOfSize:13] color:[UIColor colorFromHexString:@"#c8c8c8"] lineSpacing:0];

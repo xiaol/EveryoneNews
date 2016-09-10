@@ -83,14 +83,6 @@
     return _cellAttributesArray;
 }
 
-- (NSMutableDictionary *)pageOffsetDictionary {
-    if (_pageOffsetDictionary == nil) {
-        _pageOffsetDictionary = [NSMutableDictionary dictionary];
-    }
-    return _pageOffsetDictionary;
-}
-
-
 - (NSMutableArray *)subscriberFrameArray {
     if (_subscriberFrameArray == nil) {
         _subscriberFrameArray = [NSMutableArray array];
@@ -119,10 +111,6 @@
     [noteCenter addObserver:self selector:@selector(resignActiveNotification) name:UIApplicationWillResignActiveNotification object:nil];
     // 从后台激活
     [noteCenter addObserver:self selector:@selector(becomeActiveNotification) name:UIApplicationDidBecomeActiveNotification object:nil];
-    
-    // 首订通知
-    
-
 }
 
 #pragma mark - 进入后台
@@ -347,15 +335,14 @@
 - (void)addConcernAndReloadPage {
     
     if(![userDefaults objectForKey:LPConcernChannelItemShowOrHide]) {
-       
-        // 判断当前关注频道是否隐藏，隐藏则显示
-        [self showConcernChannelItem];
         
+        // 判断当前关注频道是否隐藏，隐藏则显示
+        [self showConcernChannelItem];        
         // 当前选中频道索引值
         int index = 0;
         for (int i = 0; i < self.selectedArray.count; i++) {
             LPChannelItem *channelItem = self.selectedArray[i];
-            if([channelItem.channelName isEqualToString:self.selectedChannelTitle]) {
+            if([channelItem.channelName isEqualToString:LPConcernChannelItemName]) {
                 index = i;
             }
             static NSString *cardCellIdentifier = @"cardCellIdentifier";
@@ -363,14 +350,18 @@
             [self.cardCellIdentifierDictionary setObject:[NSString stringWithFormat:@"%@%d",cardCellIdentifier,i] forKey:@(i)];
             
         }
-        if(index == 0) {
-            self.selectedChannelTitle = LPQiDianChannelItemName;
-        }
-        
         [self updatePageindexMapToChannelItemDictionary];
         
-        // 更新关注频道栏数据
-        [self loadDataOfConcernChannelItemWithIndex:index];
+        [self.menuView reloadData];
+        
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
+        // 直接跳转至关注页面
+        [self.menuView selectItemAtIndexPath:indexPath
+                                    animated:YES
+                              scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+        
+        [self.pagingView insertPageAtIndex:index];
+        [self.pagingView setCurrentPageIndex:index];
         
         [userDefaults setObject:@"show" forKey:LPConcernChannelItemShowOrHide];
         [userDefaults synchronize];

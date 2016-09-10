@@ -239,35 +239,30 @@ static BOOL status;
     
     // 没有评论提示信息
     UIView *noCommentTipView = [[UIView alloc] initWithFrame:CGRectMake(0, headerHeight + 42, ScreenWidth, 140)];
-    CGFloat noCommentImageViewW = 65;
-    CGFloat noCommentImageViewH = 57;
+    CGFloat noCommentImageViewW = 90;
+    CGFloat noCommentImageViewH = 83;
     CGFloat noCommentImageViewX = (ScreenWidth - noCommentImageViewW) / 2;
-    CGFloat noCommentImageViewY = 42;
+    CGFloat noCommentImageViewY = 80;
+    
+    if (iPhone6Plus) {
+        noCommentImageViewY = 130;
+    }
+    
     UIImageView *noCommentImageView = [[UIImageView alloc] initWithFrame:CGRectMake(noCommentImageViewX, noCommentImageViewY, noCommentImageViewW, noCommentImageViewH)];
-    noCommentImageView.image = [UIImage imageNamed:@"我的评论无评论提示"];
+    noCommentImageView.image = [UIImage imageNamed:@"wupinglun"];
     
     CGFloat noCommentLabelX = 0;
-    CGFloat noCommentLabelY = CGRectGetMaxY(noCommentImageView.frame) + 25;
-    
-    if (iPhone5) {
-        noCommentLabelY = CGRectGetMaxY(noCommentImageView.frame) + 15;
-    }
+    CGFloat noCommentLabelY = CGRectGetMaxY(noCommentImageView.frame);
     CGFloat noCommentLabelW = ScreenWidth;
     CGFloat noCommentLabelH = 20;
-    UILabel *noCommentLabelFirst = [[UILabel alloc] initWithFrame:CGRectMake(noCommentLabelX, noCommentLabelY, noCommentLabelW, noCommentLabelH)];
-    noCommentLabelFirst.text = @"高冷的ta";
-    noCommentLabelFirst.textColor = [UIColor colorFromHexString:@"#d4d4d4"];
-    noCommentLabelFirst.font = [UIFont systemFontOfSize:17];
-    noCommentLabelFirst.textAlignment = NSTextAlignmentCenter;
     
-    UILabel *noCommentLabelSecond = [[UILabel alloc] initWithFrame:CGRectMake(noCommentLabelX, CGRectGetMaxY(noCommentLabelFirst.frame), noCommentLabelW, noCommentLabelH)];
-    noCommentLabelSecond.text = @"还没有发表过任何评论";
-    noCommentLabelSecond.textColor = [UIColor colorFromHexString:@"#d4d4d4"];
-    noCommentLabelSecond.font = [UIFont systemFontOfSize:17];
-    noCommentLabelSecond.textAlignment = NSTextAlignmentCenter;
-    
-    [noCommentTipView addSubview:noCommentLabelFirst];
-    [noCommentTipView addSubview:noCommentLabelSecond];
+    UILabel *noCommentLabel = [[UILabel alloc] initWithFrame:CGRectMake(noCommentLabelX, noCommentLabelY, noCommentLabelW, noCommentLabelH)];
+    noCommentLabel.text = @"还没有发表任何评论";
+    noCommentLabel.textColor = [UIColor colorFromHexString:@"#d4d4d4"];
+    noCommentLabel.font = [UIFont systemFontOfSize:17];
+    noCommentLabel.textAlignment = NSTextAlignmentCenter;
+
+    [noCommentTipView addSubview:noCommentLabel];
     [noCommentTipView addSubview:noCommentImageView];
     noCommentTipView.hidden = YES;
     

@@ -9,6 +9,36 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>DTCoreText.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>DTFoundation.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>DTLoupe-DTLoupe.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>DTLoupe.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>DTRichTextEditor.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>DTWebArchive.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>MBProgressHUD.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -42,7 +72,27 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0F2D42F5D86754829D1DC236C1F1E014</key>
+		<key>1950562BD3EB23B0ACF74A6AA9CD6A3C</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>1C56198AEE3C14B867F41097D99915AB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>3EF9A44C7B423D66DE211361AA769CE0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>49A27334D11F6307F8D39D995C13A8FB</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>532C237606035500002FE0439F95898E</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -52,7 +102,12 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>618A774D93DE435E459E7BCBB3A8EB76</key>
+		<key>54D5716994BCD8C820B735B971C61D83</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>6D11BC0A7414041214377D035F41DC1D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -62,17 +117,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B3788DDDACCBCA03A7F24E0645E12095</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>D058B89EB3B3DF45457A2DCD3971AFFE</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>F27FC8CB56D1446DE378FD78FB99D02E</key>
+		<key>DF849F825A1D131A17F53200C0E9D787</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>EAB9D1CECA208033BD399D0206BC2B35</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FCC53F4C0BF9E91DD548695AA4DB9D4D</key>
 		<dict>
 			<key>primary</key>
 			<true/>

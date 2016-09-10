@@ -28,7 +28,8 @@ const static CGFloat paddingTop = 15;
     CGFloat keywordPaddingHorizontal = 10;
     
     self.homeViewFontSize = [LPFontSizeManager sharedManager].currentHomeViewFontSize;
-    CGFloat titleFontSize =  self.homeViewFontSize;CGFloat keywordPadddingVertical = 6;
+    CGFloat titleFontSize =  self.homeViewFontSize;
+    CGFloat keywordPadddingVertical = 6;
     
     NSString *title = card.title;
     CGFloat lineSpacing = 4.0;
@@ -98,7 +99,7 @@ const static CGFloat paddingTop = 15;
             titleY = paddingTop;
 
         } else {
-            titleY = (imageH - (titleH + keywordH + keywordPaddingTop)) / 2 ;
+            titleY = (imageH - (titleH + keywordH + keywordPaddingTop)) / 2  + paddingTop;
 
         }
         _singleImageTitleLabelFrame = CGRectMake(titleX, titleY, titleW, titleH);
