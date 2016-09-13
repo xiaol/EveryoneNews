@@ -123,6 +123,14 @@ class NewBaseTableViewCell: UITableViewCell {
             
         }
         
+        if new.rtype == 3 {
+            
+            self.Taglabel.text = "广告"
+            self.Taglabel.textColor = UIColor.redColor()
+            self.Taglabel.layer.borderColor = UIColor.redColor().CGColor
+            
+        }
+        
         self.JiaPublabel.text = self.pubLabel.text
         
         if new.rtype == 0 {

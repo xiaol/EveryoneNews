@@ -41,7 +41,7 @@ class NewsUtil: NSObject {
                     
                     realm.create(New.self, value: channel, update: true)
                     
-                    self.AnalysisPutTimeAndImageList(channel as! NSDictionary, realm: realm,iscollected:0)
+                    self.AnalysisPutTimeAndImageList(channel:channel as! NSDictionary, realm: realm,iscollected:0)
                     
                     if let nid = channel.objectForKey("nid") as? Int {
                         
@@ -134,7 +134,7 @@ class NewsUtil: NSObject {
             try! realm.write({
                 for channel in data {
                     realm.create(New.self, value: channel, update: true)
-                    self.AnalysisPutTimeAndImageList(channel as! NSDictionary, realm: realm,iscollected:1)
+                    self.AnalysisPutTimeAndImageList(channel:channel as! NSDictionary, realm: realm,iscollected:1)
                 }
             })
             
@@ -225,7 +225,7 @@ class NewsUtil: NSObject {
             try! realm.write({
                 for channel in data {
                     realm.create(New.self, value: channel, update: true)
-                    self.AnalysisPutTimeAndImageList(channel as! NSDictionary, realm: realm,ishot:hot)
+                    self.AnalysisPutTimeAndImageList(channelId,channel: channel as! NSDictionary, realm: realm,ishot:hot)
                 }
             })
             
@@ -276,8 +276,17 @@ class NewsUtil: NSObject {
                 
                 for channel in data {
                     
-                    realm.create(New.self, value: channel, update: true)
-                    self.AnalysisPutTimeAndImageList(channel as! NSDictionary, realm: realm,ishot:(channelId == 1 ? 1 : 0))
+                    if let rtype = channel.objectForKey("rtype") as? Int where rtype == 3 {
+                    
+                        print("获取到一个新新闻了")
+                    }
+                    
+                    if let nid = channel.objectForKey("nid") as? Int where realm.objectForPrimaryKey(New.self, key: nid) == nil {
+                        
+                        realm.create(New.self, value: channel, update: true)
+                        
+                        self.AnalysisPutTimeAndImageList(channelId,channel: channel as! NSDictionary, realm: realm,ishot:(channelId == 1 ? 1 : 0))
+                    }
                 }
             })
             
@@ -286,7 +295,7 @@ class NewsUtil: NSObject {
     }
     
     // 完善新闻事件
-    private class func AnalysisPutTimeAndImageList(channel:NSDictionary,realm:Realm,ishot:Int=0,iscollected:Int=0){
+    private class func AnalysisPutTimeAndImageList(cid:Int = -1,channel:NSDictionary,realm:Realm,ishot:Int=0,iscollected:Int=0){
         
         if let nid = channel.objectForKey("nid") as? Int {
             
@@ -309,6 +318,16 @@ class NewsUtil: NSObject {
                 })
                 
                 realm.create(New.self, value: ["nid":nid,"imgsList":array], update: true)
+            }
+            
+            if let new = realm.objectForPrimaryKey(New.self, key: nid) where cid > 0 {
+                
+                if let _ = new.channelList.filter("channel = %@",cid).first { } else {
+                    
+                    let sp = IntegetObject()
+                    sp.channel = cid
+                    new.channelList.append(sp)
+                }
             }
             
             realm.create(New.self, value: ["nid":nid,"ishotnew":ishot,"iscollected":iscollected], update: true)

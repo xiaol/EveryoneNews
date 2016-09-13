@@ -116,6 +116,8 @@ extension DetailViewController:IndicatorInfoProvider{
         
         coordinator.animateAlongsideTransition({ (_) in
             
+            self.webView.evaluateJavaScript("fixImgWidth();", completionHandler: nil)
+            
             self.adaptionWebViewHeightMethod()
             
             }, completion: nil)

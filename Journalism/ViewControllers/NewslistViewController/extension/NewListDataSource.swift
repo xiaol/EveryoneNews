@@ -249,9 +249,9 @@ extension NewslistViewController:UITableViewDelegate{
      */
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        
-        
         let new = newsResults[indexPath.row]
+        
+        print(new.url)
         
         if new.isread == 0 {
             

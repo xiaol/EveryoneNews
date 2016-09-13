@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="ar2-Cz-FhB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="tMJ-To-zkS">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -723,6 +723,456 @@
                 </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-628" y="2292"/>
+        </scene>
+        <!--Subscribe View Controller-->
+        <scene sceneID="oqg-yA-0L0">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="tMJ-To-zkS" customClass="SubscribeViewController" customModule="Journalism" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="CL3-89-nOf"/>
+                        <viewControllerLayoutGuide type="bottom" id="7MO-RN-i12"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="aj3-8q-fJO">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="根据你的爱好为你推荐" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NtP-0Z-chc">
+                                <rect key="frame" x="210" y="67" width="180" height="22"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mRx-AE-B4i">
+                                <rect key="frame" x="0.0" y="89" width="600" height="457"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vdH-pF-2Xj">
+                                        <rect key="frame" x="0.0" y="37" width="600" height="162"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M8x-ev-M2R">
+                                                <rect key="frame" x="0.0" y="0.0" width="200" height="162"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="36氪" translatesAutoresizingMaskIntoConstraints="NO" id="6O9-Nr-60b">
+                                                        <rect key="frame" x="73" y="34" width="55" height="55"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="55" id="aMm-Aa-gHY"/>
+                                                            <constraint firstAttribute="height" constant="55" id="g9Y-Ge-EBT"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="36氪" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2JD-Z0-sjc">
+                                                        <rect key="frame" x="86" y="100" width="28" height="15"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LB8-gg-5MA" customClass="CustomSubscribeButton" customModule="Journalism" customModuleProvider="target">
+                                                        <rect key="frame" x="73" y="140" width="55" height="22"/>
+                                                        <state key="normal" image="对勾"/>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstItem="6O9-Nr-60b" firstAttribute="centerX" secondItem="M8x-ev-M2R" secondAttribute="centerX" id="9hU-53-T12"/>
+                                                    <constraint firstItem="2JD-Z0-sjc" firstAttribute="centerX" secondItem="M8x-ev-M2R" secondAttribute="centerX" id="Lbq-nU-OV5"/>
+                                                    <constraint firstItem="LB8-gg-5MA" firstAttribute="centerX" secondItem="M8x-ev-M2R" secondAttribute="centerX" id="MUS-Wv-qRW"/>
+                                                    <constraint firstItem="LB8-gg-5MA" firstAttribute="top" secondItem="2JD-Z0-sjc" secondAttribute="top" constant="40" id="OF1-jM-Ghr"/>
+                                                    <constraint firstItem="2JD-Z0-sjc" firstAttribute="top" secondItem="6O9-Nr-60b" secondAttribute="bottom" constant="11" id="Ock-dw-rWM"/>
+                                                    <constraint firstItem="6O9-Nr-60b" firstAttribute="top" secondItem="M8x-ev-M2R" secondAttribute="top" constant="34" id="igc-l0-C9I"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pi8-Xr-HNM">
+                                                <rect key="frame" x="200" y="0.0" width="200" height="162"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="36氪" translatesAutoresizingMaskIntoConstraints="NO" id="pXC-Nd-7gj">
+                                                        <rect key="frame" x="73" y="34" width="55" height="55"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="55" id="8Fi-sw-Eyp"/>
+                                                            <constraint firstAttribute="height" constant="55" id="idX-jA-ddV"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="36氪" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TIS-AH-dch">
+                                                        <rect key="frame" x="86" y="100" width="28" height="15"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="czP-7Q-rxe" customClass="CustomSubscribeButton" customModule="Journalism" customModuleProvider="target">
+                                                        <rect key="frame" x="73" y="140" width="55" height="22"/>
+                                                        <state key="normal" image="对勾"/>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstItem="czP-7Q-rxe" firstAttribute="top" secondItem="TIS-AH-dch" secondAttribute="top" constant="40" id="ICQ-QM-LrT"/>
+                                                    <constraint firstItem="pXC-Nd-7gj" firstAttribute="centerX" secondItem="pi8-Xr-HNM" secondAttribute="centerX" id="LiQ-6q-784"/>
+                                                    <constraint firstItem="czP-7Q-rxe" firstAttribute="centerX" secondItem="pi8-Xr-HNM" secondAttribute="centerX" id="V90-R8-kea"/>
+                                                    <constraint firstItem="pXC-Nd-7gj" firstAttribute="top" secondItem="pi8-Xr-HNM" secondAttribute="top" constant="34" id="fJ3-2c-BnV"/>
+                                                    <constraint firstItem="TIS-AH-dch" firstAttribute="centerX" secondItem="pi8-Xr-HNM" secondAttribute="centerX" id="s5Y-KV-AVJ"/>
+                                                    <constraint firstItem="TIS-AH-dch" firstAttribute="top" secondItem="pXC-Nd-7gj" secondAttribute="bottom" constant="11" id="zF4-LU-hzK"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Udu-FD-4ng">
+                                                <rect key="frame" x="400" y="0.0" width="200" height="162"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="36氪" translatesAutoresizingMaskIntoConstraints="NO" id="lAf-ZM-zkp">
+                                                        <rect key="frame" x="73" y="34" width="55" height="55"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="55" id="0r0-aC-qUw"/>
+                                                            <constraint firstAttribute="width" constant="55" id="gQJ-SW-ydE"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="36氪" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jsn-rs-ZVU">
+                                                        <rect key="frame" x="86" y="100" width="28" height="15"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dPm-6I-wdU" customClass="CustomSubscribeButton" customModule="Journalism" customModuleProvider="target">
+                                                        <rect key="frame" x="73" y="140" width="55" height="22"/>
+                                                        <state key="normal" image="对勾"/>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstItem="dPm-6I-wdU" firstAttribute="top" secondItem="jsn-rs-ZVU" secondAttribute="top" constant="40" id="5XU-xU-dSi"/>
+                                                    <constraint firstItem="jsn-rs-ZVU" firstAttribute="top" secondItem="lAf-ZM-zkp" secondAttribute="bottom" constant="11" id="GWW-mn-gPb"/>
+                                                    <constraint firstItem="lAf-ZM-zkp" firstAttribute="top" secondItem="Udu-FD-4ng" secondAttribute="top" constant="34" id="QGV-S9-cbz"/>
+                                                    <constraint firstItem="lAf-ZM-zkp" firstAttribute="centerX" secondItem="Udu-FD-4ng" secondAttribute="centerX" id="oEc-9c-ZWB"/>
+                                                    <constraint firstItem="jsn-rs-ZVU" firstAttribute="centerX" secondItem="Udu-FD-4ng" secondAttribute="centerX" id="v6y-Gr-RtC"/>
+                                                    <constraint firstItem="dPm-6I-wdU" firstAttribute="centerX" secondItem="Udu-FD-4ng" secondAttribute="centerX" id="wXl-ld-hTE"/>
+                                                </constraints>
+                                            </view>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="Udu-FD-4ng" firstAttribute="width" secondItem="pi8-Xr-HNM" secondAttribute="width" id="0JO-3l-qUo"/>
+                                            <constraint firstItem="pi8-Xr-HNM" firstAttribute="top" secondItem="vdH-pF-2Xj" secondAttribute="top" id="CR2-8g-Idu"/>
+                                            <constraint firstAttribute="height" constant="162" id="DTo-Nc-ty2"/>
+                                            <constraint firstAttribute="bottom" secondItem="Udu-FD-4ng" secondAttribute="bottom" id="Dkd-GP-y61"/>
+                                            <constraint firstItem="pi8-Xr-HNM" firstAttribute="width" secondItem="M8x-ev-M2R" secondAttribute="width" id="Lmg-Yy-nXj"/>
+                                            <constraint firstItem="M8x-ev-M2R" firstAttribute="top" secondItem="vdH-pF-2Xj" secondAttribute="top" id="MAt-WK-a0j"/>
+                                            <constraint firstItem="M8x-ev-M2R" firstAttribute="leading" secondItem="vdH-pF-2Xj" secondAttribute="leading" id="NnA-EM-6jt"/>
+                                            <constraint firstItem="M8x-ev-M2R" firstAttribute="width" secondItem="vdH-pF-2Xj" secondAttribute="width" multiplier="1/3" id="TYg-Qt-h3W"/>
+                                            <constraint firstAttribute="bottom" secondItem="pi8-Xr-HNM" secondAttribute="bottom" id="WKE-Yj-hTM"/>
+                                            <constraint firstItem="M8x-ev-M2R" firstAttribute="top" secondItem="vdH-pF-2Xj" secondAttribute="top" id="WRJ-uC-cbu"/>
+                                            <constraint firstItem="Udu-FD-4ng" firstAttribute="top" secondItem="vdH-pF-2Xj" secondAttribute="top" id="YUU-pX-UU1"/>
+                                            <constraint firstItem="pi8-Xr-HNM" firstAttribute="leading" secondItem="M8x-ev-M2R" secondAttribute="trailing" id="dEl-02-65U"/>
+                                            <constraint firstAttribute="bottom" secondItem="M8x-ev-M2R" secondAttribute="bottom" id="poA-MM-I41"/>
+                                            <constraint firstAttribute="trailing" secondItem="Udu-FD-4ng" secondAttribute="trailing" id="tHI-a2-QI0"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SSB-nm-UBE">
+                                        <rect key="frame" x="0.0" y="228" width="600" height="162"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nUP-3L-1Tg">
+                                                <rect key="frame" x="0.0" y="0.0" width="200" height="162"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="36氪" translatesAutoresizingMaskIntoConstraints="NO" id="y1r-eg-CJD">
+                                                        <rect key="frame" x="73" y="34" width="55" height="55"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="55" id="77X-YM-foY"/>
+                                                            <constraint firstAttribute="width" constant="55" id="W7D-jQ-cSk"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="36氪" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rvr-Lu-jud">
+                                                        <rect key="frame" x="86" y="100" width="28" height="15"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nNx-2u-RL1" customClass="CustomSubscribeButton" customModule="Journalism" customModuleProvider="target">
+                                                        <rect key="frame" x="73" y="140" width="55" height="22"/>
+                                                        <state key="normal" image="对勾"/>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstItem="Rvr-Lu-jud" firstAttribute="centerX" secondItem="nUP-3L-1Tg" secondAttribute="centerX" id="2uY-dt-KuR"/>
+                                                    <constraint firstItem="nNx-2u-RL1" firstAttribute="top" secondItem="Rvr-Lu-jud" secondAttribute="top" constant="40" id="WSF-fJ-IW7"/>
+                                                    <constraint firstItem="y1r-eg-CJD" firstAttribute="top" secondItem="nUP-3L-1Tg" secondAttribute="top" constant="34" id="bEs-hK-z9y"/>
+                                                    <constraint firstItem="nNx-2u-RL1" firstAttribute="centerX" secondItem="nUP-3L-1Tg" secondAttribute="centerX" id="dfa-ko-uvr"/>
+                                                    <constraint firstItem="Rvr-Lu-jud" firstAttribute="top" secondItem="y1r-eg-CJD" secondAttribute="bottom" constant="11" id="gn3-Pv-gqg"/>
+                                                    <constraint firstItem="y1r-eg-CJD" firstAttribute="centerX" secondItem="nUP-3L-1Tg" secondAttribute="centerX" id="ruR-Fv-5jL"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KSe-au-99f">
+                                                <rect key="frame" x="200" y="0.0" width="200" height="162"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="36氪" translatesAutoresizingMaskIntoConstraints="NO" id="Hqv-wl-wFb">
+                                                        <rect key="frame" x="73" y="34" width="55" height="55"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="55" id="7R5-SR-N8l"/>
+                                                            <constraint firstAttribute="height" constant="55" id="SJs-hN-rqq"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="36氪" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y8j-zU-7sG">
+                                                        <rect key="frame" x="86" y="100" width="28" height="15"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OeA-Hc-19s" customClass="CustomSubscribeButton" customModule="Journalism" customModuleProvider="target">
+                                                        <rect key="frame" x="73" y="140" width="55" height="22"/>
+                                                        <state key="normal" image="对勾"/>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstItem="Hqv-wl-wFb" firstAttribute="centerX" secondItem="KSe-au-99f" secondAttribute="centerX" id="19z-TO-6RV"/>
+                                                    <constraint firstItem="OeA-Hc-19s" firstAttribute="centerX" secondItem="KSe-au-99f" secondAttribute="centerX" id="3eW-Ix-32O"/>
+                                                    <constraint firstItem="OeA-Hc-19s" firstAttribute="top" secondItem="y8j-zU-7sG" secondAttribute="top" constant="40" id="6mJ-mg-aMo"/>
+                                                    <constraint firstItem="y8j-zU-7sG" firstAttribute="centerX" secondItem="KSe-au-99f" secondAttribute="centerX" id="OUT-rx-hi1"/>
+                                                    <constraint firstItem="y8j-zU-7sG" firstAttribute="top" secondItem="Hqv-wl-wFb" secondAttribute="bottom" constant="11" id="dZ0-EA-yD2"/>
+                                                    <constraint firstItem="Hqv-wl-wFb" firstAttribute="top" secondItem="KSe-au-99f" secondAttribute="top" constant="34" id="lH5-Qb-mHj"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d8K-Xe-whK">
+                                                <rect key="frame" x="400" y="0.0" width="200" height="162"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="36氪" translatesAutoresizingMaskIntoConstraints="NO" id="qFi-g1-gDZ">
+                                                        <rect key="frame" x="73" y="34" width="55" height="55"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="55" id="P0c-gU-dPX"/>
+                                                            <constraint firstAttribute="height" constant="55" id="ihq-oz-KG4"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="36氪" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uSR-Bc-S1u">
+                                                        <rect key="frame" x="86" y="100" width="28" height="15"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CRP-ZV-wI6" customClass="CustomSubscribeButton" customModule="Journalism" customModuleProvider="target">
+                                                        <rect key="frame" x="73" y="140" width="55" height="22"/>
+                                                        <state key="normal" image="对勾"/>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstItem="CRP-ZV-wI6" firstAttribute="top" secondItem="uSR-Bc-S1u" secondAttribute="top" constant="40" id="3is-5j-9tx"/>
+                                                    <constraint firstItem="CRP-ZV-wI6" firstAttribute="centerX" secondItem="d8K-Xe-whK" secondAttribute="centerX" id="Cxw-Pz-5i7"/>
+                                                    <constraint firstItem="uSR-Bc-S1u" firstAttribute="top" secondItem="qFi-g1-gDZ" secondAttribute="bottom" constant="11" id="FAA-qB-Jj8"/>
+                                                    <constraint firstItem="qFi-g1-gDZ" firstAttribute="centerX" secondItem="d8K-Xe-whK" secondAttribute="centerX" id="UYg-lV-Kyc"/>
+                                                    <constraint firstItem="uSR-Bc-S1u" firstAttribute="centerX" secondItem="d8K-Xe-whK" secondAttribute="centerX" id="WEP-wX-VMS"/>
+                                                    <constraint firstItem="qFi-g1-gDZ" firstAttribute="top" secondItem="d8K-Xe-whK" secondAttribute="top" constant="34" id="mgw-TU-yCK"/>
+                                                </constraints>
+                                            </view>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="nUP-3L-1Tg" firstAttribute="width" secondItem="SSB-nm-UBE" secondAttribute="width" multiplier="1/3" id="AnT-7t-AaC"/>
+                                            <constraint firstItem="nUP-3L-1Tg" firstAttribute="leading" secondItem="SSB-nm-UBE" secondAttribute="leading" id="D1w-2K-gmS"/>
+                                            <constraint firstItem="KSe-au-99f" firstAttribute="leading" secondItem="nUP-3L-1Tg" secondAttribute="trailing" id="DcZ-Hz-M2Z"/>
+                                            <constraint firstItem="KSe-au-99f" firstAttribute="width" secondItem="nUP-3L-1Tg" secondAttribute="width" id="Jby-yA-aAg"/>
+                                            <constraint firstItem="d8K-Xe-whK" firstAttribute="width" secondItem="KSe-au-99f" secondAttribute="width" id="KJb-X4-kdn"/>
+                                            <constraint firstItem="d8K-Xe-whK" firstAttribute="top" secondItem="SSB-nm-UBE" secondAttribute="top" id="KTp-Ve-nDz"/>
+                                            <constraint firstAttribute="height" constant="162" id="UEY-d4-DiD"/>
+                                            <constraint firstAttribute="bottom" secondItem="nUP-3L-1Tg" secondAttribute="bottom" id="Z8t-iF-9Sv"/>
+                                            <constraint firstItem="nUP-3L-1Tg" firstAttribute="top" secondItem="SSB-nm-UBE" secondAttribute="top" id="aFC-ka-h97"/>
+                                            <constraint firstItem="KSe-au-99f" firstAttribute="top" secondItem="SSB-nm-UBE" secondAttribute="top" id="fR3-gY-uog"/>
+                                            <constraint firstAttribute="bottom" secondItem="KSe-au-99f" secondAttribute="bottom" id="gUr-Bd-mZa"/>
+                                            <constraint firstAttribute="bottom" secondItem="d8K-Xe-whK" secondAttribute="bottom" id="gd7-a1-yWt"/>
+                                            <constraint firstAttribute="trailing" secondItem="d8K-Xe-whK" secondAttribute="trailing" id="h7C-Wm-BRX"/>
+                                            <constraint firstItem="nUP-3L-1Tg" firstAttribute="top" secondItem="SSB-nm-UBE" secondAttribute="top" id="jeG-GJ-hCz"/>
+                                        </constraints>
+                                    </view>
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JK3-ij-iLo">
+                                        <rect key="frame" x="8" y="450" width="600" height="162"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Ss-a8-lLV">
+                                                <rect key="frame" x="0.0" y="0.0" width="200" height="162"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="36氪" translatesAutoresizingMaskIntoConstraints="NO" id="tze-fR-Ing">
+                                                        <rect key="frame" x="73" y="34" width="55" height="55"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="55" id="6wX-Ix-pdN"/>
+                                                            <constraint firstAttribute="width" constant="55" id="nKj-aa-0Wb"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="36氪" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Im-5u-D23">
+                                                        <rect key="frame" x="86" y="100" width="28" height="15"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="te9-eq-PoW" customClass="CustomSubscribeButton" customModule="Journalism" customModuleProvider="target">
+                                                        <rect key="frame" x="73" y="140" width="55" height="22"/>
+                                                        <state key="normal" image="对勾"/>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstItem="tze-fR-Ing" firstAttribute="top" secondItem="4Ss-a8-lLV" secondAttribute="top" constant="34" id="0Id-YH-c1L"/>
+                                                    <constraint firstItem="te9-eq-PoW" firstAttribute="centerX" secondItem="4Ss-a8-lLV" secondAttribute="centerX" id="AHu-HU-MNv"/>
+                                                    <constraint firstItem="tze-fR-Ing" firstAttribute="centerX" secondItem="4Ss-a8-lLV" secondAttribute="centerX" id="DXI-x6-6o7"/>
+                                                    <constraint firstItem="6Im-5u-D23" firstAttribute="centerX" secondItem="4Ss-a8-lLV" secondAttribute="centerX" id="g84-cs-aeL"/>
+                                                    <constraint firstItem="te9-eq-PoW" firstAttribute="top" secondItem="6Im-5u-D23" secondAttribute="top" constant="40" id="qZO-cU-aoV"/>
+                                                    <constraint firstItem="6Im-5u-D23" firstAttribute="top" secondItem="tze-fR-Ing" secondAttribute="bottom" constant="11" id="wxV-XA-l5c"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zZb-Ax-dRf">
+                                                <rect key="frame" x="200" y="0.0" width="200" height="162"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="36氪" translatesAutoresizingMaskIntoConstraints="NO" id="u98-dl-lCI">
+                                                        <rect key="frame" x="73" y="34" width="55" height="55"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="width" constant="55" id="2ty-3d-CH1"/>
+                                                            <constraint firstAttribute="height" constant="55" id="31j-RU-oDy"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="36氪" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zD2-au-leD">
+                                                        <rect key="frame" x="86" y="100" width="28" height="15"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JxZ-4i-29H" customClass="CustomSubscribeButton" customModule="Journalism" customModuleProvider="target">
+                                                        <rect key="frame" x="73" y="140" width="55" height="22"/>
+                                                        <state key="normal" image="对勾"/>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstItem="u98-dl-lCI" firstAttribute="centerX" secondItem="zZb-Ax-dRf" secondAttribute="centerX" id="5h7-ZP-9Tq"/>
+                                                    <constraint firstItem="JxZ-4i-29H" firstAttribute="centerX" secondItem="zZb-Ax-dRf" secondAttribute="centerX" id="8Lq-xn-6S3"/>
+                                                    <constraint firstItem="JxZ-4i-29H" firstAttribute="top" secondItem="zD2-au-leD" secondAttribute="top" constant="40" id="K3z-xp-tbk"/>
+                                                    <constraint firstItem="zD2-au-leD" firstAttribute="centerX" secondItem="zZb-Ax-dRf" secondAttribute="centerX" id="Zpt-A5-G0J"/>
+                                                    <constraint firstItem="zD2-au-leD" firstAttribute="top" secondItem="u98-dl-lCI" secondAttribute="bottom" constant="11" id="g5i-S0-hxL"/>
+                                                    <constraint firstItem="u98-dl-lCI" firstAttribute="top" secondItem="zZb-Ax-dRf" secondAttribute="top" constant="34" id="x4C-uP-6Zo"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kao-Wx-ATg">
+                                                <rect key="frame" x="400" y="0.0" width="200" height="162"/>
+                                                <subviews>
+                                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="36氪" translatesAutoresizingMaskIntoConstraints="NO" id="8LJ-eD-Cbn">
+                                                        <rect key="frame" x="73" y="34" width="55" height="55"/>
+                                                        <constraints>
+                                                            <constraint firstAttribute="height" constant="55" id="QUw-JT-yv3"/>
+                                                            <constraint firstAttribute="width" constant="55" id="Qh3-Ma-WIX"/>
+                                                        </constraints>
+                                                    </imageView>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="36氪" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="71k-Yf-dkB">
+                                                        <rect key="frame" x="86" y="100" width="28" height="15"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="04L-Pf-yCp" customClass="CustomSubscribeButton" customModule="Journalism" customModuleProvider="target">
+                                                        <rect key="frame" x="73" y="140" width="55" height="22"/>
+                                                        <state key="normal" image="对勾"/>
+                                                    </button>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                <constraints>
+                                                    <constraint firstItem="8LJ-eD-Cbn" firstAttribute="centerX" secondItem="Kao-Wx-ATg" secondAttribute="centerX" id="4o7-B9-Z2e"/>
+                                                    <constraint firstItem="71k-Yf-dkB" firstAttribute="top" secondItem="8LJ-eD-Cbn" secondAttribute="bottom" constant="11" id="9pk-23-MGL"/>
+                                                    <constraint firstItem="71k-Yf-dkB" firstAttribute="centerX" secondItem="Kao-Wx-ATg" secondAttribute="centerX" id="EAt-wN-xGg"/>
+                                                    <constraint firstItem="8LJ-eD-Cbn" firstAttribute="top" secondItem="Kao-Wx-ATg" secondAttribute="top" constant="34" id="EOp-PW-aRO"/>
+                                                    <constraint firstItem="04L-Pf-yCp" firstAttribute="centerX" secondItem="Kao-Wx-ATg" secondAttribute="centerX" id="mcb-ux-z26"/>
+                                                    <constraint firstItem="04L-Pf-yCp" firstAttribute="top" secondItem="71k-Yf-dkB" secondAttribute="top" constant="40" id="piX-7t-iOD"/>
+                                                </constraints>
+                                            </view>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="zZb-Ax-dRf" secondAttribute="bottom" id="0ss-Sa-Xqv"/>
+                                            <constraint firstItem="zZb-Ax-dRf" firstAttribute="top" secondItem="JK3-ij-iLo" secondAttribute="top" id="66d-c1-uLC"/>
+                                            <constraint firstItem="zZb-Ax-dRf" firstAttribute="leading" secondItem="4Ss-a8-lLV" secondAttribute="trailing" id="86C-QA-gYf"/>
+                                            <constraint firstItem="Kao-Wx-ATg" firstAttribute="width" secondItem="zZb-Ax-dRf" secondAttribute="width" id="8mA-eM-Quo"/>
+                                            <constraint firstAttribute="height" constant="162" id="Cly-GA-TdR"/>
+                                            <constraint firstItem="zZb-Ax-dRf" firstAttribute="width" secondItem="4Ss-a8-lLV" secondAttribute="width" id="QEi-2w-7n3"/>
+                                            <constraint firstItem="Kao-Wx-ATg" firstAttribute="top" secondItem="JK3-ij-iLo" secondAttribute="top" id="UE4-iS-GfJ"/>
+                                            <constraint firstItem="4Ss-a8-lLV" firstAttribute="top" secondItem="JK3-ij-iLo" secondAttribute="top" id="VNH-bk-dk1"/>
+                                            <constraint firstAttribute="trailing" secondItem="Kao-Wx-ATg" secondAttribute="trailing" id="XVP-kV-cds"/>
+                                            <constraint firstItem="4Ss-a8-lLV" firstAttribute="width" secondItem="JK3-ij-iLo" secondAttribute="width" multiplier="1/3" id="YSl-n7-BCp"/>
+                                            <constraint firstItem="4Ss-a8-lLV" firstAttribute="leading" secondItem="JK3-ij-iLo" secondAttribute="leading" id="ZZF-CF-zbX"/>
+                                            <constraint firstAttribute="bottom" secondItem="4Ss-a8-lLV" secondAttribute="bottom" id="ece-5k-6L3"/>
+                                            <constraint firstItem="4Ss-a8-lLV" firstAttribute="top" secondItem="JK3-ij-iLo" secondAttribute="top" id="kVI-FM-Zg8"/>
+                                            <constraint firstAttribute="bottom" secondItem="Kao-Wx-ATg" secondAttribute="bottom" id="xAp-zu-kXv"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="SSB-nm-UBE" secondAttribute="trailing" id="F23-oi-w85"/>
+                                    <constraint firstAttribute="trailing" secondItem="JK3-ij-iLo" secondAttribute="trailing" id="G4J-WF-hOg"/>
+                                    <constraint firstItem="JK3-ij-iLo" firstAttribute="leading" secondItem="mRx-AE-B4i" secondAttribute="leading" id="J5u-UP-SQN"/>
+                                    <constraint firstAttribute="bottom" secondItem="JK3-ij-iLo" secondAttribute="bottom" constant="55" id="LJk-UJ-4X0"/>
+                                    <constraint firstItem="SSB-nm-UBE" firstAttribute="leading" secondItem="mRx-AE-B4i" secondAttribute="leading" id="TOC-Wi-lwo"/>
+                                    <constraint firstItem="vdH-pF-2Xj" firstAttribute="width" secondItem="mRx-AE-B4i" secondAttribute="width" id="W0g-zv-uze"/>
+                                    <constraint firstItem="SSB-nm-UBE" firstAttribute="top" secondItem="vdH-pF-2Xj" secondAttribute="bottom" constant="39" id="Xrq-xr-CNQ"/>
+                                    <constraint firstItem="vdH-pF-2Xj" firstAttribute="leading" secondItem="mRx-AE-B4i" secondAttribute="leading" id="cWr-9b-1ib"/>
+                                    <constraint firstItem="vdH-pF-2Xj" firstAttribute="top" secondItem="mRx-AE-B4i" secondAttribute="top" constant="37" id="fxZ-JP-1ef"/>
+                                    <constraint firstItem="JK3-ij-iLo" firstAttribute="top" secondItem="SSB-nm-UBE" secondAttribute="bottom" constant="39" id="rit-Vr-agZ"/>
+                                    <constraint firstAttribute="trailing" secondItem="vdH-pF-2Xj" secondAttribute="trailing" id="zuH-zN-ACz"/>
+                                </constraints>
+                            </scrollView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PO8-Sl-ua9">
+                                <rect key="frame" x="0.0" y="546" width="600" height="54"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5gi-uI-XOb">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="54"/>
+                                        <state key="normal" title="开始体验">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.74117647058823533" green="0.76470588235294112" blue="0.7803921568627451" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="54" id="84i-sy-4Ux"/>
+                                    <constraint firstItem="5gi-uI-XOb" firstAttribute="top" secondItem="PO8-Sl-ua9" secondAttribute="top" id="Au5-v5-KLQ"/>
+                                    <constraint firstAttribute="trailing" secondItem="5gi-uI-XOb" secondAttribute="trailing" id="CZk-e8-Vkn"/>
+                                    <constraint firstAttribute="bottom" secondItem="5gi-uI-XOb" secondAttribute="bottom" id="OBa-DV-P3U"/>
+                                    <constraint firstItem="5gi-uI-XOb" firstAttribute="leading" secondItem="PO8-Sl-ua9" secondAttribute="leading" id="rKo-jd-R76"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.96470588235294119" green="0.96470588235294119" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="NtP-0Z-chc" firstAttribute="top" secondItem="aj3-8q-fJO" secondAttribute="top" constant="67" id="6At-fM-hz3"/>
+                            <constraint firstItem="NtP-0Z-chc" firstAttribute="centerX" secondItem="aj3-8q-fJO" secondAttribute="centerX" id="77w-09-b1L"/>
+                            <constraint firstAttribute="trailing" secondItem="PO8-Sl-ua9" secondAttribute="trailing" id="BRu-bj-VhR"/>
+                            <constraint firstAttribute="trailing" secondItem="mRx-AE-B4i" secondAttribute="trailing" id="C5Z-bL-11e"/>
+                            <constraint firstItem="mRx-AE-B4i" firstAttribute="leading" secondItem="aj3-8q-fJO" secondAttribute="leading" id="Dqb-PF-1mS"/>
+                            <constraint firstItem="mRx-AE-B4i" firstAttribute="top" secondItem="NtP-0Z-chc" secondAttribute="bottom" id="mcO-l9-zbf"/>
+                            <constraint firstItem="7MO-RN-i12" firstAttribute="top" secondItem="PO8-Sl-ua9" secondAttribute="bottom" id="t0q-8j-XPj"/>
+                            <constraint firstItem="PO8-Sl-ua9" firstAttribute="leading" secondItem="aj3-8q-fJO" secondAttribute="leading" id="y2m-yF-orJ"/>
+                            <constraint firstItem="PO8-Sl-ua9" firstAttribute="top" secondItem="mRx-AE-B4i" secondAttribute="bottom" id="yxd-Uq-2xj"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="FinishButton" destination="5gi-uI-XOb" id="EH4-gQ-MR6"/>
+                        <outlet property="SubscribeButton0" destination="LB8-gg-5MA" id="mNM-Cc-fTD"/>
+                        <outlet property="SubscribeButton1" destination="czP-7Q-rxe" id="FOL-32-8UB"/>
+                        <outlet property="SubscribeButton2" destination="dPm-6I-wdU" id="bza-aU-b9F"/>
+                        <outlet property="SubscribeButton3" destination="nNx-2u-RL1" id="6NX-KN-3HZ"/>
+                        <outlet property="SubscribeButton4" destination="OeA-Hc-19s" id="jiH-iA-2Sz"/>
+                        <outlet property="SubscribeButton5" destination="CRP-ZV-wI6" id="FZW-hQ-MsO"/>
+                        <outlet property="SubscribeButton6" destination="te9-eq-PoW" id="bP6-F7-kwC"/>
+                        <outlet property="SubscribeButton7" destination="JxZ-4i-29H" id="hhS-mb-Bdh"/>
+                        <outlet property="SubscribeButton8" destination="04L-Pf-yCp" id="0I5-Bn-wX7"/>
+                        <outlet property="SubscribeImageView0" destination="6O9-Nr-60b" id="nhM-gq-1yb"/>
+                        <outlet property="SubscribeImageView1" destination="pXC-Nd-7gj" id="rVm-IZ-dDY"/>
+                        <outlet property="SubscribeImageView2" destination="lAf-ZM-zkp" id="jfF-1F-ttt"/>
+                        <outlet property="SubscribeImageView3" destination="y1r-eg-CJD" id="9Mi-qh-g5n"/>
+                        <outlet property="SubscribeImageView4" destination="Hqv-wl-wFb" id="OBT-uR-Fda"/>
+                        <outlet property="SubscribeImageView5" destination="qFi-g1-gDZ" id="DaU-DB-AWd"/>
+                        <outlet property="SubscribeImageView6" destination="tze-fR-Ing" id="aYg-im-jdP"/>
+                        <outlet property="SubscribeImageView7" destination="u98-dl-lCI" id="mpM-Hf-9th"/>
+                        <outlet property="SubscribeImageView8" destination="8LJ-eD-Cbn" id="BYm-Sc-oUF"/>
+                        <outlet property="SubscribeLabel0" destination="2JD-Z0-sjc" id="XKh-q5-1ap"/>
+                        <outlet property="SubscribeLabel1" destination="TIS-AH-dch" id="PoC-xF-sKn"/>
+                        <outlet property="SubscribeLabel2" destination="jsn-rs-ZVU" id="2UQ-Ev-Vv2"/>
+                        <outlet property="SubscribeLabel3" destination="Rvr-Lu-jud" id="h8e-zk-pLh"/>
+                        <outlet property="SubscribeLabel4" destination="y8j-zU-7sG" id="oZt-Fl-EDl"/>
+                        <outlet property="SubscribeLabel5" destination="uSR-Bc-S1u" id="8yV-MQ-Ofm"/>
+                        <outlet property="SubscribeLabel6" destination="6Im-5u-D23" id="AJS-Zd-XCb"/>
+                        <outlet property="SubscribeLabel7" destination="zD2-au-leD" id="2bz-zr-XbW"/>
+                        <outlet property="SubscribeLabel8" destination="71k-Yf-dkB" id="faP-fi-WZD"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rg5-In-2KF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-619" y="3013"/>
         </scene>
         <!--User Comment View Controller-->
         <scene sceneID="Njo-GB-RCg">
@@ -2142,6 +2592,7 @@
     </scenes>
     <resources>
         <image name="," width="5" height="9"/>
+        <image name="36氪" width="110" height="110"/>
         <image name="About" width="25" height="25"/>
         <image name="AppStoreComment" width="23" height="20"/>
         <image name="BackArrow_black" width="13" height="23"/>
@@ -2164,6 +2615,7 @@
         <image name="下" width="22" height="31"/>
         <image name="天" width="23" height="28"/>
         <image name="奇" width="19" height="29"/>
+        <image name="对勾" width="55" height="19"/>
         <image name="微信登录" width="76" height="76"/>
         <image name="微博登录" width="76" height="76"/>
         <image name="点" width="23" height="29"/>

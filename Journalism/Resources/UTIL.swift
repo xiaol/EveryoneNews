@@ -7,8 +7,8 @@
 //
 
 import UIKit
+import Alamofire
 import Foundation
-import ReachabilitySwift
 
 
 
@@ -24,7 +24,7 @@ let USERFOCUSPNAMENOTIFITION = "USERFOCUSPNAMENOTIFITION" // 用户关注某一�
 let IS_PLUS = UIScreen.mainScreen().bounds.size == CGSize(width: 414,height: 736) || UIScreen.mainScreen().bounds.size == CGSize(width: 736,height: 414)
 
 // MARK: 当前APP的网络连接情况
-var APPNETWORK = Reachability.NetworkStatus.ReachableViaWiFi
+var APPNETWORK = NetworkReachabilityManager.NetworkReachabilityStatus.Reachable(NetworkReachabilityManager.ConnectionType.EthernetOrWiFi)
 
 // MARK: 应用所需要第三方 数据结构
 var UMENG_APPKEY = "57761ecbe0f55a40b400151e"

@@ -8,30 +8,25 @@
 
 import UIKit
 import CRToast
-import ReachabilitySwift
+import Alamofire
 
 // 完成登陆设置，和网络监测设置
 extension AppDelegate:UISplitViewControllerDelegate {
+
+    func startReachabilityNotifier(){
     
-    func startReachabilityNotifier() {
-        
-        do {
-            try reachability.startNotifier()
-        } catch {
-            print("Unable to start notifier")
-        }
+        self.reachability?.startListening()
     }
     
     /// 设置一些方法
     func initAppdelegateMethod(){
+        
     /// 开始友盟启动
         let config = UMAnalyticsConfig.sharedInstance()
         config.appKey = UMENG_APPKEY
         config.ePolicy = BATCH
         
         MobClick.startWithConfigure(config)
-        
-        
         
         UMSocialData.setAppKey(UMENG_APPKEY) // 设置友盟 App Key
 //        UMSocialQQHandler.setQQWithAppId(QQ_APPID, appKey: QQ_APPSECRET, url: nil) // 设置qq
@@ -45,35 +40,37 @@ extension AppDelegate:UISplitViewControllerDelegate {
     /// 初始化检测网络情况变化，方法
     private func initializationReachabilityMethod(){
         
-        do {
-            reachability = try Reachability.reachabilityForInternetConnection()
-        } catch {
-            print("Unable to create Reachability")
-        }
+        reachability = NetworkReachabilityManager()
         
-        reachability.whenReachable = { reachability in
+        reachability?.listener = { status in
             
-            dispatch_async(dispatch_get_main_queue()) {
-                if reachability.isReachableViaWiFi() {
-                    
-                    if APPNETWORK == Reachability.NetworkStatus.ReachableViaWiFi {return}
+            switch status {
+            case .NotReachable:
+                dispatch_async(dispatch_get_main_queue()) {
+                    CRToastManager.dismissAllNotifications(false)
+                    CRToastManager.J_ShowNotification("无法连接到网络，请稍候再试",backColor: UIColor.a_noConn, tapHidden: true)
+                    APPNETWORK = NetworkReachabilityManager.NetworkReachabilityStatus.NotReachable
+                }
+            case .Reachable(NetworkReachabilityManager.ConnectionType.EthernetOrWiFi):
+                dispatch_async(dispatch_get_main_queue()) {
+                    if APPNETWORK == NetworkReachabilityManager.NetworkReachabilityStatus.Reachable(NetworkReachabilityManager.ConnectionType.EthernetOrWiFi) {return}
                     CRToastManager.dismissAllNotifications(false)
                     CRToastManager.J_ShowNotification("网络恢复，查看新闻吧", tapHidden: true,backColor: UIColor.a_color2,dismiss:1)
-                    APPNETWORK = Reachability.NetworkStatus.ReachableViaWiFi
-                } else {
-                    
+                    APPNETWORK = NetworkReachabilityManager.NetworkReachabilityStatus.Reachable(NetworkReachabilityManager.ConnectionType.EthernetOrWiFi)
+                }
+
+            case .Reachable(NetworkReachabilityManager.ConnectionType.WWAN):
+                dispatch_async(dispatch_get_main_queue()) {
                     CRToastManager.dismissAllNotifications(false)
                     CRToastManager.J_ShowNotification("网络为移动蜂窝煤，可能会造成流量流失",backColor: UIColor.a_cellular, tapHidden: true)
-                    APPNETWORK = Reachability.NetworkStatus.ReachableViaWWAN
+                    APPNETWORK = NetworkReachabilityManager.NetworkReachabilityStatus.Reachable(NetworkReachabilityManager.ConnectionType.WWAN)
                 }
-            }
-        }
-        reachability.whenUnreachable = { reachability in
-            
-            dispatch_async(dispatch_get_main_queue()) {
-                CRToastManager.dismissAllNotifications(false)
-                CRToastManager.J_ShowNotification("无法连接到网络，请稍候再试",backColor: UIColor.a_noConn, tapHidden: true)
-                APPNETWORK = Reachability.NetworkStatus.NotReachable
+            default:
+                dispatch_async(dispatch_get_main_queue()) {
+                    CRToastManager.dismissAllNotifications(false)
+                    CRToastManager.J_ShowNotification("未知网络，可能会造成流量流失",backColor: UIColor.a_cellular, tapHidden: true)
+                    APPNETWORK = NetworkReachabilityManager.NetworkReachabilityStatus.Unknown
+                }
             }
         }
     }

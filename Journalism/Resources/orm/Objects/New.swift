@@ -13,6 +13,9 @@ public class StringObject: Object {
     dynamic var value = ""
 }
 
+public class IntegetObject: Object {
+    dynamic public var channel = 0
+}
 
 ///  频道的数据模型
 public class New: Object {
@@ -31,6 +34,10 @@ public class New: Object {
     dynamic var concern = 0 /// 关心数
     dynamic var comment = 0 /// 评论数
     dynamic var style = 0 /// 列表图格式，0、1、2、3
+    
+    public let channelList = List<IntegetObject>() /// 图片具体数据
+    
+    
     let imgsList = List<StringObject>() /// 图片具体数据
     
     

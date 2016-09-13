@@ -28,6 +28,8 @@
 		AE2968301CF69D4400D2782D /* PrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE29682F1CF69D4400D2782D /* PrivacyViewController.swift */; };
 		AE2968321CF69DFB00D2782D /* Privacy.html in Resources */ = {isa = PBXBuildFile; fileRef = AE2968311CF69DFB00D2782D /* Privacy.html */; };
 		AE2968341CF6AA3B00D2782D /* CustomTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2968331CF6AA3B00D2782D /* CustomTransitioning.swift */; };
+		AE2DFE831D8801890066B87D /* SubscribeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2DFE821D8801890066B87D /* SubscribeViewController.swift */; };
+		AE2DFEA41D880B180066B87D /* Subscribe.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2DFEA31D880B180066B87D /* Subscribe.swift */; };
 		AE37BD8D1D38A46400BF9C89 /* FCustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE37BD8C1D38A46400BF9C89 /* FCustomCell.swift */; };
 		AE6657281D42050000068841 /* FocusExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE6657271D42050000068841 /* FocusExt.swift */; };
 		AE7C51A41D0D6893005E6A5A /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE7C51A31D0D6893005E6A5A /* SearchViewController.swift */; };
@@ -162,6 +164,8 @@
 		AE29682F1CF69D4400D2782D /* PrivacyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrivacyViewController.swift; sourceTree = "<group>"; };
 		AE2968311CF69DFB00D2782D /* Privacy.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Privacy.html; sourceTree = "<group>"; };
 		AE2968331CF6AA3B00D2782D /* CustomTransitioning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTransitioning.swift; sourceTree = "<group>"; };
+		AE2DFE821D8801890066B87D /* SubscribeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscribeViewController.swift; sourceTree = "<group>"; };
+		AE2DFEA31D880B180066B87D /* Subscribe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Subscribe.swift; sourceTree = "<group>"; };
 		AE37BD8C1D38A46400BF9C89 /* FCustomCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FCustomCell.swift; sourceTree = "<group>"; };
 		AE6657271D42050000068841 /* FocusExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FocusExt.swift; sourceTree = "<group>"; };
 		AE7C51A31D0D6893005E6A5A /* SearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
@@ -391,6 +395,23 @@
 				AE87BDEB1D3E00AB0010A0A7 /* focusExtension */,
 			);
 			path = FocusViewController;
+			sourceTree = "<group>";
+		};
+		AE2DFE811D88017B0066B87D /* SubscribeViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AE2DFEA21D880B110066B87D /* SuscribeSustom */,
+				AE2DFE821D8801890066B87D /* SubscribeViewController.swift */,
+			);
+			path = SubscribeViewController;
+			sourceTree = "<group>";
+		};
+		AE2DFEA21D880B110066B87D /* SuscribeSustom */ = {
+			isa = PBXGroup;
+			children = (
+				AE2DFEA31D880B180066B87D /* Subscribe.swift */,
+			);
+			path = SuscribeSustom;
 			sourceTree = "<group>";
 		};
 		AE37BD8B1D38A45500BF9C89 /* custom */ = {
@@ -787,6 +808,7 @@
 		AEC965A21CF5AC800053A88D /* UIViewController */ = {
 			isa = PBXGroup;
 			children = (
+				AE2DFE811D88017B0066B87D /* SubscribeViewController */,
 				AED2AD2F1D53185200D2FF44 /* LaunchScreenViewController */,
 				AEBEAA961D1A417E004D3178 /* UserCollectionViewController */,
 				AEBEAA931D1A3F5B004D3178 /* MessageViewController */,
@@ -1059,6 +1081,7 @@
 				AEA762FB1D3C83E300A07FA3 /* QiDianCell.swift in Sources */,
 				AEF29B051D239671006D1412 /* SKPhoto.swift in Sources */,
 				AE0FE5441CF301E8007DA198 /* UIImageExtension.swift in Sources */,
+				AE2DFE831D8801890066B87D /* SubscribeViewController.swift in Sources */,
 				AE1C1EFF1D34DC2900E8044E /* FocusViewController.swift in Sources */,
 				AEB8E9D71CFBE35900A105C4 /* SplitManagerViewController.swift in Sources */,
 				AEC47B421D0033610055936D /* DetailAndCommitViewController.swift in Sources */,
@@ -1071,6 +1094,7 @@
 				AEC47B481D0037A50055936D /* InputExtension.swift in Sources */,
 				AEFB55151CF41407005FC23E /* Curly.swift in Sources */,
 				AEC965A51CF5AC900053A88D /* UserSettingViewController.swift in Sources */,
+				AE2DFEA41D880B180066B87D /* Subscribe.swift in Sources */,
 				AEC47B4A1D0037CD0055936D /* CommentButton.swift in Sources */,
 				AEC1D5BF1CED9BBD00B1F00C /* NewsUtil.swift in Sources */,
 				AEF29B001D239671006D1412 /* PhotoBrowerProgressView.swift in Sources */,

@@ -105,8 +105,8 @@ extension MGTemplateEngine{
     }
 }
 
+import Alamofire
 import PINRemoteImage
-import ReachabilitySwift
 
 extension String{
 
@@ -135,7 +135,7 @@ extension String{
     
         guard let url = NSURL(string: self) else {return}
         
-        if APPNETWORK == Reachability.NetworkStatus.ReachableViaWiFi {
+        if APPNETWORK == NetworkReachabilityManager.NetworkReachabilityStatus.Reachable(NetworkReachabilityManager.ConnectionType.EthernetOrWiFi) {
 
             PINRemoteImageManager.sharedImageManager().downloadImageWithURL(url, completion: { (result) in
                 
@@ -215,7 +215,11 @@ extension NewContent{
             
             if let vid = conten.vid {
                 
+                print("之前：",vid)
+                
                 let str = vid.HandleForVideoHtml()
+                
+                print("之后：",str)
                 
                 body += "<div id=\"video\">\(str)</div>"
             }

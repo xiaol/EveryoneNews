@@ -122,16 +122,17 @@ public class NewAPI: APIBase {
      - returns: RequestBuilder<AnyObject> 
      */
     public class func nsFedLGetWithRequestBuilder(cid cid: String, tcr: String, tmk: String? = nil, p: String? = nil, c: String? = nil, uid: String? = nil) -> RequestBuilder<AnyObject> {
-        let path = "/ns/fed/ln"
+        let path = "/ns/fed/la"
         let URLString = SwaggerClientAPI.basePath + path
 
         let nillableParameters: [String:AnyObject?] = [
-            "cid": cid,
-            "tcr": tcr,
-            "tmk": tmk,
+            "cid": Int(cid),
+            "tcr": Double(tcr),
+            "tmk": Int(tmk ?? "1"),
             "p": p,
             "c": c,
-            "uid":uid
+            "uid":Int(uid ?? "1"),
+            "b" : self.AdParamBase64String()
         ]
  
         let parameters = APIHelper.rejectNil(nillableParameters)
@@ -140,7 +141,7 @@ public class NewAPI: APIBase {
  
         let requestBuilder: RequestBuilder<AnyObject>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
 
     /**
@@ -175,16 +176,17 @@ public class NewAPI: APIBase {
      - returns: RequestBuilder<AnyObject> 
      */
     public class func nsFedRGetWithRequestBuilder(cid cid: String, tcr: String, tmk: String? = nil, p: String? = nil, c: String? = nil,uid: String? = nil) -> RequestBuilder<AnyObject> {
-        let path = "/ns/fed/rn"
+        let path = "/ns/fed/ra"
         let URLString = SwaggerClientAPI.basePath + path
 
         let nillableParameters: [String:AnyObject?] = [
-            "cid": cid,
-            "tcr": tcr,
-            "tmk": tmk,
+            "cid": Int(cid),
+            "tcr": Double(tcr),
+            "tmk": Int(tmk ?? "1"),
             "p": p,
             "c": c,
-            "uid":uid
+            "uid":Int(uid ?? "1"),
+            "b" : self.AdParamBase64String()
         ]
  
         let parameters = APIHelper.rejectNil(nillableParameters)
@@ -193,7 +195,48 @@ public class NewAPI: APIBase {
  
         let requestBuilder: RequestBuilder<AnyObject>.Type = SwaggerClientAPI.requestBuilderFactory.getBuilder()
 
-        return requestBuilder.init(method: "GET", URLString: URLString, parameters: convertedParameters, isBody: false)
+        return requestBuilder.init(method: "POST", URLString: URLString, parameters: convertedParameters, isBody: true)
     }
 
+}
+
+
+
+extension NewAPI{
+
+    /**
+     获取请求广告的参数，并对其进行base64 编码处理。
+     
+     - returns: base64 Str
+     */
+    class func AdParamBase64String () -> String{
+
+//        return "ewogICJkZXZpY2UiIDogewogICAgImlwIiA6ICIyNTUuMjU1LjIxNC4xIiwKICAgICJ1ZGlkIiA6ICI3NDE1ZDZlYjY2YzY0OTA5Njc3MTU5NWEyOTc5ZjhlNyIsCiAgICAib3MiIDogMgogIH0sCiAgImltcHJlc3Npb24iIDogWwogICAgewogICAgICAiaGVpZ2h0IiA6IDU2OCwKICAgICAgImFpZCIgOiAxMDEsCiAgICAgICJ3aWR0aCIgOiAzMjAKICAgIH0KICBdLAogICJ0cyIgOiAxNDczNjUxMTM4Cn0"
+        
+        let result:NSArray = [[
+            "aid" : 101,
+            "width" : Int(UIScreen.mainScreen().bounds.width),
+            "height": Int(UIScreen.mainScreen().bounds.height),
+            ]]
+        
+        let nillableParameters: NSDictionary = [
+//            "version": 1.0,
+            "ts": Int(NSDate().timeIntervalSince1970),
+            "impression":result,
+            "device" :[
+                "os":2,
+//                "os_version" : "9.0.0",
+//                "network" : 1 ,
+//                "screen_orientation":1,
+//                "brand":"Apple",
+//                "device_size": "1280*720",
+                "udid" : "7415d6eb66c649096771595a2979f8e7",
+                "ip" : "255.255.214.1"
+            ]
+        ]
+        
+        let data = try! NSJSONSerialization.dataWithJSONObject(nillableParameters, options: NSJSONWritingOptions.PrettyPrinted)
+        
+        return data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.init(rawValue: 0))
+    }
 }

@@ -12,7 +12,7 @@ let FONTMODALSTYLEIDENTIFITER = "FontModalStyle"
 
 extension UIFont{
 
-    /// 0 为普通字体 1 为大字体 2 超大字体
+    ///-1 为小字体 0 为普通字体 1 为大字体 2 超大字体
     class var a_fontModalStyle:Float{
         get {return NSUserDefaults.standardUserDefaults().floatForKey(FONTMODALSTYLEIDENTIFITER)}
         set(new){
