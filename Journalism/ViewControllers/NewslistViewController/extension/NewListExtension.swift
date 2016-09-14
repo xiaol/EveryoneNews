@@ -40,6 +40,7 @@ extension NewslistViewController{
         
         self.notifitionNewChange()
         
+        
         tableView.estimatedRowHeight = 68.0
         tableView.rowHeight = UITableViewAutomaticDimension
         
@@ -66,6 +67,8 @@ extension NewslistViewController{
             
             self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
         }
+        
+        self.tableView.setContentOffset(CGPoint(x: 0, y: 53), animated: false)
     }
     
     

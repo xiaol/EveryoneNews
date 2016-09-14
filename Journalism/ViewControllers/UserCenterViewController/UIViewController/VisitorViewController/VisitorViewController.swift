@@ -32,13 +32,20 @@ class VisitorViewController: UIViewController {
     }
     
     // 随便看看
-    @IBAction func casualLook(sender: AnyObject) {
+    @IBAction func casualLook(sender: UIButton) {
         
         self.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
         
-        ShareLUser.getSdkUserToken { (user) in
+        sender.enabled = false
+        
+        ShareLUser.getSdkUserToken({ (token) in
+            
             let splistViewController = UIStoryboard.shareStoryBoard.get_UISplitViewController()
             self.presentViewController(splistViewController, animated: false, completion: nil)
+            
+        }) {
+                
+                sender.enabled = true
         }
     }
     

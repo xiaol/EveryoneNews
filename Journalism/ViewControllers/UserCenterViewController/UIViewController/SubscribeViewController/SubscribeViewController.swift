@@ -8,8 +8,19 @@
 
 import UIKit
 
-class SubscribeViewController: UIViewController {
+@objc protocol SubscribeViewControllerDelegate {
+    
+    optional func ClickFinishButton(hasSubscribe:Bool)
+}
 
+
+class SubscribeViewController: UIViewController {
+    
+    private var clickFinishButtonBlock:((hasSubscribe:Bool)->Void)?
+    private var delegate:SubscribeViewControllerDelegate?
+    
+    //MARK: 视图集合
+    @IBOutlet var FinishButton:UIButton!
     
     @IBOutlet var SubscribeLabel0:UILabel!
     @IBOutlet var SubscribeLabel1:UILabel!
@@ -41,24 +52,13 @@ class SubscribeViewController: UIViewController {
     @IBOutlet var SubscribeButton7:UIButton!
     @IBOutlet var SubscribeButton8:UIButton!
     
+    class func defaultViewController(delegate:SubscribeViewControllerDelegate? = nil,clickFinishButtonBlock:((hasSubscribe:Bool)->Void)? = nil) -> SubscribeViewController{
     
-    @IBOutlet var FinishButton:UIButton!
-    
-    private func SubscribeLabes() -> [UILabel] {
-    
-        return [SubscribeLabel0,SubscribeLabel1,SubscribeLabel2,SubscribeLabel3,SubscribeLabel4,SubscribeLabel5,SubscribeLabel6,SubscribeLabel7,SubscribeLabel8]
+        let subscribeViewController = UIStoryboard.shareUserStoryBoard.instantiateViewControllerWithIdentifier("SubscribeViewController") as! SubscribeViewController
+        subscribeViewController.clickFinishButtonBlock = clickFinishButtonBlock
+        subscribeViewController.delegate = delegate
+        return subscribeViewController
     }
-    
-    private func SubscribeImageViews() -> [UIImageView] {
-        
-        return [SubscribeImageView0,SubscribeImageView1,SubscribeImageView2,SubscribeImageView3,SubscribeImageView4,SubscribeImageView5,SubscribeImageView6,SubscribeImageView7,SubscribeImageView8]
-    }
-    
-    private func SubscribeButtons() -> [UIButton] {
-        
-        return [SubscribeButton0,SubscribeButton1,SubscribeButton2,SubscribeButton3,SubscribeButton4,SubscribeButton5,SubscribeButton6,SubscribeButton7,SubscribeButton8]
-    }
-    
     
     override func viewDidLoad() {
         
@@ -71,24 +71,39 @@ class SubscribeViewController: UIViewController {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SubscribeViewController.SubscribeStateChange), name: "SubscribeStateChange", object: nil)
     }
     
+    @IBAction func ClickFinishButtonAction(s:AnyObject){
+        
+        let hasSubscribe = self.FinishButton.backgroundImageForState(UIControlState.Normal) == UIColor.hexStringToColor("#0091fa")
+        
+        self.clickFinishButtonBlock?(hasSubscribe: hasSubscribe)
+        
+        self.delegate?.ClickFinishButton?(hasSubscribe)
+    }
+
+}
+
+
+
+//MARK: 显示订阅视图相关
+extension SubscribeViewController{
 
     /**
-     当页面内的某一个订阅发生变化
+     NSNotificationCenter Selector 当页面内的某一个订阅发生变化
      */
     func SubscribeStateChange(){
-    
+        
         var count = 0
         
         for button in SubscribeButtons() {
-        
-            if button.imageForState(UIControlState.Normal) == CustomSubscribeButton.CSelectImg {
             
+            if button.imageForState(UIControlState.Normal) == CustomSubscribeButton.CSelectImg {
+                
                 count += 1
             }
         }
         
         if count > 0 {
-        
+            
             self.FinishButton.setBackgroundColor(UIColor.hexStringToColor("#0091fa"), forState: UIControlState.Normal)
         }else{
             
@@ -97,10 +112,40 @@ class SubscribeViewController: UIViewController {
     }
     
     /**
+     返回 订阅项目 标签试图 集合
+     
+     - returns: 标签集合
+     */
+    private func SubscribeLabes() -> [UILabel] {
+        
+        return [SubscribeLabel0,SubscribeLabel1,SubscribeLabel2,SubscribeLabel3,SubscribeLabel4,SubscribeLabel5,SubscribeLabel6,SubscribeLabel7,SubscribeLabel8]
+    }
+    
+    /**
+     返回 订阅项目 标签ICON 集合
+     
+     - returns: ICON 集合
+     */
+    private func SubscribeImageViews() -> [UIImageView] {
+        
+        return [SubscribeImageView0,SubscribeImageView1,SubscribeImageView2,SubscribeImageView3,SubscribeImageView4,SubscribeImageView5,SubscribeImageView6,SubscribeImageView7,SubscribeImageView8]
+    }
+    
+    /**
+     订阅项目 订阅 按钮集合
+     
+     - returns: 按钮集合
+     */
+    private func SubscribeButtons() -> [UIButton] {
+        
+        return [SubscribeButton0,SubscribeButton1,SubscribeButton2,SubscribeButton3,SubscribeButton4,SubscribeButton5,SubscribeButton6,SubscribeButton7,SubscribeButton8]
+    }
+    
+    /**
      设置当前页面的随机订阅号显示
      */
     private func setRandICONAndText(){
-    
+        
         let subscribeLabes = self.SubscribeLabes()
         let subscribeImageViews = self.SubscribeImageViews()
         

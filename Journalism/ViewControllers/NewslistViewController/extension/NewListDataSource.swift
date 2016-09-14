@@ -238,7 +238,23 @@ extension NewslistViewController:UITableViewDataSource{
 import RealmSwift
 
 extension NewslistViewController:UITableViewDelegate{
-    
+
+    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        
+        let offsetY = scrollView.contentOffset.y
+        
+        if !decelerate && offsetY > 0 && offsetY < 53{
+        
+            if offsetY > 53/2 || scrollView.panGestureRecognizer.velocityInView(scrollView).y < -50{
+                
+                scrollView.setContentOffset(CGPoint(x: 0, y: 53), animated: true)
+            }else{
+            
+                scrollView.setContentOffset(CGPointZero, animated: true)
+            }
+        }
+    }
+
     /**
      点击cell 之后处理的方法
      如果是刷新的cell就进行当前新闻的刷新
@@ -273,122 +289,4 @@ extension NewslistViewController:UITableViewDelegate{
             self.showViewController(viewController, sender: nil)
         }
     }
-    
-    
-//    func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-//        
-//        return 68
-//    }
-//    
-//    
-//    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-//        
-////        FDKeyedHeightCache.
-//        
-//        let new = newsResults[indexPath.row]
-//        
-//        if self.tableView.fd_keyedHeightCache.existsHeightForKey(new.nid) {
-//        
-//            return self.tableView.fd_keyedHeightCache.heightForKey(new.nid)
-//        }
-//        
-//        self.tableView.fd_keyedHeightCache.cacheHeight(UITableViewAutomaticDimension, byKey: new.nid)
-//        
-//        return UITableViewAutomaticDimension
-//        
-////        let new = newsResults[indexPath.row]
-//        
-//        if new.isidentification == 1 {
-//            
-//            return tableView.fd_heightForCellWithIdentifier("refreshcell", cacheByKey: "refreshcell", configuration: { (_) in
-//                
-//            })
-//        }
-//        
-//        if new.style == 0 {
-//            
-//            return tableView.fd_heightForCellWithIdentifier("NewNormalTableViewCell", cacheByKey: new.nid, configuration: { ( cell ) in
-//                
-//                if let cell = cell as? NewNormalTableViewCell {
-//                    
-//                    self.SetFCell(cell, new: new)
-//                    
-//                    if self.channel?.id == 1 {
-//                        
-//                        cell.setPPPLabel(new)
-//                    }
-//                   cell.setNewObject(new)
-//                }
-//            })
-//            
-//        }else if new.style == 1 {
-//            
-//            return tableView.fd_heightForCellWithIdentifier("NewOneTableViewCell", cacheByKey: new.nid, configuration: { ( cell ) in
-//                
-//                if let cell = cell as? NewOneTableViewCell {
-//                    self.SetFCell(cell, new: new)
-//                    
-//                    if self.channel?.id == 1 {
-//                        
-//                        cell.setPPPLabel(new)
-//                    }
-//                    cell.setNewObject(new)
-//                }
-//            })
-//            
-//        }else if new.style == 2 {
-//            
-//            return tableView.fd_heightForCellWithIdentifier("NewTwoTableViewCell", cacheByKey: new.nid, configuration: { ( cell ) in
-//                
-//                if let cell = cell as? NewTwoTableViewCell {
-//                    self.SetFCell(cell, new: new)
-//                    
-//                    if self.channel?.id == 1 {
-//                        
-//                        cell.setPPPLabel(new)
-//                    }
-//                    cell.setNewObject(new)
-//                }
-//            })
-//            
-//        }else if new.style == 3 {
-//            
-//            return tableView.fd_heightForCellWithIdentifier("NewThreeTableViewCell", cacheByKey: new.nid, configuration: { ( cell ) in
-//                
-//                if let cell = cell as? NewThreeTableViewCell {
-//                    self.SetFCell(cell, new: new)
-//                    
-//                    if self.channel?.id == 1 {
-//                        
-//                        cell.setPPPLabel(new)
-//                    }
-//                    cell.setNewObject(new)
-//                }
-//            })
-//        }else{
-//            
-//            return tableView.fd_heightForCellWithIdentifier("NewTwoTableViewCell", cacheByKey: new.nid, configuration: { ( cell ) in
-//                
-//                if let cell = cell as? NewTwoTableViewCell {
-//                    
-//                    self.SetFCell(cell, new: new)
-//                    
-//                    if self.channel?.id == 1 {
-//                        
-//                        cell.setPPPLabel(new)
-//                    }
-//                    
-//                    switch new.style-10 {
-//                    case 1:
-//                        cell.setNewObject(new,bigImg: 0)
-//                    case 2:
-//                        cell.setNewObject(new,bigImg: 1)
-//                    default:
-//                        cell.setNewObject(new,bigImg: 2)
-//                    }
-//                }
-//            })
-//        }
-//        
-//    }
 }

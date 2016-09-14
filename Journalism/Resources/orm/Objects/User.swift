@@ -122,13 +122,17 @@ class ShareLUser:NSObject{
     
     
     // 获得用户的Token
-    class func getSdkUserToken(finish:((token:String)->Void)?){
+    class func getSdkUserToken(finish:((token:String)->Void)?=nil,fail:(()->Void)?=nil){
         
         guard let t = token else{
-            
-            return ShareLUserRequest.getUserTokenByRequest({ (user) in
+
+            return ShareLUserRequest.getUserTokenByRequest({ (token) in
                 
-                finish?(token: user)
+                finish?(token: token)
+                
+                }, fail: {
+                    
+                    fail?()
             })
         }
         

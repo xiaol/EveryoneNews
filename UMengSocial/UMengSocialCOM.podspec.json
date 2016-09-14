@@ -31,7 +31,6 @@
   "libraries": [
     "UMSocial_Sdk_5.2.1",
     "UMSocial_Sdk_Comment_5.2.1",
-    "SocialQQ",
     "SocialWechat",
     "z",
     "sqlite3",

@@ -143,7 +143,7 @@ extension UserLoginSdkApiManager{
         ShareLUser.s_uname = username
         ShareLUser.s_avatar = avatar
         ShareLUser.s_gender = genders == 0 ? 3 : (genders == 2 ? 0 : 1)
-        
+
         ShareLUser.getSdkUserToken { (user) in
             UserLoginSdkApiManager.shareWXApiManager().delegate?.didReceiveRequestUserSuccessResponse?(UserRegister(utype: 3))
         }
