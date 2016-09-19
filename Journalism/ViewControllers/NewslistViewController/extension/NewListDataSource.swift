@@ -19,7 +19,7 @@ extension NewslistViewController:UITableViewDataSource{
      
      - returns: 返回section尾部视图的高度
      */
-    func tableView(tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 0
     }
     
@@ -33,7 +33,7 @@ extension NewslistViewController:UITableViewDataSource{
      
      - returns: 返回section尾部视图的高度
      */
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         
         return 53
     }
@@ -47,18 +47,18 @@ extension NewslistViewController:UITableViewDataSource{
      
      - returns: 返回搜索框视图
      */
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("search")! as UITableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "search")! as UITableViewCell
         
         cell.addGestureRecognizer(UITapGestureRecognizer(block: { (_) in
             
             self.fuckHeaderCellView = cell
             
-            self.presentViewController(UIStoryboard.shareStoryBoard.get_SearchViewController(), animated: true, completion: nil)
+            self.present(UIStoryboard.shareStoryBoard.get_SearchViewController(), animated: true, completion: nil)
         }))
         let containerView = UIView(frame:cell.frame)
-        cell.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        cell.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         containerView.addSubview(cell)
         return containerView
     }
@@ -74,7 +74,7 @@ extension NewslistViewController:UITableViewDataSource{
      
      - returns: 新闻的个数
      */
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return newsResults.count
     }
@@ -89,45 +89,45 @@ extension NewslistViewController:UITableViewDataSource{
      
      - returns: 返回新闻的具体战士杨视图
      */
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         var cell :NewBaseTableViewCell!
         
-        let new = newsResults[indexPath.row]
+        let new = newsResults[(indexPath as NSIndexPath).row]
         
         if new.isidentification == 1 {
             
-            let cell = tableView.dequeueReusableCellWithIdentifier("refreshcell")! as UITableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "refreshcell")! as UITableViewCell
             
             return cell
         }
         
         if new.style == 0 {
             
-            cell =  tableView.dequeueReusableCellWithIdentifier("NewNormalTableViewCell") as! NewNormalTableViewCell
+            cell =  tableView.dequeueReusableCell(withIdentifier: "NewNormalTableViewCell") as! NewNormalTableViewCell
             
             cell.setNewObject(new)
             
         }else if new.style == 1 {
             
-            cell =  tableView.dequeueReusableCellWithIdentifier("NewOneTableViewCell") as! NewOneTableViewCell
+            cell =  tableView.dequeueReusableCell(withIdentifier: "NewOneTableViewCell") as! NewOneTableViewCell
             
             cell.setNewObject(new)
             
         }else if new.style == 2 {
             
-            cell =  tableView.dequeueReusableCellWithIdentifier("NewTwoTableViewCell") as! NewTwoTableViewCell
+            cell =  tableView.dequeueReusableCell(withIdentifier: "NewTwoTableViewCell") as! NewTwoTableViewCell
             
             cell.setNewObject(new)
             
         }else if new.style == 3 {
             
-            cell =  tableView.dequeueReusableCellWithIdentifier("NewThreeTableViewCell") as! NewThreeTableViewCell
+            cell =  tableView.dequeueReusableCell(withIdentifier: "NewThreeTableViewCell") as! NewThreeTableViewCell
             
             cell.setNewObject(new)
         }else{
             
-            cell = tableView.dequeueReusableCellWithIdentifier("NewTwoTableViewCell") as! NewTwoTableViewCell
+            cell = tableView.dequeueReusableCell(withIdentifier: "NewTwoTableViewCell") as! NewTwoTableViewCell
             
             switch new.style-10 {
             case 1:
@@ -142,8 +142,8 @@ extension NewslistViewController:UITableViewDataSource{
         // 针对关注频道的修改
         self.SetFCell(cell, new: new)
         
-        cell.noLikeButton.removeActions(UIControlEvents.TouchUpInside)
-        cell.noLikeButton.addAction(UIControlEvents.TouchUpInside) { (_) in
+        cell.noLikeButton.removeActions(events: UIControlEvents.touchUpInside)
+        cell.noLikeButton.addAction(events: UIControlEvents.touchUpInside) { (_) in
             
             self.handleActionMethod(cell, indexPath: indexPath)
         }
@@ -160,18 +160,18 @@ extension NewslistViewController:UITableViewDataSource{
     /**
      设置关注cell的视图
      */
-    private func SetFCell(cell:NewBaseTableViewCell,new:New){
+    fileprivate func SetFCell(_ cell:NewBaseTableViewCell,new:New){
         
         if channel?.id == 1994 {
             
             cell.pubLabel.layer.cornerRadius = 2
             cell.pubLabel.clipsToBounds = true
-            cell.pubLabel.textColor = UIColor.whiteColor()
+            cell.pubLabel.textColor = UIColor.white
             cell.pubLabel.font = UIFont.a_font6
             cell.pubLabel.text = " \(cell.pubLabel.text ?? " ") "
             cell.pubLabel.backgroundColor = Focus.gColor(new.pname)
-            cell.commentCountLabel.hidden = true
-            cell.noLikeButton.hidden = true
+            cell.commentCountLabel.isHidden = true
+            cell.noLikeButton.isHidden = true
         }
     }
     
@@ -186,17 +186,17 @@ extension NewslistViewController:UITableViewDataSource{
      - parameter cell:      返回被点击的cell
      - parameter indexPath: 被点击的位置
      */
-    private func handleActionMethod(cell :NewBaseTableViewCell,indexPath:NSIndexPath){
+    fileprivate func handleActionMethod(_ cell :NewBaseTableViewCell,indexPath:IndexPath){
         
         var delayInSeconds = 0.0
         
-        let porint = cell.convertRect(cell.bounds, toView: self.view).origin
+        let porint = cell.convert(cell.bounds, to: self.view).origin
         
         if porint.y < 0 {
             
             delayInSeconds = 0.5
             
-            self.tableView.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Top, animated: true)
+            self.tableView.scrollToRow(at: indexPath, at: UITableViewScrollPosition.top, animated: true)
         }
         
         let needHeight = porint.y+cell.frame.height+128
@@ -212,14 +212,14 @@ extension NewslistViewController:UITableViewDataSource{
             self.tableView.setContentOffset(toPoint, animated: true)
         }
         
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW,Int64(delayInSeconds * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { // 2
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(delayInSeconds * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) { // 2
             self.delegate.ClickNoLikeButtonOfUITableViewCell?(cell, finish: { (cancel) in
                 
                 if !cancel {
                     
-                    self.newsResults[indexPath.row].suicide()
+                    self.newsResults[(indexPath as NSIndexPath).row].suicide()
                     
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,Int64(0.5 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { // 2
+                    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(0.5 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) { // 2
                         
                         self.showNoInterest()
                         
@@ -239,18 +239,18 @@ import RealmSwift
 
 extension NewslistViewController:UITableViewDelegate{
 
-    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         
         let offsetY = scrollView.contentOffset.y
         
         if !decelerate && offsetY > 0 && offsetY < 53{
         
-            if offsetY > 53/2 || scrollView.panGestureRecognizer.velocityInView(scrollView).y < -50{
+            if offsetY > 53/2 || scrollView.panGestureRecognizer.velocity(in: scrollView).y < -50{
                 
                 scrollView.setContentOffset(CGPoint(x: 0, y: 53), animated: true)
             }else{
             
-                scrollView.setContentOffset(CGPointZero, animated: true)
+                scrollView.setContentOffset(CGPoint.zero, animated: true)
             }
         }
     }
@@ -263,9 +263,9 @@ extension NewslistViewController:UITableViewDelegate{
      - parameter tableView: tableview 对象
      - parameter indexPath: 点击的indexPath
      */
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let new = newsResults[indexPath.row]
+        let new = newsResults[(indexPath as NSIndexPath).row]
         
         print(new.url)
         
@@ -286,7 +286,7 @@ extension NewslistViewController:UITableViewDelegate{
             self.showDetailViewController(viewController, sender: nil)
         }else{
             
-            self.showViewController(viewController, sender: nil)
+            self.show(viewController, sender: nil)
         }
     }
 }

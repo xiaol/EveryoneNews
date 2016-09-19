@@ -9,7 +9,7 @@
 import RealmSwift
 
 ///  频道的数据模型
-public class Content: Object {
+open class Content: Object {
 
     /// 用于获取评论的 docid
     dynamic var txt: String? = nil
@@ -25,7 +25,7 @@ public class Content: Object {
 
 
 ///  频道的数据模型
-public class NewContent: Object {
+open class NewContent: Object {
     /// 新闻ID
     dynamic var nid = 1
     /// 用于获取评论的 docid
@@ -38,7 +38,7 @@ public class NewContent: Object {
     
     /// 新闻事件
     dynamic var ptime = ""
-    dynamic var ptimes = NSDate()
+    dynamic var ptimes = Date()
     
     /// 新闻来源
     dynamic var pname = ""
@@ -72,7 +72,7 @@ public class NewContent: Object {
     /// 滑动的位置
     dynamic var scroffY: Double = 0
     
-    override public static func primaryKey() -> String? {
+    override open static func primaryKey() -> String? {
         return "nid"
     }
     
@@ -83,25 +83,13 @@ import MGTemplateEngine
 extension MGTemplateEngine{
 
     /// 获取单例模式下的UIStoryBoard对象
-    class var shareTemplateEngine:MGTemplateEngine!{
+    static var shareTemplateEngine:MGTemplateEngine!{
         
-        get{
-            
-            struct backTaskLeton{
-                
-                static var predicate:dispatch_once_t = 0
-                
-                static var bgTask:MGTemplateEngine? = nil
-            }
-            
-            dispatch_once(&backTaskLeton.predicate, { () -> Void in
-                
-                backTaskLeton.bgTask = MGTemplateEngine()
-                backTaskLeton.bgTask!.matcher = ICUTemplateMatcher(templateEngine: backTaskLeton.bgTask)
-            })
-            
-            return backTaskLeton.bgTask
-        }
+        let templateEngine = MGTemplateEngine()
+        
+        templateEngine.matcher = ICUTemplateMatcher(templateEngine: templateEngine)
+        
+        return templateEngine
     }
 }
 
@@ -115,7 +103,7 @@ extension String{
      
      - returns: 处理完成的视频文件
      */
-    private func HandleForVideoHtml() -> String{
+    fileprivate func HandleForVideoHtml() -> String{
     
         return self.replaceRegex("(preview.html)", with: "player.html")
             .replaceRegex("(allowfullscreen=\"\")", with: "")
@@ -131,18 +119,18 @@ extension String{
     
     
     
-    private func tryToDownloadImageUrl(){
+    fileprivate func tryToDownloadImageUrl(){
     
-        guard let url = NSURL(string: self) else {return}
+        guard let url = URL(string: self) else {return}
         
-        if APPNETWORK == NetworkReachabilityManager.NetworkReachabilityStatus.Reachable(NetworkReachabilityManager.ConnectionType.EthernetOrWiFi) {
+        if APPNETWORK == NetworkReachabilityManager.NetworkReachabilityStatus.reachable(NetworkReachabilityManager.ConnectionType.ethernetOrWiFi) {
 
-            PINRemoteImageManager.sharedImageManager().downloadImageWithURL(url, completion: { (result) in
+            PINRemoteImageManager.shared().downloadImage(with: url,options: PINRemoteImageManagerDownloadOptions.downloadOptionsIgnoreGIFs, completion: { (result) in
                 
 //                PINRemoteImageManager.sharedImageManager().cache.diskCache.setObject(<#T##object: NSCoding##NSCoding#>, forKey: <#T##String#>)
                 
                 
-                PINRemoteImageManager.sharedImageManager().cache.objectForKey(self, block: { (cache, str, img) in
+                PINRemoteImageManager.shared().cache.object(forKey: self, block: { (cache, str, img) in
                     
                     
                     print(cache,"=asxasxasx=",str,"===-====",img)
@@ -163,7 +151,7 @@ extension String{
 
 extension NewContent{
     
-    func scroffY(y:CGFloat){
+    func scroffY(_ y:CGFloat){
         let realm = try! Realm()
         try! realm.write {
             self.scroffY = Double(y)
@@ -235,15 +223,15 @@ extension NewContent{
 //        body+="<p style=\"font-size:12px;color:#999999\" align=\"center\" color＝\"#999999\"><span>原网页由 奇点资讯 转码以便移动设备阅读</span></p>"
 //        body+="<p style=\"font-size:12px;\" align=\"center\"><span><a style=\"color:#999999;text-decoration:underline\" href =\"\(self.purl)\">查看原文</a></span></p>"
         
-        let templatePath = NSBundle.mainBundle().pathForResource("content_template", ofType: "html")
+        let templatePath = Bundle.main.path(forResource: "content_template", ofType: "html")
         
         let comment = self.comment > 0 ? "   \(self.comment)评" : ""
         
         let variables = ["title":self.title,"source":self.pname,"ptime":self.ptime,"theme":"normal","body":body,"comment":comment,"titleStyle":title,"subtitleStyle":subtitle,"bodysectionStyle":bodysection]
         
-        let result = MGTemplateEngine.shareTemplateEngine.processTemplateInFileAtPath(templatePath, withVariables: variables)
+        let result = MGTemplateEngine.shareTemplateEngine.processTemplateInFile(atPath: templatePath, withVariables: variables)
         
-        return result
+        return result!
     }
     
     

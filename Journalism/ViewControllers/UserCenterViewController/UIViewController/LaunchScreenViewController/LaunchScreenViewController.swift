@@ -32,7 +32,7 @@ class LaunchScreenViewController: UIViewController {
     /// 标点符号 的图片对象
     @IBOutlet var punctuationImageView:UIImageView!
     
-    override func prefersStatusBarHidden() -> Bool {
+    override var prefersStatusBarHidden : Bool {
         
         return true
     }
@@ -49,20 +49,20 @@ class LaunchScreenViewController: UIViewController {
         }
     }
     
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         
         super.viewDidDisappear(animated)
         
-        (UIApplication.sharedApplication().delegate as! AppDelegate).startReachabilityNotifier()
+        (UIApplication.shared.delegate as! AppDelegate).startReachabilityNotifier()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         
         super.viewDidAppear(animated)
         
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW,Int64(0.1 * Double(NSEC_PER_SEC))),dispatch_get_main_queue(), {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(0.1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: {
             
-            dispatch_async(dispatch_get_main_queue()) {
+            DispatchQueue.main.async {
                 
                 self.showAn()
             }
@@ -73,14 +73,14 @@ class LaunchScreenViewController: UIViewController {
     }
     
     
-    @IBAction func click(sender: AnyObject) {
+    @IBAction func click(_ sender: AnyObject) {
         
         
         self.toHidden()
         self.showAn()
     }
     
-    private func toHidden(){
+    fileprivate func toHidden(){
         
         self.wordDuImageView.toHidden()
         self.wordQiImageView.toHidden()
@@ -90,14 +90,14 @@ class LaunchScreenViewController: UIViewController {
         self.wordXiaImageView.toHidden()
         self.punctuationImageView.toHidden()
         
-        self.OcclusionView.transform = CGAffineTransformIdentity
+        self.OcclusionView.transform = CGAffineTransform.identity
     }
     
-    private func showAn(){
+    fileprivate func showAn(){
         
-        UIView.animateWithDuration(1.7, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+        UIView.animate(withDuration: 1.7, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: UIViewAnimationOptions(), animations: {
             
-            self.OcclusionView.transform = CGAffineTransformTranslate(self.OcclusionView.transform, self.OcclusionView.frame.width, 0)
+            self.OcclusionView.transform = self.OcclusionView.transform.translatedBy(x: self.OcclusionView.frame.width, y: 0)
         }) { (_) in
             
 //            UIView.animateWithDuration(0.85, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: {
@@ -121,18 +121,18 @@ class LaunchScreenViewController: UIViewController {
             
         })
         
-        UIView.animateWithDuration(0.7, delay: 1.3, usingSpringWithDamping: 0.45, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: {
+        UIView.animate(withDuration: 0.7, delay: 1.3, usingSpringWithDamping: 0.45, initialSpringVelocity: 0, options: UIViewAnimationOptions.curveEaseIn, animations: {
             
-            self.punctuationImageView.transform = CGAffineTransformIdentity
+            self.punctuationImageView.transform = CGAffineTransform.identity
         }) { (_) in
             
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW,Int64(0.5 * Double(NSEC_PER_SEC))),dispatch_get_main_queue(), {
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(0.5 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: {
                 
-                if let vcx = self.storyboard?.instantiateViewControllerWithIdentifier("VisitorViewController") {
+                if let vcx = self.storyboard?.instantiateViewController(withIdentifier: "VisitorViewController") {
                     
-                    vcx.modalTransitionStyle = .CrossDissolve
+                    vcx.modalTransitionStyle = .crossDissolve
                     
-                    self.presentViewController(vcx, animated: true, completion: nil)
+                    self.present(vcx, animated: true, completion: nil)
                     
                     //                        (UIApplication.sharedApplication().delegate as! AppDelegate).window?.rootViewController = vcx
                 }
@@ -145,14 +145,14 @@ private extension UIImageView{
     
     func toHidden(){
         
-        self.transform = CGAffineTransformScale(self.transform, 0, 0)
+        self.transform = self.transform.scaledBy(x: 0, y: 0)
     }
     
-    func toShow(delay:NSTimeInterval=0,finish:(()->Void)?=nil){
+    func toShow(_ delay:TimeInterval=0,finish:(()->Void)?=nil){
         
-        UIView.animateWithDuration(0.5, delay: delay, usingSpringWithDamping: 0.67, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+        UIView.animate(withDuration: 0.5, delay: delay, usingSpringWithDamping: 0.67, initialSpringVelocity: 0, options: UIViewAnimationOptions(), animations: {
             
-            self.transform = CGAffineTransformIdentity
+            self.transform = CGAffineTransform.identity
             
         }) { (_) in
             

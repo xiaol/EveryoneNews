@@ -12,48 +12,23 @@ import RealmSwift
 extension UIStoryboard{
     
     /// 获取单例模式下的UIStoryBoard对象
-    class var shareStoryBoard:UIStoryboard!{
+    static var shareStoryBoard:UIStoryboard!{
         
-        get{
-            
-            struct backTaskLeton{
-                
-                static var predicate:dispatch_once_t = 0
-                
-                static var bgTask:UIStoryboard? = nil
-            }
-            
-            dispatch_once(&backTaskLeton.predicate, { () -> Void in
-                
-                backTaskLeton.bgTask = UIStoryboard(name: "Main", bundle: NSBundle.mainBundle())
-            })
-            
-            return backTaskLeton.bgTask
-        }
+        return UIStoryboard(name: "Main", bundle: Bundle.main)
     }
     
     /// 获取单例模式下的UIStoryBoard对象
     /// 获取单例模式下的UIStoryBoard对象
-    var shareSplistViewController:UISplitViewController!{
+    static var shareSplistViewController:UISplitViewController!{
         
-        get{
-            
-            struct backTaskLeton{
-                
-                static var predicate:dispatch_once_t = 0
-                
-                static var bgTask:UISplitViewController? = nil
-            }
-            
-            dispatch_once(&backTaskLeton.predicate, { () -> Void in
-                
-                backTaskLeton.bgTask = self.instantiateViewControllerWithIdentifier("UISplitViewController") as? UISplitViewController
-                backTaskLeton.bgTask!.preferredDisplayMode = .AllVisible
-                backTaskLeton.bgTask?.delegate = (UIApplication.sharedApplication().delegate as! AppDelegate)
-            })
-            
-            return backTaskLeton.bgTask
-        }
+        let viewController = UIStoryboard.shareStoryBoard.instantiateViewController(withIdentifier: "UISplitViewController") as? UISplitViewController
+        
+        viewController?.preferredDisplayMode = .allVisible
+    
+    
+        viewController?.delegate = (UIApplication.shared.delegate as! AppDelegate)
+        
+        return viewController
     }
 }
 
@@ -66,9 +41,9 @@ extension UIStoryboard{
     
     
     // 获取新闻列表视图
-    func get_NewslistViewController(channel:Channel?=nil)-> NewslistViewController{
+    func get_NewslistViewController(_ channel:Channel?=nil)-> NewslistViewController{
         
-        let viewController = self.instantiateViewControllerWithIdentifier("NewslistViewController") as! NewslistViewController
+        let viewController = self.instantiateViewController(withIdentifier: "NewslistViewController") as! NewslistViewController
         viewController.channel = channel
         return viewController
     }
@@ -76,13 +51,13 @@ extension UIStoryboard{
     // 获得子母视图
     func get_UISplitViewController() -> UISplitViewController {
         
-        return self.shareSplistViewController
+        return UIStoryboard.shareSplistViewController
     }
     
     // 获得详情和评论朱世玉视图
-    func get_DetailAndCommitViewController (new:New)-> DetailAndCommitViewController{
+    func get_DetailAndCommitViewController (_ new:New)-> DetailAndCommitViewController{
         
-        let viewController = self.instantiateViewControllerWithIdentifier("DetailAndCommitViewController") as! DetailAndCommitViewController
+        let viewController = self.instantiateViewController(withIdentifier: "DetailAndCommitViewController") as! DetailAndCommitViewController
         
         viewController.new = new
         
@@ -90,9 +65,9 @@ extension UIStoryboard{
     }
     
     // 获得详情视图
-    func get_DetailViewController (new:New?)-> DetailViewController{
+    func get_DetailViewController (_ new:New?)-> DetailViewController{
         
-        let viewController = self.instantiateViewControllerWithIdentifier("DetailViewController") as! DetailViewController
+        let viewController = self.instantiateViewController(withIdentifier: "DetailViewController") as! DetailViewController
 
         viewController.new = new
         
@@ -100,9 +75,9 @@ extension UIStoryboard{
     }
     
     // 获得评论视图
-    func get_CommitViewController (new:New?)-> CommitViewController{
+    func get_CommitViewController (_ new:New?)-> CommitViewController{
         
-        let viewController = self.instantiateViewControllerWithIdentifier("CommitViewController") as! CommitViewController
+        let viewController = self.instantiateViewController(withIdentifier: "CommitViewController") as! CommitViewController
         
         viewController.new = new
         
@@ -116,7 +91,7 @@ extension UIStoryboard{
      */
     func get_SearchViewController()-> UIViewController{
     
-        let viewController = self.instantiateViewControllerWithIdentifier("SearchViewController")
+        let viewController = self.instantiateViewController(withIdentifier: "SearchViewController")
         
         return viewController
     }
@@ -126,9 +101,9 @@ extension UIStoryboard{
      
      - returns: 返回搜索视图
      */
-    func get_SearchListViewController(key:String)-> UIViewController{
+    func get_SearchListViewController(_ key:String)-> UIViewController{
         
-        let viewController = self.instantiateViewControllerWithIdentifier("SearchListViewController") as! SearchListViewController
+        let viewController = self.instantiateViewController(withIdentifier: "SearchListViewController") as! SearchListViewController
         
         viewController.searchKey = key
         
@@ -141,9 +116,9 @@ extension UIStoryboard{
      
      - returns: 返回搜索视图
      */
-    func get_FocusViewController(pname:String)-> FocusViewController{
+    func get_FocusViewController(_ pname:String)-> FocusViewController{
         
-        let viewController = self.instantiateViewControllerWithIdentifier("FocusViewController") as! FocusViewController
+        let viewController = self.instantiateViewController(withIdentifier: "FocusViewController") as! FocusViewController
         
         viewController.pname = pname
         
@@ -157,7 +132,7 @@ extension UIStoryboard{
      */
     func get_QiDianViewController()-> UIViewController{
         
-        let viewController = self.instantiateViewControllerWithIdentifier("QiDianViewController") as! QiDianViewController
+        let viewController = self.instantiateViewController(withIdentifier: "QiDianViewController") as! QiDianViewController
         
         return viewController
     }

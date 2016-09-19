@@ -9,12 +9,12 @@
 import RealmSwift
 
 ///  频道的数据模型
-public class SearchHistory: Object {
+open class SearchHistory: Object {
     
     dynamic var title = "" // 相关新闻标题
-    dynamic var ctimes = NSDate() //创建时间
+    dynamic var ctimes = Date() //创建时间
     
-    override public static func primaryKey() -> String? {
+    override open static func primaryKey() -> String? {
         return "title"
     }
 }
@@ -32,13 +32,13 @@ extension SearchHistory{
         }
     }
     
-    class func create(key:String){
+    class func create(_ key:String){
         
         let realm = try! Realm()
         
         try! realm.write {
             
-            realm.create(SearchHistory.self, value: ["title":key,"ctimes":NSDate()], update: true)
+            realm.create(SearchHistory.self, value: ["title":key,"ctimes":Date()], update: true)
         }
     }
     
@@ -46,6 +46,6 @@ extension SearchHistory{
     
         let realm = try! Realm()
         
-        return realm.objects(SearchHistory.self).sorted("ctimes", ascending: false)
+        return realm.objects(SearchHistory.self).sorted(byProperty: "ctimes", ascending: false)
     }
 }

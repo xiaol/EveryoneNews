@@ -11,22 +11,14 @@ import RealmSwift
 import AFDateHelper
 import SwaggerClient
 
-extension Manager{
-    
-    class var shareManager:Manager!{
-        get{
-            struct backTaskLeton{
-                static var predicate:dispatch_once_t = 0
-                static var manager:Manager? = nil
-            }
-            dispatch_once(&backTaskLeton.predicate, { () -> Void in
-                let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
-                configuration.HTTPShouldSetCookies = false
-                configuration.HTTPAdditionalHeaders = Manager.defaultHTTPHeaders
-                backTaskLeton.manager = Manager(configuration: configuration, delegate: Manager.SessionDelegate(), serverTrustPolicyManager: nil)
-            })
-            return backTaskLeton.manager!
-        }
+class Manager{
+
+    static var shareManager:SessionManager{
+        
+        let configuration = URLSessionConfiguration.default
+        configuration.httpShouldSetCookies = false
+        configuration.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
+        return SessionManager(configuration: configuration)
     }
 }
 
@@ -38,13 +30,13 @@ class CustomRequest: NSObject {
      - parameter finish:  点赞完成
      - parameter fail:    点赞失败
      */
-    class func praiseComment(comment:Comment,finish:(()->Void)?=nil,fail:(()->Void)?=nil){
+    class func praiseComment(_ comment:Comment,finish:(()->Void)?=nil,fail:(()->Void)?=nil){
         
         guard let token = ShareLUser.token else{ return }
         
-        Manager.shareManager.request(.POST, SwaggerClientAPI.basePath+"/ns/coms/up", parameters: ["uid":"\(ShareLUser.uid)","cid":"\(comment.id)"], encoding: ParameterEncoding.URLEncodedInURL, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
+        Manager.shareManager.request(SwaggerClientAPI.basePath + "/ns/coms/up", method: .post, parameters: ["uid":"\(ShareLUser.uid)","cid":"\(comment.id)"], encoding: URLEncoding.default, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
             
-            guard let result = res.result.value as? NSDictionary,let data = result.objectForKey("data") as? Int else{ fail?();return}
+            guard let result = res.result.value as? NSDictionary,let data = result.object(forKey: "data") as? Int else{ fail?();return}
             
             let realm = try! Realm()
             
@@ -64,13 +56,13 @@ class CustomRequest: NSObject {
      - parameter finish:  点赞完成
      - parameter fail:    点赞失败
      */
-    class func nopraiseComment(comment:Comment,finish:(()->Void)?=nil,fail:(()->Void)?=nil){
+    class func nopraiseComment(_ comment:Comment,finish:(()->Void)?=nil,fail:(()->Void)?=nil){
         
         guard let token = ShareLUser.token else{ return }
         
-        Manager.shareManager.request(.DELETE, SwaggerClientAPI.basePath+"/ns/coms/up", parameters: ["uid":"\(ShareLUser.uid)","cid":"\(comment.id)"], encoding: ParameterEncoding.URLEncodedInURL, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
+        Manager.shareManager.request(SwaggerClientAPI.basePath+"/ns/coms/up", method : HTTPMethod.delete, parameters: ["uid":"\(ShareLUser.uid)","cid":"\(comment.id)"], encoding: URLEncoding.default, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
             
-            guard let result = res.result.value as? NSDictionary,let data = result.objectForKey("data") as? Int else{ fail?();return}
+            guard let result = res.result.value as? NSDictionary,let data = result.object(forKey: "data") as? Int else{ fail?();return}
             
             let realm = try! Realm()
             
@@ -91,13 +83,13 @@ class CustomRequest: NSObject {
      - parameter finish:  点赞完成
      - parameter fail:    点赞失败
      */
-    class func collectedNew(new:New,finish:(()->Void)?=nil,fail:(()->Void)?=nil){
+    class func collectedNew(_ new:New,finish:(()->Void)?=nil,fail:(()->Void)?=nil){
         
         guard let token = ShareLUser.token else{ return }
         
-        Manager.shareManager.request(.POST, SwaggerClientAPI.basePath+"/ns/cols", parameters: ["uid":"\(ShareLUser.uid)","nid":"\(new.nid)"], encoding: ParameterEncoding.URLEncodedInURL, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
+        Manager.shareManager.request(SwaggerClientAPI.basePath+"/ns/cols",method: .post , parameters: ["uid":"\(ShareLUser.uid)","nid":"\(new.nid)"], encoding: URLEncoding.default, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
             
-            guard let result = res.result.value as? NSDictionary,let code = result.objectForKey("code") as? Int else{ fail?();return}
+            guard let result = res.result.value as? NSDictionary,let code = result.object(forKey: "code") as? Int else{ fail?();return}
             
             if code != 2000 { fail?() ;return}
             
@@ -108,7 +100,7 @@ class CustomRequest: NSObject {
                 
                 new.iscollected = 1
             })
-            NSNotificationCenter.defaultCenter().postNotificationName(COLLECTEDNEWORNOCOLLECTEDNEW, object: nil)
+            NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: COLLECTEDNEWORNOCOLLECTEDNEW), object: nil)
             
             finish?()
         }
@@ -121,13 +113,13 @@ class CustomRequest: NSObject {
      - parameter finish:  点赞完成
      - parameter fail:    点赞失败
      */
-    class func nocollectedNew(new:New,finish:(()->Void)?=nil,fail:(()->Void)?=nil){
+    class func nocollectedNew(_ new:New,finish:(()->Void)?=nil,fail:(()->Void)?=nil){
         
         guard let token = ShareLUser.token else{ return }
         
-        Manager.shareManager.request(.DELETE, SwaggerClientAPI.basePath+"/ns/cols", parameters: ["uid":"\(ShareLUser.uid)","nid":"\(new.nid)"], encoding: ParameterEncoding.URLEncodedInURL, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
+        Manager.shareManager.request(SwaggerClientAPI.basePath+"/ns/cols",method:.delete , parameters: ["uid":"\(ShareLUser.uid)","nid":"\(new.nid)"], encoding:  URLEncoding.default, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
             
-            guard let result = res.result.value as? NSDictionary,let code = result.objectForKey("code") as? Int else{ fail?();return}
+            guard let result = res.result.value as? NSDictionary,let code = result.object(forKey: "code") as? Int else{ fail?();return}
             
             if code != 2000 { fail?() ;return}
             
@@ -138,7 +130,7 @@ class CustomRequest: NSObject {
                 new.iscollected = 0
             })
             
-            NSNotificationCenter.defaultCenter().postNotificationName(COLLECTEDNEWORNOCOLLECTEDNEW, object: nil)
+            NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: COLLECTEDNEWORNOCOLLECTEDNEW), object: nil)
             
             finish?()
         }
@@ -151,13 +143,13 @@ class CustomRequest: NSObject {
      - parameter finish:  关心完成
      - parameter fail:    关心失败
      */
-    class func concernedNew(new:New,finish:(()->Void)?=nil,fail:(()->Void)?=nil){
+    class func concernedNew(_ new:New,finish:(()->Void)?=nil,fail:(()->Void)?=nil){
         
         guard let token = ShareLUser.token else{ return }
         
-        Manager.shareManager.request(.POST, SwaggerClientAPI.basePath+"/ns/cocs", parameters: ["uid":"\(ShareLUser.uid)","nid":"\(new.nid)"], encoding: ParameterEncoding.URLEncodedInURL, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
+        Manager.shareManager.request(SwaggerClientAPI.basePath+"/ns/cocs",method:.post , parameters: ["uid":"\(ShareLUser.uid)","nid":"\(new.nid)"], encoding: URLEncoding.default, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
             
-            guard let result = res.result.value as? NSDictionary,let code = result.objectForKey("code") as? Int,let data = result.objectForKey("data") as? Int else{ fail?();return}
+            guard let result = res.result.value as? NSDictionary,let code = result.object(forKey: "code") as? Int,let data = result.object(forKey: "data") as? Int else{ fail?();return}
             
             if code != 2000 { fail?() ;return}
             
@@ -169,7 +161,7 @@ class CustomRequest: NSObject {
                 new.isconcerned = 1
                 new.concern = data
             })
-            NSNotificationCenter.defaultCenter().postNotificationName(CONCERNNEWORNOCOLLECTEDNEW, object: nil)
+            NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: CONCERNNEWORNOCOLLECTEDNEW), object: nil)
             
             finish?()
         }
@@ -182,13 +174,13 @@ class CustomRequest: NSObject {
      - parameter finish:  关心完成
      - parameter fail:    关心失败
      */
-    class func noconcernedNew(new:New,finish:(()->Void)?=nil,fail:(()->Void)?=nil){
+    class func noconcernedNew(_ new:New,finish:(()->Void)?=nil,fail:(()->Void)?=nil){
         
         guard let token = ShareLUser.token else{ return }
         
-        Manager.shareManager.request(.DELETE, SwaggerClientAPI.basePath+"/ns/cocs", parameters: ["uid":"\(ShareLUser.uid)","nid":"\(new.nid)"], encoding: ParameterEncoding.URLEncodedInURL, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
+        Manager.shareManager.request(SwaggerClientAPI.basePath+"/ns/cocs",method:.delete , parameters: ["uid":"\(ShareLUser.uid)","nid":"\(new.nid)"], encoding: URLEncoding.default, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
             
-            guard let result = res.result.value as? NSDictionary,let code = result.objectForKey("code") as? Int,let data = result.objectForKey("data") as? Int else{ fail?();return}
+            guard let result = res.result.value as? NSDictionary,let code = result.object(forKey: "code") as? Int,let data = result.object(forKey: "data") as? Int else{ fail?();return}
             
             if code != 2000 { fail?() ;return}
             
@@ -200,7 +192,7 @@ class CustomRequest: NSObject {
                 new.concern = data
             })
             
-            NSNotificationCenter.defaultCenter().postNotificationName(CONCERNNEWORNOCOLLECTEDNEW, object: nil)
+            NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: CONCERNNEWORNOCOLLECTEDNEW), object: nil)
             
             finish?()
         }
@@ -213,13 +205,13 @@ class CustomRequest: NSObject {
      - parameter finish:  点赞完成
      - parameter fail:    点赞失败
      */
-    class func commentNew(content:String,new:New,finish:(()->Void)?=nil,fail:(()->Void)?=nil){
+    class func commentNew(_ content:String,new:New,finish:(()->Void)?=nil,fail:(()->Void)?=nil){
         
         
         guard let token = ShareLUser.token else{ return }
         
-        let time = NSDate()
-        let timeStr = time.toString(format: DateFormat.Custom("yyyy-MM-dd hh:mm:ss"))
+        let time = Date()
+        let timeStr = time.toString(DateFormat.custom("yyyy-MM-dd hh:mm:ss"))
         let cc = CommectCreate()
         cc.content = content
         cc.docid = new.docid
@@ -231,13 +223,13 @@ class CustomRequest: NSObject {
         
         let requestBudile = CommentAPI.nsComsPostWithRequestBuilder(userRegisterInfo: cc)
         
-        Manager.shareManager.request(.POST, SwaggerClientAPI.basePath+"/ns/coms", parameters: requestBudile.parameters, encoding: ParameterEncoding.JSON, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
+        Manager.shareManager.request(SwaggerClientAPI.basePath+"/ns/coms", method: .post , parameters: requestBudile.parameters, encoding: JSONEncoding.default, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
             
-            guard let result = res.result.value as? NSDictionary,let code = result.objectForKey("code") as? Int else{ fail?();return}
+            guard let result = res.result.value as? NSDictionary,let code = result.object(forKey: "code") as? Int else{ fail?();return}
             
             if code != 2000 { fail?() ;return}
             
-            guard let id = result.objectForKey("data") as? Int else{fail?() ;return}
+            guard let id = result.object(forKey: "data") as? Int else{fail?() ;return}
             
             let comment = Comment()
             comment.id = Int(id)
@@ -267,9 +259,9 @@ class CustomRequest: NSObject {
      - parameter finish:  点赞完成
      - parameter fail:    点赞失败
      */
-    class func HotSearch(finish:(()->Void)?=nil,fail:(()->Void)?=nil){
+    class func HotSearch(_ finish:(()->Void)?=nil,fail:(()->Void)?=nil){
 
-        Manager.shareManager.request(.POST, "http://121.40.34.56/news/baijia/fetchElementary").responseJSON { (res) in
+        Manager.shareManager.request("http://121.40.34.56/news/baijia/fetchElementary", method: .post ).responseJSON { (res) in
             
             guard let result = res.result.value as? NSArray else{ fail?();return}
             
@@ -277,15 +269,15 @@ class CustomRequest: NSObject {
             
             try! realm.write({
             
-                realm.delete(realm.objects(HotSearchs))
+                realm.delete(realm.objects(HotSearchs.self))
                 
                 for hotSearch in result {
                     
                     realm.create(HotSearchs.self, value: hotSearch, update: true)
                     
-                    if let title = hotSearch.objectForKey("title") as? String,let pubTime = hotSearch.objectForKey("createTime") as? String{
+                    if let title = (hotSearch as AnyObject).object(forKey: "title") as? String,let pubTime = (hotSearch as AnyObject).object(forKey: "createTime") as? String{
                     
-                        let date = NSDate(fromString: pubTime, format: DateFormat.Custom("yyyy-MM-dd HH:mm:ss"))
+                        let date = Date(fromString: pubTime, format: DateFormat.custom("yyyy-MM-dd HH:mm:ss"))
                         
                         realm.create(HotSearchs.self, value: ["title":title,"createTimes":date], update: true)
                     }

@@ -27,8 +27,8 @@ class SearchViewController: UIViewController,UIViewControllerTransitioningDelega
     var results = SearchHistory.getList()
     var hotResults = HotSearchs.getList()
     
-    private var notificationToken:NotificationToken!
-    private var hotNotificationToken:NotificationToken!
+    fileprivate var notificationToken:NotificationToken!
+    fileprivate var hotNotificationToken:NotificationToken!
     
     required init?(coder aDecoder: NSCoder) {
         
@@ -37,7 +37,7 @@ class SearchViewController: UIViewController,UIViewControllerTransitioningDelega
         self.transitioningDelegate = self
     }
     
-    override func canBecomeFirstResponder() -> Bool {
+    override var canBecomeFirstResponder : Bool {
         
         return true
     }
@@ -61,12 +61,12 @@ class SearchViewController: UIViewController,UIViewControllerTransitioningDelega
          */
         self.notificationToken = results.addNotificationBlock { (_) in
             
-            self.tableView.reloadSections(NSIndexSet(index: 1), withRowAnimation: .Automatic)
+            self.tableView.reloadSections(IndexSet(integer: 1), with: .automatic)
         }
         
         self.hotNotificationToken = hotResults.addNotificationBlock { (_) in
             
-            self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
+            self.tableView.reloadSections(IndexSet(integer: 0), with: .automatic)
         }
     }
     
@@ -77,11 +77,11 @@ class SearchViewController: UIViewController,UIViewControllerTransitioningDelega
      
      - returns: <#return value description#>
      */
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         guard let key = textField.text else{ return false }
         let search = UIStoryboard.shareStoryBoard.get_SearchListViewController(key)
-        self.presentViewController(search, animated: true, completion: nil)
+        self.present(search, animated: true, completion: nil)
         return true
     }
     
@@ -90,7 +90,7 @@ class SearchViewController: UIViewController,UIViewControllerTransitioningDelega
      
      - returns: <#return value description#>
      */
-    override func shouldAutorotate() -> Bool {
+    override var shouldAutorotate : Bool {
         
         return false
     }
@@ -100,8 +100,8 @@ class SearchViewController: UIViewController,UIViewControllerTransitioningDelega
      
      - returns: <#return value description#>
      */
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
         
-        return UIInterfaceOrientationMask.Portrait
+        return UIInterfaceOrientationMask.portrait
     }
 }

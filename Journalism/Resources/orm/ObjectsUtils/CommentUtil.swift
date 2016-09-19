@@ -16,17 +16,17 @@ import SwaggerClient
 class CommentUtil: NSObject {
 
     /// 获取普通评论列表
-    class func LoadNoramlCommentsList(new:New,p: String?="1", c: String?="20",finish:((count:Int)->Void)?=nil,fail:(()->Void)?=nil) {
+    class func LoadNoramlCommentsList(_ new:New,p: String?="1", c: String?="20",finish:((_ count:Int)->Void)?=nil,fail:(()->Void)?=nil) {
         
         CommentAPI.nsComsCGet(did: new.docidBase64(), uid: "\(ShareLUser.uid)", p: p, c: c) { (datas, error) in
             
-            if let code = datas?.objectForKey("code") as? Int{
+            if let code = datas?.object(forKey: "code") as? Int{
                 if code == 2002 {
-                    finish?(count: 0)
+                    finish?(0)
                     return
                 }
             }
-            guard let da = datas,let data = da.objectForKey("data") as? NSArray else{ fail?();return}
+            guard let da = datas,let data = da.object(forKey: "data") as? NSArray else{ fail?();return}
             
             let realm = try! Realm()
             try! realm.write({
@@ -35,16 +35,16 @@ class CommentUtil: NSObject {
                     self.AnalysisComment(channel as! NSDictionary, realm: realm,new:new)
                 }
             })
-            finish?(count: data.count)
+            finish?(data.count)
         }
     }
     
     /// 获取热门评论列表
-    class func LoadHotsCommentsList(new:New,finish:(()->Void)?=nil,fail:(()->Void)?=nil) {
+    class func LoadHotsCommentsList(_ new:New,finish:(()->Void)?=nil,fail:(()->Void)?=nil) {
         
         CommentAPI.nsComsHGet(did: new.docidBase64(), uid: "\(ShareLUser.uid)") { (datas, error) in
             
-            guard let da = datas,let data = da.objectForKey("data") as? NSArray else{ fail?();return}
+            guard let da = datas,let data = da.object(forKey: "data") as? NSArray else{ fail?();return}
             
             let realm = try! Realm()
             try! realm.write({
@@ -52,7 +52,7 @@ class CommentUtil: NSObject {
                     
                     realm.create(Comment.self, value: channel, update: true)
                     self.AnalysisComment(channel as! NSDictionary, realm: realm,new:new)
-                    if let nid = channel.objectForKey("id") as? Int {
+                    if let nid = (channel as AnyObject).object(forKey: "id") as? Int {
                         realm.create(Comment.self, value: ["id":nid,"ishot":1], update: true)
                     }
                 }
@@ -66,15 +66,15 @@ class CommentUtil: NSObject {
 
 extension CommentUtil{
     // 完善评论对象
-    private class func AnalysisComment(channel:NSDictionary,realm:Realm,new:New){
+    fileprivate class func AnalysisComment(_ channel:NSDictionary,realm:Realm,new:New){
         
-        if let nid = channel.objectForKey("id") as? Int {
+        if let nid = channel.object(forKey: "id") as? Int {
             
-            var date = NSDate()
+            var date = Date()
             
-            if let pubTime = channel.objectForKey("ctime") as? String {
+            if let pubTime = channel.object(forKey: "ctime") as? String {
                 
-                date = NSDate(fromString: pubTime, format: DateFormat.Custom("yyyy-MM-dd HH:mm:ss"))
+                date = Date(fromString: pubTime, format: DateFormat.custom("yyyy-MM-dd HH:mm:ss"))
             }
             
             realm.create(Comment.self, value: ["id":nid,"nid":new.nid,"ctimes":date], update: true)
@@ -85,20 +85,20 @@ extension CommentUtil{
 
 extension Comment {
     
-    func HeightByNewConstraint(tableView:UITableView) -> CGFloat{
+    func HeightByNewConstraint(_ tableView:UITableView) -> CGFloat{
         
         let width = tableView.frame.width
         
         // 计算平路内容所占高度
         let contentSize = CGSize(width: width-18-38-12-18, height: CGFloat(MAXFLOAT))
-        let contentHeight = NSString(string:self.content).boundingRectWithSize(contentSize, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font3], context: nil).height
+        let contentHeight = NSString(string:self.content).boundingRect(with: contentSize, options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font3], context: nil).height
         
         // time
         let size = CGSize(width: 1000, height: 1000)
-        let commentHeight = NSString(string:self.ctimes.weiboTimeDescription).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font7], context: nil).height
+        let commentHeight = NSString(string:self.ctimes.weiboTimeDescription).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font7], context: nil).height
         
         // name
-        let nameHeight = NSString(string:self.uname).boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font4], context: nil).height
+        let nameHeight = NSString(string:self.uname).boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font4], context: nil).height
         
         return 21+21+nameHeight+commentHeight+contentHeight+12+8
     }

@@ -69,8 +69,8 @@ class DetailViewController: UIViewController,WaitLoadProtcol {
             
             newCon = new.getNewContentObject()
             
-            aboutResults = realm.objects(About.self).filter("nid = \(new.nid)").sorted("ptimes", ascending: false)
-            hotResults = realm.objects(Comment.self).filter("nid = \(new.nid) AND ishot = 1").sorted("commend", ascending: false)
+            aboutResults = realm.objects(About.self).filter("nid = \(new.nid)").sorted(byProperty: "ptimes", ascending: false)
+            hotResults = realm.objects(Comment.self).filter("nid = \(new.nid) AND ishot = 1").sorted(byProperty: "commend", ascending: false)
             
             CommentUtil.LoadHotsCommentsList(new, finish: {
                 
@@ -87,23 +87,36 @@ class DetailViewController: UIViewController,WaitLoadProtcol {
         
         self.integrationMethod()
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DetailViewController.setCollectionButton), name: CONCERNNEWORNOCOLLECTEDNEW, object: nil) //收藏状态发生变化
-        NSNotificationCenter.defaultCenter().addObserverForName(USERFOCUSPNAMENOTIFITION, object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+        NotificationCenter.default.addObserver(self, selector: #selector(DetailViewController.setCollectionButton), name: NSNotification.Name(rawValue: CONCERNNEWORNOCOLLECTEDNEW), object: nil) //收藏状态发生变化
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: USERFOCUSPNAMENOTIFITION), object: nil, queue: OperationQueue.main) { (_) in
             
-            self.tableView.reloadRowsAtIndexPaths([NSIndexPath(forItem: 0, inSection: 1)], withRowAnimation: UITableViewRowAnimation.Automatic)
+            self.tableView.reloadRows(at: [IndexPath(item: 0, section: 1)], with: UITableViewRowAnimation.automatic)
         }
     }
     
     func setCollectionButton(){
         
-        let indexPath = NSIndexPath(forItem: 0, inSection: 0)
+        let indexPath = IndexPath(item: 0, section: 0)
         
-        self.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+        self.tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
     }
 }
 
 
 extension DetailViewController:IndicatorInfoProvider{
+    
+    /**
+     PageView DataSource 设置当前识图的标题
+     
+     - parameter pagerTabStripController: 视图对象
+     - returns: 标题对象
+     */
+    public func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
+        let info = IndicatorInfo(title: "评论")
+        
+        return info
+    }
+
     
     /**
       当设备的方向发生变化时，将会调用这个方法
@@ -112,9 +125,9 @@ extension DetailViewController:IndicatorInfoProvider{
      - parameter size:        方向完成后的大小
      - parameter coordinator: 方向变化的动画渐变对象
      */
-    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         
-        coordinator.animateAlongsideTransition({ (_) in
+        coordinator.animate(alongsideTransition: { (_) in
             
             self.webView.evaluateJavaScript("fixImgWidth();", completionHandler: nil)
             
@@ -124,16 +137,5 @@ extension DetailViewController:IndicatorInfoProvider{
         
     }
     
-    /**
-     PageView DataSource 设置当前识图的标题
-     
-     - parameter pagerTabStripController: 视图对象
-     - returns: 标题对象
-     */
-    func indicatorInfoForPagerTabStrip(pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
-        
-        let info = IndicatorInfo(title: "评论")
-        
-        return info
-    }
+   
 }

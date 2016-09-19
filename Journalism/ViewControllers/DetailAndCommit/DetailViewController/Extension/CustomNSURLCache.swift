@@ -8,18 +8,18 @@
 
 import UIKit
 
-class CustomNSURLCache:NSURLCache{
+class CustomNSURLCache:URLCache{
 
-    override func storeCachedResponse(cachedResponse: NSCachedURLResponse, forRequest request: NSURLRequest) {
+    override func storeCachedResponse(_ cachedResponse: CachedURLResponse, for request: URLRequest) {
         
-        super.storeCachedResponse(cachedResponse, forRequest: request)
+        super.storeCachedResponse(cachedResponse, for: request)
         
 //        print("NSURLRequest",cachedResponse.response.MIMEType,"----",cachedResponse.response.URL)
     }
     
-    override func storeCachedResponse(cachedResponse: NSCachedURLResponse, forDataTask dataTask: NSURLSessionDataTask) {
+    override func storeCachedResponse(_ cachedResponse: CachedURLResponse, for dataTask: URLSessionDataTask) {
         
-        super.storeCachedResponse(cachedResponse, forDataTask: dataTask)
+        super.storeCachedResponse(cachedResponse, for: dataTask)
         
         
         
@@ -27,12 +27,12 @@ class CustomNSURLCache:NSURLCache{
     }
     
     
-    override func cachedResponseForRequest(request: NSURLRequest) -> NSCachedURLResponse? {
+    override func cachedResponse(for request: URLRequest) -> CachedURLResponse? {
 //        
 //        print("cachedResponseForRequest",request.URL)
 //        
 //        print("--------")
         
-        return super.cachedResponseForRequest(request)
+        return super.cachedResponse(for: request)
     }
 }

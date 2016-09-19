@@ -15,13 +15,13 @@ import UIKit
 }
 
 // MARK: - SKPhoto
-public class SKPhoto: NSObject, SKPhotoProtocol {
+open class SKPhoto: NSObject, SKPhotoProtocol {
     
-    public var underlyingImage: UIImage!
-    public var photoURL: String!
-    public var shouldCachePhotoURLImage: Bool = false
-    public var caption: String!
-    public var index: Int = 0
+    open var underlyingImage: UIImage!
+    open var photoURL: String!
+    open var shouldCachePhotoURLImage: Bool = false
+    open var caption: String!
+    open var index: Int = 0
 
     override init() {
         super.init()
@@ -44,15 +44,15 @@ public class SKPhoto: NSObject, SKPhotoProtocol {
     }
     
     // MARK: - class func
-    public class func photoWithImage(image: UIImage) -> SKPhoto {
+    open class func photoWithImage(_ image: UIImage) -> SKPhoto {
         return SKPhoto(image: image)
     }
     
-    public class func photoWithImageURL(url: String) -> SKPhoto {
+    open class func photoWithImageURL(_ url: String) -> SKPhoto {
         return SKPhoto(url: url)
     }
     
-    public class func photoWithImageURL(url: String, holder: UIImage?) -> SKPhoto {
+    open class func photoWithImageURL(_ url: String, holder: UIImage?) -> SKPhoto {
         return SKPhoto(url: url, holder: holder)
     }
 }

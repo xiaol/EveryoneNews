@@ -14,40 +14,25 @@ extension UIImage{
 
     
     /// 获取单例模式下的UIStoryBoard对象
-    class var sharePlaceholderImage:UIImage!{
+    static var sharePlaceholderImage:UIImage!{
         
-        get{
-            
-            struct backTaskLeton{
-                
-                static var predicate:dispatch_once_t = 0
-                
-                static var bgTask:UIImage? = nil
-            }
-            
-            dispatch_once(&backTaskLeton.predicate, { () -> Void in
-                
-                backTaskLeton.bgTask = imageWithColor(UIColor(red: 246/255, green: 246/255, blue: 246/255, alpha: 1), size: CGSize(width: 800, height: 800))
-            })
-            
-            return backTaskLeton.bgTask
-        }
+        return imageWithColor(UIColor(red: 246/255, green: 246/255, blue: 246/255, alpha: 1), size: CGSize(width: 800, height: 800))
     }
     
     
-    class func imageWithColor(color:UIColor,size:CGSize) -> UIImage{
-        let rect = CGRect(origin: CGPointZero, size: size)
+    class func imageWithColor(_ color:UIColor,size:CGSize) -> UIImage{
+        let rect = CGRect(origin: CGPoint.zero, size: size)
         UIGraphicsBeginImageContext(size)
         
         let context = UIGraphicsGetCurrentContext()
-        CGContextSetFillColorWithColor(context, color.CGColor)
+        context?.setFillColor(color.cgColor)
         
-        CGContextFillRect(context, rect)
+        context?.fill(rect)
         
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        return image
+        return image!
     }
 }
 
@@ -55,54 +40,54 @@ extension UIImage{
 extension UIImage{
     
     
-    class func makeTextImage(text:String) -> UIImage{
+    class func makeTextImage(_ text:String) -> UIImage{
     
         let image = self.imageWithColor(UIColor.a_color9, size: CGSize(width: 80, height: 80))
         
-        return image.waterMarkedImage(text,waterMarkTextColor:UIColor.whiteColor())
+        return image.waterMarkedImage(text,waterMarkTextColor:UIColor.white)
     }
     
     
     //水印位置枚举
     enum WaterMarkCorner{
-        case TopLeft
-        case TopRight
-        case BottomLeft
-        case BottomRight
+        case topLeft
+        case topRight
+        case bottomLeft
+        case bottomRight
     }
     
     //添加水印方法
-    func waterMarkedImage(waterMarkText:String, corner:WaterMarkCorner = .BottomRight,
-                          margin:CGPoint = CGPoint(x: 20, y: 20), waterMarkTextColor:UIColor = UIColor.whiteColor(),
-                          waterMarkTextFont:UIFont = UIFont.systemFontOfSize(20),
-                          backgroundColor:UIColor = UIColor.clearColor()) -> UIImage{
+    func waterMarkedImage(_ waterMarkText:String, corner:WaterMarkCorner = .bottomRight,
+                          margin:CGPoint = CGPoint(x: 20, y: 20), waterMarkTextColor:UIColor = UIColor.white,
+                          waterMarkTextFont:UIFont = UIFont.systemFont(ofSize: 20),
+                          backgroundColor:UIColor = UIColor.clear) -> UIImage{
         
         let textAttributes = [NSForegroundColorAttributeName:waterMarkTextColor,
                               NSFontAttributeName:waterMarkTextFont]
-        let textSize = NSString(string: waterMarkText).sizeWithAttributes(textAttributes)
-        var textFrame = CGRectMake(0, 0, textSize.width, textSize.height)
+        let textSize = NSString(string: waterMarkText).size(attributes: textAttributes)
+        var textFrame = CGRect(x: 0, y: 0, width: textSize.width, height: textSize.height)
         
         let imageSize = self.size
         switch corner{
-        case .TopLeft:
+        case .topLeft:
             textFrame.origin = margin
-        case .TopRight:
+        case .topRight:
             textFrame.origin = CGPoint(x: imageSize.width - textSize.width - margin.x, y: margin.y)
-        case .BottomLeft:
+        case .bottomLeft:
             textFrame.origin = CGPoint(x: margin.x, y: imageSize.height - textSize.height - margin.y)
-        case .BottomRight:
+        case .bottomRight:
             textFrame.origin = CGPoint(x: imageSize.width - textSize.width - margin.x,
                                        y: imageSize.height - textSize.height - margin.y)
         }
         
         // 开始给图片添加文字水印
         UIGraphicsBeginImageContext(imageSize)
-        self.drawInRect(CGRectMake(0, 0, imageSize.width, imageSize.height))
-        NSString(string: waterMarkText).drawInRect(textFrame, withAttributes: textAttributes)
+        self.draw(in: CGRect(x: 0, y: 0, width: imageSize.width, height: imageSize.height))
+        NSString(string: waterMarkText).draw(in: textFrame, withAttributes: textAttributes)
         
         let waterMarkedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        return waterMarkedImage
+        return waterMarkedImage!
     }
 }

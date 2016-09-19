@@ -8,35 +8,35 @@
 import Foundation
 
 
-public class NewinfoData: JSONEncodable {
+open class NewinfoData: JSONEncodable {
     /** 新闻的ID */
-    public var nid: Int64?
+    open var nid: Int64?
     /** 新闻的原地址 */
-    public var url: String?
+    open var url: String?
     /** 用户评论信息地址 */
-    public var docid: String?
+    open var docid: String?
     /** 新闻标题 */
-    public var title: String?
+    open var title: String?
     /** 新闻发生时间 */
-    public var ptime: String?
+    open var ptime: String?
     /** 来源名称 */
-    public var pname: String?
+    open var pname: String?
     /** 新闻来源地址 */
-    public var purl: String?
+    open var purl: String?
     /** 频道ID */
-    public var channel: Int32?
+    open var channel: Int32?
     /** 收藏数 */
-    public var collect: Int32?
+    open var collect: Int32?
     /** 关心数 */
-    public var concern: Int32?
+    open var concern: Int32?
     /** 评论数目 */
-    public var comment: Int32?
+    open var comment: Int32?
     /** 什么玩意的数目 */
-    public var inum: Int32?
+    open var inum: Int32?
     /** 新闻的标签列表 */
-    public var tags: [String]?
+    open var tags: [String]?
     /** 新闻的内容 */
-    public var content: [NewinfoDataContent]?
+    open var content: [NewinfoDataContent]?
 
     public init() {}
 
@@ -44,12 +44,12 @@ public class NewinfoData: JSONEncodable {
     func encodeToJSON() -> AnyObject {
         var nillableDictionary = [String:AnyObject?]()
         nillableDictionary["nid"] = self.nid?.encodeToJSON()
-        nillableDictionary["url"] = self.url
-        nillableDictionary["docid"] = self.docid
-        nillableDictionary["title"] = self.title
-        nillableDictionary["ptime"] = self.ptime
-        nillableDictionary["pname"] = self.pname
-        nillableDictionary["purl"] = self.purl
+        nillableDictionary["url"] = self.url as AnyObject??
+        nillableDictionary["docid"] = self.docid as AnyObject??
+        nillableDictionary["title"] = self.title as AnyObject??
+        nillableDictionary["ptime"] = self.ptime as AnyObject??
+        nillableDictionary["pname"] = self.pname as AnyObject??
+        nillableDictionary["purl"] = self.purl as AnyObject??
         nillableDictionary["channel"] = self.channel?.encodeToJSON()
         nillableDictionary["collect"] = self.collect?.encodeToJSON()
         nillableDictionary["concern"] = self.concern?.encodeToJSON()
@@ -58,6 +58,6 @@ public class NewinfoData: JSONEncodable {
         nillableDictionary["tags"] = self.tags?.encodeToJSON()
         nillableDictionary["content"] = self.content?.encodeToJSON()
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
-        return dictionary
+        return dictionary as AnyObject
     }
 }

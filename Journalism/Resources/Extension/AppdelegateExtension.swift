@@ -23,10 +23,10 @@ extension AppDelegate:UISplitViewControllerDelegate {
         
     /// 开始友盟启动
         let config = UMAnalyticsConfig.sharedInstance()
-        config.appKey = UMENG_APPKEY
-        config.ePolicy = BATCH
+        config?.appKey = UMENG_APPKEY
+        config?.ePolicy = BATCH
         
-        MobClick.startWithConfigure(config)
+        MobClick.start(withConfigure: config)
         
         UMSocialData.setAppKey(UMENG_APPKEY) // 设置友盟 App Key
 //        UMSocialQQHandler.setQQWithAppId(QQ_APPID, appKey: QQ_APPSECRET, url: nil) // 设置qq
@@ -38,45 +38,45 @@ extension AppDelegate:UISplitViewControllerDelegate {
     }
     
     /// 初始化检测网络情况变化，方法
-    private func initializationReachabilityMethod(){
+    fileprivate func initializationReachabilityMethod(){
         
         reachability = NetworkReachabilityManager()
         
         reachability?.listener = { status in
             
             switch status {
-            case .NotReachable:
-                dispatch_async(dispatch_get_main_queue()) {
+            case .notReachable:
+                DispatchQueue.main.async {
                     CRToastManager.dismissAllNotifications(false)
-                    CRToastManager.J_ShowNotification("无法连接到网络，请稍候再试",backColor: UIColor.a_noConn, tapHidden: true)
-                    APPNETWORK = NetworkReachabilityManager.NetworkReachabilityStatus.NotReachable
+                    CRToastManager.J_ShowNotification("无法连接到网络，请稍候再试",tapHidden: true, backColor: UIColor.a_noConn)
+                    APPNETWORK = NetworkReachabilityManager.NetworkReachabilityStatus.notReachable
                 }
-            case .Reachable(NetworkReachabilityManager.ConnectionType.EthernetOrWiFi):
-                dispatch_async(dispatch_get_main_queue()) {
-                    if APPNETWORK == NetworkReachabilityManager.NetworkReachabilityStatus.Reachable(NetworkReachabilityManager.ConnectionType.EthernetOrWiFi) {return}
+            case .reachable(NetworkReachabilityManager.ConnectionType.ethernetOrWiFi):
+                DispatchQueue.main.async {
+                    if APPNETWORK == NetworkReachabilityManager.NetworkReachabilityStatus.reachable(NetworkReachabilityManager.ConnectionType.ethernetOrWiFi) {return}
                     CRToastManager.dismissAllNotifications(false)
                     CRToastManager.J_ShowNotification("网络恢复，查看新闻吧", tapHidden: true,backColor: UIColor.a_color2,dismiss:1)
-                    APPNETWORK = NetworkReachabilityManager.NetworkReachabilityStatus.Reachable(NetworkReachabilityManager.ConnectionType.EthernetOrWiFi)
+                    APPNETWORK = NetworkReachabilityManager.NetworkReachabilityStatus.reachable(NetworkReachabilityManager.ConnectionType.ethernetOrWiFi)
                 }
 
-            case .Reachable(NetworkReachabilityManager.ConnectionType.WWAN):
-                dispatch_async(dispatch_get_main_queue()) {
+            case .reachable(NetworkReachabilityManager.ConnectionType.wwan):
+                DispatchQueue.main.async {
                     CRToastManager.dismissAllNotifications(false)
-                    CRToastManager.J_ShowNotification("网络为移动蜂窝煤，可能会造成流量流失",backColor: UIColor.a_cellular, tapHidden: true)
-                    APPNETWORK = NetworkReachabilityManager.NetworkReachabilityStatus.Reachable(NetworkReachabilityManager.ConnectionType.WWAN)
+                    CRToastManager.J_ShowNotification("网络为移动蜂窝煤，可能会造成流量流失",tapHidden: true, backColor: UIColor.a_cellular)
+                    APPNETWORK = NetworkReachabilityManager.NetworkReachabilityStatus.reachable(NetworkReachabilityManager.ConnectionType.wwan)
                 }
             default:
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     CRToastManager.dismissAllNotifications(false)
-                    CRToastManager.J_ShowNotification("未知网络，可能会造成流量流失",backColor: UIColor.a_cellular, tapHidden: true)
-                    APPNETWORK = NetworkReachabilityManager.NetworkReachabilityStatus.Unknown
+                    CRToastManager.J_ShowNotification("未知网络，可能会造成流量流失",tapHidden: true, backColor: UIColor.a_cellular)
+                    APPNETWORK = NetworkReachabilityManager.NetworkReachabilityStatus.unknown
                 }
             }
         }
     }
 
     // 处理Split视图代理方法
-    func splitViewController(splitViewController: UISplitViewController, collapseSecondaryViewController secondaryViewController:UIViewController, ontoPrimaryViewController primaryViewController:UIViewController) -> Bool {
+    func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController:UIViewController, onto primaryViewController:UIViewController) -> Bool {
         
         guard let secondaryAsDetailController = secondaryViewController as? DetailAndCommitViewController else { return false }
         guard let _ = secondaryAsDetailController.new else {return true}
@@ -84,11 +84,11 @@ extension AppDelegate:UISplitViewControllerDelegate {
     }
     
     // 控制视图的旋转方向限制
-    func application(application: UIApplication, supportedInterfaceOrientationsForWindow window: UIWindow?) -> UIInterfaceOrientationMask{
+    @objc(application:supportedInterfaceOrientationsForWindow:) func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask{
         if IS_PLUS {
-            return [UIInterfaceOrientationMask.LandscapeLeft,UIInterfaceOrientationMask.LandscapeRight,UIInterfaceOrientationMask.Portrait]
+            return [UIInterfaceOrientationMask.landscapeLeft,UIInterfaceOrientationMask.landscapeRight,UIInterfaceOrientationMask.portrait]
         }else{
-            return UIInterfaceOrientationMask.Portrait
+            return UIInterfaceOrientationMask.portrait
         }
     }
 }
@@ -97,22 +97,22 @@ extension AppDelegate:UISplitViewControllerDelegate {
 
 extension CRToastManager{
 
-    private class func J_ShowNotification(message:String,tapHidden:Bool=false,backColor:UIColor = UIColor.redColor(),dismiss:Double=10000){
+    fileprivate class func J_ShowNotification(_ message:String,tapHidden:Bool=false,backColor:UIColor = UIColor.red,dismiss:Double=10000){
     
-        var options = [NSObject : AnyObject]()
+        var options = [AnyHashable: Any]()
             
         options[kCRToastTextKey] = message
-        options[kCRToastTextAlignmentKey] = NSTextAlignment.Center.rawValue
-        options[kCRToastNotificationTypeKey] = CRToastType.StatusBar.rawValue
+        options[kCRToastTextAlignmentKey] = NSTextAlignment.center.rawValue
+        options[kCRToastNotificationTypeKey] = CRToastType.statusBar.rawValue
         options[kCRToastTimeIntervalKey] = dismiss
         options[kCRToastBackgroundColorKey] = backColor
         
         if tapHidden {
-            let tap = CRToastInteractionResponder(interactionType: CRToastInteractionType.Tap, automaticallyDismiss: true, block: { (_) in })
+            let tap = CRToastInteractionResponder(interactionType: CRToastInteractionType.tap, automaticallyDismiss: true, block: { (_) in })
             options[kCRToastInteractionRespondersKey] = [tap]
         }
         
-        CRToastManager.showNotificationWithOptions(options) { 
+        CRToastManager.showNotification(options: options) { 
             
         }
     }
@@ -126,19 +126,19 @@ extension AppDelegate{
      */
     func registerPasteboardChangedNotification(){
     
-        NSNotificationCenter.defaultCenter().addObserverForName(UIPasteboardChangedNotification, object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.UIPasteboardChanged, object: nil, queue: OperationQueue.main) { (_) in
             
             self.reloadPasteboardChange()
         }
         
         // 需要用户注册才可继续操作
-        NSNotificationCenter.defaultCenter().addObserverForName(USERNEDDLOGINTHENCANDOSOMETHING, object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: USERNEDDLOGINTHENCANDOSOMETHING), object: nil, queue: OperationQueue.main) { (_) in
             
             if let currentViewController = UIViewController.getCurrentViewController(){
                 
                 let viewController = UIStoryboard.shareUserStoryBoard.get_LoginViewController()
                 
-                currentViewController.presentViewController(viewController, animated: true, completion: nil)
+                currentViewController.present(viewController, animated: true, completion: nil)
             }
         }
     }
@@ -152,23 +152,24 @@ extension AppDelegate{
         if let currentViewController = UIViewController.getCurrentViewController(){
             
             // 将字符串去掉前后空格并且小写
-            if let str = UIPasteboard.generalPasteboard().string?.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet()).lowercaseString {
+            
+            if let str = UIPasteboard.general.string?.trimmingCharacters(in: NSCharacterSet.whitespaces).lowercased() {
                 
                 
 //                str.grep("[a-z]*(://)?(\w.){1,}(.\w){1,}")
                 
                 if str.hasPrefix("http://") || str.hasPrefix("https://") || str.hasSuffix(".com") {
                     
-                    let alert = UIAlertController(title: nil, message: "检测到您复制了一条链接是否打开", preferredStyle: .Alert)
+                    let alert = UIAlertController(title: nil, message: "检测到您复制了一条链接是否打开", preferredStyle: .alert)
                     
-                    alert.addAction(UIAlertAction(title: "不需要", style: .Cancel, handler: nil))
+                    alert.addAction(UIAlertAction(title: "不需要", style: .cancel, handler: nil))
                     
-                    alert.addAction(UIAlertAction(title: "是的", style: UIAlertActionStyle.Default, handler: { (_) in
+                    alert.addAction(UIAlertAction(title: "是的", style: UIAlertActionStyle.default, handler: { (_) in
                         
                         currentViewController.goWebViewController(str)
                     }))
                     
-                    currentViewController.presentViewController(alert, animated: true, completion: nil)
+                    currentViewController.present(alert, animated: true, completion: nil)
                 }
             }
         }
@@ -180,7 +181,7 @@ extension AppDelegate{
 
 private extension UIViewController{
     class func getCurrentViewController() -> UIViewController?{
-        if let rootViewController = UIApplication.sharedApplication().keyWindow?.rootViewController{
+        if let rootViewController = UIApplication.shared.keyWindow?.rootViewController{
             var topViewController = rootViewController
             while let present = topViewController.presentedViewController{
                 topViewController = present

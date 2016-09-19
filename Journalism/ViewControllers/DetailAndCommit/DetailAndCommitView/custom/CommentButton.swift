@@ -14,26 +14,26 @@ class CommentButton: UIButton {
         
         super.init(coder: aDecoder)
         
-        self.setTitleColor(UIColor.a_color4, forState: UIControlState.Disabled)
-        self.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Normal)
+        self.setTitleColor(UIColor.a_color4, for: UIControlState.disabled)
+        self.setTitleColor(UIColor.white, for: UIControlState())
         
-        self.setBackgroundColor(UIColor.a_color11, forState: UIControlState.Disabled)
-        self.setBackgroundColor(UIColor.redColor(), forState: UIControlState.Normal)
+        self.setBackgroundColor(UIColor.a_color11, forState: UIControlState.disabled)
+        self.setBackgroundColor(UIColor.red, forState: UIControlState())
         
         self.layer.cornerRadius = 2
         
         self.clipsToBounds = true
         
-        self.layer.borderWidth = enabled ? 0 : 1
-        self.layer.borderColor = enabled ? UIColor.clearColor().CGColor : UIColor.a_color4.CGColor
+        self.layer.borderWidth = isEnabled ? 0 : 1
+        self.layer.borderColor = isEnabled ? UIColor.clear.cgColor : UIColor.a_color4.cgColor
     }
     
-    override var enabled: Bool{
+    override var isEnabled: Bool{
     
         didSet{
         
-            self.layer.borderWidth = enabled ? 0 : 1
-            self.layer.borderColor = enabled ? UIColor.clearColor().CGColor : UIColor.a_color4.CGColor
+            self.layer.borderWidth = isEnabled ? 0 : 1
+            self.layer.borderColor = isEnabled ? UIColor.clear.cgColor : UIColor.a_color4.cgColor
         }
     }
 }

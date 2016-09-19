@@ -31,7 +31,7 @@ extension HomeViewController{
          *
          *  @return 所需要完成的操作
          */
-        NSNotificationCenter.defaultCenter().addObserverForName(FONTMODALSTYLEIDENTIFITER, object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: FONTMODALSTYLEIDENTIFITER), object: nil, queue: OperationQueue.main) { (_) in
             
             self.ChannelManagerContainerCollectionView.reloadData()
             self.buttonBarView.reloadData()
@@ -40,23 +40,23 @@ extension HomeViewController{
     
     
     // 点击用户头像所触发的事件
-    @IBAction func ClickUserHeadPhotoAction(sender: AnyObject) {
+    @IBAction func ClickUserHeadPhotoAction(_ sender: AnyObject) {
         
         var viewController:UIViewController!
         
         if ShareLUser.utype != 2 {
             
             viewController = UIStoryboard.shareUserStoryBoard.get_UserCenterViewController()
-            self.presentViewController(viewController, animated: true, completion: nil)
+            self.present(viewController, animated: true, completion: nil)
         }else{
             
-            NSNotificationCenter.defaultCenter().postNotificationName(USERNEDDLOGINTHENCANDOSOMETHING, object: nil)
+            NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: USERNEDDLOGINTHENCANDOSOMETHING), object: nil)
         }
     }
     
-    override func willTransitionToTraitCollection(newCollection: UITraitCollection, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
         
-        coordinator.animateAlongsideTransition({ (_) in // 横评的时候，处理频道管理显示视图的大小问题
+        coordinator.animate(alongsideTransition: { (_) in // 横评的时候，处理频道管理显示视图的大小问题
             
             if self.ChannelManagerTitleView.alpha == 1 {
             
@@ -75,23 +75,23 @@ extension HomeViewController{
      */
     func reloadMoreButtonView(){
     
-        self.MoreButtonBackView.snp_updateConstraints { (make) in
+        self.MoreButtonBackView.snp.updateConstraints { (make) in
             
-            make.width.equalTo(UIScreen.mainScreen().bounds.width > UIScreen.mainScreen().bounds.height ? 0 : 44)
+            make.width.equalTo(UIScreen.main.bounds.width > UIScreen.main.bounds.height ? 0 : 44)
         }
         
         self.MoreButtonBackView.layoutIfNeeded()
     }
     
     // 初始化分页视图方法
-    private func initialPagerTabStripMethod(){
+    fileprivate func initialPagerTabStripMethod(){
     
-        pagerBehaviour = .Progressive(skipIntermediateViewControllers: true, elasticIndicatorLimit: false) // 设置为达到两边后不可以进行再滑动
+        pagerBehaviour = .progressive(skipIntermediateViewControllers: true, elasticIndicatorLimit: false) // 设置为达到两边后不可以进行再滑动
         
-        settings.style.buttonBarItemFont = UIFont.boldSystemFontOfSize(15) // 设置显示标题的字体大小
-        buttonBarView.backgroundColor = UIColor.whiteColor() // 设置标题模块的背景颜色
+        settings.style.buttonBarItemFont = UIFont.boldSystemFont(ofSize: 15) // 设置显示标题的字体大小
+        buttonBarView.backgroundColor = UIColor.white // 设置标题模块的背景颜色
         buttonBarView.selectedBar.backgroundColor = UIColor(red: 53/255, green:166/255, blue: 251/255, alpha: 0.2) // 设置选中的barview 的背景颜色
-        settings.style.buttonBarItemBackgroundColor = UIColor.clearColor() // 设置ButtonItem 背景颜色
+        settings.style.buttonBarItemBackgroundColor = UIColor.clear // 设置ButtonItem 背景颜色
         
         self.ChannelManagerContainerCollectionView.scrollsToTop = false
         
@@ -101,7 +101,7 @@ extension HomeViewController{
             self.ReloadVisCellsSelectedMethod(self.currentIndex) // 刷新这个频道管理的额标题颜色
             self.ChannelDataSource.ChannelCurrentIndex = self.currentIndex
             
-            oldCell?.label.textColor = UIColor.blackColor().colorWithAlphaComponent(0.8)
+            oldCell?.label.textColor = UIColor.black.withAlphaComponent(0.8)
             newCell?.label.textColor = UIColor.a_color2
         }
     }
@@ -109,7 +109,7 @@ extension HomeViewController{
 
     
     // 首先根据本地数据库刷新页面。 之后使用网络刷新页面
-    private func ReloadChannelHttpRequest(){
+    fileprivate func ReloadChannelHttpRequest(){
         
         self.ReloadViewControllers()
         
@@ -147,7 +147,7 @@ extension HomeViewController{
     }
     
     // 获取详情页面
-    private func getDisplayViewController(channel:Channel) -> UIViewController{
+    fileprivate func getDisplayViewController(_ channel:Channel) -> UIViewController{
     
         let displayViewController = UIStoryboard.shareStoryBoard.get_NewslistViewController(channel)
         

@@ -11,36 +11,36 @@ import UIKit
 
 @objc protocol ShareAlertDelegate {
     
-    optional func ClickWeChatMoments()
-    optional func ClickWeChatFriends()
-    optional func ClickQQFriends()
-    optional func ClickSina()
-    optional func ClickSMS()
-    optional func ClickEmail()
-    optional func ClickCopyLink()
-    optional func ClickFontSize()
-    optional func ClickCancel()
+    @objc optional func ClickWeChatMoments()
+    @objc optional func ClickWeChatFriends()
+    @objc optional func ClickQQFriends()
+    @objc optional func ClickSina()
+    @objc optional func ClickSMS()
+    @objc optional func ClickEmail()
+    @objc optional func ClickCopyLink()
+    @objc optional func ClickFontSize()
+    @objc optional func ClickCancel()
 }
 
 
 extension ShareAlertDelegate where Self:UIViewController{
 
-    func ShareAlertShow(delegate:ShareAlertDelegate){
+    func ShareAlertShow(_ delegate:ShareAlertDelegate){
     
         let sview = ShareAlertView.shareShareAlertView
         
-        sview.del = delegate
+        sview?.del = delegate
         
-        sview.addGestureRecognizer(UIPanGestureRecognizer())
+        sview?.addGestureRecognizer(UIPanGestureRecognizer())
         
-        self.view.addSubview(sview)
+        self.view.addSubview(sview!)
         
-        sview.snp_makeConstraints { (make) in
+        sview?.snp.makeConstraints { (make) in
             
-            make.edges.equalTo(UIEdgeInsetsZero)
+            make.edges.equalTo(UIEdgeInsets.zero)
         }
         
-        sview.ShowAnimMethod()
+        sview?.ShowAnimMethod()
     }
     
     func ShareAlertHidden(){
@@ -51,7 +51,7 @@ extension ShareAlertDelegate where Self:UIViewController{
 
 
 class ShareAlertView: UIView {
-    
+
     //分享背景视图
     var backView:UIView!
     var clickView:UIView!
@@ -76,34 +76,19 @@ class ShareAlertView: UIView {
     
     
     /// 获取单例模式下的UIStoryBoard对象
-    class var shareShareAlertView:ShareAlertView!{
+    static var shareShareAlertView:ShareAlertView!{
         
-        get{
-            
-            struct backTaskLeton{
-                
-                static var predicate:dispatch_once_t = 0
-                
-                static var bgTask:ShareAlertView? = nil
-            }
-            
-            dispatch_once(&backTaskLeton.predicate, { () -> Void in
-                
-                backTaskLeton.bgTask = ShareAlertView(frame: CGRectZero)
-            })
-            
-            return backTaskLeton.bgTask
-        }
+       return ShareAlertView()
     }
     
-    private var view1:ShareCotentView!
-    private var view2:ShareCotentView!
-    private var view3:ShareCotentView!
-    private var view4:ShareCotentView!
-    private var view5:ShareCotentView!
-    private var view6:ShareCotentView!
-    private var view7:ShareCotentView!
-    private var view8:ShareCotentView!
+    fileprivate var view1:ShareCotentView!
+    fileprivate var view2:ShareCotentView!
+    fileprivate var view3:ShareCotentView!
+    fileprivate var view4:ShareCotentView!
+    fileprivate var view5:ShareCotentView!
+    fileprivate var view6:ShareCotentView!
+    fileprivate var view7:ShareCotentView!
+    fileprivate var view8:ShareCotentView!
     
     override init(frame: CGRect) {
         
@@ -119,35 +104,35 @@ class ShareAlertView: UIView {
     func ShowAnimMethod(){
     
         self.backView.alpha = 0
-        UIView.animateWithDuration(0.5) {
+        UIView.animate(withDuration: 0.5, animations: {
             self.backView.alpha = 1
-        }
+        }) 
         
         let views = [view1,view2,view3,view4,view5,view6,view7,view8]
         
         for view in views {
             
-            view.transform = CGAffineTransformScale(view.transform, 0, 0)
-            view.transform = CGAffineTransformTranslate(view.transform, 0, 30)
+            view?.transform = (view?.transform.scaledBy(x: 0, y: 0))!
+            view?.transform = (view?.transform.translatedBy(x: 0, y: 30))!
             
-            view.titleLabel.font = UIFont.a_font6
+            view?.titleLabel.font = UIFont.a_font6
         }
         
-        self.shareBackView.transform = CGAffineTransformTranslate(self.shareBackView.transform, 0, 374)
+        self.shareBackView.transform = self.shareBackView.transform.translatedBy(x: 0, y: 374)
         
-        UIView.animateWithDuration(0.3, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+        UIView.animate(withDuration: 0.3, delay: 0.1, options: UIViewAnimationOptions(), animations: {
             
-            self.shareBackView.transform = CGAffineTransformIdentity
+            self.shareBackView.transform = CGAffineTransform.identity
             
         }) { (_) in
             
         }
 
-        for (index,view) in views.enumerate() {
+        for (index,view) in views.enumerated() {
             
-            UIView.animateWithDuration(0.3, delay: 0.25+Double(index)*0.02, usingSpringWithDamping: 0.4, initialSpringVelocity: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+            UIView.animate(withDuration: 0.3, delay: 0.25+Double(index)*0.02, usingSpringWithDamping: 0.4, initialSpringVelocity: 0, options: UIViewAnimationOptions(), animations: {
                 
-                view.transform = CGAffineTransformIdentity
+                view?.transform = CGAffineTransform.identity
                 
                 }, completion: nil)
         }
@@ -157,15 +142,15 @@ class ShareAlertView: UIView {
     
     func HiddenAnimMethod(){
 
-        UIView.animateWithDuration(0.3, delay: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: {
+        UIView.animate(withDuration: 0.3, delay: 0, options: UIViewAnimationOptions.curveEaseIn, animations: {
             
-            self.shareBackView.transform = CGAffineTransformTranslate(self.shareBackView.transform, 0, self.shareBackView.frame.height)
+            self.shareBackView.transform = self.shareBackView.transform.translatedBy(x: 0, y: self.shareBackView.frame.height)
             
         }) { (_) in
             
         }
         
-        UIView.animateWithDuration(0.3, delay: 0.15, options: UIViewAnimationOptions.CurveEaseIn, animations: {
+        UIView.animate(withDuration: 0.3, delay: 0.15, options: UIViewAnimationOptions.curveEaseIn, animations: {
             
             
             self.backView.alpha = 0
@@ -188,8 +173,8 @@ class ShareAlertView: UIView {
         self.cancelButton = UIButton()
         self.contentBackView = UIView()
         
-        self.cancelButton.removeActions(.TouchUpInside)
-        self.cancelButton.addAction(.TouchUpInside) { (_) in
+        self.cancelButton.removeActions(events: .touchUpInside)
+        self.cancelButton.addAction(events: .touchUpInside) { (_) in
             
             self.del?.ClickCancel?()
         }
@@ -207,16 +192,16 @@ class ShareAlertView: UIView {
         self.shareBackView.addSubview(self.contentBackView)
         
         
-        self.backView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.5)
+        self.backView.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         
         self.shareBackView.backgroundColor = UIColor.a_color9
         
-        self.backView.snp_makeConstraints { (make) in
+        self.backView.snp.makeConstraints { (make) in
             
-            make.edges.equalTo(UIEdgeInsetsZero)
+            make.edges.equalTo(UIEdgeInsets.zero)
         }
         
-        self.shareBackView.snp_makeConstraints { (make) in
+        self.shareBackView.snp.makeConstraints { (make) in
             
             make.left.equalTo(0)
             make.right.equalTo(0)
@@ -224,11 +209,11 @@ class ShareAlertView: UIView {
             make.height.equalTo(334)
         }
         
-        self.clickView.snp_makeConstraints { (make) in
+        self.clickView.snp.makeConstraints { (make) in
             make.left.equalTo(0)
             make.right.equalTo(0)
             make.top.equalTo(0)
-            make.bottom.equalTo(self.shareBackView.snp_top)
+            make.bottom.equalTo(self.shareBackView.snp.top)
         }
 
     }
@@ -236,16 +221,16 @@ class ShareAlertView: UIView {
     /**
      设置取消按钮
      */
-    private func CB(){
+    fileprivate func CB(){
         
         self.shareBackView.addSubview(cancelButton)
         
-        self.cancelButton.setTitle("取消", forState: UIControlState.Normal)
-        self.cancelButton.setTitleColor(UIColor.a_color3, forState: UIControlState.Normal)
+        self.cancelButton.setTitle("取消", for: UIControlState())
+        self.cancelButton.setTitleColor(UIColor.a_color3, for: UIControlState())
         self.cancelButton.titleLabel?.font = UIFont.a_font4
-        self.cancelButton.setBackgroundColor(UIColor.hexStringToColor("#f0f0f0"), forState: UIControlState.Normal)
+        self.cancelButton.setBackgroundColor(UIColor.hexStringToColor("#f0f0f0"), forState: UIControlState())
         
-        cancelButton.snp_makeConstraints { (make) in
+        cancelButton.snp.makeConstraints { (make) in
             
             make.bottom.equalTo(0)
             make.left.equalTo(0)
@@ -253,12 +238,12 @@ class ShareAlertView: UIView {
             make.height.equalTo(47)
         }
         
-        self.contentBackView.snp_makeConstraints { (make) in
+        self.contentBackView.snp.makeConstraints { (make) in
             
             make.top.equalTo(0)
             make.left.equalTo(0)
             make.right.equalTo(0)
-            make.bottom.equalTo(self.cancelButton.snp_top)
+            make.bottom.equalTo(self.cancelButton.snp.top)
         }
     }
     
@@ -277,31 +262,31 @@ class ShareAlertView: UIView {
         self.topView.addSubview(sTopView)
         self.bottomView.addSubview(sBottomView)
         
-        self.topView.backgroundColor = UIColor.clearColor()
-        self.bottomView.backgroundColor = UIColor.clearColor()
-        self.sTopView.backgroundColor = UIColor.clearColor()
-        self.sBottomView.backgroundColor = UIColor.clearColor()
+        self.topView.backgroundColor = UIColor.clear
+        self.bottomView.backgroundColor = UIColor.clear
+        self.sTopView.backgroundColor = UIColor.clear
+        self.sBottomView.backgroundColor = UIColor.clear
         
-        self.topView.snp_makeConstraints { (make) in
+        self.topView.snp.makeConstraints { (make) in
             
             make.top.equalTo(0)
             make.left.equalTo(0)
             make.right.equalTo(0)
-            make.height.equalTo(self.contentBackView.snp_height).dividedBy(2)
+            make.height.equalTo(self.contentBackView.snp.height).dividedBy(2)
         }
         
         
-        self.bottomView.snp_makeConstraints { (make) in
+        self.bottomView.snp.makeConstraints { (make) in
             
             make.bottom.equalTo(0)
             make.left.equalTo(0)
             make.right.equalTo(0)
-            make.height.equalTo(self.contentBackView.snp_height).dividedBy(2)
+            make.height.equalTo(self.contentBackView.snp.height).dividedBy(2)
         }
         
 
         
-        sTopView.snp_makeConstraints { (make) in
+        sTopView.snp.makeConstraints { (make) in
             
             make.left.equalTo(0)
             make.right.equalTo(0)
@@ -311,7 +296,7 @@ class ShareAlertView: UIView {
         }
         
         
-        sBottomView.snp_makeConstraints { (make) in
+        sBottomView.snp.makeConstraints { (make) in
             
             make.left.equalTo(0)
             make.right.equalTo(0)
@@ -344,38 +329,38 @@ class ShareAlertView: UIView {
         self.sTopView.addSubview(view3)
         self.sTopView.addSubview(view4)
         
-        view1.snp_makeConstraints { (make) in
+        view1.snp.makeConstraints { (make) in
             
             make.left.equalTo(0)
             make.top.equalTo(0)
             make.bottom.equalTo(0)
-            make.width.equalTo(self.sTopView.snp_width).dividedBy(4)
+            make.width.equalTo(self.sTopView.snp.width).dividedBy(4)
         }
         
         
-        view2.snp_makeConstraints { (make) in
+        view2.snp.makeConstraints { (make) in
             
-            make.left.equalTo(view1.snp_right)
+            make.left.equalTo(view1.snp.right)
             make.top.equalTo(0)
             make.bottom.equalTo(0)
-            make.width.equalTo(self.sTopView.snp_width).dividedBy(4)
+            make.width.equalTo(self.sTopView.snp.width).dividedBy(4)
         }
         
         
-        view3.snp_makeConstraints { (make) in
+        view3.snp.makeConstraints { (make) in
             
-            make.left.equalTo(view2.snp_right)
+            make.left.equalTo(view2.snp.right)
             make.top.equalTo(0)
             make.bottom.equalTo(0)
-            make.width.equalTo(self.sTopView.snp_width).dividedBy(4)
+            make.width.equalTo(self.sTopView.snp.width).dividedBy(4)
         }
         
-        view4.snp_makeConstraints { (make) in
+        view4.snp.makeConstraints { (make) in
             
-            make.left.equalTo(view3.snp_right)
+            make.left.equalTo(view3.snp.right)
             make.top.equalTo(0)
             make.bottom.equalTo(0)
-            make.width.equalTo(self.sTopView.snp_width).dividedBy(4)
+            make.width.equalTo(self.sTopView.snp.width).dividedBy(4)
         }
     }
     
@@ -402,38 +387,38 @@ class ShareAlertView: UIView {
         self.sBottomView.addSubview(view7)
         self.sBottomView.addSubview(view8)
         
-        view5.snp_makeConstraints { (make) in
+        view5.snp.makeConstraints { (make) in
             
             make.left.equalTo(0)
             make.top.equalTo(0)
             make.bottom.equalTo(0)
-            make.width.equalTo(self.sBottomView.snp_width).dividedBy(4)
+            make.width.equalTo(self.sBottomView.snp.width).dividedBy(4)
         }
         
         
-        view6.snp_makeConstraints { (make) in
+        view6.snp.makeConstraints { (make) in
             
-            make.left.equalTo(view5.snp_right)
+            make.left.equalTo(view5.snp.right)
             make.top.equalTo(0)
             make.bottom.equalTo(0)
-            make.width.equalTo(self.sBottomView.snp_width).dividedBy(4)
+            make.width.equalTo(self.sBottomView.snp.width).dividedBy(4)
         }
         
         
-        view7.snp_makeConstraints { (make) in
+        view7.snp.makeConstraints { (make) in
             
-            make.left.equalTo(view6.snp_right)
+            make.left.equalTo(view6.snp.right)
             make.top.equalTo(0)
             make.bottom.equalTo(0)
-            make.width.equalTo(self.sBottomView.snp_width).dividedBy(4)
+            make.width.equalTo(self.sBottomView.snp.width).dividedBy(4)
         }
         
-        view8.snp_makeConstraints { (make) in
+        view8.snp.makeConstraints { (make) in
             
-            make.left.equalTo(view7.snp_right)
+            make.left.equalTo(view7.snp.right)
             make.top.equalTo(0)
             make.bottom.equalTo(0)
-            make.width.equalTo(self.sBottomView.snp_width).dividedBy(4)
+            make.width.equalTo(self.sBottomView.snp.width).dividedBy(4)
         }
     }
 }
@@ -448,13 +433,13 @@ class ShareCotentView:UIView{
         fatalError("init(coder:) has not been implemented")
     }
     
-    init(image: UIImage,title:String,finish:((control:UIControl)->Void)) {
-        super.init(frame: CGRectZero)
+    init(image: UIImage,title:String,finish:@escaping  (( _ control:UIControl)->Void)) {
+        super.init(frame: CGRect.zero)
         
         self.titleLabel = UILabel()
         self.shareButton = UIButton()
         
-        self.shareButton.setImage(image, forState: UIControlState.Normal)
+        self.shareButton.setImage(image, for: UIControlState())
         self.titleLabel.text = title
         
         self.titleLabel.font = UIFont.a_font6
@@ -463,19 +448,19 @@ class ShareCotentView:UIView{
         self.addSubview(self.titleLabel)
         self.addSubview(self.shareButton)
         
-        self.shareButton.snp_makeConstraints { (make) in
+        self.shareButton.snp.makeConstraints { (make) in
             
             make.centerX.equalTo(self)
             make.top.equalTo(0)
         }
         
-        self.titleLabel.snp_makeConstraints { (make) in
+        self.titleLabel.snp.makeConstraints { (make) in
             
             make.centerX.equalTo(self.shareButton)
-            make.top.equalTo(self.shareButton.snp_bottom).offset(10)
+            make.top.equalTo(self.shareButton.snp.bottom).offset(10)
         }
         
-        self.shareButton.removeActions(.TouchUpInside)
-        self.shareButton.addAction(.TouchUpInside, block: finish)
+        self.shareButton.removeActions(events: .touchUpInside)
+        self.shareButton.addAction(events: .touchUpInside, closure: finish)
     }
 }

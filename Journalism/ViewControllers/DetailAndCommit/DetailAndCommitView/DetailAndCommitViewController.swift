@@ -11,7 +11,7 @@ import RealmSwift
 import XLPagerTabStrip
 
 @objc protocol PreViewControllerDelegate {
-    optional func NoCollectionAction(new:New) // 开始
+    @objc optional func NoCollectionAction(_ new:New) // 开始
 }
 
 class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavigationControllerDelegate,UIViewControllerTransitioningDelegate,WaitLoadProtcol{
@@ -25,14 +25,14 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
     let PresentdAnimation = CustomViewControllerPresentdAnimation()
     let InteractiveTransitioning = UIPercentDrivenInteractiveTransition() // 完成 process 渐进行动画
     
-    override func shouldAutorotate() -> Bool {
+    override var shouldAutorotate : Bool {
         
         return isDismiss ? false : true
     }
     
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
         
-        return isDismiss ? UIInterfaceOrientationMask.Portrait : UIInterfaceOrientationMask.All
+        return isDismiss ? UIInterfaceOrientationMask.portrait : UIInterfaceOrientationMask.all
     }
     
     
@@ -82,21 +82,21 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
         self.resignNotification() // 注册键盘弹出，隐藏见小夕
         
         self.containerView.bounces = false
-        self.buttonBarView.hidden = true
+        self.buttonBarView.isHidden = true
         self.titleLabel.text = self.title
         
-        self.dissButton.hidden = new == nil
-        self.moreButton.hidden = new == nil
-        self.OcclusionView.hidden = new != nil
+        self.dissButton.isHidden = new == nil
+        self.moreButton.isHidden = new == nil
+        self.OcclusionView.isHidden = new != nil
         
         self.navigationController?.delegate = self
         
         self.containerView.panGestureRecognizer.addTarget(self, action: #selector(DetailAndCommitViewController.pan(_:))) // 添加一个视图
         
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DetailAndCommitViewController.setCButton), name: USERCOMMENTNOTIFITION, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DetailAndCommitViewController.getToCommitViewControllerNotification(_:)), name: CLICKTOCOMMENTVIEWCONTROLLER, object: nil) // 当评论页面的查看更多的评论的按钮被评论的消息机制
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(DetailAndCommitViewController.setCollectionButton), name: COLLECTEDNEWORNOCOLLECTEDNEW, object: nil) //收藏状态发生变化
+        NotificationCenter.default.addObserver(self, selector: #selector(DetailAndCommitViewController.setCButton), name: NSNotification.Name(rawValue: USERCOMMENTNOTIFITION), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(DetailAndCommitViewController.getToCommitViewControllerNotification(_:)), name: NSNotification.Name(rawValue: CLICKTOCOMMENTVIEWCONTROLLER), object: nil) // 当评论页面的查看更多的评论的按钮被评论的消息机制
+        NotificationCenter.default.addObserver(self, selector: #selector(DetailAndCommitViewController.setCollectionButton), name: NSNotification.Name(rawValue: COLLECTEDNEWORNOCOLLECTEDNEW), object: nil) //收藏状态发生变化
         
         self.setCollectionButton()
         
@@ -113,23 +113,22 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
             
             if self.currentIndex == 0 {
             
-                self.detailViewController.tableView.setContentOffset(CGPointZero, animated: true)
+                self.detailViewController.tableView.setContentOffset(CGPoint.zero, animated: true)
             }
            
             if self.currentIndex == 1 {
                 
-                self.commitViewController.tableView.setContentOffset(CGPointZero, animated: true)
+                self.commitViewController.tableView.setContentOffset(CGPoint.zero, animated: true)
             }
         }))
     }
     
     // 获取到了评论视图的请求了
-    func getToCommitViewControllerNotification(notification:NSNotification){
-        self.moveToViewControllerAtIndex(1, animated: true)
+    func getToCommitViewControllerNotification(_ notification:Foundation.Notification){
+        self.moveToViewController(at: 1, animated: true)
     }
     
-    override func viewControllersForPagerTabStrip(pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
-        
+    override func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
         detailViewController = UIStoryboard.shareStoryBoard.get_DetailViewController(new) // 获得详情视图
         commitViewController = UIStoryboard.shareStoryBoard.get_CommitViewController(new) // 获取评论视图
         
@@ -143,36 +142,36 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
 
     
     /// 点击新闻收藏按钮
-    @IBAction func touchCollected(sender: AnyObject) {
+    @IBAction func touchCollected(_ sender: AnyObject) {
         
         if ShareLUser.utype == 2 {
             
-            NSNotificationCenter.defaultCenter().postNotificationName(USERNEDDLOGINTHENCANDOSOMETHING, object: nil)
+            NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: USERNEDDLOGINTHENCANDOSOMETHING), object: nil)
         }else{
             
             if let n = self.new {
                 
                 CustomRequest.collectedNew(n, finish: {
                     
-                    self.showNoInterest(title: "收藏完成",width:135,height:43)
+                    self.showNoInterest(title: "收藏完成",height:43,width:135)
                 })
             }
         }
     }
     
     /// 点击取消新闻收藏按钮
-    @IBAction func touchNoCollected(sender: AnyObject) {
+    @IBAction func touchNoCollected(_ sender: AnyObject) {
         
         if ShareLUser.utype == 2 {
             
-            NSNotificationCenter.defaultCenter().postNotificationName(USERNEDDLOGINTHENCANDOSOMETHING, object: nil)
+            NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: USERNEDDLOGINTHENCANDOSOMETHING), object: nil)
         }else{
             
             if let n = self.new {
                 
                 CustomRequest.nocollectedNew(n, finish: { 
                 
-                    self.showNoInterest(title: "取消收藏完成",width:160,height:43)
+                    self.showNoInterest(title: "取消收藏完成",height:43,width:160)
                 })
             }
         }
@@ -183,26 +182,26 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
      */
     func setCollectionButton(){
     
-        self.collectedButton.hidden = (self.new?.refreshs() ?? self.new)?.iscollected == 0
+        self.collectedButton.isHidden = (self.new?.refreshs() ?? self.new)?.iscollected == 0
     }
     
     @IBOutlet var CommentButtonBackView:UIView!
     @IBOutlet var CommentButtonLeftSpace: NSLayoutConstraint! // 输入视图下方约束
     
-    override func pagerTabStripViewController(pagerTabStripViewController: PagerTabStripViewController, updateIndicatorFromIndex fromIndex: Int, toIndex: Int, withProgressPercentage progressPercentage: CGFloat, indexWasChanged: Bool) {
+    override func updateIndicator(for viewController: PagerTabStripViewController, fromIndex: Int, toIndex: Int, withProgressPercentage progressPercentage: CGFloat, indexWasChanged: Bool) {
         
         if fromIndex == toIndex {
-        
+            
             self.setCButton()
             
             return self.ButtonMethod()
         }
         
         if fromIndex == 0 {
-        
+            
             self.CommentButtonLeftSpace.constant = -(self.CommentButtonBackView.frame.width)*progressPercentage
         }else{
-        
+            
             self.CommentButtonLeftSpace.constant = -(self.CommentButtonBackView.frame.width)*(1-progressPercentage)
         }
         
@@ -210,17 +209,17 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
     }
     
     /// 点击查看评论按钮
-    @IBAction func touchCommentButton(sender: AnyObject) {
+    @IBAction func touchCommentButton(_ sender: AnyObject) {
         
-        self.moveToViewControllerAtIndex(1, animated: true)
+        self.moveToViewController(at: 1, animated: true)
         
         self.ButtonMethod()
     }
     
     /// 点击去原文按钮
-    @IBAction func touchPostButton(sender: AnyObject) {
+    @IBAction func touchPostButton(_ sender: AnyObject) {
         
-        self.moveToViewControllerAtIndex(0, animated: true)
+        self.moveToViewController(at: 0, animated: true)
         
         self.ButtonMethod()
     }
@@ -228,7 +227,7 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
     /**
      按钮设置
      */
-    private func ButtonMethod(){
+    fileprivate func ButtonMethod(){
     
         self.CommentButtonLeftSpace.constant = self.currentIndex == 0 ? 0 : -self.CommentButtonBackView.frame.width
         
@@ -241,14 +240,14 @@ class DetailAndCommitViewController:ButtonBarPagerTabStripViewController,UINavig
     func setCButton(){
     
         self.commentsLabel.clipsToBounds = true
-        self.commentsLabel.layer.borderColor = UIColor.whiteColor().CGColor
+        self.commentsLabel.layer.borderColor = UIColor.white.cgColor
         self.commentsLabel.layer.borderWidth = 1.5
         self.commentsLabel.layer.cornerRadius = 3
         self.commentsLabel.text = new == nil ? " 0 " : " \(new!.comment) "
-        self.commentsLabel.hidden = (new == nil || (new?.comment) ?? 0 == 0)
+        self.commentsLabel.isHidden = (new == nil || (new?.comment) ?? 0 == 0)
         
         let image = (new == nil || (new?.comment) ?? 0 == 0) ? UIImage(named: "详情页未评论") : UIImage(named: "详情页已评论")
         
-        self.CommentAndPostButton.setImage(image, forState: UIControlState.Normal)
+        self.CommentAndPostButton.setImage(image, for: UIControlState())
     }
 }

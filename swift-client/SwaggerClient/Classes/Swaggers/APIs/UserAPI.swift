@@ -9,16 +9,16 @@ import Alamofire
 
 
 
-public class UserAPI: APIBase {
+open class UserAPI: APIBase {
     /**
      游客登录
      
      - parameter userLoginInfo: (body) 用户注册信息 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func auLinGPost(userLoginInfo userLoginInfo: VisitorsLogin, completion: ((data: AnyObject?, error: ErrorType?) -> Void)) {
+    open class func auLinGPost(userLoginInfo: VisitorsLogin, completion: @escaping ((_ data: AnyObject?, _ error: Error?) -> Void)) {
         auLinGPostWithRequestBuilder(userLoginInfo: userLoginInfo).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
+            completion(response?.body, error);
         }
     }
 
@@ -33,7 +33,7 @@ public class UserAPI: APIBase {
 
      - returns: RequestBuilder<AnyObject> 
      */
-    public class func auLinGPostWithRequestBuilder(userLoginInfo userLoginInfo: VisitorsLogin) -> RequestBuilder<AnyObject> {
+    open class func auLinGPostWithRequestBuilder(userLoginInfo: VisitorsLogin) -> RequestBuilder<AnyObject> {
         let path = "/au/lin/g"
         let URLString = SwaggerClientAPI.basePath + path
         let parameters = userLoginInfo.encodeToJSON() as? [String:AnyObject]
@@ -51,9 +51,9 @@ public class UserAPI: APIBase {
      - parameter userRegisterInfo: (body) 用户注册信息 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func auSinGPost(userRegisterInfo userRegisterInfo: VisitorsRegister, completion: ((data: AnyObject?, error: ErrorType?) -> Void)) {
+    open class func auSinGPost(userRegisterInfo: VisitorsRegister, completion: @escaping ((_ data: AnyObject?, _ error: Error?) -> Void)) {
         auSinGPostWithRequestBuilder(userRegisterInfo: userRegisterInfo).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
+            completion(response?.body, error);
         }
     }
 
@@ -68,7 +68,7 @@ public class UserAPI: APIBase {
 
      - returns: RequestBuilder<AnyObject> 
      */
-    public class func auSinGPostWithRequestBuilder(userRegisterInfo userRegisterInfo: VisitorsRegister) -> RequestBuilder<AnyObject> {
+    open class func auSinGPostWithRequestBuilder(userRegisterInfo: VisitorsRegister) -> RequestBuilder<AnyObject> {
         let path = "/au/sin/g"
         let URLString = SwaggerClientAPI.basePath + path
         let parameters = userRegisterInfo.encodeToJSON() as? [String:AnyObject]
@@ -86,9 +86,9 @@ public class UserAPI: APIBase {
      - parameter userRegisterInfo: (body) 用户注册信息 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func auSinSPost(userRegisterInfo userRegisterInfo: UserRegister, completion: ((data: AnyObject?, error: ErrorType?) -> Void)) {
+    open class func auSinSPost(userRegisterInfo: UserRegister, completion: @escaping ((_ data: AnyObject?, _ error: Error?) -> Void)) {
         auSinSPostWithRequestBuilder(userRegisterInfo: userRegisterInfo).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
+            completion(response?.body, error);
         }
     }
 
@@ -103,7 +103,7 @@ public class UserAPI: APIBase {
 
      - returns: RequestBuilder<AnyObject> 
      */
-    public class func auSinSPostWithRequestBuilder(userRegisterInfo userRegisterInfo: UserRegister) -> RequestBuilder<AnyObject> {
+    open class func auSinSPostWithRequestBuilder(userRegisterInfo: UserRegister) -> RequestBuilder<AnyObject> {
         let path = "/au/sin/s"
         let URLString = SwaggerClientAPI.basePath + path
         let parameters = userRegisterInfo.encodeToJSON() as? [String:AnyObject]

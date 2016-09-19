@@ -9,16 +9,16 @@ import Alamofire
 
 
 
-public class NewAPI: APIBase {
+open class NewAPI: APIBase {
     /**
      新闻收藏列表
      
      - parameter uid: (query) 注册用户ID，提供该ID会在响应中设置该用户的点赞标记 upflag (optional)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func nsAuColsGet(uid uid: String? = nil, completion: ((data: AnyObject?, error: ErrorType?) -> Void)) {
+    open class func nsAuColsGet(uid: String? = nil, completion: @escaping ((_ data: AnyObject?, _ error: Error?) -> Void)) {
         nsAuColsGetWithRequestBuilder(uid: uid).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
+            completion(response?.body, error);
         }
     }
 
@@ -33,12 +33,12 @@ public class NewAPI: APIBase {
 
      - returns: RequestBuilder<AnyObject> 
      */
-    public class func nsAuColsGetWithRequestBuilder(uid uid: String? = nil) -> RequestBuilder<AnyObject> {
+    open class func nsAuColsGetWithRequestBuilder(uid: String? = nil) -> RequestBuilder<AnyObject> {
         let path = "/ns/au/cols"
         let URLString = SwaggerClientAPI.basePath + path
 
         let nillableParameters: [String:AnyObject?] = [
-            "uid": uid
+            "uid": uid as Optional<AnyObject>
         ]
  
         let parameters = APIHelper.rejectNil(nillableParameters)
@@ -56,9 +56,9 @@ public class NewAPI: APIBase {
      - parameter nid: (query) 新闻ID 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func nsConGet(nid nid: String, completion: ((data: AnyObject?, error: ErrorType?) -> Void)) {
+    open class func nsConGet(nid: String, completion: @escaping ((_ data: AnyObject?, _ error: Error?) -> Void)) {
         nsConGetWithRequestBuilder(nid: nid).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
+            completion(response?.body, error);
         }
     }
 
@@ -73,12 +73,12 @@ public class NewAPI: APIBase {
 
      - returns: RequestBuilder<AnyObject> 
      */
-    public class func nsConGetWithRequestBuilder(nid nid: String) -> RequestBuilder<AnyObject> {
+    open class func nsConGetWithRequestBuilder(nid: String) -> RequestBuilder<AnyObject> {
         let path = "/ns/con"
         let URLString = SwaggerClientAPI.basePath + path
 
         let nillableParameters: [String:AnyObject?] = [
-            "nid": nid
+            "nid": nid as Optional<AnyObject>
         ]
  
         let parameters = APIHelper.rejectNil(nillableParameters)
@@ -100,9 +100,9 @@ public class NewAPI: APIBase {
      - parameter c: (query) 条数 (optional, default to 20)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func nsFedLGet(cid cid: String, tcr: String, tmk: String? = nil, p: String? = nil, c: String? = nil, completion: ((data: AnyObject?, error: ErrorType?) -> Void)) {
+    open class func nsFedLGet(cid: String, tcr: String, tmk: String? = nil, p: String? = nil, c: String? = nil, completion: @escaping ((_ data: AnyObject?, _ error: Error?) -> Void)) {
         nsFedLGetWithRequestBuilder(cid: cid, tcr: tcr, tmk: tmk, p: p, c: c).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
+            completion(response?.body, error);
         }
     }
 
@@ -121,18 +121,18 @@ public class NewAPI: APIBase {
 
      - returns: RequestBuilder<AnyObject> 
      */
-    public class func nsFedLGetWithRequestBuilder(cid cid: String, tcr: String, tmk: String? = nil, p: String? = nil, c: String? = nil, uid: String? = nil) -> RequestBuilder<AnyObject> {
+    open class func nsFedLGetWithRequestBuilder(cid: String, tcr: String, tmk: String? = nil, p: String? = nil, c: String? = nil, uid: String? = nil) -> RequestBuilder<AnyObject> {
         let path = "/ns/fed/la"
         let URLString = SwaggerClientAPI.basePath + path
 
         let nillableParameters: [String:AnyObject?] = [
-            "cid": Int(cid),
-            "tcr": Double(tcr),
-            "tmk": Int(tmk ?? "1"),
-            "p": p,
-            "c": c,
-            "uid":Int(uid ?? "1"),
-            "b" : self.AdParamBase64String()
+            "cid": Int(cid) as Optional<AnyObject>,
+            "tcr": Double(tcr) as Optional<AnyObject>,
+            "tmk": Int(tmk ?? "1") as Optional<AnyObject>,
+            "p": p as Optional<AnyObject>,
+            "c": c as Optional<AnyObject>,
+            "uid":Int(uid ?? "1") as Optional<AnyObject>,
+            "b" : self.AdParamBase64String() as Optional<AnyObject>
         ]
  
         let parameters = APIHelper.rejectNil(nillableParameters)
@@ -154,9 +154,9 @@ public class NewAPI: APIBase {
      - parameter c: (query) 条数 (optional, default to 20)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func nsFedRGet(cid cid: String, tcr: String, tmk: String? = nil, p: String? = nil, c: String? = nil, completion: ((data: AnyObject?, error: ErrorType?) -> Void)) {
+    open class func nsFedRGet(cid: String, tcr: String, tmk: String? = nil, p: String? = nil, c: String? = nil, completion: @escaping ((_ data: AnyObject?, _ error: Error?) -> Void)) {
         nsFedRGetWithRequestBuilder(cid: cid, tcr: tcr, tmk: tmk, p: p, c: c).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
+            completion(response?.body, error);
         }
     }
 
@@ -175,18 +175,18 @@ public class NewAPI: APIBase {
 
      - returns: RequestBuilder<AnyObject> 
      */
-    public class func nsFedRGetWithRequestBuilder(cid cid: String, tcr: String, tmk: String? = nil, p: String? = nil, c: String? = nil,uid: String? = nil) -> RequestBuilder<AnyObject> {
+    open class func nsFedRGetWithRequestBuilder(cid: String, tcr: String, tmk: String? = nil, p: String? = nil, c: String? = nil,uid: String? = nil) -> RequestBuilder<AnyObject> {
         let path = "/ns/fed/ra"
         let URLString = SwaggerClientAPI.basePath + path
 
         let nillableParameters: [String:AnyObject?] = [
-            "cid": Int(cid),
-            "tcr": Double(tcr),
-            "tmk": Int(tmk ?? "1"),
-            "p": p,
-            "c": c,
-            "uid":Int(uid ?? "1"),
-            "b" : self.AdParamBase64String()
+            "cid": Int(cid) as Optional<AnyObject>,
+            "tcr": Double(tcr) as Optional<AnyObject>,
+            "tmk": Int(tmk ?? "1") as Optional<AnyObject>,
+            "p": p as Optional<AnyObject>,
+            "c": c as Optional<AnyObject>,
+            "uid":Int(uid ?? "1") as Optional<AnyObject>,
+            "b" : self.AdParamBase64String() as Optional<AnyObject>
         ]
  
         let parameters = APIHelper.rejectNil(nillableParameters)
@@ -215,13 +215,13 @@ extension NewAPI{
         
         let result:NSArray = [[
             "aid" : 101,
-            "width" : Int(UIScreen.mainScreen().bounds.width),
-            "height": Int(UIScreen.mainScreen().bounds.height),
+            "width" : Int(UIScreen.main.bounds.width),
+            "height": Int(UIScreen.main.bounds.height),
             ]]
         
         let nillableParameters: NSDictionary = [
 //            "version": 1.0,
-            "ts": Int(NSDate().timeIntervalSince1970),
+            "ts": Int(Date().timeIntervalSince1970),
             "impression":result,
             "device" :[
                 "os":2,
@@ -235,8 +235,8 @@ extension NewAPI{
             ]
         ]
         
-        let data = try! NSJSONSerialization.dataWithJSONObject(nillableParameters, options: NSJSONWritingOptions.PrettyPrinted)
+        let data = try! JSONSerialization.data(withJSONObject: nillableParameters, options: JSONSerialization.WritingOptions.prettyPrinted)
         
-        return data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.init(rawValue: 0))
+        return data.base64EncodedString(options: NSData.Base64EncodingOptions.init(rawValue: 0))
     }
 }

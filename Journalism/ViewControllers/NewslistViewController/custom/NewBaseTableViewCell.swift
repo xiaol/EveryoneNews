@@ -10,18 +10,18 @@ import UIKit
 import RealmSwift
 import PINRemoteImage
 
-extension NSURL{
+extension URL{
     
-    func proPic(q:Int = 60) -> NSURL?{
+    func proPic(_ q:Int = 60) -> URL?{
         
         var urlStr = NSString(string: self.absoluteString+"@1e_1c_0o_0l_100sh_225h_300w_\(q)q.jpeg")
         
-        if urlStr.containsString("bdp-pic.deeporiginalx.com/") {
+        if urlStr.contains("bdp-pic.deeporiginalx.com/") {
             
-            urlStr = urlStr.stringByReplacingOccurrencesOfString("bdp-pic.deeporiginalx.com/", withString: "pro-pic.deeporiginalx.com/")
+            urlStr = urlStr.replacingOccurrences(of: "bdp-pic.deeporiginalx.com/", with: "pro-pic.deeporiginalx.com/") as NSString
         }
         
-        guard let url = NSURL(string: urlStr as String) else {return nil}
+        guard let url = URL(string: urlStr as String) else {return nil}
         
         return url
     }
@@ -31,7 +31,7 @@ import SnapKit
 
 class UILabelPadding : UILabel {
     
-    private var padding = UIEdgeInsetsZero
+    fileprivate var padding = UIEdgeInsets.zero
     
     @IBInspectable
     var paddingLeft: CGFloat {
@@ -57,13 +57,13 @@ class UILabelPadding : UILabel {
         set { padding.bottom = newValue }
     }
     
-    override func drawTextInRect(rect: CGRect) {
-        super.drawTextInRect(UIEdgeInsetsInsetRect(rect, padding))
+    override func drawText(in rect: CGRect) {
+        super.drawText(in: UIEdgeInsetsInsetRect(rect, padding))
     }
     
-    override func textRectForBounds(bounds: CGRect, limitedToNumberOfLines numberOfLines: Int) -> CGRect {
+    override func textRect(forBounds bounds: CGRect, limitedToNumberOfLines numberOfLines: Int) -> CGRect {
         let insets = self.padding
-        var rect = super.textRectForBounds(UIEdgeInsetsInsetRect(bounds, insets), limitedToNumberOfLines: numberOfLines)
+        var rect = super.textRect(forBounds: UIEdgeInsetsInsetRect(bounds, insets), limitedToNumberOfLines: numberOfLines)
         rect.origin.x    -= insets.left
         rect.origin.y    -= insets.top
         rect.size.width  += (insets.left + insets.right)
@@ -96,13 +96,13 @@ class NewBaseTableViewCell: UITableViewCell {
         self.Taglabel.font = UIFont.a_font7
         self.Taglabel.layer.borderWidth = 0.5
         self.Taglabel.layer.cornerRadius = 2
-        self.Taglabel.textAlignment = .Center
+        self.Taglabel.textAlignment = .center
         
         self.addSubview(JiaPublabel)
         self.addSubview(Taglabel)
     }
     
-    func setPPPLabel(new:New){
+    func setPPPLabel(_ new:New){
         
         self.Taglabel.font = UIFont.a_font7
         self.JiaPublabel.font = UIFont.a_font7
@@ -112,22 +112,22 @@ class NewBaseTableViewCell: UITableViewCell {
             
             self.Taglabel.text = "热点"
             self.Taglabel.textColor = UIColor.hexStringToColor("#f83b3b")
-            self.Taglabel.layer.borderColor = UIColor.hexStringToColor("#f83b3b").CGColor
+            self.Taglabel.layer.borderColor = UIColor.hexStringToColor("#f83b3b").cgColor
         }
         
         if new.rtype == 2 {
             
             self.Taglabel.text = "推送"
             self.Taglabel.textColor = UIColor.hexStringToColor("#0091fa")
-            self.Taglabel.layer.borderColor = UIColor.hexStringToColor("#0091fa").CGColor
+            self.Taglabel.layer.borderColor = UIColor.hexStringToColor("#0091fa").cgColor
             
         }
         
         if new.rtype == 3 {
             
             self.Taglabel.text = "广告"
-            self.Taglabel.textColor = UIColor.redColor()
-            self.Taglabel.layer.borderColor = UIColor.redColor().CGColor
+            self.Taglabel.textColor = UIColor.red
+            self.Taglabel.layer.borderColor = UIColor.red.cgColor
             
         }
         
@@ -135,18 +135,18 @@ class NewBaseTableViewCell: UITableViewCell {
         
         if new.rtype == 0 {
             
-            self.pubLabel.hidden = false
-            self.JiaPublabel.hidden = true
-            self.Taglabel.hidden = true
+            self.pubLabel.isHidden = false
+            self.JiaPublabel.isHidden = true
+            self.Taglabel.isHidden = true
         }else{
             
-            self.pubLabel.hidden = true
-            self.JiaPublabel.hidden = false
-            self.Taglabel.hidden = false
+            self.pubLabel.isHidden = true
+            self.JiaPublabel.isHidden = false
+            self.Taglabel.isHidden = false
         }
     }
     
-    func setNewObject(new:New,bigImg:Int = -1){
+    func setNewObject(_ new:New,bigImg:Int = -1){
         
         timeLabel.font = UIFont.a_font7
         titleLabel.font = UIFont.a_font2
@@ -158,18 +158,18 @@ class NewBaseTableViewCell: UITableViewCell {
         self.pubLabel.text = new.pname
         self.commentCountLabel.text = "\(new.comment)评"
         self.timeLabel.text = new.ptimes.weiboTimeDescription
-        self.commentCountLabel.hidden = new.comment > 0 ? false : true
+        self.commentCountLabel.isHidden = new.comment > 0 ? false : true
         self.titleLabel.textColor = new.isread == 1 ? UIColor.a_color4 : UIColor.a_color3
     }
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         
         let context = UIGraphicsGetCurrentContext() // 获取绘画板
-        CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
-        CGContextFillRect(context, rect)
+        context?.setFillColor(UIColor.white.cgColor)
+        context?.fill(rect)
         //下分割线
-        CGContextSetStrokeColorWithColor(context, UIColor(red: 228/255, green:228/255, blue: 228/255, alpha: 1).CGColor)
-        CGContextStrokeRect(context, CGRectMake(0, rect.height, rect.width, 1));
+        context?.setStrokeColor(UIColor(red: 228/255, green:228/255, blue: 228/255, alpha: 1).cgColor)
+        context?.stroke(CGRect(x: 0, y: rect.height, width: rect.width, height: 1));
         
         self.Taglabel.snp_makeConstraints { (make) in
             
@@ -187,7 +187,7 @@ class NewBaseTableViewCell: UITableViewCell {
 
 class NewNormalTableViewCell: NewBaseTableViewCell {
     
-    override func setNewObject(new:New,bigImg:Int = -1){
+    override func setNewObject(_ new:New,bigImg:Int = -1){
         
         super.setNewObject(new)
     }
@@ -197,15 +197,15 @@ class NewOneTableViewCell: NewBaseTableViewCell {
     
     @IBOutlet var imageView1: UIImageView!
     
-    override func setNewObject(new:New,bigImg:Int = -1){
+    override func setNewObject(_ new:New,bigImg:Int = -1){
         
         super.setNewObject(new)
         
         self.imageView1.pin_updateWithProgress = true
         
-        if let url = NSURL(string: new.imgsList[0].value) {
+        if let url = URL(string: new.imgsList[0].value) {
             
-            imageView1.pin_setImageFromURL(url.proPic() ?? url, placeholderImage: UIImage.sharePlaceholderImage)
+            imageView1.pin_setImage(from: url.proPic() ?? url, placeholderImage: UIImage.sharePlaceholderImage)
         }
     }
 }
@@ -222,49 +222,49 @@ class NewTwoTableViewCell: NewBaseTableViewCell {
         super.init(coder: aDecoder)
         
         self.imageView6.clipsToBounds = true
-        self.imageView6.contentMode = .ScaleAspectFill
+        self.imageView6.contentMode = .scaleAspectFill
         
         self.addSubview(self.imageView6)
     }
     
-    override func setNewObject(new:New,bigImg:Int = -1){
+    override func setNewObject(_ new:New,bigImg:Int = -1){
         
         super.setNewObject(new)
         
         if bigImg >= 0{
             
             
-            self.imageView6.hidden = false
-            self.imageView1.hidden = true
-            self.imageView2.hidden = true
+            self.imageView6.isHidden = false
+            self.imageView1.isHidden = true
+            self.imageView2.isHidden = true
             
-            if let url = NSURL(string: new.imgsList[bigImg].value) {
+            if let url = URL(string: new.imgsList[bigImg].value) {
                 
-                imageView6.pin_setImageFromURL(url, placeholderImage: UIImage.sharePlaceholderImage)
+                imageView6.pin_setImage(from: url, placeholderImage: UIImage.sharePlaceholderImage)
             }
             
             return
         }
         
         
-        self.imageView6.hidden = true
+        self.imageView6.isHidden = true
         self.imageView1.pin_updateWithProgress = true
         self.imageView2.pin_updateWithProgress = true
         
-        if let url = NSURL(string: new.imgsList[0].value) {
+        if let url = URL(string: new.imgsList[0].value) {
             
-            imageView1.pin_setImageFromURL(url.proPic() ?? url, placeholderImage: UIImage.sharePlaceholderImage)
+            imageView1.pin_setImage(from: url.proPic() ?? url, placeholderImage: UIImage.sharePlaceholderImage)
         }
         
-        if let url = NSURL(string: new.imgsList[1].value) {
+        if let url = URL(string: new.imgsList[1].value) {
             
-            imageView2.pin_setImageFromURL(url.proPic() ?? url, placeholderImage: UIImage.sharePlaceholderImage)
+            imageView2.pin_setImage(from: url.proPic() ?? url, placeholderImage: UIImage.sharePlaceholderImage)
         }
     }
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         
-        super.drawRect(rect)
+        super.draw(rect)
         
         self.imageView6.snp_makeConstraints { (make) in
             
@@ -283,7 +283,7 @@ class NewThreeTableViewCell: NewBaseTableViewCell {
     @IBOutlet var imageView3: UIImageView!
     
     
-    override func setNewObject(new:New,bigImg:Int = -1){
+    override func setNewObject(_ new:New,bigImg:Int = -1){
         
         super.setNewObject(new)
         
@@ -291,19 +291,19 @@ class NewThreeTableViewCell: NewBaseTableViewCell {
         self.imageView2.pin_updateWithProgress = true
         self.imageView3.pin_updateWithProgress = true
         
-        if let url = NSURL(string: new.imgsList[0].value) {
+        if let url = URL(string: new.imgsList[0].value) {
             
-            imageView1.pin_setImageFromURL(url.proPic() ?? url, placeholderImage: UIImage.sharePlaceholderImage)
+            imageView1.pin_setImage(from: url.proPic() ?? url, placeholderImage: UIImage.sharePlaceholderImage)
         }
         
-        if let url = NSURL(string: new.imgsList[1].value) {
+        if let url = URL(string: new.imgsList[1].value) {
             
-            imageView2.pin_setImageFromURL(url.proPic() ?? url, placeholderImage: UIImage.sharePlaceholderImage)
+            imageView2.pin_setImage(from: url.proPic() ?? url, placeholderImage: UIImage.sharePlaceholderImage)
         }
         
-        if let url = NSURL(string: new.imgsList[2].value) {
+        if let url = URL(string: new.imgsList[2].value) {
             
-            imageView3.pin_setImageFromURL(url.proPic() ?? url, placeholderImage: UIImage.sharePlaceholderImage)
+            imageView3.pin_setImage(from: url.proPic() ?? url, placeholderImage: UIImage.sharePlaceholderImage)
         }
     }
 }
@@ -311,11 +311,11 @@ class NewThreeTableViewCell: NewBaseTableViewCell {
 
 class SearchView: UIButton {
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         
-        super.drawRect(rect)
+        super.draw(rect)
         
-        self.layer.borderColor = UIColor(red: 228/255, green: 228/255, blue: 228/255, alpha: 1).CGColor
+        self.layer.borderColor = UIColor(red: 228/255, green: 228/255, blue: 228/255, alpha: 1).cgColor
         self.layer.borderWidth = 1
         self.layer.cornerRadius = rect.height/2
         

@@ -13,13 +13,13 @@ import PINRemoteImage
 
 class PButtton:UIButton{
 
-    override func pointInside(point: CGPoint, withEvent event: UIEvent?) -> Bool {
+    override func point(inside point: CGPoint, with event: UIEvent?) -> Bool {
      
         var bounds = self.bounds
         
         bounds.size = CGSize(width: 44, height: 44)
         
-        return CGRectContainsPoint(bounds, point)
+        return bounds.contains(point)
     }
 }
 
@@ -37,9 +37,9 @@ class CommentsTableViewCell:UITableViewCell{
     
     var comment:Comment!
     var tableView:UITableView!
-    var indexPath:NSIndexPath!
+    var indexPath:IndexPath!
     
-    func setCommentMethod(comment:Comment,tableView:UITableView,indexPath:NSIndexPath){
+    func setCommentMethod(_ comment:Comment,tableView:UITableView,indexPath:IndexPath){
         
         self.comment = comment
         self.tableView = tableView
@@ -50,9 +50,9 @@ class CommentsTableViewCell:UITableViewCell{
         infoLabel.font = UIFont.a_font7
         contentLabel.font = UIFont.a_font3
         
-        praiseLabel.hidden = comment.commend <= 0
-        praiseButton.enabled = comment.uid != ShareLUser.uid
-        praiseedButton.hidden = comment.upflag == 0 // 用户没有点赞隐藏
+        praiseLabel.isHidden = comment.commend <= 0
+        praiseButton.isEnabled = comment.uid != ShareLUser.uid
+        praiseedButton.isHidden = comment.upflag == 0 // 用户没有点赞隐藏
         
         praiseLabel.text = "\(comment.commend)"
         
@@ -60,65 +60,65 @@ class CommentsTableViewCell:UITableViewCell{
         infoLabel.text = comment.ctimes.weiboTimeDescription
         cnameLabel.text = comment.uname
         
-        if let url = NSURL(string: comment.avatar) {
+        if let url = URL(string: comment.avatar) {
             
-            avatarView.pin_setImageFromURL(url, placeholderImage: UIImage.sharePlaceholderImage)
+            avatarView.pin_setImage(from: url, placeholderImage: UIImage.sharePlaceholderImage)
         }
     }
     
     // 点赞
-    @IBAction func clickPriaiseButton(sender: AnyObject) {
+    @IBAction func clickPriaiseButton(_ sender: AnyObject) {
         
         if ShareLUser.utype == 2 {
             
-            NSNotificationCenter.defaultCenter().postNotificationName(USERNEDDLOGINTHENCANDOSOMETHING, object: nil)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: USERNEDDLOGINTHENCANDOSOMETHING), object: nil)
         }else{
             
             CustomRequest.praiseComment(comment, finish: {
                 
 //                let section = NSIndexSet(index: self.indexPath.section)
                 
-                self.tableView.reloadRowsAtIndexPaths([self.indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+                self.tableView.reloadRows(at: [self.indexPath], with: UITableViewRowAnimation.automatic)
             })
         }
     }
     
     // 取消点赞
-    @IBAction func clickPriaiseedButton(sender: AnyObject) {
+    @IBAction func clickPriaiseedButton(_ sender: AnyObject) {
         
         if ShareLUser.utype == 2 {
             
-            NSNotificationCenter.defaultCenter().postNotificationName(USERNEDDLOGINTHENCANDOSOMETHING, object: nil)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: USERNEDDLOGINTHENCANDOSOMETHING), object: nil)
         }else{
             
             CustomRequest.nopraiseComment(self.comment, finish: {
                 
-                self.tableView.reloadRowsAtIndexPaths([self.indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+                self.tableView.reloadRows(at: [self.indexPath], with: UITableViewRowAnimation.automatic)
             })
         }
     }
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         
         let context = UIGraphicsGetCurrentContext() // 获取绘画板
-        CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
-        CGContextFillRect(context, rect)
+        context?.setFillColor(UIColor.white.cgColor)
+        context?.fill(rect)
         //下分割线
-        CGContextSetStrokeColorWithColor(context, UIColor(red: 228/255, green:228/255, blue: 228/255, alpha: 1).CGColor)
-        CGContextStrokeRect(context, CGRectMake(18, rect.height, rect.width - 36, 1));
+        context?.setStrokeColor(UIColor(red: 228/255, green:228/255, blue: 228/255, alpha: 1).cgColor)
+        context?.stroke(CGRect(x: 18, y: rect.height, width: rect.width - 36, height: 1));
     }
 }
 
 class SearchTableViewCell:UITableViewCell{
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         
         let context = UIGraphicsGetCurrentContext() // 获取绘画板
-        CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
-        CGContextFillRect(context, rect)
+        context?.setFillColor(UIColor.white.cgColor)
+        context?.fill(rect)
         //下分割线
-        CGContextSetStrokeColorWithColor(context, UIColor(red: 228/255, green:228/255, blue: 228/255, alpha: 1).CGColor)
-        CGContextStrokeRect(context, CGRectMake(0, rect.height, rect.width, 1));
+        context?.setStrokeColor(UIColor(red: 228/255, green:228/255, blue: 228/255, alpha: 1).cgColor)
+        context?.stroke(CGRect(x: 0, y: rect.height, width: rect.width, height: 1));
     }
 }
 
@@ -133,7 +133,7 @@ class LikeAndPYQTableViewCell:UITableViewCell{
     @IBOutlet var concernButton: UIView!
     @IBOutlet var contentWidthConstraint: NSLayoutConstraint!
     
-    func setNew(new:New){
+    func setNew(_ new:New){
     
         self.concernButton.addGestureRecognizer(UITapGestureRecognizer(block: { (_) in
            
@@ -141,7 +141,7 @@ class LikeAndPYQTableViewCell:UITableViewCell{
             
                 if ShareLUser.utype == 2 {
                     
-                    NSNotificationCenter.defaultCenter().postNotificationName(USERNEDDLOGINTHENCANDOSOMETHING, object: nil)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: USERNEDDLOGINTHENCANDOSOMETHING), object: nil)
                 }else{
                     
                     CustomRequest.noconcernedNew(new)
@@ -150,7 +150,7 @@ class LikeAndPYQTableViewCell:UITableViewCell{
             
                 if ShareLUser.utype == 2 {
                     
-                    NSNotificationCenter.defaultCenter().postNotificationName(USERNEDDLOGINTHENCANDOSOMETHING, object: nil)
+                    NotificationCenter.default.post(name: Notification.Name(rawValue: USERNEDDLOGINTHENCANDOSOMETHING), object: nil)
                 }else{
                     
                     CustomRequest.concernedNew(new)
@@ -159,11 +159,11 @@ class LikeAndPYQTableViewCell:UITableViewCell{
         }))
         
         
-        concernImage.hidden = new.refreshs()?.isconcerned == 0
+        concernImage.isHidden = new.refreshs()?.isconcerned == 0
         contentLabel.text = "\(new.refreshs()?.concern ?? 0)"
         
         let size = CGSize(width: 500, height: 200)
-        let titleHeight = NSString(string:contentLabel.text ?? "").boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font2], context: nil).width
+        let titleHeight = NSString(string:contentLabel.text ?? "").boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font2], context: nil).width
         contentWidthConstraint.constant = 18+18+14+titleHeight
     }
 }
@@ -176,11 +176,11 @@ class MoreTableViewCell:UITableViewCell{
 
 class circularView:UIView{
 
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
     
         self.layer.cornerRadius = rect.height/2
         self.layer.borderWidth = 1
-        self.layer.borderColor = UIColor(red: 228/255, green:228/255, blue: 228/255, alpha: 1).CGColor
+        self.layer.borderColor = UIColor(red: 228/255, green:228/255, blue: 228/255, alpha: 1).cgColor
         self.clipsToBounds = true
     }
 }
@@ -200,7 +200,7 @@ class AboutTableViewCell:UITableViewCell{
     var isHeader = false
     var hiddenYear = false
     
-    func setAboutMethod(about:About,hiddenY:Bool){
+    func setAboutMethod(_ about:About,hiddenY:Bool){
     
         self.hiddenYear = hiddenY
         
@@ -216,7 +216,7 @@ class AboutTableViewCell:UITableViewCell{
         YearLabel.clipsToBounds = true
         MAndDLabel.clipsToBounds = true
         
-        let fromStr = about.from.lowercaseString
+        let fromStr = about.from.lowercased()
         let yesabout = UIColor(red: 0, green: 145/255, blue: 250/255, alpha: 1)
         let noabout = UIColor(red: 170/255, green: 170/255, blue: 170/255, alpha: 1)
         
@@ -224,44 +224,46 @@ class AboutTableViewCell:UITableViewCell{
         
         pnameLabel.text = about.pname
         YearLabel.text = "\(about.ptimes.year())"
-        MAndDLabel.text = about.ptimes.toString(format: DateFormat.Custom(" MM/dd "))
+        MAndDLabel.text = about.ptimes.toString(DateFormat.custom(" MM/dd "))
         contentLabel.text = about.title
         self.contentLabel.textColor = about.isread == 1 ? UIColor.a_color4 : UIColor.a_color3
         
         self.titleHeadightConstraint.constant = hiddenY ? 0 : 21
         
-        if let im = about.img,let url = NSURL(string: im) {
+        if let im = about.img,let url = URL(string: im) {
             
             if im.characters.count <= 0 {
                 
                 cntentRightSpaceConstraint.constant = 17
-                descImageView.hidden = true
+                descImageView.isHidden = true
             }else{
                 
                 cntentRightSpaceConstraint.constant = 17+81+15
-                descImageView.hidden = false
-                descImageView.pin_setImageFromURL(url, placeholderImage: UIImage.sharePlaceholderImage)
+                descImageView.isHidden = false
+                descImageView.pin_setImage(from: url, placeholderImage: UIImage.sharePlaceholderImage)
             }
         }
         
         self.layoutIfNeeded()
     }
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         
         let context = UIGraphicsGetCurrentContext() // 获取绘画板
-        CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
-        CGContextFillRect(context, rect)
+        context?.setFillColor(UIColor.white.cgColor)
+        context?.fill(rect)
         //下分割线
-        CGContextSetStrokeColorWithColor(context, UIColor(red: 228/255, green:228/255, blue: 228/255, alpha: 1).CGColor)
-        CGContextStrokeRect(context, CGRectMake(30, rect.height, rect.width - 17-17-7-6.5, 1));
+        context?.setStrokeColor(UIColor(red: 228/255, green:228/255, blue: 228/255, alpha: 1).cgColor)
+        context?.stroke(CGRect(x: 30, y: rect.height, width: rect.width - 17-17-7-6.5, height: 1));
         
-        CGContextMoveToPoint(context, 20, self.isHeader ? (hiddenYear ? 20+6 : 20)  : 0)       //移到線段的第一個點
-        CGContextAddLineToPoint(context, 20, rect.height)       //畫出一條線
-        CGContextSetLineDash(context, 0, [1,1], 2)    //設定虛線
-        CGContextSetLineWidth(context, 1)               //設定線段粗細
+        context?.move(to: CGPoint(x: 20, y: self.isHeader ? (hiddenYear ? 20+6 : 20)  : 0))       //移到線段的第一個點
+        context?.addLine(to: CGPoint(x: 20, y: rect.height))       //畫出一條線
+        context?.setLineDash(phase: 2, lengths: [1,1])
+//        context?.setLineDash(context, 0, [1,1], 2)    //設定虛線
+        
+        context?.setLineWidth(1)               //設定線段粗細
         UIColor(red: 228/255, green: 228/255, blue: 228/255, alpha: 1).set()                        //設定線段顏色
-        CGContextStrokePath(context)                    //畫出線段
+        context?.strokePath()                    //畫出線段
     }
 }
 
@@ -277,7 +279,7 @@ class DetailFoucesCell: UITableViewCell {
     
     @IBOutlet var fButton:FocusButtonTopAndButton!
     
-    func setNewContent(pname:String){
+    func setNewContent(_ pname:String){
     
         self.fButton.pname = pname
         self.titleLabel.text = pname
@@ -286,11 +288,11 @@ class DetailFoucesCell: UITableViewCell {
         self.fButton.refresh()
     }
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         
-        super.drawRect(rect)
+        super.draw(rect)
         
-        self.titleLabel.textColor = UIColor.blackColor()
+        self.titleLabel.textColor = UIColor.black
         self.titleLabel.font = UIFont.a_font2
         
         self.descLabel.textColor = UIColor(red: 166/255, green: 166/255, blue: 166/255, alpha: 1)
@@ -300,14 +302,14 @@ class DetailFoucesCell: UITableViewCell {
 
 class LeftBorderView:UIView{
 
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         
         let context = UIGraphicsGetCurrentContext() // 获取绘画板
-        CGContextSetFillColorWithColor(context, UIColor.clearColor().CGColor)
-        CGContextFillRect(context, rect)
+        context?.setFillColor(UIColor.clear.cgColor)
+        context?.fill(rect)
         //下分割线
-        CGContextSetStrokeColorWithColor(context, UIColor(red: 228/255, green:228/255, blue: 228/255, alpha: 1).CGColor)
-        CGContextStrokeRect(context, CGRectMake(0, 10, 1, 47));                //畫出線段
+        context?.setStrokeColor(UIColor(red: 228/255, green:228/255, blue: 228/255, alpha: 1).cgColor)
+        context?.stroke(CGRect(x: 0, y: 10, width: 1, height: 47));                //畫出線段
     }
 }
 
@@ -316,8 +318,8 @@ import SnapKit
 
 
 enum FocusButtonState {
-    case Noraml
-    case Loading
+    case noraml
+    case loading
 }
 
 class FocusButtonTopAndButton:UIButton{
@@ -337,29 +339,29 @@ class FocusButtonTopAndButton:UIButton{
         
         self.exiter = Focus.isExiter(self.pname)
         
-        loadView.activityIndicatorViewStyle = .Gray
+        loadView.activityIndicatorViewStyle = .gray
         
         loadView.stopAnimating()
-        self.loadView.hidden = true
+        self.loadView.isHidden = true
         
-        self.imageView1.hidden = !self.exiter
+        self.imageView1.isHidden = !self.exiter
         
-        self.imageView?.hidden = self.exiter
-        self.titleLabel?.hidden = self.exiter
+        self.imageView?.isHidden = self.exiter
+        self.titleLabel?.isHidden = self.exiter
     }
     
     func loading(){
         loadingState = true
         
         loadView.startAnimating()
-        self.loadView.hidden = false
+        self.loadView.isHidden = false
         
-        self.imageView1.hidden = true
-        self.imageView?.hidden = true
-        self.titleLabel?.hidden = true
+        self.imageView1.isHidden = true
+        self.imageView?.isHidden = true
+        self.titleLabel?.isHidden = true
     }
     
-    override var highlighted: Bool{
+    override var isHighlighted: Bool{
     
         didSet{
             
@@ -379,7 +381,7 @@ class FocusButtonTopAndButton:UIButton{
         
         self.loadingState = false
         
-        loadView.hidden = true
+        loadView.isHidden = true
         
         self.addSubview(loadView)
         
@@ -411,32 +413,32 @@ class FocusButtonTopAndButton:UIButton{
         
         
         // Center image
-        var center = self.imageView?.center ?? CGPointZero
+        var center = self.imageView?.center ?? CGPoint.zero
         center.x = self.frame.size.width/2
         center.y = (self.imageView?.frame.size.height ?? 0)/2+15
         self.imageView?.center = center
         
         //Center text
-        var newFrame = self.titleLabel?.frame ?? CGRectZero
+        var newFrame = self.titleLabel?.frame ?? CGRect.zero
         newFrame.origin.x = 0
         newFrame.origin.y = (self.imageView?.center.y ?? 0) + 16
         newFrame.size.width = self.frame.size.width
         
         self.titleLabel?.frame = newFrame
-        self.titleLabel?.textAlignment = .Center
+        self.titleLabel?.textAlignment = .center
         
         self.refresh()
     }
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         
-        super.drawRect(rect)
+        super.draw(rect)
         
         let context = UIGraphicsGetCurrentContext() // 获取绘画板
-        CGContextSetFillColorWithColor(context, UIColor.clearColor().CGColor)
-        CGContextFillRect(context, rect)
+        context?.setFillColor(UIColor.clear.cgColor)
+        context?.fill(rect)
         //下分割线
-        CGContextSetStrokeColorWithColor(context, UIColor.hexStringToColor("#e9e9e9").CGColor)
-        CGContextStrokeRect(context, CGRectMake(0, 11.5, 1.5, 47))
+        context?.setStrokeColor(UIColor.hexStringToColor("#e9e9e9").cgColor)
+        context?.stroke(CGRect(x: 0, y: 11.5, width: 1.5, height: 47))
     }
 }

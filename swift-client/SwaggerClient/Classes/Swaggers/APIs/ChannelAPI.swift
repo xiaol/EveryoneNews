@@ -9,16 +9,16 @@ import Alamofire
 
 
 
-public class ChannelAPI: APIBase {
+open class ChannelAPI: APIBase {
     /**
      频道列表
      
      - parameter s: (query) 否(默认 1) 上线状态，0 或 1 (optional, default to 1)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func nsChsGet(s s: String? = nil, completion: ((data: AnyObject?, error: ErrorType?) -> Void)) {
+    open class func nsChsGet(s: String? = nil, completion: @escaping ((_ data: AnyObject?, _ error: Error?) -> Void)) {
         nsChsGetWithRequestBuilder(s: s).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
+            completion(response?.body, error);
         }
     }
 
@@ -33,12 +33,12 @@ public class ChannelAPI: APIBase {
 
      - returns: RequestBuilder<AnyObject> 
      */
-    public class func nsChsGetWithRequestBuilder(s s: String? = nil) -> RequestBuilder<AnyObject> {
+    open class func nsChsGetWithRequestBuilder(s: String? = nil) -> RequestBuilder<AnyObject> {
         let path = "/ns/chs"
         let URLString = SwaggerClientAPI.basePath + path
 
         let nillableParameters: [String:AnyObject?] = [
-            "s": s
+            "s": s as Optional<AnyObject>
         ]
  
         let parameters = APIHelper.rejectNil(nillableParameters)

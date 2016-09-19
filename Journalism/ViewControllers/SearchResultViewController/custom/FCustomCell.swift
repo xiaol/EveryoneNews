@@ -18,16 +18,16 @@ class FocusCell: UITableViewCell {
     @IBOutlet var title:UILabel!
     @IBOutlet var backView:UIView!
     
-    private var view1:ICONView!
-    private var view2:ICONView!
-    private var view3:ICONView!
-    private var view4:ICONView!
+    fileprivate var view1:ICONView!
+    fileprivate var view2:ICONView!
+    fileprivate var view3:ICONView!
+    fileprivate var view4:ICONView!
     
-    private var finish = false
+    fileprivate var finish = false
     
-    private var vc:UIViewController!
+    fileprivate var vc:UIViewController!
     
-    func fouceCell(vc:UIViewController,focusResults:Results<Focus>){
+    func fouceCell(_ vc:UIViewController,focusResults:Results<Focus>){
         
 //        if finish { return }
         
@@ -75,7 +75,7 @@ class FocusCell: UITableViewCell {
     /**
       设置数据源
      */
-    private func setDataSource(focusResults:Results<Focus>){
+    fileprivate func setDataSource(_ focusResults:Results<Focus>){
         
         if let view = view1 {
             
@@ -120,7 +120,7 @@ class FocusCell: UITableViewCell {
                     
                     let qidian = UIStoryboard.shareStoryBoard.get_QiDianViewController()
                     
-                    self.vc.presentViewController(qidian, animated: true, completion: nil)
+                    self.vc.present(qidian, animated: true, completion: nil)
                 }))
                 
                 return
@@ -135,7 +135,7 @@ class FocusCell: UITableViewCell {
         }
     }
     
-    private func SetTapMethod(view:UIView,pname:String){
+    fileprivate func SetTapMethod(_ view:UIView,pname:String){
     
         view.addGestureRecognizer(UITapGestureRecognizer(block: { (_) in
            
@@ -143,16 +143,16 @@ class FocusCell: UITableViewCell {
             
             viewC.dismiss = true
             
-            self.vc.presentViewController(viewC, animated: true, completion: nil)
+            self.vc.present(viewC, animated: true, completion: nil)
         }))
     }
     
     
-    class func heightCell(count:Int = 4) -> CGFloat{
+    class func heightCell(_ count:Int = 4) -> CGFloat{
         
         let size = CGSize(width: 2000, height: 2000)
-        let titleHeight = NSString(string:"测试").boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font2], context: nil).height
-        let subTitleHeight = NSString(string:"测试").boundingRectWithSize(size, options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font5], context: nil).height
+        let titleHeight = NSString(string:"测试").boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font2], context: nil).height
+        let subTitleHeight = NSString(string:"测试").boundingRect(with: size, options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.a_font5], context: nil).height
         
         switch count {
         case 2,3,4:
@@ -165,128 +165,128 @@ class FocusCell: UITableViewCell {
     /**
      设置4个数目的数据源的情况
      */
-    private func set4Method(){
+    fileprivate func set4Method(){
         
         // 设置第一个关注低分
         view1 = ICONView()
         self.backView.addSubview(view1)
-        view1.snp_makeConstraints { (make) in
+        view1.snp.makeConstraints { (make) in
             
             make.left.equalTo(0)
             make.top.equalTo(0)
             make.bottom.equalTo(0)
-            make.width.equalTo(self.backView.snp_width).dividedBy(4)
+            make.width.equalTo(self.backView.snp.width).dividedBy(4)
         }
         
         view2 = ICONView()
         self.backView.addSubview(view2)
         
-        view2.snp_makeConstraints { (make) in
+        view2.snp.makeConstraints { (make) in
             
-            make.left.equalTo(view1.snp_right).offset(0)
+            make.left.equalTo(view1.snp.right).offset(0)
             make.top.equalTo(0)
             make.bottom.equalTo(0)
-            make.width.equalTo(self.backView.snp_width).dividedBy(4)
+            make.width.equalTo(self.backView.snp.width).dividedBy(4)
         }
         
         view3 = ICONView()
         self.backView.addSubview(view3)
         
-        view3.snp_makeConstraints { (make) in
+        view3.snp.makeConstraints { (make) in
             
-            make.left.equalTo(view2.snp_right).offset(0)
+            make.left.equalTo(view2.snp.right).offset(0)
             make.top.equalTo(0)
             make.bottom.equalTo(0)
-            make.width.equalTo(self.backView.snp_width).dividedBy(4)
+            make.width.equalTo(self.backView.snp.width).dividedBy(4)
         }
         
         view4 = ICONView()
         self.backView.addSubview(view4)
         
-        view4.snp_makeConstraints { (make) in
+        view4.snp.makeConstraints { (make) in
             
-            make.left.equalTo(view3.snp_right).offset(0)
+            make.left.equalTo(view3.snp.right).offset(0)
             make.top.equalTo(0)
             make.bottom.equalTo(0)
-            make.width.equalTo(self.backView.snp_width).dividedBy(4)
+            make.width.equalTo(self.backView.snp.width).dividedBy(4)
         }
     }
     
     /**
      设置三个数目的数据源的情况
      */
-    private func set3Method(){
+    fileprivate func set3Method(){
         
         // 设置第一个关注低分
         view1 = ICONView()
         self.backView.addSubview(view1)
-        view1.snp_makeConstraints { (make) in
+        view1.snp.makeConstraints { (make) in
             
-            make.left.equalTo(UIScreen.mainScreen().bounds.width/4/2)
+            make.left.equalTo(UIScreen.main.bounds.width/4/2)
             make.top.equalTo(0)
             make.bottom.equalTo(0)
-            make.width.equalTo(self.backView.snp_width).dividedBy(4)
+            make.width.equalTo(self.backView.snp.width).dividedBy(4)
         }
         
         view2 = ICONView()
         self.backView.addSubview(view2)
         
-        view2.snp_makeConstraints { (make) in
+        view2.snp.makeConstraints { (make) in
             
-            make.left.equalTo(view1.snp_right).offset(0)
+            make.left.equalTo(view1.snp.right).offset(0)
             make.top.equalTo(0)
             make.bottom.equalTo(0)
-            make.width.equalTo(self.backView.snp_width).dividedBy(4)
+            make.width.equalTo(self.backView.snp.width).dividedBy(4)
         }
         
         view3 = ICONView()
         self.backView.addSubview(view3)
         
-        view3.snp_makeConstraints { (make) in
+        view3.snp.makeConstraints { (make) in
             
-            make.left.equalTo(view2.snp_right).offset(0)
+            make.left.equalTo(view2.snp.right).offset(0)
             make.top.equalTo(0)
             make.bottom.equalTo(0)
-            make.width.equalTo(self.backView.snp_width).dividedBy(4)
+            make.width.equalTo(self.backView.snp.width).dividedBy(4)
         }
     }
     
     /**
      设置只有两个个关注对象的布局
      */
-    private func set2Method(){
+    fileprivate func set2Method(){
         
         // 设置第一个关注低分
         view1 = ICONView()
         self.backView.addSubview(view1)
-        view1.snp_makeConstraints { (make) in
+        view1.snp.makeConstraints { (make) in
             
-            make.left.equalTo(UIScreen.mainScreen().bounds.width/4)
+            make.left.equalTo(UIScreen.main.bounds.width/4)
             make.top.equalTo(0)
             make.bottom.equalTo(0)
-            make.width.equalTo(self.backView.snp_width).dividedBy(4)
+            make.width.equalTo(self.backView.snp.width).dividedBy(4)
         }
         
         view2 = ICONView()
         self.backView.addSubview(view2)
         
-        view2.snp_makeConstraints { (make) in
+        view2.snp.makeConstraints { (make) in
             
-            make.left.equalTo(view1.snp_right).offset(0)
+            make.left.equalTo(view1.snp.right).offset(0)
             make.top.equalTo(0)
             make.bottom.equalTo(0)
-            make.width.equalTo(self.backView.snp_width).dividedBy(4)
+            make.width.equalTo(self.backView.snp.width).dividedBy(4)
         }
     }
     
     /**
      设置只有一个关注对象的布局
      */
-    private func set1Method(){
+    fileprivate func set1Method(){
         
         view1 = FouceICONOneView()
         self.backView.addSubview(view1)
-        view1.snp_makeConstraints { (make) in
+        view1.snp.makeConstraints { (make) in
             
             make.top.equalTo(0)
             make.bottom.equalTo(0)
@@ -305,9 +305,9 @@ private class ICONView:UIView{
         super.init(frame: frame)
         
         
-        iconImageView = ICONImageView(frame: CGRectZero)
+        iconImageView = ICONImageView(frame: CGRect.zero)
         self.addSubview(iconImageView)
-        iconImageView.snp_makeConstraints { (make) in
+        iconImageView.snp.makeConstraints { (make) in
             
             make.top.equalTo(0)
             make.centerX.equalTo(self)
@@ -317,12 +317,12 @@ private class ICONView:UIView{
         titleLabel = UILabel()
         titleLabel.font = UIFont.a_font5
         titleLabel.textColor = UIColor.a_color3
-        titleLabel.textAlignment = .Center
+        titleLabel.textAlignment = .center
         titleLabel.adjustsFontSizeToFitWidth = true
         self.addSubview(titleLabel)
-        titleLabel.snp_makeConstraints { (make) in
+        titleLabel.snp.makeConstraints { (make) in
             
-            make.top.equalTo(iconImageView.snp_bottom).offset(7)
+            make.top.equalTo(iconImageView.snp.bottom).offset(7)
             make.centerX.equalTo(self)
             make.left.equalTo(8)
             make.right.equalTo(-8)
@@ -336,17 +336,17 @@ private class ICONView:UIView{
 
 private class BorderView:UIView{
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         
         let context = UIGraphicsGetCurrentContext() // 获取绘画板
-        CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
-        CGContextFillRect(context, rect)
+        context?.setFillColor(UIColor.white.cgColor)
+        context?.fill(rect)
         //上分割线
-        CGContextSetStrokeColorWithColor(context, UIColor.a_color5.CGColor)
-        CGContextStrokeRect(context, CGRectMake(0, 0, rect.width, 0.5));
+        context?.setStrokeColor(UIColor.a_color5.cgColor)
+        context?.stroke(CGRect(x: 0, y: 0, width: rect.width, height: 0.5));
         //下分割线
-        CGContextSetStrokeColorWithColor(context, UIColor.a_color5.CGColor)
-        CGContextStrokeRect(context, CGRectMake(0, rect.height, rect.width, 0.5));
+        context?.setStrokeColor(UIColor.a_color5.cgColor)
+        context?.stroke(CGRect(x: 0, y: rect.height, width: rect.width, height: 0.5));
     }
 }
 
@@ -357,10 +357,10 @@ private class ICONImageView: UIImageView {
         super.init(frame: frame)
         
         self.layer.cornerRadius = 8
-        self.layer.borderColor = UIColor.hexStringToColor("#dedede").CGColor
+        self.layer.borderColor = UIColor.hexStringToColor("#dedede").cgColor
         self.layer.borderWidth = 0.5
         self.clipsToBounds = true
-        self.contentMode = .ScaleAspectFill
+        self.contentMode = .scaleAspectFill
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -383,9 +383,9 @@ private class FouceICONOneView:ICONView{
         self.iconImageView = nil
         
         
-        iconImageView = ICONImageView(frame: CGRectZero)
+        iconImageView = ICONImageView(frame: CGRect.zero)
         self.addSubview(iconImageView)
-        iconImageView.snp_makeConstraints { (make) in
+        iconImageView.snp.makeConstraints { (make) in
             
             make.left.equalTo(19)
             make.centerY.equalTo(self)
@@ -395,17 +395,17 @@ private class FouceICONOneView:ICONView{
         titleLabel = UILabel()
         titleLabel.font = UIFont.a_font5
         titleLabel.textColor = UIColor.a_color3
-        titleLabel.textAlignment = .Center
+        titleLabel.textAlignment = .center
         self.addSubview(titleLabel)
-        titleLabel.snp_makeConstraints { (make) in
+        titleLabel.snp.makeConstraints { (make) in
             
-            make.left.equalTo(iconImageView.snp_right).offset(7)
+            make.left.equalTo(iconImageView.snp.right).offset(7)
             make.centerY.equalTo(self)
         }
         
         fbutton = FoucusButton()
         self.addSubview(fbutton)
-        fbutton.snp_makeConstraints { (make) in
+        fbutton.snp.makeConstraints { (make) in
             
             make.size.equalTo(CGSize(width: 60, height: 24))
             make.right.equalTo(-19)

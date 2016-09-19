@@ -14,8 +14,8 @@ class PhotoBrowerZoomScrollView: UIScrollView,UIScrollViewDelegate,UIGestureReco
     
     var urlString:String!
     
-    private var tapView: PhotoBrowerTapView!
-    private var photoImageView:PhotoBrowerImageView!
+    fileprivate var tapView: PhotoBrowerTapView!
+    fileprivate var photoImageView:PhotoBrowerImageView!
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -27,7 +27,7 @@ class PhotoBrowerZoomScrollView: UIScrollView,UIScrollViewDelegate,UIGestureReco
         setup(urlStr)
     }
     
-    func setup(urlStr:String?=nil) {
+    func setup(_ urlStr:String?=nil) {
         
         guard let url = urlStr else {return}
         
@@ -36,28 +36,28 @@ class PhotoBrowerZoomScrollView: UIScrollView,UIScrollViewDelegate,UIGestureReco
         // tap
         tapView = PhotoBrowerTapView(frame: bounds)
         tapView.delegate = self
-        tapView.backgroundColor = UIColor.clearColor()
-        tapView.autoresizingMask = [.FlexibleHeight, .FlexibleWidth]
+        tapView.backgroundColor = UIColor.clear
+        tapView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         addSubview(tapView)
         
         // image
         photoImageView = PhotoBrowerImageView(frame: frame, url: url)
         photoImageView.delegate = self
-        photoImageView.contentMode = .ScaleAspectFill
-        photoImageView.backgroundColor = .clearColor()
+        photoImageView.contentMode = .scaleAspectFill
+        photoImageView.backgroundColor = .clear
         addSubview(photoImageView)
 
         
         // self
         delegate = self
-        backgroundColor = .clearColor()
+        backgroundColor = .clear
         showsHorizontalScrollIndicator = false
         showsVerticalScrollIndicator = false
         decelerationRate = UIScrollViewDecelerationRateFast
-        autoresizingMask = [.FlexibleWidth, .FlexibleTopMargin, .FlexibleBottomMargin, .FlexibleRightMargin, .FlexibleLeftMargin]
+        autoresizingMask = [.flexibleWidth, .flexibleTopMargin, .flexibleBottomMargin, .flexibleRightMargin, .flexibleLeftMargin]
     }
     
-    override func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+    override func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         
         
         
@@ -101,7 +101,7 @@ class PhotoBrowerZoomScrollView: UIScrollView,UIScrollViewDelegate,UIGestureReco
         }
         
         // Center
-        if !CGRectEqualToRect(photoImageView.frame, frameToCenter) {
+        if !photoImageView.frame.equalTo(frameToCenter) {
             photoImageView.frame = frameToCenter
         }
     }
@@ -125,13 +125,13 @@ class PhotoBrowerZoomScrollView: UIScrollView,UIScrollViewDelegate,UIGestureReco
         var maxScale: CGFloat!
         
         
-        let scale = UIScreen.mainScreen().scale
-        let deviceScreenWidth = UIScreen.mainScreen().bounds.width * scale // width in pixels. scale needs to remove if to use the old algorithm
-        let deviceScreenHeight = UIScreen.mainScreen().bounds.height * scale // height in pixels. scale needs to remove if to use the old algorithm
+        let scale = UIScreen.main.scale
+        let deviceScreenWidth = UIScreen.main.bounds.width * scale // width in pixels. scale needs to remove if to use the old algorithm
+        let deviceScreenHeight = UIScreen.main.bounds.height * scale // height in pixels. scale needs to remove if to use the old algorithm
 
         if photoImageView.frame.width < deviceScreenWidth {
             // I think that we should to get coefficient between device screen width and image width and assign it to maxScale. I made two mode that we will get the same result for different device orientations.
-            if UIApplication.sharedApplication().statusBarOrientation.isPortrait {
+            if UIApplication.shared.statusBarOrientation.isPortrait {
                 maxScale = deviceScreenHeight / photoImageView.frame.width
             } else {
                 maxScale = deviceScreenWidth / photoImageView.frame.width
@@ -152,7 +152,7 @@ class PhotoBrowerZoomScrollView: UIScrollView,UIScrollViewDelegate,UIGestureReco
         setNeedsLayout()
     }
     
-    func zoomRectForScrollViewWith(scale: CGFloat, touchPoint: CGPoint) -> CGRect {
+    func zoomRectForScrollViewWith(_ scale: CGFloat, touchPoint: CGPoint) -> CGRect {
         let w = frame.size.width / scale
         let h = frame.size.height / scale
         let x = touchPoint.x - (w / 2.0)
@@ -162,15 +162,15 @@ class PhotoBrowerZoomScrollView: UIScrollView,UIScrollViewDelegate,UIGestureReco
     }
     
     // MARK: - UIScrollViewDelegate
-    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return photoImageView
     }
     
-    func scrollViewWillBeginZooming(scrollView: UIScrollView, withView view: UIView?) {
+    func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
         //        photoBrowser?.cancelControlHiding()
     }
     
-    func scrollViewDidZoom(scrollView: UIScrollView) {
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
         setNeedsLayout()
         layoutIfNeeded()
     }
@@ -211,9 +211,9 @@ class PhotoBrowerZoomScrollView: UIScrollView,UIScrollViewDelegate,UIGestureReco
     
 
     
-    private func getViewFramePercent(view: UIView, touch: UITouch) -> CGPoint {
+    fileprivate func getViewFramePercent(_ view: UIView, touch: UITouch) -> CGPoint {
         let oneWidthViewPercent = view.bounds.width / 100
-        let viewTouchPoint = touch.locationInView(view)
+        let viewTouchPoint = touch.location(in: view)
         let viewWidthTouch = viewTouchPoint.x
         let viewPercentTouch = viewWidthTouch / oneWidthViewPercent
         
@@ -233,7 +233,7 @@ class PhotoBrowerZoomScrollView: UIScrollView,UIScrollViewDelegate,UIGestureReco
     }
     
     // MARK: - handle tap
-    func handleDoubleTap(touchPoint: CGPoint) {
+    func handleDoubleTap(_ touchPoint: CGPoint) {
         
         
         if zoomScale > minimumZoomScale {
@@ -247,7 +247,7 @@ class PhotoBrowerZoomScrollView: UIScrollView,UIScrollViewDelegate,UIGestureReco
              newZoom = maximumZoomScale
              }
              */
-            zoomToRect(zoomRectForScrollViewWith(maximumZoomScale, touchPoint: touchPoint), animated: true)
+            zoom(to: zoomRectForScrollViewWith(maximumZoomScale, touchPoint: touchPoint), animated: true)
         }
         
         // delay control
@@ -258,11 +258,11 @@ class PhotoBrowerZoomScrollView: UIScrollView,UIScrollViewDelegate,UIGestureReco
 extension PhotoBrowerZoomScrollView:PhotoBrowerTapViewDelegate{
 
     // MARK: - SKDetectingViewDelegate
-    func handleSingleTap(view: UIView, touch: UITouch) {
+    func handleSingleTap(_ view: UIView, touch: UITouch) {
         
     }
     
-    func handleDoubleTap(view: UIView, touch: UITouch) {
+    func handleDoubleTap(_ view: UIView, touch: UITouch) {
         let needPoint = getViewFramePercent(view, touch: touch)
         handleDoubleTap(needPoint)
     }
@@ -276,25 +276,25 @@ extension PhotoBrowerZoomScrollView:PhotoBrowerImageViewDelegate{
      
      - parameter touchPoint: <#touchPoint description#>
      */
-    func handleImageViewDoubleTap(touchPoint: CGPoint) {
+    func handleImageViewDoubleTap(_ touchPoint: CGPoint) {
         
         handleDoubleTap(touchPoint)
     }
     
-    func handleImageViewSingleTap(touchPoint: CGPoint) {
+    func handleImageViewSingleTap(_ touchPoint: CGPoint) {
         
     }
     
-    func downloadImageError(error: NSError) {
+    func downloadImageError(_ error: NSError) {
         
     }
     
-    func downloadImageProgress(pregress: CGFloat) {
+    func downloadImageProgress(_ pregress: CGFloat) {
         
 
     }
     
-    func downloadImageFinish(result: PINRemoteImageManagerResult) {
+    func downloadImageFinish(_ result: PINRemoteImageManagerResult) {
         
         self.displayImage(complete: result)
     }

@@ -10,12 +10,12 @@ import UIKit
 import PINRemoteImage
 
 @objc protocol PhotoBrowerImageViewDelegate {
-    func handleImageViewSingleTap(touchPoint: CGPoint)
-    func handleImageViewDoubleTap(touchPoint: CGPoint)
+    func handleImageViewSingleTap(_ touchPoint: CGPoint)
+    func handleImageViewDoubleTap(_ touchPoint: CGPoint)
     
-    func downloadImageProgress(pregress: CGFloat)
-    func downloadImageError(error: NSError)
-    func downloadImageFinish(result: PINRemoteImageManagerResult)
+    func downloadImageProgress(_ pregress: CGFloat)
+    func downloadImageError(_ error: NSError)
+    func downloadImageFinish(_ result: PINRemoteImageManagerResult)
 }
 
 class PhotoBrowerImageView: FLAnimatedImageView {
@@ -25,11 +25,11 @@ class PhotoBrowerImageView: FLAnimatedImageView {
         super.init(coder: aDecoder)
     }
     
-    private var progressView: PhotoBrowerProgressView!
+    fileprivate var progressView: PhotoBrowerProgressView!
     
     init(frame: CGRect,url:String) {
         super.init(frame: frame)
-        userInteractionEnabled = true
+        isUserInteractionEnabled = true
         let doubleTap = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap(_:)))
         doubleTap.numberOfTapsRequired = 2
         doubleTap.numberOfTouchesRequired = 1
@@ -37,7 +37,7 @@ class PhotoBrowerImageView: FLAnimatedImageView {
         let singleTap = UITapGestureRecognizer(target: self, action: #selector(handleSingleTap(_:)))
         singleTap.numberOfTapsRequired = 1
         singleTap.numberOfTouchesRequired = 1
-        singleTap.requireGestureRecognizerToFail(doubleTap)
+        singleTap.require(toFail: doubleTap)
         self.addGestureRecognizer(singleTap)
         
         
@@ -45,38 +45,38 @@ class PhotoBrowerImageView: FLAnimatedImageView {
         progressView = PhotoBrowerProgressView(frame: frame)
         addSubview(progressView)
         
-        progressView.hidden = true
+        progressView.isHidden = true
         
         self.donwloadImage(url)
     }
     
-    func handleDoubleTap(recognizer:UITapGestureRecognizer) {
-        delegate?.handleImageViewDoubleTap(recognizer.locationInView(self))
+    func handleDoubleTap(_ recognizer:UITapGestureRecognizer) {
+        delegate?.handleImageViewDoubleTap(recognizer.location(in: self))
     }
     
-    func handleSingleTap(recognizer:UITapGestureRecognizer) {
-        delegate?.handleImageViewSingleTap(recognizer.locationInView(self))
+    func handleSingleTap(_ recognizer:UITapGestureRecognizer) {
+        delegate?.handleImageViewSingleTap(recognizer.location(in: self))
     }
     
     
     // Download
-    private func donwloadImage(urlStr:String){
+    fileprivate func donwloadImage(_ urlStr:String){
     
-        guard let url = NSURL(string: urlStr) else {return}
+        guard let url = URL(string: urlStr) else {return}
         
-        PINRemoteImageManager.sharedImageManager().downloadImageWithURL(url, options: .DownloadOptionsNone, progressDownload: { (completed, total) in
+        PINRemoteImageManager.shared().downloadImage(with: url, options: PINRemoteImageManagerDownloadOptions(), progressDownload: { (completed, total) in
             
             let process = CGFloat(completed)/CGFloat(total)
             
-            dispatch_async(dispatch_get_main_queue(), {
+            DispatchQueue.main.async(execute: {
   
-                self.progressView.hidden = false
+                self.progressView.isHidden = false
                 
                 self.progressView.setProgress(process, animated: true)
                 
                 if process == 1 {
                 
-                    self.progressView.hidden = true
+                    self.progressView.isHidden = true
                     
                     self.progressView.removeFromSuperview()
                 }
@@ -84,10 +84,10 @@ class PhotoBrowerImageView: FLAnimatedImageView {
 
         }) { (result) in
             
-            dispatch_async(dispatch_get_main_queue(), { 
+            DispatchQueue.main.async(execute: { 
                 if let error = result.error {
                     
-                    self.delegate?.downloadImageError(error)
+                    self.delegate?.downloadImageError(error as NSError)
                 }else{
                     self.delegate?.downloadImageFinish(result)
                 }

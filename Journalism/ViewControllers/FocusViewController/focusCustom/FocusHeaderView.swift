@@ -34,10 +34,10 @@ class FoucusHeaderView: UIView {
     var titleCenterOffest:CGFloat = 0
     var headerCenterOffest:CGFloat = 0
     
-    func setNewC(pname:String){
+    func setNewC(_ pname:String){
         
         self.nameLabel.text = pname
-        let titleWidth = NSString(string:pname).boundingRectWithSize(CGSize(width: 2000, height: 100), options: .UsesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.systemFontOfSize(15)], context: nil).width
+        let titleWidth = NSString(string:pname).boundingRect(with: CGSize(width: 2000, height: 100), options: .usesLineFragmentOrigin, attributes: [NSFontAttributeName:UIFont.systemFont(ofSize: 15)], context: nil).width
         
         let ss = (titleWidth+11+30)/2
         headerCenterOffest = -(ss-15)
@@ -47,7 +47,7 @@ class FoucusHeaderView: UIView {
         foucusButton.refresh()
     }
     
-    func setProcess(pro:CGFloat){
+    func setProcess(_ pro:CGFloat){
         
         self.headerTopConstraint.constant = 30+(57-30)*(1-pro)
         self.headerWidthConstraint.constant = 24+(60-24)*(1-pro)
@@ -62,13 +62,13 @@ class FoucusHeaderView: UIView {
         self.nameTopConstraint.constant = 34+(127-34)*(1-pro)
         self.nameCenterConstraint.constant = titleCenterOffest-fabs(titleCenterOffest)*(1-pro)
         
-        self.nameLabel.font = UIFont.systemFontOfSize(15+(22-15)*(1-pro))
+        self.nameLabel.font = UIFont.systemFont(ofSize: 15+(22-15)*(1-pro))
     }
     
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         
-        super.drawRect(rect)
+        super.draw(rect)
         
         self.headerImageView.layer.cornerRadius = 30
     }
@@ -99,10 +99,10 @@ class FoucusButton: UIButton {
     
     func initMethod(){
         
-        loadV.activityIndicatorViewStyle = .Gray
+        loadV.activityIndicatorViewStyle = .gray
         self.addSubview(self.loadV)
         
-        loadV.snp_makeConstraints { (make) in
+        loadV.snp.makeConstraints { (make) in
             
             make.center.equalTo(self)
         }
@@ -110,7 +110,7 @@ class FoucusButton: UIButton {
         loadV.hidesWhenStopped = false
         
         loadV.startAnimating()
-        loadV.hidden = true
+        loadV.isHidden = true
         
         self.clipsToBounds = true
         
@@ -122,18 +122,18 @@ class FoucusButton: UIButton {
         self.layer.cornerRadius = 12
         
         
-        NSNotificationCenter.defaultCenter().addObserverForName(USERFOCUSPNAMENOTIFITION, object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: USERFOCUSPNAMENOTIFITION), object: nil, queue: OperationQueue.main) { (_) in
             
             self.refresh()
         }
         
-        self.removeActions(.TouchUpInside)
+        self.removeActions(events: .touchUpInside)
         
-        self.addAction(.TouchUpInside) { (_) in
+        self.addAction(events: .touchUpInside) { (_) in
             
             if ShareLUser.utype == 2 {
                 
-                NSNotificationCenter.defaultCenter().postNotificationName(USERNEDDLOGINTHENCANDOSOMETHING, object: nil)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: USERNEDDLOGINTHENCANDOSOMETHING), object: nil)
             }else{
                 
                 self.loading()
@@ -152,12 +152,12 @@ class FoucusButton: UIButton {
     /**
      刷新当前按钮
      */
-    private func loading(){
+    fileprivate func loading(){
         
-        self.setTitleColor(UIColor.clearColor(), forState: .Normal)
+        self.setTitleColor(UIColor.clear, for: UIControlState())
         
         self.loadV.startAnimating()
-        self.loadV.hidden = false
+        self.loadV.isHidden = false
     }
     
     
@@ -166,31 +166,31 @@ class FoucusButton: UIButton {
      
      - parameter focus: 关注状态
      */
-    private func refresh(){
+    fileprivate func refresh(){
         
         self.loadV.stopAnimating()
-        self.loadV.hidden = true
+        self.loadV.isHidden = true
         
         if Focus.isExiter(self.pname) {
             
-            self.setTitle("已关注", forState: UIControlState.Normal)
+            self.setTitle("已关注", for: UIControlState())
             
-            self.setTitleColor(UIColor.a_color10, forState: .Normal)
-            self.layer.borderColor = UIColor.a_color10.CGColor
+            self.setTitleColor(UIColor.a_color10, for: UIControlState())
+            self.layer.borderColor = UIColor.a_color10.cgColor
             
-            self.setBackgroundColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-            self.setBackgroundColor(UIColor.a_color10.colorWithAlphaComponent(0.3), forState: UIControlState.Selected)
-            self.setBackgroundColor(UIColor.a_color10.colorWithAlphaComponent(0.3), forState: UIControlState.Highlighted)
+            self.setBackgroundColor(UIColor.white, forState: UIControlState())
+            self.setBackgroundColor(UIColor.a_color10.withAlphaComponent(0.3), forState: UIControlState.selected)
+            self.setBackgroundColor(UIColor.a_color10.withAlphaComponent(0.3), forState: UIControlState.highlighted)
         }else{
             
-            self.setTitle("关注", forState: UIControlState.Normal)
+            self.setTitle("关注", for: UIControlState())
             
-            self.setTitleColor(UIColor.hexStringToColor("#e71f19"), forState: .Normal)
-            self.layer.borderColor = UIColor.hexStringToColor("#e71f19").CGColor
+            self.setTitleColor(UIColor.hexStringToColor("#e71f19"), for: UIControlState())
+            self.layer.borderColor = UIColor.hexStringToColor("#e71f19").cgColor
             
-            self.setBackgroundColor(UIColor.whiteColor(), forState: UIControlState.Normal)
-            self.setBackgroundColor(UIColor.hexStringToColor("#e71f19").colorWithAlphaComponent(0.3), forState: UIControlState.Selected)
-            self.setBackgroundColor(UIColor.hexStringToColor("#e71f19").colorWithAlphaComponent(0.3), forState: UIControlState.Highlighted)
+            self.setBackgroundColor(UIColor.white, forState: UIControlState())
+            self.setBackgroundColor(UIColor.hexStringToColor("#e71f19").withAlphaComponent(0.3), forState: UIControlState.selected)
+            self.setBackgroundColor(UIColor.hexStringToColor("#e71f19").withAlphaComponent(0.3), forState: UIControlState.highlighted)
         }
     }
 }

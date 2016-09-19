@@ -9,7 +9,7 @@
 import RealmSwift
 
 ///  频道的数据模型
-public class About: Object {
+open class About: Object {
     
     dynamic var nid = 0 // 相关新闻地址
     dynamic var url = "" // 相关新闻地址
@@ -22,13 +22,13 @@ public class About: Object {
     dynamic var img:String? = nil  //创建时间
     dynamic var abs = "" //创建该评论的用户名
     
-    dynamic var ptimes = NSDate() //创建时间
+    dynamic var ptimes = Date() //创建时间
     
     dynamic var htmlTitle = "" // 相关新闻标题
     
     dynamic var isread = 0 // 是否阅读
     
-    override public static func primaryKey() -> String? {
+    override open static func primaryKey() -> String? {
         return "url"
     }
 }

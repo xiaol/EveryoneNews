@@ -11,14 +11,14 @@ import SwaggerClient
 
 class VisitorViewController: UIViewController {
     
-    override func shouldAutorotate() -> Bool {
+    override var shouldAutorotate : Bool {
         
         return false
     }
     
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
         
-        return UIInterfaceOrientationMask.Portrait
+        return UIInterfaceOrientationMask.portrait
     }
     
     override func viewDidLoad() {
@@ -27,30 +27,30 @@ class VisitorViewController: UIViewController {
         
         if ShareLUser.islogin { // 如果用户已经登陆
             let splistViewController = UIStoryboard.shareStoryBoard.get_UISplitViewController()
-            (UIApplication.sharedApplication().delegate as! AppDelegate).window?.rootViewController = splistViewController
+            (UIApplication.shared.delegate as! AppDelegate).window?.rootViewController = splistViewController
         }
     }
     
     // 随便看看
-    @IBAction func casualLook(sender: UIButton) {
+    @IBAction func casualLook(_ sender: UIButton) {
         
-        self.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
+        self.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
         
-        sender.enabled = false
+        sender.isEnabled = false
         
         ShareLUser.getSdkUserToken({ (token) in
             
             let splistViewController = UIStoryboard.shareStoryBoard.get_UISplitViewController()
-            self.presentViewController(splistViewController, animated: false, completion: nil)
+            self.present(splistViewController, animated: false, completion: nil)
             
         }) {
                 
-                sender.enabled = true
+                sender.isEnabled = true
         }
     }
     
 
-    @IBAction func WeChatLoginButtonAction(sender: AnyObject) {
+    @IBAction func WeChatLoginButtonAction(_ sender: AnyObject) {
         
         UserLoginSdkApiManager.WeChatLogin(self, del: self)
     }
@@ -62,17 +62,17 @@ extension VisitorViewController:UserLoginManagerDelegate{
 
 
     // 新浪登陆按钮点击事件
-    @IBAction func SinaLoginButtonAction(sender: AnyObject) {
+    @IBAction func SinaLoginButtonAction(_ sender: AnyObject) {
         
         UserLoginSdkApiManager.SinaLogin(self)
     }
     
-    func didReceiveRequestUserSuccessResponse(userR: AnyObject!) {
+    func didReceiveRequestUserSuccessResponse(_ userR: AnyObject!) {
         if let user = userR as? UserRegister{
             
             ShareLUserRequest.resigterSanFangUser(user, finish: {
                 let splistViewController = UIStoryboard.shareStoryBoard.get_UISplitViewController()
-                (UIApplication.sharedApplication().delegate as! AppDelegate).window?.rootViewController = splistViewController
+                (UIApplication.shared.delegate as! AppDelegate).window?.rootViewController = splistViewController
             })
         }
     }

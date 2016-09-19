@@ -12,47 +12,48 @@ import SwaggerClient
 
 @objc protocol UserLoginManagerDelegate:NSObjectProtocol{
     
-    optional func didReceiveWeiboRequest(request: AnyObject!)
-    optional func didReceiveWeiboResponse(response: AnyObject!)
+    @objc optional func didReceiveWeiboRequest(_ request: AnyObject!)
+    @objc optional func didReceiveWeiboResponse(_ response: AnyObject!)
     
-    optional func willRequestAuthorize() // 接收到授权失败的消息
+    @objc optional func willRequestAuthorize() // 接收到授权失败的消息
     
-    optional func didReceiveFailResponse(message: String) // 接收到授权失败的消息
-    optional func willRequestUserInfo() // 开始准备请求用户信息
+    @objc optional func didReceiveFailResponse(_ message: String) // 接收到授权失败的消息
+    @objc optional func willRequestUserInfo() // 开始准备请求用户信息
     
-    optional func didReceiveRequestUserFailResponse() // 请求用户信息失败
-    optional func didReceiveRequestUserSuccessResponse(userR:AnyObject!) // 请求用户信息失败
+    @objc optional func didReceiveRequestUserFailResponse() // 请求用户信息失败
+    @objc optional func didReceiveRequestUserSuccessResponse(_ userR:AnyObject!) // 请求用户信息失败
 }
 
 extension UserLoginSdkApiManager{
 
-    class func SinaLogin(del:UserLoginManagerDelegate){
+    class func SinaLogin(_ del:UserLoginManagerDelegate){
     
         UserLoginSdkApiManager.shareWXApiManager().delegate = del
         let request = WBAuthorizeRequest()
         request.redirectURI = SINA_REDIRECTURI
         request.scope = "all"
-        WeiboSDK.sendRequest(request)
+        WeiboSDK.send(request)
         
         del.willRequestAuthorize?()
         
     }
     
-    class func WeChatLogin(vc:UIViewController,del:UserLoginManagerDelegate){
+    class func WeChatLogin(_ vc:UIViewController,del:UserLoginManagerDelegate){
     
         UserLoginSdkApiManager.shareWXApiManager().delegate = del
         
         /// 获取友盟微博
-        let snsPlatform = UMSocialSnsPlatformManager.getSocialPlatformWithName(UMShareToWechatSession)
+        let snsPlatform = UMSocialSnsPlatformManager.getSocialPlatform(withName: UMShareToWechatSession)
         
         del.willRequestAuthorize?()
-        snsPlatform.loginClickHandler(vc, UMSocialControllerService.defaultControllerService(), true, {response in
+        snsPlatform?.loginClickHandler(vc, UMSocialControllerService.default(), true, {response in
             del.didReceiveWeiboResponse?(response) // 向用户告知，接收到了微信的回调
             
-            switch response.responseCode {
+            switch response!.responseCode {
+                
             case UMSResponseCodeSuccess:
                 
-                self.getWeChatUserInfo(response)
+                self.getWeChatUserInfo(response!)
             case UMSResponseCodeCancel:
                 del.didReceiveFailResponse?("请确认授权")
             default:
@@ -69,41 +70,29 @@ class UserLoginSdkApiManager:NSObject,WeiboSDKDelegate{
     weak var delegate: UserLoginManagerDelegate?
     
     ///单例模式下获取主人
-    class func shareWXApiManager()->UserLoginSdkApiManager{
+    static func shareWXApiManager()->UserLoginSdkApiManager{
         
-        struct YRSingleton{
-            
-            static var predicate:dispatch_once_t = 0
-            
-            static var meet:UserLoginSdkApiManager? = nil
-        }
-        
-        dispatch_once(&YRSingleton.predicate,{
-            
-            YRSingleton.meet = UserLoginSdkApiManager()
-        })
-        
-        return YRSingleton.meet!
+        return UserLoginSdkApiManager()
     }
     
     // 接收到来自微博的请求
-    func didReceiveWeiboRequest(request: WBBaseRequest!) {
+    func didReceiveWeiboRequest(_ request: WBBaseRequest!) {
         
         delegate?.didReceiveWeiboRequest?(request)
     }
     
     // 接收到来自微博的回复
-    func didReceiveWeiboResponse(response: WBBaseResponse!) {
+    func didReceiveWeiboResponse(_ response: WBBaseResponse!) {
         delegate?.didReceiveWeiboResponse?(response) // 向用户告知，接收到了微博的回调
         switch response.statusCode {
-        case .Success:
-            guard let asstoken = response.userInfo["access_token"] as? String,uid = response.userInfo["uid"] as? String,expires_in = response.userInfo["expires_in"] as? String else{fallthrough}
+        case .success:
+            guard let asstoken = response.userInfo["access_token"] as? String,let uid = response.userInfo["uid"] as? String,let expires_in = response.userInfo["expires_in"] as? String else{fallthrough}
             delegate?.willRequestUserInfo?() // 向用户告知，将要请求用户信息
             
-            let sexpires = NSDate().dateByAddingSeconds(NSString(string:expires_in).integerValue).toString(format: DateFormat.Custom("yyyy-MM-dd hh:mm:ss"))
+            let sexpires = Date().dateByAddingSeconds(NSString(string:expires_in).integerValue).toString(DateFormat.custom("yyyy-MM-dd hh:mm:ss"))
             
             self.getSinaUserInfo(asstoken, uid: uid,sexpires:sexpires)
-        case .UserCancel:
+        case .userCancel:
             delegate?.didReceiveFailResponse?("请确认授权")
         default:
             delegate?.didReceiveFailResponse?("未知错误")
@@ -117,16 +106,16 @@ import AFDateHelper
 extension UserLoginSdkApiManager{
 
     
-    private class func getWeChatUserInfo(respones:UMSocialResponseEntity){
+    fileprivate class func getWeChatUserInfo(_ respones:UMSocialResponseEntity){
     
-        guard let wxsession = respones.data["wxsession"],accessToken = wxsession["accessToken"] as? String ,username = wxsession["username"] as? String ,usid = wxsession["usid"] as? String else{
+        guard let wxsession = respones.data["wxsession"] as? [String:Any],let accessToken = wxsession["accessToken"] as? String ,let username = wxsession["username"] as? String ,let usid = wxsession["usid"] as? String else{
             
             UserLoginSdkApiManager.shareWXApiManager().delegate?.didReceiveRequestUserFailResponse?()
             
             return
         }
         
-        guard let profile = respones.thirdPlatformUserProfile ,avatar = profile["headimgurl"] as? String,genders = profile["sex"] as? Int else{
+        guard let profile = respones.thirdPlatformUserProfile as? [String:Any],let avatar = profile["headimgurl"] as? String,let genders = profile["sex"] as? Int else{
         
             UserLoginSdkApiManager.shareWXApiManager().delegate?.didReceiveRequestUserFailResponse?()
             
@@ -139,7 +128,7 @@ extension UserLoginSdkApiManager{
         /// 设置存储
         ShareLUser.s_uid = usid
         ShareLUser.s_token = accessToken
-        ShareLUser.s_sexpires = NSDate().dateByAddingDays(7).toString(format: DateFormat.Custom("yyyy-MM-dd hh:mm:ss"))
+        ShareLUser.s_sexpires = Date().dateByAddingDays(7).toString(DateFormat.custom("yyyy-MM-dd hh:mm:ss"))
         ShareLUser.s_uname = username
         ShareLUser.s_avatar = avatar
         ShareLUser.s_gender = genders == 0 ? 3 : (genders == 2 ? 0 : 1)
@@ -150,14 +139,14 @@ extension UserLoginSdkApiManager{
     }
     
     ///  获取新浪微博的用户信息
-    private func getSinaUserInfo(access_token:String,uid:String,sexpires:String){
-        let param:[String : AnyObject] = ["access_token":access_token,"uid":uid]
-        Alamofire.request(.GET, "https://api.weibo.com/2/users/show.json", parameters: param).responseJSON { (respense) -> Void in
+    fileprivate func getSinaUserInfo(_ access_token:String,uid:String,sexpires:String){
+        let param:[String : AnyObject] = ["access_token":access_token as AnyObject,"uid":uid as AnyObject]
+        Alamofire.request( "https://api.weibo.com/2/users/show.json",method:.get, parameters: param).responseJSON { (respense) -> Void in
             if respense.result.isFailure {
                 self.delegate?.didReceiveRequestUserFailResponse?()
                 return
             }
-            guard let result = respense.result.value as? NSDictionary ,uname = result["name"] as? String,avatar = result["avatar_hd"] as? String,genders = result["gender"] as? String else{
+            guard let result = respense.result.value as? NSDictionary ,let uname = result["name"] as? String,let avatar = result["avatar_hd"] as? String,let genders = result["gender"] as? String else{
                 self.delegate?.didReceiveRequestUserFailResponse?()
                 return
             }

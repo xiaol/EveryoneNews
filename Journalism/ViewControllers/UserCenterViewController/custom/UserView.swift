@@ -15,12 +15,12 @@ class HeadPhotoView:UIImageView{
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.layer.cornerRadius = self.frame.height/2
-        self.layer.borderColor = UIColor(red: 228/255, green: 228/255, blue: 228/255, alpha: 1).CGColor
+        self.layer.borderColor = UIColor(red: 228/255, green: 228/255, blue: 228/255, alpha: 1).cgColor
         self.layer.borderWidth = 1
         
         self.clipsToBounds = true
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(HeadPhotoView.setHeadphoto), name: USERLOGINCHANGENOTIFITION, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(HeadPhotoView.setHeadphoto), name: NSNotification.Name(rawValue: USERLOGINCHANGENOTIFITION), object: nil)
         
         self.setHeadphoto()
     }
@@ -34,11 +34,11 @@ class HeadPhotoView:UIImageView{
             return self.image = UIImage(named: "home-个人头像")
         }
         
-        if let url = NSURL(string: ShareLUser.avatar) {
+        if let url = URL(string: ShareLUser.avatar) {
             
             self.layer.borderWidth = 1
             
-            self.pin_setImageFromURL(url)
+            self.pin_setImage(from: url)
         }
     }
 }
@@ -50,12 +50,12 @@ class HeadPhotoView1:UIImageView{
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         self.layer.cornerRadius = self.frame.height/2
-        self.layer.borderColor = UIColor(red: 228/255, green: 228/255, blue: 228/255, alpha: 1).CGColor
+        self.layer.borderColor = UIColor(red: 228/255, green: 228/255, blue: 228/255, alpha: 1).cgColor
         self.layer.borderWidth = 0
         
         self.clipsToBounds = true
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(HeadPhotoView.setHeadphoto), name: USERLOGINCHANGENOTIFITION, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(HeadPhotoView.setHeadphoto), name: NSNotification.Name(rawValue: USERLOGINCHANGENOTIFITION), object: nil)
         
         self.setHeadphoto()
     }
@@ -67,9 +67,9 @@ class HeadPhotoView1:UIImageView{
             return self.image = UIImage(named: "home_login")
         }
         
-        if let url = NSURL(string: ShareLUser.avatar) {
+        if let url = URL(string: ShareLUser.avatar) {
             
-            self.pin_setImageFromURL(url)
+            self.pin_setImage(from: url)
         }
     }
 }
@@ -80,7 +80,7 @@ class UserNameLabel:UILabel{
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(UserNameLabel.setUserName), name: USERLOGINCHANGENOTIFITION, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(UserNameLabel.setUserName), name: NSNotification.Name(rawValue: USERLOGINCHANGENOTIFITION), object: nil)
         self.setUserName()
     }
     

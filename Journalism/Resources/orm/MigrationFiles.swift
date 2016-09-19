@@ -23,7 +23,7 @@ class RealmMigration {
             
             if oldSchemaVersion < 1 {
             
-                migration.enumerate(New.className(), { (oldObject, newObject) in
+                migration.enumerateObjects(ofType: New.className(), { (oldObject, newObject) in
                   
                     newObject!["searchTitle"] = ""
                 })
@@ -31,7 +31,7 @@ class RealmMigration {
             
             if oldSchemaVersion < 1 {
                 
-                migration.enumerate(New.className(), { (oldObject, newObject) in
+                migration.enumerateObjects(ofType: New.className(), { (oldObject, newObject) in
                     
                     newObject!["rtype"] = 0
                 })
@@ -39,7 +39,7 @@ class RealmMigration {
             
             if oldSchemaVersion < 2 {
                 
-                migration.enumerate(About.className(), { (oldObject, newObject) in
+                migration.enumerateObjects(ofType: About.className(), { (oldObject, newObject) in
                     
                     newObject!["htmlTitle"] = ""
                 })

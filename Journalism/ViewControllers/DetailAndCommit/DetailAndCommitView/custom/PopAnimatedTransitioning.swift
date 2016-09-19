@@ -13,44 +13,46 @@ class DetailViewAndCommitViewControllerPopAnimatedTransitioning:NSObject,UIViewC
     
     var isInteraction = false
     
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         
         return 0.3
     }
     
-    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         
-        guard let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey),toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey),cv = transitionContext.containerView() else{
+        guard let fromVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from),let toVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to) else{
             
             return transitionContext.completeTransition(true)
         }
         
-        toVC.view.frame = transitionContext.finalFrameForViewController(toVC)
+        let cv = transitionContext.containerView
+        
+        toVC.view.frame = transitionContext.finalFrame(for: toVC)
         
         cv.insertSubview(toVC.view, belowSubview: fromVC.view)
         
         fromVC.view.clipsToBounds = false
         fromVC.view.layer.shadowOpacity = 0.9
         fromVC.view.layer.shadowRadius = 5
-        fromVC.view.layer.shadowColor = UIColor.lightGrayColor().CGColor
+        fromVC.view.layer.shadowColor = UIColor.lightGray.cgColor
         fromVC.view.layer.shadowOffset = CGSize(width: -1.5, height: 0)
         
-        toVC.view.transform = CGAffineTransformIdentity
+        toVC.view.transform = CGAffineTransform.identity
         
-        toVC.view.transform = CGAffineTransformMakeTranslation(-(UIScreen.mainScreen().bounds.width)/2, 0)
+        toVC.view.transform = CGAffineTransform(translationX: -(UIScreen.main.bounds.width)/2, y: 0)
         
-        UIView.animateWithDuration(self.transitionDuration(transitionContext), animations: {
+        UIView.animate(withDuration: self.transitionDuration(using: transitionContext), animations: {
             
-            toVC.view.transform = CGAffineTransformIdentity
-            fromVC.view.transform = CGAffineTransformTranslate(fromVC.view.transform, UIScreen.mainScreen().bounds.width, 0)
+            toVC.view.transform = CGAffineTransform.identity
+            fromVC.view.transform = fromVC.view.transform.translatedBy(x: UIScreen.main.bounds.width, y: 0)
             
-        }) { (_) in
+        }, completion: { (_) in
             
-            toVC.view.transform = CGAffineTransformIdentity
+            toVC.view.transform = CGAffineTransform.identity
             
             fromVC.view.clipsToBounds = true
             
-            transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
-        }
+            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+        }) 
     }
 }

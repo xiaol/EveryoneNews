@@ -41,7 +41,7 @@ class QiDianCell:UITableViewCell{
 
     }
     
-    func setQiDian(focus:Focus){
+    func setQiDian(_ focus:Focus){
     
         self.headImageView.layer.cornerRadius = 8
         
@@ -49,47 +49,47 @@ class QiDianCell:UITableViewCell{
         self.titleLabel1.text = focus.name
         self.fouceLabel.text = "\(focus.concern)个人关注"
         
-        self.titleLabel.hidden = false
+        self.titleLabel.isHidden = false
         
         let s = focus.concern > 0
         
-        self.fouceLabel.hidden = !s
+        self.fouceLabel.isHidden = !s
         
         foucsButton.pname = focus.name
         
         
-        self.titleLabel.hidden = s
-        self.titleLabel1.hidden = !s
-        self.fouceLabel.hidden = !s
+        self.titleLabel.isHidden = s
+        self.titleLabel1.isHidden = !s
+        self.fouceLabel.isHidden = !s
     }
     
-    override func drawRect(rect: CGRect) {
-        super.drawRect(rect)
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
         
         let context = UIGraphicsGetCurrentContext() // 获取绘画板
-        CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
-        CGContextFillRect(context, rect)
+        context?.setFillColor(UIColor.white.cgColor)
+        context?.fill(rect)
         //下分割线
-        CGContextSetStrokeColorWithColor(context, UIColor(red: 228/255, green:228/255, blue: 228/255, alpha: 1).CGColor)
-        CGContextStrokeRect(context, CGRectMake(18, rect.height, rect.width-18, 1));
+        context?.setStrokeColor(UIColor(red: 228/255, green:228/255, blue: 228/255, alpha: 1).cgColor)
+        context?.stroke(CGRect(x: 18, y: rect.height, width: rect.width-18, height: 1));
         
-        self.titleLabel1.snp_makeConstraints(closure: { (make) in
+        self.titleLabel1.snp.makeConstraints({ (make) in
             
-            make.top.equalTo(self.headImageView.snp_top).offset(1)
-            make.left.equalTo(self.headImageView.snp_right).offset(12)
+            make.top.equalTo(self.headImageView.snp.top).offset(1)
+            make.left.equalTo(self.headImageView.snp.right).offset(12)
         })
         
-        self.fouceLabel.snp_makeConstraints(closure: { (make) in
+        self.fouceLabel.snp.makeConstraints({ (make) in
             
-            make.bottom.equalTo(self.headImageView.snp_bottom).offset(-1)
-            make.left.equalTo(self.headImageView.snp_right).offset(12)
+            make.bottom.equalTo(self.headImageView.snp.bottom).offset(-1)
+            make.left.equalTo(self.headImageView.snp.right).offset(12)
         })
         
-        self.titleLabel.snp_makeConstraints(closure: { (make) in
+        self.titleLabel.snp.makeConstraints({ (make) in
             
-            make.centerY.equalTo(self.headImageView.snp_centerY)
-            make.left.equalTo(self.headImageView.snp_right).offset(12)
-            make.right.equalTo(self.foucsButton.snp_left).offset(-22)
+            make.centerY.equalTo(self.headImageView.snp.centerY)
+            make.left.equalTo(self.headImageView.snp.right).offset(12)
+            make.right.equalTo(self.foucsButton.snp.left).offset(-22)
         })
     }
 }

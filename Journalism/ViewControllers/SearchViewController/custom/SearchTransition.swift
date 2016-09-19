@@ -12,39 +12,39 @@ class SearchViewControllerDismissedAnimation:NSObject,UIViewControllerAnimatedTr
     
     var isInteraction = false
     
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         
         return 0.4
     }
     
-    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         
-        let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
-        let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
+        let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)!
+        let fromViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)!
         
-        let containerView = transitionContext.containerView()
-        containerView!.addSubview(toViewController.view)
-        containerView!.addSubview(fromViewController.view)
+        let containerView = transitionContext.containerView
+        containerView.addSubview(toViewController.view)
+        containerView.addSubview(fromViewController.view)
         
-        toViewController.view.frame = transitionContext.finalFrameForViewController(toViewController)
+        toViewController.view.frame = transitionContext.finalFrame(for: toViewController)
         
-        let IS_VERTICAL = UIScreen.mainScreen().bounds.width < UIScreen.mainScreen().bounds.height //是否垂直
+        let IS_VERTICAL = UIScreen.main.bounds.width < UIScreen.main.bounds.height //是否垂直
         
-        if let fr = toViewController as? UISplitViewController,nav = fr.viewControllers.first as? UINavigationController,master = nav.viewControllers.first as? HomeViewController,newlist = master.viewControllers[master.currentIndex] as? NewslistViewController,search = fromViewController as? SearchViewController{
+        if let fr = toViewController as? UISplitViewController,let nav = fr.viewControllers.first as? UINavigationController,let master = nav.viewControllers.first as? HomeViewController,let newlist = master.viewControllers[master.currentIndex] as? NewslistViewController,let search = fromViewController as? SearchViewController{
             
             search.backView.alpha = 0
             
-            let view = newlist.fuckHeaderCellView // 获得 from 搜索视图
-            view.hidden = true // 隐藏
+            let view = newlist.fuckHeaderCellView! // 获得 from 搜索视图
+            view.isHidden = true // 隐藏
             
-            let rect = view.convertRect(view.frame, toView: fr.view)
+            let rect = view.convert(view.frame, to: fr.view)
             
-            UIView.animateWithDuration(self.transitionDuration(transitionContext), delay: 0, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+            UIView.animate(withDuration: self.transitionDuration(using: transitionContext), delay: 0, options: UIViewAnimationOptions(), animations: {
                 
                 search.searchInputViewRightConstraint.constant = 12
                 
                 search.searchViewTopSpaceConstraint.constant = IS_VERTICAL ? rect.origin.y-20 : rect.origin.y
-                search.searchViewRightSpaceConstraint.constant = UIScreen.mainScreen().bounds.width-rect.width
+                search.searchViewRightSpaceConstraint.constant = UIScreen.main.bounds.width-rect.width
                 search.topView.alpha = 0
                 search.backView.alpha = 0
                 
@@ -52,7 +52,7 @@ class SearchViewControllerDismissedAnimation:NSObject,UIViewControllerAnimatedTr
                 
                 }, completion: { (_) in
                     
-                    view.hidden = false // 隐藏
+                    view.isHidden = false // 隐藏
                     transitionContext.completeTransition(true)
             })
         }
@@ -61,38 +61,38 @@ class SearchViewControllerDismissedAnimation:NSObject,UIViewControllerAnimatedTr
 
 class SearchViewControllerPresentdAnimation:NSObject,UIViewControllerAnimatedTransitioning {
     
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         
         return 0.4
     }
     
-    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         
-        let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
-        let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
+        let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)!
+        let fromViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)!
         
-        toViewController.view.frame = transitionContext.finalFrameForViewController(toViewController)
+        toViewController.view.frame = transitionContext.finalFrame(for: toViewController)
         
-        let containerView = transitionContext.containerView()
-        containerView!.addSubview(toViewController.view)
+        let containerView = transitionContext.containerView
+        containerView.addSubview(toViewController.view)
         
-        let IS_VERTICAL = UIScreen.mainScreen().bounds.width < UIScreen.mainScreen().bounds.height //是否垂直
+        let IS_VERTICAL = UIScreen.main.bounds.width < UIScreen.main.bounds.height //是否垂直
         
-        if let fr = fromViewController as? UISplitViewController,nav = fr.viewControllers.first as? UINavigationController,master = nav.viewControllers.first as? HomeViewController,newlist = master.viewControllers[master.currentIndex] as? NewslistViewController,search = toViewController as? SearchViewController{
+        if let fr = fromViewController as? UISplitViewController,let nav = fr.viewControllers.first as? UINavigationController,let master = nav.viewControllers.first as? HomeViewController,let newlist = master.viewControllers[master.currentIndex] as? NewslistViewController,let search = toViewController as? SearchViewController{
             
             search.backView.alpha = 0
             
-            let view = newlist.fuckHeaderCellView // 获得 from 搜索视图
-            view.hidden = true // 隐藏
+            let view = newlist.fuckHeaderCellView! // 获得 from 搜索视图
+            view.isHidden = true // 隐藏
             
-            let rect = view.convertRect(view.frame, toView: fr.view)
+            let rect = view.convert(view.frame, to: fr.view)
             
             search.searchViewTopSpaceConstraint.constant = IS_VERTICAL ? rect.origin.y-20 : rect.origin.y
             
-            search.searchViewRightSpaceConstraint.constant = UIScreen.mainScreen().bounds.width-rect.width
+            search.searchViewRightSpaceConstraint.constant = UIScreen.main.bounds.width-rect.width
             search.view.layer.layoutIfNeeded() // 完成替换工作
             
-            UIView.animateWithDuration(self.transitionDuration(transitionContext), animations: {
+            UIView.animate(withDuration: self.transitionDuration(using: transitionContext), animations: {
                 
                 search.searchViewTopSpaceConstraint.constant = 0
                 search.searchViewRightSpaceConstraint.constant = 0
@@ -102,7 +102,7 @@ class SearchViewControllerPresentdAnimation:NSObject,UIViewControllerAnimatedTra
                 
                 }, completion: { (_) in
                     
-                    view.hidden = false // 隐藏
+                    view.isHidden = false // 隐藏
                     transitionContext.completeTransition(true)
                     
             })
@@ -118,7 +118,7 @@ extension SearchViewController{
      
      - parameter animated: <#animated description#>
      */
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         
         self.textFiled.text = ""
         super.viewDidDisappear(animated)
@@ -130,11 +130,11 @@ extension SearchViewController{
      
      - parameter sender: <#sender description#>
      */
-    @IBAction func dismissAction(sender: AnyObject) {
+    @IBAction func dismissAction(_ sender: AnyObject) {
         
         self.textFiled.resignFirstResponder()
         self.textFiled.text = ""
-        self.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
+        self.presentingViewController?.dismiss(animated: true, completion: nil)
     }
     
     /**
@@ -146,7 +146,7 @@ extension SearchViewController{
      
      - returns: <#return value description#>
      */
-    internal func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    @objc(animationControllerForPresentedController:presentingController:sourceController:) internal func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
         return PresentdAnimation
     }
@@ -158,7 +158,7 @@ extension SearchViewController{
      
      - returns: <#return value description#>
      */
-    internal func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    @objc(animationControllerForDismissedController:) internal func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
         return DismissedAnimation
     }

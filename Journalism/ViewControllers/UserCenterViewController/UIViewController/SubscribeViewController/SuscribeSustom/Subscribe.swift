@@ -39,7 +39,7 @@ struct Subscribe {
      
      - returns: 订阅号对象集合
      */
-    private static func SubscribeArrary() -> [Subscribe]{
+    fileprivate static func SubscribeArrary() -> [Subscribe]{
         
         let subscriber1 = Subscribe(title: "36氪" , imageName:"36氪")
         let subscriber2 = Subscribe(title: "爱范儿" , imageName:"爱范儿")
@@ -106,7 +106,7 @@ struct Subscribe {
      
      - returns: Index 集合
      */
-    private static func RandIndexArray() -> [Int]{
+    fileprivate static func RandIndexArray() -> [Int]{
         
         var indexArray = [Int]()
         
@@ -140,19 +140,19 @@ class CustomSubscribeButton: UIButton {
         
         super.init(coder: aDecoder)
         
-        self.setImage(self.NormalImg, forState: UIControlState.Normal)
+        self.setImage(self.NormalImg, for: UIControlState())
         
-        self.addAction(UIControlEvents.TouchUpInside) { (_) in
+        self.addAction(events: UIControlEvents.touchUpInside) { (_) in
             
-            if self.imageForState(.Normal) == self.NormalImg {
+            if self.image(for: UIControlState()) == self.NormalImg {
                 
-                self.setImage(self.SelectImg, forState: UIControlState.Normal)
+                self.setImage(self.SelectImg, for: UIControlState())
             }else{
                 
-                self.setImage(self.NormalImg, forState: UIControlState.Normal)
+                self.setImage(self.NormalImg, for: UIControlState())
             }
             
-            NSNotificationCenter.defaultCenter().postNotificationName("SubscribeStateChange", object: nil)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: "SubscribeStateChange"), object: nil)
         }
     }
 }

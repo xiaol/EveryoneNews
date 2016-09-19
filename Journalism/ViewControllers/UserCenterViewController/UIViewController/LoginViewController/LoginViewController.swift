@@ -12,29 +12,29 @@ import SwaggerClient
 
 class LoginViewController: UIViewController,UserLoginManagerDelegate {
     
-    override func shouldAutorotate() -> Bool {
+    override var shouldAutorotate : Bool {
         
         return false
     }
     
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
         
-        return UIInterfaceOrientationMask.Portrait
+        return UIInterfaceOrientationMask.portrait
     }
     
     // 返回上一个视图
-    @IBAction func dismissViewControllerAction(sender: AnyObject){
+    @IBAction func dismissViewControllerAction(_ sender: AnyObject){
     
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
     // 新浪登陆按钮点击事件
-    @IBAction func SinaLoginButtonAction(sender: AnyObject) {
+    @IBAction func SinaLoginButtonAction(_ sender: AnyObject) {
         
         UserLoginSdkApiManager.SinaLogin(self)
     }
     
-    @IBAction func WeChatLoginButtonAction(sender: AnyObject) {
+    @IBAction func WeChatLoginButtonAction(_ sender: AnyObject) {
         
         UserLoginSdkApiManager.WeChatLogin(self, del: self)
     }
@@ -43,45 +43,45 @@ class LoginViewController: UIViewController,UserLoginManagerDelegate {
         
         SVProgressHUD.show()
         
-        SVProgressHUD.setDefaultMaskType(SVProgressHUDMaskType.Clear)
+        SVProgressHUD.setDefaultMaskType(SVProgressHUDMaskType.clear)
     }
     
-    func didReceiveFailResponse(message: String) {
+    func didReceiveFailResponse(_ message: String) {
         
-        SVProgressHUD.showErrorWithStatus(message)
+        SVProgressHUD.showError(withStatus: message)
         
-        SVProgressHUD.dismissWithDelay(1.5)
+        SVProgressHUD.dismiss(withDelay: 1.5)
     }
     
     func willRequestUserInfo() {
         
-        SVProgressHUD.showInfoWithStatus("请求用户信息中")
-        SVProgressHUD.setDefaultMaskType(SVProgressHUDMaskType.Clear)
+        SVProgressHUD.showInfo(withStatus: "请求用户信息中")
+        SVProgressHUD.setDefaultMaskType(SVProgressHUDMaskType.clear)
     }
     
     func didReceiveRequestUserFailResponse() {
         
-        SVProgressHUD.showErrorWithStatus("请求用户信息失败")
+        SVProgressHUD.showError(withStatus: "请求用户信息失败")
         
-        SVProgressHUD.dismissWithDelay(1.5)
+        SVProgressHUD.dismiss(withDelay: 1.5)
     }
     
     // 接收到用户信息成功获取的通知
-    func didReceiveRequestUserSuccessResponse(userR: AnyObject!) {
+    func didReceiveRequestUserSuccessResponse(_ userR: AnyObject!) {
         
-        SVProgressHUD.showWithStatus("完成授权 ")
-        SVProgressHUD.dismissWithDelay(1.5)
+        SVProgressHUD.show(withStatus: "完成授权 ")
+        SVProgressHUD.dismiss(withDelay: 1.5)
         
         if let user = userR as? UserRegister{
      
             ShareLUserRequest.resigterSanFangUser(user, finish: { 
                 
-                self.dismissViewControllerAnimated(true, completion: nil)
+                self.dismiss(animated: true, completion: nil)
                 
                 }, fail: { 
                     
-                    SVProgressHUD.showErrorWithStatus("注册失败")
-                    SVProgressHUD.dismissWithDelay(1.5)
+                    SVProgressHUD.showError(withStatus: "注册失败")
+                    SVProgressHUD.dismiss(withDelay: 1.5)
             })
         }
     }

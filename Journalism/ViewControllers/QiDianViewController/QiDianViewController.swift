@@ -30,11 +30,11 @@ class QiDianViewController: UIViewController,PreViewControllerDelegate {
         
         super.viewDidLoad()
         
-        tableView.panGestureRecognizer.requireGestureRecognizerToFail(pan)
+        tableView.panGestureRecognizer.require(toFail: pan)
         
         pan.delegate = self
         
-        NSNotificationCenter.defaultCenter().addObserverForName(USERFOCUSPNAMENOTIFITION, object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: USERFOCUSPNAMENOTIFITION), object: nil, queue: OperationQueue.main) { (_) in
             
             self.tableView.reloadData()
         }
@@ -49,7 +49,7 @@ class QiDianViewController: UIViewController,PreViewControllerDelegate {
          *
          *  @return 所需要完成的操作
          */
-        NSNotificationCenter.defaultCenter().addObserverForName(FONTMODALSTYLEIDENTIFITER, object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: FONTMODALSTYLEIDENTIFITER), object: nil, queue: OperationQueue.main) { (_) in
             
             self.tableView.reloadData()
         }

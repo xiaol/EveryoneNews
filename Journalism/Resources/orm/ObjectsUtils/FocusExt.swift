@@ -18,7 +18,7 @@ extension Focus{
      
      - parameter info: 信息对象
      */
-    class func InsertNewFocus(info:NSDictionary){
+    class func InsertNewFocus(_ info:NSDictionary){
     
         let realm = try! Realm()
         
@@ -34,19 +34,19 @@ extension Focus{
      - parameter finish: 完成
      - parameter fail:   失败
      */
-    class func LoadNewListByPname(pname:String,times:NSTimeInterval=NSDate().dateByAddingHours(-3).timeIntervalSince1970*1000,finish:((nomore:Bool)->Void)?=nil,fail:(()->Void)?=nil){
+    class func LoadNewListByPname(_ pname:String,times:TimeInterval=Date().dateByAddingHours(-3).timeIntervalSince1970*1000,finish:((_ nomore:Bool)->Void)?=nil,fail:(()->Void)?=nil){
         
         guard let token = ShareLUser.token else{ return }
         
-        Manager.shareManager.request(.GET, SwaggerClientAPI.basePath+"/ns/pbs", parameters: ["uid":"\(ShareLUser.uid)","pname":pname,"info":"1","tcr":"\(Int64(times))","p":"1","c":"20"], encoding: ParameterEncoding.URLEncodedInURL, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
+        Manager.shareManager.request( SwaggerClientAPI.basePath+"/ns/pbs",method:.get, parameters: ["uid":"\(ShareLUser.uid)","pname":pname,"info":"1","tcr":"\(Int64(times))","p":"1","c":"20"], encoding: URLEncoding.default, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
             
-            guard let rv = res.result.value as? NSDictionary,let rcode = rv.objectForKey("code") as? Int,data = rv.objectForKey("data") as? NSDictionary,result = data.objectForKey("news") as? NSArray,info = data.objectForKey("info") as? NSDictionary else{ fail?();return}
+            guard let rv = res.result.value as? NSDictionary,let rcode = rv.object(forKey: "code") as? Int,let data = rv.object(forKey: "data") as? NSDictionary,let result = data.object(forKey: "news") as? NSArray,let info = data.object(forKey: "info") as? NSDictionary else{ fail?();return}
             
             self.InsertNewFocus(info)
             
             if result.count <= 0 {
             
-                finish?(nomore:true)
+                finish?(true)
                 return
             }
             
@@ -56,9 +56,9 @@ extension Focus{
             
             for new in result {
                 
-                guard let nid = new.objectForKey("nid") as? Int else{ break }
+                guard let nid = (new as AnyObject).object(forKey: "nid") as? Int else{ break }
                 
-                let isExt = realm.objectForPrimaryKey(New.self, key: nid) != nil
+                let isExt = realm.object(ofType: New.self, forPrimaryKey: nid as AnyObject) != nil
                 
                 try! realm.write({
                     
@@ -74,7 +74,7 @@ extension Focus{
                 })
             }
             
-            finish?(nomore:false)
+            finish?(false)
         }
     }
 }

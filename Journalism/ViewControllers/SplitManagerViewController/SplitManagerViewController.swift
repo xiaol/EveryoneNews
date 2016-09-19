@@ -14,6 +14,6 @@ class SplitManagerViewController: UIViewController {
         
         super.init(coder: aDecoder)
         
-        self.modalTransitionStyle = .CrossDissolve
+        self.modalTransitionStyle = .crossDissolve
     }
 }

@@ -57,12 +57,12 @@ class UserSettingViewController: UIViewController,UIGestureRecognizerDelegate {
         
         super.viewDidLoad()
         
-        scrollView.panGestureRecognizer.requireGestureRecognizerToFail(pan)
+        scrollView.panGestureRecognizer.require(toFail: pan)
         pan.delegate = self
         
         self.initChooseFontSize()
         
-        self.logoutButton.setTitle(ShareLUser.utype == 2 ? "点击登录" : "退出登录", forState: UIControlState.Normal)
+        self.logoutButton.setTitle(ShareLUser.utype == 2 ? "点击登录" : "退出登录", for: UIControlState())
     }
     
     let DismissedAnimation = CustomViewControllerDismissedAnimation()
@@ -73,28 +73,28 @@ class UserSettingViewController: UIViewController,UIGestureRecognizerDelegate {
 
 extension UserSettingViewController{
 
-    @IBAction func small(sender: AnyObject) {
+    @IBAction func small(_ sender: AnyObject) {
         
         UIFont.a_fontModalStyle = -1
         
         self.setChooseFontSize()
     }
     
-    @IBAction func normal(sender: AnyObject) {
+    @IBAction func normal(_ sender: AnyObject) {
         
         UIFont.a_fontModalStyle = 0
         
         self.setChooseFontSize()
     }
     
-    @IBAction func big(sender: AnyObject) {
+    @IBAction func big(_ sender: AnyObject) {
         
         UIFont.a_fontModalStyle = 1
         
         self.setChooseFontSize()
     }
     
-    @IBAction func superBig(sender: AnyObject) {
+    @IBAction func superBig(_ sender: AnyObject) {
         
         UIFont.a_fontModalStyle = 2
         
@@ -102,11 +102,11 @@ extension UserSettingViewController{
         
     }
     
-    private func initChooseFontSize(){
+    fileprivate func initChooseFontSize(){
     
         self.chooseFontBackVoew.layer.cornerRadius = 3
         self.chooseFontBackVoew.layer.borderWidth = 1
-        self.chooseFontBackVoew.layer.borderColor = UIColor.a_color5.CGColor
+        self.chooseFontBackVoew.layer.borderColor = UIColor.a_color5.cgColor
         self.chooseFontBackVoew.clipsToBounds = true
         self.chooseFontBackVoew.backgroundColor = UIColor.a_color5
         
@@ -114,26 +114,26 @@ extension UserSettingViewController{
     }
     
     // 设置选择字体大小
-    private func setChooseFontSize(){
+    fileprivate func setChooseFontSize(){
         
-        let back = UIColor.whiteColor()
+        let back = UIColor.white
         let sback = UIColor.a_color5
         
         let text = UIColor.a_color1
-        let stext = UIColor.redColor()
+        let stext = UIColor.red
         
         
-        smallSizeButton.setTitleColor(UIFont.a_fontModalStyle == -1 ? stext : text, forState: .Normal)
-        smallSizeButton.setBackgroundColor(UIFont.a_fontModalStyle == -1 ? sback : back, forState: .Normal)
+        smallSizeButton.setTitleColor(UIFont.a_fontModalStyle == -1 ? stext : text, for: UIControlState())
+        smallSizeButton.setBackgroundColor(UIFont.a_fontModalStyle == -1 ? sback : back, forState: UIControlState())
         
-        normalSizeButton.setTitleColor(UIFont.a_fontModalStyle == 0 ? stext : text, forState: .Normal)
-        normalSizeButton.setBackgroundColor(UIFont.a_fontModalStyle == 0 ? sback : back, forState: .Normal)
+        normalSizeButton.setTitleColor(UIFont.a_fontModalStyle == 0 ? stext : text, for: UIControlState())
+        normalSizeButton.setBackgroundColor(UIFont.a_fontModalStyle == 0 ? sback : back, forState: UIControlState())
         
-        bigSizeButton.setTitleColor(UIFont.a_fontModalStyle == 1 ? stext : text, forState: .Normal)
-        bigSizeButton.setBackgroundColor(UIFont.a_fontModalStyle == 1 ? sback : back, forState: .Normal)
+        bigSizeButton.setTitleColor(UIFont.a_fontModalStyle == 1 ? stext : text, for: UIControlState())
+        bigSizeButton.setBackgroundColor(UIFont.a_fontModalStyle == 1 ? sback : back, forState: UIControlState())
         
-        superBigSizeButton.setTitleColor(UIFont.a_fontModalStyle == 2 ? stext : text, forState: .Normal)
-        superBigSizeButton.setBackgroundColor(UIFont.a_fontModalStyle == 2 ? sback : back, forState: .Normal)
+        superBigSizeButton.setTitleColor(UIFont.a_fontModalStyle == 2 ? stext : text, for: UIControlState())
+        superBigSizeButton.setBackgroundColor(UIFont.a_fontModalStyle == 2 ? sback : back, forState: UIControlState())
 
     }
 }
@@ -143,33 +143,33 @@ extension UserSettingViewController{
 extension UserSettingViewController:UIViewControllerTransitioningDelegate{
 
     
-    override func shouldAutorotate() -> Bool {
+    override var shouldAutorotate : Bool {
         
         return false
     }
     
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
         
-        return UIInterfaceOrientationMask.Portrait
+        return UIInterfaceOrientationMask.portrait
     }
     
 
     
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         
         super.viewDidAppear(animated)
         
         self.refreshCacheSizeLabel()
     }
     
-    private func refreshCacheSizeLabel(){
+    fileprivate func refreshCacheSizeLabel(){
     
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: { () -> Void in
             
             let cacherStr =  XCache.returnCacheSize() + " MB"
             
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            DispatchQueue.main.async(execute: { () -> Void in
                 
                 self.cacheSizeLable.text = cacherStr
             })
@@ -177,44 +177,44 @@ extension UserSettingViewController:UIViewControllerTransitioningDelegate{
     }
     
     
-    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         
-        let point = pan.translationInView(view)
+        let point = pan.translation(in: view)
         
         return fabs(point.x) > fabs(point.y)
     }
     
     // 用户注销
-    @IBAction func LoginOut(sender: AnyObject) {
+    @IBAction func LoginOut(_ sender: AnyObject) {
         
         if ShareLUser.utype == 2 {
         
-            return self.dismissViewControllerAnimated(true, completion: nil)
+            return self.dismiss(animated: true, completion: nil)
         }
         
-        let alert = UIAlertController(title: "注销", message: "是否注销当前用户", preferredStyle: .Alert)
+        let alert = UIAlertController(title: "注销", message: "是否注销当前用户", preferredStyle: .alert)
         
-        alert.addAction(UIAlertAction(title: "注销", style: .Destructive, handler: { (_) in
+        alert.addAction(UIAlertAction(title: "注销", style: .destructive, handler: { (_) in
             
             ShareLUser.LoginOut()
-            self.presentingViewController?.presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
+            self.presentingViewController?.presentingViewController?.dismiss(animated: true, completion: nil)
         }))
         
-        alert.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.cancel, handler: nil))
         
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
     // 清理缓存
-    @IBAction func ClearCacher(sender: AnyObject) {
+    @IBAction func ClearCacher(_ sender: AnyObject) {
         
-        SVProgressHUD.showWithStatus("清除缓存中")
+        SVProgressHUD.show(withStatus: "清除缓存中")
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { () -> Void in
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: { () -> Void in
             
             XCache.cleanCache()
             
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            DispatchQueue.main.async(execute: { () -> Void in
                 
                 SVProgressHUD.dismiss()
                 
@@ -225,31 +225,31 @@ extension UserSettingViewController:UIViewControllerTransitioningDelegate{
     
     
     // 清理缓存
-    @IBAction func MarkAppStore(sender: AnyObject) {
+    @IBAction func MarkAppStore(_ sender: AnyObject) {
         
-        if let url = NSURL(string: "https://itunes.apple.com/us/app/qi-dian-zi-xunpro/id1130250021?l=zh&ls=1&mt=8") {
+        if let url = URL(string: "https://itunes.apple.com/us/app/qi-dian-zi-xunpro/id1130250021?l=zh&ls=1&mt=8") {
         
-            UIApplication.sharedApplication().openURL(url)
+            UIApplication.shared.openURL(url)
         }
     }
     
-    @IBAction func dismissButtonTouch(sender: AnyObject) {
+    @IBAction func dismissButtonTouch(_ sender: AnyObject) {
         
         
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
-    internal func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    internal func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
         return PresentdAnimation
     }
     
-    internal func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    internal func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
         return DismissedAnimation
     }
     
-    func interactionControllerForDismissal(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+    func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
         
         if self.DismissedAnimation.isInteraction {
             
@@ -259,25 +259,25 @@ extension UserSettingViewController:UIViewControllerTransitioningDelegate{
         return nil
     }
     
-    @IBAction func panAction(pan: UIPanGestureRecognizer) {
+    @IBAction func panAction(_ pan: UIPanGestureRecognizer) {
         
         guard let view = pan.view else{return}
         
-        let point = pan.translationInView(view)
+        let point = pan.translation(in: view)
         
-        if pan.state == UIGestureRecognizerState.Began {
+        if pan.state == UIGestureRecognizerState.began {
             
             if point.x < 0 {return}
             
             self.DismissedAnimation.isInteraction = true
             
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
             
-        }else if pan.state == UIGestureRecognizerState.Changed {
+        }else if pan.state == UIGestureRecognizerState.changed {
             
-            let process = point.x/UIScreen.mainScreen().bounds.width
+            let process = point.x/UIScreen.main.bounds.width
             
-            self.InteractiveTransitioning.updateInteractiveTransition(process)
+            self.InteractiveTransitioning.update(process)
             
         }else {
             
@@ -285,15 +285,15 @@ extension UserSettingViewController:UIViewControllerTransitioningDelegate{
             
             let loctionX = abs(Int(point.x))
             
-            let velocityX = pan.velocityInView(pan.view).x
+            let velocityX = pan.velocity(in: pan.view).x
             
-            if velocityX >= 800 || loctionX >= Int(UIScreen.mainScreen().bounds.width/2) {
+            if velocityX >= 800 || loctionX >= Int(UIScreen.main.bounds.width/2) {
                 
-                self.InteractiveTransitioning.finishInteractiveTransition()
+                self.InteractiveTransitioning.finish()
                 
             }else{
                 
-                self.InteractiveTransitioning.cancelInteractiveTransition()
+                self.InteractiveTransitioning.cancel()
             }
         }
     }

@@ -20,14 +20,14 @@ class XCache: NSObject {
      path 文件的路径
      return 返回文件的大小
      */
-    static func returnFileSize(path : String) -> Double {
-        let manage = NSFileManager.defaultManager()
+    static func returnFileSize(_ path : String) -> Double {
+        let manage = FileManager.default
         var fileSize : Double = 0
         
-        do {
-            fileSize = try manage.attributesOfItemAtPath(path)["NSFileSize"] as! Double
-        } catch {
-        }
+//        do {
+//            fileSize = try manage.attributesOfItem(atPath: path)["NSFileSize"] as! Double
+//        } catch {
+//        }
         return fileSize/1024/1024
     }
     /*
@@ -35,12 +35,12 @@ class XCache: NSObject {
      folderPath 目录路径
      return 返回文件的大小
      */
-    static func folderSizeAtPath(folderPath : String) -> Double {
-        let manage = NSFileManager.defaultManager()
-        if !manage.fileExistsAtPath(folderPath) {
+    static func folderSizeAtPath(_ folderPath : String) -> Double {
+        let manage = FileManager.default
+        if !manage.fileExists(atPath: folderPath) {
             return 0
         }
-        let childFilePath = manage.subpathsAtPath(folderPath)//遍历所有子目录
+        let childFilePath = manage.subpaths(atPath: folderPath)//遍历所有子目录
         var fileSize : Double = 0
         for path in childFilePath! {
             let fileAbsoluePath = folderPath + "/" + path
@@ -59,10 +59,10 @@ class XCache: NSObject {
      删除单个文件
      
      */
-    static func deleteFile(path:String) {
-        let manage = NSFileManager.defaultManager()
+    static func deleteFile(_ path:String) {
+        let manage = FileManager.default
         do {
-            try manage.removeItemAtPath(path)
+            try manage.removeItem(atPath: path)
         } catch {
         }
     }
@@ -70,12 +70,12 @@ class XCache: NSObject {
      删除文件夹下的所有文件
      folderPath 文件夹路径
      */
-    static func deleteFolder(folderPath:String) {
-        let manage = NSFileManager.defaultManager()
-        if !manage.fileExistsAtPath(folderPath) {
+    static func deleteFolder(_ folderPath:String) {
+        let manage = FileManager.default
+        if !manage.fileExists(atPath: folderPath) {
             return
         }
-        let childFilePath = manage.subpathsAtPath(folderPath)//遍历所有子目录
+        let childFilePath = manage.subpaths(atPath: folderPath)//遍历所有子目录
         for path in childFilePath! {
             let fileAbsoluePath = folderPath + "/" + path
             XCache.deleteFile(fileAbsoluePath)

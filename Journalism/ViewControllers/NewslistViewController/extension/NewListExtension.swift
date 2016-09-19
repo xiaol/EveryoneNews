@@ -17,9 +17,9 @@ import XLPagerTabStrip
 
 extension NewslistViewController{
     
-    private var IS_HENGPING:Bool{
+    fileprivate var IS_HENGPING:Bool{
         
-        return UIScreen.mainScreen().bounds.width > UIScreen.mainScreen().bounds.height
+        return UIScreen.main.bounds.width > UIScreen.main.bounds.height
     }
     
     /**
@@ -39,11 +39,11 @@ extension NewslistViewController{
         self.messageHandleMethod(hidden:true, anmaiter: false) // 隐藏提示视图
         
         self.notifitionNewChange()
-        
+
         
         tableView.estimatedRowHeight = 68.0
         tableView.rowHeight = UITableViewAutomaticDimension
-        
+
         if channel?.id == 1994 {
             
             self.FResultDataMethod()
@@ -63,9 +63,9 @@ extension NewslistViewController{
          *
          *  @return 所需要完成的操作
          */
-        NSNotificationCenter.defaultCenter().addObserverForName(FONTMODALSTYLEIDENTIFITER, object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: FONTMODALSTYLEIDENTIFITER), object: nil, queue: OperationQueue.main) { (_) in
             
-            self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
+            self.tableView.reloadSections(IndexSet(integer: 0), with: UITableViewRowAnimation.automatic)
         }
         
         self.tableView.setContentOffset(CGPoint(x: 0, y: 53), animated: false)
@@ -75,7 +75,7 @@ extension NewslistViewController{
     /**
      关注列表刷新数据
      */
-    private func FResultDataMethod(){
+    fileprivate func FResultDataMethod(){
         
         /**
          *  设置新闻的
@@ -84,7 +84,7 @@ extension NewslistViewController{
          */
         self.tableView.mj_header = NewRefreshHeaderView(refreshingBlock: {
             
-            let timer = self.newsResults.first?.ptimes.timeIntervalSince1970 ?? NSDate().dateByAddingHours(-3).timeIntervalSince1970
+            let timer = self.newsResults.first?.ptimes.timeIntervalSince1970 ?? Date().dateByAddingHours(-3).timeIntervalSince1970
             
             Focus.refreshFocusNewList(timer*1000, finish: { (message) in
                 
@@ -96,7 +96,7 @@ extension NewslistViewController{
         
         self.tableView.mj_footer = NewRefreshFooterView {
             
-            let timer = self.newsResults.last?.ptimes.timeIntervalSince1970 ?? NSDate().dateByAddingHours(-3).timeIntervalSince1970
+            let timer = self.newsResults.last?.ptimes.timeIntervalSince1970 ?? Date().dateByAddingHours(-3).timeIntervalSince1970
             
             Focus.loadFocusNewList(timer*1000, finish: {(nomore) in
                 
@@ -116,7 +116,7 @@ extension NewslistViewController{
             })
         }
         
-        let timer = self.newsResults.first?.ptimes.timeIntervalSince1970 ?? NSDate().dateByAddingHours(-3).timeIntervalSince1970
+        let timer = self.newsResults.first?.ptimes.timeIntervalSince1970 ?? Date().dateByAddingHours(-3).timeIntervalSince1970
         
         Focus.refreshFocusNewList(timer*1000, finish: { (message) in
             
@@ -129,7 +129,7 @@ extension NewslistViewController{
     /**
      正常刷新刷新数据
      */
-    private func ResultDataMethod(){
+    fileprivate func ResultDataMethod(){
         
         self.tableView.mj_header = NewRefreshHeaderView(refreshingBlock: {
             
@@ -151,7 +151,7 @@ extension NewslistViewController{
 // MARK: - 刷新数据或者下拉加载数据的处理放啊集合
 extension NewslistViewController{
     
-    private func notifitionNewChange(){
+    fileprivate func notifitionNewChange(){
         
         /**
          *  监视当前新闻发生变化之后，进行数据的刷新
@@ -159,11 +159,11 @@ extension NewslistViewController{
         self.notificationToken = newsResults.addNotificationBlock { (changes: RealmCollectionChange) in
             
             switch changes {
-            case .Initial:
+            case .initial:
                 // Results are now populated and can be accessed without blocking the UI
                 self.tableView.reloadData()
                 break
-            case .Update(_, let deletions, let insertions, let modifications):
+            case .update(_, let deletions, let insertions, let modifications):
                 
                 
                 
@@ -178,13 +178,13 @@ extension NewslistViewController{
                 
                 // Query results have changed, so apply them to the UITableView
                 self.tableView.beginUpdates()
-                self.tableView.insertRowsAtIndexPaths(insertions.map { NSIndexPath(forRow: $0, inSection: 0) }, withRowAnimation: UITableViewRowAnimation.Fade)
-                self.tableView.deleteRowsAtIndexPaths(deletions.map { NSIndexPath(forRow: $0, inSection: 0) }, withRowAnimation: .Bottom)
+                self.tableView.insertRows(at: insertions.map { IndexPath(row: $0, section: 0) }, with: UITableViewRowAnimation.fade)
+                self.tableView.deleteRows(at: deletions.map { IndexPath(row: $0, section: 0) }, with: .bottom)
 //                self.tableView.reloadRowsAtIndexPaths(modifications.map { NSIndexPath(forRow: $0, inSection: 0) }, withRowAnimation: self.IS_HENGPING ? UITableViewRowAnimation.Bottom : .Fade)
-                self.tableView.reloadRowsAtIndexPaths(modifications.map { NSIndexPath(forRow: $0, inSection: 0) }, withRowAnimation: .Fade)
+                self.tableView.reloadRows(at: modifications.map { IndexPath(row: $0, section: 0) }, with: .fade)
                 self.tableView.endUpdates()
                 break
-            case .Error(let error):
+            case .error(let error):
                 // An error occurred while opening the Realm file on the background worker thread
                 fatalError("\(error)")
                 break
@@ -210,7 +210,7 @@ extension NewslistViewController{
      
      - parameter show: 是否显示加载成功消息
      */
-    private func refreshNewsDataMethod(del delete:Bool = false,create:Bool = false,show:Bool = false){
+    fileprivate func refreshNewsDataMethod(del delete:Bool = false,create:Bool = false,show:Bool = false){
         
         guard let channelId = self.channel?.id else{return self.handleMessageShowMethod("未知错误", show: true,bc: UIColor.a_noConn)}
         
@@ -218,7 +218,7 @@ extension NewslistViewController{
             
             self.showWaitLoadView()
             
-            let time = NSDate().dateByAddingHours(-1)
+            let time = Date().dateByAddingHours(-1)
             
             return NewsUtil.LoadNewsListArrayData(channelId,times: "\(Int64(time.timeIntervalSince1970*1000))",finish: {
                 
@@ -237,12 +237,12 @@ extension NewslistViewController{
             
             var time = last.ptimes
             
-            if last.ptimes.hoursBeforeDate(NSDate()) >= 12{
+            if last.ptimes.hoursBeforeDate(Date()) >= 12{
                 
-                time = NSDate().dateByAddingHours(-11)
+                time = Date().dateByAddingHours(-11)
             }
             
-            time.dateByAddingHours(-1)
+            _ = time.dateByAddingHours(-1)
             
             NewsUtil.RefreshNewsListArrayData(channelId,delete:delete, create: create,times: "\(Int64(time.timeIntervalSince1970*1000))", finish: { (count) in
                 
@@ -260,7 +260,7 @@ extension NewslistViewController{
     /**
      处理消息提示显示方法，和初始化方法
      */
-    private func handleMessageShowMethod(message:String="",show:Bool,bc:UIColor=UIColor.a_color2){
+    fileprivate func handleMessageShowMethod(_ message:String="",show:Bool,bc:UIColor=UIColor.a_color2){
         
         self.hiddenWaitLoadView()
         
@@ -276,9 +276,9 @@ extension NewslistViewController{
      默认获取的个数位20个。
      默认是获取第一页。
      */
-    private func loadNewsDataMethod(){
+    fileprivate func loadNewsDataMethod(){
         
-        if let channelId = self.channel?.id,last = self.newsResults.last {
+        if let channelId = self.channel?.id,let last = self.newsResults.last {
             
             NewsUtil.LoadNewsListArrayData(channelId,times: "\(Int64(last.ptimes.timeIntervalSince1970*1000))",finish: {
                 
@@ -304,24 +304,24 @@ extension NewslistViewController{
      - parameter hidden:    是隐藏还是
      - parameter anmaiter:  需不需要动画显示
      */
-    private func messageHandleMethod(message:String = "",backColor:UIColor=UIColor.a_color2,hidden:Bool = false,anmaiter:Bool = true){
+    fileprivate func messageHandleMethod(_ message:String = "",backColor:UIColor=UIColor.a_color2,hidden:Bool = false,anmaiter:Bool = true){
         
-        if self.timer.valid { self.timer.invalidate() }
+        if self.timer.isValid { self.timer.invalidate() }
         
         self.messageLabel.text = message
         self.messageLabel.backgroundColor = backColor
         
-        let show = CGAffineTransformIdentity // 显示视图
-        let hiddent = CGAffineTransformTranslate(self.messageLabel.transform, 0, -self.messageLabel.frame.height) // 隐藏加载视图
+        let show = CGAffineTransform.identity // 显示视图
+        let hiddent = self.messageLabel.transform.translatedBy(x: 0, y: -self.messageLabel.frame.height) // 隐藏加载视图
         
-        UIView.animateWithDuration(anmaiter ? 0.3 : 0) {
+        UIView.animate(withDuration: anmaiter ? 0.3 : 0, animations: {
             
             self.messageLabel.transform = hidden ? hiddent : show
-        }
+        }) 
         
         if hidden {return} // 如果隐藏就不需要再次隐藏了
         
-        self.timer = NSTimer.scheduledTimerWithTimeInterval(1.5, target: self, selector: #selector(NewslistViewController.hiddenTips(_:)), userInfo: nil, repeats: false)
+        self.timer = Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(NewslistViewController.hiddenTips(_:)), userInfo: nil, repeats: false)
     }
     
     /**
@@ -329,11 +329,11 @@ extension NewslistViewController{
      
      - parameter timer: 定时器对象
      */
-    func hiddenTips(timer:NSTimer){
+    func hiddenTips(_ timer:Timer){
         
-        let hiddent = CGAffineTransformTranslate(self.messageLabel.transform, 0, -self.messageLabel.frame.height) // 隐藏加载视图
+        let hiddent = self.messageLabel.transform.translatedBy(x: 0, y: -self.messageLabel.frame.height) // 隐藏加载视图
         
-        UIView.animateWithDuration(0.5, animations: {
+        UIView.animate(withDuration: 0.5, animations: {
             
             self.messageLabel.transform = hiddent
         })
@@ -342,9 +342,7 @@ extension NewslistViewController{
 
 
 extension NewslistViewController:IndicatorInfoProvider{
-    
-    func indicatorInfoForPagerTabStrip(pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
-        
+    public func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
         let info = IndicatorInfo(title: channel?.cname ?? "")
         
         return info

@@ -12,57 +12,57 @@ class CustomViewControllerDismissedAnimation:NSObject,UIViewControllerAnimatedTr
     
     var isInteraction = false
     
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         
         return 0.4
     }
     
-    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         
-        let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
-        let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
+        let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)!
+        let fromViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)!
                 
-        let containerView = transitionContext.containerView()
-        containerView!.addSubview(toViewController.view)
-        containerView!.addSubview(fromViewController.view)
+        let containerView = transitionContext.containerView
+        containerView.addSubview(toViewController.view)
+        containerView.addSubview(fromViewController.view)
         
-        UIView.animateWithDuration(self.transitionDuration(transitionContext), animations: {
+        UIView.animate(withDuration: self.transitionDuration(using: transitionContext), animations: {
             
-            toViewController.view.transform = CGAffineTransformIdentity
-            fromViewController.view.transform = CGAffineTransformTranslate(fromViewController.view.transform, fromViewController.view.bounds.width, 0)
-        }) { (_) in
+            toViewController.view.transform = CGAffineTransform.identity
+            fromViewController.view.transform = fromViewController.view.transform.translatedBy(x: fromViewController.view.bounds.width, y: 0)
+        }, completion: { (_) in
             
-            transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
-        }
+            transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
+        }) 
     }
 }
 
 class CustomViewControllerPresentdAnimation:NSObject,UIViewControllerAnimatedTransitioning {
     
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         
         return 0.4
     }
     
-    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         
-        let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
-        let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
+        let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)!
+        let fromViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)!
         
-        toViewController.view.frame = transitionContext.finalFrameForViewController(toViewController)
+        toViewController.view.frame = transitionContext.finalFrame(for: toViewController)
         
-        let containerView = transitionContext.containerView()
-        containerView!.addSubview(toViewController.view)
+        let containerView = transitionContext.containerView
+        containerView.addSubview(toViewController.view)
         
-        toViewController.view.transform = CGAffineTransformTranslate(toViewController.view.transform, toViewController.view.bounds.width, 0)
+        toViewController.view.transform = toViewController.view.transform.translatedBy(x: toViewController.view.bounds.width, y: 0)
         
-        UIView.animateWithDuration(self.transitionDuration(transitionContext), animations: {
+        UIView.animate(withDuration: self.transitionDuration(using: transitionContext), animations: {
             
-            toViewController.view.transform = CGAffineTransformIdentity
-            fromViewController.view.transform = CGAffineTransformScale(fromViewController.view.transform, 0.9, 0.9)
-        }) { (_) in
+            toViewController.view.transform = CGAffineTransform.identity
+            fromViewController.view.transform = fromViewController.view.transform.scaledBy(x: 0.9, y: 0.9)
+        }, completion: { (_) in
             
             transitionContext.completeTransition(true)
-        }
+        }) 
     }
 }

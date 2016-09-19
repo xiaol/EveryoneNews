@@ -12,7 +12,7 @@ import AFDateHelper
 import SwaggerClient
 
 ///  频道的数据模型
-public class Focus: Object {
+open class Focus: Object {
     
     dynamic var id = 1 /// 来源ID
     dynamic var ctime = ""  /// 关注事件
@@ -23,13 +23,13 @@ public class Focus: Object {
     
     dynamic var color = "" /// 新闻标题
     
-    dynamic var cdate = NSDate()
+    dynamic var cdate = Date()
     
     dynamic var isf = 0 /// 来源ID
     
     dynamic var issearch = 0 /// 来源ID
     
-    override public static func primaryKey() -> String? {
+    override open static func primaryKey() -> String? {
         return "name"
     }
 }
@@ -80,7 +80,7 @@ extension Focus{
      
      - parameter result: <#result description#>
      */
-    class func deleteByNameArray(result:NSArray ){
+    class func deleteByNameArray(_ result:NSArray ){
     
         let realm = try! Realm()
         
@@ -109,7 +109,7 @@ extension Focus{
      
      - returns: 颜色
      */
-    class func gColor(name:String) -> UIColor{
+    class func gColor(_ name:String) -> UIColor{
     
         let realm = try! Realm()
         
@@ -125,7 +125,7 @@ extension Focus{
      
      - returns: <#return value description#>
      */
-    class func isExiter(pname:String) -> Bool{
+    class func isExiter(_ pname:String) -> Bool{
     
         let realm = try! Realm()
         
@@ -142,7 +142,7 @@ extension Focus{
      
      - returns: <#return value description#>
      */
-    class func isExiters(pname:String) -> Bool{
+    class func isExiters(_ pname:String) -> Bool{
         
         let realm = try! Realm()
         
@@ -155,13 +155,13 @@ extension Focus{
      - parameter finish: 完成
      - parameter fail:   失败
      */
-    class func refreshFocusNewList(times:NSTimeInterval=NSDate().dateByAddingHours(-3).timeIntervalSince1970*1000,finish:((message:String)->Void)?=nil,fail:(()->Void)?=nil){
+    class func refreshFocusNewList(_ times:TimeInterval=Date().dateByAddingHours(-3).timeIntervalSince1970*1000,finish:((_ message:String)->Void)?=nil,fail:(()->Void)?=nil){
         
         guard let token = ShareLUser.token else{ return }
         
-        Manager.shareManager.request(.GET, SwaggerClientAPI.basePath+"/ns/pbs/cocs/r", parameters: ["uid":"\(ShareLUser.uid)","tcr":"\(Int64(times))","p":"1","c":"20"], encoding: ParameterEncoding.URLEncodedInURL, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
+        Manager.shareManager.request(SwaggerClientAPI.basePath+"/ns/pbs/cocs/r" ,method:.get, parameters: ["uid":"\(ShareLUser.uid)","tcr":"\(Int64(times))","p":"1","c":"20"], encoding: URLEncoding.default, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
             
-            guard let rv = res.result.value as? NSDictionary,let rcode = rv.objectForKey("code") as? Int,let result = rv.objectForKey("data") as? NSArray else{ fail?();return}
+            guard let rv = res.result.value as? NSDictionary,let rcode = rv.object(forKey: "code") as? Int,let result = rv.object(forKey: "data") as? NSArray else{ fail?();return}
             
             if rcode != 2000 {fail?();return}
             
@@ -173,9 +173,9 @@ extension Focus{
             
             for new in result {
             
-                guard let nid = new.objectForKey("nid") as? Int else{ break }
+                guard let nid = (new as AnyObject).object(forKey: "nid") as? Int else{ break }
                 
-                let isExt = realm.objectForPrimaryKey(New.self, key: nid) != nil
+                let isExt = realm.object(ofType: New.self, forPrimaryKey: nid as AnyObject) != nil
                 
                 try! realm.write({
                     
@@ -196,10 +196,10 @@ extension Focus{
             let addCount = addAfter - addBefor
             
             if addCount <= 0 {
-                finish?(message: "没有加载到新的数据")
+                finish?("没有加载到新的数据")
             }else{
             
-                finish?(message: "一共刷新了\(addCount)条数据")
+                finish?("一共刷新了\(addCount)条数据")
             }
         }
     }
@@ -211,19 +211,19 @@ extension Focus{
      - parameter finish: 完成
      - parameter fail:   失败
      */
-    class func loadFocusNewList(times:NSTimeInterval,finish:((nomore:Bool)->Void)?=nil,fail:(()->Void)?=nil){
+    class func loadFocusNewList(_ times:TimeInterval,finish:((_ nomore:Bool)->Void)?=nil,fail:(()->Void)?=nil){
         
         guard let token = ShareLUser.token else{ return }
         
-        Manager.shareManager.request(.GET, SwaggerClientAPI.basePath+"/ns/pbs/cocs/l", parameters: ["uid":"\(ShareLUser.uid)","tcr":"\(Int64(times))","p":"1","c":"20"], encoding: ParameterEncoding.URLEncodedInURL, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
+        Manager.shareManager.request( SwaggerClientAPI.basePath+"/ns/pbs/cocs/l",method:.get, parameters: ["uid":"\(ShareLUser.uid)","tcr":"\(Int64(times))","p":"1","c":"20"], encoding: URLEncoding.default, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
             
-            guard let rv = res.result.value as? NSDictionary,let rcode = rv.objectForKey("code") as? Int,let result = rv.objectForKey("data") as? NSArray else{ fail?();return}
+            guard let rv = res.result.value as? NSDictionary,let rcode = rv.object(forKey: "code") as? Int,let result = rv.object(forKey: "data") as? NSArray else{ fail?();return}
             
             if rcode != 2000 {fail?();return}
             
             if result.count <= 0 {
             
-                finish?(nomore:true)
+                finish?(true)
                 return
             }
             
@@ -231,9 +231,9 @@ extension Focus{
             
             for new in result {
                 
-                guard let nid = new.objectForKey("nid") as? Int else{ break }
+                guard let nid = (new as AnyObject).object(forKey: "nid") as? Int else{ break }
                 
-                let isExt = realm.objectForPrimaryKey(New.self, key: nid) != nil
+                let isExt = realm.object(ofType: New.self, forPrimaryKey: nid as AnyObject) != nil
                 
                 try! realm.write({
                     
@@ -249,28 +249,28 @@ extension Focus{
                 })
             }
             
-            finish?(nomore:false)
+            finish?(false)
         }
     }
     
     
     // 完善新闻事件
-    class func AnalysisPutTimeAndImageList(channel:NSDictionary,realm:Realm,ishot:Int=0,iscollected:Int=0){
+    class func AnalysisPutTimeAndImageList(_ channel:NSDictionary,realm:Realm,ishot:Int=0,iscollected:Int=0){
         
-        if let nid = channel.objectForKey("nid") as? Int {
+        if let nid = channel.object(forKey: "nid") as? Int {
             
-            if let pubTime = channel.objectForKey("ptime") as? String {
+            if let pubTime = channel.object(forKey: "ptime") as? String {
                 
-                let date = NSDate(fromString: pubTime, format: DateFormat.Custom("yyyy-MM-dd HH:mm:ss"))
+                let date = Date(fromString: pubTime, format: DateFormat.custom("yyyy-MM-dd HH:mm:ss"))
                 
                 realm.create(New.self, value: ["nid":nid,"ptimes":date], update: true)
             }
             
-            if let imageList = channel.objectForKey("imgs") as? NSArray {
+            if let imageList = channel.object(forKey: "imgs") as? NSArray {
                 
                 var array = [StringObject]()
                 
-                imageList.enumerateObjectsUsingBlock({ (imageUrl, _, _) in
+                imageList.enumerateObjects({ (imageUrl, _, _) in
                     
                     let sp = StringObject()
                     sp.value = imageUrl as! String
@@ -289,13 +289,13 @@ extension Focus{
      - parameter finish:  刷新完成
      - parameter fail:    刷新失败
      */
-    class func refresh(finish:(()->Void)?=nil,fail:(()->Void)?=nil){
+    class func refresh(_ finish:(()->Void)?=nil,fail:(()->Void)?=nil){
         
         guard let token = ShareLUser.token else{ return }
         
-        Manager.shareManager.request(.GET, SwaggerClientAPI.basePath+"/ns/pbs/cocs", parameters: ["uid":"\(ShareLUser.uid)"], encoding: ParameterEncoding.URLEncodedInURL, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
+        Manager.shareManager.request( SwaggerClientAPI.basePath+"/ns/pbs/cocs", method: .get, parameters: ["uid":"\(ShareLUser.uid)"], encoding: URLEncoding.default, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
             
-            guard let rv = res.result.value as? NSDictionary,let rcode = rv.objectForKey("code") as? Int,let result = rv.objectForKey("data") as? NSArray else{ fail?();return}
+            guard let rv = res.result.value as? NSDictionary,let rcode = rv.object(forKey: "code") as? Int,let result = rv.object(forKey: "data") as? NSArray else{ fail?();return}
             
             if rcode != 2000 {fail?();return}
             
@@ -307,7 +307,7 @@ extension Focus{
                 
                 for res in result {
                     
-                    if let name = res.objectForKey("name") as? String{
+                    if let name = (res as AnyObject).object(forKey: "name") as? String{
                         
                         if !self.isExiters(name) {
                             
@@ -321,7 +321,7 @@ extension Focus{
                 }
             })
             
-            NSNotificationCenter.defaultCenter().postNotificationName(USERFOCUSPNAMENOTIFITION, object: nil)
+            NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: USERFOCUSPNAMENOTIFITION), object: nil)
             
             finish?()
         }
@@ -335,13 +335,13 @@ extension Focus{
      - parameter finish:  关心完成
      - parameter fail:    关心失败
      */
-    class func focusPub(pname:String,finish:(()->Void)?=nil,fail:(()->Void)?=nil){
+    class func focusPub(_ pname:String,finish:(()->Void)?=nil,fail:(()->Void)?=nil){
         
         guard let token = ShareLUser.token else{ return }
         
-        Manager.shareManager.request(.POST, SwaggerClientAPI.basePath+"/ns/pbs/cocs", parameters: ["uid":"\(ShareLUser.uid)","pname":pname], encoding: ParameterEncoding.URLEncodedInURL, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
+        Manager.shareManager.request(SwaggerClientAPI.basePath+"/ns/pbs/cocs",method:.post, parameters: ["uid":"\(ShareLUser.uid)","pname":pname], encoding: URLEncoding.default, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
             
-            guard let result = res.result.value as? NSDictionary,let code = result.objectForKey("code") as? Int else{ fail?();return}
+            guard let result = res.result.value as? NSDictionary,let code = result.object(forKey: "code") as? Int else{ fail?();return}
             
             if code != 2000 { fail?() ;return}
             
@@ -356,13 +356,13 @@ extension Focus{
      - parameter finish:  关心完成
      - parameter fail:    关心失败
      */
-    class func nofocusPub(pname:String,finish:(()->Void)?=nil,fail:(()->Void)?=nil){
+    class func nofocusPub(_ pname:String,finish:(()->Void)?=nil,fail:(()->Void)?=nil){
         
         guard let token = ShareLUser.token else{ return }
         
-        Manager.shareManager.request(.DELETE, SwaggerClientAPI.basePath+"/ns/pbs/cocs", parameters: ["uid":"\(ShareLUser.uid)","pname":pname], encoding: ParameterEncoding.URLEncodedInURL, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
+        Manager.shareManager.request( SwaggerClientAPI.basePath+"/ns/pbs/cocs",method:.delete, parameters: ["uid":"\(ShareLUser.uid)","pname":pname], encoding: URLEncoding.default, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
             
-            guard let result = res.result.value as? NSDictionary,let code = result.objectForKey("code") as? Int else{ fail?();return}
+            guard let result = res.result.value as? NSDictionary,let code = result.object(forKey: "code") as? Int else{ fail?();return}
             
             if code != 2000 { fail?() ;return}
             
@@ -377,7 +377,7 @@ extension Focus{
      
      - parameter pname: <#pname description#>
      */
-    class func delteByPname(pname:String){
+    class func delteByPname(_ pname:String){
     
         let realm = try! Realm()
         
@@ -398,13 +398,13 @@ extension Focus{
      - parameter finish:  关心完成
      - parameter fail:    关心失败
      */
-    class func noFocusPub(pname:String,finish:(()->Void)?=nil,fail:(()->Void)?=nil){
+    class func noFocusPub(_ pname:String,finish:(()->Void)?=nil,fail:(()->Void)?=nil){
         
         guard let token = ShareLUser.token else{ return }
         
-        Manager.shareManager.request(.DELETE, SwaggerClientAPI.basePath+"/ns/pbs/cocs", parameters: ["uid":"\(ShareLUser.uid)","nid":pname], encoding: ParameterEncoding.URLEncodedInURL, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
+        Manager.shareManager.request(SwaggerClientAPI.basePath+"/ns/pbs/cocs", method:.delete, parameters: ["uid":"\(ShareLUser.uid)","nid":pname], encoding: URLEncoding.default, headers: ["Authorization":token,"X-Requested-With":"*"]).responseJSON { (res) in
             
-            guard let result = res.result.value as? NSDictionary,let code = result.objectForKey("code") as? Int else{ fail?();return}
+            guard let result = res.result.value as? NSDictionary,let code = result.object(forKey: "code") as? Int else{ fail?();return}
             
             if code != 2000 { fail?() ;return}
             

@@ -64,7 +64,7 @@ class FocusViewController: UIViewController,WaitLoadProtcol {
         
         New.delFocusArray() // 先把数据库关注的新闻置空
         
-        tableView.panGestureRecognizer.requireGestureRecognizerToFail(pan)
+        tableView.panGestureRecognizer.require(toFail: pan)
         
         pan.delegate = self
 
@@ -85,7 +85,7 @@ class FocusViewController: UIViewController,WaitLoadProtcol {
          *
          *  @return 所需要完成的操作
          */
-        NSNotificationCenter.defaultCenter().addObserverForName(FONTMODALSTYLEIDENTIFITER, object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: FONTMODALSTYLEIDENTIFITER), object: nil, queue: OperationQueue.main) { (_) in
             
             self.tableView.reloadData()
         }
@@ -94,14 +94,14 @@ class FocusViewController: UIViewController,WaitLoadProtcol {
     /**
      加载新闻～～
      */
-    private func LoadNewMethod(){
+    fileprivate func LoadNewMethod(){
         
         if self.newsResults.count <= 0 {
         
             self.showWaitLoadView(170)
         }
         
-        let timer = self.newsResults.last?.ptimes.timeIntervalSince1970 ?? NSDate().dateByAddingHours(-3).timeIntervalSince1970
+        let timer = self.newsResults.last?.ptimes.timeIntervalSince1970 ?? Date().dateByAddingHours(-3).timeIntervalSince1970
         
         Focus.LoadNewListByPname(self.pname, times: timer*1000, finish: {(nomore) in
             
@@ -123,12 +123,12 @@ class FocusViewController: UIViewController,WaitLoadProtcol {
         })
     }
     
-    @IBAction func ClickCancel(sender:AnyObject){
+    @IBAction func ClickCancel(_ sender:AnyObject){
     
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
-    private func notifitionNewChange(){
+    fileprivate func notifitionNewChange(){
         
         /**
          *  监视当前新闻发生变化之后，进行数据的刷新
@@ -136,22 +136,22 @@ class FocusViewController: UIViewController,WaitLoadProtcol {
         self.notificationToken = newsResults.addNotificationBlock { (changes: RealmCollectionChange) in
             
             switch changes {
-            case .Initial:
+            case .initial:
                 // Results are now populated and can be accessed without blocking the UI
                 self.tableView.reloadData()
                 break
-            case .Update(_, let deletions, let insertions, let modifications):
+            case .update(_, let deletions, let insertions, let modifications):
                 // Query results have changed, so apply them to the UITableView
                 self.tableView.beginUpdates()
-                self.tableView.insertRowsAtIndexPaths(insertions.map { NSIndexPath(forRow: $0, inSection: 1) },
-                    withRowAnimation: .Automatic)
-                self.tableView.deleteRowsAtIndexPaths(deletions.map { NSIndexPath(forRow: $0, inSection: 1) },
-                    withRowAnimation: .Automatic)
-                self.tableView.reloadRowsAtIndexPaths(modifications.map { NSIndexPath(forRow: $0, inSection: 1) },
-                    withRowAnimation: .Automatic)
+                self.tableView.insertRows(at: insertions.map { IndexPath(row: $0, section: 1) },
+                    with: .automatic)
+                self.tableView.deleteRows(at: deletions.map { IndexPath(row: $0, section: 1) },
+                    with: .automatic)
+                self.tableView.reloadRows(at: modifications.map { IndexPath(row: $0, section: 1) },
+                    with: .automatic)
                 self.tableView.endUpdates()
                 break
-            case .Error(let error):
+            case .error(let error):
                 // An error occurred while opening the Realm file on the background worker thread
                 fatalError("\(error)")
                 break

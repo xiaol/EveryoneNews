@@ -11,7 +11,7 @@ import UIKit
 
 extension FocusViewController:ShareAlertDelegate{
 
-    @IBAction func ClickMoreAction(sender:AnyObject){
+    @IBAction func ClickMoreAction(_ sender:AnyObject){
         
         self.ShareAlertShow(self)
     }
@@ -56,9 +56,9 @@ extension FocusViewController:ShareAlertDelegate{
         self.ClickAlert()
     }
     
-    private func ClickAlert(){
-        let alert = UIAlertController(title: nil, message: "暂不支持", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addAction(UIAlertAction(title: "确定", style: UIAlertActionStyle.Cancel, handler: nil))
-        self.presentViewController(alert, animated: true, completion: nil)
+    fileprivate func ClickAlert(){
+        let alert = UIAlertController(title: nil, message: "暂不支持", preferredStyle: UIAlertControllerStyle.alert)
+        alert.addAction(UIAlertAction(title: "确定", style: UIAlertActionStyle.cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
 }

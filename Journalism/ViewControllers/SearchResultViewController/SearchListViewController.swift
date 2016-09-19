@@ -44,7 +44,7 @@ class SearchListViewController: UIViewController,WaitLoadProtcol {
         
         textFiled.text = searchKey
         
-        tableView.panGestureRecognizer.requireGestureRecognizerToFail(pan)
+        tableView.panGestureRecognizer.require(toFail: pan)
         
         pan.delegate = self
         
@@ -88,7 +88,7 @@ class SearchListViewController: UIViewController,WaitLoadProtcol {
          *
          *  @return 所需要完成的操作
          */
-        NSNotificationCenter.defaultCenter().addObserverForName(FONTMODALSTYLEIDENTIFITER, object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: FONTMODALSTYLEIDENTIFITER), object: nil, queue: OperationQueue.main) { (_) in
             
             self.tableView.reloadData()
         }
@@ -102,7 +102,7 @@ class SearchListViewController: UIViewController,WaitLoadProtcol {
      - parameter nomore: 没有更多新闻
      - parameter fin:    是不是成功的返回
      */
-    private func srresultMethod(key:String,nomore:Bool,fin:Bool){
+    fileprivate func srresultMethod(_ key:String,nomore:Bool,fin:Bool){
         
         self.hiddenWaitLoadView()
         
@@ -125,13 +125,13 @@ class SearchListViewController: UIViewController,WaitLoadProtcol {
     }
     
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         guard let key = textField.text else{ return false }
         
         textField.resignFirstResponder()
         
-        self.tableView.setContentOffset(CGPointZero, animated: false)
+        self.tableView.setContentOffset(CGPoint.zero, animated: false)
         
         self.searchKey = key
         
@@ -145,8 +145,8 @@ class SearchListViewController: UIViewController,WaitLoadProtcol {
         return true
     }
     
-    @IBAction func dismissAction(sender: AnyObject) {
+    @IBAction func dismissAction(_ sender: AnyObject) {
         
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
 }

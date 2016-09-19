@@ -22,14 +22,14 @@ class UserCenterViewController: UIViewController {
     let PresentdAnimation = CustomViewControllerPresentdAnimation()
     let InteractiveTransitioning = UIPercentDrivenInteractiveTransition() // 完成 process 渐进行动画
     
-    override func shouldAutorotate() -> Bool {
+    override var shouldAutorotate : Bool {
         
         return false
     }
     
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
         
-        return UIInterfaceOrientationMask.Portrait
+        return UIInterfaceOrientationMask.portrait
     }
     
     
@@ -44,7 +44,7 @@ class UserCenterViewController: UIViewController {
         
         super.viewDidLoad()
         
-        scrollView.panGestureRecognizer.requireGestureRecognizerToFail(pan)
+        scrollView.panGestureRecognizer.require(toFail: pan)
         
         pan.delegate = self
     }
@@ -54,29 +54,29 @@ class UserCenterViewController: UIViewController {
 
 extension UserCenterViewController:UIViewControllerTransitioningDelegate,UIGestureRecognizerDelegate{
 
-    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         
-        let point = pan.translationInView(view)
+        let point = pan.translation(in: view)
         
         return fabs(point.x) > fabs(point.y)
     }
     
-    @IBAction func dismissButtonTouch(sender: AnyObject) {
+    @IBAction func dismissButtonTouch(_ sender: AnyObject) {
         
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
-    internal func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    internal func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
         return animation ? PresentdAnimation : nil
     }
     
-    internal func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    internal func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         
         return animation ? DismissedAnimation : nil
     }
     
-    func interactionControllerForDismissal(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+    func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
         
         if self.DismissedAnimation.isInteraction {
             
@@ -86,27 +86,27 @@ extension UserCenterViewController:UIViewControllerTransitioningDelegate,UIGestu
         return nil
     }
     
-    @IBAction func panAction(pan: UIPanGestureRecognizer) {
+    @IBAction func panAction(_ pan: UIPanGestureRecognizer) {
         
         if !animation {return}
         
         guard let view = pan.view else{return}
         
-        let point = pan.translationInView(view)
+        let point = pan.translation(in: view)
         
-        if pan.state == UIGestureRecognizerState.Began {
+        if pan.state == UIGestureRecognizerState.began {
             
             if point.x < 0 {return}
             
             self.DismissedAnimation.isInteraction = true
             
-            self.dismissViewControllerAnimated(true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
             
-        }else if pan.state == UIGestureRecognizerState.Changed {
+        }else if pan.state == UIGestureRecognizerState.changed {
             
-            let process = point.x/UIScreen.mainScreen().bounds.width
+            let process = point.x/UIScreen.main.bounds.width
             
-            self.InteractiveTransitioning.updateInteractiveTransition(process)
+            self.InteractiveTransitioning.update(process)
             
         }else {
             
@@ -114,15 +114,15 @@ extension UserCenterViewController:UIViewControllerTransitioningDelegate,UIGestu
             
             let loctionX = abs(Int(point.x))
             
-            let velocityX = pan.velocityInView(pan.view).x
+            let velocityX = pan.velocity(in: pan.view).x
             
-            if velocityX >= 800 || loctionX >= Int(UIScreen.mainScreen().bounds.width/2) {
+            if velocityX >= 800 || loctionX >= Int(UIScreen.main.bounds.width/2) {
                 
-                self.InteractiveTransitioning.finishInteractiveTransition()
+                self.InteractiveTransitioning.finish()
                 
             }else{
                 
-                self.InteractiveTransitioning.cancelInteractiveTransition()
+                self.InteractiveTransitioning.cancel()
             }
         }
     }

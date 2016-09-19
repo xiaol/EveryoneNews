@@ -20,7 +20,7 @@ import PINRemoteImage
      
      - returns: 空
      */
-    optional func ClickNoLikeButtonOfUITableViewCell(cell:NewBaseTableViewCell,finish:((cancel:Bool)->Void)) -> Void
+    @objc optional func ClickNoLikeButtonOfUITableViewCell(_ cell:NewBaseTableViewCell,finish:((_ cancel:Bool)->Void)) -> Void
 }
 
 
@@ -33,7 +33,7 @@ class NewslistViewController: UIViewController,WaitLoadProtcol {
     
     var focusNotificationToken: NotificationToken? = nil
     
-    var timer = NSTimer()
+    var timer = Timer()
     var fuckHeaderCellView:UIView!
     @IBOutlet var messageLabel: UILabel! // 加载完成消息提示
     
@@ -47,13 +47,13 @@ class NewslistViewController: UIViewController,WaitLoadProtcol {
     @IBOutlet var tableView: UITableView! // UITableView 视图对象
     
     
-    override func shouldAutorotate() -> Bool {
+    override var shouldAutorotate : Bool {
         
         return true
     }
     
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
         
-        return UIInterfaceOrientationMask.All
+        return UIInterfaceOrientationMask.all
     }
 }

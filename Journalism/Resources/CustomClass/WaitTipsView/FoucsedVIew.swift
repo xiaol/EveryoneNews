@@ -28,7 +28,7 @@ class FoucsedView: UIView {
         super.init(frame: frame)
         
         self.addSubview(backView)
-        backView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.4)
+        backView.backgroundColor = UIColor.black.withAlphaComponent(0.4)
         
         
         backView.addGestureRecognizer(UITapGestureRecognizer(block: { (_) in
@@ -51,7 +51,7 @@ class FoucsedView: UIView {
         self.topView.addSubview(topLabel)
         self.topView.addSubview(bottom)
         
-        backView.snp_makeConstraints { (make) in
+        backView.snp.makeConstraints { (make) in
             
             make.top.equalTo(0)
             make.bottom.equalTo(0)
@@ -59,22 +59,22 @@ class FoucsedView: UIView {
             make.left.equalTo(0)
         }
         
-        mbackView.snp_makeConstraints { (make) in
+        mbackView.snp.makeConstraints { (make) in
             
-            make.center.equalTo(self.snp_center)
+            make.center.equalTo(self.snp.center)
             make.width.equalTo(252)
             make.height.equalTo(153)
         }
         
-        self.doneButton.backgroundColor = UIColor.clearColor()
-        doneButton.setTitle("知道了", forState: UIControlState.Normal)
-        doneButton.titleLabel?.font = UIFont.systemFontOfSize(15)
-        doneButton.setTitleColor(UIColor.a_color3, forState: UIControlState.Normal)
-        doneButton.setTitleColor(UIColor.a_color3.colorWithAlphaComponent(0.5), forState: UIControlState.Selected)
-        doneButton.setTitleColor(UIColor.a_color3.colorWithAlphaComponent(0.5), forState: UIControlState.Highlighted)
+        self.doneButton.backgroundColor = UIColor.clear
+        doneButton.setTitle("知道了", for: UIControlState())
+        doneButton.titleLabel?.font = UIFont.systemFont(ofSize: 15)
+        doneButton.setTitleColor(UIColor.a_color3, for: UIControlState())
+        doneButton.setTitleColor(UIColor.a_color3.withAlphaComponent(0.5), for: UIControlState.selected)
+        doneButton.setTitleColor(UIColor.a_color3.withAlphaComponent(0.5), for: UIControlState.highlighted)
         
         
-        self.doneButton.snp_makeConstraints { (make) in
+        self.doneButton.snp.makeConstraints { (make) in
             
             make.bottom.equalTo(0)
             make.left.equalTo(0)
@@ -82,54 +82,54 @@ class FoucsedView: UIView {
             make.height.equalTo(38)
         }
         
-        self.doneButton.backgroundColor = UIColor.clearColor()
+        self.doneButton.backgroundColor = UIColor.clear
         
-        self.topView.snp_makeConstraints { (make) in
+        self.topView.snp.makeConstraints { (make) in
             
             make.top.equalTo(0)
             make.left.equalTo(0)
             make.right.equalTo(0)
-            make.bottom.equalTo(self.doneButton.snp_top)
+            make.bottom.equalTo(self.doneButton.snp.top)
         }
         
         self.title.text = "关注成功"
         self.title.font = UIFont.a_font3
         self.title.textColor = UIColor.a_color3
-        self.title.snp_makeConstraints { (make) in
+        self.title.snp.makeConstraints { (make) in
             
             make.top.equalTo(26)
-            make.centerX.equalTo(self.topView.snp_centerX)
+            make.centerX.equalTo(self.topView.snp.centerX)
         }
         
         self.okImageView.image = UIImage(named: "关注成功icon")
-        self.okImageView.snp_makeConstraints { (make) in
+        self.okImageView.snp.makeConstraints { (make) in
             
-            make.right.equalTo(self.title.snp_left).offset(-6)
-            make.centerY.equalTo(self.title.snp_centerY)
+            make.right.equalTo(self.title.snp.left).offset(-6)
+            make.centerY.equalTo(self.title.snp.centerY)
         }
         
         
         self.topLabel.text = "你可以在[关注]频道"
         self.topLabel.font = UIFont.a_font5
         self.topLabel.textColor = UIColor.a_color7
-        self.topLabel.snp_makeConstraints { (make) in
+        self.topLabel.snp.makeConstraints { (make) in
             
-            make.top.equalTo(title.snp_bottom).offset(12)
-            make.centerX.equalTo(self.topView.snp_centerX)
+            make.top.equalTo(title.snp.bottom).offset(12)
+            make.centerX.equalTo(self.topView.snp.centerX)
         }
         
         
         self.bottom.text = "查看他更新的相关内容"
         self.bottom.font = UIFont.a_font5
         self.bottom.textColor = UIColor.a_color7
-        self.bottom.snp_makeConstraints { (make) in
+        self.bottom.snp.makeConstraints { (make) in
             
-            make.top.equalTo(topLabel.snp_bottom).offset(5)
-            make.centerX.equalTo(self.topView.snp_centerX)
+            make.top.equalTo(topLabel.snp.bottom).offset(5)
+            make.centerX.equalTo(self.topView.snp.centerX)
         }
         
-        self.doneButton.removeActions(.TouchUpInside)
-        self.doneButton.addAction(.TouchUpInside) { (_) in
+        self.doneButton.removeActions(events: .touchUpInside)
+        self.doneButton.addAction(events: .touchUpInside) { (_) in
             
             self.removeFromSuperview()
         }
@@ -163,16 +163,16 @@ class FoucsedView: UIView {
 
 class BottomBorderView:UIView{
 
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         
-        super.drawRect(rect)
+        super.draw(rect)
         
         let context = UIGraphicsGetCurrentContext() // 获取绘画机制
-        CGContextSetFillColorWithColor(context, UIColor.a_color9.CGColor)
-        CGContextFillRect(context, rect)
+        context?.setFillColor(UIColor.a_color9.cgColor)
+        context?.fill(rect)
         
         // 绘制下边框
-        CGContextSetStrokeColorWithColor(context, UIColor(red: 228/255, green:228/255, blue: 228/255, alpha: 1).CGColor)
-        CGContextStrokeRect(context, CGRectMake(0, rect.height, rect.width, 1))
+        context?.setStrokeColor(UIColor(red: 228/255, green:228/255, blue: 228/255, alpha: 1).cgColor)
+        context?.stroke(CGRect(x: 0, y: rect.height, width: rect.width, height: 1))
     }
 }

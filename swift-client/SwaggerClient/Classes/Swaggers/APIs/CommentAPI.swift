@@ -9,7 +9,7 @@ import Alamofire
 
 
 
-public class CommentAPI: APIBase {
+open class CommentAPI: APIBase {
     /**
      相关新闻列表
      
@@ -18,9 +18,9 @@ public class CommentAPI: APIBase {
      - parameter c: (query) 新闻ID (optional, default to 20)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func nsAscGet(nid nid: String, p: String? = nil, c: String? = nil, completion: ((data: AnyObject?, error: ErrorType?) -> Void)) {
+    open class func nsAscGet(nid: String, p: String? = nil, c: String? = nil, completion: @escaping ((_ data: AnyObject?, _ error: Error?) -> Void)) {
         nsAscGetWithRequestBuilder(nid: nid, p: p, c: c).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
+            completion(response?.body, error);
         }
     }
 
@@ -37,14 +37,14 @@ public class CommentAPI: APIBase {
 
      - returns: RequestBuilder<AnyObject> 
      */
-    public class func nsAscGetWithRequestBuilder(nid nid: String, p: String? = nil, c: String? = nil) -> RequestBuilder<AnyObject> {
+    open class func nsAscGetWithRequestBuilder(nid: String, p: String? = nil, c: String? = nil) -> RequestBuilder<AnyObject> {
         let path = "/ns/asc"
         let URLString = SwaggerClientAPI.basePath + path
 
         let nillableParameters: [String:AnyObject?] = [
-            "nid": nid,
-            "p": p,
-            "c": c
+            "nid": nid as Optional<AnyObject>,
+            "p": p as Optional<AnyObject>,
+            "c": c as Optional<AnyObject>
         ]
  
         let parameters = APIHelper.rejectNil(nillableParameters)
@@ -65,9 +65,9 @@ public class CommentAPI: APIBase {
      - parameter c: (query) 每页的个数 (optional, default to 20)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func nsComsCGet(did did: String, uid: String? = nil, p: String? = nil, c: String? = nil, completion: ((data: AnyObject?, error: ErrorType?) -> Void)) {
+    open class func nsComsCGet(did: String, uid: String? = nil, p: String? = nil, c: String? = nil, completion: @escaping ((_ data: AnyObject?, _ error: Error?) -> Void)) {
         nsComsCGetWithRequestBuilder(did: did, uid: uid, p: p, c: c).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
+            completion(response?.body, error);
         }
     }
 
@@ -85,15 +85,15 @@ public class CommentAPI: APIBase {
 
      - returns: RequestBuilder<AnyObject> 
      */
-    public class func nsComsCGetWithRequestBuilder(did did: String, uid: String? = nil, p: String? = nil, c: String? = nil) -> RequestBuilder<AnyObject> {
+    open class func nsComsCGetWithRequestBuilder(did: String, uid: String? = nil, p: String? = nil, c: String? = nil) -> RequestBuilder<AnyObject> {
         let path = "/ns/coms/c"
         let URLString = SwaggerClientAPI.basePath + path
 
         let nillableParameters: [String:AnyObject?] = [
-            "did": did,
-            "uid": uid,
-            "p": p,
-            "c": c
+            "did": did as Optional<AnyObject>,
+            "uid": uid as Optional<AnyObject>,
+            "p": p as Optional<AnyObject>,
+            "c": c as Optional<AnyObject>
         ]
  
         let parameters = APIHelper.rejectNil(nillableParameters)
@@ -114,9 +114,9 @@ public class CommentAPI: APIBase {
      - parameter c: (query) 新闻ID (optional, default to 20)
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func nsComsHGet(did did: String, uid: String? = nil, p: String? = nil, c: String? = nil, completion: ((data: AnyObject?, error: ErrorType?) -> Void)) {
+    open class func nsComsHGet(did: String, uid: String? = nil, p: String? = nil, c: String? = nil, completion: @escaping ((_ data: AnyObject?, _ error: Error?) -> Void)) {
         nsComsHGetWithRequestBuilder(did: did, uid: uid, p: p, c: c).execute { (response, error) -> Void in
-            completion(data: response?.body, error: error);
+            completion(response?.body, error);
         }
     }
 
@@ -134,15 +134,15 @@ public class CommentAPI: APIBase {
 
      - returns: RequestBuilder<AnyObject> 
      */
-    public class func nsComsHGetWithRequestBuilder(did did: String, uid: String? = nil, p: String? = nil, c: String? = nil) -> RequestBuilder<AnyObject> {
+    open class func nsComsHGetWithRequestBuilder(did: String, uid: String? = nil, p: String? = nil, c: String? = nil) -> RequestBuilder<AnyObject> {
         let path = "/ns/coms/h"
         let URLString = SwaggerClientAPI.basePath + path
 
         let nillableParameters: [String:AnyObject?] = [
-            "did": did,
-            "uid": uid,
-            "p": p,
-            "c": c
+            "did": did as Optional<AnyObject>,
+            "uid": uid as Optional<AnyObject>,
+            "p": p as Optional<AnyObject>,
+            "c": c as Optional<AnyObject>
         ]
  
         let parameters = APIHelper.rejectNil(nillableParameters)
@@ -160,9 +160,9 @@ public class CommentAPI: APIBase {
      - parameter userRegisterInfo: (body) 评论对象 
      - parameter completion: completion handler to receive the data and the error objects
      */
-    public class func nsComsPost(userRegisterInfo userRegisterInfo: CommectCreate, completion: ((error: ErrorType?) -> Void)) {
+    open class func nsComsPost(userRegisterInfo: CommectCreate, completion: @escaping ((_ error: Error?) -> Void)) {
         nsComsPostWithRequestBuilder(userRegisterInfo: userRegisterInfo).execute { (response, error) -> Void in
-            completion(error: error);
+            completion(error);
         }
     }
 
@@ -176,7 +176,7 @@ public class CommentAPI: APIBase {
 
      - returns: RequestBuilder<Void> 
      */
-    public class func nsComsPostWithRequestBuilder(userRegisterInfo userRegisterInfo: CommectCreate) -> RequestBuilder<Void> {
+    open class func nsComsPostWithRequestBuilder(userRegisterInfo: CommectCreate) -> RequestBuilder<Void> {
         let path = "/ns/coms"
         let URLString = SwaggerClientAPI.basePath + path
         let parameters = userRegisterInfo.encodeToJSON() as? [String:AnyObject]

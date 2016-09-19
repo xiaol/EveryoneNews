@@ -13,16 +13,16 @@ var count = 4
 extension SearchListViewController:UIViewControllerPreviewingDelegate,PreViewControllerDelegate{
 
     @available(iOS 9.0, *)
-    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
         
-        self.showViewController(viewControllerToCommit, sender: nil)
+        self.show(viewControllerToCommit, sender: nil)
     }
     
     @available(iOS 9.0, *)
-    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
         
-        if let cell = previewingContext.sourceView as? NewBaseTableViewCell,indexPath = self.tableView.indexPathForCell(cell){
-            let new = newsResults[indexPath.row]
+        if let cell = previewingContext.sourceView as? NewBaseTableViewCell,let indexPath = self.tableView.indexPath(for: cell){
+            let new = newsResults[(indexPath as NSIndexPath).row]
             if new.isread == 0 {
                 new.isRead() // 设置为已读
             }
@@ -35,27 +35,27 @@ extension SearchListViewController:UIViewControllerPreviewingDelegate,PreViewCon
     }
     
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return newsResults.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
         
         var cell :NewBaseTableViewCell!
         
-        let new = newsResults[indexPath.row]
+        let new = newsResults[(indexPath as NSIndexPath).row]
         
         if new.nid == -1111{
         
             if self.focusResults.count <= 0 {
                 
-                let cell = tableView.dequeueReusableCellWithIdentifier("cccc")!
+                let cell = tableView.dequeueReusableCell(withIdentifier: "cccc")!
                 
                 return cell
             }
             
-            let cell = tableView.dequeueReusableCellWithIdentifier("fouce") as! FocusCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "fouce") as! FocusCell
             
             cell.fouceCell(self,focusResults: self.focusResults)
             
@@ -64,45 +64,45 @@ extension SearchListViewController:UIViewControllerPreviewingDelegate,PreViewCon
         
         if new.style == 0 {
             
-            cell =  tableView.dequeueReusableCellWithIdentifier("NewNormalTableViewCell") as! NewNormalTableViewCell
+            cell =  tableView.dequeueReusableCell(withIdentifier: "NewNormalTableViewCell") as! NewNormalTableViewCell
             cell.setNewObject(new)
             
         }else if new.style == 1 {
             
-            cell =  tableView.dequeueReusableCellWithIdentifier("NewOneTableViewCell") as! NewOneTableViewCell
+            cell =  tableView.dequeueReusableCell(withIdentifier: "NewOneTableViewCell") as! NewOneTableViewCell
             cell.setNewObject(new)
             
         }else if new.style == 2 {
             
-            cell =  tableView.dequeueReusableCellWithIdentifier("NewTwoTableViewCell") as! NewTwoTableViewCell
+            cell =  tableView.dequeueReusableCell(withIdentifier: "NewTwoTableViewCell") as! NewTwoTableViewCell
             cell.setNewObject(new)
             
         }else if new.style == 3 {
             
-            cell =  tableView.dequeueReusableCellWithIdentifier("NewThreeTableViewCell") as! NewThreeTableViewCell
+            cell =  tableView.dequeueReusableCell(withIdentifier: "NewThreeTableViewCell") as! NewThreeTableViewCell
             cell.setNewObject(new)
         }
         
         cell.titleLabel.attributedText = new.searchTitle.toAttributedString()
         
         if #available(iOS 9.0, *) {
-            if (self.traitCollection.forceTouchCapability == UIForceTouchCapability.Available) && !tableView.editing{
+            if (self.traitCollection.forceTouchCapability == UIForceTouchCapability.available) && !tableView.isEditing{
                 
                 if let perView = cell.viewControllerPreviewing {
                     
-                    self.unregisterForPreviewingWithContext(perView)
+                    self.unregisterForPreviewing(withContext: perView)
                 }
                 
-                cell.viewControllerPreviewing =  self.registerForPreviewingWithDelegate(self, sourceView: cell)
+                cell.viewControllerPreviewing =  self.registerForPreviewing(with: self, sourceView: cell)
             }
         }
         
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath) {
         
-        let new = newsResults[indexPath.row]
+        let new = newsResults[(indexPath as NSIndexPath).row]
         
         if new.nid == -1111 {
             
@@ -116,7 +116,7 @@ extension SearchListViewController:UIViewControllerPreviewingDelegate,PreViewCon
         
         viewController.isDismiss = true
         
-        self.showViewController(viewController, sender: nil)
+        self.show(viewController, sender: nil)
         
         self.tableView.reloadData()
     }

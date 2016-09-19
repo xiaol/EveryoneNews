@@ -21,10 +21,10 @@ let CONCERNNEWORNOCOLLECTEDNEW = "CONCERNNEWORNOCOLLECTEDNEW" // 改变新闻的
 let CHANNELONEISREFRESHFINISH = "CHANNELONEISREFRESHFINISH" // 起点频道刷新完成
 let USERFOCUSPNAMENOTIFITION = "USERFOCUSPNAMENOTIFITION" // 用户关注某一个频道发生的事
 
-let IS_PLUS = UIScreen.mainScreen().bounds.size == CGSize(width: 414,height: 736) || UIScreen.mainScreen().bounds.size == CGSize(width: 736,height: 414)
+let IS_PLUS = UIScreen.main.bounds.size == CGSize(width: 414,height: 736) || UIScreen.main.bounds.size == CGSize(width: 736,height: 414)
 
 // MARK: 当前APP的网络连接情况
-var APPNETWORK = NetworkReachabilityManager.NetworkReachabilityStatus.Reachable(NetworkReachabilityManager.ConnectionType.EthernetOrWiFi)
+var APPNETWORK = NetworkReachabilityManager.NetworkReachabilityStatus.reachable(NetworkReachabilityManager.ConnectionType.ethernetOrWiFi)
 
 // MARK: 应用所需要第三方 数据结构
 var UMENG_APPKEY = "57761ecbe0f55a40b400151e"

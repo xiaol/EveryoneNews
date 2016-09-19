@@ -9,16 +9,16 @@
 import RealmSwift
 
 
-public class StringObject: Object {
+open class StringObject: Object {
     dynamic var value = ""
 }
 
-public class IntegetObject: Object {
-    dynamic public var channel = 0
+open class IntegetObject: Object {
+    dynamic open var channel = 0
 }
 
 ///  频道的数据模型
-public class New: Object {
+open class New: Object {
     
     dynamic var nid = 1 /// 新闻ID
     dynamic var url = ""  /// 新闻Url
@@ -26,7 +26,7 @@ public class New: Object {
     dynamic var title = "" /// 新闻标题
     dynamic var searchTitle = "" /// 新闻标题
     dynamic var ptime = ""  /// 新闻事件
-    dynamic var ptimes = NSDate()
+    dynamic var ptimes = Date()
     dynamic var pname = ""  /// 新闻来源
     dynamic var purl = "" /// 来源地址
     dynamic var channel = 0 /// 频道ID
@@ -35,7 +35,7 @@ public class New: Object {
     dynamic var comment = 0 /// 评论数
     dynamic var style = 0 /// 列表图格式，0、1、2、3
     
-    public let channelList = List<IntegetObject>() /// 图片具体数据
+    open let channelList = List<IntegetObject>() /// 图片具体数据
     
     
     let imgsList = List<StringObject>() /// 图片具体数据
@@ -108,7 +108,7 @@ public class New: Object {
     
     dynamic var rtype = 0
     
-    override public static func primaryKey() -> String? {
+    override open static func primaryKey() -> String? {
         return "nid"
     }
 }
@@ -146,6 +146,7 @@ extension New{
     /**
      删除已经存在的关注新闻
      */
+    @discardableResult
     class func delFocusArray() -> Results<New>{
         
         let realm = try! Realm()
@@ -173,7 +174,7 @@ extension New{
      
      - parameter willDelete:
      */
-    class func delArray(willDelete:Results<New>){
+    class func delArray(_ willDelete:Results<New>){
         
         let realm = try! Realm()
         
@@ -204,7 +205,7 @@ extension New{
     
         let realm = try! Realm()
         
-        return realm.objectForPrimaryKey(New.self, key: self.nid)
+        return realm.object(ofType: New.self, forPrimaryKey: self.nid as AnyObject)
     }
     
     
@@ -216,12 +217,12 @@ extension New{
         let realm = try! Realm()
         
         try! realm.write({
-            realm.objects(New).filter("issearch = 1").forEach({ (new) in
+            realm.objects(New.self).filter("issearch = 1").forEach({ (new) in
                 new.issearch = 0
             })
             
             
-            realm.objects(Focus).filter("issearch = 1").forEach({ (new) in
+            realm.objects(Focus.self).filter("issearch = 1").forEach({ (new) in
                 new.issearch = 0
             })
 
@@ -238,7 +239,7 @@ extension New{
         
         let realm = try! Realm()
         
-        return realm.objects(New.self).filter("issearch = 1").sorted("orderIndex")
+        return realm.objects(New.self).filter("issearch = 1").sorted(byProperty: "orderIndex")
     }
     
     /**
@@ -246,11 +247,11 @@ extension New{
      
      - returns: <#return value description#>
      */
-    class func foucsArray(pname:String) -> Results<New>{
+    class func foucsArray(_ pname:String) -> Results<New>{
         
         let realm = try! Realm()
         
-        return realm.objects(New.self).filter("pname = '\(pname)' AND isFocusArray = 1").sorted("ptimes", ascending: false)
+        return realm.objects(New.self).filter("pname = '\(pname)' AND isFocusArray = 1").sorted(byProperty: "ptimes", ascending: false)
     }
     
     /**
@@ -293,32 +294,31 @@ extension New{
      
      - parameter finish: 完成回调
      */
-    func firstImage(finish:((image:UIImage)->Void)) {
+    func firstImage(_ finish:@escaping ((_ image:UIImage)->Void)) {
         
         let realm = try! Realm()
         
         let newContengt = realm.objects(NewContent.self).filter("nid = \(self.nid)").first
         
-        guard let cons = newContengt?.content else {return finish(image: UIImage(named: "占位字符")!)}
+        guard let cons = newContengt?.content else {return finish(UIImage(named: "占位字符")!)}
         
         for con in cons{
         
-            if let img = con.img,let url = NSURL(string: img) {
-            
-                PINRemoteImageManager.sharedImageManager().downloadImageWithURL(url, completion: { (result) in
+            if let img = con.img,let url = URL(string: img) {
+                PINRemoteImageManager.shared().downloadImage(with: url, options: PINRemoteImageManagerDownloadOptions.downloadOptionsIgnoreGIFs, completion: { (result) in
                     
                     if result.image == nil {
-                    
-                        return finish(image: UIImage(named: "占位字符")!)
+                        
+                        return finish(UIImage(named: "占位字符")!)
                     }
                     
-                    return finish(image: result.image!)
+                    return finish(result.image!)
                 })
                 
                 return
             }
         }
         
-        return finish(image: UIImage(named: "占位字符")!)
+        return finish(UIImage(named: "占位字符")!)
     }
 }

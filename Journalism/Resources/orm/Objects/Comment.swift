@@ -9,7 +9,7 @@
 import RealmSwift
 
 ///  频道的数据模型
-public class Comment: Object {
+open class Comment: Object {
     
     dynamic var id = 1 // 新闻评论ID
     dynamic var nid = 1 // 新闻ID
@@ -25,10 +25,10 @@ public class Comment: Object {
     
     dynamic var ishot = 0
     
-    dynamic var ctimes = NSDate() //创建时间
-    dynamic var inserttimes = NSDate() //创建时间
+    dynamic var ctimes = Date() //创建时间
+    dynamic var inserttimes = Date() //创建时间
     
-    override public static func primaryKey() -> String? {
+    override open static func primaryKey() -> String? {
         return "id"
     }
 }

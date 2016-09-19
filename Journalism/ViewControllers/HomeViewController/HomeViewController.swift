@@ -6,15 +6,14 @@
 //  Copyright © 2016年 aimobier. All rights reserved.
 //
 
+import UIKit
 import Foundation
 import XLPagerTabStrip
 
-class HomeViewController: CircularButtonBarPagerTabStripViewController {
+
+class HomeViewController: CircularButtonBarPagerTabStripViewController,HomeViewControllerChannelDataSourceDelegate {
     
     @IBOutlet var MoreButtonBackView:UIView!
-    
-    @IBOutlet var messageView: UIView!   // 加载完毕的消息提示视图
-    @IBOutlet var messageLabel: UILabel! // 消息提示内容Label
     
      // 不喜欢按钮集合
     @IBOutlet var button1: ReasonButton!
@@ -46,19 +45,22 @@ class HomeViewController: CircularButtonBarPagerTabStripViewController {
     internal var reloadViewControllers = [UIViewController]() // buttonBarViewController 数据源对象集合
     
     // MARK: - PagerTabStripDataSource
-    override func viewControllersForPagerTabStrip(pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
+    
+    override func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
         if self.reloadViewControllers.count <= 0 {reloadViewControllers.append(UIStoryboard.shareStoryBoard.get_NewslistViewController())}
+        
+        print("视图的个数",reloadViewControllers.count)
+        
         return reloadViewControllers
     }
     
-    override func pagerTabStripViewController(pagerTabStripViewController: PagerTabStripViewController, updateIndicatorFromIndex fromIndex: Int, toIndex: Int, withProgressPercentage progressPercentage: CGFloat, indexWasChanged: Bool) {
+    override func updateIndicator(for viewController: PagerTabStripViewController, fromIndex: Int, toIndex: Int, withProgressPercentage progressPercentage: CGFloat, indexWasChanged: Bool) {
+        super.updateIndicator(for: viewController, fromIndex: fromIndex, toIndex: toIndex, withProgressPercentage: progressPercentage, indexWasChanged: indexWasChanged)
         
-        super.pagerTabStripViewController(pagerTabStripViewController, updateIndicatorFromIndex: fromIndex, toIndex: toIndex, withProgressPercentage: progressPercentage, indexWasChanged: indexWasChanged)
-
-        let oldCell = buttonBarView.cellForItemAtIndexPath(NSIndexPath(forItem: fromIndex, inSection: 0)) as? ButtonBarViewCell
-        let newCell = buttonBarView.cellForItemAtIndexPath(NSIndexPath(forItem: toIndex, inSection: 0)) as? ButtonBarViewCell
+        let oldCell = buttonBarView.cellForItem(at: IndexPath(item: fromIndex, section: 0)) as? ButtonBarViewCell
+        let newCell = buttonBarView.cellForItem(at: IndexPath(item: toIndex, section: 0)) as? ButtonBarViewCell
         
-        let oldColor = UIColor.blackColor().colorWithAlphaComponent(0.8)
+        let oldColor = UIColor.black.withAlphaComponent(0.8)
         let newColor = UIColor.a_color2
         
         oldCell?.label.textColor = newColor.interpolateRGBColorTo(oldColor, fraction: progressPercentage)

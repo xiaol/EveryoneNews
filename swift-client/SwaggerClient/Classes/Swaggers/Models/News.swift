@@ -8,10 +8,10 @@
 import Foundation
 
 
-public class News: JSONEncodable {
+open class News: JSONEncodable {
     /** 返回请求状态码 */
-    public var code: Int32?
-    public var data: NewsData?
+    open var code: Int32?
+    open var data: NewsData?
 
     public init() {}
 
@@ -21,6 +21,6 @@ public class News: JSONEncodable {
         nillableDictionary["code"] = self.code?.encodeToJSON()
         nillableDictionary["data"] = self.data?.encodeToJSON()
         let dictionary: [String:AnyObject] = APIHelper.rejectNil(nillableDictionary) ?? [:]
-        return dictionary
+        return dictionary as AnyObject
     }
 }

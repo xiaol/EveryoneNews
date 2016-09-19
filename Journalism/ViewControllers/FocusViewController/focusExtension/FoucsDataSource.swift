@@ -10,7 +10,7 @@ import UIKit
 
 extension FocusViewController:UITableViewDelegate{
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         let offsetY = scrollView.contentOffset.y
         
@@ -44,16 +44,16 @@ extension FocusViewController:UITableViewDelegate{
 extension FocusViewController:UIViewControllerPreviewingDelegate,PreViewControllerDelegate{
     
     @available(iOS 9.0, *)
-    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
         
-        self.showViewController(viewControllerToCommit, sender: nil)
+        self.show(viewControllerToCommit, sender: nil)
     }
     
     @available(iOS 9.0, *)
-    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
         
-        if let cell = previewingContext.sourceView as? NewBaseTableViewCell,indexPath = self.tableView.indexPathForCell(cell){
-            let new = newsResults[indexPath.row]
+        if let cell = previewingContext.sourceView as? NewBaseTableViewCell,let indexPath = self.tableView.indexPath(for: cell){
+            let new = newsResults[(indexPath as NSIndexPath).row]
             if new.isread == 0 {
                 new.isRead() // 设置为已读
             }
@@ -66,68 +66,68 @@ extension FocusViewController:UIViewControllerPreviewingDelegate,PreViewControll
         return nil
     }
     
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(_ tableView: UITableView) -> Int {
         
         return 2
     }
     
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         if section == 0 {return 1}
         
         return newsResults.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAtIndexPath indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.section == 0 {
+        if (indexPath as NSIndexPath).section == 0 {
         
-            let cell = tableView.dequeueReusableCellWithIdentifier("fhs")!
+            let cell = tableView.dequeueReusableCell(withIdentifier: "fhs")!
             
             return cell
         }
         
         var cell :NewBaseTableViewCell!
         
-        let new = newsResults[indexPath.row]
+        let new = newsResults[(indexPath as NSIndexPath).row]
         
         if new.style == 0 {
             
-            cell =  tableView.dequeueReusableCellWithIdentifier("NewNormalTableViewCell") as! NewNormalTableViewCell
+            cell =  tableView.dequeueReusableCell(withIdentifier: "NewNormalTableViewCell") as! NewNormalTableViewCell
             cell.setNewObject(new)
             
         }else if new.style == 1 {
             
-            cell =  tableView.dequeueReusableCellWithIdentifier("NewOneTableViewCell") as! NewOneTableViewCell
+            cell =  tableView.dequeueReusableCell(withIdentifier: "NewOneTableViewCell") as! NewOneTableViewCell
             cell.setNewObject(new)
             
         }else if new.style == 2 {
             
-            cell =  tableView.dequeueReusableCellWithIdentifier("NewTwoTableViewCell") as! NewTwoTableViewCell
+            cell =  tableView.dequeueReusableCell(withIdentifier: "NewTwoTableViewCell") as! NewTwoTableViewCell
             cell.setNewObject(new)
             
         }else if new.style == 3 {
             
-            cell =  tableView.dequeueReusableCellWithIdentifier("NewThreeTableViewCell") as! NewThreeTableViewCell
+            cell =  tableView.dequeueReusableCell(withIdentifier: "NewThreeTableViewCell") as! NewThreeTableViewCell
             cell.setNewObject(new)
         }
         
         if #available(iOS 9.0, *) {
-            if (self.traitCollection.forceTouchCapability == UIForceTouchCapability.Available) && !tableView.editing{
-                if let perView = cell.viewControllerPreviewing { self.unregisterForPreviewingWithContext(perView)}
-                cell.viewControllerPreviewing =  self.registerForPreviewingWithDelegate(self, sourceView: cell)
+            if (self.traitCollection.forceTouchCapability == UIForceTouchCapability.available) && !tableView.isEditing{
+                if let perView = cell.viewControllerPreviewing { self.unregisterForPreviewing(withContext: perView)}
+                cell.viewControllerPreviewing =  self.registerForPreviewing(with: self, sourceView: cell)
             }
         }
         
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    @objc(tableView:didSelectRowAtIndexPath:) func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if indexPath.section == 0 {return}
+        if (indexPath as NSIndexPath).section == 0 {return}
         
-        let new = newsResults[indexPath.row]
+        let new = newsResults[(indexPath as NSIndexPath).row]
         if new.isread == 0 {
             
             new.isRead() // 设置为已读
@@ -138,7 +138,7 @@ extension FocusViewController:UIViewControllerPreviewingDelegate,PreViewControll
         viewController.isDismiss = true
         viewController.isFoucsDismiss = true
         
-        self.showViewController(viewController, sender: nil)
+        self.show(viewController, sender: nil)
         
         self.tableView.reloadData()
     }

@@ -7,17 +7,18 @@
 //
 
 import UIKit
-import JSQWebViewController
+//import JSQWebViewController
 
 extension UIViewController {
     
-    func goWebViewController(url:String,isTo:Bool=true) -> UIViewController{
+    @discardableResult
+    func goWebViewController(_ url:String,isTo:Bool=true) -> UIViewController{
         
         print(url)
         
-        let controller = WebViewController(url: NSURL(string: url)!)
-        let nav = UINavigationController(rootViewController: controller)
-        presentViewController(nav, animated: true, completion: nil)
-        return controller
+        //let controller = WebViewController(url: URL(string: url)!)
+        //let nav = UINavigationController(rootViewController: controller)
+        //present(nav, animated: true, completion: nil)
+        return UIViewController()
     }
 }

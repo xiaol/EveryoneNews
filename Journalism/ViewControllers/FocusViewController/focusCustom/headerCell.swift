@@ -12,9 +12,9 @@ class FocusTableViewCell:UITableViewCell{
 
     @IBOutlet var descLabel:UILabel!
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         
-        super.drawRect(rect)
+        super.draw(rect)
         
         descLabel.font = UIFont.a_font4
     }

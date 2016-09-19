@@ -17,7 +17,7 @@ extension SearchViewController:UITableViewDataSource{
      
      - returns: section的个数
      */
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int { return 2 }
+    func numberOfSections(in tableView: UITableView) -> Int { return 2 }
     
     
     /**
@@ -28,7 +28,7 @@ extension SearchViewController:UITableViewDataSource{
      
      - returns: <#return value description#>
      */
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
      
         if section == 0 { return 1 }
         return self.results.count
@@ -44,20 +44,20 @@ extension SearchViewController:UITableViewDataSource{
      
      - returns: <#return value description#>
      */
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if indexPath.section == 0 {
+        if (indexPath as NSIndexPath).section == 0 {
         
-            let cell = tableView.dequeueReusableCellWithIdentifier("hot") as! SearchHotTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "hot") as! SearchHotTableViewCell
             
             self.setHotView(cell, indexPath: indexPath)
             
             return cell
         }
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("his") as! SearchHistoryTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "his") as! SearchHistoryTableViewCell
         
-        cell.titleLabel.text = self.results[indexPath.row].title
+        cell.titleLabel.text = self.results[(indexPath as NSIndexPath).row].title
         return cell
     }
     
@@ -68,9 +68,9 @@ extension SearchViewController:UITableViewDataSource{
      - parameter cell:      <#cell description#>
      - parameter indexPath: <#indexPath description#>
      */
-    private func setHotView(cell:SearchHotTableViewCell,indexPath:NSIndexPath){
+    fileprivate func setHotView(_ cell:SearchHotTableViewCell,indexPath:IndexPath){
     
-        cell.tagView.preferredMaxLayoutWidth = UIScreen.mainScreen().bounds.width
+        cell.tagView.preferredMaxLayoutWidth = UIScreen.main.bounds.width
         cell.tagView.padding = UIEdgeInsets(top: 23, left: 12, bottom: 23, right: 12)
         cell.tagView.interitemSpacing = 12
         cell.tagView.lineSpacing = 18
@@ -92,7 +92,7 @@ extension SearchViewController:UITableViewDataSource{
         cell.tagView.didTapTagAtIndex = {(index) in
             let key = self.hotResults[Int(index)].title
             let search = UIStoryboard.shareStoryBoard.get_SearchListViewController(key)
-            self.presentViewController(search, animated: true, completion: nil)
+            self.present(search, animated: true, completion: nil)
         }
     }
 }
@@ -109,19 +109,19 @@ extension SearchViewController:UITableViewDelegate{
      
      - returns: <#return value description#>
      */
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         if section == 1 && self.results.count <= 0  {return nil}
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("header") as! SearchHeaderTableViewCell
-        cell.setHeader(section == 0 ? HeaderStyle.Hot : HeaderStyle.History)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "header") as! SearchHeaderTableViewCell
+        cell.setHeader(section == 0 ? HeaderStyle.hot : HeaderStyle.history)
         let containerView = UIView(frame:cell.frame)
-        cell.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        cell.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         containerView.addSubview(cell)
         containerView.clipsToBounds = true
         
-        cell.clearButton.removeActions(.TouchUpInside)
-        cell.clearButton.addAction(.TouchUpInside) { (_) in
+        cell.clearButton.removeActions(events: .touchUpInside)
+        cell.clearButton.addAction(events: .touchUpInside) { (_) in
             
             self.alertToAskUserClearHistory()
         }
@@ -138,7 +138,7 @@ extension SearchViewController:UITableViewDelegate{
      
      - returns: <#return value description#>
      */
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
 
         return 35
     }
@@ -154,12 +154,12 @@ extension SearchViewController:UITableViewDelegate{
      
      - returns: <#return value description#>
      */
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.section == 0 {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if (indexPath as NSIndexPath).section == 0 {
         
-            let cell = tableView.dequeueReusableCellWithIdentifier("hot") as! SearchHotTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "hot") as! SearchHotTableViewCell
             self.setHotView(cell, indexPath: indexPath)
-            return cell.contentView.systemLayoutSizeFittingSize(UILayoutFittingCompressedSize).height
+            return cell.contentView.systemLayoutSizeFitting(UILayoutFittingCompressedSize).height
         }
         return 54
     }
@@ -171,12 +171,12 @@ extension SearchViewController:UITableViewDelegate{
      - parameter tableView: 表哥对象
      - parameter indexPath: indexPath 对象
      */
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        if indexPath.section == 0 {return}
-        let key = self.results[indexPath.row].title
+        if (indexPath as NSIndexPath).section == 0 {return}
+        let key = self.results[(indexPath as NSIndexPath).row].title
         let search = UIStoryboard.shareStoryBoard.get_SearchListViewController(key)
-        self.presentViewController(search, animated: true, completion: nil)
+        self.present(search, animated: true, completion: nil)
     }
 }
 
@@ -185,12 +185,12 @@ extension SearchViewController{
     /**
      当用户点击了删除所有的历史搜索记录的时候，调用该方法，达到提醒用户接下来操作的作用
      */
-    private func alertToAskUserClearHistory(){
-        let aler = UIAlertController(title: "是否清除搜索记录", message: "清除后不可恢复", preferredStyle: UIAlertControllerStyle.Alert)
-        aler.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.Cancel, handler: nil))
-        aler.addAction(UIAlertAction(title: "清除", style: UIAlertActionStyle.Destructive, handler: { (_) in
+    fileprivate func alertToAskUserClearHistory(){
+        let aler = UIAlertController(title: "是否清除搜索记录", message: "清除后不可恢复", preferredStyle: UIAlertControllerStyle.alert)
+        aler.addAction(UIAlertAction(title: "取消", style: UIAlertActionStyle.cancel, handler: nil))
+        aler.addAction(UIAlertAction(title: "清除", style: UIAlertActionStyle.destructive, handler: { (_) in
             SearchHistory.delAll()
         }))
-        self.presentViewController(aler, animated: true, completion: nil)
+        self.present(aler, animated: true, completion: nil)
     }
 }

@@ -14,7 +14,7 @@ class HotSearchs: Object {
     dynamic var createTime = ""
     
     
-    dynamic var createTimes = NSDate()
+    dynamic var createTimes = Date()
     
     override static func primaryKey() -> String? {
         return "title"
@@ -28,6 +28,6 @@ extension HotSearchs{
         
         let realm = try! Realm()
         
-        return realm.objects(HotSearchs.self).sorted("createTimes", ascending: false)
+        return realm.objects(HotSearchs.self).sorted(byProperty: "createTimes", ascending: false)
     }
 }

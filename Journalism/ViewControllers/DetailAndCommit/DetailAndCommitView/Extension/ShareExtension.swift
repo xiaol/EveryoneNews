@@ -11,12 +11,12 @@ import SVProgressHUD
 
 extension DetailAndCommitViewController{
 
-    @IBAction func touchShareButtonAction(sender: AnyObject) {
+    @IBAction func touchShareButtonAction(_ sender: AnyObject) {
         
         self.ShareAlertShow(self)
     }
     
-    @IBAction func touchMoreButtonAction(sender: AnyObject) {
+    @IBAction func touchMoreButtonAction(_ sender: AnyObject) {
      
         self.ShareAlertShow(self)
     }
@@ -24,9 +24,9 @@ extension DetailAndCommitViewController{
 
 
 extension DetailAndCommitViewController:ShareAlertDelegate{
-    private func ShareMethod(type:String=UMShareToWechatTimeline,content:String,img:UIImage?=nil,resource:UMSocialUrlResource?=nil){
+    fileprivate func ShareMethod(_ type:String=UMShareToWechatTimeline,content:String,img:UIImage?=nil,resource:UMSocialUrlResource?=nil){
         
-        UMSocialDataService.defaultDataService().postSNSWithTypes([type], content: content, image: img, location: nil, urlResource: resource, presentedController: self) { (response) -> Void in
+        UMSocialDataService.default().postSNS(withTypes: [type], content: content, image: img, location: nil, urlResource: resource, presentedController: self) { (response) -> Void in
             
             //            self.shreContentViewMethod(true, animate: true)
         }
@@ -49,12 +49,12 @@ extension DetailAndCommitViewController:ShareAlertDelegate{
     func ClickCopyLink() {
         
         guard let n = self.new else{ return }
-        let pboard = UIPasteboard.generalPasteboard()
+        let pboard = UIPasteboard.general
         pboard.string = n.shareUrl()
         
-        SVProgressHUD.showSuccessWithStatus("已经拷贝至剪切板")
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW,Int64(1 * Double(NSEC_PER_SEC))),dispatch_get_main_queue(), {
-            dispatch_async(dispatch_get_main_queue()) {
+        SVProgressHUD.showSuccess(withStatus: "已经拷贝至剪切板")
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(1 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC), execute: {
+            DispatchQueue.main.async {
                 SVProgressHUD.dismiss()
             }
         })
@@ -64,7 +64,7 @@ extension DetailAndCommitViewController:ShareAlertDelegate{
         
         let mailComposer = configureMailComposer()
         if MFMailComposeViewController.canSendMail() {
-            presentViewController(mailComposer, animated: true, completion: nil)
+            present(mailComposer, animated: true, completion: nil)
         } else {
             print("Email Composer Error")
         }
@@ -74,7 +74,7 @@ extension DetailAndCommitViewController:ShareAlertDelegate{
         
         let messageComposer = configureMessageComposer()
         if MFMessageComposeViewController.canSendText() {
-            presentViewController(messageComposer, animated: true, completion: nil)
+            present(messageComposer, animated: true, completion: nil)
         } else {
             print("Message Composer Error")
         }
@@ -99,20 +99,20 @@ extension DetailAndCommitViewController:ShareAlertDelegate{
             pageObject.webpageUrl = url
             message.mediaObject = pageObject
             
-            dispatch_async(dispatch_get_main_queue(), {
-                let request = WBSendMessageToWeiboRequest.requestWithMessage(message) as! WBSendMessageToWeiboRequest
-                WeiboSDK.sendRequest(request)
+            DispatchQueue.main.async(execute: {
+                let request = WBSendMessageToWeiboRequest.request(withMessage: message) as! WBSendMessageToWeiboRequest
+                WeiboSDK.send(request)
             })
         }
     }
     
     func ClickQQFriends() {
         
-        let alert = UIAlertController(title: "暂不支持qq", message: nil, preferredStyle: UIAlertControllerStyle.Alert)
+        let alert = UIAlertController(title: "暂不支持qq", message: nil, preferredStyle: UIAlertControllerStyle.alert)
         
-        alert.addAction(UIAlertAction(title: "返回", style: UIAlertActionStyle.Cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "返回", style: UIAlertActionStyle.cancel, handler: nil))
         
-        self.presentViewController(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
     func ClickWeChatFriends() {
@@ -150,7 +150,7 @@ import CoreLocation
 
 extension DetailAndCommitViewController: MFMailComposeViewControllerDelegate,MFMessageComposeViewControllerDelegate {
     
-    private func configureMailComposer() -> MFMailComposeViewController {
+    fileprivate func configureMailComposer() -> MFMailComposeViewController {
         let mailComposer = MFMailComposeViewController()
         mailComposer.mailComposeDelegate = self
         guard let n = self.new else{ return mailComposer }
@@ -158,7 +158,7 @@ extension DetailAndCommitViewController: MFMailComposeViewControllerDelegate,MFM
         return mailComposer
     }
     
-    private func configureMessageComposer() -> MFMessageComposeViewController {
+    fileprivate func configureMessageComposer() -> MFMessageComposeViewController {
         
         let messageComposer = MFMessageComposeViewController()
         messageComposer.messageComposeDelegate = self
@@ -167,11 +167,11 @@ extension DetailAndCommitViewController: MFMailComposeViewControllerDelegate,MFM
         return messageComposer
     }
     
-    func mailComposeController(controller: MFMailComposeViewController, didFinishWithResult result: MFMailComposeResult, error: NSError?) {
-        dismissViewControllerAnimated(true, completion: nil)
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        dismiss(animated: true, completion: nil)
     }
     
-    func messageComposeViewController(controller: MFMessageComposeViewController, didFinishWithResult result: MessageComposeResult) {
-        dismissViewControllerAnimated(true, completion: nil)
+    func messageComposeViewController(_ controller: MFMessageComposeViewController, didFinishWith result: MessageComposeResult) {
+        dismiss(animated: true, completion: nil)
     }
 }

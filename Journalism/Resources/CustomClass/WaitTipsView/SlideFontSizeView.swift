@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 
 class FontSizeSlideView: UIView {
-    
+
     lazy var backView = UIView()
     
     lazy var bbackView = UIView()
@@ -36,13 +36,13 @@ class FontSizeSlideView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = UIColor.clearColor()
+        self.backgroundColor = UIColor.clear
         
         self.addSubview(bbackView)
         
-        bbackView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.7)
+        bbackView.backgroundColor = UIColor.black.withAlphaComponent(0.7)
         
-        bbackView.snp_makeConstraints { (make) in
+        bbackView.snp.makeConstraints { (make) in
             
             make.top.equalTo(0)
             make.leftMargin.equalTo(0)
@@ -54,7 +54,7 @@ class FontSizeSlideView: UIView {
         backView.backgroundColor = UIColor.a_color9
         self.addSubview(backView)
         
-        backView.snp_makeConstraints { (make) in
+        backView.snp.makeConstraints { (make) in
             
             make.height.equalTo(159)
             make.leftMargin.equalTo(0)
@@ -63,43 +63,43 @@ class FontSizeSlideView: UIView {
         }
         
         backView.addSubview(topView)
-        topView.snp_makeConstraints { (make) in
+        topView.snp.makeConstraints { (make) in
             
             make.height.equalTo(40)
             make.top.equalTo(self.backView).offset(0)
-            make.left.equalTo(self.backView.snp_left).offset(0)
-            make.right.equalTo(self.backView.snp_right).offset(0)
+            make.left.equalTo(self.backView.snp.left).offset(0)
+            make.right.equalTo(self.backView.snp.right).offset(0)
         }
         
         titleLabel.text = "字体大小"
         titleLabel.textColor = UIColor.a_color3
-        titleLabel.font = UIFont.systemFontOfSize(16)
+        titleLabel.font = UIFont.systemFont(ofSize: 16)
         
         self.topView.addSubview(titleLabel)
-        titleLabel.snp_makeConstraints { (make) in
+        titleLabel.snp.makeConstraints { (make) in
             
             make.center.equalTo(topView.center)
         }
         
-        finishButton.setTitle("完成", forState: UIControlState.Normal)
-        finishButton.titleLabel?.font = UIFont.systemFontOfSize(16)
-        finishButton.setTitleColor(UIColor.a_color7, forState: UIControlState.Normal)
-        finishButton.setTitleColor(UIColor.a_color3, forState: UIControlState.Highlighted)
-        finishButton.setTitleColor(UIColor.a_color3, forState: UIControlState.Selected)
+        finishButton.setTitle("完成", for: UIControlState())
+        finishButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        finishButton.setTitleColor(UIColor.a_color7, for: UIControlState())
+        finishButton.setTitleColor(UIColor.a_color3, for: UIControlState.highlighted)
+        finishButton.setTitleColor(UIColor.a_color3, for: UIControlState.selected)
         self.topView.addSubview(finishButton)
         
-        finishButton.snp_makeConstraints { (make) in
+        finishButton.snp.makeConstraints { (make) in
             
-            make.centerY.equalTo(self.titleLabel.snp_centerY)
+            make.centerY.equalTo(self.titleLabel.snp.centerY)
             make.rightMargin.equalTo(self.topView).offset(-18)
         }
         
         
         self.backView.addSubview(fontView)
-        fontView.snp_makeConstraints { (make) in
+        fontView.snp.makeConstraints { (make) in
             
             make.height.equalTo(20)
-            make.top.equalTo(self.topView.snp_bottom).offset(20)
+            make.top.equalTo(self.topView.snp.bottom).offset(20)
             make.left.equalTo(self.backView).offset(0)
             make.right.equalTo(self.backView).offset(0)
         }
@@ -108,50 +108,50 @@ class FontSizeSlideView: UIView {
         
         fontView4.text = "小"
         fontView4.textColor = UIColor.a_color3
-        fontView4.font = UIFont.systemFontOfSize(16)
-        fontView4.textAlignment = .Center
+        fontView4.font = UIFont.systemFont(ofSize: 16)
+        fontView4.textAlignment = .center
         fontView.addSubview(fontView4)
         
-        fontView4.snp_makeConstraints { (make) in
-            make.centerY.equalTo(self.fontView.snp_centerY)
-            make.left.equalTo(self.fontView.snp_left).offset(0)
-            make.width.equalTo(self.fontView.snp_width).dividedBy(4)
+        fontView4.snp.makeConstraints { (make) in
+            make.centerY.equalTo(self.fontView.snp.centerY)
+            make.left.equalTo(self.fontView.snp.left).offset(0)
+            make.width.equalTo(self.fontView.snp.width).dividedBy(4)
         }
         
         fontView1.text = "标准"
         fontView1.textColor = UIColor.a_color3
-        fontView1.font = UIFont.systemFontOfSize(16)
-        fontView1.textAlignment = .Center
+        fontView1.font = UIFont.systemFont(ofSize: 16)
+        fontView1.textAlignment = .center
         fontView.addSubview(fontView1)
-        fontView1.snp_makeConstraints { (make) in
+        fontView1.snp.makeConstraints { (make) in
             
-            make.width.equalTo(self.fontView.snp_width).dividedBy(4)
-            make.centerY.equalTo(self.fontView.snp_centerY)
-            make.left.equalTo(self.fontView4.snp_right).offset(0)
+            make.width.equalTo(self.fontView.snp.width).dividedBy(4)
+            make.centerY.equalTo(self.fontView.snp.centerY)
+            make.left.equalTo(self.fontView4.snp.right).offset(0)
         }
         
         fontView2.text = "大"
         fontView2.textColor = UIColor.a_color3
-        fontView2.font = UIFont.systemFontOfSize(16)
-        fontView2.textAlignment = .Center
+        fontView2.font = UIFont.systemFont(ofSize: 16)
+        fontView2.textAlignment = .center
         fontView.addSubview(fontView2)
         
-        fontView2.snp_makeConstraints { (make) in
-            make.width.equalTo(self.fontView.snp_width).dividedBy(4)
-            make.centerY.equalTo(self.fontView.snp_centerY)
-            make.left.equalTo(self.fontView1.snp_right).offset(0)
+        fontView2.snp.makeConstraints { (make) in
+            make.width.equalTo(self.fontView.snp.width).dividedBy(4)
+            make.centerY.equalTo(self.fontView.snp.centerY)
+            make.left.equalTo(self.fontView1.snp.right).offset(0)
         }
         
         fontView3.text = "超大"
         fontView3.textColor = UIColor.a_color3
-        fontView3.font = UIFont.systemFontOfSize(16)
-        fontView3.textAlignment = .Center
+        fontView3.font = UIFont.systemFont(ofSize: 16)
+        fontView3.textAlignment = .center
         fontView.addSubview(fontView3)
         
-        fontView3.snp_makeConstraints { (make) in
-            make.width.equalTo(self.fontView.snp_width).dividedBy(4)
-            make.centerY.equalTo(self.fontView.snp_centerY)
-            make.left.equalTo(self.fontView2.snp_right).offset(0)
+        fontView3.snp.makeConstraints { (make) in
+            make.width.equalTo(self.fontView.snp.width).dividedBy(4)
+            make.centerY.equalTo(self.fontView.snp.centerY)
+            make.left.equalTo(self.fontView2.snp.right).offset(0)
         }
         
  
@@ -168,56 +168,56 @@ class FontSizeSlideView: UIView {
         
         silde.value = UIFont.a_fontModalStyle
         
-        silde.setThumbImage(UIImage(named: "滑块背景"), forState: UIControlState.Normal)
-        silde.minimumTrackTintColor = UIColor.clearColor()
-        silde.maximumTrackTintColor = UIColor.clearColor()
-        silde.snp_makeConstraints { (make) in
+        silde.setThumbImage(UIImage(named: "滑块背景"), for: UIControlState())
+        silde.minimumTrackTintColor = UIColor.clear
+        silde.maximumTrackTintColor = UIColor.clear
+        silde.snp.makeConstraints { (make) in
             
-            make.top.equalTo(self.fontView.snp_bottom).offset(10)
-            make.rightMargin.equalTo(self.fontView3.snp_centerX).offset(5)
-            make.leftMargin.equalTo(self.fontView4.snp_centerX).offset(-5)
+            make.top.equalTo(self.fontView.snp.bottom).offset(10)
+            make.rightMargin.equalTo(self.fontView3.snp.centerX).offset(5)
+            make.leftMargin.equalTo(self.fontView4.snp.centerX).offset(-5)
         }
         
-        silde.continuous = false
+        silde.isContinuous = false
 
         hline.backgroundColor = UIColor.a_color5
-        hline.snp_makeConstraints { (make) in
+        hline.snp.makeConstraints { (make) in
             make.height.equalTo(1)
-            make.centerY.equalTo(self.silde.snp_centerY)
+            make.centerY.equalTo(self.silde.snp.centerY)
             make.leftMargin.equalTo(self.vline4).offset(0)
             make.rightMargin.equalTo(self.vline3).offset(0)
         }
         
         vline1.backgroundColor = UIColor.a_color5
-        vline1.snp_makeConstraints { (make) in
+        vline1.snp.makeConstraints { (make) in
             make.width.equalTo(1)
             make.height.equalTo(12)
-            make.centerY.equalTo(self.hline.snp_centerY)
-            make.centerX.equalTo(self.fontView1.snp_centerX)
+            make.centerY.equalTo(self.hline.snp.centerY)
+            make.centerX.equalTo(self.fontView1.snp.centerX)
         }
         
         vline2.backgroundColor = UIColor.a_color5
-        vline2.snp_makeConstraints { (make) in
+        vline2.snp.makeConstraints { (make) in
             make.width.equalTo(1)
             make.height.equalTo(12)
-            make.centerY.equalTo(self.hline.snp_centerY)
-            make.centerX.equalTo(self.fontView2.snp_centerX)
+            make.centerY.equalTo(self.hline.snp.centerY)
+            make.centerX.equalTo(self.fontView2.snp.centerX)
         }
         
         vline3.backgroundColor = UIColor.a_color5
-        vline3.snp_makeConstraints { (make) in
+        vline3.snp.makeConstraints { (make) in
             make.width.equalTo(1)
             make.height.equalTo(12)
-            make.centerY.equalTo(self.hline.snp_centerY)
-            make.centerX.equalTo(self.fontView3.snp_centerX)
+            make.centerY.equalTo(self.hline.snp.centerY)
+            make.centerX.equalTo(self.fontView3.snp.centerX)
         }
         
         vline4.backgroundColor = UIColor.a_color5
-        vline4.snp_makeConstraints { (make) in
+        vline4.snp.makeConstraints { (make) in
             make.width.equalTo(1)
             make.height.equalTo(12)
-            make.centerY.equalTo(self.hline.snp_centerY)
-            make.centerX.equalTo(self.fontView4.snp_centerX)
+            make.centerY.equalTo(self.hline.snp.centerY)
+            make.centerX.equalTo(self.fontView4.snp.centerX)
         }
         
         self.setSlideValue()
@@ -229,21 +229,21 @@ class FontSizeSlideView: UIView {
     }
     
     
-    private func setSlideValue(){
+    fileprivate func setSlideValue(){
     
-        fontView1.userInteractionEnabled = true
-        fontView2.userInteractionEnabled = true
-        fontView3.userInteractionEnabled = true
-        fontView4.userInteractionEnabled = true
+        fontView1.isUserInteractionEnabled = true
+        fontView2.isUserInteractionEnabled = true
+        fontView3.isUserInteractionEnabled = true
+        fontView4.isUserInteractionEnabled = true
         
-        silde.removeActions(.ValueChanged)
-        silde.addAction(UIControlEvents.ValueChanged) { (control) in
+        silde.removeActions(events: .valueChanged)
+        silde.addAction(events: UIControlEvents.valueChanged) { (control) in
             
             self.SetValueMethod(Float(lroundf(self.silde.value)))
         }
         silde.addGestureRecognizer(UITapGestureRecognizer(block: { (tap) in
             
-            let originx = tap.locationInView(self.silde).x
+            let originx = tap.location(in: self.silde).x
             
             let value = (self.silde.maximumValue-self.silde.minimumValue)*Float(originx/self.silde.frame.width)-1
             
@@ -269,8 +269,8 @@ class FontSizeSlideView: UIView {
             self.SetValueMethod(-1)
         }))
         
-        finishButton.removeActions(.TouchUpInside)
-        finishButton.addAction(UIControlEvents.TouchUpInside) { (_) in
+        finishButton.removeActions(events: .touchUpInside)
+        finishButton.addAction(events: UIControlEvents.touchUpInside) { (_) in
             
             self.dismissView()
         }
@@ -281,14 +281,14 @@ class FontSizeSlideView: UIView {
         }))
     }
     
-    private func dismissView(){
+    fileprivate func dismissView(){
     
-        UIView.animateWithDuration(0.3, animations: {
+        UIView.animate(withDuration: 0.3, animations: {
             
-            self.backView.transform = CGAffineTransformTranslate(self.backView.transform, 0, self.backView.frame.height)
+            self.backView.transform = self.backView.transform.translatedBy(x: 0, y: self.backView.frame.height)
             
-        }) { (_) in
-            UIView.animateWithDuration(0.2, animations: {
+        }, completion: { (_) in
+            UIView.animate(withDuration: 0.2, animations: {
                 
                 self.bbackView.alpha = 0
                 
@@ -296,13 +296,13 @@ class FontSizeSlideView: UIView {
                     
                     self.removeFromSuperview()
             })
-        }
+        }) 
     }
     
     // 设置Value
-    private func SetValueMethod(value:Float){
+    fileprivate func SetValueMethod(_ value:Float){
     
-        dispatch_async(dispatch_get_main_queue()) { 
+        DispatchQueue.main.async { 
             UIFont.a_fontModalStyle = value
         }
         
@@ -311,24 +311,9 @@ class FontSizeSlideView: UIView {
     
     
     /// 获取单例模式下的UIStoryBoard对象
-    class var shareNoInterest:FontSizeSlideView!{
+    static var shareNoInterest:FontSizeSlideView!{
         
-        get{
-            
-            struct backTaskLeton{
-                
-                static var predicate:dispatch_once_t = 0
-                
-                static var bgTask:FontSizeSlideView? = nil
-            }
-            
-            dispatch_once(&backTaskLeton.predicate, { () -> Void in
-                
-                backTaskLeton.bgTask = FontSizeSlideView(frame: CGRectZero)
-            })
-            
-            return backTaskLeton.bgTask
-        }
+       return FontSizeSlideView(frame: CGRect.zero)
     }
 }
 
@@ -336,13 +321,13 @@ class FontSizeSlideView: UIView {
 
 class CustomTopView: UIView {
     
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         
         let context = UIGraphicsGetCurrentContext() // 获取绘画板
-        CGContextSetFillColorWithColor(context, UIColor.a_color9.CGColor)
-        CGContextFillRect(context, rect)
+        context?.setFillColor(UIColor.a_color9.cgColor)
+        context?.fill(rect)
         //下分割线
-        CGContextSetStrokeColorWithColor(context, UIColor.a_color5.CGColor)
-        CGContextStrokeRect(context, CGRectMake(18, rect.height, rect.width - 36, 1));
+        context?.setStrokeColor(UIColor.a_color5.cgColor)
+        context?.stroke(CGRect(x: 18, y: rect.height, width: rect.width - 36, height: 1));
     }
 }

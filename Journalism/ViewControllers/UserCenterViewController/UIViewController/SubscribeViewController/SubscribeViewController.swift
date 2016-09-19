@@ -10,14 +10,14 @@ import UIKit
 
 @objc protocol SubscribeViewControllerDelegate {
     
-    optional func ClickFinishButton(hasSubscribe:Bool)
+    @objc optional func ClickFinishButton(_ hasSubscribe:Bool)
 }
 
 
 class SubscribeViewController: UIViewController {
     
-    private var clickFinishButtonBlock:((hasSubscribe:Bool)->Void)?
-    private var delegate:SubscribeViewControllerDelegate?
+    fileprivate var clickFinishButtonBlock:((_ hasSubscribe:Bool)->Void)?
+    fileprivate var delegate:SubscribeViewControllerDelegate?
     
     //MARK: 视图集合
     @IBOutlet var FinishButton:UIButton!
@@ -52,9 +52,9 @@ class SubscribeViewController: UIViewController {
     @IBOutlet var SubscribeButton7:UIButton!
     @IBOutlet var SubscribeButton8:UIButton!
     
-    class func defaultViewController(delegate:SubscribeViewControllerDelegate? = nil,clickFinishButtonBlock:((hasSubscribe:Bool)->Void)? = nil) -> SubscribeViewController{
+    class func defaultViewController(_ delegate:SubscribeViewControllerDelegate? = nil,clickFinishButtonBlock:((_ hasSubscribe:Bool)->Void)? = nil) -> SubscribeViewController{
     
-        let subscribeViewController = UIStoryboard.shareUserStoryBoard.instantiateViewControllerWithIdentifier("SubscribeViewController") as! SubscribeViewController
+        let subscribeViewController = UIStoryboard.shareUserStoryBoard.instantiateViewController(withIdentifier: "SubscribeViewController") as! SubscribeViewController
         subscribeViewController.clickFinishButtonBlock = clickFinishButtonBlock
         subscribeViewController.delegate = delegate
         return subscribeViewController
@@ -66,16 +66,16 @@ class SubscribeViewController: UIViewController {
         
         self.setRandICONAndText()
         
-        self.FinishButton.setBackgroundColor(UIColor.hexStringToColor("#bdc3c7"), forState: UIControlState.Normal)
+        self.FinishButton.setBackgroundColor(UIColor.hexStringToColor("#bdc3c7"), forState: UIControlState())
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SubscribeViewController.SubscribeStateChange), name: "SubscribeStateChange", object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SubscribeViewController.SubscribeStateChange), name: NSNotification.Name(rawValue: "SubscribeStateChange"), object: nil)
     }
     
-    @IBAction func ClickFinishButtonAction(s:AnyObject){
+    @IBAction func ClickFinishButtonAction(_ s:AnyObject){
         
-        let hasSubscribe = self.FinishButton.backgroundImageForState(UIControlState.Normal) == UIColor.hexStringToColor("#0091fa")
+        let hasSubscribe = self.FinishButton.backgroundImage(for: UIControlState()) == UIColor.hexStringToColor("#0091fa")
         
-        self.clickFinishButtonBlock?(hasSubscribe: hasSubscribe)
+        self.clickFinishButtonBlock?(hasSubscribe)
         
         self.delegate?.ClickFinishButton?(hasSubscribe)
     }
@@ -96,7 +96,7 @@ extension SubscribeViewController{
         
         for button in SubscribeButtons() {
             
-            if button.imageForState(UIControlState.Normal) == CustomSubscribeButton.CSelectImg {
+            if button.image(for: UIControlState()) == CustomSubscribeButton.CSelectImg {
                 
                 count += 1
             }
@@ -104,10 +104,10 @@ extension SubscribeViewController{
         
         if count > 0 {
             
-            self.FinishButton.setBackgroundColor(UIColor.hexStringToColor("#0091fa"), forState: UIControlState.Normal)
+            self.FinishButton.setBackgroundColor(UIColor.hexStringToColor("#0091fa"), forState: UIControlState())
         }else{
             
-            self.FinishButton.setBackgroundColor(UIColor.hexStringToColor("#bdc3c7"), forState: UIControlState.Normal)
+            self.FinishButton.setBackgroundColor(UIColor.hexStringToColor("#bdc3c7"), forState: UIControlState())
         }
     }
     
@@ -116,7 +116,7 @@ extension SubscribeViewController{
      
      - returns: 标签集合
      */
-    private func SubscribeLabes() -> [UILabel] {
+    fileprivate func SubscribeLabes() -> [UILabel] {
         
         return [SubscribeLabel0,SubscribeLabel1,SubscribeLabel2,SubscribeLabel3,SubscribeLabel4,SubscribeLabel5,SubscribeLabel6,SubscribeLabel7,SubscribeLabel8]
     }
@@ -126,7 +126,7 @@ extension SubscribeViewController{
      
      - returns: ICON 集合
      */
-    private func SubscribeImageViews() -> [UIImageView] {
+    fileprivate func SubscribeImageViews() -> [UIImageView] {
         
         return [SubscribeImageView0,SubscribeImageView1,SubscribeImageView2,SubscribeImageView3,SubscribeImageView4,SubscribeImageView5,SubscribeImageView6,SubscribeImageView7,SubscribeImageView8]
     }
@@ -136,7 +136,7 @@ extension SubscribeViewController{
      
      - returns: 按钮集合
      */
-    private func SubscribeButtons() -> [UIButton] {
+    fileprivate func SubscribeButtons() -> [UIButton] {
         
         return [SubscribeButton0,SubscribeButton1,SubscribeButton2,SubscribeButton3,SubscribeButton4,SubscribeButton5,SubscribeButton6,SubscribeButton7,SubscribeButton8]
     }
@@ -144,12 +144,12 @@ extension SubscribeViewController{
     /**
      设置当前页面的随机订阅号显示
      */
-    private func setRandICONAndText(){
+    fileprivate func setRandICONAndText(){
         
         let subscribeLabes = self.SubscribeLabes()
         let subscribeImageViews = self.SubscribeImageViews()
         
-        for (index,subscribe) in Subscribe.RandSubscribeArray().enumerate() {
+        for (index,subscribe) in Subscribe.RandSubscribeArray().enumerated() {
             
             subscribeLabes[index].text = subscribe.title
             subscribeImageViews[index].image = UIImage(named: subscribe.imageName)

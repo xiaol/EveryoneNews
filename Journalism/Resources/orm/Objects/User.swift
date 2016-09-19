@@ -41,14 +41,14 @@ class ShareLUser:NSObject{
     
     /// 用户是否登陆
     class var islogin:Bool{
-        get{return NSUserDefaults.standardUserDefaults().boolForKey(USER_ISLOGIN) }
-        set(new){ NSUserDefaults.standardUserDefaults().setBool(new, forKey: USER_ISLOGIN)}
+        get{return UserDefaults.standard.bool(forKey: USER_ISLOGIN) }
+        set(new){ UserDefaults.standard.set(new, forKey: USER_ISLOGIN)}
     }
     
     /// 用户ID
     class var uid:Int{
-        get{return NSUserDefaults.standardUserDefaults().integerForKey(USER_UID) }
-        set(new){ NSUserDefaults.standardUserDefaults().setInteger(new, forKey: USER_UID)}
+        get{return UserDefaults.standard.integer(forKey: USER_UID) }
+        set(new){ UserDefaults.standard.set(new, forKey: USER_UID)}
     }
     
     ///  用户类型
@@ -57,78 +57,78 @@ class ShareLUser:NSObject{
     ///  3 微博三方用户
     ///  4 微信三方用户
     class var utype:Int{
-        get{return NSUserDefaults.standardUserDefaults().integerForKey(USER_TYPE) }
-        set(new){ NSUserDefaults.standardUserDefaults().setInteger(new, forKey: USER_TYPE)}
+        get{return UserDefaults.standard.integer(forKey: USER_TYPE) }
+        set(new){ UserDefaults.standard.set(new, forKey: USER_TYPE)}
     }
     
     /// 用户的密码
     class var password:String{
-        get{return NSUserDefaults.standardUserDefaults().stringForKey(USER_PASSWORD) ?? ""}
-        set(new){ NSUserDefaults.standardUserDefaults().setObject(new, forKey: USER_PASSWORD)}
+        get{return UserDefaults.standard.string(forKey: USER_PASSWORD) ?? ""}
+        set(new){ UserDefaults.standard.set(new, forKey: USER_PASSWORD)}
     }
     
     /// 用户的名称
     class var uname:String{
-        get{return NSUserDefaults.standardUserDefaults().stringForKey(USER_NAME) ?? ""}
-        set(new){ NSUserDefaults.standardUserDefaults().setObject(new, forKey: USER_NAME)}
+        get{return UserDefaults.standard.string(forKey: USER_NAME) ?? ""}
+        set(new){ UserDefaults.standard.set(new, forKey: USER_NAME)}
     }
     
     /// 用户的头像
     class var avatar:String{
-        get{return NSUserDefaults.standardUserDefaults().stringForKey(USER_AVATAR) ?? ""}
-        set(new){ NSUserDefaults.standardUserDefaults().setObject(new, forKey: USER_AVATAR)}
+        get{return UserDefaults.standard.string(forKey: USER_AVATAR) ?? ""}
+        set(new){ UserDefaults.standard.set(new, forKey: USER_AVATAR)}
     }
     
     /// 用户的头像
     class var token:String?{
-        get{return NSUserDefaults.standardUserDefaults().stringForKey(USER_TOKEN)}
-        set(new){ NSUserDefaults.standardUserDefaults().setObject(new, forKey: USER_TOKEN)}
+        get{return UserDefaults.standard.string(forKey: USER_TOKEN)}
+        set(new){ UserDefaults.standard.set(new, forKey: USER_TOKEN)}
     }
     
     
     /// 第三方用户的id
     class var s_uid:String{
-        get{return NSUserDefaults.standardUserDefaults().stringForKey(S_USER_UID) ?? ""}
-        set(new){ NSUserDefaults.standardUserDefaults().setObject(new, forKey: S_USER_UID)}
+        get{return UserDefaults.standard.string(forKey: S_USER_UID) ?? ""}
+        set(new){ UserDefaults.standard.set(new, forKey: S_USER_UID)}
     }
     
     /// 第三方用户的token
     class var s_token:String{
-        get{return NSUserDefaults.standardUserDefaults().stringForKey(S_USER_TOKEN) ?? ""}
-        set(new){ NSUserDefaults.standardUserDefaults().setObject(new, forKey: S_USER_TOKEN)}
+        get{return UserDefaults.standard.string(forKey: S_USER_TOKEN) ?? ""}
+        set(new){ UserDefaults.standard.set(new, forKey: S_USER_TOKEN)}
     }
     
     /// 第三方用户的过期时间
     class var s_sexpires:String{
-        get{return NSUserDefaults.standardUserDefaults().stringForKey(S_USER_SEXPIRES) ?? ""}
-        set(new){ NSUserDefaults.standardUserDefaults().setObject(new, forKey: S_USER_SEXPIRES)}
+        get{return UserDefaults.standard.string(forKey: S_USER_SEXPIRES) ?? ""}
+        set(new){ UserDefaults.standard.set(new, forKey: S_USER_SEXPIRES)}
     }
     
     /// 第三方用户的名称
     class var s_uname:String{
-        get{return NSUserDefaults.standardUserDefaults().stringForKey(S_USER_UNAME) ?? ""}
-        set(new){ NSUserDefaults.standardUserDefaults().setObject(new, forKey: S_USER_UNAME)}
+        get{return UserDefaults.standard.string(forKey: S_USER_UNAME) ?? ""}
+        set(new){ UserDefaults.standard.set(new, forKey: S_USER_UNAME)}
     }
     /// 第三方用户的头像
     class var s_avatar:String{
-        get{return NSUserDefaults.standardUserDefaults().stringForKey(S_USER_AVATAR) ?? ""}
-        set(new){ NSUserDefaults.standardUserDefaults().setObject(new, forKey: S_USER_AVATAR)}
+        get{return UserDefaults.standard.string(forKey: S_USER_AVATAR) ?? ""}
+        set(new){ UserDefaults.standard.set(new, forKey: S_USER_AVATAR)}
     }
     /// 第三方用户的 性别
     class var s_gender:Int{
-        get{return NSUserDefaults.standardUserDefaults().integerForKey(S_USER_GENDER)}
-        set(new){ NSUserDefaults.standardUserDefaults().setInteger(new, forKey: S_USER_GENDER)}
+        get{return UserDefaults.standard.integer(forKey: S_USER_GENDER)}
+        set(new){ UserDefaults.standard.set(new, forKey: S_USER_GENDER)}
     }
     
     
     // 获得用户的Token
-    class func getSdkUserToken(finish:((token:String)->Void)?=nil,fail:(()->Void)?=nil){
+    class func getSdkUserToken(_ finish:((_ token:String)->Void)?=nil,fail:(()->Void)?=nil){
         
         guard let t = token else{
 
             return ShareLUserRequest.getUserTokenByRequest({ (token) in
                 
-                finish?(token: token)
+                finish?(token)
                 
                 }, fail: {
                     
@@ -136,7 +136,7 @@ class ShareLUser:NSObject{
             })
         }
         
-        finish?(token: t)
+        finish?(t)
     }
     
     /// 用户注销
@@ -152,7 +152,7 @@ class ShareLUser:NSObject{
         ShareLUser.s_avatar = ""
         ShareLUser.s_gender = 0
         
-        NSNotificationCenter.defaultCenter().postNotificationName(USERLOGINCHANGENOTIFITION, object: nil)
+        NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: USERLOGINCHANGENOTIFITION), object: nil)
     }
     
     class func sprint(){
@@ -177,13 +177,13 @@ class ShareLUser:NSObject{
 class ShareLUserRequest: NSObject {
     
     /// 向服务器注册一个游客 并且将游客的验证信息 填入到 应用 NSUserDefaults 中，key 为 SDK_SHANGHAIUSERTOKEN 的值
-    class func getUserTokenByRequest(finish:((token:String)->Void),fail:(()->Void)?=nil){
+    class func getUserTokenByRequest(_ finish:@escaping ((_ token:String)->Void),fail:(()->Void)?=nil){
         
         let requestBuder = UserAPI.auSinGPostWithRequestBuilder(userRegisterInfo: VisitorsRegister(utype: 2, platform: 1))
         
         requestBuder.execute { (response, error) in
             
-            guard let token =  response?.header["Authorization"],let data = response?.body.objectForKey("data"),uid = data.objectForKey("uid") as? Int,utype = data.objectForKey("utype") as? Int,password = data.objectForKey("password") as? String else{
+            guard let token =  response?.header["Authorization"],let data = response?.body.object(forKey: "data"),let uid = (data as AnyObject).object(forKey: "uid") as? Int,let utype = (data as AnyObject).object(forKey: "utype") as? Int,let password = (data as AnyObject).object(forKey: "password") as? String else{
                 fail?()
                 return
             }
@@ -194,26 +194,26 @@ class ShareLUserRequest: NSObject {
             ShareLUser.password = password
             ShareLUser.token = token
             
-            finish(token: token)
+            finish(token)
         }
     }
     
     // 注册第三方用户
-    class func resigterSanFangUser(user:UserRegister,finish:(()->Void)?=nil,fail:(()->Void)?=nil){
+    class func resigterSanFangUser(_ user:UserRegister,finish:(()->Void)?=nil,fail:(()->Void)?=nil){
         
         let requestBuder = UserAPI.auSinSPostWithRequestBuilder(userRegisterInfo: user)
         requestBuder.execute { (response, error) in
             
-            guard let token =  response?.header["Authorization"],let data = response?.body.objectForKey("data"),uid = data.objectForKey("uid") as? Int,utype = data.objectForKey("utype") as? Int else{
+            guard let token =  response?.header["Authorization"],let data = response?.body.object(forKey: "data"),let uid = (data as AnyObject).object(forKey: "uid") as? Int,let utype = (data as AnyObject).object(forKey: "utype") as? Int else{
                 fail?()
                 return
             }
             
-            if let value = response?.body.objectForKey("uname") as? String{
+            if let value = response?.body.object(forKey: "uname") as? String{
                 ShareLUser.uname = value
             }
             
-            if let value = response?.body.objectForKey("avatar") as? String{
+            if let value = response?.body.object(forKey: "avatar") as? String{
                 ShareLUser.avatar = value
             }
             
@@ -221,13 +221,13 @@ class ShareLUserRequest: NSObject {
             ShareLUser.utype = utype
             ShareLUser.token = token
             
-            NSNotificationCenter.defaultCenter().postNotificationName(USERLOGINCHANGENOTIFITION, object: nil)
+            NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: USERLOGINCHANGENOTIFITION), object: nil)
             
             finish?()
         }
     }
     
-    class func resetLogin(finish:(()->Void)?=nil){
+    class func resetLogin(_ finish:(()->Void)?=nil){
     
         if ShareLUser.utype == 2 {
             
