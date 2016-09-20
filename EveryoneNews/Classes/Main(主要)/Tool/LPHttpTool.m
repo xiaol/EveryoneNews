@@ -209,11 +209,15 @@
                 NSDictionary *headerDict = [headerResponse allHeaderFields];
                 success(responseObject, [headerDict objectForKey:@"Authorization"]);
             }
+            
+//            NSLog(@"%@", responseObject);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         if (failure) {
             failure(error);
         }
+        NSLog(@"%@", error);
+        
     }];
     
 }

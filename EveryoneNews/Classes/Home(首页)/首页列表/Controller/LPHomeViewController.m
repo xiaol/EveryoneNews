@@ -262,13 +262,14 @@
         }
         CGFloat loginBtnY = (menuViewHeight - loginBtnH) / 2 + statusBarHeight;
         
-        [self.loginBtn sd_setBackgroundImageWithURL:[NSURL URLWithString:account.userIcon] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"登录icon"]];
-        self.loginBtn.frame = CGRectMake(loginBtnX , loginBtnY , loginBtnW, loginBtnH);
-        self.loginBtn.layer.cornerRadius = loginBtnH / 2;
-        self.loginBtn.layer.borderWidth = 1;
-        self.loginBtn.layer.masksToBounds = YES;
-        self.loginBtn.layer.borderColor = [UIColor colorFromHexString:@"#e4e4e4"].CGColor;
-        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.loginBtn sd_setBackgroundImageWithURL:[NSURL URLWithString:account.userIcon] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"morentouxiang"]];
+            self.loginBtn.frame = CGRectMake(loginBtnX , loginBtnY , loginBtnW, loginBtnH);
+            self.loginBtn.layer.cornerRadius = loginBtnH / 2;
+            self.loginBtn.layer.borderWidth = 1;
+            self.loginBtn.layer.masksToBounds = YES;
+            self.loginBtn.layer.borderColor = [UIColor colorFromHexString:@"#e4e4e4"].CGColor;
+        });
     }
 }
 #pragma mark - 重新加载关注页面

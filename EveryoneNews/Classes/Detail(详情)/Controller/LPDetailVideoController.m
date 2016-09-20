@@ -48,6 +48,8 @@
     NSURL *url =[NSURL URLWithString:mutableString];
 
     NSURLRequest *request =[NSURLRequest requestWithURL:url];
+
+    
     [webView loadRequest:request];
     [self.view addSubview:webView];
     

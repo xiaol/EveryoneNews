@@ -219,31 +219,39 @@
         NSString *videoURLPath = [urlComponents path];
         NSString *videoURLQuery = [urlComponents query];
         
-        NSMutableString *mutableString = [NSMutableString stringWithFormat:@"%@://%@%@?",videoURLScheme, videoURLHost, videoURLPath];
-        NSArray *parametersArray = [videoURLQuery componentsSeparatedByString:@"&"];
-        
-        for (NSString *keyValuePair in parametersArray) {
-            
-            NSArray *pairComponents = [keyValuePair componentsSeparatedByString:@"="];
-            NSString *key = [[pairComponents firstObject] stringByRemovingPercentEncoding];
-            NSString *value = [[pairComponents lastObject] stringByRemovingPercentEncoding];
-            
-            if ([key isEqualToString:@"width"]) {
-                value = [NSString stringWithFormat:@"%.1f",self.contentFrame.webViewF.size.width];
-            } else if ([key isEqualToString:@"height"]) {
-                value = [NSString stringWithFormat:@"%.1f",self.contentFrame.webViewF.size.height];
-            }
-            
-            [mutableString appendString:[NSString stringWithFormat:@"%@=%@&", key, value]];
-        }
+        NSMutableString *mutableString = [NSMutableString string];
         NSString *urlStr = @"";
-        if([[mutableString substringFromIndex:(mutableString.length - 1)] isEqualToString:@"&"]) {
-            urlStr = [mutableString substringToIndex:(mutableString.length - 1)];
+        if ([content.video containsString:@"?"]) {
+            mutableString = [NSMutableString stringWithFormat:@"%@://%@%@?",videoURLScheme, videoURLHost, videoURLPath];
+            NSArray *parametersArray = [videoURLQuery componentsSeparatedByString:@"&"];
+            
+            for (NSString *keyValuePair in parametersArray) {
+                
+                NSArray *pairComponents = [keyValuePair componentsSeparatedByString:@"="];
+                NSString *key = [[pairComponents firstObject] stringByRemovingPercentEncoding];
+                NSString *value = [[pairComponents lastObject] stringByRemovingPercentEncoding];
+                
+                if ([key isEqualToString:@"width"]) {
+                    value = [NSString stringWithFormat:@"%.1f",self.contentFrame.webViewF.size.width];
+                } else if ([key isEqualToString:@"height"]) {
+                    value = [NSString stringWithFormat:@"%.1f",self.contentFrame.webViewF.size.height];
+                }
+                [mutableString appendString:[NSString stringWithFormat:@"%@=%@&", key, value]];
+            }
+       
+            if([[mutableString substringFromIndex:(mutableString.length - 1)] isEqualToString:@"&"]) {
+                urlStr = [mutableString substringToIndex:(mutableString.length - 1)];
+            } else {
+                urlStr = mutableString;
+            }
         } else {
-            urlStr = mutableString;
+            // mp4格式 (秒拍)
+             mutableString = [NSMutableString stringWithFormat:@"%@://%@%@",videoURLScheme, videoURLHost, videoURLPath];
+             urlStr = mutableString;
         }
         if (!self.videoIsFinishLoaded) {
-            NSURL *url =[NSURL URLWithString:urlStr];
+            NSString *urlEncode = [urlStr stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+            NSURL *url =[NSURL URLWithString:urlEncode];
             NSURLRequest *request =[NSURLRequest requestWithURL:url];
             [self.webView loadRequest:request];
             self.activity.frame = CGRectMake(0, 0, 30, 30);
@@ -266,6 +274,14 @@
     [self.activity stopAnimating];
     self.videoImageView.hidden = YES;
     self.videoIsFinishLoaded = YES;
+}
+
+// mp4加载时调用，原因待查找
+-(void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error{
+    [self.activity stopAnimating];
+    self.videoImageView.hidden = YES;
+    self.videoIsFinishLoaded = YES;
+    
 }
 
 - (BOOL)editorViewShouldBeginEditing:(DTRichTextEditorView *)editorView {

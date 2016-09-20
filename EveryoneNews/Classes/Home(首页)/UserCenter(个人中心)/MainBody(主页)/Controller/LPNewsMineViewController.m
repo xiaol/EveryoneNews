@@ -20,7 +20,7 @@
 #import "GenieTransition.h"
 #import "LPNewsMyCommViewController.h"
 #import "LPMyCollectionViewController.h"
-
+#import "UIImageView+WebCache.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -270,15 +270,17 @@ static NSString * const kCellIdentify = @"JoyMineViewCell";
         
         if (account == nil) {
            avatarImageView.image = [UIImage imageNamed:@"LP_icon"];
-        }else{
-            __weak typeof(self) weakSelf = self;
-            [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:account.userIcon] options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
-                if (image && finished) {
-                    weakSelf.avatarImageView.image = image;
-                    
-                    
-                }
-            }];
+        } else{
+        [self.avatarImageView sd_setImageWithURL:[NSURL URLWithString:account.userIcon] placeholderImage:[UIImage imageNamed:@"morentouxiang"]];
+            
+//            __weak typeof(self) weakSelf = self;
+//            [[SDWebImageManager sharedManager] downloadImageWithURL:[NSURL URLWithString:account.userIcon] options:0 progress:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL) {
+//                if (image && finished) {
+//                    weakSelf.avatarImageView.image = image;
+//                    
+//                    
+//                }
+//            }];
         }
     }
     

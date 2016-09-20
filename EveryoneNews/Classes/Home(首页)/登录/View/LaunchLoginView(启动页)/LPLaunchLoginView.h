@@ -19,12 +19,17 @@
 
 - (void)didSinaLoginWithLoginView:(LPLaunchLoginView *)loginView;
 
+- (void)didFindPassWordWithLoginView:(LPLaunchLoginView *)loginView;
+
+- (void)didRegisterWithLoginView:(LPLaunchLoginView *)loginView;
+
+- (void)didLoginWithLoginView:(LPLaunchLoginView *)loginView userName:(NSString *)userName password:(NSString *)password;
+
 
 @end
 
 @interface LPLaunchLoginView : UIView
 
- 
 @property (nonatomic, weak) id<LPLaunchLoginViewDelegate> delegate;
 
 @end

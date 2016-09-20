@@ -14,6 +14,7 @@
 #import "MJExtension.h"
 #import "CoreDataHelper.h"
 #import "LPLoginTool.h"
+#import "LPAdRequestTool.h"
 
 @interface CardTool ()
 
@@ -75,6 +76,130 @@
    }
 
 
+//#pragma mark - feed流新接口  包含广告位
+//+ (void)cardsWithParam:(CardParam *)param
+//             channelID:(NSString *)channelID
+//               success:(CardsFetchedSuccessHandler)success
+//               failure:(CardsFetchedFailureHandler)failure {
+//    NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
+//    NSMutableDictionary *paramDict = [NSMutableDictionary dictionary];
+//        paramDict[@"cid"] = channelID;
+//        paramDict[@"tcr"] = param.startTime;
+//        paramDict[@"tmk"] = @"0";
+//    // 如果Authorization为空，则请求完Authorization后再请求数据
+//    if (!authorization) {
+//        // 第一次进入存储游客Authorization
+//        NSString *url = @"http://bdp.deeporiginalx.com/v2/au/sin/g";
+//        NSMutableDictionary *paramUser = [NSMutableDictionary dictionary];
+//        // 2 游客用户
+//        paramUser[@"utype"] = @(2);
+//        // 1 iOS 平台
+//        paramUser[@"platform"] = @(1);
+//        paramUser[@"province"]  = @"";
+//        paramUser[@"city"] = @"";
+//        paramUser[@"district"] = @"";
+//        [LPHttpTool postJSONResponseAuthorizationWithURL:url params:paramUser success:^(id json, NSString *authorization) {
+//            
+//            if ([json[@"code"] integerValue] == 2000) {
+//                NSDictionary *dict = (NSDictionary *)json[@"data"];
+//                [userDefaults setObject:dict[@"uid"] forKey:@"uid"];
+//                [userDefaults setObject:@"2" forKey:@"uIconDisplay"];
+//                [userDefaults setObject:dict[@"utype"] forKey:@"utype"];
+//                [userDefaults setObject:dict[@"password"] forKey:@"password"];
+//                [userDefaults setObject:authorization forKey:@"uauthorization"];
+//                [userDefaults synchronize];
+//                if ([channelID isEqualToString:@"1"]) {
+//                    paramDict[@"uid"] = ![userDefaults objectForKey:@"uid"] ? @(0):[userDefaults objectForKey:@"uid"];
+//                    paramDict[@"b"] = [LPAdRequestTool adBase64];
+//                    paramDict[@"cid"] = @([channelID integerValue]);
+//                    paramDict[@"tcr"] = @([param.startTime integerValue]);
+//                    paramDict[@"tmk"] = @(0);
+//                    [self qiDianPostCardsWithUserParam:param paramDict:paramDict authorization:authorization success:success failure:failure];
+//                } else {
+//                    [self cardsWithUserParam:param paramDict:paramDict authorization:authorization success:success failure:failure];
+//                }
+//                
+//            }
+//        }  failure:^(NSError *error) {
+//            
+//        }];
+//    } else {
+//        if ([channelID isEqualToString:@"1"]) {
+//            paramDict[@"uid"] = ![userDefaults objectForKey:@"uid"] ? @(0):[userDefaults objectForKey:@"uid"];
+//            paramDict[@"b"] = [LPAdRequestTool adBase64];
+//            paramDict[@"cid"] = @([channelID integerValue]);
+//            paramDict[@"tcr"] = @([param.startTime integerValue]);
+//            paramDict[@"tmk"] = @(0);
+//            [self qiDianPostCardsWithUserParam:param paramDict:paramDict authorization:authorization success:success failure:failure];
+//        } else {
+//            [self cardsWithUserParam:param paramDict:paramDict authorization:authorization success:success failure:failure];
+//        }
+//    }
+//}
+
+
+#pragma mark - 奇点频道请求数据接口
++ (void)qiDianPostCardsWithUserParam:(CardParam *)param
+                       paramDict:(NSMutableDictionary *)paramDict
+                   authorization:(NSString *)authorization
+                         success:(CardsFetchedSuccessHandler)success
+                         failure:(CardsFetchedFailureHandler)failure {
+    
+    if (param.type == HomeCardsFetchTypeNew) { // 下拉刷新, 直接发送网络请求, 成功后存入数据库
+        
+        NSString *url = [NSString stringWithFormat:@"%@/v2/ns/fed/ra", ServerUrlVersion2];
+        
+        [LPHttpTool postAuthorizationJSONWithURL:url authorization:authorization params:paramDict success:^(id json) {
+            // 有数据
+            if ([json[@"code"] integerValue] == 2000) {
+                [Card createCardsWithDictArray:json[@"data"] channelID:param.channelID cardsArrayBlock:^(NSArray *cardsArray) {
+                    success(cardsArray);
+                }];
+            }
+            // 没有数据
+            else if ([json[@"code"] integerValue] == 2002) {
+                NSArray *cardsArray = [[NSArray alloc] init];
+                success(cardsArray);
+            }
+            // 用户验证错误
+            else if ([json[@"code"] integerValue] == 4003) {
+                [LPLoginTool loginVerify];
+                NSArray *cardsArray = [[NSArray alloc] init];
+                success(cardsArray);
+            }
+            
+        } failure:^(NSError *error) {
+            NSLog(@"%@", error);
+            failure(error);
+        }];
+    } else if (param.type == HomeCardsFetchTypeMore) { // 上拉加载更多，先从网络取数据，获取不到再从本地数据库拿数据
+        
+        NSString *url = [NSString stringWithFormat:@"%@/v2/ns/fed/la", ServerUrlVersion2];
+        [LPHttpTool postAuthorizationJSONWithURL:url authorization:authorization params:paramDict success:^(id json) {
+            if ([json[@"code"] integerValue] == 2000) {
+                [Card createCardsWithDictArray:json[@"data"] channelID:param.channelID cardsArrayBlock:^(NSArray *cardsArray) {
+                    success(cardsArray);
+                }];
+            }
+            // 没有数据
+            else if ([json[@"code"] integerValue] == 2002) {
+                NSArray *cardsArray = [[NSArray alloc] init];
+                success(cardsArray);
+            }
+            // 用户验证错误
+            else if ([json[@"code"] integerValue] == 4003) {
+                [LPLoginTool loginVerify];
+                NSArray *cardsArray = [[NSArray alloc] init];
+                success(cardsArray);
+            }
+        } failure:^(NSError *error) {
+            failure(error);
+            NSLog(@"%@", error);
+        }];
+    }
+    
+    
+}
 
 
 

@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LPLoginViewController : UIViewController
+@interface LPLoginViewController : LPBaseViewController
 
 @end

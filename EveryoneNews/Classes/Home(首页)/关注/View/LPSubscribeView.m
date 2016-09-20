@@ -39,9 +39,14 @@ const static CGFloat padding = 20;
         NSString *title = @"根据你的爱好为你推荐";
         
         CGFloat titleLabelH = [title sizeWithFont:[UIFont boldSystemFontOfSize:LPFont3] maxSize:CGSizeMake(ScreenWidth, CGFLOAT_MAX)].height;
+        
+        
+        
         CGFloat titleLabelY = 50;
         if (iPhone6Plus) {
             titleLabelY = 67;
+            titleLabelH = [title sizeWithFont:[UIFont boldSystemFontOfSize:LPFont2] maxSize:CGSizeMake(ScreenWidth, CGFLOAT_MAX)].height;
+            
         }
         
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, titleLabelY, ScreenWidth, titleLabelH)];
@@ -55,12 +60,12 @@ const static CGFloat padding = 20;
         layout.scrollDirection = UICollectionViewScrollDirectionVertical;
         CGFloat  collectionViewY =  CGRectGetMaxY(titleLabel.frame) + 20;
         if (iPhone6Plus) {
-            collectionViewY =  CGRectGetMaxY(titleLabel.frame) + 34;
+            collectionViewY =  CGRectGetMaxY(titleLabel.frame) + 34 + 12;
         }
         
         CGFloat collectionViewH = ScreenHeight - collectionViewY - 60;
         if (iPhone6Plus) {
-            collectionViewH = ScreenHeight - collectionViewY - 109;
+            collectionViewH = ScreenHeight - collectionViewY - 109 - 12;
         }
         
         
@@ -69,6 +74,7 @@ const static CGFloat padding = 20;
         collectionView.delegate = self;
         collectionView.scrollEnabled = NO;
         collectionView.backgroundColor = [UIColor colorFromHexString:LPColor9];
+
         [collectionView registerClass:[LPSubscriberCell class] forCellWithReuseIdentifier:cellIdentifier];
         [self addSubview:collectionView];
         self.collectionView = collectionView;
@@ -78,6 +84,10 @@ const static CGFloat padding = 20;
         confirmButton.backgroundColor = [UIColor colorFromHexString:@"#bdc3c7"];
         [confirmButton setTitle:@"开始体验" forState:UIControlStateNormal];
         confirmButton.titleLabel.font = [UIFont boldSystemFontOfSize:15];
+        if (iPhone6Plus) {
+             confirmButton.titleLabel.font = [UIFont boldSystemFontOfSize:16];
+        }
+        
         confirmButton.titleLabel.textColor = [UIColor whiteColor];
         [confirmButton addTarget:self action:@selector(confirmButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:confirmButton];
@@ -110,7 +120,7 @@ const static CGFloat padding = 20;
     CGFloat titleLabelH = [title sizeWithFont:[UIFont boldSystemFontOfSize:LPFont3] maxSize:CGSizeMake(ScreenWidth, CGFLOAT_MAX)].height;
     CGFloat  height = (ScreenHeight - 67 - titleLabelH - 60) / 3.0f;
     if (iPhone6Plus) {
-         height = (ScreenHeight - 67 - titleLabelH - 109) / 3.0f;
+         height = (ScreenHeight - 67 - titleLabelH - 109 - 12) / 3.0f;
     }
     
     return  CGSizeMake(width, height);

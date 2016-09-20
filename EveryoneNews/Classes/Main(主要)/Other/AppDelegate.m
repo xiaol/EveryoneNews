@@ -36,16 +36,7 @@
 #import <Crashlytics/Crashlytics.h>
 #import "LPDetailViewController.h"
 #import "LPSearchViewController.h"
-
-////for mac
-//#include <sys/socket.h>
-//#include <sys/sysctl.h>
-//#include <net/if.h>
-//#include <net/if_dl.h>
-//
-////for idfa
-//#import <AdSupport/AdSupport.h>
-
+#import "LPLoginViewController.h"
 
 NSString * const NetworkReachabilityDidChangeToReachableNotification = @"com.everyonenews.networkchangedtoreachable";
 
@@ -78,9 +69,22 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     return _coreDataHelper;
 }
 
+#pragma mark - 页面测试
+- (void)pageTest {
+    
+    self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    LPLoginViewController *mainVc = [[LPLoginViewController alloc] init];
+    MainNavigationController *mainNavVc = [[MainNavigationController alloc] initWithRootViewController:mainVc];
+    self.window.rootViewController = mainNavVc;
+    [self.window makeKeyAndVisible];
+}
+
 
 #pragma mark - didFinishLaunchingWithOptions
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+//    [self pageTest];
+    
+    
     
     if ([userDefaults objectForKey:LPIsVersionFirstLoad] && [userDefaults objectForKey:@"uIconDisplay"]) {
         [LPLoginTool loginVerify];

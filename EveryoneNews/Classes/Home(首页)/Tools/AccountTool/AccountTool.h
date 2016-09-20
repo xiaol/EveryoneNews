@@ -18,20 +18,18 @@ typedef void (^LoginFailureHandler)();
 typedef void (^LoginCancelHandler)();
 
 @interface AccountTool : NSObject
+
 singleton_h(AccountTool);
-/**
- *  需要校验用户是否登录时，调用此方法，如果没有登录则弹出登录界面
- *
- *  @param viewVc 当前的ViewController
- */
+
+// 判断当前用户是否登录
 + (void)accountLoginWithViewController:(UIViewController *)viewVc success:(LoginSuccessHandler)success failure:(LoginFailureHandler)failure cancel:(LoginCancelHandler)cancel;
 
-/** 保存用户信息到本地 */
+// 保存用户信息到本地
 + (void)saveAccount:(Account *)account;
 
-/** 获取已经登录的用户*/
+// 获取用户
 + (Account *)account;
 
-/**删除已经保存的用户信息 删除包括:1.授权信息 2.保存在本地的用户信息文件*/
+// 删除已经保存的用户信息
 + (void)deleteAccount;
 @end

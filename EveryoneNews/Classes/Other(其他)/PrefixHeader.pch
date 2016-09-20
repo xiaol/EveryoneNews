@@ -227,7 +227,7 @@ typedef NS_ENUM(NSInteger, newsType) {
 #define LPChannelItemChangedNotification @"LPChannelItemChangedNotification"
 #define LPAddConcernSourceNotification @"LPAddConcernSourceNotification"
 #define LPRemoveConcernSourceNotification @"LPRemoveConcernSourceNotification"
-#define LPIsVersionFirstLoad @"LPIsVersion_3_3_4_FirstLoad"
+#define LPIsVersionFirstLoad @"LPIsVersion_3_3_5_FirstLoad"
 
 #define LPReloadAddConcernPageNotification @"LPReloadAddConcernPageNotification"
 #define LPReloadCancelConcernPageNotification @"LPReloadCancelConcernPageNotification"
@@ -245,6 +245,8 @@ typedef NS_ENUM(NSInteger, newsType) {
 #define LPWeixin @"wxsession"
 
 
+
+#define defaultUserIconUrl @"https://qidianapkstatic.oss-cn-beijing.aliyuncs.com/default_avatar.png"
 #define LPLoginNotification @"LPLoginSuccessNotification"
 #define LPLoginOutNotification @"LPLoginOutNotification"
 

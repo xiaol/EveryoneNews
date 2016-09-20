@@ -55,4 +55,6 @@
 - (double)timestampWithDateFormat:(NSString *)dateFormat;
 - (NSDate *)dateFromString:(NSString *)dateString;
 + (NSString *)stringFromDate:(NSDate *)date;
+
+- (NSString *)stringToMD5:(NSString *)str;
 @end

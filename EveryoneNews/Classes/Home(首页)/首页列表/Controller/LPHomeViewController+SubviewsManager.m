@@ -34,6 +34,24 @@
 #import "LPSubscribeView.h"
 #import "LPSubscriber.h"
 #import "LPSubscriberFrame.h"
+#import "LPLoginViewController.h"
+#import "Account.h"
+#import "AccountTool.h"
+#import "UIImageView+WebCache.h"
+#import "MBProgressHUD+MJ.h"
+#import "UMSocialAccountManager.h"
+#import "MainNavigationController.h"
+#import "WXApi.h"
+#import "MBProgressHUD.h"
+#import "MJExtension.h"
+#import "LPHttpTool.h"
+#import "NSDate+Extension.h"
+#import "UMSocialDataService.h"
+#import "AFNetworking.h"
+#import "LPLoginTool.h"
+#import "LPRegisterViewController.h"
+#import "LPRetrievePasswordViewController.h"
+
 
 NSString * const menuCellIdentifier = @"menuCollectionViewCell";
 NSString * const cellIdentifier = @"sortCollectionViewCell";
@@ -52,7 +70,7 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
     return NO;
 }
 
-#pragma mark - setupSubViews
+#pragma mark - 创建首页视图
 - (void)setupSubViews {
     
     self.view.backgroundColor = [UIColor whiteColor];
@@ -176,19 +194,19 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
     [self.view addSubview:pagingView];
     self.pagingView = pagingView;
     
-    // 频道管理
-    UIView *blurView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
-    blurView.backgroundColor = [UIColor whiteColor];
-    blurView.alpha = 0.0f;
-    [self.view addSubview:blurView];
-    self.blurView = blurView;
-    
+//    
+//    // 动态添加首订，完成后移除
+//     [self setupSubscriberData];
+//    LPSubscribeView *subscribeView = [[LPSubscribeView alloc] initWithFrame:self.view.bounds];
+//    subscribeView.subscriberFrames = self.subscriberFrameArray;
+//    [self.view addSubview:subscribeView];
+//
     // 首次安装提示信息
     if (![userDefaults objectForKey:LPIsVersionFirstLoad]) {
         // 添加黑色透明功能
+    
         UIView *homeBlackBlurView = [[UIView alloc] initWithFrame:self.view.bounds];
         homeBlackBlurView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
-        homeBlackBlurView.hidden = YES;
     
         UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(homeBlurViewPressed)];
         [homeBlackBlurView addGestureRecognizer:tapGesture];
@@ -220,24 +238,125 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
         changeFontSizeView.delegate = self;
         [self.homeBlackBlurView addSubview:changeFontSizeView];
         self.changeFontSizeView = changeFontSizeView;
-
+    
         // 登录提示
-        LPLaunchLoginView *loginView = [[LPLaunchLoginView alloc] init];
+        LPLaunchLoginView *loginView = [[LPLaunchLoginView alloc] initWithFrame:self.view.bounds];
         loginView.delegate = self;
         [self.view addSubview:loginView];
         self.loginView = loginView;
         // 加载完后提示信息
         [userDefaults setObject:@"NO" forKey:LPIsVersionFirstLoad];
         [userDefaults synchronize];
-        
-        
-//        // 动态添加首订，完成后移除
-//        LPSubscribeView *subscribeView = [[LPSubscribeView alloc] initWithFrame:self.view.bounds];
-//        [self setupSubscriberData];
-//
-//        subscribeView.subscriberFrames = self.subscriberFrameArray;
-//        [self.view addSubview:subscribeView];
     }
+}
+
+#pragma mark - LPLaunchLoginView Delegate
+// 随便看看
+- (void)didCloseLoginView:(LPLaunchLoginView *)loginView {
+    
+    self.loginView.hidden = YES;
+    //    self.homeBlackBlurView.hidden = NO;
+}
+
+// 微信登录
+- (void)didWeixinLoginWithLoginView:(LPLaunchLoginView *)loginView {
+    
+    [self loginWithPlatformName:UMShareToWechatSession];
+    
+}
+
+// 新浪登录
+- (void)didSinaLoginWithLoginView:(LPLaunchLoginView *)loginView {
+    [self loginWithPlatformName:UMShareToSina];
+}
+
+// 忘记密码
+- (void)didFindPassWordWithLoginView:(LPLaunchLoginView *)loginView {
+    LPRetrievePasswordViewController *retrievePasswordVC = [[LPRetrievePasswordViewController alloc] init];
+    [self.navigationController pushViewController:retrievePasswordVC animated:YES];
+}
+
+// 注册
+- (void)didRegisterWithLoginView:(LPLaunchLoginView *)loginView {
+    LPRegisterViewController *registerVC = [[LPRegisterViewController alloc] init];
+    [self.navigationController pushViewController:registerVC animated:YES];
+}
+// 登录
+- (void)didLoginWithLoginView:(LPLaunchLoginView *)loginView userName:(NSString *)userName password:(NSString *)password  {
+    NSString *url = [NSString stringWithFormat:@"%@/v2/au/lin/g", ServerUrlVersion2];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"email"]  = userName;
+    params[@"password"] = password;
+    [LPHttpTool postJSONResponseAuthorizationWithURL:url params:params success:^(id json, NSString *authorization) {
+        if ([json[@"code"] integerValue] == 2000) {
+            
+            NSDictionary *dict = (NSDictionary *)json[@"data"];
+            NSMutableDictionary *accountDict = [NSMutableDictionary dictionary];
+            accountDict[@"userId"] = dict[@"uid"];
+            accountDict[@"userGender"] = @(0);
+            accountDict[@"userName"] = dict[@"uname"];
+            accountDict[@"userIcon"] = defaultUserIconUrl;
+            accountDict[@"platformType"] = @"";
+            accountDict[@"deviceType"] = @"ios";
+            accountDict[@"token"] = @"";
+            accountDict[@"expiresTime"] = @"";
+            
+            // 保存用户信息到本地
+            Account *account = [Account objectWithKeyValues:accountDict];
+            [AccountTool saveAccount:account];
+            
+            [userDefaults setObject:dict[@"uid"] forKey:@"uid"];
+            [userDefaults setObject:@"1" forKey:@"uIconDisplay"];
+            [userDefaults setObject:dict[@"utype"] forKey:@"utype"];
+            [userDefaults setObject:authorization forKey:@"uauthorization"];
+            [userDefaults synchronize];
+            [noteCenter postNotificationName:LPLoginNotification object:nil];
+            [self dismissViewControllerAnimated:YES completion:nil];
+        } else {
+            [MBProgressHUD showError:@"用户名或密码错误"];
+        }
+    } failure:^(NSError *error) {
+        NSLog(@"%@", error);
+    }];
+
+}
+
+
+
+#pragma mark - 登录微信微博平台
+- (void)loginWithPlatformName:(NSString *)type {
+    
+    UMSocialSnsPlatform *platform = [UMSocialSnsPlatformManager getSocialPlatformWithName:type];
+    UMSocialControllerService *service = [UMSocialControllerService defaultControllerService];
+    service.socialUIDelegate = self;
+    platform.loginClickHandler(self, service , YES ,^(UMSocialResponseEntity *response) {
+        
+        if (response.responseCode == UMSResponseCodeSuccess) {
+            
+            UMSocialAccountEntity *accountEntity = [[UMSocialAccountManager socialAccountDictionary] valueForKey:type];
+            // 保存友盟信息到本地
+            [LPLoginTool saveAccountWithAccountEntity:accountEntity];
+            
+            // 隐藏登录视图
+            self.loginView.hidden = YES;
+            self.homeBlackBlurView.hidden = NO;
+            
+            [self setupSubscriberData];
+            
+            // 动态添加首订，完成后移除
+            LPSubscribeView *subscribeView = [[LPSubscribeView alloc] initWithFrame:self.view.bounds];
+            subscribeView.subscriberFrames = self.subscriberFrameArray;
+            [self.view addSubview:subscribeView];
+            
+            
+            //将用户授权信息上传到服务器
+            NSMutableDictionary *paramsUser = [LPLoginTool registeredUserParamsWithAccountEntity:accountEntity];
+            [LPLoginTool registeredUserPostToServerAndGetConcernList:paramsUser];
+            
+        } else {
+            [MBProgressHUD showError:@"登录失败"];
+        }
+    });
 }
 
 - (void)setupSubscriberData {
@@ -322,10 +441,8 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
     
 }
 
-
-#pragma mark - 点击Status Bar
+#pragma mark - 新闻置顶
 - (void)tapStatusBarView {
-    
     NSInteger currentPageIndex = 0;
     for (int i = 0; i < self.selectedArray.count; i++) {
         LPChannelItem *channelItem = self.selectedArray[i];
@@ -364,11 +481,9 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
 - (void)loginBtnDidClick {
     
     Account *account = [AccountTool account];
-    
     if (account == nil) {// 用户未登录直接显示未登录图标
-        
-        LPNewsLoginViewController *mineViewController = [[LPNewsLoginViewController alloc] init];
-        MainNavigationController *mainNavigationController = [[MainNavigationController alloc] initWithRootViewController:mineViewController];
+        LPLoginViewController *loginVC = [[LPLoginViewController alloc] init];
+        MainNavigationController *mainNavigationController = [[MainNavigationController alloc] initWithRootViewController:loginVC];
         [self presentViewController:mainNavigationController animated:YES completion:^{
             self.statusWindow.hidden = YES;
         }];

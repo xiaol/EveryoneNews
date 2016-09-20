@@ -24,6 +24,8 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         
+//        self.backgroundColor = [UIColor redColor];
+//        
         UIImageView *subscriberImageView = [[UIImageView alloc] init];
         [self.contentView addSubview:subscriberImageView];
         self.subscriberImageView = subscriberImageView;
@@ -32,6 +34,13 @@
         titleLabel.textAlignment = NSTextAlignmentCenter;
         titleLabel.numberOfLines = 0;
         titleLabel.font = [UIFont systemFontOfSize:LPFont6];
+        
+        if (iPhone6Plus) {
+            titleLabel.font = [UIFont systemFontOfSize:LPFont11];
+        }
+        
+        
+        
         titleLabel.textColor = [UIColor colorFromHexString:LPColor1];
         [self.contentView addSubview:titleLabel];
         self.titleLabel = titleLabel;

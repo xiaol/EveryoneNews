@@ -24,8 +24,7 @@
     [LPFontSizeManager sharedManager].currentDetailRelatePointFontSize = currentDetailRelatePointFontSize;
     [LPFontSizeManager sharedManager].currentDetailSourceFontSize = currentDetailSourceFontSize;
 
-//    [self setupPagingViewData];
-  
+    [noteCenter postNotificationName:LPFontSizeChangedNotification object:nil];
 }
 
 - (void)finishButtonDidClick:(LPChangeFontSizeView *)changeFontSizeView {

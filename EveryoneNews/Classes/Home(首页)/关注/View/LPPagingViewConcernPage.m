@@ -36,8 +36,8 @@
     if (self = [super initWithFrame:frame]) {
         
         UIView *noDataConcernView = [[UIView alloc] initWithFrame:CGRectMake(0, 142, ScreenWidth, 200)];
-        CGFloat noDataImageViewW = 67;
-        CGFloat noDataImageViewH = 71;
+        CGFloat noDataImageViewW = 90;
+        CGFloat noDataImageViewH = 83;
         CGFloat noDataImageViewX = (ScreenWidth - noDataImageViewW) / 2;
         UIImageView *noDataImageView = [[UIImageView alloc] initWithFrame:CGRectMake(noDataImageViewX, 0, noDataImageViewW, noDataImageViewH)];
         noDataImageView.image = [UIImage imageNamed:@"关注占位图"];
@@ -45,7 +45,7 @@
         
         NSString *noDataStr = @"快去关注吧";
         CGFloat noDataLabelX = 0;
-        CGFloat noDataLabelY = CGRectGetMaxY(noDataImageView.frame) + 9;
+        CGFloat noDataLabelY = CGRectGetMaxY(noDataImageView.frame);
         CGFloat noDataLabelW = ScreenWidth;
         CGFloat noDataLabelH = [noDataStr heightForLineWithFont:[UIFont systemFontOfSize:LPFont2]];
         

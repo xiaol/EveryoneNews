@@ -22,12 +22,17 @@
     CGFloat titleW = imageW;
     NSString *subscriberStr = @"订阅号";
     CGFloat singleTitleH = [subscriberStr sizeWithFont:[UIFont systemFontOfSize:LPFont6] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].height;
+    
+    if (iPhone6Plus) {
+        singleTitleH = [subscriberStr sizeWithFont:[UIFont systemFontOfSize:LPFont11] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].height;
+    }
+    
     CGFloat titleH = singleTitleH * 2;
     CGFloat titleX = 0;
     CGFloat titleY = CGRectGetMaxY(_imageFrame) + singleTitleH;
     _titleFrame = CGRectMake(titleX, titleY, titleW, titleH);
     
-    CGFloat subscriberButtonY = CGRectGetMaxY(_titleFrame);
+    CGFloat subscriberButtonY = CGRectGetMaxY(_titleFrame) + 5;
     CGFloat subscriberButtonH = 19;
     CGFloat subscriberButtonW = imageW;
     _subscriberButtonFrame = CGRectMake(0, subscriberButtonY, subscriberButtonW, subscriberButtonH);

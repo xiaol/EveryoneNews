@@ -475,8 +475,8 @@ const static CGFloat changeFontSizeViewH = 150;
     detailContentParams[@"nid"] = [self nid];
     detailContentParams[@"uid"] = uid;
     
-    NSLog(@"%@?nid=%@&&uid=%@",detailContentURL, [self nid], uid);
-    
+//    NSLog(@"%@?nid=%@&&uid=%@",detailContentURL, [self nid], uid);
+//    
     // 精选评论
     NSString *excellentDetailCommentsURL = [NSString stringWithFormat:@"%@/v2/ns/coms/h", ServerUrlVersion2];
     NSMutableDictionary *excellentDetailCommentsParams = [NSMutableDictionary dictionary];
@@ -514,22 +514,22 @@ const static CGFloat changeFontSizeViewH = 150;
             excellentDetailCommentsParams[@"did"]  = [[[self submitDocID] stringByBase64Encoding] stringByTrimmingString:@"="];
         }
         
-        NSLog(@"正文");
+//        NSLog(@"正文");
         // 详情页精选评论
         [LPHttpTool getWithURL:excellentDetailCommentsURL params:excellentDetailCommentsParams success:^(id json) {
-                    NSLog(@"精选评论");
+//                    NSLog(@"精选评论");
             excellentCommentsBlock(json);
             // 相关观点
             [LPHttpTool getWithURL:relateURL params:detailRelatePointParams success:^(id json) {
                 relatePointBlock(json);
-                        NSLog(@"相关观点");
+//                        NSLog(@"相关观点");
                 // 推送跳转到详情页
                 if (!detailCommentsParams[@"did"]) {
                     detailCommentsParams[@"did"]  = [[[self submitDocID] stringByBase64Encoding] stringByTrimmingString:@"="];
                 }
                 // 全文评论
                 [LPHttpTool getWithURL:detailCommentsURL params:detailCommentsParams success:^(id json) {
-                    NSLog(@"全文评论");
+//                    NSLog(@"全文评论");
                     commentsBlock(json);
                     reloadTableViewBlock();
                     
@@ -554,13 +554,6 @@ const static CGFloat changeFontSizeViewH = 150;
         NSLog(@"正文：%@", error);
     }];
 }
-
-
-
-
-
-
-
 
 #pragma mark - applicationTerminateNotification
 - (void)applicationTerminateNotification {
@@ -596,8 +589,6 @@ const static CGFloat changeFontSizeViewH = 150;
             self.composeCommentBackgroundView.hidden = NO;
         }];
     }
-
-    
 }
 
 - (void)keyboardWillHide:(NSNotification *)note {
@@ -654,16 +645,15 @@ const static CGFloat changeFontSizeViewH = 150;
 
 #pragma mark - 发表评论
 - (void)composeButtonClick {
-    __weak typeof(self) weakSelf = self;
+  
     if (![AccountTool account]) {
-        
         CGRect toFrame = CGRectMake(0, ScreenHeight, ScreenWidth, self.textViewBg.height);
         self.textViewBg.frame = toFrame;
         [self.textView endEditing:YES];
         self.composeCommentBackgroundView.alpha = 0.0;
         
         [AccountTool accountLoginWithViewController:self success:^(Account *account){
-            [weakSelf composeComment];
+            [self composeComment];
         } failure:^{
         } cancel:nil];
     } else {
@@ -721,8 +711,6 @@ const static CGFloat changeFontSizeViewH = 150;
         NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
         if (authorization) {
             [LPHttpTool postAuthorizationJSONWithURL:url authorization:authorization params:params success:^(id json) {
-                
-                //                NSLog(@"%@, %@", params, json);
                 if ([json[@"code"] integerValue] == 2000) {
                     
                     [self tipViewWithCondition:4];
@@ -810,12 +798,12 @@ const static CGFloat changeFontSizeViewH = 150;
             }
             
             [weakSelf.commentsTableView reloadData];
-            [weakSelf.commentsTableView.footer endRefreshing];
+            [weakSelf.commentsTableView.mj_footer endRefreshing];
         } else {
-            [weakSelf.commentsTableView.footer noticeNoMoreData];
+            [weakSelf.commentsTableView.mj_footer endRefreshingWithNoMoreData];
         }
     } failure:^(NSError *error) {
-        [weakSelf.commentsTableView.footer endRefreshing];
+        [weakSelf.commentsTableView.mj_footer endRefreshing];
     }];
 }
 
@@ -863,7 +851,10 @@ const static CGFloat changeFontSizeViewH = 150;
     NSString *city = @""; // 城市
     NSString *county  = @""; // 区，县
     NSString *n = [self nid];
-    NSString *c = [NSString stringWithFormat:@"%ld", (long)self.channel]; // 频道编号
+    NSString *c = [NSString stringWithFormat:@"%@",self.channel]; // 频道编号
+    
+    
+//    NSLog(@"%@", c);
     NSString *t = @"0";
     NSString *s = [NSString stringWithFormat:@"%d",self.stayTimeInterval];
     NSString *f = @"0";
@@ -885,7 +876,7 @@ const static CGFloat changeFontSizeViewH = 150;
     if (!error) {
         self.http = [LPHttpTool http];
         [self.http getImageWithURL:url params:nil success:^(id json) {
-            NSLog(@"%@", json);
+//            NSLog(@"%@", json);
         } failure:^(NSError *error) {
             __weak typeof(self) weakSelf = self;
             weakSelf.http = [LPHttpTool http];
@@ -1272,7 +1263,9 @@ const static CGFloat changeFontSizeViewH = 150;
             break;
         default:
             if (![self card]) return nil;
-//          return @"6422374"; //6259298 6320865 "6407884" @"6422374";
+            // return @""; //6259298 6320865 "6407884" @"6422374" 6422374;
+            
+            // 6562498 （秒拍）
            return [[self card] valueForKey:@"nid"];
             break;
     }

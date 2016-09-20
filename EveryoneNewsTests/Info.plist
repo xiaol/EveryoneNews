@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>CFBundleDisplayName</key>
+	<string>奇点资讯</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -86,7 +88,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>3.3.2</string>
+	<string>3.3.14</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -156,6 +158,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>奇点资讯需要您的同意才能读取媒体资料库</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>

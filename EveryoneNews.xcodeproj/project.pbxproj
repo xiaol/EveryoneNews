@@ -206,6 +206,7 @@
 		8601E9E51D4F418500809D7E /* UIScrollView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 8601E9CF1D4F418500809D7E /* UIScrollView+MJExtension.m */; };
 		8601E9E61D4F418500809D7E /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 8601E9D11D4F418500809D7E /* UIScrollView+MJRefresh.m */; };
 		8601E9E71D4F418500809D7E /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 8601E9D31D4F418500809D7E /* UIView+MJExtension.m */; };
+		8604CD101D88F8ED008D585A /* LPValidateTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 8604CD0F1D88F8ED008D585A /* LPValidateTool.m */; };
 		860858521D387E2600451E68 /* LPQiDianConcernViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 860858511D387E2600451E68 /* LPQiDianConcernViewController.m */; };
 		860858561D38845200451E68 /* LPQiDianHaoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 860858551D38845200451E68 /* LPQiDianHaoCell.m */; };
 		8608585A1D38882C00451E68 /* LPQiDianHaoFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 860858591D38882C00451E68 /* LPQiDianHaoFrame.m */; };
@@ -219,6 +220,8 @@
 		8608587B1D38E38600451E68 /* LPConcernCardTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8608587A1D38E38600451E68 /* LPConcernCardTableViewCell.m */; };
 		860D09DD1D05853D00866FDB /* Comment+Create.m in Sources */ = {isa = PBXBuildFile; fileRef = 860D09DC1D05853D00866FDB /* Comment+Create.m */; };
 		8616A08A1D542BA700071F24 /* LPSearchTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8616A0891D542BA700071F24 /* LPSearchTextView.m */; };
+		861885BF1D8680A700B762B8 /* LPAdRequestTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 861885BE1D8680A700B762B8 /* LPAdRequestTool.m */; };
+		861885C31D8680E200B762B8 /* LPSearchTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 861885C21D8680E200B762B8 /* LPSearchTool.m */; };
 		8618A5831D40C9FB004C97BA /* CardSourceColor+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 8618A5801D40C9FB004C97BA /* CardSourceColor+CoreDataProperties.m */; };
 		8618A5841D40C9FB004C97BA /* CardSourceColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 8618A5821D40C9FB004C97BA /* CardSourceColor.m */; };
 		861BE9551C591981008FFFBB /* UINavigationController+LP.m in Sources */ = {isa = PBXBuildFile; fileRef = 861BE9541C591981008FFFBB /* UINavigationController+LP.m */; };
@@ -280,7 +283,6 @@
 		8649B3721C50F44F00BC96BF /* LPTriangleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8649B3711C50F44F00BC96BF /* LPTriangleView.m */; };
 		8649B3B71C50FA2B00BC96BF /* UICollectionViewLeftAlignedLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 8649B3B61C50FA2B00BC96BF /* UICollectionViewLeftAlignedLayout.m */; };
 		8649B3BA1C50FA9500BC96BF /* UITextField+LP.m in Sources */ = {isa = PBXBuildFile; fileRef = 8649B3B91C50FA9500BC96BF /* UITextField+LP.m */; };
-		864A20F11D62C70200405B03 /* LPSearchTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 864A20F01D62C70200405B03 /* LPSearchTool.m */; };
 		864BC4F71D61ADEB00A4EA48 /* LPLoginFromSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 864BC4F61D61ADEB00A4EA48 /* LPLoginFromSettingViewController.m */; };
 		864BC4FB1D61AE3B00A4EA48 /* LPNewsLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 864BC4FA1D61AE3B00A4EA48 /* LPNewsLoginViewController.m */; };
 		86571ED61CB8AF7900BD1DC8 /* LPDetailViewController+RelatePoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 86571ED51CB8AF7900BD1DC8 /* LPDetailViewController+RelatePoint.m */; };
@@ -365,6 +367,8 @@
 		86BDF4421C9BD419004742BA /* LPShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86BDF4411C9BD419004742BA /* LPShareView.m */; };
 		86BDF4451C9C130A004742BA /* LPFulltextCommentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86BDF4441C9C130A004742BA /* LPFulltextCommentView.m */; };
 		86C8CC7E1D53A2CC00705C69 /* MBProgressHUD+MJ.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C8CC7D1D53A2CC00705C69 /* MBProgressHUD+MJ.m */; };
+		86C997961D88009C0058DF65 /* LPRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C997951D88009C0058DF65 /* LPRegisterViewController.m */; };
+		86C9979A1D8811AE0058DF65 /* LPRetrievePasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 86C997991D8811AE0058DF65 /* LPRetrievePasswordViewController.m */; };
 		86D7163B1CD0CD4C00F7C7CC /* LPBottomShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86D7163A1CD0CD4C00F7C7CC /* LPBottomShareView.m */; };
 		86EE345A1D6015230000F187 /* LPHomeViewController+LaunchLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EE34541D6015230000F187 /* LPHomeViewController+LaunchLoginManager.m */; };
 		86EE345B1D6015230000F187 /* LPLaunchLoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 86EE34591D6015230000F187 /* LPLaunchLoginView.m */; };
@@ -771,6 +775,8 @@
 		8601E9D11D4F418500809D7E /* UIScrollView+MJRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+MJRefresh.m"; sourceTree = "<group>"; };
 		8601E9D21D4F418500809D7E /* UIView+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MJExtension.h"; sourceTree = "<group>"; };
 		8601E9D31D4F418500809D7E /* UIView+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MJExtension.m"; sourceTree = "<group>"; };
+		8604CD0E1D88F8ED008D585A /* LPValidateTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPValidateTool.h; sourceTree = "<group>"; };
+		8604CD0F1D88F8ED008D585A /* LPValidateTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPValidateTool.m; sourceTree = "<group>"; };
 		860858501D387E2600451E68 /* LPQiDianConcernViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPQiDianConcernViewController.h; sourceTree = "<group>"; };
 		860858511D387E2600451E68 /* LPQiDianConcernViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPQiDianConcernViewController.m; sourceTree = "<group>"; };
 		860858541D38845200451E68 /* LPQiDianHaoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPQiDianHaoCell.h; sourceTree = "<group>"; };
@@ -797,6 +803,10 @@
 		860D09DC1D05853D00866FDB /* Comment+Create.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Comment+Create.m"; sourceTree = "<group>"; };
 		8616A0881D542BA700071F24 /* LPSearchTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPSearchTextView.h; sourceTree = "<group>"; };
 		8616A0891D542BA700071F24 /* LPSearchTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPSearchTextView.m; sourceTree = "<group>"; };
+		861885BD1D8680A700B762B8 /* LPAdRequestTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPAdRequestTool.h; sourceTree = "<group>"; };
+		861885BE1D8680A700B762B8 /* LPAdRequestTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPAdRequestTool.m; sourceTree = "<group>"; };
+		861885C11D8680E200B762B8 /* LPSearchTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPSearchTool.h; sourceTree = "<group>"; };
+		861885C21D8680E200B762B8 /* LPSearchTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPSearchTool.m; sourceTree = "<group>"; };
 		8618A57F1D40C9FB004C97BA /* CardSourceColor+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CardSourceColor+CoreDataProperties.h"; sourceTree = "<group>"; };
 		8618A5801D40C9FB004C97BA /* CardSourceColor+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CardSourceColor+CoreDataProperties.m"; sourceTree = "<group>"; };
 		8618A5811D40C9FB004C97BA /* CardSourceColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardSourceColor.h; sourceTree = "<group>"; };
@@ -805,6 +815,7 @@
 		861BE9541C591981008FFFBB /* UINavigationController+LP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+LP.m"; sourceTree = "<group>"; };
 		862539311D3F6D1E009B040A /* CardConcern+Create.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CardConcern+Create.h"; sourceTree = "<group>"; };
 		862539321D3F6D1E009B040A /* CardConcern+Create.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CardConcern+Create.m"; sourceTree = "<group>"; };
+		8635F6231D90D04F001CE658 /* EveryoneNews.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EveryoneNews.entitlements; sourceTree = "<group>"; };
 		863852721D1BF7A200AB9B69 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
 		863852731D1BF7A200AB9B69 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
 		863852741D1BF7A200AB9B69 /* MobClickSocialAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClickSocialAnalytics.h; sourceTree = "<group>"; };
@@ -921,8 +932,6 @@
 		8649B3B61C50FA2B00BC96BF /* UICollectionViewLeftAlignedLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UICollectionViewLeftAlignedLayout.m; sourceTree = "<group>"; };
 		8649B3B81C50FA9500BC96BF /* UITextField+LP.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+LP.h"; sourceTree = "<group>"; };
 		8649B3B91C50FA9500BC96BF /* UITextField+LP.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+LP.m"; sourceTree = "<group>"; };
-		864A20EF1D62C70200405B03 /* LPSearchTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPSearchTool.h; sourceTree = "<group>"; };
-		864A20F01D62C70200405B03 /* LPSearchTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPSearchTool.m; sourceTree = "<group>"; };
 		864BC4F51D61ADEB00A4EA48 /* LPLoginFromSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPLoginFromSettingViewController.h; sourceTree = "<group>"; };
 		864BC4F61D61ADEB00A4EA48 /* LPLoginFromSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPLoginFromSettingViewController.m; sourceTree = "<group>"; };
 		864BC4F91D61AE3B00A4EA48 /* LPNewsLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPNewsLoginViewController.h; sourceTree = "<group>"; };
@@ -1098,6 +1107,10 @@
 		86BDF4441C9C130A004742BA /* LPFulltextCommentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPFulltextCommentView.m; sourceTree = "<group>"; };
 		86C8CC7C1D53A2CC00705C69 /* MBProgressHUD+MJ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+MJ.h"; sourceTree = "<group>"; };
 		86C8CC7D1D53A2CC00705C69 /* MBProgressHUD+MJ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+MJ.m"; sourceTree = "<group>"; };
+		86C997941D88009C0058DF65 /* LPRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPRegisterViewController.h; sourceTree = "<group>"; };
+		86C997951D88009C0058DF65 /* LPRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPRegisterViewController.m; sourceTree = "<group>"; };
+		86C997981D8811AE0058DF65 /* LPRetrievePasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPRetrievePasswordViewController.h; sourceTree = "<group>"; };
+		86C997991D8811AE0058DF65 /* LPRetrievePasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPRetrievePasswordViewController.m; sourceTree = "<group>"; };
 		86D716391CD0CD4C00F7C7CC /* LPBottomShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPBottomShareView.h; sourceTree = "<group>"; };
 		86D7163A1CD0CD4C00F7C7CC /* LPBottomShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPBottomShareView.m; sourceTree = "<group>"; };
 		86EE34531D6015230000F187 /* LPHomeViewController+LaunchLoginManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LPHomeViewController+LaunchLoginManager.h"; sourceTree = "<group>"; };
@@ -1343,6 +1356,7 @@
 		1821BF9E1B033ABE003E6C94 /* EveryoneNews */ = {
 			isa = PBXGroup;
 			children = (
+				8635F6231D90D04F001CE658 /* EveryoneNews.entitlements */,
 				1886FBF11B2FE1D800959FA0 /* Supporting Files */,
 				18BAE6FD1B1352EA0052BDD0 /* Classes */,
 			);
@@ -2291,6 +2305,15 @@
 			path = Header;
 			sourceTree = "<group>";
 		};
+		8604CD0D1D88F8C7008D585A /* ValidateTool */ = {
+			isa = PBXGroup;
+			children = (
+				8604CD0E1D88F8ED008D585A /* LPValidateTool.h */,
+				8604CD0F1D88F8ED008D585A /* LPValidateTool.m */,
+			);
+			name = ValidateTool;
+			sourceTree = "<group>";
+		};
 		860858531D38826E00451E68 /* QiDianHaoCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -2401,6 +2424,25 @@
 				8616A0891D542BA700071F24 /* LPSearchTextView.m */,
 			);
 			name = LPSearchTextView;
+			sourceTree = "<group>";
+		};
+		861885BC1D86807C00B762B8 /* AdRequestTool */ = {
+			isa = PBXGroup;
+			children = (
+				861885BD1D8680A700B762B8 /* LPAdRequestTool.h */,
+				861885BE1D8680A700B762B8 /* LPAdRequestTool.m */,
+			);
+			name = AdRequestTool;
+			path = LPAdRequestTool;
+			sourceTree = "<group>";
+		};
+		861885C01D8680E200B762B8 /* SearchTool */ = {
+			isa = PBXGroup;
+			children = (
+				861885C11D8680E200B762B8 /* LPSearchTool.h */,
+				861885C21D8680E200B762B8 /* LPSearchTool.m */,
+			);
+			path = SearchTool;
 			sourceTree = "<group>";
 		};
 		863852701D1BF7A200AB9B69 /* UMeng */ = {
@@ -2603,8 +2645,9 @@
 		86472C611D81068900CF582A /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				86472C641D81077600CF582A /* LPLoginViewController.h */,
-				86472C651D81077600CF582A /* LPLoginViewController.m */,
+				86C997971D8811680058DF65 /* 找回密码 */,
+				86C997931D87D4F00058DF65 /* 注册 */,
+				86C997921D87D4E30058DF65 /* 登录 */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2888,15 +2931,6 @@
 			name = "主控制器";
 			sourceTree = "<group>";
 		};
-		864A20EE1D62C6D800405B03 /* SearchTool */ = {
-			isa = PBXGroup;
-			children = (
-				864A20EF1D62C70200405B03 /* LPSearchTool.h */,
-				864A20F01D62C70200405B03 /* LPSearchTool.m */,
-			);
-			name = SearchTool;
-			sourceTree = "<group>";
-		};
 		864BC4F41D61ADEB00A4EA48 /* 设置页登录 */ = {
 			isa = PBXGroup;
 			children = (
@@ -3113,7 +3147,9 @@
 		8681B0661D0FD8280068A4FD /* Tools */ = {
 			isa = PBXGroup;
 			children = (
-				864A20EE1D62C6D800405B03 /* SearchTool */,
+				8604CD0D1D88F8C7008D585A /* ValidateTool */,
+				861885C01D8680E200B762B8 /* SearchTool */,
+				861885BC1D86807C00B762B8 /* AdRequestTool */,
 				86EE347A1D6018590000F187 /* AccountTool */,
 				86EE345E1D6017F00000F187 /* CardItemTool */,
 				86EE34611D6017F00000F187 /* CardTool */,
@@ -3466,6 +3502,33 @@
 			path = MBProgressHUD;
 			sourceTree = "<group>";
 		};
+		86C997921D87D4E30058DF65 /* 登录 */ = {
+			isa = PBXGroup;
+			children = (
+				86472C641D81077600CF582A /* LPLoginViewController.h */,
+				86472C651D81077600CF582A /* LPLoginViewController.m */,
+			);
+			name = "登录";
+			sourceTree = "<group>";
+		};
+		86C997931D87D4F00058DF65 /* 注册 */ = {
+			isa = PBXGroup;
+			children = (
+				86C997941D88009C0058DF65 /* LPRegisterViewController.h */,
+				86C997951D88009C0058DF65 /* LPRegisterViewController.m */,
+			);
+			name = "注册";
+			sourceTree = "<group>";
+		};
+		86C997971D8811680058DF65 /* 找回密码 */ = {
+			isa = PBXGroup;
+			children = (
+				86C997981D8811AE0058DF65 /* LPRetrievePasswordViewController.h */,
+				86C997991D8811AE0058DF65 /* LPRetrievePasswordViewController.m */,
+			);
+			name = "找回密码";
+			sourceTree = "<group>";
+		};
 		86D716371CD0C74300F7C7CC /* 详情页顶部 */ = {
 			isa = PBXGroup;
 			children = (
@@ -3682,11 +3745,15 @@
 					1821BF9B1B033ABE003E6C94 = {
 						CreatedOnToolsVersion = 6.0.1;
 						DevelopmentTeam = 6BWPZAXBUP;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
 							};
 							com.apple.InAppPurchase = {
+								enabled = 0;
+							};
+							com.apple.Push = {
 								enabled = 0;
 							};
 						};
@@ -3844,16 +3911,17 @@
 				187564821C2110B600589320 /* RelatePhoto.m in Sources */,
 				18D71FA91B2572C5002A7375 /* MJConst.m in Sources */,
 				86EE34771D6017F00000F187 /* CommentTool.m in Sources */,
-				864A20F11D62C70200405B03 /* LPSearchTool.m in Sources */,
 				18C9C4CF1B5C03C600064CED /* LPConcernPressCell.m in Sources */,
 				8608585A1D38882C00451E68 /* LPQiDianHaoFrame.m in Sources */,
 				1889FE5E1B4C2E91006D8E03 /* LPContent.m in Sources */,
+				86C9979A1D8811AE0058DF65 /* LPRetrievePasswordViewController.m in Sources */,
 				8640BF2A1D5C651500769BB8 /* LPMyCollectionViewCell.m in Sources */,
 				181B38601BCA891700698FC5 /* CoverCell.m in Sources */,
 				18EF3B501B674EF90097F5A6 /* LPFeature.m in Sources */,
 				86A8CD601CA0049400379EFB /* NSObject+Swizzle.m in Sources */,
 				86934CC61C128F2E00999501 /* LPSortCollectionReusableView.m in Sources */,
 				18F631A61B5F51CC00423658 /* DiggerFooter.m in Sources */,
+				861885BF1D8680A700B762B8 /* LPAdRequestTool.m in Sources */,
 				18F631101B5C044300423658 /* MainViewController.m in Sources */,
 				1846B1281B1C5178009EF8B9 /* LPSlidingShadowAnimation.m in Sources */,
 				18BA5E8E1B199BDB00EEDB63 /* UIView+LP.m in Sources */,
@@ -3887,6 +3955,7 @@
 				868F50421D34D709002B4912 /* Card.m in Sources */,
 				1826B3FB1B81BD1900B712E0 /* LPSpringLayout.m in Sources */,
 				864846501D0FE81D003FA564 /* LPNewsSettingViewController.m in Sources */,
+				86C997961D88009C0058DF65 /* LPRegisterViewController.m in Sources */,
 				187564741C2110B600589320 /* Content.m in Sources */,
 				18095CD31B2A221100CB7666 /* LPWaterfallViewCell.m in Sources */,
 				86AD22E41CA2986A00758C21 /* LPCommentFrame.m in Sources */,
@@ -3943,10 +4012,12 @@
 				18F631191B5C044300423658 /* LPHttpTool.m in Sources */,
 				18162F0E1C229C2400FC947D /* KeyValueObserver.m in Sources */,
 				8673B9121D23DD18003BCEDD /* LPSearchHistoryItem.m in Sources */,
+				8604CD101D88F8ED008D585A /* LPValidateTool.m in Sources */,
 				1860F85E1B6A184B0012E11D /* LPFeatureFrame.m in Sources */,
 				1826B3F71B7DA00B00B712E0 /* LPFullPhotoCell.m in Sources */,
 				8601E9DA1D4F418500809D7E /* MJRefreshAutoNormalFooter.m in Sources */,
 				868367691C080A0A00732516 /* LPFullPhotoViewController.m in Sources */,
+				861885C31D8680E200B762B8 /* LPSearchTool.m in Sources */,
 				864846AC1D0FF8B6003FA564 /* LPHomeViewController+SubviewsManager.m in Sources */,
 				8601E9DD1D4F418500809D7E /* MJRefreshBackNormalFooter.m in Sources */,
 				86571EE41CB8CC8600BD1DC8 /* LPDetailViewController+FulltextComment.m in Sources */,
@@ -4273,7 +4344,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 6BWPZAXBUP;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4393,6 +4465,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = YU.EveryoneNews;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "758f7858-172d-4db4-9eca-f0bbfc71e5f5";
+				PROVISIONING_PROFILE_SPECIFIER = EveryoneNewsDeveloper;
 				SWIFT_OBJC_BRIDGING_HEADER = "EveryoneNews/Classes/Swift(组件)/EveryoneNews-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -4405,7 +4478,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Huan Yang (N2A52CHF2Y)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 6BWPZAXBUP;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4525,6 +4599,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = YU.EveryoneNews;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "758f7858-172d-4db4-9eca-f0bbfc71e5f5";
+				PROVISIONING_PROFILE_SPECIFIER = EveryoneNewsDeveloper;
 				SWIFT_OBJC_BRIDGING_HEADER = "EveryoneNews/Classes/Swift(组件)/EveryoneNews-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
