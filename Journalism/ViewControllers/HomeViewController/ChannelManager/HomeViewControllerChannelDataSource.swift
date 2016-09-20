@@ -108,9 +108,10 @@ extension HomeViewControllerChannelDataSource:UICollectionViewDelegateFlowLayout
 
 
 extension HomeViewControllerChannelDataSource:KDRearrangeableCollectionViewDelegate{
+    internal func moveDataItem(fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
+        self.delegate.ChannelManagerMoveItemsMethod?()
+    }
 
-    // 移动某一个NSIndexPath至另一个NSindexPath的代理方法
-    func moveDataItem(_ fromIndexPath: IndexPath, toIndexPath: IndexPath) {self.delegate.ChannelManagerMoveItemsMethod?()}
     
     // 结束拖动的代理方法
     func ChannelManagerEndDraggind() { self.delegate.ChannelManagerEndDraggind?()}

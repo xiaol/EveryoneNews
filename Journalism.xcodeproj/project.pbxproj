@@ -14,7 +14,6 @@
 		6DC4FDCF1CF0314700D25A99 /* NewslistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDC71CF0314700D25A99 /* NewslistViewController.swift */; };
 		6DC4FDD51CF031E000D25A99 /* ChannelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDD21CF031E000D25A99 /* ChannelManager.swift */; };
 		6DC4FDD61CF031E000D25A99 /* HomeViewControllerChannelDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDD31CF031E000D25A99 /* HomeViewControllerChannelDataSource.swift */; };
-		6DC4FDD71CF031E000D25A99 /* KDRearrangeableCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC4FDD41CF031E000D25A99 /* KDRearrangeableCollectionViewFlowLayout.swift */; };
 		994B705F63994332F79B2AA5 /* Pods_Journalism.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68B44A9454D029CD2156A30 /* Pods_Journalism.framework */; };
 		AE043BAF1D40CDFA0090DD15 /* Focus.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE043BAE1D40CDFA0090DD15 /* Focus.swift */; };
 		AE0A837B1D128D7A00331134 /* UserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0A837A1D128D7A00331134 /* UserView.swift */; };
@@ -95,6 +94,9 @@
 		AEC47B481D0037A50055936D /* InputExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B471D0037A50055936D /* InputExtension.swift */; };
 		AEC47B4A1D0037CD0055936D /* CommentButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC47B491D0037CD0055936D /* CommentButton.swift */; };
 		AEC489B71D0FF140009D81F6 /* AppdelegateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC489B61D0FF140009D81F6 /* AppdelegateExtension.swift */; };
+		AEC500931D90DE22003F500D /* ChannelCustomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC500901D90DE22003F500D /* ChannelCustomeView.swift */; };
+		AEC500941D90DE22003F500D /* ChannelViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC500911D90DE22003F500D /* ChannelViewController.swift */; };
+		AEC500951D90DE22003F500D /* KDRearrangeableCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC500921D90DE22003F500D /* KDRearrangeableCollectionViewFlowLayout.swift */; };
 		AEC722691D239CFD004D4AA4 /* SKPhotoBrowser.bundle in Resources */ = {isa = PBXBuildFile; fileRef = AEC722681D239CFD004D4AA4 /* SKPhotoBrowser.bundle */; };
 		AEC7226B1D23AAAF004D4AA4 /* SearchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC7226A1D23AAAF004D4AA4 /* SearchTableViewCell.swift */; };
 		AEC7226E1D23ABB4004D4AA4 /* SearchDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEC7226D1D23ABB4004D4AA4 /* SearchDataSource.swift */; };
@@ -150,7 +152,6 @@
 		6DC4FDC71CF0314700D25A99 /* NewslistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewslistViewController.swift; sourceTree = "<group>"; };
 		6DC4FDD21CF031E000D25A99 /* ChannelManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelManager.swift; sourceTree = "<group>"; };
 		6DC4FDD31CF031E000D25A99 /* HomeViewControllerChannelDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewControllerChannelDataSource.swift; sourceTree = "<group>"; };
-		6DC4FDD41CF031E000D25A99 /* KDRearrangeableCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KDRearrangeableCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		81231C5CF554FB534D99E67C /* Pods-Journalism.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Journalism.release.xcconfig"; path = "Pods/Target Support Files/Pods-Journalism/Pods-Journalism.release.xcconfig"; sourceTree = "<group>"; };
 		AE043BAE1D40CDFA0090DD15 /* Focus.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Focus.swift; sourceTree = "<group>"; };
 		AE0A837A1D128D7A00331134 /* UserView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserView.swift; sourceTree = "<group>"; };
@@ -236,6 +237,9 @@
 		AEC47B471D0037A50055936D /* InputExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InputExtension.swift; sourceTree = "<group>"; };
 		AEC47B491D0037CD0055936D /* CommentButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentButton.swift; sourceTree = "<group>"; };
 		AEC489B61D0FF140009D81F6 /* AppdelegateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppdelegateExtension.swift; sourceTree = "<group>"; };
+		AEC500901D90DE22003F500D /* ChannelCustomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelCustomeView.swift; sourceTree = "<group>"; };
+		AEC500911D90DE22003F500D /* ChannelViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelViewController.swift; sourceTree = "<group>"; };
+		AEC500921D90DE22003F500D /* KDRearrangeableCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KDRearrangeableCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		AEC722681D239CFD004D4AA4 /* SKPhotoBrowser.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SKPhotoBrowser.bundle; sourceTree = "<group>"; };
 		AEC7226A1D23AAAF004D4AA4 /* SearchTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewCell.swift; sourceTree = "<group>"; };
 		AEC7226D1D23ABB4004D4AA4 /* SearchDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchDataSource.swift; sourceTree = "<group>"; };
@@ -299,6 +303,7 @@
 		6DC4FDB91CF0314700D25A99 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				AEC5008F1D90DE22003F500D /* ChannelViewController */,
 				AEC47B061D0032E20055936D /* DetailAndCommit */,
 				AEB8E9D51CFBE34E00A105C4 /* SplitManagerViewController */,
 				6DC4FDBA1CF0314700D25A99 /* HomeViewController */,
@@ -363,7 +368,6 @@
 			children = (
 				6DC4FDD21CF031E000D25A99 /* ChannelManager.swift */,
 				6DC4FDD31CF031E000D25A99 /* HomeViewControllerChannelDataSource.swift */,
-				6DC4FDD41CF031E000D25A99 /* KDRearrangeableCollectionViewFlowLayout.swift */,
 			);
 			path = ChannelManager;
 			sourceTree = "<group>";
@@ -777,6 +781,16 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		AEC5008F1D90DE22003F500D /* ChannelViewController */ = {
+			isa = PBXGroup;
+			children = (
+				AEC500901D90DE22003F500D /* ChannelCustomeView.swift */,
+				AEC500911D90DE22003F500D /* ChannelViewController.swift */,
+				AEC500921D90DE22003F500D /* KDRearrangeableCollectionViewFlowLayout.swift */,
+			);
+			path = ChannelViewController;
+			sourceTree = "<group>";
+		};
 		AEC7226C1D23ABA5004D4AA4 /* extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -1167,7 +1181,9 @@
 				AE0DDDD11D6705FE00C02A03 /* WebExtension.swift in Sources */,
 				AEEE619A1CFE9DE900C5FF08 /* CommentUtil.swift in Sources */,
 				AEAC3B151D11077D00A292F4 /* UserCenterExtension.swift in Sources */,
+				AEC500941D90DE22003F500D /* ChannelViewController.swift in Sources */,
 				AEC1D5C41CEDC22700B1F00C /* DateExt.swift in Sources */,
+				AEC500931D90DE22003F500D /* ChannelCustomeView.swift in Sources */,
 				AEAF09E81D24C68300AFFCF6 /* SKTagView.m in Sources */,
 				AEC7226E1D23ABB4004D4AA4 /* SearchDataSource.swift in Sources */,
 				AEAF09E71D24C68300AFFCF6 /* SKTagButton.m in Sources */,
@@ -1182,12 +1198,12 @@
 				AEC965A81CF5AFE70053A88D /* AboutViewController.swift in Sources */,
 				AE6657281D42050000068841 /* FocusExt.swift in Sources */,
 				AEC47B261D0032E20055936D /* CommitViewController.swift in Sources */,
-				6DC4FDD71CF031E000D25A99 /* KDRearrangeableCollectionViewFlowLayout.swift in Sources */,
 				AE87BDEF1D3E01300010A0A7 /* FoucsDataSource.swift in Sources */,
 				AE0A896C1D24D87200C85B27 /* SearchListViewController.swift in Sources */,
 				AEC47B281D0032E20055936D /* CommDataSource.swift in Sources */,
 				AEECBC4F1D13E93100529150 /* UIFontExtension.swift in Sources */,
 				AEA103511D056FAD0086968B /* About.swift in Sources */,
+				AEC500951D90DE22003F500D /* KDRearrangeableCollectionViewFlowLayout.swift in Sources */,
 				AEAC3B171D11220500A292F4 /* LoginViewController.swift in Sources */,
 				AEC722701D23B02E004D4AA4 /* SearchHistory.swift in Sources */,
 				6DC4FDCD1CF0314700D25A99 /* NewBaseTableViewCell.swift in Sources */,

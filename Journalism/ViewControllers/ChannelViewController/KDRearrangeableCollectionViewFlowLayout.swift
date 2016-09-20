@@ -9,16 +9,16 @@
 import UIKit
 
 @objc protocol KDRearrangeableCollectionViewDelegate : UICollectionViewDelegate {
-    func moveDataItem(_ fromIndexPath : IndexPath, toIndexPath: IndexPath) -> Void
+    func moveDataItem(fromIndexPath : NSIndexPath, toIndexPath: NSIndexPath) -> Void
     @objc optional func ChannelManagerBeginDraggind() // 开始
     @objc optional func ChannelManagerEndDraggind() // 结束
 }
 
 enum KDDraggingAxis {
-    case free
-    case x
-    case y
-    case xy
+    case Free
+    case X
+    case Y
+    case XY
 }
 
 class KDRearrangeableCollectionViewFlowLayout: UICollectionViewFlowLayout, UIGestureRecognizerDelegate {
@@ -43,13 +43,13 @@ class KDRearrangeableCollectionViewFlowLayout: UICollectionViewFlowLayout, UIGes
         }
     }
     
-    var axis : KDDraggingAxis = .free
+    var axis : KDDraggingAxis = .Free
     
     struct Bundle {
-        var offset : CGPoint = CGPoint.zero
-        var sourceCell : UICollectionViewCell
+        var offset : CGPoint = .zero
+        var sourceCell : ChannelCollectionViewCell
         var representationImageView : UIView
-        var currentIndexPath : IndexPath
+        var currentIndexPath : NSIndexPath
     }
     var bundle : Bundle?
     
@@ -72,14 +72,14 @@ class KDRearrangeableCollectionViewFlowLayout: UICollectionViewFlowLayout, UIGes
         
         if let collectionView = self.collectionView {
 
-            let longPressGestureRecogniser = UILongPressGestureRecognizer(target: self, action: #selector(KDRearrangeableCollectionViewFlowLayout.handleGesture(_:)))
+            let longPressGestureRecogniser = UILongPressGestureRecognizer(target: self, action: Selector(("handleGesture:")))
         
             longPressGestureRecogniser.minimumPressDuration = 0.2
             longPressGestureRecogniser.delegate = self
 
             collectionView.addGestureRecognizer(longPressGestureRecogniser)
             
-            let panGestureRecogniser = UIPanGestureRecognizer(target: self, action: #selector(KDRearrangeableCollectionViewFlowLayout.handleGesture(_:)))
+            let panGestureRecogniser = UIPanGestureRecognizer(target: self, action: Selector(("handleGesture:")))
             
             panGestureRecogniser.delegate = self
             
@@ -101,7 +101,7 @@ class KDRearrangeableCollectionViewFlowLayout: UICollectionViewFlowLayout, UIGes
         self.calculateBorders()
     }
     
-    fileprivate func calculateBorders() {
+    private func calculateBorders() {
         
         if let collectionView = self.collectionView {
             
@@ -162,6 +162,8 @@ class KDRearrangeableCollectionViewFlowLayout: UICollectionViewFlowLayout, UIGes
                     
                     let cellInCanvasFrame = ca.convert(cell.frame, from: cv)
                     
+                    guard let cell = cell as? ChannelCollectionViewCell,let indexPath : NSIndexPath = cv.indexPath(for: cell) as NSIndexPath? else{ break }
+                    
                     if cellInCanvasFrame.contains(pointPressedInCanvas ) {
                         
                         if let begin = self.delegate.ChannelManagerBeginDraggind{
@@ -171,6 +173,9 @@ class KDRearrangeableCollectionViewFlowLayout: UICollectionViewFlowLayout, UIGes
                             begin() // 开始拖拽
                         }
                         
+                        cell.channelStateImageView.isHidden = true
+                        
+                        cell.clipsToBounds = true
                         
                         UIGraphicsBeginImageContextWithOptions(cell.bounds.size, cell.isOpaque, 0)
                         cell.layer.render(in: UIGraphicsGetCurrentContext()!)
@@ -183,10 +188,8 @@ class KDRearrangeableCollectionViewFlowLayout: UICollectionViewFlowLayout, UIGes
                         
                         let offset = CGPoint(x: pointPressedInCanvas.x - cellInCanvasFrame.origin.x, y: pointPressedInCanvas.y - cellInCanvasFrame.origin.y)
                         
-                        if let indexPath : IndexPath = cv.indexPath(for: cell as UICollectionViewCell){
                         
-                            self.bundle = Bundle(offset: offset, sourceCell: cell, representationImageView:representationImage, currentIndexPath: indexPath)
-                        }
+                        self.bundle = Bundle(offset: offset, sourceCell: cell, representationImageView:representationImage, currentIndexPath: indexPath)
                         
                         break
                     }
@@ -200,7 +203,7 @@ class KDRearrangeableCollectionViewFlowLayout: UICollectionViewFlowLayout, UIGes
     
     
     
-    func checkForDraggingAtTheEdgeAndAnimatePaging(_ gestureRecognizer: UILongPressGestureRecognizer) {
+    func checkForDraggingAtTheEdgeAndAnimatePaging(gestureRecognizer: UILongPressGestureRecognizer) {
         
         if self.animating == true {
             return
@@ -270,16 +273,14 @@ class KDRearrangeableCollectionViewFlowLayout: UICollectionViewFlowLayout, UIGes
             if !nextPageRect.equalTo(self.collectionView!.bounds){
                 
                 
-                let delayTime = DispatchTime.now() + Double(Int64(0.8 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
-                
-                DispatchQueue.main.asyncAfter(deadline: delayTime, execute: {
-                    
+                let dispatchTime: DispatchTime = DispatchTime.now() + Double(Int64(0.8 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+                DispatchQueue.main.asyncAfter(deadline: dispatchTime, execute: {
                     self.animating = false
                     
-                    self.handleGesture(gestureRecognizer)
-                    
-                    
-                });
+                    self.handleGesture(gesture: gestureRecognizer)
+                })
+                
+
                 
                 self.animating = true
                 
@@ -287,13 +288,10 @@ class KDRearrangeableCollectionViewFlowLayout: UICollectionViewFlowLayout, UIGes
                 self.collectionView!.scrollRectToVisible(nextPageRect, animated: true)
                 
             }
-            
         }
-        
-      
     }
     
-    func handleGesture(_ gesture: UILongPressGestureRecognizer) -> Void {
+    func handleGesture(gesture: UILongPressGestureRecognizer) -> Void {
         
     
         guard let bundle = self.bundle else {
@@ -301,16 +299,28 @@ class KDRearrangeableCollectionViewFlowLayout: UICollectionViewFlowLayout, UIGes
         }
 
         
-        func endDraggingAction(_ bundle: Bundle) {
-            
-            bundle.sourceCell.isHidden = false
+        func endDraggingAction(bundle: Bundle) {
             
             if let begin = self.delegate.ChannelManagerEndDraggind{
                 
                 begin() // 开始拖拽
             }
             
-            bundle.representationImageView.removeFromSuperview()
+            let frame = bundle.sourceCell.convert(bundle.sourceCell.bounds, to: self.collectionView?.superview)
+            
+            UIView.animate(withDuration: 0.3, animations: { 
+                
+                bundle.representationImageView.frame = frame
+                
+                }) { (_) in
+                    
+                    bundle.representationImageView.removeFromSuperview()
+                    bundle.sourceCell.clipsToBounds = false
+                    bundle.sourceCell.channelStateImageView.isHidden = false
+                    bundle.sourceCell.isHidden = false
+            }
+            
+            
             
             // if we have a proper data source then we can reload and have the data displayed correctly
 //            if let cv = self.collectionView where cv.delegate is KDRearrangeableCollectionViewDelegate {
@@ -331,7 +341,7 @@ class KDRearrangeableCollectionViewFlowLayout: UICollectionViewFlowLayout, UIGes
             
             let indexPath = self.collectionView?.indexPath(for: bundle.sourceCell)
             
-            if (indexPath as NSIndexPath?)?.section != 0 || ((indexPath as NSIndexPath?)?.section == 0 && (indexPath as NSIndexPath?)?.item == 0 ){
+            if indexPath?.section != 0 || (indexPath?.section == 0 && indexPath?.item == 0 ){
                 
                 self.bundle = nil
             
@@ -356,10 +366,10 @@ class KDRearrangeableCollectionViewFlowLayout: UICollectionViewFlowLayout, UIGes
             // Update the representation image
             var imageViewFrame = bundle.representationImageView.frame
             var point = CGPoint(x: dragPointOnCanvas.x - bundle.offset.x, y: dragPointOnCanvas.y - bundle.offset.y)
-            if self.axis == .x {
+            if self.axis == .X {
                 point.y = imageViewFrame.origin.y
             }
-            if self.axis == .y {
+            if self.axis == .Y {
                 point.x = imageViewFrame.origin.x
             }
             
@@ -370,26 +380,29 @@ class KDRearrangeableCollectionViewFlowLayout: UICollectionViewFlowLayout, UIGes
             
             var dragPointOnCollectionView = gesture.location(in: self.collectionView)
             
-            if self.axis == .x {
+            if self.axis == .X {
                 dragPointOnCollectionView.y = bundle.representationImageView.center.y
             }
-            if self.axis == .y {
+            if self.axis == .Y {
                 dragPointOnCollectionView.x = bundle.representationImageView.center.x
             }
             
             
             
             
-            if let indexPath : IndexPath = self.collectionView?.indexPathForItem(at: dragPointOnCollectionView) {
+            if let indexPath : NSIndexPath = self.collectionView?.indexPathForItem(at: dragPointOnCollectionView) as NSIndexPath? {
                 
-                self.checkForDraggingAtTheEdgeAndAnimatePaging(gesture)
+                self.checkForDraggingAtTheEdgeAndAnimatePaging(gestureRecognizer: gesture)
                 
-                if (indexPath == bundle.currentIndexPath) == false && (indexPath as NSIndexPath).section == 0 && ((indexPath as NSIndexPath).section != 0 || (indexPath as NSIndexPath).item != 0 ){
+                if indexPath.isEqual(bundle.currentIndexPath) == false && indexPath.section == 0 && (indexPath.section != 0 || indexPath.item != 0 ){
                     
-                    // If we have a collection view controller that implements the delegate we call the method first
-                    delegate.moveDataItem(bundle.currentIndexPath, toIndexPath: indexPath)
+                    DispatchQueue.main.async {
+                        // If we have a collection view controller that implements the delegate we call the method first
+                        self.delegate.moveDataItem(fromIndexPath: bundle.currentIndexPath, toIndexPath: indexPath)
+                    }
                     
-                    self.collectionView!.moveItem(at: bundle.currentIndexPath, to: indexPath)
+
+                    self.collectionView!.moveItem(at: bundle.currentIndexPath as IndexPath, to: indexPath as IndexPath)
                     self.bundle!.currentIndexPath = indexPath
                     
                 }
@@ -398,18 +411,8 @@ class KDRearrangeableCollectionViewFlowLayout: UICollectionViewFlowLayout, UIGes
             break
             
             
-        case .ended:
-            endDraggingAction(bundle)
-            
-            break
-            
-        case .cancelled:
-            endDraggingAction(bundle)
-            
-            break
-            
-        case .failed:
-            endDraggingAction(bundle)
+        case .ended,.failed,.cancelled:
+            endDraggingAction(bundle: bundle)
             
             break
             

@@ -12,7 +12,10 @@ extension HomeViewController{
     
     @IBAction func ClickManagerChannelButton(_ sender: AnyObject) {
         
-        self.HandleChannelManagerStatus()
+        if let viewController = self.storyboard?.instantiateViewController(withIdentifier: "ChannelViewController") as? ChannelViewController {
+        
+            self.present(viewController, animated: true, completion: nil)
+        }
     }
     
     // 初始化频道视图管理
