@@ -14,6 +14,7 @@
 #import "Card+Fetch.h"
 #import "Comment.h"
 #import "LPFontSizeManager.h"
+#import "LPFontSize.h"
 #import "CardConcern+Create.h"
 #import "CardSourceColor+Create.h"
 
@@ -23,7 +24,7 @@
 
 + (NSMutableAttributedString *)titleHtmlString:(NSString *)title {
     // font-family: STHeiti, Helvetica Neue; 
-    CGFloat fontSize = [LPFontSizeManager sharedManager].currentHomeViewFontSize ;
+    CGFloat fontSize = [LPFontSizeManager sharedManager].lpFontSize.currentHomeViewFontSize ;
     title = [NSString stringWithFormat:@"<style> body{ font-family: STHeiti, Helvetica Neue; font-weight:5; line-height:1.0;text-indent:0em;font-size:%fpx; text-align:justify; }</style> %@ ",
             [UIFont systemFontOfSize:fontSize].pointSize, [[title stringByReplacingOccurrencesOfString:@"<p>" withString:@""] stringByReplacingOccurrencesOfString:@"</p>" withString:@""]];
     NSMutableAttributedString *mutableAttributeString = [[NSMutableAttributedString alloc] initWithData:[title dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType}
@@ -34,7 +35,7 @@
 + (NSMutableAttributedString *)titleHtmlString:(NSString *)title isRead:(NSNumber *)isRead {
     
     NSString *color = (isRead? @"#808080" : @"#1a1a1a");
-    CGFloat fontSize = [LPFontSizeManager sharedManager].currentHomeViewFontSize ;
+    CGFloat fontSize = [LPFontSizeManager sharedManager].lpFontSize.currentHomeViewFontSize ;
     title = [NSString stringWithFormat:@"<style> body{font-family: STHeiti, Helvetica Neue;font-weight:5; line-height:1.0;text-indent:0em;font-size:%fpx; text-align:justify;color:%@  }</style> %@ ",
              [UIFont systemFontOfSize:fontSize].pointSize, color, [[title stringByReplacingOccurrencesOfString:@"<p>" withString:@""] stringByReplacingOccurrencesOfString:@"</p>" withString:@""]];
     NSMutableAttributedString *mutableAttributeString = [[NSMutableAttributedString alloc] initWithData:[title dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType}

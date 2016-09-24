@@ -19,9 +19,6 @@
 #import "LPChangeFontSizeView.h"
 #import "LPFontSizeManager.h"
 #import "MainNavigationController.h"
-#import "LPNewsLoginViewController.h"
-#import "SSKeychainQuery.h"
-#import "SSKeychain.h"
 #import "AppDelegate.h"
 #import "LPHomeChannelItemController.h"
 #import "MainNavigationController.h"
@@ -462,20 +459,7 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
     }
 }
 
-#pragma mark - 获取机器唯一编号
-- (NSString *)getDeviceId
-{
-    NSString * currentDeviceUUIDStr = [SSKeychain passwordForService:@" "account:@"uniqueDeviceID"];
-    if (currentDeviceUUIDStr == nil || [currentDeviceUUIDStr isEqualToString:@""])
-    {
-        NSUUID * currentDeviceUUID  = [UIDevice currentDevice].identifierForVendor;
-        currentDeviceUUIDStr = currentDeviceUUID.UUIDString;
-        currentDeviceUUIDStr = [currentDeviceUUIDStr stringByReplacingOccurrencesOfString:@"-" withString:@""];
-        currentDeviceUUIDStr = [currentDeviceUUIDStr lowercaseString];
-        [SSKeychain setPassword: currentDeviceUUIDStr forService:@" "account:@"uniqueDeviceID"];
-    }
-    return currentDeviceUUIDStr;
-}
+
 
 #pragma mark - 个人中心
 - (void)loginBtnDidClick {

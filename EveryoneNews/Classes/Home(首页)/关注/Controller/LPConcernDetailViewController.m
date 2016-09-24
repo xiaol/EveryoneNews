@@ -26,6 +26,8 @@
 #import "Card+Create.h"
 #import "LPDetailViewController.h"
 #import "CoreDataHelper.h"
+#import "LPFontSize.h"
+
 
 static NSString *introduceCellIdentifier = @"introduceCellIdentifier";
 static NSString *contentCellIdentifier = @"contentCellIdentifier";
@@ -488,13 +490,13 @@ const static CGFloat changeFontSizeViewH = 150;
 #pragma mark - LPDetailChangeFontSizeView delegate
 - (void)changeFontSizeView:(LPDetailChangeFontSizeView *)changeFontSizeView reloadTableViewWithFontSize:(NSInteger)fontSize fontSizeType:(NSString *)fontSizeType currentDetailContentFontSize:(NSInteger)currentDetailContentFontSize currentDetaiTitleFontSize:(NSInteger)currentDetaiTitleFontSize currentDetailCommentFontSize:(NSInteger)currentDetailCommentFontSize currentDetailRelatePointFontSize:(NSInteger)currentDetailRelatePointFontSize currentDetailSourceFontSize:(NSInteger)currentDetailSourceFontSize {
     
-    [LPFontSizeManager sharedManager].currentHomeViewFontSize = fontSize;
-    [LPFontSizeManager sharedManager].currentHomeViewFontSizeType = fontSizeType;
-    [LPFontSizeManager sharedManager].currentDetailContentFontSize = currentDetailContentFontSize;
-    [LPFontSizeManager sharedManager].currentDetaiTitleFontSize = currentDetaiTitleFontSize;
-    [LPFontSizeManager sharedManager].currentDetailCommentFontSize = currentDetailCommentFontSize;
-    [LPFontSizeManager sharedManager].currentDetailRelatePointFontSize = currentDetailRelatePointFontSize;
-    [LPFontSizeManager sharedManager].currentDetailSourceFontSize = currentDetailSourceFontSize;
+    [LPFontSizeManager sharedManager].lpFontSize.currentHomeViewFontSize = fontSize;
+    [LPFontSizeManager sharedManager].lpFontSize.fontSizeType = fontSizeType;
+    [LPFontSizeManager sharedManager].lpFontSize.currentDetailContentFontSize = currentDetailContentFontSize;
+    [LPFontSizeManager sharedManager].lpFontSize.currentDetaiTitleFontSize = currentDetaiTitleFontSize;
+    [LPFontSizeManager sharedManager].lpFontSize.currentDetailCommentFontSize = currentDetailCommentFontSize;
+    [LPFontSizeManager sharedManager].lpFontSize.currentDetailRelatePointFontSize = currentDetailRelatePointFontSize;
+    [LPFontSizeManager sharedManager].lpFontSize.currentDetailSourceFontSize = currentDetailSourceFontSize;
     
    
     [noteCenter postNotificationName:LPFontSizeChangedNotification object:nil];

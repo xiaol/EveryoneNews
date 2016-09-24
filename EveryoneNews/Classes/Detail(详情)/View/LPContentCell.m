@@ -7,12 +7,9 @@
 //
 
 #import "LPContentCell.h"
-#import "LPCommentView.h"
 #import "LPContentFrame.h"
 #import "LPContent.h"
-#import "LPSupplementView.h"
 #import "UIImageView+WebCache.h"
-#import "LPPressTool.h"
 #import "LPUITextView.h"
 #import <WebKit/WebKit.h>
 #import <DTCoreText/DTCoreText.h>
@@ -23,7 +20,7 @@
 
 @property (nonatomic, strong) DTRichTextEditorView *bodyTextView;
 
-@property (nonatomic, strong) LPCommentView *commentView;
+
 
 @property (nonatomic, strong) UILabel *photoLabel;
 

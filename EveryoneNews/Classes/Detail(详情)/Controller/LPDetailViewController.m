@@ -7,7 +7,6 @@
 //  header: imgUrl title updateTime
 
 #import "LPDetailViewController.h"
-#import "LPPress.h"
 #import "LPContent.h"
 #import "LPContentFrame.h"
 #import "LPComment.h"
@@ -15,16 +14,10 @@
 #import "LPWeiboPoint.h"
 #import "LPContentCell.h"
 #import "UIImageView+WebCache.h"
-#import "LPZhihuView.h"
 #import "LPWaterfallView.h"
-#import "LPPressTool.h"
-#import "LPCommentView.h"
 #import "AccountTool.h"
 #import "MBProgressHUD+MJ.h"
-#import "LPConcernPress.h"
-#import "LPConcern.h"
 #import "LPPhoto.h"
-#import "LPPhotoCell.h"
 #import "MainNavigationController.h"
 #import "LPRelateView.h"
 #import "CardFrame.h"
@@ -33,7 +26,6 @@
 #import "AppDelegate.h"
 #import "UIImageView+WebCache.h"
 #import "MobClick.h"
-#import "LPShareView.h"
 #import "LPShareViewController.h"
 #import "LPShareCell.h"
 #import "LPCommentCell.h"
@@ -73,13 +65,15 @@
 #import "Card+Create.h"
 #import "LPSearchResultViewController.h"
 #import "TFHpple.h"
+#import "LPFontSize.h"
+#import "LPPressTool.h"
 
 
 static const NSString * privateContext;
 
 const static CGFloat changeFontSizeViewH = 150;
 
-@interface LPDetailViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate,LPRelateCellDelegate, LPDetailTopViewDelegate, LPShareViewDelegate,LPDetailBottomViewDelegate, LPShareCellDelegate, LPContentCellDelegate, LPBottomShareViewDelegate, LPDetailChangeFontSizeViewDelegate, LPFullCommentCellDelegate, UITextViewDelegate,SFSafariViewControllerDelegate,LPCommentCellDelegate>
+@interface LPDetailViewController () <UIScrollViewDelegate, UITableViewDataSource, UITableViewDelegate,LPRelateCellDelegate, LPDetailTopViewDelegate,LPDetailBottomViewDelegate, LPShareCellDelegate, LPContentCellDelegate, LPBottomShareViewDelegate, LPDetailChangeFontSizeViewDelegate, LPFullCommentCellDelegate, UITextViewDelegate,SFSafariViewControllerDelegate,LPCommentCellDelegate>
 
 
 #pragma mark - 属性声明
@@ -2013,8 +2007,9 @@ const static CGFloat changeFontSizeViewH = 150;
     
     // 内容页面标题
     UIView *headerView = [[UIView alloc] init];
-    CGFloat titleFontSize = [LPFontSizeManager sharedManager].currentDetaiTitleFontSize;
-    CGFloat sourceFontSize = [LPFontSizeManager sharedManager].currentDetailSourceFontSize;;
+    LPFontSize *lpFontSize = [LPFontSizeManager sharedManager].lpFontSize;
+    CGFloat titleFontSize = lpFontSize.currentDetaiTitleFontSize;
+    CGFloat sourceFontSize = lpFontSize.currentDetailSourceFontSize;;
 
     // 标题
     UILabel *titleLabel = [[UILabel alloc] init];
@@ -2126,10 +2121,6 @@ const static CGFloat changeFontSizeViewH = 150;
     
     
 
-}
-#pragma mark - Content Cell Delegate
--(void)contentCell:(LPContentCell *)contentCell didOpenURL:(NSString *)url {
-    [LPPressTool loadWebViewWithURL:url viewController:self];
 }
 
 - (void)contentCell:(LPContentCell *)contentCell searchText:(NSString *)selectedText {
@@ -2540,14 +2531,15 @@ const static CGFloat changeFontSizeViewH = 150;
 #pragma mark - LPDetailChangeFontSizeView delegate
 - (void)changeFontSizeView:(LPDetailChangeFontSizeView *)changeFontSizeView reloadTableViewWithFontSize:(NSInteger)fontSize fontSizeType:(NSString *)fontSizeType currentDetailContentFontSize:(NSInteger)currentDetailContentFontSize currentDetaiTitleFontSize:(NSInteger)currentDetaiTitleFontSize currentDetailCommentFontSize:(NSInteger)currentDetailCommentFontSize currentDetailRelatePointFontSize:(NSInteger)currentDetailRelatePointFontSize currentDetailSourceFontSize:(NSInteger)currentDetailSourceFontSize {
     
-    [LPFontSizeManager sharedManager].currentHomeViewFontSize = fontSize;
-    [LPFontSizeManager sharedManager].currentHomeViewFontSizeType = fontSizeType;
-    [LPFontSizeManager sharedManager].currentDetailContentFontSize = currentDetailContentFontSize;
-    [LPFontSizeManager sharedManager].currentDetaiTitleFontSize = currentDetaiTitleFontSize;
-    [LPFontSizeManager sharedManager].currentDetailCommentFontSize = currentDetailCommentFontSize;
-    [LPFontSizeManager sharedManager].currentDetailRelatePointFontSize = currentDetailRelatePointFontSize;
-    [LPFontSizeManager sharedManager].currentDetailSourceFontSize = currentDetailSourceFontSize;
-
+    LPFontSize *lpFontSize = [[LPFontSize alloc] init];
+    lpFontSize.currentHomeViewFontSize = fontSize;
+    lpFontSize.fontSizeType = fontSizeType;
+    lpFontSize.currentDetailContentFontSize = currentDetailContentFontSize;
+    lpFontSize.currentDetaiTitleFontSize = currentDetaiTitleFontSize;
+    lpFontSize.currentDetailCommentFontSize = currentDetailCommentFontSize;
+    lpFontSize.currentDetailRelatePointFontSize = currentDetailRelatePointFontSize;
+    lpFontSize.currentDetailSourceFontSize = currentDetailSourceFontSize;
+    [LPFontSizeManager sharedManager].lpFontSize = lpFontSize;
     [[LPFontSizeManager sharedManager] saveHomeViewFontSizeAndType];
    
     for (LPContentFrame *contentFrame in self.contentFrames) {
@@ -2564,12 +2556,6 @@ const static CGFloat changeFontSizeViewH = 150;
     [self removeBackgroundView];
 }
 
-#pragma mark - LPZhihuView delegate
-
-- (void)zhihuView:(LPZhihuView *)zhihuView didClickURL:(NSString *)url
-{
-    [LPPressTool loadWebViewWithURL:url viewController:self];
-}
 
 #pragma mark - LPRelateCell delegate
 

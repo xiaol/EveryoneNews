@@ -373,7 +373,8 @@ const static CGFloat padding = 32;
 
 #pragma mark - 关闭
 - (void)closeButtonDidClick {
-//    [self.navigationController popViewControllerAnimated:NO];
+    [self.usernameTextField resignFirstResponder];
+    [self.passwordTextField resignFirstResponder];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

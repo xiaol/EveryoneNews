@@ -9,22 +9,9 @@
 #import "LPPressTool.h"
 #import "LPWebViewController.h"
 #import "LPHttpTool.h"
-#import "LPCategory.h"
+
 
 @implementation LPPressTool
-
-+ (void)homePressesWithCategory:(LPCategory *)category success:(void (^)(id))success failure:(void (^)(NSError *))failure
-{
-    [LPHttpTool getWithURL:category.url params:nil success:^(id json) {
-        if (success) {
-            success(json);
-        }
-    } failure:^(NSError *error) {
-        if (failure) {
-            failure(error);
-        }
-    }];
-}
 
 + (void)loadWebViewWithURL:(NSString *)url viewController:(UIViewController *)vc
 {

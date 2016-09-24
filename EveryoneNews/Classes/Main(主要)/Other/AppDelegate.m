@@ -9,15 +9,12 @@
 #import "AppDelegate.h"
 #import "APService.h"
 #import "UIImageView+WebCache.h"
-#import "LPNewfeatureViewController.h"
 #import "MobClick.h"
 #import "WXApi.h"
 #import "MainNavigationController.h"
 #import "MainViewController.h"
-#import "LaunchViewController.h"
 #import "AFNetworking.h"
 #import "MBProgressHUD+MJ.h"
-#import "AppDelegate+MOC.h"
 #import "CoreDataHelper.h"
 #import "UMSocial.h"
 #import "UMSocialQQHandler.h"
@@ -146,16 +143,6 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     
     // 判断是否要弹出真实头像框, 如需, 发通知
     [self checkoutAppReview];
-    
-    AppDelegate *myDelegate = (AppDelegate*)[[UIApplication sharedApplication] delegate];
-    if (kMainScreenHeight > 480) {
-        myDelegate.autoSizeScaleX = kMainScreenWidth/320;
-        myDelegate.autoSizeScaleY = kMainScreenHeight/568;
-    }else{
-        myDelegate.autoSizeScaleX = 1.0;
-        myDelegate.autoSizeScaleY = 1.0;
-    }
-    
     // 设置启动动画
     [self setupLaunchAnimation];
 
@@ -335,9 +322,9 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-//    NSLog(@"push token:%@",[[[[deviceToken description] stringByReplacingOccurrencesOfString: @"<" withString: @""]
-//                  stringByReplacingOccurrencesOfString: @">" withString: @""]
-//                 stringByReplacingOccurrencesOfString: @" " withString: @""]);
+    NSLog(@"push token:%@",[[[[deviceToken description] stringByReplacingOccurrencesOfString: @"<" withString: @""]
+                  stringByReplacingOccurrencesOfString: @">" withString: @""]
+                 stringByReplacingOccurrencesOfString: @" " withString: @""]);
     
 }
 

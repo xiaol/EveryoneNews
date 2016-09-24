@@ -117,7 +117,7 @@
     
     // 提示信息
     UIView *promptView = [[UIView alloc] initWithFrame:CGRectMake(0, topViewHeight + 2, ScreenWidth, ScreenHeight - topViewHeight - 2)];
-    promptView.backgroundColor = [UIColor colorWithHexString:LPColor9];
+    promptView.backgroundColor = [UIColor colorFromHexString:LPColor9];
     promptView.hidden = YES;
     [self.view addSubview:promptView];
     self.promptView = promptView;
@@ -132,14 +132,14 @@
     UILabel *promptLabel = [[UILabel alloc] initWithFrame:CGRectMake(promptLabelX, promptLabelY, promptLabelW, promptLabelH)];
     promptLabel.text = promptStr;
     promptLabel.font = [UIFont systemFontOfSize:promptLabelFontSize];
-    promptLabel.textColor = [UIColor colorWithHexString:LPColor7];
+    promptLabel.textColor = [UIColor colorFromHexString:LPColor7];
     
     CGFloat emailPromptTextFieldY = CGRectGetMaxY(promptLabel.frame) + 18;
     CGFloat emailPromptTextFieldH = [emailPlaceHolder sizeWithFont:[UIFont systemFontOfSize:LPFont5] maxSize:CGSizeMake(ScreenWidth,CGFLOAT_MAX)].height + 20;
     UITextField *emailPromptTextField = [[UITextField alloc] initWithFrame:CGRectMake(promptLabelX, emailPromptTextFieldY, promptLabelW, emailPromptTextFieldH)];
     emailPromptTextField.textColor = [UIColor colorFromHexString:LPColor3];
     emailPromptTextField.font = [UIFont systemFontOfSize:LPFont5];
-    emailPromptTextField.backgroundColor = [UIColor colorWithHexString:@"#cbcbcb"];
+    emailPromptTextField.backgroundColor = [UIColor colorFromHexString:@"#cbcbcb"];
     emailPromptTextField.textAlignment = NSTextAlignmentCenter;
     self.emailPromptTextField = emailPromptTextField;
     
@@ -209,7 +209,7 @@
         if (emailFormat) {
             self.legalEmailFormat = YES;
             self.sendEmailButton.enabled = YES;
-            [self.sendEmailButton setBackgroundColor:[UIColor colorWithHexString:LPColor2]];
+            [self.sendEmailButton setBackgroundColor:[UIColor colorFromHexString:LPColor2]];
         }
     }
 }

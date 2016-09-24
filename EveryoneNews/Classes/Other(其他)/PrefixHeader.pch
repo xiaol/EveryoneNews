@@ -15,6 +15,7 @@
 
 #import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
+
 #import "UIView+LP.h"
 #import "UIColor+LP.h"
 #import "NSString+LP.h"
@@ -24,7 +25,7 @@
 #import "LPActivityIndicator.h"
 #import "LPBaseViewController.h"
 #import "UIButton+LP.h"
-#import "Configured.h"
+//#import "Configured.h"
 
 #ifdef __OPTIMIZE__
 # define NSLog(...) {}
@@ -44,9 +45,9 @@
 
 #define sharedIndicator [LPActivityIndicator sharedActivityIndicator]
 
-extern const NSInteger HotwordPageCapacity;
-
-extern NSString * const HotwordsURL;
+//extern const NSInteger HotwordPageCapacity;
+//
+//extern NSString * const HotwordsURL;
 extern NSString * const reusePageID;
 extern NSString * const reuseConcernPageID;
 
@@ -294,6 +295,7 @@ typedef NS_ENUM(NSInteger, newsType) {
 #define LPColor11 @"#f0f0f0"
 #define LPColor12 @"#aaaaaa"
 #define LPColor13 @"#f83b3b"
+#define LPColor14 @"#fafafa"
 
 #define LPFont1 20
 #define LPFont2 19

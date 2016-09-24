@@ -11,6 +11,7 @@
 #import "NSString+LP.h"
 #import "Card+Create.h"
 #import "LPFontSizeManager.h"
+#import "LPFontSize.h"
 #import "LPSearchTool.h"
 
 @implementation LPSearchCardFrame
@@ -48,7 +49,7 @@
     _card = card;
     _cellHeight = 0.0f;
 
-    self.homeViewFontSize = [LPFontSizeManager sharedManager].currentHomeViewFontSize;
+    self.homeViewFontSize = [LPFontSizeManager sharedManager].lpFontSize.currentHomeViewFontSize;
     CGFloat titleFontSize =  self.homeViewFontSize;
     NSString *title = card.title;
     CGFloat lineSpacing = 0.f;

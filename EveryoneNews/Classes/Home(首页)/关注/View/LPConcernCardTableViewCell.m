@@ -48,7 +48,7 @@
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         
-        self.backgroundColor = [UIColor colorWithHexString:LPColor9];
+        self.backgroundColor = [UIColor colorFromHexString:LPColor9];
         
         CGFloat commentFontSize = LPFont6;
         CGFloat publishTimeFontSize = LPFont6;
@@ -65,7 +65,7 @@
  
         noImagePublishTimeLabel.textAlignment = NSTextAlignmentCenter;
         noImagePublishTimeLabel.font = [UIFont systemFontOfSize:publishTimeFontSize];
-        noImagePublishTimeLabel.textColor = [UIColor colorWithHexString:LPColor4];
+        noImagePublishTimeLabel.textColor = [UIColor colorFromHexString:LPColor4];
         [self.contentView addSubview:noImagePublishTimeLabel];
         self.noImagePublishTimeLabel = noImagePublishTimeLabel;
         
@@ -141,7 +141,7 @@
         UILabel *mutipleImagePublishTimeLabel = [[UILabel alloc] init];
         mutipleImagePublishTimeLabel.textAlignment = NSTextAlignmentLeft;
         mutipleImagePublishTimeLabel.font = [UIFont systemFontOfSize:publishTimeFontSize];
-        mutipleImagePublishTimeLabel.textColor = [UIColor colorWithHexString:LPColor4];
+        mutipleImagePublishTimeLabel.textColor = [UIColor colorFromHexString:LPColor4];
         [self.contentView addSubview:mutipleImagePublishTimeLabel];
         self.mutipleImagePublishTimeLabel = mutipleImagePublishTimeLabel;
         

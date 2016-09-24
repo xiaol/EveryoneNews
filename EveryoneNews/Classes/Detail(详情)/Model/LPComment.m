@@ -7,19 +7,15 @@
 //
 
 #import "LPComment.h"
-#import "LPConcern.h"
+
 #import "LPFontSizeManager.h"
+#import "LPFontSize.h"
 
 @implementation LPComment
 
 - (NSMutableAttributedString *)commentStringWithColor:(UIColor *)color {
-    return [self.srcText attributedStringWithFont:[UIFont systemFontOfSize:[LPFontSizeManager sharedManager].currentDetailCommentFontSize] color:color lineSpacing:CommentLineSpacing];
+    LPFontSize *lpFontSize = [LPFontSizeManager sharedManager].lpFontSize;
+    return [self.srcText attributedStringWithFont:[UIFont systemFontOfSize:lpFontSize.currentDetailCommentFontSize] color:color lineSpacing:CommentLineSpacing];
 }
 
-//- (CGFloat)commentTextLineHeight
-//{
-//    NSString *str = @"你好";
-//    NSMutableAttributedString *attrStr = [str attributedStringWithFont:[UIFont systemFontOfSize:CommentFontSize] color:[UIColor whiteColor] lineSpacing:CommentLineSpacing];
-//    return [attrStr heightWithConstraintWidth:MAXFLOAT];
-//}
 @end

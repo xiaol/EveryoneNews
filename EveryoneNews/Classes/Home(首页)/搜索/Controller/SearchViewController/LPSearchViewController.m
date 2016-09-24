@@ -214,6 +214,7 @@ static NSString *cellIdentifier = @"tableViewCellIdentifier";
 - (void)setupHotWord {
     __weak typeof(self) weakSelf = self;
     // 加载挖掘机热词
+    NSString * const HotwordsURL = @"http://api.deeporiginalx.com/news/baijia/fetchElementary";
     [LPHttpTool postWithURL:HotwordsURL params:nil success:^(id json) {
         NSArray *jsonArray = (NSArray *)json;
         for (int i = 0; i < jsonArray.count; i++) {

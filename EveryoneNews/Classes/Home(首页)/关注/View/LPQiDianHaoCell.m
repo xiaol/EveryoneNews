@@ -88,8 +88,8 @@
            self.concernButton.layer.borderColor = [UIColor colorFromHexString:@"#e71f19"].CGColor;
        } else {
            [self.concernButton setTitle:@"取消" forState:UIControlStateNormal];
-           [self.concernButton setTitleColor:[UIColor colorWithHexString:LPColor4] forState:UIControlStateNormal];
-           self.concernButton.layer.borderColor = [UIColor colorWithHexString:LPColor4].CGColor;
+           [self.concernButton setTitleColor:[UIColor colorFromHexString:LPColor4] forState:UIControlStateNormal];
+           self.concernButton.layer.borderColor = [UIColor colorFromHexString:LPColor4].CGColor;
        }
    }
     

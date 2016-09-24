@@ -9,7 +9,6 @@
 #import "LPContentFrame.h"
 #import "LPContent.h"
 #import "LPComment.h"
-#import "LPConcern.h"
 #import "UIImageView+WebCache.h"
 
 @implementation LPContentFrame
@@ -17,13 +16,6 @@
 - (void)setContent:(LPContent *)content {
     
     CGFloat bodyPadding = 13;
-//    if (iPhone6Plus) {
-//        bodyPadding = 15;
-//    } else if (iPhone5) {
-//        bodyPadding = 10;
-//    } else if (iPhone6) {
-//        bodyPadding = 13;
-//    }
     _content = content;
     
     if ( _content.contentType == 2) {
@@ -38,14 +30,6 @@
         _cellHeight = CGRectGetMaxY(_bodyLabelF) + 3.5f;
     }
     else if(_content.contentType == 1){ // 图像类型
-//        CGFloat bodyPadding = 13;
-//        if (iPhone6Plus) {
-//            bodyPadding = 19;
-//        } else if (iPhone5) {
-//            bodyPadding = 15;
-//        } else if (iPhone6) {
-//            bodyPadding = 18;
-//        }
         CGFloat photoX = bodyPadding;
         CGFloat photoY = 0;
         CGFloat photoW = ScreenWidth - 2 * bodyPadding;

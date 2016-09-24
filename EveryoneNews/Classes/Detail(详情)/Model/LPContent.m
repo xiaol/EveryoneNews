@@ -9,6 +9,7 @@
 #import "LPContent.h"
 #import "SDWebImageManager.h"
 #import "LPFontSizeManager.h"
+#import "LPFontSize.h"
 #import <DTCoreText/DTCoreText.h>
 
 @implementation LPContent
@@ -20,7 +21,7 @@
 
 - (NSMutableAttributedString *)bodyString
 {
-    CGFloat fontSize = [LPFontSizeManager sharedManager].currentDetailContentFontSize ;
+    CGFloat fontSize = [LPFontSizeManager sharedManager].lpFontSize.currentDetailContentFontSize ;
     return [self.body attributedStringWithFont:[UIFont systemFontOfSize:fontSize] color:[UIColor colorFromHexString:@"#060606"] lineSpacing:BodyLineSpacing];
 }
 
@@ -41,7 +42,7 @@
 }
 
 - (NSString *)body {
-    CGFloat fontSize = [LPFontSizeManager sharedManager].currentDetailContentFontSize ;
+    CGFloat fontSize = [LPFontSizeManager sharedManager].lpFontSize.currentDetailContentFontSize ;
     return [NSString stringWithFormat:@"<style> body{  font-weight:100; line-height:1.49;text-indent:2em;font-size:%fpx; text-align:justify;  }</style> %@ ",
             [UIFont systemFontOfSize:fontSize].pointSize, [[_body stringByReplacingOccurrencesOfString:@"<p>" withString:@""] stringByReplacingOccurrencesOfString:@"</p>" withString:@""]];
 }

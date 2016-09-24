@@ -8,10 +8,11 @@
 
 #import "LPRelatePoint.h"
 #import "LPFontSizeManager.h"
+#import "LPFontSize.h"
 @implementation LPRelatePoint
 
 - (NSMutableAttributedString *)titleString {
-    return [_title attributedStringWithFont:[UIFont systemFontOfSize:[[LPFontSizeManager sharedManager] currentDetailRelatePointFontSize]] color:[UIColor colorFromHexString:LPColor3] lineSpacing:0];
+    return [_title attributedStringWithFont:[UIFont systemFontOfSize:[[LPFontSizeManager sharedManager].lpFontSize currentDetailRelatePointFontSize]] color:[UIColor colorFromHexString:LPColor3] lineSpacing:0];
 }
 
 - (NSMutableAttributedString *)sourceString {
@@ -25,7 +26,7 @@
 }
 
 - (NSString *)title {
-    CGFloat fontSize = [LPFontSizeManager sharedManager].currentDetailRelatePointFontSize ;
+    CGFloat fontSize = [LPFontSizeManager sharedManager].lpFontSize.currentDetailRelatePointFontSize ;
     return [NSString stringWithFormat:@"<style> body{ font-size:%fpx; text-align:justify;  }</style> %@ ",
             [UIFont systemFontOfSize:fontSize].pointSize, _title];
 }

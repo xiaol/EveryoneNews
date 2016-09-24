@@ -11,6 +11,7 @@
 #import "UIImageView+WebCache.h"
 #import "LPCommentFrame.h"
 #import "LPFontSizeManager.h"
+#import "LPFontSize.h"
 
 @interface LPCommentCell()
 
@@ -65,7 +66,7 @@
         UILabel *commentLabel = [[UILabel alloc] init];
         commentLabel.numberOfLines = 0;
         commentLabel.textColor = [UIColor colorFromHexString:LPColor1];
-        commentLabel.font = [UIFont systemFontOfSize:[LPFontSizeManager sharedManager].currentDetailCommentFontSize];
+        commentLabel.font = [UIFont systemFontOfSize:[LPFontSizeManager sharedManager].lpFontSize.currentDetailCommentFontSize];
         [self addSubview:commentLabel];
         self.commentLabel = commentLabel;
         

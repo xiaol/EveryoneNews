@@ -39,7 +39,7 @@ static NSString *cellIdentifier = @"cellIdentifier";
     [super viewDidLoad];
     
     [self setupData];
-    self.view.backgroundColor = [UIColor colorWithDesignIndex:9];
+    self.view.backgroundColor = [UIColor colorFromHexString:LPColor9];
     [self setupTopView];
     [self setupTableView];
     
@@ -106,7 +106,7 @@ static NSString *cellIdentifier = @"cellIdentifier";
     CGFloat tableViewY = CGRectGetMaxY(self.topView.frame) + 2;
     CGFloat tableViewH = ScreenHeight - tableViewY;
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, tableViewY, ScreenWidth, tableViewH)];
-    tableView.backgroundColor = [UIColor colorWithDesignIndex:9];
+    tableView.backgroundColor = [UIColor colorFromHexString:LPColor9];
     [tableView registerClass:[LPQiDianHaoCell class] forCellReuseIdentifier:cellIdentifier];
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     tableView.delegate = self;

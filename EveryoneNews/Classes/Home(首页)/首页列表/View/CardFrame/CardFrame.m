@@ -9,6 +9,7 @@
 #import "CardFrame.h"
 #import "Card.h"
 #import "LPFontSizeManager.h"
+#import "LPFontSize.h"
 #import "NSString+LP.h"
 #import "Card+Create.h"
 
@@ -48,7 +49,8 @@
         sourceFontSize = 11;
         
     }
-    self.homeViewFontSize = [LPFontSizeManager sharedManager].currentHomeViewFontSize;
+    LPFontSize *lpFontSize = [LPFontSizeManager sharedManager].lpFontSize;
+    self.homeViewFontSize = lpFontSize.currentHomeViewFontSize;
     CGFloat titleFontSize =  self.homeViewFontSize;
     CGFloat paddingBottom = 12;
     CGFloat lineSpacing = 2.0;

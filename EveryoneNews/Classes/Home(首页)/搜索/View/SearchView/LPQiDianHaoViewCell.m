@@ -50,7 +50,7 @@
     // 奇点号
     UILabel *qiDianLabel = [[UILabel alloc] initWithFrame:CGRectMake(qiDianLabelX, qiDianLabelY, qiDianLabelW, qiDianLabelH)];
     qiDianLabel.text = qiDianStr;
-    qiDianLabel.textColor = [UIColor colorWithHexString:LPColor3];
+    qiDianLabel.textColor = [UIColor colorFromHexString:LPColor3];
     qiDianLabel.font = [UIFont systemFontOfSize:LPFont2];
     [childView addSubview:qiDianLabel];
     
@@ -89,7 +89,7 @@
         
         UILabel *titleLabel = [[UILabel alloc] init];
         titleLabel.frame = CGRectMake(imageViewX, CGRectGetMaxY(imageView.frame) + 7, imageViewW, titleLabelH);
-        titleLabel.textColor = [UIColor colorWithHexString:LPColor3];
+        titleLabel.textColor = [UIColor colorFromHexString:LPColor3];
         titleLabel.font = [UIFont systemFontOfSize:LPFont5];
         titleLabel.textAlignment = NSTextAlignmentCenter;
         if (i == 3 ) {

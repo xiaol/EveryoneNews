@@ -12,6 +12,5 @@
 
 @interface LPPressTool : NSObject
 
-+ (void)homePressesWithCategory:(LPCategory *)category success:(void (^)(id json))success failure:(void (^)(NSError *error))failure;
 + (void)loadWebViewWithURL:(NSString *)url viewController:(UIViewController *)vc;
 @end

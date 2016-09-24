@@ -10,7 +10,6 @@
 #import "LPRelatePoint.h"
 #import "NSString+LP.h"
 #import "UIImageView+WebCache.h"
-#import "LPPressTool.h"
 
 const static CGFloat padding = 13;
 const static CGFloat headerViewHeight = 50;
@@ -43,8 +42,6 @@ const static CGFloat contentPadding = 10;
 -(void)setRelateArray:(NSArray *)relateArray
 {
     _relateArray = relateArray;
-//    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(Padding, 0, ScreenWidth - Padding * 2 , HeaderViewHeight)];
-//    headerView.backgroundColor = [UIColor whiteColor];
     
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth - padding * 2, headerViewHeight)];
     headerView.backgroundColor = [UIColor whiteColor];
@@ -58,30 +55,7 @@ const static CGFloat contentPadding = 10;
     [headerView addSubview:titleLabel];
     
     [self addSubview:headerView];
-    
-//    // 设置标题左边长条
-//    CGFloat rectangleX = 13;
-//    CGFloat rectangleW = 4;
-//    CGFloat rectangleH = 16;
-//    CGFloat rectangleY = (HeaderViewHeight - rectangleH) / 2;
-//    
-//    // 标题矩形框
-//    CAShapeLayer *headerLayer = [CAShapeLayer layer];
-//    UIBezierPath *headerPath = [UIBezierPath  bezierPathWithRoundedRect:CGRectMake(rectangleX, rectangleY, rectangleW, rectangleH) cornerRadius:0.0f];
-//    headerLayer.path = headerPath.CGPath;
-//    headerLayer.fillColor = [UIColor colorFromHexString:@"#a1a1a1"].CGColor;
-//    [headerView.layer addSublayer:headerLayer];
-//    
-//    // 标题
-//    CGFloat titleLabelX = rectangleX + rectangleW + 10;
-//    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(titleLabelX, 0, ScreenWidth - titleLabelX, HeaderViewHeight)];
-//    titleLabel.text = @"相关观点";
-//    titleLabel.textColor = [UIColor colorFromHexString:@"#a1a1a1"];
-//    titleLabel.textAlignment = NSTextAlignmentLeft;
-//    titleLabel.font = [UIFont boldSystemFontOfSize:17];
-//    [headerView addSubview:titleLabel];
-//    [self addSubview:headerView];
-    
+
     CGFloat marginY = CGRectGetMaxY(headerView.frame);
     CGFloat cellHeight = 79;
     

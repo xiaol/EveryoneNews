@@ -118,33 +118,6 @@ NSString *storeFileName = @"EveryoneNews.sqlite";
         NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
     }
     [self loadStore];
-    [self importDefaultData];
-}
-
-#pragma mark - DEFAULT DATA
-- (void)importDefaultData {
-    // 添加默认专辑到上下文中
-    NSNumber *imported = [userDefaults objectForKey:@"DefaultDataImport"];
-    
-    if (!imported.boolValue) {
-        NSLog(@"importing default data!");
-        [_importContext performBlock:^{
-            NSString *addImageName = @"dig添加专辑";
-            Album *defaultAlbum = [Album albumWithID:[NSNumber numberWithInteger:1] title:@"默认" subtitle:@"我喜欢的" thumbnailImage:[UIImage imageNamed:@"默认专辑封面"] inManagedObjectContext:_importContext];
-            Album *addAlbum = [Album albumWithID:[NSNumber numberWithInteger:0] title:@"" subtitle:@"" thumbnailImage:[UIImage imageNamed:addImageName] inManagedObjectContext:_importContext];
-            [Faulter faultObjectWithID:defaultAlbum.objectID
-                             inContext:_importContext];
-            [Faulter faultObjectWithID:addAlbum.objectID
-                             inContext:_importContext];
-            
-            [_importContext reset];
-            
-            [userDefaults setObject:[NSNumber numberWithBool:YES] forKey:@"DefaultDataImport"];
-            [userDefaults synchronize];
-        }];
-    } else {
-        NSLog(@"Skipped default data import");
-    }
 }
 
 #pragma mark - SAVING
@@ -202,28 +175,6 @@ NSString *storeFileName = @"EveryoneNews.sqlite";
     }];
 
 }
-
-//- (void)saveBackgroundContext {
-//    [self saveImportContext];
-//    // 1.把子上下文保存到父上下文(执行于内存, 速度极快)
-//    [self saveContext];
-//    // 2.把父上下文保存到持久化存储区(在专用队列上异步执行)
-//    [_parentContext performBlock:^{
-//        if (_parentContext.hasChanges) {
-//            NSError *error = nil;
-//            if ([_parentContext save:&error]) {
-//                NSLog(@"_parentContext saved changes to persistent store");
-//            } else {
-//                NSLog(@"_parentContext Failed to save _context: %@", error);
-//                [self showValidationError:error];
-//            }
-//        } else {
-//            NSLog(@"SKIPPED _parentContext save, there are no changes!");
-//        }
-//    }];
-//}
-
-
 
 - (void)saveBackgroundContext {
     
@@ -382,33 +333,6 @@ NSString *storeFileName = @"EveryoneNews.sqlite";
 }
 
 - (void)deleteCoreData {
-    
-    // 清理Core Data中相关表信息
-//    NSManagedObjectModel *model = self.model;
-//    NSDictionary *entities = [model entitiesByName];
-//    NSArray *entityDescriptionArray = [entities allValues];
-//    for (int count = 0; count < entityDescriptionArray.count; count++) {
-//        NSEntityDescription *entityDescription = entityDescriptionArray[count];
-//        NSFetchRequest *request = [[NSFetchRequest alloc]init];
-//        [request setEntity:entityDescription];
-//        NSError *error = nil;
-//        NSArray *listData = [_importContext executeFetchRequest:request error:&error];
-//        for(id record in listData) {
-//            [_importContext deleteObject:record];
-//        }
-//    }
-    
-    // Card Image
-//    NSFetchRequest *cardImageRequest = [[NSFetchRequest alloc] init];
-//    [cardImageRequest setEntity:[NSEntityDescription entityForName:@"CardImage" inManagedObjectContext:_importContext]];
-//    [cardImageRequest setIncludesPropertyValues:NO]; // only fetch the managedObjectID
-//    NSError *cardImageError = nil;
-//    NSArray *cardImages = [_importContext executeFetchRequest:cardImageRequest error:&cardImageError];
-//    //error handling goes here
-//    for (NSManagedObject *cardImage in cardImages) {
-//        [_importContext deleteObject:cardImage];
-//    }
-
     // Card
     NSFetchRequest *cardRequest = [[NSFetchRequest alloc] init];
     [cardRequest setEntity:[NSEntityDescription entityForName:@"Card" inManagedObjectContext:_importContext]];
@@ -422,12 +346,6 @@ NSString *storeFileName = @"EveryoneNews.sqlite";
     
     [_importContext performBlock:^{
         [self saveBackgroundContext];
-   
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [userDefaults setObject:@"YES" forKey:@"isFinishDeleteCoreData"];
-//            [userDefaults synchronize];
-//        });
-     
     }];
   
 }

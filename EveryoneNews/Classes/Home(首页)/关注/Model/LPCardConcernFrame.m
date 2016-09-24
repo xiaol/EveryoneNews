@@ -11,6 +11,7 @@
 #import "Card+Create.h"
 #import "CardConcern.h"
 #import "LPFontSizeManager.h"
+#import "LPFontSize.h"
 
 const static CGFloat paddingLeft = 13;
 const static CGFloat paddingTop = 15;
@@ -27,7 +28,7 @@ const static CGFloat paddingTop = 15;
     CGFloat keywordFontSize = LPFont6;
     CGFloat keywordPaddingHorizontal = 10;
     
-    self.homeViewFontSize = [LPFontSizeManager sharedManager].currentHomeViewFontSize;
+    self.homeViewFontSize = [LPFontSizeManager sharedManager].lpFontSize.currentHomeViewFontSize;
     CGFloat titleFontSize =  self.homeViewFontSize;
     CGFloat keywordPadddingVertical = 6;
     

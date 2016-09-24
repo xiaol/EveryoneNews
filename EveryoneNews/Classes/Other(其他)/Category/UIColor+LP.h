@@ -15,8 +15,4 @@
 + (instancetype)colorFromHexString:(NSString *)hexString;
 + (instancetype)colorFromHexString:(NSString *)hexString alpha:(CGFloat)alpha;
 
-+ (instancetype)colorFromCategory:(NSString *)category;
-+ (instancetype)colorFromCategory:(NSString *)text alpha:(CGFloat)alpha;
-+ (instancetype)colorFromConcern:(LPConcern *)concern;
-+ (instancetype)colorFromConcern:(LPConcern *)concern alpha:(CGFloat)alpha;
 @end
