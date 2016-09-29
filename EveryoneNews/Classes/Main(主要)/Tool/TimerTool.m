@@ -40,7 +40,6 @@ dispatch_source_t createTimer(double interval, dispatch_queue_t queue, dispatch_
     _timerSource = createTimer(secondsToFire, queue, ^{
         // 定时刷新
         self.time --;
-        NSLog(@"%ld", self.time);
     });
 }
 

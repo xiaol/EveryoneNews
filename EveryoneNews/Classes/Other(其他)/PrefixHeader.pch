@@ -25,7 +25,6 @@
 #import "LPActivityIndicator.h"
 #import "LPBaseViewController.h"
 #import "UIButton+LP.h"
-//#import "Configured.h"
 
 #ifdef __OPTIMIZE__
 # define NSLog(...) {}
@@ -228,7 +227,7 @@ typedef NS_ENUM(NSInteger, newsType) {
 #define LPChannelItemChangedNotification @"LPChannelItemChangedNotification"
 #define LPAddConcernSourceNotification @"LPAddConcernSourceNotification"
 #define LPRemoveConcernSourceNotification @"LPRemoveConcernSourceNotification"
-#define LPIsVersionFirstLoad @"LPIsVersion_3_3_5_FirstLoad"
+#define LPIsVersionFirstLoad @"LPIsVersion_3_3_7_FirstLoad"
 
 #define LPReloadAddConcernPageNotification @"LPReloadAddConcernPageNotification"
 #define LPReloadCancelConcernPageNotification @"LPReloadCancelConcernPageNotification"

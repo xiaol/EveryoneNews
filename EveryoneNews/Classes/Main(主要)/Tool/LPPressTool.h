@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-@class LPCategory;
-
 @interface LPPressTool : NSObject
 
 + (void)loadWebViewWithURL:(NSString *)url viewController:(UIViewController *)vc;
