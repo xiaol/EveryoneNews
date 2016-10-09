@@ -16,7 +16,7 @@ class CommentsTableViewHeader: UITableViewCell {
         
         super.drawRect(rect)
         
-        let context = UIGraphicsGetCurrentContext() // 获取绘画机制
+        let context = UIGraphicsGetCurrentContext()! // 获取绘画机制
         CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
         CGContextFillRect(context, rect)
         

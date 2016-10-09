@@ -90,7 +90,7 @@ class touchView:UIView{
     
     override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
         
-        super.touchesCancelled(touches, withEvent: event)
+        super.touchesCancelled(touches!, withEvent: event)
         
         self.backgroundColor = UIColor.whiteColor()
     }

@@ -23,8 +23,8 @@ class SearchViewControllerDismissedAnimation:NSObject,UIViewControllerAnimatedTr
         let fromViewController = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
         
         let containerView = transitionContext.containerView()
-        containerView!.addSubview(toViewController.view)
-        containerView!.addSubview(fromViewController.view)
+        containerView.addSubview(toViewController.view)
+        containerView.addSubview(fromViewController.view)
         
         toViewController.view.frame = transitionContext.finalFrameForViewController(toViewController)
         
@@ -74,7 +74,7 @@ class SearchViewControllerPresentdAnimation:NSObject,UIViewControllerAnimatedTra
         toViewController.view.frame = transitionContext.finalFrameForViewController(toViewController)
         
         let containerView = transitionContext.containerView()
-        containerView!.addSubview(toViewController.view)
+        containerView.addSubview(toViewController.view)
         
         let IS_VERTICAL = UIScreen.mainScreen().bounds.width < UIScreen.mainScreen().bounds.height //是否垂直
         

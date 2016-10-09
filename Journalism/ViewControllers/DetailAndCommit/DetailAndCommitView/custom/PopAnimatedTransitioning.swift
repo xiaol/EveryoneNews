@@ -20,10 +20,12 @@ class DetailViewAndCommitViewControllerPopAnimatedTransitioning:NSObject,UIViewC
     
     func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
         
-        guard let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey),toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey),cv = transitionContext.containerView() else{
+        guard let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey),toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) else{
             
             return transitionContext.completeTransition(true)
         }
+        
+        let cv = transitionContext.containerView()
         
         toVC.view.frame = transitionContext.finalFrameForViewController(toVC)
         

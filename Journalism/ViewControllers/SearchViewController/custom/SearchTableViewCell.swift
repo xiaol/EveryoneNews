@@ -43,7 +43,7 @@ class SearchHeaderTableViewCell: UITableViewCell {
     
     override func drawRect(rect: CGRect) {
         
-        let context = UIGraphicsGetCurrentContext() // 获取绘画板
+        let context = UIGraphicsGetCurrentContext()! // 获取绘画板
         CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
         CGContextFillRect(context, rect)
         //下分割线
@@ -65,7 +65,7 @@ class SearchHistoryTableViewCell: UITableViewCell {
 
     override func drawRect(rect: CGRect) {
         
-        let context = UIGraphicsGetCurrentContext() // 获取绘画板
+        let context = UIGraphicsGetCurrentContext()! // 获取绘画板
         CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
         CGContextFillRect(context, rect)
         //下分割线

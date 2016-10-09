@@ -39,7 +39,7 @@ extension UIImage{
         let rect = CGRect(origin: CGPointZero, size: size)
         UIGraphicsBeginImageContext(size)
         
-        let context = UIGraphicsGetCurrentContext()
+        let context = UIGraphicsGetCurrentContext()!
         CGContextSetFillColorWithColor(context, color.CGColor)
         
         CGContextFillRect(context, rect)
@@ -47,7 +47,7 @@ extension UIImage{
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        return image
+        return image!
     }
 }
 
@@ -103,6 +103,6 @@ extension UIImage{
         let waterMarkedImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        return waterMarkedImage
+        return waterMarkedImage!
     }
 }

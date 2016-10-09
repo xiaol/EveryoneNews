@@ -47,7 +47,7 @@ class KDRearrangeableCollectionViewFlowLayout: UICollectionViewFlowLayout, UIGes
     
     struct Bundle {
         var offset : CGPoint = CGPointZero
-        var sourceCell : UICollectionViewCell
+        var sourceCell : ChannelCollectionViewCell
         var representationImageView : UIView
         var currentIndexPath : NSIndexPath
     }
@@ -162,6 +162,8 @@ class KDRearrangeableCollectionViewFlowLayout: UICollectionViewFlowLayout, UIGes
                     
                     let cellInCanvasFrame = ca.convertRect(cell.frame, fromView: cv)
                     
+                    guard let cell = cell as? ChannelCollectionViewCell,let indexPath : NSIndexPath = cv.indexPathForCell(cell) else{ break }
+                    
                     if CGRectContainsPoint(cellInCanvasFrame, pointPressedInCanvas ) {
                         
                         if let begin = self.delegate.ChannelManagerBeginDraggind{
@@ -171,6 +173,9 @@ class KDRearrangeableCollectionViewFlowLayout: UICollectionViewFlowLayout, UIGes
                             begin() // 开始拖拽
                         }
                         
+                        cell.channelStateImageView.hidden = true
+                        
+                        cell.clipsToBounds = true
                         
                         UIGraphicsBeginImageContextWithOptions(cell.bounds.size, cell.opaque, 0)
                         cell.layer.renderInContext(UIGraphicsGetCurrentContext()!)
@@ -183,10 +188,8 @@ class KDRearrangeableCollectionViewFlowLayout: UICollectionViewFlowLayout, UIGes
                         
                         let offset = CGPointMake(pointPressedInCanvas.x - cellInCanvasFrame.origin.x, pointPressedInCanvas.y - cellInCanvasFrame.origin.y)
                         
-                        if let indexPath : NSIndexPath = cv.indexPathForCell(cell as UICollectionViewCell){
                         
-                            self.bundle = Bundle(offset: offset, sourceCell: cell, representationImageView:representationImage, currentIndexPath: indexPath)
-                        }
+                        self.bundle = Bundle(offset: offset, sourceCell: cell, representationImageView:representationImage, currentIndexPath: indexPath)
                         
                         break
                     }
@@ -287,10 +290,7 @@ class KDRearrangeableCollectionViewFlowLayout: UICollectionViewFlowLayout, UIGes
                 self.collectionView!.scrollRectToVisible(nextPageRect, animated: true)
                 
             }
-            
         }
-        
-      
     }
     
     func handleGesture(gesture: UILongPressGestureRecognizer) -> Void {
@@ -303,14 +303,26 @@ class KDRearrangeableCollectionViewFlowLayout: UICollectionViewFlowLayout, UIGes
         
         func endDraggingAction(bundle: Bundle) {
             
-            bundle.sourceCell.hidden = false
-            
             if let begin = self.delegate.ChannelManagerEndDraggind{
                 
                 begin() // 开始拖拽
             }
             
-            bundle.representationImageView.removeFromSuperview()
+            let frame = bundle.sourceCell.convertRect(bundle.sourceCell.bounds, toView: self.collectionView?.superview)
+            
+            UIView.animateWithDuration(0.3, animations: { 
+                
+                bundle.representationImageView.frame = frame
+                
+                }) { (_) in
+                    
+                    bundle.representationImageView.removeFromSuperview()
+                    bundle.sourceCell.clipsToBounds = false
+                    bundle.sourceCell.channelStateImageView.hidden = false
+                    bundle.sourceCell.hidden = false
+            }
+            
+            
             
             // if we have a proper data source then we can reload and have the data displayed correctly
 //            if let cv = self.collectionView where cv.delegate is KDRearrangeableCollectionViewDelegate {
@@ -386,8 +398,10 @@ class KDRearrangeableCollectionViewFlowLayout: UICollectionViewFlowLayout, UIGes
                 
                 if indexPath.isEqual(bundle.currentIndexPath) == false && indexPath.section == 0 && (indexPath.section != 0 || indexPath.item != 0 ){
                     
-                    // If we have a collection view controller that implements the delegate we call the method first
-                    delegate.moveDataItem(bundle.currentIndexPath, toIndexPath: indexPath)
+                    dispatch_async(dispatch_get_main_queue(), { 
+                        // If we have a collection view controller that implements the delegate we call the method first
+                        self.delegate.moveDataItem(bundle.currentIndexPath, toIndexPath: indexPath)
+                    })
                     
                     self.collectionView!.moveItemAtIndexPath(bundle.currentIndexPath, toIndexPath: indexPath)
                     self.bundle!.currentIndexPath = indexPath

@@ -66,7 +66,7 @@ class QiDianCell:UITableViewCell{
     override func drawRect(rect: CGRect) {
         super.drawRect(rect)
         
-        let context = UIGraphicsGetCurrentContext() // 获取绘画板
+        let context = UIGraphicsGetCurrentContext()! // 获取绘画板
         CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
         CGContextFillRect(context, rect)
         //下分割线

@@ -246,7 +246,7 @@ extension UIImage {
         let onePixel = 1 / UIScreen.mainScreen().scale
         let rect = CGRect(x: 0, y: 0, width: onePixel, height: onePixel)
         UIGraphicsBeginImageContextWithOptions(rect.size, CGColorGetAlpha(color.CGColor) == 1, 0)
-        let context = UIGraphicsGetCurrentContext()
+        let context = UIGraphicsGetCurrentContext()!
         CGContextSetFillColorWithColor(context, color.CGColor)
         CGContextFillRect(context, rect)
         let image = UIGraphicsGetImageFromCurrentImageContext()

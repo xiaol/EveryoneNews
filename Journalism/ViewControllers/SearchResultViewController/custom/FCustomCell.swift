@@ -338,7 +338,7 @@ private class BorderView:UIView{
     
     override func drawRect(rect: CGRect) {
         
-        let context = UIGraphicsGetCurrentContext() // 获取绘画板
+        let context = UIGraphicsGetCurrentContext()! // 获取绘画板
         CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
         CGContextFillRect(context, rect)
         //上分割线

@@ -338,7 +338,7 @@ class CustomTopView: UIView {
     
     override func drawRect(rect: CGRect) {
         
-        let context = UIGraphicsGetCurrentContext() // 获取绘画板
+        let context = UIGraphicsGetCurrentContext()! // 获取绘画板
         CGContextSetFillColorWithColor(context, UIColor.a_color9.CGColor)
         CGContextFillRect(context, rect)
         //下分割线

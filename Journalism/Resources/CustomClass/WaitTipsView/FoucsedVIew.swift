@@ -167,7 +167,7 @@ class BottomBorderView:UIView{
         
         super.drawRect(rect)
         
-        let context = UIGraphicsGetCurrentContext() // 获取绘画机制
+        let context = UIGraphicsGetCurrentContext()! // 获取绘画机制
         CGContextSetFillColorWithColor(context, UIColor.a_color9.CGColor)
         CGContextFillRect(context, rect)
         

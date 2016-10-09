@@ -19,7 +19,7 @@ class CopyLabel: UILabel {
     
     override func canPerformAction(action: Selector, withSender sender: AnyObject?) -> Bool {
         
-        return action == #selector(NSObject.copy(_:))
+        return action == #selector(CopyLabel.copy(_:))
     }
 
     override func copy(sender: AnyObject?) {

@@ -144,13 +144,18 @@ extension UserLoginSdkApiManager{
         ShareLUser.s_avatar = avatar
         ShareLUser.s_gender = genders == 0 ? 3 : (genders == 2 ? 0 : 1)
 
-        ShareLUser.getSdkUserToken { (user) in
+        ShareLUser.getSdkUserToken({ (token) in
+            
             UserLoginSdkApiManager.shareWXApiManager().delegate?.didReceiveRequestUserSuccessResponse?(UserRegister(utype: 3))
+            }) { 
+                
+                UserLoginSdkApiManager.shareWXApiManager().delegate?.didReceiveRequestUserFailResponse?()
         }
     }
     
     ///  获取新浪微博的用户信息
-    private func getSinaUserInfo(access_token:String,uid:String,sexpires:String){
+    func getSinaUserInfo(access_token:String,uid:String,sexpires:String){
+        
         let param:[String : AnyObject] = ["access_token":access_token,"uid":uid]
         Alamofire.request(.GET, "https://api.weibo.com/2/users/show.json", parameters: param).responseJSON { (respense) -> Void in
             if respense.result.isFailure {
@@ -173,9 +178,13 @@ extension UserLoginSdkApiManager{
             ShareLUser.s_avatar = avatar
             ShareLUser.s_gender = genders == "m" ? 1 :(genders == "f" ? 0 : 3)
             
-            ShareLUser.getSdkUserToken { (user) in
+            ShareLUser.getSdkUserToken({ (token) in
+                
                 self.delegate?.didReceiveRequestUserSuccessResponse?(UserRegister(utype: 3))
-            }
+                }, fail: { 
+                    
+                    self.delegate?.didReceiveRequestUserFailResponse?()
+            })
         }
     }
 }

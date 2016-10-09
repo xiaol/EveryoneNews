@@ -122,11 +122,13 @@ class ShareLUser:NSObject{
     
     
     // 获得用户的Token
-    class func getSdkUserToken(finish:((token:String)->Void)?=nil,fail:(()->Void)?=nil){
+    class func getSdkUserToken(finish:((token:String)->Void)?,fail:(()->Void)?=nil){
         
-        guard let t = token else{
+        guard let t = token where t == "" else{
 
             return ShareLUserRequest.getUserTokenByRequest({ (token) in
+                
+                print("??? 什么去北方减压办法啊  大风！！！")
                 
                 finish?(token: token)
                 
@@ -182,6 +184,8 @@ class ShareLUserRequest: NSObject {
         let requestBuder = UserAPI.auSinGPostWithRequestBuilder(userRegisterInfo: VisitorsRegister(utype: 2, platform: 1))
         
         requestBuder.execute { (response, error) in
+            
+            print(response?.body)
             
             guard let token =  response?.header["Authorization"],let data = response?.body.objectForKey("data"),uid = data.objectForKey("uid") as? Int,utype = data.objectForKey("utype") as? Int,password = data.objectForKey("password") as? String else{
                 fail?()

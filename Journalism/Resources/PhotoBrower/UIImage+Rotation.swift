@@ -52,17 +52,17 @@ extension UIImage {
         // Now we draw the underlying CGImage into a new context, applying the transform
         // calculated above.
         let ctx = CGBitmapContextCreate(nil, Int(self.size.width), Int(self.size.height),
-            CGImageGetBitsPerComponent(self.CGImage), 0,
-            CGImageGetColorSpace(self.CGImage),
-            CGImageGetBitmapInfo(self.CGImage).rawValue)
+            CGImageGetBitsPerComponent(self.CGImage!), 0,
+            CGImageGetColorSpace(self.CGImage!)!,
+            CGImageGetBitmapInfo(self.CGImage!).rawValue)!
         CGContextConcatCTM(ctx, transform)
         
         switch self.imageOrientation {
         case .Left, .LeftMirrored, .Right, .RightMirrored:
-            CGContextDrawImage(ctx, CGRect(x: 0, y: 0, width: size.height, height: size.width), self.CGImage)
+            CGContextDrawImage(ctx, CGRect(x: 0, y: 0, width: size.height, height: size.width), self.CGImage!)
             
         default:
-            CGContextDrawImage(ctx, CGRect(x: 0, y: 0, width: size.width, height: size.height), self.CGImage)
+            CGContextDrawImage(ctx, CGRect(x: 0, y: 0, width: size.width, height: size.height), self.CGImage!)
         }
         
         // And now we just create a new UIImage from the drawing context

@@ -239,7 +239,7 @@ extension String {
         
         PINRemoteImageManager.sharedImageManager().downloadImageWithURL(url, options: .DownloadOptionsNone, progressDownload: { (min, max) in
 
-            if url.absoluteString.hasSuffix(".gif") {
+            if url.absoluteString!.hasSuffix(".gif") {
                 
                 let process = Int(CGFloat(min)/CGFloat(max)*100)
                 progress((process-5 < 0 ? 0 : process-5))

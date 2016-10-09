@@ -14,7 +14,7 @@ extension NSURL{
     
     func proPic(q:Int = 60) -> NSURL?{
         
-        var urlStr = NSString(string: self.absoluteString+"@1e_1c_0o_0l_100sh_225h_300w_\(q)q.jpeg")
+        var urlStr = NSString(string: self.absoluteString!+"@1e_1c_0o_0l_100sh_225h_300w_\(q)q.jpeg")
         
         if urlStr.containsString("bdp-pic.deeporiginalx.com/") {
             
@@ -164,7 +164,7 @@ class NewBaseTableViewCell: UITableViewCell {
     
     override func drawRect(rect: CGRect) {
         
-        let context = UIGraphicsGetCurrentContext() // 获取绘画板
+        let context = UIGraphicsGetCurrentContext()! // 获取绘画板
         CGContextSetFillColorWithColor(context, UIColor.whiteColor().CGColor)
         CGContextFillRect(context, rect)
         //下分割线

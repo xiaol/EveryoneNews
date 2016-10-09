@@ -17,7 +17,6 @@ extension HomeViewController{
         super.viewDidLoad()
         
         self.reloadMoreButtonView()
-        self.InitChannelViewMethod()
         self.ReloadChannelHttpRequest()
         self.initialPagerTabStripMethod()
         
@@ -33,7 +32,6 @@ extension HomeViewController{
          */
         NSNotificationCenter.defaultCenter().addObserverForName(FONTMODALSTYLEIDENTIFITER, object: nil, queue: NSOperationQueue.mainQueue()) { (_) in
             
-            self.ChannelManagerContainerCollectionView.reloadData()
             self.buttonBarView.reloadData()
         }
     }
@@ -57,15 +55,8 @@ extension HomeViewController{
     override func willTransitionToTraitCollection(newCollection: UITraitCollection, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
         
         coordinator.animateAlongsideTransition({ (_) in // 横评的时候，处理频道管理显示视图的大小问题
-            
-            if self.ChannelManagerTitleView.alpha == 1 {
-            
-                self.HandleChannelManagerStatus()
-            }
-            
+
             self.reloadMoreButtonView()
-            
-            self.ChannelManagerContainerCollectionView.reloadData()
             
             }, completion: nil)
     }
@@ -93,13 +84,9 @@ extension HomeViewController{
         buttonBarView.selectedBar.backgroundColor = UIColor(red: 53/255, green:166/255, blue: 251/255, alpha: 0.2) // 设置选中的barview 的背景颜色
         settings.style.buttonBarItemBackgroundColor = UIColor.clearColor() // 设置ButtonItem 背景颜色
         
-        self.ChannelManagerContainerCollectionView.scrollsToTop = false
-        
         changeCurrentIndexProgressive = { (oldCell: ButtonBarViewCell?, newCell: ButtonBarViewCell?, progressPercentage: CGFloat, changeCurrentIndex: Bool, animated: Bool) -> Void in // 设置滑动时改编字体
             
             guard changeCurrentIndex == true else { return }
-            self.ReloadVisCellsSelectedMethod(self.currentIndex) // 刷新这个频道管理的额标题颜色
-            self.ChannelDataSource.ChannelCurrentIndex = self.currentIndex
             
             oldCell?.label.textColor = UIColor.blackColor().colorWithAlphaComponent(0.8)
             newCell?.label.textColor = UIColor.a_color2
@@ -115,7 +102,6 @@ extension HomeViewController{
         
         ChannelUtil.RefreshChannleObjects({
             self.ReloadViewControllers()
-            self.ChannelManagerContainerCollectionView.reloadData()
             }, fail: nil)
     }
 
