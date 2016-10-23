@@ -22,6 +22,8 @@
 
 @implementation CardTool
 
+
+#pragma mark - feed流(不包含广告）
 + (void)cardsWithParam:(CardParam *)param
                channelID:(NSString *)channelID
                success:(CardsFetchedSuccessHandler)success
@@ -31,6 +33,12 @@
     paramDict[@"cid"] = channelID;
     paramDict[@"tcr"] = param.startTime;
     paramDict[@"tmk"] = @"0";
+    // 1 显示专题 0 不显示专题
+     if ([channelID isEqualToString:@"1"]) {
+          paramDict[@"t"] = @"1";
+     } else {
+          paramDict[@"t"] = @"0";
+     }
     
     // 如果Authorization为空，则请求完Authorization后再请求数据
     if (!authorization) {
@@ -56,8 +64,10 @@
                 [userDefaults synchronize];
                 if ([channelID isEqualToString:@"1"]) {
                     paramDict[@"uid"] = ![userDefaults objectForKey:@"uid"] ? @(0):[userDefaults objectForKey:@"uid"];
+                 
                     [self qiDianCardsWithUserParam:param paramDict:paramDict authorization:authorization success:success failure:failure];
                 } else {
+                 
                     [self cardsWithUserParam:param paramDict:paramDict authorization:authorization success:success failure:failure];
                 }
                
@@ -67,16 +77,18 @@
         }];
     } else {
         if ([channelID isEqualToString:@"1"]) {
+         
             paramDict[@"uid"] = ![userDefaults objectForKey:@"uid"] ? @(0):[userDefaults objectForKey:@"uid"];
             [self qiDianCardsWithUserParam:param paramDict:paramDict authorization:authorization success:success failure:failure];
         } else {
+            
             [self cardsWithUserParam:param paramDict:paramDict authorization:authorization success:success failure:failure];
         }
     }
    }
 
 
-//#pragma mark - feed流新接口  包含广告位
+#pragma mark - feed流新接口  包含广告位
 //+ (void)cardsWithParam:(CardParam *)param
 //             channelID:(NSString *)channelID
 //               success:(CardsFetchedSuccessHandler)success
@@ -209,11 +221,8 @@
              authorization:(NSString *)authorization
                    success:(CardsFetchedSuccessHandler)success
                    failure:(CardsFetchedFailureHandler)failure {
-    
     if (param.type == HomeCardsFetchTypeNew) { // 下拉刷新, 直接发送网络请求, 成功后存入数据库
-        
         NSString *url = [NSString stringWithFormat:@"%@/v2/ns/fed/rn", ServerUrlVersion2];
-        
         [LPHttpTool getJsonAuthorizationWithURL:url authorization:authorization params:paramDict success:^(id json) {
             // 有数据
             if ([json[@"code"] integerValue] == 2000) {

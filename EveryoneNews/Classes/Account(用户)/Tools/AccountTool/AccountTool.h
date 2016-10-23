@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Account.h"
-#import "UMSocialSnsPlatformManager.h"
+//#import "UMSocialSnsPlatformManager.h"
 
 // 保存用户信息path
 #define kAccountSavePath [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0] stringByAppendingPathComponent:@"account.data"]

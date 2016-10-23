@@ -47,6 +47,15 @@ PODS:
   - SDWebImage (3.8.1):
     - SDWebImage/Core (= 3.8.1)
   - SDWebImage/Core (3.8.1)
+  - UMengUShare/Core (6.0.1):
+    - UMengUShare/Network
+  - UMengUShare/Network (6.0.1)
+  - UMengUShare/Social/QQ (6.0.1):
+    - UMengUShare/Core
+  - UMengUShare/Social/Sina (6.0.1):
+    - UMengUShare/Core
+  - UMengUShare/Social/WeChat (6.0.1):
+    - UMengUShare/Core
 
 DEPENDENCIES:
   - AFNetworking (~> 3.0)
@@ -59,6 +68,9 @@ DEPENDENCIES:
   - pop (~> 1.0)
   - Reachability (~> 3.2)
   - SDWebImage (~> 3.7)
+  - UMengUShare/Social/QQ
+  - UMengUShare/Social/Sina
+  - UMengUShare/Social/WeChat
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
@@ -74,7 +86,8 @@ SPEC CHECKSUMS:
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   SDWebImage: 35f9627a3e44b4f292a8a8ce6a531fa488239b91
+  UMengUShare: 418c2eaf7d8ba939916111d622bf5ea86c86285a
 
-PODFILE CHECKSUM: 0fa47ed76616503037d11cd1d70548fae0a0c798
+PODFILE CHECKSUM: 7e46a17b72feca0d42517ef3d5706a3bda3da3a0
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.1.1

@@ -11,15 +11,12 @@
 #import "LPRetrievePasswordViewController.h"
 #import "MBProgressHUD+MJ.h"
 #import "LPHttpTool.h"
-#import "UMSocialDataService.h"
-#import "UMSocialControllerService.h"
-#import "UMSocialAccountManager.h"
-#import "UMSocialSnsPlatformManager.h"
 #import "LPLoginTool.h"
 #import "Account.h"
 #import "AccountTool.h"
 #import "MJExtension.h"
 #import "LPValidateTool.h"
+#import <UMSocialCore/UMSocialCore.h>
 
 const static CGFloat padding = 32;
 @interface LPLoginViewController ()<UITextFieldDelegate>
@@ -381,29 +378,28 @@ const static CGFloat padding = 32;
 #pragma mark - 第三方登录
 // 微信
 - (void)weixinButtonDidClick {
-    [self loginWithPlatformName:UMShareToWechatSession];
+    
+    NSLog(@"ss");
+   // [self loginWithPlatformName:UMSocialPlatformType_WechatSession];
 }
 
 - (void)weixinLabelRecognizer {
-     [self loginWithPlatformName:UMShareToWechatSession];
+     [self loginWithPlatformName:UMSocialPlatformType_WechatSession];
 }
 // 微博
 - (void)weiboButtonDidClick {
-   [self loginWithPlatformName:UMShareToSina];
+   [self loginWithPlatformName:UMSocialPlatformType_Sina];
 }
 
 - (void)weiboLabelRecognizer {
-   [self loginWithPlatformName:UMShareToSina];
+   [self loginWithPlatformName:UMSocialPlatformType_Sina];
 }
 
 // 登录微信微博平台
-- (void)loginWithPlatformName:(NSString *)type {
-    
-    UMSocialSnsPlatform *platform = [UMSocialSnsPlatformManager getSocialPlatformWithName:type];
-    UMSocialControllerService *service = [UMSocialControllerService defaultControllerService];
-    platform.loginClickHandler(self, service , YES ,^(UMSocialResponseEntity *response) {
-        if (response.responseCode == UMSResponseCodeSuccess) {
-            UMSocialAccountEntity *accountEntity = [[UMSocialAccountManager socialAccountDictionary] valueForKey:type];
+- (void)loginWithPlatformName:(UMSocialPlatformType)type {
+    [[UMSocialManager defaultManager] getUserInfoWithPlatform:type currentViewController:self completion:^(id result, NSError *error) {
+        if (error == nil) {
+            UMSocialUserInfoResponse *accountEntity = result;
             // 保存友盟信息到本地
             [LPLoginTool saveAccountWithAccountEntity:accountEntity];
             NSMutableDictionary *params = [LPLoginTool registeredUserParamsWithAccountEntity:accountEntity];
@@ -418,11 +414,36 @@ const static CGFloat padding = 32;
             }  failure:^(NSError *error) {
                 [MBProgressHUD showError:@"登录失败"];
             }];
-            
-        } else {
+        }  else {
             [MBProgressHUD showError:@"登录失败"];
         }
-    });
+    }];
+    
+    
+//    UMSocialSnsPlatform *platform = [UMSocialSnsPlatformManager getSocialPlatformWithName:type];
+//    UMSocialControllerService *service = [UMSocialControllerService defaultControllerService];
+//    platform.loginClickHandler(self, service , YES ,^(UMSocialResponseEntity *response) {
+//        if (response.responseCode == UMSResponseCodeSuccess) {
+//            UMSocialAccountEntity *accountEntity = [[UMSocialAccountManager socialAccountDictionary] valueForKey:type];
+//            // 保存友盟信息到本地
+//            [LPLoginTool saveAccountWithAccountEntity:accountEntity];
+//            NSMutableDictionary *params = [LPLoginTool registeredUserParamsWithAccountEntity:accountEntity];
+//            // 第三方注册
+//            NSString *url = @"http://bdp.deeporiginalx.com/v2/au/sin/s";
+//            [LPHttpTool postJSONResponseAuthorizationWithURL:url params:params success:^(id json, NSString *authorization) {
+//                
+//                [LPLoginTool saveRegisteredUserInfoAndSendConcernNotification:json authorization:authorization];
+//                if ([json[@"code"] integerValue] == 2000) {
+//                    [self dismissViewControllerAnimated:YES completion:nil];
+//                }
+//            }  failure:^(NSError *error) {
+//                [MBProgressHUD showError:@"登录失败"];
+//            }];
+//            
+//        } else {
+//            [MBProgressHUD showError:@"登录失败"];
+//        }
+//    });
 }
 
 

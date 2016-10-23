@@ -16,7 +16,7 @@
 #import "AFNetworking.h"
 #import "MBProgressHUD+MJ.h"
 #import "CoreDataHelper.h"
-#import "UMSocial.h"
+#import <UMSocialCore/UMSocialCore.h>
 #import "UMSocialQQHandler.h"
 #import "UMSocialWechatHandler.h"
 #import "UMSocialSinaHandler.h"
@@ -86,7 +86,7 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     }
     
     if ([userDefaults objectForKey:LPIsVersionFirstLoad] && [userDefaults objectForKey:@"uIconDisplay"]) {
-        [LPLoginTool loginVerify];
+//        [LPLoginTool loginVerify];
     }
     // 崩溃日志
     [Fabric with:@[[Crashlytics class]]];
@@ -203,17 +203,20 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
 
 #pragma mark - 友盟相关设置
 - (void)setupUMengInfo:(NSDictionary *)launchOptions {
-    //  UMeng login & share
-    [UMSocialData setAppKey:@"558b2ec267e58e64a00009db"];
     
-    //设置手机QQ 的AppId，Appkey，和分享URL，需要#import "UMSocialQQHandler.h"
-    [UMSocialQQHandler setQQWithAppId:@"987333155" appKey:@"558b2ec267e58e64a00009db" url:@"http://www.umeng.com/social"];
+    [[UMSocialManager defaultManager] openLog:YES];
     
-    //设置微信AppId、appSecret，分享url
-    [UMSocialWechatHandler setWXAppId:@"wxdc962221a58b59a5" appSecret:@"f60087313b3d5c42115d6bd0c89abfb6" url:@"http://www.umeng.com/social"];
+    [[UMSocialManager defaultManager] setUmSocialAppkey:@"558b2ec267e58e64a00009db"];
+   // 微信
+   [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_WechatSession appKey:@"wxdc962221a58b59a5" appSecret:@"f60087313b3d5c42115d6bd0c89abfb6" redirectURL:@"http://mobile.umeng.com/social"];
     
-    // 打开新浪微博的SSO开关，设置新浪微博回调地址，这里必须要和你在新浪微博后台设置的回调地址一致。若在新浪后台设置我们的回调地址，“http://sns.////whalecloud.com/sina2/callback”，这里可以传nil ,需要 #import "UMSocialSinaHandler.h"
-    [UMSocialSinaHandler openSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
+   
+    // QQ
+    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_QQ appKey:@"1105700381" appSecret:nil redirectURL:@"http://mobile.umeng.com/social"];
+    
+   // 新浪
+    [[UMSocialManager defaultManager] setPlaform:UMSocialPlatformType_Sina  appKey:@"104745354" appSecret:@"e0c793deeb71942132d76b985e3b45c4" redirectURL:@"http://sns.whalecloud.com/sina2/callback"];
+    
     
     NSString *versionKey = (__bridge NSString *) kCFBundleVersionKey;
     //    NSString *lastVersion = [userDefaults objectForKey:versionKey];
@@ -249,6 +252,13 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     }];
 }
 
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    BOOL result = [[UMSocialManager defaultManager] handleOpenURL:url];
+    if (!result) {
+        // 其他如支付等SDK的回调
+    }
+    return result;
+}
 #pragma mark - 设置启动动画
 - (void)setupLaunchAnimation {
     CGSize viewSize = self.window.bounds.size;
@@ -344,10 +354,6 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     
 }
 
-//- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandlern {
-
-//}
-
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     
     //关闭友盟对话框
@@ -409,24 +415,6 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     [[SDWebImageManager sharedManager] cancelAll];
     [[SDWebImageManager sharedManager].imageCache clearMemory];
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
-}
-
-/**sharesdk 登录和分享 需要*/
-- (BOOL)application:(UIApplication *)application
-      handleOpenURL:(NSURL *)url
-{
-//    return [ShareSDK handleOpenURL:url
-//                        wxDelegate:nil];
-    return [UMSocialSnsService handleOpenURL:url];
-}
-/**sharesdk 登录和分享 需要*/
-- (BOOL)application:(UIApplication *)application
-            openURL:(NSURL *)url
-  sourceApplication:(NSString *)sourceApplication
-         annotation:(id)annotation
-{
-
-    return [UMSocialSnsService handleOpenURL:url];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {

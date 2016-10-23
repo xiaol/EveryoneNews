@@ -401,7 +401,7 @@ const static CGFloat changeFontSizeViewH = 150;
     detailContentParams[@"nid"] = [self nid];
     detailContentParams[@"uid"] = uid;
     
-  //  NSLog(@"%@?nid=%@&&uid=%@",detailContentURL, [self nid], uid);
+    NSLog(@"%@?nid=%@&&uid=%@",detailContentURL, [self nid], uid);
 //
     // 精选评论
     NSString *excellentDetailCommentsURL = [NSString stringWithFormat:@"%@/v2/ns/coms/h", ServerUrlVersion2];

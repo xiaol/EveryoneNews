@@ -150,24 +150,34 @@
     CGFloat statusBarHeight = 20.0f;
     CGFloat menuViewHeight = 44.0;
     
-    CGFloat unloginBtnX = 15.0;
-    CGFloat unloginBtnW = 16.0;
-    CGFloat unloginBtnH = 16.0;
-    if (iPhone6Plus) {
-        unloginBtnX = 15.7f;
-        unloginBtnW = 17.3f;
-        unloginBtnH = 18.6f;
-    } else if (iPhone5) {
-        unloginBtnX = 15.0f;
-        unloginBtnW = 16.0f;
-        unloginBtnH = 16.0f;
-    } else if (iPhone6) {
-        menuViewHeight = 52;
-        unloginBtnW = 18.0f;
-        unloginBtnH = 18.0f;
-        unloginBtnX = 17.0f;
+    CGFloat unloginBtnX = 12.0;
+    CGFloat unloginBtnW = 24.0;
+    CGFloat unloginBtnH = 24.0;
+    if (iPhone6) {
+         menuViewHeight = 52;
+         unloginBtnW = 26.0;
+         unloginBtnH = 26.0;
     }
     
+    
+//    CGFloat unloginBtnX = 15.0;
+//    CGFloat unloginBtnW = 16.0;
+//    CGFloat unloginBtnH = 16.0;
+//    if (iPhone6Plus) {
+//        unloginBtnX = 15.7f;
+//        unloginBtnW = 17.3f;
+//        unloginBtnH = 18.6f;
+//    } else if (iPhone5) {
+//        unloginBtnX = 15.0f;
+//        unloginBtnW = 16.0f;
+//        unloginBtnH = 16.0f;
+//    } else if (iPhone6) {
+//        menuViewHeight = 52;
+//        unloginBtnW = 18.0f;
+//        unloginBtnH = 18.0f;
+//        unloginBtnX = 17.0f;
+//    }
+//    
     
     CGFloat unloginBtnY = (menuViewHeight - unloginBtnH) / 2 + statusBarHeight;
     

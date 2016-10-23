@@ -424,6 +424,10 @@
             newsType = @"推送";
             newsTypeColor = LPColor2;
             break;
+        case 4:
+            newsType = @"专题";
+            newsTypeColor = LPColor2;
+            break;
         default:
             break;
     }

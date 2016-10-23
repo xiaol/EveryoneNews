@@ -13,5 +13,13 @@ target 'EveryoneNews' do
     pod 'MBProgressHUD', '~> 1.0.0'
     pod 'DTCoreText'
     pod 'DTRichTextEditor'
+    # 集成新浪微博
+    pod 'UMengUShare/Social/Sina'
+    
+    # 集成微信
+    pod 'UMengUShare/Social/WeChat'
+    
+    # 集成QQ
+    pod 'UMengUShare/Social/QQ'
 end
 

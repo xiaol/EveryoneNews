@@ -11,11 +11,12 @@
 #import "Account.h"
 #import "NSDate+Extension.h"
 #import "LPHttpTool.h"
-#import "UMSocialAccountManager.h"
+#import <UMSocialCore/UMSocialCore.h>
 #import "MJExtension.h"
 #import "MBProgressHUD.h"
 #import "MJExtension.h"
 #import "MBProgressHUD+MJ.h"
+#import <UMSocialCore/UMSocialCore.h>
 
 @implementation LPLoginTool
 
@@ -119,17 +120,17 @@
 }
 
 // 将友盟返回的信息保存在本地
-+ (void)saveAccountWithAccountEntity:(UMSocialAccountEntity *)accountEntity {
++ (void)saveAccountWithAccountEntity:(UMSocialUserInfoResponse *)accountEntity {
     
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    dict[@"userId"] = accountEntity.usid;
+    dict[@"userId"] = accountEntity.uid;
     dict[@"userGender"] = @(0);
-    dict[@"userName"] = accountEntity.userName;
-    dict[@"userIcon"] = accountEntity.iconURL;
-    dict[@"platformType"] = accountEntity.platformName;
+    dict[@"userName"] = accountEntity.name;
+    dict[@"userIcon"] = accountEntity.iconurl;
+    dict[@"platformType"] = @(accountEntity.platformType);
     dict[@"deviceType"] = @"ios";
     dict[@"token"] = accountEntity.accessToken;
-    dict[@"expiresTime"] = @([NSDate dateToMilliSeconds:accountEntity.expirationDate]);
+    dict[@"expiresTime"] = @([NSDate dateToMilliSeconds:accountEntity.expiration]);
     
     // 保存用户信息到本地
     Account *account = [Account objectWithKeyValues:dict];
@@ -138,16 +139,16 @@
 }
 
 // 将友盟返回的信息保存在本地并返回本地存储对象
-+ (Account *)returnAccountAndSaveAccountWithAccountEntity:(UMSocialAccountEntity *)accountEntity {
++ (Account *)returnAccountAndSaveAccountWithAccountEntity:(UMSocialUserInfoResponse *)accountEntity {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    dict[@"userId"] = accountEntity.usid;
+    dict[@"userId"] = accountEntity.uid;
     dict[@"userGender"] = @(0);
-    dict[@"userName"] = accountEntity.userName;
-    dict[@"userIcon"] = accountEntity.iconURL;
-    dict[@"platformType"] = accountEntity.platformName;
+    dict[@"userName"] = accountEntity.name;
+    dict[@"userIcon"] = accountEntity.iconurl;
+    dict[@"platformType"] = @(accountEntity.platformType);
     dict[@"deviceType"] = @"ios";
     dict[@"token"] = accountEntity.accessToken;
-    dict[@"expiresTime"] = @([NSDate dateToMilliSeconds:accountEntity.expirationDate]);
+    dict[@"expiresTime"] = @([NSDate dateToMilliSeconds:accountEntity.expiration]);
     
     // 保存用户信息到本地
     Account *account = [Account objectWithKeyValues:dict];
@@ -156,19 +157,19 @@
 }
 
 // 根据友盟用户实体返回本地注册用户参数
-+ (NSMutableDictionary *)registeredUserParamsWithAccountEntity:(UMSocialAccountEntity *)accountEntity {
++ (NSMutableDictionary *)registeredUserParamsWithAccountEntity:(UMSocialUserInfoResponse *)accountEntity {
     NSMutableDictionary *paramsUser = [NSMutableDictionary dictionary];
     paramsUser[@"muid"] = [userDefaults objectForKey:@"uid"];
-    paramsUser[@"msuid"] = accountEntity.usid;
+    paramsUser[@"msuid"] = accountEntity.uid;
     
     // 3 微博  4 微信 (wxsession    sina)
-    if([accountEntity.platformName isEqualToString:@"wxsession"]) {
+    if(accountEntity.platformType == UMSocialPlatformType_WechatSession) {
         paramsUser[@"utype"] = @(4);
-    } else if ([accountEntity.platformName isEqualToString:@"sina"]) {
+    } else if (accountEntity.platformType == UMSocialPlatformType_Sina) {
         paramsUser[@"utype"] = @(3);
     }
     paramsUser[@"platform"] = @(1);
-    paramsUser[@"suid"] =[NSString stringWithFormat:@"%@", accountEntity.usid ] ;
+    paramsUser[@"suid"] =[NSString stringWithFormat:@"%@", accountEntity.uid ] ;
     paramsUser[@"stoken"] = accountEntity.accessToken;
     
     //用于格式化NSDate对象
@@ -176,11 +177,11 @@
     //设置格式：zzz表示时区
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     //NSDate转NSString
-    NSString *currentDateString = [dateFormatter stringFromDate:accountEntity.expirationDate];
+    NSString *currentDateString = [dateFormatter stringFromDate:accountEntity.expiration];
     paramsUser[@"sexpires"] = currentDateString;
-    paramsUser[@"uname"] = accountEntity.userName;
+    paramsUser[@"uname"] = accountEntity.name;
     paramsUser[@"gender"] = @(0);
-    paramsUser[@"avatar"] =  accountEntity.iconURL;
+    paramsUser[@"avatar"] =  accountEntity.iconurl;
     paramsUser[@"province"] = @"";
     paramsUser[@"city"] = @"";
     paramsUser[@"district"] = @"";

@@ -32,14 +32,13 @@
 #import "LPLoginViewController.h"
 #import "UIImageView+WebCache.h"
 #import "MBProgressHUD+MJ.h"
-#import "UMSocialAccountManager.h"
 #import "MainNavigationController.h"
 #import "WXApi.h"
 #import "MBProgressHUD.h"
 #import "MJExtension.h"
 #import "LPHttpTool.h"
 #import "NSDate+Extension.h"
-#import "UMSocialDataService.h"
+#import <UMSocialCore/UMSocialCore.h>
 #import "AFNetworking.h"
 #import "LPLoginTool.h"
 #import "LPRegisterViewController.h"
@@ -80,23 +79,16 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
     [self.view addSubview:headerView];
     
     // 首页登录按钮
-    CGFloat unloginBtnX = 15.0;
-    CGFloat unloginBtnW = 16.0;
-    CGFloat unloginBtnH = 16.0;
-    if (iPhone6Plus) {
-        unloginBtnX = 15.7f;
-        unloginBtnW = 17.3f;
-        unloginBtnH = 18.6f;
-    } else if (iPhone5) {
-        unloginBtnX = 15.0f;
-        unloginBtnW = 16.0f;
-        unloginBtnH = 16.0f;
-    } else if (iPhone6) {
+    CGFloat unloginBtnX = 12.0;
+    CGFloat unloginBtnW = 24.0;
+    CGFloat unloginBtnH = 24.0;
+    if (iPhone6) {
         menuViewHeight = 52;
-        unloginBtnW = 18.0f;
-        unloginBtnH = 18.0f;
-        unloginBtnX = 17.0f;
+        unloginBtnW = 26.0;
+        unloginBtnH = 26.0;
+
     }
+    
     CGFloat unloginBtnY = (menuViewHeight - unloginBtnH) / 2 + statusBarHeight;
     if (iPhone6) {
         unloginBtnY = unloginBtnY - 0.5;
@@ -262,13 +254,13 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
 // 微信登录
 - (void)didWeixinLoginWithLoginView:(LPLaunchLoginView *)loginView {
     
-    [self loginWithPlatformName:UMShareToWechatSession];
+    [self loginWithPlatformName:UMSocialPlatformType_WechatSession];
     
 }
 
 // 新浪登录
 - (void)didSinaLoginWithLoginView:(LPLaunchLoginView *)loginView {
-    [self loginWithPlatformName:UMShareToSina];
+  [self loginWithPlatformName:UMSocialPlatformType_Sina];
 }
 
 // 忘记密码
@@ -325,39 +317,67 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
 
 
 #pragma mark - 登录微信微博平台
-- (void)loginWithPlatformName:(NSString *)type {
-    
-    UMSocialSnsPlatform *platform = [UMSocialSnsPlatformManager getSocialPlatformWithName:type];
-    UMSocialControllerService *service = [UMSocialControllerService defaultControllerService];
-    platform.loginClickHandler(self, service , YES ,^(UMSocialResponseEntity *response) {
+
+// 登录微信微博平台
+- (void)loginWithPlatformName:(UMSocialPlatformType)type {
+    [[UMSocialManager defaultManager] getUserInfoWithPlatform:type currentViewController:self completion:^(id result, NSError *error) {
         
-        if (response.responseCode == UMSResponseCodeSuccess) {
-            
-            UMSocialAccountEntity *accountEntity = [[UMSocialAccountManager socialAccountDictionary] valueForKey:type];
-            // 保存友盟信息到本地
+        if (error == nil) {
+            UMSocialUserInfoResponse *accountEntity = result;
             [LPLoginTool saveAccountWithAccountEntity:accountEntity];
-            
             // 隐藏登录视图
             self.loginView.hidden = YES;
             self.homeBlackBlurView.hidden = NO;
-            
+
             [self setupSubscriberData];
-            
+
             // 动态添加首订，完成后移除
             LPSubscribeView *subscribeView = [[LPSubscribeView alloc] initWithFrame:self.view.bounds];
             subscribeView.subscriberFrames = self.subscriberFrameArray;
             [self.view addSubview:subscribeView];
-            
-            
+
+
             //将用户授权信息上传到服务器
             NSMutableDictionary *paramsUser = [LPLoginTool registeredUserParamsWithAccountEntity:accountEntity];
             [LPLoginTool registeredUserPostToServerAndGetConcernList:paramsUser];
-            
         } else {
             [MBProgressHUD showError:@"登录失败"];
         }
-    });
+    }];
 }
+//- (void)loginWithPlatformName:(NSString *)type {
+    
+//    UMSocialSnsPlatform *platform = [UMSocialSnsPlatformManager getSocialPlatformWithName:type];
+//    UMSocialControllerService *service = [UMSocialControllerService defaultControllerService];
+//    platform.loginClickHandler(self, service , YES ,^(UMSocialResponseEntity *response) {
+//        
+//        if (response.responseCode == UMSResponseCodeSuccess) {
+//            
+//            UMSocialAccountEntity *accountEntity = [[UMSocialAccountManager socialAccountDictionary] valueForKey:type];
+//            // 保存友盟信息到本地
+//            [LPLoginTool saveAccountWithAccountEntity:accountEntity];
+//            
+//            // 隐藏登录视图
+//            self.loginView.hidden = YES;
+//            self.homeBlackBlurView.hidden = NO;
+//            
+//            [self setupSubscriberData];
+//            
+//            // 动态添加首订，完成后移除
+//            LPSubscribeView *subscribeView = [[LPSubscribeView alloc] initWithFrame:self.view.bounds];
+//            subscribeView.subscriberFrames = self.subscriberFrameArray;
+//            [self.view addSubview:subscribeView];
+//            
+//            
+//            //将用户授权信息上传到服务器
+//            NSMutableDictionary *paramsUser = [LPLoginTool registeredUserParamsWithAccountEntity:accountEntity];
+//            [LPLoginTool registeredUserPostToServerAndGetConcernList:paramsUser];
+//            
+//        } else {
+//            [MBProgressHUD showError:@"登录失败"];
+//        }
+//    });
+//}
 
 - (void)setupSubscriberData {
     LPSubscriber *subscriber1 = [[LPSubscriber alloc] initWithTitle:@"36氪" imageURL:@"36氪"];

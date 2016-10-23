@@ -14,10 +14,10 @@
 #import "UIImage+LP.h"
 #import "AppDelegate.h"
 #import "NSDate+Extension.h"
-#import "UMSocialAccountManager.h"
-#import "UMSocialDataService.h"
+//#import "UMSocialAccountManager.h"
+//#import "UMSocialDataService.h"
 #import "MainNavigationController.h"
-#import "UMSocialSnsPlatformManager.h"
+//#import "UMSocialSnsPlatformManager.h"
 #import "WXApi.h"
 #import "MainNavigationController.h"
 #import "LPLoginTool.h"
@@ -28,7 +28,7 @@
 #import "LPValidateTool.h"
 
 const static CGFloat padding = 32;
-@interface LPDetailLoginViewController : LPBaseViewController <UMSocialUIDelegate, UITextFieldDelegate>
+@interface LPDetailLoginViewController : LPBaseViewController <  UITextFieldDelegate>
 
 @property (nonatomic, copy) LoginSuccessHandler successBlock;
 @property (nonatomic, copy) LoginFailureHandler failureBlock;
@@ -383,63 +383,63 @@ const static CGFloat padding = 32;
 #pragma mark - 第三方登录
 // 微信
 - (void)weixinButtonDidClick {
-    [self loginWithPlatformName:UMShareToWechatSession];
+   // [self loginWithPlatformName:UMShareToWechatSession];
 }
 
 - (void)weixinLabelRecognizer {
-    [self loginWithPlatformName:UMShareToWechatSession];
+   // [self loginWithPlatformName:UMShareToWechatSession];
 }
 // 微博
 - (void)weiboButtonDidClick {
-    [self loginWithPlatformName:UMShareToSina];
+   // [self loginWithPlatformName:UMShareToSina];
 }
 
 - (void)weiboLabelRecognizer {
-    [self loginWithPlatformName:UMShareToSina];
+   // [self loginWithPlatformName:UMShareToSina];
 }
 
 #pragma mark - 登录微信微博平台
 - (void)loginWithPlatformName:(NSString *)type {
-    
-    UMSocialSnsPlatform *platform = [UMSocialSnsPlatformManager getSocialPlatformWithName:type];
-    __weak typeof(self) wself = self;
-    UMSocialControllerService *service = [UMSocialControllerService defaultControllerService];
-    service.socialUIDelegate = self;
-    platform.loginClickHandler(self, service , YES ,^(UMSocialResponseEntity *response) {
-        
-        if (response.responseCode == UMSResponseCodeSuccess) {
-            
-            UMSocialAccountEntity *accountEntity = [[UMSocialAccountManager socialAccountDictionary] valueForKey:type];
-            // 保存友盟信息到本地
-            Account *account = [LPLoginTool returnAccountAndSaveAccountWithAccountEntity:accountEntity];
-            NSMutableDictionary *paramsUser = [LPLoginTool registeredUserParamsWithAccountEntity:accountEntity];
-            
-            // 第三方注册
-            NSString *url = [NSString stringWithFormat:@"%@/v2/au/sin/s", ServerUrlVersion2];
-            
-            [LPHttpTool postJSONResponseAuthorizationWithURL:url params:paramsUser success:^(id json, NSString *authorization) {
-                
-                [LPLoginTool saveRegisteredUserInfoAndSendConcernNotification:json authorization:authorization];
-                
-                if ([json[@"code"] integerValue] == 2000) {
-                    if (wself.successBlock) {
-                        wself.successBlock(account);
-                    }
-                    [wself closeSelf];
-                }
-            } failure:^(NSError *error) {
-                if (wself.failureBlock) {
-                    wself.failureBlock();
-                }
-                [wself closeSelf];
-            }];
-        } else {
-            if (wself.failureBlock) {
-                wself.failureBlock();
-            }
-            [wself closeSelf];
-        }
-    });
+//    
+//    UMSocialSnsPlatform *platform = [UMSocialSnsPlatformManager getSocialPlatformWithName:type];
+//    __weak typeof(self) wself = self;
+//    UMSocialControllerService *service = [UMSocialControllerService defaultControllerService];
+//    service.socialUIDelegate = self;
+//    platform.loginClickHandler(self, service , YES ,^(UMSocialResponseEntity *response) {
+//        
+//        if (response.responseCode == UMSResponseCodeSuccess) {
+//            
+//            UMSocialAccountEntity *accountEntity = [[UMSocialAccountManager socialAccountDictionary] valueForKey:type];
+//            // 保存友盟信息到本地
+//            Account *account = [LPLoginTool returnAccountAndSaveAccountWithAccountEntity:accountEntity];
+//            NSMutableDictionary *paramsUser = [LPLoginTool registeredUserParamsWithAccountEntity:accountEntity];
+//            
+//            // 第三方注册
+//            NSString *url = [NSString stringWithFormat:@"%@/v2/au/sin/s", ServerUrlVersion2];
+//            
+//            [LPHttpTool postJSONResponseAuthorizationWithURL:url params:paramsUser success:^(id json, NSString *authorization) {
+//                
+//                [LPLoginTool saveRegisteredUserInfoAndSendConcernNotification:json authorization:authorization];
+//                
+//                if ([json[@"code"] integerValue] == 2000) {
+//                    if (wself.successBlock) {
+//                        wself.successBlock(account);
+//                    }
+//                    [wself closeSelf];
+//                }
+//            } failure:^(NSError *error) {
+//                if (wself.failureBlock) {
+//                    wself.failureBlock();
+//                }
+//                [wself closeSelf];
+//            }];
+//        } else {
+//            if (wself.failureBlock) {
+//                wself.failureBlock();
+//            }
+//            [wself closeSelf];
+//        }
+//    });
 }
 
 
