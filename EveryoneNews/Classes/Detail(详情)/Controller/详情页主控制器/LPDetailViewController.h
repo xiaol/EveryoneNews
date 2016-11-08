@@ -12,28 +12,25 @@
 #import "LPHttpTool.h"
 #import "MJExtension.h"
 #import "MJRefresh.h"
-//#import "LPDiggerFooter.h"
 #import "LPDetailTopView.h"
 #import "LPDetailBottomView.h"
 #import "LPCommentFrame.h"
 #import "LPBottomShareView.h"
 #import "LPBaseViewController.h"
 
-@class LPPress;
-@class LPConcernPress;
-@class LPConcern;
 @class LPSearchCardFrame;
 @class LPConcernCardFrame;
 @class LPMyCommentFrame;
 @class LPMyCollectionCardFrame;
+@class LPSpecailTopicCardFrame;
 
 // 取消收藏
 
 @interface LPDetailViewController : LPBaseViewController
 
-@property (nonatomic, strong) LPPress *press;
-@property (nonatomic, strong) LPConcernPress *concernPress;
-@property (nonatomic, strong) LPConcern *concern;
+//@property (nonatomic, strong) LPPress *press;
+//@property (nonatomic, strong) LPConcernPress *concernPress;
+//@property (nonatomic, strong) LPConcern *concern;
 
 // 存储全文评论内容
 @property (nonatomic,strong) NSArray *fullTextComments;
@@ -74,6 +71,7 @@
 @property (nonatomic, strong) LPConcernCardFrame *concernCardFrame;
 @property (nonatomic, strong) LPMyCommentFrame *myCommentFrame;
 @property (nonatomic, strong) LPMyCollectionCardFrame *myCollectionCardFrame;
+@property (nonatomic, strong) LPSpecailTopicCardFrame *specialTopicCardFrame;
 
 @property (nonatomic, copy) NSString *remotePushNid;
 

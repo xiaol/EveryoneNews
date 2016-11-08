@@ -15,50 +15,59 @@
 
 @interface LPHomeViewCell ()
 // 无图
-@property (nonatomic, strong) UILabel *noImageLabel;
-
+@property (nonatomic, strong) UILabel *noImageTitleLabel;
+@property (nonatomic, strong) UIImageView *noImageSourceImageView;
 @property (nonatomic, strong) UILabel *noImageSourceLabel;
-@property (nonatomic, strong) UILabel *noImageCommentLabel;
-@property (nonatomic, strong) UIView *noImageSeperatorLine;
 @property (nonatomic, strong) UIButton *noImageDeleteButton;
 @property (nonatomic, strong) UIButton *noImageTipButton;
 @property (nonatomic, strong) UILabel *noImageNewsTypeLabel;
-@property (nonatomic, strong) CAShapeLayer *noImageNewsTypeShapeLayer;
+@property (nonatomic, strong) UIView *noImageSeperatorLine;
+@property (nonatomic, strong) UILabel *noImageCommentsCountLabel;
 
 // 单图
-@property (nonatomic, strong) UILabel *titleLabel;
-@property (nonatomic, strong) UIImageView *iconView;
-@property (nonatomic, strong) UILabel *singleSourceLabel;
-@property (nonatomic, strong) UILabel *singleCommentLabel;
-@property (nonatomic, strong) UIView *singleSeperatorLine;
-@property (nonatomic, strong) UIButton *singleDeleteButton;
-@property (nonatomic, strong) UIButton *singleTipButton;
-@property (nonatomic, strong) UILabel *singleNewsTypeLabel;
-@property (nonatomic, strong) CAShapeLayer *singleNewsTypeShapeLayer;
+@property (nonatomic, strong) UILabel *singleImageTitleLabel;
+@property (nonatomic, strong) UIImageView *singleImageSourceImageView;
+@property (nonatomic, strong) UILabel *singleImageSourceLabel;
+@property (nonatomic, strong) UIImageView *singleImageIcon;
+@property (nonatomic, strong) UIView *singleImageSeperatorLine;
+@property (nonatomic, strong) UIButton *singleImageDeleteButton;
+@property (nonatomic, strong) UIButton *singleImageTipButton;
+@property (nonatomic, strong) UILabel *singleImageNewsTypeLabel;
+@property (nonatomic, strong) UILabel *singleImageCommentsCountLabel;
 
 // 单图大图
-@property (nonatomic, strong) UILabel *bigImageTitleLabel;
-@property (nonatomic, strong) UIImageView *bigImageIconView;
+@property (nonatomic, strong) UILabel *singleBigImageTitleLabel;
+@property (nonatomic, strong) UIImageView *singleBigImageIcon;
+@property (nonatomic, strong) UIImageView *singleBigImageSourceImageView;
 @property (nonatomic, strong) UILabel *singleBigImageSourceLabel;
-@property (nonatomic, strong) UILabel *singleBigImageCommentLabel;
 @property (nonatomic, strong) UIView *singleBigImageSeperatorLine;
 @property (nonatomic, strong) UIButton *singleBigImageDeleteButton;
 @property (nonatomic, strong) UIButton *singleBigImageTipButton;
 @property (nonatomic, strong) UILabel *singleBigImageNewsTypeLabel;
-@property (nonatomic, strong) CAShapeLayer *singleBigImageNewsTypeShapeLayer;
+@property (nonatomic, strong) UILabel *singleBigImageCommentsCountLabel;
 
 // 三图
-@property (nonatomic, strong) UILabel *multipleImageLabel;
-@property (nonatomic, strong) UILabel *mutipleCommentLabel;
-@property (nonatomic, strong) UIImageView *firstMutipleImageView;
-@property (nonatomic, strong) UIImageView *secondMutipleImageView;
-@property (nonatomic, strong) UIImageView *thirdMutipleImageView;
-@property (nonatomic, strong) UILabel *multipleSourceLabel;
-@property (nonatomic, strong) UIView *mutipleSeperatorLine;
-@property (nonatomic, strong) UIButton *mutipleDeleteButton;
-@property (nonatomic, strong) UIButton *mutipleTipButton;
+@property (nonatomic, strong) UILabel *multipleImageTitleLabel;
+@property (nonatomic, strong) UIImageView *firstMultipleImageView;
+@property (nonatomic, strong) UIImageView *secondMultipleImageView;
+@property (nonatomic, strong) UIImageView *thirdMultipleImageView;
+@property (nonatomic, strong) UIImageView *multipleImageSourceImageView;
+@property (nonatomic, strong) UILabel *multipleImageSourceLabel;
+@property (nonatomic, strong) UIView *multipleImageSeperatorLine;
+@property (nonatomic, strong) UIButton *multipleImageDeleteButton;
+@property (nonatomic, strong) UIButton *multipleImageTipButton;
 @property (nonatomic, strong) UILabel *multipleImageNewsTypeLabel;
-@property (nonatomic, strong) CAShapeLayer *multipleImageNewsTypeShapeLayer;
+@property (nonatomic, strong) UILabel *multipleImageCommentsCountLabel;
+
+// 专题
+@property (nonatomic, strong) UIView *specailTopicOutsideView;
+@property (nonatomic, strong) UIView *specialTopicInsideView;
+@property (nonatomic, strong) UIImageView *specialTopicLogo;
+@property (nonatomic, strong) UILabel *specialTopicTitleLabel;
+@property (nonatomic, strong) UIButton *specialTopicTipButton;
+@property (nonatomic, strong) UIButton *specialTopicDeleteButton;
+@property (nonatomic, strong) UIImageView *specialTopicImageView;
+@property (nonatomic, strong) UILabel *specialTopicCommentsCountLabel;
 
 @end
 
@@ -66,79 +75,82 @@
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    self.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
-    CGFloat sourceFontSize = 9;
-    if (iPhone6Plus) {
-        sourceFontSize = 10;
-    } else if(iPhone6) {
-       sourceFontSize = 9;
-    }
+    self.backgroundColor = [UIColor whiteColor];
+    
+    // 来源字体大小
+    CGFloat sourceFontSize = 13;
+    // 来源字体颜色
+    NSString *sourceColor = @"#837c78";
     
     NSString *tipString = @"刚刚看到这里，点击刷新";
-    CGFloat tipFontSize = LPFont5;
-    CGFloat newsTypeCornerRadius = 2;
-    NSString *newTypeBoundsColor = LPColor13;
+    NSString *tipColor = LPColor15;
+    NSString *seperatorColor = LPColor16;
+    NSString *commentsColor = LPColor22;
     
+    CGFloat newsTypeCornerRadius = 7.0f;
+    
+    CGFloat tipFontSize = LPFont5;
+    CGFloat newsTypeFontSize = LPFont6;
+    CGFloat commentsFontSize = LPFont11;
     CGFloat interval = 5.0f;
     CGFloat tipLabelTitleWidth = [tipString sizeWithFont:[UIFont systemFontOfSize:tipFontSize] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].width;
     CGFloat tipImageViewWidth = 12.0f;
     
     if(self) {
-        // 无图
-        UILabel *noImageLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        noImageLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
-        noImageLabel.numberOfLines = 0;
-        [self.contentView addSubview:noImageLabel];
-        self.noImageLabel = noImageLabel;
         
+        // --------------- 无图 ---------------
+        UILabel *noImageTitleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        noImageTitleLabel.numberOfLines = 0;
+        [self.contentView addSubview:noImageTitleLabel];
+        self.noImageTitleLabel = noImageTitleLabel;
+        
+        // 来源图标
+        UIImageView *noImageSourceImageView = [[UIImageView alloc] init];
+        [self.contentView addSubview:noImageSourceImageView];
+        self.noImageSourceImageView = noImageSourceImageView;
+        
+        // 新闻来源
         UILabel *noImageSourceLabel = [[UILabel alloc] init];
         noImageSourceLabel.font = [UIFont systemFontOfSize:sourceFontSize];
-        noImageSourceLabel.textColor = [UIColor colorFromHexString:@"#999999"];
+        noImageSourceLabel.textColor = [UIColor colorFromHexString:sourceColor];
         [self.contentView addSubview:noImageSourceLabel];
         self.noImageSourceLabel = noImageSourceLabel;
         
-        
-        UILabel *noImageNewsTypeLabel = [[UILabel alloc] init];
-        noImageNewsTypeLabel.font = [UIFont systemFontOfSize:sourceFontSize];
-        noImageNewsTypeLabel.textColor = [UIColor colorFromHexString:newTypeBoundsColor];
+        // 新闻类型
+        UILabel *noImageNewsTypeLabel =  [[UILabel alloc] init];
+        noImageNewsTypeLabel.textColor = [UIColor whiteColor];
+        noImageNewsTypeLabel.font = [UIFont systemFontOfSize:newsTypeFontSize];
         noImageNewsTypeLabel.textAlignment = NSTextAlignmentCenter;
-        
-        
-        CAShapeLayer *noImageNewsTypeShapeLayer = [CAShapeLayer layer];
-        noImageNewsTypeShapeLayer.cornerRadius = newsTypeCornerRadius;
-        noImageNewsTypeShapeLayer.borderColor = [UIColor colorFromHexString:newTypeBoundsColor].CGColor;
-        noImageNewsTypeShapeLayer.borderWidth = 0.5f;
-        [noImageNewsTypeLabel.layer addSublayer:noImageNewsTypeShapeLayer];
-        self.noImageNewsTypeShapeLayer = noImageNewsTypeShapeLayer;
-        
+        noImageNewsTypeLabel.layer.cornerRadius = newsTypeCornerRadius;
+        noImageNewsTypeLabel.layer.masksToBounds = YES;
         [self.contentView addSubview:noImageNewsTypeLabel];
         self.noImageNewsTypeLabel = noImageNewsTypeLabel;
         
-        UILabel *noImageCommentLabel = [[UILabel alloc] init];
-        noImageCommentLabel.font = [UIFont systemFontOfSize:sourceFontSize];
-        noImageCommentLabel.textColor = [UIColor colorFromHexString:@"#999999"];
-        noImageCommentLabel.textAlignment = NSTextAlignmentRight;
-        [self.contentView addSubview:noImageCommentLabel];
-        self.noImageCommentLabel = noImageCommentLabel;
-        
+        UILabel *noImageCommentsCountLabel = [[UILabel alloc] init];
+        noImageCommentsCountLabel.textColor = [UIColor colorFromHexString:commentsColor];
+        noImageCommentsCountLabel.font = [UIFont systemFontOfSize:commentsFontSize];
+        [self.contentView addSubview:noImageCommentsCountLabel];
+        self.noImageCommentsCountLabel = noImageCommentsCountLabel;
+        // 删除按钮
         UIButton *noImageDeleteButton = [[UIButton alloc] init];
         noImageDeleteButton.userInteractionEnabled = YES;
         noImageDeleteButton.enlargedEdge = 10;
-  
         [noImageDeleteButton addTarget:self action:@selector(didClickDeleteButton:) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:noImageDeleteButton];
         self.noImageDeleteButton = noImageDeleteButton;
         
+        // 分割线
         UIView *noImageSeperatorLine = [[UIView alloc] init];
-        noImageSeperatorLine.backgroundColor = [UIColor colorFromHexString:@"e4e4e4"];
+        noImageSeperatorLine.backgroundColor = [UIColor colorFromHexString:seperatorColor];
         [self.contentView addSubview:noImageSeperatorLine];
         self.noImageSeperatorLine = noImageSeperatorLine;
         
+        // 上次位置提示
         UIButton *noImageTipButton = [[UIButton alloc] init];
         noImageTipButton.userInteractionEnabled = YES;
-        noImageTipButton.backgroundColor = [UIColor colorFromHexString:@"#e4e4e4"];
+        noImageTipButton.backgroundColor = [UIColor colorFromHexString:seperatorColor];
         [noImageTipButton setTitle:tipString forState:UIControlStateNormal];
-        [noImageTipButton setTitleColor:[UIColor colorFromHexString:@"0091fa"] forState:UIControlStateNormal];
+        [noImageTipButton setTitleColor:[UIColor colorFromHexString:tipColor] forState:UIControlStateNormal];
         noImageTipButton.titleLabel.font = [UIFont systemFontOfSize:tipFontSize];
         [noImageTipButton addTarget:self action:@selector(didClickTipButton) forControlEvents:UIControlEventTouchUpInside];
         [noImageTipButton setImage:[UIImage imageNamed:@"上次位置刷新"] forState:UIControlStateNormal];
@@ -148,123 +160,89 @@
         [self.contentView addSubview:noImageTipButton];
         self.noImageTipButton = noImageTipButton;
         
-        // 单图 （小图）
-        UIImageView *iconView = [[UIImageView alloc] init];
-        iconView.contentMode = UIViewContentModeScaleAspectFill;
-        iconView.clipsToBounds = YES;
-        [self.contentView addSubview:iconView];
-        self.iconView = iconView;
+        // ---------------  单图 （小图）-------------------
+        // 来源图标
+        UIImageView *singleImageSourceImageView = [[UIImageView alloc] init];
+        [self.contentView addSubview:singleImageSourceImageView];
+        self.singleImageSourceImageView = singleImageSourceImageView;
         
-        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        titleLabel.numberOfLines = 0;
-        titleLabel.textColor =  [UIColor colorFromHexString:@"#1a1a1a"];
-        [self.contentView addSubview:titleLabel];
-        self.titleLabel = titleLabel;
+        // 新闻来源
+        UILabel *singleImageSourceLabel = [[UILabel alloc] init];
+        singleImageSourceLabel.font = [UIFont systemFontOfSize:sourceFontSize];
+        singleImageSourceLabel.textColor = [UIColor colorFromHexString:sourceColor];
+        [self.contentView addSubview:singleImageSourceLabel];
+        self.singleImageSourceLabel= singleImageSourceLabel;
         
+        UILabel *singleImageCommentsCountLabel = [[UILabel alloc] init];
+        singleImageCommentsCountLabel.textColor = [UIColor colorFromHexString:commentsColor];
+        singleImageCommentsCountLabel.font = [UIFont systemFontOfSize:commentsFontSize];
+        [self.contentView addSubview:singleImageCommentsCountLabel];
+        self.singleImageCommentsCountLabel = singleImageCommentsCountLabel;
         
-        UILabel *singleNewsTypeLabel = [[UILabel alloc] init];
-        singleNewsTypeLabel.textAlignment = NSTextAlignmentCenter;
-        singleNewsTypeLabel.font = [UIFont systemFontOfSize:sourceFontSize];
-        singleNewsTypeLabel.textColor = [UIColor colorFromHexString:newTypeBoundsColor];
+        UIButton *singleImageDeleteButton = [[UIButton alloc] init];
+        singleImageDeleteButton.userInteractionEnabled = YES;
+        singleImageDeleteButton.enlargedEdge = 10;
+        [self.contentView addSubview:singleImageDeleteButton];
+        [singleImageDeleteButton addTarget:self action:@selector(didClickDeleteButton:) forControlEvents:UIControlEventTouchUpInside];
+        self.singleImageDeleteButton = singleImageDeleteButton;
         
-        CAShapeLayer *singleNewsTypeShapeLayer = [CAShapeLayer layer];
-        singleNewsTypeShapeLayer.cornerRadius = newsTypeCornerRadius;
-        singleNewsTypeShapeLayer.borderColor = [UIColor colorFromHexString:newTypeBoundsColor].CGColor;
-        singleNewsTypeShapeLayer.borderWidth = 0.5f;
-        [singleNewsTypeLabel.layer addSublayer:singleNewsTypeShapeLayer];
-        self.singleNewsTypeShapeLayer = singleNewsTypeShapeLayer;
+        UILabel *singleImageTitleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        singleImageTitleLabel.numberOfLines = 0;
+        [self.contentView addSubview:singleImageTitleLabel];
+        self.singleImageTitleLabel = singleImageTitleLabel;
         
-        [self.contentView addSubview:singleNewsTypeLabel];
-        self.singleNewsTypeLabel = singleNewsTypeLabel;
-        
-        UILabel *singleSourceLabel = [[UILabel alloc] init];
-        singleSourceLabel.font = [UIFont systemFontOfSize:sourceFontSize];
-        singleSourceLabel.textColor = [UIColor colorFromHexString:@"999999"];
-        [self.contentView addSubview:singleSourceLabel];
-        self.singleSourceLabel= singleSourceLabel;
-        
-        
-        UILabel *singleCommentLabel = [[UILabel alloc] init];
-        singleCommentLabel.font = [UIFont systemFontOfSize:sourceFontSize];
-        singleCommentLabel.textColor = [UIColor colorFromHexString:@"999999"];
-        singleCommentLabel.textAlignment = NSTextAlignmentRight;
-        [self.contentView addSubview:singleCommentLabel];
-        self.singleCommentLabel= singleCommentLabel;
-        
-        UIView *singleSeperatorLine = [[UIView alloc] init];
-        singleSeperatorLine.backgroundColor = [UIColor colorFromHexString:@"e4e4e4"];
-        [self.contentView addSubview:singleSeperatorLine];
-        self.singleSeperatorLine = singleSeperatorLine;
-        
-        UIButton *singleDeleteButton = [[UIButton alloc] init];
-        singleDeleteButton.userInteractionEnabled = YES;
-        singleDeleteButton.enlargedEdge = 10;
-        [self.contentView addSubview:singleDeleteButton];
-        [singleDeleteButton addTarget:self action:@selector(didClickDeleteButton:) forControlEvents:UIControlEventTouchUpInside];
-        self.singleDeleteButton = singleDeleteButton;
-        
-        
-        UIButton *singleTipButton = [[UIButton alloc] init];
-        singleTipButton.userInteractionEnabled = YES;
-        singleTipButton.backgroundColor = [UIColor colorFromHexString:@"#e4e4e4"];
-        [singleTipButton setTitle:tipString forState:UIControlStateNormal];
-        [singleTipButton setTitleColor:[UIColor colorFromHexString:@"0091fa"] forState:UIControlStateNormal];
-        singleTipButton.titleLabel.font = [UIFont systemFontOfSize:tipFontSize];
-        [singleTipButton addTarget:self action:@selector(didClickTipButton) forControlEvents:UIControlEventTouchUpInside];
-        [singleTipButton setImage:[UIImage imageNamed:@"上次位置刷新"] forState:UIControlStateNormal];
-        singleTipButton.imageEdgeInsets = UIEdgeInsetsMake(0, tipLabelTitleWidth + interval, 0, -(tipLabelTitleWidth + interval));
-        singleTipButton.titleEdgeInsets = UIEdgeInsetsMake(0, -(tipImageViewWidth + interval), 0, tipImageViewWidth + interval);
-        [self.contentView addSubview:singleTipButton];
-        self.singleTipButton = singleTipButton;
 
-        // 单图 （大图）
-        UIImageView *bigImageIconView = [[UIImageView alloc] init];
-        bigImageIconView.contentMode = UIViewContentModeScaleAspectFill;
-        bigImageIconView.clipsToBounds = YES;
-        [self.contentView addSubview:bigImageIconView];
-        self.bigImageIconView = bigImageIconView;
+        // 类型
+        UILabel *singleImageNewsTypeLabel = [[UILabel alloc] init];
+        singleImageNewsTypeLabel.textColor = [UIColor whiteColor];
+        singleImageNewsTypeLabel.textAlignment = NSTextAlignmentCenter;
+        singleImageNewsTypeLabel.font = [UIFont systemFontOfSize:newsTypeFontSize];
+        singleImageNewsTypeLabel.layer.cornerRadius = newsTypeCornerRadius;
+        singleImageNewsTypeLabel.layer.masksToBounds = YES;
+        [self.contentView addSubview:singleImageNewsTypeLabel];
+        self.singleImageNewsTypeLabel = singleImageNewsTypeLabel;
         
-        UILabel *bigImageTitleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        bigImageTitleLabel.textColor =  [UIColor colorFromHexString:@"#1a1a1a"];
-        bigImageTitleLabel.numberOfLines = 0;
-        [self.contentView addSubview:bigImageTitleLabel];
-        self.bigImageTitleLabel = bigImageTitleLabel;
+        UIImageView *singleImageIcon = [[UIImageView alloc] init];
+        singleImageIcon.contentMode = UIViewContentModeScaleAspectFill;
+        singleImageIcon.clipsToBounds = YES;
+        [self.contentView addSubview:singleImageIcon];
+        self.singleImageIcon = singleImageIcon;
         
+        UIView *singleImageSeperatorLine = [[UIView alloc] init];
+        singleImageSeperatorLine.backgroundColor = [UIColor colorFromHexString:seperatorColor];
+        [self.contentView addSubview:singleImageSeperatorLine];
+        self.singleImageSeperatorLine = singleImageSeperatorLine;
+
+        UIButton *singleImageTipButton = [[UIButton alloc] init];
+        singleImageTipButton.userInteractionEnabled = YES;
+        singleImageTipButton.backgroundColor = [UIColor colorFromHexString:seperatorColor];
+        [singleImageTipButton setTitle:tipString forState:UIControlStateNormal];
+        [singleImageTipButton setTitleColor:[UIColor colorFromHexString:tipColor] forState:UIControlStateNormal];
+        singleImageTipButton.titleLabel.font = [UIFont systemFontOfSize:tipFontSize];
+        [singleImageTipButton addTarget:self action:@selector(didClickTipButton) forControlEvents:UIControlEventTouchUpInside];
+        [singleImageTipButton setImage:[UIImage imageNamed:@"上次位置刷新"] forState:UIControlStateNormal];
+        singleImageTipButton.imageEdgeInsets = UIEdgeInsetsMake(0, tipLabelTitleWidth + interval, 0, -(tipLabelTitleWidth + interval));
+        singleImageTipButton.titleEdgeInsets = UIEdgeInsetsMake(0, -(tipImageViewWidth + interval), 0, tipImageViewWidth + interval);
+        [self.contentView addSubview:singleImageTipButton];
+        self.singleImageTipButton = singleImageTipButton;
         
-        UILabel *singleBigImageNewsTypeLabel = [[UILabel alloc] init];
-        singleBigImageNewsTypeLabel.textAlignment = NSTextAlignmentCenter;
-        singleBigImageNewsTypeLabel.font = [UIFont systemFontOfSize:sourceFontSize];
-        singleBigImageNewsTypeLabel.textColor = [UIColor colorFromHexString:newTypeBoundsColor];
-        
-        CAShapeLayer *singleBigImageNewsTypeShapeLayer = [CAShapeLayer layer];
-        singleBigImageNewsTypeShapeLayer.cornerRadius = newsTypeCornerRadius;
-        singleBigImageNewsTypeShapeLayer.borderColor = [UIColor colorFromHexString:newTypeBoundsColor].CGColor;
-        singleBigImageNewsTypeShapeLayer.borderWidth = 0.5f;
-        [singleBigImageNewsTypeLabel.layer addSublayer:singleBigImageNewsTypeShapeLayer];
-        self.singleBigImageNewsTypeShapeLayer = singleBigImageNewsTypeShapeLayer;
-        
-        [self.contentView addSubview:singleBigImageNewsTypeLabel];
-        self.singleBigImageNewsTypeLabel = singleBigImageNewsTypeLabel;
-        
+        // ------------------ 单图 （大图）----------------------
+        UIImageView *singleBigImageSourceImageView = [[UIImageView alloc] init];
+        [self.contentView addSubview:singleBigImageSourceImageView];
+        self.singleBigImageSourceImageView = singleBigImageSourceImageView;
         
         UILabel *singleBigImageSourceLabel = [[UILabel alloc] init];
         singleBigImageSourceLabel.font = [UIFont systemFontOfSize:sourceFontSize];
-        singleBigImageSourceLabel.textColor = [UIColor colorFromHexString:@"999999"];
+        singleBigImageSourceLabel.textColor = [UIColor colorFromHexString:sourceColor];
         [self.contentView addSubview:singleBigImageSourceLabel];
         self.singleBigImageSourceLabel= singleBigImageSourceLabel;
         
         
-        UILabel *singleBigImageCommentLabel = [[UILabel alloc] init];
-        singleBigImageCommentLabel.font = [UIFont systemFontOfSize:sourceFontSize];
-        singleBigImageCommentLabel.textColor = [UIColor colorFromHexString:@"999999"];
-        singleBigImageCommentLabel.textAlignment = NSTextAlignmentRight;
-        [self.contentView addSubview:singleBigImageCommentLabel];
-        self.singleBigImageCommentLabel= singleBigImageCommentLabel;
-        
-        UIView *singleBigImageSeperatorLine = [[UIView alloc] init];
-        singleBigImageSeperatorLine.backgroundColor = [UIColor colorFromHexString:@"e4e4e4"];
-        [self.contentView addSubview:singleBigImageSeperatorLine];
-        self.singleBigImageSeperatorLine = singleBigImageSeperatorLine;
+        UILabel *singleBigImageCommentsCountLabel = [[UILabel alloc] init];
+        singleBigImageCommentsCountLabel.textColor = [UIColor colorFromHexString:commentsColor];
+        singleBigImageCommentsCountLabel.font = [UIFont systemFontOfSize:commentsFontSize];
+        [self.contentView addSubview:singleBigImageCommentsCountLabel];
+        self.singleBigImageCommentsCountLabel = singleBigImageCommentsCountLabel;
         
         UIButton *singleBigImageDeleteButton = [[UIButton alloc] init];
         singleBigImageDeleteButton.userInteractionEnabled = YES;
@@ -273,12 +251,28 @@
         [singleBigImageDeleteButton addTarget:self action:@selector(didClickDeleteButton:) forControlEvents:UIControlEventTouchUpInside];
         self.singleBigImageDeleteButton = singleBigImageDeleteButton;
         
+        UILabel *singleBigImageTitleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        singleBigImageTitleLabel.textColor =  [UIColor colorFromHexString:@"#1a1a1a"];
+        singleBigImageTitleLabel.numberOfLines = 0;
+        [self.contentView addSubview:singleBigImageTitleLabel];
+        self.singleBigImageTitleLabel = singleBigImageTitleLabel;
+        
+        UIImageView *singleBigImageIcon = [[UIImageView alloc] init];
+        singleBigImageIcon.contentMode = UIViewContentModeScaleAspectFill;
+        singleBigImageIcon.clipsToBounds = YES;
+        [self.contentView addSubview:singleBigImageIcon];
+        self.singleBigImageIcon = singleBigImageIcon;
+        
+        UIView *singleBigImageSeperatorLine = [[UIView alloc] init];
+        singleBigImageSeperatorLine.backgroundColor = [UIColor colorFromHexString:seperatorColor];
+        [self.contentView addSubview:singleBigImageSeperatorLine];
+        self.singleBigImageSeperatorLine = singleBigImageSeperatorLine;
         
         UIButton *singleBigImageTipButton = [[UIButton alloc] init];
         singleBigImageTipButton.userInteractionEnabled = YES;
-        singleBigImageTipButton.backgroundColor = [UIColor colorFromHexString:@"#e4e4e4"];
+        singleBigImageTipButton.backgroundColor = [UIColor colorFromHexString:seperatorColor];
         [singleBigImageTipButton setTitle:tipString forState:UIControlStateNormal];
-        [singleBigImageTipButton setTitleColor:[UIColor colorFromHexString:@"0091fa"] forState:UIControlStateNormal];
+        [singleBigImageTipButton setTitleColor:[UIColor colorFromHexString:tipColor] forState:UIControlStateNormal];
         singleBigImageTipButton.titleLabel.font = [UIFont systemFontOfSize:tipFontSize];
         [singleBigImageTipButton addTarget:self action:@selector(didClickTipButton) forControlEvents:UIControlEventTouchUpInside];
         [singleBigImageTipButton setImage:[UIImage imageNamed:@"上次位置刷新"] forState:UIControlStateNormal];
@@ -287,89 +281,145 @@
         [self.contentView addSubview:singleBigImageTipButton];
         self.singleBigImageTipButton = singleBigImageTipButton;
         
-        //  三图及其三图以上
-        UILabel *multipleImageLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        multipleImageLabel.numberOfLines = 0;
-        multipleImageLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
-        [self.contentView addSubview:multipleImageLabel];
-        self.multipleImageLabel = multipleImageLabel;
-
-        UIImageView *firstMutipleImageView = [[UIImageView alloc] init];
-        firstMutipleImageView.contentMode = UIViewContentModeScaleAspectFill;
-        firstMutipleImageView.clipsToBounds = YES;
-        [self.contentView addSubview:firstMutipleImageView];
-        self.firstMutipleImageView = firstMutipleImageView;
+        // 类型
+        UILabel *singleBigImageNewsTypeLabel = [[UILabel alloc] init];
+        singleBigImageNewsTypeLabel.textColor = [UIColor whiteColor];
+        singleBigImageNewsTypeLabel.font = [UIFont systemFontOfSize:newsTypeFontSize];
+        singleBigImageNewsTypeLabel.textAlignment = NSTextAlignmentCenter;
+        singleBigImageNewsTypeLabel.layer.cornerRadius = newsTypeCornerRadius;
+        singleBigImageNewsTypeLabel.layer.masksToBounds = YES;
+        [self.contentView addSubview:singleBigImageNewsTypeLabel];
+        self.singleBigImageNewsTypeLabel = singleBigImageNewsTypeLabel;
+    
+        //  ---------------- 三图及其三图以上 ----------------------
+        UIImageView *multipleImageSourceImageView = [[UIImageView alloc] init];
+        [self.contentView addSubview:multipleImageSourceImageView];
+        self.multipleImageSourceImageView = multipleImageSourceImageView;
         
-        UIImageView *secondMutipleImageView = [[UIImageView alloc] init];
-        secondMutipleImageView.contentMode = UIViewContentModeScaleAspectFill;
-        secondMutipleImageView.clipsToBounds = YES;
-        [self.contentView addSubview:secondMutipleImageView];
-        self.secondMutipleImageView = secondMutipleImageView;
+        UILabel *multipleImageSourceLabel = [[UILabel alloc] init];
+        multipleImageSourceLabel.font = [UIFont systemFontOfSize:sourceFontSize];
+        multipleImageSourceLabel.textColor = [UIColor colorFromHexString:sourceColor];
+        [self.contentView addSubview:multipleImageSourceLabel];
+        self.multipleImageSourceLabel = multipleImageSourceLabel;
         
-        UIImageView *thirdMutipleImageView = [[UIImageView alloc] init];
-        thirdMutipleImageView.contentMode = UIViewContentModeScaleAspectFill;
-        thirdMutipleImageView.clipsToBounds = YES;
-        [self.contentView addSubview:thirdMutipleImageView];
-        self.thirdMutipleImageView = thirdMutipleImageView;
+        UILabel *multipleImageCommentsCountLabel = [[UILabel alloc] init];
+        multipleImageCommentsCountLabel.textColor = [UIColor colorFromHexString:commentsColor];
+        multipleImageCommentsCountLabel.font = [UIFont systemFontOfSize:commentsFontSize];
+        [self.contentView addSubview:multipleImageCommentsCountLabel];
+        self.multipleImageCommentsCountLabel = multipleImageCommentsCountLabel;
         
+        UIButton *multipleImageDeleteButton = [[UIButton alloc] init];
+        multipleImageDeleteButton.userInteractionEnabled = YES;
+        multipleImageDeleteButton.enlargedEdge = 10;
+        [self.contentView addSubview:multipleImageDeleteButton];
+        [multipleImageDeleteButton addTarget:self action:@selector(didClickDeleteButton:) forControlEvents:UIControlEventTouchUpInside];
+        self.multipleImageDeleteButton = multipleImageDeleteButton;
+        
+        UILabel *multipleImageTitleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        multipleImageTitleLabel.numberOfLines = 0;
+        [self.contentView addSubview:multipleImageTitleLabel];
+        self.multipleImageTitleLabel = multipleImageTitleLabel;
+        
+        UIImageView *firstMultipleImageView = [[UIImageView alloc] init];
+        firstMultipleImageView.contentMode = UIViewContentModeScaleAspectFill;
+        firstMultipleImageView.clipsToBounds = YES;
+        [self.contentView addSubview:firstMultipleImageView];
+        self.firstMultipleImageView = firstMultipleImageView;
+        
+        UIImageView *secondMultipleImageView = [[UIImageView alloc] init];
+        secondMultipleImageView.contentMode = UIViewContentModeScaleAspectFill;
+        secondMultipleImageView.clipsToBounds = YES;
+        [self.contentView addSubview:secondMultipleImageView];
+        self.secondMultipleImageView = secondMultipleImageView;
+        
+        UIImageView *thirdMultipleImageView = [[UIImageView alloc] init];
+        thirdMultipleImageView.contentMode = UIViewContentModeScaleAspectFill;
+        thirdMultipleImageView.clipsToBounds = YES;
+        [self.contentView addSubview:thirdMultipleImageView];
+        self.thirdMultipleImageView = thirdMultipleImageView;
+        
+        UIButton *multipleImageTipButton = [[UIButton alloc] init];
+        multipleImageTipButton.userInteractionEnabled = YES;
+        multipleImageTipButton.backgroundColor = [UIColor colorFromHexString:seperatorColor];
+        [multipleImageTipButton setTitle:tipString forState:UIControlStateNormal];
+        [multipleImageTipButton setTitleColor:[UIColor colorFromHexString:tipColor] forState:UIControlStateNormal];
+        multipleImageTipButton.titleLabel.font = [UIFont systemFontOfSize:tipFontSize];
+        [multipleImageTipButton setImage:[UIImage imageNamed:@"上次位置刷新"] forState:UIControlStateNormal];
+        multipleImageTipButton.imageEdgeInsets = UIEdgeInsetsMake(0,tipLabelTitleWidth + interval, 0, -(tipLabelTitleWidth + interval));
+        multipleImageTipButton.titleEdgeInsets = UIEdgeInsetsMake(0, -(tipImageViewWidth + interval), 0, tipImageViewWidth + interval);
+        [multipleImageTipButton addTarget:self action:@selector(didClickTipButton) forControlEvents:UIControlEventTouchUpInside];
+        [self.contentView addSubview:multipleImageTipButton];
+        self.multipleImageTipButton = multipleImageTipButton;
+        
+        UIView *multipleImageSeperatorLine = [[UIView alloc] init];
+        multipleImageSeperatorLine.backgroundColor = [UIColor colorFromHexString:seperatorColor];
+        [self.contentView addSubview:multipleImageSeperatorLine];
+        self.multipleImageSeperatorLine = multipleImageSeperatorLine;
+        
+        // 类型
         UILabel *multipleImageNewsTypeLabel = [[UILabel alloc] init];
+        multipleImageNewsTypeLabel.textColor = [UIColor whiteColor];
+        multipleImageNewsTypeLabel.font = [UIFont systemFontOfSize:newsTypeFontSize];
         multipleImageNewsTypeLabel.textAlignment = NSTextAlignmentCenter;
-        multipleImageNewsTypeLabel.font = [UIFont systemFontOfSize:sourceFontSize];
-        multipleImageNewsTypeLabel.textColor = [UIColor colorFromHexString:newTypeBoundsColor];
-        
-        CAShapeLayer *multipleImageNewsTypeShapeLayer = [CAShapeLayer layer];
-        multipleImageNewsTypeShapeLayer.cornerRadius = newsTypeCornerRadius;
-        multipleImageNewsTypeShapeLayer.borderColor = [UIColor colorFromHexString:newTypeBoundsColor].CGColor;
-        multipleImageNewsTypeShapeLayer.borderWidth = 0.5f;
-        [multipleImageNewsTypeLabel.layer addSublayer:multipleImageNewsTypeShapeLayer];
-        self.multipleImageNewsTypeShapeLayer = multipleImageNewsTypeShapeLayer;
-        
+        multipleImageNewsTypeLabel.layer.cornerRadius = newsTypeCornerRadius;
+        multipleImageNewsTypeLabel.layer.masksToBounds = YES;
         [self.contentView addSubview:multipleImageNewsTypeLabel];
         self.multipleImageNewsTypeLabel = multipleImageNewsTypeLabel;
         
+        // ----------------- 专题 --------------------
+        UIView *specailTopicOutsideView = [[UIView alloc] init];
+        specailTopicOutsideView.backgroundColor = [UIColor colorFromHexString:seperatorColor];
+        [self.contentView addSubview:specailTopicOutsideView];
+        self.specailTopicOutsideView = specailTopicOutsideView;
         
-        UILabel *multipleSourceLabel = [[UILabel alloc] init];
-        multipleSourceLabel.font = [UIFont systemFontOfSize:sourceFontSize];
-        multipleSourceLabel.textColor = [UIColor colorFromHexString:@"999999"];
-        [self.contentView addSubview:multipleSourceLabel];
-        self.multipleSourceLabel = multipleSourceLabel;
+        UIView *specialTopicInsideView = [[UIView alloc] init];
+        specialTopicInsideView.layer.borderWidth = 0.5f;
+        specialTopicInsideView.layer.borderColor = [UIColor colorFromHexString:@"#d2d2d2"].CGColor;
+        specialTopicInsideView.layer.cornerRadius = 2.0f;
+        specialTopicInsideView.backgroundColor = [UIColor whiteColor];
+        [specailTopicOutsideView addSubview:specialTopicInsideView];
+        self.specialTopicInsideView = specialTopicInsideView;
         
-        UILabel *mutipleCommentLabel = [[UILabel alloc] init];
-        mutipleCommentLabel.font = [UIFont systemFontOfSize:sourceFontSize];
-        mutipleCommentLabel.textColor = [UIColor colorFromHexString:@"999999"];
-        mutipleCommentLabel.textAlignment = NSTextAlignmentRight;
-        [self.contentView addSubview:mutipleCommentLabel];
-        self.mutipleCommentLabel = mutipleCommentLabel;
+        UIImageView *specialTopicLogo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"home_zhuanti"]];
+        [specialTopicInsideView addSubview:specialTopicLogo];
+        self.specialTopicLogo = specialTopicLogo;
         
+        UILabel *specialTopicTitleLabel = [[UILabel alloc] init];
+        specialTopicTitleLabel.numberOfLines = 0;
+        [specialTopicInsideView addSubview:specialTopicTitleLabel];
+        self.specialTopicTitleLabel = specialTopicTitleLabel;
         
-        UIButton *mutipleDeleteButton = [[UIButton alloc] init];
-        mutipleDeleteButton.userInteractionEnabled = YES;
-        mutipleDeleteButton.enlargedEdge = 10;
-        [self.contentView addSubview:mutipleDeleteButton];
-        [mutipleDeleteButton addTarget:self action:@selector(didClickDeleteButton:) forControlEvents:UIControlEventTouchUpInside];
-        self.mutipleDeleteButton = mutipleDeleteButton;
+        UIButton *specialTopicTipButton = [[UIButton alloc] init];
+        specialTopicTipButton.userInteractionEnabled = YES;
+        specialTopicTipButton.backgroundColor = [UIColor colorFromHexString:seperatorColor];
+        [specialTopicTipButton setTitle:tipString forState:UIControlStateNormal];
+        [specialTopicTipButton setTitleColor:[UIColor colorFromHexString:tipColor] forState:UIControlStateNormal];
+        specialTopicTipButton.titleLabel.font = [UIFont systemFontOfSize:tipFontSize];
+        [specialTopicTipButton setImage:[UIImage imageNamed:@"上次位置刷新"] forState:UIControlStateNormal];
+        specialTopicTipButton.imageEdgeInsets = UIEdgeInsetsMake(0,tipLabelTitleWidth + interval, 0, -(tipLabelTitleWidth + interval));
+        specialTopicTipButton.titleEdgeInsets = UIEdgeInsetsMake(0, -(tipImageViewWidth + interval), 0, tipImageViewWidth + interval);
+        [specialTopicTipButton addTarget:self action:@selector(didClickTipButton) forControlEvents:UIControlEventTouchUpInside];
+        [specialTopicInsideView addSubview:specialTopicTipButton];
+        self.specialTopicTipButton = specialTopicTipButton;
+   
+        UILabel *specialTopicCommentsCountLabel = [[UILabel alloc] init];
+        specialTopicCommentsCountLabel.textColor = [UIColor colorFromHexString:commentsColor];
+        specialTopicCommentsCountLabel.font = [UIFont systemFontOfSize:commentsFontSize];
+        [specialTopicInsideView addSubview:specialTopicCommentsCountLabel];
+        self.specialTopicCommentsCountLabel = specialTopicCommentsCountLabel;
         
-        UIButton *mutipleTipButton = [[UIButton alloc] init];
-        mutipleTipButton.userInteractionEnabled = YES;
-        mutipleTipButton.backgroundColor = [UIColor colorFromHexString:@"#e4e4e4"];
-        [mutipleTipButton setTitle:tipString forState:UIControlStateNormal];
-        [mutipleTipButton setTitleColor:[UIColor colorFromHexString:@"0091fa"] forState:UIControlStateNormal];
-        mutipleTipButton.titleLabel.font = [UIFont systemFontOfSize:tipFontSize];
-        [mutipleTipButton setImage:[UIImage imageNamed:@"上次位置刷新"] forState:UIControlStateNormal];
-        mutipleTipButton.imageEdgeInsets = UIEdgeInsetsMake(0,tipLabelTitleWidth + interval, 0, -(tipLabelTitleWidth + interval));
-        mutipleTipButton.titleEdgeInsets = UIEdgeInsetsMake(0, -(tipImageViewWidth + interval), 0, tipImageViewWidth + interval);
-
-        [mutipleTipButton addTarget:self action:@selector(didClickTipButton) forControlEvents:UIControlEventTouchUpInside];
-
-        [self.contentView addSubview:mutipleTipButton];
-        self.mutipleTipButton = mutipleTipButton;
+        UIButton *specialTopicDeleteButton = [[UIButton alloc] init];
+        specialTopicDeleteButton.userInteractionEnabled = YES;
+        specialTopicDeleteButton.enlargedEdge = 10;
+        [specialTopicInsideView addSubview:specialTopicDeleteButton];
+        [specialTopicDeleteButton addTarget:self action:@selector(didClickDeleteButton:) forControlEvents:UIControlEventTouchUpInside];
+        self.specialTopicDeleteButton = specialTopicDeleteButton;
+ 
+        UIImageView *specialTopicImageView = [[UIImageView alloc] init];
+        [specialTopicInsideView addSubview:specialTopicImageView];
+        self.specialTopicImageView = specialTopicImageView;
         
-        
-        UIView *mutipleSeperatorLine = [[UIView alloc] init];
-        mutipleSeperatorLine.backgroundColor = [UIColor colorFromHexString:@"e4e4e4"];
-        [self.contentView addSubview:mutipleSeperatorLine];
-        self.mutipleSeperatorLine = mutipleSeperatorLine;
-        
+      
     }
     return self;
 }
@@ -380,393 +430,570 @@
     Card *card = cardFrame.card;
     CGFloat lineSpacing = 2.0;
     NSString *sourceSiteName = [card.sourceSiteName  isEqualToString: @""] ? @"未知来源": card.sourceSiteName;
-    NSDate *currentDate = [NSDate date];
-    NSDate *updateTime = [NSDate dateWithTimeIntervalSince1970:card.updateTime.longLongValue / 1000.0];
-    NSString *publishTime = nil;
-    int interval = (int)[currentDate timeIntervalSinceDate: updateTime] / 60;
-    if (interval > 0 && interval < 60) {
-        publishTime = [NSString stringWithFormat:@"%d分钟前",interval];
-    } else if (interval == 0) {
-        publishTime = @"3秒前";
+    NSString *title = card.title;
+    NSInteger rtype = [card.rtype intValue];
+    CGFloat titleFontSize =  self.cardFrame.homeViewFontSize;
+    NSString *fontSizeType = self.cardFrame.fontSizeType;
+    CGFloat newsTypeFontSize = 12;
+    // standard  superlarger  larger
+    if ([fontSizeType isEqualToString:@"standard"]) {
+        newsTypeFontSize = 12;
+    } else if ([fontSizeType isEqualToString:@"larger"]) {
+        newsTypeFontSize = 14;
     } else {
-        publishTime = @" ";
-    }
-
-    NSString *commentsCount = [NSString stringWithFormat:@"%@评", card.commentsCount != nil ? card.commentsCount: @"0"];
-    BOOL commentLabelHidden = [commentsCount isEqualToString:@"0评"] ? YES :NO;
-    NSString *source = [NSString stringWithFormat:@"%@    %@",sourceSiteName, publishTime];
-    
-    NSAttributedString *attributeTitle =  [card.title truncatingTailAttributedStringWithFont:[UIFont systemFontOfSize:self.cardFrame.homeViewFontSize] lineSpacing:lineSpacing];
-    
-    
-    if (card.isRead) {
-        self.noImageLabel.textColor = [UIColor grayColor];
-        self.titleLabel.textColor = [UIColor grayColor];
-        self.bigImageTitleLabel.textColor = [UIColor grayColor];
-        self.multipleImageLabel.textColor = [UIColor grayColor];
-    } else {
-        self.noImageLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
-        self.titleLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
-        self.bigImageTitleLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
-        self.multipleImageLabel.textColor = [UIColor colorFromHexString:@"#1a1a1a"];
+        newsTypeFontSize = 16;
     }
     
+    self.noImageNewsTypeLabel.font = [UIFont systemFontOfSize:newsTypeFontSize];
+    self.singleImageNewsTypeLabel.font = [UIFont systemFontOfSize:newsTypeFontSize];
+    self.singleBigImageNewsTypeLabel.font = [UIFont systemFontOfSize:newsTypeFontSize];
+    self.multipleImageNewsTypeLabel.font = [UIFont systemFontOfSize:newsTypeFontSize];
     
+    // 评论数量
+    NSInteger commentsCount = [card.commentsCount intValue];
+    NSString *commentsStr = @"";
     
     NSString *newsType = @"";
-    NSString *newsTypeColor = LPColor2;
+    NSString *newsTypeColor = LPColor17;
     switch ([card.rtype integerValue]) {
-        case 1:
+        case hotNewsType:
             newsType = @"热点";
-            newsTypeColor = LPColor13;
+            newsTypeColor = LPColor17;
             break;
-        case 2:
+        case pushNewsType:
             newsType = @"推送";
-            newsTypeColor = LPColor2;
+            newsTypeColor = LPColor18;
             break;
-        case 4:
-            newsType = @"专题";
-            newsTypeColor = LPColor2;
+        case adNewsType:
+            newsType = @"广告";
+            newsTypeColor = LPColor19;
             break;
         default:
             break;
     }
-    CGFloat newsTypeLayerPadding = 1.0f;
-    CGFloat newsTypeLayerFixPadding = 0.2f;
-
-    if([card.type integerValue] == imageStyleZero) {
-        
-        self.noImageLabel.hidden = NO;
-        self.noImageSourceLabel.hidden = NO;
-        self.noImageSeperatorLine.hidden = NO;
-        self.noImageCommentLabel.hidden = NO;
-        self.noImageDeleteButton.hidden = NO;
-        self.noImageNewsTypeLabel.hidden = NO;
     
-        self.titleLabel.hidden = YES;
-        self.iconView.hidden = YES;
-        self.singleSourceLabel.hidden = YES;
-        self.singleSeperatorLine.hidden = YES;
-        self.singleCommentLabel.hidden = YES;
-        self.singleDeleteButton.hidden = YES;
-        self.singleTipButton.hidden = YES;
-        self.singleNewsTypeLabel.hidden = YES;
+    switch (rtype) {
+        case hotNewsType:case pushNewsType:case adNewsType:
+            title = [NSString stringWithFormat:@"%@%@",newsType, title];
+            break;
+        default:
+            break;
+    }
+    
+    
+    if (commentsCount > 0) {
+        commentsStr = [NSString stringWithFormat:@"%d评",commentsCount];
+    }
+    NSAttributedString *attributeTitle =  nil;
+  
+    
+    switch (rtype) {
+        case hotNewsType:case pushNewsType:case adNewsType:
+            attributeTitle =   [title truncatingTailAttributedStringWithFont:titleFontSize lineSpacing:lineSpacing rtype:YES];
+            break;
+        default:
+            attributeTitle =   [title truncatingTailAttributedStringWithFont:titleFontSize lineSpacing:lineSpacing rtype:NO];
+            break;
+    }
+    NSString *titleLabelColor = LPColor1;
+
+    if (card.isRead) {
+        self.noImageTitleLabel.textColor = [UIColor grayColor];
+        self.singleImageTitleLabel.textColor = [UIColor grayColor];
+        self.singleBigImageTitleLabel.textColor = [UIColor grayColor];
+        self.multipleImageTitleLabel.textColor = [UIColor grayColor];
+        self.specialTopicTitleLabel.textColor = [UIColor grayColor];
+    } else {
+        self.noImageTitleLabel.textColor = [UIColor colorFromHexString:titleLabelColor];
+        self.singleImageTitleLabel.textColor = [UIColor colorFromHexString:titleLabelColor];
+        self.singleBigImageTitleLabel.textColor = [UIColor colorFromHexString:titleLabelColor];
+        self.multipleImageTitleLabel.textColor = [UIColor colorFromHexString:titleLabelColor];
+        self.specialTopicTitleLabel.textColor = [UIColor colorFromHexString:titleLabelColor];
+    }
+
+
+    // 专题
+    if ([card.rtype integerValue] == 4) {
+        self.noImageTitleLabel.hidden = YES;
+        self.noImageSourceImageView.hidden = YES;
+        self.noImageSourceLabel.hidden = YES;
+        self.noImageDeleteButton.hidden = YES;
+        self.noImageTipButton.hidden = YES;
+        self.noImageNewsTypeLabel.hidden = YES;
+        self.noImageSeperatorLine.hidden = YES;
+        self.noImageCommentsCountLabel.hidden = YES;
         
-        self.bigImageTitleLabel.hidden = YES;
-        self.bigImageIconView.hidden = YES;
+        // 单图
+        self.singleImageTitleLabel.hidden = YES;
+        self.singleImageSourceImageView.hidden = YES;
+        self.singleImageSourceLabel.hidden = YES;
+        self.singleImageIcon.hidden = YES;
+        self.singleImageSeperatorLine.hidden = YES;
+        self.singleImageDeleteButton.hidden = YES;
+        self.singleImageTipButton.hidden = YES;
+        self.singleImageNewsTypeLabel.hidden = YES;
+        self.singleImageCommentsCountLabel.hidden = YES;
+        
+        // 单图大图
+        self.singleBigImageTitleLabel.hidden = YES;
+        self.singleBigImageIcon.hidden = YES;
+        self.singleBigImageSourceImageView.hidden = YES;
         self.singleBigImageSourceLabel.hidden = YES;
         self.singleBigImageSeperatorLine.hidden = YES;
-        self.singleBigImageCommentLabel.hidden = YES;
         self.singleBigImageDeleteButton.hidden = YES;
         self.singleBigImageTipButton.hidden = YES;
         self.singleBigImageNewsTypeLabel.hidden = YES;
-      
-        self.multipleImageLabel.hidden = YES;
-        self.firstMutipleImageView.hidden = YES;
-        self.secondMutipleImageView.hidden = YES;
-        self.thirdMutipleImageView.hidden = YES;
-        self.multipleSourceLabel.hidden = YES;
-        self.mutipleSeperatorLine.hidden = YES;
-        self.mutipleDeleteButton.hidden = YES;
-        self.mutipleCommentLabel.hidden = YES;
-        self.mutipleTipButton.hidden = YES;
+        self.singleBigImageCommentsCountLabel.hidden = YES;
+        
+        // 三图
+        self.multipleImageTitleLabel.hidden = YES;
+        self.firstMultipleImageView.hidden = YES;
+        self.secondMultipleImageView.hidden = YES;
+        self.thirdMultipleImageView.hidden = YES;
+        self.multipleImageSourceImageView.hidden = YES;
+        self.multipleImageSourceLabel.hidden = YES;
+        self.multipleImageSeperatorLine.hidden = YES;
+        self.multipleImageDeleteButton.hidden = YES;
+        self.multipleImageTipButton.hidden = YES;
         self.multipleImageNewsTypeLabel.hidden = YES;
+        self.multipleImageCommentsCountLabel.hidden = YES;
         
-        self.noImageLabel.frame = self.cardFrame.noImageLabelFrame;
+        // 专题
+        self.specialTopicTitleLabel.hidden = NO;
+        self.specialTopicInsideView.hidden = NO;
+        self.specialTopicLogo.hidden = NO;
+        self.specialTopicImageView.hidden = NO;
+        self.specialTopicTipButton.hidden = NO;
+        self.specailTopicOutsideView.hidden = NO;
+        self.specialTopicDeleteButton.hidden = NO;
+        self.specialTopicCommentsCountLabel.hidden = NO;
         
-        self.noImageLabel.attributedText = attributeTitle;
+        self.specialTopicTitleLabel.attributedText = attributeTitle;
+        self.specialTopicTitleLabel.frame = self.cardFrame.specialTopicTitleLabelFrame;
         
-        self.noImageNewsTypeLabel.frame = self.cardFrame.noImageNewsTypeLabelFrame;
-        self.noImageNewsTypeLabel.text = newsType;
-        self.noImageNewsTypeLabel.textColor = [UIColor colorFromHexString:newsTypeColor];
-        
-        CGFloat newsTypeShapeLayerH = self.noImageNewsTypeLabel.bounds.size.height  - newsTypeLayerPadding;
-        CGFloat newsTypeShapeLayerY = newsTypeLayerPadding / 2 + newsTypeLayerFixPadding;
-        CGFloat newsTypeShapeLayerW = self.noImageNewsTypeLabel.bounds.size.width;
-        self.noImageNewsTypeShapeLayer.frame = CGRectMake(0, newsTypeShapeLayerY, newsTypeShapeLayerW, newsTypeShapeLayerH);
-        self.noImageNewsTypeShapeLayer.borderColor = [UIColor colorFromHexString:newsTypeColor].CGColor;
-    
-        self.noImageSourceLabel.frame = self.cardFrame.noImageSourceLabelFrame;
-        self.noImageSourceLabel.text = source;
-        
-        self.noImageSeperatorLine.frame = self.cardFrame.noImageSeperatorLineFrame;
-        
-        [self.noImageDeleteButton setBackgroundImage:[UIImage imageNamed:@"不感兴趣叉号"] forState:UIControlStateNormal];
-        self.noImageDeleteButton.frame = self.cardFrame.noImageDeleteButtonFrame;
-        self.noImageCommentLabel.frame = self.cardFrame.noImageCommentLabelFrame;
-        self.noImageCommentLabel.hidden = commentLabelHidden;
-        
-        self.noImageCommentLabel.text = commentsCount;
-        
-        self.noImageTipButton.frame = self.cardFrame.noImageTipButtonFrame;
-        self.noImageTipButton.hidden = self.cardFrame.isTipButtonHidden;
-      
-      
-        
-    } else if ([card.type integerValue] == imageStyleOne || [card.type integerValue] == imageStyleTwo) {
         CardImage * cardImage = [card.cardImages firstObject];
-        NSString *imageURL = [self scaleImageURL:cardImage.imgUrl];
+        self.specialTopicImageView.frame = self.cardFrame.specialTopicImageViewFrame;
+        NSString *imageURL = [self scaleSpecialTopicImageURL:cardImage.imgUrl];
         
-       [self.iconView sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
+        [self.specialTopicImageView sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"单图大图占位图"]];
         
-        self.noImageLabel.hidden = YES;
-        self.noImageSourceLabel.hidden = YES;
-        self.noImageSeperatorLine.hidden = YES;
-        self.noImageCommentLabel.hidden = YES;
-        self.noImageDeleteButton.hidden = YES;
-        self.noImageTipButton.hidden = YES;
-        self.noImageNewsTypeLabel.hidden = YES;
+        [self.specialTopicDeleteButton setBackgroundImage:[UIImage imageNamed:@"home_delete"] forState:UIControlStateNormal];
+        self.specialTopicDeleteButton.frame = self.cardFrame.specialTopicDeleteButtonFrame;
         
-        self.titleLabel.hidden = NO;
-        self.iconView.hidden = NO;
-        self.singleSourceLabel.hidden = NO;
-        self.singleSeperatorLine.hidden = NO;
-        self.singleCommentLabel.hidden = NO;
-        self.singleDeleteButton.hidden = NO;
-        self.singleTipButton.hidden = NO;
-        self.singleNewsTypeLabel.hidden = NO;
+        self.specailTopicOutsideView.frame = self.cardFrame.specialTopicOutsideViewFrame;
+        self.specialTopicInsideView.frame = self.cardFrame.specialTopicInsideViewFrame;
+        self.specialTopicTipButton.frame = self.cardFrame.specialTopicTipButtonFrame;
         
-        self.bigImageTitleLabel.hidden = YES;
-        self.bigImageIconView.hidden = YES;
-        self.singleBigImageSourceLabel.hidden = YES;
-        self.singleBigImageSeperatorLine.hidden = YES;
-        self.singleBigImageCommentLabel.hidden = YES;
-        self.singleBigImageDeleteButton.hidden = YES;
-        self.singleBigImageTipButton.hidden = YES;
-        self.singleBigImageNewsTypeLabel.hidden = YES;
+        self.specialTopicLogo.frame = self.cardFrame.specialTopicLogoFrame;
+        self.specialTopicTipButton.hidden = self.cardFrame.isTipButtonHidden;
         
-        self.multipleImageLabel.hidden = YES;
-        self.firstMutipleImageView.hidden = YES;
-        self.secondMutipleImageView.hidden = YES;
-        self.thirdMutipleImageView.hidden = YES;
-        self.multipleSourceLabel.hidden = YES;
-        self.mutipleSeperatorLine.hidden = YES;
-        self.mutipleDeleteButton.hidden = YES;
-        self.mutipleCommentLabel.hidden = YES;
-        self.mutipleTipButton.hidden = YES;
-        self.multipleImageNewsTypeLabel.hidden = YES;
-    
-        self.iconView.frame = self.cardFrame.singleImageImageViewFrame;
-        self.titleLabel.frame = self.cardFrame.singleImageTitleLabelFrame;
-        self.titleLabel.attributedText =  attributeTitle;
+        // 评论
+        self.specialTopicCommentsCountLabel.text = commentsStr;
+        self.specialTopicCommentsCountLabel.frame = self.cardFrame.specialTopicCommentsCountLabelFrame;
+        self.specialTopicCommentsCountLabel.centerY = self.specialTopicDeleteButton.centerY;
         
-        self.singleSourceLabel.text = source;
-        self.singleSourceLabel.frame = self.cardFrame.singleImageSourceLabelFrame;
-        
-        self.singleNewsTypeLabel.frame = self.cardFrame.singleNewsTypeLabelFrame;
-        self.singleNewsTypeLabel.text = newsType;
-        self.singleNewsTypeLabel.textColor = [UIColor colorFromHexString:newsTypeColor];
-        
-        CGFloat newsTypeShapeLayerH = self.singleNewsTypeLabel.bounds.size.height  - newsTypeLayerPadding;
-        CGFloat newsTypeShapeLayerY = newsTypeLayerPadding / 2 + newsTypeLayerFixPadding;
-        CGFloat newsTypeShapeLayerW = self.singleNewsTypeLabel.bounds.size.width;
-        self.singleNewsTypeShapeLayer.frame = CGRectMake(0, newsTypeShapeLayerY, newsTypeShapeLayerW, newsTypeShapeLayerH);
-        self.singleNewsTypeShapeLayer.borderColor = [UIColor colorFromHexString:newsTypeColor].CGColor;
-        
-        [self.singleDeleteButton setBackgroundImage:[UIImage imageNamed:@"不感兴趣叉号"] forState:UIControlStateNormal];
-        self.singleDeleteButton.frame = self.cardFrame.singleImageDeleteButtonFrame;
-        
-        self.singleSeperatorLine.frame = self.cardFrame.singleImageSeperatorLineFrame;
-        self.singleCommentLabel.frame = self.cardFrame.singelImageCommentLabelFrame;
-        self.singleCommentLabel.hidden = commentLabelHidden;
-        
-        self.singleCommentLabel.text = commentsCount;
-        
-        self.singleTipButton.frame = self.cardFrame.singleTipButtonFrame;
-        self.singleTipButton.hidden = self.cardFrame.isTipButtonHidden;
-  
-        
-    } else if ([card.type integerValue] == imageStyleEleven || [card.type integerValue] == imageStyleTwelve || [card.type integerValue] == imageStyleThirteen) {
-        CardImage * cardImage = nil;
-        switch ([card.type integerValue]) {
-            case imageStyleEleven:
-                cardImage = [card.cardImages objectAtIndex:0];
-                break;
-            case imageStyleTwelve:
-                cardImage =  [card.cardImages objectAtIndex:1];
-                break;
-            case imageStyleThirteen:
-                cardImage = [card.cardImages objectAtIndex:2];
-                break;
-            default:
-                break;
-        }
-        
-        NSString *imageURL = [self scaleBigImageURL:cardImage.imgUrl];
-        
-        [self.bigImageIconView sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"单图大图占位图"]];
-        
-        self.noImageLabel.hidden = YES;
-        self.noImageSourceLabel.hidden = YES;
-        self.noImageSeperatorLine.hidden = YES;
-        self.noImageCommentLabel.hidden = YES;
-        self.noImageDeleteButton.hidden = YES;
-        self.noImageTipButton.hidden = YES;
-        self.noImageNewsTypeLabel.hidden = YES;
-        
-        self.titleLabel.hidden = YES;
-        self.iconView.hidden = YES;
-        self.singleSourceLabel.hidden = YES;
-        self.singleSeperatorLine.hidden = YES;
-        self.singleCommentLabel.hidden = YES;
-        self.singleDeleteButton.hidden = YES;
-        self.singleTipButton.hidden = YES;
-        self.singleNewsTypeLabel.hidden = YES;
-        
-        self.bigImageTitleLabel.hidden = NO;
-        self.bigImageIconView.hidden = NO;
-        self.singleBigImageSourceLabel.hidden = NO;
-        self.singleBigImageSeperatorLine.hidden = NO;
-        self.singleBigImageCommentLabel.hidden = NO;
-        self.singleBigImageDeleteButton.hidden = NO;
-        self.singleBigImageTipButton.hidden = NO;
-        self.singleBigImageNewsTypeLabel.hidden = NO;
-        
-        self.multipleImageLabel.hidden = YES;
-        self.firstMutipleImageView.hidden = YES;
-        self.secondMutipleImageView.hidden = YES;
-        self.thirdMutipleImageView.hidden = YES;
-        self.multipleSourceLabel.hidden = YES;
-        self.mutipleSeperatorLine.hidden = YES;
-        self.mutipleDeleteButton.hidden = YES;
-        self.mutipleCommentLabel.hidden = YES;
-        self.mutipleTipButton.hidden = YES;
-        self.multipleImageNewsTypeLabel.hidden = YES;
-        
-        
-        self.bigImageTitleLabel.attributedText =  attributeTitle;
-        
-        self.bigImageIconView.frame = self.cardFrame.singleBigImageImageViewFrame;
-        self.bigImageTitleLabel.frame = self.cardFrame.singleBigImageTitleLabelFrame;
-        
-        self.singleBigImageNewsTypeLabel.frame = self.cardFrame.singleBigImageNewsTyeLabelFrame;
-        self.singleBigImageNewsTypeLabel.text = newsType;
-        self.singleBigImageNewsTypeLabel.textColor = [UIColor colorFromHexString:newsTypeColor];
-        
-        CGFloat newsTypeShapeLayerH = self.singleBigImageNewsTypeLabel.bounds.size.height  - newsTypeLayerPadding;
-        CGFloat newsTypeShapeLayerY = newsTypeLayerPadding / 2 + newsTypeLayerFixPadding;
-        CGFloat newsTypeShapeLayerW = self.singleBigImageNewsTypeLabel.bounds.size.width;
-        self.singleBigImageNewsTypeShapeLayer.frame = CGRectMake(0, newsTypeShapeLayerY, newsTypeShapeLayerW, newsTypeShapeLayerH);
-        
-        self.singleBigImageNewsTypeShapeLayer.borderColor = [UIColor colorFromHexString:newsTypeColor].CGColor;
-        
-        
-        self.singleBigImageSourceLabel.text = source;
-        self.singleBigImageSourceLabel.frame = self.cardFrame.singleBigImageSourceLabelFrame;
-        
-        [self.singleBigImageDeleteButton setBackgroundImage:[UIImage imageNamed:@"不感兴趣叉号"] forState:UIControlStateNormal];
-        self.singleBigImageDeleteButton.frame = self.cardFrame.singleBigImageDeleteButtonFrame;
-        
-        self.singleBigImageSeperatorLine.frame = self.cardFrame.singleBigImageSeperatorLineFrame;
-        self.singleBigImageCommentLabel.frame = self.cardFrame.singelBigImageCommentLabelFrame;
-        self.singleBigImageCommentLabel.hidden = commentLabelHidden;
-        
-        self.singleBigImageCommentLabel.text = commentsCount;
-        
-        self.singleBigImageTipButton.frame = self.cardFrame.singleBigTipButtonFrame;
-        self.singleBigImageTipButton.hidden = self.cardFrame.isTipButtonHidden;
-  
-        
-        
-    }
-    else if ([card.type integerValue] == imageStyleThree) {
-        
-        self.noImageLabel.hidden = YES;
-        self.noImageSourceLabel.hidden = YES;
-        self.noImageSeperatorLine.hidden = YES;
-        self.noImageCommentLabel.hidden = YES;
-        self.noImageDeleteButton.hidden = YES;
-        self.noImageTipButton.hidden = YES;
-        self.noImageNewsTypeLabel.hidden = YES;
-    
-        self.titleLabel.hidden = YES;
-        self.iconView.hidden = YES;
-        self.singleSourceLabel.hidden = YES;
-        self.singleSeperatorLine.hidden = YES;
-        self.singleCommentLabel.hidden = YES;
-        self.singleDeleteButton.hidden = YES;
-        self.singleTipButton.hidden = YES;
-        self.singleNewsTypeLabel.hidden = YES;
-        
-        self.bigImageTitleLabel.hidden = YES;
-        self.bigImageIconView.hidden = YES;
-        self.singleBigImageSourceLabel.hidden = YES;
-        self.singleBigImageSeperatorLine.hidden = YES;
-        self.singleBigImageCommentLabel.hidden = YES;
-        self.singleBigImageDeleteButton.hidden = YES;
-        self.singleBigImageTipButton.hidden = YES;
-        self.singleBigImageNewsTypeLabel.hidden = YES;
-        
-        self.multipleImageLabel.hidden = NO;
-        self.firstMutipleImageView.hidden = NO;
-        self.secondMutipleImageView.hidden = NO;
-        self.thirdMutipleImageView.hidden = NO;
-        self.multipleSourceLabel.hidden = NO;
-        self.mutipleSeperatorLine.hidden = NO;
-        self.mutipleDeleteButton.hidden = NO;
-        self.mutipleCommentLabel.hidden = NO;
-        self.mutipleTipButton.hidden = NO;
-        self.multipleImageNewsTypeLabel.hidden = NO;
-  
-        
-        self.multipleImageLabel.frame = self.cardFrame.multipleImageTitleLabelFrame;
-        self.multipleImageLabel.attributedText =  attributeTitle;
-        
-        self.multipleImageNewsTypeLabel.frame = self.cardFrame.multipleImageNewsTypeLabelFrame;
-        self.multipleImageNewsTypeLabel.text = newsType;
-        self.multipleImageNewsTypeLabel.textColor = [UIColor colorFromHexString:newsTypeColor];
-        
-        CGFloat newsTypeShapeLayerH = self.multipleImageNewsTypeLabel.bounds.size.height  - newsTypeLayerPadding;
-        CGFloat newsTypeShapeLayerY = newsTypeLayerPadding / 2 + newsTypeLayerFixPadding;
-        CGFloat newsTypeShapeLayerW = self.multipleImageNewsTypeLabel.bounds.size.width;
-        self.multipleImageNewsTypeShapeLayer.frame = CGRectMake(0, newsTypeShapeLayerY, newsTypeShapeLayerW, newsTypeShapeLayerH);
-        
-        self.multipleImageNewsTypeShapeLayer.borderColor = [UIColor colorFromHexString:newsTypeColor].CGColor;
-        
-        self.multipleSourceLabel.frame = self.cardFrame.multipleImageSourceLabelFrame;
-        self.multipleSourceLabel.text = source;
-        
-        self.mutipleSeperatorLine.frame = self.cardFrame.mutipleImageSeperatorLineFrame;
-        
-        CGRect frame = self.cardFrame.multipleImageViewFrame;
-        CGFloat x = frame.origin.x;
-        CGFloat y = frame.origin.y;
-        CGFloat w = (frame.size.width - 6) / 3 ;
-        CGFloat h = frame.size.height;
-        
-        NSString *firstImageURL = [card.cardImages objectAtIndex:0].imgUrl;
-        NSString *secondImageURL = [card.cardImages objectAtIndex:1].imgUrl;
-        NSString *thirdImageURL = [card.cardImages objectAtIndex:2].imgUrl;
-     
-        [self.firstMutipleImageView sd_setImageWithURL:[NSURL URLWithString:firstImageURL] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
-        [self.secondMutipleImageView sd_setImageWithURL:[NSURL URLWithString:secondImageURL] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
-        [self.thirdMutipleImageView sd_setImageWithURL:[NSURL URLWithString:thirdImageURL] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
         
 
-        self.firstMutipleImageView.frame = CGRectMake(x, y, w, h);
-        self.secondMutipleImageView.frame = CGRectMake(x + w + 3, y, w, h);
-        self.thirdMutipleImageView.frame = CGRectMake(x + 2 * w + 6, y, w, h);
+    } else {
         
-        [self.mutipleDeleteButton setBackgroundImage:[UIImage imageNamed:@"不感兴趣叉号"] forState:UIControlStateNormal];
-        self.mutipleDeleteButton.frame = self.cardFrame.mutipleImageDeleteButtonFrame;
-        self.mutipleCommentLabel.frame = self.cardFrame.mutipleImageCommentLabelFrame;
-        self.mutipleCommentLabel.hidden = commentLabelHidden;
-        self.mutipleCommentLabel.text = commentsCount;
+        if([card.type integerValue] == imageStyleZero) {
+    
+            self.noImageTitleLabel.hidden = NO;
+            self.noImageSourceImageView.hidden = NO;
+            self.noImageSourceLabel.hidden = NO;
+            self.noImageDeleteButton.hidden = NO;
+            self.noImageTipButton.hidden = NO;
+            self.noImageNewsTypeLabel.hidden = NO;
+            self.noImageSeperatorLine.hidden = NO;
+            self.noImageCommentsCountLabel.hidden = NO;
+            
+            // 单图
+            self.singleImageTitleLabel.hidden = YES;
+            self.singleImageSourceImageView.hidden = YES;
+            self.singleImageSourceLabel.hidden = YES;
+            self.singleImageIcon.hidden = YES;
+            self.singleImageSeperatorLine.hidden = YES;
+            self.singleImageDeleteButton.hidden = YES;
+            self.singleImageTipButton.hidden = YES;
+            self.singleImageNewsTypeLabel.hidden = YES;
+            self.singleImageCommentsCountLabel.hidden = YES;
+            
+            // 单图大图
+            self.singleBigImageTitleLabel.hidden = YES;
+            self.singleBigImageIcon.hidden = YES;
+            self.singleBigImageSourceImageView.hidden = YES;
+            self.singleBigImageSourceLabel.hidden = YES;
+            self.singleBigImageSeperatorLine.hidden = YES;
+            self.singleBigImageDeleteButton.hidden = YES;
+            self.singleBigImageTipButton.hidden = YES;
+            self.singleBigImageNewsTypeLabel.hidden = YES;
+            self.singleBigImageCommentsCountLabel.hidden = YES;
+            
+            // 三图
+            self.multipleImageTitleLabel.hidden = YES;
+            self.firstMultipleImageView.hidden = YES;
+            self.secondMultipleImageView.hidden = YES;
+            self.thirdMultipleImageView.hidden = YES;
+            self.multipleImageSourceImageView.hidden = YES;
+            self.multipleImageSourceLabel.hidden = YES;
+            self.multipleImageSeperatorLine.hidden = YES;
+            self.multipleImageDeleteButton.hidden = YES;
+            self.multipleImageTipButton.hidden = YES;
+            self.multipleImageNewsTypeLabel.hidden = YES;
+            self.multipleImageCommentsCountLabel.hidden = YES;
+            
+            // 专题
+            self.specialTopicTitleLabel.hidden = YES;
+            self.specialTopicInsideView.hidden = YES;
+            self.specialTopicLogo.hidden = YES;
+            self.specialTopicImageView.hidden = YES;
+            self.specialTopicTipButton.hidden = YES;
+            self.specailTopicOutsideView.hidden = YES;
+            self.specialTopicDeleteButton.hidden = YES;
+            self.specialTopicCommentsCountLabel.hidden = YES;
+    
+            self.noImageTitleLabel.frame = self.cardFrame.noImageTitleLabelFrame;
+            self.noImageTitleLabel.attributedText = attributeTitle;
+ 
+            self.noImageSourceImageView.image = [UIImage imageNamed:@"home_source"];
+            self.noImageSourceImageView.frame = self.cardFrame.noImageSourceImageViewFrame;
+            
+            self.noImageSourceLabel.frame = self.cardFrame.noImageSourceLabelFrame;
+            self.noImageSourceLabel.text = sourceSiteName;
+            
+            self.noImageNewsTypeLabel.frame = self.cardFrame.noImageNewsTypeLabelFrame;
+            self.noImageSeperatorLine.frame = self.cardFrame.noImageSeperatorLineFrame;
+            
+            [self.noImageDeleteButton setBackgroundImage:[UIImage imageNamed:@"home_delete"] forState:UIControlStateNormal];
+            self.noImageDeleteButton.frame = self.cardFrame.noImageDeleteButtonFrame;
+            
+            self.noImageTipButton.frame = self.cardFrame.noImageTipButtonFrame;
+            self.noImageTipButton.hidden = self.cardFrame.isTipButtonHidden;
+            
+            // 类型
+            self.noImageNewsTypeLabel.layer.backgroundColor = [UIColor colorFromHexString:newsTypeColor].CGColor;
+            self.noImageNewsTypeLabel.text = newsType;
+            self.noImageNewsTypeLabel.frame = self.cardFrame.noImageNewsTypeLabelFrame;
+            
+            self.noImageCommentsCountLabel.frame = self.cardFrame.noImageCommentsCountLabelFrame;
+            self.noImageCommentsCountLabel.text = commentsStr;
+            
+            self.noImageCommentsCountLabel.centerY = self.noImageDeleteButton.centerY;
+            
+        }   else if ([card.type integerValue] == imageStyleOne || [card.type integerValue] == imageStyleTwo) {
+
+            self.noImageTitleLabel.hidden = YES;
+            self.noImageSourceImageView.hidden = YES;
+            self.noImageSourceLabel.hidden = YES;
+            self.noImageDeleteButton.hidden = YES;
+            self.noImageTipButton.hidden = YES;
+            self.noImageNewsTypeLabel.hidden = YES;
+            self.noImageSeperatorLine.hidden = YES;
+            self.noImageCommentsCountLabel.hidden = YES;
+            
+            // 单图
+            self.singleImageTitleLabel.hidden = NO;
+            self.singleImageSourceImageView.hidden = NO;
+            self.singleImageSourceLabel.hidden = NO;
+            self.singleImageIcon.hidden = NO;
+            self.singleImageSeperatorLine.hidden = NO;
+            self.singleImageDeleteButton.hidden = NO;
+            self.singleImageTipButton.hidden = NO;
+            self.singleImageNewsTypeLabel.hidden = NO;
+            self.singleImageCommentsCountLabel.hidden = NO;
+            
+            // 单图大图
+            self.singleBigImageTitleLabel.hidden = YES;
+            self.singleBigImageIcon.hidden = YES;
+            self.singleBigImageSourceImageView.hidden = YES;
+            self.singleBigImageSourceLabel.hidden = YES;
+            self.singleBigImageSeperatorLine.hidden = YES;
+            self.singleBigImageDeleteButton.hidden = YES;
+            self.singleBigImageTipButton.hidden = YES;
+            self.singleBigImageNewsTypeLabel.hidden = YES;
+            self.singleBigImageCommentsCountLabel.hidden = YES;
+            
+            // 三图
+            self.multipleImageTitleLabel.hidden = YES;
+            self.firstMultipleImageView.hidden = YES;
+            self.secondMultipleImageView.hidden = YES;
+            self.thirdMultipleImageView.hidden = YES;
+            self.multipleImageSourceImageView.hidden = YES;
+            self.multipleImageSourceLabel.hidden = YES;
+            self.multipleImageSeperatorLine.hidden = YES;
+            self.multipleImageDeleteButton.hidden = YES;
+            self.multipleImageTipButton.hidden = YES;
+            self.multipleImageNewsTypeLabel.hidden = YES;
+            self.multipleImageCommentsCountLabel.hidden = YES;
+            
+            // 专题
+            self.specialTopicTitleLabel.hidden = YES;
+            self.specialTopicInsideView.hidden = YES;
+            self.specialTopicLogo.hidden = YES;
+            self.specialTopicImageView.hidden = YES;
+            self.specialTopicTipButton.hidden = YES;
+            self.specailTopicOutsideView.hidden = YES;
+            self.specialTopicDeleteButton.hidden = YES;
+            self.specialTopicCommentsCountLabel.hidden = YES;
+            
+            CardImage * cardImage = [card.cardImages firstObject];
+            NSString *imageURL = [self scaleImageURL:cardImage.imgUrl];
+            
+            self.singleImageTipButton.frame = self.cardFrame.singleImageTipButtonFrame;
+            self.singleImageTipButton.hidden = self.cardFrame.isTipButtonHidden;
+            
+            self.singleImageSourceImageView.image = [UIImage imageNamed:@"home_source"];
+            self.singleImageSourceImageView.frame = self.cardFrame.singleImageSourceImageViewFrame;
+            
+            self.singleImageSourceLabel.text = sourceSiteName;
+            self.singleImageSourceLabel.frame = self.cardFrame.singleImageSourceLabelFrame;
+            
+            [self.singleImageDeleteButton setBackgroundImage:[UIImage imageNamed:@"home_delete"] forState:UIControlStateNormal];
+            self.singleImageDeleteButton.frame = self.cardFrame.singleImageDeleteButtonFrame;
+            
+            [self.singleImageIcon sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
+            self.singleImageIcon.frame = self.cardFrame.singleImageImageViewFrame;
         
-        self.mutipleTipButton.frame = self.cardFrame.mutipleTipButtonFrame;
-        self.mutipleTipButton.hidden = self.cardFrame.isTipButtonHidden;
+            self.singleImageTitleLabel.frame = self.cardFrame.singleImageTitleLabelFrame;
+            self.singleImageTitleLabel.attributedText =  attributeTitle;
+
+            self.singleImageSeperatorLine.frame = self.cardFrame.singleImageSeperatorLineFrame;
+            self.singleImageNewsTypeLabel.frame = self.cardFrame.singleImageNewsTypeLabelFrame;
+            
+            // 类型
+            self.singleImageNewsTypeLabel.layer.backgroundColor = [UIColor colorFromHexString:newsTypeColor].CGColor;
+            self.singleImageNewsTypeLabel.frame = self.cardFrame.singleImageNewsTypeLabelFrame;
+            self.singleImageNewsTypeLabel.text = newsType;
+            
+            self.singleImageCommentsCountLabel.frame = self.cardFrame.singleImageCommentsCountLabelFrame;
+            self.singleImageCommentsCountLabel.text = commentsStr;
+            self.singleImageCommentsCountLabel.centerY = self.singleImageDeleteButton.centerY;
+            
+                
+        } else if ([card.type integerValue] == imageStyleEleven || [card.type integerValue] == imageStyleTwelve || [card.type integerValue] == imageStyleThirteen) {
+            CardImage * cardImage = nil;
+            switch ([card.type integerValue]) {
+                case imageStyleEleven:
+                    cardImage = [card.cardImages objectAtIndex:0];
+                    break;
+                case imageStyleTwelve:
+                    cardImage =  [card.cardImages objectAtIndex:1];
+                    break;
+                case imageStyleThirteen:
+                    cardImage = [card.cardImages objectAtIndex:2];
+                    break;
+                default:
+                    break;
+            }
+            self.noImageTitleLabel.hidden = YES;
+            self.noImageSourceImageView.hidden = YES;
+            self.noImageSourceLabel.hidden = YES;
+            self.noImageDeleteButton.hidden = YES;
+            self.noImageTipButton.hidden = YES;
+            self.noImageNewsTypeLabel.hidden = YES;
+            self.noImageSeperatorLine.hidden = YES;
+            self.noImageCommentsCountLabel.hidden = YES;
+            
+            
+            // 单图
+            self.singleImageTitleLabel.hidden = YES;
+            self.singleImageSourceImageView.hidden = YES;
+            self.singleImageSourceLabel.hidden = YES;
+            self.singleImageIcon.hidden = YES;
+            self.singleImageSeperatorLine.hidden = YES;
+            self.singleImageDeleteButton.hidden = YES;
+            self.singleImageTipButton.hidden = YES;
+            self.singleImageNewsTypeLabel.hidden = YES;
+            self.singleImageCommentsCountLabel.hidden = YES;
+            
+            // 单图大图
+            self.singleBigImageTitleLabel.hidden = NO;
+            self.singleBigImageIcon.hidden = NO;
+            self.singleBigImageSourceImageView.hidden = NO;
+            self.singleBigImageSourceLabel.hidden = NO;
+            self.singleBigImageSeperatorLine.hidden = NO;
+            self.singleBigImageDeleteButton.hidden = NO;
+            self.singleBigImageTipButton.hidden = NO;
+            self.singleBigImageNewsTypeLabel.hidden = NO;
+            self.singleBigImageCommentsCountLabel.hidden = NO;
+            
+            // 三图
+            self.multipleImageTitleLabel.hidden = YES;
+            self.firstMultipleImageView.hidden = YES;
+            self.secondMultipleImageView.hidden = YES;
+            self.thirdMultipleImageView.hidden = YES;
+            self.multipleImageSourceImageView.hidden = YES;
+            self.multipleImageSourceLabel.hidden = YES;
+            self.multipleImageSeperatorLine.hidden = YES;
+            self.multipleImageDeleteButton.hidden = YES;
+            self.multipleImageTipButton.hidden = YES;
+            self.multipleImageNewsTypeLabel.hidden = YES;
+            self.multipleImageCommentsCountLabel.hidden = YES;
+            
+            // 专题
+            self.specialTopicTitleLabel.hidden = YES;
+            self.specialTopicInsideView.hidden = YES;
+            self.specialTopicLogo.hidden = YES;
+            self.specialTopicImageView.hidden = YES;
+            self.specialTopicTipButton.hidden = YES;
+            self.specailTopicOutsideView.hidden = YES;
+            self.specialTopicDeleteButton.hidden = YES;
+            self.specialTopicCommentsCountLabel.hidden = YES;
+            
+            // 上次加载位置
+            self.singleBigImageTipButton.frame = self.cardFrame.singleBigImageTipButtonFrame;
+            self.singleBigImageTipButton.hidden = self.cardFrame.isTipButtonHidden;
+            
+            // 来源
+            self.singleBigImageSourceImageView.image = [UIImage imageNamed:@"home_source"];
+            self.singleBigImageSourceImageView.frame = self.cardFrame.singleBigImageSourceImageViewFrame;
+            
+            self.singleBigImageSourceLabel.text = sourceSiteName;
+            self.singleBigImageSourceLabel.frame = self.cardFrame.singleBigImageSourceLabelFrame;
+            // 删除
+            [self.singleBigImageDeleteButton setBackgroundImage:[UIImage imageNamed:@"home_delete"] forState:UIControlStateNormal];
+            self.singleBigImageDeleteButton.frame = self.cardFrame.singleBigImageDeleteButtonFrame;
+            
+            // 标题
+            self.singleBigImageTitleLabel.attributedText = attributeTitle;
+            self.singleBigImageTitleLabel.frame = self.cardFrame.singleBigImageTitleLabelFrame;
+            
+            // 图片
+            NSString *imageURL = [self scaleBigImageURL:cardImage.imgUrl];
+            [self.singleBigImageIcon sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"单图大图占位图"]];
+            self.singleBigImageIcon.frame = self.cardFrame.singleBigImageImageViewFrame;
+            // 分割线
+            self.singleBigImageSeperatorLine.frame = self.cardFrame.singleBigImageSeperatorLineFrame;
+            // 背景
+            self.singleBigImageNewsTypeLabel.frame = self.cardFrame.singleBigImageNewsTypeLabelFrame;
+            
+            
+            self.singleBigImageNewsTypeLabel.layer.backgroundColor = [UIColor colorFromHexString:newsTypeColor].CGColor;
+            self.singleBigImageNewsTypeLabel.frame = self.cardFrame.singleBigImageNewsTypeLabelFrame;
+            self.singleBigImageNewsTypeLabel.text = newsType;
+            
+            self.singleBigImageCommentsCountLabel.text = commentsStr;
+            self.singleBigImageCommentsCountLabel.frame = self.cardFrame.singleBigImageCommentsCountLabelFrame;
+            self.singleBigImageCommentsCountLabel.centerY = self.singleBigImageDeleteButton.centerY;
+
+        
+        }    else if ([card.type integerValue] == imageStyleThree) {
+        
+            self.noImageTitleLabel.hidden = YES;
+            self.noImageSourceImageView.hidden = YES;
+            self.noImageSourceLabel.hidden = YES;
+            self.noImageDeleteButton.hidden = YES;
+            self.noImageTipButton.hidden = YES;
+            self.noImageNewsTypeLabel.hidden = YES;
+            self.noImageSeperatorLine.hidden = YES;
+            self.noImageCommentsCountLabel.hidden = YES;
+            
+            
+            // 单图
+            self.singleImageTitleLabel.hidden = YES;
+            self.singleImageSourceImageView.hidden = YES;
+            self.singleImageSourceLabel.hidden = YES;
+            self.singleImageIcon.hidden = YES;
+            self.singleImageSeperatorLine.hidden = YES;
+            self.singleImageDeleteButton.hidden = YES;
+            self.singleImageTipButton.hidden = YES;
+            self.singleImageNewsTypeLabel.hidden = YES;
+            self.singleImageCommentsCountLabel.hidden = YES;
+            
+            // 单图大图
+            self.singleBigImageTitleLabel.hidden = YES;
+            self.singleBigImageIcon.hidden = YES;
+            self.singleBigImageSourceImageView.hidden = YES;
+            self.singleBigImageSourceLabel.hidden = YES;
+            self.singleBigImageSeperatorLine.hidden = YES;
+            self.singleBigImageDeleteButton.hidden = YES;
+            self.singleBigImageTipButton.hidden = YES;
+            self.singleBigImageNewsTypeLabel.hidden = YES;
+            self.singleBigImageCommentsCountLabel.hidden = YES;
+            
+            // 三图
+            self.multipleImageTitleLabel.hidden = NO;
+            self.firstMultipleImageView.hidden = NO;
+            self.secondMultipleImageView.hidden = NO;
+            self.thirdMultipleImageView.hidden = NO;
+            self.multipleImageSourceImageView.hidden = NO;
+            self.multipleImageSourceLabel.hidden = NO;
+            self.multipleImageSeperatorLine.hidden = NO;
+            self.multipleImageDeleteButton.hidden = NO;
+            self.multipleImageTipButton.hidden = NO;
+            self.multipleImageNewsTypeLabel.hidden = NO;
+            self.multipleImageCommentsCountLabel.hidden = NO;
+            
+            // 专题
+            self.specialTopicTitleLabel.hidden = YES;
+            self.specialTopicInsideView.hidden = YES;
+            self.specialTopicLogo.hidden = YES;
+            self.specialTopicImageView.hidden = YES;
+            self.specialTopicTipButton.hidden = YES;
+            self.specailTopicOutsideView.hidden = YES;
+            self.specialTopicDeleteButton.hidden = YES;
+            self.specialTopicCommentsCountLabel.hidden = YES;
+        
+            // 上次加载位置
+            self.multipleImageTipButton.frame = self.cardFrame.multipleImageTipButtonFrame;
+            self.multipleImageTipButton.hidden = self.cardFrame.isTipButtonHidden;
+            
+            // 来源
+            self.multipleImageSourceImageView.image = [UIImage imageNamed:@"home_source"];
+            self.multipleImageSourceImageView.frame = self.cardFrame.multipleImageSourceImageViewFrame;
+            
+            self.multipleImageSourceLabel.text = sourceSiteName;
+            self.multipleImageSourceLabel.frame = self.cardFrame.multipleImageSourceLabelFrame;
+            // 删除
+            [self.multipleImageDeleteButton setBackgroundImage:[UIImage imageNamed:@"home_delete"] forState:UIControlStateNormal];
+            self.multipleImageDeleteButton.frame = self.cardFrame.multipleImageDeleteButtonFrame;
+            
+            // 标题
+            self.multipleImageTitleLabel.frame = self.cardFrame.multipleImageTitleLabelFrame;
+            self.multipleImageTitleLabel.attributedText =  attributeTitle;
+            
+            CGRect frame = self.cardFrame.multipleImageViewFrame;
+            CGFloat x = frame.origin.x;
+            CGFloat y = frame.origin.y;
+            CGFloat w = (frame.size.width - 3) / 3 ;
+            CGFloat h = frame.size.height;
+
+            NSString *firstImageURL = [card.cardImages objectAtIndex:0].imgUrl;
+            NSString *secondImageURL = [card.cardImages objectAtIndex:1].imgUrl;
+            NSString *thirdImageURL = [card.cardImages objectAtIndex:2].imgUrl;
+
+            [self.firstMultipleImageView sd_setImageWithURL:[NSURL URLWithString:firstImageURL] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
+            [self.secondMultipleImageView sd_setImageWithURL:[NSURL URLWithString:secondImageURL] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
+            [self.thirdMultipleImageView sd_setImageWithURL:[NSURL URLWithString:thirdImageURL] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
+
+            self.firstMultipleImageView.frame = CGRectMake(x, y, w, h);
+            self.secondMultipleImageView.frame = CGRectMake(x + w + 3, y, w, h);
+            self.thirdMultipleImageView.frame = CGRectMake(x + 2 * w + 6, y, w, h);
+            
+            // 分割线
+            self.multipleImageSeperatorLine.frame = self.cardFrame.multipleImageSeperatorLineFrame;
+            
+            self.multipleImageNewsTypeLabel.layer.backgroundColor = [UIColor colorFromHexString:newsTypeColor].CGColor;
+            self.multipleImageNewsTypeLabel.frame = self.cardFrame.multipleImageNewsTypeLabelFrame;
+            self.multipleImageNewsTypeLabel.text = newsType;
+            
+            self.multipleImageCommentsCountLabel.text = commentsStr;
+            self.multipleImageCommentsCountLabel.frame = self.cardFrame.multipleImageCommentsCountLabelFrame;
+            self.multipleImageCommentsCountLabel.centerY = self.multipleImageDeleteButton.centerY;
+  
+        }
     }
-}
+  }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-
-}
-
-
-- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
-    [super setHighlighted:highlighted animated:animated];
     
 }
+
+
+//- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
+//    [super setHighlighted:highlighted animated:animated];
+//    
+//}
 
 #pragma mark - 首页删除功能
 - (void)didClickDeleteButton:(UIButton *)deleteButton {
@@ -807,4 +1034,14 @@
     return scaleImageURL;
 }
 
+#pragma mark - 专题图片处理
+- (NSString *)scaleSpecialTopicImageURL:(NSString *)imageURL {
+    NSRange range = [imageURL rangeOfString:@"/" options:NSBackwardsSearch];
+    NSString *substring = [imageURL substringFromIndex:range.location+1];
+    NSString *scaleImageURL = [NSString stringWithFormat:@"http://pro-pic.deeporiginalx.com/%@@1e_1c_0o_0l_100sh_200h_600w_100q.src", substring];
+    return scaleImageURL;
+}
+
+
 @end
+

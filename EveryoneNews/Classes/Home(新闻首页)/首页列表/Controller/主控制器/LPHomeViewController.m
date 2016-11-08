@@ -151,33 +151,11 @@
     CGFloat menuViewHeight = 44.0;
     
     CGFloat unloginBtnX = 12.0;
-    CGFloat unloginBtnW = 24.0;
-    CGFloat unloginBtnH = 24.0;
+    CGFloat unloginBtnW = 28.0;
+    CGFloat unloginBtnH = 28.0;
     if (iPhone6) {
          menuViewHeight = 52;
-         unloginBtnW = 26.0;
-         unloginBtnH = 26.0;
     }
-    
-    
-//    CGFloat unloginBtnX = 15.0;
-//    CGFloat unloginBtnW = 16.0;
-//    CGFloat unloginBtnH = 16.0;
-//    if (iPhone6Plus) {
-//        unloginBtnX = 15.7f;
-//        unloginBtnW = 17.3f;
-//        unloginBtnH = 18.6f;
-//    } else if (iPhone5) {
-//        unloginBtnX = 15.0f;
-//        unloginBtnW = 16.0f;
-//        unloginBtnH = 16.0f;
-//    } else if (iPhone6) {
-//        menuViewHeight = 52;
-//        unloginBtnW = 18.0f;
-//        unloginBtnH = 18.0f;
-//        unloginBtnX = 17.0f;
-//    }
-//    
     
     CGFloat unloginBtnY = (menuViewHeight - unloginBtnH) / 2 + statusBarHeight;
     
@@ -189,30 +167,25 @@
         self.loginBtn.layer.cornerRadius = 0;
         self.loginBtn.layer.borderWidth = 0;
         self.loginBtn.layer.masksToBounds = NO;
-        [self.loginBtn setBackgroundImage:[UIImage imageNamed:@"home_login"] forState:UIControlStateNormal];
+        [self.loginBtn setBackgroundImage:[UIImage imageNamed:@"home_user"] forState:UIControlStateNormal];
         self.loginBtn.frame = CGRectMake(unloginBtnX , unloginBtnY , unloginBtnW, unloginBtnH);
     } else {
         CGFloat statusBarHeight = 20.0f;
         CGFloat menuViewHeight = 44.0;
         CGFloat loginBtnX = 10;
-        CGFloat loginBtnW = 29;
-        CGFloat loginBtnH = 29;
-        
+        CGFloat loginBtnW = 28;
+        CGFloat loginBtnH = 28;
         if (iPhone6Plus) {
             loginBtnX = 10.0f;
         } else if (iPhone5) {
             loginBtnX = 10.0f;
-            loginBtnW = 25;
-            loginBtnH = 25;
         } else if (iPhone6) {
             loginBtnX = 12.0f;
-            loginBtnW = 29;
-            loginBtnH = 29;
             menuViewHeight = 52;
         }
         CGFloat loginBtnY = (menuViewHeight - loginBtnH) / 2 + statusBarHeight;
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.loginBtn sd_setBackgroundImageWithURL:[NSURL URLWithString:account.userIcon] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"morentouxiang"]];
+            [self.loginBtn sd_setBackgroundImageWithURL:[NSURL URLWithString:account.userIcon] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"home_user"]];
             self.loginBtn.frame = CGRectMake(loginBtnX , loginBtnY , loginBtnW, loginBtnH);
             self.loginBtn.layer.cornerRadius = loginBtnH / 2;
             self.loginBtn.layer.borderWidth = 1;

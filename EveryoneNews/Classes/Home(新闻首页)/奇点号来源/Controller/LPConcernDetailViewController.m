@@ -395,13 +395,26 @@ const static CGFloat changeFontSizeViewH = 150;
         
         messageObject.text = self.shareTitle;
         //创建网页内容对象
-        UMShareWebpageObject *shareObject = [UMShareWebpageObject shareObjectWithTitle:self.shareTitle descr:self.shareTitle thumImage:self.shareImageURL];
+        UMShareWebpageObject *shareObject = nil;
+        if (self.shareImageURL) {
+            shareObject = [UMShareWebpageObject shareObjectWithTitle:self.shareTitle descr:self.shareTitle thumImage:self.shareImageURL];
+            
+        } else {
+            shareObject = [UMShareWebpageObject shareObjectWithTitle:self.shareTitle descr:self.shareTitle thumImage:[UIImage imageNamed:@"个人中心奇点资讯"]];
+        }
         shareObject.webpageUrl = self.shareURL;
         messageObject.shareObject = shareObject;
     }
     else {
         //创建网页内容对象
-        UMShareWebpageObject *shareObject = [UMShareWebpageObject shareObjectWithTitle:self.shareTitle descr:self.shareTitle thumImage:self.shareImageURL];
+        UMShareWebpageObject *shareObject = nil;
+        if (self.shareImageURL) {
+            shareObject = [UMShareWebpageObject shareObjectWithTitle:self.shareTitle descr:self.shareTitle thumImage:self.shareImageURL];
+
+        } else {
+           shareObject = [UMShareWebpageObject shareObjectWithTitle:self.shareTitle descr:self.shareTitle thumImage:[UIImage imageNamed:@"个人中心奇点资讯"]];
+        }
+        
         shareObject.webpageUrl = self.shareURL;
         messageObject.shareObject = shareObject;
         

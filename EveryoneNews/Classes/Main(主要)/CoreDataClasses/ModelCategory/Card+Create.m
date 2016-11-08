@@ -168,6 +168,10 @@
                 
             }
             card.rtype = dict[@"rtype"];
+            // 专题测试
+//            if ([dict[@"rtype"] integerValue] == 1) {
+//                card.rtype = @(4);
+//            }
             card.type = dict[@"style"];
             card.docId = dict[@"docid"];
             card.commentsCount = dict[@"comment"];

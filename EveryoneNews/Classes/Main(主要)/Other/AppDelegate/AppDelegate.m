@@ -204,7 +204,7 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
 #pragma mark - 友盟相关设置
 - (void)setupUMengInfo:(NSDictionary *)launchOptions {
     
-    [[UMSocialManager defaultManager] openLog:YES];
+//    [[UMSocialManager defaultManager] openLog:YES];
     
     [[UMSocialManager defaultManager] setUmSocialAppkey:@"558b2ec267e58e64a00009db"];
    // 微信

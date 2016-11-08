@@ -34,6 +34,7 @@
 #import "LPCardConcernFrame.h"
 #import "CardConcern.h"
 #import "AccountTool.h"
+#import "LPSpecialTopicHomeViewController.h"
 
 NSString * const reusePageID = @"reusePageID";
 NSString * const reuseConcernPageID = @"reuseConcernPageID";
@@ -77,13 +78,28 @@ NSString * const reuseConcernPageID = @"reuseConcernPageID";
 
 #pragma mark - LPPagingView Delegate
 - (void)pagingView:(LPPagingView *)pagingView didScrollWithRatio:(CGFloat)ratio {
+        int index = floor(ratio);
+        CGFloat rate = ratio - index;
+        NSIndexPath *currentIndexPath = [NSIndexPath indexPathForItem:index
+                                                            inSection:0];
+        NSIndexPath *nextIndexPath = [NSIndexPath indexPathForItem:index + 1
+                                                         inSection:0];
+        LPMenuCollectionViewCell *currentCell = (LPMenuCollectionViewCell *)[self.menuView cellForItemAtIndexPath:currentIndexPath];
+        LPMenuCollectionViewCell *nextCell = (LPMenuCollectionViewCell *)[self.menuView cellForItemAtIndexPath:nextIndexPath];
+        LPMenuButton *currentButton = currentCell.menuButton;
+        LPMenuButton *nextButton = nextCell.menuButton;
+        [currentButton titleSizeColorDidChangedWithRate:rate];
+        [nextButton titleSizeColorDidChangedWithRate:(1 - rate)];
     
-    // 切换频道栏变更频道栏背景蓝色位置
-    CGFloat menuBackgroundViewW = self.menuBackgroundView.frame.size.width;
-    CGFloat menuBackgroundViewX = ratio * menuBackgroundViewW;
-    CGFloat menuBackgroundViewY = self.menuBackgroundView.frame.origin.y;
-    CGFloat menuBackgroundViewH = self.menuBackgroundView.frame.size.height;
-    self.menuBackgroundView.frame = CGRectMake(menuBackgroundViewX, menuBackgroundViewY, menuBackgroundViewW, menuBackgroundViewH);
+    
+        UICollectionViewLayoutAttributes *attributes = [self.menuView layoutAttributesForItemAtIndexPath:currentIndexPath];
+        CGFloat menuBackgroundViewW = attributes.frame.size.width + 1;
+        // 切换频道栏变更频道栏背景蓝色位置
+ 
+        CGFloat menuBackgroundViewX = ratio * menuBackgroundViewW + 5;
+        CGFloat menuBackgroundViewY = self.menuBackgroundView.frame.origin.y;
+        CGFloat menuBackgroundViewH = self.menuBackgroundView.frame.size.height;
+        self.menuBackgroundView.frame = CGRectMake(menuBackgroundViewX, menuBackgroundViewY,  self.menuBackgroundView.frame.size.width, menuBackgroundViewH);
 }
 
 - (void)pagingView:(LPPagingView *)pagingView didScrollToPageIndex:(NSInteger)pageIndex {
@@ -308,22 +324,33 @@ NSString * const reuseConcernPageID = @"reuseConcernPageID";
     [self.menuView selectItemAtIndexPath:indexPath
                                 animated:YES
                           scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+    
+ 
 }
 
 #pragma mark - LPagingViewPage delegate
-- (void)page:(LPPagingViewPage *)page didSelectCellWithCardID:(NSManagedObjectID *)cardID cardFrame:(CardFrame *)cardFrame{
-    LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
-    detailVc.sourceViewController = homeSource;
-    detailVc.cardID = cardID;
+- (void)page:(LPPagingViewPage *)page didSelectCellWithCardID:(NSManagedObjectID *)cardID cardFrame:(CardFrame *)cardFrame {
+    
     CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
     Card *card = (Card *)[cdh.importContext existingObjectWithID:cardID error:nil];
-    detailVc.isRead = card.isRead;
-    if (!card.isRead) {
-        [page updateCardFramesWithCardFrame:cardFrame];
-  
+    if ([card.rtype isEqual:@(4)]) {
+        LPSpecialTopicHomeViewController *specialTopicVc = [[LPSpecialTopicHomeViewController alloc] init];
+        specialTopicVc.tid = card.nid;
+        [self.navigationController pushViewController:specialTopicVc animated:YES];
+        
+    } else {
+        LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
+        detailVc.sourceViewController = homeSource;
+        detailVc.cardID = cardID;
+        
+        detailVc.isRead = card.isRead;
+        if (!card.isRead) {
+            [page updateCardFramesWithCardFrame:cardFrame];
+            
+        }
+        detailVc.statusWindow = self.statusWindow;
+        [self.navigationController pushViewController:detailVc animated:YES];
     }
-    detailVc.statusWindow = self.statusWindow;
-    [self.navigationController pushViewController:detailVc animated:YES];
 }
 
 - (void)page:(LPPagingViewPage *)page didClickSearchImageView:(UIImageView *)imageView {

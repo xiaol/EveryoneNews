@@ -29,6 +29,8 @@
     
     UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];
     
+    
+    
     if (type == UMSocialPlatformType_Sina) {
         //设置文本
         messageObject.text = [NSString stringWithFormat:@"%@ %@", self.shareTitle, self.shareURL];        //创建图片内容对象
@@ -52,13 +54,25 @@
         
         messageObject.text = self.shareTitle;
         //创建网页内容对象
-        UMShareWebpageObject *shareObject = [UMShareWebpageObject shareObjectWithTitle:self.shareTitle descr:self.shareTitle thumImage:self.shareImageURL];
+        UMShareWebpageObject *shareObject = nil;
+      if (self.shareImageURL) {
+          shareObject = [UMShareWebpageObject shareObjectWithTitle:self.shareTitle descr:self.shareTitle thumImage:self.shareImageURL];
+      } else {
+          shareObject = [UMShareWebpageObject shareObjectWithTitle:self.shareTitle descr:self.shareTitle thumImage:[UIImage imageNamed:@"个人中心奇点资讯"]];
+      }
         shareObject.webpageUrl = self.shareURL;
         messageObject.shareObject = shareObject;
     }
     else {
         //创建网页内容对象
-        UMShareWebpageObject *shareObject = [UMShareWebpageObject shareObjectWithTitle:self.shareTitle descr:self.shareTitle thumImage:self.shareImageURL];
+        UMShareWebpageObject *shareObject = nil;
+        
+        if (self.shareImageURL) {
+            shareObject = [UMShareWebpageObject shareObjectWithTitle:self.shareTitle descr:self.shareTitle thumImage:self.shareImageURL];
+        } else {
+            shareObject = [UMShareWebpageObject shareObjectWithTitle:self.shareTitle descr:self.shareTitle thumImage:[UIImage imageNamed:@"个人中心奇点资讯"]];
+        }
+        
         shareObject.webpageUrl = self.shareURL;
         messageObject.shareObject = shareObject;
   

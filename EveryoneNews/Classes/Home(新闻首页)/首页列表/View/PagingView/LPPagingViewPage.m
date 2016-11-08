@@ -78,25 +78,25 @@
         }
         
         UIView *searchView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, searchViewHeight)];
-        searchView.backgroundColor = [UIColor colorFromHexString:@"#f0f0f0"];
+        searchView.backgroundColor = [UIColor colorFromHexString:LPColor16];
         
         CALayer *layer = [CALayer layer];
         layer.frame = CGRectMake(searchViewPadding, paddingTop, ScreenWidth - searchViewPadding * 2, searchViewHeight - paddingTop * 2);
         layer.backgroundColor =[UIColor whiteColor].CGColor;
         layer.cornerRadius = cornerRadius;
-        layer.borderColor = [UIColor colorFromHexString:@"e4e4e4"].CGColor;
+        layer.borderColor = [UIColor colorFromHexString:LPColor16].CGColor;
         layer.borderWidth = 0.5;
         [searchView.layer addSublayer:layer];
         
         UIImageView *searchImageView = [[UIImageView alloc] initWithFrame:CGRectMake(26, 0, searchImageW, searchImageH)];
-        searchImageView.image = [UIImage imageNamed:@"首页搜索"];
+        searchImageView.image = [UIImage imageNamed:@"home_search"];
         searchImageView.centerY = searchViewHeight / 2;
         [searchView addSubview:searchImageView];
         
         UILabel *searchLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(searchImageView.frame) + 6, 0, 40, 29)];
         searchLabel.text = @"搜索";
         searchLabel.textAlignment = NSTextAlignmentLeft;
-        searchLabel.textColor = [UIColor colorFromHexString:@"#cacaca"];
+        searchLabel.textColor = [UIColor colorFromHexString:@"#b4b4b4"];
         searchLabel.font = [UIFont systemFontOfSize:searchLabelFontSize];
         searchLabel.centerY = searchViewHeight / 2;
         [searchView addSubview:searchLabel];
@@ -107,14 +107,13 @@
         searchView.hidden = YES;
         self.searchView = searchView;
         
-        UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(0, searchViewHeight - 0.5, ScreenWidth, 0.5)];
-        seperatorView.backgroundColor = [UIColor colorFromHexString:LPColor5];
-        [searchView addSubview:seperatorView];
-        
-        
-         UITableView *tableView = [[UITableView alloc] init];
+        CALayer *seperatorLayer = [CALayer layer];
+        seperatorLayer.frame = CGRectMake(0, searchViewHeight - 0.5, ScreenWidth, 0.5);
+        [searchView.layer addSublayer:seperatorLayer];
+
+        UITableView *tableView = [[UITableView alloc] init];
         tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-        tableView.backgroundColor =  [UIColor colorFromHexString:LPColor9];
+        tableView.backgroundColor =  [UIColor colorFromHexString:LPColor16];
         tableView.dataSource = self;
         tableView.delegate = self;
         tableView.showsVerticalScrollIndicator = NO;
@@ -129,9 +128,9 @@
         label.y = -15;
         label.width = ScreenWidth;
         
-        label.backgroundColor = [UIColor colorFromHexString:LPColor8];
+        label.backgroundColor = [UIColor colorFromHexString:@"#fff1e7"];
         label.textAlignment = NSTextAlignmentCenter;
-        label.textColor = [UIColor colorFromHexString:LPColor2];
+        label.textColor = [UIColor colorFromHexString:LPColor15];
         label.font = [UIFont systemFontOfSize:14];
         if (iPhone6Plus) {
             label.font = [UIFont systemFontOfSize:16];

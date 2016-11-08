@@ -75,6 +75,24 @@
     return string;
 }
 
+- (NSMutableAttributedString *)truncatingTailAttributedStringWithFont:(CGFloat)fontSize lineSpacing:(CGFloat)lineSpacing rtype:(BOOL)rtype {
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:self];
+    NSRange range = NSMakeRange(0, self.length);
+    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
+    style.alignment = NSTextAlignmentJustified;
+    style.lineBreakMode = NSLineBreakByTruncatingTail;
+    style.firstLineHeadIndent = 0.001f;
+    style.lineSpacing = lineSpacing;
+    UIFont *font = [UIFont systemFontOfSize:fontSize];
+    [string addAttribute:NSFontAttributeName value:font range:range];
+    if (rtype) {
+        style.firstLineHeadIndent = 5.0f;
+        [string addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0,2)];
+    }
+    [string addAttribute:NSParagraphStyleAttributeName value:style range:range];
+    return string;
+}
+
 - (NSMutableAttributedString *)attributedStringWithFont:(UIFont *)font color:(UIColor *)color lineSpacing:(CGFloat)lineSpacing characterSpacing:(CGFloat)spacing firstLineSpacing:(CGFloat)firstSpacing {
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:self];
     NSRange range = NSMakeRange(0, self.length);

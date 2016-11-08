@@ -103,7 +103,7 @@
         [searchView.layer addSublayer:layer];
         
         UIImageView *searchImageView = [[UIImageView alloc] initWithFrame:CGRectMake(26, 0, searchImageW, searchImageH)];
-        searchImageView.image = [UIImage imageNamed:@"首页搜索"];
+        searchImageView.image = [UIImage imageNamed:@"home_search"];
         searchImageView.centerY = searchViewHeight / 2;
         [searchView addSubview:searchImageView];
         
@@ -144,9 +144,9 @@
         label.y = -15;
         label.width = ScreenWidth;
         
-        label.backgroundColor = [UIColor colorFromHexString:LPColor8];
+        label.backgroundColor = [UIColor colorFromHexString:@"#fff1e7"];
         label.textAlignment = NSTextAlignmentCenter;
-        label.textColor = [UIColor colorFromHexString:LPColor2];
+        label.textColor = [UIColor colorFromHexString:LPColor15];
         label.font = [UIFont systemFontOfSize:14];
         if (iPhone6Plus) {
             label.font = [UIFont systemFontOfSize:16];

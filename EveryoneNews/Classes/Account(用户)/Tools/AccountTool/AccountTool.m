@@ -14,10 +14,8 @@
 #import "UIImage+LP.h"
 #import "AppDelegate.h"
 #import "NSDate+Extension.h"
-//#import "UMSocialAccountManager.h"
-//#import "UMSocialDataService.h"
+#import <UMSocialCore/UMSocialCore.h>
 #import "MainNavigationController.h"
-//#import "UMSocialSnsPlatformManager.h"
 #import "WXApi.h"
 #import "MainNavigationController.h"
 #import "LPLoginTool.h"
@@ -383,63 +381,57 @@ const static CGFloat padding = 32;
 #pragma mark - 第三方登录
 // 微信
 - (void)weixinButtonDidClick {
-   // [self loginWithPlatformName:UMShareToWechatSession];
+    [self loginWithPlatformName:UMSocialPlatformType_WechatSession];
 }
 
 - (void)weixinLabelRecognizer {
-   // [self loginWithPlatformName:UMShareToWechatSession];
+    [self loginWithPlatformName:UMSocialPlatformType_WechatSession];
 }
 // 微博
 - (void)weiboButtonDidClick {
-   // [self loginWithPlatformName:UMShareToSina];
+   [self loginWithPlatformName:UMSocialPlatformType_Sina];
 }
 
 - (void)weiboLabelRecognizer {
-   // [self loginWithPlatformName:UMShareToSina];
+     [self loginWithPlatformName:UMSocialPlatformType_Sina];
 }
 
 #pragma mark - 登录微信微博平台
-- (void)loginWithPlatformName:(NSString *)type {
-//    
-//    UMSocialSnsPlatform *platform = [UMSocialSnsPlatformManager getSocialPlatformWithName:type];
-//    __weak typeof(self) wself = self;
-//    UMSocialControllerService *service = [UMSocialControllerService defaultControllerService];
-//    service.socialUIDelegate = self;
-//    platform.loginClickHandler(self, service , YES ,^(UMSocialResponseEntity *response) {
-//        
-//        if (response.responseCode == UMSResponseCodeSuccess) {
-//            
-//            UMSocialAccountEntity *accountEntity = [[UMSocialAccountManager socialAccountDictionary] valueForKey:type];
-//            // 保存友盟信息到本地
-//            Account *account = [LPLoginTool returnAccountAndSaveAccountWithAccountEntity:accountEntity];
-//            NSMutableDictionary *paramsUser = [LPLoginTool registeredUserParamsWithAccountEntity:accountEntity];
-//            
-//            // 第三方注册
-//            NSString *url = [NSString stringWithFormat:@"%@/v2/au/sin/s", ServerUrlVersion2];
-//            
-//            [LPHttpTool postJSONResponseAuthorizationWithURL:url params:paramsUser success:^(id json, NSString *authorization) {
-//                
-//                [LPLoginTool saveRegisteredUserInfoAndSendConcernNotification:json authorization:authorization];
-//                
-//                if ([json[@"code"] integerValue] == 2000) {
-//                    if (wself.successBlock) {
-//                        wself.successBlock(account);
-//                    }
-//                    [wself closeSelf];
-//                }
-//            } failure:^(NSError *error) {
-//                if (wself.failureBlock) {
-//                    wself.failureBlock();
-//                }
-//                [wself closeSelf];
-//            }];
-//        } else {
-//            if (wself.failureBlock) {
-//                wself.failureBlock();
-//            }
-//            [wself closeSelf];
-//        }
-//    });
+- (void)loginWithPlatformName:(UMSocialPlatformType)type {
+    
+    __weak typeof(self) wself = self;
+    [[UMSocialManager defaultManager] getUserInfoWithPlatform:type currentViewController:self completion:^(id result, NSError *error) {
+        if (error == nil) {
+            UMSocialUserInfoResponse *accountEntity = result;
+            // 保存友盟信息到本地
+            Account *account = [LPLoginTool returnAccountAndSaveAccountWithAccountEntity:accountEntity];
+            NSMutableDictionary *params = [LPLoginTool registeredUserParamsWithAccountEntity:accountEntity];
+            // 第三方注册
+            NSString *url = [NSString stringWithFormat:@"%@/v2/au/sin/s", ServerUrlVersion2];
+            [LPHttpTool postJSONResponseAuthorizationWithURL:url params:params success:^(id json, NSString *authorization) {
+                
+                [LPLoginTool saveRegisteredUserInfoAndSendConcernNotification:json authorization:authorization];
+                
+                                if ([json[@"code"] integerValue] == 2000) {
+                                    if (wself.successBlock) {
+                                        wself.successBlock(account);
+                                    }
+                                    [wself closeSelf];
+                                }
+                            } failure:^(NSError *error) {
+                                if (wself.failureBlock) {
+                                    wself.failureBlock();
+                                }
+                                [wself closeSelf];
+                            }];
+
+        }  else {
+            if (wself.failureBlock) {
+                wself.failureBlock();
+            }
+            [wself closeSelf];
+        }
+    }];
 }
 
 

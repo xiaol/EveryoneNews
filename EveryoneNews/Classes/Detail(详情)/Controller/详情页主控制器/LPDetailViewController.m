@@ -59,6 +59,8 @@
 #import "TFHpple.h"
 #import "LPFontSize.h"
 #import "LPPressTool.h"
+#import "LPSpecailTopicCardFrame.h"
+#import "LPSpecialTopicCard.h"
 
 
 static const NSString * privateContext;
@@ -1150,7 +1152,7 @@ const static CGFloat changeFontSizeViewH = 150;
 #pragma mark - 获取Card内容
 - (Card *)card {
     switch (self.sourceViewController) {
-        case searchSource: case remoteNotificationSource: case concernHistorySource : case commentSource:case collectionSource:
+        case searchSource: case remoteNotificationSource: case concernHistorySource : case commentSource:case collectionSource:case specialTopicSource:
             return nil;
             break;
             
@@ -1187,6 +1189,10 @@ const static CGFloat changeFontSizeViewH = 150;
         case collectionSource:
             return [NSString stringWithFormat:@"%@",  self.myCollectionCardFrame.card.nid];
             break;
+            
+        case specialTopicSource:
+            return [NSString stringWithFormat:@"%@",  self.specialTopicCardFrame.card.nid];
+            break;
         default:
             if (![self card]) return nil;
             //return @"6422374";
@@ -1214,6 +1220,10 @@ const static CGFloat changeFontSizeViewH = 150;
         case collectionSource:
             return   self.myCollectionCardFrame.card.docId;
             break;
+        case specialTopicSource:
+            return self.specialTopicCardFrame.card.docId;
+            break;
+            
         default:
             if (![self card]) return nil;
             return [[self card] valueForKey:@"docId"];
@@ -1236,6 +1246,9 @@ const static CGFloat changeFontSizeViewH = 150;
             break;
         case collectionSource:
             return  self.myCollectionCardFrame.card.channelId;
+            break;
+        case specialTopicSource:
+            return self.specialTopicCardFrame.card.channelId;
             break;
         default:
             if (![self card]) return nil;
@@ -2460,16 +2473,8 @@ const static CGFloat changeFontSizeViewH = 150;
 }
 
 #pragma mark - LPDetailChangeFontSizeView delegate
-- (void)changeFontSizeView:(LPDetailChangeFontSizeView *)changeFontSizeView reloadTableViewWithFontSize:(NSInteger)fontSize fontSizeType:(NSString *)fontSizeType currentDetailContentFontSize:(NSInteger)currentDetailContentFontSize currentDetaiTitleFontSize:(NSInteger)currentDetaiTitleFontSize currentDetailCommentFontSize:(NSInteger)currentDetailCommentFontSize currentDetailRelatePointFontSize:(NSInteger)currentDetailRelatePointFontSize currentDetailSourceFontSize:(NSInteger)currentDetailSourceFontSize {
+- (void)changeFontSizeView:(LPDetailChangeFontSizeView *)changeFontSizeView reloadTableViewWithFontSize:(LPFontSize *)lpFontSize {
     
-    LPFontSize *lpFontSize = [[LPFontSize alloc] init];
-    lpFontSize.currentHomeViewFontSize = fontSize;
-    lpFontSize.fontSizeType = fontSizeType;
-    lpFontSize.currentDetailContentFontSize = currentDetailContentFontSize;
-    lpFontSize.currentDetaiTitleFontSize = currentDetaiTitleFontSize;
-    lpFontSize.currentDetailCommentFontSize = currentDetailCommentFontSize;
-    lpFontSize.currentDetailRelatePointFontSize = currentDetailRelatePointFontSize;
-    lpFontSize.currentDetailSourceFontSize = currentDetailSourceFontSize;
     [LPFontSizeManager sharedManager].lpFontSize = lpFontSize;
     [[LPFontSizeManager sharedManager] saveHomeViewFontSizeAndType];
    
@@ -2506,25 +2511,6 @@ const static CGFloat changeFontSizeViewH = 150;
 - (void)safariViewControllerDidFinish:(SFSafariViewController *)controller {
    [controller dismissViewControllerAnimated:YES completion:nil];
 }
-
-//#pragma mark - LPShareCell  Delegate
-//- (void)cell:(LPShareCell *)shareCell shareIndex:(NSInteger)index {
-//    switch (index) {
-//        case -1:
-//            [self shareToWechatSessionBtnClick];
-//            break;
-//        case -2:
-//            [self shareToWechatTimelineBtnClick];
-//            break;
-//        case -3:
-//            [self shareToQQBtnClick];
-//            break;
-//        case -4:
-//            [self shareToSinaBtnClick];
-//            break;
-//    }
-//}
-
 
 #pragma mark - 底部评论按钮
 - (void)didClickCommentsWithDetailBottomView:(LPDetailBottomView *)detailBottomView {

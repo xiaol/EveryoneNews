@@ -138,7 +138,7 @@ static NSString *cellIdentifier = @"cellIdentifier";
     Account *account = [AccountTool account];
     NSString *nickName = @"奇点资讯";
     if (account) {
-        [iconImageView sd_setImageWithURL:[NSURL URLWithString:account.userIcon] placeholderImage:[UIImage imageNamed:@"morentouxiang"]];
+        [iconImageView sd_setImageWithURL:[NSURL URLWithString:account.userIcon] placeholderImage:[UIImage imageNamed:@"home_user"]];
         nickName = account.userName;
     }
     [self.view addSubview:iconImageView];

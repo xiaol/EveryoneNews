@@ -186,6 +186,10 @@
 		868F50421D34D709002B4912 /* Card.m in Sources */ = {isa = PBXBuildFile; fileRef = 868F50401D34D709002B4912 /* Card.m */; };
 		868F50471D34D817002B4912 /* CardConcern+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 868F50441D34D817002B4912 /* CardConcern+CoreDataProperties.m */; };
 		868F50481D34D817002B4912 /* CardConcern.m in Sources */ = {isa = PBXBuildFile; fileRef = 868F50461D34D817002B4912 /* CardConcern.m */; };
+		8699832D1DBDE156006E14A9 /* LPSpecialTopicHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8699832A1DBDE156006E14A9 /* LPSpecialTopicHomeViewController.m */; };
+		869983331DBDE6B5006E14A9 /* LPSpecialTopicCard.m in Sources */ = {isa = PBXBuildFile; fileRef = 869983321DBDE6B5006E14A9 /* LPSpecialTopicCard.m */; };
+		869983361DBDE7B6006E14A9 /* LPSpecailTopicCardFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 869983351DBDE7B6006E14A9 /* LPSpecailTopicCardFrame.m */; };
+		8699833C1DBDE856006E14A9 /* LPSpecialTopicViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8699833B1DBDE856006E14A9 /* LPSpecialTopicViewCell.m */; };
 		86A6735F1C119D7D003509C3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 86A6735E1C119D7D003509C3 /* Images.xcassets */; };
 		86A8CD601CA0049400379EFB /* NSObject+Swizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A8CD5D1CA0049400379EFB /* NSObject+Swizzle.m */; };
 		86A8CD611CA0049400379EFB /* UIControl+Swizzle.m in Sources */ = {isa = PBXBuildFile; fileRef = 86A8CD5F1CA0049400379EFB /* UIControl+Swizzle.m */; };
@@ -644,6 +648,14 @@
 		868F50441D34D817002B4912 /* CardConcern+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CardConcern+CoreDataProperties.m"; sourceTree = "<group>"; };
 		868F50451D34D817002B4912 /* CardConcern.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardConcern.h; sourceTree = "<group>"; };
 		868F50461D34D817002B4912 /* CardConcern.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardConcern.m; sourceTree = "<group>"; };
+		869983291DBDE156006E14A9 /* LPSpecialTopicHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPSpecialTopicHomeViewController.h; sourceTree = "<group>"; };
+		8699832A1DBDE156006E14A9 /* LPSpecialTopicHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPSpecialTopicHomeViewController.m; sourceTree = "<group>"; };
+		869983311DBDE6B5006E14A9 /* LPSpecialTopicCard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPSpecialTopicCard.h; sourceTree = "<group>"; };
+		869983321DBDE6B5006E14A9 /* LPSpecialTopicCard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPSpecialTopicCard.m; sourceTree = "<group>"; };
+		869983341DBDE7B6006E14A9 /* LPSpecailTopicCardFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPSpecailTopicCardFrame.h; sourceTree = "<group>"; };
+		869983351DBDE7B6006E14A9 /* LPSpecailTopicCardFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPSpecailTopicCardFrame.m; sourceTree = "<group>"; };
+		8699833A1DBDE856006E14A9 /* LPSpecialTopicViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LPSpecialTopicViewCell.h; sourceTree = "<group>"; };
+		8699833B1DBDE856006E14A9 /* LPSpecialTopicViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LPSpecialTopicViewCell.m; sourceTree = "<group>"; };
 		86A6735E1C119D7D003509C3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		86A8CD5C1CA0049400379EFB /* NSObject+Swizzle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+Swizzle.h"; sourceTree = "<group>"; };
 		86A8CD5D1CA0049400379EFB /* NSObject+Swizzle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+Swizzle.m"; sourceTree = "<group>"; };
@@ -1961,6 +1973,45 @@
 			path = TFHpple;
 			sourceTree = "<group>";
 		};
+		869983271DBDE156006E14A9 /* 专题 */ = {
+			isa = PBXGroup;
+			children = (
+				869983281DBDE156006E14A9 /* Controller */,
+				8699832B1DBDE156006E14A9 /* Model */,
+				8699832C1DBDE156006E14A9 /* View */,
+			);
+			path = "专题";
+			sourceTree = "<group>";
+		};
+		869983281DBDE156006E14A9 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				869983291DBDE156006E14A9 /* LPSpecialTopicHomeViewController.h */,
+				8699832A1DBDE156006E14A9 /* LPSpecialTopicHomeViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		8699832B1DBDE156006E14A9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				869983341DBDE7B6006E14A9 /* LPSpecailTopicCardFrame.h */,
+				869983351DBDE7B6006E14A9 /* LPSpecailTopicCardFrame.m */,
+				869983311DBDE6B5006E14A9 /* LPSpecialTopicCard.h */,
+				869983321DBDE6B5006E14A9 /* LPSpecialTopicCard.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		8699832C1DBDE156006E14A9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				8699833A1DBDE856006E14A9 /* LPSpecialTopicViewCell.h */,
+				8699833B1DBDE856006E14A9 /* LPSpecialTopicViewCell.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		86ADABED1D2CEE7F00128D6F /* TTTAttributedLabel */ = {
 			isa = PBXGroup;
 			children = (
@@ -1982,6 +2033,7 @@
 		86DB72A91D990FE3000C9399 /* Home(新闻首页) */ = {
 			isa = PBXGroup;
 			children = (
+				869983271DBDE156006E14A9 /* 专题 */,
 				86DB73AB1D9923F5000C9399 /* 首页列表 */,
 				86DB736E1D991F37000C9399 /* 奇点号来源 */,
 				86DB737E1D991F37000C9399 /* 奇点号列表 */,
@@ -3130,6 +3182,7 @@
 				866207821D9A162300625EA9 /* UICollectionViewLeftAlignedLayout.m in Sources */,
 				18BA5E8E1B199BDB00EEDB63 /* UIView+LP.m in Sources */,
 				866207BD1D9A1F2100625EA9 /* LPRelatePointFooter.m in Sources */,
+				869983331DBDE6B5006E14A9 /* LPSpecialTopicCard.m in Sources */,
 				86DB734A1D990FE3000C9399 /* LPSearchCard.m in Sources */,
 				18EC95961BE21E6F0039486A /* TimerTool.m in Sources */,
 				1875647F1C2110B600589320 /* CardImage+CoreDataProperties.m in Sources */,
@@ -3213,6 +3266,7 @@
 				86A8EF661C75C78C0083FC9D /* Content+PhotoDownloadCompletion.m in Sources */,
 				86DB73501D990FE3000C9399 /* LPSearchHistoryTableViewCell.m in Sources */,
 				86DB73541D990FE3000C9399 /* LPSearchTopView.m in Sources */,
+				8699833C1DBDE856006E14A9 /* LPSpecialTopicViewCell.m in Sources */,
 				86DB739E1D991F37000C9399 /* LPQiDianHaoFrame.m in Sources */,
 				18D71FAB1B2572C5002A7375 /* MJProperty.m in Sources */,
 				8601E9D41D4F418500809D7E /* MJRefreshAutoFooter.m in Sources */,
@@ -3254,6 +3308,7 @@
 				18F631A21B5F2F1000423658 /* FBShimmeringLayer.m in Sources */,
 				86DB73531D990FE3000C9399 /* LPSearchTextView.m in Sources */,
 				86DB73561D990FE3000C9399 /* LPRegisterViewController.m in Sources */,
+				869983361DBDE7B6006E14A9 /* LPSpecailTopicCardFrame.m in Sources */,
 				868F50481D34D817002B4912 /* CardConcern.m in Sources */,
 				187564851C2110B600589320 /* PressPhoto+CoreDataProperties.m in Sources */,
 				86DB735A1D990FE3000C9399 /* LPChannelItem.m in Sources */,
@@ -3326,6 +3381,7 @@
 				8601E9D61D4F418500809D7E /* MJRefreshComponent.m in Sources */,
 				18A0AA971C20602600E9AA44 /* Card+Create.m in Sources */,
 				8601E9DF1D4F418500809D7E /* MJRefreshGifHeader.m in Sources */,
+				8699832D1DBDE156006E14A9 /* LPSpecialTopicHomeViewController.m in Sources */,
 				86DB73321D990FE3000C9399 /* LPFontSize.m in Sources */,
 				187912E51BC1E90A0021AB3E /* CoreDataCVC.m in Sources */,
 				8618A5831D40C9FB004C97BA /* CardSourceColor+CoreDataProperties.m in Sources */,

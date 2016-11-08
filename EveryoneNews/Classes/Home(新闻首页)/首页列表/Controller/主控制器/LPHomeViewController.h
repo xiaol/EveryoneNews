@@ -48,7 +48,7 @@
 @property (nonatomic, strong) NSMutableDictionary *channelItemDictionary;
 // 记录所有的样式，用于长按拖动
 @property (nonatomic, strong) NSMutableArray *cellAttributesArray;
-// 菜单背景蓝色
+// 菜单下划线
 @property (nonatomic, strong) UIView *menuBackgroundView;
 // 是否完成频道切换
 @property (nonatomic, assign) BOOL isSort;

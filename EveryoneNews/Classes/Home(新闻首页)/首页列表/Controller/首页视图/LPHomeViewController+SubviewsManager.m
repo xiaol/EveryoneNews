@@ -83,7 +83,6 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
     CGFloat unloginBtnW = 24.0;
     CGFloat unloginBtnH = 24.0;
     if (iPhone6) {
-        menuViewHeight = 52;
         unloginBtnW = 26.0;
         unloginBtnH = 26.0;
 
@@ -97,7 +96,7 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
     loginBtn.layer.cornerRadius = 0;
     loginBtn.layer.borderWidth = 0;
     loginBtn.layer.masksToBounds = NO;
-    [loginBtn setBackgroundImage:[UIImage imageNamed:@"home_login"] forState:UIControlStateNormal];
+    [loginBtn setBackgroundImage:[UIImage imageNamed:@"home_user"] forState:UIControlStateNormal];
     loginBtn.enlargedEdge = 5.0;
     [loginBtn addTarget:self action:@selector(loginBtnDidClick) forControlEvents:UIControlEventTouchUpInside];
     self.loginBtn = loginBtn;
@@ -126,51 +125,39 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
     CGFloat addBtnX = ScreenWidth - addBtnW - addBtnPaddingRight;
     CGFloat addBtnY = (menuViewHeight - addBtnH) / 2 + statusBarHeight;
     UIButton *channelItemManageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [channelItemManageButton setBackgroundImage:[UIImage imageNamed:@"添加频道"] forState:UIControlStateNormal];
+    [channelItemManageButton setBackgroundImage:[UIImage imageNamed:@"home_add"] forState:UIControlStateNormal];
     channelItemManageButton.frame = CGRectMake(addBtnX, addBtnY, addBtnW, addBtnH);
     [channelItemManageButton addTarget:self action:@selector(channelItemManageButtonClick) forControlEvents:UIControlEventTouchUpInside];
     channelItemManageButton.enlargedEdge = 10;
     [headerView addSubview:channelItemManageButton];
     
-    // 底部分割线
-    UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(0, statusBarHeight + menuViewHeight - 1, ScreenWidth, 1)];
-    seperatorView.backgroundColor = [UIColor colorFromHexString:@"#0091fa"];
-    [headerView addSubview:seperatorView];
-    
+
+ 
     // 频道栏
     CGFloat menuViewX = 46;
     CGFloat menuViewPaddingRight = 35.5;
-    CGFloat menuViewPaddingTop = 30;
     
-    CGFloat menuViewY = 0.0f;
+    CGFloat menuViewY = 30;
     CGFloat menuViewW = 0.0f;
     CGFloat menuViewH = 24.0;
+    
     if (iPhone6Plus) {
-        menuViewX = 46;
         menuViewPaddingRight = 34;
-        menuViewW = ScreenWidth - menuViewX - menuViewPaddingRight;
-        menuViewH = 24.0;
-        menuViewY = menuViewPaddingTop;
     } else if (iPhone5) {
-        menuViewX = 46;
         menuViewPaddingRight = 35.5f;
-        menuViewW = ScreenWidth - menuViewX - menuViewPaddingRight;
-        menuViewH = 24.0;
-        menuViewY = menuViewPaddingTop;
     } else {
         menuViewX = 54;
         menuViewPaddingRight = 41;
-        menuViewW = ScreenWidth - menuViewX - menuViewPaddingRight;
-        menuViewH = 28.0;
-        menuViewY = (menuViewHeight - menuViewH) / 2 + statusBarHeight;
     }
-    
+    menuViewW = ScreenWidth - menuViewX - menuViewPaddingRight;
+    menuViewH = statusBarHeight + menuViewHeight - menuViewY - 0.5f;
 
     UICollectionViewFlowLayout *menuViewFlowLayout = [[UICollectionViewFlowLayout alloc] init];
     menuViewFlowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     LPMenuView *menuView = [[LPMenuView alloc] initWithFrame:CGRectMake(menuViewX, menuViewY , menuViewW, menuViewH) collectionViewLayout:menuViewFlowLayout];
     menuView.backgroundColor = [UIColor whiteColor];
     menuView.showsHorizontalScrollIndicator = NO;
+    menuView.pagingEnabled = YES;
     menuView.scrollsToTop = NO;
     menuView.delegate = self;
     menuView.dataSource = self;
@@ -178,6 +165,11 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
     [headerView addSubview:menuView];
     self.menuView = menuView;
     
+    // 底部分割线
+    CALayer *seperatorLayer = [CALayer layer];
+    seperatorLayer.frame = CGRectMake(0, statusBarHeight + menuViewHeight - 1.0f, ScreenWidth, 0.5f);
+    seperatorLayer.backgroundColor = [UIColor colorFromHexString:LPColor21].CGColor;
+    [headerView.layer addSublayer:seperatorLayer];
     // 默认选中第一个频道栏
     [self menuViewDidScrollToFirstChannelItem];
     
@@ -345,39 +337,6 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
         }
     }];
 }
-//- (void)loginWithPlatformName:(NSString *)type {
-    
-//    UMSocialSnsPlatform *platform = [UMSocialSnsPlatformManager getSocialPlatformWithName:type];
-//    UMSocialControllerService *service = [UMSocialControllerService defaultControllerService];
-//    platform.loginClickHandler(self, service , YES ,^(UMSocialResponseEntity *response) {
-//        
-//        if (response.responseCode == UMSResponseCodeSuccess) {
-//            
-//            UMSocialAccountEntity *accountEntity = [[UMSocialAccountManager socialAccountDictionary] valueForKey:type];
-//            // 保存友盟信息到本地
-//            [LPLoginTool saveAccountWithAccountEntity:accountEntity];
-//            
-//            // 隐藏登录视图
-//            self.loginView.hidden = YES;
-//            self.homeBlackBlurView.hidden = NO;
-//            
-//            [self setupSubscriberData];
-//            
-//            // 动态添加首订，完成后移除
-//            LPSubscribeView *subscribeView = [[LPSubscribeView alloc] initWithFrame:self.view.bounds];
-//            subscribeView.subscriberFrames = self.subscriberFrameArray;
-//            [self.view addSubview:subscribeView];
-//            
-//            
-//            //将用户授权信息上传到服务器
-//            NSMutableDictionary *paramsUser = [LPLoginTool registeredUserParamsWithAccountEntity:accountEntity];
-//            [LPLoginTool registeredUserPostToServerAndGetConcernList:paramsUser];
-//            
-//        } else {
-//            [MBProgressHUD showError:@"登录失败"];
-//        }
-//    });
-//}
 
 - (void)setupSubscriberData {
     LPSubscriber *subscriber1 = [[LPSubscriber alloc] initWithTitle:@"36氪" imageURL:@"36氪"];
@@ -527,23 +486,16 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
     // 导航栏滑动时添加背景颜色
     UICollectionViewLayoutAttributes *attributes = [self.menuView layoutAttributesForItemAtIndexPath:indexPath];
     
-    CGFloat menuBackgroundViewX = attributes.frame.origin.x;
-    CGFloat menuBackgroundViewY = attributes.frame.origin.y;
-    CGFloat menuBackgroundViewW = attributes.frame.size.width + 1;
-    CGFloat menuBackgroundViewH = attributes.frame.size.height;
-    
+    CGFloat menuBackgroundViewX = attributes.frame.origin.x + 5;
+    CGFloat menuBackgroundViewH = 2;
+    CGFloat menuBackgroundViewY = CGRectGetMaxY(attributes.frame) + 2 ;
+    CGFloat menuBackgroundViewW = attributes.frame.size.width - 10;
+   
     CGRect cellRect = CGRectMake(menuBackgroundViewX, menuBackgroundViewY, menuBackgroundViewW, menuBackgroundViewH);
-
     UIView *menuBackgroundView = [[UIView alloc] init];
     menuBackgroundView.frame = cellRect;
-    menuBackgroundView.alpha = 0.15;
-    menuBackgroundView.backgroundColor = [UIColor colorFromHexString:@"#0091fa"];
-    menuBackgroundView.layer.cornerRadius = 12.0f;
-    
-    if(iPhone6) {
-        menuBackgroundView.layer.cornerRadius = 14.0f;
-    }
-   
+    menuBackgroundView.backgroundColor = [UIColor colorFromHexString:LPColor15];
+
     [self.menuView addSubview:menuBackgroundView];
     self.menuBackgroundView = menuBackgroundView;
 }

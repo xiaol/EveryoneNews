@@ -378,9 +378,8 @@ const static CGFloat padding = 32;
 #pragma mark - 第三方登录
 // 微信
 - (void)weixinButtonDidClick {
-    
-    NSLog(@"ss");
-   // [self loginWithPlatformName:UMSocialPlatformType_WechatSession];
+
+    [self loginWithPlatformName:UMSocialPlatformType_WechatSession];
 }
 
 - (void)weixinLabelRecognizer {
@@ -419,31 +418,6 @@ const static CGFloat padding = 32;
         }
     }];
     
-    
-//    UMSocialSnsPlatform *platform = [UMSocialSnsPlatformManager getSocialPlatformWithName:type];
-//    UMSocialControllerService *service = [UMSocialControllerService defaultControllerService];
-//    platform.loginClickHandler(self, service , YES ,^(UMSocialResponseEntity *response) {
-//        if (response.responseCode == UMSResponseCodeSuccess) {
-//            UMSocialAccountEntity *accountEntity = [[UMSocialAccountManager socialAccountDictionary] valueForKey:type];
-//            // 保存友盟信息到本地
-//            [LPLoginTool saveAccountWithAccountEntity:accountEntity];
-//            NSMutableDictionary *params = [LPLoginTool registeredUserParamsWithAccountEntity:accountEntity];
-//            // 第三方注册
-//            NSString *url = @"http://bdp.deeporiginalx.com/v2/au/sin/s";
-//            [LPHttpTool postJSONResponseAuthorizationWithURL:url params:params success:^(id json, NSString *authorization) {
-//                
-//                [LPLoginTool saveRegisteredUserInfoAndSendConcernNotification:json authorization:authorization];
-//                if ([json[@"code"] integerValue] == 2000) {
-//                    [self dismissViewControllerAnimated:YES completion:nil];
-//                }
-//            }  failure:^(NSError *error) {
-//                [MBProgressHUD showError:@"登录失败"];
-//            }];
-//            
-//        } else {
-//            [MBProgressHUD showError:@"登录失败"];
-//        }
-//    });
 }
 
 

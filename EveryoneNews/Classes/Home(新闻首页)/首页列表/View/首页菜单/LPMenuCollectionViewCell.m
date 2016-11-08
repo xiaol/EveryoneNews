@@ -18,9 +18,12 @@
 
 - (instancetype)initWithFrame:(CGRect)frame {
     if(self = [super initWithFrame:frame]) {
-        LPMenuButton *menuButton = [[LPMenuButton alloc] initWithFrame:CGRectMake(0, 0, self.contentView.bounds.size.width, self.contentView.bounds.size.height)];
+        
+        LPMenuButton *menuButton = [[LPMenuButton alloc] initWithFrame:CGRectMake(0, 0, self.contentView.bounds.size.width, self.contentView.bounds.size.height - 10)];
         [self.contentView addSubview:menuButton];
         self.menuButton = menuButton;
+        
+        
         UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] init];
         [self.menuButton addGestureRecognizer:tapGestureRecognizer];
     }
@@ -33,12 +36,19 @@
 }
 
 - (void)setSelected:(BOOL)selected {
-    [super setSelected:selected];
-    if (selected) {
-       self.menuButton.textColor = LPSelectedColor;
+    [super setSelected:selected];    
+    if(selected) {
+        self.menuButton.textColor = [UIColor colorFromHexString:LPColor15];
+        [UIView animateWithDuration:0.4 animations:^{
+            self.menuButton.transform = CGAffineTransformMakeScale(1.15, 1.15);
+        }];
         
     } else {
-        self.menuButton.textColor = LPNormalColor;
+        self.menuButton.textColor = [UIColor colorFromHexString:LPColor20];
+        [UIView animateWithDuration:0.4 animations:^{
+            self.menuButton.transform = CGAffineTransformIdentity;
+            
+        }];
     }
 }
 
