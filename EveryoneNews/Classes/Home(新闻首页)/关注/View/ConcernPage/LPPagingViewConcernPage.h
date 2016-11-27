@@ -18,7 +18,7 @@
 @optional
 - (void)concernPage:(LPPagingViewConcernPage *)concernPage didSelectCellWithCardID:(NSManagedObjectID *)cardID;
 - (void)concernPage:(LPPagingViewConcernPage *)concernPage didClickSearchImageView:(UIImageView *)imageView;
-
+- (void)concernPage:(LPPagingViewConcernPage *)concernPage didTapListViewWithSourceName:(NSString *)sourceName;
 @end
 
 @interface LPPagingViewConcernPage : LPPagingViewBasePage

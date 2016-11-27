@@ -23,7 +23,7 @@
         CGFloat colorLabelY = (height - colorLabelH) / 2;
         
         UILabel *colorLabel = [[UILabel alloc] initWithFrame:CGRectMake(colorLabelX, colorLabelY, colorLabelW, colorLabelH)];
-        colorLabel.backgroundColor = [UIColor colorFromHexString:@"#0091fa"];
+        colorLabel.backgroundColor = [UIColor colorFromHexString:LPColorDetail];
         [self addSubview:colorLabel];
         
         CGFloat paddingColorLabel = 8;

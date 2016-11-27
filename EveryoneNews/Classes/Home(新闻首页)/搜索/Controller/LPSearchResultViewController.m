@@ -22,6 +22,7 @@
 #import "LPConcernDetailViewController.h"
 #import "LPQiDianHao.h"
 #import "LPSearchTool.h"
+#import "LPLoadingView.h"
 
 
 static NSString *cellIdentifier = @"cellIdentifier";
@@ -34,9 +35,7 @@ static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
 @property (nonatomic, assign) NSInteger pageIndex;
 @property (nonatomic, strong) LPSearchResultTopView *topView;
 @property (nonatomic, strong) UIView *backgroundView;
-@property (nonatomic, strong)   UIImageView *animationImageView;
-@property (nonatomic, strong) UILabel *loadingLabel;
-@property (nonatomic, strong) UIView *contentLoadingView;
+@property (nonatomic, strong) LPLoadingView *loadingView;
 @property (nonatomic, assign, getter=isPublisherExist) BOOL publisherExist;
 @property (nonatomic, strong) NSMutableArray *qiDianHaoConcernArray;
 @property (nonatomic, copy) NSString *keywords;
@@ -185,51 +184,13 @@ static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
 
 #pragma mark - Loading View
 - (void)setupLoadingView {
-    UIView *contentLoadingView = [[UIView alloc] initWithFrame:CGRectMake(0, StatusBarHeight + TabBarHeight, ScreenWidth, ScreenHeight - StatusBarHeight - TabBarHeight)];
-    
-    // Load images
-    NSArray *imageNames = @[@"xl_1", @"xl_2", @"xl_3", @"xl_4"];
-    
-    NSMutableArray *images = [[NSMutableArray alloc] init];
-    for (int i = 0; i < imageNames.count; i++) {
-        [images addObject:[UIImage imageNamed:[imageNames objectAtIndex:i]]];
-    }
-    
-    // Normal Animation
-    UIImageView *animationImageView = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth - 36) / 2, (ScreenHeight - StatusBarHeight - TabBarHeight) / 3, 36 , 36)];
-    animationImageView.animationImages = images;
-    animationImageView.animationDuration = 1;
-    [self.view addSubview:animationImageView];
-    self.animationImageView = animationImageView;
-
-    [contentLoadingView addSubview:animationImageView];
-    [self.view addSubview:contentLoadingView];
-    
-    UILabel *loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(animationImageView.frame), ScreenWidth, 40)];
-    loadingLabel.textAlignment = NSTextAlignmentCenter;
-    loadingLabel.text = @"正在努力搜索...";
-    loadingLabel.font = [UIFont systemFontOfSize:12];
-    loadingLabel.textColor = [UIColor colorFromHexString:@"#999999"];
-    [contentLoadingView addSubview:loadingLabel];
-    self.loadingLabel = loadingLabel;
-    self.contentLoadingView = contentLoadingView;
-    
-    [self showLoadingView];
+    LPLoadingView *loadingView = [[LPLoadingView alloc] initWithFrame:CGRectMake(0, StatusBarHeight + TabBarHeight, ScreenWidth, (ScreenHeight - StatusBarHeight - TabBarHeight) / 2.0f)];
+    [self.view addSubview:loadingView];
+    self.loadingView = loadingView;
+    [loadingView startAnimating];
     
 }
 
-#pragma mark - 首页显示正在加载提示
-- (void)showLoadingView {
-    [self.animationImageView startAnimating];
-    self.contentLoadingView.hidden = NO;
-}
-
-
-#pragma mark - 首页隐藏正在加载提示
-- (void)hideLoadingView {
-    [self.animationImageView stopAnimating];
-    self.contentLoadingView.hidden = YES;
-}
 
 
 #pragma mark - 加载数据
@@ -292,14 +253,14 @@ static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
              weakSelf.tableView.hidden = NO;
             [weakSelf.tableView reloadData];
             weakSelf.pageIndex = self.pageIndex + 1;
-            [weakSelf hideLoadingView];
+            [weakSelf.loadingView stopAnimating];
         } else if([json[@"code"] integerValue] == 2002) {
              weakSelf.tableView.hidden = NO;
             [weakSelf.tableView reloadData];
-            [weakSelf hideLoadingView];
+           [weakSelf.loadingView stopAnimating];
         }
     } failure:^(NSError *error) {
-        [weakSelf hideLoadingView];
+        [weakSelf.loadingView stopAnimating];
     }];
 }
 

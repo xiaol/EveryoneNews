@@ -19,7 +19,7 @@
 @property (nonatomic, assign, readonly) CGRect noImageTipButtonFrame;
 @property (nonatomic, assign, readonly) CGRect noImageNewsTypeLabelFrame;
 @property (nonatomic, assign, readonly) CGRect noImageCommentsCountLabelFrame;
-
+@property (nonatomic, assign, readonly) CGRect noImageSourceListViewFrame;
 
 // 单图（小图）
 @property (nonatomic, assign, readonly) CGRect singleImageTitleLabelFrame;
@@ -31,6 +31,8 @@
 @property (nonatomic, assign, readonly) CGRect singleImageTipButtonFrame;
 @property (nonatomic, assign, readonly) CGRect singleImageNewsTypeLabelFrame;
 @property (nonatomic, assign, readonly) CGRect singleImageCommentsCountLabelFrame;
+@property (nonatomic, assign, readonly) CGRect singleImageSourceListViewFrame;
+
 
 // 单图（大图）
 @property (nonatomic, assign, readonly) CGRect singleBigImageTitleLabelFrame;
@@ -42,6 +44,7 @@
 @property (nonatomic, assign, readonly) CGRect singleBigImageTipButtonFrame;
 @property (nonatomic, assign, readonly) CGRect singleBigImageNewsTypeLabelFrame;
 @property (nonatomic, assign, readonly) CGRect singleBigImageCommentsCountLabelFrame;
+@property (nonatomic, assign, readonly) CGRect singleBigImageSourceListViewFrame;
 
 // 三图模式以及三图以上模式
 @property (nonatomic, assign, readonly) CGRect multipleImageTitleLabelFrame;
@@ -53,6 +56,7 @@
 @property (nonatomic, assign, readonly) CGRect multipleImageTipButtonFrame;
 @property (nonatomic, assign, readonly) CGRect multipleImageNewsTypeLabelFrame;
 @property (nonatomic, assign, readonly) CGRect multipleImageCommentsCountLabelFrame;
+@property (nonatomic, assign, readonly) CGRect multipleImageSourceListViewFrame;
 
 // 专题
 @property (nonatomic, assign, readonly) CGRect specialTopicOutsideViewFrame;
@@ -63,6 +67,7 @@
 @property (nonatomic, assign, readonly) CGRect specialTopicDeleteButtonFrame;
 @property (nonatomic, assign, readonly) CGRect specialTopicTipButtonFrame;
 @property (nonatomic, assign, readonly) CGRect specialTopicCommentsCountLabelFrame;
+@property (nonatomic, assign, readonly) CGRect specialTopicNewsTypeLabelFrame;
 
 // 是否显示提示
 @property (nonatomic, assign, getter=isTipButtonHidden) BOOL tipButtonHidden;

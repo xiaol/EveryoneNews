@@ -144,7 +144,7 @@
         label.y = -15;
         label.width = ScreenWidth;
         
-        label.backgroundColor = [UIColor colorFromHexString:@"#fff1e7"];
+        label.backgroundColor = [UIColor colorFromHexString:LPColor23];
         label.textAlignment = NSTextAlignmentCenter;
         label.textColor = [UIColor colorFromHexString:LPColor15];
         label.font = [UIFont systemFontOfSize:14];
@@ -178,7 +178,6 @@
         param.channelID = [NSString stringWithFormat:@"%@", card.channelId];
         param.count = @20;
         param.startTime = cardFrame.card.updateTime;
-        __weak typeof(self) weakSelf = self;
         NSMutableArray *tempArray = [[NSMutableArray alloc] init];
         [CardTool cardsConcernWithParam:param channelID: param.channelID success:^(NSArray *cards) {
             if (cards.count > 0) {
@@ -189,15 +188,15 @@
                 }
                 NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:
                                        NSMakeRange(0,[tempArray count])];
-                [weakSelf.cardFrames insertObjects: tempArray atIndexes:indexes];
+                [self.cardFrames insertObjects: tempArray atIndexes:indexes];
                 
-                [weakSelf.tableView reloadData];
+                [self.tableView reloadData];
             }
             
-            [weakSelf showNewCount:tempArray.count];
-            [weakSelf.tableView.mj_header endRefreshing];
+            [self showNewCount:tempArray.count];
+            [self.tableView.mj_header endRefreshing];
         } failure:^(NSError *error) {
-            [weakSelf.tableView.mj_header endRefreshing];
+            [self.tableView.mj_header endRefreshing];
             [MBProgressHUD showError:@"网络连接中断"];
         }];
     } else {
@@ -307,6 +306,11 @@
         cell = [[LPConcernViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     cell.cardFrame = self.cardFrames[indexPath.row];
+    [cell didTapSourceListViewBlock:^(NSString *sourceSiteName) {
+        if ([self.delegate respondsToSelector:@selector(concernPage:didTapListViewWithSourceName:)]) {
+            [(id<LPPagingViewConcernPageDelegate>)self.delegate concernPage:self didTapListViewWithSourceName:sourceSiteName];
+        }
+    }];
     return cell;
 }
 
@@ -320,6 +324,8 @@
     if ([self.delegate respondsToSelector:@selector(concernPage:didSelectCellWithCardID:)]) {
         [(id<LPPagingViewConcernPageDelegate>)self.delegate concernPage:self didSelectCellWithCardID:cardFrame.card.objectID];
     }
+    
+    
 }
 
 

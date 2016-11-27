@@ -20,7 +20,6 @@
     paramDict[@"uid"] = uid;
     NSString *url = [NSString stringWithFormat:@"%@/v2/ns/au/coms", ServerUrlVersion2];
     [LPHttpTool getJsonAuthorizationWithURL:url authorization:authorization params:paramDict success:^(id json) {
-        
         // 有数据
         if ([json[@"code"] integerValue] == 2000) {
             NSArray *jsonData = json[@"data"];

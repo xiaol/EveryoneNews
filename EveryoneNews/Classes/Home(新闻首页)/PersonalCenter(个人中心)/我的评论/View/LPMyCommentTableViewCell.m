@@ -43,7 +43,7 @@
         
         UIButton *deleteButton = [[UIButton alloc] init];
         [deleteButton setBackgroundImage:[UIImage imageNamed:@"我的评论删除按钮"] forState:UIControlStateNormal];
-        deleteButton.enlargedEdge = 5;
+        deleteButton.enlargedEdge = 10;
         [deleteButton addTarget:self action:@selector(deleteButtonClick) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:deleteButton];
         self.deleteButton = deleteButton;

@@ -13,15 +13,15 @@
 #import "LPSpecialTopicCard.h"
 #import "LPSpecailTopicCardFrame.h"
 #import "LPDetailViewController.h"
+#import "LPLoadingView.h"
 
 @interface LPSpecialTopicHomeViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *cardFrames;
 @property (nonatomic, strong) NSMutableArray *headerTitleArray;
-@property (nonatomic, strong) UIImageView *animationImageView;
 @property (nonatomic, strong) UILabel *loadingLabel;
-@property (nonatomic, strong) UIView *contentLoadingView;
+@property (nonatomic, strong) LPLoadingView *loadingView;
 
 @end
 
@@ -112,7 +112,6 @@
     
     // 正在加载提示信息
     [self setupLoadingView];
-    [self showLoadingView];
 }
 
 #pragma mark - shareButtonClick 
@@ -122,50 +121,11 @@
 
 #pragma mark - Loading View
 - (void)setupLoadingView {
-    UIView *contentLoadingView = [[UIView alloc] initWithFrame:CGRectMake(0, StatusBarHeight + TabBarHeight, ScreenWidth, ScreenHeight - StatusBarHeight - TabBarHeight)];
-    
-    // Load images
-    NSArray *imageNames = @[@"xl_1", @"xl_2", @"xl_3", @"xl_4"];
-    
-    NSMutableArray *images = [[NSMutableArray alloc] init];
-    for (int i = 0; i < imageNames.count; i++) {
-        [images addObject:[UIImage imageNamed:[imageNames objectAtIndex:i]]];
-    }
-    
-    // Normal Animation
-    UIImageView *animationImageView = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth - 36) / 2, (ScreenHeight - StatusBarHeight - TabBarHeight) / 3, 36 , 36)];
-    animationImageView.animationImages = images;
-    animationImageView.animationDuration = 1;
-    [self.view addSubview:animationImageView];
-    self.animationImageView = animationImageView;
-    contentLoadingView.hidden = YES;
-    [contentLoadingView addSubview:animationImageView];
-    [self.view addSubview:contentLoadingView];
-    
-    UILabel *loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(animationImageView.frame), ScreenWidth, 40)];
-    loadingLabel.textAlignment = NSTextAlignmentCenter;
-    loadingLabel.text = @"正在努力加载...";
-    loadingLabel.font = [UIFont systemFontOfSize:12];
-    loadingLabel.textColor = [UIColor colorFromHexString:@"#999999"];
-    [contentLoadingView addSubview:loadingLabel];
-    self.loadingLabel = loadingLabel;
-    
-    self.contentLoadingView = contentLoadingView;
-    
-}
+    LPLoadingView *loadingView = [[LPLoadingView alloc] initWithFrame:CGRectMake(0, StatusBarHeight + TabBarHeight, ScreenWidth, (ScreenHeight - StatusBarHeight - TabBarHeight) / 2.0f)];
+    [self.view addSubview:loadingView];
+    self.loadingView = loadingView;
+    [loadingView startAnimating];
 
-#pragma mark - 首页显示正在加载提示
-- (void)showLoadingView {
-    [self.animationImageView startAnimating];
-    self.contentLoadingView.hidden = NO;
-}
-
-
-#pragma mark - 首页隐藏正在加载提示
-- (void)hideLoadingView {
-    
-    [self.animationImageView stopAnimating];
-    self.contentLoadingView.hidden = YES;
 }
 
 #pragma mark - UITableView HeaderView
@@ -189,7 +149,7 @@
     
     if (desc.length > 0) {
      
-        NSString *abstract = [NSString stringWithFormat:@"摘要 %@", desc];
+        NSString *abstract = [NSString stringWithFormat:@"一一%@", desc];
         
         CGFloat labelMarginTop = 16.0f;
         CGFloat labelY = headerViewH + labelMarginTop;
@@ -199,45 +159,46 @@
         UILabel *label = [[UILabel alloc] init];
         label.numberOfLines = 0;
         
-        // 红色边框
+        UILabel *abstractLabel = [[UILabel alloc] init];
+        abstractLabel.textAlignment = NSTextAlignmentCenter;
+        abstractLabel.layer.borderColor = [UIColor colorFromHexString:@"#e94220"].CGColor;
+        abstractLabel.layer.borderWidth = 0.5f;
+        abstractLabel.layer.cornerRadius = 2.0f;
+        abstractLabel.font = [UIFont systemFontOfSize:11];
+        abstractLabel.text = @"摘要";
+        abstractLabel.textColor = [UIColor colorFromHexString:@"#e94220"];
+        abstractLabel.layer.masksToBounds = YES;
+ 
+        NSMutableAttributedString *abstractFontStr =  [@"摘要" attributedStringWithFont:[UIFont systemFontOfSize:LPFont10] lineSpacing:2];
+        
         NSMutableAttributedString *abstractFont11Str =  [@"摘要" attributedStringWithFont:[UIFont systemFontOfSize:11] lineSpacing:2];
-        NSMutableAttributedString *abstractFont15Str =  [@"摘要" attributedStringWithFont:[UIFont systemFontOfSize:LPFont10] lineSpacing:2];
-        CGRect abstractFont11Rect = [abstractFont11Str boundingRectWithSize:CGSizeMake(labelW, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
-        CGRect abstractFont15Rect = [abstractFont15Str boundingRectWithSize:CGSizeMake(labelW, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
-        CGFloat gap = (abstractFont15Rect.size.height -  abstractFont11Rect.size.height);
-        NSMutableAttributedString *str = [[NSMutableAttributedString alloc] initWithString:abstract];
         
-        [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorFromHexString:@"#e94220"] range:NSMakeRange(0,2)];
-        [str addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:11] range:NSMakeRange(0, 2)];
+
+        CGRect abstractFontRect = [abstractFontStr boundingRectWithSize:CGSizeMake(labelW, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
         
-        [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorFromHexString:LPColor1] range:NSMakeRange(3,abstract.length - 3)];
-        [str addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:LPFont10] range:NSMakeRange(3,abstract.length - 3)];
-        
-        CGFloat baselineOffset = gap / 2.0f - 0.5f;
-        [str addAttribute: NSBaselineOffsetAttributeName value: [NSNumber numberWithFloat: baselineOffset] range: NSMakeRange(0, 2)];
-        
+       CGRect abstractFont11Rect = [abstractFont11Str boundingRectWithSize:CGSizeMake(labelW, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+       
         NSMutableAttributedString *attrStr =  [abstract attributedStringWithFont:[UIFont systemFontOfSize:LPFont10] lineSpacing:2];
+        [attrStr addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0,2)];
+        
         CGRect rect = [attrStr boundingRectWithSize:CGSizeMake(labelW, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
         CGFloat labelH = ceilf(rect.size.height);
-    
-        label.attributedText = str;
-        
-        CGFloat abstractStrX = -1.0f;
-        CGFloat abstractStrY = gap / 2.0f ;
-        CGFloat abstractStrH = abstractFont11Rect.size.height;
-        CGFloat abstractStrW = abstractFont11Rect.size.width + 2;
-    
-        CALayer *abstractShapeLayer = [CALayer layer];
-        abstractShapeLayer.cornerRadius = 2.0f;
-        abstractShapeLayer.borderColor = [UIColor colorFromHexString:@"#e94220"].CGColor;
-        abstractShapeLayer.borderWidth = 0.5f;
-        abstractShapeLayer.frame = CGRectMake(abstractStrX, abstractStrY, abstractStrW, abstractStrH);
-        [label.layer addSublayer:abstractShapeLayer];
-        label.frame = CGRectMake(labelX, labelY, labelW, labelH);
 
-        [headerView addSubview:label];
-        headerViewH += (labelH + labelMarginTop * 2);
+        label.attributedText = attrStr;
+
+        CGFloat gap = (abstractFontRect.size.height - abstractFont11Rect.size.height) / 2.0f;
+        CGFloat abstractStrX = labelX;
+        CGFloat abstractStrY = labelY + gap;
+        CGFloat abstractStrH = abstractFontRect.size.height - gap * 2;
+        CGFloat abstractStrW = abstractFontRect.size.width;
         
+        abstractLabel.frame = CGRectMake(abstractStrX, abstractStrY, abstractStrW, abstractStrH);
+ 
+        label.frame = CGRectMake(labelX, labelY, labelW, labelH);
+        [headerView addSubview:label];
+        [headerView addSubview:abstractLabel];
+        
+        headerViewH += (labelH + labelMarginTop * 2);
         
         CALayer *seperatorLayer = [CALayer layer];
         seperatorLayer.backgroundColor =  [UIColor colorFromHexString:@"e4e4e4"].CGColor;
@@ -311,7 +272,7 @@
     
     CALayer *layer = [CALayer layer];
     layer.frame = CGRectMake(layerX, layerY, layerW, layerH);
-    layer.backgroundColor = [UIColor colorFromHexString:LPColor2].CGColor;
+    layer.backgroundColor = [UIColor colorFromHexString:LPColorDetail].CGColor;
     [subview.layer addSublayer:layer];
     
     CGFloat labelX = CGRectGetMaxX(layer.frame) + 8;
@@ -404,12 +365,12 @@
             
             if (self.cardFrames.count > 0) {
                 [self.tableView reloadData];
-                [self hideLoadingView];
+                [self.loadingView stopAnimating];
           
             }
         }
     } failure:^(NSError *error) {
-        [self hideLoadingView];
+        [self.loadingView stopAnimating];
     }];
 }
 

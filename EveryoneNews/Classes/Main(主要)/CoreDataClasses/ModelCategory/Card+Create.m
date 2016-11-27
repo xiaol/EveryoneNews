@@ -172,6 +172,11 @@
 //            if ([dict[@"rtype"] integerValue] == 1) {
 //                card.rtype = @(4);
 //            }
+            
+            // 生成1到7的随机数字
+            NSInteger m = arc4random() % 6;
+            NSString *imageName = [NSString stringWithFormat:@"来源_%d", (m + 1)];
+            card.sourceSiteImageUrl = imageName;
             card.type = dict[@"style"];
             card.docId = dict[@"docid"];
             card.commentsCount = dict[@"comment"];

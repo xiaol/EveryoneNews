@@ -52,7 +52,7 @@
         UILabel *nameLabel = [[UILabel alloc] init];
         nameLabel.numberOfLines = 0;
         nameLabel.font = [UIFont systemFontOfSize:LPFont4];
-        nameLabel.textColor = [UIColor colorFromHexString:LPColor2];
+        nameLabel.textColor = [UIColor colorFromHexString:LPColorDetail];
         [self addSubview:nameLabel];
         self.nameLabel = nameLabel;
 

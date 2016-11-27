@@ -12,14 +12,14 @@
 #import "CollectionTool.h"
 #import "LPMyCollectionCardFrame.h"
 #import "LPDetailViewController.h"
+#import "LPLoadingView.h"
 
 static NSString *cellIdentifier = @"cellIdentifier";
 
 @interface LPMyCollectionViewController ()<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, strong) NSMutableArray *cardFrames;
-@property (nonatomic, strong) UIImageView *animationImageView;
-@property (nonatomic, strong) UIView *contentLoadingView;
+@property (nonatomic, strong) LPLoadingView *loadingView;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UIView *noCollectionTipView;
 @property (nonatomic, strong) UIButton *manageButton;
@@ -141,34 +141,12 @@ static NSString *cellIdentifier = @"cellIdentifier";
     [self.tableView insertSubview:noCollectionTipView belowSubview:self.tableView];
     
     self.noCollectionTipView = noCollectionTipView;
-    // 正在加载提示
-    UIView *contentLoadingView = [[UIView alloc] initWithFrame:CGRectMake(0, StatusBarHeight + TabBarHeight, ScreenWidth, ScreenHeight - StatusBarHeight - TabBarHeight)];
-    
-    // Load images
-    NSArray *imageNames = @[@"xl_1", @"xl_2", @"xl_3", @"xl_4"];
-    
-    NSMutableArray *images = [[NSMutableArray alloc] init];
-    for (int i = 0; i < imageNames.count; i++) {
-        [images addObject:[UIImage imageNamed:[imageNames objectAtIndex:i]]];
-    }
-    
-    // Normal Animation
-    UIImageView *animationImageView = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth - 36) / 2, (ScreenHeight - StatusBarHeight - TabBarHeight) / 3, 36 , 36)];
-    animationImageView.animationImages = images;
-    animationImageView.animationDuration = 1;
-    [self.view addSubview:animationImageView];
-    [animationImageView startAnimating];
-    self.animationImageView = animationImageView;
-    [contentLoadingView addSubview:animationImageView];
-    [self.view addSubview:contentLoadingView];
-    
-    UILabel *loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(animationImageView.frame), ScreenWidth, 40)];
-    loadingLabel.textAlignment = NSTextAlignmentCenter;
-    loadingLabel.text = @"正在努力加载...";
-    loadingLabel.font = [UIFont systemFontOfSize:12];
-    loadingLabel.textColor = [UIColor colorFromHexString:@"#999999"];
-    [contentLoadingView addSubview:loadingLabel];
-    self.contentLoadingView = contentLoadingView;
+ 
+
+    LPLoadingView *loadingView = [[LPLoadingView alloc] initWithFrame:CGRectMake(0, StatusBarHeight + TabBarHeight, ScreenWidth, (ScreenHeight - StatusBarHeight - TabBarHeight) / 2.0f)];
+    [self.view addSubview:loadingView];
+    self.loadingView = loadingView;
+    [loadingView startAnimating];
     
     [self setupData];
     
@@ -244,8 +222,7 @@ static NSString *cellIdentifier = @"cellIdentifier";
                 [self.cardFrames addObject:cardFrame];
             }
         }
-        [self.animationImageView stopAnimating];
-        self.contentLoadingView.hidden = YES;
+        [self.loadingView stopAnimating];
         [self reloadData];
     } failure:^(NSError *error) {
         

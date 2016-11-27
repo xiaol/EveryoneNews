@@ -88,7 +88,7 @@ static NSString *cellIdentifier = @"tableViewCellIdentifier";
     CGFloat hotDecorationViewW = 4;
     
     UIView *hotDecorationView = [[UIView alloc] initWithFrame:CGRectMake(hotDecorationViewX, hotDecorationViewY, hotDecorationViewW, hotDecorationViewH)];
-    hotDecorationView.backgroundColor = [UIColor colorFromHexString:LPColor2];
+    hotDecorationView.backgroundColor = [UIColor colorFromHexString:LPColorDetail];
     [hotSearchHeaderView addSubview:hotDecorationView];
     
     CGFloat headerFontSize = 15;
@@ -135,7 +135,7 @@ static NSString *cellIdentifier = @"tableViewCellIdentifier";
     UIView *historySearchHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(seperatorView.frame), ScreenWidth, headerViewH)];
     
     UIView *historyDecorationView = [[UIView alloc] initWithFrame:CGRectMake(hotDecorationViewX, hotDecorationViewY, hotDecorationViewW, hotDecorationViewH)];
-    historyDecorationView.backgroundColor = [UIColor colorFromHexString:LPColor2];
+    historyDecorationView.backgroundColor = [UIColor colorFromHexString:LPColorDetail];
     [historySearchHeaderView addSubview:historyDecorationView];
 
     UILabel *historyHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(hotHeaderLabelX, hotHeaderLabelY, hotHeaderLabelW, hotHeaderLabelH)];

@@ -8,9 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^didTapSourceListViewBlock)(NSString *sourceSiteName);
+
 @class LPCardConcernFrame;
 @interface LPConcernViewCell : UITableViewCell
 
 @property (nonatomic, strong) LPCardConcernFrame *cardFrame;
-
+@property (nonatomic, copy) didTapSourceListViewBlock didTapSourceListBlock;
+- (void)didTapSourceListViewBlock:(didTapSourceListViewBlock)didTapSourceListViewBlock;
 @end

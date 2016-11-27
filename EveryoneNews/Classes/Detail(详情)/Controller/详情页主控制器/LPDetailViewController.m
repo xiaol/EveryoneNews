@@ -61,6 +61,7 @@
 #import "LPPressTool.h"
 #import "LPSpecailTopicCardFrame.h"
 #import "LPSpecialTopicCard.h"
+#import "LPLoadingView.h"
 
 
 static const NSString * privateContext;
@@ -149,6 +150,8 @@ const static CGFloat changeFontSizeViewH = 150;
 @property (nonatomic, copy) NSString *colFlag;
 
 @property (nonatomic, copy) NSString *selectedText;
+
+@property (nonatomic, strong) LPLoadingView *loadingView;
 
 @end
 
@@ -328,9 +331,6 @@ const static CGFloat changeFontSizeViewH = 150;
     
     // 相关观点block
     void (^relatePointBlock)(id json) = ^(id json) {
-        
-        //NSLog(@"相关观点--%@", json[@"code"]);
-        
         if ([json[@"code"] integerValue] == 2000) {
             [self.relatePointFrames removeAllObjects];
             NSDictionary *dict = json[@"data"];
@@ -1094,42 +1094,16 @@ const static CGFloat changeFontSizeViewH = 150;
 
 #pragma mark - Loading View
 - (void)setupLoadingView {
-    UIView *contentLoadingView = [[UIView alloc] initWithFrame:CGRectMake(0, StatusBarHeight + TabBarHeight, ScreenWidth, ScreenHeight - StatusBarHeight - TabBarHeight)];
     
-    // Load images
-    NSArray *imageNames = @[@"xl_1", @"xl_2", @"xl_3", @"xl_4"];
-    
-    NSMutableArray *images = [[NSMutableArray alloc] init];
-    for (int i = 0; i < imageNames.count; i++) {
-        [images addObject:[UIImage imageNamed:[imageNames objectAtIndex:i]]];
-    }
-    
-    // Normal Animation
-    UIImageView *animationImageView = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth - 36) / 2, (ScreenHeight - StatusBarHeight - TabBarHeight) / 3, 36 , 36)];
-    animationImageView.animationImages = images;
-    animationImageView.animationDuration = 1;
-    [self.view addSubview:animationImageView];
-    self.animationImageView = animationImageView;
-    contentLoadingView.hidden = YES;
-    [contentLoadingView addSubview:animationImageView];
-    [self.view addSubview:contentLoadingView];
-    
-    UILabel *loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(animationImageView.frame), ScreenWidth, 40)];
-    loadingLabel.textAlignment = NSTextAlignmentCenter;
-    loadingLabel.text = @"正在努力加载...";
-    loadingLabel.font = [UIFont systemFontOfSize:12];
-    loadingLabel.textColor = [UIColor colorFromHexString:@"#999999"];
-    [contentLoadingView addSubview:loadingLabel];
-    self.loadingLabel = loadingLabel;
-    
-    self.contentLoadingView = contentLoadingView;
-    
+    LPLoadingView *loadingView = [[LPLoadingView alloc] initWithFrame:CGRectMake(0, StatusBarHeight + TabBarHeight, ScreenWidth, (ScreenHeight - StatusBarHeight - TabBarHeight) / 2.0f)];
+    [self.view addSubview:loadingView];
+    self.loadingView = loadingView;
 }
 
 #pragma mark - 首页显示正在加载提示
 - (void)showLoadingView {
-    [self.animationImageView startAnimating];
-    self.contentLoadingView.hidden = NO;
+    
+    [self.loadingView startAnimating];
     self.reloadPage.hidden = YES;
 }
 
@@ -1137,8 +1111,7 @@ const static CGFloat changeFontSizeViewH = 150;
 #pragma mark - 首页隐藏正在加载提示
 - (void)hideLoadingView {
     
-    [self.animationImageView stopAnimating];
-    self.contentLoadingView.hidden = YES;
+    [self.loadingView stopAnimating];
 }
 
 #pragma mark - 创建底部视图
@@ -1195,7 +1168,7 @@ const static CGFloat changeFontSizeViewH = 150;
             break;
         default:
             if (![self card]) return nil;
-            //return @"6422374";
+            //return @"8511401";
             
             // 6562498 （秒拍） 6320865 视频 6407884 大图加载慢 6422374 大段文字
             return [[self card] valueForKey:@"nid"];
@@ -1373,7 +1346,7 @@ const static CGFloat changeFontSizeViewH = 150;
         [headerView addSubview:titleLabel];
         // 分割线
         UIView *firstSeperatorView = [[UIView alloc] initWithFrame:CGRectMake(padding,CGRectGetMaxY(titleLabel.frame) + 6 , fontSize.width, 1)];
-        firstSeperatorView.backgroundColor = [UIColor colorFromHexString:LPColor2];
+        firstSeperatorView.backgroundColor = [UIColor colorFromHexString:LPColorDetail];
         
         [headerView addSubview:firstSeperatorView];
         
@@ -1419,7 +1392,7 @@ const static CGFloat changeFontSizeViewH = 150;
         [headerView addSubview:titleLabel];
         // 分割线
         UIView *firstSeperatorView = [[UIView alloc] initWithFrame:CGRectMake(padding,CGRectGetMaxY(titleLabel.frame) + 6 , fontSize.width, 1)];
-        firstSeperatorView.backgroundColor = [UIColor colorFromHexString:LPColor2];
+        firstSeperatorView.backgroundColor = [UIColor colorFromHexString:LPColorDetail];
         
         [headerView addSubview:firstSeperatorView];
         
@@ -1732,7 +1705,7 @@ const static CGFloat changeFontSizeViewH = 150;
             
             
             [bottomButton setTitle:@"查看全部评论 >" forState:UIControlStateNormal];
-            [bottomButton setTitleColor:[UIColor colorFromHexString:@"#0086d1"] forState:UIControlStateNormal];
+            [bottomButton setTitleColor:[UIColor colorFromHexString:LPColorDetail] forState:UIControlStateNormal];
             [bottomButton.titleLabel setFont:[UIFont systemFontOfSize:15]];
             [bottomButton addTarget:self action:@selector(showMoreComment) forControlEvents:UIControlEventTouchUpInside];
             bottomButton.layer.cornerRadius = 8.0f;
@@ -1746,7 +1719,7 @@ const static CGFloat changeFontSizeViewH = 150;
             bottomLabel.text = @"已显示全部评论";
             
          
-            bottomLabel.textColor = [UIColor colorFromHexString:@"#0086d1"];
+            bottomLabel.textColor = [UIColor colorFromHexString:LPColorDetail];
             bottomLabel.font = [UIFont systemFontOfSize:15];
             bottomLabel.textAlignment = NSTextAlignmentCenter;
             [footerView addSubview:bottomLabel];

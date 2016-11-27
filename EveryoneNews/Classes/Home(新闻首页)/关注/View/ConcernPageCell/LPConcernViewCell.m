@@ -20,20 +20,26 @@
 @property (nonatomic, strong) UILabel *noImageLabel;
 @property (nonatomic, strong) UILabel *noImageKeywordLabel;
 @property (nonatomic, strong) UIView *noImageSeperatorLine;
+@property (nonatomic, strong) UIView *noImageSourceListView;
 
 // 单图
 @property (nonatomic, strong) UILabel *singleImageTitleLabel;
 @property (nonatomic, strong) UIImageView *singleImageView;
 @property (nonatomic, strong) UILabel *singleImageKeywordLabel;
 @property (nonatomic, strong) UIView *singleImageSeperatorLine;
+@property (nonatomic, strong) UIView *singleImageSourceListView;
 
 // 三图
 @property (nonatomic, strong) UILabel *multipleImageLabel;
-@property (nonatomic, strong) UILabel *mutipleImageKeywordLabel;
+@property (nonatomic, strong) UILabel *multipleImageKeywordLabel;
 @property (nonatomic, strong) UIImageView *firstMutipleImageView;
 @property (nonatomic, strong) UIImageView *secondMutipleImageView;
 @property (nonatomic, strong) UIImageView *thirdMutipleImageView;
-@property (nonatomic, strong) UIView *mutipleSeperatorLine;
+@property (nonatomic, strong) UIView *multipleSeperatorLine;
+@property (nonatomic, strong) UIView *multipleImageSourceListView;
+
+// 来源
+@property (nonatomic, copy) NSString *sourceName;
 
 @end
 
@@ -42,7 +48,7 @@
 #pragma mark - initWithStyle
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    self.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
+    self.backgroundColor = [UIColor whiteColor];
     CGFloat keywordFontSize = LPFont6;
 
     if(self) {
@@ -67,8 +73,19 @@
         [self.contentView addSubview:noImageKeywordLabel];
         self.noImageKeywordLabel = noImageKeywordLabel;
         
+        // 来源View
+        UIView *noImageSourceListView = [[UIView alloc] init];
+        noImageSourceListView.backgroundColor = [UIColor clearColor];
+        [self.contentView addSubview:noImageSourceListView];
+        self.noImageSourceListView = noImageSourceListView;
+        
+        UITapGestureRecognizer *noImageSoureListViewGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(newsSourceList)];
+        noImageSourceListView.userInteractionEnabled = YES;
+        [noImageSourceListView addGestureRecognizer:noImageSoureListViewGesture];
+        
+        
         UIView *noImageSeperatorLine = [[UIView alloc] init];
-        noImageSeperatorLine.backgroundColor = [UIColor colorFromHexString:@"e4e4e4"];
+        noImageSeperatorLine.backgroundColor = [UIColor colorFromHexString:LPColor16];
         [self.contentView addSubview:noImageSeperatorLine];
         self.noImageSeperatorLine = noImageSeperatorLine;
         
@@ -97,8 +114,17 @@
         [self.contentView addSubview:singleImageKeywordLabel];
         self.singleImageKeywordLabel = singleImageKeywordLabel;
         
+        UIView *singleImageSourceListView = [[UIView alloc] init];
+        singleImageSourceListView.backgroundColor = [UIColor clearColor];
+        [self.contentView addSubview:singleImageSourceListView];
+        self.singleImageSourceListView = singleImageSourceListView;
+        
+        UITapGestureRecognizer *singleImageSourceListViewGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(newsSourceList)];
+        singleImageSourceListView.userInteractionEnabled = YES;
+        [singleImageSourceListView addGestureRecognizer:singleImageSourceListViewGesture];
+        
         UIView *singleImageSeperatorLine = [[UIView alloc] init];
-        singleImageSeperatorLine.backgroundColor = [UIColor colorFromHexString:@"e4e4e4"];
+        singleImageSeperatorLine.backgroundColor = [UIColor colorFromHexString:LPColor16];
         [self.contentView addSubview:singleImageSeperatorLine];
         self.singleImageSeperatorLine = singleImageSeperatorLine;
         
@@ -128,21 +154,32 @@
         [self.contentView addSubview:thirdMutipleImageView];
         self.thirdMutipleImageView = thirdMutipleImageView;
         
-        UILabel *mutipleImageKeywordLabel = [[UILabel alloc] init];
-        mutipleImageKeywordLabel.textAlignment = NSTextAlignmentCenter;
-        mutipleImageKeywordLabel.layer.borderWidth = 0.5;
-        mutipleImageKeywordLabel.layer.borderColor = [UIColor colorFromHexString:@"#f6f6f6"].CGColor;
-        mutipleImageKeywordLabel.layer.masksToBounds = YES;
-        mutipleImageKeywordLabel.layer.cornerRadius = keywordRadius;
-        mutipleImageKeywordLabel.font = [UIFont systemFontOfSize:keywordFontSize];
-        mutipleImageKeywordLabel.textColor = [UIColor whiteColor];
-        [self.contentView addSubview:mutipleImageKeywordLabel];
-        self.mutipleImageKeywordLabel = mutipleImageKeywordLabel;
+        UILabel *multipleImageKeywordLabel = [[UILabel alloc] init];
+        multipleImageKeywordLabel.textAlignment = NSTextAlignmentCenter;
+        multipleImageKeywordLabel.layer.borderWidth = 0.5;
+        multipleImageKeywordLabel.layer.borderColor = [UIColor colorFromHexString:@"#f6f6f6"].CGColor;
+        multipleImageKeywordLabel.layer.masksToBounds = YES;
+        multipleImageKeywordLabel.layer.cornerRadius = keywordRadius;
+        multipleImageKeywordLabel.font = [UIFont systemFontOfSize:keywordFontSize];
+        multipleImageKeywordLabel.textColor = [UIColor whiteColor];
+        [self.contentView addSubview:multipleImageKeywordLabel];
+        self.multipleImageKeywordLabel = multipleImageKeywordLabel;
         
-        UIView *mutipleSeperatorLine = [[UIView alloc] init];
-        mutipleSeperatorLine.backgroundColor = [UIColor colorFromHexString:@"e4e4e4"];
-        [self.contentView addSubview:mutipleSeperatorLine];
-        self.mutipleSeperatorLine = mutipleSeperatorLine;
+        // 来源View
+        UIView *multipleImageSourceListView = [[UIView alloc] init];
+        multipleImageSourceListView.backgroundColor = [UIColor clearColor];
+        [self.contentView addSubview:multipleImageSourceListView];
+        self.multipleImageSourceListView = multipleImageSourceListView;
+        
+        UITapGestureRecognizer *multipleImageSourceListViewGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(newsSourceList)];
+        multipleImageSourceListView.userInteractionEnabled = YES;
+        [multipleImageSourceListView addGestureRecognizer:multipleImageSourceListViewGesture];
+
+        
+        UIView *multipleSeperatorLine = [[UIView alloc] init];
+        multipleSeperatorLine.backgroundColor = [UIColor colorFromHexString:LPColor16];
+        [self.contentView addSubview:multipleSeperatorLine];
+        self.multipleSeperatorLine = multipleSeperatorLine;
         
     }
     return self;
@@ -157,22 +194,29 @@
   
     
     NSString *keyword = [card.keyword isEqualToString: @""] ? @"未知来源": card.keyword;
+    
+    self.sourceName = keyword;
+    
     if(card.cardImages.count == 0) {
         self.noImageLabel.hidden = NO;
         self.noImageSeperatorLine.hidden = NO;
         self.noImageKeywordLabel.hidden = NO;
+        self.noImageSourceListView.hidden = NO;
         
         self.singleImageTitleLabel.hidden = YES;
         self.singleImageView.hidden = YES;
         self.singleImageKeywordLabel.hidden = YES;
         self.singleImageSeperatorLine.hidden = YES;
+        self.singleImageSourceListView.hidden = YES;
+        
         
         self.multipleImageLabel.hidden = YES;
         self.firstMutipleImageView.hidden = YES;
         self.secondMutipleImageView.hidden = YES;
         self.thirdMutipleImageView.hidden = YES;
-        self.mutipleImageKeywordLabel.hidden = YES;
-        self.mutipleSeperatorLine.hidden = YES;
+        self.multipleImageKeywordLabel.hidden = YES;
+        self.multipleSeperatorLine.hidden = YES;
+        self.multipleImageSourceListView.hidden = YES;
         
         self.noImageLabel.frame = self.cardFrame.noImageTitleLabelFrame;
         self.noImageLabel.attributedText = attributeTitle;
@@ -180,6 +224,8 @@
         self.noImageKeywordLabel.frame = self.cardFrame.noImageKeywordLabelFrame;
         self.noImageKeywordLabel.text = keyword;
         self.noImageKeywordLabel.backgroundColor = [UIColor colorFromHexString:card.keywordColor];
+        
+        self.noImageSourceListView.frame = self.cardFrame.noImageSourceListViewFrame;
         self.noImageSeperatorLine.frame = self.cardFrame.noImageSeperatorLineFrame;
     } else if (card.cardImages.count == 1 || card.cardImages.count == 2) {
         
@@ -188,18 +234,21 @@
         self.noImageLabel.hidden = YES;
         self.noImageSeperatorLine.hidden = YES;
         self.noImageKeywordLabel.hidden = YES;
+        self.noImageSourceListView.hidden = YES;
         
         self.singleImageTitleLabel.hidden = NO;
         self.singleImageView.hidden = NO;
         self.singleImageKeywordLabel.hidden = NO;
         self.singleImageSeperatorLine.hidden = NO;
+        self.singleImageSourceListView.hidden = NO;
         
         self.multipleImageLabel.hidden = YES;
         self.firstMutipleImageView.hidden = YES;
         self.secondMutipleImageView.hidden = YES;
         self.thirdMutipleImageView.hidden = YES;
-        self.mutipleImageKeywordLabel.hidden = YES;
-        self.mutipleSeperatorLine.hidden = YES;
+        self.multipleImageKeywordLabel.hidden = YES;
+        self.multipleSeperatorLine.hidden = YES;
+        self.multipleImageSourceListView.hidden = YES;
         
         
         self.singleImageTitleLabel.attributedText = attributeTitle;
@@ -213,32 +262,37 @@
         self.singleImageKeywordLabel.text = keyword;
         self.singleImageKeywordLabel.backgroundColor = [UIColor colorFromHexString:card.keywordColor];
  
+        self.singleImageSourceListView.frame = self.cardFrame.singleImageSourceListViewFrame;
         self.singleImageSeperatorLine.frame = self.cardFrame.singleImageSeperatorLineFrame;
         
     } else if (card.cardImages.count >= 3) {
         self.noImageLabel.hidden = YES;
         self.noImageSeperatorLine.hidden = YES;
         self.noImageKeywordLabel.hidden = YES;
+        self.noImageSourceListView.hidden = YES;
         
         self.singleImageTitleLabel.hidden = YES;
         self.singleImageView.hidden = YES;
         self.singleImageKeywordLabel.hidden = YES;
         self.singleImageSeperatorLine.hidden = YES;
+        self.singleImageSourceListView.hidden = YES;
         
         self.multipleImageLabel.hidden = NO;
         self.firstMutipleImageView.hidden = NO;
         self.secondMutipleImageView.hidden = NO;
         self.thirdMutipleImageView.hidden = NO;
-        self.mutipleImageKeywordLabel.hidden = NO;
-        self.mutipleSeperatorLine.hidden = NO;
+        self.multipleImageKeywordLabel.hidden = NO;
+        self.multipleSeperatorLine.hidden = NO;
+        self.multipleImageSourceListView.hidden = NO;
         
         self.multipleImageLabel.attributedText = attributeTitle;
         self.multipleImageLabel.frame = self.cardFrame.multipleImageTitleLabelFrame;
     
-        self.mutipleImageKeywordLabel.frame = self.cardFrame.multipleImageKeywordFrame;
-        self.mutipleImageKeywordLabel.text = keyword;
-        self.mutipleImageKeywordLabel.backgroundColor = [UIColor colorFromHexString:card.keywordColor];
-        self.mutipleSeperatorLine.frame = self.cardFrame.mutipleImageSeperatorLineFrame;
+        self.multipleImageKeywordLabel.frame = self.cardFrame.multipleImageKeywordFrame;
+        self.multipleImageKeywordLabel.text = keyword;
+        self.multipleImageKeywordLabel.backgroundColor = [UIColor colorFromHexString:card.keywordColor];
+        self.multipleSeperatorLine.frame = self.cardFrame.multipleImageSeperatorLineFrame;
+        self.multipleImageSourceListView.frame = self.cardFrame.multipleImageSourceListFrame;
         
         CGRect frame = self.cardFrame.multipleImageViewFrame;
         CGFloat x = frame.origin.x;
@@ -269,6 +323,20 @@
     [super setHighlighted:highlighted animated:animated];
     
 }
+
+#pragma mark - 新闻源列表
+- (void)newsSourceList {
+    if (![self.sourceName isEqualToString:@"未知来源"]) {
+        if (self.didTapSourceListBlock) {
+            self.didTapSourceListBlock(self.sourceName);
+        }
+    }
+}
+
+- (void)didTapSourceListViewBlock:(didTapSourceListViewBlock)didTapSourceListViewBlock {
+    self.didTapSourceListBlock = didTapSourceListViewBlock;
+}
+
 
 #pragma mark - 图片缩放处理
 - (NSString *)scaleImageURL:(NSString *)imageURL {

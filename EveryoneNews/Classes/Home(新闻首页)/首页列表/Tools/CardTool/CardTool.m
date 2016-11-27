@@ -24,80 +24,22 @@
 
 
 #pragma mark - feed流(不包含广告）
-+ (void)cardsWithParam:(CardParam *)param
-               channelID:(NSString *)channelID
-               success:(CardsFetchedSuccessHandler)success
-               failure:(CardsFetchedFailureHandler)failure {
-    NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
-    NSMutableDictionary *paramDict = [NSMutableDictionary dictionary];
-    paramDict[@"cid"] = channelID;
-    paramDict[@"tcr"] = param.startTime;
-    paramDict[@"tmk"] = @"0";
-    // 1 显示专题 0 不显示专题
-     if ([channelID isEqualToString:@"1"]) {
-          paramDict[@"t"] = @"1";
-     } else {
-          paramDict[@"t"] = @"0";
-     }
-    
-    // 如果Authorization为空，则请求完Authorization后再请求数据
-    if (!authorization) {
-        // 第一次进入存储游客Authorization
-        NSString *url = @"http://bdp.deeporiginalx.com/v2/au/sin/g";
-        NSMutableDictionary *paramUser = [NSMutableDictionary dictionary];
-        // 2 游客用户
-        paramUser[@"utype"] = @(2);
-        // 1 iOS 平台
-        paramUser[@"platform"] = @(1);
-        paramUser[@"province"]  = @"";
-        paramUser[@"city"] = @"";
-        paramUser[@"district"] = @"";
-        [LPHttpTool postJSONResponseAuthorizationWithURL:url params:paramUser success:^(id json, NSString *authorization) {
-           
-            if ([json[@"code"] integerValue] == 2000) {
-                NSDictionary *dict = (NSDictionary *)json[@"data"];
-                [userDefaults setObject:dict[@"uid"] forKey:@"uid"];
-                [userDefaults setObject:@"2" forKey:@"uIconDisplay"];
-                [userDefaults setObject:dict[@"utype"] forKey:@"utype"];
-                [userDefaults setObject:dict[@"password"] forKey:@"password"];
-                [userDefaults setObject:authorization forKey:@"uauthorization"];
-                [userDefaults synchronize];
-                if ([channelID isEqualToString:@"1"]) {
-                    paramDict[@"uid"] = ![userDefaults objectForKey:@"uid"] ? @(0):[userDefaults objectForKey:@"uid"];
-                 
-                    [self qiDianCardsWithUserParam:param paramDict:paramDict authorization:authorization success:success failure:failure];
-                } else {
-                 
-                    [self cardsWithUserParam:param paramDict:paramDict authorization:authorization success:success failure:failure];
-                }
-               
-            }
-        }  failure:^(NSError *error) {
-            
-        }];
-    } else {
-        if ([channelID isEqualToString:@"1"]) {
-         
-            paramDict[@"uid"] = ![userDefaults objectForKey:@"uid"] ? @(0):[userDefaults objectForKey:@"uid"];
-            [self qiDianCardsWithUserParam:param paramDict:paramDict authorization:authorization success:success failure:failure];
-        } else {
-            
-            [self cardsWithUserParam:param paramDict:paramDict authorization:authorization success:success failure:failure];
-        }
-    }
-   }
-
-
-#pragma mark - feed流新接口  包含广告位
 //+ (void)cardsWithParam:(CardParam *)param
-//             channelID:(NSString *)channelID
+//               channelID:(NSString *)channelID
 //               success:(CardsFetchedSuccessHandler)success
 //               failure:(CardsFetchedFailureHandler)failure {
 //    NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
 //    NSMutableDictionary *paramDict = [NSMutableDictionary dictionary];
-//        paramDict[@"cid"] = channelID;
-//        paramDict[@"tcr"] = param.startTime;
-//        paramDict[@"tmk"] = @"0";
+//    paramDict[@"cid"] = channelID;
+//    paramDict[@"tcr"] = param.startTime;
+//    paramDict[@"tmk"] = @"0";
+//    // 1 显示专题 0 不显示专题
+//     if ([channelID isEqualToString:@"1"]) {
+//          paramDict[@"t"] = @"1";
+//     } else {
+//          paramDict[@"t"] = @"0";
+//     }
+//    
 //    // 如果Authorization为空，则请求完Authorization后再请求数据
 //    if (!authorization) {
 //        // 第一次进入存储游客Authorization
@@ -111,7 +53,7 @@
 //        paramUser[@"city"] = @"";
 //        paramUser[@"district"] = @"";
 //        [LPHttpTool postJSONResponseAuthorizationWithURL:url params:paramUser success:^(id json, NSString *authorization) {
-//            
+//           
 //            if ([json[@"code"] integerValue] == 2000) {
 //                NSDictionary *dict = (NSDictionary *)json[@"data"];
 //                [userDefaults setObject:dict[@"uid"] forKey:@"uid"];
@@ -122,32 +64,91 @@
 //                [userDefaults synchronize];
 //                if ([channelID isEqualToString:@"1"]) {
 //                    paramDict[@"uid"] = ![userDefaults objectForKey:@"uid"] ? @(0):[userDefaults objectForKey:@"uid"];
-//                    paramDict[@"b"] = [LPAdRequestTool adBase64];
-//                    paramDict[@"cid"] = @([channelID integerValue]);
-//                    paramDict[@"tcr"] = @([param.startTime integerValue]);
-//                    paramDict[@"tmk"] = @(0);
-//                    [self qiDianPostCardsWithUserParam:param paramDict:paramDict authorization:authorization success:success failure:failure];
+//                 
+//                    [self qiDianCardsWithUserParam:param paramDict:paramDict authorization:authorization success:success failure:failure];
 //                } else {
+//                 
 //                    [self cardsWithUserParam:param paramDict:paramDict authorization:authorization success:success failure:failure];
 //                }
-//                
+//               
 //            }
 //        }  failure:^(NSError *error) {
 //            
 //        }];
 //    } else {
 //        if ([channelID isEqualToString:@"1"]) {
+//         
 //            paramDict[@"uid"] = ![userDefaults objectForKey:@"uid"] ? @(0):[userDefaults objectForKey:@"uid"];
-//            paramDict[@"b"] = [LPAdRequestTool adBase64];
-//            paramDict[@"cid"] = @([channelID integerValue]);
-//            paramDict[@"tcr"] = @([param.startTime integerValue]);
-//            paramDict[@"tmk"] = @(0);
-//            [self qiDianPostCardsWithUserParam:param paramDict:paramDict authorization:authorization success:success failure:failure];
+//            [self qiDianCardsWithUserParam:param paramDict:paramDict authorization:authorization success:success failure:failure];
 //        } else {
+//            
 //            [self cardsWithUserParam:param paramDict:paramDict authorization:authorization success:success failure:failure];
 //        }
 //    }
-//}
+//   }
+
+
+#pragma mark - feed流新接口  包含广告位
++ (void)cardsWithParam:(CardParam *)param
+             channelID:(NSString *)channelID
+               success:(CardsFetchedSuccessHandler)success
+               failure:(CardsFetchedFailureHandler)failure {
+    NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
+    NSMutableDictionary *paramDict = [NSMutableDictionary dictionary];
+    paramDict[@"cid"] = @([channelID integerValue]);
+    paramDict[@"tcr"] = param.startTime;
+    paramDict[@"tmk"] = @(0);
+    // 1 显示专题 0 不显示专题
+     if ([channelID isEqualToString:@"1"]) {
+          paramDict[@"t"] = @(1);
+     } else {
+          paramDict[@"t"] = @(0);
+     }
+    // 如果Authorization为空，则请求完Authorization后再请求数据
+    if (!authorization) {
+        // 第一次进入存储游客Authorization
+        NSString *url = @"http://bdp.deeporiginalx.com/v2/au/sin/g";
+        NSMutableDictionary *paramUser = [NSMutableDictionary dictionary];
+        // 2 游客用户
+        paramUser[@"utype"] = @(2);
+        // 1 iOS 平台
+        paramUser[@"platform"] = @(1);
+        paramUser[@"province"]  = @"";
+        paramUser[@"city"] = @"";
+        paramUser[@"district"] = @"";
+        [LPHttpTool postJSONResponseAuthorizationWithURL:url params:paramUser success:^(id json, NSString *authorization) {
+            if ([json[@"code"] integerValue] == 2000) {
+                NSDictionary *dict = (NSDictionary *)json[@"data"];
+                [userDefaults setObject:dict[@"uid"] forKey:@"uid"];
+                [userDefaults setObject:@"2" forKey:@"uIconDisplay"];
+                [userDefaults setObject:dict[@"utype"] forKey:@"utype"];
+                [userDefaults setObject:dict[@"password"] forKey:@"password"];
+                [userDefaults setObject:authorization forKey:@"uauthorization"];
+                [userDefaults synchronize];
+                if ([channelID isEqualToString:@"1"]) {
+                    paramDict[@"uid"] = ![userDefaults objectForKey:@"uid"] ? @(0):[userDefaults objectForKey:@"uid"];
+                    paramDict[@"b"] = [LPAdRequestTool adBase64];
+                    paramDict[@"tcr"] = @([param.startTime integerValue]);
+                    [self qiDianPostCardsWithUserParam:param paramDict:paramDict authorization:authorization success:success failure:failure];
+                } else {
+                    [self cardsWithUserParam:param paramDict:paramDict authorization:authorization success:success failure:failure];
+                }
+                
+            }
+        }  failure:^(NSError *error) {
+            
+        }];
+    } else {
+        if ([channelID isEqualToString:@"1"]) {
+            paramDict[@"uid"] = ![userDefaults objectForKey:@"uid"] ? @(0):[userDefaults objectForKey:@"uid"];
+            paramDict[@"b"] = [LPAdRequestTool adBase64];
+            paramDict[@"tcr"] = @([param.startTime integerValue]);
+            [self qiDianPostCardsWithUserParam:param paramDict:paramDict authorization:authorization success:success failure:failure];
+        } else {
+            [self cardsWithUserParam:param paramDict:paramDict authorization:authorization success:success failure:failure];
+        }
+    }
+}
 
 
 #pragma mark - 奇点频道请求数据接口

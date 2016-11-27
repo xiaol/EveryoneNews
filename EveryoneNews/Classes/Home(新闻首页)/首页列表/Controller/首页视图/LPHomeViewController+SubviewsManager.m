@@ -157,7 +157,6 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
     LPMenuView *menuView = [[LPMenuView alloc] initWithFrame:CGRectMake(menuViewX, menuViewY , menuViewW, menuViewH) collectionViewLayout:menuViewFlowLayout];
     menuView.backgroundColor = [UIColor whiteColor];
     menuView.showsHorizontalScrollIndicator = NO;
-    menuView.pagingEnabled = YES;
     menuView.scrollsToTop = NO;
     menuView.delegate = self;
     menuView.dataSource = self;

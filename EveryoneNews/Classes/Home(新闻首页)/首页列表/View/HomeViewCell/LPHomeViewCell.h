@@ -15,6 +15,8 @@ typedef void(^didClickDeleteButtonBlock)(UIButton *deleteButton);
 
 typedef void(^didClickTipButtonBlock)();
 
+typedef void (^didTapSourceListViewBlock)(NSString *sourceSiteName);
+
 @interface LPHomeViewCell : UITableViewCell
 
 @property (nonatomic, strong) CardFrame *cardFrame;
@@ -23,9 +25,15 @@ typedef void(^didClickTipButtonBlock)();
 
 @property (nonatomic, copy) didClickTipButtonBlock didClickTipBlock;
 
+@property (nonatomic, copy) didTapSourceListViewBlock didTapSourceListBlock;
+
 
 - (void)didClickTipButtonBlock:(didClickTipButtonBlock)didClickTipButtonBlock;
 
 - (void)didClickDeleteButtonBlock:(didClickDeleteButtonBlock)didClickDeleteButtonBlock;
+
+- (void)didTapSourceListViewBlock:(didTapSourceListViewBlock)didTapSourceListViewBlock;
+
+
 
 @end

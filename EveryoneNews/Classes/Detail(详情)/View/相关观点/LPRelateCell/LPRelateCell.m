@@ -85,14 +85,14 @@
         
         // 年
         UILabel *yearLabel = [[UILabel alloc] init];
-        yearLabel.textColor = [UIColor colorFromHexString:LPColor2];
+        yearLabel.textColor = [UIColor colorFromHexString:LPColorDetail];
         yearLabel.font = [UIFont systemFontOfSize:14];
         [self.cellView addSubview:yearLabel];
         self.yearLabel = yearLabel;
         
         // 月日
         UILabel *monthDayLabel = [[UILabel alloc] init];
-        monthDayLabel.backgroundColor = [UIColor colorFromHexString:LPColor2];
+        monthDayLabel.backgroundColor = [UIColor colorFromHexString:LPColorDetail];
         monthDayLabel.textColor = [UIColor whiteColor];
         monthDayLabel.textAlignment = NSTextAlignmentCenter;
         monthDayLabel.font = [UIFont systemFontOfSize:13];
@@ -149,7 +149,7 @@
     // 搜索来源是google google背景高亮
     if (relateFrame.googleSourceExistsInRelatePoint) {
         if ([point.from isEqualToString:@"Google"]) {
-            self.monthDayLabel.backgroundColor = [UIColor colorFromHexString:LPColor2];
+            self.monthDayLabel.backgroundColor = [UIColor colorFromHexString:LPColorDetail];
         } else {
             self.monthDayLabel.backgroundColor = [UIColor colorFromHexString:LPColor12];
         }
@@ -157,7 +157,7 @@
         
     } else {
         if ([point.from isEqualToString:@"Baidu"]) {
-            self.monthDayLabel.backgroundColor = [UIColor colorFromHexString:LPColor2];
+            self.monthDayLabel.backgroundColor = [UIColor colorFromHexString:LPColorDetail];
         } else {
             self.monthDayLabel.backgroundColor = [UIColor colorFromHexString:LPColor12];
         }

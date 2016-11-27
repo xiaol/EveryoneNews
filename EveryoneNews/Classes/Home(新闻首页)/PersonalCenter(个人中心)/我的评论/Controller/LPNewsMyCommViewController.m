@@ -10,9 +10,6 @@
 #import "Account.h"
 #import "AccountTool.h"
 #import "SDWebImageManager.h"
-//#import "LPNewsMineViewCell.h"
-//#import "LPNewsMyCommCell.h"
-//#import "LPNewsHeaderView.h"
 #import "LPNewsMineViewController.h"
 #import "Comment+Create.h"
 #import "LPMyCommentTableViewCell.h"
@@ -22,35 +19,16 @@
 #import "LPDetailTipView.h"
 #import "CommentTool.h"
 #import "LPMyComment.h"
+#import "LPLoadingView.h"
 
 
-
-const static CGFloat headerHeight = 215.0f;
 static NSString *cellIdentifier = @"cellIdentifier";
-static BOOL status;
-@interface LPNewsMyCommViewController()<UITableViewDelegate,UITableViewDataSource,LPMyCommentTableViewCellDelegate>
 
-@property (nonatomic, strong) UIImageView *avatarImageView;
-@property (nonatomic, strong) UILabel *userNameLabel;
-@property(nonatomic, strong) UIImageView *headerImageView;
+@interface LPNewsMyCommViewController()<UITableViewDelegate,UITableViewDataSource,LPMyCommentTableViewCellDelegate>
 @property(nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *commentArrayFrame;
-@property (nonatomic, strong) UIView *tableHeaderView;
-
-// 返回按钮
-@property (nonatomic, strong) UIButton *backButton;
-// 无评论提示信息
-@property (nonatomic, strong) UIView *noCommentTipView;
-// 导航栏
-@property (nonatomic, strong) UIView *topView;
-// 个人头像小图
-@property (nonatomic, strong) UIImageView *smallAvatarImageView;
-// 评论总高度
-@property (nonatomic, assign) CGFloat sumHeight;
-@property (nonatomic, strong) UIImageView *animationImageView;
-@property (nonatomic, strong) UIView *contentLoadingView;
-@property (nonatomic, strong) UIView *footerView;
-
+@property (nonatomic, strong) UIView *noCommentsTipView;
+@property (nonatomic, strong) LPLoadingView *loadingView;
 
 @end
 
@@ -62,20 +40,6 @@ static BOOL status;
         _commentArrayFrame = [NSMutableArray array];
     }
     return _commentArrayFrame;
-}
-
-#pragma mark - preferredStatusBarStyle
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return status ? UIStatusBarStyleLightContent: UIStatusBarStyleDefault;
-   
-}
-
-- (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
-    return UIStatusBarAnimationFade;
-}
-
-- (BOOL)prefersStatusBarHidden {
-    return NO;
 }
 
 
@@ -97,8 +61,7 @@ static BOOL status;
                  [self.commentArrayFrame addObject:commentFrame];
              }
          }
-         [self.animationImageView stopAnimating];
-         self.contentLoadingView.hidden = YES;
+         [self.loadingView stopAnimating];
          [self reloadData];
      } failure:^(NSError *error) {
          
@@ -108,10 +71,10 @@ static BOOL status;
 #pragma mark - reloadData
 - (void)reloadData {
     if (self.commentArrayFrame.count > 0) {
-        self.noCommentTipView.hidden = YES;
+        self.noCommentsTipView.hidden = YES;
     } else {
         
-        self.noCommentTipView.hidden = NO;
+        self.noCommentsTipView.hidden = NO;
     }
     [self.tableView reloadData];
 }
@@ -119,82 +82,14 @@ static BOOL status;
 #pragma mark - setup SubViews
 - (void)setupSubViews {
     
-    self.edgesForExtendedLayout = UIRectEdgeNone;
-    self.extendedLayoutIncludesOpaqueBars = NO;
-    self.automaticallyAdjustsScrollViewInsets = NO;
-       
-    // 头像背景
-    UIImageView *headerImageView = [[UIImageView alloc] init];
-    headerImageView.contentMode = UIViewContentModeScaleAspectFill;
-    headerImageView.clipsToBounds = YES;
-    headerImageView.layer.shouldRasterize = YES;
-    headerImageView.image = [UIImage imageNamed:@"我的评论头像背景"];
-    headerImageView.frame = CGRectMake(0, 0, ScreenWidth, headerHeight);
-    self.headerImageView = headerImageView;
-    
-    UIView *tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, headerHeight)];
-    NSString *userName = @"奇点资讯";
-    
-    [tableHeaderView addSubview:headerImageView];
-    
-    Account *account = [AccountTool account];
-    
-    // 圆形头像
-    CGFloat avatarImageViewW = 77.0f;
-    CGFloat avatarImageViewH = 77.0f;
-    CGFloat avatarImageViewX = (ScreenWidth - avatarImageViewW) / 2;
-    CGFloat avatarImageViewY = (headerHeight - avatarImageViewH) / 2;
-    UIImageView *avatarImageView = [[UIImageView alloc] init];
-    avatarImageView.layer.cornerRadius = avatarImageViewW / 2;
-    avatarImageView.alpha = 0.5;
-    avatarImageView.backgroundColor = [UIColor whiteColor];
-    avatarImageView.contentMode = UIViewContentModeScaleAspectFit;
-    avatarImageView.layer.masksToBounds = YES;
-    avatarImageView.layer.shouldRasterize = YES;
-    avatarImageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
-    avatarImageView.frame = CGRectMake(avatarImageViewX, avatarImageViewY, avatarImageViewW, avatarImageViewH);
-
-    [tableHeaderView addSubview:avatarImageView];
-    
-    self.avatarImageView = avatarImageView;
-    if (account) {
-        userName = account.userName;
-        [avatarImageView sd_setImageWithURL:[NSURL URLWithString:account.userIcon] placeholderImage:[UIImage imageNamed:@"我的评论个人头像"]];
-    }
-    
-    
-    CGFloat userNameLabelW = [userName sizeWithFont:[UIFont boldSystemFontOfSize:18.0f] maxSize:CGSizeMake(CGFLOAT_MAX , CGFLOAT_MAX)].width;
-    CGFloat userNameLabelH = [userName sizeWithFont:[UIFont boldSystemFontOfSize:18.0f] maxSize:CGSizeMake(CGFLOAT_MAX , CGFLOAT_MAX)].height;
-    CGFloat userNameLabelY = CGRectGetMaxY(avatarImageView.frame) + 18;
-    CGFloat userNameLabelX = (ScreenWidth - userNameLabelW) / 2;
-    UILabel *userNameLabel = [[UILabel alloc] init];
-    userNameLabel.font = [UIFont boldSystemFontOfSize:18];
-    userNameLabel.textColor = [UIColor whiteColor];
-    userNameLabel.frame = CGRectMake(userNameLabelX, userNameLabelY, userNameLabelW, userNameLabelH);
-    userNameLabel.text = userName;
-    [tableHeaderView addSubview:userNameLabel];
-    
-    UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
-    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    tableView.backgroundColor = [UIColor colorFromHexString:LPColor9];
-    tableView.tableHeaderView = tableHeaderView;
-    [self.tableView sendSubviewToBack:tableHeaderView];
-    self.tableHeaderView = tableHeaderView;
-    tableView.scrollEnabled = YES;
-    tableView.dataSource = self;
-    tableView.delegate = self;
-    [tableView registerClass:[LPMyCommentTableViewCell class] forCellReuseIdentifier:cellIdentifier];
-    
-    [self.view addSubview:tableView];
-    self.tableView = tableView;
-    
+    self.view.backgroundColor = [UIColor colorFromHexString:LPColor9];
     // 导航栏
     double topViewHeight = TabBarHeight + StatusBarHeight + 0.5;
     double padding = 15;
-
+    
     double returnButtonWidth = 13;
     double returnButtonHeight = 22;
-
+    
     if (iPhone6Plus) {
         returnButtonWidth = 12;
         returnButtonHeight = 21;
@@ -206,98 +101,72 @@ static BOOL status;
     UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, topViewHeight)];
     topView.backgroundColor = [UIColor colorFromHexString:@"#ffffff" alpha:0.0f];
     [self.view addSubview:topView];
-    self.topView = topView;
-    
-    // 小圆形头像
-    CGFloat smallAvatarImageViewW = 20.0f;
-    CGFloat smallAvatarImageViewH = 20.0f;
-    CGFloat smallAvatarImageViewX = (ScreenWidth - smallAvatarImageViewW) / 2;
-    CGFloat smallAvatarImageViewY = (topViewHeight - smallAvatarImageViewH + StatusBarHeight) / 2;
-    UIImageView *smallAvatarImageView = [[UIImageView alloc] init];
-    smallAvatarImageView.layer.cornerRadius = smallAvatarImageViewW / 2;
-    smallAvatarImageView.alpha = 0.5;
-    smallAvatarImageView.backgroundColor = [UIColor whiteColor];
-    smallAvatarImageView.contentMode = UIViewContentModeScaleAspectFit;
-    smallAvatarImageView.layer.masksToBounds = YES;
-    smallAvatarImageView.layer.shouldRasterize = YES;
-    smallAvatarImageView.layer.rasterizationScale = [UIScreen mainScreen].scale;
-    smallAvatarImageView.frame = CGRectMake(smallAvatarImageViewX, smallAvatarImageViewY, smallAvatarImageViewW, smallAvatarImageViewH);
-    [topView addSubview:smallAvatarImageView];
-    if (account) {
-        [smallAvatarImageView sd_setImageWithURL:[NSURL URLWithString:account.userIcon] placeholderImage:[UIImage imageNamed:@"我的评论个人头像"]];
-    }
-    smallAvatarImageView.hidden = YES;
-    self.smallAvatarImageView = smallAvatarImageView;
     
     // 返回button
     UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(padding, returnButtonPaddingTop, returnButtonWidth, returnButtonHeight)];
-    [backButton setBackgroundImage:[UIImage imageNamed:@"我的评论白色返回"] forState:UIControlStateNormal];
+    [backButton setBackgroundImage:[UIImage imageNamed:@"消息中心返回"] forState:UIControlStateNormal];
     backButton.enlargedEdge = 15;
     [backButton addTarget:self action:@selector(topViewBackBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [topView addSubview:backButton];
-    self.backButton = backButton;
     
-    // 没有评论提示信息
-    UIView *noCommentTipView = [[UIView alloc] initWithFrame:CGRectMake(0, headerHeight + 42, ScreenWidth, 140)];
-    CGFloat noCommentImageViewW = 90;
-    CGFloat noCommentImageViewH = 83;
-    CGFloat noCommentImageViewX = (ScreenWidth - noCommentImageViewW) / 2;
-    CGFloat noCommentImageViewY = 80;
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, 40)];
+    titleLabel.text = @"评论";
+    titleLabel.textColor = [UIColor colorFromHexString:LPColor7];
+    titleLabel.font = [UIFont  boldSystemFontOfSize:LPFont8];
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    titleLabel.centerX = topView.centerX;
+    titleLabel.centerY = backButton.centerY;
+    [topView addSubview:titleLabel];
     
-    if (iPhone6Plus) {
-        noCommentImageViewY = 130;
-    }
+    UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(topView.frame), ScreenWidth , 0.5)];
+    seperatorView.backgroundColor = [UIColor colorFromHexString:LPColor10];
+    [self.view addSubview:seperatorView];
     
-    UIImageView *noCommentImageView = [[UIImageView alloc] initWithFrame:CGRectMake(noCommentImageViewX, noCommentImageViewY, noCommentImageViewW, noCommentImageViewH)];
-    noCommentImageView.image = [UIImage imageNamed:@"wupinglun"];
+    CGFloat tableViewY = CGRectGetMaxY(seperatorView.frame);
+    CGFloat tableViewH = ScreenHeight - tableViewY;
+    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, tableViewY, ScreenWidth, tableViewH)];
+    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [tableView registerClass:[LPMyCommentTableViewCell class] forCellReuseIdentifier:cellIdentifier];
+    tableView.backgroundColor = [UIColor colorFromHexString:@"#ffffff" alpha:0.0f];
+    tableView.delegate = self;
+    tableView.dataSource = self;
+ 
+    [self.view addSubview:tableView];
+    self.tableView = tableView;
     
-    CGFloat noCommentLabelX = 0;
-    CGFloat noCommentLabelY = CGRectGetMaxY(noCommentImageView.frame);
-    CGFloat noCommentLabelW = ScreenWidth;
-    CGFloat noCommentLabelH = 20;
+    // 没有收藏提示信息
+    UIView *noCommentsTipView = [[UIView alloc] initWithFrame:CGRectMake(0, topViewHeight + 42, ScreenWidth, 140)];
+    CGFloat noCommentsImageViewW = 90;
+    CGFloat noCommentsImageViewH = 83;
+    CGFloat noCommentsImageViewX = (ScreenWidth - noCommentsImageViewW) / 2;
+    CGFloat noCommentsImageViewY = 42;
+    UIImageView *noCommentsImageView = [[UIImageView alloc] initWithFrame:CGRectMake(noCommentsImageViewX, noCommentsImageViewY, noCommentsImageViewW, noCommentsImageViewH)];
+    noCommentsImageView.image = [UIImage imageNamed:@"wupinglun"];
     
-    UILabel *noCommentLabel = [[UILabel alloc] initWithFrame:CGRectMake(noCommentLabelX, noCommentLabelY, noCommentLabelW, noCommentLabelH)];
-    noCommentLabel.text = @"还没有发表任何评论";
-    noCommentLabel.textColor = [UIColor colorFromHexString:@"#d4d4d4"];
-    noCommentLabel.font = [UIFont systemFontOfSize:17];
-    noCommentLabel.textAlignment = NSTextAlignmentCenter;
+    CGFloat noCommentsLabelX = 0;
+    CGFloat noCommentsLabelY = CGRectGetMaxY(noCommentsImageView.frame);
+    CGFloat noCommentsLabelW = ScreenWidth;
+    CGFloat noCommentsLabelH = 20;
+    UILabel *noCommentsLabelFirst = [[UILabel alloc] initWithFrame:CGRectMake(noCommentsLabelX, noCommentsLabelY, noCommentsLabelW, noCommentsLabelH)];
+    noCommentsLabelFirst.text = @"还没有发表任何评论";
+    noCommentsLabelFirst.textColor = [UIColor colorFromHexString:@"#d4d4d4"];
+    noCommentsLabelFirst.font = [UIFont systemFontOfSize:17];
+    noCommentsLabelFirst.textAlignment = NSTextAlignmentCenter;
+    [noCommentsTipView addSubview:noCommentsLabelFirst];
+    [noCommentsTipView addSubview:noCommentsImageView];
+    noCommentsTipView.hidden = YES;
+    [self.tableView insertSubview:noCommentsTipView belowSubview:self.tableView];
+    
+    self.noCommentsTipView = noCommentsTipView;
+    
+    
+    LPLoadingView *loadingView = [[LPLoadingView alloc] initWithFrame:CGRectMake(0, StatusBarHeight + TabBarHeight, ScreenWidth, (ScreenHeight - StatusBarHeight - TabBarHeight) / 2.0f)];
+    [self.view addSubview:loadingView];
+    self.loadingView = loadingView;
+    [loadingView startAnimating];
+    
 
-    [noCommentTipView addSubview:noCommentLabel];
-    [noCommentTipView addSubview:noCommentImageView];
-    noCommentTipView.hidden = YES;
-    
-    self.noCommentTipView = noCommentTipView;
-    [self.tableView insertSubview:noCommentTipView belowSubview:self.tableView];
-    
-    // 正在加载提示
-    UIView *contentLoadingView = [[UIView alloc] initWithFrame:noCommentTipView.frame];
-    
-    // Load images
-    NSArray *imageNames = @[@"xl_1", @"xl_2", @"xl_3", @"xl_4"];
-    
-    NSMutableArray *images = [[NSMutableArray alloc] init];
-    for (int i = 0; i < imageNames.count; i++) {
-        [images addObject:[UIImage imageNamed:[imageNames objectAtIndex:i]]];
-    }
-    
-    // Normal Animation
-    UIImageView *animationImageView = [[UIImageView alloc] initWithFrame:CGRectMake((ScreenWidth - 36) / 2, (contentLoadingView.height) / 3, 36 , 36)];
-    animationImageView.animationImages = images;
-    animationImageView.animationDuration = 1;
-    [self.view addSubview:animationImageView];
-    [animationImageView startAnimating];
-    self.animationImageView = animationImageView;
-    [contentLoadingView addSubview:animationImageView];
-    [self.view addSubview:contentLoadingView];
-    
-    UILabel *loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(animationImageView.frame), ScreenWidth, 40)];
-    loadingLabel.textAlignment = NSTextAlignmentCenter;
-    loadingLabel.text = @"正在努力加载...";
-    loadingLabel.font = [UIFont systemFontOfSize:12];
-    loadingLabel.textColor = [UIColor colorFromHexString:@"#999999"];
-    [contentLoadingView addSubview:loadingLabel];
-    
-    self.contentLoadingView = contentLoadingView;
+  
 }
 
 #pragma mark - UITableView DataSource
@@ -306,7 +175,6 @@ static BOOL status;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    
     return self.commentArrayFrame.count;
 }
 
@@ -315,31 +183,6 @@ static BOOL status;
     cell.commentFrame = self.commentArrayFrame[indexPath.row];
     cell.delegate = self;
     return cell;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if (self.commentArrayFrame.count > 0) {
-        return 60;
-    } else {
-        return 0;
-    }
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    
-    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 60)];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, 60)];
-    label.textColor = [UIColor colorFromHexString:@"#9a9a9a"];
-    label.text = @"已显示全部内容";
-    label.font = [UIFont systemFontOfSize:17];
-    label.textAlignment = NSTextAlignmentCenter;
-    [footerView addSubview:label];
-    self.footerView = footerView;
-    if (self.commentArrayFrame.count > 0) {
-        return footerView;
-    } else {
-        return nil;
-    }
 }
 
 #pragma mark UItableView Delegate
@@ -364,12 +207,11 @@ static BOOL status;
             [self.commentArrayFrame removeObject:commentFrame];
             [self.tableView  deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationFade];
             if (self.commentArrayFrame.count > 0) {
-                self.noCommentTipView.hidden = YES;
-                self.footerView.hidden = NO;
+                self.noCommentsTipView.hidden = YES;
             } else {
                 
-                self.noCommentTipView.hidden = NO;
-                self.footerView.hidden = YES;
+                self.noCommentsTipView.hidden = NO;
+      
             }
         }
     }];
@@ -377,43 +219,6 @@ static BOOL status;
 
 - (void)upButtonDidClick:(LPMyCommentTableViewCell *)cell {
     [self tipViewWithCondition:7];
-}
-#pragma mark - scrollViewDidScroll
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    CGFloat offsetY = scrollView.contentOffset.y;
-    if (offsetY < 0) {
-        
-        self.headerImageView.frame = CGRectMake(0, offsetY, ScreenWidth, headerHeight -  offsetY);
-        
-    } else {
-        
-        double topViewHeight = TabBarHeight + StatusBarHeight + 0.5;
-        if (iPhone6) {
-            topViewHeight = 72;
-        }
-        if (offsetY > (headerHeight - topViewHeight)) {
-            
-            [self.backButton setBackgroundImage:[UIImage imageNamed:@"我的评论黑色返回"] forState:UIControlStateNormal];
-            
-            [UIView animateWithDuration:0.5 animations:^{
-               self.topView.backgroundColor = [UIColor colorFromHexString:@"#ffffff" alpha:0.5f];
-            }];
-            
-            self.smallAvatarImageView.hidden = NO;
-            status = false;
-            [self setNeedsStatusBarAppearanceUpdate];
-            
-        } else {
-            [self.backButton setBackgroundImage:[UIImage imageNamed:@"我的评论白色返回"] forState:UIControlStateNormal];
-            [UIView animateWithDuration:0.5 animations:^{
-                self.topView.backgroundColor = [UIColor colorFromHexString:@"#ffffff" alpha:0.0f];
-            }];
-            self.smallAvatarImageView.hidden = YES;
-            status = true;
-            [self setNeedsStatusBarAppearanceUpdate];
-        }
-    }
-  
 }
 
 #pragma mark - 返回上一级

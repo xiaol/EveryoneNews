@@ -27,6 +27,7 @@
 #import "LPDetailViewController.h"
 #import "CoreDataHelper.h"
 #import "LPFontSize.h"
+#import "LPLoadingView.h"
 
 
 static NSString *introduceCellIdentifier = @"introduceCellIdentifier";
@@ -51,10 +52,8 @@ const static CGFloat changeFontSizeViewH = 150;
 @property (nonatomic, copy) NSString *shareTitle;
 @property (nonatomic, copy) NSString *shareImageURL;
 @property (nonatomic, strong) UIButton *concernButton;
-
 // 正在加载提示
-@property (nonatomic, strong) UIImageView *animationImageView;
-@property (nonatomic, strong) UIView *contentLoadingView;
+@property (nonatomic, strong) LPLoadingView *loadingView;
 
 
 @end
@@ -118,8 +117,7 @@ const static CGFloat changeFontSizeViewH = 150;
                 [self.concernCardFrames addObject:cardFrame];
             }
             self.tableView.hidden = NO;
-            self.contentLoadingView.hidden = YES;
-            [self.animationImageView  stopAnimating];
+            [self.loadingView stopAnimating];
             [self.tableView reloadData];
         }
     } failure:^(NSError *error) {
@@ -725,38 +723,10 @@ const static CGFloat changeFontSizeViewH = 150;
     if (iPhone6) {
         topViewHeight = 72;
     }
-    UIView *contentLoadingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - topViewHeight)];
-    // Load images
-    NSArray *imageNames = @[@"xl_1", @"xl_2", @"xl_3", @"xl_4"];
-    
-    NSMutableArray *images = [[NSMutableArray alloc] init];
-    for (int i = 0; i < imageNames.count; i++) {
-        [images addObject:[UIImage imageNamed:[imageNames objectAtIndex:i]]];
-    }
-    
-    CGFloat animationImageViewW = 36;
-    CGFloat animationImageViewH = 36;
-    CGFloat animationImageViewX = (ScreenWidth - animationImageViewW) / 2;
-    CGFloat animationImageViewY = (ScreenHeight - animationImageViewH) / 2 - topViewHeight;
-    // Normal Animation
-    UIImageView *animationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(animationImageViewX, animationImageViewY, animationImageViewW , animationImageViewH)];
-    animationImageView.animationImages = images;
-    animationImageView.animationDuration = 1;
-    [contentLoadingView addSubview:animationImageView];
-    self.animationImageView = animationImageView;
-    
-    UILabel *loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(animationImageView.frame), ScreenWidth, 40)];
-    loadingLabel.textAlignment = NSTextAlignmentCenter;
-    loadingLabel.text = @"正在努力加载...";
-    loadingLabel.font = [UIFont systemFontOfSize:12];
-    loadingLabel.textColor = [UIColor colorFromHexString:LPColor4];
-    
-    [contentLoadingView addSubview:loadingLabel];
-    [self.view addSubview:contentLoadingView];
-    
-    self.contentLoadingView = contentLoadingView;
-    
-    [animationImageView startAnimating];
+    LPLoadingView *loadingView = [[LPLoadingView alloc] initWithFrame:CGRectMake(0, topViewHeight, ScreenWidth, (ScreenHeight - topViewHeight) / 2.0f)];
+    [self.view addSubview:loadingView];
+    self.loadingView = loadingView;
+    [loadingView startAnimating];
 }
 
 

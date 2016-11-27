@@ -35,6 +35,8 @@
 #import "CardConcern.h"
 #import "AccountTool.h"
 #import "LPSpecialTopicHomeViewController.h"
+#import "LPConcernDetailViewController.h"
+#import "LPAdsDetailViewController.h"
 
 NSString * const reusePageID = @"reusePageID";
 NSString * const reuseConcernPageID = @"reuseConcernPageID";
@@ -338,6 +340,11 @@ NSString * const reuseConcernPageID = @"reuseConcernPageID";
         specialTopicVc.tid = card.nid;
         [self.navigationController pushViewController:specialTopicVc animated:YES];
         
+    } else if([card.rtype isEqual:@(3)]) {
+        LPAdsDetailViewController *adsViewController = [[LPAdsDetailViewController alloc] init];
+        adsViewController.publishURL = card.sourceSiteURL;
+        [self.navigationController pushViewController:adsViewController animated:YES];
+        
     } else {
         LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
         detailVc.sourceViewController = homeSource;
@@ -541,6 +548,22 @@ NSString * const reuseConcernPageID = @"reuseConcernPageID";
         
 }
 
+// 文章列表
+- (void)page:(LPPagingViewPage *)page didTapListViewWithSourceName:(NSString *)sourceName {
+    LPConcernDetailViewController *concernDetailViewController = [[LPConcernDetailViewController alloc] init];
+    concernDetailViewController.sourceName = sourceName;
+    concernDetailViewController.conpubFlag = @"0";
+    [self.navigationController pushViewController:concernDetailViewController animated:YES];
+}
+
+// 文章列表
+- (void)concernPage:(LPPagingViewConcernPage *)concernPage didTapListViewWithSourceName:(NSString *)sourceName {
+    LPConcernDetailViewController *concernDetailViewController = [[LPConcernDetailViewController alloc] init];
+    concernDetailViewController.sourceName = sourceName;
+    concernDetailViewController.conpubFlag = @"0";
+    [self.navigationController pushViewController:concernDetailViewController animated:YES];
+}
+
 #pragma mark - 删除本地新闻
 - (void)deleteCardFromCoreData:(CardFrame *)cardFrame {
     CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
@@ -548,5 +571,8 @@ NSString * const reuseConcernPageID = @"reuseConcernPageID";
     [card setValue:@(1) forKey:@"isCardDeleted"];
     [Card updateCard:card];
 }
+
+
+
 
 @end

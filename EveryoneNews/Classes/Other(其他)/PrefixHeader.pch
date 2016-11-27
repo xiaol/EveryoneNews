@@ -233,7 +233,7 @@ typedef NS_ENUM(NSInteger, newsType) {
 #define LPChannelItemChangedNotification @"LPChannelItemChangedNotification"
 #define LPAddConcernSourceNotification @"LPAddConcernSourceNotification"
 #define LPRemoveConcernSourceNotification @"LPRemoveConcernSourceNotification"
-#define LPIsVersionFirstLoad @"LPIsVersion_3_3_8_FirstLoad"
+#define LPIsVersionFirstLoad @"LPIsVersion_3_3_17_FirstLoad"
 
 #define LPReloadAddConcernPageNotification @"LPReloadAddConcernPageNotification"
 #define LPReloadCancelConcernPageNotification @"LPReloadCancelConcernPageNotification"
@@ -309,6 +309,9 @@ typedef NS_ENUM(NSInteger, newsType) {
 #define LPColor20 @"#787878"
 #define LPColor21 @"#e6e6e6"
 #define LPColor22 @"#bebebe"
+#define LPColor23 @"#fff1e7"
+
+#define LPColorDetail @"#e99b5e"
 
 #define LPFont1 20
 #define LPFont2 19

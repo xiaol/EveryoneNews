@@ -26,6 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSNumber *rtype;
 @property (nullable, nonatomic, retain) NSString *sourceSiteName;
 @property (nullable, nonatomic, retain) NSString *sourceSiteURL;
+@property (nullable, nonatomic, retain) NSString *sourceSiteImageUrl;
+
 @property (nullable, nonatomic, retain) NSString *title;
 @property (nullable, nonatomic, retain) NSNumber *type;
 @property (nullable, nonatomic, retain) NSString *updateTime;

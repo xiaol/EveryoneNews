@@ -26,6 +26,8 @@
 }
 
 - (NSString *)title {
+    
+   _title =  [_title stringByReplacingOccurrencesOfString:@"#0091fa" withString:LPColor3];
     CGFloat fontSize = [LPFontSizeManager sharedManager].lpFontSize.currentDetailRelatePointFontSize ;
     return [NSString stringWithFormat:@"<style> body{ font-size:%fpx; text-align:justify;  }</style> %@ ",
             [UIFont systemFontOfSize:fontSize].pointSize, _title];

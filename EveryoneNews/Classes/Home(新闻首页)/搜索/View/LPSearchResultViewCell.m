@@ -181,7 +181,7 @@
     
     CGFloat fontSize = self.cardFrame.homeViewFontSize;
     NSArray *keywords = cardFrame.keywords;
-    UIColor *fontColor = [UIColor colorFromHexString:@"#0091fa"];
+    UIColor *fontColor = [UIColor colorFromHexString:LPColorDetail];
     
     NSAttributedString *attributeTitle =  [LPSearchTool attributeStringWithContent:title keyWords:keywords color:fontColor fontSize:fontSize];
     

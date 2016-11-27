@@ -16,23 +16,27 @@
 + (NSString *)adBase64 {
     NSMutableDictionary *adReuqest = [NSMutableDictionary dictionary];
     // 当前版本号
-    CGFloat version = 1.0;
-    adReuqest[@"version"] = @(version);
+    NSString *version = @"1.0";
+    adReuqest[@"version"] = version;
     // 提取当前服务器时间戳，精确到秒
-    NSDate *datetime = [NSDate date];
-    NSTimeInterval interval = [datetime timeIntervalSince1970];
-    adReuqest[@"ts"] = @(round(interval));
+    adReuqest[@"ts"] = [NSString stringWithFormat:@"%lld", (long long)([[NSDate date] timeIntervalSince1970])];
     
     // impression对象
     NSMutableDictionary *impressionDictionary = [NSMutableDictionary dictionary];
-    impressionDictionary[@"aid"] = @(99);
     
+    NSInteger random = arc4random() % 100;
+    
+    if (random < 50) {
+        impressionDictionary[@"aid"] = @"99";
+    } else {
+        impressionDictionary[@"aid"] = @"101";
+    }
     NSInteger width = ScreenWidth;
     NSInteger height = (3 * width ) / 4;
     
-    impressionDictionary[@"width"] = @(width);
-    impressionDictionary[@"height"] = @(height);
-    impressionDictionary[@"keywords"] = @"体育,足球";
+    impressionDictionary[@"width"] = [NSString stringWithFormat:@"%d", width];
+    impressionDictionary[@"height"] = [NSString stringWithFormat:@"%d", height];
+//    impressionDictionary[@"keywords"] = @"体育,足球";
     
     NSMutableArray *impressionArray = [NSMutableArray array];
     [impressionArray addObject:impressionDictionary];
@@ -49,15 +53,17 @@
     NSString *systemVersion = [[UIDevice currentDevice] systemVersion];
     deviceDictionary[@"brand"] = brand;
     // 操作系统 0 : 未知  1 安卓 2 iOS 3 Windows
-    deviceDictionary[@"os"] = @(2);
+    deviceDictionary[@"os"] = @"2";
     deviceDictionary[@"os_version"] = systemVersion;
-    deviceDictionary[@"device_size"] = [NSString stringWithFormat:@"%f*%f", round(ScreenWidth), round(ScreenHeight)];
-    deviceDictionary[@"network"] = @(0);
-    deviceDictionary[@"operator"] = @(0);
-    deviceDictionary[@"ip"] = [self getIPAddress];
     
+    NSInteger screenHeight = ScreenHeight;
+    deviceDictionary[@"device_size"] = [NSString stringWithFormat:@"%d*%d", width, screenHeight];
+    deviceDictionary[@"network"] = @"0";
+    deviceDictionary[@"operator"] = @"0";
+    deviceDictionary[@"ip"] = [self getIPAddress];
     adReuqest[@"device"] = deviceDictionary;
     
+//    NSLog(@"%@", adReuqest);
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:adReuqest options:NSJSONWritingPrettyPrinted error:&error];
     NSString *adBase64Str;

@@ -23,6 +23,7 @@
 #import "Card.h"
 #import "CardImage.h"
 #import "LPHomeRowManager.h"
+#import "LPLoadingView.h"
 
 
 @interface LPPagingViewPage () <UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
@@ -207,38 +208,10 @@
     if (iPhone6) {
         topViewHeight = 72;
     }
-    UIView *contentLoadingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight - topViewHeight)];
-    // Load images
-    NSArray *imageNames = @[@"xl_1", @"xl_2", @"xl_3", @"xl_4"];
-
-    NSMutableArray *images = [[NSMutableArray alloc] init];
-    for (int i = 0; i < imageNames.count; i++) {
-        [images addObject:[UIImage imageNamed:[imageNames objectAtIndex:i]]];
-    }
-
-    CGFloat animationImageViewW = 36;
-    CGFloat animationImageViewH = 36;
-    CGFloat animationImageViewX = (ScreenWidth - animationImageViewW) / 2;
-    CGFloat animationImageViewY = (ScreenHeight - animationImageViewH) / 2 - topViewHeight;
-    // Normal Animation
-    UIImageView *animationImageView = [[UIImageView alloc] initWithFrame:CGRectMake(animationImageViewX, animationImageViewY, animationImageViewW , animationImageViewH)];
-    animationImageView.animationImages = images;
-    animationImageView.animationDuration = 0.5f;
-    [contentLoadingView addSubview:animationImageView];
-     self.animationImageView = animationImageView;
-
-    UILabel *loadingLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(animationImageView.frame), ScreenWidth, 40)];
-    loadingLabel.textAlignment = NSTextAlignmentCenter;
-    loadingLabel.text = @"正在努力加载...";
-    loadingLabel.font = [UIFont systemFontOfSize:12];
-    loadingLabel.textColor = [UIColor colorFromHexString:LPColor4];
-    
-    [contentLoadingView addSubview:loadingLabel];
-    [self addSubview:contentLoadingView];
-    
-    self.contentLoadingView = contentLoadingView;
-    
-    [animationImageView startAnimating];
+    LPLoadingView *loadingView = [[LPLoadingView alloc] initWithFrame:CGRectMake(0, StatusBarHeight + TabBarHeight, ScreenWidth, (ScreenHeight - topViewHeight) / 2.0f)];
+    [self addSubview:loadingView];
+    self.loadingView = loadingView;
+    [loadingView startAnimating];
 }
 
 #pragma mark - tapReloadPage
@@ -247,8 +220,6 @@
         [(id<LPPagingViewPageDelegate>)self.delegate didClickReloadPage:self];
     }
 }
-
-
 
 - (id<LPPagingViewPageDelegate>)delegate {
     return (id<LPPagingViewPageDelegate>)_delegate;
@@ -267,11 +238,9 @@
     _cardFrames = cardFrames;
     if (cardFrames.count > 0) {
         self.searchView.hidden = NO;
-        self.contentLoadingView.hidden = YES;
-        [self.animationImageView stopAnimating];
+        [self.loadingView stopAnimating];
     } else {
-        self.contentLoadingView.hidden = NO;
-        [self.animationImageView startAnimating];
+        [self.loadingView startAnimating];
     }
     [self.tableView reloadData];
 }
@@ -302,6 +271,11 @@
             break;
         }
     }
+    CardFrame *specialTopicCardFrame = self.cardFrames[0];
+    if ([specialTopicCardFrame.card.rtype  isEqual: @(4)]) {
+        [self.cardFrames removeObjectAtIndex:0];
+    }
+    
     if (self.cardFrames.count != 0) {
         
         CardFrame *cardFrame = self.cardFrames[0];
@@ -311,10 +285,8 @@
         param.channelID = [NSString stringWithFormat:@"%@", card.channelId];
         param.count = @20;
         param.startTime = card.updateTime;
-        
         NSMutableArray *tempArray = [[NSMutableArray alloc] init];
         [CardTool cardsWithParam:param channelID: param.channelID success:^(NSArray *cards) {
-            
             if (cards.count > 0) {
                 [cardFrame setCard:card tipButtonHidden:NO];
                 for (int i = 0; i < (int)cards.count; i ++) {
@@ -422,7 +394,12 @@
             [(id<LPPagingViewPageDelegate>)self.delegate page:self didClickDeleteButtonWithCardFrame:cell.cardFrame deleteButton:deleteButton];
         }
         
-    }];    
+    }];
+   [cell didTapSourceListViewBlock:^(NSString *sourceSiteName) {
+       if ([self.delegate respondsToSelector:@selector(page:didTapListViewWithSourceName:)]) {
+           [(id<LPPagingViewPageDelegate>)self.delegate page:self didTapListViewWithSourceName:sourceSiteName];
+       }
+   }];
     return cell;
 }
 

@@ -230,6 +230,8 @@
                              failure:(void (^)(NSError *error))failure {
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    
+    
     manager.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringLocalAndRemoteCacheData;
     manager.requestSerializer.timeoutInterval = 15.0f;
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
@@ -239,7 +241,6 @@
                                   serializerWithReadingOptions:NSJSONReadingAllowFragments];
     [manager.requestSerializer setValue:authorization forHTTPHeaderField:@"Authorization"];
     [manager.requestSerializer setValue:@"*" forHTTPHeaderField:@"X-Requested-With"];
-    
     [manager POST:url parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (success) {
             success(responseObject);

@@ -55,7 +55,7 @@
     
     // 上次刷新位置
     CGFloat tipButtonX = 0;
-    CGFloat tipButtonH = 30;
+    CGFloat tipButtonH = 0;
     CGFloat tipButtonY = 0;
     CGFloat tipButtonW = ScreenWidth;
     if (self.isTipButtonHidden) {
@@ -71,7 +71,6 @@
         default:
             break;
     }
-    
     CGFloat commentsX = paddingLeft;
     CGFloat commentsY = 0.0f;
     CGFloat commentsW = 0.0f;
@@ -85,6 +84,10 @@
     CGFloat sourceImageViewW = 32;
     CGFloat sourceImageViewH = 32;
     CGFloat sourceImageViewY = paddingTop + tipButtonH;
+    
+    CGFloat sourceImageListViewX = 0;
+    CGFloat sourceImageListViewY = tipButtonH;
+    CGFloat sourceImageListViewH = sourceImageViewH + paddingTop;
     
     CGFloat sourceH = [sourceSiteName sizeWithFont:[UIFont systemFontOfSize:sourceFontSize] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].height;
     CGFloat sourceW = [sourceSiteName sizeWithFont:[UIFont systemFontOfSize:sourceFontSize] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].width;
@@ -128,12 +131,18 @@
         
         CGFloat specialTopicImageX = paddingLeft;
         CGFloat specialTopicImageW = ScreenWidth - paddingLeft * 4;
-        CGFloat specialTopicImageH = 91 * specialTopicImageW / 327;
+        CGFloat specialTopicImageH = 80 * specialTopicImageW / 327;
         CGFloat specialTopicImageY = CGRectGetMaxY(_specialTopicTitleLabelFrame) + paddingTop;
         _specialTopicImageViewFrame = CGRectMake(specialTopicImageX, specialTopicImageY, specialTopicImageW, specialTopicImageH);
         
+        CGFloat specailTopicNewsTypeX = paddingLeft;
+        CGFloat specialTopicNewsTypeY = CGRectGetMaxY(_specialTopicTitleLabelFrame) + paddingTop;
+        _specialTopicNewsTypeLabelFrame = CGRectMake(specailTopicNewsTypeX, specialTopicNewsTypeY, rtypeW, rtypeH);
+        
         deleteButtonX = ScreenWidth - deleteButtonW - paddingLeft * 3;
         deleteButtonY = CGRectGetMaxY(_specialTopicImageViewFrame) + deleteButtonPaddingTop;
+        
+        commentsX = CGRectGetMaxX(_specialTopicNewsTypeLabelFrame) + paddingLeft;
         commentsY = deleteButtonY;
         _specialTopicCommentsCountLabelFrame = CGRectMake(commentsX, commentsY, commentsW, commentsH);
         _specialTopicDeleteButtonFrame = CGRectMake(deleteButtonX, deleteButtonY, deleteButtonW, deleteButtonH);
@@ -144,7 +153,7 @@
         _specialTopicInsideViewFrame = CGRectMake(specialTopicInsideViewX, specialTopicInsideViewY, specialTopicInsideViewW, specialTopicInsideViewH);
         
         CGFloat specialTopicOutsideViewH = CGRectGetMaxY(_specialTopicInsideViewFrame) + 16;
-        CGFloat specialTopicOutsideViewY = tipButtonH;
+        CGFloat specialTopicOutsideViewY = CGRectGetMaxY(_specialTopicTipButtonFrame);
         _specialTopicOutsideViewFrame = CGRectMake(0, specialTopicOutsideViewY, ScreenWidth, specialTopicOutsideViewH);
         
         _cellHeight = CGRectGetMaxY(_specialTopicOutsideViewFrame);
@@ -159,8 +168,8 @@
             
             CGFloat sourceX = CGRectGetMaxX(_noImageSourceImageViewFrame) + sourcePaddingLeft;
             _noImageSourceLabelFrame = CGRectMake(sourceX, sourceY, sourceW, sourceH);
-
             
+            _noImageSourceListViewFrame = CGRectMake(sourceImageListViewX, sourceImageListViewY, CGRectGetMaxX(_noImageSourceLabelFrame), sourceImageListViewH);
             CGFloat titleW = ScreenWidth - paddingLeft * 2;
             NSMutableAttributedString *attrStr =  [title attributedStringWithFont:[UIFont systemFontOfSize:titleFontSize] lineSpacing:lineSpacing];
             CGRect rect = [attrStr boundingRectWithSize:CGSizeMake(titleW, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
@@ -191,10 +200,20 @@
             
             _singleImageTipButtonFrame = CGRectMake(tipButtonX, tipButtonY, tipButtonW, tipButtonH);
             
+            // 广告位隐藏来源
+            if ([card.rtype integerValue]  == 3) {
+                sourceImageViewY = 0;
+                sourceImageViewH = 0;
+                sourceH = 0;
+            }
+            
             _singleImageSourceImageViewFrame = CGRectMake(paddingLeft, sourceImageViewY, sourceImageViewW, sourceImageViewH);
             
             CGFloat sourceX = CGRectGetMaxX(_singleImageSourceImageViewFrame) + sourcePaddingLeft;
             _singleImageSourceLabelFrame = CGRectMake(sourceX, sourceY, sourceW, sourceH);
+            
+            _singleImageSourceListViewFrame = CGRectMake(sourceImageListViewX, sourceImageListViewY, CGRectGetMaxX(_singleImageSourceLabelFrame), sourceImageListViewH);
+            
             _singleImageDeleteButtonFrame = CGRectMake(deleteButtonX, deleteButtonY, deleteButtonW, deleteButtonH);
             
             // 定义单张图片的宽度
@@ -202,6 +221,11 @@
             CGFloat imageH = 76 * imageW / 114;
             CGFloat imageX = ScreenWidth - paddingLeft - imageW;
             CGFloat imageY =   CGRectGetMaxY(_singleImageSourceImageViewFrame) + paddingTop;
+            
+            if ([card.rtype integerValue]  == 3) {
+                imageY = paddingTop + tipButtonH;
+            }
+            
             _singleImageImageViewFrame = CGRectMake(imageX, imageY, imageW, imageH);
             
             // 单图标题
@@ -226,7 +250,7 @@
             CGFloat singleImageSeperatorLineY = 0.0f;
             // 比较图片和标题高度
             if ((titleH - lineSpacing * 2 + deleteButtonH + paddingTop) > imageH) {
-                titleY =  CGRectGetMaxY(_singleImageSourceImageViewFrame) + paddingTop - lineSpacing;
+                titleY =  imageY - lineSpacing;
                 CGFloat maxHeight = MAX(titleH, imageH);
                 deleteButtonY = titleY + maxHeight + deleteButtonPaddingTop;
 
@@ -262,7 +286,7 @@
             CGFloat sourceX = CGRectGetMaxX(_singleBigImageSourceImageViewFrame) + sourcePaddingLeft;
             _singleBigImageSourceLabelFrame = CGRectMake(sourceX, sourceY, sourceW, sourceH);
 
-            
+            _singleBigImageSourceListViewFrame = CGRectMake(sourceImageListViewX, sourceImageListViewY, CGRectGetMaxX(_singleBigImageSourceLabelFrame), sourceImageListViewH);
             CGFloat titleX = paddingLeft;
             CGFloat titleY = CGRectGetMaxY(_singleBigImageSourceImageViewFrame) + paddingTop;
             CGFloat titleW = ScreenWidth - paddingLeft * 2;
@@ -301,11 +325,20 @@
         else if ([card.type integerValue] == imageStyleThree) {
             
             _multipleImageTipButtonFrame = CGRectMake(tipButtonX, tipButtonY, tipButtonW, tipButtonH);
+            
+            // 广告位隐藏来源
+            if ([card.rtype integerValue]  == 3) {
+                sourceImageViewY = 0;
+                sourceImageViewH = 0;
+                sourceH = 0;
+            }
             _multipleImageSourceImageViewFrame = CGRectMake(paddingLeft, sourceImageViewY, sourceImageViewW, sourceImageViewH);
             
             CGFloat sourceX = CGRectGetMaxX(_multipleImageSourceImageViewFrame) + sourcePaddingLeft;
             _multipleImageSourceLabelFrame = CGRectMake(sourceX, sourceY, sourceW, sourceH);
          
+            _multipleImageSourceListViewFrame = CGRectMake(sourceImageListViewX, sourceImageListViewY, CGRectGetMaxX(_multipleImageSourceLabelFrame), sourceImageListViewH);
+
             CGFloat titleW = ScreenWidth - paddingLeft * 2;
             // 计算单行文字高度
             NSMutableAttributedString *singleLineAttrStr =  [@"单行文本" attributedStringWithFont:[UIFont systemFontOfSize:titleFontSize] lineSpacing:lineSpacing];
@@ -321,6 +354,11 @@
             }
             CGFloat titleX = paddingLeft;
             CGFloat titleY = CGRectGetMaxY(_multipleImageSourceImageViewFrame) + paddingTop;
+            
+            if ([card.rtype integerValue]  == 3) {
+                titleY = paddingTop + tipButtonH;
+            }
+            
             _multipleImageTitleLabelFrame = CGRectMake(titleX, titleY, titleW, titleH);
             
             CGFloat imageY =   CGRectGetMaxY(_multipleImageTitleLabelFrame) + paddingTop;
