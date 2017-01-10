@@ -14,8 +14,6 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
-  - Crashlytics (3.7.0):
-    - Fabric (~> 1.6.3)
   - DTCoreText (1.6.17):
     - DTFoundation/Core (~> 1.7.5)
     - DTFoundation/DTAnimatedGIF (~> 1.7.5)
@@ -43,26 +41,22 @@ PODS:
   - Masonry (0.6.4)
   - MBProgressHUD (1.0.0)
   - pop (1.0.9)
-  - Reachability (3.2)
   - SDWebImage (3.8.1):
     - SDWebImage/Core (= 3.8.1)
   - SDWebImage/Core (3.8.1)
 
 DEPENDENCIES:
   - AFNetworking (~> 3.0)
-  - Crashlytics
   - DTCoreText
   - DTRichTextEditor
   - Fabric
   - Masonry (~> 0.6.3)
   - MBProgressHUD (~> 1.0.0)
   - pop (~> 1.0)
-  - Reachability (~> 3.2)
   - SDWebImage (~> 3.7)
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
-  Crashlytics: c3a2333dea9e2733d2777f730910321fc9e25c0d
   DTCoreText: 3ea8bba23dd2141ba18adb227a7dd33a822df1c4
   DTFoundation: 3b6b1b817d2a7fb02e7eaf2596c922a68145bd43
   DTLoupe: 87d8448ec220dddbcce53df82d2cbf3e1fcce320
@@ -72,9 +66,8 @@ SPEC CHECKSUMS:
   Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
-  Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   SDWebImage: 35f9627a3e44b4f292a8a8ce6a531fa488239b91
 
-PODFILE CHECKSUM: b835991b9e6644838c5ee1400f21c47bcbbaa806
+PODFILE CHECKSUM: 5c2d81b64973ec14294b029bde6874bd40e4f2fc
 
 COCOAPODS: 1.1.1

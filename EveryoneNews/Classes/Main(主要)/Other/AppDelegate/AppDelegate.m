@@ -20,8 +20,6 @@
 #import "Account.h"
 #import "NSDate+Extension.h"
 #import "LPLoginTool.h"
-#import <Fabric/Fabric.h>
-#import <Crashlytics/Crashlytics.h>
 #import "LPDetailViewController.h"
 #import "LPSearchViewController.h"
 #import "LPLoginViewController.h"
@@ -79,9 +77,6 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     if ([userDefaults objectForKey:LPIsVersionFirstLoad] && [userDefaults objectForKey:@"uIconDisplay"]) {
 //        [LPLoginTool loginVerify];
     }
-    // 崩溃日志
-    [Fabric with:@[[Crashlytics class]]];
-    
     if (debug==1) {
         NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
     }
