@@ -6,7 +6,6 @@ target 'EveryoneNews' do
     pod 'Masonry', '~> 0.6.3’
     pod 'AFNetworking', '~> 3.0'
     pod 'SDWebImage', '~>3.7'
-    pod 'pop', '~> 1.0'
     pod 'MBProgressHUD', '~> 1.0.0'
     pod 'DTCoreText'
     pod 'DTRichTextEditor'
