@@ -35,6 +35,17 @@
 @property (nonatomic, assign) CGRect multipleImageSeperatorLineFrame;
 @property (nonatomic, assign) CGRect multipleImageSourceListFrame;
 
+// 视频
+@property (nonatomic, assign, readonly) CGRect videoTitleLabelFrame;
+@property (nonatomic, assign, readonly) CGRect videoImageViewFrame;
+@property (nonatomic, assign, readonly) CGRect videoImageKeywordFrame;
+@property (nonatomic, assign, readonly) CGRect videoSourceLabelFrame;
+@property (nonatomic, assign, readonly) CGRect videoSeperatorLineFrame;
+@property (nonatomic, assign, readonly) CGRect videoCommentsCountLabelFrame;
+@property (nonatomic, assign, readonly) CGRect videoPlayImageViewFrame;
+@property (nonatomic, assign, readonly) CGRect videoDurationLabelFrame;
+@property (nonatomic, assign, readonly) CGRect videoImageSourceListViewFrame;
+
 // cell高度
 @property (nonatomic, assign) CGFloat cellHeight;
 @property (nonatomic, strong) Card *card;

@@ -96,9 +96,12 @@
     LPChannelItem *item30 = [[LPChannelItem alloc] initWithChannelID:@"32" channelName:@"萌宠" channelIsSelected:@"0" hidden:NO];
     
     LPChannelItem *item31 = [[LPChannelItem alloc] initWithChannelID:@"36" channelName:@"自媒体" channelIsSelected:@"0" hidden:NO];
+    
     LPChannelItem *item32 = [[LPChannelItem alloc] initWithChannelID:focusChannelID channelName:@"关注" channelIsSelected:@"0" hidden:YES];
     
-    NSArray *array = [NSArray arrayWithObjects:item0,item1,item2,item3,item27,item26
+    LPChannelItem *item33 = [[LPChannelItem alloc] initWithChannelID:videoChannelID channelName:@"视频" channelIsSelected:@"1" hidden:NO];
+    
+    NSArray *array = [NSArray arrayWithObjects:item0,item33,item1,item2,item3,item27,item26
                                               ,item4,item5,item6,item7,item8,item9
                                               ,item10,item11,item12,item13,item14,item15
                                               ,item16,item17,item18,item19,item20,item21
@@ -114,6 +117,7 @@
     
     NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
                                 @"奇点",@"1",
+                                @"视频",videoChannelID,
                                 @"社会",@"2",
                                 @"娱乐",@"3",
                                 @"科技",@"4",
@@ -146,6 +150,7 @@
                                 @"点集",@"35",
                                 @"自媒体",@"36",
                                 @"关注",focusChannelID,
+                            
                                 
                                 nil];
     NSString *channelID = @"";

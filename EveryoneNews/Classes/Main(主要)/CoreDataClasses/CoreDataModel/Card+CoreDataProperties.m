@@ -34,5 +34,10 @@
 @dynamic cardImages;
 @dynamic cardRelates;
 @dynamic comments;
+@dynamic sourceSiteImageUrl;
+@dynamic thumbnail;
+@dynamic videoUrl;
+@dynamic duration;
+
 
 @end

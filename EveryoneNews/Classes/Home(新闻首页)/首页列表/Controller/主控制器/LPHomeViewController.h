@@ -18,12 +18,15 @@
 #import "LPPagingViewPage.h"
 #import "LPPagingViewConcernPage.h"
 #import "LPHttpTool.h"
+#import "LPPlayerView.h"
 
 
 
 @class LPPagingViewPage;
 @class CardFrame;
 @class Account;
+@class LPPlayerView;
+
 @interface LPHomeViewController:LPBaseViewController
 
 // 首页登录按钮
@@ -84,5 +87,7 @@
 @property (nonatomic, strong) NSMutableArray *subscriberFrameArray;
 
 - (void)displayLoginBtnIconWithAccount:(Account *)account;
+
+@property (nonatomic, strong) LPPlayerView *playerView;
 
 @end

@@ -98,7 +98,7 @@
     UILabel *versionLabel = [[UILabel alloc] initWithFrame:CGRectMake(versionLabelX, versionLabelY, versionLabelW, versionLabelH)];
     versionLabel.text = versionText;
     versionLabel.textAlignment = NSTextAlignmentCenter;
-    versionLabel.textColor = [UIColor colorFromHexString:LPColor2];
+    versionLabel.textColor = [UIColor colorFromHexString:LPColor15];
     versionLabel.font = [UIFont systemFontOfSize:LPFont2];
     [self.view addSubview:versionLabel];
     

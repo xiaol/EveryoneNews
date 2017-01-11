@@ -40,6 +40,17 @@
 @property (nonatomic, assign, readonly) CGRect mutipleTipButtonFrame;
 @property (nonatomic, assign, readonly) CGRect multipleImageNewsTypeLabelFrame;
 
+
+// 视频
+@property (nonatomic, assign, readonly) CGRect videoTitleLabelFrame;
+@property (nonatomic, assign, readonly) CGRect videoImageViewFrame;
+@property (nonatomic, assign, readonly) CGRect videoSourceLabelFrame;
+@property (nonatomic, assign, readonly) CGRect videoSeperatorLineFrame;
+@property (nonatomic, assign, readonly) CGRect videoDeleteButtonFrame;
+@property (nonatomic, assign, readonly) CGRect videoCommentsCountLabelFrame;
+@property (nonatomic, assign, readonly) CGRect videoPlayImageViewFrame;
+@property (nonatomic, assign, readonly) CGRect videoDurationLabelFrame;
+
 @property (nonatomic, strong) LPMyCollectionCard *card;
 @property (nonatomic, assign, readonly) CGFloat cellHeight;
 @property (nonatomic, assign) NSInteger homeViewFontSize;

@@ -33,6 +33,10 @@
         horizontalImageView.animationImages = horizontalImages;
         horizontalImageView.animationDuration = 1.0f;
         horizontalImageView.center = self.center;
+        
+        horizontalImageView.centerX = self.centerX;
+        horizontalImageView.centerY = self.frame.size.height / 2 ;
+        
         self.horizontalImageView = horizontalImageView;
         
         // 纵向动画
@@ -45,7 +49,8 @@
         verticalImageView.frame = CGRectMake(0, 0, 45, 30);
         verticalImageView.animationImages = verticalImages;
         verticalImageView.animationDuration = 1.0f;
-        verticalImageView.center = self.center;
+        verticalImageView.centerX = self.centerX;
+        verticalImageView.centerY = self.frame.size.height / 2;
         self.verticalImageView = verticalImageView;
         
         [self addSubview:horizontalImageView];

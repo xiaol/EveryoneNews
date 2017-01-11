@@ -13,6 +13,7 @@
 #import "LPMyCollectionCardFrame.h"
 #import "LPDetailViewController.h"
 #import "LPLoadingView.h"
+#import "LPVideoDetailViewController.h"
 
 static NSString *cellIdentifier = @"cellIdentifier";
 
@@ -273,10 +274,25 @@ static NSString *cellIdentifier = @"cellIdentifier";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if(!tableView.isEditing) {
         LPMyCollectionCardFrame *cardFrame = self.cardFrames[indexPath.row];
-        LPDetailViewController *detailViewController = [[LPDetailViewController alloc] init];
-        detailViewController.sourceViewController =  collectionSource;
-        detailViewController.myCollectionCardFrame = cardFrame;
-        [self.navigationController pushViewController:detailViewController animated:YES];
+        LPMyCollectionCard *card = cardFrame.card;
+        // 跳转到视频播放详情页
+        if (card.rtype == videoNewsType) {
+            
+            LPVideoDetailViewController *videoDetailViewController = [[LPVideoDetailViewController alloc] init];
+            videoDetailViewController.qidianChannel = YES;
+            videoDetailViewController.sourceViewController =  collectionSource;
+            videoDetailViewController.myCollectionCardFrame = cardFrame;
+            [self.navigationController pushViewController:videoDetailViewController animated:YES];
+            
+        } else {
+            LPDetailViewController *detailViewController = [[LPDetailViewController alloc] init];
+            detailViewController.sourceViewController =  collectionSource;
+            detailViewController.myCollectionCardFrame = cardFrame;
+            [self.navigationController pushViewController:detailViewController animated:YES];
+        }
+        
+        
+        
         
     } else {
         if (![self.selectedIndexPaths containsObject:indexPath]) {

@@ -18,6 +18,8 @@
 
 - (NSString *)startTime {
     if (_startTime == nil) {
+        
+        
        return [NSString stringWithFormat:@"%lld", (long long)([[NSDate date] timeIntervalSince1970] * 1000)];
     }
     return _startTime;

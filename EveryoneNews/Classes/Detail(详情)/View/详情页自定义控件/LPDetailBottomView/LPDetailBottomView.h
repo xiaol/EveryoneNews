@@ -13,7 +13,6 @@
 
 @optional
 
-//- (void)pushCommentViewControllerWithDetailBottomView:(LPDetailBottomView *)detailBottomView;
 
 - (void)didComposeCommentWithDetailBottomView:(LPDetailBottomView *)detailBottomView;
 

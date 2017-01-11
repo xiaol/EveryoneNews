@@ -163,20 +163,25 @@
                 card.keyword = dict[@"pname"];
                 card.keywordColor = [CardSourceColor sourceColorWithKeyword:dict[@"pname"] context:context];
                 card.utype = [NSNumber numberWithInteger:utype];
+            } else if([channelID isEqualToString:videoChannelID]) {
+                card.channelId = @(44);
             } else {
                 card.channelId = dict[@"channel"];
                 
             }
             card.rtype = dict[@"rtype"];
+            // 播放时长
+            card.duration = dict[@"duration"];
             // 专题测试
 //            if ([dict[@"rtype"] integerValue] == 1) {
 //                card.rtype = @(4);
 //            }
-            
+            card.thumbnail = dict[@"thumbnail"];
+            card.videoUrl = dict[@"videourl"];
             // 生成1到7的随机数字
             NSInteger m = arc4random() % 6;
             NSString *imageName = [NSString stringWithFormat:@"来源_%d", (m + 1)];
-            card.sourceSiteImageUrl = imageName;
+            card.sourceSiteImageUrl = dict[@"icon"] == nil ? imageName: dict[@"icon"];
             card.type = dict[@"style"];
             card.docId = dict[@"docid"];
             card.commentsCount = dict[@"comment"];

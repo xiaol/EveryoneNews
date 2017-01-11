@@ -16,6 +16,7 @@
 #import "LPMenuCollectionViewCell.h"
 #import "LPPagingViewPage.h"
 #import "LPPagingViewConcernPage.h"
+#import "LPPagingViewVideoPage.h"
  
 static NSString *reuseIdentifierFirst = @"reuseIdentifierFirst";
 static NSString *reuseIdentifierSecond = @"reuseIdentifierSecond";
@@ -100,8 +101,25 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
             channelItem.lastAccessDate = currentDate;
         }
     
+        // 终止视频播放
+        if (![channelItem.channelID isEqualToString:videoChannelID]) {
+            if (self.playerView.state == LPPlayerStatePlaying) {
+                [self.playerView removePlayerObserver];
+            }
+        }
+    
         if ([channelItem.channelID isEqualToString:focusChannelID]) {
             LPPagingViewConcernPage *page = (LPPagingViewConcernPage *)[self.pagingView visiblePageAtIndex:indexPath.item];
+            if (lastAccessDate != nil) {
+                int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
+                // 每10分钟做一次刷新操作
+                if (interval > 10) {
+                    [page autotomaticLoadNewData];
+                    channelItem.lastAccessDate = currentDate;
+                }
+            }
+        } else if ([channelItem.channelID isEqualToString:videoChannelID]) {
+            LPPagingViewVideoPage *page = (LPPagingViewVideoPage *)[self.pagingView visiblePageAtIndex:indexPath.item];
             if (lastAccessDate != nil) {
                 int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
                 // 每10分钟做一次刷新操作

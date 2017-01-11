@@ -199,11 +199,9 @@ const static CGFloat changeFontSizeViewH = 150;
             self.pubTime = pubTime;
             self.pubName = pubName;
             
-            self.shareURL = [NSString stringWithFormat:@"http://deeporiginalx.com/news.html?type=0&nid=%@", [self nid] ] ;
-            
+            self.shareURL = [NSString stringWithFormat:@"%@/news.html?type=0&nid=%@",ServerUrlVersion1, [self nid] ] ;
             self.shareTitle = title;
             self.submitDocID = dict[@"docid"];
-            
             self.channel = dict[@"channel"];
             // 更新详情页评论数量
             self.commentsCount = [dict[@"comment"] integerValue];
@@ -336,39 +334,14 @@ const static CGFloat changeFontSizeViewH = 150;
             NSDictionary *dict = json[@"data"];
             
             NSArray *relatePointArray = [LPRelatePoint objectArrayWithKeyValuesArray:dict];
-            // 按照时间排序
-            NSArray *sortedRelateArray = [relatePointArray sortedArrayUsingComparator:^NSComparisonResult(LPRelatePoint *p1, LPRelatePoint *p2) {
-                return [p2.ptime compare:p1.ptime];
-            }];
-            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-            [formatter setDateFormat:@"yyyy"];
-            NSString *currentYear = [formatter stringFromDate:[NSDate date]];
+            self.relatePointArray = relatePointArray;
             
-            for (int i = 0; i < sortedRelateArray.count; i++) {
-                LPRelatePoint *point = sortedRelateArray[i];
-                NSString *updateTime = point.ptime;
-                NSString *updateYear = [updateTime substringToIndex:4];
-                NSString *updateMonthDay = [[updateTime substringWithRange:NSMakeRange(5, 5)] stringByReplacingOccurrencesOfString:@"-"withString:@"/"];
-                if ([updateYear isEqualToString:currentYear]) {
-                    point.ptime = updateMonthDay;
-                } else {
-                    point.ptime = [NSString stringWithFormat:@"%@/%@", updateYear,updateMonthDay];
-                }
-                currentYear = updateYear;
-                if ([point.from isEqualToString:@"Google"]) {
-                    self.googleSourceExistsInRelatePoint = true;
-                }
-            }
-            
-            self.relatePointArray = sortedRelateArray;
-            for (int i = 0; i < sortedRelateArray.count; i ++) {
-                LPRelatePoint *point = sortedRelateArray[i];
+            for (int i = 0; i < relatePointArray.count; i ++) {
+                LPRelatePoint *point = relatePointArray[i];
                 LPRelateFrame *relateFrame = [[LPRelateFrame alloc] init];
                 relateFrame.currentRowIndex = i;
                 relateFrame.relatePoint = point;
-                
-                relateFrame.totalCount = sortedRelateArray.count;
-                relateFrame.googleSourceExistsInRelatePoint = self.googleSourceExistsInRelatePoint;
+                relateFrame.totalCount = relatePointArray.count;
                 [self.relatePointFrames addObject:relateFrame];
                 if (i == 2) {
                     break;
@@ -781,8 +754,6 @@ const static CGFloat changeFontSizeViewH = 150;
     NSString *n = [self nid];
     NSString *c = [NSString stringWithFormat:@"%@",self.channel]; // 频道编号
     
-    
-//    NSLog(@"%@", c);
     NSString *t = @"0";
     NSString *s = [NSString stringWithFormat:@"%d",self.stayTimeInterval];
     NSString *f = @"0";
@@ -793,13 +764,13 @@ const static CGFloat changeFontSizeViewH = 150;
     [dic setValue:t forKey:@"t"];
     [dic setValue:s forKey:@"s"];
     [dic setValue:f forKey:@"f"];
-   
+    
     NSError *error = nil;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic
                                                        options:0 // Pass 0 if you don't care about the readability of the generated string
                                                          error:&error];
     NSString *data  = [[jsonData base64EncodedStringWithOptions:0] stringByTrimmingString:@"="];
-    NSString *url = [NSString stringWithFormat:@"http://bdp.deeporiginalx.com/rep/v2/c?u=%@&p=%@t=%@&i=%@&d=%@", uid,province,city,county,data];
+    NSString *url = [NSString stringWithFormat:@"%@/rep/v2/c?u=%@&p=%@t=%@&i=%@&d=%@",ServerUrlVersion2, uid,province,city,county,data];
 
     if (!error) {
         self.http = [LPHttpTool http];
@@ -950,12 +921,6 @@ const static CGFloat changeFontSizeViewH = 150;
     [self setupLoadingView];
     [self showLoadingView];
  
- 
-    UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(ScreenWidth + 0.5, 0, 0.5, tableViewH)];
-    seperatorView.backgroundColor = [UIColor colorFromHexString:LPColor10];
-    [scrollView addSubview:seperatorView];
-    
-    
     UIPageControl *pageControl = [[UIPageControl alloc] init];
     pageControl.numberOfPages = 2;
     [self.view addSubview:pageControl];
@@ -1087,15 +1052,11 @@ const static CGFloat changeFontSizeViewH = 150;
     [self.commentsTableView reloadData];
 }
 
-
-
-
-
-
 #pragma mark - Loading View
 - (void)setupLoadingView {
-    
-    LPLoadingView *loadingView = [[LPLoadingView alloc] initWithFrame:CGRectMake(0, StatusBarHeight + TabBarHeight, ScreenWidth, (ScreenHeight - StatusBarHeight - TabBarHeight) / 2.0f)];
+    CGFloat loadingViewH = (ScreenHeight - StatusBarHeight - TabBarHeight) / 2.0f;
+    CGFloat loadingViewY = (ScreenHeight - loadingViewH) / 2.0f;
+    LPLoadingView *loadingView = [[LPLoadingView alloc] initWithFrame:CGRectMake(0, loadingViewY, ScreenWidth, loadingViewH)];
     [self.view addSubview:loadingView];
     self.loadingView = loadingView;
 }
@@ -1168,8 +1129,6 @@ const static CGFloat changeFontSizeViewH = 150;
             break;
         default:
             if (![self card]) return nil;
-            //return @"8511401";
-            
             // 6562498 （秒拍） 6320865 视频 6407884 大图加载慢 6422374 大段文字
             return [[self card] valueForKey:@"nid"];
             break;
@@ -1365,7 +1324,7 @@ const static CGFloat changeFontSizeViewH = 150;
             
         } else if(section == 2) {
             if (self.relatePointArray.count > 0) {
-                titleLabel.text = @"相关观点";
+                titleLabel.text = @"相关推荐";
                 return headerView;
             } else {
                 return nil;
@@ -1638,7 +1597,16 @@ const static CGFloat changeFontSizeViewH = 150;
             
             UIImageView *focusIconImageView = [[UIImageView alloc] initWithFrame:CGRectMake(focusIconImageViewX, focusIconImageViewY, focusIconImageViewW, focusIconImageViewH)];
             focusIconImageView.userInteractionEnabled = NO;
-            focusIconImageView.image = [UIImage imageNamed:@"奇点号占位图2"];
+            focusIconImageView.layer.cornerRadius = focusIconImageViewW / 2.0f;
+            focusIconImageView.clipsToBounds = YES;
+            if ([self.sourceImageURL hasPrefix:@"来源_"]) {
+                
+                focusIconImageView.image = [UIImage imageNamed:@"奇点号占位图2"];
+            } else {
+              [focusIconImageView sd_setImageWithURL:[NSURL URLWithString:self.sourceImageURL] placeholderImage:[UIImage imageNamed:@"奇点号占位图2"]];
+            }
+          
+            
             [leftFocusView addSubview:focusIconImageView];
             
             NSString *focusSourceSiteName = self.sourceSiteName;
@@ -2542,6 +2510,7 @@ const static CGFloat changeFontSizeViewH = 150;
     LPConcernDetailViewController *concernDetailViewController = [[LPConcernDetailViewController alloc] init];
     concernDetailViewController.sourceName = self.sourceSiteName;
     concernDetailViewController.conpubFlag = self.conpubFlag;
+    concernDetailViewController.sourceImageURL = self.sourceImageURL;
     [self.navigationController pushViewController:concernDetailViewController animated:YES];
 }
 

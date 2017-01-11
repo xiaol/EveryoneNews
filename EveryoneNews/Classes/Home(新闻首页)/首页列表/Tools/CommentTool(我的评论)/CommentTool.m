@@ -34,6 +34,7 @@
                 comment.commend = dict[@"commend"];
                 comment.commentTime = [NSString stringWithFormat:@"%lld", (long long)([dict[@"ctime"] timestampWithDateFormat:@"YYYY-MM-dd HH:mm:ss"] * 1000)];
                 comment.comment = dict[@"content"];
+                comment.rtype = [dict[@"rtype"] integerValue];
                 [commentArray addObject:comment];
             }
             success(commentArray);

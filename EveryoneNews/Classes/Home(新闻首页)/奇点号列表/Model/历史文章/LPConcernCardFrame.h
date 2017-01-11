@@ -32,6 +32,15 @@
 @property (nonatomic, assign) CGRect multipleImageCommentLabelFrame;
 @property (nonatomic, assign) CGRect mutipleImageSeperatorLineFrame;
 
+// 视频
+@property (nonatomic, assign) CGRect videoImageTitleLabelFrame;
+@property (nonatomic, assign) CGRect videoImageImageViewFrame;
+@property (nonatomic, assign) CGRect videoImagePublishTimeLabelFrame;
+@property (nonatomic, assign) CGRect videoImageCommentLabelFrame;
+@property (nonatomic, assign) CGRect videoImageSeperatorLineFrame;
+@property (nonatomic, assign) CGRect videoPlayImageViewFrame;
+@property (nonatomic, assign) CGRect videoDurationLabelFrame;
+
 // cell高度
 @property (nonatomic, assign) CGFloat cellHeight;
 @property (nonatomic, strong) LPConcernCard *card;

@@ -29,7 +29,7 @@ typedef NS_ENUM(NSUInteger, HomeCardsFetchType) {
 /**
  *  频道ID  (必填)
  */
-@property (nonatomic, strong) NSString *channelID;
+@property (nonatomic, copy) NSString *channelID;
 /**
  *  请求数量 (默认20)
  */
@@ -41,5 +41,9 @@ typedef NS_ENUM(NSUInteger, HomeCardsFetchType) {
 
 // 请求页码默认是第一页
 @property (nonatomic, strong) NSNumber *pageIndex;
+
+// 最大或最小nid
+@property (nonatomic, copy) NSString *nid;
+
 
 @end

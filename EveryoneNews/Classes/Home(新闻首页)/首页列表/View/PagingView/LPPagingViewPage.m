@@ -262,7 +262,7 @@
 }
 
 #pragma mark - 下拉刷新
-- (void)loadNewData{
+- (void)loadNewData {
     // 隐藏上次看到位置的提示按钮
     for (CardFrame *cardFrame in self.cardFrames) {
         Card *card = cardFrame.card;
@@ -271,13 +271,7 @@
             break;
         }
     }
-    CardFrame *specialTopicCardFrame = self.cardFrames[0];
-    if ([specialTopicCardFrame.card.rtype  isEqual: @(4)]) {
-        [self.cardFrames removeObjectAtIndex:0];
-    }
-    
     if (self.cardFrames.count != 0) {
-        
         CardFrame *cardFrame = self.cardFrames[0];
         Card *card = cardFrame.card;
         CardParam *param = [[CardParam alloc] init];
@@ -287,6 +281,7 @@
         param.startTime = card.updateTime;
         NSMutableArray *tempArray = [[NSMutableArray alloc] init];
         [CardTool cardsWithParam:param channelID: param.channelID success:^(NSArray *cards) {
+            
             if (cards.count > 0) {
                 [cardFrame setCard:card tipButtonHidden:NO];
                 for (int i = 0; i < (int)cards.count; i ++) {
@@ -298,7 +293,7 @@
                                        NSMakeRange(0,[tempArray count])];
                 [self.cardFrames insertObjects: tempArray atIndexes:indexes];
                 [self.tableView reloadData];
-     
+                
             }
             [self showNewCount:tempArray.count];
             [self.tableView.mj_header endRefreshing];
@@ -383,6 +378,7 @@
     if (cell == nil) {
         cell = [[LPHomeViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
+    cell.currentRow = indexPath.row;
     cell.cardFrame = self.cardFrames[indexPath.row];
 
     [cell didClickTipButtonBlock:^() {
@@ -395,11 +391,12 @@
         }
         
     }];
-   [cell didTapSourceListViewBlock:^(NSString *sourceSiteName) {
-       if ([self.delegate respondsToSelector:@selector(page:didTapListViewWithSourceName:)]) {
-           [(id<LPPagingViewPageDelegate>)self.delegate page:self didTapListViewWithSourceName:sourceSiteName];
-       }
-   }];
+    [cell didTapSourceListViewBlock:^(NSString *sourceSiteName, NSString *sourceImageURL) {
+        if ([self.delegate respondsToSelector:@selector(page:didTapListViewWithSourceName:sourceImage:)]) {
+            [(id<LPPagingViewPageDelegate>)self.delegate page:self didTapListViewWithSourceName:sourceSiteName sourceImage:sourceImageURL];
+        }
+    }];
+    
     return cell;
 }
 

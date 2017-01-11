@@ -20,7 +20,7 @@
 #import "CommentTool.h"
 #import "LPMyComment.h"
 #import "LPLoadingView.h"
-
+#import "LPVideoDetailViewController.h"
 
 static NSString *cellIdentifier = @"cellIdentifier";
 
@@ -193,10 +193,21 @@ static NSString *cellIdentifier = @"cellIdentifier";
 
 #pragma mark - CommentCell Delegate
 - (void)didTapTitleView:(LPMyCommentTableViewCell *)cell  commentFrame:(LPMyCommentFrame *)commentFrame {
-    LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
-    detailVc.sourceViewController = commentSource;
-    detailVc.myCommentFrame = commentFrame;
-    [self.navigationController pushViewController:detailVc animated:YES];
+    LPMyComment *comment = commentFrame.comment;
+    if (comment.rtype == videoNewsType) {
+        LPVideoDetailViewController *videoDetailVc= [[LPVideoDetailViewController alloc] init];
+        videoDetailVc.sourceViewController = commentSource;
+        videoDetailVc.myCommentFrame = commentFrame;
+        [self.navigationController pushViewController:videoDetailVc animated:YES];
+    } else {
+        LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
+        detailVc.sourceViewController = commentSource;
+        detailVc.myCommentFrame = commentFrame;
+        [self.navigationController pushViewController:detailVc animated:YES];
+    }
+    
+    
+ 
 }
 
 #pragma mark - 删除评论

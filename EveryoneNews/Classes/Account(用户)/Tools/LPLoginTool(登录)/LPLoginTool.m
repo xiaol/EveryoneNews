@@ -25,7 +25,7 @@
     // 如果是游客用户则重新注册
     if ([[[userDefaults objectForKey:@"utype"] stringValue] isEqualToString:@"2"]) {
         // 第一次进入存储游客Authorization
-        NSString *url = @"http://bdp.deeporiginalx.com/v2/au/sin/g";
+        NSString *url = [NSString stringWithFormat:@"%@/v2/au/sin/g", ServerUrlVersion2];
         NSMutableDictionary *paramUser = [LPLoginTool touristParams];
         [LPHttpTool postJSONResponseAuthorizationWithURL:url params:paramUser success:^(id json, NSString *authorization) {
             

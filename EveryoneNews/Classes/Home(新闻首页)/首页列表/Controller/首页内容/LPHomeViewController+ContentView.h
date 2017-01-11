@@ -10,9 +10,10 @@
 #import "LPPagingViewPage.h"
 #import "LPHomeViewCell.h"
 #import "LPPagingViewConcernPage.h"
+#import "LPPagingViewVideoPage.h"
 
 
-@interface LPHomeViewController (PagingView) <LPPagingViewDataSource, LPPagingViewDelegate, LPPagingViewPageDelegate, UIGestureRecognizerDelegate, LPPagingViewConcernPageDelegate>
+@interface LPHomeViewController (PagingView) <LPPagingViewDataSource, LPPagingViewDelegate, LPPagingViewPageDelegate, UIGestureRecognizerDelegate, LPPagingViewConcernPageDelegate, LPPagingViewVideoPageDelegate>
 
 // 加载更多
 - (void)loadMoreDataInPageAtPageIndex:(NSInteger)pageIndex;

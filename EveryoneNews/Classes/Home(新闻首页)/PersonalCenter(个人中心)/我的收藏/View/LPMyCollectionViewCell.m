@@ -35,6 +35,16 @@
 @property (nonatomic, strong) UILabel *multipleSourceLabel;
 @property (nonatomic, strong) UIView *mutipleSeperatorLine;
 
+// 视频
+@property (nonatomic, strong) UILabel *videoTitleLabel;
+@property (nonatomic, strong) UIImageView *videoIconView;
+@property (nonatomic, strong) UILabel *videoSourceLabel;
+@property (nonatomic, strong) UILabel *videoCommentLabel;
+@property (nonatomic, strong) UIView *videoSeperatorLine;
+@property (nonatomic, strong) UIImageView *videoPlayImageView;
+@property (nonatomic, strong) UILabel *videoDurationLabel;
+
+
 @end
 
 
@@ -151,6 +161,49 @@
         [self.contentView addSubview:mutipleSeperatorLine];
         self.mutipleSeperatorLine = mutipleSeperatorLine;
         
+        // 视频
+        UIImageView *videoIconView = [[UIImageView alloc] init];
+        videoIconView.contentMode = UIViewContentModeScaleAspectFill;
+        videoIconView.clipsToBounds = YES;
+        [self.contentView addSubview:videoIconView];
+        self.videoIconView = videoIconView;
+        
+        UILabel *videoTitleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        videoTitleLabel.textColor =  [UIColor colorFromHexString:@"#1a1a1a"];
+        videoTitleLabel.numberOfLines = 0;
+        videoTitleLabel.backgroundColor = [UIColor clearColor];
+        [self.contentView addSubview:videoTitleLabel];
+        self.videoTitleLabel = videoTitleLabel;
+        
+        UILabel *videoSourceLabel = [[UILabel alloc] init];
+        videoSourceLabel.font = [UIFont systemFontOfSize:sourceFontSize];
+        videoSourceLabel.textColor = [UIColor colorFromHexString:@"999999"];
+        [self.contentView addSubview:videoSourceLabel];
+        self.videoSourceLabel= videoSourceLabel;
+        
+        
+        UILabel *videoCommentLabel = [[UILabel alloc] init];
+        videoCommentLabel.font = [UIFont systemFontOfSize:sourceFontSize];
+        videoCommentLabel.textColor = [UIColor colorFromHexString:@"999999"];
+        videoCommentLabel.textAlignment = NSTextAlignmentRight;
+        [self.contentView addSubview:videoCommentLabel];
+        self.videoCommentLabel= videoCommentLabel;
+        
+        UIView *videoSeperatorLine = [[UIView alloc] init];
+        videoSeperatorLine.backgroundColor = [UIColor colorFromHexString:@"e4e4e4"];
+        [self.contentView addSubview:videoSeperatorLine];
+        self.videoSeperatorLine = videoSeperatorLine;
+        
+        UIImageView *videoPlayImageView = [[UIImageView alloc] init];
+        videoPlayImageView.image = [UIImage imageNamed:@"video_play2"];
+        [videoIconView addSubview:videoPlayImageView];
+        self.videoPlayImageView = videoPlayImageView ;
+        
+        UILabel *videoDurationLabel = [[UILabel alloc] init];
+        videoDurationLabel.font = [UIFont systemFontOfSize:10];
+        videoDurationLabel.textColor = [UIColor whiteColor];
+        [videoIconView addSubview:videoDurationLabel];
+        self.videoDurationLabel = videoDurationLabel;
     }
     return self;
 }
@@ -178,19 +231,32 @@
     
     NSAttributedString *attributeTitle  = [card.title attributedStringWithFont:[UIFont systemFontOfSize:self.cardFrame.homeViewFontSize] lineSpacing:lineSpacing];
     
-    // 无图
-    if(card.cardImages.count == 0) {
+    // 视频
+    if (card.rtype == videoNewsType) {
         
+        // 视频
+        self.videoIconView.hidden = NO;
+        self.videoTitleLabel.hidden = NO;
+        self.videoSourceLabel.hidden = NO;
+        self.videoCommentLabel.hidden = NO;
+        self.videoSeperatorLine.hidden = NO;
+        self.videoPlayImageView.hidden = NO;
+        self.videoDurationLabel.hidden = NO;
+        
+        // 无图
         self.noImageLabel.hidden = NO;
         self.noImageSourceLabel.hidden = NO;
         self.noImageSeperatorLine.hidden = NO;
         self.noImageCommentLabel.hidden = NO;
         
+        // 单图
         self.titleLabel.hidden = YES;
         self.iconView.hidden = YES;
         self.singleSourceLabel.hidden = YES;
         self.singleSeperatorLine.hidden = YES;
         self.singleCommentLabel.hidden = YES;
+        
+        // 多图
         self.multipleImageLabel.hidden = YES;
         self.firstMutipleImageView.hidden = YES;
         self.secondMutipleImageView.hidden = YES;
@@ -198,123 +264,199 @@
         self.multipleSourceLabel.hidden = YES;
         self.mutipleSeperatorLine.hidden = YES;
         self.mutipleCommentLabel.hidden = YES;
- 
         
-        self.noImageLabel.frame = self.cardFrame.noImageLabelFrame;
-        self.noImageLabel.attributedText = attributeTitle;
+        NSString *imageURL = card.thumbnail;
+        [self.videoIconView sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
+        self.videoIconView.frame = self.cardFrame.videoImageViewFrame;
+        self.videoTitleLabel.frame = self.cardFrame.videoTitleLabelFrame;
+        self.videoTitleLabel.attributedText = attributeTitle;
         
-        CGRect noImageSourceLabelFrame = self.cardFrame.noImageSourceLabelFrame;
-        self.noImageSourceLabel.frame = noImageSourceLabelFrame;
-        self.noImageSourceLabel.text = source;
-        
-        self.noImageSeperatorLine.frame = self.cardFrame.noImageSeperatorLineFrame;
-        self.noImageCommentLabel.frame = self.cardFrame.noImageCommentLabelFrame;
-        
-        
-        self.noImageCommentLabel.hidden = commentLabelHidden;
-        
-        self.noImageCommentLabel.text = commentsCount;
+        self.videoSourceLabel.text = source;
+        self.videoSourceLabel.frame = self.cardFrame.videoSourceLabelFrame;
 
+        self.videoSeperatorLine.frame = self.cardFrame.videoSeperatorLineFrame;
+        self.videoCommentLabel.frame = self.cardFrame.videoCommentsCountLabelFrame;
+        self.videoCommentLabel.hidden = commentLabelHidden;
+        self.videoCommentLabel.text = commentsCount;
         
-    }  else if (card.cardImages.count == 1 || card.cardImages.count == 2) {
-        NSString *imageURL = [card.cardImages firstObject];
-        imageURL = [self scaleImageURL:imageURL];
-        [self.iconView sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
+        // 播放按钮 播放时长
+        self.videoPlayImageView.frame = self.cardFrame.videoPlayImageViewFrame;
+        self.videoDurationLabel.frame = self.cardFrame.videoDurationLabelFrame;
+        self.videoDurationLabel.centerY = self.videoPlayImageView.centerY;
         
-        self.noImageLabel.hidden = YES;
-        self.noImageSourceLabel.hidden = YES;
-        self.noImageSeperatorLine.hidden = YES;
-        self.noImageCommentLabel.hidden = YES;
- 
+        NSInteger totalSeconds = card.duration;
+        NSInteger seconds = totalSeconds % 60;
+        NSInteger minutes = (totalSeconds / 60);
         
-        self.titleLabel.hidden = NO;
-        self.iconView.hidden = NO;
-        self.singleSourceLabel.hidden = NO;
-        self.singleSeperatorLine.hidden = NO;
-        self.singleCommentLabel.hidden = NO;
+        self.videoDurationLabel.text =  [NSString stringWithFormat:@"%02d:%02d", minutes, seconds];
+        self.videoDurationLabel.textColor = [UIColor whiteColor];
+        
+    } else {
+        // 无图
+        if(card.cardImages.count == 0) {
+            // 无图
+            self.noImageLabel.hidden = NO;
+            self.noImageSourceLabel.hidden = NO;
+            self.noImageSeperatorLine.hidden = NO;
+            self.noImageCommentLabel.hidden = NO;
+            
+            // 单图
+            self.titleLabel.hidden = YES;
+            self.iconView.hidden = YES;
+            self.singleSourceLabel.hidden = YES;
+            self.singleSeperatorLine.hidden = YES;
+            self.singleCommentLabel.hidden = YES;
+            
+            // 多图
+            self.multipleImageLabel.hidden = YES;
+            self.firstMutipleImageView.hidden = YES;
+            self.secondMutipleImageView.hidden = YES;
+            self.thirdMutipleImageView.hidden = YES;
+            self.multipleSourceLabel.hidden = YES;
+            self.mutipleSeperatorLine.hidden = YES;
+            self.mutipleCommentLabel.hidden = YES;
+            
+            // 视频
+            self.videoIconView.hidden = YES;
+            self.videoTitleLabel.hidden = YES;
+            self.videoSourceLabel.hidden = YES;
+            self.videoCommentLabel.hidden = YES;
+            self.videoSeperatorLine.hidden = YES;
+            self.videoPlayImageView.hidden = YES;
+            self.videoDurationLabel.hidden = YES;
+            
+            self.noImageLabel.frame = self.cardFrame.noImageLabelFrame;
+            self.noImageLabel.attributedText = attributeTitle;
+            
+            CGRect noImageSourceLabelFrame = self.cardFrame.noImageSourceLabelFrame;
+            self.noImageSourceLabel.frame = noImageSourceLabelFrame;
+            self.noImageSourceLabel.text = source;
+            
+            self.noImageSeperatorLine.frame = self.cardFrame.noImageSeperatorLineFrame;
+            self.noImageCommentLabel.frame = self.cardFrame.noImageCommentLabelFrame;
+            
+            
+            self.noImageCommentLabel.hidden = commentLabelHidden;
+            
+            self.noImageCommentLabel.text = commentsCount;
+            
+            
+        }  else if (card.cardImages.count == 1 || card.cardImages.count == 2) {
+            NSString *imageURL = [card.cardImages firstObject];
+            imageURL = [self scaleImageURL:imageURL];
+            [self.iconView sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
+            
+            self.noImageLabel.hidden = YES;
+            self.noImageSourceLabel.hidden = YES;
+            self.noImageSeperatorLine.hidden = YES;
+            self.noImageCommentLabel.hidden = YES;
+            
+            
+            self.titleLabel.hidden = NO;
+            self.iconView.hidden = NO;
+            self.singleSourceLabel.hidden = NO;
+            self.singleSeperatorLine.hidden = NO;
+            self.singleCommentLabel.hidden = NO;
+            
+            self.multipleImageLabel.hidden = YES;
+            self.firstMutipleImageView.hidden = YES;
+            self.secondMutipleImageView.hidden = YES;
+            self.thirdMutipleImageView.hidden = YES;
+            self.multipleSourceLabel.hidden = YES;
+            self.mutipleSeperatorLine.hidden = YES;
+            self.mutipleCommentLabel.hidden = YES;
+            
+            // 视频
+            self.videoIconView.hidden = YES;
+            self.videoTitleLabel.hidden = YES;
+            self.videoSourceLabel.hidden = YES;
+            self.videoCommentLabel.hidden = YES;
+            self.videoSeperatorLine.hidden = YES;
+            self.videoPlayImageView.hidden = YES;
+            self.videoDurationLabel.hidden = YES;
+            
+            self.iconView.frame = self.cardFrame.singleImageImageViewFrame;
+            self.titleLabel.frame = self.cardFrame.singleImageTitleLabelFrame;
+            self.titleLabel.attributedText = attributeTitle;
+            
+            CGRect singleImageSourceLabelFrame = self.cardFrame.singleImageSourceLabelFrame;
+            
+            self.singleSourceLabel.text = source;
+            self.singleSourceLabel.frame = singleImageSourceLabelFrame;
+            
+            
+            
+            self.singleSeperatorLine.frame = self.cardFrame.singleImageSeperatorLineFrame;
+            self.singleCommentLabel.frame = self.cardFrame.singelImageCommentLabelFrame;
+            self.singleCommentLabel.hidden = commentLabelHidden;
+            
+            self.singleCommentLabel.text = commentsCount;
+            
+            
+            
+        }   else if (card.cardImages.count >= 3) {
+            self.noImageLabel.hidden = YES;
+            self.noImageSourceLabel.hidden = YES;
+            self.noImageSeperatorLine.hidden = YES;
+            self.noImageCommentLabel.hidden = YES;
+            
+            
+            self.titleLabel.hidden = YES;
+            self.iconView.hidden = YES;
+            self.singleSourceLabel.hidden = YES;
+            self.singleSeperatorLine.hidden = YES;
+            self.singleCommentLabel.hidden = YES;
+            
+            // 视频
+            self.videoIconView.hidden = YES;
+            self.videoTitleLabel.hidden = YES;
+            self.videoSourceLabel.hidden = YES;
+            self.videoCommentLabel.hidden = YES;
+            self.videoSeperatorLine.hidden = YES;
+            self.videoPlayImageView.hidden = YES;
+            self.videoDurationLabel.hidden = YES;
+            
+            self.multipleImageLabel.hidden = NO;
+            self.firstMutipleImageView.hidden = NO;
+            self.secondMutipleImageView.hidden = NO;
+            self.thirdMutipleImageView.hidden = NO;
+            self.multipleSourceLabel.hidden = NO;
+            self.mutipleSeperatorLine.hidden = NO;
+            
+            self.mutipleCommentLabel.hidden = NO;
+            
+            
+            
+            self.multipleImageLabel.attributedText = attributeTitle;
+            self.multipleImageLabel.frame = self.cardFrame.multipleImageTitleLabelFrame;
+            
+            
+            CGRect multipleImageSourceLabelFrame = self.cardFrame.multipleImageSourceLabelFrame;
+            self.multipleSourceLabel.frame = multipleImageSourceLabelFrame;
+            self.multipleSourceLabel.text = source;
+            
+            self.mutipleSeperatorLine.frame = self.cardFrame.mutipleImageSeperatorLineFrame;
+            
+            [self.firstMutipleImageView sd_setImageWithURL:[NSURL URLWithString:[self scaleImageURL:card.cardImages[0]]] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
+            [self.secondMutipleImageView sd_setImageWithURL:[NSURL URLWithString:[self scaleImageURL:card.cardImages[1]]] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
+            [self.thirdMutipleImageView sd_setImageWithURL:[NSURL URLWithString:[self scaleImageURL:card.cardImages[2]]] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
+            
+            CGRect frame = self.cardFrame.multipleImageViewFrame;
+            CGFloat x = frame.origin.x;
+            CGFloat y = frame.origin.y;
+            CGFloat w = (frame.size.width - 6) / 3 ;
+            CGFloat h = frame.size.height;
+            self.firstMutipleImageView.frame = CGRectMake(x, y, w, h);
+            self.secondMutipleImageView.frame = CGRectMake(x + w + 3, y, w, h);
+            self.thirdMutipleImageView.frame = CGRectMake(x + 2 * w + 6, y, w, h);
+            
+            self.mutipleCommentLabel.frame = self.cardFrame.mutipleImageCommentLabelFrame;
+            self.mutipleCommentLabel.hidden = commentLabelHidden;
+            self.mutipleCommentLabel.text = commentsCount;
+        }
 
-        self.multipleImageLabel.hidden = YES;
-        self.firstMutipleImageView.hidden = YES;
-        self.secondMutipleImageView.hidden = YES;
-        self.thirdMutipleImageView.hidden = YES;
-        self.multipleSourceLabel.hidden = YES;
-        self.mutipleSeperatorLine.hidden = YES;
-        self.mutipleCommentLabel.hidden = YES;
- 
-        self.iconView.frame = self.cardFrame.singleImageImageViewFrame;
-        self.titleLabel.frame = self.cardFrame.singleImageTitleLabelFrame;
-        self.titleLabel.attributedText = attributeTitle;
-        
-        CGRect singleImageSourceLabelFrame = self.cardFrame.singleImageSourceLabelFrame;
-
-        self.singleSourceLabel.text = source;
-        self.singleSourceLabel.frame = singleImageSourceLabelFrame;
-        
- 
-        
-        self.singleSeperatorLine.frame = self.cardFrame.singleImageSeperatorLineFrame;
-        self.singleCommentLabel.frame = self.cardFrame.singelImageCommentLabelFrame;
-        self.singleCommentLabel.hidden = commentLabelHidden;
-        
-        self.singleCommentLabel.text = commentsCount;
-        
- 
-        
-    }   else if (card.cardImages.count >= 3) {
-        self.noImageLabel.hidden = YES;
-        self.noImageSourceLabel.hidden = YES;
-        self.noImageSeperatorLine.hidden = YES;
-        self.noImageCommentLabel.hidden = YES;
- 
-        
-        self.titleLabel.hidden = YES;
-        self.iconView.hidden = YES;
-        self.singleSourceLabel.hidden = YES;
-        self.singleSeperatorLine.hidden = YES;
-        self.singleCommentLabel.hidden = YES;
- 
- 
-        
-        self.multipleImageLabel.hidden = NO;
-        self.firstMutipleImageView.hidden = NO;
-        self.secondMutipleImageView.hidden = NO;
-        self.thirdMutipleImageView.hidden = NO;
-        self.multipleSourceLabel.hidden = NO;
-        self.mutipleSeperatorLine.hidden = NO;
- 
-        self.mutipleCommentLabel.hidden = NO;
- 
-        
-        
-        self.multipleImageLabel.attributedText = attributeTitle;
-        self.multipleImageLabel.frame = self.cardFrame.multipleImageTitleLabelFrame;
-        
-        
-        CGRect multipleImageSourceLabelFrame = self.cardFrame.multipleImageSourceLabelFrame;
-        self.multipleSourceLabel.frame = multipleImageSourceLabelFrame;
-        self.multipleSourceLabel.text = source;
-        
-        self.mutipleSeperatorLine.frame = self.cardFrame.mutipleImageSeperatorLineFrame;
- 
-        [self.firstMutipleImageView sd_setImageWithURL:[NSURL URLWithString:[self scaleImageURL:card.cardImages[0]]] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
-        [self.secondMutipleImageView sd_setImageWithURL:[NSURL URLWithString:[self scaleImageURL:card.cardImages[1]]] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
-        [self.thirdMutipleImageView sd_setImageWithURL:[NSURL URLWithString:[self scaleImageURL:card.cardImages[2]]] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
-        
-        CGRect frame = self.cardFrame.multipleImageViewFrame;
-        CGFloat x = frame.origin.x;
-        CGFloat y = frame.origin.y;
-        CGFloat w = (frame.size.width - 6) / 3 ;
-        CGFloat h = frame.size.height;
-        self.firstMutipleImageView.frame = CGRectMake(x, y, w, h);
-        self.secondMutipleImageView.frame = CGRectMake(x + w + 3, y, w, h);
-        self.thirdMutipleImageView.frame = CGRectMake(x + 2 * w + 6, y, w, h);
-        
-        self.mutipleCommentLabel.frame = self.cardFrame.mutipleImageCommentLabelFrame;
-        self.mutipleCommentLabel.hidden = commentLabelHidden;
-        self.mutipleCommentLabel.text = commentsCount;
     }
 }
-
 
 
 - (void)setHighlighted:(BOOL)highlighted {

@@ -15,9 +15,11 @@ typedef void(^didClickDeleteButtonBlock)(UIButton *deleteButton);
 
 typedef void(^didClickTipButtonBlock)();
 
-typedef void (^didTapSourceListViewBlock)(NSString *sourceSiteName);
+typedef void (^didTapSourceListViewBlock)(NSString *sourceSiteName, NSString *sourceImageURL);
 
 @interface LPHomeViewCell : UITableViewCell
+
+@property (nonatomic, assign) NSInteger currentRow;
 
 @property (nonatomic, strong) CardFrame *cardFrame;
 

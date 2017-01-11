@@ -31,6 +31,7 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
 @property (nonatomic, strong) UIView *noImageSeperatorLine;
 @property (nonatomic, strong) UILabel *noImageCommentsCountLabel;
 @property (nonatomic, strong) UIView *noImageSourceListView;
+
 // 单图
 @property (nonatomic, strong) UILabel *singleImageTitleLabel;
 @property (nonatomic, strong) UIImageView *singleImageSourceImageView;
@@ -70,17 +71,31 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
 @property (nonatomic, strong) UIView *multipleImageSourceListView;
 
 // 专题
-@property (nonatomic, strong) UIView *specailTopicOutsideView;
-@property (nonatomic, strong) UIView *specialTopicInsideView;
-@property (nonatomic, strong) UIImageView *specialTopicLogo;
 @property (nonatomic, strong) UILabel *specialTopicTitleLabel;
 @property (nonatomic, strong) UIButton *specialTopicTipButton;
 @property (nonatomic, strong) UIButton *specialTopicDeleteButton;
 @property (nonatomic, strong) UIImageView *specialTopicImageView;
 @property (nonatomic, strong) UILabel *specialTopicNewsTypeLabel;
 @property (nonatomic, strong) UILabel *specialTopicCommentsCountLabel;
+@property (nonatomic, strong) UILabel *specialTopicTopLabel;
+@property (nonatomic, strong) UIView *specialTopicSperatorLine;
+
+// 视频
+@property (nonatomic, strong) UILabel *videoTitleLabel;
+@property (nonatomic, strong) UIImageView *videoSourceImageView;
+@property (nonatomic, strong) UILabel *videoSourceLabel;
+@property (nonatomic, strong) UIImageView *videoIcon;
+@property (nonatomic, strong) UIView *videoSeperatorLine;
+@property (nonatomic, strong) UIButton *videoDeleteButton;
+@property (nonatomic, strong) UIButton *videoTipButton;
+@property (nonatomic, strong) UILabel *videoNewsTypeLabel;
+@property (nonatomic, strong) UILabel *videoCommentsCountLabel;
+@property (nonatomic, strong) UIView *videoSourceListView;
+@property (nonatomic, strong) UIImageView *videoPlayImageView;
+@property (nonatomic, strong) UILabel *videoDurationLabel;
 
 @property (nonatomic, copy) NSString *sourceName;
+@property (nonatomic, copy) NSString *sourceImageURL;
 @end
 
 @implementation LPHomeViewCell
@@ -92,10 +107,13 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
     CGFloat sourceFontSize = 13;
     // 来源字体颜色
     NSString *sourceColor = @"#837c78";
+    CGFloat cornerRadius = 16;
     
     NSString *tipString = @"刚刚看到这里，点击刷新";
     NSString *tipColor = LPColor15;
     NSString *seperatorColor = LPColor16;
+    NSString *sourceBorderColor = LPColor16;
+    CGFloat sourceBorderWidth = 1.0f;
     NSString *commentsColor = LPColor22;
     
     CGFloat newsTypeCornerRadius = 7.0f;
@@ -117,6 +135,10 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
         
         // 来源图标
         UIImageView *noImageSourceImageView = [[UIImageView alloc] init];
+        noImageSourceImageView.layer.cornerRadius = cornerRadius;
+        noImageSourceImageView.layer.borderColor = [UIColor colorFromHexString:sourceBorderColor].CGColor;
+        noImageSourceImageView.layer.borderWidth = sourceBorderWidth;
+        noImageSourceImageView.clipsToBounds = YES;
         [self.contentView addSubview:noImageSourceImageView];
         self.noImageSourceImageView = noImageSourceImageView;
         
@@ -183,9 +205,13 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
         // ---------------  单图 （小图）-------------------
         // 来源图标
         UIImageView *singleImageSourceImageView = [[UIImageView alloc] init];
+        singleImageSourceImageView.layer.cornerRadius = cornerRadius;
+        singleImageSourceImageView.layer.borderColor = [UIColor colorFromHexString:sourceBorderColor].CGColor;
+        singleImageSourceImageView.layer.borderWidth = sourceBorderWidth;
+        singleImageSourceImageView.clipsToBounds = YES;
         [self.contentView addSubview:singleImageSourceImageView];
         self.singleImageSourceImageView = singleImageSourceImageView;
-
+        
         // 新闻来源
         UILabel *singleImageSourceLabel = [[UILabel alloc] init];
         singleImageSourceLabel.font = [UIFont systemFontOfSize:sourceFontSize];
@@ -220,7 +246,7 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
         [self.contentView addSubview:singleImageTitleLabel];
         self.singleImageTitleLabel = singleImageTitleLabel;
         
-
+        
         // 类型
         UILabel *singleImageNewsTypeLabel = [[UILabel alloc] init];
         singleImageNewsTypeLabel.textColor = [UIColor whiteColor];
@@ -241,7 +267,7 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
         singleImageSeperatorLine.backgroundColor = [UIColor colorFromHexString:seperatorColor];
         [self.contentView addSubview:singleImageSeperatorLine];
         self.singleImageSeperatorLine = singleImageSeperatorLine;
-
+        
         UIButton *singleImageTipButton = [[UIButton alloc] init];
         singleImageTipButton.userInteractionEnabled = YES;
         singleImageTipButton.backgroundColor = [UIColor colorFromHexString:LPColor23];
@@ -257,6 +283,10 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
         
         // ------------------ 单图 （大图）----------------------
         UIImageView *singleBigImageSourceImageView = [[UIImageView alloc] init];
+        singleBigImageSourceImageView.layer.cornerRadius = cornerRadius;
+        singleBigImageSourceImageView.layer.borderColor = [UIColor colorFromHexString:sourceBorderColor].CGColor;
+        singleBigImageSourceImageView.layer.borderWidth = sourceBorderWidth;
+        singleBigImageSourceImageView.clipsToBounds = YES;
         [self.contentView addSubview:singleBigImageSourceImageView];
         self.singleBigImageSourceImageView = singleBigImageSourceImageView;
         
@@ -329,9 +359,13 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
         singleBigImageNewsTypeLabel.layer.masksToBounds = YES;
         [self.contentView addSubview:singleBigImageNewsTypeLabel];
         self.singleBigImageNewsTypeLabel = singleBigImageNewsTypeLabel;
-    
+        
         //  ---------------- 三图及其三图以上 ----------------------
         UIImageView *multipleImageSourceImageView = [[UIImageView alloc] init];
+        multipleImageSourceImageView.layer.cornerRadius = cornerRadius;
+        multipleImageSourceImageView.clipsToBounds = YES;
+        multipleImageSourceImageView.layer.borderColor = [UIColor colorFromHexString:sourceBorderColor].CGColor;
+        multipleImageSourceImageView.layer.borderWidth = sourceBorderWidth;
         [self.contentView addSubview:multipleImageSourceImageView];
         self.multipleImageSourceImageView = multipleImageSourceImageView;
         
@@ -416,28 +450,7 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
         self.multipleImageNewsTypeLabel = multipleImageNewsTypeLabel;
         
         // ----------------- 专题 --------------------
-        UIView *specailTopicOutsideView = [[UIView alloc] init];
-        specailTopicOutsideView.backgroundColor = [UIColor colorFromHexString:seperatorColor];
-        [self.contentView addSubview:specailTopicOutsideView];
-        self.specailTopicOutsideView = specailTopicOutsideView;
-        
-        UIView *specialTopicInsideView = [[UIView alloc] init];
-        specialTopicInsideView.layer.borderWidth = 0.5f;
-        specialTopicInsideView.layer.borderColor = [UIColor colorFromHexString:@"#d2d2d2"].CGColor;
-        specialTopicInsideView.layer.cornerRadius = 2.0f;
-        specialTopicInsideView.backgroundColor = [UIColor whiteColor];
-        [specailTopicOutsideView addSubview:specialTopicInsideView];
-        self.specialTopicInsideView = specialTopicInsideView;
-        
-        UIImageView *specialTopicLogo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"home_zhuanti"]];
-        [specialTopicInsideView addSubview:specialTopicLogo];
-        self.specialTopicLogo = specialTopicLogo;
-        
-        UILabel *specialTopicTitleLabel = [[UILabel alloc] init];
-        specialTopicTitleLabel.numberOfLines = 0;
-        [specialTopicInsideView addSubview:specialTopicTitleLabel];
-        self.specialTopicTitleLabel = specialTopicTitleLabel;
-        
+        // 上次阅读位置
         UIButton *specialTopicTipButton = [[UIButton alloc] init];
         specialTopicTipButton.userInteractionEnabled = YES;
         specialTopicTipButton.backgroundColor = [UIColor colorFromHexString:LPColor23];
@@ -450,49 +463,170 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
         [specialTopicTipButton addTarget:self action:@selector(didClickTipButton) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:specialTopicTipButton];
         self.specialTopicTipButton = specialTopicTipButton;
-   
+        
+        // 标题
+        UILabel *specialTopicTitleLabel = [[UILabel alloc] init];
+        specialTopicTitleLabel.numberOfLines = 0;
+        [self.contentView addSubview:specialTopicTitleLabel];
+        self.specialTopicTitleLabel = specialTopicTitleLabel;
+        
+        // 评论
         UILabel *specialTopicCommentsCountLabel = [[UILabel alloc] init];
         specialTopicCommentsCountLabel.textColor = [UIColor colorFromHexString:commentsColor];
         specialTopicCommentsCountLabel.font = [UIFont systemFontOfSize:commentsFontSize];
-        [specialTopicInsideView addSubview:specialTopicCommentsCountLabel];
+        [self.contentView addSubview:specialTopicCommentsCountLabel];
         self.specialTopicCommentsCountLabel = specialTopicCommentsCountLabel;
         
+        // 删除
         UIButton *specialTopicDeleteButton = [[UIButton alloc] init];
         specialTopicDeleteButton.userInteractionEnabled = YES;
         specialTopicDeleteButton.enlargedEdge = 10;
-        [specialTopicInsideView addSubview:specialTopicDeleteButton];
+        [self.contentView addSubview:specialTopicDeleteButton];
         [specialTopicDeleteButton addTarget:self action:@selector(didClickDeleteButton:) forControlEvents:UIControlEventTouchUpInside];
         self.specialTopicDeleteButton = specialTopicDeleteButton;
- 
+        
+        // 图片
         UIImageView *specialTopicImageView = [[UIImageView alloc] init];
-        [specialTopicInsideView addSubview:specialTopicImageView];
+        [self.contentView addSubview:specialTopicImageView];
         self.specialTopicImageView = specialTopicImageView;
         
         // 新闻类型
         UILabel *specialTopicNewsTypeLabel =  [[UILabel alloc] init];
         specialTopicNewsTypeLabel.textColor = [UIColor whiteColor];
-        specialTopicNewsTypeLabel.layer.backgroundColor = [UIColor colorFromHexString:@"#FF4040"].CGColor;
         specialTopicNewsTypeLabel.font = [UIFont systemFontOfSize:newsTypeFontSize];
         specialTopicNewsTypeLabel.textAlignment = NSTextAlignmentCenter;
         specialTopicNewsTypeLabel.layer.cornerRadius = newsTypeCornerRadius;
         specialTopicNewsTypeLabel.layer.masksToBounds = YES;
-        [specialTopicInsideView addSubview:specialTopicNewsTypeLabel];
+        [self.contentView addSubview:specialTopicNewsTypeLabel];
         self.specialTopicNewsTypeLabel = specialTopicNewsTypeLabel;
         
-      
+        // 分割线
+        UIView *specialTopicSperatorLine = [[UIView alloc] init];
+        specialTopicSperatorLine.backgroundColor = [UIColor colorFromHexString:seperatorColor];
+        [self.contentView addSubview:specialTopicSperatorLine];
+        self.specialTopicSperatorLine = specialTopicSperatorLine;
+        
+        // 置顶标签
+        UILabel *specialTopicTopLabel = [[UILabel alloc] init];
+        specialTopicTopLabel.layer.cornerRadius = 2.0f;
+        specialTopicTopLabel.clipsToBounds = YES;
+        specialTopicTopLabel.font = [UIFont systemFontOfSize:LPFont7];
+        specialTopicTopLabel.textColor = [UIColor whiteColor];
+        specialTopicTopLabel.textAlignment = NSTextAlignmentCenter;
+        specialTopicTopLabel.backgroundColor = [UIColor colorFromHexString:LPColor27];
+        [self.contentView addSubview:specialTopicTopLabel];
+        self.specialTopicTopLabel = specialTopicTopLabel;
+        
+        // ------------------------ 视频 ----------------------
+        // 来源图标
+        UIImageView *videoSourceImageView = [[UIImageView alloc] init];
+        videoSourceImageView.layer.cornerRadius = cornerRadius;
+        videoSourceImageView.layer.borderColor = [UIColor colorFromHexString:sourceBorderColor].CGColor;
+        videoSourceImageView.layer.borderWidth = sourceBorderWidth;
+        videoSourceImageView.clipsToBounds = YES;
+        [self.contentView addSubview:videoSourceImageView];
+        self.videoSourceImageView = videoSourceImageView;
+        
+        // 新闻来源
+        UILabel *videoSourceLabel = [[UILabel alloc] init];
+        videoSourceLabel.font = [UIFont systemFontOfSize:sourceFontSize];
+        videoSourceLabel.textColor = [UIColor colorFromHexString:sourceColor];
+        [self.contentView addSubview:videoSourceLabel];
+        self.videoSourceLabel= videoSourceLabel;
+        
+        UIView *videoSourceListView = [[UIView alloc] init];
+        videoSourceListView.backgroundColor = [UIColor clearColor];
+        [self.contentView addSubview:videoSourceListView];
+        self.videoSourceListView = videoSourceListView;
+        
+        UITapGestureRecognizer *videoSourceListViewGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(newsSourceList)];
+        videoSourceListView.userInteractionEnabled = YES;
+        [videoSourceListView addGestureRecognizer:videoSourceListViewGesture];
+        
+        UILabel *videoCommentsCountLabel = [[UILabel alloc] init];
+        videoCommentsCountLabel.textColor = [UIColor colorFromHexString:commentsColor];
+        videoCommentsCountLabel.font = [UIFont systemFontOfSize:commentsFontSize];
+        [self.contentView addSubview:videoCommentsCountLabel];
+        self.videoCommentsCountLabel = videoCommentsCountLabel;
+        
+        UIButton *videoDeleteButton = [[UIButton alloc] init];
+        videoDeleteButton.userInteractionEnabled = YES;
+        videoDeleteButton.enlargedEdge = 10;
+        [self.contentView addSubview:videoDeleteButton];
+        [videoDeleteButton addTarget:self action:@selector(didClickDeleteButton:) forControlEvents:UIControlEventTouchUpInside];
+        self.videoDeleteButton = videoDeleteButton;
+        
+        UILabel *videoTitleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        videoTitleLabel.numberOfLines = 0;
+        [self.contentView addSubview:videoTitleLabel];
+        self.videoTitleLabel = videoTitleLabel;
+        
+        
+        // 类型
+        UILabel *videoNewsTypeLabel = [[UILabel alloc] init];
+        videoNewsTypeLabel.textColor = [UIColor whiteColor];
+        videoNewsTypeLabel.textAlignment = NSTextAlignmentCenter;
+        videoNewsTypeLabel.font = [UIFont systemFontOfSize:newsTypeFontSize];
+        videoNewsTypeLabel.layer.cornerRadius = newsTypeCornerRadius;
+        videoNewsTypeLabel.layer.masksToBounds = YES;
+        [self.contentView addSubview:videoNewsTypeLabel];
+        self.videoNewsTypeLabel = videoNewsTypeLabel;
+        
+        UIImageView *videoIcon = [[UIImageView alloc] init];
+        videoIcon.contentMode = UIViewContentModeScaleAspectFill;
+        videoIcon.clipsToBounds = YES;
+        [self.contentView addSubview:videoIcon];
+        self.videoIcon = videoIcon;
+        
+        UIView *videoSeperatorLine = [[UIView alloc] init];
+        videoSeperatorLine.backgroundColor = [UIColor colorFromHexString:seperatorColor];
+        [self.contentView addSubview:videoSeperatorLine];
+        self.videoSeperatorLine = videoSeperatorLine;
+        
+        UIButton *videoTipButton = [[UIButton alloc] init];
+        videoTipButton.userInteractionEnabled = YES;
+        videoTipButton.backgroundColor = [UIColor colorFromHexString:LPColor23];
+        [videoTipButton setTitle:tipString forState:UIControlStateNormal];
+        [videoTipButton setTitleColor:[UIColor colorFromHexString:tipColor] forState:UIControlStateNormal];
+        videoTipButton.titleLabel.font = [UIFont systemFontOfSize:tipFontSize];
+        [videoTipButton addTarget:self action:@selector(didClickTipButton) forControlEvents:UIControlEventTouchUpInside];
+        [videoTipButton setImage:[UIImage imageNamed:@"上次位置刷新"] forState:UIControlStateNormal];
+        videoTipButton.imageEdgeInsets = UIEdgeInsetsMake(0, tipLabelTitleWidth + interval, 0, -(tipLabelTitleWidth + interval));
+        videoTipButton.titleEdgeInsets = UIEdgeInsetsMake(0, -(tipImageViewWidth + interval), 0, tipImageViewWidth + interval);
+        [self.contentView addSubview:videoTipButton];
+        self.videoTipButton = videoTipButton;
+        
+        UIImageView *videoPlayImageView = [[UIImageView alloc] init];
+        videoPlayImageView.image = [UIImage imageNamed:@"video_play2"];
+        [videoIcon addSubview:videoPlayImageView];
+        self.videoPlayImageView = videoPlayImageView ;
+        
+        UILabel *videoDurationLabel = [[UILabel alloc] init];
+   
+        videoDurationLabel.font = [UIFont systemFontOfSize:10];
+        videoDurationLabel.textColor = [UIColor whiteColor];
+        [videoIcon addSubview:videoDurationLabel];
+        self.videoDurationLabel = videoDurationLabel;
+
+        
     }
     return self;
 }
 
 - (void)setCardFrame:(CardFrame *)cardFrame {
-    
     _cardFrame = cardFrame;
     Card *card = cardFrame.card;
-    CGFloat lineSpacing = 2.0;
+    CGFloat lineSpacing = 2.0f;
     NSString *sourceSiteName = [card.sourceSiteName  isEqualToString: @""] ? @"未知来源": card.sourceSiteName;
     self.sourceName = sourceSiteName;
-    UIImage *sourceImage = [UIImage imageNamed:card.sourceSiteImageUrl];
+    UIImage *sourceImage = nil;
+    NSString *cardSourceImageURL = card.sourceSiteImageUrl;
+    if ([cardSourceImageURL hasPrefix:@"来源_"]) {
+        sourceImage = [UIImage imageNamed:cardSourceImageURL];
+    }
+    self.sourceImageURL = cardSourceImageURL;
     NSString *title = card.title;
+    
     NSInteger rtype = [card.rtype intValue];
     CGFloat titleFontSize =  self.cardFrame.homeViewFontSize;
     NSString *fontSizeType = self.cardFrame.fontSizeType;
@@ -510,6 +644,8 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
     self.singleImageNewsTypeLabel.font = [UIFont systemFontOfSize:newsTypeFontSize];
     self.singleBigImageNewsTypeLabel.font = [UIFont systemFontOfSize:newsTypeFontSize];
     self.multipleImageNewsTypeLabel.font = [UIFont systemFontOfSize:newsTypeFontSize];
+    self.specialTopicNewsTypeLabel.font = [UIFont systemFontOfSize:newsTypeFontSize];
+    self.videoNewsTypeLabel.font  = [UIFont systemFontOfSize:newsTypeFontSize];
     
     // 评论数量
     NSInteger commentsCount = [card.commentsCount intValue];
@@ -518,6 +654,10 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
     NSString *newsType = @"";
     NSString *newsTypeColor = LPColor17;
     switch ([card.rtype integerValue]) {
+        case zhuantiNewsType:
+            newsType = @"专题";
+            newsTypeColor = LPColor26;
+            break;
         case hotNewsType:
             newsType = @"热点";
             newsTypeColor = LPColor17;
@@ -530,24 +670,32 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
             newsType = @"广告";
             newsTypeColor = LPColor19;
             break;
+        case videoNewsType:
+            newsType = @"视频";
+            newsTypeColor = LPColor28;
+            break;
         default:
             break;
     }
     switch (rtype) {
-        case hotNewsType:case pushNewsType:case adNewsType:
+        case hotNewsType:case pushNewsType:case adNewsType:case zhuantiNewsType:case videoNewsType:
             title = [NSString stringWithFormat:@"%@%@",newsType, title];
             break;
         default:
             break;
     }
     if (commentsCount > 0) {
-        commentsStr = [NSString stringWithFormat:@"%d评",commentsCount];
+        if (commentsCount > 10000) {
+            commentsStr = [NSString stringWithFormat:@"%.1f万评", (floor)(commentsCount)/ 10000];
+        } else {
+            commentsStr = [NSString stringWithFormat:@"%d评", commentsCount];
+        }
     }
     NSAttributedString *attributeTitle =  nil;
-  
+    
     
     switch (rtype) {
-        case hotNewsType:case pushNewsType:case adNewsType:
+        case hotNewsType:case pushNewsType:case adNewsType:case zhuantiNewsType:case videoNewsType:
             attributeTitle =   [title truncatingTailAttributedStringWithFont:titleFontSize lineSpacing:lineSpacing rtype:YES];
             break;
         default:
@@ -555,21 +703,23 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
             break;
     }
     NSString *titleLabelColor = LPColor1;
-
+    
     if (card.isRead) {
         self.noImageTitleLabel.textColor = [UIColor grayColor];
         self.singleImageTitleLabel.textColor = [UIColor grayColor];
         self.singleBigImageTitleLabel.textColor = [UIColor grayColor];
         self.multipleImageTitleLabel.textColor = [UIColor grayColor];
         self.specialTopicTitleLabel.textColor = [UIColor grayColor];
+        self.videoDurationLabel.textColor = [UIColor grayColor];
     } else {
         self.noImageTitleLabel.textColor = [UIColor colorFromHexString:titleLabelColor];
         self.singleImageTitleLabel.textColor = [UIColor colorFromHexString:titleLabelColor];
         self.singleBigImageTitleLabel.textColor = [UIColor colorFromHexString:titleLabelColor];
         self.multipleImageTitleLabel.textColor = [UIColor colorFromHexString:titleLabelColor];
         self.specialTopicTitleLabel.textColor = [UIColor colorFromHexString:titleLabelColor];
+        self.videoDurationLabel.textColor =  [UIColor colorFromHexString:titleLabelColor];
     }
-
+    
     
     // 专题
     if ([card.rtype integerValue] == 4) {
@@ -623,50 +773,203 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
         
         // 专题
         self.specialTopicTitleLabel.hidden = NO;
-        self.specialTopicInsideView.hidden = NO;
-        self.specialTopicLogo.hidden = NO;
         self.specialTopicImageView.hidden = NO;
         self.specialTopicTipButton.hidden = NO;
-        self.specailTopicOutsideView.hidden = NO;
         self.specialTopicDeleteButton.hidden = NO;
         self.specialTopicCommentsCountLabel.hidden = NO;
         self.specialTopicNewsTypeLabel.hidden = NO;
+        self.specialTopicSperatorLine.hidden = NO;
+        self.specialTopicTopLabel.hidden = NO;
+    
+        // 视频
+        self.videoTitleLabel.hidden = YES;
+        self.videoSourceImageView.hidden = YES;
+        self.videoSourceLabel.hidden = YES;
+        self.videoIcon.hidden = YES;
+        self.videoSeperatorLine.hidden = YES;
+        self.videoDeleteButton.hidden = YES;
+        self.videoTipButton.hidden = YES;
+        self.videoNewsTypeLabel.hidden = YES;
+        self.videoCommentsCountLabel.hidden = YES;
+        self.videoSourceListView.hidden = YES;
+        self.videoPlayImageView.hidden = YES;
+        self.videoDurationLabel.hidden = YES;
         
         self.specialTopicTitleLabel.attributedText = attributeTitle;
         self.specialTopicTitleLabel.frame = self.cardFrame.specialTopicTitleLabelFrame;
         
         CardImage * cardImage = [card.cardImages firstObject];
         self.specialTopicImageView.frame = self.cardFrame.specialTopicImageViewFrame;
-        NSString *imageURL = [self scaleSpecialTopicImageURL:cardImage.imgUrl];
+        NSString *imageURL = [self scaleImageURL:cardImage.imgUrl scaleImageType:ScaleImageTypeSpecialTopic];
         
+        // 图片
         [self.specialTopicImageView sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"单图大图占位图"]];
-        
+        // 删除
         [self.specialTopicDeleteButton setBackgroundImage:[UIImage imageNamed:@"home_delete"] forState:UIControlStateNormal];
         self.specialTopicDeleteButton.frame = self.cardFrame.specialTopicDeleteButtonFrame;
-        
-        self.specailTopicOutsideView.frame = self.cardFrame.specialTopicOutsideViewFrame;
-        self.specialTopicInsideView.frame = self.cardFrame.specialTopicInsideViewFrame;
-       
-        
-        self.specialTopicLogo.frame = self.cardFrame.specialTopicLogoFrame;
-        
-        
+
+        // 上次阅读
         self.specialTopicTipButton.frame = self.cardFrame.specialTopicTipButtonFrame;
         self.specialTopicTipButton.hidden = self.cardFrame.isTipButtonHidden;
-    
+        
         // 评论
         self.specialTopicCommentsCountLabel.text = commentsStr;
-        self.specialTopicCommentsCountLabel.frame = self.cardFrame.specialTopicCommentsCountLabelFrame;
         self.specialTopicCommentsCountLabel.centerY = self.specialTopicDeleteButton.centerY;
         
-        self.specialTopicNewsTypeLabel.frame = self.cardFrame.specialTopicNewsTypeLabelFrame;
-        self.specialTopicNewsTypeLabel.text = @"置顶";
-        self.specialTopicNewsTypeLabel.centerY =  self.specialTopicDeleteButton.centerY;
+        if (self.currentRow == 0) {
+            self.specialTopicTopLabel.text = @"顶";
+            self.specialTopicTopLabel.hidden = NO;
+            self.specialTopicCommentsCountLabel.frame = self.cardFrame.specialTopicCommentsCountLabelFrame;
+        } else {
+            self.specialTopicTopLabel.hidden = YES;
+            self.specialTopicCommentsCountLabel.frame = self.cardFrame.specialTopicCommentsCountLabelNoTopFrame;
+        }
+        // 置顶
+        self.specialTopicTopLabel.frame = self.cardFrame.specailTopicTopLabelFrame;
+        self.specialTopicTopLabel.centerY =  self.specialTopicDeleteButton.centerY;
+        
+        // 类型
+        self.specialTopicNewsTypeLabel.text = newsType;
+        self.specialTopicNewsTypeLabel.layer.backgroundColor = [UIColor colorFromHexString:newsTypeColor].CGColor;
+        self.specialTopicNewsTypeLabel.frame = self.cardFrame.specialTopicNewsTypeLabelFrame;;
+        // 分割线
+        self.specialTopicSperatorLine.frame = self.cardFrame.specialTopicSeperatorLineFrame;
+        
+    } else if([card.rtype integerValue] == 6) {
+        // 视频
+        self.noImageTitleLabel.hidden = YES;
+        self.noImageSourceImageView.hidden = YES;
+        self.noImageSourceLabel.hidden = YES;
+        self.noImageDeleteButton.hidden = YES;
+        self.noImageTipButton.hidden = YES;
+        self.noImageNewsTypeLabel.hidden = YES;
+        self.noImageSeperatorLine.hidden = YES;
+        self.noImageCommentsCountLabel.hidden = YES;
+        self.noImageSourceListView.hidden = YES;
+        
+        // 单图
+        self.singleImageTitleLabel.hidden = YES;
+        self.singleImageSourceImageView.hidden = YES;
+        self.singleImageSourceLabel.hidden = YES;
+        self.singleImageIcon.hidden = YES;
+        self.singleImageSeperatorLine.hidden = YES;
+        self.singleImageDeleteButton.hidden = YES;
+        self.singleImageTipButton.hidden = YES;
+        self.singleImageNewsTypeLabel.hidden = YES;
+        self.singleImageCommentsCountLabel.hidden = YES;
+        self.singleImageSourceListView.hidden = YES;
+        
+        // 单图大图
+        self.singleBigImageTitleLabel.hidden = YES;
+        self.singleBigImageIcon.hidden = YES;
+        self.singleBigImageSourceImageView.hidden = YES;
+        self.singleBigImageSourceLabel.hidden = YES;
+        self.singleBigImageSeperatorLine.hidden = YES;
+        self.singleBigImageDeleteButton.hidden = YES;
+        self.singleBigImageTipButton.hidden = YES;
+        self.singleBigImageNewsTypeLabel.hidden = YES;
+        self.singleBigImageCommentsCountLabel.hidden = YES;
+        self.singleBigImageSourceListView.hidden = YES;
+        
+        // 三图
+        self.multipleImageTitleLabel.hidden = YES;
+        self.firstMultipleImageView.hidden = YES;
+        self.secondMultipleImageView.hidden = YES;
+        self.thirdMultipleImageView.hidden = YES;
+        self.multipleImageSourceImageView.hidden = YES;
+        self.multipleImageSourceLabel.hidden = YES;
+        self.multipleImageSeperatorLine.hidden = YES;
+        self.multipleImageDeleteButton.hidden = YES;
+        self.multipleImageTipButton.hidden = YES;
+        self.multipleImageNewsTypeLabel.hidden = YES;
+        self.multipleImageCommentsCountLabel.hidden = YES;
+        self.multipleImageSourceListView.hidden = YES;
+        
+        // 专题
+        self.specialTopicTitleLabel.hidden = YES;
+        self.specialTopicImageView.hidden = YES;
+        self.specialTopicTipButton.hidden = YES;
+        self.specialTopicDeleteButton.hidden = YES;
+        self.specialTopicCommentsCountLabel.hidden = YES;
+        self.specialTopicNewsTypeLabel.hidden = YES;
+        self.specialTopicTopLabel.hidden = YES;
+        self.specialTopicSperatorLine.hidden = YES;
+        
+        // 视频
+        self.videoTitleLabel.hidden = NO;
+        self.videoSourceImageView.hidden = NO;
+        self.videoSourceLabel.hidden = NO;
+        self.videoIcon.hidden = NO;
+        self.videoSeperatorLine.hidden = NO;
+        self.videoDeleteButton.hidden = NO;
+        self.videoTipButton.hidden = NO;
+        self.videoNewsTypeLabel.hidden = NO;
+        self.videoCommentsCountLabel.hidden = NO;
+        self.videoSourceListView.hidden = NO;
+        self.videoPlayImageView.hidden = NO;
+        self.videoDurationLabel.hidden = NO;
+        
+        NSString *imageURL = [self scaleImageURL:card.thumbnail scaleImageType:ScaleImageTypeSmall];
+        
+        self.videoTipButton.frame = self.cardFrame.videoTipButtonFrame;
+        self.videoTipButton.hidden = self.cardFrame.isTipButtonHidden;
+        
+        if (sourceImage == nil) {
+            [self.videoSourceImageView sd_setImageWithURL:[NSURL URLWithString:card.sourceSiteImageUrl] placeholderImage:[UIImage imageNamed:@"来源_1"]];
+        } else {
+            self.videoSourceImageView.image = sourceImage;
+        }
+        
+        self.videoSourceImageView.frame = self.cardFrame.videoSourceImageViewFrame;
+        
+        self.videoSourceListView.frame =  self.cardFrame.videoSourceListViewFrame;
+        
+        self.videoSourceLabel.text = sourceSiteName;
+        self.videoSourceLabel.frame = self.cardFrame.videoSourceLabelFrame;
+        
+        [self.videoDeleteButton setBackgroundImage:[UIImage imageNamed:@"home_delete"] forState:UIControlStateNormal];
+        self.videoDeleteButton.frame = self.cardFrame.videoDeleteButtonFrame;
+        [self.videoIcon sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
+        self.videoIcon.frame = self.cardFrame.videoImageViewFrame;
+        
+        self.videoTitleLabel.frame = self.cardFrame.videoTitleLabelFrame;
+        self.videoTitleLabel.attributedText =  attributeTitle;
+        
+        self.videoSeperatorLine.frame = self.cardFrame.videoSeperatorLineFrame;
+        self.videoNewsTypeLabel.frame = self.cardFrame.videoNewsTypeLabelFrame;
+        
+        // 类型
+        self.videoNewsTypeLabel.layer.backgroundColor = [UIColor colorFromHexString:newsTypeColor].CGColor;
+        self.videoNewsTypeLabel.frame = self.cardFrame.videoNewsTypeLabelFrame;
+        self.videoNewsTypeLabel.text = newsType;
+        
+        
+        self.videoCommentsCountLabel.frame = self.cardFrame.videoCommentsCountLabelFrame;
+        self.videoCommentsCountLabel.text = commentsStr;
+        self.videoCommentsCountLabel.centerY = self.videoDeleteButton.centerY;
+        
+        // 播放按钮 播放时长
+        self.videoPlayImageView.frame = self.cardFrame.videoPlayImageViewFrame;
+        self.videoDurationLabel.frame = self.cardFrame.videoDurationLabelFrame;
+        self.videoDurationLabel.centerY = self.videoPlayImageView.centerY;
+        
+        NSInteger totalSeconds = [card.duration integerValue];
+        NSInteger seconds = totalSeconds % 60;
+        NSInteger minutes = (totalSeconds / 60);
+       
+        self.videoDurationLabel.text =  [NSString stringWithFormat:@"%02d:%02d", minutes, seconds];
+        
+        self.videoDurationLabel.textColor = [UIColor whiteColor];
+        
+     
+        
+        
+        
         
     } else {
-         
-        if([card.type integerValue] == imageStyleZero) {
     
+        if([card.type integerValue] == imageStyleZero) {
+            
             self.noImageTitleLabel.hidden = NO;
             self.noImageSourceImageView.hidden = NO;
             self.noImageSourceLabel.hidden = NO;
@@ -717,19 +1020,38 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
             
             // 专题
             self.specialTopicTitleLabel.hidden = YES;
-            self.specialTopicInsideView.hidden = YES;
-            self.specialTopicLogo.hidden = YES;
             self.specialTopicImageView.hidden = YES;
             self.specialTopicTipButton.hidden = YES;
-            self.specailTopicOutsideView.hidden = YES;
             self.specialTopicDeleteButton.hidden = YES;
             self.specialTopicCommentsCountLabel.hidden = YES;
             self.specialTopicNewsTypeLabel.hidden = YES;
-    
+            self.specialTopicTopLabel.hidden = YES;
+            self.specialTopicSperatorLine.hidden = YES;
+            
+            // 视频
+            self.videoTitleLabel.hidden = YES;
+            self.videoSourceImageView.hidden = YES;
+            self.videoSourceLabel.hidden = YES;
+            self.videoIcon.hidden = YES;
+            self.videoSeperatorLine.hidden = YES;
+            self.videoDeleteButton.hidden = YES;
+            self.videoTipButton.hidden = YES;
+            self.videoNewsTypeLabel.hidden = YES;
+            self.videoCommentsCountLabel.hidden = YES;
+            self.videoSourceListView.hidden = YES;
+            self.videoPlayImageView.hidden = YES;
+            self.videoDurationLabel.hidden = YES;
+            
             self.noImageTitleLabel.frame = self.cardFrame.noImageTitleLabelFrame;
             self.noImageTitleLabel.attributedText = attributeTitle;
- 
-            self.noImageSourceImageView.image = sourceImage;
+            
+            if (sourceImage == nil) {
+                [self.noImageSourceImageView sd_setImageWithURL:[NSURL URLWithString:card.sourceSiteImageUrl] placeholderImage:[UIImage imageNamed:@"来源_1"]];
+            } else {
+                self.noImageSourceImageView.image = sourceImage;
+            }
+            
+       
             self.noImageSourceImageView.frame = self.cardFrame.noImageSourceImageViewFrame;
             
             self.noImageSourceLabel.frame = self.cardFrame.noImageSourceLabelFrame;
@@ -745,10 +1067,11 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
             
             self.noImageTipButton.frame = self.cardFrame.noImageTipButtonFrame;
             self.noImageTipButton.hidden = self.cardFrame.isTipButtonHidden;
-           
+            
             // 类型
             self.noImageNewsTypeLabel.layer.backgroundColor = [UIColor colorFromHexString:newsTypeColor].CGColor;
             self.noImageNewsTypeLabel.text = newsType;
+            
             self.noImageNewsTypeLabel.frame = self.cardFrame.noImageNewsTypeLabelFrame;
             
             self.noImageCommentsCountLabel.frame = self.cardFrame.noImageCommentsCountLabelFrame;
@@ -757,7 +1080,7 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
             self.noImageCommentsCountLabel.centerY = self.noImageDeleteButton.centerY;
             
         }   else if ([card.type integerValue] == imageStyleOne || [card.type integerValue] == imageStyleTwo) {
-
+            
             self.noImageTitleLabel.hidden = YES;
             self.noImageSourceImageView.hidden = YES;
             self.noImageSourceLabel.hidden = YES;
@@ -779,7 +1102,7 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
             self.singleImageNewsTypeLabel.hidden = NO;
             self.singleImageCommentsCountLabel.hidden = NO;
             self.singleImageSourceListView.hidden = NO;
-          
+            
             // 单图大图
             self.singleBigImageTitleLabel.hidden = YES;
             self.singleBigImageIcon.hidden = YES;
@@ -808,17 +1131,31 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
             
             // 专题
             self.specialTopicTitleLabel.hidden = YES;
-            self.specialTopicInsideView.hidden = YES;
-            self.specialTopicLogo.hidden = YES;
             self.specialTopicImageView.hidden = YES;
             self.specialTopicTipButton.hidden = YES;
-            self.specailTopicOutsideView.hidden = YES;
             self.specialTopicDeleteButton.hidden = YES;
             self.specialTopicCommentsCountLabel.hidden = YES;
-             self.specialTopicNewsTypeLabel.hidden = YES;
+            self.specialTopicNewsTypeLabel.hidden = YES;
+            self.specialTopicTopLabel.hidden = YES;
+            self.specialTopicSperatorLine.hidden = YES;
+            
+            // 视频
+            self.videoTitleLabel.hidden = YES;
+            self.videoSourceImageView.hidden = YES;
+            self.videoSourceLabel.hidden = YES;
+            self.videoIcon.hidden = YES;
+            self.videoSeperatorLine.hidden = YES;
+            self.videoDeleteButton.hidden = YES;
+            self.videoTipButton.hidden = YES;
+            self.videoNewsTypeLabel.hidden = YES;
+            self.videoCommentsCountLabel.hidden = YES;
+            self.videoSourceListView.hidden = YES;
+            self.videoPlayImageView.hidden = YES;
+            self.videoDurationLabel.hidden = YES;
+
             
             CardImage * cardImage = [card.cardImages firstObject];
-            NSString *imageURL = [self scaleImageURL:cardImage.imgUrl];
+            NSString *imageURL = [self scaleImageURL:cardImage.imgUrl scaleImageType:ScaleImageTypeSmall];
             
             if ([card.rtype integerValue] == 3) {
                 imageURL = cardImage.imgUrl;
@@ -826,8 +1163,13 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
             
             self.singleImageTipButton.frame = self.cardFrame.singleImageTipButtonFrame;
             self.singleImageTipButton.hidden = self.cardFrame.isTipButtonHidden;
+
+            if (sourceImage == nil) {
+                [self.singleImageSourceImageView sd_setImageWithURL:[NSURL URLWithString:card.sourceSiteImageUrl] placeholderImage:[UIImage imageNamed:@"来源_1"]];
+            } else {
+                self.singleImageSourceImageView.image = sourceImage;
+            }
             
-            self.singleImageSourceImageView.image = sourceImage;
             self.singleImageSourceImageView.frame = self.cardFrame.singleImageSourceImageViewFrame;
             
             self.singleImageSourceListView.frame =  self.cardFrame.singleImageSourceListViewFrame;
@@ -839,10 +1181,10 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
             self.singleImageDeleteButton.frame = self.cardFrame.singleImageDeleteButtonFrame;
             [self.singleImageIcon sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
             self.singleImageIcon.frame = self.cardFrame.singleImageImageViewFrame;
-        
+            
             self.singleImageTitleLabel.frame = self.cardFrame.singleImageTitleLabelFrame;
             self.singleImageTitleLabel.attributedText =  attributeTitle;
-
+            
             self.singleImageSeperatorLine.frame = self.cardFrame.singleImageSeperatorLineFrame;
             self.singleImageNewsTypeLabel.frame = self.cardFrame.singleImageNewsTypeLabelFrame;
             
@@ -855,7 +1197,7 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
             self.singleImageCommentsCountLabel.text = commentsStr;
             self.singleImageCommentsCountLabel.centerY = self.singleImageDeleteButton.centerY;
             
-                
+            
         } else if ([card.type integerValue] == imageStyleEleven || [card.type integerValue] == imageStyleTwelve || [card.type integerValue] == imageStyleThirteen) {
             CardImage * cardImage = nil;
             switch ([card.type integerValue]) {
@@ -921,21 +1263,39 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
             
             // 专题
             self.specialTopicTitleLabel.hidden = YES;
-            self.specialTopicInsideView.hidden = YES;
-            self.specialTopicLogo.hidden = YES;
             self.specialTopicImageView.hidden = YES;
             self.specialTopicTipButton.hidden = YES;
-            self.specailTopicOutsideView.hidden = YES;
             self.specialTopicDeleteButton.hidden = YES;
             self.specialTopicCommentsCountLabel.hidden = YES;
-             self.specialTopicNewsTypeLabel.hidden = YES;
+            self.specialTopicNewsTypeLabel.hidden = YES;
+            self.specialTopicTopLabel.hidden = YES;
+            self.specialTopicSperatorLine.hidden = YES;
+            
+            // 视频
+            self.videoTitleLabel.hidden = YES;
+            self.videoSourceImageView.hidden = YES;
+            self.videoSourceLabel.hidden = YES;
+            self.videoIcon.hidden = YES;
+            self.videoSeperatorLine.hidden = YES;
+            self.videoDeleteButton.hidden = YES;
+            self.videoTipButton.hidden = YES;
+            self.videoNewsTypeLabel.hidden = YES;
+            self.videoCommentsCountLabel.hidden = YES;
+            self.videoSourceListView.hidden = YES;
+            self.videoPlayImageView.hidden = YES;
+            self.videoDurationLabel.hidden = YES;
             
             // 上次加载位置
             self.singleBigImageTipButton.frame = self.cardFrame.singleBigImageTipButtonFrame;
             self.singleBigImageTipButton.hidden = self.cardFrame.isTipButtonHidden;
             
             // 来源
-            self.singleBigImageSourceImageView.image = sourceImage;
+            if (sourceImage == nil) {
+                [self.singleBigImageSourceImageView sd_setImageWithURL:[NSURL URLWithString:card.sourceSiteImageUrl] placeholderImage:[UIImage imageNamed:@"来源_1"]];
+            } else {
+                self.singleBigImageSourceImageView.image = sourceImage;
+            }
+            
             self.singleBigImageSourceImageView.frame = self.cardFrame.singleBigImageSourceImageViewFrame;
             
             self.singleBigImageSourceLabel.text = sourceSiteName;
@@ -952,7 +1312,7 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
             self.singleBigImageTitleLabel.frame = self.cardFrame.singleBigImageTitleLabelFrame;
             
             // 图片
-            NSString *imageURL = [self scaleBigImageURL:cardImage.imgUrl];
+            NSString *imageURL = [self scaleImageURL:cardImage.imgUrl scaleImageType:ScaleImageTypeBig];
             [self.singleBigImageIcon sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"单图大图占位图"]];
             self.singleBigImageIcon.frame = self.cardFrame.singleBigImageImageViewFrame;
             // 分割线
@@ -968,10 +1328,10 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
             self.singleBigImageCommentsCountLabel.text = commentsStr;
             self.singleBigImageCommentsCountLabel.frame = self.cardFrame.singleBigImageCommentsCountLabelFrame;
             self.singleBigImageCommentsCountLabel.centerY = self.singleBigImageDeleteButton.centerY;
-
-        
+            
+            
         }    else if ([card.type integerValue] == imageStyleThree) {
-        
+            
             self.noImageTitleLabel.hidden = YES;
             self.noImageSourceImageView.hidden = YES;
             self.noImageSourceLabel.hidden = YES;
@@ -1023,21 +1383,40 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
             
             // 专题
             self.specialTopicTitleLabel.hidden = YES;
-            self.specialTopicInsideView.hidden = YES;
-            self.specialTopicLogo.hidden = YES;
             self.specialTopicImageView.hidden = YES;
             self.specialTopicTipButton.hidden = YES;
-            self.specailTopicOutsideView.hidden = YES;
             self.specialTopicDeleteButton.hidden = YES;
             self.specialTopicCommentsCountLabel.hidden = YES;
-             self.specialTopicNewsTypeLabel.hidden = YES;
-        
+            self.specialTopicNewsTypeLabel.hidden = YES;
+            self.specialTopicTopLabel.hidden = YES;
+            self.specialTopicSperatorLine.hidden = YES;
+            
+            // 视频
+            self.videoTitleLabel.hidden = YES;
+            self.videoSourceImageView.hidden = YES;
+            self.videoSourceLabel.hidden = YES;
+            self.videoIcon.hidden = YES;
+            self.videoSeperatorLine.hidden = YES;
+            self.videoDeleteButton.hidden = YES;
+            self.videoTipButton.hidden = YES;
+            self.videoNewsTypeLabel.hidden = YES;
+            self.videoCommentsCountLabel.hidden = YES;
+            self.videoSourceListView.hidden = YES;
+            self.videoPlayImageView.hidden = YES;
+            self.videoDurationLabel.hidden = YES;
+            
             // 上次加载位置
             self.multipleImageTipButton.frame = self.cardFrame.multipleImageTipButtonFrame;
             self.multipleImageTipButton.hidden = self.cardFrame.isTipButtonHidden;
             
-            // 来源
-            self.multipleImageSourceImageView.image = sourceImage;
+            // 来源            
+            if (sourceImage == nil) {
+                [self.multipleImageSourceImageView sd_setImageWithURL:[NSURL URLWithString:card.sourceSiteImageUrl] placeholderImage:[UIImage imageNamed:@"来源_1"]];
+            } else {
+                self.multipleImageSourceImageView.image = sourceImage;
+            }
+            
+            
             self.multipleImageSourceImageView.frame = self.cardFrame.multipleImageSourceImageViewFrame;
             
             self.multipleImageSourceLabel.text = sourceSiteName;
@@ -1057,21 +1436,22 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
             CGFloat y = frame.origin.y;
             CGFloat w = (frame.size.width - 3) / 3 ;
             CGFloat h = frame.size.height;
-
+            
             NSString *firstImageURL = [card.cardImages objectAtIndex:0].imgUrl;
             NSString *secondImageURL = [card.cardImages objectAtIndex:1].imgUrl;
             NSString *thirdImageURL = [card.cardImages objectAtIndex:2].imgUrl;
             
             if ([card.rtype integerValue] != 3) {
-                firstImageURL = [self scaleImageURL:firstImageURL];
-                secondImageURL = [self scaleImageURL:secondImageURL];
-                thirdImageURL = [self scaleImageURL:thirdImageURL];
+                
+                firstImageURL =  [self scaleImageURL:firstImageURL scaleImageType:ScaleImageTypeSmall];
+                secondImageURL =  [self scaleImageURL:secondImageURL scaleImageType:ScaleImageTypeSmall];
+                thirdImageURL = [self scaleImageURL:thirdImageURL scaleImageType:ScaleImageTypeSmall];
             }
             
             [self.firstMultipleImageView sd_setImageWithURL:[NSURL URLWithString:firstImageURL] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
             [self.secondMultipleImageView sd_setImageWithURL:[NSURL URLWithString:secondImageURL] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
             [self.thirdMultipleImageView sd_setImageWithURL:[NSURL URLWithString:thirdImageURL] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
-
+            
             self.firstMultipleImageView.frame = CGRectMake(x, y, w, h);
             self.secondMultipleImageView.frame = CGRectMake(x + w + 3, y, w, h);
             self.thirdMultipleImageView.frame = CGRectMake(x + 2 * w + 6, y, w, h);
@@ -1086,20 +1466,15 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
             self.multipleImageCommentsCountLabel.text = commentsStr;
             self.multipleImageCommentsCountLabel.frame = self.cardFrame.multipleImageCommentsCountLabelFrame;
             self.multipleImageCommentsCountLabel.centerY = self.multipleImageDeleteButton.centerY;
-  
+            
         }
     }
-  }
+}
+
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     
 }
-
-
-//- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
-//    [super setHighlighted:highlighted animated:animated];
-//    
-//}
 
 #pragma mark - 首页删除功能
 - (void)didClickDeleteButton:(UIButton *)deleteButton {
@@ -1127,7 +1502,7 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
 - (void)newsSourceList {
     if (![self.sourceName isEqualToString:@"未知来源"]) {
         if (self.didTapSourceListBlock) {
-            self.didTapSourceListBlock(self.sourceName);
+            self.didTapSourceListBlock(self.sourceName, self.sourceImageURL);
         }
     }
 }
@@ -1136,45 +1511,31 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
     self.didTapSourceListBlock = didTapSourceListViewBlock;
 }
 
-
-#pragma mark - 大图缩放处理
-- (NSString *)scaleBigImageURL:(NSString *)imageURL {
-    NSRange range = [imageURL rangeOfString:@"/" options:NSBackwardsSearch];
-    NSString *substring = [imageURL substringFromIndex:range.location+1];
-    NSString *scaleImageURL = [NSString stringWithFormat:@"http://pro-pic.deeporiginalx.com/%@@1e_1c_0o_0l_100sh_400h_600w_100q.src", substring];
-    return scaleImageURL;
-}
-
-#pragma mark - 小图缩放处理
-- (NSString *)scaleImageURL:(NSString *)imageURL {
-    NSRange range = [imageURL rangeOfString:@"/" options:NSBackwardsSearch];
-    NSString *substring = [imageURL substringFromIndex:range.location + 1];
-    NSString *scaleImageURL = [NSString stringWithFormat:@"http://pro-pic.deeporiginalx.com/%@@1e_1c_0o_0l_100sh_200h_300w_100q.src", substring];
-    return scaleImageURL;
-}
-
-#pragma mark - 专题图片处理
-- (NSString *)scaleSpecialTopicImageURL:(NSString *)imageURL {
-    NSRange range = [imageURL rangeOfString:@"/" options:NSBackwardsSearch];
-    NSString *substring = [imageURL substringFromIndex:range.location+1];
-    NSString *scaleImageURL = [NSString stringWithFormat:@"http://pro-pic.deeporiginalx.com/%@@1e_1c_0o_0l_100sh_200h_600w_100q.src", substring];
-    return scaleImageURL;
-}
-
 #pragma mark - 图片缩放处理
 - (NSString *)scaleImageURL:(NSString *)imageURL scaleImageType:(ScaleImageType)scaleImageType {
     NSRange range = [imageURL rangeOfString:@"/" options:NSBackwardsSearch];
     NSString *substring = [imageURL substringFromIndex:range.location + 1];
-    NSString *scaleImageURL = @"";
+    NSURLComponents *urlComponents =   [[NSURLComponents alloc] initWithString:imageURL];
+    NSString *schemeHostStr = [NSString stringWithFormat:@"%@://%@/",[urlComponents scheme], [[urlComponents host] stringByReplacingOccurrencesOfString:@"bdp" withString:@"pro"]];
+    
+    BOOL hostBeginWithBdp = [[urlComponents host] isEqualToString:@"bdp-pic.deeporiginalx.com"] ? YES : NO;
+    
+    NSString *scaleImageURL = imageURL;
     switch (scaleImageType) {
         case ScaleImageTypeBig:
-            scaleImageURL = [NSString stringWithFormat:@"http://pro-pic.deeporiginalx.com/%@@1e_1c_0o_0l_100sh_400h_600w_100q.src", substring];
+            if (hostBeginWithBdp) {
+                scaleImageURL = [NSString stringWithFormat:@"%@%@@1e_1c_0o_0l_100sh_400h_600w_100q.src",schemeHostStr,substring];
+            }
             break;
         case ScaleImageTypeSmall:
-            scaleImageURL = [NSString stringWithFormat:@"http://pro-pic.deeporiginalx.com/%@@1e_1c_0o_0l_100sh_200h_300w_100q.src", substring];
+            if (hostBeginWithBdp) {
+                scaleImageURL = [NSString stringWithFormat:@"%@%@@1e_1c_0o_0l_100sh_200h_300w_100q.src",schemeHostStr,substring];
+            }
             break;
         case ScaleImageTypeSpecialTopic:
-            scaleImageURL = [NSString stringWithFormat:@"http://pro-pic.deeporiginalx.com/%@@1e_1c_0o_0l_100sh_200h_600w_100q.src", substring];
+            if (hostBeginWithBdp) {
+                scaleImageURL = [NSString stringWithFormat:@"%@%@@1e_1c_0o_0l_100sh_200h_600w_100q.src",schemeHostStr,substring];
+            }
             break;
             
         default:

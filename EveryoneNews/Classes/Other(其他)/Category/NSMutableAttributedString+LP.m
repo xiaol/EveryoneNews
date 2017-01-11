@@ -42,11 +42,9 @@
 
 - (CGFloat)textViewHeightForAttributedText:(NSAttributedString *)attributedString width:(CGFloat)width {
     DTCoreTextLayouter *layouter = [[DTCoreTextLayouter alloc] initWithAttributedString:attributedString];
-    
     CGRect maxRect = CGRectMake(0, 0, width, CGFLOAT_HEIGHT_UNKNOWN);
     NSRange entireString = NSMakeRange(0, [attributedString length]);
     DTCoreTextLayoutFrame *layoutFrame = [layouter layoutFrameWithRect:maxRect range:entireString];
-    
     CGSize sizeNeeded = [layoutFrame frame].size;
     return sizeNeeded.height;
 }

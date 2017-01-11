@@ -20,6 +20,9 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         CGFloat menuFontSize = 16;
+        if (iPhone6 || iPhone6Plus) {
+            menuFontSize = 18;
+        }
         self.textColor = [UIColor colorFromHexString:LPColor20];
         self.textAlignment = NSTextAlignmentCenter;
         self.highlightedTextColor = [UIColor colorFromHexString:LPColor15];

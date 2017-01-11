@@ -32,16 +32,24 @@
 #import "Card+Create.h"
 #import "LPHomeRowManager.h"
 #import "LPCardConcernFrame.h"
+#import "LPHomeVideoFrame.h"
 #import "CardConcern.h"
 #import "AccountTool.h"
 #import "LPSpecialTopicHomeViewController.h"
 #import "LPConcernDetailViewController.h"
 #import "LPAdsDetailViewController.h"
+#import "LPVideoDetailViewController.h"
+
+
 
 NSString * const reusePageID = @"reusePageID";
 NSString * const reuseConcernPageID = @"reuseConcernPageID";
+NSString * const reuseVideoPageID = @"reuseVideoPageID";
+ 
 
 @implementation LPHomeViewController (PagingView)
+
+
 
 #pragma mark - LPPagingView DataSource
 - (NSInteger)numberOfPagesInPagingView:(LPPagingView *)pagingView {
@@ -54,13 +62,16 @@ NSString * const reuseConcernPageID = @"reuseConcernPageID";
     NSMutableArray *cardFramesArray = self.channelItemDictionary[channelItem.channelName];
 
     LPPagingViewBasePage *page = nil;
-    if (![channelItem.channelID isEqualToString:focusChannelID]) {
-        page = (LPPagingViewPage *)[pagingView dequeueReusablePageWithIdentifier:reusePageID];
+    if ([channelItem.channelID isEqualToString:focusChannelID]) {
+         page = (LPPagingViewConcernPage *)[pagingView dequeueReusablePageWithIdentifier:reuseConcernPageID];
+       
+    } else if([channelItem.channelID isEqualToString:videoChannelID]) {
+        page = (LPPagingViewVideoPage *)[pagingView dequeueReusablePageWithIdentifier:reuseVideoPageID];
+        
     } else {
-        page = (LPPagingViewConcernPage *)[pagingView dequeueReusablePageWithIdentifier:reuseConcernPageID];
-
+        page = (LPPagingViewPage *)[pagingView dequeueReusablePageWithIdentifier:reusePageID];
     }
-     page.cardFrames = self.channelItemDictionary[channelItem.channelName];
+    page.cardFrames = self.channelItemDictionary[channelItem.channelName];
     if (cardFramesArray.count == 0) {
         [self loadDataAtPageIndex:pageIndex basePage:page];
     } 
@@ -122,34 +133,56 @@ NSString * const reuseConcernPageID = @"reuseConcernPageID";
     if (lastAccessDate == nil) {
         channelItem.lastAccessDate = currentDate;
     }
+    // 终止视频播放
+    if (![channelItem.channelID isEqualToString:videoChannelID]) {
+        if (self.playerView.state == LPPlayerStatePlaying) {
+                [self.playerView removePlayerObserver];
+        }
+    }
     
-    if (![channelItem.channelID isEqualToString:focusChannelID]) {
-        LPPagingViewPage *page = (LPPagingViewPage *)[pagingView visiblePageAtIndex:pageIndex];
-        // 每隔5分钟执行自动刷新
+    if ([channelItem.channelID isEqualToString:focusChannelID]) {
+        
+        LPPagingViewConcernPage *page = (LPPagingViewConcernPage *)[pagingView visiblePageAtIndex:pageIndex];
+        // 每隔10分钟执行自动刷新
         if (lastAccessDate != nil) {
             int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
-            // 每5分钟做一次刷新操作
+            // 每10分钟做一次刷新操作
             if (interval > 10) {
                 if (page.cardFrames.count > 0) {
                     channelItem.lastAccessDate = currentDate;
                     [page autotomaticLoadNewData];
-                   
+                    
                 }
-           
+            }
+        }
+    } else if([channelItem.channelID isEqualToString:videoChannelID]) {
+        LPPagingViewVideoPage *page = (LPPagingViewVideoPage *)[pagingView visiblePageAtIndex:pageIndex];
+        // 每隔10分钟执行自动刷新
+        if (lastAccessDate != nil) {
+            int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
+            // 每10分钟做一次刷新操作
+            if (interval > 10) {
+                if (page.cardFrames.count > 0) {
+                    channelItem.lastAccessDate = currentDate;
+                    [page autotomaticLoadNewData];
+                    
+                }
+                
             }
         }
     } else {
-        LPPagingViewConcernPage *page = (LPPagingViewConcernPage *)[pagingView visiblePageAtIndex:pageIndex];
-        // 每隔5分钟执行自动刷新
+        LPPagingViewPage *page = (LPPagingViewPage *)[pagingView visiblePageAtIndex:pageIndex];
+        // 每隔10分钟执行自动刷新
         if (lastAccessDate != nil) {
             int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
-            // 每5分钟做一次刷新操作
+            // 每10分钟做一次刷新操作
             if (interval > 10) {
                 if (page.cardFrames.count > 0) {
                     channelItem.lastAccessDate = currentDate;
                     [page autotomaticLoadNewData];
-                  
+                    
                 }
+                
             }
         }
 
@@ -158,7 +191,7 @@ NSString * const reuseConcernPageID = @"reuseConcernPageID";
 
 - (void)pagingView:(LPPagingView *)pagingView didEndDisplayPage:(UIView *)page atIndex:(NSInteger)pageIndex {
     LPPagingViewBasePage *basePage = (LPPagingViewBasePage *)page;
-    LPChannelItem *channelItem = [self.selectedArray objectAtIndex:pageIndex];
+    LPChannelItem *channelItem = [self.selectedArray objectAtIndex:pageIndex];    
     channelItem.offset = basePage.offset;
 }
 
@@ -184,19 +217,31 @@ NSString * const reuseConcernPageID = @"reuseConcernPageID";
                 } else {
      
                         NSMutableArray *cfs = [NSMutableArray array];
-                        if (![channelItem.channelID isEqualToString:focusChannelID]) {
-                            for (Card *card in cards) {
-                                CardFrame *cf = [[CardFrame alloc] init];
-                                cf.card = card;
-                                [cfs addObject:cf];
-                            }
-                        } else {
-                            // 关注
+                        // 关注
+                        if ([channelItem.channelID isEqualToString:focusChannelID]) {
+                            
                             for (Card *card in cards) {
                                 LPCardConcernFrame *cf = [[LPCardConcernFrame alloc] init];
                                 cf.card = card;
                                 [cfs addObject:cf];
                             }
+                        } else if ([channelItem.channelID isEqualToString:videoChannelID]) {
+                            for (Card *card in cards) {
+                                LPHomeVideoFrame *cf = [[LPHomeVideoFrame alloc] init];
+                                cf.card = card;
+                                [cfs addObject:cf];
+                            }
+                        }
+                        else {
+                          
+                            
+                            for (Card *card in cards) {
+                                CardFrame *cf = [[CardFrame alloc] init];
+                                cf.card = card;
+                                [cfs addObject:cf];
+                            }
+
+                       
                         }
                         [self.channelItemDictionary setObject:cfs forKey:channelItem.channelName];
                         basePage.cardFrames = self.channelItemDictionary[channelItem.channelName];
@@ -248,6 +293,19 @@ NSString * const reuseConcernPageID = @"reuseConcernPageID";
                 basePage.cardFrames = self.channelItemDictionary[channelItem.channelName];
             } failure:^(NSError *error) {
             }];
+        } else if ([channelItem.channelID isEqual:videoChannelID]) {
+            [CardTool cardsWithParam:param channelID:channelItem.channelID success:^(NSArray *cards) {
+                for (Card *card in cards) {
+                    LPHomeVideoFrame *cf = [[LPHomeVideoFrame alloc] init];
+                    cf.card = card;
+                    [cfs addObject:cf];
+                }
+                [self.channelItemDictionary setObject:cfs forKey:channelItem.channelName];
+                basePage.cardFrames = self.channelItemDictionary[channelItem.channelName];
+            } failure:^(NSError *error) {
+                
+            }];
+
         } else {
             [CardTool cardsWithParam:param channelID:channelItem.channelID success:^(NSArray *cards) {
                 for (Card *card in cards) {
@@ -290,7 +348,25 @@ NSString * const reuseConcernPageID = @"reuseConcernPageID";
                 });
             } failure:^(NSError *error) {
             }];
-        } else {
+        } else if ([channelItem.channelID isEqual:videoChannelID]) {
+            [CardTool cardsWithParam:param channelID:channelItem.channelID success:^(NSArray *cards) {
+                for (Card *card in cards) {
+                    LPHomeVideoFrame *cf = [[LPHomeVideoFrame alloc] init];
+                    cf.card = card;
+                    [cfs addObject:cf];
+                }
+                [self.channelItemDictionary setObject:cfs forKey:channelItem.channelName];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.pagingView reloadPageAtPageIndex:pageIndex];
+                });
+            } failure:^(NSError *error) {
+                
+            }];
+ 
+        }
+        
+        
+        else {
             [CardTool cardsWithParam:param channelID:channelItem.channelID success:^(NSArray *cards) {
                 for (Card *card in cards) {
                     CardFrame *cf = [[CardFrame alloc] init];
@@ -338,17 +414,26 @@ NSString * const reuseConcernPageID = @"reuseConcernPageID";
     if ([card.rtype isEqual:@(4)]) {
         LPSpecialTopicHomeViewController *specialTopicVc = [[LPSpecialTopicHomeViewController alloc] init];
         specialTopicVc.tid = card.nid;
-        [self.navigationController pushViewController:specialTopicVc animated:YES];
+        [self.navigationController pushViewController:specialTopicVc animated:NO];
         
     } else if([card.rtype isEqual:@(3)]) {
         LPAdsDetailViewController *adsViewController = [[LPAdsDetailViewController alloc] init];
         adsViewController.publishURL = card.sourceSiteURL;
         [self.navigationController pushViewController:adsViewController animated:YES];
         
-    } else {
+    } else if ([card.rtype isEqual:@(6)]) {
+      // 视频跳转到视频频道播放
+        LPVideoDetailViewController *videoDetailViewController = [[LPVideoDetailViewController alloc] init];
+        videoDetailViewController.qidianChannel = YES;
+        videoDetailViewController.card = card;
+        [self.navigationController pushViewController:videoDetailViewController animated:NO];
+        
+    }
+    else {
         LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
         detailVc.sourceViewController = homeSource;
         detailVc.cardID = cardID;
+        detailVc.sourceImageURL = card.sourceSiteImageUrl;
         
         detailVc.isRead = card.isRead;
         if (!card.isRead) {
@@ -375,17 +460,37 @@ NSString * const reuseConcernPageID = @"reuseConcernPageID";
 
 #pragma mark - LPPagingViewConcernPage Delegate
 - (void)concernPage:(LPPagingViewConcernPage *)concernPage didSelectCellWithCardID:(NSManagedObjectID *)cardID {
-    LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
-    detailVc.sourceViewController = concernSource;
-    detailVc.cardID = cardID;
-    detailVc.statusWindow = self.statusWindow;
-    [self.navigationController pushViewController:detailVc animated:YES];
+    // 视频
+    CoreDataHelper *cdh = [(AppDelegate *)[[UIApplication sharedApplication] delegate] cdh];
+    Card *card = (Card *)[cdh.importContext existingObjectWithID:cardID error:nil];
+    
+    if ([card.rtype isEqual:@(6)]) {
+        // 视频跳转到视频频道播放
+        LPVideoDetailViewController *videoDetailViewController = [[LPVideoDetailViewController alloc] init];
+        videoDetailViewController.qidianChannel = YES;
+        videoDetailViewController.card = card;
+        [self.navigationController pushViewController:videoDetailViewController animated:NO];
+        
+    } else {
+        LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
+        detailVc.sourceViewController = concernSource;
+        detailVc.cardID = cardID;
+        detailVc.statusWindow = self.statusWindow;
+        [self.navigationController pushViewController:detailVc animated:YES];
+    }
 }
 
 - (void)concernPage:(LPPagingViewConcernPage *)concernPage didClickSearchImageView:(UIImageView *)imageView {
     LPSearchViewController *searchVc = [[LPSearchViewController alloc] init];
     [self.navigationController pushViewController:searchVc animated:NO];
 }
+
+#pragma mark - videoPage Delegate
+- (void)videoPage:(LPPagingViewVideoPage *)videoPage pushViewController:(LPVideoDetailViewController *)videoDetailController {
+    [self.navigationController pushViewController:videoDetailController animated:NO];
+}
+
+
 
 #pragma mark - 弹出删除提示
 - (void)page:(LPPagingViewPage *)page didClickDeleteButtonWithCardFrame:(CardFrame *)cardFrame  deleteButton:(UIButton *)deleteButton {
@@ -549,10 +654,11 @@ NSString * const reuseConcernPageID = @"reuseConcernPageID";
 }
 
 // 文章列表
-- (void)page:(LPPagingViewPage *)page didTapListViewWithSourceName:(NSString *)sourceName {
+- (void)page:(LPPagingViewPage *)page didTapListViewWithSourceName:(NSString *)sourceName sourceImage:(NSString *)sourceImageURL {
     LPConcernDetailViewController *concernDetailViewController = [[LPConcernDetailViewController alloc] init];
     concernDetailViewController.sourceName = sourceName;
     concernDetailViewController.conpubFlag = @"0";
+    concernDetailViewController.sourceImageURL = sourceImageURL;
     [self.navigationController pushViewController:concernDetailViewController animated:YES];
 }
 

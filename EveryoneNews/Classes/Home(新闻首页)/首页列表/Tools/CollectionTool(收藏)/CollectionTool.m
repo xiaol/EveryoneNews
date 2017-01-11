@@ -35,6 +35,14 @@
                 card.docId = dict[@"docid"];
                 card.commentsCount = dict[@"comment"];
                 card.channelId = dict[@"channel"];
+                
+                if ([dict[@"rtype"] integerValue] == videoNewsType) {
+                    card.rtype = [dict[@"rtype"] integerValue];
+                    card.thumbnail = dict[@"thumbnail"];
+                    card.duration = [dict[@"duration"] integerValue];
+                    card.videoURL = dict[@"videourl"];
+                }
+   
                 [collectionArray addObject:card];
             }
             success(collectionArray);

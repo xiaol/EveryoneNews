@@ -184,6 +184,7 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
     pagingView.dataSource = self;
     [pagingView registerClass:[LPPagingViewPage class] forPageWithReuseIdentifier:reusePageID];
     [pagingView registerClass:[LPPagingViewConcernPage class] forPageWithReuseIdentifier:reuseConcernPageID];
+    [pagingView registerClass:[LPPagingViewVideoPage  class] forPageWithReuseIdentifier:reuseVideoPageID];
     [self.view addSubview:pagingView];
     self.pagingView = pagingView;
     
@@ -347,7 +348,7 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
     LPSubscriber *subscriber7 = [[LPSubscriber alloc] initWithTitle:@"第一财经周刊" imageURL:@"第一财经周刊"];
     LPSubscriber *subscriber8 = [[LPSubscriber alloc] initWithTitle:@"豆瓣东西" imageURL:@"豆瓣东西"];
     LPSubscriber *subscriber9 = [[LPSubscriber alloc] initWithTitle:@"豆瓣一刻" imageURL:@"豆瓣一刻"];
-    LPSubscriber *subscriber10 = [[LPSubscriber alloc] initWithTitle:@"毒舌指南" imageURL:@"毒舌指南"];
+    LPSubscriber *subscriber10 = [[LPSubscriber alloc] initWithTitle:@"网易体育" imageURL:@"网易体育"];
     LPSubscriber *subscriber11 = [[LPSubscriber alloc] initWithTitle:@"国家地理" imageURL:@"国家地理"];
     LPSubscriber *subscriber12 = [[LPSubscriber alloc] initWithTitle:@"果壳精选" imageURL:@"果壳精选"];
     LPSubscriber *subscriber13 = [[LPSubscriber alloc] initWithTitle:@"果库" imageURL:@"果库"];
@@ -356,7 +357,7 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
     LPSubscriber *subscriber16 = [[LPSubscriber alloc] initWithTitle:@"和讯财经" imageURL:@"和讯财经"];
     LPSubscriber *subscriber17 = [[LPSubscriber alloc] initWithTitle:@"虎嗅" imageURL:@"虎嗅"];
     LPSubscriber *subscriber18 = [[LPSubscriber alloc] initWithTitle:@"华尔街见闻" imageURL:@"华尔街见闻"];
-    LPSubscriber *subscriber19 = [[LPSubscriber alloc] initWithTitle:@"欢喜Fancy" imageURL:@"欢喜Fancy"];
+    LPSubscriber *subscriber19 = [[LPSubscriber alloc] initWithTitle:@"搜狐新闻" imageURL:@"搜狐新闻"];
     LPSubscriber *subscriber20 = [[LPSubscriber alloc] initWithTitle:@"机核" imageURL:@"机核"];
     
     LPSubscriber *subscriber21 = [[LPSubscriber alloc] initWithTitle:@"极客头条" imageURL:@"极客头条"];
@@ -365,12 +366,12 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
     LPSubscriber *subscriber24 = [[LPSubscriber alloc] initWithTitle:@"界面" imageURL:@"界面"];
     LPSubscriber *subscriber25 = [[LPSubscriber alloc] initWithTitle:@"快科技" imageURL:@"快科技"];
     LPSubscriber *subscriber26 = [[LPSubscriber alloc] initWithTitle:@"雷锋网" imageURL:@"雷锋网"];
-    LPSubscriber *subscriber27 = [[LPSubscriber alloc] initWithTitle:@"马蜂窝自由行" imageURL:@"马蜂窝自由行"];
+    LPSubscriber *subscriber27 = [[LPSubscriber alloc] initWithTitle:@"中国青年网" imageURL:@"中国青年网"];
     LPSubscriber *subscriber28 = [[LPSubscriber alloc] initWithTitle:@"面包猎人" imageURL:@"面包猎人"];
     LPSubscriber *subscriber29 = [[LPSubscriber alloc] initWithTitle:@"内涵段子" imageURL:@"内涵段子"];
     LPSubscriber *subscriber30 = [[LPSubscriber alloc] initWithTitle:@"企鹅吃喝指南" imageURL:@"企鹅吃喝指南"];
     LPSubscriber *subscriber31 = [[LPSubscriber alloc] initWithTitle:@"糗事百科" imageURL:@"糗事百科"];
-    LPSubscriber *subscriber32 = [[LPSubscriber alloc] initWithTitle:@"去哪儿旅游" imageURL:@"去哪儿旅游"];
+    LPSubscriber *subscriber32 = [[LPSubscriber alloc] initWithTitle:@"法制晚报" imageURL:@"法制晚报"];
     LPSubscriber *subscriber33 = [[LPSubscriber alloc] initWithTitle:@"任玩堂" imageURL:@"任玩堂"];
     LPSubscriber *subscriber34 = [[LPSubscriber alloc] initWithTitle:@"三联生活周刊" imageURL:@"三联生活周刊"];
     LPSubscriber *subscriber35 = [[LPSubscriber alloc] initWithTitle:@"少数派" imageURL:@"少数派"];
@@ -387,12 +388,12 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
     LPSubscriber *subscriber45 = [[LPSubscriber alloc] initWithTitle:@"严肃八卦" imageURL:@"严肃八卦"];
     LPSubscriber *subscriber46 = [[LPSubscriber alloc] initWithTitle:@"一个" imageURL:@"一个"];
     LPSubscriber *subscriber47 = [[LPSubscriber alloc] initWithTitle:@"一人一城" imageURL:@"一人一城"];
-    LPSubscriber *subscriber48 = [[LPSubscriber alloc] initWithTitle:@"悦食家" imageURL:@"悦食家"];
+    LPSubscriber *subscriber48 = [[LPSubscriber alloc] initWithTitle:@"澎湃新闻" imageURL:@"澎湃新闻"];
     LPSubscriber *subscriber49 = [[LPSubscriber alloc] initWithTitle:@"悦食中国" imageURL:@"悦食中国"];
-    LPSubscriber *subscriber50 = [[LPSubscriber alloc] initWithTitle:@"AppSo" imageURL:@"AppSo"];
-    LPSubscriber *subscriber51 = [[LPSubscriber alloc] initWithTitle:@"HOT男人" imageURL:@"HOT男人"];
+    LPSubscriber *subscriber50 = [[LPSubscriber alloc] initWithTitle:@"环球" imageURL:@"环球"];
+    LPSubscriber *subscriber51 = [[LPSubscriber alloc] initWithTitle:@"成都商报" imageURL:@"成都商报"];
     LPSubscriber *subscriber52 = [[LPSubscriber alloc] initWithTitle:@"IT之家" imageURL:@"IT之家"];
-    LPSubscriber *subscriber53 = [[LPSubscriber alloc] initWithTitle:@"v电影" imageURL:@"v电影"];
+    LPSubscriber *subscriber53 = [[LPSubscriber alloc] initWithTitle:@"网易娱乐" imageURL:@"网易娱乐"];
     LPSubscriber *subscriber54 = [[LPSubscriber alloc] initWithTitle:@"ZEALER" imageURL:@"ZEALER哈"];
     
     NSArray *array = [[NSArray alloc] initWithObjects:subscriber1,subscriber2,subscriber3, subscriber4, subscriber5,subscriber6, subscriber7, subscriber8,subscriber9,
@@ -430,12 +431,17 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
         }
     }
 
-    if (![self.selectedChannelTitle isEqualToString:LPConcernChannelItemName]) {
-        LPPagingViewPage *page = (LPPagingViewPage *)[self.pagingView visiblePageAtIndex:currentPageIndex];
-        [page tapStatusBarScrollToTop];
- 
-    } else {
+    if ([self.selectedChannelTitle isEqualToString:LPConcernChannelItemName]) {
         LPPagingViewConcernPage *page = (LPPagingViewConcernPage *)[self.pagingView visiblePageAtIndex:currentPageIndex];
+        [page tapStatusBarScrollToTop];
+        
+    } else if([self.selectedChannelTitle isEqualToString:LPVideoChannelItemName]) {
+        LPPagingViewVideoPage *page = (LPPagingViewVideoPage *)[self.pagingView visiblePageAtIndex:currentPageIndex];
+        [page tapStatusBarScrollToTop];
+    }
+    
+    else {
+        LPPagingViewPage *page = (LPPagingViewPage *)[self.pagingView visiblePageAtIndex:currentPageIndex];
         [page tapStatusBarScrollToTop];
     }
 }

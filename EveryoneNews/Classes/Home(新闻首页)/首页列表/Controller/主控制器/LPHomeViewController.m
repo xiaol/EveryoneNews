@@ -22,6 +22,8 @@
 #import "Card+Create.h"
 #import "UIButton+WebCache.h"
 #import "LPPagingViewConcernPage.h"
+#import "LPPagingViewVideoPage.h"
+ 
 
 @interface LPHomeViewController ()
 
@@ -80,13 +82,17 @@
             if (lastAccessDate != nil) {
                 int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
                 if (interval > 20) {
-                    if (![channelItem.channelID isEqualToString:focusChannelID]) {
-                        
-                        LPPagingViewPage *page = (LPPagingViewPage *)[self.pagingView visiblePageAtIndex:self.pagingView.currentPageIndex];
+                    if ([channelItem.channelID isEqualToString:focusChannelID]) {
+                        LPPagingViewConcernPage *page = (LPPagingViewConcernPage *)[self.pagingView visiblePageAtIndex:self.pagingView.currentPageIndex];
                         [page autotomaticLoadNewData];
                         channelItem.lastAccessDate = currentDate;
-                    } else {
-                        LPPagingViewConcernPage *page = (LPPagingViewConcernPage *)[self.pagingView visiblePageAtIndex:self.pagingView.currentPageIndex];
+                    } else if([channelItem.channelID isEqualToString:videoChannelID]) {
+                        LPPagingViewVideoPage *page = (LPPagingViewVideoPage *)[self.pagingView visiblePageAtIndex:self.pagingView.currentPageIndex];
+                        [page autotomaticLoadNewData];
+                        channelItem.lastAccessDate = currentDate;
+                    }
+                    else {
+                        LPPagingViewPage *page = (LPPagingViewPage *)[self.pagingView visiblePageAtIndex:self.pagingView.currentPageIndex];
                         [page autotomaticLoadNewData];
                         channelItem.lastAccessDate = currentDate;
                     }
@@ -453,6 +459,18 @@
     }
     return _subscriberFrameArray;
 }
+
+- (LPPlayerView *)playerView {
+    if (!_playerView) {
+        _playerView = [LPPlayerView sharedPlayerView];
+//        _playerView.delegate = self;
+        // 当cell播放视频由全屏变为小屏时候，不回到中间位置
+        _playerView.cellPlayerOnCenter = NO;
+        
+    }
+    return _playerView;
+}
+
 
 #pragma mark - 移除通知
 - (void)dealloc {

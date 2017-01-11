@@ -143,7 +143,7 @@ const static CGFloat padding = 20;
     }
     
     if (self.sourceNameArray.count > 0) {
-        self.confirmButton.backgroundColor = [UIColor colorFromHexString:@"#0091fa"];
+        self.confirmButton.backgroundColor = [UIColor colorFromHexString:LPColor25];
         
     } else {
         self.confirmButton.backgroundColor = [UIColor colorFromHexString:@"#bdc3c7"];

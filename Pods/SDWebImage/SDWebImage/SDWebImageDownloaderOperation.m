@@ -537,12 +537,44 @@ didReceiveResponse:(NSURLResponse *)response
         CGImageSourceRef source = CGImageSourceCreateWithData((__bridge CFDataRef)data, NULL);
         
         size_t count = CGImageSourceGetCount(source);
-        UIImage *animatedImage;
         if(count <= 1) {
-            animatedImage = [[UIImage alloc] initWithData:data];
+            if (count == 0) {
+                return data;
+            }
+            // gif图片数量太多采用随机抽样方式解决
+            NSTimeInterval frameDuration = 0.1;
+            NSDictionary *frameProperties = @{
+                                              (__bridge NSString *)kCGImagePropertyGIFDictionary: @{
+                                                      (__bridge NSString *)kCGImagePropertyGIFDelayTime: @(frameDuration)
+                                                      }
+                                              };
+            
+            CGImageDestinationRef destination = CGImageDestinationCreateWithData((__bridge CFMutableDataRef)mutableData, kUTTypeGIF, 1 , NULL);
+            
+            NSDictionary *imageProperties = @{ (__bridge NSString *)kCGImagePropertyGIFDictionary: @{
+                                                       (__bridge NSString *)kCGImagePropertyGIFLoopCount: @(1)
+                                                       }
+                                               };
+            CGImageDestinationSetProperties(destination, (__bridge CFDictionaryRef)imageProperties);
+            CGImageRef imageRef = CGImageSourceCreateImageAtIndex(source, 0, NULL);
+            
+            size_t imageW = CGImageGetWidth(imageRef);
+            size_t imageH = CGImageGetHeight(imageRef);
+            CGFloat w = [UIScreen mainScreen].bounds.size.width;
+            CGFloat h = imageH * w / imageW ;
+            
+            // 图片宽度大于屏幕宽度
+            if (imageW > w) {
+                imageRef = [self resizeCGImage:imageRef width:w height:h];
+                CGImageDestinationAddImage(destination, imageRef, (__bridge CFDictionaryRef)frameProperties);
+            } else {
+                CGImageDestinationAddImage(destination, imageRef, (__bridge CFDictionaryRef)frameProperties);
+            }
+            CGImageDestinationFinalize(destination);
+            CFRelease(destination);
+
             
         } else {
-            size_t count = CGImageSourceGetCount(source);
             // gif图片数量太多采用随机抽样方式解决
             NSTimeInterval frameDuration = 0.2;
             NSDictionary *frameProperties = @{

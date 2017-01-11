@@ -59,15 +59,30 @@
 @property (nonatomic, assign, readonly) CGRect multipleImageSourceListViewFrame;
 
 // 专题
-@property (nonatomic, assign, readonly) CGRect specialTopicOutsideViewFrame;
-@property (nonatomic, assign, readonly) CGRect specialTopicInsideViewFrame;
-@property (nonatomic, assign, readonly) CGRect specialTopicLogoFrame;
 @property (nonatomic, assign, readonly) CGRect specialTopicTitleLabelFrame;
 @property (nonatomic, assign, readonly) CGRect specialTopicImageViewFrame;
 @property (nonatomic, assign, readonly) CGRect specialTopicDeleteButtonFrame;
 @property (nonatomic, assign, readonly) CGRect specialTopicTipButtonFrame;
 @property (nonatomic, assign, readonly) CGRect specialTopicCommentsCountLabelFrame;
+@property (nonatomic, assign, readonly) CGRect specialTopicCommentsCountLabelNoTopFrame;
 @property (nonatomic, assign, readonly) CGRect specialTopicNewsTypeLabelFrame;
+@property (nonatomic, assign, readonly) CGRect specialTopicSeperatorLineFrame;
+@property (nonatomic, assign, readonly) CGRect specailTopicTopLabelFrame;
+
+// 视频
+@property (nonatomic, assign, readonly) CGRect videoTitleLabelFrame;
+@property (nonatomic, assign, readonly) CGRect videoSourceImageViewFrame;
+@property (nonatomic, assign, readonly) CGRect videoImageViewFrame;
+@property (nonatomic, assign, readonly) CGRect videoSourceLabelFrame;
+@property (nonatomic, assign, readonly) CGRect videoSeperatorLineFrame;
+@property (nonatomic, assign, readonly) CGRect videoDeleteButtonFrame;
+@property (nonatomic, assign, readonly) CGRect videoTipButtonFrame;
+@property (nonatomic, assign, readonly) CGRect videoNewsTypeLabelFrame;
+@property (nonatomic, assign, readonly) CGRect videoCommentsCountLabelFrame;
+@property (nonatomic, assign, readonly) CGRect videoSourceListViewFrame;
+@property (nonatomic, assign, readonly) CGRect videoPlayImageViewFrame;
+@property (nonatomic, assign, readonly) CGRect videoDurationLabelFrame;
+
 
 // 是否显示提示
 @property (nonatomic, assign, getter=isTipButtonHidden) BOOL tipButtonHidden;

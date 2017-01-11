@@ -25,6 +25,12 @@
 #import "LPActivityIndicator.h"
 #import "LPBaseViewController.h"
 #import "UIButton+LP.h"
+#import "Masonry.h"
+#import "UIColor+LP.h"
+#import "UIButton+LP.h"
+#import "LPBrightnessView.h"
+#import "UIImageView+WebCache.h"
+#import "UIViewController+LPPlayerRotation.h"
 
 #ifdef __OPTIMIZE__
 # define NSLog(...) {}
@@ -43,12 +49,30 @@
 #define pasteboard [UIPasteboard generalPasteboard]
 
 #define sharedIndicator [LPActivityIndicator sharedActivityIndicator]
+#define LPPlayerShared [LPBrightnessView sharedBrightnessView]
+#define LPPlayerOrientationIsLandscape UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)
+#define LPPlayerOrientationIsPortrait UIDeviceOrientationIsPortrait([UIDevice currentDevice].orientation)
+#define LPPlayerImage(imageName) [UIImage imageNamed:imageName]
 
-//extern const NSInteger HotwordPageCapacity;
-//
-//extern NSString * const HotwordsURL;
 extern NSString * const reusePageID;
 extern NSString * const reuseConcernPageID;
+extern NSString * const reuseVideoPageID;
+
+// playerLayer的填充模式（默认：等比例填充，直到一个维度到达区域边界）
+typedef NS_ENUM(NSInteger, LPPlayerLayerGravity) {
+    LPPlayerLayerGravityResize,           // 非均匀模式。两个维度完全填充至整个视图区域
+    LPPlayerLayerGravityResizeAspect,     // 等比例填充，直到一个维度到达区域边界
+    LPPlayerLayerGravityResizeAspectFill  // 等比例填充，直到填充满整个视图区域，其中一个维度的部分区域会被裁剪
+};
+
+// 播放器的几种状态
+typedef NS_ENUM(NSInteger, LPPlayerState) {
+    LPPlayerStateFailed,     // 播放失败
+    LPPlayerStateBuffering,  // 缓冲中
+    LPPlayerStatePlaying,    // 播放中
+    LPPlayerStateStopped,    // 停止播放
+    LPPlayerStatePause       // 暂停播放
+};
 
 // 首页字体 Plus
 typedef NS_ENUM(NSInteger, iPhone6PlusHomeTitleSize) {
@@ -216,7 +240,9 @@ typedef NS_ENUM(NSInteger, newsType) {
     // 广告
     adNewsType = 3,
     // 专题
-    zhuantiNewsType = 4
+    zhuantiNewsType = 4,
+    // 视频
+    videoNewsType = 6
     
 };
 
@@ -233,7 +259,7 @@ typedef NS_ENUM(NSInteger, newsType) {
 #define LPChannelItemChangedNotification @"LPChannelItemChangedNotification"
 #define LPAddConcernSourceNotification @"LPAddConcernSourceNotification"
 #define LPRemoveConcernSourceNotification @"LPRemoveConcernSourceNotification"
-#define LPIsVersionFirstLoad @"LPIsVersion_3_3_17_FirstLoad"
+#define LPIsVersionFirstLoad @"LPIsVersion_3_4_7_FirstLoad"
 
 #define LPReloadAddConcernPageNotification @"LPReloadAddConcernPageNotification"
 #define LPReloadCancelConcernPageNotification @"LPReloadCancelConcernPageNotification"
@@ -243,6 +269,8 @@ typedef NS_ENUM(NSInteger, newsType) {
 // 关注名字
 #define LPConcernChannelItemName @"关注"
 #define LPQiDianChannelItemName @"奇点"
+#define LPVideoChannelItemName @"视频"
+
 // 第一次关注
 #define LPConcernChannelItemAtFirstTime @"LPConcernChannelItemAtFirstTime"
 #define LPSuccess @"success"
@@ -250,7 +278,7 @@ typedef NS_ENUM(NSInteger, newsType) {
 #define LPSina @"sina"
 #define LPWeixin @"wxsession"
 
-
+#define kLPPlayerViewContentOffset  @"contentOffset"
 
 #define defaultUserIconUrl @"https://qidianapkstatic.oss-cn-beijing.aliyuncs.com/default_avatar.png"
 #define LPLoginNotification @"LPLoginSuccessNotification"
@@ -272,6 +300,7 @@ typedef NS_ENUM(NSInteger, newsType) {
 #define AccountLoginNotification @"accountLoginNotification"
 
 #define ServerUrl       @"http://api.deeporiginalx.com"
+#define ServerUrlVersion1 @"http://deeporiginalx.com"
 #define ServerUrlVersion2 @"http://bdp.deeporiginalx.com"
 
 #define kTimenews       @"/news/baijia/fetchHome?timenews=1"
@@ -310,6 +339,11 @@ typedef NS_ENUM(NSInteger, newsType) {
 #define LPColor21 @"#e6e6e6"
 #define LPColor22 @"#bebebe"
 #define LPColor23 @"#fff1e7"
+#define LPColor24 @"#dcdcdc"
+#define LPColor25 @"#fc923c"
+#define LPColor26 @"#fac535"
+#define LPColor27 @"#ff7171"
+#define LPColor28 @"#fab37f"
 
 #define LPColorDetail @"#e99b5e"
 
@@ -327,6 +361,7 @@ typedef NS_ENUM(NSInteger, newsType) {
 
 // 关注编号
 #define focusChannelID @"99999"
+#define videoChannelID @"44"
  
 
 

@@ -25,16 +25,9 @@
 @class LPSpecailTopicCardFrame;
 
 // 取消收藏
-
 @interface LPDetailViewController : LPBaseViewController
-
-//@property (nonatomic, strong) LPPress *press;
-//@property (nonatomic, strong) LPConcernPress *concernPress;
-//@property (nonatomic, strong) LPConcern *concern;
-
 // 存储全文评论内容
 @property (nonatomic,strong) NSArray *fullTextComments;
-//@property (nonatomic, copy) NSString *docId;
 // 评论数量
 @property (nonatomic, assign) NSInteger commentsCount;
 
@@ -74,6 +67,7 @@
 @property (nonatomic, strong) LPSpecailTopicCardFrame *specialTopicCardFrame;
 
 @property (nonatomic, copy) NSString *remotePushNid;
+@property (nonatomic, copy) NSString *sourceImageURL;
 
 
 - (void)removeBackgroundView;

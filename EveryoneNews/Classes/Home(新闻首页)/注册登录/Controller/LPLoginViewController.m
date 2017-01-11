@@ -127,7 +127,7 @@ const static CGFloat padding = 32;
     loginButton.titleLabel.font = [UIFont systemFontOfSize:loginButtonFontSize];
     [loginButton setTitle:loginButtonTitle forState:UIControlStateNormal];
     [loginButton setTitleColor: [UIColor colorFromHexString:@"#ffffff"] forState:UIControlStateNormal];
-    loginButton.backgroundColor = [UIColor colorFromHexString:@"#0091fa"];
+    loginButton.backgroundColor = [UIColor colorFromHexString:LPColor25];
     loginButton.layer.cornerRadius = 3;
     loginButton.clipsToBounds = YES;
     [loginButton addTarget:self action:@selector(loginButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
@@ -403,7 +403,8 @@ const static CGFloat padding = 32;
             [LPLoginTool saveAccountWithAccountEntity:accountEntity];
             NSMutableDictionary *params = [LPLoginTool registeredUserParamsWithAccountEntity:accountEntity];
             // 第三方注册
-            NSString *url = @"http://bdp.deeporiginalx.com/v2/au/sin/s";
+            NSString *url = [NSString stringWithFormat:@"%@/v2/au/sin/s", ServerUrlVersion2];
+            
             [LPHttpTool postJSONResponseAuthorizationWithURL:url params:params success:^(id json, NSString *authorization) {
                 
                 [LPLoginTool saveRegisteredUserInfoAndSendConcernNotification:json authorization:authorization];

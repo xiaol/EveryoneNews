@@ -147,9 +147,9 @@ static NSString *cellIdentifier = @"cellIdentifier";
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    LPConcernDetailViewController *detailVC = [[LPConcernDetailViewController alloc] init];
     LPQiDianHaoFrame *qiDianHaoFrame = self.qiDianHaoFrames[indexPath.row];
     LPQiDianHao *qiDianHao = qiDianHaoFrame.qiDianHao;
+    LPConcernDetailViewController *detailVC = [[LPConcernDetailViewController alloc] init];
     detailVC.conpubFlag = [NSString stringWithFormat:@"%d",qiDianHao.concernFlag];
     detailVC.sourceName = qiDianHao.name;
     

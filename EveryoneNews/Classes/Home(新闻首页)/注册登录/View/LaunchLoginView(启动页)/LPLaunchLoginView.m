@@ -112,7 +112,7 @@ const static CGFloat padding = 32;
         loginButton.titleLabel.font = [UIFont systemFontOfSize:loginButtonFontSize];
         [loginButton setTitle:loginButtonTitle forState:UIControlStateNormal];
         [loginButton setTitleColor: [UIColor colorFromHexString:@"#ffffff"] forState:UIControlStateNormal];
-        loginButton.backgroundColor = [UIColor colorFromHexString:@"#0091fa"];
+        loginButton.backgroundColor = [UIColor colorFromHexString:LPColor25];
         loginButton.layer.cornerRadius = 3;
         loginButton.clipsToBounds = YES;
         [loginButton addTarget:self action:@selector(loginButtonDidClick) forControlEvents:UIControlEventTouchUpInside];

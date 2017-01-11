@@ -167,7 +167,7 @@
     registerButton.titleLabel.font = [UIFont systemFontOfSize:registerButtonFontSize];
     [registerButton setTitle:registerButtonTitle forState:UIControlStateNormal];
     [registerButton setTitleColor: [UIColor colorFromHexString:@"#ffffff"] forState:UIControlStateNormal];
-    registerButton.backgroundColor = [UIColor colorFromHexString:@"#0091fa"];
+    registerButton.backgroundColor = [UIColor colorFromHexString:LPColor25];
     registerButton.layer.cornerRadius = 3;
     registerButton.clipsToBounds = YES;
     [registerButton addTarget:self action:@selector(registerButtonDidClick) forControlEvents:UIControlEventTouchUpInside];

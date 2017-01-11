@@ -122,12 +122,12 @@
         <relationship name="press" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Press" inverseName="zhihus" inverseEntity="Press" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Album" positionX="-983" positionY="-346" width="128" height="150"/>
+        <element name="Album" positionX="-983" positionY="-346" width="128" height="148"/>
         <element name="AlbumPhoto" positionX="-792" positionY="-558" width="128" height="58"/>
         <element name="Card" positionX="-1422" positionY="-342" width="128" height="375"/>
         <element name="CardConcern" positionX="-1683" positionY="-495" width="128" height="105"/>
         <element name="CardImage" positionX="-650" positionY="233" width="128" height="73"/>
-        <element name="CardRelate" positionX="-1224" positionY="188" width="128" height="120"/>
+        <element name="CardRelate" positionX="-1224" positionY="188" width="128" height="118"/>
         <element name="CardSourceColor" positionX="-1431" positionY="-630" width="128" height="73"/>
         <element name="Comment" positionX="-1764" positionY="-99" width="128" height="165"/>
         <element name="Content" positionX="-605" positionY="-369" width="128" height="165"/>

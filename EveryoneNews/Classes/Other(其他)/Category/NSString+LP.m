@@ -87,7 +87,7 @@
     [string addAttribute:NSFontAttributeName value:font range:range];
     if (rtype) {
         style.firstLineHeadIndent = 5.0f;
-        [string addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(0,2)];
+        [string addAttribute:NSForegroundColorAttributeName value:[UIColor clearColor] range:NSMakeRange(0,2)];
     }
     [string addAttribute:NSParagraphStyleAttributeName value:style range:range];
     return string;

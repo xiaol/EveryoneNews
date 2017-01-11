@@ -54,7 +54,7 @@
         
         UILabel *signOutLabel = [[UILabel alloc] init];
         signOutLabel.font = [UIFont systemFontOfSize:LPFont3];
-        signOutLabel.textColor = [UIColor colorFromHexString:LPColor2];
+        signOutLabel.textColor = [UIColor colorFromHexString:LPColor15];
         signOutLabel.hidden = YES;
         signOutLabel.textAlignment = NSTextAlignmentCenter;
         [self.contentView addSubview:signOutLabel];

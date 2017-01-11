@@ -224,7 +224,15 @@
         self.noCommentsBtn.hidden = YES;
         self.commentsBtn.hidden = NO;
         self.commentCountLabel.hidden = NO;
-        NSString *commentCountStr = [NSString stringWithFormat:@"%ld", (long)_badgeNumber];
+        
+        NSString *commentCountStr = @"";
+        if (_badgeNumber > 10000) {
+            commentCountStr = [NSString stringWithFormat:@"%.1f万", (floor)(_badgeNumber)/ 10000];
+        } else {
+            commentCountStr = [NSString stringWithFormat:@"%ld", (long)_badgeNumber];
+        }
+        
+ 
         CGSize fontSize = [commentCountStr sizeWithFont:[UIFont systemFontOfSize:13] maxSize:CGSizeMake(MAXFLOAT, MAXFLOAT)];
         self.commentCountLabel.text = commentCountStr;
         
@@ -233,32 +241,20 @@
         CGFloat commentsCountLabelX = CGRectGetMaxX(self.commentsBtn.frame) - 1 ;
         CGFloat commentsCountLabelY = CGRectGetMinY(self.commentsBtn.frame) + 2;
         
-//        self.commentCountLabel.layer.cornerRadius = 3;
-//        self.commentCountLabel.layer.borderWidth = 0.5f;
-        
-     
         if (iPhone5) {
             commentsCountLabelW = commentsCountLabelW + 4;
             commentsCountLabelH = commentsCountLabelH ;
-//            commentsCountLabelY = commentsCountLabelY - commentsCountLabelH + 2;
-//            commentsCountLabelX = commentsCountLabelX - 2;
             commentsCountLabelX = commentsCountLabelX - commentsCountLabelW / 2;
             commentsCountLabelY = commentsCountLabelY - commentsCountLabelH / 2;
             
         } else if (iPhone6Plus) {
             commentsCountLabelW = commentsCountLabelW + 8;
             commentsCountLabelH = commentsCountLabelH ;
-//            commentsCountLabelY = commentsCountLabelY - commentsCountLabelH + 4;
-//            commentsCountLabelX = commentsCountLabelX - 4;
             commentsCountLabelX = commentsCountLabelX - commentsCountLabelW / 2;
             commentsCountLabelY = commentsCountLabelY - commentsCountLabelH / 2;
         } else if (iPhone6) {
-//            self.commentCountLabel.layer.cornerRadius = 4;
-//            self.commentCountLabel.layer.borderWidth = 1.0f;
             commentsCountLabelW = commentsCountLabelW + 8;
             commentsCountLabelH = commentsCountLabelH + 2;
-//            commentsCountLabelY = commentsCountLabelY - commentsCountLabelH + 4;
-//            commentsCountLabelX = commentsCountLabelX - 4;
             commentsCountLabelX = commentsCountLabelX - commentsCountLabelW / 2;
             commentsCountLabelY = commentsCountLabelY - commentsCountLabelH / 2;
         }

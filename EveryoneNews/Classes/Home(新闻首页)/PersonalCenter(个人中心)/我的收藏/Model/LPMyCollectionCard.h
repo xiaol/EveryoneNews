@@ -19,6 +19,9 @@
 @property (nonatomic, copy)  NSString *title;
 @property (nonatomic, copy)  NSString *updateTime;
 @property (nonatomic, strong) NSArray *cardImages;
-
+@property (nonatomic, assign) NSInteger duration;
+@property (nonatomic, assign) NSInteger rtype;
+@property (nonatomic, copy) NSString *thumbnail;
+@property (nonatomic, copy) NSString *videoURL;
 
 @end

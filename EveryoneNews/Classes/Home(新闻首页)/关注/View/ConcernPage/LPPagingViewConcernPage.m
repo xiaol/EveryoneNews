@@ -328,7 +328,6 @@
     
 }
 
-
 - (void)tapImageView:(UIImageView *)sender {
     UIImageView *imageView = sender;
     if ([self.delegate respondsToSelector:@selector(concernPage:didClickSearchImageView:)]) {

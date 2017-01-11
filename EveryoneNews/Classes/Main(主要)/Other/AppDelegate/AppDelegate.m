@@ -302,7 +302,7 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     // 头像  1显示  2不显示
     if (![userDefaults objectForKey:LPIsVersionFirstLoad] || ![userDefaults objectForKey:@"uauthorization"]) {
         // 第一次进入存储游客Authorization
-        NSString *url = @"http://bdp.deeporiginalx.com/v2/au/sin/g";
+        NSString *url = [NSString stringWithFormat:@"%@/v2/au/sin/g", ServerUrlVersion2];
         NSMutableDictionary *paramUser = [NSMutableDictionary dictionary];
         // 2 游客用户
         paramUser[@"utype"] = @(2);

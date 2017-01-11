@@ -19,6 +19,7 @@
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *upFlag;
 @property (nonatomic, copy) NSString *docID;
+@property (nonatomic, assign) NSInteger rtype;
 
 
 @end

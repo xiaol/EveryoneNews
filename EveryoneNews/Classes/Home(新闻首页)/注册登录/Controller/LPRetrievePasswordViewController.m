@@ -157,7 +157,7 @@
     openEmailButton.titleLabel.font = [UIFont systemFontOfSize:openEmailButtonFontSize];
     [openEmailButton setTitle:openEmailButtonTitle forState:UIControlStateNormal];
     [openEmailButton setTitleColor: [UIColor colorFromHexString:@"#ffffff"] forState:UIControlStateNormal];
-    openEmailButton.backgroundColor = [UIColor colorFromHexString:@"#0091fa"];
+    openEmailButton.backgroundColor = [UIColor colorFromHexString:LPColor25];
     openEmailButton.layer.cornerRadius = 3;
     openEmailButton.clipsToBounds = YES;
     [openEmailButton addTarget:self action:@selector(openEmailButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
@@ -209,7 +209,7 @@
         if (emailFormat) {
             self.legalEmailFormat = YES;
             self.sendEmailButton.enabled = YES;
-            [self.sendEmailButton setBackgroundColor:[UIColor colorFromHexString:LPColor2]];
+            [self.sendEmailButton setBackgroundColor:[UIColor colorFromHexString:LPColor25]];
         }
     }
 }

@@ -38,6 +38,15 @@
 @property (nonatomic, strong) UILabel *multipleCommentLabel;
 @property (nonatomic, strong) UIView *mutipleSeperatorLine;
 
+// 视频
+@property (nonatomic, strong) TTTAttributedLabel *videoImageTitleLabel;
+@property (nonatomic, strong) UIImageView *videoImageView;
+@property (nonatomic, strong) UILabel *videoImagePublishTimeLabel;
+@property (nonatomic, strong) UILabel *videoCommentLabel;
+@property (nonatomic, strong) UIView *videoImageSeperatorLine;
+@property (nonatomic, strong) UIImageView *videoPlayImageView;
+@property (nonatomic, strong) UILabel *videoDurationLabel;
+
 
 
 @end
@@ -155,6 +164,51 @@
         mutipleSeperatorLine.backgroundColor = [UIColor colorFromHexString:@"e4e4e4"];
         [self.contentView addSubview:mutipleSeperatorLine];
         self.mutipleSeperatorLine = mutipleSeperatorLine;
+        
+        // 视频
+        UIImageView *videoImageView = [[UIImageView alloc] init];
+        videoImageView.contentMode = UIViewContentModeScaleAspectFill;
+        videoImageView.clipsToBounds = YES;
+        [self.contentView addSubview:videoImageView];
+        self.videoImageView = videoImageView;
+        
+        TTTAttributedLabel *videoImageTitleLabel = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
+        videoImageTitleLabel.textColor =  [UIColor colorFromHexString:@"#1a1a1a"];
+        videoImageTitleLabel.numberOfLines = 0;
+        videoImageTitleLabel.backgroundColor = [UIColor clearColor];
+        [self.contentView addSubview:videoImageTitleLabel];
+        self.videoImageTitleLabel = videoImageTitleLabel;
+        
+        UILabel *videoImagePublishTimeLabel = [[UILabel alloc] init];
+        videoImagePublishTimeLabel.textAlignment = NSTextAlignmentLeft;
+        videoImagePublishTimeLabel.font = [UIFont systemFontOfSize:publishTimeFontSize];
+        videoImagePublishTimeLabel.textColor = [UIColor colorFromHexString:LPColor4];
+        [self.contentView addSubview:videoImagePublishTimeLabel];
+        self.videoImagePublishTimeLabel = videoImagePublishTimeLabel;
+        
+        UILabel *videoCommentLabel = [[UILabel alloc] init];
+        videoCommentLabel.font = [UIFont systemFontOfSize:commentFontSize];
+        videoCommentLabel.textColor = [UIColor colorFromHexString:LPColor4];
+        [self.contentView addSubview:videoCommentLabel];
+        self.videoCommentLabel= videoCommentLabel;
+        
+        UIView *videoImageSeperatorLine = [[UIView alloc] init];
+        videoImageSeperatorLine.backgroundColor = [UIColor colorFromHexString:@"e4e4e4"];
+        [self.contentView addSubview:videoImageSeperatorLine];
+        self.videoImageSeperatorLine = videoImageSeperatorLine;
+        
+        UIImageView *videoPlayImageView = [[UIImageView alloc] init];
+        videoPlayImageView.image = [UIImage imageNamed:@"video_play2"];
+        [videoImageView addSubview:videoPlayImageView];
+        self.videoPlayImageView = videoPlayImageView ;
+        
+        UILabel *videoDurationLabel = [[UILabel alloc] init];
+        
+        videoDurationLabel.font = [UIFont systemFontOfSize:10];
+        videoDurationLabel.textColor = [UIColor whiteColor];
+        [videoImageView addSubview:videoDurationLabel];
+        self.videoDurationLabel = videoDurationLabel;
+        
     }
     return self;
 }
@@ -181,16 +235,16 @@
     
     BOOL commentLabelHidden = [commentsCount isEqualToString:@"0评"] ? YES : NO;
     
-    if(card.cardImages.count == 0) {
+    if (card.rtype == videoNewsType) {
         
-        self.noImageLabel.hidden = NO;
-        self.noImagePublishTimeLabel.hidden = NO;
-        self.noImageSeperatorLine.hidden = NO;
+        self.noImageLabel.hidden = YES;
+        self.noImagePublishTimeLabel.hidden = YES;
+        self.noImageSeperatorLine.hidden = YES;
+        self.noImageCommentLabel.hidden = YES;
         
         self.singleImageTitleLabel.hidden = YES;
         self.singleImageView.hidden = YES;
         self.singleImagePublishTimeLabel.hidden = YES;
-        self.singleCommentLabel.hidden = YES;
         self.singleImageSeperatorLine.hidden = YES;
         
         self.multipleImageLabel.hidden = YES;
@@ -201,109 +255,189 @@
         self.multipleCommentLabel.hidden = YES;
         self.mutipleSeperatorLine.hidden = YES;
         
-        self.noImageLabel.frame = self.cardFrame.noImageTitleLabelFrame;
-        self.noImageLabel.text = titleHtml;
         
-        self.noImageCommentLabel.frame = self.cardFrame.noImageCommentLabelFrame;
-        self.noImageCommentLabel.text = commentsCount;
-        self.noImageCommentLabel.hidden = commentLabelHidden;
+        self.videoImageTitleLabel.hidden = NO;
+        self.videoImageView.hidden = NO;
+        self.videoImagePublishTimeLabel.hidden = NO;
+        self.videoCommentLabel.hidden = NO;
+        self.videoImageSeperatorLine.hidden = NO;
+        self.videoDurationLabel.hidden = NO;
+        self.videoPlayImageView.hidden = NO;
         
+        self.videoImageTitleLabel.text =  titleHtml;
+        self.videoImageTitleLabel.frame = self.cardFrame.videoImageTitleLabelFrame;
         
-        self.noImagePublishTimeLabel.frame = self.cardFrame.noImagePublishTimeLabelFrame;
-        self.noImagePublishTimeLabel.text = publishTime;
-        self.noImageSeperatorLine.frame = self.cardFrame.noImageSeperatorLineFrame;
+        self.videoImageView.frame = self.cardFrame.videoImageImageViewFrame;
+        NSString *imageURL = self.cardFrame.card.thumbnail;
+        [self.videoImageView sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
         
+        self.videoImagePublishTimeLabel.frame = self.cardFrame.videoImagePublishTimeLabelFrame;
+        self.videoImagePublishTimeLabel.text = publishTime;
         
+        self.videoCommentLabel.text = commentsCount;
+        self.videoCommentLabel.frame = self.cardFrame.videoImageCommentLabelFrame;
+        self.videoCommentLabel.hidden = commentLabelHidden;
         
+        // 播放按钮 播放时长
+        self.videoPlayImageView.frame = self.cardFrame.videoPlayImageViewFrame;
+        self.videoDurationLabel.frame = self.cardFrame.videoDurationLabelFrame;
+        self.videoDurationLabel.centerY = self.videoPlayImageView.centerY;
         
-    } else if (card.cardImages.count == 1 || card.cardImages.count == 2) {
+        NSInteger totalSeconds = card.duration;
+        NSInteger seconds = totalSeconds % 60;
+        NSInteger minutes = (totalSeconds / 60);
         
-        NSString *cardImageURL = [card.cardImages firstObject];
-
-        self.noImageLabel.hidden = YES;
-        self.noImagePublishTimeLabel.hidden = YES;
-        self.noImageSeperatorLine.hidden = YES;
-        self.noImageCommentLabel.hidden = YES;
+        self.videoDurationLabel.text =  [NSString stringWithFormat:@"%02d:%02d", minutes, seconds];
         
-        self.singleImageTitleLabel.hidden = NO;
-        self.singleImageView.hidden = NO;
-        self.singleImagePublishTimeLabel.hidden = NO;
-        self.singleImageSeperatorLine.hidden = NO;
-        
-        self.multipleImageLabel.hidden = YES;
-        self.firstMutipleImageView.hidden = YES;
-        self.secondMutipleImageView.hidden = YES;
-        self.thirdMutipleImageView.hidden = YES;
-        self.mutipleImagePublishTimeLabel.hidden = YES;
-        self.multipleCommentLabel.hidden = YES;
-        self.mutipleSeperatorLine.hidden = YES;
-        
-        self.singleImageTitleLabel.text =  titleHtml;
-        self.singleImageTitleLabel.frame = self.cardFrame.singleImageTitleLabelFrame;
-        
-        self.singleImageView.frame = self.cardFrame.singleImageImageViewFrame;
-        NSString *imageURL = [self scaleImageURL:cardImageURL];
-        [self.singleImageView sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
-        
-        self.singleImagePublishTimeLabel.frame = self.cardFrame.singleImagePublishTimeLabelFrame;
-        self.singleImagePublishTimeLabel.text = publishTime;
-        
-        self.singleCommentLabel.text = commentsCount;
-        self.singleCommentLabel.frame = self.cardFrame.singleImageCommentLabelFrame;
-        self.singleCommentLabel.hidden = commentLabelHidden;
- 
-        self.singleImageSeperatorLine.frame = self.cardFrame.singleImageSeperatorLineFrame;
-        
-    } else if (card.cardImages.count >= 3) {
-        
-        self.noImageLabel.hidden = YES;
-        self.noImagePublishTimeLabel.hidden = YES;
-        self.noImageSeperatorLine.hidden = YES;
-        self.noImageCommentLabel.hidden = YES;
-        
-        self.singleImageTitleLabel.hidden = YES;
-        self.singleImageView.hidden = YES;
-        self.singleImagePublishTimeLabel.hidden = YES;
-        self.singleCommentLabel.hidden = YES;
-        self.singleImageSeperatorLine.hidden = YES;
-        
-        self.multipleImageLabel.hidden = NO;
-        self.firstMutipleImageView.hidden = NO;
-        self.secondMutipleImageView.hidden = NO;
-        self.thirdMutipleImageView.hidden = NO;
-        self.mutipleImagePublishTimeLabel.hidden = NO;
-        self.multipleCommentLabel.hidden = commentLabelHidden;
-        self.mutipleSeperatorLine.hidden = NO;
-        
-        self.multipleImageLabel.text = titleHtml;
-        self.multipleImageLabel.frame = self.cardFrame.multipleImageTitleLabelFrame;
-        
-        self.mutipleImagePublishTimeLabel.frame = self.cardFrame.multipleImagePublishTimeLabelFrame;
-        self.mutipleImagePublishTimeLabel.text = publishTime;
-     
-        
-        self.multipleCommentLabel.frame = self.cardFrame.multipleImageCommentLabelFrame;
-        self.multipleCommentLabel.text = commentsCount;
+        self.videoDurationLabel.textColor = [UIColor whiteColor];
         
         
-        self.mutipleSeperatorLine.frame = self.cardFrame.mutipleImageSeperatorLineFrame;
-        
-        CGRect frame = self.cardFrame.multipleImageViewFrame;
-        CGFloat x = frame.origin.x;
-        CGFloat y = frame.origin.y;
-        CGFloat w = (frame.size.width - 6) / 3 ;
-        CGFloat h = frame.size.height;
-   
-        [self.firstMutipleImageView sd_setImageWithURL:[NSURL URLWithString:card.cardImages[0]] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
-        [self.secondMutipleImageView sd_setImageWithURL:[NSURL URLWithString:card.cardImages[1]] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
-        [self.thirdMutipleImageView sd_setImageWithURL:[NSURL URLWithString:card.cardImages[2]] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
-        
-        self.firstMutipleImageView.frame = CGRectMake(x, y, w, h);
-        self.secondMutipleImageView.frame = CGRectMake(x + w + 3, y, w, h);
-        self.thirdMutipleImageView.frame = CGRectMake(x + 2 * w + 6, y, w, h);
-        
+        self.videoImageSeperatorLine.frame = self.cardFrame.videoImageSeperatorLineFrame;
+    } else {
+        if(card.cardImages.count == 0) {
+            
+            self.noImageLabel.hidden = NO;
+            self.noImagePublishTimeLabel.hidden = NO;
+            self.noImageSeperatorLine.hidden = NO;
+            
+            self.videoImageTitleLabel.hidden = YES;
+            self.singleImageView.hidden = YES;
+            self.singleImagePublishTimeLabel.hidden = YES;
+            self.singleCommentLabel.hidden = YES;
+            self.singleImageSeperatorLine.hidden = YES;
+            
+            self.multipleImageLabel.hidden = YES;
+            self.firstMutipleImageView.hidden = YES;
+            self.secondMutipleImageView.hidden = YES;
+            self.thirdMutipleImageView.hidden = YES;
+            self.mutipleImagePublishTimeLabel.hidden = YES;
+            self.multipleCommentLabel.hidden = YES;
+            self.mutipleSeperatorLine.hidden = YES;
+            
+            self.videoImageTitleLabel.hidden = YES;
+            self.videoImageView.hidden = YES;
+            self.videoImagePublishTimeLabel.hidden = YES;
+            self.videoCommentLabel.hidden = YES;
+            self.videoImageSeperatorLine.hidden = YES;
+            self.videoDurationLabel.hidden = YES;
+            self.videoPlayImageView.hidden = YES;
+            
+            self.noImageLabel.frame = self.cardFrame.noImageTitleLabelFrame;
+            self.noImageLabel.text = titleHtml;
+            
+            self.noImageCommentLabel.frame = self.cardFrame.noImageCommentLabelFrame;
+            self.noImageCommentLabel.text = commentsCount;
+            self.noImageCommentLabel.hidden = commentLabelHidden;
+            
+            
+            self.noImagePublishTimeLabel.frame = self.cardFrame.noImagePublishTimeLabelFrame;
+            self.noImagePublishTimeLabel.text = publishTime;
+            self.noImageSeperatorLine.frame = self.cardFrame.noImageSeperatorLineFrame;
+            
+        } else if (card.cardImages.count == 1 || card.cardImages.count == 2) {
+            
+            NSString *cardImageURL = [card.cardImages firstObject];
+            
+            self.noImageLabel.hidden = YES;
+            self.noImagePublishTimeLabel.hidden = YES;
+            self.noImageSeperatorLine.hidden = YES;
+            self.noImageCommentLabel.hidden = YES;
+            
+            self.singleImageTitleLabel.hidden = NO;
+            self.singleImageView.hidden = NO;
+            self.singleImagePublishTimeLabel.hidden = NO;
+            self.singleImageSeperatorLine.hidden = NO;
+            
+            self.multipleImageLabel.hidden = YES;
+            self.firstMutipleImageView.hidden = YES;
+            self.secondMutipleImageView.hidden = YES;
+            self.thirdMutipleImageView.hidden = YES;
+            self.mutipleImagePublishTimeLabel.hidden = YES;
+            self.multipleCommentLabel.hidden = YES;
+            self.mutipleSeperatorLine.hidden = YES;
+            
+            
+            self.videoImageTitleLabel.hidden = YES;
+            self.videoImageView.hidden = YES;
+            self.videoImagePublishTimeLabel.hidden = YES;
+            self.videoCommentLabel.hidden = YES;
+            self.videoImageSeperatorLine.hidden = YES;
+            self.videoDurationLabel.hidden = YES;
+            self.videoPlayImageView.hidden = YES;
+            
+            self.singleImageTitleLabel.text =  titleHtml;
+            self.singleImageTitleLabel.frame = self.cardFrame.singleImageTitleLabelFrame;
+            
+            self.singleImageView.frame = self.cardFrame.singleImageImageViewFrame;
+            NSString *imageURL = [self scaleImageURL:cardImageURL];
+            [self.singleImageView sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
+            
+            self.singleImagePublishTimeLabel.frame = self.cardFrame.singleImagePublishTimeLabelFrame;
+            self.singleImagePublishTimeLabel.text = publishTime;
+            
+            self.singleCommentLabel.text = commentsCount;
+            self.singleCommentLabel.frame = self.cardFrame.singleImageCommentLabelFrame;
+            self.singleCommentLabel.hidden = commentLabelHidden;
+            
+            self.singleImageSeperatorLine.frame = self.cardFrame.singleImageSeperatorLineFrame;
+            
+        } else if (card.cardImages.count >= 3) {
+            
+            self.noImageLabel.hidden = YES;
+            self.noImagePublishTimeLabel.hidden = YES;
+            self.noImageSeperatorLine.hidden = YES;
+            self.noImageCommentLabel.hidden = YES;
+            
+            self.singleImageTitleLabel.hidden = YES;
+            self.singleImageView.hidden = YES;
+            self.singleImagePublishTimeLabel.hidden = YES;
+            self.singleCommentLabel.hidden = YES;
+            self.singleImageSeperatorLine.hidden = YES;
+            
+            self.multipleImageLabel.hidden = NO;
+            self.firstMutipleImageView.hidden = NO;
+            self.secondMutipleImageView.hidden = NO;
+            self.thirdMutipleImageView.hidden = NO;
+            self.mutipleImagePublishTimeLabel.hidden = NO;
+            self.multipleCommentLabel.hidden = commentLabelHidden;
+            self.mutipleSeperatorLine.hidden = NO;
+            
+            self.videoImageTitleLabel.hidden = YES;
+            self.videoImageView.hidden = YES;
+            self.videoImagePublishTimeLabel.hidden = YES;
+            self.videoCommentLabel.hidden = YES;
+            self.videoImageSeperatorLine.hidden = YES;
+            self.videoDurationLabel.hidden = YES;
+            self.videoPlayImageView.hidden = YES;
+            
+            self.multipleImageLabel.text = titleHtml;
+            self.multipleImageLabel.frame = self.cardFrame.multipleImageTitleLabelFrame;
+            
+            self.mutipleImagePublishTimeLabel.frame = self.cardFrame.multipleImagePublishTimeLabelFrame;
+            self.mutipleImagePublishTimeLabel.text = publishTime;
+            
+            
+            self.multipleCommentLabel.frame = self.cardFrame.multipleImageCommentLabelFrame;
+            self.multipleCommentLabel.text = commentsCount;
+            
+            
+            self.mutipleSeperatorLine.frame = self.cardFrame.mutipleImageSeperatorLineFrame;
+            
+            CGRect frame = self.cardFrame.multipleImageViewFrame;
+            CGFloat x = frame.origin.x;
+            CGFloat y = frame.origin.y;
+            CGFloat w = (frame.size.width - 6) / 3 ;
+            CGFloat h = frame.size.height;
+            
+            [self.firstMutipleImageView sd_setImageWithURL:[NSURL URLWithString:card.cardImages[0]] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
+            [self.secondMutipleImageView sd_setImageWithURL:[NSURL URLWithString:card.cardImages[1]] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
+            [self.thirdMutipleImageView sd_setImageWithURL:[NSURL URLWithString:card.cardImages[2]] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
+            
+            self.firstMutipleImageView.frame = CGRectMake(x, y, w, h);
+            self.secondMutipleImageView.frame = CGRectMake(x + w + 3, y, w, h);
+            self.thirdMutipleImageView.frame = CGRectMake(x + 2 * w + 6, y, w, h);
+        }
     }
- 
 }
 
 #pragma mark - 图片缩放处理

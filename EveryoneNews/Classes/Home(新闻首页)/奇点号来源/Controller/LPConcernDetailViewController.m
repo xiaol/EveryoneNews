@@ -28,6 +28,8 @@
 #import "CoreDataHelper.h"
 #import "LPFontSize.h"
 #import "LPLoadingView.h"
+#import "UIImageView+WebCache.h"
+#import "LPVideoDetailViewController.h"
 
 
 static NSString *introduceCellIdentifier = @"introduceCellIdentifier";
@@ -93,9 +95,6 @@ const static CGFloat changeFontSizeViewH = 150;
     self.shareURL = [NSString stringWithFormat:@"http://deeporiginalx.com/dingyue.html?pname=%@",encodedSourceName];
     self.shareTitle = self.sourceName;
     
-    //self.shareImageURL
-    
-    
     [LPHttpTool getWithURL:url params:concernParams success:^(id json) {
         if ([json[@"code"] integerValue] == 2000) {
             [self.concernCardFrames removeAllObjects];
@@ -112,6 +111,11 @@ const static CGFloat changeFontSizeViewH = 150;
                 card.docId = dict[@"docid"];
                 card.commentsCount = dict[@"comment"];
                 card.cardImages = dict[@"imgs"];
+                if ([dict[@"rtype"] integerValue] == videoNewsType) {
+                card.rtype = [dict[@"rtype"] integerValue];
+                card.thumbnail = dict[@"thumbnail"];
+                card.duration = [dict[@"duration"] integerValue];
+                }
                 LPConcernCardFrame *cardFrame = [[LPConcernCardFrame alloc] init];
                 cardFrame.card = card;
                 [self.concernCardFrames addObject:cardFrame];
@@ -524,7 +528,13 @@ const static CGFloat changeFontSizeViewH = 150;
     CGFloat headerImageViewX = (ScreenWidth - headerImageViewW) / 2;
     CGFloat headerImageViewY = 0;
     UIImageView *headerImageView = [[UIImageView alloc] initWithFrame:CGRectMake(headerImageViewX, headerImageViewY, headerImageViewW, headerImageViewH)];
-    headerImageView.image = [UIImage imageNamed:@"奇点号占位图2"];
+    headerImageView.layer.cornerRadius = (headerImageViewW / 2);
+    headerImageView.clipsToBounds = YES;
+    if (self.sourceImageURL) {
+       [headerImageView sd_setImageWithURL:[NSURL URLWithString:self.sourceImageURL] placeholderImage:[UIImage imageNamed:@"奇点号占位图2"]];
+    } else {
+        headerImageView.image = [UIImage imageNamed:@"奇点号占位图2"];
+    }
     [headerView addSubview:headerImageView];
     self.headerImageView = headerImageView;
     
@@ -602,6 +612,12 @@ const static CGFloat changeFontSizeViewH = 150;
                 card.docId = dict[@"docid"];
                 card.commentsCount = dict[@"comment"];
                 card.cardImages = dict[@"imgs"];
+                if ([dict[@"rtype"] integerValue] == videoNewsType) {
+                    card.rtype = [dict[@"rtype"] integerValue];
+                    card.thumbnail = dict[@"thumbnail"];
+                    card.duration = [dict[@"duration"] integerValue];
+                }
+                
                 LPConcernCardFrame *cardFrame = [[LPConcernCardFrame alloc] init];
                 cardFrame.card = card;
                 [self.concernCardFrames addObject:cardFrame];
@@ -647,10 +663,20 @@ const static CGFloat changeFontSizeViewH = 150;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     LPConcernCardFrame *cardFrame = self.concernCardFrames[indexPath.row];
-    LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
-    detailVc.sourceViewController = concernHistorySource;
-    detailVc.concernCardFrame = cardFrame;
-    [self.navigationController pushViewController:detailVc animated:YES];
+    LPConcernCard *concernCard = cardFrame.card;
+    
+    if (concernCard.rtype == videoNewsType) {
+        LPVideoDetailViewController *videoDetailViewController = [[LPVideoDetailViewController alloc] init];
+        videoDetailViewController.sourceViewController = concernHistorySource;
+        videoDetailViewController.concernCardFrame = cardFrame;
+        [self.navigationController pushViewController:videoDetailViewController animated:YES];
+        
+    } else {
+        LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
+        detailVc.sourceViewController = concernHistorySource;
+        detailVc.concernCardFrame = cardFrame;
+        [self.navigationController pushViewController:detailVc animated:YES];
+    }
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {

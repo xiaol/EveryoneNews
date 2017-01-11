@@ -12,5 +12,6 @@
 
 @property (nonatomic, copy) NSString *sourceName;
 @property (nonatomic, copy) NSString *conpubFlag;
+@property (nonatomic, copy) NSString *sourceImageURL;
 
 @end

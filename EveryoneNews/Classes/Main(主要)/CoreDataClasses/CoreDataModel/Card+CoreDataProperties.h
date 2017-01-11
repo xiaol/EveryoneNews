@@ -27,13 +27,16 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSString *sourceSiteName;
 @property (nullable, nonatomic, retain) NSString *sourceSiteURL;
 @property (nullable, nonatomic, retain) NSString *sourceSiteImageUrl;
-
+@property (nullable, nonatomic, retain) NSString *videoUrl;
+@property (nullable, nonatomic, retain) NSString *thumbnail;
 @property (nullable, nonatomic, retain) NSString *title;
 @property (nullable, nonatomic, retain) NSNumber *type;
 @property (nullable, nonatomic, retain) NSString *updateTime;
 @property (nullable, nonatomic, retain) NSString *keyword;
 @property (nullable, nonatomic, retain) NSString *keywordColor;
 @property (nullable, nonatomic, retain) NSNumber *utype;
+@property (nullable, nonatomic, retain) NSNumber *duration;
+
 @property (nullable, nonatomic, retain) NSSet<CardConcern *> *cardConcern;
 @property (nullable, nonatomic, retain) NSOrderedSet<CardImage *> *cardImages;
 @property (nullable, nonatomic, retain) NSSet<CardRelate *> *cardRelates;
