@@ -7,14 +7,11 @@ Pod::Spec.new do |s|
   s.version = '0.2.9'
   s.source = { :git => 'https://github.com/AimobierCocoaPods/OddityUI.git', :tag => s.version }
   s.license = 'MIT'
+
   s.source_files = 'Classes/**/*.{h,m}'
-
-  # s.prefix_header_contents = "#import \"PrefixHeader.pch\""
-
+  # s.public_header_files = 'Classes/Public/**/*.h'
+  # s.private_header_files = 'Classes/private/**/*.h'
   s.resource_bundles = { "OdditBundle" => "Classes/**/**/*.{xcassets,xcdatamodeld}" }
-
-  # s.frameworks = 'UserNotifications', 'AdSupport', 'JavaScriptCore', 'ImageIO', 'CoreData', 'Security', 'CoreTelephony', 'QuartzCore', 'SystemConfiguration', 'UIKit', 'Foundation', 'CoreTelephony', 'CoreGraphics', 'CoreFoundation', 'CFNetwork'
-  # s.libraries = 'libc++', 'libz', 'libxml2', 'libiconv', 'libicucore', 'libz.1.2.5', 'libsqlite3'
 
   s.libraries = 'xml2'
   s.prefix_header_file = 'Classes/PrefixHeader.pch'
