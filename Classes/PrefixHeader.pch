@@ -1,0 +1,451 @@
+//
+//  PrefixHeader.pch
+//  EveryoneNews
+//
+//  Created by apple on 15/5/13.
+//  Copyright (c) 2015年 apple. All rights reserved.
+//
+
+#ifndef EveryoneNews_PrefixHeader_pch
+#define EveryoneNews_PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+#ifdef __OBJC__
+
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+
+#import "UIView+LP.h"
+#import "UIColor+LP.h"
+#import "NSString+LP.h"
+#import "NSMutableAttributedString+LP.h"
+#import "UIImage+LP.h"
+#import "Singleton.h"
+#import "LPActivityIndicator.h"
+#import "LPBaseViewController.h"
+#import "UIButton+LP.h"
+#import "Masonry.h"
+#import "UIColor+LP.h"
+#import "UIButton+LP.h"
+#import "LPBrightnessView.h"
+#import "UIImageView+WebCache.h"
+#import "UIViewController+LPPlayerRotation.h"
+
+#ifdef __OPTIMIZE__
+# define NSLog(...) {}
+#else
+# define NSLog(...) NSLog(__VA_ARGS__)
+#endif
+
+#define iPhone4 ([UIScreen mainScreen].bounds.size.height == 480.0)
+#define iPhone5 ([UIScreen mainScreen].bounds.size.height == 568.0)
+#define iPhone6 ([UIScreen mainScreen].bounds.size.height == 667.0)
+#define iPhone6Plus ([UIScreen mainScreen].bounds.size.height == 736.0)
+
+#define iOS8 [[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0
+
+#define userDefaults [NSUserDefaults standardUserDefaults]
+#define pasteboard [UIPasteboard generalPasteboard]
+
+#define sharedIndicator [LPActivityIndicator sharedActivityIndicator]
+#define LPPlayerShared [LPBrightnessView sharedBrightnessView]
+#define LPPlayerOrientationIsLandscape UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)
+#define LPPlayerOrientationIsPortrait UIDeviceOrientationIsPortrait([UIDevice currentDevice].orientation)
+#define LPPlayerImage(imageName) [UIImage imageNamed:imageName]
+
+extern NSString * const reusePageID;
+extern NSString * const reuseConcernPageID;
+extern NSString * const reuseVideoPageID;
+
+// 首页字体 Plus
+typedef NS_ENUM(NSInteger, iPhone6PlusHomeTitleSize) {
+    iPhone6PlusHomeTitleSizeStandard = 19,
+    iPhone6PlusHomeTitleSizeLarger = 21,
+    iPhone6PlusHomeTitleSizeSuperLarger = 23
+};
+
+// 首页字体 6
+typedef NS_ENUM(NSInteger, iPhone6HomeTitleSize) {
+    iPhone6HomeTitleSizeStandard = 19,
+    iPhone6HomeTitleSizeLarger = 21,
+    iPhone6HomeTitleSizeSuperLarger = 23
+};
+
+// 首页字体 5
+typedef NS_ENUM(NSInteger, iPhone5HomeTitleSize) {
+    iPhone5HomeTitleSizeStandard = 17,
+    iPhone5HomeTitleSizeLarger = 19,
+    iPhone5HomeTitleSizeSuperLarger = 21
+};
+
+// 详情页标题字体 Plus
+typedef NS_ENUM(NSInteger, iPhone6PlusDetailTitleSize) {
+    iPhone6PlusDetailTitleSizeStandard = 25,
+    iPhone6PlusDetailTitleSizeLarger = 28,
+    iPhone6PlusDetailTitleSizeSuperLarger = 30
+};
+// 详情页标题字体 6
+typedef NS_ENUM(NSInteger, iPhone6DetailTitleSize) {
+    iPhone6DetailTitleSizeStandard = 25,
+    iPhone6DetailTitleSizeLarger = 28,
+    iPhone6DetailTitleSizeSuperLarger = 30
+};
+
+// 详情页标题字体 5
+typedef NS_ENUM(NSInteger, iPhone5DetailTitleSize) {
+    iPhone5DetailTitleSizeStandard = 25,
+    iPhone5DetailTitleSizeLarger = 28,
+    iPhone5DetailTitleSizeSuperLarger = 30
+};
+
+
+// 详情页来源字体 Plus
+typedef NS_ENUM(NSInteger, iPhone6PlusDetailSourceSize) {
+    iPhone6PlusDetailSourceSizeStandard = 13,
+    iPhone6PlusDetailSourceSizeLarger = 15,
+    iPhone6PlusDetailSourceSizeSuperLarger = 16
+};
+
+typedef NS_ENUM(NSInteger, iPhone6DetailSourceSize) {
+    iPhone6DetailSourceSizeStandard = 13,
+    iPhone6DetailSourceSizeLarger = 15,
+    iPhone6DetailSourceSizeSuperLarger = 16
+};
+
+typedef NS_ENUM(NSInteger, iPhone5DetailSourceSize) {
+    iPhone5DetailSourceSizeStandard = 13,
+    iPhone5DetailSourceSizeLarger = 15,
+    iPhone5DetailSourceSizeSuperLarger = 16
+};
+
+// 详情页正文字体 Plus
+typedef NS_ENUM(NSInteger, iPhone6PlusDetailContentSize) {
+    iPhone6PlusDetailContentSizeStandard = 19,
+    iPhone6PlusDetailContentSizeLarger = 22,
+    iPhone6PlusDetailContentSizeSuperLarger = 24
+};
+
+typedef NS_ENUM(NSInteger, iPhone6DetailContentSize) {
+    iPhone6DetailContentSizeStandard = 19,
+    iPhone6DetailContentSizeLarger = 22,
+    iPhone6DetailContentSizeSuperLarger = 24
+};
+
+typedef NS_ENUM(NSInteger, iPhone5DetailContentSize) {
+    iPhone5DetailContentSizeStandard = 19,
+    iPhone5DetailContentSizeLarger = 22,
+    iPhone5DetailContentSizeSuperLarger = 24
+};
+
+// 详情页相关观点字体 Plus
+typedef NS_ENUM(NSInteger, iPhone6PlusDetailRelateSize) {
+    iPhone6PlusDetailRelateSizeStandard = 18,
+    iPhone6PlusDetailRelateSizeLarger = 20,
+    iPhone6PlusDetailRelateSizeSuperLarger = 22
+};
+
+typedef NS_ENUM(NSInteger, iPhone6DetailRelateSize) {
+    iPhone6DetailRelateSizeStandard = 17,
+    iPhone6DetailRelateSizeLarger = 19,
+    iPhone6DetailRelateSizeSuperLarger = 21
+};
+
+typedef NS_ENUM(NSInteger, iPhone5DetailRelateSize) {
+    iPhone5DetailRelateSizeStandard = 16,
+    iPhone5DetailRelateSizeLarger = 18,
+    iPhone5DetailRelateSizeSuperLarger = 20
+};
+
+// 详情页评论字体 Plus
+typedef NS_ENUM(NSInteger, iPhone6PlusDetailCommentSize) {
+    iPhone6PlusDetailCommentSizeStandard = 16,
+    iPhone6PlusDetailCommentSizeLarger = 18,
+    iPhone6PlusDetailCommentSizeSuperLarger = 20
+};
+
+typedef NS_ENUM(NSInteger, iPhone6DetailCommentSize) {
+    iPhone6DetailCommentSizeStandard = 18,
+    iPhone6DetailCommentSizeLarger = 20,
+    iPhone6DetailCommentSizeSuperLarger = 22
+};
+
+typedef NS_ENUM(NSInteger, iPhone5DetailCommentSize) {
+    iPhone5DetailCommentSizeStandard = 16,
+    iPhone5DetailCommentSizeLarger = 18,
+    iPhone5DetailCommentSizeSuperLarger = 20
+};
+
+
+typedef NS_ENUM(NSInteger, sourceViewController) {
+    // 首页
+    homeSource = 1,
+    // 评论页面
+    commentSource = 2,
+    // 收藏页面
+    collectionSource = 3,
+    // 搜索页面
+    searchSource = 100,
+    // 推送页面
+    remoteNotificationSource = 200,
+    // 关注页面
+    concernSource = 300,
+    // 关注历史文章页面
+    concernHistorySource = 400,
+    // 专题页面
+    specialTopicSource = 500
+};
+
+typedef NS_ENUM(NSInteger, imageStyle) {
+    // 无图模式
+    imageStyleZero = 0,
+    // 单图
+    imageStyleOne = 1,
+    // 两张图片
+    imageStyleTwo = 2,
+    // 三图
+    imageStyleThree = 3,
+    // 单图大图（取第一张）
+    imageStyleEleven = 11,
+    // 单图大图 (取第二张)
+    imageStyleTwelve = 12,
+    // 单图大图 (取第三张)
+    imageStyleThirteen = 13
+};
+
+
+typedef NS_ENUM(NSInteger, newsType) {
+    // 普通新闻
+    normalNewsType = 0,
+    // 热点
+    hotNewsType = 1,
+    // 推送
+    pushNewsType = 2,
+    // 广告
+    adNewsType = 3,
+    // 专题
+    zhuantiNewsType = 4,
+    // 视频
+    videoNewsType = 6
+    
+};
+
+
+#define noteCenter [NSNotificationCenter defaultCenter]
+#define LPCategoryDidChangeNotification @"changeCategory"
+#define LPCategoryFrom @"fromCategory"
+#define LPCategoryTo @"toCategory"
+#define LPPushNotificationFromBack @"pushNotificationFromBack"
+#define LPPushNotificationFromLaunching @"pushNotificationFromLaunching"
+#define LPPushNotificationURL @"url"
+#define LPFontSizeChangedNotification @"fontSizeChanged"
+#define LPDeleteCoreDataNotification @"LPDeleteCoreDataNotification"
+#define LPChannelItemChangedNotification @"LPChannelItemChangedNotification"
+#define LPAddConcernSourceNotification @"LPAddConcernSourceNotification"
+#define LPRemoveConcernSourceNotification @"LPRemoveConcernSourceNotification"
+#define LPIsVersionFirstLoad @"LPIsVersion_3_4_7_FirstLoad"
+
+#define LPReloadAddConcernPageNotification @"LPReloadAddConcernPageNotification"
+#define LPReloadCancelConcernPageNotification @"LPReloadCancelConcernPageNotification"
+
+// 是否显示关注频道
+#define LPConcernChannelItemShowOrHide @"LPConcernChannelItemShowOrHide"
+// 关注名字
+#define LPConcernChannelItemName @"关注"
+#define LPQiDianChannelItemName @"推荐"
+#define LPVideoChannelItemName @"视频"
+
+// 第一次关注
+#define LPConcernChannelItemAtFirstTime @"LPConcernChannelItemAtFirstTime"
+#define LPSuccess @"success"
+#define LPFailure @"failure"
+#define LPSina @"sina"
+#define LPWeixin @"wxsession"
+
+#define kLPPlayerViewContentOffset  @"contentOffset"
+
+#define defaultUserIconUrl @"https://qidianapkstatic.oss-cn-beijing.aliyuncs.com/default_avatar.png"
+#define LPLoginNotification @"LPLoginSuccessNotification"
+#define LPLoginOutNotification @"LPLoginOutNotification"
+
+#define LPCommentWillComposeNotification @"willCompose"
+#define LPComposeParaIndex @"paraIndex"
+#define LPCommentDidComposeNotification @"didCompose"
+#define LPCommentDidComposeSuccessNotification @"didComposeSuccess"
+#define LPCommentDidCancelComposeNotification @"cancelCompose"
+#define LPParaVcRefreshDataNotification @"paraVcRefresh"
+#define LPComposeComment @"comment"
+#define LPDetailVcShouldReloadDataNotification @"reloadDetailVcCell"
+#define LPReloadCellIndex @"contentCellIndex"
+#define LPWebViewWillLoadNotification @"loadWebView"
+#define LPWebURL @"webURL"
+//用户登录回调通知的userinfo的key值
+#define AccountLoginCallbackDictKey @"accountLoginCallbackDictKey"
+#define AccountLoginNotification @"accountLoginNotification"
+
+#define ServerUrl       @"http://api.deeporiginalx.com"
+#define ServerUrlVersion1 @"http://deeporiginalx.com"
+#define ServerUrlVersion2 @"http://bdp.deeporiginalx.com"
+
+#define kTimenews       @"/news/baijia/fetchHome?timenews=1"
+#define CountdownUrl    @"/news/baijia/fetchTime?timefeedback=1"
+#define ConcernsUrl     @"/news/baijia/FetchChannelList"
+
+#define HomeUrl @"http://api.deeporiginalx.com/news/baijia/fetchHome?timenews=1"
+#define ContentUrl @"http://api.deeporiginalx.com/news/baijia/fetchContent?url="
+//#define ContentUrl @"http://api.deeporiginalx.com/news/baijia/fetchContent"
+#define AccountLoginUrl @"http://api.deeporiginalx.com/news/baijia/fetchLogin"
+#define ConcernHomeUrl @"http://api.deeporiginalx.com/news/baijia/newsFetchHome"
+#define ConcernHomeRefreshingUrl @"http://api.deeporiginalx.com/news/baijia/loadMoreFetchContent"
+#define ConcernDetailUrl @"http://api.deeporiginalx.com/news/baijia/newsFetchContent"
+
+
+#define LPColor1 @"#333333"
+#define LPColor2 @"#0091fa"
+#define LPColor3 @"#1a1a1a"
+#define LPColor4 @"#999999"
+#define LPColor5 @"#e4e4e4"
+#define LPColor6 @"#bb1c1c"
+#define LPColor7 @"#666666"
+#define LPColor8 @"#d9effe"
+#define LPColor9 @"#f6f6f6"
+#define LPColor10 @"#c0c0c0"
+#define LPColor11 @"#f0f0f0"
+#define LPColor12 @"#aaaaaa"
+#define LPColor13 @"#f83b3b"
+#define LPColor14 @"#fafafa"
+#define LPColor15 @"#fb7a12"
+#define LPColor16 @"#f8f8f8"
+#define LPColor17 @"#ff7d68"
+#define LPColor18 @"#b3e0ff"
+#define LPColor19 @"#e9e9e9"
+#define LPColor20 @"#787878"
+#define LPColor21 @"#e6e6e6"
+#define LPColor22 @"#bebebe"
+#define LPColor23 @"#fff1e7"
+#define LPColor24 @"#dcdcdc"
+#define LPColor25 @"#fc923c"
+#define LPColor26 @"#fac535"
+#define LPColor27 @"#ff7171"
+#define LPColor28 @"#fab37f"
+
+#define LPColorDetail @"#e99b5e"
+
+#define LPFont1 20
+#define LPFont2 19
+#define LPFont3 18
+#define LPFont4 16
+#define LPFont5 14
+#define LPFont6 12
+#define LPFont7 10
+#define LPFont8 21
+#define LPFont9 23
+#define LPFont10 15
+#define LPFont11 13
+
+// 关注编号
+#define focusChannelID @"99999"
+#define videoChannelID @"44"
+ 
+
+
+#define HomeTopViewHeight 71
+#define ScreenWidth [UIScreen mainScreen].bounds.size.width
+#define ScreenHeight [UIScreen mainScreen].bounds.size.height
+#define CellHeightBorder 10  // cell高度缩减
+#define PhotoH 208  // 大图模式图片高度
+#define TabBarHeight 44
+#define StatusBarHeight 20
+#define TabBarColor @"#0096ff"
+#define TabBarButtonSelectedColor @"#ffffff"
+#define TabBarButtonNormalColor @"#007ed7"
+#define TabBarButtonWidth ScreenWidth/6
+
+#define CellWidth ScreenWidth
+#define PhotoCellHeight CellWidth * 2 / 3
+
+#define TableViewBackColor @"#EBEDED"
+
+#define TimeCellTimeLabelH 13
+#define TimeCellWeekLabelH 13
+#define TimeCellDividerH 1
+
+#define CategoryBorderLeft 10.0
+#define CategoryBorderRight CategoryBorderLeft
+#define CategoryBorderColumn 12.0
+#define CategoryBorderRow 10.0
+#define CategoryViewAspectRatio 1.43
+#define CategoryBorderTop TabBarHeight + CategoryBorderLeft
+#define CategoryBorderBottom CategoryBorderLeft
+
+#define CellBackColor @"ffffff"
+#define FontName @"Arial-BoldMT"
+// #define FontName @"ArialRoundedMTBold"
+#define TitleColor @"#1a1a1a"
+// #define TitleColor @"#9c9c9c"
+#define Icons @[@"新浪", @"百度", @"知乎", @"多图", @"评论"]
+#define IconW 21.0
+#define IconBorder 8
+#define OpinionFontName @"ArialMT"
+#define OpinionsBottomBlankHeight 20.0
+#define TitleBgViewHeight 50
+#define PhotoTitlePadding 24
+
+#define TableHeaderViewH ScreenWidth * 0.75
+#define TableHeaderImageViewH TableHeaderViewH + 17.0
+#define BodyFontSize 16
+#define BodyLineSpacing 6
+#define BodyPadding 13
+#define BodyCommentPadding 12
+
+#define CommentFontSize 14
+#define CommentCountFontSize 13
+#define UpCountFontSize 12
+#define CommentCountLeftPadding 13
+#define CommentCountRightPadding 10
+#define CommentCountTopPadding 2
+#define CommentCountBottomPadding 0
+#define UpCountLeftPadding 24
+#define UpCountRightPadding 0
+#define UpCountTopPadding 1
+#define UpCountBottomPadding 5
+#define CommentLineSpacing 3
+#define DetailCellPadding 10
+#define DetailCellWidth ScreenWidth - (DetailCellPadding * 2)
+#define DetailCellHeightBorder 10
+#define DetailCellBilateralBorder 10
+#define UserIconWidth 34
+#define UserIconBorderWidth 2
+
+#define PhotoGutter 15
+
+#define ParaCommentTableHeaderAboveLabelHeight 44
+#define ParaCommentTableHeaderUnderLabelHeight 24
+#define Error 0.1e-3
+
+#define ComposeButtonNormalColor @"#ffffff"
+//#define ComposeButtonDisableColor @"#007ed7"
+
+#define ConcernPressTitleFontSize iPhone4 ? 15 : 16
+#define ConcernPressTagFontSize 12
+
+#define FeaturedCellPadding 10
+
+
+// 颜色
+#define LPColor(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
+#define LPColorRGBA(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:a]
+
+// 默认字体颜色
+#define LPNormalColor LPColor(51, 51 ,51)
+#define LPSelectedColor LPColor(0, 145, 250)
+
+// 随机色
+#define LPRandomColor LPColor(arc4random_uniform(256), arc4random_uniform(256), arc4random_uniform(256))
+
+// 生成一个字符串
+#define LPString(...) [NSString stringWithFormat:__VA_ARGS__]
+
+#endif
+
+#endif
