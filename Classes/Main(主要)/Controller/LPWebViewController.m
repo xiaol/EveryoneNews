@@ -8,11 +8,11 @@
 
 #import "LPWebViewController.h"
 #import "MBProgressHUD+MJ.h"
-#import <WebKit/WebKit.h>
 
-@interface LPWebViewController () <WKNavigationDelegate, UIScrollViewDelegate>
+@interface LPWebViewController () <UIWebViewDelegate, UIScrollViewDelegate> {
+     UIWebView *webView;
+}
 
-@property (nonatomic, strong) WKWebView *webView;
 
 @property (nonatomic, strong) UIButton *backBtn;
 
@@ -23,22 +23,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    WKWebView *webView = [[WKWebView alloc] initWithFrame:self.view.bounds];
-    webView.allowsLinkPreview = YES;
-    webView.allowsBackForwardNavigationGestures = YES;
-    webView.navigationDelegate = self;
+    webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
+    webView.delegate = self;
+    webView.scalesPageToFit = YES;
     webView.backgroundColor = [UIColor whiteColor];
- 
-
-    NSString *encodedString = _webUrl;
-    //加载URL需要进行encode，否则有些URL中的转义字符会不识别
-  //   NSString *encodedString=[_webUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:encodedString]];
-    [webView loadRequest:request];
-    [self.view addSubview: webView];
-    self.webView = webView;
     
+    //加载URL需要进行encode，否则有些URL中的转义字符会不识别
+    NSString *encodedString=[_webUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:encodedString]];
+    [self.view addSubview: webView];
+    [webView loadRequest:request];
     
     UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 20, 34, 34)];
     backBtn.alpha = 0.8;
@@ -57,34 +51,38 @@
 }
 
 
-#pragma mark - viewWillDisappear
 - (void)viewWillDisappear:(BOOL)animated {
-    [self.webView stopLoading];
+    [webView stopLoading];
     [super viewWillDisappear:animated];
-}
-
-#pragma mark - Delegate
-// 页面开始加载时调用
-- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
-     [self.indicator startAnimating];
-}
-
-// 当内容开始返回时调用
-- (void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation {
-     [self.indicator startAnimating];
-}
-// 页面加载完成之后调用
-- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
-    [self.indicator stopAnimating];
-}
-// 页面加载失败时调用
-- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation {
-    [self.indicator stopAnimating];
 }
 
 - (void)backBtnPress {
     [self.indicator stopAnimating];
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark - Web view delegate
+
+- (void)webViewDidStartLoad:(UIWebView *)webView
+{
+    //    [MBProgressHUD showMessage:@"正在加载..."];
+    //    self.loadingView = [CustomLoaddingView showMessage:@"正在加载..." toView:webView];
+    [self.indicator startAnimating];
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    //    [MBProgressHUD hideHUD];
+    //    [self.loadingView dismissMessage];
+    [self.indicator stopAnimating];
+}
+
+-(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{
+    //    [MBProgressHUD hideHUD];
+    //    [self.loadingView dismissMessage];
+    [self.indicator stopAnimating];
+    //    [MBProgressHUD showError:@"加载失败：("];
 }
 
 @end

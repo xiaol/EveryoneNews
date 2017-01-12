@@ -40,7 +40,6 @@
 #import "Card+Create.h"
 #import <SafariServices/SafariServices.h>
 #import "Comment+Create.h"
-#import <WebKit/WebKit.h>
 #import "LPSearchCardFrame.h"
 #import "LPSearchCard.h"
 #import "LPConcernDetailViewController.h"
@@ -874,7 +873,9 @@ const static CGFloat changeFontSizeViewH = 150;
 
     // 文章内容
     UITableView *tableView = [[UITableView alloc] initWithFrame: CGRectMake(0, 0,tableViewW, tableViewH) style:UITableViewStyleGrouped];
-    tableView.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
+     tableView.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
+    
+    
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     tableView.showsVerticalScrollIndicator = YES;
     tableView.showsHorizontalScrollIndicator = NO;

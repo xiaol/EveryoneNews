@@ -162,41 +162,41 @@ const static CGFloat changeFontSizeViewH = 150;
     backBtn.enlargedEdge = 15;
     [backBtn addTarget:self action:@selector(topViewBackBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [topView addSubview:backBtn];
-
+//
     // 详情页右上角分享
-    UIButton *shareBtn = [[UIButton alloc] initWithFrame:CGRectMake(shareButtonX, shareButtonY , shareButtonW, shareButtonH)];
-    [shareBtn setBackgroundImage:[UIImage oddityImage:@"详情页右上分享"] forState:UIControlStateNormal];
-    shareBtn.enlargedEdge = 15;
-    [shareBtn addTarget:self action:@selector(shareButtonClick) forControlEvents:UIControlEventTouchUpInside];
-    [topView addSubview:shareBtn];
-
-    UIButton *concernButton = [[UIButton alloc] init];
-    concernButton.layer.borderWidth = 1.0f;
-    concernButton.clipsToBounds = YES;
-
-    concernButton.titleLabel.font = [UIFont systemFontOfSize:LPFont5];
-    concernButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-    NSString *concernStr = @"关注";
-    NSString *concernNotStr = @"取消";
-    CGFloat concernBtnW = [concernStr sizeWithFont:[UIFont systemFontOfSize:LPFont5] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].width + 16;
-    CGFloat concernBtnH = [concernStr sizeWithFont:[UIFont systemFontOfSize:LPFont5] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].height + 4;
-    concernButton.layer.cornerRadius = concernBtnH / 2.0f;
-    [concernButton setTitleColor:[UIColor colorFromHexString:@"#e71f19"] forState:UIControlStateNormal];
-    concernButton.layer.borderColor = [UIColor colorFromHexString:@"#e71f19"].CGColor;
-    if (![self.conpubFlag isEqualToString:@"1"]) {
-        [concernButton setTitle:concernStr forState:UIControlStateNormal];
-    } else {
-        [concernButton setTitle:concernNotStr forState:UIControlStateNormal];
-    }
-   
-    CGFloat concernBtnX =  CGRectGetMinX(shareBtn.frame) - 17 - concernBtnW;
-    CGFloat concernBtnY = 0;
-    concernButton.frame = CGRectMake(concernBtnX, concernBtnY, concernBtnW, concernBtnH);
-    concernButton.centerY = backBtn.centerY;
-    [concernButton addTarget:self action:@selector(concernButtonClick) forControlEvents:UIControlEventTouchUpInside];
-    concernButton.enlargedEdge = 10;
-    [topView addSubview:concernButton];
-    self.concernButton = concernButton;
+//    UIButton *shareBtn = [[UIButton alloc] initWithFrame:CGRectMake(shareButtonX, shareButtonY , shareButtonW, shareButtonH)];
+//    [shareBtn setBackgroundImage:[UIImage oddityImage:@"详情页右上分享"] forState:UIControlStateNormal];
+//    shareBtn.enlargedEdge = 15;
+//    [shareBtn addTarget:self action:@selector(shareButtonClick) forControlEvents:UIControlEventTouchUpInside];
+//    [topView addSubview:shareBtn];
+//
+//    UIButton *concernButton = [[UIButton alloc] init];
+//    concernButton.layer.borderWidth = 1.0f;
+//    concernButton.clipsToBounds = YES;
+//
+//    concernButton.titleLabel.font = [UIFont systemFontOfSize:LPFont5];
+//    concernButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+//    NSString *concernStr = @"关注";
+//    NSString *concernNotStr = @"取消";
+//    CGFloat concernBtnW = [concernStr sizeWithFont:[UIFont systemFontOfSize:LPFont5] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].width + 16;
+//    CGFloat concernBtnH = [concernStr sizeWithFont:[UIFont systemFontOfSize:LPFont5] maxSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)].height + 4;
+//    concernButton.layer.cornerRadius = concernBtnH / 2.0f;
+//    [concernButton setTitleColor:[UIColor colorFromHexString:@"#e71f19"] forState:UIControlStateNormal];
+//    concernButton.layer.borderColor = [UIColor colorFromHexString:@"#e71f19"].CGColor;
+//    if (![self.conpubFlag isEqualToString:@"1"]) {
+//        [concernButton setTitle:concernStr forState:UIControlStateNormal];
+//    } else {
+//        [concernButton setTitle:concernNotStr forState:UIControlStateNormal];
+//    }
+//   
+//    CGFloat concernBtnX =  CGRectGetMinX(shareBtn.frame) - 17 - concernBtnW;
+//    CGFloat concernBtnY = 0;
+//    concernButton.frame = CGRectMake(concernBtnX, concernBtnY, concernBtnW, concernBtnH);
+//    concernButton.centerY = backBtn.centerY;
+//    [concernButton addTarget:self action:@selector(concernButtonClick) forControlEvents:UIControlEventTouchUpInside];
+//    concernButton.enlargedEdge = 10;
+//    [topView addSubview:concernButton];
+//    self.concernButton = concernButton;
     
     
     UILabel *titleLabel = [[UILabel alloc] init];

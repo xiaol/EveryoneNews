@@ -47,4 +47,7 @@ typedef void (^CardsFetchedFailureHandler)(NSError *error);
                             success:(CardsFetchedSuccessHandler)success
                             failure:(CardsFetchedFailureHandler)failure;
 
+
++ (void)getAdsImpression:(NSString *)adsImpression;
+
 @end

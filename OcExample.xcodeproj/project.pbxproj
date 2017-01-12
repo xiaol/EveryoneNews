@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		02F1D7A05C3695B47406D5EF /* Pods_OcExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 222C8C9297535347792B7E4B /* Pods_OcExample.framework */; };
+		A1D29309D7A4E887BB77F18F /* libPods-OcExample.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BA723E8DE3FBF37D26CD2FD0 /* libPods-OcExample.a */; };
 		AEB54FE11E2622D3003A7817 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AEB54FE01E2622D3003A7817 /* main.m */; };
 		AEB54FE41E2622D3003A7817 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AEB54FE31E2622D3003A7817 /* AppDelegate.m */; };
 		AEB54FE71E2622D3003A7817 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AEB54FE61E2622D3003A7817 /* ViewController.m */; };
@@ -17,7 +17,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		222C8C9297535347792B7E4B /* Pods_OcExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OcExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		802020AA2092F0FF26050A43 /* Pods-OcExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OcExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OcExample/Pods-OcExample.debug.xcconfig"; sourceTree = "<group>"; };
 		AEB54FDC1E2622D3003A7817 /* OcExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OcExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AEB54FE01E2622D3003A7817 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -29,6 +28,7 @@
 		AEB54FEB1E2622D3003A7817 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AEB54FEE1E2622D3003A7817 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AEB54FF01E2622D3003A7817 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BA723E8DE3FBF37D26CD2FD0 /* libPods-OcExample.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OcExample.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEA1C00717552AF7E782BA5E /* Pods-OcExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OcExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-OcExample/Pods-OcExample.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -37,7 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				02F1D7A05C3695B47406D5EF /* Pods_OcExample.framework in Frameworks */,
+				A1D29309D7A4E887BB77F18F /* libPods-OcExample.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,7 +98,7 @@
 		D32927A2D41C3E60673BF931 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				222C8C9297535347792B7E4B /* Pods_OcExample.framework */,
+				BA723E8DE3FBF37D26CD2FD0 /* libPods-OcExample.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -137,6 +137,7 @@
 				TargetAttributes = {
 					AEB54FDB1E2622D3003A7817 = {
 						CreatedOnToolsVersion = 8.2;
+						DevelopmentTeam = 6BWPZAXBUP;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -346,7 +347,9 @@
 			baseConfigurationReference = 802020AA2092F0FF26050A43 /* Pods-OcExample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 6BWPZAXBUP;
 				INFOPLIST_FILE = OcExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.NoServer.OcExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -358,7 +361,9 @@
 			baseConfigurationReference = CEA1C00717552AF7E782BA5E /* Pods-OcExample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 6BWPZAXBUP;
 				INFOPLIST_FILE = OcExample/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.NoServer.OcExample;
 				PRODUCT_NAME = "$(TARGET_NAME)";

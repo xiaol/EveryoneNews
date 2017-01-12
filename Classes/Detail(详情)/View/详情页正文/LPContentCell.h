@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @class LPContentFrame;
-@class WKWebView;
 @class LPContent;
 @class LPContentCell;
 
@@ -20,7 +19,7 @@
 
 - (void)contentCell:(LPContentCell *)contentCell didOpenURL:(NSString *)url;
 
-- (void)contentCell:(LPContentCell *)contentCell videoImageViewDidTapped:(NSString *)url webView:(WKWebView *)webView webViewF:(CGRect)webViewF;
+- (void)contentCell:(LPContentCell *)contentCell videoImageViewDidTapped:(NSString *)url webView:(UIWebView *)webView webViewF:(CGRect)webViewF;
 
 - (void)contentCell:(LPContentCell *)contentCell selectedText:(NSString *)selectedText;
 

@@ -429,6 +429,12 @@ NSString * const reuseVideoPageID = @"reuseVideoPageID";
         
     }
     else {
+        
+//        LPAdsDetailViewController *adsViewController = [[LPAdsDetailViewController alloc] init];
+//        adsViewController.publishURL = @"http://c.gdt.qq.com/gdt_mclick.fcg?viewid=z0d!jhqsSpz2yZBQJlv8TluM!Jjhv0fYwz7BGr5HEwkrAHrcs4QZzgW50G7pjdai9LbbnVY4IrF23GGumSW2CFf8FBnoA8HGQwPhwcHhVhllb5VW3ulsZO1YmhNOqqsJ0FTpwA1gOx2gdbU2!6gMSyOFPeovB3m1GJDHw1E5dXrYU4RvMAZNN0FaHmLg!N4pvqZdnJ96wep7Wh7lF0QRHQ&jtype=0&i=1&os=1&acttype=0&s={\"down_x\":-999,\"down_y\":-999,\"up_x\":-999,\"up_y\":-999}";
+//        [self.navigationController pushViewController:adsViewController animated:YES];
+//        return;
+        
         LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
         detailVc.sourceViewController = homeSource;
         detailVc.cardID = cardID;

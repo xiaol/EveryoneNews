@@ -26,6 +26,7 @@
         NSMutableAttributedString *bodyHtmlString = _content.bodyHtmlString;
         self.bodyHtmlString = bodyHtmlString;
         CGFloat bodyH = [bodyHtmlString textViewHeightWithConstraintWidth:bodyW];
+
         _bodyLabelF = CGRectMake(bodyX, bodyY, bodyW, bodyH);
         _cellHeight = CGRectGetMaxY(_bodyLabelF) + 23.5f;
     }

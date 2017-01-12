@@ -62,10 +62,6 @@
  
     _concernCountLabelF = CGRectMake(concernCountX, concernCountY, concernCountW, concernCountH);
     
-
-   
-  
-    _concernButtonF = CGRectMake(concernButtonX, concernButtonY, concernButtonW, concernButtonH);
     
     CGFloat seperatorLineX = 18;
     CGFloat seperatorLineY = CGRectGetMaxY(_concernImageViewF) + 12.0;

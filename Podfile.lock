@@ -47,7 +47,6 @@ PODS:
   - MBProgressHUD (1.0.0)
   - OddityOcUI (0.2.9):
     - AFNetworking (~> 3.0)
-    - DTCoreText
     - DTRichTextEditor
     - Masonry (~> 0.6.3)
     - MBProgressHUD (~> 1.0.0)
@@ -72,9 +71,9 @@ SPEC CHECKSUMS:
   DTWebArchive: 2029610e2e2fda5b6d51a386b13b1484b7b197ba
   Masonry: 281802d04d787ea2973179ee8bcb50500579ede2
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
-  OddityOcUI: fef2c927a28ff1786be04e2d3392c88265b6b8d1
+  OddityOcUI: 85634b39c5e2bcc47a4c8c1d01ca669f82f11f13
   SDWebImage: '098e97e6176540799c27e804c96653ee0833d13c'
 
-PODFILE CHECKSUM: b278592012d105e0aea1bf68aca91ee3b460932f
+PODFILE CHECKSUM: 37d1850b5619a28614a8be7762a6c96ccddf8850
 
 COCOAPODS: 1.1.1

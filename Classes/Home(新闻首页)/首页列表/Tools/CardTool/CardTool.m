@@ -22,6 +22,16 @@
 
 @implementation CardTool
 #pragma mark - feed流新接口  包含广告位 视频
+
++ (void)getAdsImpression:(NSString *)adsImpression {
+    [LPHttpTool getWithURL:adsImpression params:nil success:^(id json) {
+        
+       //NSLog(@"%@", json);
+    } failure:^(NSError *error) {
+       // NSLog(@"adsError:%@", error);
+    }];
+}
+
 + (void)cardsWithParam:(CardParam *)param
              channelID:(NSString *)channelID
                success:(CardsFetchedSuccessHandler)success

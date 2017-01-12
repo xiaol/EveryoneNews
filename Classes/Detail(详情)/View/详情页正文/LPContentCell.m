@@ -10,12 +10,11 @@
 #import "LPContentFrame.h"
 #import "LPContent.h"
 #import "UIImageView+WebCache.h"
-#import <WebKit/WebKit.h>
 #import <DTCoreText/DTCoreText.h>
 #import <DTRichTextEditor/DTRichTextEditorView.h>
 #import <DTRichTextEditor/DTTextRange.h>
 
-@interface LPContentCell()<DTAttributedTextContentViewDelegate, WKNavigationDelegate, DTRichTextEditorViewDelegate>
+@interface LPContentCell()<DTAttributedTextContentViewDelegate, DTRichTextEditorViewDelegate, UIWebViewDelegate>
 
 @property (nonatomic, strong) DTRichTextEditorView *bodyTextView;
 
@@ -26,7 +25,7 @@
 @property (nonatomic, copy) NSString *videoURL;
 @property (nonatomic, strong) UIImageView *videoImageView;
 // 视频播放
-@property (nonatomic, strong) WKWebView *webView;
+@property (nonatomic, strong) UIWebView *webView;
 
 @property (nonatomic, strong) UIActivityIndicatorView *activity;
 
@@ -53,10 +52,9 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
-        
         // 文字
         DTRichTextEditorView *bodyTextView = [[DTRichTextEditorView alloc] init];
-        bodyTextView.backgroundColor = [UIColor redColor];
+
         bodyTextView.showsVerticalScrollIndicator = NO;
         bodyTextView.showsHorizontalScrollIndicator = NO;
         bodyTextView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
@@ -69,8 +67,7 @@
         bodyTextView.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
         bodyTextView.textDelegate = self;
         bodyTextView.editorViewDelegate = self;
-        
- 
+
         [self.contentView addSubview:bodyTextView];
         self.bodyTextView = bodyTextView;
         // 图片
@@ -80,8 +77,8 @@
         [self.contentView addSubview:photoView];
         self.photoView = photoView;
         
-        WKWebView *webView = [[WKWebView alloc] init];
-        webView.navigationDelegate = self;
+        UIWebView *webView = [[UIWebView alloc] init];
+        webView.delegate = self;
         webView.scrollView.scrollEnabled = NO;
         [self.contentView  addSubview:webView];
         self.webView = webView;
@@ -264,19 +261,18 @@
     
 }
 
-- (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigation {
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
     [self.activity stopAnimating];
     self.videoImageView.hidden = YES;
     self.videoIsFinishLoaded = YES;
 }
 
-// mp4加载时调用，原因待查找
--(void)webView:(WKWebView *)webView didFailNavigation:(WKNavigation *)navigation withError:(NSError *)error{
-    [self.activity stopAnimating];
-    self.videoImageView.hidden = YES;
-    self.videoIsFinishLoaded = YES;
-    
+-(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+        [self.activity stopAnimating];
+        self.videoImageView.hidden = YES;
+        self.videoIsFinishLoaded = YES;
 }
+
 
 - (BOOL)editorViewShouldBeginEditing:(DTRichTextEditorView *)editorView {
     UITextRange *selectedRange = [editorView selectedTextRange];

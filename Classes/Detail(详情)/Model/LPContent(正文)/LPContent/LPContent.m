@@ -26,14 +26,7 @@
 }
 
 - (NSMutableAttributedString *)bodyHtmlString {
-//    NSDictionary *options = @{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType };
-    
-//    NSMutableAttributedString *mutableAttributeString = [[NSMutableAttributedString alloc] initWithData:[self.body dataUsingEncoding:NSUnicodeStringEncoding]
-//                                                                                            options:options
-//                                                                                 documentAttributes:nil
-//                                                                                              error:nil];
-    
-    
+
     NSData *data = [self.body dataUsingEncoding:NSUTF8StringEncoding];
     
     NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithHTMLData:data

@@ -1,5 +1,4 @@
-platform :ios, '9.0'
-use_frameworks!
+platform :ios, '8.0'
 
 target :'OcExample' do
     pod 'OddityOcUI', :path => './'     ## MGTemplateEngine组件

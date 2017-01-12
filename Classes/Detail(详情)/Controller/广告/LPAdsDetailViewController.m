@@ -7,13 +7,13 @@
 //
 
 #import "LPAdsDetailViewController.h"
-#import <WebKit/WebKit.h>
 #import "LPLoadingView.h"
 
-@interface LPAdsDetailViewController ()<WKNavigationDelegate>
+
+@interface LPAdsDetailViewController ()<UIWebViewDelegate>
 
 @property (nonatomic, strong) LPLoadingView *loadingView;
-@property (nonatomic, strong) WKWebView *webView;
+@property (nonatomic, strong) UIWebView *webView;
 
 @end
 
@@ -23,7 +23,6 @@
 #pragma mark - viewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [self setupSubviews];
 }
 
@@ -65,9 +64,9 @@
     
     CGFloat webViewY = CGRectGetMaxY(seperatorView.frame);
     CGFloat webViewH = ScreenHeight - webViewY;
-    WKWebView *webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, webViewY, ScreenWidth, webViewH)];
+    UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, webViewY, ScreenWidth, webViewH)];
     webView.hidden = YES;
-    webView.navigationDelegate = self;
+    webView.delegate = self;
     self.webView = webView;
     
     NSString *urlStr = [self.publishURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -85,23 +84,25 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-#pragma mark - NavigationDelegate
-- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
-     [self.loadingView startAnimating];
+#pragma mark - Web view delegate
+
+- (void)webViewDidStartLoad:(UIWebView *)webView {
+    [self.loadingView startAnimating];
 }
 
-// 页面加载完成
--(void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
- 
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
     [self.loadingView stopAnimating];
     self.webView.hidden = NO;
-
 }
-//  页面加载失败
--(void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
+
+-(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     [self.loadingView stopAnimating];
-
+    NSURL *url = [NSURL URLWithString:(NSString *)error.userInfo[@"NSErrorFailingURLStringKey"]];
+    if (url && [[UIApplication sharedApplication] canOpenURL:url]) {
+        [[UIApplication sharedApplication]openURL:url];
+    }
 }
- 
+
+
 
 @end

@@ -53,7 +53,6 @@
 #import "Card+Create.h"
 #import <SafariServices/SafariServices.h>
 #import "Comment+Create.h"
-#import <WebKit/WebKit.h>
 #import "LPSearchCardFrame.h"
 #import "LPSearchCard.h"
 #import "LPConcernDetailViewController.h"

@@ -86,12 +86,12 @@
     [backButton addTarget:self action:@selector(backButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
     [topView addSubview:backButton];
     
-    // 详情页右上角分享
-    UIButton *shareBtn = [[UIButton alloc] initWithFrame:CGRectMake(shareButtonX, shareButtonY , shareButtonW, shareButtonH)];
-    [shareBtn setBackgroundImage:[UIImage oddityImage:@"详情页右上分享"] forState:UIControlStateNormal];
-    shareBtn.enlargedEdge = 15;
-    [shareBtn addTarget:self action:@selector(shareButtonClick) forControlEvents:UIControlEventTouchUpInside];
-    [topView addSubview:shareBtn];
+//    // 详情页右上角分享
+//    UIButton *shareBtn = [[UIButton alloc] initWithFrame:CGRectMake(shareButtonX, shareButtonY , shareButtonW, shareButtonH)];
+//    [shareBtn setBackgroundImage:[UIImage oddityImage:@"详情页右上分享"] forState:UIControlStateNormal];
+//    shareBtn.enlargedEdge = 15;
+//    [shareBtn addTarget:self action:@selector(shareButtonClick) forControlEvents:UIControlEventTouchUpInside];
+//    [topView addSubview:shareBtn];
     
     UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(topView.frame), ScreenWidth , 0.5)];
     seperatorView.backgroundColor = [UIColor colorFromHexString:LPColor10];

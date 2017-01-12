@@ -32,6 +32,8 @@
 @property (nonatomic, strong) UILabel *promptLabel;
 @property (nonatomic, strong) UIView *blackBackgroundView;
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) NSMutableArray *adsMutableArray;
+
 
 @end
 
@@ -39,6 +41,13 @@
 
 @synthesize cardFrames = _cardFrames, delegate = _delegate, offset = _offset;
 
+
+- (NSMutableArray *)adsMutableArray {
+    if (_adsMutableArray) {
+        _adsMutableArray = [NSMutableArray array];
+    }
+    return _adsMutableArray;
+}
 
 - (void)prepareForReuse {
     self.searchView.hidden = YES;
@@ -243,6 +252,9 @@
         [self.loadingView startAnimating];
     }
     [self.tableView reloadData];
+    
+   
+    
 }
 
 #pragma mark - 跳转到搜索栏
@@ -396,9 +408,24 @@
             [(id<LPPagingViewPageDelegate>)self.delegate page:self didTapListViewWithSourceName:sourceSiteName sourceImage:sourceImageURL];
         }
     }];
-    
     return cell;
 }
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+   
+    UITableView *tableView = (UITableView *)scrollView;
+    for (LPHomeViewCell *cell in tableView.visibleCells) {
+        Card *card = cell.cardFrame.card;
+        if ([card.rtype integerValue] == adNewsType) {
+            if (![self.adsMutableArray containsObject:card.title]) {
+                // 请求广告接口
+               [self.adsMutableArray addObject:card.title];
+                [self getAdsWithAdImpression:card.adimpression];
+            }
+        }
+    }
+}
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     CardFrame *cardFrame = self.cardFrames[indexPath.row];
@@ -467,5 +494,15 @@
     
     [self.tableView setContentOffset:CGPointZero animated:YES];
 }
+
+#pragma mark - 广告提交到后台
+- (void)getAdsWithAdImpression:(NSString *)adImpression {
+    if (adImpression.length > 0) {
+        [CardTool getAdsImpression:adImpression];
+    }
+}
+
+
+
 
 @end

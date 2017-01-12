@@ -7,7 +7,8 @@
 //
 
 #import "AppDelegate.h"
-#import <OddityOcUI/OddityOcUI-umbrella.h>
+#import <OddityOcUI/MainNavigationController.h>
+#import <OddityOcUI/LPHomeViewController.h>
 
 @interface AppDelegate ()
 

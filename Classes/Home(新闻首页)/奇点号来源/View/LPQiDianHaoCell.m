@@ -18,7 +18,6 @@
 @property (nonatomic, strong) UIImageView *concernImageView;
 @property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UILabel *concernCountLabel;
-@property (nonatomic, strong) UIButton *concernButton;
 @property (nonatomic, strong) UIView *seperatorView;
 @property (nonatomic, copy) NSString *concernState;
 
@@ -48,18 +47,6 @@
         [self.contentView addSubview:concernCountLabel];
         self.concernCountLabel = concernCountLabel;
         
-        UIButton *concernButton = [[UIButton alloc] init];
-        concernButton.layer.borderColor = [UIColor colorFromHexString:@"#e71f19"].CGColor;
-        concernButton.layer.borderWidth = 1.0f;
-        concernButton.clipsToBounds = YES;
-        concernButton.layer.cornerRadius = 5.0;
-        [concernButton setTitle:@"关注" forState:UIControlStateNormal];
-        [concernButton setTitleColor:[UIColor colorFromHexString:@"#e71f19"] forState:UIControlStateNormal];
-        concernButton.titleLabel.font = [UIFont systemFontOfSize:LPFont4];
-        [self.contentView addSubview:concernButton];
-        [concernButton addTarget:self action:@selector(concernButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
-        self.concernButton = concernButton;
-        
         UIView *seperatorView = [[UIView alloc] init];
         seperatorView.backgroundColor = [UIColor colorFromHexString:LPColor5];
         [self.contentView addSubview:seperatorView];
@@ -76,24 +63,7 @@
     self.concernState = [NSString stringWithFormat:@"%ld", qiDianHao.concernFlag];
     
     
-    // 待调整
-   if (![AccountTool account]) {
-       [self.concernButton setTitle:@"关注" forState:UIControlStateNormal];
-       [self.concernButton setTitleColor:[UIColor colorFromHexString:@"#e71f19"] forState:UIControlStateNormal];
-       self.concernButton.layer.borderColor = [UIColor colorFromHexString:@"#e71f19"].CGColor;
-   } else {
-       if (qiDianHao.concernFlag == 0) {
-           [self.concernButton setTitle:@"关注" forState:UIControlStateNormal];
-           [self.concernButton setTitleColor:[UIColor colorFromHexString:@"#e71f19"] forState:UIControlStateNormal];
-           self.concernButton.layer.borderColor = [UIColor colorFromHexString:@"#e71f19"].CGColor;
-       } else {
-           [self.concernButton setTitle:@"取消" forState:UIControlStateNormal];
-           [self.concernButton setTitleColor:[UIColor colorFromHexString:LPColor4] forState:UIControlStateNormal];
-           self.concernButton.layer.borderColor = [UIColor colorFromHexString:LPColor4].CGColor;
-       }
-   }
-    
-    
+ 
 
     self.concernImageView.frame = qiDianHaoFrame.concernImageViewF;
     
@@ -119,8 +89,7 @@
     NSString *concernCount = [NSString stringWithFormat:@"%@人关注",concernStr] ;
     self.concernCountLabel.text = concernCount;
     
-    self.concernButton.frame = qiDianHaoFrame.concernButtonF;
-    self.concernButton.centerY = self.concernImageView.centerY;
+
     
     self.seperatorView.frame = qiDianHaoFrame.seperatorLineF;
     

@@ -63,8 +63,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
 @property (nonatomic, strong) NSIndexPath *indexPath;
 // ViewController中页面是否消失
 @property (nonatomic, assign) BOOL viewDisappear;
-// 是否缩小视频在底部
-@property (nonatomic, assign) BOOL isBottomVideo;
+
 // 是否正在拖拽
 @property (nonatomic, assign) BOOL  isDragged;
 
@@ -274,12 +273,10 @@ typedef NS_ENUM(NSInteger, PanDirection){
 }
 
 - (void)setTableView:(UITableView *)tableView {
-    if (_tableView == tableView) { return; }
-    if (_tableView) {
-        [_tableView removeObserver:self forKeyPath:kLPPlayerViewContentOffset];
+    if (_tableView == tableView) {
+        return;
     }
     _tableView = tableView;
-    if (tableView) { [tableView addObserver:self forKeyPath:kLPPlayerViewContentOffset options:NSKeyValueObservingOptionNew context:nil]; }
 }
 
 - (void)setPlayerLayerGravity:(LPPlayerLayerGravity)playerLayerGravity {
@@ -378,7 +375,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
     }
     
     [self play];
-    [self loadMediaOptions];
+   // [self loadMediaOptions];
 }
 
 // 添加字幕
@@ -490,8 +487,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
     self.controlView   = nil;
     // 非重播时，移除当前playerView
     if (!self.repeatToPlay) { [self removeFromSuperview]; }
-    // 底部播放video改为NO
-    self.isBottomVideo = NO;
+
     // cell上播放视频 && 不是重播时
     if (self.isCellVideo && !self.repeatToPlay) {
         // vicontroller中页面消失
@@ -678,14 +674,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
             
         }
           });
-    } else if (object == self.tableView) {
-        if ([keyPath isEqualToString:kLPPlayerViewContentOffset]) {
-            if (self.isFullScreen) { return; }
-            // 当tableview滚动时处理playerView的位置
-            [self handleScrollOffsetWithDict:change];
-        }
     }
-                          
 }
 
 #pragma mark - 缓冲较差时候
@@ -735,7 +724,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
         return;
     }
     if (gesture.state == UIGestureRecognizerStateRecognized) {
-        if (self.isBottomVideo && !self.isFullScreen) {
+        if (!self.isFullScreen) {
                 [self fullScreenAction];
             } else {
             if (self.playDidEnd) {
@@ -845,46 +834,16 @@ typedef NS_ENUM(NSInteger, PanDirection){
     } else {
         if (self.stopPlayWhileCellNotVisable) {
             [self resetPlayer];
-        } else {
-            // 在底部
-            [self updatePlayerViewToBottom];
         }
     }
 }
 
 //  回到cell显示
 - (void)updatePlayerViewToCell {
-    if (!self.isBottomVideo) { return; }
-    self.isBottomVideo = NO;
     [self setOrientationPortraitConstraint];
     [self.controlView lp_playerCellPlay];
 }
 
-//  缩小到底部，显示小视频
-- (void)updatePlayerViewToBottom {
-    if (self.isBottomVideo) { return; }
-    self.isBottomVideo = YES;
-    if (self.playDidEnd) { // 如果播放完了，滑动到小屏bottom位置时，直接resetPlayer
-        self.repeatToPlay = NO;
-        self.playDidEnd   = NO;
-        [self resetPlayer];
-        return;
-    }
-    [self layoutIfNeeded];
-    [[UIApplication sharedApplication].keyWindow addSubview:self];
-    [self mas_remakeConstraints:^(MASConstraintMaker *make) {
-        CGFloat width = ScreenWidth * 0.5 - 20;
-        CGFloat height = (self.bounds.size.height / self.bounds.size.width);
-        make.width.mas_equalTo(width);
-        make.height.equalTo(self.mas_width).multipliedBy(height);
-        make.trailing.mas_equalTo(-10);
-        make.bottom.mas_equalTo(-self.tableView.contentInset.bottom + 34);
-        
-        
-    }];
-    // 小屏播放
-    [self.controlView lp_playerBottomShrinkPlay];
-}
 
 // 屏幕方向
 - (void)interfaceOrientation:(UIInterfaceOrientation)orientation {
@@ -904,21 +863,10 @@ typedef NS_ENUM(NSInteger, PanDirection){
 }
 
 // 设置竖屏的约束
-- (void)setOrientationPortraitConstraint
-{
-    if (self.isCellVideo) {
-        UITableViewCell * cell = [self.tableView cellForRowAtIndexPath:self.indexPath];
-        NSArray *visableCells = self.tableView.visibleCells;
-        self.isBottomVideo = NO;
-        if (![visableCells containsObject:cell]) {
-            [self updatePlayerViewToBottom];
-        } else {
-            [self addPlayerToParentView:self.playerModel.parentView];
-        }
-    } else {
-        [self addPlayerToParentView:self.playerModel.parentView];
-    }
+- (void)setOrientationPortraitConstraint {
+
     
+    [self addPlayerToParentView:self.playerModel.parentView];
     [self toOrientation:UIInterfaceOrientationPortrait];
     self.isFullScreen = NO;
 }
@@ -1024,7 +972,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
 #pragma mark - 通知
 - (void)moviePlayDidEnd:(NSNotification *)notification {
     self.state = LPPlayerStateStopped;
-    if (self.isBottomVideo && !self.isFullScreen) { // 播放完了，如果是在小屏模式 && 在bottom位置，直接关闭播放器
+    if (!self.isFullScreen) { // 播放完了，如果是在小屏模式 && 在bottom位置，直接关闭播放器
         self.repeatToPlay = NO;
         self.playDidEnd   = NO;
         [self resetPlayer];
@@ -1246,7 +1194,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
         }
     }
     if ([gestureRecognizer isKindOfClass:[UITapGestureRecognizer class]]) {
-        if (self.isBottomVideo && !self.isFullScreen) {
+        if (!self.isFullScreen) {
             return NO;
         }
     }
