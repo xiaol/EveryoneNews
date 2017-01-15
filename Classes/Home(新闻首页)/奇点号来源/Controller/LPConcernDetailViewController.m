@@ -153,12 +153,12 @@ const static CGFloat changeFontSizeViewH = 150;
     CGFloat shareButtonY =  (topViewHeight - shareButtonH + StatusBarHeight) / 2.0f;
     
     UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0 , 0, ScreenWidth, topViewHeight)];
-    topView.backgroundColor = [UIColor colorFromHexString:LPColor9];
+    topView.backgroundColor = [UIColor colorFromHexString:LPColor29];
     [self.view addSubview:topView];
     
     // 返回button
     UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(padding, returnButtonPaddingTop, returnButtonWidth, returnButtonHeight)];
-    [backBtn setBackgroundImage:[UIImage oddityImage:@"详情页返回"] forState:UIControlStateNormal];
+    [backBtn setBackgroundImage:[UIImage oddityImage:@"video_back"] forState:UIControlStateNormal];
     backBtn.enlargedEdge = 15;
     [backBtn addTarget:self action:@selector(topViewBackBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [topView addSubview:backBtn];

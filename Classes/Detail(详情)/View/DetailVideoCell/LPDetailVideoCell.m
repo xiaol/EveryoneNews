@@ -113,7 +113,7 @@
     
     self.thumbnailImageView.frame = detailVideoFrame.thumbnailImageViewF;
     
-    [self.thumbnailImageView sd_setImageWithURL:[NSURL URLWithString:videoModel.thumbnail] placeholderImage:[UIImage sharePlaceholderImage:[UIColor lightGrayColor] sizes:CGSizeMake(100, 100)]];
+    [self.thumbnailImageView sd_setImageWithURL:[NSURL URLWithString:videoModel.thumbnail] placeholderImage:[UIImage sharePlaceholderImage:[UIColor colorFromHexString:@"#000000" alpha:0.2f] sizes:CGSizeMake(100, 100)]];
     
     self.seperatorView.frame = detailVideoFrame.seperatorViewF;
     self.durationLabel.centerY = self.playImageView.centerY;

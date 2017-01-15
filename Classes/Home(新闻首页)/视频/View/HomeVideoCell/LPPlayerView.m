@@ -36,6 +36,8 @@ typedef NS_ENUM(NSInteger, PanDirection){
 @property (nonatomic, strong) NSURL *videoURL;
 @property (nonatomic, strong) AVAssetImageGenerator  *imageGenerator;
 
+// 是否缩小视频在底部
+@property (nonatomic, assign) BOOL isBottomVideo;
 
 // 是否为全屏
 @property (nonatomic, assign) BOOL isFullScreen;
@@ -149,14 +151,14 @@ typedef NS_ENUM(NSInteger, PanDirection){
 // 单击和双击
 - (void)createGesture {
     // 单击
-    self.singleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(singleTapAction:)];
+    self.singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapAction:)];
     self.singleTap.delegate                = self;
     self.singleTap.numberOfTouchesRequired = 1; //手指数
     self.singleTap.numberOfTapsRequired    = 1;
     [self addGestureRecognizer:self.singleTap];
     
     // 双击(播放/暂停)
-    self.doubleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(doubleTapAction:)];
+    self.doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(doubleTapAction:)];
     self.doubleTap.delegate                = self;
     self.doubleTap.numberOfTouchesRequired = 1; //手指数
     self.doubleTap.numberOfTapsRequired    = 2;
@@ -195,7 +197,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
 - (void)layoutSubviews {
     [super layoutSubviews];
     [self layoutIfNeeded];
-    self.playerLayer.frame = self.bounds;
+    self.playerLayer.frame = self.bounds;    
 }
 
 #pragma mark - 单例模式
@@ -276,7 +278,13 @@ typedef NS_ENUM(NSInteger, PanDirection){
     if (_tableView == tableView) {
         return;
     }
+    if (_tableView) {
+        [_tableView removeObserver:self forKeyPath:kLPPlayerViewContentOffset];
+    }
     _tableView = tableView;
+    if (tableView) {
+        [tableView addObserver:self forKeyPath:kLPPlayerViewContentOffset options:NSKeyValueObservingOptionNew context:nil];
+    }
 }
 
 - (void)setPlayerLayerGravity:(LPPlayerLayerGravity)playerLayerGravity {
@@ -293,6 +301,52 @@ typedef NS_ENUM(NSInteger, PanDirection){
             break;
         default:
             break;
+    }
+}
+
+#pragma mark - tableViewContentOffset
+
+//  KVO TableViewContentOffset
+- (void)handleScrollOffsetWithDict:(NSDictionary*)dict {
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:self.indexPath];
+    NSArray *visableCells = self.tableView.visibleCells;
+    if ([visableCells containsObject:cell]) {
+        // 在显示中
+        [self updatePlayerViewToCell];
+    } else {
+        if (self.stopPlayWhileCellNotVisable) {
+            [self resetPlayer];
+        } else {
+            // 在底部
+            [self updatePlayerViewToBottom];
+        }
+    }
+}
+
+//  回到cell显示
+- (void)updatePlayerViewToCell {
+    if (!self.isBottomVideo) { return; }
+    self.isBottomVideo = NO;
+    [self setOrientationPortraitConstraint];
+    [self.controlView lp_playerCellPlay];
+    [self play];
+    self.hidden = NO;
+}
+
+
+//  缩小到底部，显示小视频
+- (void)updatePlayerViewToBottom {
+    if (self.isBottomVideo) {
+        return;
+    }
+    self.isBottomVideo = YES;
+    [self pause];
+    self.hidden = YES;
+    if (self.playDidEnd) { // 如果播放完了，滑动到小屏bottom位置时，直接resetPlayer
+        self.repeatToPlay = NO;
+        self.playDidEnd   = NO;
+        [self resetPlayer];
+        return;
     }
 }
 
@@ -461,6 +515,8 @@ typedef NS_ENUM(NSInteger, PanDirection){
 }
 
 - (void)resetPlayer {
+    self.hidden = NO;
+    
     // 改为为播放完
     self.playDidEnd = NO;
     self.playerItem  = nil;
@@ -672,8 +728,14 @@ typedef NS_ENUM(NSInteger, PanDirection){
                 self.state = LPPlayerStatePlaying;
             }
             
+          }
+        });
+    } else if (object == self.tableView) {
+        if ([keyPath isEqualToString:kLPPlayerViewContentOffset]) {
+            if (self.isFullScreen) { return; }
+            // 当tableview滚动时处理playerView的位置
+            [self handleScrollOffsetWithDict:change];
         }
-          });
     }
 }
 
@@ -821,29 +883,6 @@ typedef NS_ENUM(NSInteger, PanDirection){
         }
     }
 }
-
-#pragma mark - tableViewContentOffset
-
-//  KVO TableViewContentOffset
-- (void)handleScrollOffsetWithDict:(NSDictionary*)dict {
-    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:self.indexPath];
-    NSArray *visableCells = self.tableView.visibleCells;
-    if ([visableCells containsObject:cell]) {
-        // 在显示中
-        [self updatePlayerViewToCell];
-    } else {
-        if (self.stopPlayWhileCellNotVisable) {
-            [self resetPlayer];
-        }
-    }
-}
-
-//  回到cell显示
-- (void)updatePlayerViewToCell {
-    [self setOrientationPortraitConstraint];
-    [self.controlView lp_playerCellPlay];
-}
-
 
 // 屏幕方向
 - (void)interfaceOrientation:(UIInterfaceOrientation)orientation {
@@ -1122,12 +1161,12 @@ typedef NS_ENUM(NSInteger, PanDirection){
                 AVAssetImageGeneratorCompletionHandler handler = ^(CMTime requestedTime, CGImageRef im, CMTime actualTime, AVAssetImageGeneratorResult result, NSError *error) {
                     if (result != AVAssetImageGeneratorSucceeded) {
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            [controlView lp_playerDraggedTime:dragedSeconds sliderImage:self.thumbImg ? : [UIImage sharePlaceholderImage:[UIColor lightGrayColor] sizes:CGSizeMake(80, 80)]];
+                            [controlView lp_playerDraggedTime:dragedSeconds sliderImage:self.thumbImg ? : [UIImage sharePlaceholderImage:[UIColor colorFromHexString:@"#f8f8f8"] sizes:CGSizeMake(80, 80)]];
                         });
                     } else {
                         self.thumbImg = [UIImage imageWithCGImage:im];
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            [controlView lp_playerDraggedTime:dragedSeconds sliderImage:self.thumbImg ? : [UIImage sharePlaceholderImage:[UIColor lightGrayColor] sizes:CGSizeMake(80, 80)]];
+                            [controlView lp_playerDraggedTime:dragedSeconds sliderImage:self.thumbImg ? : [UIImage sharePlaceholderImage:[UIColor colorFromHexString:@"#f8f8f8"] sizes:CGSizeMake(80, 80)]];
                         });
                     }
                 };

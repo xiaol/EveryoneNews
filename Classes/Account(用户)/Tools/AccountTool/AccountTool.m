@@ -9,9 +9,9 @@
 #import "AccountTool.h"
 #import "MBProgressHUD.h"
 #import "Account.h"
-#import "MJExtension.h"
 #import "LPHttpTool.h"
 #import "UIImage+LP.h"
+#import <MJExtension/MJExtension.h>
 #import "NSDate+Extension.h"
 #import "MainNavigationController.h"
 #import "MainNavigationController.h"
@@ -19,7 +19,6 @@
 #import "MBProgressHUD+MJ.h"
 #import "LPRegisterViewController.h"
 #import "LPRetrievePasswordViewController.h"
-#import "MJExtension.h"
 #import "LPBaseViewController.h"
 #import "LPValidateTool.h"
 

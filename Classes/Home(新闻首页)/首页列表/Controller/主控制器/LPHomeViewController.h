@@ -90,4 +90,6 @@
 
 @property (nonatomic, strong) LPPlayerView *playerView;
 
+- (void)switchChannel;
+
 @end

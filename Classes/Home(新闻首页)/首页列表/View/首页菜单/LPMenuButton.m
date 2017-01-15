@@ -23,12 +23,12 @@
         if (iPhone6 || iPhone6Plus) {
             menuFontSize = 18;
         }
-        self.textColor = [UIColor colorFromHexString:LPColor20];
+        self.textColor = [UIColor colorFromHexString:LPColor30];
         self.textAlignment = NSTextAlignmentCenter;
-        self.highlightedTextColor = [UIColor colorFromHexString:LPColor15];
-        self.font = [UIFont systemFontOfSize:menuFontSize];
-        self.menuNormalColor = [UIColor colorFromHexString:LPColor20];
-        self.menuSelectedColor = [UIColor colorFromHexString:LPColor15];
+        self.highlightedTextColor = [UIColor colorFromHexString:LPColor30];
+        self.font = [UIFont systemFontOfSize:menuFontSize];        
+        self.menuNormalColor = [UIColor colorFromHexString:LPColor30];
+        self.menuSelectedColor = [UIColor colorFromHexString:LPColor30];
         self.rate = 1.15;
         
    

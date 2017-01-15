@@ -74,19 +74,19 @@ static NSString *cellIdentifier = @"cellIdentifier";
     }
     double returnButtonPaddingTop = (topViewHeight - returnButtonHeight + StatusBarHeight) / 2;
     UIView *topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, topViewHeight)];
-    topView.backgroundColor = [UIColor colorFromHexString:@"#ffffff" alpha:0.0f];
+    topView.backgroundColor = [UIColor colorFromHexString:LPColor29];
     [self.view addSubview:topView];
     
     // 返回button
     UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(padding, returnButtonPaddingTop, returnButtonWidth, returnButtonHeight)];
-    [backButton setBackgroundImage:[UIImage oddityImage:@"消息中心返回"] forState:UIControlStateNormal];
+    [backButton setBackgroundImage:[UIImage oddityImage:@"video_back"] forState:UIControlStateNormal];
     backButton.enlargedEdge = 15;
     [backButton addTarget:self action:@selector(topViewBackBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [topView addSubview:backButton];
     
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 200, 40)];
     titleLabel.text = @"奇点号";
-    titleLabel.textColor = [UIColor colorFromHexString:LPColor7];
+    titleLabel.textColor = [UIColor colorFromHexString:LPColor30];
     titleLabel.font = [UIFont  boldSystemFontOfSize:LPFont8];
     titleLabel.textAlignment = NSTextAlignmentCenter;
     titleLabel.centerX = topView.centerX;

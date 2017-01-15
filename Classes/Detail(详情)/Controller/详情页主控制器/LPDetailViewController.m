@@ -920,69 +920,12 @@ const static CGFloat changeFontSizeViewH = 150;
  
     UIPageControl *pageControl = [[UIPageControl alloc] init];
     pageControl.numberOfPages = 2;
+    pageControl.alpha = 0;
     [self.view addSubview:pageControl];
     
     self.pageControl= pageControl;
     
-    // 弹出发表评论对话框
-    UIView *composeCommentBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
-    composeCommentBackgroundView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.4];
-    composeCommentBackgroundView.hidden = YES;
-    composeCommentBackgroundView.alpha = 1.0f;
-    composeCommentBackgroundView.userInteractionEnabled = YES;
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(composeCommentBackgroundViewTap)];
-    [composeCommentBackgroundView addGestureRecognizer:tapGesture];
-    
-    [self.view addSubview:composeCommentBackgroundView];
-    self.composeCommentBackgroundView = composeCommentBackgroundView;
- 
-    // 发表评论输入框
-    CGFloat textViewX = 15;
-    CGFloat textViewY = 18;
-    CGFloat textViewW = ScreenWidth - textViewX * 2;
-    CGFloat textViewH = 59;
-    
-    UITextView *textView = [[UITextView alloc] initWithFrame:CGRectMake(textViewX, textViewY,textViewW, textViewH)];
-    textView.layer.cornerRadius = 4.0f;
-    textView.scrollsToTop = NO;
-    textView.textColor = [UIColor colorFromHexString:LPColor3];
-    textView.font = [UIFont systemFontOfSize:LPFont4];
-    textView.delegate = self;
-    textView.backgroundColor = [UIColor colorFromHexString:@"#fafafa"];
-    self.textView = textView;
-    
-    CGFloat composeButtonW = 59;
-    CGFloat composeButtonH = 29;
-    CGFloat composeButtonX = ScreenWidth - composeButtonW - textViewX;
-    CGFloat composeButtonY = CGRectGetMaxY(textView.frame) + 17;
-    
-    UIButton *composeButton = [[UIButton alloc] initWithFrame:CGRectMake(composeButtonX, composeButtonY, composeButtonW, composeButtonH)];
-    composeButton.titleLabel.font = [UIFont systemFontOfSize:17];
-    composeButton.layer.cornerRadius = 4.0;
-    composeButton.layer.borderColor = [UIColor colorFromHexString:LPColor4].CGColor;
-    composeButton.backgroundColor = [UIColor colorFromHexString:@"#eaeaea"];
-    composeButton.layer.borderWidth = 1;
-    [composeButton setTitle:@"发表" forState:UIControlStateNormal];
-    [composeButton setTitleColor:[UIColor colorFromHexString:LPColor4] forState:UIControlStateNormal];
-
-    [composeButton addTarget:self action:@selector(composeButtonClick) forControlEvents:UIControlEventTouchUpInside];
-    composeButton.enabled = NO;
-    self.composeButton = composeButton;
-    
-    CGFloat composeButtonPaddingBottom = 14;
-
-    CGFloat textViewBgH = composeButtonPaddingBottom + composeButtonH + 17 + textViewH + textViewY;
-    CGFloat textViewBgY = ScreenHeight;
-    CGFloat textViewBgW = ScreenWidth;
-    UIView *textViewBg = [[UIView alloc] initWithFrame:CGRectMake(0, textViewBgY, textViewBgW, textViewBgH)];
-    textViewBg.backgroundColor = [UIColor colorFromHexString:@"eaeaea"];
-    
-    
-    [textViewBg addSubview:textView];
-    
-    [textViewBg addSubview:composeButton];
-    [self.view addSubview:textViewBg];
-    self.textViewBg = textViewBg;
+   
     
     // 详情页重新加载
     [self setupReloadPage];

@@ -69,6 +69,7 @@ NSString * const reuseVideoPageID = @"reuseVideoPageID";
         
     } else {
         page = (LPPagingViewPage *)[pagingView dequeueReusablePageWithIdentifier:reusePageID];
+        
     }
     page.cardFrames = self.channelItemDictionary[channelItem.channelName];
     if (cardFramesArray.count == 0) {
@@ -77,7 +78,7 @@ NSString * const reuseVideoPageID = @"reuseVideoPageID";
     page.pageChannelName = channelItem.channelName;
     page.cellIdentifier = self.cardCellIdentifierDictionary[@(pageIndex)];
     page.delegate = self;
-  
+    
     CGPoint offsetZero = CGPointZero;
     if (!CGPointEqualToPoint(channelItem.offset , offsetZero)) {
          page.offset = channelItem.offset;
@@ -90,7 +91,15 @@ NSString * const reuseVideoPageID = @"reuseVideoPageID";
 
 #pragma mark - LPPagingView Delegate
 - (void)pagingView:(LPPagingView *)pagingView didScrollWithRatio:(CGFloat)ratio {
+ 
+    
         int index = floor(ratio);
+    
+        if (ratio == index) {
+            [self switchChannel];
+        }
+    
+    
         CGFloat rate = ratio - index;
         NSIndexPath *currentIndexPath = [NSIndexPath indexPathForItem:index
                                                             inSection:0];
@@ -112,10 +121,12 @@ NSString * const reuseVideoPageID = @"reuseVideoPageID";
         CGFloat menuBackgroundViewY = self.menuBackgroundView.frame.origin.y;
         CGFloat menuBackgroundViewH = self.menuBackgroundView.frame.size.height;
         self.menuBackgroundView.frame = CGRectMake(menuBackgroundViewX, menuBackgroundViewY,  self.menuBackgroundView.frame.size.width, menuBackgroundViewH);
+
 }
 
 - (void)pagingView:(LPPagingView *)pagingView didScrollToPageIndex:(NSInteger)pageIndex {
 
+   
     // 获取频道相关信息
     LPChannelItem *channelItem = self.selectedArray[pageIndex];
     
@@ -494,6 +505,17 @@ NSString * const reuseVideoPageID = @"reuseVideoPageID";
 - (void)videoPage:(LPPagingViewVideoPage *)videoPage pushViewController:(LPVideoDetailViewController *)videoDetailController {
     [self.navigationController pushViewController:videoDetailController animated:NO];
 }
+
+
+- (void)videoPage:(LPPagingViewVideoPage *)videoPage card:(Card *)card {
+    LPAdsDetailViewController *adsViewController = [[LPAdsDetailViewController alloc] init];
+    adsViewController.publishURL = card.sourceSiteURL;
+    [self.navigationController pushViewController:adsViewController animated:NO];
+    
+}
+
+
+
 
 
 

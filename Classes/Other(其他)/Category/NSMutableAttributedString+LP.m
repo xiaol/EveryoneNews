@@ -46,14 +46,7 @@
     NSRange entireString = NSMakeRange(0, [attributedString length]);
     DTCoreTextLayoutFrame *layoutFrame = [layouter layoutFrameWithRect:maxRect range:entireString];
     CGSize sizeNeeded = [layoutFrame frame].size;
-    
-    if (layoutFrame.lines.count == 1) {
-        return sizeNeeded.height + 5;
-    } else {
-        return sizeNeeded.height+layoutFrame.lines.count*2;
-    }
-    
-    
+    return sizeNeeded.height;
    
 }
 

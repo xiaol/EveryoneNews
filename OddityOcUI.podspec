@@ -21,6 +21,9 @@ Pod::Spec.new do |s|
   s.dependency 'SDWebImage', '~>3.7'
   s.dependency 'MBProgressHUD', '~> 1.0.0'
   s.dependency 'DTRichTextEditor'
+  s.dependency 'MJRefresh'
+  s.dependency 'TTTAttributedLabel'
+  s.dependency 'MJExtension'
 
   s.xcconfig = { 'HEADER_SEARCH_PATHS' => '$(SDKROOT)/usr/include/libxml2' }
 

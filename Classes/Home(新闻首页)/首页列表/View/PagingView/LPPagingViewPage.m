@@ -413,6 +413,9 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
    
+    if ([self.delegate respondsToSelector:@selector(homeListDidScroll)]) {
+        [(id<LPPagingViewPageDelegate>)self.delegate homeListDidScroll];
+    }
     UITableView *tableView = (UITableView *)scrollView;
     for (LPHomeViewCell *cell in tableView.visibleCells) {
         Card *card = cell.cardFrame.card;
@@ -424,7 +427,9 @@
             }
         }
     }
+   
 }
+
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -442,6 +447,9 @@
         rowManager.currentRowIndex = indexPath.row;
     }
     
+    if ([self.delegate respondsToSelector:@selector(pushDetailViewController)]) {
+        [(id<LPPagingViewPageDelegate>)self.delegate pushDetailViewController];
+    }
 }
 
 #pragma mark - 删除某行数据

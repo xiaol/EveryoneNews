@@ -20,7 +20,6 @@
 @property (nonatomic, copy) NSString *videoURL;
 // 播放时长
 @property (nonatomic, assign) NSInteger duration;
-
 @property (nonatomic, copy) NSString *nid;
 
 - (NSMutableAttributedString *)titleString;

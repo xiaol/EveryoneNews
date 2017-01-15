@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
 #import "LPPagingViewBasePage.h"
+#import "LPNewsSDKDelegate.h"
 
 /**
  *  自定义 page
@@ -28,10 +29,17 @@
 - (void)page:(LPPagingViewPage *)page didTapListViewWithSourceName:(NSString *)sourceName sourceImage:(NSString *)sourceImage;
 - (void)didClickReloadPage:(LPPagingViewPage *)page;
 
+//// 列表页下滑操作
+//- (void)homeListDidScroll;
+
 @end
+
+//typedef void(^homeListDidScrollHandler)();
+
 
 @interface LPPagingViewPage : LPPagingViewBasePage
 
+//@property (nonatomic, weak) id<LPNewsSDKDelegate> newsSDKDelegate;
 @property (nonatomic, strong) UIView *reloadPage;
 // 正在加载视图
 @property (nonatomic, strong) LPLoadingView *loadingView;
@@ -42,6 +50,12 @@
 - (void)tapStatusBarScrollToTop;
 - (void)deleteRowAtIndexPath:(CardFrame *)cardFrame;
 - (void)updateCardFramesWithCardFrame:(CardFrame *)cardFrame;
+
+//- (void)homeListDidScroll;
+//@property (nonatomic, copy) homeListDidScrollHandler didScrollHandler;
+//
+//- (void)setupHomeListDidScroll:(homeListDidScrollHandler)didScrollHandler;
+//
 
 /**
  *  复用前的准备工作(复写该方法)

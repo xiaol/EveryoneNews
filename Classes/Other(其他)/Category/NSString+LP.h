@@ -30,6 +30,8 @@
 
 - (BOOL)isMoreThanOneLineConstraintToWidth:(CGFloat)width withFont:(UIFont *)font;
 
+- (NSMutableAttributedString *)adsAttributedStringWithFont:(UIFont *)font lineSpacing:(CGFloat)lineSpacing;
+
 // 判断是否为空
 - (BOOL)isBlank;
 

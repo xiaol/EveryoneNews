@@ -23,6 +23,7 @@
 #import "LPPlayerControlView.h"
 #import "LPPlayerModel.h"
 #import "LPVideoDetailViewController.h"
+#import "LPAdsDetailViewController.h"
 
 
 static NSString *cellIdentifier = @"cellIdentifier";
@@ -254,53 +255,83 @@ static NSString *cellIdentifier = @"cellIdentifier";
         playerModel.tableView = weakSelf.tableView;
         playerModel.indexPath  = weakIndexPath;
         playerModel.parentView = weakCell.coverImageView;
-    
+        
         [weakSelf.playerView playerControlView:weakSelf.controlView playerModel:playerModel];
         [weakSelf.playerView resetToPlayNewVideo:playerModel];
         
         
     };
-    cell.coverImageBlock = ^(UIImageView *imageView) {
-        LPPlayerModel *playerModel = [[LPPlayerModel alloc] init];
-        playerModel.title = card.title;
-        playerModel.videoURL = [NSURL URLWithString:card.videoUrl];
-        playerModel.placeHolderImageURLString = card.thumbnail;
-        playerModel.tableView = weakSelf.tableView;
-        playerModel.indexPath  = weakIndexPath;
-        playerModel.parentView = weakCell.coverImageView;
-        [weakSelf.playerView playerControlView:weakSelf.controlView playerModel:playerModel];
-        [weakSelf.playerView resetToPlayNewVideo:playerModel];
-    };
+    if ([card.rtype integerValue] != adNewsType) {
+        
+        cell.coverImageBlock = ^(UIImageView *imageView) {
+            LPPlayerModel *playerModel = [[LPPlayerModel alloc] init];
+            playerModel.title = card.title;
+            playerModel.videoURL = [NSURL URLWithString:card.videoUrl];
+            playerModel.placeHolderImageURLString = card.thumbnail;
+            playerModel.tableView = weakSelf.tableView;
+            playerModel.indexPath  = weakIndexPath;
+            playerModel.parentView = weakCell.coverImageView;
+            [weakSelf.playerView playerControlView:weakSelf.controlView playerModel:playerModel];
+            [weakSelf.playerView resetToPlayNewVideo:playerModel];
+        };
+    }
     
     return cell;
     
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    
+    if ([self.delegate respondsToSelector:@selector(homeListDidScroll)]) {
+        [(id<LPPagingViewVideoPageDelegate>)self.delegate homeListDidScroll];
+    }
+    
+}
+
 #pragma mark - UITableView Delegate
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     LPHomeVideoFrame *videoFrame = self.cardFrames[indexPath.row];
     return videoFrame.cellHeight;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     LPHomeVideoCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    LPVideoDetailViewController *videoDetailController = [[LPVideoDetailViewController alloc] init];
+
     LPHomeVideoFrame *videoFrame = self.cardFrames[indexPath.row];
     Card *card = videoFrame.card;
-    videoDetailController.card = card;
-    // 当前正在播放
-    if (self.playerView.state == LPPlayerStatePlaying) {
-        [self.playerView pause];
-        videoDetailController.playerView = self.playerView;
-        videoDetailController.isPlaying = YES;
-        videoDetailController.coverImageView = cell.coverImageView;
+    if ([card.rtype integerValue] == adNewsType) {
+        if ([self.delegate respondsToSelector:@selector(videoPage:card:)]) {
+            [(id<LPPagingViewVideoPageDelegate>)self.delegate videoPage:self card:card];
+        }
+    } else {
+        LPVideoDetailViewController *videoDetailController = [[LPVideoDetailViewController alloc] init];
+        videoDetailController.card = card;
+        // 当前正在播放
+        if (self.playerView.state == LPPlayerStatePlaying) {
+            [self.playerView pause];
+            videoDetailController.playerView = self.playerView;
+            videoDetailController.isPlaying = YES;
+            videoDetailController.coverImageView = cell.coverImageView;
+        }
+        
+        videoDetailController.videoDetailControllerBlock = ^() {
+            [self.playerView play];
+        };
+        if ([self.delegate respondsToSelector:@selector(videoPage:pushViewController:)]) {
+            [(id<LPPagingViewVideoPageDelegate>)self.delegate videoPage:self pushViewController:videoDetailController];
+        }
     }
     
-    videoDetailController.videoDetailControllerBlock = ^() {
-        [self.playerView play];
-    };
-    if ([self.delegate respondsToSelector:@selector(videoPage:pushViewController:)]) {
-        [(id<LPPagingViewVideoPageDelegate>)self.delegate videoPage:self pushViewController:videoDetailController];
-    }    
+    if ([self.delegate respondsToSelector:@selector(pushDetailViewController)]) {
+        [(id<LPPagingViewVideoPageDelegate>)self.delegate pushDetailViewController];
+    }
+    
+}
+
+- (void)cell:(LPHomeVideoCell *)cell didTapImageViewWithCard:(Card *)card {
+    if ([self.delegate respondsToSelector:@selector(videoPage:card:)]) {
+        [(id<LPPagingViewVideoPageDelegate>)self.delegate videoPage:self card:card];
+    }
 }
 
 

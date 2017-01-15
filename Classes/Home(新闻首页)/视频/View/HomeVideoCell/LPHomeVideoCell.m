@@ -9,6 +9,7 @@
 #import "LPHomeVideoCell.h"
 #import "LPHomeVideoFrame.h"
 #import "Card.h"
+#import "CardImage.h"
 
 
 @interface LPHomeVideoCell()
@@ -21,6 +22,7 @@
 @property (nonatomic, strong) UIView *bottomView;
 @property (nonatomic, strong) UIView *seperatorView;
 @property (nonatomic, strong) UIButton *playButton;
+@property (nonatomic, strong) Card *card;
 
 @end
 
@@ -42,6 +44,8 @@
         
         // 播放器封面
         UIImageView *coverImageView = [[UIImageView alloc] init];
+        coverImageView.clipsToBounds = YES;
+        coverImageView.contentMode = UIViewContentModeScaleAspectFill;
         coverImageView.userInteractionEnabled = YES;
         // 建议设置成100以上
         coverImageView.tag = 101;
@@ -100,7 +104,13 @@
     
     Card *card = videoFrame.card;
     
+    self.card = card;
+    
     NSString *title = card.title;
+    
+    if ([card.rtype integerValue] == adNewsType) {
+        title = [NSString stringWithFormat:@"广告 %@", title];
+    }
     
     // 评论数量
     NSInteger commentsCount = [card.commentsCount intValue];
@@ -113,14 +123,32 @@
         }
     }
     NSAttributedString *attributeTitle =  [title attributedStringWithFont:[UIFont systemFontOfSize:titleFontSize] lineSpacing:lineSpacing];
+    if ([card.rtype integerValue] == adNewsType) {
+        attributeTitle  = [title adsAttributedStringWithFont:[UIFont systemFontOfSize:titleFontSize] lineSpacing:lineSpacing];
+    }
+    
     self.titleLabel.frame = videoFrame.titleF;
     self.titleLabel.attributedText = attributeTitle;
     
     self.coverImageView.frame = videoFrame.coverImageF;
-    NSURL *coverImageURL = [NSURL URLWithString:card.thumbnail];
-    UIImage *coverPlaceHolder = [UIImage sharePlaceholderImage:[UIColor lightGrayColor] sizes:CGSizeMake(100, 100)];
-    [self.coverImageView sd_setImageWithURL:coverImageURL placeholderImage:coverPlaceHolder];
     
+    // 广告
+    if ([card.rtype integerValue] == adNewsType) {
+        NSString *firstImageURL;
+        if (card.cardImages.count > 0) {
+            firstImageURL = [card.cardImages objectAtIndex:0].imgUrl;
+        }
+        UIImage *coverPlaceHolder = [UIImage sharePlaceholderImage:[UIColor colorFromHexString:@"#f8f8f8"] sizes:CGSizeMake(100, 100)];
+        [self.coverImageView sd_setImageWithURL:[NSURL URLWithString:firstImageURL] placeholderImage:coverPlaceHolder];
+        self.playButton.hidden = YES;
+    } else {
+        NSURL *coverImageURL = [NSURL URLWithString:card.thumbnail];
+        UIImage *coverPlaceHolder = [UIImage sharePlaceholderImage:[UIColor colorFromHexString:@"#f8f8f8"] sizes:CGSizeMake(100, 100)];
+        [self.coverImageView sd_setImageWithURL:coverImageURL placeholderImage:coverPlaceHolder];
+        
+        self.playButton.hidden = NO;
+    }
+
     self.playButton.frame = videoFrame.playButtonF;
     self.bottomView.frame = videoFrame.bottomViewF;
     
@@ -135,6 +163,11 @@
     self.commentImageView.image = [UIImage oddityImage:@"video_comment"];
     
     self.seperatorView.frame = videoFrame.seperatorViewF;
+    
+    
+    
+    
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -152,9 +185,18 @@
 }
 
 - (void)coverImageViewTap:(UIImageView *)sender {
-    if (self.coverImageBlock) {
-        self.coverImageBlock(sender);
+    if ([self.card.rtype integerValue] == adNewsType) {
+        if ([self.delegate respondsToSelector:@selector(cell:didTapImageViewWithCard:)]) {
+            [self.delegate cell:self didTapImageViewWithCard:self.card];
+        }
+        
+    } else {
+        if (self.coverImageBlock) {
+            self.coverImageBlock(sender);
+        }
     }
+    
+  
 }
 
 @end

@@ -138,7 +138,7 @@
     NSString *rtype = dict[@"rtype"];
     if (rtype && [rtype integerValue] == adNewsType) {
         // 广告nid可能重复
-         [fetch setPredicate:[NSPredicate predicateWithFormat:@"nid = %@ and title = %d",dict[@"nid"], dict[@"title"]]];
+         [fetch setPredicate:[NSPredicate predicateWithFormat:@"nid = %@ and channelId = %@ and title = %d",dict[@"nid"], channelID, dict[@"title"]]];
         
     } else {
         if ([channelID isEqualToString:focusChannelID]) {

@@ -717,7 +717,7 @@ static const CGFloat LPPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     if (playerModel.placeHolderImageURLString) {
         NSURL *url = [NSURL URLWithString:playerModel.placeHolderImageURLString];
         
-        [self.placeholderImageView sd_setImageWithURL:url placeholderImage:[UIImage sharePlaceholderImage:[UIColor lightGrayColor] sizes:CGSizeMake(80, 80)]];
+        [self.placeholderImageView sd_setImageWithURL:url placeholderImage:[UIImage sharePlaceholderImage:[UIColor colorFromHexString:@"#f8f8f8"] sizes:CGSizeMake(80, 80)]];
     } else {
         self.placeholderImageView.image = playerModel.placeholderImage;
     }

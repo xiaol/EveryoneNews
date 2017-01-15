@@ -73,6 +73,8 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
     
     // 导航视图
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, statusBarHeight + menuViewHeight)];
+    headerView.backgroundColor = [UIColor colorFromHexString:LPColor29];
+    
     [self.view addSubview:headerView];
     
 
@@ -127,8 +129,8 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
 
     UICollectionViewFlowLayout *menuViewFlowLayout = [[UICollectionViewFlowLayout alloc] init];
     menuViewFlowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    LPMenuView *menuView = [[LPMenuView alloc] initWithFrame:CGRectMake(menuViewX, menuViewY , menuViewW, menuViewH) collectionViewLayout:menuViewFlowLayout];
-    menuView.backgroundColor = [UIColor whiteColor];
+    LPMenuView *menuView = [[LPMenuView alloc] initWithFrame:CGRectMake(menuViewX, menuViewY , menuViewW, menuViewH) collectionViewLayout:menuViewFlowLayout];    
+    menuView.backgroundColor = [UIColor colorFromHexString:LPColor29];
     menuView.showsHorizontalScrollIndicator = NO;
     menuView.scrollsToTop = NO;
     menuView.delegate = self;
@@ -430,7 +432,7 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
     CGRect cellRect = CGRectMake(menuBackgroundViewX, menuBackgroundViewY, menuBackgroundViewW, menuBackgroundViewH);
     UIView *menuBackgroundView = [[UIView alloc] init];
     menuBackgroundView.frame = cellRect;
-    menuBackgroundView.backgroundColor = [UIColor colorFromHexString:LPColor15];
+    menuBackgroundView.backgroundColor = [UIColor colorFromHexString:LPColor30];
 
     [self.menuView addSubview:menuBackgroundView];
     self.menuBackgroundView = menuBackgroundView;

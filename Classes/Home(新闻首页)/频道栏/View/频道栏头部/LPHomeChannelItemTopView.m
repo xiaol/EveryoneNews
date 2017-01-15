@@ -34,11 +34,11 @@
         
         // 定义顶部视图
         self.frame = CGRectMake(0 , 0, ScreenWidth, topViewHeight);
-        self.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
+        self.backgroundColor = [UIColor colorFromHexString:LPColor29];
         
         // 返回button
         UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(padding, returnButtonPaddingTop, returnButtonWidth, returnButtonHeight)];
-        [backBtn setBackgroundImage:[UIImage oddityImage:@"详情页返回"] forState:UIControlStateNormal];
+        [backBtn setBackgroundImage:[UIImage oddityImage:@"video_back"] forState:UIControlStateNormal];
         backBtn.enlargedEdge = 15;
         [backBtn addTarget:self action:@selector(topViewBackBtnClick) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:backBtn];
@@ -54,7 +54,7 @@
         
         UILabel *titelLabel = [[UILabel alloc] initWithFrame:CGRectMake(titleLabelX, titleLabelY, titleLabelW, titleLabelH)];
         titelLabel.text = title;
-        titelLabel.textColor = [UIColor colorFromHexString:LPColor7];
+        titelLabel.textColor = [UIColor colorFromHexString:LPColor30];
         titelLabel.font = [UIFont systemFontOfSize:LPFont8];
         
         [self addSubview:titelLabel];

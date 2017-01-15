@@ -10,10 +10,14 @@
 
 @class LPPagingViewVideoPage;
 @class LPVideoDetailViewController;
+@class Card;
+
 @protocol LPPagingViewVideoPageDelegate<LPPagingViewBasePageDelegate>
 
 @optional
 - (void)videoPage:(LPPagingViewVideoPage *)videoPage pushViewController:(LPVideoDetailViewController *)videoDetailController;
+- (void)videoPage:(LPPagingViewVideoPage *)videoPage card:(Card *)card;
+
 
 
 @end

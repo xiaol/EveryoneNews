@@ -293,10 +293,6 @@
     self.view.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
     [self setupData];
     [self setupSubviews];
- 
-
-//    [noteCenter addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-//    [noteCenter addObserver:self  selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 #pragma mark - subview
@@ -335,7 +331,7 @@
 
                 
                 NSURL *coverImageURL = [NSURL URLWithString:thumbnail];
-                UIImage *coverPlaceHolder = [UIImage sharePlaceholderImage:[UIColor lightGrayColor] sizes:CGSizeMake(100, 100)];
+                UIImage *coverPlaceHolder = [UIImage sharePlaceholderImage:[UIColor colorFromHexString:@"#f8f8f8"] sizes:CGSizeMake(100, 100)];
                 [self.detailVideoImageView sd_setImageWithURL:coverImageURL placeholderImage:coverPlaceHolder];
                 
                 playerModel.parentView =  self.detailVideoImageView ;
@@ -591,6 +587,8 @@
     CGFloat imageViewH = 211 * imageViewW / 375;
 
     UIImageView *detailVideoImageView = [[UIImageView alloc] init];
+    detailVideoImageView.contentMode = UIViewContentModeScaleAspectFill;
+    detailVideoImageView.clipsToBounds = YES;
     detailVideoImageView.userInteractionEnabled = YES;
     detailVideoImageView.frame = CGRectMake(imageViewX, imageViewY, imageViewW, imageViewH);
     
@@ -622,7 +620,7 @@
     self.playerModel = playerModel;
 
     NSURL *coverImageURL = [NSURL URLWithString:self.card.thumbnail];
-    UIImage *coverPlaceHolder = [UIImage sharePlaceholderImage:[UIColor lightGrayColor] sizes:CGSizeMake(100, 100)];
+    UIImage *coverPlaceHolder = [UIImage sharePlaceholderImage:[UIColor colorFromHexString:@"#f8f8f8"] sizes:CGSizeMake(100, 100)];
     [detailVideoImageView sd_setImageWithURL:coverImageURL placeholderImage:coverPlaceHolder];
  
     self.detailVideoImageView = detailVideoImageView;
@@ -1014,7 +1012,7 @@
             
             
             UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake(padding, 0, bottomWidth , bottomHeight)];
-            footerView.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6®"];
+            footerView.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
             
             
             UIButton *bottomButton = [[UIButton alloc] initWithFrame:CGRectMake(padding, 0, bottomWidth, bottomHeight - paddingTop)];

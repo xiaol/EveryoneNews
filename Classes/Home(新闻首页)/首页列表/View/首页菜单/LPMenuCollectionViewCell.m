@@ -38,13 +38,13 @@
 - (void)setSelected:(BOOL)selected {
     [super setSelected:selected];    
     if(selected) {
-        self.menuButton.textColor = [UIColor colorFromHexString:LPColor15];
+        self.menuButton.textColor = [UIColor colorFromHexString:LPColor30];
         [UIView animateWithDuration:0.4 animations:^{
             self.menuButton.transform = CGAffineTransformMakeScale(1.15, 1.15);
         }];
         
     } else {
-        self.menuButton.textColor = [UIColor colorFromHexString:LPColor20];
+        self.menuButton.textColor = [UIColor colorFromHexString:LPColor30];
         [UIView animateWithDuration:0.4 animations:^{
             self.menuButton.transform = CGAffineTransformIdentity;
             

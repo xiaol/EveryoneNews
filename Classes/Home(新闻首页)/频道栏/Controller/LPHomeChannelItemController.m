@@ -37,7 +37,6 @@ static NSString *cellIdentifier = @"sortCollectionViewCell";
 
 @implementation LPHomeChannelItemController
 
-
 #pragma mark - 懒加载
 - (NSMutableArray *)cellAttributesArray {
     if (_cellAttributesArray == nil) {

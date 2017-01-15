@@ -31,6 +31,10 @@
 
 @implementation LPHomeViewController
 
+-(UIStatusBarStyle)preferredStatusBarStyle {
+
+    return UIStatusBarStyleDefault;
+}
 
 #pragma mark - viewDidLoad
 - (void)viewDidLoad {

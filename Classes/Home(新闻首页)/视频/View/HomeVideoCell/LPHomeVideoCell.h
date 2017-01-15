@@ -11,11 +11,14 @@
 typedef void (^PlayButtonCallBackBlock)(UIButton *);
 typedef void (^CoverImageViewCallBackBlock)(UIImageView *);
 
+@class Card;
 @class LPHomeVideoCell;
 @protocol LPHomeVideoCellDelegate <NSObject>
 
 @optional
 -(void)cell:(LPHomeVideoCell *)cell didClickTitleWithNid:(NSString *)nid;
+
+-(void)cell:(LPHomeVideoCell *)cell didTapImageViewWithCard:(Card *)card;
 
 @end
 

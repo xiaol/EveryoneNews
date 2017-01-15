@@ -283,29 +283,4 @@
     return NO;
 }
 
-
-//- (BOOL)canBecomeFirstResponder {
-//    return NO;
-//}
-
-//- (void)editorViewDidChangeSelection:(DTRichTextEditorView *)editorView {
-//        UITextRange *selectedRange = [editorView selectedTextRange];
-//        NSString *selectedText = [editorView textInRange:selectedRange];
-//    NSLog(@"---%@", selectedText);
-//}
-
-
-
-
-//- (void)textViewDidChangeSelection:(UITextView *)textView {
-//    UITextRange *selectedRange = [textView selectedTextRange];
-//    NSString *selectedText = [textView textInRange:selectedRange];
-//    if (selectedText.length > 0) {
-//        if ([self.delegate respondsToSelector:@selector(contentCell:selectedText:)]) {
-//            [self.delegate contentCell:self selectedText:selectedText];
-//        }
-//    }
-//    
-//}
-
 @end

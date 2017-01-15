@@ -17,6 +17,11 @@
 - (void)setCard:(Card *)card  {
     _card = card;
     NSString *title = card.title;
+    
+    if ([card.rtype integerValue] == adNewsType) {
+        title = [NSString stringWithFormat:@"广告 %@", title];
+    }
+    
     CGFloat paddingLeft = 12;
     CGFloat paddingTop = 10;
     
@@ -92,13 +97,7 @@
     CGFloat commentLabelX = CGRectGetMinX(_shareButtonF) - commentLabelW - 5;
     CGFloat commentLabelY =  (bottomViewH - commentLabelH) / 2.0f;
     _commentLabelF = CGRectMake(commentLabelX, commentLabelY, commentLabelW, commentLabelH);
-    
-//    CGFloat commentImageViewW = 20;
-//    CGFloat commentImageViewH = 20;
-//    CGFloat commentImageViewX = CGRectGetMinX(_commentLabelF) - commentImageViewW - 5;
-//    CGFloat commentImageViewY = (bottomViewH - commentImageViewH) / 2.0f;
-//    _commentImageViewF = CGRectMake(commentImageViewX, commentImageViewY, commentImageViewW, commentImageViewH);
-    
+        
     CGFloat seperatorViewX = 0;
     CGFloat seperatorViewY = CGRectGetMaxY(_bottomViewF);
     CGFloat seperatorViewW = ScreenWidth;

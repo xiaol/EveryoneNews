@@ -9,8 +9,9 @@
 #import "AppDelegate.h"
 #import <OddityOcUI/MainNavigationController.h>
 #import <OddityOcUI/LPHomeViewController.h>
+#import <OddityOcUI/LPPagingViewPage.h>
 
-@interface AppDelegate ()
+@interface AppDelegate ()<LPPagingViewPageDelegate>
 
 @end
 
@@ -20,10 +21,24 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    self.window.rootViewController = [[MainNavigationController alloc] initWithRootViewController:[[LPHomeViewController alloc] init]];
+     self.window.rootViewController = [[MainNavigationController alloc] initWithRootViewController:[[LPHomeViewController alloc] init]];
+    [self.window makeKeyAndVisible];
+    
+    
+//    LPPagingViewPage *page = [[LPPagingViewPage alloc] init];
+//    [page setupHomeListDidScroll:^{
+//        NSLog(@"滑");
+//    }];
+    
     
     return YES;
 }
+
+- (void)homeListDidScroll {
+    NSLog(@"首页滑动");
+}
+
+
 
 
 - (void)applicationWillResignActive:(UIApplication *)application {

@@ -13,7 +13,7 @@
 - (UIImage *)placeholderImage
 {
     if (!_placeholderImage) {
-        _placeholderImage = [UIImage sharePlaceholderImage:[UIColor lightGrayColor] sizes:CGSizeMake(80, 80)];
+        _placeholderImage = [UIImage sharePlaceholderImage:[UIColor colorFromHexString:@"#f8f8f8"] sizes:CGSizeMake(80, 80)];
     }
     return _placeholderImage;
 }
