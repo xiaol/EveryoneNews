@@ -68,3 +68,28 @@ end
 如果你的项目是LightBar那么在导入我们的sdk之后就会出现这个Bar颜色的问题。    
 这个时候你需要修改的你的`Info.plist`文件添加 `View controller-based status bar appearance`为True，默认为false     
 之后就StatusBar就正常了
+
+### 接口调用
+文件路径  OCExample/LPNewsSDK/LPHomeViewController+LPNewsSDKHomeList.m
+@implementation LPHomeViewController (LPNewsSDKHomeList)
+
+// 首页滑动时调用
+- (void)homeListDidScroll {
+NSLog(@"首页滑动");
+}
+
+// 进入详情页
+- (void)pushDetailViewController {
+NSLog(@"进入详情页");
+}
+
+// 切换频道
+- (void)switchChannel {
+NSLog(@"切换频道栏");
+}
+ 
+
+@end
+
+
+

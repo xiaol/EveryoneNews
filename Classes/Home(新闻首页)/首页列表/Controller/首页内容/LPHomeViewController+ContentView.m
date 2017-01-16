@@ -207,6 +207,12 @@ NSString * const reuseVideoPageID = @"reuseVideoPageID";
 
 #pragma mark - 请求数据
 - (void)loadDataAtPageIndex:(NSInteger)pageIndex basePage:(LPPagingViewBasePage *)basePage {
+    if (!self.homeListFirstLoad) {
+        self.homeListFirstLoad = YES;
+        [self homeListDidFirstLoad];
+    }
+   
+    
     LPChannelItem *channelItem = self.pageindexMapToChannelItemDictionary[@(pageIndex)];
     CardParam *param = [[CardParam alloc] init];
     param.type = HomeCardsFetchTypeMore;

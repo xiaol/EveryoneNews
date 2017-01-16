@@ -21,6 +21,9 @@
 // 切换频道栏
 - (void)switchChannel;
 
+// 下拉刷新
+- (void)homeListRefreshData;
+
 @end
 
 @interface LPPagingViewBasePage : UIView

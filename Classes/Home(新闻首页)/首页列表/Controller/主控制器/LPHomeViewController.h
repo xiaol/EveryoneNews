@@ -90,6 +90,10 @@
 
 @property (nonatomic, strong) LPPlayerView *playerView;
 
+@property (nonatomic, assign) BOOL homeListFirstLoad;
+
 - (void)switchChannel;
+
+- (void)homeListDidFirstLoad;
 
 @end

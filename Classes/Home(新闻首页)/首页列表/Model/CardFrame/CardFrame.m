@@ -49,12 +49,10 @@
     
     CGFloat paddingLeft = 12;
     CGFloat paddingTop = 14;
-    CGFloat paddingBottom = 10;
+    CGFloat paddingBottom = 14;
     CGFloat deleteButtonPaddingTop = 10;
     CGFloat seperatorH = 4;
-    CGFloat lineSpacing = 2.0;
-    CGFloat paddingVertical = 11;
-    
+    CGFloat lineSpacing = 2.0;    
     CGFloat sourceX = paddingLeft;
     
     // 上次刷新位置
@@ -191,46 +189,41 @@
         // 新闻来源高度
         CGFloat sourceSiteNameH = [sourceSiteName sizeWithFont:[UIFont systemFontOfSize:sourceFontSize] maxSize:CGSizeMake(titleW, MAXFLOAT)].height;
         
-        CGFloat sourcePaddingTop = 10.0f;
-        
-
-        
+        CGFloat deleteButtonPaddingTop = 10.0f;
+        CGFloat deleteButtonY = 0;
         CGFloat titleY = 0.0f;
         // 判断图片和标题+来源高度
-        if ((titleH + sourceSiteNameH + sourcePaddingTop )> imageH) {
+        if ((titleH + deleteButtonH + deleteButtonPaddingTop )> imageH) {
             titleY =  CGRectGetMaxY(_videoTipButtonFrame) + paddingTop;
-            
+            _videoTitleLabelFrame = CGRectMake(paddingLeft, titleY, titleW, titleH);
+            CGFloat maxHeight = MAX(titleH, imageH);
+            deleteButtonY = titleY + maxHeight + deleteButtonPaddingTop;
         } else {
-            titleY =  CGRectGetMaxY(_videoTipButtonFrame) + paddingTop + (imageH - (titleH + lineSpacing  + sourceSiteNameH + sourcePaddingTop)) / 2 ;
-            
+            titleY =  CGRectGetMaxY(_videoTipButtonFrame) + paddingTop + (imageH - (titleH +  deleteButtonH + deleteButtonPaddingTop)) / 2 ;
+            _videoTitleLabelFrame = CGRectMake(paddingLeft, titleY, titleW, titleH);
+            deleteButtonY = CGRectGetMaxY(_videoTitleLabelFrame) + paddingTop;
         }
-        
-        _videoTitleLabelFrame = CGRectMake(paddingLeft, titleY, titleW, titleH);
-        
-        CGFloat sourceSiteNameY = CGRectGetMaxY(_videoTitleLabelFrame) + sourcePaddingTop;
- 
         // 来源
-        CGFloat sourceY = CGRectGetMaxY(_videoTitleLabelFrame) + sourcePaddingTop;
+        CGFloat sourceY = deleteButtonY;
         
         if([card.rtype integerValue] == 3) {
             sourceW = 0;
         }
         _videoSourceLabelFrame = CGRectMake(sourceX, sourceY, sourceW, sourceH);
         
-        CGFloat videoImageSeperatorLineY = 0.f;
-        CGFloat deleteButtonY = sourceSiteNameY ;
-        
-        if ( titleH + sourceSiteNameH + sourcePaddingTop > imageH) {
+        CGFloat videoImageSeperatorLineY = 0.0f;
+
+        if ( titleH + deleteButtonH + deleteButtonPaddingTop > imageH) {
             CGFloat deleteButtonX = ScreenWidth - paddingLeft - deleteButtonW;
             _videoDeleteButtonFrame = CGRectMake(deleteButtonX, deleteButtonY, deleteButtonW, deleteButtonH);
-            videoImageSeperatorLineY = CGRectGetMaxY(_videoSourceLabelFrame) + paddingBottom;
+            videoImageSeperatorLineY = CGRectGetMaxY(_videoDeleteButtonFrame) + paddingBottom;
             
         } else {
             CGFloat deleteButtonX = ScreenWidth - paddingLeft - deleteButtonW - paddingLeft - imageW;
             
             _videoDeleteButtonFrame = CGRectMake(deleteButtonX, deleteButtonY, deleteButtonW, deleteButtonH);
             
-            videoImageSeperatorLineY = CGRectGetMaxY(_videoSourceLabelFrame)+ paddingBottom;
+            videoImageSeperatorLineY = CGRectGetMaxY(_videoImageViewFrame)+ paddingBottom;
         }
          CGFloat commentLabelPaddingRight = 10;
         _videoCommentsCountLabelFrame = CGRectMake(CGRectGetMinX(_videoDeleteButtonFrame) - commentsW - commentLabelPaddingRight, sourceY, commentsW, sourceH);
@@ -260,11 +253,7 @@
         _videoDurationLabelFrame = CGRectMake(durationLabelX, durationLabelY, durationLabelW, durationLabelH);
         
         _videoSeperatorLineFrame = CGRectMake(0, videoImageSeperatorLineY, ScreenWidth, seperatorH);
-        _cellHeight =  CGRectGetMaxY(_videoSeperatorLineFrame);
-
-        
-        
-        
+        _cellHeight =  CGRectGetMaxY(_videoSeperatorLineFrame);        
     } else {
         // 无图
         if([card.type integerValue] == imageStyleZero) {
@@ -342,32 +331,28 @@
                 titleH = 3 * singleTitleH;
             }
             
-            CGFloat sourcePaddingTop = 10.0f;
-            
-//            if (iPhone6Plus) {
-//                sourcePaddingTop1 = 20.0f;
-//            } else if (iPhone5) {
-//                sourcePaddingTop1 = 5.0f;
-//            } else if (iPhone6) {
-//                sourcePaddingTop1 = 16;
-//            }
-            
+            CGFloat deleteButtonPaddingTop = 10.0f;
             CGFloat titleY = 0.0f;
+            CGFloat deleteButtonY = 0.0f;
+            
             // 判断图片和标题+来源高度
-            if ((titleH  + sourceH + sourcePaddingTop ) > imageH) {
+            if ((titleH  + deleteButtonH + deleteButtonPaddingTop ) > imageH) {
                 titleY =  CGRectGetMaxY(_singleImageTipButtonFrame) + paddingTop;
+                // 标题
+                _singleImageTitleLabelFrame = CGRectMake(titleX, titleY, titleW, titleH);
+                CGFloat maxHeight = MAX(titleH, imageH);
+                deleteButtonY = titleY + maxHeight + deleteButtonPaddingTop;
                 
             } else {
-                titleY =  CGRectGetMaxY(_singleImageTipButtonFrame) + paddingTop + (imageH - (titleH  + sourceH + sourcePaddingTop)) / 2 ;
-                
+                titleY =  CGRectGetMaxY(_singleImageTipButtonFrame) + paddingTop + (imageH - (titleH  + deleteButtonH + deleteButtonPaddingTop)) / 2 ;
+                // 标题
+                _singleImageTitleLabelFrame = CGRectMake(titleX, titleY, titleW, titleH);
+                deleteButtonY = CGRectGetMaxY(_singleImageTitleLabelFrame) + paddingTop;
             }
             
             CGFloat commentLabelPaddingRight = 10;
-            // 标题
-            _singleImageTitleLabelFrame = CGRectMake(titleX, titleY, titleW, titleH);
-            
             // 来源
-            CGFloat sourceY = CGRectGetMaxY(_singleImageTitleLabelFrame) + sourcePaddingTop;
+            CGFloat sourceY = deleteButtonY;
             
             if([card.rtype integerValue] == 3) {
                 sourceW = 0;
@@ -375,12 +360,10 @@
             _singleImageSourceLabelFrame = CGRectMake(sourceX, sourceY, sourceW, sourceH);
             
             CGFloat singleImageSeperatorLineY = 0.f;
-            CGFloat deleteButtonY = sourceY ;
-            
-            if (titleH + sourceH + sourcePaddingTop > imageH) {
+            if (titleH + deleteButtonH + deleteButtonPaddingTop > imageH) {
                 CGFloat deleteButtonX = ScreenWidth - paddingLeft - deleteButtonW;
                 _singleImageDeleteButtonFrame = CGRectMake(deleteButtonX, deleteButtonY, deleteButtonW, deleteButtonH);
-                singleImageSeperatorLineY = CGRectGetMaxY(_singleImageSourceLabelFrame) + paddingBottom;
+                singleImageSeperatorLineY = CGRectGetMaxY(_singleImageDeleteButtonFrame) + paddingBottom;
                 
             } else {
                 CGFloat deleteButtonX = ScreenWidth - paddingLeft - deleteButtonW - paddingLeft - imageW;

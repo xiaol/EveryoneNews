@@ -43,7 +43,7 @@
 
 
 - (NSMutableArray *)adsMutableArray {
-    if (_adsMutableArray) {
+    if (!_adsMutableArray) {
         _adsMutableArray = [NSMutableArray array];
     }
     return _adsMutableArray;
@@ -275,6 +275,9 @@
 
 #pragma mark - 下拉刷新
 - (void)loadNewData {
+    if ([self.delegate respondsToSelector:@selector(homeListRefreshData)]) {
+        [(id<LPPagingViewPageDelegate>)self.delegate homeListRefreshData];
+    }
     // 隐藏上次看到位置的提示按钮
     for (CardFrame *cardFrame in self.cardFrames) {
         Card *card = cardFrame.card;
@@ -411,8 +414,8 @@
     return cell;
 }
 
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-   
     if ([self.delegate respondsToSelector:@selector(homeListDidScroll)]) {
         [(id<LPPagingViewPageDelegate>)self.delegate homeListDidScroll];
     }
@@ -421,16 +424,16 @@
         Card *card = cell.cardFrame.card;
         if ([card.rtype integerValue] == adNewsType) {
             if (![self.adsMutableArray containsObject:card.title]) {
-                // 请求广告接口
-               [self.adsMutableArray addObject:card.title];
+                //  请求广告接口
+                [self.adsMutableArray addObject:card.title];
                 [self getAdsWithAdImpression:card.adimpression];
+                [self postWeatherAdsStatistics];
             }
+            
+         
         }
     }
-   
 }
-
-
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     CardFrame *cardFrame = self.cardFrames[indexPath.row];
@@ -509,6 +512,13 @@
         [CardTool getAdsImpression:adImpression];
     }
 }
+
+#pragma mark - 黄历天气
+- (void)postWeatherAdsStatistics {
+    [CardTool postWeatherAds];
+}
+
+
 
 
 

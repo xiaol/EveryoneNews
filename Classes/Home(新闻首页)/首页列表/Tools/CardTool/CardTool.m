@@ -32,6 +32,27 @@
     }];
 }
 
++ (void)postWeatherAds {
+    NSString *url = [NSString stringWithFormat:@"%@/v2/au/phone",ServerUrlVersion2];
+    NSMutableDictionary *paramDict = [NSMutableDictionary dictionary];
+    paramDict[@"uid"] = ![userDefaults objectForKey:@"uid"] ? @(0):[userDefaults objectForKey:@"uid"];
+    paramDict[@"b"] = [LPAdRequestTool adBase64];
+    // 1：奇点资讯， 2：黄历天气，3：纹字锁频，4：猎鹰浏览器，5：白牌
+    paramDict[@"ctype"] = @(2);
+    paramDict[@"ptype"] = @(1);
+    paramDict[@"province"] = @"";
+    paramDict[@"city"] = @"";
+    paramDict[@"area"] = @"";
+    NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
+    
+    [LPHttpTool postAuthorizationJSONWithURL:url authorization:authorization params:paramDict success:^(id json) {
+//        NSLog(@"%@", json);
+    } failure:^(NSError *error) {
+//        NSLog(@"adsError:%@", error);
+    }];
+}
+
+
 + (void)cardsWithParam:(CardParam *)param
              channelID:(NSString *)channelID
                success:(CardsFetchedSuccessHandler)success

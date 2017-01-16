@@ -48,6 +48,11 @@ typedef void (^CardsFetchedFailureHandler)(NSError *error);
                             failure:(CardsFetchedFailureHandler)failure;
 
 
+// 广告
 + (void)getAdsImpression:(NSString *)adsImpression;
+
+// 黄历天气统计广告
++ (void)postWeatherAds;
+
 
 @end

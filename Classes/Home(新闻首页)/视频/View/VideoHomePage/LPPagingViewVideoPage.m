@@ -33,6 +33,7 @@ static NSString *cellIdentifier = @"cellIdentifier";
 @property (nonatomic, strong) UILabel *promptLabel;
 @property (nonatomic, strong) LPPlayerView *playerView;
 @property (nonatomic, strong) LPPlayerControlView *controlView;
+@property (nonatomic, strong) NSMutableArray *adsMutableArray;
 
 @end
 
@@ -43,6 +44,13 @@ static NSString *cellIdentifier = @"cellIdentifier";
 @synthesize delegate = _delegate, cardFrames = _cardFrames, offset = _offset;
 
 #pragma mark - 懒加载
+- (NSMutableArray *)adsMutableArray {
+    if (!_adsMutableArray) {
+        _adsMutableArray = [NSMutableArray array];
+    }
+    return _adsMutableArray;
+}
+
 - (LPPlayerControlView *)controlView {
     if (!_controlView) {
         _controlView = [[LPPlayerControlView alloc] init];
@@ -108,6 +116,10 @@ static NSString *cellIdentifier = @"cellIdentifier";
 
 #pragma mark - 下拉刷新
 - (void)loadNewData{
+    if ([self.delegate respondsToSelector:@selector(homeListRefreshData)]) {
+        [(id<LPPagingViewVideoPageDelegate>)self.delegate homeListRefreshData];
+    }
+    
     if (self.cardFrames.count != 0) {
         LPHomeVideoFrame *cardFrame = self.cardFrames[0];
         Card *card = cardFrame.card;
@@ -281,12 +293,23 @@ static NSString *cellIdentifier = @"cellIdentifier";
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    
     if ([self.delegate respondsToSelector:@selector(homeListDidScroll)]) {
         [(id<LPPagingViewVideoPageDelegate>)self.delegate homeListDidScroll];
     }
-    
+    UITableView *tableView = (UITableView *)scrollView;
+    for (LPHomeVideoCell *cell in tableView.visibleCells) {
+        Card *card = cell.videoFrame.card;
+        if ([card.rtype integerValue] == adNewsType) {
+            if (![self.adsMutableArray containsObject:card.title]) {
+                //  请求广告接口
+                [self.adsMutableArray addObject:card.title];
+                [self getAdsWithAdImpression:card.adimpression];
+                [self postWeatherAdsStatistics];
+            }
+        }
+    }
 }
+
 
 #pragma mark - UITableView Delegate
 
@@ -347,6 +370,18 @@ static NSString *cellIdentifier = @"cellIdentifier";
 
 - (CGPoint)offset {
     return self.tableView.contentOffset;
+}
+
+#pragma mark - 广告提交到后台
+- (void)getAdsWithAdImpression:(NSString *)adImpression {
+    if (adImpression.length > 0) {
+        [CardTool getAdsImpression:adImpression];
+    }
+}
+
+#pragma mark - 黄历天气
+- (void)postWeatherAdsStatistics {
+    [CardTool postWeatherAds];
 }
 
 

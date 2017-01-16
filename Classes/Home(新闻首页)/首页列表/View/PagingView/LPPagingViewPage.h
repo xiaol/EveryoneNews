@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
 #import "LPPagingViewBasePage.h"
-#import "LPNewsSDKDelegate.h"
 
 /**
  *  自定义 page

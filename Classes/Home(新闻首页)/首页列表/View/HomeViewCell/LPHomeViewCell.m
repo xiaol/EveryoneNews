@@ -204,7 +204,7 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
         [singleImageDeleteButton addTarget:self action:@selector(didClickDeleteButton:) forControlEvents:UIControlEventTouchUpInside];
         self.singleImageDeleteButton = singleImageDeleteButton;
         
-        UILabel *singleImageTitleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        UILabel *singleImageTitleLabel = [[UILabel alloc] init];
         singleImageTitleLabel.numberOfLines = 0;
         [self.contentView addSubview:singleImageTitleLabel];
         self.singleImageTitleLabel = singleImageTitleLabel;
