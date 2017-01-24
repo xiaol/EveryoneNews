@@ -16,7 +16,15 @@
 @end
 
 @implementation MainNavigationController
-
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        
+        self.hidesBottomBarWhenPushed = true;
+    }
+    return self;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationBar.hidden = YES;
@@ -39,6 +47,7 @@
     id target = [actionTarget valueForKey:@"_target"];
     SEL action = NSSelectorFromString(@"handleNavigationTransition:");
     [popRecognizer addTarget:target action:action];
+    
 }
 
 - (BOOL)gestureRecognizerShouldBegin:(UIPanGestureRecognizer *)gestureRecognizer {

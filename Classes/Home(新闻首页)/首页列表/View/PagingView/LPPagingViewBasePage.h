@@ -30,6 +30,9 @@
 
 @property (nonatomic, strong) NSMutableArray *cardFrames;
 @property (nonatomic, copy) NSString *cellIdentifier;
+// 频道编号
+@property (nonatomic, copy) NSString *pageChannelID;
+// 频道名称
 @property (nonatomic, copy) NSString *pageChannelName;
 @property (nonatomic, assign) CGPoint offset;
 

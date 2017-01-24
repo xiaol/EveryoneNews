@@ -21,8 +21,24 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-     self.window.rootViewController = [[MainNavigationController alloc] initWithRootViewController:[[LPHomeViewController alloc] init]];
+    
+    UITabBarController * tabVC = [[UITabBarController alloc]init];
+    
+    UIViewController * VC1 = [[UIViewController alloc]init];
+    VC1.title = @"第一个";
+    
+    
+     MainNavigationController *VC2 = [[MainNavigationController alloc] initWithRootViewController:[[LPHomeViewController alloc] init]];
+    VC2.title = @"第二个";
+    
+    
+    tabVC.viewControllers = [NSArray arrayWithObjects:VC2,VC1,  nil];
+    
+    self.window.rootViewController = tabVC;
+    
     [self.window makeKeyAndVisible];
+    
+    tabVC.edgesForExtendedLayout = UIRectEdgeNone;
     
     
 //    LPPagingViewPage *page = [[LPPagingViewPage alloc] init];

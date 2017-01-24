@@ -30,6 +30,8 @@
         self.menuNormalColor = [UIColor colorFromHexString:LPColor30];
         self.menuSelectedColor = [UIColor colorFromHexString:LPColor30];
         self.rate = 1.15;
+//        self.backgroundColor = [UIColor redColor];
+        
         
    
     }

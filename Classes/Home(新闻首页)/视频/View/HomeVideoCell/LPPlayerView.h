@@ -14,9 +14,6 @@
 
 @protocol LPPlayerDelegate <NSObject>
 @optional
-// 返回按钮事件
-//- (void)lp_playerBackAction;
-
 - (void)lp_playerDetailBackAction;
 
 @end

@@ -18,7 +18,7 @@
 #pragma mark - 初始化
 - (instancetype)initWithFrame:(CGRect)frame {
     // 分享，评论，添加按钮边距设置
-    double topViewHeight = TabBarHeight + StatusBarHeight + 0.5;
+    double topViewHeight = TabBarHeight + StatusBarHeight;
     double padding = 15;
     
     double returnButtonWidth = 13;
@@ -46,6 +46,8 @@
         self.frame = CGRectMake(0 , 0, ScreenWidth, topViewHeight);
         self.backgroundColor = [UIColor colorFromHexString:LPColor29];
 
+        
+        
         // 返回button
         UIButton *backBtn = [[UIButton alloc] initWithFrame:CGRectMake(padding, returnButtonPaddingTop, returnButtonWidth, returnButtonHeight)];
         [backBtn setBackgroundImage:[UIImage oddityImage:@"video_back"] forState:UIControlStateNormal];
@@ -53,20 +55,6 @@
         [backBtn addTarget:self action:@selector(topViewBackBtnClick) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:backBtn];
  
-//        // 详情页右上角分享
-//        UIButton *shareBtn = [[UIButton alloc] initWithFrame:CGRectMake(shareButtonX, 0 , shareButtonW, shareButtonH)];
-//        [shareBtn setBackgroundImage:[UIImage imageNamed:@"详情页右上分享"] forState:UIControlStateNormal];
-//        shareBtn.centerY = backBtn.centerY;
-//        shareBtn.enlargedEdge = 15;
-//        [shareBtn addTarget:self action:@selector(shareButtonClick) forControlEvents:UIControlEventTouchUpInside];
-//        [self addSubview:shareBtn];
-//        self.shareButton = shareBtn;
-        
-        // 分割线
-        UILabel *seperatorLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, topViewHeight - 0.5, ScreenWidth, 0.5)];
-        seperatorLabel.backgroundColor = [UIColor colorFromHexString:@"#dddddd"];
-        [self addSubview:seperatorLabel];
-        
         UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollsToTopTap)];
         [self addGestureRecognizer:tapGesture];
     }

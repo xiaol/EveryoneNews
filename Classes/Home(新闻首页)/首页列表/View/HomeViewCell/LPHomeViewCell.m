@@ -1061,18 +1061,25 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
             
         } else if ([card.type integerValue] == imageStyleEleven || [card.type integerValue] == imageStyleTwelve || [card.type integerValue] == imageStyleThirteen) {
             CardImage * cardImage = nil;
-            switch ([card.type integerValue]) {
-                case imageStyleEleven:
-                    cardImage = [card.cardImages objectAtIndex:0];
-                    break;
-                case imageStyleTwelve:
-                    cardImage =  [card.cardImages objectAtIndex:1];
-                    break;
-                case imageStyleThirteen:
-                    cardImage = [card.cardImages objectAtIndex:2];
-                    break;
-                default:
-                    break;
+            NSInteger imageIndex = 0;
+            if (card.cardImages.count > 0) {
+                imageIndex = card.cardImages.count - 1;
+                switch ([card.type integerValue]) {
+                    case imageStyleEleven:
+                        imageIndex = imageIndex == 0 ? 0: imageIndex;
+                        cardImage = [card.cardImages objectAtIndex:imageIndex];
+                        break;
+                    case imageStyleTwelve:
+                        imageIndex = imageIndex == 1 ? 1: imageIndex;
+                        cardImage =  [card.cardImages objectAtIndex:imageIndex];
+                        break;
+                    case imageStyleThirteen:
+                        imageIndex = imageIndex == 2 ? 2: imageIndex;
+                        cardImage = [card.cardImages objectAtIndex:imageIndex];
+                        break;
+                    default:
+                        break;
+                }
             }
             self.noImageTitleLabel.hidden = YES;
             self.noImageSourceLabel.hidden = YES;

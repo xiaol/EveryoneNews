@@ -72,7 +72,9 @@
     
     CGFloat coverImageX = 0;
     CGFloat coverImageW = ScreenWidth;
-    CGFloat coverImageH = (211 * coverImageW / 375) ;
+    CGFloat coverImageH = (2 * coverImageW / 3) ;
+//     CGFloat coverImageH = (2 * coverImageW / 3) ;
+    
     CGFloat coverImageY = CGRectGetMaxY(_titleF) + paddingTop;
     _coverImageF = CGRectMake(coverImageX, coverImageY, coverImageW, coverImageH);
     

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LPBaseViewController.h"
 
 @class LPPlayerView;
 @class LPPlayerModel;
@@ -53,6 +54,6 @@ typedef void(^VideoDetailControllerBlock)();
 @property (nonatomic, strong) LPMyCommentFrame *myCommentFrame;
 @property (nonatomic, strong) LPMyCollectionCardFrame *myCollectionCardFrame;
  
-
+- (void)videoDetailLoadFailed;
 
 @end

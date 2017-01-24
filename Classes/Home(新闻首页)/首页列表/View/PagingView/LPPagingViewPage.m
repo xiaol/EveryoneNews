@@ -26,28 +26,19 @@
 #import "LPLoadingView.h"
 
 
+
 @interface LPPagingViewPage () <UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) UIView *searchView;
 @property (nonatomic, strong) UILabel *promptLabel;
 @property (nonatomic, strong) UIView *blackBackgroundView;
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) NSMutableArray *adsMutableArray;
-
 
 @end
 
 @implementation LPPagingViewPage
 
 @synthesize cardFrames = _cardFrames, delegate = _delegate, offset = _offset;
-
-
-- (NSMutableArray *)adsMutableArray {
-    if (!_adsMutableArray) {
-        _adsMutableArray = [NSMutableArray array];
-    }
-    return _adsMutableArray;
-}
 
 - (void)prepareForReuse {
     self.searchView.hidden = YES;
@@ -128,6 +119,11 @@
         tableView.delegate = self;
         tableView.showsVerticalScrollIndicator = NO;
         tableView.scrollsToTop = NO;
+        
+        
+        
+        [tableView registerClass:[LPHomeViewCell class] forCellReuseIdentifier:@"cell"];
+        
         [self addSubview:tableView];
          self.tableView = tableView;
         
@@ -164,6 +160,7 @@
         
         // 正在加载
         [self setupLoadingView];
+        
     }
     return self;
 }
@@ -253,8 +250,6 @@
     }
     [self.tableView reloadData];
     
-   
-    
 }
 
 #pragma mark - 跳转到搜索栏
@@ -275,6 +270,8 @@
 
 #pragma mark - 下拉刷新
 - (void)loadNewData {
+    // 黄历天气统计
+    [self postScrollStatistics];
     if ([self.delegate respondsToSelector:@selector(homeListRefreshData)]) {
         [(id<LPPagingViewPageDelegate>)self.delegate homeListRefreshData];
     }
@@ -291,7 +288,7 @@
         Card *card = cardFrame.card;
         CardParam *param = [[CardParam alloc] init];
         param.type = HomeCardsFetchTypeNew;
-        param.channelID = [NSString stringWithFormat:@"%@", card.channelId];
+        param.channelID = self.pageChannelID;
         param.count = @20;
         param.startTime = card.updateTime;
         NSMutableArray *tempArray = [[NSMutableArray alloc] init];
@@ -309,6 +306,9 @@
                 [self.cardFrames insertObjects: tempArray atIndexes:indexes];
                 [self.tableView reloadData];
                 
+                if ([self.delegate respondsToSelector:@selector(homeListDidScroll)]) {
+                    [(id<LPPagingViewPageDelegate>)self.delegate homeListDidScroll];
+                }
             }
             [self showNewCount:tempArray.count];
             [self.tableView.mj_header endRefreshing];
@@ -317,11 +317,8 @@
             [MBProgressHUD showError:@"网络连接中断"];
         }];
     } else {
-     
         [self.tableView.mj_header endRefreshing];
     }
-    
-
 }
 
 - (void)showNewCount:(NSInteger)count {
@@ -365,6 +362,11 @@
             }
             [self.tableView reloadData];
             [self.tableView.mj_footer endRefreshing];
+            
+            [self postScrollStatistics];
+            if ([self.delegate respondsToSelector:@selector(homeListDidScroll)]) {
+                [(id<LPPagingViewPageDelegate>)self.delegate homeListDidScroll];
+            }
         } else {
             [self.tableView.mj_footer endRefreshingWithNoMoreData];
         }
@@ -389,10 +391,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     NSString *cellIdentifier = self.cellIdentifier;
-    LPHomeViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if (cell == nil) {
-        cell = [[LPHomeViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-    }
+    LPHomeViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+
     cell.currentRow = indexPath.row;
     cell.cardFrame = self.cardFrames[indexPath.row];
 
@@ -411,29 +411,20 @@
             [(id<LPPagingViewPageDelegate>)self.delegate page:self didTapListViewWithSourceName:sourceSiteName sourceImage:sourceImageURL];
         }
     }];
+    
+    Card *card = cell.cardFrame.card;
+    if ([card.rtype integerValue] == adNewsType) {
+        //  请求广告接口
+        [self getAdsWithAdImpression:card.adimpression];
+        [self postWeatherAdsStatistics];
+      
+    }
+    
     return cell;
 }
 
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if ([self.delegate respondsToSelector:@selector(homeListDidScroll)]) {
-        [(id<LPPagingViewPageDelegate>)self.delegate homeListDidScroll];
-    }
-    UITableView *tableView = (UITableView *)scrollView;
-    for (LPHomeViewCell *cell in tableView.visibleCells) {
-        Card *card = cell.cardFrame.card;
-        if ([card.rtype integerValue] == adNewsType) {
-            if (![self.adsMutableArray containsObject:card.title]) {
-                //  请求广告接口
-                [self.adsMutableArray addObject:card.title];
-                [self getAdsWithAdImpression:card.adimpression];
-                [self postWeatherAdsStatistics];
-            }
-            
-         
-        }
-    }
-}
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     CardFrame *cardFrame = self.cardFrames[indexPath.row];
@@ -516,6 +507,11 @@
 #pragma mark - 黄历天气
 - (void)postWeatherAdsStatistics {
     [CardTool postWeatherAds];
+}
+
+#pragma mark - 滑动提交
+- (void)postScrollStatistics {
+    [CardTool postScrollTimesStatistics];
 }
 
 

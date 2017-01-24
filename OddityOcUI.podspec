@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.source_files = 'Classes/**/*.{h,m}'
   # s.public_header_files = 'Classes/Public/**/*.h'
   # s.private_header_files = 'Classes/private/**/*.h'
-  s.resource_bundles = { "OdditBundle" => "Classes/**/**/*.{xcassets,xcdatamodeld}" }
+  s.resource_bundles = { "OdditBundle" => "Classes/**/**/*.{xcdatamodeld,png}" }
 
   s.libraries = 'xml2'
   s.prefix_header_file = 'Classes/PrefixHeader.pch'

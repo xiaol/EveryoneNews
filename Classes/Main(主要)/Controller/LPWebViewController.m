@@ -9,7 +9,7 @@
 #import "LPWebViewController.h"
 #import "MBProgressHUD+MJ.h"
 
-@interface LPWebViewController () <UIWebViewDelegate, UIScrollViewDelegate> {
+@interface LPWebViewController () <UIWebViewDelegate> {
      UIWebView *webView;
 }
 
@@ -28,9 +28,7 @@
     webView.scalesPageToFit = YES;
     webView.backgroundColor = [UIColor whiteColor];
     
-    //加载URL需要进行encode，否则有些URL中的转义字符会不识别
-    NSString *encodedString=[_webUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:encodedString]];
+    NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:_webUrl]];
     [self.view addSubview: webView];
     [webView loadRequest:request];
     
@@ -63,26 +61,16 @@
 
 #pragma mark - Web view delegate
 
-- (void)webViewDidStartLoad:(UIWebView *)webView
-{
-    //    [MBProgressHUD showMessage:@"正在加载..."];
-    //    self.loadingView = [CustomLoaddingView showMessage:@"正在加载..." toView:webView];
+- (void)webViewDidStartLoad:(UIWebView *)webView {
     [self.indicator startAnimating];
 }
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView
-{
-    //    [MBProgressHUD hideHUD];
-    //    [self.loadingView dismissMessage];
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
     [self.indicator stopAnimating];
 }
 
--(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
-{
-    //    [MBProgressHUD hideHUD];
-    //    [self.loadingView dismissMessage];
+-(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     [self.indicator stopAnimating];
-    //    [MBProgressHUD showError:@"加载失败：("];
 }
 
 @end

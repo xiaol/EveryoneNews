@@ -83,6 +83,8 @@
 
 @property (nonatomic, assign, getter=iSAutoRefreshAtFirstTimeFinished) BOOL autoRefreshAtFirstTimeFinished;
 
+@property (nonatomic, copy) NSString *channelTitle;
+
 
 @property (nonatomic, strong) NSMutableArray *subscriberFrameArray;
 

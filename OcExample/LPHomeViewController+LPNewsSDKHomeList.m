@@ -15,7 +15,7 @@
 
 // 首页滑动时调用
 - (void)homeListDidScroll {
-   // NSLog(@"首页滑动");
+    // NSLog(@"首页滑动");
 }
 
 // 进入详情页
@@ -39,7 +39,7 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wobjc-protocol-method-implementation"
 - (void)homeListDidFirstLoad {
-    NSLog(@"新闻打开");
+    //NSLog(@"新闻打开");
 }
 #pragma clang diagnostic pop
 

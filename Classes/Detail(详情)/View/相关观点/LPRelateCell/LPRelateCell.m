@@ -70,9 +70,6 @@
        
         UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapCellView)];
         [self addGestureRecognizer:gesture];
-        
-    
-
     }
     return self;
 }
@@ -83,8 +80,6 @@
     LPRelatePoint *point = _relateFrame.relatePoint;
     self.relatePointURL = point.url;
     
-
-    
     self.titleLabel.frame = _relateFrame.titleF;
     self.titleLabel.attributedText = _relateFrame.titleHtmlString;
     
@@ -94,7 +89,8 @@
     self.seperatorView.frame = _relateFrame.seperatorViewF;
  
    if (point.img.length > 0 && [point.img rangeOfString:@","].location == NSNotFound) {
-        [self.pointImageView sd_setImageWithURL:[NSURL URLWithString:point.img] placeholderImage:[UIImage oddityImage:@"dig详情页占位小图"]];
+       
+        [self.pointImageView sd_setImageWithURL:[NSURL URLWithString:point.img] placeholderImage:[UIImage sharePlaceholderImage:[UIColor colorFromHexString:@"#000000" alpha:0.2f] sizes:CGSizeMake(100, 100)]];
         self.pointImageView.hidden = NO;
         self.pointImageView.frame = _relateFrame.imageViewF;
    } else {
@@ -107,6 +103,5 @@
         [self.delegate relateCell:self didClickURL:self.relatePointURL];
     }
 }
-
 
 @end

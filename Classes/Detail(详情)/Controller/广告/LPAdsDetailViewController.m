@@ -19,10 +19,20 @@
 
 @implementation LPAdsDetailViewController
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        
+        self.hidesBottomBarWhenPushed = true;
+    }
+    return self;
+}
 
 #pragma mark - viewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     [self setupSubviews];
 }
 

@@ -59,12 +59,20 @@ static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
     return _qiDianHaoConcernArray;
 }
 
-
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        
+        self.hidesBottomBarWhenPushed = true;
+    }
+    return self;
+}
 #pragma mark - viewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
-  
+    
     [self setupSubViews];
     [self setupDataWithKeyword:self.searchText];
 }
@@ -80,7 +88,7 @@ static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
     self.topView = resultTopView;
     
     // 分割线
-    UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(resultTopView.frame), ScreenWidth, 0.5)];
+    UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(resultTopView.frame), ScreenWidth, 0)];
     seperatorView.backgroundColor = [UIColor colorFromHexString:LPColor5];
     [self.view addSubview:seperatorView];
     

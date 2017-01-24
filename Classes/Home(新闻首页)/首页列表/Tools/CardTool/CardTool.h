@@ -54,5 +54,8 @@ typedef void (^CardsFetchedFailureHandler)(NSError *error);
 // 黄历天气统计广告
 + (void)postWeatherAds;
 
++ (void)homeListLoadFailed;
+
++ (void)postScrollTimesStatistics;
 
 @end

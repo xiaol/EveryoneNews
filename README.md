@@ -39,6 +39,11 @@ target :'Example' do
 end
 ````
 
+## 第三方组件替换
+DTRichTextEditor文件夹下的DTRichTextEditorView.m文件
+SDWebImage文件夹下的SDWebImageDownloaderOperation.m文件
+
+
 ## Use
 
 ````objective-c
@@ -70,6 +75,7 @@ end
 之后就StatusBar就正常了
 
 ### 接口调用
+
 文件路径  OCExample/LPNewsSDK/LPHomeViewController+LPNewsSDKHomeList.m
 @implementation LPHomeViewController (LPNewsSDKHomeList)
 
@@ -87,9 +93,43 @@ NSLog(@"进入详情页");
 - (void)switchChannel {
 NSLog(@"切换频道栏");
 }
- 
+
+###首页加载失败
+文件路径
+OCExample/LPNewsSDK/CardTool+LPNewsHomeList.m
+
+// 首页加载失败
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-protocol-method-implementation"
++ (void) homeListLoadFailed{
+     // NSLog(@"首页加载失败");
+}
+#pragma clang diagnostic pop
+
+
+### 详情页加载失败
+文件路径
+OCExample/LPNewsSDK/LPDetailViewController+LPNewsDetailSDK.m
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-protocol-method-implementation"
+- (void)newsDetailLoadFailed {
+    // NSLog(@"加载详情页失败");
+}
+#pragma clang diagnostic pop
+
+### 视频详情页加载失败
+文件路径
+OCExample/LPNewsSDK/LPVideoDetailViewController+LPVideoDetailSDK.m
+// 视频详情页加载失败
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-protocol-method-implementation"
+- (void)videoDetailLoadFailed {
+// NSLog(@"视频详情页加载失败");
+}
+#pragma clang diagnostic pop
+
 
 @end
-
 
 

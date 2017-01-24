@@ -307,7 +307,8 @@
             
             // 图片
             CGFloat imageW = (ScreenWidth - paddingLeft * 2 - 6) / 3 ;
-            CGFloat imageH = 76 * imageW / 114;
+//            CGFloat imageH = 76 * imageW / 114;
+              CGFloat imageH = 2 * imageW / 3;
             CGFloat imageX = ScreenWidth - paddingLeft - imageW;
             CGFloat imageY =   CGRectGetMaxY(_singleImageTipButtonFrame) + paddingTop;
             

@@ -12,4 +12,5 @@
 
 + (NSString *)adBase64;
 
++ (NSString *)adBase64WithType:(NSString *)type;
 @end

@@ -11,6 +11,7 @@
 @class LPPagingViewVideoPage;
 @class LPVideoDetailViewController;
 @class Card;
+@class LPLoadingView;
 
 @protocol LPPagingViewVideoPageDelegate<LPPagingViewBasePageDelegate>
 
@@ -26,5 +27,8 @@
 
 - (void)autotomaticLoadNewData;
 - (void)tapStatusBarScrollToTop;
+// 正在加载视图
+@property (nonatomic, strong) LPLoadingView *loadingView;
+
 
 @end

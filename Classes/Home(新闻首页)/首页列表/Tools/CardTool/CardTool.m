@@ -15,6 +15,7 @@
 #import "CoreDataHelper.h"
 #import "LPLoginTool.h"
 #import "LPAdRequestTool.h"
+#import <AdSupport/ASIdentifierManager.h>
 
 @interface CardTool ()
 
@@ -50,6 +51,24 @@
     } failure:^(NSError *error) {
 //        NSLog(@"adsError:%@", error);
     }];
+}
+
++ (void)postScrollTimesStatistics {
+    NSString *url = [NSString stringWithFormat:@"%@/v2/sl/ins",ServerUrlVersion2];
+    NSMutableDictionary *paramDict = [NSMutableDictionary dictionary];
+    NSString *idfa = [[[ ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
+    
+    paramDict[@"mid"] = idfa;
+    paramDict[@"uid"] = ![userDefaults objectForKey:@"uid"] ? @(0):[userDefaults objectForKey:@"uid"];
+    paramDict[@"ctype"] = @(2);
+    paramDict[@"ptype"] = @(1);
+
+    [LPHttpTool getWithURL:url params:paramDict success:^(id json) {
+//        NSLog(@"%@", json);
+    } failure:^(NSError *error) {
+//        NSLog(@"%@", error);
+    }];
+    
 }
 
 
@@ -99,7 +118,7 @@
                     [self qiDianPostCardsWithUserParam:param paramDict:paramDict authorization:authorization success:success failure:failure];
             }
         }  failure:^(NSError *error) {
-            NSLog(@"error:%@", error);
+            [self homeListLoadFailed];
         }];
     } else {
         paramDict[@"uid"] = ![userDefaults objectForKey:@"uid"] ? @(0):[userDefaults objectForKey:@"uid"];
@@ -140,7 +159,8 @@
                 success(cardsArray);
             }
         } failure:^(NSError *error) {
-            failure(error);
+           // failure(error);
+            [self homeListLoadFailed];
         }];
     } else if (param.type == HomeCardsFetchTypeMore) { // 上拉加载更多，先从网络取数据，获取不到再从本地数据库拿数据
         
@@ -163,7 +183,11 @@
                 success(cardsArray);
             }
         } failure:^(NSError *error) {
-            failure(error);
+          //  failure(error);
+            [self homeListLoadFailed];
+            
+//            NSLog(@"---------%@", error);
+            
         }];
     }
     

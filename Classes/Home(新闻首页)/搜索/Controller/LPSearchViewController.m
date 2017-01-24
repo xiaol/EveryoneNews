@@ -57,7 +57,15 @@ static NSString *cellIdentifier = @"tableViewCellIdentifier";
     return  _searchHistoryFrames;
 }
 #pragma mark - viewDidLoad
-
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        
+        self.hidesBottomBarWhenPushed = true;
+    }
+    return self;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
      self.view.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];

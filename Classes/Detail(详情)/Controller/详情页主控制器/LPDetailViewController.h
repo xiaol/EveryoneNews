@@ -74,4 +74,6 @@
 
 - (NSString *)docId;
 
+- (void)newsDetailLoadFailed;
+
 @end

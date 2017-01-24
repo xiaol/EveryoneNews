@@ -24,6 +24,7 @@
 #import "LPPlayerModel.h"
 #import "LPVideoDetailViewController.h"
 #import "LPAdsDetailViewController.h"
+#import "LPLoadingView.h"
 
 
 static NSString *cellIdentifier = @"cellIdentifier";
@@ -33,7 +34,6 @@ static NSString *cellIdentifier = @"cellIdentifier";
 @property (nonatomic, strong) UILabel *promptLabel;
 @property (nonatomic, strong) LPPlayerView *playerView;
 @property (nonatomic, strong) LPPlayerControlView *controlView;
-@property (nonatomic, strong) NSMutableArray *adsMutableArray;
 
 @end
 
@@ -44,13 +44,6 @@ static NSString *cellIdentifier = @"cellIdentifier";
 @synthesize delegate = _delegate, cardFrames = _cardFrames, offset = _offset;
 
 #pragma mark - 懒加载
-- (NSMutableArray *)adsMutableArray {
-    if (!_adsMutableArray) {
-        _adsMutableArray = [NSMutableArray array];
-    }
-    return _adsMutableArray;
-}
-
 - (LPPlayerControlView *)controlView {
     if (!_controlView) {
         _controlView = [[LPPlayerControlView alloc] init];
@@ -83,6 +76,8 @@ static NSString *cellIdentifier = @"cellIdentifier";
         [self addSubview:tableView];
         self.tableView = tableView;
         
+        [tableView registerClass:[LPHomeVideoCell class] forCellReuseIdentifier:@"videoCell"];
+        
         UILabel *label = [[UILabel alloc] init];
         label.hidden = YES;
         label.height = searchViewHeight;
@@ -110,9 +105,26 @@ static NSString *cellIdentifier = @"cellIdentifier";
         self.tableView.mj_footer = [LPDiggerFooter footerWithRefreshingBlock:^{
             [weakSelf loadMoreData];
         }];
+        
+        // 正在加载
+        [self setupLoadingView];
     }
     return self;
 }
+
+#pragma mark - 正在加载
+- (void)setupLoadingView {
+    
+    double topViewHeight = TabBarHeight + StatusBarHeight;
+    if (iPhone6) {
+        topViewHeight = 72;
+    }
+    LPLoadingView *loadingView = [[LPLoadingView alloc] initWithFrame:CGRectMake(0, StatusBarHeight + TabBarHeight, ScreenWidth, (ScreenHeight - topViewHeight) / 2.0f)];
+    [self addSubview:loadingView];
+    self.loadingView = loadingView;
+    [loadingView startAnimating];
+}
+
 
 #pragma mark - 下拉刷新
 - (void)loadNewData{
@@ -143,6 +155,10 @@ static NSString *cellIdentifier = @"cellIdentifier";
                 [self.cardFrames insertObjects: tempArray atIndexes:indexes];
                 
                 [self.tableView reloadData];
+                [self postScrollStatistics];
+                if ([self.delegate respondsToSelector:@selector(homeListDidScroll)]) {
+                    [(id<LPPagingViewVideoPageDelegate>)self.delegate homeListDidScroll];
+                }
             }
             
             [self showNewCount:tempArray.count];
@@ -161,7 +177,7 @@ static NSString *cellIdentifier = @"cellIdentifier";
     LPHomeVideoFrame *cardFrame = [self.cardFrames lastObject];
     Card *card = cardFrame.card;
     CardParam *param = [[CardParam alloc] init];
-    param.channelID = [NSString stringWithFormat:@"%@", card.channelId];
+    param.channelID = self.pageChannelID;
     param.type = HomeCardsFetchTypeMore;
     param.count = @20;
     param.startTime = card.updateTime;
@@ -174,6 +190,12 @@ static NSString *cellIdentifier = @"cellIdentifier";
             [tempCardFrames addObject:cardFrame];
         }
         self.cardFrames = tempCardFrames;
+        [self.tableView reloadData];
+        [self postScrollStatistics];
+        if ([self.delegate respondsToSelector:@selector(homeListDidScroll)]) {
+            [(id<LPPagingViewVideoPageDelegate>)self.delegate homeListDidScroll];
+        }
+        
         [self.tableView.mj_footer endRefreshing];
         if (!cards.count) {
             [self.tableView.mj_footer endRefreshingWithNoMoreData];
@@ -227,9 +249,11 @@ static NSString *cellIdentifier = @"cellIdentifier";
     _cardFrames = cardFrames;
     if (cardFrames.count > 0) {
         self.tableView.hidden = NO;
+        [self.loadingView stopAnimating];
         
     } else {
         self.tableView.hidden = YES;
+        [self.loadingView startAnimating];
     }
     [self.tableView reloadData];
 }
@@ -246,10 +270,10 @@ static NSString *cellIdentifier = @"cellIdentifier";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    LPHomeVideoCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if (cell == nil) {
-        cell = [[LPHomeVideoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];;
-    }
+    LPHomeVideoCell *cell = [tableView dequeueReusableCellWithIdentifier:@"videoCell"];
+//    if (cell == nil) {
+//        cell = [[LPHomeVideoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];;
+//    }
     cell.videoFrame = self.cardFrames[indexPath.row];
     cell.delegate = self;
   
@@ -267,11 +291,8 @@ static NSString *cellIdentifier = @"cellIdentifier";
         playerModel.tableView = weakSelf.tableView;
         playerModel.indexPath  = weakIndexPath;
         playerModel.parentView = weakCell.coverImageView;
-        
         [weakSelf.playerView playerControlView:weakSelf.controlView playerModel:playerModel];
         [weakSelf.playerView resetToPlayNewVideo:playerModel];
-        
-        
     };
     if ([card.rtype integerValue] != adNewsType) {
         
@@ -286,30 +307,18 @@ static NSString *cellIdentifier = @"cellIdentifier";
             [weakSelf.playerView playerControlView:weakSelf.controlView playerModel:playerModel];
             [weakSelf.playerView resetToPlayNewVideo:playerModel];
         };
+        
+        
+    }
+    
+    if ([card.rtype integerValue] == adNewsType) {
+        //  请求广告接口
+        [self getAdsWithAdImpression:card.adimpression];
+        [self postWeatherAdsStatistics];
     }
     
     return cell;
-    
 }
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    if ([self.delegate respondsToSelector:@selector(homeListDidScroll)]) {
-        [(id<LPPagingViewVideoPageDelegate>)self.delegate homeListDidScroll];
-    }
-    UITableView *tableView = (UITableView *)scrollView;
-    for (LPHomeVideoCell *cell in tableView.visibleCells) {
-        Card *card = cell.videoFrame.card;
-        if ([card.rtype integerValue] == adNewsType) {
-            if (![self.adsMutableArray containsObject:card.title]) {
-                //  请求广告接口
-                [self.adsMutableArray addObject:card.title];
-                [self getAdsWithAdImpression:card.adimpression];
-                [self postWeatherAdsStatistics];
-            }
-        }
-    }
-}
-
 
 #pragma mark - UITableView Delegate
 
@@ -336,7 +345,6 @@ static NSString *cellIdentifier = @"cellIdentifier";
             videoDetailController.isPlaying = YES;
             videoDetailController.coverImageView = cell.coverImageView;
         }
-        
         videoDetailController.videoDetailControllerBlock = ^() {
             [self.playerView play];
         };
@@ -383,6 +391,12 @@ static NSString *cellIdentifier = @"cellIdentifier";
 - (void)postWeatherAdsStatistics {
     [CardTool postWeatherAds];
 }
+
+#pragma mark - 滑动提交
+- (void)postScrollStatistics {
+    [CardTool postScrollTimesStatistics];
+}
+
 
 
 

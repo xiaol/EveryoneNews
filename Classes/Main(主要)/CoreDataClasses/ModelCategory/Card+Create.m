@@ -160,7 +160,12 @@
             card.title = dict[@"title"];
             card.sourceSiteURL = dict[@"purl"];
             card.sourceSiteName = dict[@"pname"];
-            card.updateTime = [NSString stringWithFormat:@"%lld", (long long)([dict[@"ptime"] timestampWithDateFormat:@"YYYY-MM-dd HH:mm:ss"] * 1000)];
+            //card.updateTime = [NSString stringWithFormat:@"%lld", (long long)([dict[@"ptime"] timestampWithDateFormat:@"YYYY-MM-dd HH:mm:ss"] * 1000)];
+           // [NSDate date];
+            
+            card.updateTime = [NSString stringWithFormat:@"%lld", (long long)([[NSDate date] timeIntervalSince1970] * 1000)];
+            
+            
             // 奇点频道和关注频道编号需要做单独处理
             if ([channelID isEqualToString:@"1"]) {
                 card.channelId = @(1);

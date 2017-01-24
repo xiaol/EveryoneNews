@@ -107,13 +107,11 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
     channelItemManageButton.enlargedEdge = 10;
     [headerView addSubview:channelItemManageButton];
     
-
- 
     // 频道栏
     CGFloat menuViewX = 10;
     CGFloat menuViewPaddingRight = 35.5;
-    
-    CGFloat menuViewY = 30;
+     CGFloat menuViewY = 20;
+//    CGFloat menuViewY = 30;
     CGFloat menuViewW = 0.0f;
     CGFloat menuViewH = 24.0;
     
@@ -125,12 +123,14 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
         menuViewPaddingRight = 41;
     }
     menuViewW = ScreenWidth - menuViewX - menuViewPaddingRight;
-    menuViewH = statusBarHeight + menuViewHeight - menuViewY - 0.5f;
+    menuViewH = statusBarHeight + menuViewHeight - menuViewY;
 
     UICollectionViewFlowLayout *menuViewFlowLayout = [[UICollectionViewFlowLayout alloc] init];
     menuViewFlowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     LPMenuView *menuView = [[LPMenuView alloc] initWithFrame:CGRectMake(menuViewX, menuViewY , menuViewW, menuViewH) collectionViewLayout:menuViewFlowLayout];    
     menuView.backgroundColor = [UIColor colorFromHexString:LPColor29];
+//    menuView.backgroundColor = [UIColor redColor];
+    
     menuView.showsHorizontalScrollIndicator = NO;
     menuView.scrollsToTop = NO;
     menuView.delegate = self;
@@ -138,12 +138,7 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
     [menuView registerClass:[LPMenuCollectionViewCell class] forCellWithReuseIdentifier:menuCellIdentifier];
     [headerView addSubview:menuView];
     self.menuView = menuView;
-    
-    // 底部分割线
-    CALayer *seperatorLayer = [CALayer layer];
-    seperatorLayer.frame = CGRectMake(0, statusBarHeight + menuViewHeight - 1.0f, ScreenWidth, 0.5f);
-    seperatorLayer.backgroundColor = [UIColor colorFromHexString:LPColor21].CGColor;
-    [headerView.layer addSublayer:seperatorLayer];
+
     // 默认选中第一个频道栏
     [self menuViewDidScrollToFirstChannelItem];
     
@@ -163,53 +158,10 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
     [self.view addSubview:pagingView];
     self.pagingView = pagingView;
     
-//    // 首次安装提示信息
-//    if (![userDefaults objectForKey:LPIsVersionFirstLoad]) {
-//        // 添加黑色透明功能
-//    
-//        UIView *homeBlackBlurView = [[UIView alloc] initWithFrame:self.view.bounds];
-//        homeBlackBlurView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
-//    
-//        UITapGestureRecognizer * tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(homeBlurViewPressed)];
-//        [homeBlackBlurView addGestureRecognizer:tapGesture];
-//        [self.view addSubview:homeBlackBlurView];
-//        self.homeBlackBlurView = homeBlackBlurView;
-//
-//        // 点击添加频道
-//        CGFloat changeBarImageViewY = CGRectGetMaxY(channelItemManageButton.frame);
-//        CGFloat changeBarImageViewW = 131;
-//        CGFloat changeBarImageViewH = 49;
-//        UIImageView *channelBarImageView = [[UIImageView alloc] initWithFrame:CGRectMake(ScreenWidth - changeBarImageViewW, changeBarImageViewY, changeBarImageViewW, changeBarImageViewH)];
-//        channelBarImageView.image = [UIImage imageNamed:@"点击频道管理"];
-//        [self.homeBlackBlurView addSubview:channelBarImageView];
-//        self.channelBarImageView = channelBarImageView;
-//
-//        // 字体大小调整和新频道提示
-//        CGFloat changeFontSizeViewH = 150;
-//        CGFloat changeFontSizeTipW = 182;
-//        CGFloat changeFontSizeTipH = 38;
-//        
-//        UIImageView *changeFontSizeTipImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, ScreenHeight - changeFontSizeViewH - changeFontSizeTipH - 7, changeFontSizeTipW, changeFontSizeTipH)];
-//        changeFontSizeTipImageView.image = [UIImage imageNamed:@"改变字体大小"];
-//        changeFontSizeTipImageView.centerX = self.view.centerX;
-//        [self.homeBlackBlurView addSubview:changeFontSizeTipImageView];
-//        self.changeFontSizeTipImageView = changeFontSizeTipImageView;
-//
-//        // 改变字体大小
-//        LPChangeFontSizeView *changeFontSizeView = [[LPChangeFontSizeView alloc] initWithFrame:CGRectMake(0, ScreenHeight - changeFontSizeViewH, ScreenWidth, changeFontSizeViewH)];
-//        changeFontSizeView.delegate = self;
-//        [self.homeBlackBlurView addSubview:changeFontSizeView];
-//        self.changeFontSizeView = changeFontSizeView;
-//    
-//        // 登录提示
-//        LPLaunchLoginView *loginView = [[LPLaunchLoginView alloc] initWithFrame:self.view.bounds];
-//        loginView.delegate = self;
-//        [self.view addSubview:loginView];
-//        self.loginView = loginView;
-//        // 加载完后提示信息
-//        [userDefaults setObject:@"NO" forKey:LPIsVersionFirstLoad];
-//        [userDefaults synchronize];
-//    }
+    if (![userDefaults objectForKey:LPIsVersionFirstLoad]) {
+        [userDefaults setObject:@"NO" forKey:LPIsVersionFirstLoad];
+        [userDefaults synchronize];
+    }
 }
 
 #pragma mark - LPLaunchLoginView Delegate
@@ -426,13 +378,15 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
     
     CGFloat menuBackgroundViewX = attributes.frame.origin.x + 5;
     CGFloat menuBackgroundViewH = 2;
-    CGFloat menuBackgroundViewY = CGRectGetMaxY(attributes.frame) + 2 ;
+//    CGFloat menuBackgroundViewY = CGRectGetMaxY(attributes.frame) + 2 ;
+    
+     CGFloat menuBackgroundViewY = CGRectGetMaxY(attributes.frame)  ;
     CGFloat menuBackgroundViewW = attributes.frame.size.width - 10;
    
     CGRect cellRect = CGRectMake(menuBackgroundViewX, menuBackgroundViewY, menuBackgroundViewW, menuBackgroundViewH);
     UIView *menuBackgroundView = [[UIView alloc] init];
     menuBackgroundView.frame = cellRect;
-    menuBackgroundView.backgroundColor = [UIColor colorFromHexString:LPColor30];
+    menuBackgroundView.backgroundColor = [UIColor colorFromHexString:LPColor15];
 
     [self.menuView addSubview:menuBackgroundView];
     self.menuBackgroundView = menuBackgroundView;
@@ -442,10 +396,7 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
 - (void)channelItemManageButtonClick {
 
     LPHomeChannelItemController *homeChannelItemController = [[LPHomeChannelItemController alloc] init];
-    homeChannelItemController.selectedArray = [self.selectedArray mutableCopy];
-    homeChannelItemController.optionalArray = [self.optionalArray mutableCopy];
     homeChannelItemController.selectedChannelTitle = self.selectedChannelTitle;
-    
 
     // 添加频道
     homeChannelItemController.addChannelItemBlock = ^(NSString *channelName, NSInteger insertIndex, NSMutableArray *selectedArray, NSMutableArray *optionalArray) {

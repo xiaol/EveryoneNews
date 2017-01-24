@@ -42,7 +42,7 @@
 #pragma mark - dealloc
 - (void)dealloc {
     [noteCenter removeObserver:self];
-    NSLog(@"dealloc");
+   // NSLog(@"dealloc");
 }
 
 

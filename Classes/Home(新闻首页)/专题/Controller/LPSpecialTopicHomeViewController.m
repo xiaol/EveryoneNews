@@ -27,6 +27,15 @@
 
 @implementation LPSpecialTopicHomeViewController
 
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        
+        self.hidesBottomBarWhenPushed = true;
+    }
+    return self;
+}
+
 
 #pragma mark - 懒加载
 - (NSMutableArray *)cardFrames {
@@ -53,9 +62,9 @@
 
 #pragma mark - setup subviews
 - (void)setupSubView {
-    self.view.backgroundColor = [UIColor colorFromHexString:LPColor9];
+    self.view.backgroundColor = [UIColor colorFromHexString:LPColor29];
     // 导航栏
-    double topViewHeight = TabBarHeight + StatusBarHeight + 0.5;
+    double topViewHeight = TabBarHeight + StatusBarHeight;
     double padding = 15;
     
     double returnButtonWidth = 13;
@@ -81,17 +90,10 @@
     
     // 返回button
     UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(padding, returnButtonPaddingTop, returnButtonWidth, returnButtonHeight)];
-    [backButton setBackgroundImage:[UIImage oddityImage:@"消息中心返回"] forState:UIControlStateNormal];
+    [backButton setBackgroundImage:[UIImage oddityImage:@"video_back"] forState:UIControlStateNormal];
     backButton.enlargedEdge = 15;
     [backButton addTarget:self action:@selector(backButtonDidClick) forControlEvents:UIControlEventTouchUpInside];
     [topView addSubview:backButton];
-    
-//    // 详情页右上角分享
-//    UIButton *shareBtn = [[UIButton alloc] initWithFrame:CGRectMake(shareButtonX, shareButtonY , shareButtonW, shareButtonH)];
-//    [shareBtn setBackgroundImage:[UIImage oddityImage:@"详情页右上分享"] forState:UIControlStateNormal];
-//    shareBtn.enlargedEdge = 15;
-//    [shareBtn addTarget:self action:@selector(shareButtonClick) forControlEvents:UIControlEventTouchUpInside];
-//    [topView addSubview:shareBtn];
     
     UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(topView.frame), ScreenWidth , 0.5)];
     seperatorView.backgroundColor = [UIColor colorFromHexString:LPColor10];

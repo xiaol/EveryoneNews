@@ -381,27 +381,63 @@
     
 }
 
-+(UIImage *)oddityImage:(NSString *)named{
 
-
-    
++ (instancetype)MYBundle{
     static NSBundle *shareBundle;
+    NSBundle *oddityBundle =  [NSBundle bundleForClass:[LPHomeViewController class]];
     
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        
-        NSBundle *oddityBundle =  [NSBundle bundleForClass:[LPHomeViewController class]];
-        
-        NSURL *url = [oddityBundle URLForResource:@"OdditBundle" withExtension:@"bundle"];
-        
-        if(url){
-            
-            shareBundle = [NSBundle bundleWithURL:url];
-        }
-    });
+    NSURL *url = [oddityBundle URLForResource:@"OdditBundle" withExtension:@"bundle"];
     
-    return [UIImage imageNamed:named inBundle:shareBundle compatibleWithTraitCollection:nil];
+    if(url){
+        
+        shareBundle = [NSBundle bundleWithURL:url];
+    }
+    return shareBundle;
 }
++ (UIImage*)oddityImage:(NSString*)named{
+    
+    NSBundle *bundle = [self MYBundle];
+    NSString *path = [bundle pathForResource:named ofType:@"png"];
+    
+    return [UIImage imageWithContentsOfFile:path];
+
+    
+//    UIImage *image;
+//    image = [UIImage imageNamed:[NSString stringWithFormat:@"OdditBundle.bundle/%@",named]];
+//    if (image) {
+//        return image;
+//    }
+//    image = [UIImage imageWithContentsOfFile:[[[self MYBundle] resourcePath] stringByAppendingPathComponent:named]];
+//    return image;
+}
+
+
+//+(UIImage *)oddityImage:(NSString *)named{
+//
+//
+//    
+//    static NSBundle *shareBundle;
+//    
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        
+//        NSBundle *oddityBundle =  [NSBundle bundleForClass:[LPHomeViewController class]];
+//        
+//        NSURL *url = [oddityBundle URLForResource:@"OdditBundle" withExtension:@"bundle"];
+//        
+//        if(url){
+//            
+//            shareBundle = [NSBundle bundleWithURL:url];
+//        }
+//    });
+//    
+////    if ([[[UIDevice currentDevice] systemVersion] floatValue] < 8.0){
+//    
+//        return [UIImage imageWithContentsOfFile:[[shareBundle resourcePath]stringByAppendingPathComponent:named]];
+////    }
+//    
+////    return [UIImage imageNamed:named inBundle:shareBundle compatibleWithTraitCollection:nil];
+//}
 
 +(UIImage *)sharePlaceholderImage:(UIColor *)color sizes:(CGSize)size{
 

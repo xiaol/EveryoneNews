@@ -258,15 +258,15 @@ static const CGFloat LPPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
         self.activity = activity;
         
         // 重播按钮
-        UIButton *repeatBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [repeatBtn setImage:LPPlayerImage(@"video_repeat_video") forState:UIControlStateNormal];
+        UIButton *repeatBtn = [[UIButton alloc] init];
+        [repeatBtn setImage:[UIImage oddityImage:@"video_repeat_video"] forState:UIControlStateNormal];
         [repeatBtn addTarget:self action:@selector(repeatBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         self.repeatBtn = repeatBtn;
         [self addSubview:repeatBtn];
         
         // 关闭按钮
         UIButton *closeButton = [[UIButton alloc] init];
-        [closeButton setImage:LPPlayerImage(@"video_close") forState:UIControlStateNormal];
+        [closeButton setImage:[UIImage oddityImage:@"video_close" ] forState:UIControlStateNormal];
         [closeButton addTarget:self action:@selector(closeBtnClick:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:closeButton];
         self.closeButton = closeButton;
@@ -353,15 +353,9 @@ static const CGFloat LPPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
         make.centerY.equalTo(self.currentTimeLabel.mas_centerY).offset(-1);
         make.height.mas_equalTo(30);
     }];
-
-    [self.shareButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.height.mas_equalTo(30);
-        make.trailing.equalTo(self.topImageView.mas_trailing).offset(-10);
-        make.centerY.equalTo(self.backButton.mas_centerY);
-    }];
  
     [self.lockScreenButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.trailing.equalTo(self.shareButton.mas_leading).offset(-18);
+        make.trailing.equalTo(self.topImageView.mas_trailing).offset(-10);
         make.centerY.equalTo(self.backButton.mas_centerY);
         make.width.height.mas_equalTo(40);
     }];
@@ -509,13 +503,6 @@ static const CGFloat LPPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     }
 }
 
-// 分享
-- (void)shareButtonClick:(UIButton *)sender {
-    if ([self.delegate respondsToSelector:@selector(lp_controlView:shareAction:)]) {
-        [self.delegate lp_controlView:self shareAction:sender];
-    }
-}
-
 // 锁屏
 -(void)lockScreenButtonClick:(UIButton *)sender {
     sender.selected = !sender.selected;
@@ -645,13 +632,11 @@ static const CGFloat LPPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
         self.titleLabel.hidden = NO;
         self.backButton.hidden = NO;
         self.lockScreenButton.hidden = NO;
-        self.shareButton.hidden = NO;
      
     } else {
         self.titleLabel.hidden = YES;
         self.backButton.hidden = YES;
         self.lockScreenButton.hidden = YES;
-        self.shareButton.hidden = YES;
     }
 }
 
@@ -716,7 +701,6 @@ static const CGFloat LPPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     // 设置网络占位图片
     if (playerModel.placeHolderImageURLString) {
         NSURL *url = [NSURL URLWithString:playerModel.placeHolderImageURLString];
-        
         [self.placeholderImageView sd_setImageWithURL:url placeholderImage:[UIImage sharePlaceholderImage:[UIColor colorFromHexString:@"#f8f8f8"] sizes:CGSizeMake(80, 80)]];
     } else {
         self.placeholderImageView.image = playerModel.placeholderImage;

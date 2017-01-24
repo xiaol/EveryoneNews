@@ -17,6 +17,7 @@
 #import "LXReorderableCollectionViewFlowLayout.h"
 #import "LPPagingView.h"
 #import "LPPagingViewPage.h"
+#import "LPChannelItemTool.h"
 
 static NSString *reuseIdentifierFooter = @"reuseIdentifierFooter";
 static NSString *reuseIdentifierHeader = @"reuseIdentifierHeader";
@@ -45,6 +46,21 @@ static NSString *cellIdentifier = @"sortCollectionViewCell";
     return _cellAttributesArray;
 }
 
+- (NSMutableArray *)selectedArray {
+    if (_selectedArray == nil) {
+           _selectedArray = [[NSMutableArray alloc] init];
+    }
+    return _selectedArray;
+}
+
+
+- (NSMutableArray *)optionalArray {
+    if (_optionalArray == nil) {
+        _optionalArray = [[NSMutableArray alloc] init];
+    }
+    return _optionalArray;
+}
+
 #pragma mark - 初始化
 - (instancetype)init {
     if(self = [super init]) {
@@ -58,6 +74,7 @@ static NSString *cellIdentifier = @"sortCollectionViewCell";
         self.animationLabel.backgroundColor = [UIColor whiteColor];
         self.animationLabel.clipsToBounds = YES;
         self.animationLabel.layer.cornerRadius = 7;
+        self.hidesBottomBarWhenPushed = true;
     }
     return self;
 }
@@ -65,9 +82,27 @@ static NSString *cellIdentifier = @"sortCollectionViewCell";
 #pragma mark - ViewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.view.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
+        self.view.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
     [self setupSubViews];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSArray *channelItemsArray  =  [LPChannelItemTool getChannelItems];
+        
+        for (LPChannelItem *channelItem in  channelItemsArray) {
+            // 已选频道
+            if([channelItem.channelIsSelected  isEqual: @"1"] && channelItem.hidden == NO) {
+                [self.selectedArray addObject:channelItem];
+            }
+            // 可选频道
+            if([channelItem.channelIsSelected  isEqual: @"0"] && channelItem.hidden == NO) {
+                [self.optionalArray addObject:channelItem];
+            }
+        }
+        self.sortCollectionView.delegate = self;
+        self.sortCollectionView.dataSource = self;
+        
+        [self.sortCollectionView reloadData];
+    });
 }
 
 #pragma mark - ViewWillDidappear
@@ -77,6 +112,8 @@ static NSString *cellIdentifier = @"sortCollectionViewCell";
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     dict[@"selectedChannelTitle"] = self.selectedChannelTitle;
     self.channelItemDidChangedBlock(dict);
+    
+    
 }
 
 #pragma mark - 创建视图
@@ -117,8 +154,6 @@ static NSString *cellIdentifier = @"sortCollectionViewCell";
 //        [sortCollectionView addGestureRecognizer:longGesture];
 //    }
     
-    sortCollectionView.delegate = self;
-    sortCollectionView.dataSource = self;
     sortCollectionView.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
     sortCollectionView.showsVerticalScrollIndicator = NO;
     [sortCollectionView registerClass:[LPChannelItemCollectionViewCell class]

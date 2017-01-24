@@ -299,7 +299,9 @@
             self.noImageLabel.hidden = NO;
             self.noImagePublishTimeLabel.hidden = NO;
             self.noImageSeperatorLine.hidden = NO;
+            self.noImageCommentLabel.hidden = NO;
             
+            self.singleImageTitleLabel.hidden = YES;
             self.videoImageTitleLabel.hidden = YES;
             self.singleImageView.hidden = YES;
             self.singleImagePublishTimeLabel.hidden = YES;
@@ -438,6 +440,14 @@
             self.thirdMutipleImageView.frame = CGRectMake(x + 2 * w + 6, y, w, h);
         }
     }
+}
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+    
+}
+
+- (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
+    
 }
 
 #pragma mark - 图片缩放处理

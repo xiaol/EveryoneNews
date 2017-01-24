@@ -66,10 +66,9 @@
         
         UITextField *searchField = [searchBar valueForKey:@"_searchField"];
         if (searchField) {
-            [searchField setBackgroundColor:[UIColor colorFromHexString:@"#ffffff"]];
-            searchField.layer.cornerRadius = 14.0f;
-            searchField.layer.borderColor = [UIColor colorFromHexString:LPColor5].CGColor;
-            searchField.layer.borderWidth = 0.5;
+            
+            searchField.borderStyle = UITextBorderStyleNone;
+            [searchField setBackgroundColor:[UIColor colorFromHexString:@"#f6f6f6"]];
             searchField.font = [UIFont systemFontOfSize:LPFont4];
             searchField.layer.masksToBounds = YES;
         }

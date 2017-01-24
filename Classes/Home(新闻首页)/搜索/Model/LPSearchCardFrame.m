@@ -132,16 +132,21 @@
  
         
         CGFloat titleY =  0.0f;
+        CGFloat sourceSiteNameY = 0.0f;
         // 判断图片和标题+来源高度
         if ((titleH + sourceSiteNameH + sourcePaddingTop1 ) > imageH) {
-            titleY =    paddingVertical;
+            titleY = paddingVertical;
+            _singleImageTitleLabelFrame = CGRectMake(titleX, titleY, titleW, titleH);
+            CGFloat maxHeight = MAX(titleH, imageH);
+            sourceSiteNameY = titleY + maxHeight + sourcePaddingTop1;
             
         } else {
             titleY = (imageH - (titleH + sourceSiteNameH + paddingVertical)) / 2 ;
+            _singleImageTitleLabelFrame = CGRectMake(titleX, titleY, titleW, titleH);
+            sourceSiteNameY = CGRectGetMaxY(_singleImageTitleLabelFrame) + sourcePaddingTop1;
         }
         
-        _singleImageTitleLabelFrame = CGRectMake(titleX, titleY, titleW, titleH);
-        CGFloat sourceSiteNameY = CGRectGetMaxY(_singleImageTitleLabelFrame) + sourcePaddingTop1;
+     
         _singleImageSourceLabelFrame = CGRectMake(PaddingHorizontal, sourceSiteNameY, titleW, sourceSiteNameH);
         CGFloat singleImageSeperatorLineY = 0.f;
         

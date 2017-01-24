@@ -26,7 +26,15 @@ static NSString *cellIdentifier = @"cellIdentifier";
 @end
 
 @implementation LPQiDianConcernViewController
-
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        
+        self.hidesBottomBarWhenPushed = true;
+    }
+    return self;
+}
 - (NSMutableArray *)qiDianHaoFrames {
     if (_qiDianHaoFrames == nil) {
         _qiDianHaoFrames = [NSMutableArray array];
@@ -95,7 +103,7 @@ static NSString *cellIdentifier = @"cellIdentifier";
     self.topView = topView;
     
     
-    UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(topView.frame), ScreenWidth , 0.5)];
+    UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(topView.frame), ScreenWidth , 0)];
     seperatorView.backgroundColor = [UIColor colorFromHexString:LPColor10];
     [self.view addSubview:seperatorView];
     

@@ -61,7 +61,15 @@ const static CGFloat changeFontSizeViewH = 150;
 
 @implementation LPConcernDetailViewController
 
-
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        
+        self.hidesBottomBarWhenPushed = true;
+    }
+    return self;
+}
 #pragma mark - 懒加载
 - (NSMutableArray *)concernCardFrames {
     if (!_concernCardFrames) {
@@ -73,6 +81,7 @@ const static CGFloat changeFontSizeViewH = 150;
 #pragma mark - ViewDidLoad
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.view.backgroundColor = [UIColor colorFromHexString:LPColor9];
     [self setupData];
     [self setupTopView];
@@ -202,6 +211,7 @@ const static CGFloat changeFontSizeViewH = 150;
     UILabel *titleLabel = [[UILabel alloc] init];
     NSString *headerStr = self.sourceName;
     titleLabel.text = headerStr;
+    titleLabel.textColor = [UIColor whiteColor];
     titleLabel.font = [UIFont boldSystemFontOfSize:LPFont4];
     titleLabel.textAlignment = NSTextAlignmentCenter;
     titleLabel.hidden = YES;
@@ -214,11 +224,11 @@ const static CGFloat changeFontSizeViewH = 150;
     [topView addSubview:titleLabel];
     self.titleLabel = titleLabel;
     
-    UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(0, topViewHeight - 0.5, ScreenWidth, 0.5)];
-    seperatorView.backgroundColor = [UIColor colorFromHexString:LPColor5];
-    seperatorView.hidden = YES;
-    [topView addSubview:seperatorView];
-    self.seperatorView = seperatorView;
+//    UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(0, topViewHeight - 0.5, ScreenWidth, 0.5)];
+//    seperatorView.backgroundColor = [UIColor colorFromHexString:LPColor5];
+//    seperatorView.hidden = YES;
+//    [topView addSubview:seperatorView];
+//    self.seperatorView = seperatorView;
     
     self.topView = topView;
 
@@ -416,10 +426,11 @@ const static CGFloat changeFontSizeViewH = 150;
     CGFloat seperatorViewX = 17;
     CGFloat seperatorViewY = CGRectGetMaxY(headerLabel.frame) + 22;
     CGFloat seperatorViewW = ScreenWidth - seperatorViewX * 2;
-    CGFloat seperatorViewH = 0.5;
+    CGFloat seperatorViewH = 0;
     
     UIView *seperatorView = [[UIView alloc] initWithFrame:CGRectMake(seperatorViewX, seperatorViewY, seperatorViewW, seperatorViewH)];
-    seperatorView.backgroundColor = [UIColor colorFromHexString:LPColor5];
+//    seperatorView.backgroundColor = [UIColor colorFromHexString:LPColor5];
+    seperatorView.backgroundColor = [UIColor redColor];
     [headerView addSubview:seperatorView];
     
     CGFloat headerViewH = CGRectGetMaxY(seperatorView.frame);

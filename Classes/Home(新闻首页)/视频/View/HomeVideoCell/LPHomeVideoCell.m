@@ -144,6 +144,8 @@
     } else {
         NSURL *coverImageURL = [NSURL URLWithString:card.thumbnail];
         UIImage *coverPlaceHolder = [UIImage sharePlaceholderImage:[UIColor colorFromHexString:@"#f8f8f8"] sizes:CGSizeMake(100, 100)];
+        
+        
         [self.coverImageView sd_setImageWithURL:coverImageURL placeholderImage:coverPlaceHolder];
         
         self.playButton.hidden = NO;

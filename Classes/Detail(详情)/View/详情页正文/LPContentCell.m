@@ -14,7 +14,7 @@
 #import <DTRichTextEditor/DTRichTextEditorView.h>
 #import <DTRichTextEditor/DTTextRange.h>
 
-@interface LPContentCell()<DTAttributedTextContentViewDelegate, DTRichTextEditorViewDelegate, UIWebViewDelegate>
+@interface LPContentCell()<UIWebViewDelegate>
 
 @property (nonatomic, strong) DTRichTextEditorView *bodyTextView;
 
@@ -34,8 +34,6 @@
 @end
 
 @implementation LPContentCell
-
-@synthesize menuItems = _menuItems;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView
 {
@@ -101,74 +99,6 @@
     return self;
 }
 
-
-- (NSArray *)menuItems {
-    if (_menuItems == nil) {
-        UIMenuItem *copyItem = [[UIMenuItem alloc] initWithTitle:@"拷贝" action:@selector(copyItem)];
-        UIMenuItem *searchItem = [[UIMenuItem alloc] initWithTitle:@"搜索" action:@selector(searchItem)];
-        _menuItems = @[copyItem, searchItem];
-    }
-    return _menuItems;
-}
-
-- (BOOL)editorView:(DTRichTextEditorView *)editorView canPerformAction:(SEL)action withSender:(id)sender {
-    DTTextRange *selectedTextRange = (DTTextRange *)editorView.selectedTextRange;
-    NSString *selectedText = [self.bodyTextView textInRange:selectedTextRange];
-    if (selectedText.length > 0) {
-        if (action == @selector(copyItem) || action == @selector(searchItem)) {
-            return YES;
-        }
-    }
-    return NO;
-
-}
-
-
-#pragma mark - DTAttributedTextContentViewDelegate
-
-- (UIView *)attributedTextContentView:(DTAttributedTextContentView *)attributedTextContentView
-                          viewForLink:(NSURL *)url
-                           identifier:(NSString *)identifier
-                                frame:(CGRect)frame
-{
-    DTLinkButton *linkButton = [[DTLinkButton alloc] initWithFrame:frame];
-    linkButton.URL = url;
-    [linkButton addTarget:self
-                   action:@selector(linkButtonClicked:)
-         forControlEvents:UIControlEventTouchUpInside];
-    
-    return linkButton;
-}
-
-- (void)copyItem {
-        UITextRange *selectedRange = [self.bodyTextView selectedTextRange];
-        NSString *selectedText = [self.bodyTextView textInRange:selectedRange];
-        if (selectedText.length > 0) {
-            if ([self.delegate respondsToSelector:@selector(contentCell:copyText:)]) {
-                [self.delegate contentCell:self copyText:selectedText];
-            }
-        }
-}
-
-- (void)searchItem {
-    UITextRange *selectedRange = [self.bodyTextView selectedTextRange];
-    NSString *selectedText = [self.bodyTextView textInRange:selectedRange];
-    if (selectedText.length > 0) {
-        if ([self.delegate respondsToSelector:@selector(contentCell:searchText:)]) {
-            [self.delegate contentCell:self searchText:selectedText];
-        }
-    }
-}
-
-#pragma mark - Events
-
-- (IBAction)linkButtonClicked:(DTLinkButton *)sender
-{
-    if ([self.delegate respondsToSelector:@selector(contentCell:didOpenURL:)]) {
-        [self.delegate contentCell:self didOpenURL:[sender.URL absoluteString]];
-    }
-}
-
 - (void)setContentFrame:(LPContentFrame *)contentFrame
 {
     _contentFrame = contentFrame;    
@@ -201,10 +131,7 @@
         self.videoImageView.image = [UIImage oddityImage:@"单图大图占位图"];
         self.webView.frame = self.contentFrame.webViewF;
         self.videoImageView.frame = self.contentFrame.videoImageViewF;
-     
-        
-        
-        
+
         // 处理视频宽高
         NSURLComponents *urlComponents = [[NSURLComponents alloc] initWithString:content.video];
         NSString *videoURLScheme = [urlComponents scheme];
@@ -274,13 +201,5 @@
 }
 
 
-- (BOOL)editorViewShouldBeginEditing:(DTRichTextEditorView *)editorView {
-    UITextRange *selectedRange = [editorView selectedTextRange];
-    NSString *selectedText = [editorView textInRange:selectedRange];
-    if(selectedText.length > 0) {
-        return YES;
-    }
-    return NO;
-}
 
 @end
