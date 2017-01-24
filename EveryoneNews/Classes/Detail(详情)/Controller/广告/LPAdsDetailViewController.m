@@ -100,6 +100,10 @@
 //  页面加载失败
 -(void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation withError:(NSError *)error {
     [self.loadingView stopAnimating];
+    NSURL *url = [NSURL URLWithString:(NSString *)error.userInfo[@"NSErrorFailingURLStringKey"]];
+    if (url && [[UIApplication sharedApplication] canOpenURL:url]) {
+        [[UIApplication sharedApplication]openURL:url];
+    }
 
 }
  

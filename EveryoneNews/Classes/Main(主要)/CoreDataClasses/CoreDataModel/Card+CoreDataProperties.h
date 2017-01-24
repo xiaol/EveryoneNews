@@ -36,6 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSString *keywordColor;
 @property (nullable, nonatomic, retain) NSNumber *utype;
 @property (nullable, nonatomic, retain) NSNumber *duration;
+@property (nullable, nonatomic, retain) NSString *adimpression;
 
 @property (nullable, nonatomic, retain) NSSet<CardConcern *> *cardConcern;
 @property (nullable, nonatomic, retain) NSOrderedSet<CardImage *> *cardImages;

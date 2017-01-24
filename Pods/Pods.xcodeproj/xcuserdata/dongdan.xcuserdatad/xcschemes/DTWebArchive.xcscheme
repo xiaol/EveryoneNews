@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'DF849F825A1D131A17F53200C0E9D787'
+               BlueprintIdentifier = 'D569E1AAD00BD0D063403710B22BF814'
                BlueprintName = 'DTWebArchive'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libDTWebArchive.a'>

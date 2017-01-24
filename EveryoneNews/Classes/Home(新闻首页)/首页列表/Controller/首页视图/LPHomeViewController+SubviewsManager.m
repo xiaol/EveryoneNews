@@ -137,7 +137,7 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
     CGFloat menuViewX = 46;
     CGFloat menuViewPaddingRight = 35.5;
     
-    CGFloat menuViewY = 30;
+    CGFloat menuViewY = 20;
     CGFloat menuViewW = 0.0f;
     CGFloat menuViewH = 24.0;
     
@@ -493,7 +493,7 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
     
     CGFloat menuBackgroundViewX = attributes.frame.origin.x + 5;
     CGFloat menuBackgroundViewH = 2;
-    CGFloat menuBackgroundViewY = CGRectGetMaxY(attributes.frame) + 2 ;
+    CGFloat menuBackgroundViewY = CGRectGetMaxY(attributes.frame) ;
     CGFloat menuBackgroundViewW = attributes.frame.size.width - 10;
    
     CGRect cellRect = CGRectMake(menuBackgroundViewX, menuBackgroundViewY, menuBackgroundViewW, menuBackgroundViewH);

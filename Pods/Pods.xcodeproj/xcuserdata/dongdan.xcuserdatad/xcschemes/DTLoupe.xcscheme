@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'EAB9D1CECA208033BD399D0206BC2B35'
+               BlueprintIdentifier = 'FF5661938A44ACF6F36CD925E9B17457'
                BlueprintName = 'DTLoupe'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libDTLoupe.a'>

@@ -25,7 +25,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     WKWebView *webView = [[WKWebView alloc] initWithFrame:self.view.bounds];
-    webView.allowsLinkPreview = YES;
+    if (iOS9) {
+        webView.allowsLinkPreview = YES; 
+    }
     webView.allowsBackForwardNavigationGestures = YES;
     webView.navigationDelegate = self;
     webView.backgroundColor = [UIColor whiteColor];

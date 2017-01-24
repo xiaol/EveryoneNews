@@ -104,8 +104,8 @@
     CGFloat sourceY = sourceImageViewY + (sourceImageViewH - sourceH) / 2.0f;
     
     // 删除按钮宽度和高度
-    CGFloat deleteButtonW = 12;
-    CGFloat deleteButtonH = 12;
+    CGFloat deleteButtonW = 22;
+    CGFloat deleteButtonH = 13;
     CGFloat deleteButtonX = ScreenWidth - deleteButtonW - paddingLeft;
     CGFloat deleteButtonY = 0.0f;
     
@@ -118,7 +118,7 @@
     _cellHeight = 0.0f;
     
     // 专题
-    if (rtype == 4) {
+    if (rtype == zhuantiNewsType) {
         _specialTopicTipButtonFrame = CGRectMake(tipButtonX, tipButtonY, tipButtonW, tipButtonH);
         
         CGFloat titleW = ScreenWidth - paddingLeft * 2;
@@ -152,19 +152,13 @@
         // 无置顶评论数位置
         _specialTopicCommentsCountLabelNoTopFrame = CGRectMake(paddingLeft, commentsY, commentsW, commentsH);
         _specialTopicDeleteButtonFrame = CGRectMake(deleteButtonX, deleteButtonY, deleteButtonW, deleteButtonH);
+        _specialTopicNewsTypeLabelFrame = CGRectMake(titleX, titleY + rtypeGap, rtypeW, rtypeH);
         
-        switch (rtype) {
-            case hotNewsType:case pushNewsType:case adNewsType:case zhuantiNewsType:
-                _specialTopicNewsTypeLabelFrame = CGRectMake(titleX, titleY + rtypeGap, rtypeW, rtypeH);
-                break;
-            default:
-                break;
-        }
         CGFloat specialTopicSeperatorLineFrameY = CGRectGetMaxY(_specialTopicDeleteButtonFrame) + paddingBottom;
         _specialTopicSeperatorLineFrame = CGRectMake(0, specialTopicSeperatorLineFrameY, ScreenWidth, seperatorH);
         _cellHeight = CGRectGetMaxY(_specialTopicSeperatorLineFrame);
         
-    } else if(rtype == 6) {
+    } else if(rtype == videoNewsType) {
         // 视频
         _videoTipButtonFrame = CGRectMake(tipButtonX, tipButtonY, tipButtonW, tipButtonH);
         _videoSourceImageViewFrame = CGRectMake(paddingLeft, sourceImageViewY, sourceImageViewW, sourceImageViewH);
@@ -227,15 +221,9 @@
         _videoDeleteButtonFrame = CGRectMake(deleteButtonX, deleteButtonY, deleteButtonW, deleteButtonH);
         
         videoSeperatorLineY = MAX(CGRectGetMaxY(_videoDeleteButtonFrame), CGRectGetMaxY(_videoImageViewFrame))  + paddingBottom;
-        
-        switch (rtype) {
-             case hotNewsType:case pushNewsType:case adNewsType:case zhuantiNewsType:case videoNewsType:
-                _videoNewsTypeLabelFrame = CGRectMake(titleX, titleY + rtypeGap, rtypeW, rtypeH);
-                break;
-            default:
-                break;
-        }
-        
+       
+        _videoNewsTypeLabelFrame = CGRectMake(titleX, titleY + rtypeGap, rtypeW, rtypeH);
+
         // 播放按钮 播放时长
         NSString *duration = @"000000";
         CGFloat durationFontSize = 10;
@@ -279,7 +267,7 @@
             _noImageTitleLabelFrame = CGRectMake(titleX, titleY, titleW, titleH);
         
             switch (rtype) {
-                case hotNewsType:case pushNewsType:case adNewsType:case zhuantiNewsType:case videoNewsType:
+                case hotNewsType:case pushNewsType:case adNewsType:case localNewsType:
                     _noImageNewsTypeLabelFrame = CGRectMake(titleX, titleY + rtypeGap, rtypeW, rtypeH);
                     break;
                 default:
@@ -302,11 +290,11 @@
             _singleImageTipButtonFrame = CGRectMake(tipButtonX, tipButtonY, tipButtonW, tipButtonH);
             
             // 广告位隐藏来源
-            if ([card.rtype integerValue]  == 3) {
-                sourceImageViewY = 0;
-                sourceImageViewH = 0;
-                sourceH = 0;
-            }
+//            if ([card.rtype integerValue]  == 3) {
+//                sourceImageViewY = 0;
+//                sourceImageViewH = 0;
+//                sourceH = 0;
+//            }
             
             _singleImageSourceImageViewFrame = CGRectMake(paddingLeft, sourceImageViewY, sourceImageViewW, sourceImageViewH);
             
@@ -319,13 +307,13 @@
             
             // 定义单张图片的宽度
             CGFloat imageW = (ScreenWidth - paddingLeft * 2 - 6) / 3 ;
-            CGFloat imageH = 76 * imageW / 114;
+            CGFloat imageH = (2 * imageW) / 3;
             CGFloat imageX = ScreenWidth - paddingLeft - imageW;
             CGFloat imageY =   CGRectGetMaxY(_singleImageSourceImageViewFrame) + paddingTop;
             
-            if ([card.rtype integerValue]  == 3) {
-                imageY = paddingTop + tipButtonH;
-            }
+//            if ([card.rtype integerValue]  == 3) {
+//                imageY = paddingTop + tipButtonH;
+//            }
             
             _singleImageImageViewFrame = CGRectMake(imageX, imageY, imageW, imageH);
             
@@ -364,15 +352,13 @@
             _singleImageTitleLabelFrame = CGRectMake(titleX, titleY, titleW, titleH);
             commentsY = deleteButtonY;
             
-        
-            
             _singleImageCommentsCountLabelFrame = CGRectMake(commentsX, commentsY, commentsW, commentsH);
             _singleImageDeleteButtonFrame = CGRectMake(deleteButtonX, deleteButtonY, deleteButtonW, deleteButtonH);
             
             singleImageSeperatorLineY = MAX(CGRectGetMaxY(_singleImageDeleteButtonFrame), CGRectGetMaxY(_singleImageImageViewFrame))  + paddingBottom;
             
             switch (rtype) {
-                case hotNewsType:case pushNewsType:case adNewsType:case zhuantiNewsType:case videoNewsType:
+                case hotNewsType:case pushNewsType:case adNewsType:case localNewsType:
                     _singleImageNewsTypeLabelFrame = CGRectMake(titleX, titleY + rtypeGap, rtypeW, rtypeH);
                     break;
                 default:
@@ -416,7 +402,7 @@
             _singleBigImageSeperatorLineFrame = CGRectMake(0, singleBigImageSeperatorLineY, ScreenWidth, seperatorH);
             
             switch (rtype) {
-                case hotNewsType:case pushNewsType:case adNewsType:case zhuantiNewsType:case videoNewsType:
+                case hotNewsType:case pushNewsType:case adNewsType:case localNewsType:
                     _singleBigImageNewsTypeLabelFrame = CGRectMake(titleX, titleY + rtypeGap, rtypeW, rtypeH);
                     break;
                 default:
@@ -429,12 +415,12 @@
             
             _multipleImageTipButtonFrame = CGRectMake(tipButtonX, tipButtonY, tipButtonW, tipButtonH);
             
-            // 广告位隐藏来源
-            if ([card.rtype integerValue]  == 3) {
-                sourceImageViewY = 0;
-                sourceImageViewH = 0;
-                sourceH = 0;
-            }
+//            // 广告位隐藏来源
+//            if ([card.rtype integerValue]  == 3) {
+//                sourceImageViewY = 0;
+//                sourceImageViewH = 0;
+//                sourceH = 0;
+//            }
             _multipleImageSourceImageViewFrame = CGRectMake(paddingLeft, sourceImageViewY, sourceImageViewW, sourceImageViewH);
             
             CGFloat sourceX = CGRectGetMaxX(_multipleImageSourceImageViewFrame) + sourcePaddingLeft;
@@ -469,11 +455,11 @@
             // 定义单张图片的宽度
             CGFloat imageW = (ScreenWidth - paddingLeft * 2 - 6) / 3 ;
             
-            CGFloat imageH = 76 * imageW / 114;
+            CGFloat imageH = (2 * imageW) / 3;
             
             _multipleImageViewFrame = CGRectMake(titleX, imageY, ScreenWidth - paddingLeft * 2, imageH);
             switch (rtype) {
-                case hotNewsType:case pushNewsType:case adNewsType:case zhuantiNewsType:case videoNewsType:
+                case hotNewsType:case pushNewsType:case adNewsType:case localNewsType:
                     _multipleImageNewsTypeLabelFrame = CGRectMake(titleX, titleY + rtypeGap, rtypeW, rtypeH);
                     break;
                 default:
@@ -482,16 +468,13 @@
             deleteButtonY = CGRectGetMaxY(_multipleImageViewFrame) + deleteButtonPaddingTop;
             commentsY = deleteButtonY;
             _multipleImageCommentsCountLabelFrame = CGRectMake(commentsX, commentsY, commentsW, commentsH);
-            
             _multipleImageDeleteButtonFrame = CGRectMake(deleteButtonX, deleteButtonY, deleteButtonW, deleteButtonH);
             
             CGFloat multipleImageSeperatorLineY = CGRectGetMaxY(_multipleImageDeleteButtonFrame)+ paddingBottom;
             _multipleImageSeperatorLineFrame = CGRectMake(0, multipleImageSeperatorLineY, ScreenWidth, seperatorH);
             _cellHeight = CGRectGetMaxY(_multipleImageSeperatorLineFrame);
         }
-
     }
-    
-   }
+}
 
 @end

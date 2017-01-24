@@ -26,6 +26,7 @@
 #import "LPLoadingView.h"
 
 
+static NSString *cellIdentifier = @"cellIdentifier";
 @interface LPPagingViewPage () <UITableViewDataSource, UITableViewDelegate, UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) UIView *searchView;
@@ -34,6 +35,8 @@
 @property (nonatomic, strong) UITableView *tableView;
 
 @end
+
+
 
 @implementation LPPagingViewPage
 
@@ -121,6 +124,8 @@
         tableView.scrollsToTop = NO;
         [self addSubview:tableView];
          self.tableView = tableView;
+        
+        [tableView registerClass:[LPHomeViewCell class] forCellReuseIdentifier:cellIdentifier];
         
         UILabel *label = [[UILabel alloc] init];
         label.hidden = YES;
@@ -234,7 +239,6 @@
 
 #pragma mark - setCardFrames
 - (void)setCardFrames:(NSMutableArray *)cardFrames {
-
     _cardFrames = cardFrames;
     if (cardFrames.count > 0) {
         self.searchView.hidden = NO;
@@ -276,7 +280,7 @@
         Card *card = cardFrame.card;
         CardParam *param = [[CardParam alloc] init];
         param.type = HomeCardsFetchTypeNew;
-        param.channelID = [NSString stringWithFormat:@"%@", card.channelId];
+        param.channelID = self.pageChannelID;
         param.count = @20;
         param.startTime = card.updateTime;
         NSMutableArray *tempArray = [[NSMutableArray alloc] init];
@@ -300,6 +304,8 @@
         } failure:^(NSError *error) {
             [self.tableView.mj_header endRefreshing];
             [MBProgressHUD showError:@"网络连接中断"];
+            
+            NSLog(@"%@", error);
         }];
     } else {
      
@@ -337,7 +343,7 @@
     CardFrame *cardFrame = [self.cardFrames lastObject];
     Card *card = cardFrame.card;
     CardParam *param = [[CardParam alloc] init];
-    param.channelID = [NSString stringWithFormat:@"%@", card.channelId];
+    param.channelID = self.pageChannelID;
     param.type = HomeCardsFetchTypeMore;
     param.count = @20;
     param.startTime = card.updateTime;
@@ -373,11 +379,8 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    NSString *cellIdentifier = self.cellIdentifier;
-    LPHomeViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if (cell == nil) {
-        cell = [[LPHomeViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-    }
+    LPHomeViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+ 
     cell.currentRow = indexPath.row;
     cell.cardFrame = self.cardFrames[indexPath.row];
 
@@ -391,12 +394,18 @@
         }
         
     }];
-    [cell didTapSourceListViewBlock:^(NSString *sourceSiteName, NSString *sourceImageURL) {
-        if ([self.delegate respondsToSelector:@selector(page:didTapListViewWithSourceName:sourceImage:)]) {
-            [(id<LPPagingViewPageDelegate>)self.delegate page:self didTapListViewWithSourceName:sourceSiteName sourceImage:sourceImageURL];
+    [cell didTapSourceListViewBlock:^(NSString *sourceSiteName, NSString *sourceImageURL, BOOL isAds) {
+        if ([self.delegate respondsToSelector:@selector(page:didTapListViewWithSourceName:sourceImage:isAds:)]) {
+            [(id<LPPagingViewPageDelegate>)self.delegate page:self didTapListViewWithSourceName:sourceSiteName sourceImage:sourceImageURL isAds:isAds];
         }
     }];
-    
+    Card *card = cell.cardFrame.card;
+    if ([card.rtype integerValue] == adNewsType) {
+        //  请求广告接口
+        [self getAdsWithAdImpression:card.adimpression];
+        // 本地统计
+        [self postWeatherAdsStatistics];
+    }
     return cell;
 }
 
@@ -467,5 +476,18 @@
     
     [self.tableView setContentOffset:CGPointZero animated:YES];
 }
+
+#pragma mark - 广告提交到后台
+- (void)getAdsWithAdImpression:(NSString *)adImpression {
+    if (adImpression.length > 0) {
+        [CardTool getAdsImpression:adImpression];
+    }
+}
+
+#pragma mark - 黄历天气
+- (void)postWeatherAdsStatistics {
+    [CardTool postWeatherAdsWithType:@"244"];
+}
+
 
 @end

@@ -44,8 +44,6 @@ typedef NS_ENUM(NSInteger, PanDirection){
 @property (nonatomic, assign) BOOL didEnterBackground;
 // 是否再次设置URL播放视频
 @property (nonatomic, assign) BOOL repeatToPlay;
-
-
 // 播放完了
 @property (nonatomic, assign) BOOL playDidEnd;
 // slider预览图
@@ -377,7 +375,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
     }
     
     [self play];
-    [self loadMediaOptions];
+   // [self loadMediaOptions];
 }
 
 // 添加字幕
@@ -622,8 +620,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
 #pragma mark - 播放监听
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if (object == self.player.currentItem) {
-        
-          dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
         if ([keyPath isEqualToString:@"status"]) {
             if (self.player.currentItem.status == AVPlayerItemStatusReadyToPlay) {
                 [self setNeedsLayout];

@@ -20,4 +20,6 @@
 
 - (void)loadDataAtPageIndex:(NSInteger)pageIndex basePage:(LPPagingViewBasePage *)basePage;
 
+
+
 @end

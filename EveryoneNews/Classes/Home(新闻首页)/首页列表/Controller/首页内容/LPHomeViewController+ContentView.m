@@ -39,12 +39,15 @@
 #import "LPConcernDetailViewController.h"
 #import "LPAdsDetailViewController.h"
 #import "LPVideoDetailViewController.h"
+#import "CardTool.h"
 
 
 
 NSString * const reusePageID = @"reusePageID";
 NSString * const reuseConcernPageID = @"reuseConcernPageID";
 NSString * const reuseVideoPageID = @"reuseVideoPageID";
+ 
+
  
 
 @implementation LPHomeViewController (PagingView)
@@ -74,7 +77,9 @@ NSString * const reuseVideoPageID = @"reuseVideoPageID";
     page.cardFrames = self.channelItemDictionary[channelItem.channelName];
     if (cardFramesArray.count == 0) {
         [self loadDataAtPageIndex:pageIndex basePage:page];
-    } 
+    }
+    
+    page.pageChannelID = channelItem.channelID;
     page.pageChannelName = channelItem.channelName;
     page.cellIdentifier = self.cardCellIdentifierDictionary[@(pageIndex)];
     page.delegate = self;
@@ -190,6 +195,7 @@ NSString * const reuseVideoPageID = @"reuseVideoPageID";
 }
 
 - (void)pagingView:(LPPagingView *)pagingView didEndDisplayPage:(UIView *)page atIndex:(NSInteger)pageIndex {
+    if (self.selectedArray.count <= pageIndex ){ return; }
     LPPagingViewBasePage *basePage = (LPPagingViewBasePage *)page;
     LPChannelItem *channelItem = [self.selectedArray objectAtIndex:pageIndex];    
     channelItem.offset = basePage.offset;
@@ -363,10 +369,7 @@ NSString * const reuseVideoPageID = @"reuseVideoPageID";
                 
             }];
  
-        }
-        
-        
-        else {
+        } else {
             [CardTool cardsWithParam:param channelID:channelItem.channelID success:^(NSArray *cards) {
                 for (Card *card in cards) {
                     CardFrame *cf = [[CardFrame alloc] init];
@@ -490,12 +493,22 @@ NSString * const reuseVideoPageID = @"reuseVideoPageID";
     [self.navigationController pushViewController:videoDetailController animated:NO];
 }
 
+- (void)videoPage:(LPPagingViewVideoPage *)videoPage card:(Card *)card {
+    LPAdsDetailViewController *adsViewController = [[LPAdsDetailViewController alloc] init];
+    adsViewController.publishURL = card.sourceSiteURL;
+    [self.navigationController pushViewController:adsViewController animated:NO];
+    
+}
+
+
 
 
 #pragma mark - 弹出删除提示
 - (void)page:(LPPagingViewPage *)page didClickDeleteButtonWithCardFrame:(CardFrame *)cardFrame  deleteButton:(UIButton *)deleteButton {
     self.currentPage = page;
     self.currentCardFrame = cardFrame;
+    
+    self.deleteNid = [NSString stringWithFormat:@"%@", cardFrame.card.nid] ;
     
     UIView *blackBackgroundView = [[UIView alloc] init];
     blackBackgroundView.frame = CGRectMake(0, 0, ScreenWidth, ScreenHeight);
@@ -576,6 +589,7 @@ NSString * const reuseVideoPageID = @"reuseVideoPageID";
     notLikeButton.layer.borderColor = [UIColor colorFromHexString:@"#e4e4e4"].CGColor;
     notLikeButton.layer.borderWidth = 0.5;
     notLikeButton.layer.cornerRadius = 6;
+    notLikeButton.tag = 100;
     [notLikeButton addTarget:self action:@selector(deleteCurrentRow:) forControlEvents:UIControlEventTouchUpInside];
     notLikeButton.enlargedEdge = 5;
     [notInterestedView addSubview:notLikeButton];
@@ -592,6 +606,7 @@ NSString * const reuseVideoPageID = @"reuseVideoPageID";
     lowQualityButton.layer.cornerRadius = 6;
     [lowQualityButton addTarget:self action:@selector(deleteCurrentRow:) forControlEvents:UIControlEventTouchUpInside];
     lowQualityButton.enlargedEdge = 5;
+    lowQualityButton.tag = 101;
     [notInterestedView addSubview:lowQualityButton];
     
     // 重复 旧闻
@@ -603,6 +618,7 @@ NSString * const reuseVideoPageID = @"reuseVideoPageID";
     repeatButton.layer.borderColor = [UIColor colorFromHexString:@"#e4e4e4"].CGColor;
     repeatButton.layer.borderWidth = 0.5;
     repeatButton.layer.cornerRadius = 6;
+    repeatButton.tag = 102;
     [repeatButton addTarget:self action:@selector(deleteCurrentRow:) forControlEvents:UIControlEventTouchUpInside];
     repeatButton.enlargedEdge = 5;
     [notInterestedView addSubview:repeatButton];
@@ -622,6 +638,7 @@ NSString * const reuseVideoPageID = @"reuseVideoPageID";
     sourceButton.layer.cornerRadius = 6;
     [sourceButton addTarget:self action:@selector(deleteCurrentRow:) forControlEvents:UIControlEventTouchUpInside];
     sourceButton.enlargedEdge = 5;
+    sourceButton.tag = 103;
     [notInterestedView addSubview:sourceButton];
     
     if (deleteButtonY < centerYInPagingView) {
@@ -648,18 +665,48 @@ NSString * const reuseVideoPageID = @"reuseVideoPageID";
 
 - (void)deleteCurrentRow:(UIButton *)button {
     [self.blackBackgroundView removeFromSuperview];
+    
+    NSString *deleteReason = @"0";
+    switch (button.tag) {
+            // 不喜欢
+        case 100:
+            deleteReason = @"1";
+            break;
+            // 低质量
+        case 101:
+            deleteReason = @"2";
+            break;
+            // 重复 旧闻
+        case 102:
+            deleteReason = @"3";
+            break;
+            // 来源
+        case 103:
+            deleteReason = @"4";
+            break;
+        default:
+            break;
+    }
+    
+    [CardTool postHateReasonWithType:deleteReason nid:self.deleteNid];
     [self.currentPage deleteRowAtIndexPath:self.currentCardFrame];
     [self deleteCardFromCoreData:self.currentCardFrame];
         
 }
 
 // 文章列表
-- (void)page:(LPPagingViewPage *)page didTapListViewWithSourceName:(NSString *)sourceName sourceImage:(NSString *)sourceImageURL {
-    LPConcernDetailViewController *concernDetailViewController = [[LPConcernDetailViewController alloc] init];
-    concernDetailViewController.sourceName = sourceName;
-    concernDetailViewController.conpubFlag = @"0";
-    concernDetailViewController.sourceImageURL = sourceImageURL;
-    [self.navigationController pushViewController:concernDetailViewController animated:YES];
+- (void)page:(LPPagingViewPage *)page didTapListViewWithSourceName:(NSString *)sourceName sourceImage:(NSString *)sourceImageURL isAds:(BOOL)isAds{
+    if (isAds) {
+        LPAdsDetailViewController *adsViewController = [[LPAdsDetailViewController alloc] init];
+        adsViewController.publishURL = sourceImageURL;
+        [self.navigationController pushViewController:adsViewController animated:YES];
+    } else {
+        LPConcernDetailViewController *concernDetailViewController = [[LPConcernDetailViewController alloc] init];
+        concernDetailViewController.sourceName = sourceName;
+        concernDetailViewController.conpubFlag = @"0";
+        concernDetailViewController.sourceImageURL = sourceImageURL;
+        [self.navigationController pushViewController:concernDetailViewController animated:YES];
+    }
 }
 
 // 文章列表

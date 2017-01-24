@@ -21,6 +21,9 @@
 @property (nonatomic, copy) NSString *cellIdentifier;
 @property (nonatomic, copy) NSString *pageChannelName;
 @property (nonatomic, assign) CGPoint offset;
+// 频道编号
+@property (nonatomic, copy) NSString *pageChannelID;
+
 
 @property (nonatomic, weak) id<LPPagingViewBasePageDelegate> delegate;
 

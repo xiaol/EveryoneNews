@@ -674,11 +674,15 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
             newsType = @"视频";
             newsTypeColor = LPColor28;
             break;
+        case localNewsType:
+            newsType = @"本地";
+            newsTypeColor = LPColor32;
+            break;
         default:
             break;
     }
     switch (rtype) {
-        case hotNewsType:case pushNewsType:case adNewsType:case zhuantiNewsType:case videoNewsType:
+        case hotNewsType:case pushNewsType:case adNewsType:case zhuantiNewsType:case videoNewsType:case localNewsType:
             title = [NSString stringWithFormat:@"%@%@",newsType, title];
             break;
         default:
@@ -695,7 +699,7 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
     
     
     switch (rtype) {
-        case hotNewsType:case pushNewsType:case adNewsType:case zhuantiNewsType:case videoNewsType:
+        case hotNewsType:case pushNewsType:case adNewsType:case zhuantiNewsType:case videoNewsType:case localNewsType:
             attributeTitle =   [title truncatingTailAttributedStringWithFont:titleFontSize lineSpacing:lineSpacing rtype:YES];
             break;
         default:
@@ -722,7 +726,7 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
     
     
     // 专题
-    if ([card.rtype integerValue] == 4) {
+    if ([card.rtype integerValue] == zhuantiNewsType) {
         self.noImageTitleLabel.hidden = YES;
         self.noImageSourceImageView.hidden = YES;
         self.noImageSourceLabel.hidden = YES;
@@ -805,7 +809,7 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
         // 图片
         [self.specialTopicImageView sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"单图大图占位图"]];
         // 删除
-        [self.specialTopicDeleteButton setBackgroundImage:[UIImage imageNamed:@"home_delete"] forState:UIControlStateNormal];
+        [self.specialTopicDeleteButton setBackgroundImage:[UIImage imageNamed:@"不感兴趣叉号"] forState:UIControlStateNormal];
         self.specialTopicDeleteButton.frame = self.cardFrame.specialTopicDeleteButtonFrame;
 
         // 上次阅读
@@ -835,7 +839,7 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
         // 分割线
         self.specialTopicSperatorLine.frame = self.cardFrame.specialTopicSeperatorLineFrame;
         
-    } else if([card.rtype integerValue] == 6) {
+    } else if([card.rtype integerValue] == videoNewsType) {
         // 视频
         self.noImageTitleLabel.hidden = YES;
         self.noImageSourceImageView.hidden = YES;
@@ -927,7 +931,7 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
         self.videoSourceLabel.text = sourceSiteName;
         self.videoSourceLabel.frame = self.cardFrame.videoSourceLabelFrame;
         
-        [self.videoDeleteButton setBackgroundImage:[UIImage imageNamed:@"home_delete"] forState:UIControlStateNormal];
+        [self.videoDeleteButton setBackgroundImage:[UIImage imageNamed:@"不感兴趣叉号"] forState:UIControlStateNormal];
         self.videoDeleteButton.frame = self.cardFrame.videoDeleteButtonFrame;
         [self.videoIcon sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
         self.videoIcon.frame = self.cardFrame.videoImageViewFrame;
@@ -960,12 +964,6 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
         self.videoDurationLabel.text =  [NSString stringWithFormat:@"%02d:%02d", minutes, seconds];
         
         self.videoDurationLabel.textColor = [UIColor whiteColor];
-        
-     
-        
-        
-        
-        
     } else {
     
         if([card.type integerValue] == imageStyleZero) {
@@ -1062,7 +1060,7 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
             self.noImageNewsTypeLabel.frame = self.cardFrame.noImageNewsTypeLabelFrame;
             self.noImageSeperatorLine.frame = self.cardFrame.noImageSeperatorLineFrame;
             
-            [self.noImageDeleteButton setBackgroundImage:[UIImage imageNamed:@"home_delete"] forState:UIControlStateNormal];
+            [self.noImageDeleteButton setBackgroundImage:[UIImage imageNamed:@"不感兴趣叉号"] forState:UIControlStateNormal];
             self.noImageDeleteButton.frame = self.cardFrame.noImageDeleteButtonFrame;
             
             self.noImageTipButton.frame = self.cardFrame.noImageTipButtonFrame;
@@ -1177,7 +1175,7 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
             self.singleImageSourceLabel.text = sourceSiteName;
             self.singleImageSourceLabel.frame = self.cardFrame.singleImageSourceLabelFrame;
             
-            [self.singleImageDeleteButton setBackgroundImage:[UIImage imageNamed:@"home_delete"] forState:UIControlStateNormal];
+            [self.singleImageDeleteButton setBackgroundImage:[UIImage imageNamed:@"不感兴趣叉号"] forState:UIControlStateNormal];
             self.singleImageDeleteButton.frame = self.cardFrame.singleImageDeleteButtonFrame;
             [self.singleImageIcon sd_setImageWithURL:[NSURL URLWithString:imageURL] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
             self.singleImageIcon.frame = self.cardFrame.singleImageImageViewFrame;
@@ -1200,18 +1198,25 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
             
         } else if ([card.type integerValue] == imageStyleEleven || [card.type integerValue] == imageStyleTwelve || [card.type integerValue] == imageStyleThirteen) {
             CardImage * cardImage = nil;
-            switch ([card.type integerValue]) {
-                case imageStyleEleven:
-                    cardImage = [card.cardImages objectAtIndex:0];
-                    break;
-                case imageStyleTwelve:
-                    cardImage =  [card.cardImages objectAtIndex:1];
-                    break;
-                case imageStyleThirteen:
-                    cardImage = [card.cardImages objectAtIndex:2];
-                    break;
-                default:
-                    break;
+            NSInteger imageIndex = 0;
+            if (card.cardImages.count > 0) {
+                imageIndex = card.cardImages.count - 1;
+                switch ([card.type integerValue]) {
+                    case imageStyleEleven:
+                        imageIndex = imageIndex == 0 ? 0: imageIndex;
+                        cardImage = [card.cardImages objectAtIndex:imageIndex];
+                        break;
+                    case imageStyleTwelve:
+                        imageIndex = imageIndex == 1 ? 1: imageIndex;
+                        cardImage =  [card.cardImages objectAtIndex:imageIndex];
+                        break;
+                    case imageStyleThirteen:
+                        imageIndex = imageIndex == 2 ? 2: imageIndex;
+                        cardImage = [card.cardImages objectAtIndex:imageIndex];
+                        break;
+                    default:
+                        break;
+                }
             }
             self.noImageTitleLabel.hidden = YES;
             self.noImageSourceImageView.hidden = YES;
@@ -1304,7 +1309,7 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
             self.singleBigImageSourceListView.frame = self.cardFrame.singleBigImageSourceListViewFrame;
             
             // 删除
-            [self.singleBigImageDeleteButton setBackgroundImage:[UIImage imageNamed:@"home_delete"] forState:UIControlStateNormal];
+            [self.singleBigImageDeleteButton setBackgroundImage:[UIImage imageNamed:@"不感兴趣叉号"] forState:UIControlStateNormal];
             self.singleBigImageDeleteButton.frame = self.cardFrame.singleBigImageDeleteButtonFrame;
             
             // 标题
@@ -1424,7 +1429,7 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
             
             self.multipleImageSourceListView.frame = self.cardFrame.multipleImageSourceListViewFrame;
             // 删除
-            [self.multipleImageDeleteButton setBackgroundImage:[UIImage imageNamed:@"home_delete"] forState:UIControlStateNormal];
+            [self.multipleImageDeleteButton setBackgroundImage:[UIImage imageNamed:@"不感兴趣叉号"] forState:UIControlStateNormal];
             self.multipleImageDeleteButton.frame = self.cardFrame.multipleImageDeleteButtonFrame;
             
             // 标题
@@ -1500,9 +1505,16 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
 
 #pragma mark - 新闻源列表
 - (void)newsSourceList {
-    if (![self.sourceName isEqualToString:@"未知来源"]) {
+    if ([self.cardFrame.card.rtype integerValue] == adNewsType) {
+        // 跳转到广告页面
         if (self.didTapSourceListBlock) {
-            self.didTapSourceListBlock(self.sourceName, self.sourceImageURL);
+            self.didTapSourceListBlock(self.sourceName, self.cardFrame.card.sourceSiteURL, YES);
+        }
+    } else {
+        if (![self.sourceName isEqualToString:@"未知来源"]) {
+            if (self.didTapSourceListBlock) {
+                self.didTapSourceListBlock(self.sourceName, self.sourceImageURL, NO);
+            }
         }
     }
 }

@@ -90,4 +90,6 @@
 
 @property (nonatomic, strong) LPPlayerView *playerView;
 
+@property (nonatomic, copy) NSString *deleteNid;
+
 @end

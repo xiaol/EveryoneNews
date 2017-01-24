@@ -214,8 +214,9 @@ static NSString *cellIdentifier = @"tableViewCellIdentifier";
 - (void)setupHotWord {
     __weak typeof(self) weakSelf = self;
     // 加载挖掘机热词
-    NSString * const HotwordsURL = @"http://api.deeporiginalx.com/news/baijia/fetchElementary";
-    [LPHttpTool postWithURL:HotwordsURL params:nil success:^(id json) {
+    NSString *hotwordsURL = [NSString stringWithFormat:@"%@/news/baijia/fetchElementary", ServerUrlVersion2];
+    
+    [LPHttpTool postWithURL:hotwordsURL params:nil success:^(id json) {
         NSArray *jsonArray = (NSArray *)json;
         for (int i = 0; i < jsonArray.count; i++) {
             NSDictionary *dict = jsonArray[i];
@@ -224,7 +225,7 @@ static NSString *cellIdentifier = @"tableViewCellIdentifier";
         }
         [weakSelf.hotWordCollectionView reloadData];
     } failure:^(NSError *error) {
-
+//        NSLog(@"%@", error);
     }];
 }
 

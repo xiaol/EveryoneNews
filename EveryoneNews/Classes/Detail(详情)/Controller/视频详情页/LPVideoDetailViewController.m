@@ -79,6 +79,9 @@
 #import "LPDetailVideoCell.h"
 #import "LPDetailVideoFrame.h"
 #import "LPVideoModel.h"
+#import "LPAdRequestTool.h"
+#import "LPAdsDetailViewController.h"
+#import "CardTool.h"
 
 
 
@@ -187,6 +190,15 @@
 @property (nonatomic, copy) NSString *videoDocID;
 // 是否是点击相关视频
 @property (nonatomic, assign, getter=isRelateVideo) BOOL relateVideo;
+
+// 详情页面广告
+@property (nonatomic, strong) UIImageView *adsImageView;
+@property (nonatomic, copy) NSString *adsImageUrl;
+@property (nonatomic, copy) NSString *adsImpression;
+@property (nonatomic, copy) NSString *adsPuburl;
+@property (nonatomic, assign) BOOL adsSuccess;
+@property (nonatomic, copy) NSString *adsTitle;
+@property (nonatomic, strong) UIView *headerView;
 
 
 @end
@@ -369,7 +381,6 @@
             // 收藏状态
             NSString *colFlag = [dict[@"colflag"] stringValue];
             self.colFlag = colFlag;
-            [self setupHeaderView:title pubTime:pubTime pubName:pubName];
         }
     };
     // 热门评论
@@ -453,6 +464,29 @@
         }
     };
     
+    self.adsSuccess = NO;
+    void (^adsBlock)(id json) = ^(id json) {
+        if ([json[@"code"] integerValue] == 2000) {
+            NSArray *adsArray = json[@"data"];
+            if (adsArray.count > 0) {
+                NSDictionary *adsDict = [adsArray objectAtIndex:0];
+                NSArray *images = adsDict[@"imgs"];
+                NSArray *impression = adsDict[@"adimpression"];
+                if (images.count > 0 && impression.count > 0) {
+                    self.adsImageUrl = [images objectAtIndex:0];
+                    self.adsImpression = [impression objectAtIndex:0];
+                    self.adsPuburl = adsDict[@"purl"];
+                    self.adsTitle = adsDict[@"title"];
+                    self.adsSuccess = YES;
+                    
+                    [self setupHeaderView:self.contentTitle pubTime:self.pubName pubName:self.pubName];
+                }
+                
+            }
+            
+        }
+    };
+    
     void (^reloadTableViewBlock)() = ^{
         [self.tableView reloadData];
         [self noCommentsViewTip];
@@ -487,25 +521,37 @@
     detailCommentsParams[@"c"] = @"20";
     detailCommentsParams[@"uid"] = [userDefaults objectForKey:@"uid"];
     
+    
+    NSString *adsURL = [NSString stringWithFormat:@"%@/v2/ns/ad", ServerUrlVersion2];
+    NSMutableDictionary *adsParams = [NSMutableDictionary dictionary];
+    adsParams[@"uid"] = [userDefaults objectForKey:@"uid"];
+    adsParams[@"b"] = [LPAdRequestTool adBase64WithType:@"243"];
+    adsParams[@"s"] = @(1);
+    
     // 详情页正文
     [LPHttpTool getWithURL:detailContentURL params:detailContentParams success:^(id json) {
         contentBlock(json);
         NSString *videoDocID = [[[self docId] stringByBase64Encoding] stringByTrimmingString:@"="] ;
         NSLog(@"正文");
-         excellentDetailCommentsParams[@"did"] = videoDocID;
-         detailCommentsParams[@"did"] = videoDocID;
+        excellentDetailCommentsParams[@"did"] = videoDocID;
+        detailCommentsParams[@"did"] = videoDocID;
         [LPHttpTool getWithURL:relateURL params:detailRelateVideoParams success:^(id json) {
             relateVideoBlock(json);
             NSLog(@"相关视频");
-        // 详情页精选评论
-        [LPHttpTool getWithURL:excellentDetailCommentsURL params:excellentDetailCommentsParams success:^(id json) {
-            NSLog(@"精选评论");
+            // 详情页精选评论
+            [LPHttpTool getWithURL:excellentDetailCommentsURL params:excellentDetailCommentsParams success:^(id json) {
+                NSLog(@"精选评论");
                 excellentCommentsBlock(json);
                 // 全文评论
                 [LPHttpTool getWithURL:detailCommentsURL params:detailCommentsParams success:^(id json) {
                     NSLog(@"全文评论");
                     commentsBlock(json);
-                    reloadTableViewBlock();
+                    [LPHttpTool postJSONWithURL:adsURL params:adsParams success:^(id json) {
+                        adsBlock(json);
+                        reloadTableViewBlock();
+                    } failure:^(NSError *error) {
+                        
+                    }];
                     
                 } failure:^(NSError *error) {
                     NSLog(@"全文评论：%@", error);
@@ -1003,9 +1049,12 @@
     CGFloat contentBottomViewH = focusViewH + leftViewH + leftViewY + focusViewPaddingTop;
     contentBottomView.frame = CGRectMake(0, contentBottomViewY, ScreenWidth, contentBottomViewH);
     [contentHeaderView addSubview:contentBottomView];
+    
+    
+    
     self.contentBottomView = contentBottomView;
  
-    contentHeaderView.frame = CGRectMake(0, 0, ScreenWidth, CGRectGetMaxY(contentBottomView.frame));
+
     
     NSLog(@"关注状态:%@", self.conpubFlag);
     
@@ -1026,7 +1075,105 @@
     } else {
         self.concernImageView.image = [UIImage imageNamed:@"详情页心未关注"];
     }
+    
+    // 广告
+    
+    UIView *footerAdsView = [[UIView alloc] init];
+    CGFloat footerAdsViewX = 0;
+    CGFloat footerAdsViewY = CGRectGetMaxY(contentBottomView.frame);
+    CGFloat footerAdsViewH = 0;
+    CGFloat footerAdsViewW = ScreenWidth;
+    
+    if (self.adsSuccess) {
+        
+        UIView *adsView = [[UIView alloc] init];
+        adsView.backgroundColor = [UIColor whiteColor];
+        CGFloat adsViewX = BodyPadding;
+        CGFloat adsViewY = 22;
+        CGFloat adsViewW = ScreenWidth - 2 * BodyPadding;
+        CGFloat adsViewH = 0;
+        
+        
+        CGFloat imageX = 10;
+        CGFloat imageY = 10;
+        CGFloat imageW = ScreenWidth - 2 * imageX - 2 * BodyPadding;
+        CGFloat imageH = (10 * imageW/ 19) ;
+        UIImageView *adsImageView = [[UIImageView alloc] initWithFrame:CGRectMake(imageX, imageY, imageW, imageH)];
+        UIImage *placeHolder = [UIImage sharePlaceholderImage:[UIColor colorFromHexString:@"#000000" alpha:0.2f] sizes:CGSizeMake(imageW, imageH)];
+        [adsImageView sd_setImageWithURL:[NSURL URLWithString:self.adsImageUrl] placeholderImage:
+         placeHolder];
+        self.adsImageView = adsImageView;
+        
+        [adsView addSubview:adsImageView];
+        
+        UILabel *adsLabel = [[UILabel alloc] init];
+        CGFloat adsFontSize = 10;
+        NSString *adsStr = @"广告";
+        CGFloat adsLabelW = [adsStr sizeWithFont:[UIFont systemFontOfSize:adsFontSize] maxSize:CGSizeMake(ScreenWidth, ScreenHeight)].width + 5;
+        CGFloat adsLabelH = [adsStr sizeWithFont:[UIFont systemFontOfSize:adsFontSize] maxSize:CGSizeMake(ScreenWidth, ScreenHeight)].height + 5;
+        CGFloat adsLabelX = CGRectGetMaxX(adsImageView.frame) - 5 - adsLabelW;
+        CGFloat adsLabelY = CGRectGetMaxY(adsImageView.frame) - 5 - adsLabelH;
+        adsLabel.frame = CGRectMake(adsLabelX, adsLabelY, adsLabelW, adsLabelH);
+        adsLabel.textColor = [UIColor whiteColor];
+        adsLabel.font = [UIFont systemFontOfSize:adsFontSize];
+        adsLabel.clipsToBounds = YES;
+        adsLabel.layer.cornerRadius = 5;
+        adsLabel.backgroundColor = [UIColor colorFromHexString:@"#000000" alpha:0.5];
+        adsLabel.text = adsStr;
+        adsLabel.textAlignment = NSTextAlignmentCenter;
+        
+        [adsView addSubview:adsLabel];
+        
+        NSString *adsTitle = self.adsTitle;
+        CGFloat adsTitleFontSize = 14;
+        
+        UILabel *adsTitleLabel = [[UILabel alloc] init];
+        adsTitleLabel.numberOfLines = 0;
+        adsTitleLabel.textColor = [UIColor colorFromHexString:@"#333333"];
+        adsTitleLabel.text = adsTitle;
+        adsTitleLabel.font = [UIFont systemFontOfSize:adsTitleFontSize];
+        
+        CGFloat adsTitleW = imageW;
+        CGFloat adsTitleH = 0.0f;
+        CGFloat adsTitleY = CGRectGetMaxY(adsImageView.frame) + 5;
+        CGFloat adsTitleX = imageX;
+        
+        
+        NSString *singleStr = @"单行";
+        CGFloat singleH = [singleStr sizeWithFont:[UIFont systemFontOfSize:adsTitleFontSize] maxSize:CGSizeMake(adsTitleW, ScreenHeight)].height;
+        
+        //  标题
+        if (adsTitle.length > 0) {
+            adsTitleH = [adsTitle sizeWithFont:[UIFont systemFontOfSize:adsTitleFontSize] maxSize:CGSizeMake(adsTitleW, ScreenHeight)].height;
+            if (adsTitleH > 2 * singleH) {
+                adsTitleH = 2 * singleH;
+            }
+        }
+        
+        adsTitleLabel.frame = CGRectMake(adsTitleX, adsTitleY, adsTitleW, adsTitleH);
+        
+        [adsView addSubview:adsTitleLabel];
+        
+        adsViewH = imageH + adsTitleH + 25;
+        
+        adsView.frame = CGRectMake(adsViewX, adsViewY , adsViewW, adsViewH);
+        
+        UITapGestureRecognizer *adsViewTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(pushAdsViewController)];
+        [adsView addGestureRecognizer:adsViewTapGesture];
+        
+        footerAdsViewH = CGRectGetMaxY(adsView.frame) + 14;
+        
+        [footerAdsView addSubview:adsView];
+        
+    }
+    
+    footerAdsView.frame = CGRectMake(footerAdsViewX, footerAdsViewY, footerAdsViewW, footerAdsViewH);
+    [contentHeaderView addSubview:footerAdsView];
+    
 
+    contentHeaderView.frame = CGRectMake(0, 0, ScreenWidth, CGRectGetMaxY(footerAdsView.frame));
+
+    
     self.tableView.tableHeaderView = contentHeaderView;
     
     
@@ -1098,6 +1245,30 @@
     CGFloat noCommentViewY = CGRectGetMaxY(commentHeaderView.frame) + headerViewHeight + marginTop;
     self.noCommentView.frame = CGRectMake(ScreenWidth + 1, noCommentViewY, ScreenWidth - 1, 200);
 }
+
+#pragma mark - 跳转到广告页面
+- (void)pushAdsViewController {
+    
+    [self.playerView pause];
+    
+    LPAdsDetailViewController *adsViewController = [[LPAdsDetailViewController alloc] init];
+    adsViewController.publishURL = self.adsPuburl;
+    [self.navigationController pushViewController:adsViewController animated:YES];
+}
+
+
+#pragma mark - 广告提交到后台
+- (void)getAdsWithAdImpression:(NSString *)adImpression {
+    if (adImpression.length > 0) {
+        [CardTool getAdsImpression:adImpression];
+    }
+}
+
+#pragma mark - 黄历天气
+- (void)postWeatherAdsStatistics {
+    [CardTool postWeatherAdsWithType:@"244"];
+}
+
 
 #pragma mark - TableView DataSource 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -1337,6 +1508,86 @@
         return 10.0f;
     }
 }
+
+#pragma mark - 关心本文
+- (void)tapConcern {
+    
+    if ([AccountTool account] ==  nil) {
+        [AccountTool accountLoginWithViewController:self success:^(Account *account){
+            [self concernCurrentArticle];
+        } failure:^{
+        } cancel:nil];
+    } else {
+        [self concernCurrentArticle];
+    }
+}
+
+- (void)concernCurrentArticle {
+    // 未关心状态
+    if (![self.conFlag isEqualToString:@"1"]) {
+        
+        NSString *url = [NSString stringWithFormat:@"%@/v2/ns/cocs?nid=%@&&uid=%@", ServerUrlVersion2,[self nid], [userDefaults objectForKey:@"uid"]];
+        NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
+        
+        //NSLog(@"%@", url);
+        [LPHttpTool postAuthorizationJSONWithURL:url authorization:authorization params:nil success:^(id json) {
+            if ([json[@"code"] integerValue] == 2000) {
+                self.concernImageView.image = [UIImage imageNamed:@"详情页心已关注"];
+                self.concernImageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.1, 1.1);
+                [self tipViewWithCondition:3];
+                
+                // 加1
+                CGFloat plusLabelX = self.leftView.frame.origin.x + self.concernImageView.frame.origin.x;
+                CGFloat plusLabelY = self.leftView.frame.origin.y + self.concernImageView.frame.origin.y;
+                CGFloat plusLabelW = self.concernImageView.frame.size.width;
+                CGFloat plusLabelH = self.concernImageView.frame.size.height;
+                
+                UILabel *plusLabel = [[UILabel alloc] initWithFrame:CGRectMake(plusLabelX, plusLabelY, plusLabelW, plusLabelH)];
+                plusLabel.textColor = [UIColor colorFromHexString:@"#e94220"];
+                plusLabel.font = [UIFont boldSystemFontOfSize:LPFont4];
+                plusLabel.text = @"+1";
+                [self.contentBottomView addSubview:plusLabel];
+                
+                [UIView animateWithDuration:0.8 animations:^{
+                    self.concernImageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 1.0, 1.0);
+                    plusLabel.frame = CGRectMake(plusLabelX, plusLabelY - 40, plusLabelW, plusLabelH);
+                    plusLabel.alpha = 0.2;
+                } completion:^(BOOL finished) {
+                    NSInteger concernCount = [json[@"data"] integerValue];
+                    self.concernCountLabel.text = [NSString stringWithFormat:@"%d", concernCount];
+                    [plusLabel removeFromSuperview];
+                    self.conFlag = @"1";
+                }];
+                
+            } else if ([json[@"code"] integerValue] == 2003) {
+                
+            }
+        } failure:^(NSError *error) {
+            // //NSLog(@"%@", error);
+        }];
+        
+        
+    } else {
+        
+        NSString *url = [NSString stringWithFormat:@"%@/v2/ns/cocs?nid=%@&&uid=%@", ServerUrlVersion2,[self nid], [userDefaults objectForKey:@"uid"]];
+        NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
+        
+        [LPHttpTool deleteAuthorizationJSONWithURL:url authorization:authorization params:nil success:^(id json) {
+            // //NSLog(@"%@", json);
+            if ([json[@"code"] integerValue] == 2000) {
+                self.concernImageView.image = [UIImage imageNamed:@"详情页心未关注"];
+                NSInteger concernCount =  [json[@"data"] integerValue];
+                self.concernCountLabel.text = [NSString stringWithFormat:@"%d", concernCount];
+                self.conFlag = @"0";
+                
+            }
+        } failure:^(NSError *error) {
+            // //NSLog(@"%@", error);
+        }];
+    }
+}
+
+
 
 
 
@@ -2054,7 +2305,23 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     if ([scrollView isKindOfClass:[UITableView class]]) {
-        // self.lastContentOffsetY < scrollView.contentOffset.y ? [self fadeOut] : [self fadeIn];
+        if (scrollView == self.tableView) {
+            static CGFloat lastY = 0;
+            
+            CGFloat currentY = scrollView.contentOffset.y;
+            CGFloat headerHeight = self.headerView.frame.size.height;
+            
+            
+            if ((lastY > headerHeight) && (currentY <= headerHeight)) {
+                if (self.adsSuccess) {
+                    [self getAdsWithAdImpression:self.adsImpression];
+                    [self postWeatherAdsStatistics];
+                }
+            }
+            
+            lastY = currentY;
+        }
+
     } else if ([scrollView isKindOfClass:[UIScrollView class]]) {
         int page = scrollView.contentOffset.x / self.view.frame.size.width;
         self.pageControl.currentPage = page;

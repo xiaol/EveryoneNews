@@ -19,6 +19,6 @@
 @property (nonatomic, assign) CGFloat cellHeight;
 @property (nonatomic, assign) CGRect durationF;
 @property (nonatomic, assign) CGRect playImageViewF;
-
+@property (nonatomic, assign) CGRect newsTypeLabelFrame;
 
 @end

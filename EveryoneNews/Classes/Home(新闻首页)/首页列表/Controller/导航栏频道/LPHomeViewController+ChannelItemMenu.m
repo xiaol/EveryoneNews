@@ -144,20 +144,14 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
 
 #pragma mark - UICollectionView Style
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    CGFloat height = 24;
-    CGFloat width = 60;
+    CGFloat height = 40;
     
-    if (iPhone6Plus) {
-        height = 24;
-        width = 52;
-    } else if (iPhone6) {
-        height = 28;
-        width = 59;
-    } else if (iPhone5) {
-        height = 24;
-        width = 52;
+    if (iPhone6) {
+        height = 48;
     }
- 
+    
+    CGFloat width = 54;
+    
     return CGSizeMake(width, height);
   
 }

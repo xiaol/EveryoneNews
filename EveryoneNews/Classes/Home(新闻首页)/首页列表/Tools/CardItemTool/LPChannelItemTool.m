@@ -88,9 +88,9 @@
     LPChannelItem *item23 = [[LPChannelItem alloc] initWithChannelID:@"19" channelName:@"美文" channelIsSelected:@"0" hidden:NO];
     LPChannelItem *item24 = [[LPChannelItem alloc] initWithChannelID:@"15" channelName:@"美食" channelIsSelected:@"0" hidden:NO];
     
-    LPChannelItem *item25 = [[LPChannelItem alloc] initWithChannelID:@"26" channelName:@"美女" channelIsSelected:@"0" hidden:NO];
+//    LPChannelItem *item25 = [[LPChannelItem alloc] initWithChannelID:@"26" channelName:@"美女" channelIsSelected:@"0" hidden:NO];
     LPChannelItem *item26 = [[LPChannelItem alloc] initWithChannelID:@"35" channelName:@"点集" channelIsSelected:@"1" hidden:NO];
-    LPChannelItem *item27 = [[LPChannelItem alloc] initWithChannelID:@"29" channelName:@"外媒" channelIsSelected:@"1" hidden:NO];
+//    LPChannelItem *item27 = [[LPChannelItem alloc] initWithChannelID:@"29" channelName:@"外媒" channelIsSelected:@"1" hidden:NO];
     LPChannelItem *item28 = [[LPChannelItem alloc] initWithChannelID:@"30" channelName:@"影视" channelIsSelected:@"0" hidden:NO];
     LPChannelItem *item29 = [[LPChannelItem alloc] initWithChannelID:@"31" channelName:@"奇闻" channelIsSelected:@"0" hidden:NO];
     LPChannelItem *item30 = [[LPChannelItem alloc] initWithChannelID:@"32" channelName:@"萌宠" channelIsSelected:@"0" hidden:NO];
@@ -99,13 +99,13 @@
     
     LPChannelItem *item32 = [[LPChannelItem alloc] initWithChannelID:focusChannelID channelName:@"关注" channelIsSelected:@"0" hidden:YES];
     
-    LPChannelItem *item33 = [[LPChannelItem alloc] initWithChannelID:videoChannelID channelName:@"视频" channelIsSelected:@"1" hidden:NO];
+    LPChannelItem *item33 = [[LPChannelItem alloc] initWithChannelID:videoChannelID channelName:@"视频" channelIsSelected:@"0" hidden:NO];
     
-    NSArray *array = [NSArray arrayWithObjects:item0,item33,item1,item2,item3,item27,item26
+    NSArray *array = [NSArray arrayWithObjects:item0,item1,item2,item3,item26
                                               ,item4,item5,item6,item7,item8,item9
                                               ,item10,item11,item12,item13,item14,item15
                                               ,item16,item17,item18,item19,item20,item21
-                                              ,item22,item23,item24,item25,item28,item29
+                                              ,item22,item23,item24,item28,item29,item33
                                               ,item30,item31,item32, nil];
     [channelItems addObjectsFromArray:array];
     
@@ -142,8 +142,8 @@
                                 @"趣图",@"23",
                                 @"健康",@"24",
                                 @"科学",@"25",
-                                @"美女",@"26",
-                                @"外媒",@"29",
+//                                @"美女",@"26",
+//                                @"外媒",@"29",
                                 @"影视",@"30",
                                 @"奇闻",@"31",
                                 @"萌宠",@"32",

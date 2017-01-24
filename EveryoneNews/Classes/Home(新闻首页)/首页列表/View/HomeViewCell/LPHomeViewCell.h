@@ -15,7 +15,7 @@ typedef void(^didClickDeleteButtonBlock)(UIButton *deleteButton);
 
 typedef void(^didClickTipButtonBlock)();
 
-typedef void (^didTapSourceListViewBlock)(NSString *sourceSiteName, NSString *sourceImageURL);
+typedef void (^didTapSourceListViewBlock)(NSString *sourceSiteName, NSString *sourceImageURL,BOOL isAds);
 
 @interface LPHomeViewCell : UITableViewCell
 

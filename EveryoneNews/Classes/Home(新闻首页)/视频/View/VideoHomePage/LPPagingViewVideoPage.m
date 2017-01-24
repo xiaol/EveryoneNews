@@ -23,9 +23,10 @@
 #import "LPPlayerControlView.h"
 #import "LPPlayerModel.h"
 #import "LPVideoDetailViewController.h"
+#import "LPLoadingView.h"
 
 
-static NSString *cellIdentifier = @"cellIdentifier";
+static NSString *cellIdentifier = @"videoCellIdentifier";
 @interface LPPagingViewVideoPage() <UITableViewDataSource, UITableViewDelegate, LPPlayerDelegate, LPHomeVideoCellDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
@@ -73,6 +74,7 @@ static NSString *cellIdentifier = @"cellIdentifier";
         tableView.hidden = YES;
         [self addSubview:tableView];
         self.tableView = tableView;
+        [tableView registerClass:[LPHomeVideoCell class] forCellReuseIdentifier:cellIdentifier];
         
         UILabel *label = [[UILabel alloc] init];
         label.hidden = YES;
@@ -101,25 +103,50 @@ static NSString *cellIdentifier = @"cellIdentifier";
         self.tableView.mj_footer = [LPDiggerFooter footerWithRefreshingBlock:^{
             [weakSelf loadMoreData];
         }];
+        
+        
+        // 正在加载
+        [self setupLoadingView];
     }
     return self;
 }
 
+#pragma mark - 正在加载
+- (void)setupLoadingView {
+    
+    double topViewHeight = TabBarHeight + StatusBarHeight;
+    if (iPhone6) {
+        topViewHeight = 72;
+    }
+    LPLoadingView *loadingView = [[LPLoadingView alloc] initWithFrame:CGRectMake(0, StatusBarHeight + TabBarHeight, ScreenWidth, (ScreenHeight - topViewHeight) / 2.0f)];
+    [self addSubview:loadingView];
+    self.loadingView = loadingView;
+    [loadingView startAnimating];
+}
+
 #pragma mark - 下拉刷新
 - (void)loadNewData{
+    // 隐藏上次看到位置的提示按钮
+    for (LPHomeVideoFrame *cardFrame in self.cardFrames) {
+        Card *card = cardFrame.card;
+        if (!cardFrame.isTipButtonHidden) {
+            [cardFrame setCard:card tipButtonHidden:YES];
+            break;
+        }
+    }
     if (self.cardFrames.count != 0) {
         LPHomeVideoFrame *cardFrame = self.cardFrames[0];
         Card *card = cardFrame.card;
         CardParam *param = [[CardParam alloc] init];
         param.type = HomeCardsFetchTypeNew;
-        param.channelID = [NSString stringWithFormat:@"%@", card.channelId];
+        param.channelID = self.pageChannelID;
         param.count = @20;
         param.startTime = card.updateTime;
-        param.nid = [NSString stringWithFormat:@"%@",card.nid];
-        
         NSMutableArray *tempArray = [[NSMutableArray alloc] init];
         [CardTool cardsWithParam:param channelID: param.channelID success:^(NSArray *cards) {
+            
             if (cards.count > 0) {
+                [cardFrame setCard:card tipButtonHidden:NO];
                 for (int i = 0; i < (int)cards.count; i ++) {
                     LPHomeVideoFrame *cardFrame = [[LPHomeVideoFrame alloc] init];
                     cardFrame.card = cards[i];
@@ -128,10 +155,9 @@ static NSString *cellIdentifier = @"cellIdentifier";
                 NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:
                                        NSMakeRange(0,[tempArray count])];
                 [self.cardFrames insertObjects: tempArray atIndexes:indexes];
-                
                 [self.tableView reloadData];
+                
             }
-            
             [self showNewCount:tempArray.count];
             [self.tableView.mj_header endRefreshing];
         } failure:^(NSError *error) {
@@ -148,7 +174,7 @@ static NSString *cellIdentifier = @"cellIdentifier";
     LPHomeVideoFrame *cardFrame = [self.cardFrames lastObject];
     Card *card = cardFrame.card;
     CardParam *param = [[CardParam alloc] init];
-    param.channelID = [NSString stringWithFormat:@"%@", card.channelId];
+    param.channelID = self.pageChannelID;
     param.type = HomeCardsFetchTypeMore;
     param.count = @20;
     param.startTime = card.updateTime;
@@ -168,6 +194,9 @@ static NSString *cellIdentifier = @"cellIdentifier";
     } failure:^(NSError *error) {
         [self.tableView.mj_footer endRefreshing];
     }];
+    
+    
+    
 }
 
 - (void)showNewCount:(NSInteger)count {
@@ -214,9 +243,11 @@ static NSString *cellIdentifier = @"cellIdentifier";
     _cardFrames = cardFrames;
     if (cardFrames.count > 0) {
         self.tableView.hidden = NO;
+        [self.loadingView stopAnimating];
         
     } else {
         self.tableView.hidden = YES;
+        [self.loadingView startAnimating];
     }
     [self.tableView reloadData];
 }
@@ -233,14 +264,17 @@ static NSString *cellIdentifier = @"cellIdentifier";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    LPHomeVideoCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
-    if (cell == nil) {
-        cell = [[LPHomeVideoCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];;
-    }
+    LPHomeVideoCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     cell.videoFrame = self.cardFrames[indexPath.row];
     cell.delegate = self;
-  
+    cell.currentRow = indexPath.row;
+    [cell didClickTipButtonBlock:^() {
+        [self autotomaticLoadNewData];
+    }];
+
     Card *card = cell.videoFrame.card;
+    
+    
     
     __block LPHomeVideoCell *weakCell = cell;
     __weak typeof(self) weakSelf = self;
@@ -271,7 +305,11 @@ static NSString *cellIdentifier = @"cellIdentifier";
         [weakSelf.playerView playerControlView:weakSelf.controlView playerModel:playerModel];
         [weakSelf.playerView resetToPlayNewVideo:playerModel];
     };
-    
+    if ([card.rtype integerValue] == adNewsType) {
+        //  请求广告接口
+        [self getAdsWithAdImpression:card.adimpression];
+        [self postWeatherAdsStatistics];
+    }
     return cell;
     
 }
@@ -283,24 +321,36 @@ static NSString *cellIdentifier = @"cellIdentifier";
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     LPHomeVideoCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    LPVideoDetailViewController *videoDetailController = [[LPVideoDetailViewController alloc] init];
+    
     LPHomeVideoFrame *videoFrame = self.cardFrames[indexPath.row];
     Card *card = videoFrame.card;
-    videoDetailController.card = card;
-    // 当前正在播放
-    if (self.playerView.state == LPPlayerStatePlaying) {
-        [self.playerView pause];
-        videoDetailController.playerView = self.playerView;
-        videoDetailController.isPlaying = YES;
-        videoDetailController.coverImageView = cell.coverImageView;
+    if ([card.rtype integerValue] == adNewsType) {
+        if ([self.delegate respondsToSelector:@selector(videoPage:card:)]) {
+            [(id<LPPagingViewVideoPageDelegate>)self.delegate videoPage:self card:card];
+        }
+    } else {
+        LPVideoDetailViewController *videoDetailController = [[LPVideoDetailViewController alloc] init];
+        videoDetailController.card = card;
+        // 当前正在播放
+        if (self.playerView.state == LPPlayerStatePlaying) {
+            [self.playerView pause];
+            videoDetailController.playerView = self.playerView;
+            videoDetailController.isPlaying = YES;
+            videoDetailController.coverImageView = cell.coverImageView;
+        }
+        videoDetailController.videoDetailControllerBlock = ^() {
+            [self.playerView play];
+        };
+        if ([self.delegate respondsToSelector:@selector(videoPage:pushViewController:)]) {
+            [(id<LPPagingViewVideoPageDelegate>)self.delegate videoPage:self pushViewController:videoDetailController];
+        }
     }
-    
-    videoDetailController.videoDetailControllerBlock = ^() {
-        [self.playerView play];
-    };
-    if ([self.delegate respondsToSelector:@selector(videoPage:pushViewController:)]) {
-        [(id<LPPagingViewVideoPageDelegate>)self.delegate videoPage:self pushViewController:videoDetailController];
-    }    
+}
+
+- (void)cell:(LPHomeVideoCell *)cell didTapImageViewWithCard:(Card *)card {
+    if ([self.delegate respondsToSelector:@selector(videoPage:card:)]) {
+        [(id<LPPagingViewVideoPageDelegate>)self.delegate videoPage:self card:card];
+    }
 }
 
 
@@ -317,6 +367,19 @@ static NSString *cellIdentifier = @"cellIdentifier";
 - (CGPoint)offset {
     return self.tableView.contentOffset;
 }
+
+#pragma mark - 广告提交到后台
+- (void)getAdsWithAdImpression:(NSString *)adImpression {
+    if (adImpression.length > 0) {
+        [CardTool getAdsImpression:adImpression];
+    }
+}
+
+#pragma mark - 黄历天气
+- (void)postWeatherAdsStatistics {
+    [CardTool postWeatherAdsWithType:@"244"];
+}
+
 
 
 

@@ -134,12 +134,18 @@
     NSFetchRequest *fetch = [[NSFetchRequest alloc] init];
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Card" inManagedObjectContext:context];
     [fetch setEntity:entityDescription];
-    // 关注频道单独处理
-     NSInteger utype = [[userDefaults objectForKey:@"utype"] integerValue];
-    if ([channelID isEqualToString:focusChannelID]) {
-        [fetch setPredicate:[NSPredicate predicateWithFormat:@"nid = %@ and channelId = %@ and utype = %d",dict[@"nid"], channelID, utype]];
+    NSInteger utype = [[userDefaults objectForKey:@"utype"] integerValue];
+    NSString *rtype = dict[@"rtype"];
+    if (rtype && [rtype integerValue] == adNewsType) {
+        // 广告nid可能重复
+        [fetch setPredicate:[NSPredicate predicateWithFormat:@"nid = %@ and channelId = %d and title = %@",dict[@"nid"], channelID, dict[@"title"]]];
+        
     } else {
-        [fetch setPredicate:[NSPredicate predicateWithFormat:@"nid = %@ and channelId = %d",dict[@"nid"], [channelID integerValue]]];
+        if ([channelID isEqualToString:focusChannelID]) {
+            [fetch setPredicate:[NSPredicate predicateWithFormat:@"nid = %@ and channelId = %@ and utype = %d",dict[@"nid"], channelID, utype]];
+        } else {
+            [fetch setPredicate:[NSPredicate predicateWithFormat:@"nid = %@ and channelId = %d",dict[@"nid"], [channelID integerValue]]];
+        }
     }
     
     NSError * error = nil;
@@ -155,6 +161,8 @@
             card.sourceSiteURL = dict[@"purl"];
             card.sourceSiteName = dict[@"pname"];
             card.updateTime = [NSString stringWithFormat:@"%lld", (long long)([dict[@"ptime"] timestampWithDateFormat:@"YYYY-MM-dd HH:mm:ss"] * 1000)];
+            
+         // card.updateTime = [NSString stringWithFormat:@"%lld", (long long)([[NSDate date] timeIntervalSince1970] * 1000)];
             // 奇点频道和关注频道编号需要做单独处理
             if ([channelID isEqualToString:@"1"]) {
                 card.channelId = @(1);
@@ -178,6 +186,11 @@
 //            }
             card.thumbnail = dict[@"thumbnail"];
             card.videoUrl = dict[@"videourl"];
+            NSArray *adImpression = dict[@"adimpression"];
+            if (adImpression.count > 0) {
+                card.adimpression = adImpression.firstObject;
+            }
+
             // 生成1到7的随机数字
             NSInteger m = arc4random() % 6;
             NSString *imageName = [NSString stringWithFormat:@"来源_%d", (m + 1)];
@@ -188,6 +201,8 @@
             [CardImage createCardImagesWithURLArray:dict[@"imgs"]
                                                card:card
                              inManagedObjectContext:context];
+            
+            
     
         } else {
             card = [fetchedObjects objectAtIndex:0];

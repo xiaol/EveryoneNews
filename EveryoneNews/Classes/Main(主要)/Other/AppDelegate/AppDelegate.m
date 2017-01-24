@@ -92,7 +92,7 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     [Fabric with:@[[Crashlytics class]]];
     
     if (debug==1) {
-        NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
+       // NSLog(@"Running %@ '%@'", self.class, NSStringFromSelector(_cmd));
     }
     
     // 设置友盟相关参数
@@ -151,9 +151,10 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
     // 设置游客身份
     [self setupTourist];
     
-    [self checkVersion:application];
+//    [self checkVersion:application];
      return YES;
 }
+
 
 #pragma mark - 检查版本信息
 - (void)checkVersion:(UIApplication *)application {
@@ -348,9 +349,9 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    NSLog(@"push token:%@",[[[[deviceToken description] stringByReplacingOccurrencesOfString: @"<" withString: @""]
-                  stringByReplacingOccurrencesOfString: @">" withString: @""]
-                 stringByReplacingOccurrencesOfString: @" " withString: @""]);
+//    NSLog(@"push token:%@",[[[[deviceToken description] stringByReplacingOccurrencesOfString: @"<" withString: @""]
+//                  stringByReplacingOccurrencesOfString: @">" withString: @""]
+//                 stringByReplacingOccurrencesOfString: @" " withString: @""]);
     
 }
 
@@ -406,7 +407,7 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    NSLog(@"注册推送服务时，发生以下错误： %@",error);
+  //  NSLog(@"注册推送服务时，发生以下错误： %@",error);
 }
 
 

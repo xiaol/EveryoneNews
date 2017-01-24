@@ -3236,7 +3236,6 @@
 					};
 					1821BFB41B033ABE003E6C94 = {
 						CreatedOnToolsVersion = 6.0.1;
-						DevelopmentTeam = 6BWPZAXBUP;
 						TestTargetID = 1821BF9B1B033ABE003E6C94;
 					};
 				};
@@ -4001,9 +4000,9 @@
 		1821BFC31B033ABE003E6C94 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -4020,7 +4019,6 @@
 		1821BFC41B033ABE003E6C94 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "";

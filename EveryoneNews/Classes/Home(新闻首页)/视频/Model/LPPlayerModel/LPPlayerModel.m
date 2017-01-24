@@ -9,13 +9,13 @@
 #import "LPPlayerModel.h"
 
 @implementation LPPlayerModel
-
-- (UIImage *)placeholderImage
-{
-    if (!_placeholderImage) {
-        _placeholderImage = [UIImage imageNamed:@"video_loading_bgView"];
-    }
-    return _placeholderImage;
-}
+//
+//- (UIImage *)placeholderImage
+//{
+//    if (!_placeholderImage) {
+//        _placeholderImage = [UIImage imageNamed:@"video_loading_bgView"];
+//    }
+//    return _placeholderImage;
+//}
 
 @end

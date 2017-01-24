@@ -24,7 +24,6 @@
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.requestSerializer.timeoutInterval = interval;
     manager.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringCacheData;
-    
     [manager POST:url parameters:params progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (success) {
             success(responseObject);
@@ -38,7 +37,7 @@
 
 + (void)postWithURL:(NSString *)url params:(NSDictionary *)params success:(void (^)(id json))success failure:(void (^)(NSError *error))failure
 {
-    [self postWithURL:url params:params timeinterval:5 success:success failure:failure];
+    [self postWithURL:url params:params timeinterval:10.0f success:success failure:failure];
 }
 
 - (void)postWithURL:(NSString *)url params:(NSDictionary *)params success:(void (^)(id json))success failure:(void (^)(NSError *error))failure {
@@ -334,7 +333,7 @@
     // 1.创建请求管理对象
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     mgr.responseSerializer = [AFImageResponseSerializer serializer];
-    mgr.requestSerializer.timeoutInterval = 5;
+    mgr.requestSerializer.timeoutInterval = 15.0f;
     mgr.requestSerializer.cachePolicy = NSURLRequestReloadIgnoringCacheData;
     
     // 2.发送请求

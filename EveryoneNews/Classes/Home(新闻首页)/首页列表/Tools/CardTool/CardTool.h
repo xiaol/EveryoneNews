@@ -47,4 +47,12 @@ typedef void (^CardsFetchedFailureHandler)(NSError *error);
                             success:(CardsFetchedSuccessHandler)success
                             failure:(CardsFetchedFailureHandler)failure;
 
+// 广告
++ (void)getAdsImpression:(NSString *)adsImpression;
+
++ (void)postWeatherAdsWithType:(NSString *)type ;
+
+// 不感兴趣记录
++ (void)postHateReasonWithType:(NSString *)reason nid:(NSString *)nid;
+
 @end

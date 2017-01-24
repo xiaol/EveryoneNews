@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'FCC53F4C0BF9E91DD548695AA4DB9D4D'
+               BlueprintIdentifier = 'AB11E6A8E62E84E078BBE40B0CE99591'
                BlueprintName = 'DTRichTextEditor'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'libDTRichTextEditor.a'>

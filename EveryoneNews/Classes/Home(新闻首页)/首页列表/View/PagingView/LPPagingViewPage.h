@@ -25,7 +25,7 @@
 - (void)page:(LPPagingViewPage *)page didSelectCellWithCardID:(NSManagedObjectID *)cardID cardFrame:(CardFrame *)cardFrame;
 - (void)page:(LPPagingViewPage *)page didClickDeleteButtonWithCardFrame:(CardFrame *)cardFrame deleteButton:(UIButton *)deleteButton;
 - (void)page:(LPPagingViewPage *)page didClickSearchImageView:(UIImageView *)imageView;
-- (void)page:(LPPagingViewPage *)page didTapListViewWithSourceName:(NSString *)sourceName sourceImage:(NSString *)sourceImage;
+- (void)page:(LPPagingViewPage *)page didTapListViewWithSourceName:(NSString *)sourceName sourceImage:(NSString *)sourceImage isAds:(BOOL)isAds;
 - (void)didClickReloadPage:(LPPagingViewPage *)page;
 
 @end

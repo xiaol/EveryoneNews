@@ -64,7 +64,6 @@
         bodyTextView.bounces = NO;
         bodyTextView.editable = NO;
         
-    
         bodyTextView.userInteractionEnabled = YES;
         bodyTextView.backgroundColor = [UIColor colorFromHexString:@"#f6f6f6"];
         bodyTextView.textDelegate = self;

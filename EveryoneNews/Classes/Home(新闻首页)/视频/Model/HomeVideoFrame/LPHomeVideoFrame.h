@@ -16,14 +16,15 @@
 @property (nonatomic, assign, readonly) CGRect titleF;
 // 播放器图片
 @property (nonatomic, assign, readonly) CGRect coverImageF;
-
 // 播放器按钮
 @property (nonatomic, assign, readonly) CGRect playButtonF;
-
 // 底部视图
 @property (nonatomic, assign, readonly) CGRect bottomViewF;
-// 评论图标
-@property (nonatomic, assign, readonly) CGRect commentImageViewF;
+// 上次阅读位置
+@property (nonatomic, assign, readonly) CGRect tipButtonFrame;
+
+// 新闻类别(广告)
+@property (nonatomic, assign, readonly) CGRect newsTypeLabelF;
 // 评论数
 @property (nonatomic, assign, readonly) CGRect commentLabelF;
 // 分享
@@ -38,5 +39,9 @@
 @property (nonatomic, copy) NSString *fontSizeType;
 
 @property (nonatomic, assign) NSInteger homeViewFontSize;
+
+// 是否显示提示
+@property (nonatomic, assign, getter=isTipButtonHidden) BOOL tipButtonHidden;
+- (void)setCard:(Card *)card tipButtonHidden:(BOOL)tipButtonHidden;
 
 @end

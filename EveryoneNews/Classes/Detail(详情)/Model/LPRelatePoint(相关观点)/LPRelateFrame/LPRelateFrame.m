@@ -44,6 +44,12 @@
         titleW = ScreenWidth - imageW - paddingLeft * 2 - imagePadding ;
         NSMutableAttributedString *titleHtmlString = _relatePoint.titleHtmlString;
         titleH =  [titleHtmlString textViewHeightWithConstraintWidth:titleW];
+        CGFloat singleTitleH =  [_relatePoint.singleHtmlString textViewHeightWithConstraintWidth:titleW];
+        
+        if (titleH > 2 * singleTitleH) {
+            titleH = 2 * singleTitleH - 2;
+        }
+        
         self.titleHtmlString = titleHtmlString;
         
         sourceW = titleW;

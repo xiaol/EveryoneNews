@@ -14,20 +14,47 @@
 
 @implementation LPHomeVideoFrame
 
+- (instancetype)init {
+    if (self = [super init]) {
+        self.tipButtonHidden = YES;
+    }
+    return self;
+}
+
+- (void)setCard:(Card *)card tipButtonHidden:(BOOL)tipButtonHidden {
+    _tipButtonHidden = tipButtonHidden;
+    [self setCard:card];
+}
+
 - (void)setCard:(Card *)card  {
     _card = card;
-    NSString *title = card.title;
+
     CGFloat paddingLeft = 12;
     CGFloat paddingTop = 10;
     
     self.homeViewFontSize = [LPFontSizeManager sharedManager].lpFontSize.currentHomeViewFontSize;
     self.fontSizeType =  [LPFontSizeManager sharedManager].lpFontSize.fontSizeType;
-    
-    
+    NSInteger rtype = [card.rtype intValue];
+    NSString *title = card.title;
     // 评论数量
     NSInteger commentsCount = [card.commentsCount intValue];
     NSString *commentStr = @"";
     
+    // 上次刷新位置
+    CGFloat tipButtonX = 0;
+    CGFloat tipButtonH = 0;
+    CGFloat tipButtonY = 0;
+    CGFloat tipButtonW = ScreenWidth;
+    if (self.isTipButtonHidden) {
+        tipButtonH = 0;
+    } else {
+        tipButtonH = 30;
+    }
+    CGFloat sourcePaddingLeft = 10;
+    if (rtype == adNewsType) {
+        title = [NSString stringWithFormat:@"占位%@", title];
+    }
+    _tipButtonFrame = CGRectMake(tipButtonX, tipButtonY, tipButtonW, tipButtonH);
     // 评论字体大小
     CGFloat commentsFontSize = 13;
     
@@ -47,11 +74,11 @@
     
     CGFloat titleFontSize =  self.homeViewFontSize;
     CGFloat titleX = paddingLeft;
-    CGFloat titleY = paddingTop;
+    CGFloat titleY = paddingTop + tipButtonH;
     CGFloat titleW = ScreenWidth - paddingLeft * 2;
     
     // 计算单行文字高度
-    NSMutableAttributedString *singleLineAttrStr =  [@"单行文本" attributedStringWithFont:[UIFont systemFontOfSize:titleFontSize] lineSpacing:lineSpacing];
+    NSMutableAttributedString *singleLineAttrStr =  [@"占位" attributedStringWithFont:[UIFont systemFontOfSize:titleFontSize] lineSpacing:lineSpacing];
     CGRect singleLineRect = [singleLineAttrStr boundingRectWithSize:CGSizeMake(titleW, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
     CGFloat singleTitleH = singleLineRect.size.height;
     
@@ -93,18 +120,18 @@
     CGFloat commentLabelY =  (bottomViewH - commentLabelH) / 2.0f;
     _commentLabelF = CGRectMake(commentLabelX, commentLabelY, commentLabelW, commentLabelH);
     
-//    CGFloat commentImageViewW = 20;
-//    CGFloat commentImageViewH = 20;
-//    CGFloat commentImageViewX = CGRectGetMinX(_commentLabelF) - commentImageViewW - 5;
-//    CGFloat commentImageViewY = (bottomViewH - commentImageViewH) / 2.0f;
-//    _commentImageViewF = CGRectMake(commentImageViewX, commentImageViewY, commentImageViewW, commentImageViewH);
+    CGFloat rtypeH = singleLineRect.size.height - 6;
+    CGFloat rtypeW = singleLineRect.size.width;
+    CGFloat rtypeGap = 4.0f;
+    if (rtype == adNewsType) {
+        _newsTypeLabelF = CGRectMake(titleX, titleY + rtypeGap, rtypeW, rtypeH);
+    }
     
     CGFloat seperatorViewX = 0;
     CGFloat seperatorViewY = CGRectGetMaxY(_bottomViewF);
     CGFloat seperatorViewW = ScreenWidth;
     CGFloat seperatorViewH = 4;
     _seperatorViewF = CGRectMake(seperatorViewX, seperatorViewY, seperatorViewW, seperatorViewH);
-    
     _cellHeight = CGRectGetMaxY(_seperatorViewF);
 }
 

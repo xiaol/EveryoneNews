@@ -21,6 +21,54 @@
 @end
 
 @implementation CardTool
+
++ (void)getAdsImpression:(NSString *)adsImpression {
+    [LPHttpTool getWithURL:adsImpression params:nil success:^(id json) {
+        
+        //NSLog(@"%@", json);
+    } failure:^(NSError *error) {
+        // NSLog(@"adsError:%@", error);
+    }];
+}
+
+
++ (void)postHateReasonWithType:(NSString *)reason  nid:(NSString *)nid {
+    NSString *url = [NSString stringWithFormat:@"%@/v2/ns/hate",ServerUrlVersion2];
+    NSMutableDictionary *paramDict = [NSMutableDictionary dictionary];
+    paramDict[@"uid"] = @([[userDefaults objectForKey:@"uid"] integerValue]);
+    paramDict[@"nid"] = @([nid integerValue]);
+    paramDict[@"reason"] = @([reason integerValue]);
+   
+    NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
+    [LPHttpTool postAuthorizationJSONWithURL:url authorization:authorization params:paramDict success:^(id json) {
+               // NSLog(@"%@", json);
+    } failure:^(NSError *error) {
+               // NSLog(@"adsError:%@", error);
+    }];
+}
+
++ (void)postWeatherAdsWithType:(NSString *)type {
+    NSString *url = [NSString stringWithFormat:@"%@/v2/au/phone",ServerUrlVersion2];
+    NSMutableDictionary *paramDict = [NSMutableDictionary dictionary];
+    paramDict[@"uid"] = ![userDefaults objectForKey:@"uid"] ? @(0):[userDefaults objectForKey:@"uid"];
+    paramDict[@"b"] = [LPAdRequestTool adBase64WithType:type];
+    // 1：奇点资讯， 2：黄历天气，3：纹字锁频，4：猎鹰浏览器，5：白牌
+    paramDict[@"ctype"] = @(1);
+    // 平台类型  1 iOS 2 安卓 3 网页 4 无法识别
+    paramDict[@"ptype"] = @(1);
+    paramDict[@"province"] = @"";
+    paramDict[@"city"] = @"";
+    paramDict[@"area"] = @"";
+    NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
+    
+    [LPHttpTool postAuthorizationJSONWithURL:url authorization:authorization params:paramDict success:^(id json) {
+        //        NSLog(@"%@", json);
+    } failure:^(NSError *error) {
+        //        NSLog(@"adsError:%@", error);
+    }];
+}
+
+
 #pragma mark - feed流新接口  包含广告位 视频
 + (void)cardsWithParam:(CardParam *)param
              channelID:(NSString *)channelID
@@ -36,11 +84,7 @@
         paramDict[@"nid"] = @([param.nid longLongValue]);
     }
     // 1 显示专题 0 不显示专题
-     if ([channelID isEqualToString:@"1"]) {
-          paramDict[@"t"] = @(1);
-     } else {
-          paramDict[@"t"] = @(0);
-     }
+    paramDict[@"t"] = @(1);
     // 显示https图片地址
     paramDict[@"s"] =@(1);
     // 是否显示视频
@@ -67,34 +111,25 @@
                 [userDefaults setObject:dict[@"password"] forKey:@"password"];
                 [userDefaults setObject:authorization forKey:@"uauthorization"];
                 [userDefaults synchronize];
-                if ([channelID isEqualToString:@"1"] || [channelID isEqualToString:videoChannelID]) {
-                    paramDict[@"uid"] = ![userDefaults objectForKey:@"uid"] ? @(0):[userDefaults objectForKey:@"uid"];
-                    paramDict[@"b"] = [LPAdRequestTool adBase64];
-                    paramDict[@"tcr"] = @([param.startTime longLongValue]);
-                    [self qiDianPostCardsWithUserParam:param paramDict:paramDict authorization:authorization success:success failure:failure];
-                } else {
-                    [self cardsWithUserParam:param paramDict:paramDict authorization:authorization success:success failure:failure];
-                }
-                
+                paramDict[@"uid"] = ![userDefaults objectForKey:@"uid"] ? @(0):[userDefaults objectForKey:@"uid"];
+                paramDict[@"b"] = [LPAdRequestTool adBase64WithType:@"244"];
+                paramDict[@"tcr"] = @([param.startTime longLongValue]);
+                [self postCardsWithUserParam:param paramDict:paramDict authorization:authorization success:success failure:failure];
             }
         }  failure:^(NSError *error) {
             
         }];
     } else {
-        if ([channelID isEqualToString:@"1"] || [channelID isEqualToString:videoChannelID]) {
             paramDict[@"uid"] = ![userDefaults objectForKey:@"uid"] ? @(0):[userDefaults objectForKey:@"uid"];
-            paramDict[@"b"] = [LPAdRequestTool adBase64];
+            paramDict[@"b"] = [LPAdRequestTool adBase64WithType:@"244"];
             paramDict[@"tcr"] = @([param.startTime longLongValue]);
-            [self qiDianPostCardsWithUserParam:param paramDict:paramDict authorization:authorization success:success failure:failure];
-        } else {
-            [self cardsWithUserParam:param paramDict:paramDict authorization:authorization success:success failure:failure];
-        }
+            [self postCardsWithUserParam:param paramDict:paramDict authorization:authorization success:success failure:failure];
     }
 }
 
 
 #pragma mark - 奇点频道请求数据接口
-+ (void)qiDianPostCardsWithUserParam:(CardParam *)param
++ (void)postCardsWithUserParam:(CardParam *)param
                        paramDict:(NSMutableDictionary *)paramDict
                    authorization:(NSString *)authorization
                          success:(CardsFetchedSuccessHandler)success
@@ -123,8 +158,8 @@
                 success(cardsArray);
             }
         } failure:^(NSError *error) {
-            NSLog(@"%@", error);
-            failure(error);
+            // NSLog(@"%@", error);
+           // failure(error);
         }];
     } else if (param.type == HomeCardsFetchTypeMore) { // 上拉加载更多，先从网络取数据，获取不到再从本地数据库拿数据
         
@@ -148,133 +183,15 @@
                 success(cardsArray);
             }
         } failure:^(NSError *error) {
-            failure(error);
-            NSLog(@"%@", error);
+          //  failure(error);
+          //  NSLog(@"%@", error);
         }];
     }
     
     
 }
 
-#pragma mark - 奇点频道请求数据接口
-+ (void)qiDianCardsWithUserParam:(CardParam *)param
-                 paramDict:(NSMutableDictionary *)paramDict
-             authorization:(NSString *)authorization
-                   success:(CardsFetchedSuccessHandler)success
-                   failure:(CardsFetchedFailureHandler)failure {
-    if (param.type == HomeCardsFetchTypeNew) { // 下拉刷新, 直接发送网络请求, 成功后存入数据库
-        NSString *url = [NSString stringWithFormat:@"%@/v2/ns/fed/rn", ServerUrlVersion2];
-        [LPHttpTool getJsonAuthorizationWithURL:url authorization:authorization params:paramDict success:^(id json) {
-            // 有数据
-            if ([json[@"code"] integerValue] == 2000) {
-                [Card createCardsWithDictArray:json[@"data"] channelID:param.channelID cardsArrayBlock:^(NSArray *cardsArray) {
-                    success(cardsArray);
-                }];
-            }
-            // 没有数据
-            else if ([json[@"code"] integerValue] == 2002) {
-                NSArray *cardsArray = [[NSArray alloc] init];
-                success(cardsArray);
-            }
-            // 用户验证错误
-            else if ([json[@"code"] integerValue] == 4003) {
-                [LPLoginTool loginVerify];
-                NSArray *cardsArray = [[NSArray alloc] init];
-                success(cardsArray);
-            }
-            
-        } failure:^(NSError *error) {
-            NSLog(@"%@", error);
-            failure(error);
-        }];
-    } else if (param.type == HomeCardsFetchTypeMore) { // 上拉加载更多，先从网络取数据，获取不到再从本地数据库拿数据
 
-        NSString *url = [NSString stringWithFormat:@"%@/v2/ns/fed/ln", ServerUrlVersion2];
-        [LPHttpTool getJsonAuthorizationWithURL:url authorization:authorization params:paramDict success:^(id json) {
-            if ([json[@"code"] integerValue] == 2000) {
-                [Card createCardsWithDictArray:json[@"data"] channelID:param.channelID cardsArrayBlock:^(NSArray *cardsArray) {
-                    success(cardsArray);
-                }];
-            }
-            // 没有数据
-            else if ([json[@"code"] integerValue] == 2002) {
-                NSArray *cardsArray = [[NSArray alloc] init];
-                success(cardsArray);
-            }
-            // 用户验证错误
-            else if ([json[@"code"] integerValue] == 4003) {
-                [LPLoginTool loginVerify];
-                NSArray *cardsArray = [[NSArray alloc] init];
-                success(cardsArray);
-            }
-        } failure:^(NSError *error) {
-            failure(error);
-             NSLog(@"%@", error);
-        }];
-    }
-
-    
-}
-
-
-#pragma mark - 请求feed流数据
-+ (void)cardsWithUserParam:(CardParam *)param
-                 paramDict:(NSMutableDictionary *)paramDict
-             authorization:(NSString *)authorization
-               success:(CardsFetchedSuccessHandler)success
-               failure:(CardsFetchedFailureHandler)failure {
-    
-    if (param.type == HomeCardsFetchTypeNew) { // 下拉刷新, 直接发送网络请求, 成功后存入数据库
-        
-        NSString *url = [NSString stringWithFormat:@"%@/v2/ns/fed/r", ServerUrlVersion2];
-        [LPHttpTool getJsonAuthorizationWithURL:url authorization:authorization params:paramDict success:^(id json) {
-            
-            // 有数据
-            if ([json[@"code"] integerValue] == 2000) {
-                [Card createCardsWithDictArray:json[@"data"] channelID:param.channelID cardsArrayBlock:^(NSArray *cardsArray) {
-                    success(cardsArray);
-                }];
-            }
-            // 没有数据
-            else if ([json[@"code"] integerValue] == 2002) {
-                NSArray *cardsArray = [[NSArray alloc] init];
-                success(cardsArray);
-            }
-            // 用户验证错误
-            else if ([json[@"code"] integerValue] == 4003) {
-                [LPLoginTool loginVerify];
-                NSArray *cardsArray = [[NSArray alloc] init];
-                success(cardsArray);
-            }
-            
-        } failure:^(NSError *error) {
-            failure(error);
-        }];
-    } else if (param.type == HomeCardsFetchTypeMore) { // 上拉加载更多，先从网络取数据，获取不到再从本地数据库拿数据
-        
-        NSString *url = [NSString stringWithFormat:@"%@/v2/ns/fed/l", ServerUrlVersion2];
-        [LPHttpTool getJsonAuthorizationWithURL:url authorization:authorization params:paramDict success:^(id json) {
-            if ([json[@"code"] integerValue] == 2000) {
-                [Card createCardsWithDictArray:json[@"data"] channelID:param.channelID cardsArrayBlock:^(NSArray *cardsArray) {
-                    success(cardsArray);
-                }];
-            }
-            // 没有数据
-            else if ([json[@"code"] integerValue] == 2002) {
-                NSArray *cardsArray = [[NSArray alloc] init];
-                success(cardsArray);
-            }
-            // 用户验证错误
-            else if ([json[@"code"] integerValue] == 4003) {
-                [LPLoginTool loginVerify];
-                NSArray *cardsArray = [[NSArray alloc] init];
-                success(cardsArray);
-            }
-        } failure:^(NSError *error) {
-            failure(error);
-        }];
-    }
-}
 
 
 #pragma mark - 取消关注
@@ -350,7 +267,7 @@
                 }
                 
             } failure:^(NSError *error) {
-                failure(error);
+               // failure(error);
             }];
             
         }  else if (param.type == HomeCardsFetchTypeMore) {
@@ -375,7 +292,7 @@
                 }
                 
             } failure:^(NSError *error) {
-                failure(error);
+               // failure(error);
             }];
         }
     }
