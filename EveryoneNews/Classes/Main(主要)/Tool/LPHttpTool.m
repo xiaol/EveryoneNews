@@ -190,6 +190,7 @@
                                      success:(void (^)(id json,NSString *authorization))success
                                      failure:(void (^)(NSError *error))failure {
     
+    
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.requestSerializer.timeoutInterval = 10.0;
     manager.requestSerializer =  [AFJSONRequestSerializer serializer];

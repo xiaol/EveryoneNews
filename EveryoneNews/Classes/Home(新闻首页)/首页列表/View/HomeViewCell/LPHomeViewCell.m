@@ -724,7 +724,6 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
         self.videoDurationLabel.textColor =  [UIColor colorFromHexString:titleLabelColor];
     }
     
-    
     // 专题
     if ([card.rtype integerValue] == zhuantiNewsType) {
         self.noImageTitleLabel.hidden = YES;
@@ -1200,18 +1199,25 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
             CardImage * cardImage = nil;
             NSInteger imageIndex = 0;
             if (card.cardImages.count > 0) {
-                imageIndex = card.cardImages.count - 1;
                 switch ([card.type integerValue]) {
                     case imageStyleEleven:
-                        imageIndex = imageIndex == 0 ? 0: imageIndex;
+                        imageIndex = 0;
                         cardImage = [card.cardImages objectAtIndex:imageIndex];
                         break;
                     case imageStyleTwelve:
-                        imageIndex = imageIndex == 1 ? 1: imageIndex;
+                        if (card.cardImages.count > 1) {
+                            imageIndex = 1;
+                        } else {
+                            imageIndex = 0;
+                        }
                         cardImage =  [card.cardImages objectAtIndex:imageIndex];
                         break;
                     case imageStyleThirteen:
-                        imageIndex = imageIndex == 2 ? 2: imageIndex;
+                        if (card.cardImages.count > 2) {
+                            imageIndex = 2;
+                        } else {
+                            imageIndex = 0;
+                        }
                         cardImage = [card.cardImages objectAtIndex:imageIndex];
                         break;
                     default:
@@ -1526,7 +1532,10 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
 #pragma mark - 图片缩放处理
 - (NSString *)scaleImageURL:(NSString *)imageURL scaleImageType:(ScaleImageType)scaleImageType {
     NSRange range = [imageURL rangeOfString:@"/" options:NSBackwardsSearch];
-    NSString *substring = [imageURL substringFromIndex:range.location + 1];
+    NSString *substring = @"";
+    if (range.length > 0) {
+        substring = [imageURL substringFromIndex:range.location + 1];
+    }
     NSURLComponents *urlComponents =   [[NSURLComponents alloc] initWithString:imageURL];
     NSString *schemeHostStr = [NSString stringWithFormat:@"%@://%@/",[urlComponents scheme], [[urlComponents host] stringByReplacingOccurrencesOfString:@"bdp" withString:@"pro"]];
     
