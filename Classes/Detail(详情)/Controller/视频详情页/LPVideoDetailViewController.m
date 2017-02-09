@@ -1034,11 +1034,11 @@
     UIView *commentHeaderView = [[UIView alloc] init];
     UILabel *commentTitleLabel = [[UILabel alloc] init];
     commentTitleLabel.numberOfLines = 0;
-    NSMutableAttributedString *commentTitleString = [title attributedStringWithFont:[UIFont  systemFontOfSize:titleFontSize weight:0.5] color:[UIColor colorFromHexString:@"#060606"] lineSpacing:2.0f];
+    NSMutableAttributedString *commentTitleString = [title attributedStringWithFont:[UIFont  systemFontOfSize:titleFontSize] color:[UIColor colorFromHexString:@"#060606"] lineSpacing:2.0f];
     
     // 单行高度
     NSString *singleStr = @"单行";
-    NSMutableAttributedString *singleTitleString = [singleStr attributedStringWithFont:[UIFont  systemFontOfSize:titleFontSize weight:0.5] color:[UIColor colorFromHexString:@"#060606"] lineSpacing:2.0f];
+    NSMutableAttributedString *singleTitleString = [singleStr attributedStringWithFont:[UIFont  systemFontOfSize:titleFontSize] color:[UIColor colorFromHexString:@"#060606"] lineSpacing:2.0f];
     CGFloat singleCommentTitleH = [singleTitleString heightWithConstraintWidth:titleW] ;
     
     CGFloat commentTitleH = [commentTitleString heightWithConstraintWidth:titleW] ;

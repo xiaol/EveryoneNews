@@ -127,8 +127,6 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
         [self.contentView addSubview:noImageTitleLabel];
         self.noImageTitleLabel = noImageTitleLabel;
         
-
-        
         // 新闻来源
         UILabel *noImageSourceLabel = [[UILabel alloc] init];
         noImageSourceLabel.font = [UIFont systemFontOfSize:sourceFontSize];
@@ -181,8 +179,6 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
         self.noImageTipButton = noImageTipButton;
         
         // ---------------  单图 （小图）-------------------
-
-        
         // 新闻来源
         UILabel *singleImageSourceLabel = [[UILabel alloc] init];
         singleImageSourceLabel.font = [UIFont systemFontOfSize:sourceFontSize];
@@ -700,7 +696,8 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
         
         self.specialTopicTitleLabel.attributedText = attributeTitle;
         self.specialTopicTitleLabel.frame = self.cardFrame.specialTopicTitleLabelFrame;
-        
+       // NSArray *cardImagesArray = [card.cardImages allObjects];
+
         CardImage * cardImage = [card.cardImages firstObject];
         self.specialTopicImageView.frame = self.cardFrame.specialTopicImageViewFrame;
         NSString *imageURL = [self scaleImageURL:cardImage.imgUrl scaleImageType:ScaleImageTypeSpecialTopic];
@@ -851,11 +848,6 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
         self.videoDurationLabel.text =  [NSString stringWithFormat:@"%02d:%02d", minutes, seconds];
         
         self.videoDurationLabel.textColor = [UIColor whiteColor];
-        
-        
-        
-        
-        
         
     } else {
     
@@ -1021,6 +1013,8 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
             self.videoDurationLabel.hidden = YES;
 
             
+//            NSArray *cardImagesArray = [card.cardImages allObjects];
+            
             CardImage * cardImage = [card.cardImages firstObject];
             NSString *imageURL = [self scaleImageURL:cardImage.imgUrl scaleImageType:ScaleImageTypeSmall];
             
@@ -1061,20 +1055,31 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
             
         } else if ([card.type integerValue] == imageStyleEleven || [card.type integerValue] == imageStyleTwelve || [card.type integerValue] == imageStyleThirteen) {
             CardImage * cardImage = nil;
+//            NSArray *cardImagesArray = [card.cardImages allObjects];
             NSInteger imageIndex = 0;
             if (card.cardImages.count > 0) {
-                imageIndex = card.cardImages.count - 1;
+//                imageIndex = card.cardImages.count - 1;
+                
                 switch ([card.type integerValue]) {
                     case imageStyleEleven:
-                        imageIndex = imageIndex == 0 ? 0: imageIndex;
+                     
+                        imageIndex = 0;
                         cardImage = [card.cardImages objectAtIndex:imageIndex];
                         break;
                     case imageStyleTwelve:
-                        imageIndex = imageIndex == 1 ? 1: imageIndex;
+                        if (card.cardImages.count > 1) {
+                            imageIndex = 1;
+                        } else {
+                            imageIndex = 0;
+                        }
                         cardImage =  [card.cardImages objectAtIndex:imageIndex];
                         break;
                     case imageStyleThirteen:
-                        imageIndex = imageIndex == 2 ? 2: imageIndex;
+                        if (card.cardImages.count > 2) {
+                            imageIndex = 2;
+                        } else {
+                            imageIndex = 0;
+                        }
                         cardImage = [card.cardImages objectAtIndex:imageIndex];
                         break;
                     default:
@@ -1271,7 +1276,8 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
             CGFloat y = frame.origin.y;
             CGFloat w = (frame.size.width - 3) / 3 ;
             CGFloat h = frame.size.height;
-            
+//            NSArray *cardImagesArray = [card.cardImages allObjects];
+
             NSString *firstImageURL = [card.cardImages objectAtIndex:0].imgUrl;
             NSString *secondImageURL = [card.cardImages objectAtIndex:1].imgUrl;
             NSString *thirdImageURL = [card.cardImages objectAtIndex:2].imgUrl;
@@ -1351,7 +1357,12 @@ typedef NS_ENUM(NSInteger, ScaleImageType) {
 #pragma mark - 图片缩放处理
 - (NSString *)scaleImageURL:(NSString *)imageURL scaleImageType:(ScaleImageType)scaleImageType {
     NSRange range = [imageURL rangeOfString:@"/" options:NSBackwardsSearch];
-    NSString *substring = [imageURL substringFromIndex:range.location + 1];
+    NSString *substring = @"";
+    if (range.length > 0) {
+       substring = [imageURL substringFromIndex:range.location + 1];
+    }
+    
+    //NSString *
     NSURLComponents *urlComponents =   [[NSURLComponents alloc] initWithString:imageURL];
     NSString *schemeHostStr = [NSString stringWithFormat:@"%@://%@/",[urlComponents scheme], [[urlComponents host] stringByReplacingOccurrencesOfString:@"bdp" withString:@"pro"]];
     

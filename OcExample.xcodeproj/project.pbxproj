@@ -109,7 +109,6 @@
 				AEB54FE81E2622D3003A7817 /* Main.storyboard */,
 				AEB54FEB1E2622D3003A7817 /* Assets.xcassets */,
 				AEB54FED1E2622D3003A7817 /* LaunchScreen.storyboard */,
-				AEB54FF01E2622D3003A7817 /* Info.plist */,
 				AEB54FDF1E2622D3003A7817 /* Supporting Files */,
 			);
 			path = OcExample;
@@ -118,6 +117,7 @@
 		AEB54FDF1E2622D3003A7817 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				AEB54FF01E2622D3003A7817 /* Info.plist */,
 				AEB54FE01E2622D3003A7817 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -379,6 +379,7 @@
 			baseConfigurationReference = 802020AA2092F0FF26050A43 /* Pods-OcExample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				DEVELOPMENT_TEAM = 6BWPZAXBUP;
 				INFOPLIST_FILE = OcExample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -393,6 +394,7 @@
 			baseConfigurationReference = CEA1C00717552AF7E782BA5E /* Pods-OcExample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				DEVELOPMENT_TEAM = 6BWPZAXBUP;
 				INFOPLIST_FILE = OcExample/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;

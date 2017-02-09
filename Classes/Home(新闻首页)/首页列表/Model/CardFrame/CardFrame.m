@@ -307,8 +307,7 @@
             
             // 图片
             CGFloat imageW = (ScreenWidth - paddingLeft * 2 - 6) / 3 ;
-//            CGFloat imageH = 76 * imageW / 114;
-              CGFloat imageH = 2 * imageW / 3;
+            CGFloat imageH = 2 * imageW / 3;
             CGFloat imageX = ScreenWidth - paddingLeft - imageW;
             CGFloat imageY =   CGRectGetMaxY(_singleImageTipButtonFrame) + paddingTop;
             
@@ -355,9 +354,6 @@
             // 来源
             CGFloat sourceY = deleteButtonY;
             
-            if([card.rtype integerValue] == 3) {
-                sourceW = 0;
-            }
             _singleImageSourceLabelFrame = CGRectMake(sourceX, sourceY, sourceW, sourceH);
             
             CGFloat singleImageSeperatorLineY = 0.f;

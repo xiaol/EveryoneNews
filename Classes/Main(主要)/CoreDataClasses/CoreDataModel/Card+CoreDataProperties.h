@@ -40,6 +40,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nullable, nonatomic, retain) NSSet<CardConcern *> *cardConcern;
 @property (nullable, nonatomic, retain) NSOrderedSet<CardImage *> *cardImages;
+//@property (nullable, nonatomic, retain) NSSet<CardImage *> *cardImages;
+
+
 @property (nullable, nonatomic, retain) NSSet<CardRelate *> *cardRelates;
 @property (nullable, nonatomic, retain) NSSet<Comment *> *comments;
 

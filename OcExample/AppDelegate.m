@@ -23,12 +23,12 @@
     
     
     UITabBarController * tabVC = [[UITabBarController alloc]init];
-    
+ 
     UIViewController * VC1 = [[UIViewController alloc]init];
     VC1.title = @"第一个";
     
     
-     MainNavigationController *VC2 = [[MainNavigationController alloc] initWithRootViewController:[[LPHomeViewController alloc] init]];
+    MainNavigationController *VC2 = [[MainNavigationController alloc] initWithRootViewController:[[LPHomeViewController alloc] init]];
     VC2.title = @"第二个";
     
     
@@ -40,22 +40,8 @@
     
     tabVC.edgesForExtendedLayout = UIRectEdgeNone;
     
-    
-//    LPPagingViewPage *page = [[LPPagingViewPage alloc] init];
-//    [page setupHomeListDidScroll:^{
-//        NSLog(@"滑");
-//    }];
-    
-    
     return YES;
 }
-
-- (void)homeListDidScroll {
-    NSLog(@"首页滑动");
-}
-
-
-
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

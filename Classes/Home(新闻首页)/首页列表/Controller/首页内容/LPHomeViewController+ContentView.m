@@ -172,10 +172,9 @@ NSString * const reuseVideoPageID = @"reuseVideoPageID";
     if ([channelItem.channelID isEqualToString:focusChannelID]) {
         
         LPPagingViewConcernPage *page = (LPPagingViewConcernPage *)[pagingView visiblePageAtIndex:pageIndex];
-        // 每隔10分钟执行自动刷新
+        // 每隔20分钟执行自动刷新
         if (lastAccessDate != nil) {
             int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
-            // 每10分钟做一次刷新操作
             if (interval > 20) {
                 if (page.cardFrames.count > 0) {
                     channelItem.lastAccessDate = currentDate;
@@ -186,10 +185,9 @@ NSString * const reuseVideoPageID = @"reuseVideoPageID";
         }
     } else if([channelItem.channelID isEqualToString:videoChannelID]) {
         LPPagingViewVideoPage *page = (LPPagingViewVideoPage *)[pagingView visiblePageAtIndex:pageIndex];
-        // 每隔10分钟执行自动刷新
+        // 每隔20分钟执行自动刷新
         if (lastAccessDate != nil) {
             int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
-            // 每10分钟做一次刷新操作
             if (interval > 20) {
                 if (page.cardFrames.count > 0) {
                     channelItem.lastAccessDate = currentDate;
@@ -201,20 +199,17 @@ NSString * const reuseVideoPageID = @"reuseVideoPageID";
         }
     } else {
         LPPagingViewPage *page = (LPPagingViewPage *)[pagingView visiblePageAtIndex:pageIndex];
-        // 每隔10分钟执行自动刷新
+        // 每隔20分钟执行自动刷新
         if (lastAccessDate != nil) {
             int interval = (int)[currentDate timeIntervalSinceDate: lastAccessDate] / 60;
-            // 每10分钟做一次刷新操作
             if (interval > 20) {
                 if (page.cardFrames.count > 0) {
                     channelItem.lastAccessDate = currentDate;
                     [page autotomaticLoadNewData];
-                    
+
                 }
-                
             }
         }
-        
     }
 }
 

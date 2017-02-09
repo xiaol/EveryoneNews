@@ -360,6 +360,7 @@
             self.noImageSeperatorLine.frame = self.cardFrame.noImageSeperatorLineFrame;
         } else if (card.cardImages.count == 1 || card.cardImages.count == 2) {
             
+//            NSArray *cardImagesArray = [card.cardImages allObjects];
             CardImage * cardImage = [card.cardImages firstObject];
             
             self.noImageLabel.hidden = YES;
@@ -447,7 +448,8 @@
             CGFloat y = frame.origin.y;
             CGFloat w = (frame.size.width - 6) / 3 ;
             CGFloat h = frame.size.height;
-            
+         //   NSArray *cardImagesArray = [card.cardImages allObjects];
+
             NSString *firstImageURL = [card.cardImages objectAtIndex:0].imgUrl;
             NSString *secondImageURL = [card.cardImages objectAtIndex:1].imgUrl;
             NSString *thirdImageURL = [card.cardImages objectAtIndex:2].imgUrl;

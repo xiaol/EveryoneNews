@@ -866,16 +866,20 @@ typedef NS_ENUM(NSInteger, PanDirection){
     }
     [self layoutIfNeeded];
     [[UIApplication sharedApplication].keyWindow addSubview:self];
-    [self mas_remakeConstraints:^(MASConstraintMaker *make) {
-        CGFloat width = ScreenWidth * 0.5 - 20;
-        CGFloat height = (self.bounds.size.height / self.bounds.size.width);
-        make.width.mas_equalTo(width);
-        make.height.equalTo(self.mas_width).multipliedBy(height);
-        make.trailing.mas_equalTo(-10);
-        make.bottom.mas_equalTo(-self.tableView.contentInset.bottom + 34);
-        
-        
-    }];
+    
+    
+//    [self removeFromSuperview];
+    
+//    [self mas_remakeConstraints:^(MASConstraintMaker *make) {
+//        CGFloat width = ScreenWidth * 0.5 - 20;
+//        CGFloat height = (self.bounds.size.height / self.bounds.size.width);
+//        make.width.mas_equalTo(width);
+//        make.height.equalTo(self.mas_width).multipliedBy(height);
+//        make.trailing.mas_equalTo(-10);
+//        make.bottom.mas_equalTo(-self.tableView.contentInset.bottom + 34);
+//        
+//        
+//    }];
     // 小屏播放
     [self.controlView lp_playerBottomShrinkPlay];
 }

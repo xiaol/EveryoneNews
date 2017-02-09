@@ -279,6 +279,8 @@ static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
 
 - (void)topView:(LPSearchResultTopView *)topView searchBarSearchButtonClicked:(UISearchBar *)searchBar {
     if ([searchBar.text stringByTrimmingNewline].length > 0) {
+       // [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+        
         [self setupDataWithKeyword:searchBar.text];
     }
     [[[UIApplication sharedApplication] keyWindow] endEditing:YES];
@@ -315,7 +317,9 @@ static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
             if (cell == nil) {
                 cell = [[LPSearchResultViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
             }
+                 if (self.cardFrames.count > indexPath.row && indexPath.row != nil ) {
             cell.cardFrame = self.cardFrames[indexPath.row];
+                 }
             return cell;
         }
     } else {
@@ -324,7 +328,11 @@ static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
         if (cell == nil) {
             cell = [[LPSearchResultViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
         }
-        cell.cardFrame = self.cardFrames[indexPath.row];
+        if (self.cardFrames.count > indexPath.row && indexPath.row != nil) {
+            cell.cardFrame = self.cardFrames[indexPath.row];
+        }
+        
+      
         return cell;
     }
 }
@@ -332,15 +340,27 @@ static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     if (self.isPublisherExist) {
-        LPSearchCardFrame *cardFrame = self.cardFrames[indexPath.row];
-        if (indexPath.row == 2) {
-            return [self heightWithQiDianView];
-        } else {
-            return cardFrame.cellHeight;
+        if (self.cardFrames != nil && self.cardFrames.count > indexPath.row) {
+            LPSearchCardFrame *cardFrame = self.cardFrames[indexPath.row];
+            if (indexPath.row == 2) {
+                return [self heightWithQiDianView];
+            } else {
+                if ([cardFrame isKindOfClass:[LPSearchCardFrame class]]) {
+                  return cardFrame.cellHeight;
+                } else {
+                    return 0.2f;
+                }
+                
+                
+            }
         }
+        return 0.2f;
     } else {
+         if (self.cardFrames != nil && self.cardFrames.count > indexPath.row) {
         LPSearchCardFrame *cardFrame = self.cardFrames[indexPath.row];
         return cardFrame.cellHeight;
+         }
+        return 0.2f;
     }
 }
 
@@ -356,7 +376,7 @@ static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
 #pragma mark - UITableView Delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
       if (self.isPublisherExist) {
-          if (indexPath.row != 2) {
+          if (indexPath.row != 2 && self.cardFrames != nil && self.cardFrames.count > indexPath.row) {
               LPSearchCardFrame *searchCardFrame = self.cardFrames[indexPath.row];
               LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
               detailVc.searchCardFrame = searchCardFrame;
@@ -366,11 +386,14 @@ static NSString *qiDiancellIdentifier = @"qiDiancellIdentifier";
               return;
           }
       } else {
-          LPSearchCardFrame *searchCardFrame = self.cardFrames[indexPath.row];
-          LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
-          detailVc.searchCardFrame = searchCardFrame;
-          detailVc.sourceViewController = searchSource;
-          [self.navigationController pushViewController:detailVc animated:YES];
+          if (self.cardFrames != nil && self.cardFrames.count > indexPath.row) {
+              LPSearchCardFrame *searchCardFrame = self.cardFrames[indexPath.row];
+              LPDetailViewController *detailVc = [[LPDetailViewController alloc] init];
+              detailVc.searchCardFrame = searchCardFrame;
+              detailVc.sourceViewController = searchSource;
+              [self.navigationController pushViewController:detailVc animated:YES];
+          }
+     
       }
 
 

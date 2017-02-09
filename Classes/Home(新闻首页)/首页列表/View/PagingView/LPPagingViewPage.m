@@ -283,17 +283,26 @@
             break;
         }
     }
+    // 获取最大的新闻id
+    NSNumber *maxNid = @(0);
+    for (CardFrame *cardFrame in self.cardFrames) {
+        if (cardFrame.card.nid > maxNid) {
+            maxNid = cardFrame.card.nid;
+        }
+    }
     if (self.cardFrames.count != 0) {
         CardFrame *cardFrame = self.cardFrames[0];
+        CardFrame *secondCardFrame = self.cardFrames[1];
+        Card *secondCard = secondCardFrame.card;
         Card *card = cardFrame.card;
         CardParam *param = [[CardParam alloc] init];
         param.type = HomeCardsFetchTypeNew;
         param.channelID = self.pageChannelID;
         param.count = @20;
         param.startTime = card.updateTime;
+        param.nid = maxNid;
         NSMutableArray *tempArray = [[NSMutableArray alloc] init];
         [CardTool cardsWithParam:param channelID: param.channelID success:^(NSArray *cards) {
-            
             if (cards.count > 0) {
                 [cardFrame setCard:card tipButtonHidden:NO];
                 for (int i = 0; i < (int)cards.count; i ++) {
@@ -303,7 +312,17 @@
                 }
                 NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:
                                        NSMakeRange(0,[tempArray count])];
+                
                 [self.cardFrames insertObjects: tempArray atIndexes:indexes];
+                
+                // 获取当前置顶专题
+                CardFrame *currentCardFrame = self.cardFrames[0];
+                if ([currentCardFrame.card.rtype integerValue] == zhuantiNewsType && [cardFrame.card.rtype integerValue] == zhuantiNewsType) {
+                    
+                      NSInteger currentRowIndex = [self.cardFrames indexOfObject:cardFrame];
+                    [self.cardFrames removeObject:cardFrame];
+                    [secondCardFrame setCard:secondCard tipButtonHidden:NO];
+                }
                 [self.tableView reloadData];
                 
                 if ([self.delegate respondsToSelector:@selector(homeListDidScroll)]) {
@@ -450,9 +469,19 @@
 - (void)deleteRowAtIndexPath:(CardFrame *)cardFrame {
 
     NSInteger index = [self.cardFrames indexOfObject:cardFrame];
+    
+    if (index >= self.cardFrames.count  ) {
+        
+        return;
+    }
+    
     [self.cardFrames removeObject:cardFrame];
+    
+    [self.tableView beginUpdates];
+    
     [self.tableView  deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
     
+    [self.tableView endUpdates];
     // 如果删除记录中包含”上次阅读到这里“， 重新刷新下一行记录
     if (cardFrame.isTipButtonHidden == NO && self.cardFrames.count > 0) {
         CardFrame *nextCardFrame = self.cardFrames[index];
@@ -460,6 +489,9 @@
         [nextCardFrame setCard:nextCard tipButtonHidden:NO];
         [self.tableView  reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
     }
+
+    
+    
 }
 
 - (void)updateCardFramesWithCardFrame:(CardFrame *)cardFrame {

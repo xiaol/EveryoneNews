@@ -27,6 +27,8 @@
 
 @interface LPHomeViewController ()
 
+
+
 @end
 
 @implementation LPHomeViewController
@@ -35,6 +37,9 @@
 
     return UIStatusBarStyleDefault;
 }
+
+
+
 
 #pragma mark - viewDidLoad
 - (void)viewDidLoad {
