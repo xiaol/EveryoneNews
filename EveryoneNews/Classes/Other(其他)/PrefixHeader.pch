@@ -249,6 +249,10 @@ typedef NS_ENUM(NSInteger, newsType) {
     
 };
 
+#define LPCurrentLatitude @"currentLatitude"
+#define LPCurrentLongitude @"currentLongitude"
+#define LPCurrentProvince @"currentProvince"
+#define LPCurrentCity @"currentCity"
 
 #define noteCenter [NSNotificationCenter defaultCenter]
 #define LPCategoryDidChangeNotification @"changeCategory"
@@ -262,7 +266,7 @@ typedef NS_ENUM(NSInteger, newsType) {
 #define LPChannelItemChangedNotification @"LPChannelItemChangedNotification"
 #define LPAddConcernSourceNotification @"LPAddConcernSourceNotification"
 #define LPRemoveConcernSourceNotification @"LPRemoveConcernSourceNotification"
-#define LPIsVersionFirstLoad @"LPIsVersion_3_5_0_FirstLoad"
+#define LPIsVersionFirstLoad @"LPIsVersion_3_5_5_FirstLoad"
 
 #define LPReloadAddConcernPageNotification @"LPReloadAddConcernPageNotification"
 #define LPReloadCancelConcernPageNotification @"LPReloadCancelConcernPageNotification"

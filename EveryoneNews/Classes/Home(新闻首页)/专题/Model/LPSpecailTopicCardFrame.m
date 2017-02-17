@@ -186,4 +186,8 @@
     }
 }
 
+- (void)setSpecialTopicWhenFontSizeChanged:(LPSpecailTopicCardFrame *)cardFrame {
+    self.card = cardFrame.card;
+}
+
 @end

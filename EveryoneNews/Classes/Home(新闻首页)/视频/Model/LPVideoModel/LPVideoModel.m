@@ -26,6 +26,21 @@
     return mutableAttributeString;
 }
 
+- (NSMutableAttributedString *)singleHtmlString {
+    CGFloat fontSize = [LPFontSizeManager sharedManager].lpFontSize.currentDetailRelatePointFontSize ;
+    
+    NSString *str = @"单行";
+    NSString *singlestr = [NSString stringWithFormat:@"<style> body{ font-size:%fpx; text-align:justify;  }</style> %@ ",
+                           [UIFont systemFontOfSize:fontSize].pointSize, str];
+    NSMutableAttributedString *mutableAttributeString = [[NSMutableAttributedString alloc] initWithData:[singlestr  dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute:NSHTMLTextDocumentType}
+                                                                                     documentAttributes:nil error:nil];
+    return mutableAttributeString;
+    
+    
+}
+
+
+
 - (NSString *)title {
     
     _title =  [_title stringByReplacingOccurrencesOfString:@"#0091fa" withString:LPColor3];

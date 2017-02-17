@@ -12,4 +12,6 @@
 
 @property (nonatomic, copy) NSNumber *tid;
 
+@property (nonatomic, copy) NSString *topicTitle;
+
 @end

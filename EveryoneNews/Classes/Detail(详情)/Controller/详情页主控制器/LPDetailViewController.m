@@ -793,8 +793,16 @@ const static CGFloat changeFontSizeViewH = 150;
 - (void)submitUserOperationLog {
     
     NSString *uid = (NSString *)[userDefaults objectForKey:@"uid"];
-    NSString *province = @""; // 省
-    NSString *city = @""; // 城市
+    NSString *province = [userDefaults objectForKey:LPCurrentProvince]; // 省
+    NSString *city = [userDefaults objectForKey:LPCurrentCity]; // 城市
+
+    if (province) {
+         province = [province stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+         city = [city stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    }
+    
+    
+    
     NSString *county  = @""; // 区，县
     NSString *n = [self nid];
     NSString *c = [NSString stringWithFormat:@"%@",self.channel]; // 频道编号
@@ -815,7 +823,7 @@ const static CGFloat changeFontSizeViewH = 150;
                                                        options:0 // Pass 0 if you don't care about the readability of the generated string
                                                          error:&error];
     NSString *data  = [[jsonData base64EncodedStringWithOptions:0] stringByTrimmingString:@"="];
-    NSString *url = [NSString stringWithFormat:@"%@/rep/v2/c?u=%@&p=%@t=%@&i=%@&d=%@",ServerUrlVersion2, uid,province,city,county,data];
+    NSString *url = [NSString stringWithFormat:@"%@/rep/v2/c?u=%@&p=%@&t=%@&i=%@&d=%@",ServerUrlVersion2, uid,province,city,county,data];
 
     if (!error) {
         self.http = [LPHttpTool http];
@@ -2155,6 +2163,8 @@ const static CGFloat changeFontSizeViewH = 150;
     CGFloat imageViewW = 83;
     
     UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"qiangshafa"]];
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
+    
     imageView.frame = CGRectMake(0, 0, imageViewW, imageViewH);
     
     NSString *noCommentStr = @"还不快来抢沙发";

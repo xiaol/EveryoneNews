@@ -309,8 +309,8 @@ NSString * const AppDidReceiveReviewUserDefaultKey = @"com.everyonenews.receive.
         paramUser[@"utype"] = @(2);
         // 1 iOS 平台
         paramUser[@"platform"] = @(1);
-        paramUser[@"province"]  = @"";
-        paramUser[@"city"] = @"";
+        paramUser[@"province"]  = [userDefaults objectForKey:LPCurrentProvince];
+        paramUser[@"city"] = [userDefaults objectForKey:LPCurrentCity];
         paramUser[@"district"] = @"";
         [LPHttpTool postJSONResponseAuthorizationWithURL:url params:paramUser success:^(id json, NSString *authorization) {
             if ([json[@"code"] integerValue] == 2000) {

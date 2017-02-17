@@ -417,6 +417,7 @@ NSString * const reuseVideoPageID = @"reuseVideoPageID";
     if ([card.rtype isEqual:@(4)]) {
         LPSpecialTopicHomeViewController *specialTopicVc = [[LPSpecialTopicHomeViewController alloc] init];
         specialTopicVc.tid = card.nid;
+        specialTopicVc.topicTitle = card.title;
         [self.navigationController pushViewController:specialTopicVc animated:NO];
         
     } else if([card.rtype isEqual:@(3)]) {

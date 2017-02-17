@@ -26,6 +26,7 @@
 @class CardFrame;
 @class Account;
 @class LPPlayerView;
+@class CLLocationManager;
 
 @interface LPHomeViewController:LPBaseViewController
 
@@ -91,5 +92,7 @@
 @property (nonatomic, strong) LPPlayerView *playerView;
 
 @property (nonatomic, copy) NSString *deleteNid;
+@property (nonatomic, strong) CLLocationManager *locationManager;
+
 
 @end

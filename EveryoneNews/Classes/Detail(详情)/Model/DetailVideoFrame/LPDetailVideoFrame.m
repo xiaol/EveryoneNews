@@ -37,11 +37,20 @@
     titleW = ScreenWidth - imageW - paddingLeft * 2 - imagePadding ;
     NSMutableAttributedString *titleHtmlString = _videoModel.titleHtmlString;
     titleH =  [titleHtmlString textViewHeightWithConstraintWidth:titleW];
+    
+    CGFloat singleTitleH =  [_videoModel.singleHtmlString textViewHeightWithConstraintWidth:titleW];
+    
+    if (titleH > 2 * singleTitleH) {
+        titleH = 2 * singleTitleH - 2;
+    }
  
     sourceW = titleW;
     sourceH = [_videoModel.sourceString heightWithConstraintWidth:sourceW];
     
     CGFloat titleY = 0.0f;
+    
+    
+    
     if (titleH + sourceH + sourcePadding > imageH) {
         titleH = imageH - sourceH - sourcePadding;
     }
@@ -61,7 +70,12 @@
     
     CGFloat playImageViewW  = 10;
     CGFloat playImageViewH  = 10;
-    CGFloat playImageViewX = (imageW - playImageViewW) / 2 - 5;
+    CGFloat playImageViewX = (imageW - playImageViewW) / 2 + 5 ;
+    
+    if (iPhone6Plus) {
+        playImageViewX = (imageW - playImageViewW) / 2 + 8 ;
+    }
+    
     CGFloat playImageViewY = (imageH - playImageViewH - 5);
     _playImageViewF = CGRectMake(playImageViewX, playImageViewY, playImageViewW, playImageViewH);
     CGFloat durationLabelX = CGRectGetMaxX(_playImageViewF) + 5;

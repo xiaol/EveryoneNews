@@ -23,9 +23,10 @@
 #import "UIButton+WebCache.h"
 #import "LPPagingViewConcernPage.h"
 #import "LPPagingViewVideoPage.h"
+#import <CoreLocation/CoreLocation.h>
  
 
-@interface LPHomeViewController ()
+@interface LPHomeViewController ()<CLLocationManagerDelegate>
 
 @end
 
@@ -53,6 +54,70 @@
     [noteCenter addObserver:self selector:@selector(resignActiveNotification) name:UIApplicationWillResignActiveNotification object:nil];
     // 从后台激活
     [noteCenter addObserver:self selector:@selector(becomeActiveNotification) name:UIApplicationDidBecomeActiveNotification object:nil];
+    [self getLocation];
+}
+
+- (void)getLocation {
+    //检测定位功能是否开启
+    if([CLLocationManager locationServicesEnabled]){
+        
+        if(!_locationManager){
+            
+            self.locationManager = [[CLLocationManager alloc] init];
+            
+            if([self.locationManager respondsToSelector:@selector(requestWhenInUseAuthorization)]){
+                [self.locationManager requestWhenInUseAuthorization];
+                [self.locationManager requestAlwaysAuthorization];
+                
+            }
+            
+            //设置代理
+            [self.locationManager setDelegate:self];
+            //设置定位精度
+            [self.locationManager setDesiredAccuracy:kCLLocationAccuracyBest];
+            //设置距离筛选
+            [self.locationManager setDistanceFilter:100];
+            //开始定位
+            [self.locationManager startUpdatingLocation];
+        }
+        
+    }
+}
+
+#pragma mark - CLLocationManangerDelegate
+//定位成功以后调用
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray<CLLocation *> *)locations {
+    
+    [self.locationManager stopUpdatingLocation];
+    self.locationManager.delegate = nil;
+    CLLocation* location = locations.lastObject;
+    [self reverseGeocoder:location];
+}
+
+#pragma mark Geocoder
+//反地理编码
+- (void)reverseGeocoder:(CLLocation *)currentLocation {
+    CLGeocoder* geocoder = [[CLGeocoder alloc] init];
+    [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error) {
+        if(error || placemarks.count == 0){
+            // NSLog(@"error = %@",error);
+        } else {
+            
+            CLPlacemark *placemark = placemarks.firstObject;
+            if (currentLocation.coordinate.latitude) {
+                
+                NSString *province = [[placemark addressDictionary] objectForKey:@"State"];
+                NSString *city = [[placemark addressDictionary] objectForKey:@"City"];
+                [userDefaults setObject:@(currentLocation.coordinate.latitude) forKey:LPCurrentLatitude];
+                [userDefaults setObject:@(currentLocation.coordinate.longitude) forKey:LPCurrentLongitude];
+                [userDefaults setObject:province forKey:LPCurrentProvince];
+                [userDefaults setObject:city forKey:LPCurrentCity];
+                [userDefaults synchronize];
+                
+            }
+        }
+        
+    }];
 }
 
 

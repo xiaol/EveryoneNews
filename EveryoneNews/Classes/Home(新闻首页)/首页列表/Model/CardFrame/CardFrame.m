@@ -142,7 +142,7 @@
         CGFloat specailTopicTopLabelY = CGRectGetMaxY(_specialTopicImageViewFrame) + paddingTop;
         _specailTopicTopLabelFrame = CGRectMake(specailTopicTopLabelX, specailTopicTopLabelY, specialTopicTopLabelW, specialTopicTopLabelH);
         
-        deleteButtonX = ScreenWidth - deleteButtonW - paddingLeft * 2;
+        deleteButtonX = ScreenWidth - deleteButtonW - paddingLeft;
         deleteButtonY = CGRectGetMaxY(_specialTopicImageViewFrame) + deleteButtonPaddingTop;
         
         commentsX = CGRectGetMaxX(_specailTopicTopLabelFrame) + 6;
@@ -218,7 +218,7 @@
         commentsY = deleteButtonY;
         
         _videoCommentsCountLabelFrame = CGRectMake(commentsX, commentsY, commentsW, commentsH);
-        _videoDeleteButtonFrame = CGRectMake(deleteButtonX, deleteButtonY, deleteButtonW, deleteButtonH);
+        _videoDeleteButtonFrame = CGRectMake(deleteButtonX + 2, deleteButtonY, deleteButtonW, deleteButtonH);
         
         videoSeperatorLineY = MAX(CGRectGetMaxY(_videoDeleteButtonFrame), CGRectGetMaxY(_videoImageViewFrame))  + paddingBottom;
        
@@ -468,7 +468,7 @@
             deleteButtonY = CGRectGetMaxY(_multipleImageViewFrame) + deleteButtonPaddingTop;
             commentsY = deleteButtonY;
             _multipleImageCommentsCountLabelFrame = CGRectMake(commentsX, commentsY, commentsW, commentsH);
-            _multipleImageDeleteButtonFrame = CGRectMake(deleteButtonX, deleteButtonY, deleteButtonW, deleteButtonH);
+            _multipleImageDeleteButtonFrame = CGRectMake(deleteButtonX + 2, deleteButtonY, deleteButtonW, deleteButtonH);
             
             CGFloat multipleImageSeperatorLineY = CGRectGetMaxY(_multipleImageDeleteButtonFrame)+ paddingBottom;
             _multipleImageSeperatorLineFrame = CGRectMake(0, multipleImageSeperatorLineY, ScreenWidth, seperatorH);

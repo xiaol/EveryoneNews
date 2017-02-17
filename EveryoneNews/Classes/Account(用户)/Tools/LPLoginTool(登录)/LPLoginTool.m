@@ -85,8 +85,8 @@
     paramUser[@"utype"] = @(2);
     // iOS 平台
     paramUser[@"platform"] = @(1);
-    paramUser[@"province"]  = @"";
-    paramUser[@"city"] = @"";
+    paramUser[@"province"]  = [userDefaults objectForKey:LPCurrentProvince];
+    paramUser[@"city"] = [userDefaults objectForKey:LPCurrentCity];
     paramUser[@"district"] = @"";
     return paramUser;
 }
@@ -113,8 +113,8 @@
     paramsUser[@"uname"] = account.userName;
     paramsUser[@"gender"] = @(0);
     paramsUser[@"avatar"] =  account.userIcon;
-    paramsUser[@"province"] = @"";
-    paramsUser[@"city"] = @"";
+    paramsUser[@"province"] = [userDefaults objectForKey:LPCurrentProvince];
+    paramsUser[@"city"] =  [userDefaults objectForKey:LPCurrentCity];
     paramsUser[@"district"] = @"";
     return paramsUser;
 }
@@ -182,8 +182,8 @@
     paramsUser[@"uname"] = accountEntity.name;
     paramsUser[@"gender"] = @(0);
     paramsUser[@"avatar"] =  accountEntity.iconurl;
-    paramsUser[@"province"] = @"";
-    paramsUser[@"city"] = @"";
+    paramsUser[@"province"] = [userDefaults objectForKey:LPCurrentProvince];
+    paramsUser[@"city"] = [userDefaults objectForKey:LPCurrentCity];
     paramsUser[@"district"] = @"";
     return paramsUser;
 }

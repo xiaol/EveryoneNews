@@ -56,8 +56,8 @@
     paramDict[@"ctype"] = @(1);
     // 平台类型  1 iOS 2 安卓 3 网页 4 无法识别
     paramDict[@"ptype"] = @(1);
-    paramDict[@"province"] = @"";
-    paramDict[@"city"] = @"";
+    paramDict[@"province"] = [userDefaults objectForKey:LPCurrentProvince];
+    paramDict[@"city"] = [userDefaults objectForKey:LPCurrentCity];
     paramDict[@"area"] = @"";
     NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
     
@@ -99,8 +99,8 @@
         paramUser[@"utype"] = @(2);
         // 1 iOS 平台
         paramUser[@"platform"] = @(1);
-        paramUser[@"province"]  = @"";
-        paramUser[@"city"] = @"";
+        paramUser[@"province"]  = [userDefaults objectForKey:LPCurrentProvince];
+        paramUser[@"city"] = [userDefaults objectForKey:LPCurrentCity];
         paramUser[@"district"] = @"";
         [LPHttpTool postJSONResponseAuthorizationWithURL:url params:paramUser success:^(id json, NSString *authorization) {
             if ([json[@"code"] integerValue] == 2000) {

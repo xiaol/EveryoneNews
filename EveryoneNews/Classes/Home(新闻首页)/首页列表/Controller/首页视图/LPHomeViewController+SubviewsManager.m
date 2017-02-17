@@ -166,7 +166,7 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
     
     // 底部分割线
     CALayer *seperatorLayer = [CALayer layer];
-    seperatorLayer.frame = CGRectMake(0, statusBarHeight + menuViewHeight - 1.0f, ScreenWidth, 0.5f);
+    seperatorLayer.frame = CGRectMake(0, statusBarHeight + menuViewHeight - 0.5f, ScreenWidth, 0.5f);
     seperatorLayer.backgroundColor = [UIColor colorFromHexString:LPColor21].CGColor;
     [headerView.layer addSublayer:seperatorLayer];
     // 默认选中第一个频道栏
@@ -296,7 +296,7 @@ NSString * const cardCellIdentifier = @"cardCellIdentifier";
             [userDefaults setObject:authorization forKey:@"uauthorization"];
             [userDefaults synchronize];
             [noteCenter postNotificationName:LPLoginNotification object:nil];
-            [self dismissViewControllerAnimated:YES completion:nil];
+            self.loginView.hidden = YES;
         } else {
             [MBProgressHUD showError:@"用户名或密码错误"];
         }

@@ -617,6 +617,10 @@ static const CGFloat LPPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     self.shrink = NO;
     self.fullScreen = YES;
     self.fullScreenButton.selected = self.isFullScreen;
+    if (self.repeatBtn.hidden == NO) {
+        self.topImageView.alpha = 1.0f;
+    }
+    
 }
 
 // 竖屏约束
@@ -631,9 +635,30 @@ static const CGFloat LPPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     self.closeButton.hidden = !self.isShrink;
 }
 
+#pragma mark - 播放完毕
+- (void)playEndShow {
+    self.playButton.alpha = 0;
+    self.topImageView.alpha = 1;
+    self.bottomImageView.alpha = 0;
+    self.shrink = NO;
+    self.bottomProgressView.alpha = 0;
+    
+    if (self.isFullScreen) {
+        self.titleLabel.hidden = YES;
+        self.backButton.hidden = NO;
+        self.lockScreenButton.hidden = NO;
+        self.shareButton.hidden = NO;
+        
+    } else {
+        self.titleLabel.hidden = YES;
+        self.backButton.hidden = YES;
+        self.lockScreenButton.hidden = YES;
+        self.shareButton.hidden = YES;
+    }
+}
+
 #pragma mark - 私有方法
 - (void)showControlView {
-    
     self.playButton.alpha = 1;
     self.topImageView.alpha = 1;
     self.bottomImageView.alpha = 1;
@@ -641,7 +666,6 @@ static const CGFloat LPPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     self.bottomProgressView.alpha = 0;
  
     if (self.isFullScreen) {
-        
         self.titleLabel.hidden = NO;
         self.backButton.hidden = NO;
         self.lockScreenButton.hidden = NO;
@@ -885,8 +909,7 @@ static const CGFloat LPPlayerControlBarAutoFadeOutTimeInterval = 0.35f;
     self.repeatBtn.hidden = NO;
     self.playEnd = YES;
     self.showing = NO;
-    // 隐藏controlView
-    [self hideControlView];
+    [self playEndShow];
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
     self.bottomProgressView.alpha = 0;
 }

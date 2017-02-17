@@ -14,14 +14,30 @@
 #import "LPSpecailTopicCardFrame.h"
 #import "LPDetailViewController.h"
 #import "LPLoadingView.h"
+#import "LPDetailChangeFontSizeView.h"
+#import "LPDetailChangeFontSizeView.h"
+#import "LPFontSizeManager.h"
+#import "MBProgressHUD+MJ.h"
+#import <UMSocialCore/UMSocialCore.h>
+#import "LPSpecailTopicCardFrame.h"
 
-@interface LPSpecialTopicHomeViewController ()<UITableViewDelegate, UITableViewDataSource>
+
+const static CGFloat changeFontSizeViewH = 150;
+@interface LPSpecialTopicHomeViewController ()<UITableViewDelegate, UITableViewDataSource, LPBottomShareViewDelegate, LPDetailChangeFontSizeViewDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray *cardFrames;
 @property (nonatomic, strong) NSMutableArray *headerTitleArray;
 @property (nonatomic, strong) UILabel *loadingLabel;
 @property (nonatomic, strong) LPLoadingView *loadingView;
+
+@property (nonatomic, strong) LPBottomShareView *bottomShareView;
+@property (nonatomic, strong) UIView *detailBackgroundView;
+@property (nonatomic, strong) LPDetailChangeFontSizeView *changeFontSizeView;
+// 分享url
+@property (nonatomic, copy) NSString *shareURL;
+@property (nonatomic, copy) NSString *shareTitle;
+@property (nonatomic, copy) NSString *shareImageURL;
 
 @end
 
@@ -116,8 +132,246 @@
 
 #pragma mark - shareButtonClick 
 - (void)shareButtonClick {
-    NSLog(@"分享");
+    [self popShareView];
 }
+
+#pragma mark - 底部弹出分享对话框
+- (void)popShareView {
+    UIView *detailBackgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, ScreenHeight)];
+    detailBackgroundView.backgroundColor = [UIColor blackColor];
+    detailBackgroundView.alpha = 0.6;
+    
+    
+    UITapGestureRecognizer *tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(removeBackgroundView)];
+    [detailBackgroundView addGestureRecognizer:tapGestureRecognizer];
+    
+    [self.view addSubview:detailBackgroundView];
+    self.detailBackgroundView = detailBackgroundView;
+    
+    
+    // 添加分享
+    LPBottomShareView *bottomShareView = [[LPBottomShareView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+    bottomShareView.delegate = self;
+    [self.view addSubview:bottomShareView];
+    
+    // 改变字体大小视图
+    LPDetailChangeFontSizeView *changeFontSizeView = [[LPDetailChangeFontSizeView alloc] initWithFrame:CGRectMake(0, ScreenHeight, ScreenWidth, changeFontSizeViewH)];
+    changeFontSizeView.delegate = self;
+    [self.view addSubview:changeFontSizeView];
+    self.changeFontSizeView = changeFontSizeView;
+    
+    CGRect toFrame = CGRectMake(0, ScreenHeight - bottomShareView.size.height, ScreenWidth, bottomShareView.size.height);
+    
+    [UIView animateWithDuration:0.3f animations:^{
+        bottomShareView.frame = toFrame;
+    }];
+    self.bottomShareView = bottomShareView;
+}
+
+#pragma mark LPDetailTopView Delegate
+- (void)shareView:(LPBottomShareView *)shareView cancelButtonDidClick:(UIButton *)cancelButton {
+    [self removeBackgroundView];
+}
+
+- (void)removeBackgroundView {
+    CGRect bottomShareViewToFrame = CGRectMake(0, ScreenHeight, ScreenWidth, self.bottomShareView.size.height);
+    CGRect changeFontSizeViewToFrame = CGRectMake(0, ScreenHeight, ScreenWidth, self.changeFontSizeView.height);
+    
+    [UIView animateWithDuration:0.3f animations:^{
+        if (self.bottomShareView.origin.y == ScreenHeight - self.bottomShareView.size.height) {
+            self.bottomShareView.frame = bottomShareViewToFrame;
+        }
+        if (self.changeFontSizeView.origin.y == ScreenHeight - self.changeFontSizeView.size.height) {
+            self.changeFontSizeView.frame = changeFontSizeViewToFrame;
+        }
+        self.detailBackgroundView.alpha = 0.0f;
+    } completion:^(BOOL finished) {
+        [self.bottomShareView removeFromSuperview];
+        [self.changeFontSizeView removeFromSuperview];
+        [self.detailBackgroundView removeFromSuperview];
+    }];
+}
+
+- (void)shareView:(LPBottomShareView *)shareView index:(NSInteger)index {
+    switch (index) {
+        case -2:
+            [self shareToWechatSessionBtnClick];
+            break;
+        case -1:
+            [self shareToWechatTimelineBtnClick];
+            break;
+        case -3:
+            [self shareToQQBtnClick];
+            break;
+        case -4:
+            [self shareToSinaBtnClick];
+            break;
+        case -5:
+            [self shareToSmsBtnClick];
+            break;
+        case -6:
+            [self shareToEmailBtnClick];
+            break;
+        case -7:
+            [self shareToLinkBtn];
+            break;
+        case -8:
+            [self changeDetailFontSize];
+            break;
+            
+    }
+}
+
+#pragma mark - 改变详情页字体大小
+- (void)changeDetailFontSize {
+    CGRect shareViewToFrame = CGRectMake(0, ScreenHeight, ScreenWidth, self.bottomShareView.size.height);
+    CGRect changeFontSizeViewToFrame = CGRectMake(0, ScreenHeight - changeFontSizeViewH, ScreenWidth, self.changeFontSizeView.height);
+    [UIView animateWithDuration:0.3f animations:^{
+        self.bottomShareView.frame = shareViewToFrame;
+        self.changeFontSizeView.frame = changeFontSizeViewToFrame;
+        
+    } completion:^(BOOL finished) {
+        
+    }];
+    
+}
+
+#pragma mark - LPDetailChangeFontSizeView delegate
+- (void)changeFontSizeView:(LPDetailChangeFontSizeView *)changeFontSizeView reloadTableViewWithFontSize:(LPFontSize *)lpFontSize {
+    // 改变字体大小
+    [LPFontSizeManager sharedManager].lpFontSize = lpFontSize;
+    [[LPFontSizeManager sharedManager] saveHomeViewFontSizeAndType];
+    
+    for (int i = 0; i < self.headerTitleArray.count; i++) {
+        for (LPSpecailTopicCardFrame *cardFrame in self.cardFrames[i]) {
+            [cardFrame setSpecialTopicWhenFontSizeChanged:cardFrame];
+        }
+    }
+    
+    [self.tableView reloadData];
+    [noteCenter postNotificationName:LPFontSizeChangedNotification object:nil];
+}
+
+- (void)finishButtonDidClick:(LPDetailChangeFontSizeView *)changeFontSizeView {
+    [self removeBackgroundView];
+}
+
+// 提示信息
+-(void)shareSucess {
+    [self removeBackgroundView];
+    [MBProgressHUD showSuccess:@"分享成功"];
+}
+
+-(void)shareFailure {
+    [self removeBackgroundView];
+    [MBProgressHUD showError:@"分享失败"];
+}
+
+#pragma mark - 分享网页
+- (void)shareWithPlatform:(UMSocialPlatformType)type {
+    
+    UMSocialMessageObject *messageObject = [UMSocialMessageObject messageObject];
+    
+    
+    
+    if (type == UMSocialPlatformType_Sina) {
+        //设置文本
+        messageObject.text = [NSString stringWithFormat:@"%@ %@", self.shareTitle, self.shareURL];        //创建图片内容对象
+        
+        if (self.shareImageURL) {
+            UMShareImageObject *shareObject = [[UMShareImageObject alloc] init];
+            //如果有缩略图，则设置缩略图
+            [shareObject setShareImage:self.shareImageURL];
+            
+            messageObject.shareObject = shareObject;
+        }
+    } else if(type == UMSocialPlatformType_Sms) {
+        
+        UMShareSmsObject *shareObject = [[UMShareSmsObject alloc] init];
+        shareObject.smsContent = [NSString stringWithFormat:@"%@ %@", self.shareTitle, self.shareURL];
+        
+        messageObject.shareObject = shareObject;
+        
+        
+    } else if(type == UMSocialPlatformType_Email){
+        
+        messageObject.text = self.shareTitle;
+        //创建网页内容对象
+        UMShareWebpageObject *shareObject = nil;
+        if (self.shareImageURL) {
+            shareObject = [UMShareWebpageObject shareObjectWithTitle:self.shareTitle descr:self.shareTitle thumImage:self.shareImageURL];
+        } else {
+            shareObject = [UMShareWebpageObject shareObjectWithTitle:self.shareTitle descr:self.shareTitle thumImage:[UIImage imageNamed:@"个人中心奇点资讯"]];
+        }
+        shareObject.webpageUrl = self.shareURL;
+        messageObject.shareObject = shareObject;
+    }
+    else {
+        //创建网页内容对象
+        UMShareWebpageObject *shareObject = nil;
+        
+        if (self.shareImageURL) {
+            shareObject = [UMShareWebpageObject shareObjectWithTitle:self.shareTitle descr:self.shareTitle thumImage:self.shareImageURL];
+        } else {
+            shareObject = [UMShareWebpageObject shareObjectWithTitle:self.shareTitle descr:self.shareTitle thumImage:[UIImage imageNamed:@"个人中心奇点资讯"]];
+        }
+        
+        shareObject.webpageUrl = self.shareURL;
+        messageObject.shareObject = shareObject;
+        
+    }
+    [[UMSocialManager defaultManager] shareToPlatform:type messageObject:messageObject currentViewController:self completion:^(id data, NSError *error) {
+        if (!error) {
+            [self shareSucess];
+        } else {
+            [self shareFailure];
+        }
+    }];
+}
+
+
+// 朋友圈按钮
+- (void)shareToWechatTimelineBtnClick {
+    [self shareWithPlatform:UMSocialPlatformType_WechatTimeLine];
+    
+}
+
+// 微信好友
+- (void)shareToWechatSessionBtnClick {
+    [self shareWithPlatform:UMSocialPlatformType_WechatSession];
+}
+
+// qq 好友
+- (void)shareToQQBtnClick {
+    [self shareWithPlatform:UMSocialPlatformType_QQ];
+}
+
+// 新浪微博
+- (void)shareToSinaBtnClick {
+    [self shareWithPlatform:UMSocialPlatformType_Sina];
+    
+}
+
+// 短信分享
+- (void)shareToSmsBtnClick {
+    [self shareWithPlatform:UMSocialPlatformType_Sms];
+}
+
+// 邮件分享
+- (void)shareToEmailBtnClick {
+    [self shareWithPlatform:UMSocialPlatformType_Email];
+}
+
+// 转发链接
+- (void)shareToLinkBtn {
+    NSString *url = [NSString stringWithFormat:@"%@ %@", self.shareTitle, self.shareURL] ;
+    UIPasteboard *gpBoard = [UIPasteboard generalPasteboard];
+    gpBoard.string=url;
+    [self removeBackgroundView];
+    [MBProgressHUD showSuccess:@"复制成功"];
+}
+
+
 
 #pragma mark - Loading View
 - (void)setupLoadingView {
@@ -140,7 +394,7 @@
     headerView.backgroundColor = [UIColor colorFromHexString:LPColor9];
     
     if (coverImageURL.length > 0) {
-        CGFloat coverH = 76.0f;
+        CGFloat coverH = ((91  * ScreenWidth) / 375);
         UIImageView *coverImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, ScreenWidth, coverH)];
         [coverImageView sd_setImageWithURL:[NSURL URLWithString:coverImageURL] placeholderImage:[UIImage imageNamed:@"单图小图占位图"]];
         [headerView addSubview:coverImageView];
@@ -332,7 +586,11 @@
             NSDictionary *topicBaseInfoDict = dict[@"topicBaseInfo"];
             NSString *coverImageURL = topicBaseInfoDict[@"cover"];
             NSString *desc = topicBaseInfoDict[@"description"];
-//            desc = @"奇点资讯摘要测试测试测试";
+            
+            self.shareURL = [NSString stringWithFormat:@"%@/zhuanti-share/index.html?tid=%@",ServerUrlVersion1,self.tid ] ;
+            self.shareTitle = self.topicTitle;
+            self.shareImageURL = coverImageURL;
+
             [self setupHeaderView:coverImageURL desc:desc];
             NSArray *topicCLassArray = dict[@"topicClass"];
             NSMutableArray *newsFeedMutableArray = [NSMutableArray array];

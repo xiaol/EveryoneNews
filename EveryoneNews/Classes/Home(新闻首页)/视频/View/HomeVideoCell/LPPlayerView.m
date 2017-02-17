@@ -18,9 +18,8 @@ typedef NS_ENUM(NSInteger, PanDirection){
     PanDirectionHorizontalMoved, // 横向移动
     PanDirectionVerticalMoved    // 纵向移动
 };
+
 @interface LPPlayerView()<UIGestureRecognizerDelegate,UIAlertViewDelegate>
-
-
 
 // 播放属性
 @property (nonatomic, strong) AVPlayer *player;
@@ -894,7 +893,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
 }
 
 // 设置横屏的约束
-- (void)setOrientationLandscapeConstraint:(UIInterfaceOrientation)orientation {
+- (void)setOrientationLandscapeConstraint:(UIInterfaceOrientation)orientation {    
     [self toOrientation:orientation];
     self.isFullScreen = YES;
 }
@@ -978,6 +977,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
     if (!self.player) { return; }
     if (LPPlayerShared.isLockScreen) { return; }
     if (self.didEnterBackground) { return; };
+    
     UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
     UIInterfaceOrientation interfaceOrientation = (UIInterfaceOrientation)orientation;
     if (orientation == UIDeviceOrientationFaceUp || orientation == UIDeviceOrientationFaceDown || orientation == UIDeviceOrientationUnknown ) { return; }

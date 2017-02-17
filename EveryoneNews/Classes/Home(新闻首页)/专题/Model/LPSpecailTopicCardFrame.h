@@ -38,5 +38,6 @@
 @property (nonatomic, assign) NSInteger homeViewFontSize;
 @property (nonatomic, strong) NSArray *keywords;
 
+- (void)setSpecialTopicWhenFontSizeChanged:(LPSpecailTopicCardFrame *)cardFrame;
 
 @end

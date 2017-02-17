@@ -265,8 +265,59 @@ static NSString *cellIdentifier = @"cellIdentifier";
     }
 }
 
+//#pragma mark - 下拉刷新
+//- (void)loadNewData {
+//    // 隐藏上次看到位置的提示按钮
+//    for (CardFrame *cardFrame in self.cardFrames) {
+//        Card *card = cardFrame.card;
+//        if (!cardFrame.isTipButtonHidden) {
+//            [cardFrame setCard:card tipButtonHidden:YES];
+//            break;
+//        }
+//    }
+//    if (self.cardFrames.count != 0) {
+//        CardFrame *cardFrame = self.cardFrames[0];
+//        Card *card = cardFrame.card;
+//        CardParam *param = [[CardParam alloc] init];
+//        param.type = HomeCardsFetchTypeNew;
+//        param.channelID = self.pageChannelID;
+//        param.count = @20;
+//        param.startTime = card.updateTime;
+//        NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+//        [CardTool cardsWithParam:param channelID: param.channelID success:^(NSArray *cards) {
+//            
+//            if (cards.count > 0) {
+//                [cardFrame setCard:card tipButtonHidden:NO];
+//                for (int i = 0; i < (int)cards.count; i ++) {
+//                    CardFrame *cardFrame = [[CardFrame alloc] init];
+//                    cardFrame.card = cards[i];
+//                    [tempArray addObject:cardFrame];
+//                }
+//                NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:
+//                                       NSMakeRange(0,[tempArray count])];
+//                [self.cardFrames insertObjects: tempArray atIndexes:indexes];
+//                [self.tableView reloadData];
+//                
+//            }
+//            [self showNewCount:tempArray.count];
+//            [self.tableView.mj_header endRefreshing];
+//        } failure:^(NSError *error) {
+//            [self.tableView.mj_header endRefreshing];
+//            [MBProgressHUD showError:@"网络连接中断"];
+//            
+//            NSLog(@"%@", error);
+//        }];
+//    } else {
+//     
+//        [self.tableView.mj_header endRefreshing];
+//    }
+//    
+//
+//}
+
 #pragma mark - 下拉刷新
 - (void)loadNewData {
+
     // 隐藏上次看到位置的提示按钮
     for (CardFrame *cardFrame in self.cardFrames) {
         Card *card = cardFrame.card;
@@ -275,17 +326,26 @@ static NSString *cellIdentifier = @"cellIdentifier";
             break;
         }
     }
+    // 获取最大的新闻id
+    NSNumber *maxNid = @(0);
+    for (CardFrame *cardFrame in self.cardFrames) {
+        if (cardFrame.card.nid > maxNid) {
+            maxNid = cardFrame.card.nid;
+        }
+    }
     if (self.cardFrames.count != 0) {
         CardFrame *cardFrame = self.cardFrames[0];
+        CardFrame *secondCardFrame = self.cardFrames[1];
+        Card *secondCard = secondCardFrame.card;
         Card *card = cardFrame.card;
         CardParam *param = [[CardParam alloc] init];
         param.type = HomeCardsFetchTypeNew;
         param.channelID = self.pageChannelID;
         param.count = @20;
         param.startTime = card.updateTime;
+        param.nid = [maxNid stringValue];
         NSMutableArray *tempArray = [[NSMutableArray alloc] init];
         [CardTool cardsWithParam:param channelID: param.channelID success:^(NSArray *cards) {
-            
             if (cards.count > 0) {
                 [cardFrame setCard:card tipButtonHidden:NO];
                 for (int i = 0; i < (int)cards.count; i ++) {
@@ -295,7 +355,15 @@ static NSString *cellIdentifier = @"cellIdentifier";
                 }
                 NSIndexSet *indexes = [NSIndexSet indexSetWithIndexesInRange:
                                        NSMakeRange(0,[tempArray count])];
+                
                 [self.cardFrames insertObjects: tempArray atIndexes:indexes];
+                
+                // 获取当前置顶专题
+                CardFrame *currentCardFrame = self.cardFrames[0];
+                if ([currentCardFrame.card.rtype integerValue] == zhuantiNewsType && [cardFrame.card.rtype integerValue] == zhuantiNewsType) {
+                    [self.cardFrames removeObject:cardFrame];
+                    [secondCardFrame setCard:secondCard tipButtonHidden:NO];
+                }
                 [self.tableView reloadData];
                 
             }
@@ -304,15 +372,10 @@ static NSString *cellIdentifier = @"cellIdentifier";
         } failure:^(NSError *error) {
             [self.tableView.mj_header endRefreshing];
             [MBProgressHUD showError:@"网络连接中断"];
-            
-            NSLog(@"%@", error);
         }];
     } else {
-     
         [self.tableView.mj_header endRefreshing];
     }
-    
-
 }
 
 - (void)showNewCount:(NSInteger)count {

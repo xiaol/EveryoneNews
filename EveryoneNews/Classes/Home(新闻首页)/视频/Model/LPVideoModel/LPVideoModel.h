@@ -26,6 +26,6 @@
 - (NSMutableAttributedString *)titleString;
 - (NSMutableAttributedString *)sourceString;
 - (NSMutableAttributedString *)titleHtmlString;
-
+- (NSMutableAttributedString *)singleHtmlString;
 
 @end

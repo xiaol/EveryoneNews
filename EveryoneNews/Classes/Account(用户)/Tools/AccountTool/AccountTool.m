@@ -338,6 +338,8 @@ const static CGFloat padding = 32;
                     wself.successBlock(account);
                 }
                 [wself closeSelf];
+                
+                NSLog(@"success");
             } else {
                 [MBProgressHUD showError:@"用户名或密码错误"];
             }
