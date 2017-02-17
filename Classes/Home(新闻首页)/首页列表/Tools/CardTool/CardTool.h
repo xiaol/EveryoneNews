@@ -58,4 +58,7 @@ typedef void (^CardsFetchedFailureHandler)(NSError *error);
 
 + (void)postScrollTimesStatistics;
 
+// 不感兴趣记录
++ (void)postHateReasonWithType:(NSString *)reason nid:(NSString *)nid;
+
 @end

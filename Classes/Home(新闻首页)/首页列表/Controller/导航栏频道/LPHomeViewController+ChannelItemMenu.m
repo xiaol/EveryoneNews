@@ -26,26 +26,6 @@ static NSString *cardCellIdentifier = @"CardCellIdentifier";
 
 @implementation LPHomeViewController (ChannelItemMenu)
 
-#pragma mark - 保存频道的plist文件
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    [self channelItemsDidSaved];
-}
-
-#pragma mark - 保存已选频道到本地
-- (void)channelItemsDidSaved {
-    [self.channelItemsArray removeAllObjects];
-    for (LPChannelItem *channelItem in self.selectedArray) {
-        channelItem.channelIsSelected = @"1";
-        [self.channelItemsArray addObject:channelItem];
-    }
-    for (LPChannelItem *channelItem in self.optionalArray) {
-        channelItem.channelIsSelected = @"0";
-        [self.channelItemsArray addObject:channelItem];
-    }
-    [LPChannelItemTool saveChannelItems:self.channelItemsArray];
-}
-
 #pragma mark - 设置所有频道唯一标识
 - (void)setCellIdentifierOfAllChannelItems {
     for (int i = 0; i < self.selectedArray.count; i++) {

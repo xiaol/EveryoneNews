@@ -33,11 +33,27 @@
     }];
 }
 
++ (void)postHateReasonWithType:(NSString *)reason  nid:(NSString *)nid {
+    NSString *url = [NSString stringWithFormat:@"%@/v2/ns/hate",ServerUrlVersion2];
+    NSMutableDictionary *paramDict = [NSMutableDictionary dictionary];
+    paramDict[@"uid"] = @([[userDefaults objectForKey:@"uid"] integerValue]);
+    paramDict[@"nid"] = @([nid integerValue]);
+    paramDict[@"reason"] = @([reason integerValue]);
+    
+    NSString *authorization = [userDefaults objectForKey:@"uauthorization"];
+    [LPHttpTool postAuthorizationJSONWithURL:url authorization:authorization params:paramDict success:^(id json) {
+        // NSLog(@"%@", json);
+    } failure:^(NSError *error) {
+        // NSLog(@"adsError:%@", error);
+    }];
+}
+
+
 + (void)postWeatherAds {
     NSString *url = [NSString stringWithFormat:@"%@/v2/au/phone",ServerUrlVersion2];
     NSMutableDictionary *paramDict = [NSMutableDictionary dictionary];
     paramDict[@"uid"] = ![userDefaults objectForKey:@"uid"] ? @(0):[userDefaults objectForKey:@"uid"];
-    paramDict[@"b"] = [LPAdRequestTool adBase64];
+    paramDict[@"b"] = [LPAdRequestTool adBase64WithType:@"250"];
     // 1：奇点资讯， 2：黄历天气，3：纹字锁频，4：猎鹰浏览器，5：白牌
     paramDict[@"ctype"] = @(2);
     paramDict[@"ptype"] = @(1);
@@ -113,7 +129,7 @@
                 [userDefaults setObject:authorization forKey:@"uauthorization"];
                 [userDefaults synchronize];
                     paramDict[@"uid"] = ![userDefaults objectForKey:@"uid"] ? @(0):[userDefaults objectForKey:@"uid"];
-                    paramDict[@"b"] = [LPAdRequestTool adBase64];
+                     paramDict[@"b"] = [LPAdRequestTool adBase64WithType:@"250"];
                     paramDict[@"tcr"] = @([param.startTime longLongValue]);
                     [self qiDianPostCardsWithUserParam:param paramDict:paramDict authorization:authorization success:success failure:failure];
             }
@@ -122,7 +138,7 @@
         }];
     } else {
         paramDict[@"uid"] = ![userDefaults objectForKey:@"uid"] ? @(0):[userDefaults objectForKey:@"uid"];
-        paramDict[@"b"] = [LPAdRequestTool adBase64];
+         paramDict[@"b"] = [LPAdRequestTool adBase64WithType:@"250"];
         paramDict[@"tcr"] = @([param.startTime longLongValue]);
         [self qiDianPostCardsWithUserParam:param paramDict:paramDict authorization:authorization success:success failure:failure];
     }

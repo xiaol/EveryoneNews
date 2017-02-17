@@ -21,6 +21,8 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         
+//        [self setBackgroundColor:[UIColor redColor]];
+        
         CGFloat fontSize = LPFont4;
         CGFloat paddingLeft = 12;
         CGFloat cellPadding = 18;

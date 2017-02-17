@@ -66,10 +66,10 @@
     deviceDictionary[@"ip"] = [self getIPAddress];
     deviceDictionary[@"screen_orientation"] = @"1";
     
-    
+    deviceDictionary[@"longtitude"] = [[userDefaults objectForKey:currentLongitude] stringValue];
+    deviceDictionary[@"latitude"] =  [[userDefaults objectForKey:currentLatitude] stringValue];
     adReuqest[@"device"] = deviceDictionary;
-    
-    //    NSLog(@"%@", adReuqest);
+//     NSLog(@"%@", adReuqest);
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:adReuqest options:NSJSONWritingPrettyPrinted error:&error];
     NSString *adBase64Str;
@@ -82,69 +82,6 @@
     return [adBase64Str stringByBase64Encoding];
 }
 
-+ (NSString *)adBase64 {
-    NSMutableDictionary *adReuqest = [NSMutableDictionary dictionary];
-    // 当前版本号
-    NSString *version = @"1.0";
-    adReuqest[@"version"] = version;
-    // 提取当前服务器时间戳，精确到秒
-    adReuqest[@"ts"] = [NSString stringWithFormat:@"%lld", (long long)([[NSDate date] timeIntervalSince1970])];
-    
-    // impression对象
-    NSMutableDictionary *impressionDictionary = [NSMutableDictionary dictionary];
-    impressionDictionary[@"aid"]  = @"250";
-    
-    NSInteger width = ScreenWidth;
-    NSInteger height = (3 * width ) / 4;
-    
-    impressionDictionary[@"width"] = [NSString stringWithFormat:@"%d", width];
-    impressionDictionary[@"height"] = [NSString stringWithFormat:@"%d", height];
-//    impressionDictionary[@"keywords"] = @"体育,足球";
-    
-    NSMutableArray *impressionArray = [NSMutableArray array];
-    [impressionArray addObject:impressionDictionary];
-    adReuqest[@"impression"] = impressionArray;
-    
-    // device 对象
-    NSMutableDictionary *deviceDictionary = [NSMutableDictionary dictionary];
-    
-    NSString *idfa = [[[ ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
-    
-//    NSLog(@"idfa:%@", idfa);
-    
-    NSString *idfaMD5 = [idfa stringToMD5:idfa];
-    deviceDictionary[@"idfa"] = idfaMD5;
-    deviceDictionary[@"idfaori"] = idfa;
-    
-    NSString *brand = [[UIDevice currentDevice] model];
-    NSString *systemVersion = [[UIDevice currentDevice] systemVersion];
-    deviceDictionary[@"brand"] = brand;
-    // 操作系统 0 : 未知  1 安卓 2 iOS 3 Windows
-    deviceDictionary[@"os"] = @"2";
-    deviceDictionary[@"os_version"] = systemVersion;
-    
-    NSInteger screenHeight = ScreenHeight;
-    deviceDictionary[@"device_size"] = [NSString stringWithFormat:@"%d*%d", width, screenHeight];
-    deviceDictionary[@"network"] = @"0";
-    deviceDictionary[@"operator"] = @"0";
-    deviceDictionary[@"ip"] = [self getIPAddress];
-    deviceDictionary[@"screen_orientation"] = @"1";
-    
-    
-    adReuqest[@"device"] = deviceDictionary;
-    
-//    NSLog(@"%@", adReuqest);
-    NSError *error;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:adReuqest options:NSJSONWritingPrettyPrinted error:&error];
-    NSString *adBase64Str;
- 
-    if (! jsonData) {
-        adBase64Str = @"{}";
-    } else {
-        adBase64Str = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    }
-    return [adBase64Str stringByBase64Encoding];
-}
 
 + (NSString *)getIPAddress
 {

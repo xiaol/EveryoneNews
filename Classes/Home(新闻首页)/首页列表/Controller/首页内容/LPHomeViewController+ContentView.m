@@ -39,16 +39,13 @@
 #import "LPAdsDetailViewController.h"
 #import "LPVideoDetailViewController.h"
 #import "LPLoadingView.h"
+#import "CardTool.h"
 
 NSString * const reusePageID = @"reusePageID";
 NSString * const reuseConcernPageID = @"reuseConcernPageID";
 NSString * const reuseVideoPageID = @"reuseVideoPageID";
 
 @implementation LPHomeViewController (PagingView)
-
-
-
-
 
 #pragma mark - LPPagingView DataSource
 - (NSInteger)numberOfPagesInPagingView:(LPPagingView *)pagingView {
@@ -684,6 +681,29 @@ NSString * const reuseVideoPageID = @"reuseVideoPageID";
 
 - (void)deleteCurrentRow:(UIButton *)button {
     [self.blackBackgroundView removeFromSuperview];
+    NSString *deleteReason = @"0";
+    switch (button.tag) {
+            // 不喜欢
+        case 100:
+            deleteReason = @"1";
+            break;
+            // 低质量
+        case 101:
+            deleteReason = @"2";
+            break;
+            // 重复 旧闻
+        case 102:
+            deleteReason = @"3";
+            break;
+            // 来源
+        case 103:
+            deleteReason = @"4";
+            break;
+        default:
+            break;
+    }
+    
+    [CardTool postHateReasonWithType:deleteReason nid:self.deleteNid];
     [self.currentPage deleteRowAtIndexPath:self.currentCardFrame];
     [self deleteCardFromCoreData:self.currentCardFrame];
         

@@ -34,5 +34,8 @@ typedef void (^MoveChannelItemBlock)(NSInteger fromIndex, NSInteger toIndex, NSM
 @property (nonatomic, copy) RemoveChannelItemBlock removeChannelItemBlock;
 @property (nonatomic, copy) MoveChannelItemBlock moveChannelItemBlock;
 
+// 所有频道名称
+@property (nonatomic, strong) NSMutableArray *channelItemsArray;
+
 
 @end

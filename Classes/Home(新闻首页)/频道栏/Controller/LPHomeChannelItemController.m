@@ -61,6 +61,14 @@ static NSString *cellIdentifier = @"sortCollectionViewCell";
     return _optionalArray;
 }
 
+- (NSMutableArray *)channelItemsArray {
+    if(_channelItemsArray == nil) {
+        _channelItemsArray = [[NSMutableArray alloc] init];
+    }
+    return _channelItemsArray;
+}
+
+
 #pragma mark - 初始化
 - (instancetype)init {
     if(self = [super init]) {
@@ -77,6 +85,26 @@ static NSString *cellIdentifier = @"sortCollectionViewCell";
         self.hidesBottomBarWhenPushed = true;
     }
     return self;
+}
+
+#pragma mark - 保存频道的plist文件
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self channelItemsDidSaved];
+}
+
+#pragma mark - 保存已选频道到本地
+- (void)channelItemsDidSaved {
+    [self.channelItemsArray removeAllObjects];
+    for (LPChannelItem *channelItem in self.selectedArray) {
+        channelItem.channelIsSelected = @"1";
+        [self.channelItemsArray addObject:channelItem];
+    }
+    for (LPChannelItem *channelItem in self.optionalArray) {
+        channelItem.channelIsSelected = @"0";
+        [self.channelItemsArray addObject:channelItem];
+    }
+    [LPChannelItemTool saveChannelItems:self.channelItemsArray];
 }
 
 #pragma mark - ViewDidLoad

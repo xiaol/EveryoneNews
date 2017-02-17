@@ -37,13 +37,18 @@
     CGFloat sourceX = paddingLeft;
     CGFloat sourceH = 0.0f;
     CGFloat sourceW = 0.0f;
-
     // 有图样式
     if (_relatePoint.img.length > 0 && [_relatePoint.img rangeOfString:@","].location == NSNotFound) {
         
         titleW = ScreenWidth - imageW - paddingLeft * 2 - imagePadding ;
         NSMutableAttributedString *titleHtmlString = _relatePoint.titleHtmlString;
         titleH =  [titleHtmlString textViewHeightWithConstraintWidth:titleW];
+        CGFloat singleTitleH =  [_relatePoint.singleHtmlString textViewHeightWithConstraintWidth:titleW];
+        
+        if (titleH > 2 * singleTitleH) {
+            titleH = 2 * singleTitleH - 2;
+        }
+        
         self.titleHtmlString = titleHtmlString;
         
         sourceW = titleW;
@@ -56,13 +61,13 @@
         titleY = paddingTop + (imageH - titleH - sourceH - sourcePadding) / 2.0f;
         
         _titleF = CGRectMake(titleX, titleY, titleW , titleH);
-     
+        
         CGFloat imageViewX = ScreenWidth - paddingLeft - imageW;
         CGFloat imageViewY = paddingTop;
         _imageViewF = CGRectMake(imageViewX,imageViewY , imageW, imageH);
         
         _sourceSiteF = CGRectMake(sourceX, CGRectGetMaxY(_titleF) + sourcePadding , sourceW, sourceH);
-  
+        
         _seperatorViewF = CGRectMake(titleX, CGRectGetMaxY(_imageViewF) + 10, ScreenWidth - paddingLeft * 2, 0.5);
         
     } else {
@@ -79,7 +84,7 @@
         _seperatorViewF = CGRectMake(paddingLeft, CGRectGetMaxY(_sourceSiteF) + 10, ScreenWidth - paddingLeft * 2 , 0.5);
         
     }
-    _cellHeight = CGRectGetMaxY(_seperatorViewF); 
+    _cellHeight = CGRectGetMaxY(_seperatorViewF);
 }
 
 @end
